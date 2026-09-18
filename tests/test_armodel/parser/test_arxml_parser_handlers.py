@@ -81,10 +81,13 @@ class TestPortInterfaceAndCompuHandlers:
     def test_getCompuConstContent_VF_branch(self, parser):
         from armodel.models import CompuConstFormulaContent
 
-        element = _snip("<VF>formula</VF>", root_tag="PARENT")
+        element = _snip("<VF>42</VF>", root_tag="PARENT")
         content = parser.getCompuConstContent(element)
         assert isinstance(content, CompuConstFormulaContent)
-        assert content.getVf().getValue() == "formula"
+        from armodel.models import ARNumerical
+
+        assert isinstance(content.getVf(), ARNumerical)
+        assert content.getVf().getValue() == 42
 
     def test_getCompuConstContent_V_branch(self, parser):
         from armodel.models import CompuConstNumericContent
@@ -100,6 +103,9 @@ class TestPortInterfaceAndCompuHandlers:
         element = _snip("<VT>label</VT>", root_tag="PARENT")
         content = parser.getCompuConstContent(element)
         assert isinstance(content, CompuConstTextContent)
+        from armodel.models import VerbatimString
+
+        assert isinstance(content.getVt(), VerbatimString)
         assert content.getVt().getValue() == "label"
 
     def test_getCompuConstContent_unsupported_tag_warns(self, warning_parser, caplog):
@@ -147,6 +153,18 @@ class TestPortInterfaceAndCompuHandlers:
         # compuScaleContents should remain unset (None).
         assert scale.compuScaleContents is None
 
+    def test_readCompuScale_reads_a2l_and_inverse_value(self, parser):
+        from armodel.models import CompuScale
+
+        scale = CompuScale()
+        element = _snip(
+            "<A2L-DISPLAY-TEXT>display</A2L-DISPLAY-TEXT>" "<COMPU-INVERSE-VALUE><VT>inverse</VT></COMPU-INVERSE-VALUE>",
+            root_tag="SCALE",
+        )
+        parser.readCompuScale(element, scale)
+        assert scale.getA2lDisplayText().getValue() == "display"
+        assert scale.getCompuInverseValue().getCompuConstContentType().getVt().getValue() == "inverse"
+
     def test_readCompuNominatorDenominator_adds_V(self, parser):
         from armodel.models import CompuNominatorDenominator
 
@@ -156,7 +174,7 @@ class TestPortInterfaceAndCompuHandlers:
             root_tag="PARENT",
         )
         parser.readCompuNominatorDenominator(element, "COMPU-NUMERATOR", cnd)
-        assert len(cnd.get_vs()) == 3
+        assert [str(v) for v in cnd.getVs()] == ["1", "2", "3"]
 
     def test_readCompuNominatorDenominator_empty(self, parser):
         from armodel.models import CompuNominatorDenominator
@@ -164,7 +182,7 @@ class TestPortInterfaceAndCompuHandlers:
         cnd = CompuNominatorDenominator()
         element = _snip("<COMPU-NUMERATOR/>", root_tag="PARENT")
         parser.readCompuNominatorDenominator(element, "COMPU-NUMERATOR", cnd)
-        assert len(cnd.get_vs()) == 0
+        assert cnd.getVs() == []
 
     def test_readCompuRationCoeffs_populates_contents(self, parser):
         from armodel.models import CompuScale, CompuScaleRationalFormula
@@ -178,8 +196,8 @@ class TestPortInterfaceAndCompuHandlers:
         assert isinstance(scale.compuScaleContents, CompuScaleRationalFormula)
         coeffs = scale.compuScaleContents.compuRationalCoeffs
         assert coeffs is not None
-        assert len(coeffs.compuDenominator.get_vs()) == 1
-        assert len(coeffs.compuNumerator.get_vs()) == 2
+        assert [str(v) for v in coeffs.compuDenominator.getVs()] == ["1"]
+        assert [str(v) for v in coeffs.compuNumerator.getVs()] == ["2", "3"]
 
     def test_readCompuRationCoeffs_missing_no_op(self, parser):
         from armodel.models import CompuScale
@@ -630,15 +648,23 @@ class TestDataTypeAndValueSpecHandlers:
 
     def test_getSwValueCont_full(self, parser):
         element = _snip(
-            "<SW-VALUE-CONT>" "<UNIT-REF DEST='UNIT'>/u</UNIT-REF>" "<SW-ARRAYSIZE><V>2</V></SW-ARRAYSIZE>" "<SW-VALUES-PHYS><V>1.0</V></SW-VALUES-PHYS>" "</SW-VALUE-CONT>",
+            "<SW-VALUE-CONT>"
+            "<UNIT-REF DEST='UNIT'>/u</UNIT-REF>"
+            "<SW-ARRAYSIZE><V>2</V></SW-ARRAYSIZE>"
+            "<SW-VALUES-PHYS><V>1.0</V></SW-VALUES-PHYS>"
+            "<UNIT-DISPLAY-NAME>display</UNIT-DISPLAY-NAME>"
+            "</SW-VALUE-CONT>",
             root_tag="PARENT",
         )
         cont = parser.getSwValueCont(element)
         assert cont is not None
         assert cont.getUnitRef().getValue() == "/u"
         assert cont.getSwArraysize() is not None
+        assert cont.getSwArraysize().getV().getValue() == "2"
         assert cont.getSwValuesPhys() is not None
         assert len(cont.getSwValuesPhys().getVs()) == 1
+        assert cont.getSwValuesPhys().getVs()[0].getValue() == "1.0"
+        assert cont.getUnitDisplayName().getValue() == "display"
 
     def test_getSwValueCont_missing_returns_None(self, parser):
         element = _snip("<X/>")
@@ -920,7 +946,8 @@ class TestRuleBasedValueSpecHandlers:
         assert len(value_spec.getArguments()[0].getElements()) == 1
         assert len(value_spec.getCompoundPrimitiveArguments()) == 1
         assert isinstance(value_spec.getCompoundPrimitiveArguments()[0], ApplicationRuleBasedValueSpecification)
-        assert float(value_spec.getMaxSizeToFill().getValue()) == 16.0
+        assert value_spec.getMaxSizeToFill().__class__.__name__ == "PositiveInteger"
+        assert value_spec.getMaxSizeToFill().getValue() == 16
 
     def test_getCompositeRuleBasedValueSpecification_empty_lists(self, parser):
         element = _snip("<RULE>FILL_UNTIL_END</RULE>", root_tag="COMPOSITE-RULE-BASED-VALUE-SPECIFICATION")

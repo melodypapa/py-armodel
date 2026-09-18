@@ -4,6 +4,7 @@ This module contains tests for the CalibrationParameter module in MSR.DataDictio
 
 import pytest
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DisplayFormatString, Float, MonotonyEnum
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import (
     CalprmAxisCategoryEnum,
@@ -201,14 +202,18 @@ class TestSwCalprmAxisSet:
     def test_sw_calprm_axis_set_initialization(self):
         """Test that a SwCalprmAxisSet object can be initialized with default values."""
         sw_calprm_axis_set = SwCalprmAxisSet()
-        assert sw_calprm_axis_set._swCalprmAxis == []
+        assert sw_calprm_axis_set.swCalprmAxis == []
+        assert isinstance(sw_calprm_axis_set, ARObject)
+        assert sw_calprm_axis_set.__class__.__doc__.strip() == ("This element specifies the input parameter axes (abscissas) of parameters (and variables, if these used adaptively).")
 
     def test_sw_calprm_axis_set_methods(self):
         """Test adding and getting calibration axis."""
         sw_calprm_axis_set = SwCalprmAxisSet()
         axis = SwCalprmAxis()
 
-        sw_calprm_axis_set.addSwCalprmAxis(axis)
+        assert sw_calprm_axis_set.addSwCalprmAxis(axis) is sw_calprm_axis_set
         axises = sw_calprm_axis_set.getSwCalprmAxises()
         assert axis in axises
         assert len(axises) == 1
+        assert sw_calprm_axis_set.addSwCalprmAxis(None) is sw_calprm_axis_set
+        assert sw_calprm_axis_set.getSwCalprmAxises() == [axis]

@@ -207,22 +207,33 @@ class SwCalprmAxis(ARObject):
 
 
 class SwCalprmAxisSet(ARObject):
-    """
-    Collection of SwCalprmAxis elements.
-    """
+    """This element specifies the input parameter axes (abscissas) of parameters (and variables, if these used adaptively)."""
 
     # SwCalprmAxisSet method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addSwCalprmAxis              [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwCalprmAxises            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.46, p.352
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addSwCalprmAxis              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwCalprmAxises            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # Spec verified: R23-11
 
     def __init__(self):
         super().__init__()
 
-        self._swCalprmAxis = []  # type: List[SwCalprmAxis]
+        # One axis belonging to this SwCalprmAxisSet. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        self.swCalprmAxis: List[SwCalprmAxis] = []
 
-    def addSwCalprmAxis(self, axis: SwCalprmAxis):
-        self._swCalprmAxis.append(axis)
+    def addSwCalprmAxis(self, axis: Optional[SwCalprmAxis]) -> "SwCalprmAxisSet":
+        """
+        One axis belonging to this SwCalprmAxisSet. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        A None value is a no-op and does not append anything.
+        """
+        if axis is not None:
+            self.swCalprmAxis.append(axis)
+        return self
 
     def getSwCalprmAxises(self) -> List[SwCalprmAxis]:
-        return self._swCalprmAxis
+        """
+        One axis belonging to this SwCalprmAxisSet. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        """
+        return self.swCalprmAxis

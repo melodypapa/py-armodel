@@ -2,7 +2,9 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NumericalOrText
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType, VerbatimString
+from armodel.models.M2.MSR.AsamHdo.Units import SingleLanguageUnitNames
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 
 
@@ -167,56 +169,75 @@ class SwValues(ARObject):
 
 
 class SwValueCont(ARObject):
-    """
-    Container for calibration values with array size, physical values,
-    and unit reference.
-    """
+    """This metaclass represents the content of one particular SwInstance."""
 
     # SwValueCont method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwArraysize               [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwArraysize               [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwValuesPhys              [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwValuesPhys              [x] impl  [ ] docstring  [ ] test
-    # [ ] getUnitRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setUnitRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getUnitDisplayName           [x] impl  [ ] docstring  [ ] test
-    # [ ] setUnitDisplayName           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.121, p.450
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwArraysize               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwArraysize               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwValuesPhys              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwValuesPhys              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUnitRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUnitRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUnitDisplayName           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUnitDisplayName           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Spec verified: R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.swArraysize = None  # type: ValueList
-        self.swValuesPhys = None  # type: SwValues
-        self.unitRef = None  # type: RefType
-        self.unitDisplayName = None  # type: SingleLanguageUnitNames
+        # This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK. For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP. Tags: xml.sequenceOffset=40
+        self.swArraysize: Optional[ValueList] = None
 
-    def getSwArraysize(self):
+        # swValuesPhys represents the values in the physical domain. Tags: xml.sequenceOffset=50
+        self.swValuesPhys: Optional[SwValues] = None
+
+        # This represents the physical unit of the provided values. Tags: xml.sequenceOffset=20
+        self.unitRef: Optional[RefType] = None
+
+        # This specifies how the physical units of the current value set shall be displayed in documents or in user interfaces of tools. Tags: xml.sequenceOffset=30
+        self.unitDisplayName: Optional[SingleLanguageUnitNames] = None
+
+    def getSwArraysize(self) -> Optional[ValueList]:
+        """This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK. For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP. Tags: xml.sequenceOffset=40."""
         return self.swArraysize
 
-    def setSwArraysize(self, value):
-        self.swArraysize = value
+    def setSwArraysize(self, value: Optional[ValueList]) -> "SwValueCont":
+        """This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK. For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP. Tags: xml.sequenceOffset=40. A None value is a no-op and does not overwrite an existing swArraysize."""
+        if value is not None:
+            self.swArraysize = value
         return self
 
-    def getSwValuesPhys(self):
+    def getSwValuesPhys(self) -> Optional[SwValues]:
+        """swValuesPhys represents the values in the physical domain. Tags: xml.sequenceOffset=50."""
         return self.swValuesPhys
 
-    def setSwValuesPhys(self, value):
-        self.swValuesPhys = value
+    def setSwValuesPhys(self, value: Optional[SwValues]) -> "SwValueCont":
+        """swValuesPhys represents the values in the physical domain. Tags: xml.sequenceOffset=50. A None value is a no-op and does not overwrite an existing swValuesPhys."""
+        if value is not None:
+            self.swValuesPhys = value
         return self
 
-    def getUnitRef(self):
+    def getUnitRef(self) -> Optional[RefType]:
+        """This represents the physical unit of the provided values. Tags: xml.sequenceOffset=20."""
         return self.unitRef
 
-    def setUnitRef(self, value):
-        self.unitRef = value
+    def setUnitRef(self, value: Optional[RefType]) -> "SwValueCont":
+        """This represents the physical unit of the provided values. Tags: xml.sequenceOffset=20. A None value is a no-op and does not overwrite an existing unitRef."""
+        if value is not None:
+            self.unitRef = value
         return self
 
-    def getUnitDisplayName(self):
+    def getUnitDisplayName(self) -> Optional[SingleLanguageUnitNames]:
+        """This specifies how the physical units of the current value set shall be displayed in documents or in user interfaces of tools. Tags: xml.sequenceOffset=30."""
         return self.unitDisplayName
 
-    def setUnitDisplayName(self, value):
-        self.unitDisplayName = value
+    def setUnitDisplayName(self, value: Optional[SingleLanguageUnitNames]) -> "SwValueCont":
+        """This specifies how the physical units of the current value set shall be displayed in documents or in user interfaces of tools. Tags: xml.sequenceOffset=30. A None value is a no-op and does not overwrite an existing unitDisplayName."""
+        if value is not None:
+            self.unitDisplayName = value
         return self
 
 

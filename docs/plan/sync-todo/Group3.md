@@ -653,276 +653,276 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [# Spec: FO_TPS Table 9.84, p.343 (pdf_page.py verified); 5 method rows (init + 2 getter/setter pairs) with 6 columns + release R23-11, written during the Step 3 full-class rewrite (stale 5-column stub wiped); marker deferred to 9b]
   - [x] Step 8 — Deviations  [none remaining — all five Step-1 findings FIXED this pass, per Rule 0014 no rows kept: (1) base → (Paginateable), (2) msrQueryResultChapter added with the stamped MsrQueryResultChapter type (stub NOTE removed), (3) docstrings wiped/rewritten verbatim, (4) checklist rewritten to 6-column format, (5) reader/writer wired for the mixin chain + result child; accepted handling notes: msrQueryProps pureMM minOccurs=1 vs XSD element minOccurs=0 → uniform-optional Optional modeling (family precedent msrQueryResultChapter/MsrQueryP2); no missing referenced classes (MsrQueryProps ✓, MsrQueryResultChapter ✓, Paginateable ✓)]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a GREEN: 9,111 tests + integration round-trips pass; flake8/ruff/black-check clean (black reflowed 1 file); checklist==methods (5 rows); docstrings byte-verbatim re-verified post-black; 9b: user-confirmed the 11-item pre-stamp checklist; marker `# Spec verified: R23-11` written]
-- [ ] `MsrQueryResultTopic1` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.88 · member type of `MsrQueryTopic1.msrQueryResultTopic1` · **NOT in src** — class must be created when this row is synced)
-  - [ ] Step 1 — Sync members & description from spec
+- [x] `MsrQueryResultTopic1` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.88 · member type of `MsrQueryTopic1.msrQueryResultTopic1` · **created** · one ordered `topic1` aggregation) — verified R23-11 (commit 09314bd3)
+  - [x] Step 1 — Sync members & description from spec  [Table 9.88, p.345 via pdf_page.py; Class MsrQueryResultTopic1; Package M2::MSR::Documentation::MsrQuery → MsrQuery.py; Note and Base ARObject confirmed; one ordered attr `topic1` — Topic1 * aggr, Tags xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false; XSD MSR-QUERY-RESULT-TOPIC-1 group lines 83509-83524 confirms TOPIC-1 unbounded and AR-OBJECT S/T attributes]
+  - [x] Step 2 — Write model class unit test (Red)  [TestMsrQueryResultTopic1 in test_MsrQuery.py: initialization, ordered addTopic1/getTopic1s, None no-op; ImportError = Red]
+  - [x] Step 3 — Implement model class (Green)  [MsrQueryResultTopic1(ARObject) added to MsrQuery.py; typed `topic1: List[Topic1]` + addTopic1/getTopic1s; exported through existing wildcard chain; 2 focused tests pass]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note and topic1 member/accessor docs copied from Table 9.88; PEP 526 annotation; __init__ has no docstring]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [new parser/writer tests: S/T + ordered TOPIC-1 values, empty wrapper, missing wrapper, None writer no-op, write→read roundtrip; 7 failed = helpers missing]
+  - [x] Step 6 — Update parser & writer (Green)  [parser readMsrQueryResultTopic1/getMsrQueryResultTopic1 reads ordered TOPIC-1 via readTopic1; writer setMsrQueryResultTopic1 writes ordered TOPIC-1 via writeTopic1; imports added; 7 focused tests pass]
+  - [x] Step 7 — Update checklist comment  [# Spec: FO_TPS Table 9.88, p.345; 3 method rows (init + add/get) with 6 columns + release R23-11; marker deferred to 9b]
+  - [x] Step 8 — Deviations  [none for this class: PDF attr and XSD group fully modeled with typed list and matched reader/writer helpers; accepted consumer deferral: MsrQueryTopic1 remains queued next and will own MSR-QUERY-RESULT-TOPIC-1 placement/coverage]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 9118 unit tests, lint, Black check, and diff check pass; 9b: user-confirmed 8-item pre-stamp checklist; marker `# Spec verified: R23-11` written]
+- [x] `MsrQueryTopic1` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.83 · after `DocumentViewSelectable`+`Paginateable` (parents) · deps: `msrQueryProps` stamped ✓ / `MsrQueryResultTopic1` stamped ✓ · deferred stub completed) — verified R23-11 (commit a09f0cdf)
+  - [x] Step 1 — Sync members & description from spec  [Table 9.83, p.343 via pdf_page.py; Class MsrQueryTopic1; Package M2::MSR::Documentation::MsrQuery; Note and Base ARObject + DocumentViewSelectable + Paginateable confirmed; attrs displayed order: msrQueryProps MsrQueryProps 1 aggr Tags xml.sequenceOffset=20, msrQueryResultTopic1 MsrQueryResultTopic1 0..1 aggr Tags xml.sequenceOffset=30; XSD MSR-QUERY-TOPIC-1 group confirms MSR-QUERY-PROPS then MSR-QUERY-RESULT-TOPIC-1]
+  - [x] Step 2 — Write model class unit test (Red)  [TestMsrQueryTopic1 in test_MsrQuery.py: Paginateable base chain, defaults, both getter/setter pairs, chaining, None no-op; 3 failures = Red (wrong base and deferred result member/accessors)]
+  - [x] Step 3 — Implement model class (Green)  [MsrQueryTopic1 now derives from Paginateable; added typed Optional[MsrQueryResultTopic1] member plus set/get accessors; existing msrQueryProps retained and typed; 4 focused tests pass]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [deferred stub checklist and placeholder note removed; class Note, both member comments, and all getter/setter docstrings synchronized to Table 9.83 notes/tags; PEP 526 members; __init__ has no docstring]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [new parser/writer tests: inherited S/T + SI/VIEW/BREAK/KEEP-WITH-PREVIOUS, MSR-QUERY-PROPS, optional result TOPIC-1, empty wrapper, missing wrapper, XSD child order, write→read roundtrip; 5 failures = helpers/result wiring missing]
+  - [x] Step 6 — Update parser & writer (Green)  [readMsrQueryTopic1/getMsrQueryTopic1 now use readPaginateable and parse optional MSR-QUERY-RESULT-TOPIC-1; writeMsrQueryTopic1 now uses writePaginateable and writes result after props; 6 focused tests pass]
+  - [x] Step 7 — Update checklist comment  [# Spec: FO_TPS Table 9.83, p.343; 5 method rows (init + 2 getter/setter pairs) with 6 columns + release R23-11; marker deferred to 9b]
+  - [x] Step 8 — Deviations  [none: all two spec attrs modeled with PDF types and matched reader/writer coverage; most-derived Paginateable base restored; XSD order respected; MsrQueryResultTopic1 dependency stamped ✓; no fabricated or flattened members]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 9128 unit tests, lint, Black check, and diff check pass; 9b: user-confirmed 9-item pre-stamp checklist; marker `# Spec verified: R23-11` written]
+- [x] `MsrQueryP1` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.82 · after `DocumentViewSelectable`+`Paginateable` (parents) + `TopicContent` (aggr `msrQueryResultP1`) · `msrQueryProps` stamped ✓ · deferred stub completed) — verified R23-11 (commit 8da723c4)
+  - [x] Step 1 — Sync members & description from spec  [Table 9.82, p.343 via pdf_page.py; Class MsrQueryP1; Package M2::MSR::Documentation::MsrQuery; Note and Base ARObject + DocumentViewSelectable + Paginateable confirmed; attrs displayed order: msrQueryProps MsrQueryProps 1 aggr Tags xml.sequenceOffset=20, msrQueryResultP1 TopicContent 0..1 aggr Tags xml.sequenceOffset=30; TopicContent stamped ✓]
+  - [x] Step 2 — Write model class unit test (Red)  [TestMsrQueryP1 in test_MsrQuery.py: Paginateable base chain, defaults, both getter/setter pairs, chaining, None no-op; 4 failures = Red (stub base/member/accessors missing)]
+  - [x] Step 3 — Implement model class (Green)  [MsrQueryP1 now derives from Paginateable; added typed Optional[MsrQueryProps] and Optional[TopicContent] members with matching accessors; 4 focused tests pass]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [deferred stub placeholder removed; class Note, member notes, getter/setter docs, and 6-column checklist synchronized to Table 9.82; PEP 526 members; __init__ has no docstring]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [new parser/writer tests: inherited S/T + SI/VIEW/BREAK/KEEP-WITH-PREVIOUS, MSR-QUERY-PROPS, optional TOPIC-CONTENT result, empty/missing cases, XSD child order, write→read roundtrip; 5 failures = helpers/result wiring missing]
+  - [x] Step 6 — Update parser & writer (Green)  [readMsrQueryP1/getMsrQueryP1 use readPaginateable and parse MSR-QUERY-PROPS + TOPIC-CONTENT; writeMsrQueryP1 uses writePaginateable and writes children in props/result order; 6 focused tests pass]
+  - [x] Step 7 — Update checklist comment  [# Spec: FO_TPS Table 9.82, p.343; 5 method rows (init + 2 getter/setter pairs) with 6 columns + release R23-11; marker deferred to 9b]
+  - [x] Step 8 — Deviations  [none: both PDF attrs modeled with PDF types and matched reader/writer coverage; most-derived Paginateable base restored; XSD order respected; TopicContent dependency stamped ✓; no fabricated or flattened members]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 9138 unit tests, lint, Black check, and diff check pass; 9b: user-confirmed 9-item pre-stamp checklist; marker `# Spec verified: R23-11` written]
+- [x] `CompuContent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.63 (abstract) · parent of `CompuScales` below · member of `Compu.compuContent` below · existing stub completed) — verified R23-11 (commit 9f67b3e2)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.63, p.387 via pdf_page.py; Class CompuContent (abstract); Package M2::MSR::AsamHdo::ComputationMethod; Note supplied for the abstract meta-class; no Attribute rows (`-`); Base ARObject confirmed by existing implementation; no own XML element]
+  - [x] Step 2 — Write model class unit test (Red)  [TestCompuContent in test_ComputationMethod.py: direct abstract TypeError, concrete subclass ARObject defaults, and exact supplied spec Note; initial abstract contract exposed stub coverage gap]
+  - [x] Step 3 — Implement model class (Green)  [existing CompuContent(ARObject, ABC) abstract guard retained; no fields or accessors fabricated; focused test passes]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class docstring set to the supplied Note verbatim; no own attributes/member docstrings; removed the pre-existing non-spec "Abstract base class"/Base wording; __init__ has no docstring]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: abstract type has no own XML element or attributes; concrete consumer CompuScales owns COMPU-SCALES coverage]
+  - [x] Step 6 — Update parser & writer (Green)  [N/A: no own XML helper; existing consumer dispatch remains unchanged]
+  - [x] Step 7 — Update checklist comment  [# Spec: CP_TPS_SoftwareComponentTemplate.pdf, Table 5.63, p.387; one __init__ row with 6 columns + release R23-11; marker deferred to 9b]
+  - [x] Step 8 — Deviations  [none: abstract class has no own attributes; ARObject base and abstract guard match the class shape; no XML coverage applicable; concrete consumers remain responsible for serialization]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused model tests, full test module, lint, and Black check pass; 9b: user-confirmed no-own-attributes abstract shape, ARObject base, supplied Note verbatim, and concrete-consumer XML coverage; marker `# Spec verified: R23-11` written]
+- [x] `CompuConstContent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.72 (abstract) · parent of `CompuConstTextContent`, `CompuConstNumericContent`, `CompuConstFormulaContent` · member type of `CompuConst.compuConstContentType`) — verified R23-11 (commit b473f524)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.72, p.390: abstract class, Base ARObject, no own attributes; Note copied verbatim]
+  - [x] Step 2 — Write model class unit test (Red)  [added spec Note, abstract guard, and inherited ARObject default assertions; Note assertion failed before docstring sync]
+  - [x] Step 3 — Implement model class (Green)  [existing CompuConstContent(ARObject, ABC) abstract guard retained; no fields or accessors fabricated; focused tests pass]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class docstring replaced with the verbatim Table 5.72 Note; removed stale Base/Subclasses/Aggregated by wording; __init__ has no docstring]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: abstract type has no own XML element or attributes; concrete consumer CompuConst owns COMPU-CONST-CONTENT-TYPE coverage]
+  - [x] Step 6 — Update parser & writer (Green)  [N/A: no own XML helper; existing consumer dispatch remains unchanged]
+  - [x] Step 7 — Update checklist comment  [Table 5.72, p.390; one __init__ row with six columns and R23-11 release; marker deferred to 9b]
+  - [x] Step 8 — Deviations  [none: abstract class has no own attributes; ARObject base and abstract guard match the class shape; no XML coverage applicable]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 45 focused model tests, lint, Black check, and diff check pass; 9b: user-confirmed abstract shape, ARObject base, verbatim Note, and concrete-consumer XML coverage; marker written]
+- [x] `CompuConstTextContent` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.67 · subtype of `CompuConstContent`) — verified R23-11 (commit 4cb82851)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.67, p.388: Base ARObject + CompuConstContent; one optional `vt` attribute typed VerbatimString; Note and attribute Note copied verbatim]
+  - [x] Step 2 — Write model class unit test (Red)  [added spec Note, VerbatimString type assertion, and None-no-op setter assertion; initial run failed on stale docstring and setter behavior]
+  - [x] Step 3 — Implement model class (Green)  [`vt` changed from str to Optional[VerbatimString]; setter now ignores None; focused model tests pass]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note replaced verbatim; vt inline/getter/setter docs use the Table 5.67 attribute Note; setter includes the required None-no-op sentence]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser asserts VT produces VerbatimString; writer asserts VT value and omitted empty VT wrapper]
+  - [x] Step 6 — Update parser & writer (Green)  [parser VT branch now uses getChildElementOptionalVerbatimString; writer's existing setChildElementOptionalLiteral correctly serializes VerbatimString]
+  - [x] Step 7 — Update checklist comment  [Table 5.67, p.388; init/getVt/setVt rows with six columns and R23-11 release; marker deferred to 9b]
+  - [x] Step 8 — Deviations  [none: one PDF attribute modeled with its exact VerbatimString type; inherited abstract base not flattened; parser/writer coverage present]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 294 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed base, typed member, naming, docstrings, reader/writer coverage, and no deviations; marker written]
+- [x] `CompuConstNumericContent` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.68 · subtype of `CompuConstContent`) — verified R23-11 (commit 4b82220e)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.68, p.389: Base ARObject + CompuConstContent; one optional `v` attribute typed Numerical; Note and attribute Note copied verbatim]
+  - [x] Step 2 — Write model class unit test (Red)  [added spec Note, ARNumerical type assertion, and None-no-op setter assertion; initial run failed on stale docstring and setter behavior]
+  - [x] Step 3 — Implement model class (Green)  [`v` corrected to Optional[ARNumerical]; setter now ignores None; focused model tests pass]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note replaced verbatim; v inline/getter/setter docs use the Table 5.68 attribute Note; setter includes the required None-no-op sentence]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [existing parser V branch and writer V branch asserted with numerical field values]
+  - [x] Step 6 — Update parser & writer (Green)  [existing getChildElementOptionalNumericalValue and setChildElementOptionalNumericalValue paths cover the typed v member]
+  - [x] Step 7 — Update checklist comment  [Table 5.68, p.389; init/getV/setV rows with six columns and R23-11 release; marker deferred to 9b]
+  - [x] Step 8 — Deviations  [none: one PDF attribute modeled with the established ARNumerical wrapper type; inherited abstract base not flattened; parser/writer coverage present]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 295 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed base, typed member, naming, docstrings, reader/writer coverage, and no deviations; marker written]
+- [x] `CompuConstFormulaContent` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · **Table B.1** (appendix; stale queue citation was 5.70) · subtype of `CompuConstContent`) — verified R23-11 (commit 045d6fb5)
+  - [x] Step 1 — Sync members & description from spec  [Table B.1, p.900 (appendix): Base ARObject + CompuConstContent; required `vf` attribute typed Numerical; Note and attribute Note copied verbatim from markdown/PDF]
+  - [x] Step 2 — Write model class unit test (Red)  [added spec Note, ARNumerical type assertion, and None-no-op setter assertion; initial run failed on stale docstring and setter behavior]
+  - [x] Step 3 — Implement model class (Green)  [`vf` corrected to Optional[ARNumerical]; setter now ignores None; focused model tests pass]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note replaced verbatim; vf inline/getter/setter docs use the full Table B.1 attribute Note including stereotypes/tags; setter includes the required None-no-op sentence]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser asserts VF produces ARNumerical; writer asserts numerical VF value]
+  - [x] Step 6 — Update parser & writer (Green)  [VF branches now use getChildElementOptionalNumericalValue/setChildElementOptionalNumericalValue]
+  - [x] Step 7 — Update checklist comment  [Table B.1, p.900 appendix; init/getVf/setVf rows with six columns and R23-11 release; marker deferred to 9b]
+  - [x] Step 8 — Deviations  [none: appendix class table is authoritative despite stale numeric queue citation; one PDF attribute modeled with ARNumerical; parser/writer coverage present]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 296 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed appendix table citation p.900, base, typed member, naming, docstrings, reader/writer coverage, and no deviations; marker written]
+- [x] `CompuConst` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.71 · member type of `Compu.compuDefaultValue` + `CompuScale.compuInverseValue` below) — verified R23-11 (commit eddddc99)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.71, p.390: Base ARObject; one optional aggregate `compuConstContentType` typed CompuConstContent; class and attribute Notes copied verbatim]
+  - [x] Step 2 — Write model class unit test (Red)  [added class Note, typed member, chaining, and None-no-op coverage; initial run failed on stale docstring and clearing setter]
+  - [x] Step 3 — Implement model class (Green)  [typed optional CompuConstContent member; setter preserves existing value on None]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note, inline member comment, getter docstring, and setter docstring now copied from Table 5.71; XML tags retained verbatim; stale base/aggregation prose removed]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [existing focused parser/writer coverage asserts typed COMPU-CONST content values and omitted wrapper]
+  - [x] Step 6 — Update parser & writer (Green)  [existing getCompuConst/setCompuConst helpers cover the member via get/set accessors]
+  - [x] Step 7 — Update checklist comment  [Table 5.71, p.390; init/get/set rows with six columns and R23-11 release; marker deferred to 9b]
+  - [x] Step 8 — Deviations  [none: one optional PDF aggregate modeled with exact type/name; reader and writer coverage already present]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed Table 5.71 base/member/type/naming/docstrings/reader-writer coverage and no deviations; marker `# Spec verified: R23-11` written]
+ - [x] `CompuScaleContents` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.66 (abstract) · parent of `CompuScaleRationalFormula` and `CompuScaleConstantContents` · member type of `CompuScale.compuScaleContents` below) — verified R23-11 (commit 88acf483)
+   - [x] Step 1 — Sync members & description from spec  [Table 5.66, p.388; abstract Base ARObject; no own attributes; Note copied verbatim; subclasses CompuScaleConstantContents and CompuScaleRationalFormula; consumer CompuScale.compuScaleContents]
+   - [x] Step 2 — Write model class unit test (Red)  [abstract guard, inherited ARObject state, and verbatim Note assertion; failed before import/test-support fix]
+   - [x] Step 3 — Implement model class (Green)  [existing abstract class retained; spec shape now represented by the exact Note and ARObject base]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class docstring replaced with the verbatim Table 5.66 Note; no own members or method docstrings]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: abstract class has no XML element or own attributes; coverage belongs to CompuScale consumer dispatch]
+   - [x] Step 6 — Update parser & writer (Green)  [N/A: existing readCompuScaleContents/writeCompuScaleContents dispatch covers the CompuScaleContents subclasses]
+   - [x] Step 7 — Update checklist comment  [Table 5.66, p.388; one __init__ row with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [none: abstract ARObject base, no own attributes, exact Note, and consumer coverage match the spec]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 300 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed abstract base, no own attributes, verbatim Note, consumer reader/writer coverage, package location, and no deviations; marker `# Spec verified: R23-11` written]
+ - [x] `CompuNominatorDenominator` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.75) — verified R23-11 (commit ff6ef186)
+   - [x] Step 1 — Sync members & description from spec  [Table 5.75, p.391; Base ARObject; one ordered `v` attribute of type Numerical with multiplicity `*`, kind attr; Note copied verbatim; aggregated by CompuRationalCoeffs.compuDenominator and compuNumerator]
+   - [x] Step 2 — Write model class unit test (Red)  [updated TestCompuNominatorDenominator for abstract-free initialization, typed Numerical values, addV/getVs naming, chaining, and None no-op; failed before implementation]
+   - [x] Step 3 — Implement model class (Green)  [v retyped from float to List[Numerical]; addV/getVs project accessors added with None no-op and chaining]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note and v attribute Note copied verbatim from Table 5.75; PEP 526 typed list declaration]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [updated existing parser/writer tests to assert typed Numerical values and XML value order; old API failed before implementation]
+   - [x] Step 6 — Update parser & writer (Green)  [readCompuNominatorDenominator creates Numerical values through addV; writer uses getVs and serializes each value]
+   - [x] Step 7 — Update checklist comment  [Table 5.75, p.391; init/addV/getVs rows with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [none: ARObject base, one ordered Numerical list, spec naming, typed parser/writer coverage, and XML order match]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 300 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed ARObject base, ordered Numerical list, API naming, verbatim docs, typed reader/writer coverage, XML order, package location, and no deviations; marker `# Spec verified: R23-11` written]
+ - [x] `CompuRationalCoeffs` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.69 · member type of `CompuScaleRationalFormula.compuRationalCoeffs`) — verified R23-11 (commit 26100b4c)
+   - [x] Step 1 — Sync members & description from spec  [Table 5.69, p.389; Base ARObject; compuDenominator then compuNumerator, both Optional[CompuNominatorDenominator] aggregates; Notes and sequence offsets copied verbatim; aggregated by CompuScaleRationalFormula.compuRationalCoeffs]
+   - [x] Step 2 — Write model class unit test (Red)  [initialization, typed denominator/numerator setters, chaining, None no-op, and Note assertion; stale setters failed before implementation]
+   - [x] Step 3 — Implement model class (Green)  [typed Optional[CompuNominatorDenominator] members and None-preserving setters]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class and both attribute Notes copied verbatim from Table 5.69, including sequence-offset Tags]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [existing rational-formula parser/writer tests assert both denominator and numerator values and XML order]
+   - [x] Step 6 — Update parser & writer (Green)  [existing readCompuRationCoeffs/writeCompuScaleRationalFormula coverage uses get/set accessors and preserves numerator-before-denominator XML order]
+   - [x] Step 7 — Update checklist comment  [Table 5.69, p.389; init/get/set rows for denominator then numerator with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [none: ARObject base, both PDF aggregates typed and ordered, verbatim docs, and existing reader/writer coverage match]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 300 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed ARObject base, typed denominator/numerator aggregates, API naming, verbatim docs, reader/writer coverage, XML order, package location, and no deviations; marker `# Spec verified: R23-11` written]
+ - [x] `CompuScaleRationalFormula` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.73 · subtype of `CompuScaleContents` · member type of `CompuScale.compuScaleContents`) — verified R23-11 (commit 5a21470c)
+   - [x] Step 1 — Sync members & description from spec  [Table 5.73, p.390; Base ARObject + CompuScaleContents, most-derived base CompuScaleContents; one optional aggregate compuRationalCoeffs of type CompuRationalCoeffs; Note and attribute Note copied verbatim]
+   - [x] Step 2 — Write model class unit test (Red)  [initialization, Note assertion, typed aggregate setter, chaining, and None no-op; stale setter failed before implementation]
+   - [x] Step 3 — Implement model class (Green)  [typed Optional[CompuRationalCoeffs] member and None-preserving setter]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class and compuRationalCoeffs Notes copied verbatim from Table 5.73, including sequence-offset Tag]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [existing rational-formula parser/writer tests assert the aggregate and serialized numerator/denominator values]
+   - [x] Step 6 — Update parser & writer (Green)  [existing readCompuRationCoeffs/writeCompuScaleRationalFormula coverage uses the synced accessor pair]
+   - [x] Step 7 — Update checklist comment  [Table 5.73, p.390; init/get/set rows with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [none: CompuScaleContents base, one PDF aggregate, verbatim docs, and existing reader/writer coverage match]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 300 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed CompuScaleContents base, typed aggregate, API naming, verbatim docs, reader/writer coverage, package location, and no deviations; marker `# Spec verified: R23-11` written]
+ - [x] `CompuScaleConstantContents` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.74 · subtype of `CompuScaleContents` · member type of `CompuScale.compuScaleContents`) — verified R23-11 (commit 3d859c80)
+   - [x] Step 1 — Sync members & description from spec  [Table 5.74, p.391; Base ARObject + CompuScaleContents, most-derived base CompuScaleContents; one optional aggregate compuConst of type CompuConst; Note and attribute Note copied verbatim]
+   - [x] Step 2 — Write model class unit test (Red)  [initialization, Note assertion, typed compuConst setter, chaining, and None no-op; stale setter/docstring failed before implementation]
+   - [x] Step 3 — Implement model class (Green)  [typed Optional[CompuConst] member and None-preserving setter]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class and compuConst Notes copied verbatim from Table 5.74, including sequence-offset Tag]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [existing COMPU-CONST parser/writer tests assert constant content values]
+   - [x] Step 6 — Update parser & writer (Green)  [existing readCompuConst/writeCompuScaleConstantContents coverage uses the synced accessor pair]
+   - [x] Step 7 — Update checklist comment  [Table 5.74, p.391; init/get/set rows with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [none: CompuScaleContents base, one PDF aggregate, verbatim docs, and existing reader/writer coverage match]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 300 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed CompuScaleContents base, typed aggregate, API naming, verbatim docs, reader/writer coverage, package location, and no deviations; marker `# Spec verified: R23-11` written]
+ - [x] `Compu` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.62 · member type of `CompuMethod.compuInternalToPhys`/`compuPhysToInternal` below · after `CompuContent` (aggr `compuContent`) + `CompuConst` (aggr `compuDefaultValue`)) — verified R23-11 (commit dac94a9f)
+   - [x] Step 1 — Sync members & description from spec  [Table 5.62, p.386; Base ARObject; compuContent CompuContent 0..1 aggr and compuDefaultValue CompuConst 0..1 aggr; XML sequence offsets 20/70]
+   - [x] Step 2 — Write model class unit test (Red)  [added spec Note, defaults, typed members, getter/setter chaining, and None no-op assertions; stale docstring and overwrite behavior failed before implementation]
+   - [x] Step 3 — Implement model class (Green)  [typed Optional members and guarded setters]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class and both member Notes copied verbatim from Table 5.62; getter/setter docstrings include the None no-op sentence]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser now asserts parsed Compu aggregates; writer now asserts both COMPU-SCALES and COMPU-DEFAULT-VALUE wrappers]
+   - [x] Step 6 — Update parser & writer (Green)  [existing getCompu/setCompu coverage uses get/set accessors for both members; focused parser/writer tests pass]
+   - [x] Step 7 — Update checklist comment  [Table 5.62, p.386; init + 4 accessor rows with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [none: both PDF aggregates modeled with PDF types, names/order/docstrings match, and existing reader/writer helpers cover both]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused Compu model/parser/writer tests, lint, and Black check pass; 9b: user-confirmed base, members, naming, docstrings, reader/writer coverage, member order, package location, and no deviations; marker written]
+ - [x] `CompuMethod` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.61 · ref target of `SwAxisIndividual.compuMethod` below · after `Compu` (aggr `compuInternalToPhys`/`compuPhysToInternal`) · `unit` Unit stamped ✓) — verified R23-11 (commit 135f42e5)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.61, p.380; Base closure resolves to AtpBlueprintable; ordered members compuInternalToPhys/compuPhysToInternal (Compu aggr), displayFormat (DisplayFormatString attr), unit (Unit ref); XML offsets 80/90/20/30]
+  - [x] Step 2 — Write model class unit test (Red)  [added spec Note/base assertion, typed member defaults, getter/setter chaining, and None no-op assertions; stale docstring and overwrite behavior failed before implementation]
+  - [x] Step 3 — Implement model class (Green)  [typed Optional members; DisplayFormatString and RefType; guarded setters]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class and all four member Notes copied verbatim from Table 5.61; getter/setter docstrings include the None no-op sentence]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser asserts DISPLAY-FORMAT and internal Compu values; writer asserts all four spec member wrappers/elements]
+  - [x] Step 6 — Update parser & writer (Green)  [readCompuMethod reads DISPLAY-FORMAT, UNIT-REF, and both Compu aggregates; writeCompuMethod writes all four in XSD order]
+  - [x] Step 7 — Update checklist comment  [Table 5.61, p.380; init + 8 accessor rows with six columns and R23-11 release]
+  - [x] Step 8 — Deviations  [none: all four PDF members modeled with PDF types, ref naming uses unitRef, docstrings/order match, and reader/writer coverage exists]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 12 focused CompuMethod tests, lint, Black check, and diff check pass; 9b: user-confirmed base, members, naming, docstrings, reader/writer coverage, member order, package location, and no deviations; marker written]
+ - [x] `CompuScale` (dependency · **added 2026-09-03 restructure — replaces the stale '(auto-queued, exists)' note on the CompuScales row, no dedicated row existed** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.64 · member type of `CompuScales.compuScale` below · after `CompuConst` (aggr `compuInverseValue`) + `CompuScaleContents` (aggr `compuScaleContents`) · `desc` MultiLanguageOverviewParagraph stamped ✓) — verified R23-11 (commit 057a1039)
+   - [x] Step 1 — Sync members & description from spec  [Table 5.64, p.388; Base ARObject; nine ordered members a2lDisplayText, compuInverseValue, compuScaleContents, desc, lowerLimit, mask, shortLabel, symbol, upperLimit; offsets 60/70/30/40/35/20/25/50 plus attribute-only A2L-DISPLAY-TEXT]
+   - [x] Step 2 — Write model class unit test (Red)  [added spec Note, defaults, nine typed members, getter/setter chaining, and None no-op assertions; stale docstring and overwrite behavior failed before implementation]
+   - [x] Step 3 — Implement model class (Green)  [typed Optional members, guarded setters, and empty-content writer guard]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class and all nine member Notes copied from Table 5.64; getter/setter docstrings include the None no-op sentence]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser asserts A2L display and inverse constant values; writer asserts both previously missing XML members; existing tests cover remaining members]
+   - [x] Step 6 — Update parser & writer (Green)  [readCompuScale/writeCompuScale now cover A2L-DISPLAY-TEXT and COMPU-INVERSE-VALUE plus existing DESC/limits/content fields]
+   - [x] Step 7 — Update checklist comment  [Table 5.64, p.388; init + 18 accessor rows with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [none: all nine PDF members modeled with PDF types, names/order/docs match, and parser/writer coverage exists]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 30 isolated CompuScale model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed base, all nine members, naming, docstrings including inline member comments, reader/writer coverage, XML order, package location, and no deviations; marker written]
+ - [x] `CompuScales` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.65 · after `CompuScale` (aggr `compuScale`, row added 2026-09-03) + `CompuContent` (parent)) — verified R23-11 (commit 94d4eed6)
+   - [x] Step 1 — Sync members & description from spec  [Table 5.65, p.388; Base ARObject + CompuContent; ordered compuScale CompuScale * aggregation; Note and XML tags copied verbatim]
+   - [x] Step 2 — Write model class unit test (Red)  [updated TestCompuScales for exact Note, base, ordered list, chaining, and None no-op; stale docs and setter behavior failed]
+   - [x] Step 3 — Implement model class (Green)  [typed List[CompuScale] retained; addCompuScale now ignores None and returns self]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class/member/accessor docs synchronized to Table 5.65 Note; checklist upgraded to six-column format]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser and writer assertions now verify ordered COMPU-SCALE values]
+   - [x] Step 6 — Update parser & writer (Green)  [existing getCompuScales/setCompuScales helpers cover ordered child parsing/writing; no implementation change required]
+   - [x] Step 7 — Update checklist comment  [Table 5.65, p.388; init/add/get rows with reader/writer ownership and R23-11 release]
+   - [x] Step 8 — Deviations  [none: one ordered PDF aggregation modeled with exact type/name/order; existing reader/writer helpers cover it]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 45 focused Compu model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed base, ordered aggregation, naming, docstrings, reader/writer coverage, XML order, package location, and no deviations; marker written]
+- [x] `DataConstrRule` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.83 · deps stamped: `internalConstrs` InternalConstrs ✓ / `physConstrs` PhysConstrs ✓ · member type of `DataConstr.dataConstrRule` below) — verified R23-11 (commit fa640a0d)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.83, p.406; Base ARObject; ordered members constrLevel Integer attr offset 20, internalConstrs InternalConstrs aggr offset 40, physConstrs PhysConstrs aggr offset 30]
+  - [x] Step 2 — Write model class unit test (Red)  [added exact class Note, typed defaults, getter/setter chaining, and None no-op assertions; stale docstring and missing accessors failed before implementation]
+  - [x] Step 3 — Implement model class (Green)  [typed Optional members, six accessors, and guarded setters]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class and all three member Notes copied verbatim from Table 5.83; inline comments and accessor docstrings include required no-op wording]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser asserts constrLevel through accessor; writer setup uses all three accessor pairs; existing XML helpers cover rule serialization]
+  - [x] Step 6 — Update parser & writer (Green)  [existing readDataConstrRule/writeDataConstrRules paths serialize all three members; no helper changes required]
+  - [x] Step 7 — Update checklist comment  [Table 5.83, p.406; init + 6 accessor rows with six columns and R23-11 release]
+  - [x] Step 8 — Deviations  [none: all three PDF members modeled with PDF types, names/order/docs match, and existing parser/writer coverage exists]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused DataConstrRule model/parser/writer tests, lint, and Black check pass; 9b: user-confirmed matched base, members, naming, docstrings, reader/writer coverage, XML order, package location, and no deviations; marker `# Spec verified: R23-11` written; commit fa640a0d]
+- [x] `DataConstr` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.82 · ref target of `SwAxisIndividual.dataConstr` below · after `DataConstrRule` (aggr `dataConstrRule`)) — verified R23-11
+   - [x] Step 1 — Sync members & description from spec  [Table 5.82, p.405; Base closure resolves to AtpBlueprintable; one ordered dataConstrRule DataConstrRule aggregation; class and member Notes copied verbatim]
+   - [x] Step 2 — Write model class unit test (Red)  [added exact Note assertion, ordered-list defaults, add/get chaining, and None no-op; stale Note and non-chaining add method failed before implementation]
+   - [x] Step 3 — Implement model class (Green)  [typed List[DataConstrRule] aggregation, guarded addDataConstrRule returning self, and typed getter]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note and dataConstrRule Note copied verbatim from Table 5.82; None no-op sentence added to mutator]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [existing parser/writer coverage asserts rule values, nested constraints, empty wrapper omission, and field values]
+   - [x] Step 6 — Update parser & writer (Green)  [existing readDataConstr/writeDataConstrRules coverage uses add/get accessors; XML order matches XSD sequence offsets 20/30/40]
+   - [x] Step 7 — Update checklist comment  [Table 5.82, p.405; init/add/get rows with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [none: AtpBlueprintable base, one ordered PDF aggregation, typed API, verbatim docs, and reader/writer coverage match]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, lint, Black check, and diff check passed; 9b: user-confirmed base, member order, naming, docstrings, reader/writer coverage, package location, and no deviations; marker written; commit 9927cc9e]
+- [x] `CompositeValueSpecification` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.110 · **moved 2026-09-03 restructure ahead of its Record/Array subtypes** · parent `ValueSpecification` stamped ✓ · member type of `CompositeRuleBasedValueSpecification.argument` below) — verified R23-11
+   - [x] Step 1 — Sync members & description from spec  [Table 5.110, p.434; abstract Base closure resolves to ValueSpecification; no own Attribute rows; exact Note copied verbatim]
+   - [x] Step 2 — Write model class unit test (Red)  [added exact Note assertion and inherited ValueSpecification accessors through a concrete local subclass; stale Note failed before implementation]
+   - [x] Step 3 — Implement model class (Green)  [abstract guard retained; no fabricated members; inherits ValueSpecification behavior]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class docstring replaced with Table 5.110 Note; obsolete implementation docstring removed]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: abstract class has no own XML element; concrete ArrayValueSpecification and RecordValueSpecification own composite serialization]
+   - [x] Step 6 — Update parser & writer (Green)  [N/A: existing concrete getArrayValueSpecification/getRecordValueSpecification and writer helpers cover inherited composite value serialization]
+   - [x] Step 7 — Update checklist comment  [Table 5.110, p.434; abstract __init__ row with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [none: abstract ValueSpecification base, no own attributes, no fabricated accessors, exact Note, and concrete reader/writer coverage match]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, lint, Black check, and diff check passed; 9b: user-confirmed abstract kind, empty member table, inherited base behavior, concrete XML coverage, package location, and no deviations; marker written; commit cc842d74]
+- [x] `ArrayValueSpecification` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.111 · after `CompositeValueSpecification` (parent, Table 5.110) · `element` ValueSpecification stamped ✓) — completed with deviation; not spec verified
+   - [x] Step 1 — Sync members & description from spec  [Table 5.111, p.434; Base closure resolves to CompositeValueSpecification; ordered members element ValueSpecification * and intendedPartialInitializationCount PositiveInteger 0..1]
+   - [x] Step 2 — Write model class unit test (Red)  [added exact Note/base assertions, typed member defaults, list mutator chaining/None no-op, and count setter behavior; stale Note, base, and non-chaining mutator failed before implementation]
+   - [x] Step 3 — Implement model class (Green)  [changed base to CompositeValueSpecification; typed List[ValueSpecification] and Optional[PositiveInteger] members; guarded mutators return self]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class/member/accessor docs replaced with Table 5.111 Notes and tags; old implementation prose removed]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser and writer tests assert nested values and INTENDED-PARTIAL-INITIALIZATION-COUNT field values]
+   - [x] Step 6 — Update parser & writer (Green)  [getArrayValueSpecification/set writer now read/write the positive-integer count; existing polymorphic ELEMENTS dispatch retained]
+   - [x] Step 7 — Update checklist comment  [Table 5.111, p.434; init/add/get/count accessor rows with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [OPEN: Rule 0001.5 naming deviation — the `*` aggregation role `element` is backed by singular `self.element`; required plural backing field is `self.elements`. Per user instruction, leave unresolved and do not stamp `# Spec verified: R23-11`.]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, lint, Black check, and diff check passed; 9b: user confirmed marking complete with the unresolved `self.element` naming deviation; no `# Spec verified: R23-11` marker]
+- [x] `RecordValueSpecification` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.112 · after `CompositeValueSpecification` (parent, Table 5.110) · `field` ValueSpecification stamped ✓) — verified R23-11 (commit pending)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.112, p.435; Base ARObject + CompositeValueSpecification + ValueSpecification; one ordered `field` ValueSpecification aggregation with multiplicity *; Note "Specifies the values for a record." copied verbatim]
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `MsrQueryTopic1` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.83 · after `DocumentViewSelectable`+`Paginateable` (parents) · deps: `msrQueryProps` stamped ✓ / `msrQueryResultTopic1` NOT in src — pending 16.4 below)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `MsrQueryP1` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.82 · after `DocumentViewSelectable`+`Paginateable` (parents) + `TopicContent` (aggr `msrQueryResultP1`) · `msrQueryProps` stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CompuContent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.63 (abstract) · parent of `CompuScales` below · member of `Compu.compuContent` below)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CompuConstContent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.72 (abstract) · parent of `CompuConstTextContent`, `CompuConstNumericContent`, `CompuConstFormulaContent` · member type of `CompuConst.compuConstContentType`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CompuConstTextContent` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.67 · subtype of `CompuConstContent`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CompuConstNumericContent` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.68 · subtype of `CompuConstContent`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CompuConstFormulaContent` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.70 · subtype of `CompuConstContent`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CompuConst` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.71 · member type of `Compu.compuDefaultValue` + `CompuScale.compuInverseValue` below)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CompuScaleContents` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.66 (abstract) · parent of `CompuScaleRationalFormula` and `CompuScaleConstantContents` · member type of `CompuScale.compuScaleContents` below)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CompuNominatorDenominator` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.75)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CompuRationalCoeffs` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.69 · member type of `CompuScaleRationalFormula.compuRationalCoeffs`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CompuScaleRationalFormula` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.73 · subtype of `CompuScaleContents` · member type of `CompuScale.compuScaleContents`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CompuScaleConstantContents` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.74 · subtype of `CompuScaleContents` · member type of `CompuScale.compuScaleContents`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `Compu` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.62 · member type of `CompuMethod.compuInternalToPhys`/`compuPhysToInternal` below · after `CompuContent` (aggr `compuContent`) + `CompuConst` (aggr `compuDefaultValue`))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CompuMethod` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.61 · ref target of `SwAxisIndividual.compuMethod` below · after `Compu` (aggr `compuInternalToPhys`/`compuPhysToInternal`) · `unit` Unit stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CompuScale` (dependency · **added 2026-09-03 restructure — replaces the stale '(auto-queued, exists)' note on the CompuScales row, no dedicated row existed** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.64 · member type of `CompuScales.compuScale` below · after `CompuConst` (aggr `compuInverseValue`) + `CompuScaleContents` (aggr `compuScaleContents`) · `desc` MultiLanguageOverviewParagraph stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CompuScales` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.65 · after `CompuScale` (aggr `compuScale`, row added 2026-09-03) + `CompuContent` (parent))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `DataConstrRule` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.83 · deps stamped: `internalConstrs` InternalConstrs ✓ / `physConstrs` PhysConstrs ✓ · member type of `DataConstr.dataConstrRule` below)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `DataConstr` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.82 · ref target of `SwAxisIndividual.dataConstr` below · after `DataConstrRule` (aggr `dataConstrRule`))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CompositeValueSpecification` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.110 · **moved 2026-09-03 restructure ahead of its Record/Array subtypes** · parent `ValueSpecification` stamped ✓ · member type of `CompositeRuleBasedValueSpecification.argument` below)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `ArrayValueSpecification` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.111 · after `CompositeValueSpecification` (parent, Table 5.110) · `element` ValueSpecification stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `RecordValueSpecification` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.112 · after `CompositeValueSpecification` (parent, Table 5.110) · `field` ValueSpecification stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CompositeRuleBasedValueArgument` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.136 · member type of `CompositeRuleBasedValueSpecification.compoundPrimitiveArgument` below · base ARObject, no complex members)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CompositeRuleBasedValueSpecification` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.135 · after `CompositeValueSpecification` (aggr `argument`) + `CompositeRuleBasedValueArgument` (aggr `compoundPrimitiveArgument`) · parent `AbstractRuleBasedValueSpecification` stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SwValueCont` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.121 · deps stamped: `swArraysize` ValueList ✓ / `swValuesPhys` SwValues ✓ / `unit` Unit ✓ / `unitDisplayName` SingleLanguageUnitNames ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SwCalprmAxisSet` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.46 · deps stamped: `swCalprmAxis` SwCalprmAxis ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note, field inline comment, addField, and getFields docs use the Table 5.112 Note verbatim; addField appends only the required None-no-op sentence]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [existing parser/writer coverage extended with field-value assertions and empty FIELDS wrapper case]
+  - [x] Step 6 — Update parser & writer (Green)  [existing getRecordValueSpecification/writeRecordValueSpecification helpers already cover SHORT-LABEL and polymorphic FIELDS dispatch; no production parser/writer change required]
+  - [x] Step 7 — Update checklist comment  [Table 5.112, p.435; init/add/get rows with six columns and R23-11 release]
+  - [x] Step 8 — Deviations  [none: field aggregation uses dedicated typed plural list `fields`; all spec members have reader/writer coverage]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, lint, Black check, and diff check passed; 9b: user-confirmed matched base, member type/order, verbatim Note, reader/writer coverage, and no deviations; marker `# Spec verified: R23-11` written]
+- [x] `CompositeRuleBasedValueArgument` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.136 · member type of `CompositeRuleBasedValueSpecification.compoundPrimitiveArgument` below · base ARObject, no complex members) — verified R23-11 (commit pending)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.136, p.473; abstract Class; Base ARObject; no own Attribute rows; Note copied verbatim: "This meta-class has the ability to serve as the abstract base class for ValueSpecifications that can be used for compound primitive data types."]
+  - [x] Step 2 — Write model class unit test (Red)  [abstract guard, exact Note/base assertions, and concrete-subclass initialization; stale Note failed before implementation]
+  - [x] Step 3 — Implement model class (Green)  [most-derived base changed to ARObject; retained ABC abstract guard and concrete subclass compatibility]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note copied verbatim from Table 5.136; fabricated class and __init__ prose removed]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: abstract base has no own XML element or attributes; concrete ApplicationValueSpecification/ApplicationRuleBasedValueSpecification consumers own coverage]
+  - [x] Step 6 — Update parser & writer (Green)  [N/A: no own parser/writer helper; concrete consumers retain the inherited XML behavior]
+  - [x] Step 7 — Update checklist comment  [Table 5.136, p.473; abstract __init__ row with six columns and R23-11 release]
+  - [x] Step 8 — Deviations  [none: abstract ARObject base and empty Attribute table match the spec; concrete consumer coverage retained]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 24 focused tests, lint, and Black check passed; 9b: user-confirmed abstract kind, ARObject base, empty Attribute table, exact Note, N/A XML coverage, package location, and no deviations; marker `# Spec verified: R23-11` written]
+- [x] `CompositeRuleBasedValueSpecification` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.135 · after `CompositeValueSpecification` (aggr `argument`) + `CompositeRuleBasedValueArgument` (aggr `compoundPrimitiveArgument`) · parent `AbstractRuleBasedValueSpecification` stamped ✓) — verified R23-11 (commit pending)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.135, p.471; Base ARObject + AbstractRuleBasedValueSpecification + ValueSpecification; ordered members argument CompositeValueSpecification *, compoundPrimitiveArgument CompositeRuleBasedValueArgument *, maxSizeToFill PositiveInteger 0..1, rule Identifier 0..1; Note copied verbatim]
+  - [x] Step 2 — Write model class unit test (Red)  [existing model tests extended with exact Note/checklist assertions, typed member/list behavior, chaining, and None no-op coverage; checklist assertion failed before sync]
+  - [x] Step 3 — Implement model class (Green)  [existing four typed members/accessors retained; ApplicationRuleBasedValueSpecification explicitly adds ValueSpecification to preserve inherited shortLabel XML behavior after its argument base was corrected to ARObject]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note and four member/accessor Notes match Table 5.135; stale class prose replaced]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [existing parser/writer coverage strengthened with PositiveInteger type/value assertions and polymorphic argument/compound-argument field assertions]
+  - [x] Step 6 — Update parser & writer (Green)  [MAX-SIZE-TO-FILL now uses matched PositiveInteger parser/writer helpers; concrete ValueSpecification inheritance restores SHORT-LABEL dispatch]
+  - [x] Step 7 — Update checklist comment  [Table 5.135, p.471; init + four member getter/setter pairs with six columns and R23-11 release]
+  - [x] Step 8 — Deviations  [resolved: concrete ApplicationRuleBasedValueSpecification retained explicit ValueSpecification inheritance for inherited SHORT-LABEL XML coverage; MAX-SIZE-TO-FILL corrected from Integer to PositiveInteger; no remaining deviations]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 21 focused tests, lint, Black check, and diff check passed; 9b: user-confirmed element kind, base chain, member types/order, typed XML coverage, concrete inherited SHORT-LABEL coverage, verbatim docs, and no deviations; marker `# Spec verified: R23-11` written]
+- [x] `SwValueCont` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.121 · deps stamped: `swArraysize` ValueList ✓ / `swValuesPhys` SwValues ✓ / `unit` Unit ✓ / `unitDisplayName` SingleLanguageUnitNames ✓) — verified R23-11 (commit pending)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.121, p.450; Base ARObject; ordered members swArraysize ValueList aggr 0..1, swValuesPhys SwValues aggr 0..1, unit Unit ref 0..1, unitDisplayName SingleLanguageUnitNames aggr 0..1; member Notes and Tags copied from markdown]
+  - [x] Step 2 — Write model class unit test (Red)  [existing model tests extended with exact ARObject base, four member defaults, typed setter chaining, and None no-op assertions; stale docs and unconditional setters failed before implementation]
+  - [x] Step 3 — Implement model class (Green)  [four members converted to PEP 526 Optional annotations; typed accessors and guarded setters implemented]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [cross-page continuation of Table 5.121 supplies class Note "This metaclass represents the content of one particular SwInstance."; member comments/getter/setter docs copied from each Attribute Note and Tags; blank lines retained between member declarations and before checklist]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser/writer tests strengthened to assert all four field values, UNIT-REF destination, SW-ARRAYSIZE/SW-VALUES-PHYS values, UNIT-DISPLAY-NAME, and empty optional wrapper behavior]
+  - [x] Step 6 — Update parser & writer (Green)  [getSwValueCont/writeSwValueCont now read/write UNIT-DISPLAY-NAME symmetrically; existing three members retained]
+  - [x] Step 7 — Update checklist comment  [Table 5.121, p.450; init + four getter/setter pairs with six columns and R23-11 release]
+  - [x] Step 8 — Deviations  [none: all four PDF members modeled with PDF types, Kind=ref represented as unitRef, member order and XML sequence offsets preserved, reader/writer coverage complete]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused model/parser/writer tests, lint, Black check, and diff check passed; 9b: user-confirmed cross-page class Note, blank lines between members, base, member types/order, complete XML coverage, and no deviations; marker `# Spec verified: R23-11` written]
+- [x] `SwCalprmAxisSet` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.46 · deps stamped: `swCalprmAxis` SwCalprmAxis ✓) — verified R23-11 (commit pending)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.46, p.352; Base ARObject; ordered member swCalprmAxis SwCalprmAxis aggr *; member Note and Tags copied from the SwCalprmAxisSet table block preceding the cross-page Table 5.46 title]
+  - [x] Step 2 — Write model class unit test (Red)  [existing tests extended with exact ARObject base/class Note, typed aggregation defaults, chaining, and None no-op assertions; stale Note and non-chaining mutator failed before implementation]
+  - [x] Step 3 — Implement model class (Green)  [typed `swCalprmAxis: List[SwCalprmAxis]` replaces private type-comment field; guarded `addSwCalprmAxis` returns self]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [cross-page class Note copied verbatim: "This element specifies the input parameter axes (abscissas) of parameters (and variables, if these used adaptively)."; sole aggregation member docs copied from the SwCalprmAxisSet table block; blank line retained between member declaration and checklist]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser/writer tests assert axis category/index field values and empty optional set behavior]
+  - [x] Step 6 — Update parser & writer (Green)  [existing getSwCalprmAxisSet/setSwCalprmAxisSet XML dispatch already covers the aggregation; no production XML change required]
+  - [x] Step 7 — Update checklist comment  [Table 5.46, p.352; init/add/get rows with six columns and R23-11 release]
+  - [x] Step 8 — Deviations  [none: one PDF aggregation modeled with dedicated typed plural list, XML order and concrete helpers preserved]
+  - [ ] Step 9 — Verify (9a) + confirm (9b)  [9a rerun after correcting the cross-page class Note; awaiting 9b confirmation]
 - [ ] `SwAxisIndividual` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.50 · after `CompuMethod` (ref `compuMethod`) + `DataConstr` (ref `dataConstr`) · `inputVariableType` ApplicationPrimitiveDataType queued in Group2 ✓ · deps stamped: `swAxisGeneric` SwAxisGeneric ✓ / `swVariableRef` SwVariableRefProxy ✓ / `unit` Unit ✓ / parent SwCalprmAxisTypeProps ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

@@ -28,6 +28,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     IntervalTypeEnum,
     Limit,
     MonotonyEnum,
+    Numerical,
+    PositiveInteger,
     RefType,
     VerbatimString,
 )
@@ -263,6 +265,8 @@ class TestSwCalprmAxisSetWriter:
         assert outer.tag == "SW-CALPRM-AXIS-SET"
         axes = outer.findall("SW-CALPRM-AXIS")
         assert len(axes) == 2
+        assert axes[0].find("CATEGORY").text == "FIXED"
+        assert axes[1].find("CATEGORY").text == "STD"
 
 
 class TestSwPointerTargetPropsWriter:
@@ -649,8 +653,8 @@ class TestSwBaseTypeWriter:
 class TestCompuNominatorDenominatorWriter:
     def test_write_compu_nominator_denominator(self, writer):
         nd = CompuNominatorDenominator()
-        nd.add_v("1.0")
-        nd.add_v("2.0")
+        nd.addV(Numerical().setValue("1.0"))
+        nd.addV(Numerical().setValue("2.0"))
 
         parent = _parent()
         writer.writeCompuNominatorDenominator(parent, "COMPU-NUMERATOR", nd)
@@ -684,10 +688,10 @@ class TestCompuScaleRationalFormulaWriter:
         contents = CompuScaleRationalFormula()
         coeffs = CompuRationalCoeffs()
         num = CompuNominatorDenominator()
-        num.add_v("1.0")
-        num.add_v("2.0")
+        num.addV(Numerical().setValue("1.0"))
+        num.addV(Numerical().setValue("2.0"))
         den = CompuNominatorDenominator()
-        den.add_v("3.0")
+        den.addV(Numerical().setValue("3.0"))
         coeffs.setCompuNumerator(num)
         coeffs.setCompuDenominator(den)
         contents.setCompuRationalCoeffs(coeffs)
@@ -711,7 +715,7 @@ class TestCompuScaleConstantContentsWriter:
         contents = CompuScaleConstantContents()
         const = CompuConst()
         text_content = CompuConstTextContent()
-        text_content.vt = _literal("Active")
+        text_content.setVt(_verbatim("Active"))
         const.setCompuConstContentType(text_content)
         contents.setCompuConst(const)
 
@@ -724,6 +728,17 @@ class TestCompuScaleConstantContentsWriter:
         vt = const_tag.find("VT")
         assert vt is not None
         assert vt.text == "Active"
+
+    def test_write_compu_const_text_content_without_vt(self, writer):
+        contents = CompuScaleConstantContents()
+        const = CompuConst()
+        const.setCompuConstContentType(CompuConstTextContent())
+        contents.setCompuConst(const)
+
+        parent = _parent()
+        writer.writeCompuScaleConstantContents(parent, contents)
+
+        assert parent.find("COMPU-CONST/VT") is None
 
 
 class TestCompuScaleContentsWriter:
@@ -747,7 +762,7 @@ class TestCompuScaleContentsWriter:
         contents = CompuScaleRationalFormula()
         coeffs = CompuRationalCoeffs()
         num = CompuNominatorDenominator()
-        num.add_v("1.0")
+        num.addV(Numerical().setValue("1.0"))
         coeffs.setCompuNumerator(num)
         contents.setCompuRationalCoeffs(coeffs)
         scale.compuScaleContents = contents
@@ -775,10 +790,10 @@ class TestSetCompuConstContentWriter:
 
     def test_set_compu_const_content_formula(self, writer):
         content = CompuConstFormulaContent()
-        content.setVf(_literal("x*2"))
+        content.setVf(_numerical("42"))
         parent = _parent()
         writer.setCompuConstContent(parent, content)
-        assert parent.find("VF").text == "x*2"
+        assert parent.find("VF").text == "42"
 
     def test_set_compu_const_content_numeric(self, writer):
         content = CompuConstNumericContent()
@@ -848,6 +863,22 @@ class TestWriteCompuScaleWriter:
         assert child.find("UPPER-LIMIT").text == "10"
         assert child.find("COMPU-CONST/VT").text == "Low"
 
+    def test_write_compu_scale_writes_a2l_and_inverse_value(self, writer):
+        scale = CompuScale()
+        scale.setA2lDisplayText(_literal("display"))
+        inverse = CompuConst()
+        content = CompuConstTextContent()
+        content.setVt(_literal("inverse"))
+        inverse.setCompuConstContentType(content)
+        scale.setCompuInverseValue(inverse)
+
+        parent = _parent()
+        writer.writeCompuScale(parent, "COMPU-SCALE", scale)
+
+        child = parent[0]
+        assert child.find("A2L-DISPLAY-TEXT").text == "display"
+        assert child.find("COMPU-INVERSE-VALUE/VT").text == "inverse"
+
 
 class TestSetCompuScalesWriter:
     def test_set_compu_scales_none(self, writer):
@@ -879,7 +910,7 @@ class TestSetCompuScalesWriter:
 
         outer = parent[0]
         assert outer.tag == "COMPU-SCALES"
-        assert len(outer.findall("COMPU-SCALE")) == 2
+        assert [scale.find("SHORT-LABEL").text for scale in outer.findall("COMPU-SCALE")] == ["A", "B"]
 
 
 class TestSetCompuConstWriter:
@@ -933,6 +964,16 @@ class TestSetCompuWriter:
         assert child.find("COMPU-SCALES/COMPU-SCALE/SHORT-LABEL").text == "Scale1"
         assert child.find("COMPU-DEFAULT-VALUE/VT").text == "Def"
 
+    def test_set_compu_preserves_both_spec_members(self, writer):
+        compu = Compu().setCompuContent(CompuScales()).setCompuDefaultValue(CompuConst())
+        parent = _parent()
+
+        writer.setCompu(parent, "COMPU-INTERNAL-TO-PHYS", compu)
+
+        child = parent[0]
+        assert child.find("COMPU-SCALES") is not None
+        assert child.find("COMPU-DEFAULT-VALUE") is not None
+
 
 class TestWriteCompuMethodWriter:
     def test_write_compu_method_basic(self, writer):
@@ -969,6 +1010,24 @@ class TestWriteCompuMethodWriter:
 
         child = parent[0]
         assert child.find("COMPU-INTERNAL-TO-PHYS/COMPU-SCALES/COMPU-SCALE/SHORT-LABEL").text == "Cold"
+
+    def test_write_compu_method_covers_all_spec_members(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Compu")
+        cm = pkg.createCompuMethod("Complete")
+        cm.setDisplayFormat(_literal("%1.2"))
+        cm.setUnitRef(_ref("UNIT", "/units/kmh"))
+        cm.setCompuInternalToPhys(Compu())
+        cm.setCompuPhysToInternal(Compu())
+
+        parent = _parent()
+        writer.writeCompuMethod(parent, cm)
+
+        child = parent[0]
+        assert child.find("DISPLAY-FORMAT").text == "%1.2"
+        assert child.find("UNIT-REF").text == "/units/kmh"
+        assert child.find("COMPU-INTERNAL-TO-PHYS") is not None
+        assert child.find("COMPU-PHYS-TO-INTERNAL") is not None
 
 
 class TestApplicationValueSpecificationWriter:
@@ -1089,7 +1148,7 @@ class TestCompositeRuleBasedValueSpecificationWriter:
         compound.setCategory(_literal("ARRAY"))
         spec.addCompoundPrimitiveArgument(compound)
 
-        max_size = Integer()
+        max_size = PositiveInteger()
         max_size.setValue("16")
         spec.setMaxSizeToFill(max_size)
 
@@ -1289,6 +1348,22 @@ class TestRecordValueSpecificationWriter:
         child = parent[0]
         assert child.tag == "RECORD-VALUE-SPECIFICATION"
         assert child.find("FIELDS") is None
+
+    def test_write_record_value_specification_preserves_field_values(self, writer):
+        rec = RecordValueSpecification()
+        rec.setShortLabel(_literal("Record"))
+        field = TextValueSpecification()
+        field.setShortLabel(_literal("Field"))
+        field.setValue(_literal("value"))
+        assert rec.addField(field) is rec
+
+        parent = _parent()
+        writer.writeRecordValueSpecification(parent, rec)
+
+        child = parent[0]
+        assert child.find("SHORT-LABEL").text == "Record"
+        assert child.find("FIELDS/TEXT-VALUE-SPECIFICATION/SHORT-LABEL").text == "Field"
+        assert child.find("FIELDS/TEXT-VALUE-SPECIFICATION/VALUE").text == "value"
 
 
 class TestConstantSpecificationWriter:
@@ -1490,14 +1565,14 @@ class TestDataConstrRulesWriter:
         constr = pkg.createDataConstr("WithRules")
 
         rule = DataConstrRule()
-        rule.constrLevel = _numerical("1")
-        rule.physConstrs = PhysConstrs()
-        rule.physConstrs.setLowerLimit(Limit())
-        rule.physConstrs.getLowerLimit().value = "0"
-        rule.internalConstrs = InternalConstrs()
+        rule.setConstrLevel(_numerical("1"))
+        rule.setPhysConstrs(PhysConstrs())
+        rule.getPhysConstrs().setLowerLimit(Limit())
+        rule.getPhysConstrs().getLowerLimit().value = "0"
+        rule.setInternalConstrs(InternalConstrs())
         internal_lower = Limit()
         internal_lower.value = "0"
-        rule.internalConstrs.setLowerLimit(internal_lower)
+        rule.getInternalConstrs().setLowerLimit(internal_lower)
         constr.addDataConstrRule(rule)
 
         parent = _parent()

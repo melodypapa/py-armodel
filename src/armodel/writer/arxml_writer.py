@@ -870,7 +870,7 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
     TopicContent,
     TopicContentOrMsrQuery,
 )
-from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryResultChapter, MsrQueryTopic1
+from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryResultChapter, MsrQueryResultTopic1, MsrQueryTopic1
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note
@@ -1626,6 +1626,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "UNIT-REF", cont.unitRef)
             self.setValueList(child_element, "SW-ARRAYSIZE", cont.swArraysize)
             self.setSwValues(child_element, "SW-VALUES-PHYS", cont.swValuesPhys)
+            self.setChildElementOptionalLiteral(child_element, "UNIT-DISPLAY-NAME", cont.unitDisplayName)
 
     def writeValueSpecification(self, element: ET.Element, value_spec: ValueSpecification):
         if value_spec is not None:
@@ -1673,6 +1674,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeNotAvailableValueSpecification(elements_tag, sub_element)
                 else:
                     self.notImplemented("Unsupported element type of <%s> of ArrayValueSpecification" % type(sub_element))
+        self.setChildElementOptionalPositiveInteger(value_spec_tag, "INTENDED-PARTIAL-INITIALIZATION-COUNT", value_spec.getIntendedPartialInitializationCount())
 
     def setConstantReference(self, element: ET.Element, value_spec: ConstantReference):
         value_spec_tag = ET.SubElement(element, "CONSTANT-REFERENCE")
@@ -2083,7 +2085,11 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeMsrQueryP1(self, element: ET.Element, msr_query_p1: MsrQueryP1):
         child_element = ET.SubElement(element, "MSR-QUERY-P1")
-        self.writeARObject(child_element, msr_query_p1)
+        self.writePaginateable(child_element, msr_query_p1)
+        if msr_query_p1.getMsrQueryProps() is not None:
+            self.setMsrQueryProps(child_element, msr_query_p1.getMsrQueryProps())
+        if msr_query_p1.getMsrQueryResultP1() is not None:
+            self.writeTopicContent(child_element, msr_query_p1.getMsrQueryResultP1())
 
     def writeTopicContent(self, element: ET.Element, topic_content: TopicContent):
         child_element = ET.SubElement(element, "TOPIC-CONTENT")
@@ -2104,9 +2110,11 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeMsrQueryTopic1(self, element: ET.Element, msr_query_topic1: MsrQueryTopic1):
         child_element = ET.SubElement(element, "MSR-QUERY-TOPIC-1")
-        self.writeARObject(child_element, msr_query_topic1)
+        self.writePaginateable(child_element, msr_query_topic1)
         if msr_query_topic1.getMsrQueryProps() is not None:
             self.setMsrQueryProps(child_element, msr_query_topic1.getMsrQueryProps())
+        if msr_query_topic1.getMsrQueryResultTopic1() is not None:
+            self.setMsrQueryResultTopic1(child_element, "MSR-QUERY-RESULT-TOPIC-1", msr_query_topic1.getMsrQueryResultTopic1())
 
     def setMsrQueryResultChapter(self, element: ET.Element, key: str, result: MsrQueryResultChapter):
         if result is not None:
@@ -2114,6 +2122,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(child_element, result)
             for chapter in result.getChapters():
                 self.writeChapter(child_element, chapter, "CHAPTER")
+
+    def setMsrQueryResultTopic1(self, element: ET.Element, key: str, result: MsrQueryResultTopic1):
+        if result is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, result)
+            for topic1 in result.getTopic1s():
+                self.writeTopic1(child_element, topic1)
 
     def writeMsrQueryChapter(self, element: ET.Element, msr_query_chapter: MsrQueryChapter):
         child_element = ET.SubElement(element, "MSR-QUERY-CHAPTER")
@@ -3034,9 +3049,9 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeCompuNominatorDenominator(self, element: ET.Element, key: str, parent: CompuNominatorDenominator):
         child_element = ET.SubElement(element, key)
-        for v in parent.get_vs():
+        for v in parent.getVs():
             v_tag = ET.SubElement(child_element, "V")
-            v_tag.text = v
+            v_tag.text = str(v)
 
     def writeCompuScaleRationalFormula(self, element: ET.Element, contents: CompuScaleRationalFormula):
         if contents.compuRationalCoeffs is not None:
@@ -3047,6 +3062,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeCompuNominatorDenominator(coeffs_tag, "COMPU-DENOMINATOR", contents.compuRationalCoeffs.compuDenominator)
 
     def writeCompuScaleContents(self, element: ET.Element, compu_scale: CompuScale):
+        if compu_scale.compuScaleContents is None:
+            return
         if isinstance(compu_scale.compuScaleContents, CompuScaleConstantContents):
             self.writeCompuScaleConstantContents(element, compu_scale.compuScaleContents)
         elif isinstance(compu_scale.compuScaleContents, CompuScaleRationalFormula):
@@ -3057,7 +3074,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setCompuConstContent(self, element: ET.Element, content: CompuConstContent):
         if content is not None:
             if isinstance(content, CompuConstFormulaContent):
-                self.setChildElementOptionalLiteral(element, "VF", content.getVf())
+                self.setChildElementOptionalNumericalValue(element, "VF", content.getVf())
             elif isinstance(content, CompuConstNumericContent):
                 self.setChildElementOptionalNumericalValue(element, "V", content.getV())
             elif isinstance(content, CompuConstTextContent):
@@ -3069,6 +3086,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         if compu_scale is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, compu_scale)
+            self.setChildElementOptionalLiteral(child_element, "A2L-DISPLAY-TEXT", compu_scale.getA2lDisplayText())
+            self.setCompuConst(child_element, "COMPU-INVERSE-VALUE", compu_scale.getCompuInverseValue())
             self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", compu_scale.getShortLabel())
             self.setChildElementOptionalLiteral(child_element, "SYMBOL", compu_scale.getSymbol())
             self.setMultiLanguageOverviewParagraph(child_element, "DESC", compu_scale.getDesc())
@@ -3100,6 +3119,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "COMPU-METHOD")
         self.logger.debug("write CompuMethods %s" % compu_method.getShortName())
         self.writeIdentifiable(child_element, compu_method)
+        self.setChildElementOptionalLiteral(child_element, "DISPLAY-FORMAT", compu_method.getDisplayFormat())
         self.setChildElementOptionalRefType(child_element, "UNIT-REF", compu_method.getUnitRef())
         self.setCompu(child_element, "COMPU-INTERNAL-TO-PHYS", compu_method.getCompuInternalToPhys())
         self.setCompu(child_element, "COMPU-PHYS-TO-INTERNAL", compu_method.getCompuPhysToInternal())
@@ -3204,7 +3224,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                         self.setConstantReference(compound_tag, argument)
                     else:
                         self.notImplemented("Unsupported compound primitive argument type of <%s> of CompositeRuleBasedValueSpecification" % type(argument))
-            self.setChildElementOptionalIntegerValue(child_element, "MAX-SIZE-TO-FILL", value_spec.getMaxSizeToFill())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-SIZE-TO-FILL", value_spec.getMaxSizeToFill())
 
     def writeRecordValueSpecification(self, element: ET.Element, spec: RecordValueSpecification):
         child_element = ET.SubElement(element, "RECORD-VALUE-SPECIFICATION")
@@ -3298,9 +3318,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             for rule in rules:
                 child_element = ET.SubElement(rules_tag, "DATA-CONSTR-RULE")
                 self.writeARObject(child_element, rule)
-                self.setChildElementOptionalNumericalValue(child_element, "CONSTR-LEVEL", rule.constrLevel)
-                self.setPhysConstrs(child_element, rule.physConstrs)
-                self.setInternalConstrs(child_element, rule.internalConstrs)
+                self.setChildElementOptionalIntegerValue(child_element, "CONSTR-LEVEL", rule.getConstrLevel())
+                self.setPhysConstrs(child_element, rule.getPhysConstrs())
+                self.setInternalConstrs(child_element, rule.getInternalConstrs())
 
     def writeDataConstr(self, element: ET.Element, constr: DataConstr):
         child_element = ET.SubElement(element, "DATA-CONSTR")

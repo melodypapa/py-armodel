@@ -2,8 +2,11 @@
 This module contains tests for the GlobalConstraints module in MSR.AsamHdo.Constraints.
 """
 
+from inspect import cleandoc
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Integer,
     Limit,
     MonotonyEnum,
     Numerical,
@@ -203,6 +206,9 @@ class TestPhysConstrs:
 class TestDataConstrRule:
     """Test class for DataConstrRule class."""
 
+    def test_data_constr_rule_has_spec_note(self):
+        assert cleandoc(DataConstrRule.__doc__) == "This meta-class represents the ability to express one specific data constraint rule."
+
     def test_data_constr_rule_initialization(self):
         """Test that a DataConstrRule object can be initialized with default values."""
         data_constr_rule = DataConstrRule()
@@ -210,9 +216,28 @@ class TestDataConstrRule:
         assert data_constr_rule.internalConstrs is None
         assert data_constr_rule.physConstrs is None
 
+    def test_data_constr_rule_accessors_preserve_values_on_none(self):
+        rule = DataConstrRule()
+        constr_level = Integer()
+        internal = InternalConstrs()
+        physical = PhysConstrs()
+
+        assert rule.setConstrLevel(constr_level) is rule
+        assert rule.setInternalConstrs(internal) is rule
+        assert rule.setPhysConstrs(physical) is rule
+        assert rule.setConstrLevel(None) is rule
+        assert rule.setInternalConstrs(None) is rule
+        assert rule.setPhysConstrs(None) is rule
+        assert rule.getConstrLevel() is constr_level
+        assert rule.getInternalConstrs() is internal
+        assert rule.getPhysConstrs() is physical
+
 
 class TestDataConstr:
     """Test class for DataConstr class."""
+
+    def test_data_constr_has_spec_note(self):
+        assert cleandoc(DataConstr.__doc__) == "This meta-class represents the ability to specify constraints on data. Tags: atp.recommendedPackage=DataConstrs"
 
     def test_data_constr_initialization(self):
         """Test that a DataConstr object can be initialized with default values."""
@@ -227,7 +252,8 @@ class TestDataConstr:
         rule = DataConstrRule()
 
         # Test addDataConstrRule and getDataConstrRules
-        data_constr.addDataConstrRule(rule)
+        assert data_constr.addDataConstrRule(rule) is data_constr
         rules = data_constr.getDataConstrRules()
-        assert rule in rules
-        assert len(rules) == 1
+        assert rules == [rule]
+        assert data_constr.addDataConstrRule(None) is data_constr
+        assert data_constr.getDataConstrRules() == [rule]

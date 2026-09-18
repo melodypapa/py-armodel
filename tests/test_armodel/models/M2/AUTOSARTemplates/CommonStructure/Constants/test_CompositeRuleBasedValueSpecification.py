@@ -1,9 +1,12 @@
 """Tests for the CompositeRuleBasedValueSpecification model class."""
 
+import inspect
+
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     ApplicationRuleBasedValueSpecification,
     ArrayValueSpecification,
     CompositeRuleBasedValueSpecification,
+    CompositeValueSpecification,
     RecordValueSpecification,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, PositiveInteger
@@ -19,6 +22,10 @@ class TestCompositeRuleBasedValueSpecification:
         assert spec.compoundPrimitiveArguments == []
         assert spec.maxSizeToFill is None
         assert spec.rule is None
+        assert isinstance(spec, CompositeRuleBasedValueSpecification)
+        assert CompositeRuleBasedValueSpecification.__doc__.strip() == ("This meta-class represents rule-based values for DataPrototypes typed by composite AutosarDataTypes.")
+        assert spec.__dict__["arguments"] == []
+        assert spec.__dict__["compoundPrimitiveArguments"] == []
 
     def test_add_get_arguments(self):
         """Test addArgument/getArguments append, return value and None no-op."""
@@ -28,7 +35,7 @@ class TestCompositeRuleBasedValueSpecification:
         argument1 = ArrayValueSpecification()
         assert spec.addArgument(argument1) is spec
         argument2 = RecordValueSpecification()
-        spec.addArgument(argument2)
+        assert spec.addArgument(argument2) is spec
         assert spec.getArguments() == [argument1, argument2]
 
         spec.addArgument(None)
@@ -45,6 +52,21 @@ class TestCompositeRuleBasedValueSpecification:
 
         spec.addCompoundPrimitiveArgument(None)
         assert spec.getCompoundPrimitiveArguments() == [argument1]
+
+    def test_member_types_match_spec(self):
+        spec = CompositeRuleBasedValueSpecification()
+        argument = ArrayValueSpecification()
+        compound_argument = ApplicationRuleBasedValueSpecification()
+        assert isinstance(argument, CompositeValueSpecification)
+        assert spec.addArgument(argument) is spec
+        assert spec.addCompoundPrimitiveArgument(compound_argument) is spec
+        assert spec.getArguments() == [argument]
+        assert spec.getCompoundPrimitiveArguments() == [compound_argument]
+
+    def test_checklist_records_target_release(self):
+        source = inspect.getsource(CompositeRuleBasedValueSpecification)
+        assert "release" in source
+        assert "R23-11" in source
 
     def test_get_set_max_size_to_fill(self):
         """Test getMaxSizeToFill/setMaxSizeToFill round-trip and None no-op."""

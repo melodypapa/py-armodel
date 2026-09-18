@@ -1,8 +1,17 @@
 """This module contains tests for the MsrQuery module in MSR.Documentation.TextModel."""
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
-from armodel.models.M2.MSR.Documentation.Chapters import Chapter
-from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryChapter, MsrQueryP2, MsrQueryProps, MsrQueryResultChapter
+from armodel.models.M2.MSR.Documentation.Chapters import Chapter, Topic1, TopicContent
+from armodel.models.M2.MSR.Documentation.MsrQuery import (
+    MsrQueryArg,
+    MsrQueryChapter,
+    MsrQueryP1,
+    MsrQueryP2,
+    MsrQueryProps,
+    MsrQueryResultChapter,
+    MsrQueryResultTopic1,
+    MsrQueryTopic1,
+)
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
@@ -142,6 +151,116 @@ class TestMsrQueryResultChapter:
 
         result.addChapter(None)
         assert result.getChapters() == [chapter1, chapter2]
+
+
+class TestMsrQueryResultTopic1:
+    """Test class for MsrQueryResultTopic1 class (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.88)."""
+
+    def test_msr_query_result_topic1_initialization(self):
+        """Test that an MsrQueryResultTopic1 object can be initialized with default values."""
+        result = MsrQueryResultTopic1()
+        assert result.topic1 == []
+
+    def test_msr_query_result_topic1_add_methods(self):
+        """Test adding topics with insertion order and None no-op."""
+        result = MsrQueryResultTopic1()
+        topic1 = Topic1(None, "topic-1")
+        topic2 = Topic1(None, "topic-2")
+
+        ret = result.addTopic1(topic1)
+        result.addTopic1(topic2)
+        assert result.getTopic1s() == [topic1, topic2]
+        assert ret == result
+
+        result.addTopic1(None)
+        assert result.getTopic1s() == [topic1, topic2]
+        assert ret == result
+
+
+class TestMsrQueryTopic1:
+    """Test class for MsrQueryTopic1 class (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.83)."""
+
+    def test_msr_query_topic1_base_chain(self):
+        """MsrQueryTopic1 derives from Paginateable only (spec Base: ARObject, DocumentViewSelectable, Paginateable)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+        from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+
+        assert issubclass(MsrQueryTopic1, Paginateable)
+        assert issubclass(MsrQueryTopic1, DocumentViewSelectable)
+        assert not issubclass(MsrQueryTopic1, VariationPointCapable)
+
+    def test_msr_query_topic1_initialization(self):
+        """Test that an MsrQueryTopic1 object can be initialized with default values."""
+        result = MsrQueryTopic1()
+        assert result.msrQueryProps is None
+        assert result.msrQueryResultTopic1 is None
+
+    def test_msr_query_topic1_props_methods(self):
+        """Test the msrQueryProps getter and setter with chaining and None no-op."""
+        result = MsrQueryTopic1()
+        props = MsrQueryProps()
+
+        ret = result.setMsrQueryProps(props)
+        assert result.getMsrQueryProps() == props
+        assert ret == result
+
+        result.setMsrQueryProps(None)
+        assert result.getMsrQueryProps() == props
+
+    def test_msr_query_topic1_result_methods(self):
+        """Test the msrQueryResultTopic1 getter and setter with chaining and None no-op."""
+        result = MsrQueryTopic1()
+        query_result = MsrQueryResultTopic1()
+
+        ret = result.setMsrQueryResultTopic1(query_result)
+        assert result.getMsrQueryResultTopic1() == query_result
+        assert ret == result
+
+        result.setMsrQueryResultTopic1(None)
+        assert result.getMsrQueryResultTopic1() == query_result
+
+
+class TestMsrQueryP1:
+    """Test class for MsrQueryP1 class (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.82)."""
+
+    def test_msr_query_p1_base_chain(self):
+        """MsrQueryP1 derives from Paginateable only (spec Base: ARObject, DocumentViewSelectable, Paginateable)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+        from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+
+        assert issubclass(MsrQueryP1, Paginateable)
+        assert issubclass(MsrQueryP1, DocumentViewSelectable)
+        assert not issubclass(MsrQueryP1, VariationPointCapable)
+
+    def test_msr_query_p1_initialization(self):
+        """Test that an MsrQueryP1 object can be initialized with default values."""
+        result = MsrQueryP1()
+        assert result.msrQueryProps is None
+        assert result.msrQueryResultP1 is None
+
+    def test_msr_query_p1_props_methods(self):
+        """Test the msrQueryProps getter and setter with chaining and None no-op."""
+        result = MsrQueryP1()
+        props = MsrQueryProps()
+
+        ret = result.setMsrQueryProps(props)
+        assert result.getMsrQueryProps() == props
+        assert ret == result
+
+        result.setMsrQueryProps(None)
+        assert result.getMsrQueryProps() == props
+
+    def test_msr_query_p1_result_methods(self):
+        """Test the msrQueryResultP1 getter and setter with chaining and None no-op."""
+        result = MsrQueryP1()
+        query_result = TopicContent()
+
+        ret = result.setMsrQueryResultP1(query_result)
+        assert result.getMsrQueryResultP1() == query_result
+        assert ret == result
+
+        result.setMsrQueryResultP1(None)
+        assert result.getMsrQueryResultP1() == query_result
 
 
 class TestMsrQueryChapter:

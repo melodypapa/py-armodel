@@ -65,20 +65,16 @@ class ValueSpecification(ARObject, VariationPointCapable, ABC):
 
 
 class CompositeValueSpecification(ValueSpecification, ABC):
-    """
-    Abstract base class for value specifications that have a composite form.
-    This class serves as a base for value specifications that contain multiple elements or components.
-    Subclasses include ArrayValueSpecification and RecordValueSpecification.
-    """
+    """This abstract meta-class acts a base for ValueSpecifications that have a composite form."""
+
+    # Spec verified: R23-11
 
     # CompositeValueSpecification method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.110, p.434
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the CompositeValueSpecification base class.
-        Raises TypeError if this abstract class is instantiated directly.
-        """
         if type(self) is CompositeValueSpecification:
             raise TypeError("CompositeValueSpecification is an abstract class.")
 
@@ -102,21 +98,16 @@ class AbstractRuleBasedValueSpecification(ValueSpecification, ABC):
         super().__init__()
 
 
-class CompositeRuleBasedValueArgument(AbstractRuleBasedValueSpecification):
-    """
-    Abstract base class for value specifications that can be used for compound primitive data types.
-    This class serves as the base for specialized value specifications that handle complex data types.
-    Subclasses include ApplicationRuleBasedValueSpecification and ApplicationValueSpecification.
-    """
+class CompositeRuleBasedValueArgument(ARObject, ABC):
+    """This meta-class has the ability to serve as the abstract base class for ValueSpecifications that can be used for compound primitive data types."""
 
     # CompositeRuleBasedValueArgument method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.136, p.473
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # Spec verified: R23-11
 
     def __init__(self):
-        """
-        Initializes the CompositeRuleBasedValueArgument base class.
-        Raises TypeError if this abstract class is instantiated directly.
-        """
         if type(self) is CompositeRuleBasedValueArgument:
             raise TypeError("CompositeRuleBasedValueArgument is an abstract class.")
 
@@ -225,41 +216,34 @@ class ApplicationValueSpecification(CompositeRuleBasedValueArgument, ValueSpecif
 
 
 class RecordValueSpecification(CompositeValueSpecification):
-    """
-    Specifies the values for a record in AUTOSAR models.
-    This class contains multiple field value specifications that make up a record structure.
-    Base classes: ARObject, CompositeValueSpecification, ValueSpecification
-    """
+    """Specifies the values for a record."""
 
     # RecordValueSpecification method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] addField                     [x] impl  [x] docstring  [x] test
-    # [x] getFields                    [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.112, p.435
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addField                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFields                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # Spec verified: R23-11
 
     def __init__(self):
-        """
-        Initializes the RecordValueSpecification with default values.
-        """
         super().__init__()
 
-        # List of field value specifications in this record
-        self.fields = []
+        # Value specifications that constitute the fields of the record.
+        self.fields: List[ValueSpecification] = []
 
-    def addField(self, field: ValueSpecification):
+    def addField(self, field: Optional[ValueSpecification]) -> "RecordValueSpecification":
         """
-        Adds a field value specification to this record.
-
-        Args:
-            field: The field value specification to add
+        Value specifications that constitute the fields of the record.
+        A None value is a no-op and does not add a field.
         """
-        self.fields.append(field)
+        if field is not None:
+            self.fields.append(field)
+        return self
 
     def getFields(self) -> List[ValueSpecification]:
         """
-        Gets the list of field value specifications in this record.
-
-        Returns:
-            List of ValueSpecification instances
+        Value specifications that constitute the fields of the record.
         """
         return self.fields
 
@@ -353,70 +337,46 @@ class NumericalValueSpecification(ValueSpecification):
         return self
 
 
-class ArrayValueSpecification(ValueSpecification):
-    """
-    Represents an array value specification in AUTOSAR models.
-    This class contains multiple element value specifications that make up an array structure.
-    """
+class ArrayValueSpecification(CompositeValueSpecification):
+    """Specifies the values for an array."""
 
     # ArrayValueSpecification method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getIntendedPartialInitializationCount [x] impl  [x] docstring  [x] test
-    # [x] setIntendedPartialInitializationCount [x] impl  [x] docstring  [x] test
-    # [x] addElement                   [x] impl  [x] docstring  [x] test
-    # [x] getElements                  [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.111, p.434
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addElement                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getElements                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getIntendedPartialInitializationCount [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIntendedPartialInitializationCount [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the ArrayValueSpecification with default values.
-        """
         super().__init__()
 
-        # List of element value specifications in this array
+        # This is one of the values of the array. Tags: xml.roleElement=true xml.roleWrapperElement=true xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         self.element: List[ValueSpecification] = []
-        # Intended partial initialization count for this array
-        self.intendedPartialInitializationCount = None
 
-    def getIntendedPartialInitializationCount(self):
-        """
-        Gets the intended partial initialization count for this array.
-
-        Returns:
-            The intended partial initialization count
-        """
-        return self.intendedPartialInitializationCount
-
-    def setIntendedPartialInitializationCount(self, value):
-        """
-        Sets the intended partial initialization count for this array.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The intended partial initialization count to set
-
-        Returns:
-            self for method chaining
-        """
-        self.intendedPartialInitializationCount = value
-        return self
-
-    def addElement(self, element: ValueSpecification):
-        """
-        Adds an element value specification to this array.
-
-        Args:
-            element: The element value specification to add
-        """
-        self.element.append(element)
+        # This is the number of elements which are intended to be initialized partially. Tags: xml.sequenceOffset=30
+        self.intendedPartialInitializationCount: Optional[PositiveInteger] = None
 
     def getElements(self) -> List[ValueSpecification]:
-        """
-        Gets the list of element value specifications in this array.
-
-        Returns:
-            List of ValueSpecification instances
-        """
+        """This is one of the values of the array. Tags: xml.roleElement=true xml.roleWrapperElement=true xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false."""
         return self.element
+
+    def addElement(self, element: Optional[ValueSpecification]) -> "ArrayValueSpecification":
+        """This is one of the values of the array. Tags: xml.roleElement=true xml.roleWrapperElement=true xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. None leaves the current list unchanged."""
+        if element is not None:
+            self.element.append(element)
+        return self
+
+    def getIntendedPartialInitializationCount(self) -> Optional[PositiveInteger]:
+        """This is the number of elements which are intended to be initialized partially. Tags: xml.sequenceOffset=30."""
+        return self.intendedPartialInitializationCount
+
+    def setIntendedPartialInitializationCount(self, value: Optional[PositiveInteger]) -> "ArrayValueSpecification":
+        """This is the number of elements which are intended to be initialized partially. Tags: xml.sequenceOffset=30. None leaves the current value unchanged."""
+        if value is not None:
+            self.intendedPartialInitializationCount = value
+        return self
 
 
 class ConstantSpecification(ARElement):
@@ -511,7 +471,7 @@ class ConstantReference(ValueSpecification):
         return self
 
 
-class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
+class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument, ValueSpecification):
     """
     This meta-class represents rule based values for DataPrototypes typed by
     ApplicationDataTypes (ApplicationArrayDataType or a compound
@@ -636,22 +596,21 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
 
 
 class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
-    """
-    This meta-class represents rule-based values for DataPrototypes typed by composite AutosarDataTypes.
-    """
+    """This meta-class represents rule-based values for DataPrototypes typed by composite AutosarDataTypes."""
 
     # CompositeRuleBasedValueSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.135, p.471
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addArgument                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getArguments                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addCompoundPrimitiveArgument    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCompoundPrimitiveArguments   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getMaxSizeToFill                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxSizeToFill                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRule                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRule                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addArgument                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getArguments                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addCompoundPrimitiveArgument    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCompoundPrimitiveArguments   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMaxSizeToFill                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxSizeToFill                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRule                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRule                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Spec verified: R23-11
 
     def __init__(self):
         super().__init__()

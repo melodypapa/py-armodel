@@ -979,7 +979,7 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
     TopicContentOrMsrQuery,
     TopicOrMsrQuery,
 )
-from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryResultChapter, MsrQueryTopic1
+from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryResultChapter, MsrQueryResultTopic1, MsrQueryTopic1
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, ItemLabelPosEnum, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note, NoteTypeEnum
@@ -6053,6 +6053,7 @@ class ARXMLParser(AbstractARXMLParser):
             cont.setUnitRef(self.getChildElementOptionalRefType(child_element, "UNIT-REF"))
             cont.setSwArraysize(self.getValueList(child_element, "SW-ARRAYSIZE"))
             cont.setSwValuesPhys(self.getSwValues(child_element, "SW-VALUES-PHYS"))
+            cont.setUnitDisplayName(self.getChildElementOptionalLiteral(child_element, "UNIT-DISPLAY-NAME"))
         return cont
 
     def readApplicationValueSpecification(self, element: ET.Element, value_spec: ApplicationValueSpecification):
@@ -6528,7 +6529,21 @@ class ARXMLParser(AbstractARXMLParser):
         return result
 
     def readMsrQueryP1(self, element: ET.Element, parent: ARObject) -> MsrQueryP1:
-        return MsrQueryP1()
+        msr_query_p1 = MsrQueryP1()
+        self.readPaginateable(element, msr_query_p1)
+        msr_query_props = self.find(element, "MSR-QUERY-PROPS")
+        if msr_query_props is not None:
+            msr_query_p1.setMsrQueryProps(self.getMsrQueryProps(msr_query_props))
+        topic_content = self.find(element, "TOPIC-CONTENT")
+        if topic_content is not None:
+            msr_query_p1.setMsrQueryResultP1(self.readTopicContent(topic_content, msr_query_p1))
+        return msr_query_p1
+
+    def getMsrQueryP1(self, element: ET.Element, key: str) -> MsrQueryP1:
+        child_element = self.find(element, key)
+        if child_element is None:
+            return None
+        return self.readMsrQueryP1(child_element, None)
 
     def readTopicContent(self, element: ET.Element, parent: ARObject) -> TopicContent:
         topic_content = TopicContent()
@@ -6562,16 +6577,33 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readMsrQueryTopic1(self, element: ET.Element, parent: Chapter) -> MsrQueryTopic1:
         msr_query_topic1 = MsrQueryTopic1()
-        self.readARObject(element, msr_query_topic1)
+        self.readPaginateable(element, msr_query_topic1)
         msr_query_props = self.find(element, "MSR-QUERY-PROPS")
         if msr_query_props is not None:
             msr_query_topic1.setMsrQueryProps(self.getMsrQueryProps(msr_query_props))
+        msr_query_result_topic1 = self.find(element, "MSR-QUERY-RESULT-TOPIC-1")
+        if msr_query_result_topic1 is not None:
+            result = MsrQueryResultTopic1()
+            msr_query_topic1.setMsrQueryResultTopic1(result)
+            self.readMsrQueryResultTopic1(msr_query_result_topic1, msr_query_topic1, result)
         return msr_query_topic1
+
+    def getMsrQueryTopic1(self, element: ET.Element, key: str) -> MsrQueryTopic1:
+        result = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            result = self.readMsrQueryTopic1(child_element, None)
+        return result
 
     def readMsrQueryResultChapter(self, element: ET.Element, parent: ARObject, result: MsrQueryResultChapter):
         self.readARObject(element, result)
         for child_element in self.findall(element, "CHAPTER"):
             result.addChapter(self.readChapter(child_element, parent))
+
+    def readMsrQueryResultTopic1(self, element: ET.Element, parent: ARObject, result: MsrQueryResultTopic1):
+        self.readARObject(element, result)
+        for child_element in self.findall(element, "TOPIC-1"):
+            result.addTopic1(self.readTopic1(child_element, parent))
 
     def getMsrQueryResultChapter(self, element: ET.Element, key: str) -> MsrQueryResultChapter:
         result = None
@@ -6579,6 +6611,14 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             result = MsrQueryResultChapter()
             self.readMsrQueryResultChapter(child_element, result, result)
+        return result
+
+    def getMsrQueryResultTopic1(self, element: ET.Element, key: str) -> MsrQueryResultTopic1:
+        result = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            result = MsrQueryResultTopic1()
+            self.readMsrQueryResultTopic1(child_element, result, result)
         return result
 
     def readMsrQueryChapter(self, element: ET.Element, parent: Chapter) -> MsrQueryChapter:
@@ -6989,13 +7029,13 @@ class ARXMLParser(AbstractARXMLParser):
             tag_name = self.getTagName(child_element)
             if tag_name == "VF":
                 content = CompuConstFormulaContent()
-                content.setVf(self.getChildElementOptionalLiteral(element, "VF"))
+                content.setVf(self.getChildElementOptionalNumericalValue(element, "VF"))
             elif tag_name == "V":
                 content = CompuConstNumericContent()
                 content.setV(self.getChildElementOptionalNumericalValue(element, "V"))
             elif tag_name == "VT":
                 content = CompuConstTextContent()
-                content.setVt(self.getChildElementOptionalLiteral(element, "VT"))
+                content.setVt(self.getChildElementOptionalVerbatimString(element, "VT"))
             else:
                 self.notImplemented("Unsupported CompuConstContent <%s>" % tag_name)
         return content
@@ -7023,7 +7063,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readCompuNominatorDenominator(self, element: ET.Element, key: str, parent: CompuNominatorDenominator):
         for child_element in self.findall(element, "%s/V" % key):
             # self.logger.debug("Read CompuNominatorDenominator - %s: %s" % (key, child_element.text))
-            parent.add_v(child_element.text)
+            parent.addV(Numerical().setValue(child_element.text))
 
     def readCompuRationCoeffs(self, element: ET.Element, parent: CompuScale):
         child_element = self.find(element, "COMPU-RATIONAL-COEFFS")
@@ -7043,6 +7083,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readCompuScale(self, element: ET.Element, compu_scale: CompuScale):
         self.readARObject(element, compu_scale)
+        compu_scale.setA2lDisplayText(self.getChildElementOptionalLiteral(element, "A2L-DISPLAY-TEXT"))
+        compu_scale.setCompuInverseValue(self.getCompuConst(element, "COMPU-INVERSE-VALUE"))
         compu_scale.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
         compu_scale.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
         compu_scale.setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC"))
@@ -7075,6 +7117,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readCompuMethod(self, element: ET.Element, compu_method: CompuMethod):
         self.logger.debug("Read CompuMethod <%s>" % compu_method.getShortName())
         self.readIdentifiable(element, compu_method)
+        compu_method.setDisplayFormat(self.getChildElementOptionalLiteral(element, "DISPLAY-FORMAT"))
         compu_method.setUnitRef(self.getChildElementOptionalRefType(element, "UNIT-REF"))
         compu_method.setCompuInternalToPhys(self.getCompu(element, "COMPU-INTERNAL-TO-PHYS"))
         compu_method.setCompuPhysToInternal(self.getCompu(element, "COMPU-PHYS-TO-INTERNAL"))
@@ -7162,7 +7205,7 @@ class ARXMLParser(AbstractARXMLParser):
         value_spec.setRule(self.getChildElementOptionalIdentifier(element, "RULE"))
         for child_element in self.findall(element, "ARGUMENTSS/RULE-ARGUMENTS"):
             value_spec.addArgument(self.getRuleArguments(child_element))
-        value_spec.setMaxSizeToFill(self.getChildElementOptionalIntegerValue(element, "MAX-SIZE-TO-FILL"))
+        value_spec.setMaxSizeToFill(self.getChildElementOptionalPositiveInteger(element, "MAX-SIZE-TO-FILL"))
         return value_spec
 
     def getRuleBasedAxisCont(self, element: ET.Element) -> RuleBasedAxisCont:
@@ -7203,7 +7246,7 @@ class ARXMLParser(AbstractARXMLParser):
             value_spec.addArgument(self.getValueSpecification(child_element, self.getTagName(child_element)))
         for child_element in self.findall(element, "COMPOUND-PRIMITIVE-ARGUMENTS/*"):
             value_spec.addCompoundPrimitiveArgument(self.getValueSpecification(child_element, self.getTagName(child_element)))
-        value_spec.setMaxSizeToFill(self.getChildElementOptionalIntegerValue(element, "MAX-SIZE-TO-FILL"))
+        value_spec.setMaxSizeToFill(self.getChildElementOptionalPositiveInteger(element, "MAX-SIZE-TO-FILL"))
         return value_spec
 
     def getNumericalValueSpecification(self, element: ET.Element) -> NumericalValueSpecification:
@@ -7228,6 +7271,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_elements = element.findall("./xmlns:ELEMENTS/*", self.nsmap)
         for child_element in child_elements:
             value_spec.addElement(self.getValueSpecification(child_element, self.getTagName(child_element)))
+        value_spec.setIntendedPartialInitializationCount(self.getChildElementOptionalPositiveInteger(element, "INTENDED-PARTIAL-INITIALIZATION-COUNT"))
         return value_spec
 
     def getConstantReference(self, element: ET.Element) -> ConstantReference:
@@ -7317,7 +7361,7 @@ class ARXMLParser(AbstractARXMLParser):
             constrs.setMaxGradient(self.getChildElementOptionalNumericalValue(child_element, "MAX-GRADIENT"))
             constrs.setMaxDiff(self.getChildElementOptionalNumericalValue(child_element, "MAX-DIFF"))
             constrs.setMonotony(self.getChildElementOptionalLiteral(child_element, "MONOTONY"))
-            parent.internalConstrs = constrs
+            parent.setInternalConstrs(constrs)
 
     def readScaleConstr(self, element: ET.Element) -> ScaleConstr:
         scale_constr = ScaleConstr()
@@ -7344,14 +7388,14 @@ class ARXMLParser(AbstractARXMLParser):
             for sc_element in self.findall(child_element, "SCALE-CONSTRS/SCALE-CONSTR"):
                 constrs.addScaleConstr(self.readScaleConstr(sc_element))
             constrs.setUnitRef(self.getChildElementOptionalRefType(child_element, "UNIT-REF"))
-            parent.physConstrs = constrs
+            parent.setPhysConstrs(constrs)
 
     def readDataConstrRule(self, element: ET.Element, parent: DataConstr):
         for child_element in self.findall(element, "DATA-CONSTR-RULES/DATA-CONSTR-RULE"):
             # self.logger.debug("Read DataConstrRule")
             rule = DataConstrRule()
             self.readARObject(child_element, rule)
-            rule.constrLevel = self.getChildElementOptionalNumericalValue(child_element, "CONSTR-LEVEL")
+            rule.setConstrLevel(self.getChildElementOptionalIntegerValue(child_element, "CONSTR-LEVEL"))
             self.readInternalConstrs(child_element, rule)
             self.readPhysConstrs(child_element, rule)
             parent.addDataConstrRule(rule)

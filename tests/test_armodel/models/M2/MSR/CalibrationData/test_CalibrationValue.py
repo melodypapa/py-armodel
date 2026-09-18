@@ -96,6 +96,8 @@ class TestSwValueCont:
         assert sw_value_cont.swValuesPhys is None
         assert sw_value_cont.unitRef is None
         assert sw_value_cont.unitDisplayName is None
+        assert isinstance(sw_value_cont, ARObject)
+        assert sw_value_cont.__class__.__doc__.strip() == "This metaclass represents the content of one particular SwInstance."
 
     def test_sw_value_cont_array_size_methods(self):
         """Test the swArraysize getter and setter."""
@@ -105,6 +107,8 @@ class TestSwValueCont:
         result = sw_value_cont.setSwArraysize(array_size)
         assert sw_value_cont.getSwArraysize() == array_size
         assert result == sw_value_cont
+        assert sw_value_cont.setSwArraysize(None) is sw_value_cont
+        assert sw_value_cont.getSwArraysize() is array_size
 
     def test_sw_value_cont_sw_values_phys_methods(self):
         """Test the swValuesPhys getter and setter."""
@@ -114,6 +118,8 @@ class TestSwValueCont:
         result = sw_value_cont.setSwValuesPhys(values_phys)
         assert sw_value_cont.getSwValuesPhys() == values_phys
         assert result == sw_value_cont
+        assert sw_value_cont.setSwValuesPhys(None) is sw_value_cont
+        assert sw_value_cont.getSwValuesPhys() is values_phys
 
     def test_sw_value_cont_unit_ref_methods(self):
         """Test the unitRef getter and setter."""
@@ -123,6 +129,8 @@ class TestSwValueCont:
         result = sw_value_cont.setUnitRef(unit_ref)
         assert sw_value_cont.getUnitRef() == unit_ref
         assert result == sw_value_cont
+        assert sw_value_cont.setUnitRef(None) is sw_value_cont
+        assert sw_value_cont.getUnitRef() is unit_ref
 
     def test_sw_value_cont_unit_display_name_methods(self):
         """Test the unitDisplayName getter and setter."""
@@ -132,6 +140,8 @@ class TestSwValueCont:
         result = sw_value_cont.setUnitDisplayName(unit_display_name)
         assert sw_value_cont.getUnitDisplayName() == unit_display_name
         assert result == sw_value_cont
+        assert sw_value_cont.setUnitDisplayName(None) is sw_value_cont
+        assert sw_value_cont.getUnitDisplayName() is unit_display_name
 
 
 class TestValueGroup:
