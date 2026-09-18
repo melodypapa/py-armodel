@@ -68,7 +68,7 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch pattern added (factory + parser import/BSW dispatch/helper/SWC dispatch + writer import/2 dispatches/helper), branches after DCM-DM-19 per XSD order
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base already spec-correct; zero attrs; leading-quote Note is the markdown/XSD verbatim text)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL suite 9428 passed, flake8/ruff/black, parity); 9b DEFERRED to batch stamp (user-requested 2026-09-18)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL suite 9428 passed, flake8/ruff/black, parity); 9b DEFERRED to batch stamp (user-requested 2026-09-18); sync commit d8872c42
 - [ ] `J1939RmOutgoingRequestServiceNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.70)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
