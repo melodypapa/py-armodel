@@ -92,15 +92,16 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 8 — Deviations — **none** (base already spec-correct; zero attrs; clean Note; tag spelling V-2-X- per XSD)
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL suite 9438 passed, flake8/ruff/black, parity); 9b DEFERRED to batch stamp (user-requested 2026-09-18); sync commit de024941
 - [ ] `V2xFacUserNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.77)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - **Step 1 finding:** own table = Swc TPS Table 13.77, p.834; concrete Class (XSD complexType `V-2-X-FAC-USER-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd line 129259, group line 129250 `<xsd:sequence/>` empty); Base row = ...Referrable, ServiceNeeds → most-derived = `ServiceNeeds` (src base ALREADY correct); ZERO own attributes; Note verbatim, clean text no Tags tail (markdown 25011 = XSD documentation); XSD tag `V-2-X-FAC-USER-NEEDS` in BOTH choice groups (11519 BSW, 12638 Swc-side), right after V-2-X-DATA-MANAGER-NEEDS (11518/12637); dispatch MISSING → full 5-place pattern + createV2xFacUserNeeds factory added
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — 2/3 failed pre-implementation (docstring + docless; base already spec-correct)
+  - [x] Step 3 — Implement model class (Green) — spec Note verbatim, __init__ docless
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstrings wiped; Note verbatim (Table 13.77 p.834)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 3 dispatch tests failed pre-implementation (missing factory/reader/writer)
+  - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch pattern added (factory + parser import/BSW dispatch/helper/SWC dispatch + writer import/2 dispatches/helper), branches after V-2-X-DATA-MANAGER-NEEDS per XSD order
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none** (base already spec-correct; zero attrs; clean Note)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL suite 9443 passed, flake8/ruff/black, parity); 9b DEFERRED to batch stamp (user-requested 2026-09-18)
 - [ ] `V2xMUserNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.78)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

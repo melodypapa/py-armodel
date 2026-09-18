@@ -187,6 +187,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     TracedFailure,
     TransientFault,
     V2xDataManagerNeeds,
+    V2xFacUserNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import (
     SignalServiceTranslationElementProps,
@@ -4877,6 +4878,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSyncTimeBaseMgrUserNeeds(child_element, needs)
         elif isinstance(needs, V2xDataManagerNeeds):
             self.writeV2xDataManagerNeeds(child_element, needs)
+        elif isinstance(needs, V2xFacUserNeeds):
+            self.writeV2xFacUserNeeds(child_element, needs)
         elif isinstance(needs, ErrorTracerNeeds):
             self.writeErrorTracerNeeds(child_element, needs)
         elif isinstance(needs, ObdInfoServiceNeeds):
@@ -5323,6 +5326,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("write V2xDataManagerNeeds %s" % needs.getShortName())
         self.writeServiceNeeds(child_element, needs)
 
+    def writeV2xFacUserNeeds(self, element: ET.Element, needs: V2xFacUserNeeds):
+        child_element = ET.SubElement(element, "V-2-X-FAC-USER-NEEDS")
+        self.logger.debug("write V2xFacUserNeeds %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
+
     def writeSupervisedEntityNeeds(self, element: ET.Element, needs: SupervisedEntityNeeds):
         child_element = ET.SubElement(element, "SUPERVISED-ENTITY-NEEDS")
         self.writeServiceNeeds(child_element, needs)
@@ -5443,6 +5451,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeSyncTimeBaseMgrUserNeeds(child_element, needs)
                 elif isinstance(needs, V2xDataManagerNeeds):
                     self.writeV2xDataManagerNeeds(child_element, needs)
+                elif isinstance(needs, V2xFacUserNeeds):
+                    self.writeV2xFacUserNeeds(child_element, needs)
                 elif isinstance(needs, CryptoKeyManagementNeeds):
                     self.writeCryptoKeyManagementNeeds(child_element, needs)
                 elif isinstance(needs, CryptoServiceJobNeeds):

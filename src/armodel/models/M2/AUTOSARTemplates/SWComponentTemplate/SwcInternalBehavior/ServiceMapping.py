@@ -61,6 +61,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     SupervisedEntityCheckpointNeeds,
     SyncTimeBaseMgrUserNeeds,
     V2xDataManagerNeeds,
+    V2xFacUserNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceNeeds, ServiceDependency
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -1040,6 +1041,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, V2xDataManagerNeeds)
+
+    def createV2xFacUserNeeds(self, short_name: str) -> V2xFacUserNeeds:
+        """
+        Creates or retrieves a V2xFacUserNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            V2xFacUserNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, V2xFacUserNeeds):
+            needs = V2xFacUserNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, V2xFacUserNeeds)
 
     def createIdsMgrNeeds(self, short_name: str) -> IdsMgrNeeds:
         """

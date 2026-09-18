@@ -4320,21 +4320,15 @@ class V2xDataManagerNeeds(ServiceNeeds):
 
 class V2xFacUserNeeds(ServiceNeeds):
     """
-    Represents V2X Functional Application Cluster User needs in AUTOSAR models.
-    This class defines requirements for V2X functional application cluster user services.
+    This meta-class represents the ability to define service needs for V2x facilities.
     """
 
     # V2xFacUserNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.77, p.834
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the V2xFacUserNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this V2X FAC user needs
-            short_name: The unique short name of this V2X FAC user needs
-        """
         super().__init__(parent, short_name)
 
 
