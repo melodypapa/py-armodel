@@ -30,7 +30,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     ClientServerOperationMapping,
     DataPrototypeMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition, ClientIdDefinitionSet
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderReceiverToSignalGroupMapping,
     SenderReceiverToSignalMapping,
@@ -1250,3 +1250,60 @@ class TestWriterClientIdDefinition:
         assert child is not None
         assert child.find("CLIENT-ID").text == "7"
         assert child.find("CLIENT-SERVER-OPERATION-IREF") is None
+
+
+class TestWriterClientIdDefinitionSet:
+    def _make_set(self):
+        id_definition_set = ClientIdDefinitionSet(parent=AUTOSAR.getInstance(), short_name="IDS1")
+        id_definition = id_definition_set.createClientIdDefinition("CID1")
+        client_id = Numerical()
+        client_id.setValue("5")
+        id_definition.setClientId(client_id)
+        id_definition_set.createClientIdDefinition("CID2")
+        return id_definition_set
+
+    def test_wrapper_and_children_in_xsd_order(self, writer):
+        id_definition_set = self._make_set()
+        parent = _parent()
+        writer.writeClientIdDefinitionSet(parent, id_definition_set)
+
+        child = parent.find("CLIENT-ID-DEFINITION-SET")
+        assert child is not None
+        wrapper = child.find("CLIENT-ID-DEFINITIONS")
+        assert wrapper is not None
+        definitions = wrapper.findall("CLIENT-ID-DEFINITION")
+        assert len(definitions) == 2
+        assert [d.find("SHORT-NAME").text for d in definitions] == ["CID1", "CID2"]
+        assert definitions[0].find("CLIENT-ID").text == "5"
+
+    def test_empty_set_no_wrapper(self, writer):
+        id_definition_set = ClientIdDefinitionSet(parent=AUTOSAR.getInstance(), short_name="IDS1")
+        parent = _parent()
+        writer.writeClientIdDefinitionSet(parent, id_definition_set)
+
+        child = parent.find("CLIENT-ID-DEFINITION-SET")
+        assert child is not None
+        assert child.find("CLIENT-ID-DEFINITIONS") is None
+
+    def test_round_trip(self, tmp_path):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        package = document.createARPackage("Pkg")
+        package.createClientIdDefinitionSet("IDS1").createClientIdDefinition("CID1")
+
+        file_path = str(tmp_path / "client_id_definition_set_round_trip.arxml")
+        ARXMLWriter().save(file_path, document)
+
+        document_2 = AUTOSAR.getInstance()
+        document_2.clear()
+        ARXMLParser().load(file_path, document_2)
+
+        package_2 = document_2.getARPackages()[0]
+        id_definition_set_2 = package_2.getElement("IDS1", ClientIdDefinitionSet)
+        assert id_definition_set_2 is not None
+        definitions = id_definition_set_2.getClientIdDefinitions()
+        assert len(definitions) == 1
+        assert definitions[0].getShortName() == "CID1"

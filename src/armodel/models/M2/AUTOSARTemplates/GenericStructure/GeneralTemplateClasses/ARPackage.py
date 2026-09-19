@@ -1175,6 +1175,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(element)
         return self.getElement(short_name, ISignalIPduGroup)
 
+    def createClientIdDefinitionSet(self, short_name: str) -> ClientIdDefinitionSet:
+
+        if not self.IsElementExists(short_name, ClientIdDefinitionSet):
+            element = ClientIdDefinitionSet(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, ClientIdDefinitionSet)
+
     def createSystem(self, short_name: str) -> System:
 
         if not self.IsElementExists(short_name, System):
@@ -1794,7 +1801,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     TriggerInterface,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import System  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet, System  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanXlProps  # noqa: E402

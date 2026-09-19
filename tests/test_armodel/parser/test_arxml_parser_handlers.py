@@ -583,6 +583,41 @@ class TestAdminDataAndReferrableHandlers:
         assert id_definition.getClientId() is None
         assert id_definition.getClientServerOperationIRef() is None
 
+    def test_readClientIdDefinitionSet_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet
+
+        id_definition_set = ClientIdDefinitionSet(parent=_autosar_root(), short_name="IDS1")
+        element = _snip(
+            "<CLIENT-ID-DEFINITIONS>"
+            "<CLIENT-ID-DEFINITION><SHORT-NAME>CID1</SHORT-NAME><CLIENT-ID>5</CLIENT-ID></CLIENT-ID-DEFINITION>"
+            "<CLIENT-ID-DEFINITION><SHORT-NAME>CID2</SHORT-NAME><CLIENT-ID>7</CLIENT-ID></CLIENT-ID-DEFINITION>"
+            "</CLIENT-ID-DEFINITIONS>",
+            root_tag="CLIENT-ID-DEFINITION-SET",
+        )
+        parser.readClientIdDefinitionSet(element, id_definition_set)
+        definitions = id_definition_set.getClientIdDefinitions()
+        assert len(definitions) == 2
+        assert definitions[0].getShortName() == "CID1"
+        assert definitions[0].getClientId().getValue() == "5"
+        assert definitions[1].getShortName() == "CID2"
+        assert definitions[1].getClientId().getValue() == "7"
+
+    def test_readClientIdDefinitionSet_empty_wrapper(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet
+
+        id_definition_set = ClientIdDefinitionSet(parent=_autosar_root(), short_name="IDS1")
+        element = _snip("<CLIENT-ID-DEFINITIONS/>", root_tag="CLIENT-ID-DEFINITION-SET")
+        parser.readClientIdDefinitionSet(element, id_definition_set)
+        assert id_definition_set.getClientIdDefinitions() == []
+
+    def test_readClientIdDefinitionSet_no_wrapper(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet
+
+        id_definition_set = ClientIdDefinitionSet(parent=_autosar_root(), short_name="IDS1")
+        element = _snip("", root_tag="CLIENT-ID-DEFINITION-SET")
+        parser.readClientIdDefinitionSet(element, id_definition_set)
+        assert id_definition_set.getClientIdDefinitions() == []
+
     def test_getAutosarVariableRef_with_iref(self, parser):
         element = _snip(
             "<ACCESSED-VARIABLE>"

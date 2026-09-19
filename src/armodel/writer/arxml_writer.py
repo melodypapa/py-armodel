@@ -611,7 +611,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment, RoleBasedPortAssignment, SwcServiceDependency
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition, SwcToEcuMapping, System, SystemMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition, ClientIdDefinitionSet, SwcToEcuMapping, System, SystemMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecCompositeTypeMapping,
     SenderReceiverToSignalGroupMapping,
@@ -10884,6 +10884,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setOperationInSystemInstanceRef(child_element, "CLIENT-SERVER-OPERATION-IREF", id_definition.getClientServerOperationIRef())
         self.writeVariationPoint(child_element, id_definition.getVariationPoint())
 
+    def writeClientIdDefinitionSet(self, element: ET.Element, id_definition_set: ClientIdDefinitionSet):
+        self.logger.debug("Write ClientIdDefinitionSet %s" % id_definition_set.getShortName())
+        child_element = ET.SubElement(element, "CLIENT-ID-DEFINITION-SET")
+        self.writeARElement(child_element, id_definition_set)
+        definitions = id_definition_set.getClientIdDefinitions()
+        if len(definitions) > 0:
+            definitions_tag = ET.SubElement(child_element, "CLIENT-ID-DEFINITIONS")
+            for id_definition in definitions:
+                self.writeClientIdDefinition(definitions_tag, id_definition)
+
     def writeSystem(self, element: ET.Element, system: System):
         self.logger.debug("Write System %s" % system.getShortName())
         child_element = ET.SubElement(element, "SYSTEM")
@@ -12523,6 +12533,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeGateway(element, ar_element)
         elif isinstance(ar_element, ISignal):
             self.writeISignal(element, ar_element)
+        elif isinstance(ar_element, ClientIdDefinitionSet):
+            self.writeClientIdDefinitionSet(element, ar_element)
         elif isinstance(ar_element, System):
             self.writeSystem(element, ar_element)
         elif isinstance(ar_element, EcuInstance):
