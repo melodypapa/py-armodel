@@ -616,7 +616,14 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibr
     InterpolationRoutineMapping,
     InterpolationRoutineMappingSet,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition, ClientIdDefinitionSet, SwcToEcuMapping, System, SystemMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
+    ClientIdDefinition,
+    ClientIdDefinitionSet,
+    SwComponentPrototypeAssignment,
+    SwcToEcuMapping,
+    System,
+    SystemMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecCompositeTypeMapping,
     SenderReceiverToSignalGroupMapping,
@@ -10898,6 +10905,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             definitions_tag = ET.SubElement(child_element, "CLIENT-ID-DEFINITIONS")
             for id_definition in definitions:
                 self.writeClientIdDefinition(definitions_tag, id_definition)
+
+    def writeSwComponentPrototypeAssignment(self, element: ET.Element, assignment: SwComponentPrototypeAssignment):
+        child_element = ET.SubElement(element, "SW-COMPONENT-PROTOTYPE-ASSIGNMENT")
+        self.writeARObject(child_element, assignment)
+        self.setComponentInSystemInstanceRef(child_element, "SW-COMPONENT-IREF", assignment.getSwComponentIRef())
+        self.writeVariationPoint(child_element, assignment.getVariationPoint())
 
     def writeInterpolationRoutine(self, element: ET.Element, interpolation_routine: InterpolationRoutine):
         self.logger.debug("Write InterpolationRoutine")
