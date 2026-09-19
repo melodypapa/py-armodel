@@ -190,6 +190,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     V2xFacUserNeeds,
     V2xMUserNeeds,
     VendorSpecificServiceNeeds,
+    WarningIndicatorRequestedBitNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import (
     SignalServiceTranslationElementProps,
@@ -4953,6 +4954,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeV2xMUserNeeds(child_element, needs)
         elif isinstance(needs, VendorSpecificServiceNeeds):
             self.writeVendorSpecificServiceNeeds(child_element, needs)
+        elif isinstance(needs, WarningIndicatorRequestedBitNeeds):
+            self.writeWarningIndicatorRequestedBitNeeds(child_element, needs)
         elif isinstance(needs, ErrorTracerNeeds):
             self.writeErrorTracerNeeds(child_element, needs)
         elif isinstance(needs, ObdInfoServiceNeeds):
@@ -5414,6 +5417,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("write VendorSpecificServiceNeeds %s" % needs.getShortName())
         self.writeServiceNeeds(child_element, needs)
 
+    def writeWarningIndicatorRequestedBitNeeds(self, element: ET.Element, needs: WarningIndicatorRequestedBitNeeds):
+        child_element = ET.SubElement(element, "WARNING-INDICATOR-REQUESTED-BIT-NEEDS")
+        self.logger.debug("write WarningIndicatorRequestedBitNeeds %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
+
     def writeSupervisedEntityNeeds(self, element: ET.Element, needs: SupervisedEntityNeeds):
         child_element = ET.SubElement(element, "SUPERVISED-ENTITY-NEEDS")
         self.writeServiceNeeds(child_element, needs)
@@ -5540,6 +5548,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeV2xMUserNeeds(child_element, needs)
                 elif isinstance(needs, VendorSpecificServiceNeeds):
                     self.writeVendorSpecificServiceNeeds(child_element, needs)
+                elif isinstance(needs, WarningIndicatorRequestedBitNeeds):
+                    self.writeWarningIndicatorRequestedBitNeeds(child_element, needs)
                 elif isinstance(needs, CryptoKeyManagementNeeds):
                     self.writeCryptoKeyManagementNeeds(child_element, needs)
                 elif isinstance(needs, CryptoServiceJobNeeds):

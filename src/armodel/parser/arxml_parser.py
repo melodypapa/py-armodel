@@ -216,6 +216,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     V2xFacUserNeeds,
     V2xMUserNeeds,
     VendorSpecificServiceNeeds,
+    WarningIndicatorRequestedBitNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import (
     SignalServiceTranslationElementProps,
@@ -2258,6 +2259,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = VendorSpecificServiceNeeds(dependency, short_name)
                 self.readVendorSpecificServiceNeeds(child_element, needs)
+            elif tag_name == "WARNING-INDICATOR-REQUESTED-BIT-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = WarningIndicatorRequestedBitNeeds(dependency, short_name)
+                self.readWarningIndicatorRequestedBitNeeds(child_element, needs)
             elif tag_name == "ERROR-TRACER-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = ErrorTracerNeeds(dependency, short_name)
@@ -2635,6 +2640,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readVendorSpecificServiceNeeds(self, element: ET.Element, needs: VendorSpecificServiceNeeds):
         self.readServiceNeeds(element, needs)
 
+    def readWarningIndicatorRequestedBitNeeds(self, element: ET.Element, needs: WarningIndicatorRequestedBitNeeds):
+        self.readServiceNeeds(element, needs)
+
     def readSupervisedEntityNeeds(self, element: ET.Element, needs: SupervisedEntityNeeds):
         self.readServiceNeeds(element, needs)
         needs.setActivateAtStart(self.getChildElementOptionalBooleanValue(element, "ACTIVATE-AT-START"))
@@ -2807,6 +2815,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "VENDOR-SPECIFIC-SERVICE-NEEDS":
                 needs = parent.createVendorSpecificServiceNeeds(self.getShortName(child_element))
                 self.readVendorSpecificServiceNeeds(child_element, needs)
+            elif tag_name == "WARNING-INDICATOR-REQUESTED-BIT-NEEDS":
+                needs = parent.createWarningIndicatorRequestedBitNeeds(self.getShortName(child_element))
+                self.readWarningIndicatorRequestedBitNeeds(child_element, needs)
             elif tag_name == "OBD-INFO-SERVICE-NEEDS":
                 needs = parent.createObdInfoServiceNeeds(self.getShortName(child_element))
                 self.readObdInfoServiceNeeds(child_element, needs)

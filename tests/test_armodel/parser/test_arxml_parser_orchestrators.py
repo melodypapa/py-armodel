@@ -887,6 +887,19 @@ class TestServiceNeedsHandlers:
         parser.readVendorSpecificServiceNeeds(element, needs)
         assert needs.getShortName() == "vendorNeeds"
 
+    def test_readWarningIndicatorRequestedBitNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import WarningIndicatorRequestedBitNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>warningNeeds</SHORT-NAME>", root_tag="WARNING-INDICATOR-REQUESTED-BIT-NEEDS")
+        needs = dependency.createWarningIndicatorRequestedBitNeeds("warningNeeds")
+        assert isinstance(needs, WarningIndicatorRequestedBitNeeds)
+        parser.readWarningIndicatorRequestedBitNeeds(element, needs)
+        assert needs.getShortName() == "warningNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 
