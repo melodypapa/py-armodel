@@ -16,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     FloatValue,
     IntegerValue,
     ParameterValue,
+    StringValue,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import (  # noqa E501
     AnyInstanceRef,
@@ -27,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Float,
     RefType,
     RevisionLabelString,
+    String,
     UnlimitedInteger,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (  # noqa E501
@@ -982,5 +984,46 @@ class TestFloatValueWrite:
         writer.setFloatValue(parent, float_value)
         child = parent[0]
         assert child.tag == "FLOAT-VALUE"
+        assert child.find("DEFINITION-REF") is None
+        assert child.find("VALUE") is None
+
+
+class TestStringValueWrite:
+    """Tests for setStringValue handler (R3.2.3 StringValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.36, p.99 (R3.2 Rev 3)
+    """
+
+    def test_set_string_value(self, writer):
+        string_value = StringValue()
+        string_value.setDefinitionRef(_ref("/Os/Release"))
+        string_value.setValue(String().setValue("1.0.0"))
+        parent = _parent()
+        writer.setStringValue(parent, string_value)
+        child = parent[0]
+        assert child.tag == "STRING-VALUE"
+        def_ref = child.find("DEFINITION-REF")
+        assert def_ref is not None
+        assert "DEST" not in def_ref.attrib
+        assert def_ref.text == "/Os/Release"
+        assert child.find("VALUE").text == "1.0.0"
+
+    def test_set_string_value_empty(self, writer):
+        string_value = StringValue()
+        string_value.setDefinitionRef(_ref("/Os/Release", "STRING-PARAM-DEF"))
+        string_value.setValue(String().setValue(""))
+        parent = _parent()
+        writer.setStringValue(parent, string_value)
+        child = parent[0]
+        assert child.tag == "STRING-VALUE"
+        assert child.find("DEFINITION-REF").attrib["DEST"] == "STRING-PARAM-DEF"
+        assert child.find("VALUE").text == ""
+
+    def test_set_string_value_no_value(self, writer):
+        string_value = StringValue()
+        parent = _parent()
+        writer.setStringValue(parent, string_value)
+        child = parent[0]
+        assert child.tag == "STRING-VALUE"
         assert child.find("DEFINITION-REF") is None
         assert child.find("VALUE") is None

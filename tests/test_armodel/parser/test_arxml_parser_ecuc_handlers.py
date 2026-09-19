@@ -7,8 +7,8 @@ from unittest.mock import MagicMock
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import BooleanValue, FloatValue, IntegerValue, ParameterValue
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, RevisionLabelString, UnlimitedInteger
+from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import BooleanValue, FloatValue, IntegerValue, ParameterValue, StringValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, RevisionLabelString, String, UnlimitedInteger
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -2258,3 +2258,60 @@ class TestFloatValue:
         float_value = parser.getFloatValue(element)
         assert float_value.getDefinitionRef() is None
         assert float_value.getValue().getValue() == 1.5
+
+
+class TestStringValue:
+    """Tests for getStringValue handler (R3.2.3 StringValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.36, p.99 (R3.2 Rev 3)
+    """
+
+    def test_get_string_value(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Os/Release</DEFINITION-REF>
+                <VALUE>1.0.0</VALUE>
+            """,
+            root_tag="STRING-VALUE",
+        )
+        string_value = parser.getStringValue(element)
+        assert isinstance(string_value, StringValue)
+        assert string_value.getDefinitionRef().getValue() == "/Os/Release"
+        assert string_value.getDefinitionRef().getDest() is None
+        assert isinstance(string_value.getValue(), String)
+        assert string_value.getValue().getValue() == "1.0.0"
+
+    def test_get_string_value_empty(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF DEST="STRING-PARAM-DEF">/Os/Release</DEFINITION-REF>
+                <VALUE></VALUE>
+            """,
+            root_tag="STRING-VALUE",
+        )
+        string_value = parser.getStringValue(element)
+        assert string_value.getDefinitionRef().getDest() == "STRING-PARAM-DEF"
+        assert isinstance(string_value.getValue(), String)
+        assert string_value.getValue().getValue() == ""
+
+    def test_get_string_value_missing_value(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/Param</DEFINITION-REF>
+            """,
+            root_tag="STRING-VALUE",
+        )
+        string_value = parser.getStringValue(element)
+        assert string_value.getDefinitionRef().getValue() == "/Defs/Param"
+        assert string_value.getValue() is None
+
+    def test_get_string_value_missing_definition_ref(self, parser):
+        element = _snip(
+            """
+                <VALUE>text</VALUE>
+            """,
+            root_tag="STRING-VALUE",
+        )
+        string_value = parser.getStringValue(element)
+        assert string_value.getDefinitionRef() is None
+        assert string_value.getValue().getValue() == "text"

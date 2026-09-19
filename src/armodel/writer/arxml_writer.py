@@ -250,6 +250,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     FloatValue,
     IntegerValue,
     ParameterValue,
+    StringValue,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucAbstractConfigurationClass,
@@ -11176,6 +11177,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "FLOAT-VALUE")
         self.writeParameterValue(child_element, float_value)
         self.setChildElementOptionalFloatValue(child_element, "VALUE", float_value.getValue())
+
+    def setStringValue(self, element: ET.Element, string_value: StringValue):
+        """Write an R3.2.3 <STRING-VALUE> element (Table 3.36): DEFINITION-REF followed by VALUE."""
+        child_element = ET.SubElement(element, "STRING-VALUE")
+        self.writeParameterValue(child_element, string_value)
+        self.setChildElementOptionalString(child_element, "VALUE", string_value.getValue())
 
     def writeEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())
