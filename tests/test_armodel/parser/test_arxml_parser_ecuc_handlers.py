@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucReferenceValue,
     EcucTextualParamValue,
     FloatValue,
+    FunctionNameValue,
     IntegerValue,
     LinkerSymbolValue,
     ParameterValue,
@@ -2413,3 +2414,62 @@ class TestLinkerSymbolValue:
         parser.readLinkerSymbolValue(element, linker_symbol_value)
         assert linker_symbol_value.getDefinitionRef() is None
         assert linker_symbol_value.getValue().getValue() == "RtePimInit"
+
+
+class TestFunctionNameValue:
+    """Tests for readFunctionNameValue handler (R3.2.3 FunctionNameValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.38, p.100 (R3.2 Rev 3)
+    """
+
+    def test_get_function_name_value_without_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Os/OsTask/OsTaskActivation</DEFINITION-REF>
+                <VALUE>OsTaskActivation</VALUE>
+            """,
+            root_tag="FUNCTION-NAME-VALUE",
+        )
+        function_name_value = FunctionNameValue()
+        parser.readFunctionNameValue(element, function_name_value)
+        assert isinstance(function_name_value, FunctionNameValue)
+        assert function_name_value.getDefinitionRef().getValue() == "/Os/OsTask/OsTaskActivation"
+        assert function_name_value.getDefinitionRef().getDest() is None
+        assert function_name_value.getValue().getValue() == "OsTaskActivation"
+
+    def test_get_function_name_value_with_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF DEST="FUNCTION-NAME-DEF">/Os/OsTask/OsTaskActivation</DEFINITION-REF>
+                <VALUE>OsTaskActivation</VALUE>
+            """,
+            root_tag="FUNCTION-NAME-VALUE",
+        )
+        function_name_value = FunctionNameValue()
+        parser.readFunctionNameValue(element, function_name_value)
+        assert function_name_value.getDefinitionRef().getDest() == "FUNCTION-NAME-DEF"
+        assert function_name_value.getValue().getValue() == "OsTaskActivation"
+
+    def test_get_function_name_value_missing_value(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/Function</DEFINITION-REF>
+            """,
+            root_tag="FUNCTION-NAME-VALUE",
+        )
+        function_name_value = FunctionNameValue()
+        parser.readFunctionNameValue(element, function_name_value)
+        assert function_name_value.getDefinitionRef().getValue() == "/Defs/Function"
+        assert function_name_value.getValue() is None
+
+    def test_get_function_name_value_missing_definition_ref(self, parser):
+        element = _snip(
+            """
+                <VALUE>OsTaskActivation</VALUE>
+            """,
+            root_tag="FUNCTION-NAME-VALUE",
+        )
+        function_name_value = FunctionNameValue()
+        parser.readFunctionNameValue(element, function_name_value)
+        assert function_name_value.getDefinitionRef() is None
+        assert function_name_value.getValue().getValue() == "OsTaskActivation"

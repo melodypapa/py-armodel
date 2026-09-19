@@ -89,15 +89,16 @@ Input: R3.2.3 legacy spec `autosar/R3.2.3/pdf/AUTOSAR_ECU_Configuration.pdf` (V2
   - [x] Step 9 — Verify (9a: 9511 passed, lint/black clean) + confirm (9b user OK 2026-09-19)
 - [ ] `FunctionNameValue` — R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.38, p.100 (R3.2 Rev 3)
   - **Step 1 finding:** Base = `ARObject, LinkerSymbolValue, ParameterValue, StringValue` → most-derived = `LinkerSymbolValue`. ZERO own members. XML `FUNCTION-NAME-VALUE` (XSD group — verify line at Step 1). Not in Os_ECUC.arxml; completes section 3.4.4.6 family.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations — **none expected**
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - **Step 1 verified 2026-09-19:** PDF p.100 Table 3.38 — Note "Representing a configuration value of definition type FunctionNameDef", attribute table EMPTY; XSD complexType AUTOSAR.xsd L11696 = `PARAMETER-VALUE group → STRING-VALUE group` (VALUE is String, minOccurs=0 via group); XSD doc = Note verbatim; choice membership PARAMETER-VALUES L6275 (between LINKER-SYMBOL-VALUE and INTEGER-VALUE). Helper-pair only (no ARPackage dispatch — not an ARElement), dispatched from future Container's PARAMETER-VALUES choice loop (LinkerSymbolValue precedent).
+  - [x] Step 1 — Sync members & description from spec — verified 2026-09-19 (see finding above)
+  - [x] Step 2 — Write model class unit test (Red) — 3 tests in TestFunctionNameValue (inheritance/initialization/get_set_value); Red = ImportError at collection (class missing)
+  - [x] Step 3 — Implement model class (Green) — `class FunctionNameValue(LinkerSymbolValue)` appended to ECUCDescriptionTemplate.py (after LinkerSymbolValue); zero own members; 47/47 model tests green
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class created bare in Step 3 (wipe vacuous); class docstring = Table 3.38 Note verbatim ("Representing a configuration value of definition type FunctionNameDef"); no own members → no member docstrings; __init__ docless
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 4 parser tests (without/with DEST, missing VALUE, missing DEFINITION-REF) + 3 writer tests (without/with DEST, empty); Red = AttributeError ×7
+  - [x] Step 6 — Update parser & writer (Green) — parser readFunctionNameValue after readLinkerSymbolValue (delegates to readStringValue: DEFINITION-REF + VALUE-as-String per XSD STRING-VALUE group); writer writeFunctionNameValue after writeLinkerSymbolValue (self-tagging FUNCTION-NAME-VALUE + writeParameterValue + setChildElementOptionalString VALUE); imports extended in both; no ARPackage dispatch (not an ARElement — helper pair only, LinkerSymbolValue precedent); 206/206 ECUC handler tests green
+  - [x] Step 7 — Update checklist comment — 6-column format with release column R3.2.3, 3 rows all [x] (getValue [—]/[x] via writeFunctionNameValue, setValue [x]/[—] via readFunctionNameValue, __init__ [—]/[—]); `# Spec verified:` stamp deferred to batch confirmation (user-instructed 2026-09-19)
+  - [x] Step 8 — Deviations — **none** (zero own members; inherits StringValue's optional-value deviation note, same disclosure as LinkerSymbolValue)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (333 touched tests, lint flake8+ruff clean, black 948 unchanged, parity OK); 9b DEFERRED to batch stamp confirmation (user-instructed 2026-09-19) — marker to be written with the other 6 classes after the batch gate
 - [ ] `EnumerationValue` — R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.39, p.101 (R3.2 Rev 3)
   - **Step 1 finding:** Base = `ParameterValue`. Members: `value` (String, 1, attr — "Stores the chosen literal"). XML `ENUMERATION-VALUE` (XSD group L9269). 13× in Os_ECUC.arxml (`<VALUE>EXTENDED</VALUE>`).
   - [ ] Step 1 — Sync members & description from spec

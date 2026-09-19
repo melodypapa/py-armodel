@@ -352,6 +352,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucTextualParamValue,
     EcucValueCollection,
     FloatValue,
+    FunctionNameValue,
     IntegerValue,
     LinkerSymbolValue,
     ParameterValue,
@@ -11785,6 +11786,10 @@ class ARXMLParser(AbstractARXMLParser):
     def readLinkerSymbolValue(self, element: ET.Element, linker_symbol_value: LinkerSymbolValue):
         """Read an R3.2.3 <LINKER-SYMBOL-VALUE> element (Table 3.37): DEFINITION-REF followed by VALUE."""
         self.readStringValue(element, linker_symbol_value)
+
+    def readFunctionNameValue(self, element: ET.Element, function_name_value: FunctionNameValue):
+        """Read an R3.2.3 <FUNCTION-NAME-VALUE> element (Table 3.38): DEFINITION-REF followed by VALUE."""
+        self.readStringValue(element, function_name_value)
 
     def readEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))

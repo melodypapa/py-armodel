@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucReferenceValue,
     EcucTextualParamValue,
     FloatValue,
+    FunctionNameValue,
     IntegerValue,
     LinkerSymbolValue,
     ParameterValue,
@@ -1068,5 +1069,46 @@ class TestLinkerSymbolValueWrite:
         writer.writeLinkerSymbolValue(parent, linker_symbol_value)
         child = parent[0]
         assert child.tag == "LINKER-SYMBOL-VALUE"
+        assert child.find("DEFINITION-REF") is None
+        assert child.find("VALUE") is None
+
+
+class TestFunctionNameValueWrite:
+    """Tests for writeFunctionNameValue handler (R3.2.3 FunctionNameValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.38, p.100 (R3.2 Rev 3)
+    """
+
+    def test_set_function_name_value_without_dest(self, writer):
+        function_name_value = FunctionNameValue()
+        function_name_value.setDefinitionRef(_ref("/Os/OsTask/OsTaskActivation"))
+        function_name_value.setValue(String().setValue("OsTaskActivation"))
+        parent = _parent()
+        writer.writeFunctionNameValue(parent, function_name_value)
+        child = parent[0]
+        assert child.tag == "FUNCTION-NAME-VALUE"
+        def_ref = child.find("DEFINITION-REF")
+        assert def_ref is not None
+        assert "DEST" not in def_ref.attrib
+        assert def_ref.text == "/Os/OsTask/OsTaskActivation"
+        assert child.find("VALUE").text == "OsTaskActivation"
+
+    def test_set_function_name_value_with_dest(self, writer):
+        function_name_value = FunctionNameValue()
+        function_name_value.setDefinitionRef(_ref("/Os/OsTask/OsTaskActivation", "FUNCTION-NAME-DEF"))
+        function_name_value.setValue(String().setValue("OsTaskActivation"))
+        parent = _parent()
+        writer.writeFunctionNameValue(parent, function_name_value)
+        child = parent[0]
+        assert child.tag == "FUNCTION-NAME-VALUE"
+        assert child.find("DEFINITION-REF").attrib["DEST"] == "FUNCTION-NAME-DEF"
+        assert child.find("VALUE").text == "OsTaskActivation"
+
+    def test_set_function_name_value_empty(self, writer):
+        function_name_value = FunctionNameValue()
+        parent = _parent()
+        writer.writeFunctionNameValue(parent, function_name_value)
+        child = parent[0]
+        assert child.tag == "FUNCTION-NAME-VALUE"
         assert child.find("DEFINITION-REF") is None
         assert child.find("VALUE") is None

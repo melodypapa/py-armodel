@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucTextualParamValue,
     EcucValueCollection,
     FloatValue,
+    FunctionNameValue,
     IntegerValue,
     LinkerSymbolValue,
     ParameterValue,
@@ -404,5 +405,31 @@ class TestLinkerSymbolValue:
         assert result is obj
         assert obj.getValue() == value
         assert obj.getValue().getValue() == "RtePimInit"
+        obj.setValue(None)
+        assert obj.getValue() == value
+
+
+class TestFunctionNameValue:
+    """
+    Test class for FunctionNameValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.38, p.100 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(FunctionNameValue, LinkerSymbolValue)
+
+    def test_initialization_defaults(self):
+        obj = FunctionNameValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValue() is None
+
+    def test_get_set_value(self):
+        obj = FunctionNameValue()
+        value = String().setValue("OsTaskActivation")
+        result = obj.setValue(value)
+        assert result is obj
+        assert obj.getValue() == value
+        assert obj.getValue().getValue() == "OsTaskActivation"
         obj.setValue(None)
         assert obj.getValue() == value

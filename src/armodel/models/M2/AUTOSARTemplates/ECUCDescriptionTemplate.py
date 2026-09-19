@@ -741,3 +741,18 @@ class LinkerSymbolValue(StringValue):
 
     def __init__(self):
         super().__init__()
+
+
+class FunctionNameValue(LinkerSymbolValue):
+    """
+    Representing a configuration value of definition type FunctionNameDef
+    """
+
+    # FunctionNameValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.38, p.100 (R3.2 Rev 3)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
+    # [x] getValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] setValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # ZERO own members (spec Table 3.38 attribute table is empty); inherits
+    # definitionRef from ParameterValue and value from StringValue.

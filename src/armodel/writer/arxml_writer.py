@@ -248,6 +248,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucTextualParamValue,
     EcucValueCollection,
     FloatValue,
+    FunctionNameValue,
     IntegerValue,
     LinkerSymbolValue,
     ParameterValue,
@@ -11190,6 +11191,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "LINKER-SYMBOL-VALUE")
         self.writeParameterValue(child_element, linker_symbol_value)
         self.setChildElementOptionalString(child_element, "VALUE", linker_symbol_value.getValue())
+
+    def writeFunctionNameValue(self, element: ET.Element, function_name_value: FunctionNameValue):
+        """Write an R3.2.3 <FUNCTION-NAME-VALUE> element (Table 3.38): DEFINITION-REF followed by VALUE."""
+        child_element = ET.SubElement(element, "FUNCTION-NAME-VALUE")
+        self.writeParameterValue(child_element, function_name_value)
+        self.setChildElementOptionalString(child_element, "VALUE", function_name_value.getValue())
 
     def writeEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())
