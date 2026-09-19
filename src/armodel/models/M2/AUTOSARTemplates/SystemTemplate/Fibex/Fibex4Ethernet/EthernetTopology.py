@@ -3261,3 +3261,328 @@ class EthernetPhysicalChannel(PhysicalChannel):
             self.vlan = config
             self.addElement(config)
         return self.getElement(short_name, VlanConfig)
+
+
+class TcpProps(ARObject):
+    """This meta-class specifies the configuration options for TCP (Transmission Control Protocol).
+
+    [constr_5119] Value range of TcpProps.tcpTtl: If defined, the value of TcpProps.tcpTtl shall be in the range of 1..255.
+
+    [constr_5120] Value range of TcpProps.tcpDelayedAckTimeout: If defined, the value of TcpProps.tcpDelayedAckTimeout shall be in the range of 0..0.5.
+
+    [constr_5121] Value range of TcpProps.tcpSynMaxRtx: If defined, the value of TcpProps.tcpSynMaxRtx shall be in the range of 0..255.
+    """
+
+    # TcpProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.111, p.155 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTcpCongestionAvoidanceEnabled     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpCongestionAvoidanceEnabled     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpDelayedAckTimeout              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpDelayedAckTimeout              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpFastRecoveryEnabled            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpFastRecoveryEnabled            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpFastRetransmitEnabled          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpFastRetransmitEnabled          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpFinWait2Timeout                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpFinWait2Timeout                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpKeepAliveEnabled               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpKeepAliveEnabled               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpKeepAliveInterval              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpKeepAliveInterval              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpKeepAliveProbesMax             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpKeepAliveProbesMax             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpKeepAliveTime                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpKeepAliveTime                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpMaxRtx                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpMaxRtx                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpMsl                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpMsl                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpNagleEnabled                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpNagleEnabled                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpReceiveWindowMax               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpReceiveWindowMax               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpRetransmissionTimeout          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpRetransmissionTimeout          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpSlowStartEnabled               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpSlowStartEnabled               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpSynMaxRtx                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpSynMaxRtx                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpSynReceivedTimeout             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpSynReceivedTimeout             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpTtl                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpTtl                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Enables (TRUE) or disables (FALSE) support of TCP congestion avoidance algorithm according to IETF RFC 5681.
+        self.tcpCongestionAvoidanceEnabled: Optional[Boolean] = None
+
+        # The maximal time an acknowledgement is delayed for transmission in seconds.
+        self.tcpDelayedAckTimeout: Optional[TimeValue] = None
+
+        # Enables (TRUE) or disables (FALSE) support of TCP Fast Recovery according to IETF RFC 5681.
+        self.tcpFastRecoveryEnabled: Optional[Boolean] = None
+
+        # Enables (TRUE) or disables (FALSE) support of TCP Fast Retransmission according to IETF RFC 5681.
+        self.tcpFastRetransmitEnabled: Optional[Boolean] = None
+
+        # Timeout in [s] to receive a FIN from the remote node (after this node has initiated connection termination), i.e. maximum time waiting in FINWAIT-2 for a connection termination request from the remote TCP.
+        self.tcpFinWait2Timeout: Optional[TimeValue] = None
+
+        # Enables (TRUE) or disables (FALSE) TCP Keep Alive Probes according to IETF RFC 1122 chapter 4.2.3.6.
+        self.tcpKeepAliveEnabled: Optional[Boolean] = None
+
+        # Specifies the interval in seconds between subsequent keepalive probes.
+        self.tcpKeepAliveInterval: Optional[TimeValue] = None
+
+        # Maximum number of times that a TCP Keep Alive is retransmitted before the connection is closed.
+        self.tcpKeepAliveProbesMax: Optional[PositiveInteger] = None
+
+        # Specifies the time in [s] between the last data packet sent (simple ACKs are not considered data) and the first keepalive probe.
+        self.tcpKeepAliveTime: Optional[TimeValue] = None
+
+        # Maximum number of times that a TCP segment is retransmitted before the TCP connection is closed. This parameter is only valid if tcpRetransmissionTimeout is configured. Note: This parameter also applies for FIN retransmissions.
+        self.tcpMaxRtx: Optional[PositiveInteger] = None
+
+        # Maximum segment lifetime in [s].
+        self.tcpMsl: Optional[TimeValue] = None
+
+        # Enables (TRUE) or disables (FALSE) support of Nagle's algorithm according to IETF RFC 1122 (chapter 4.2.3.4 When to Send Data). If enabled the Nagle's algorithm is activated per default for all TCP sockets, but can be deactivated per Socket (with the attribute TcpTp.nagleAlgorithm).
+        self.tcpNagleEnabled: Optional[Boolean] = None
+
+        # Default value of maximum receive window in bytes.
+        self.tcpReceiveWindowMax: Optional[PositiveInteger] = None
+
+        # Timeout in [s] before an unacknowledged TCP segment is sent again. If the timeout is disabled, no TCP segments shall be retransmitted.
+        self.tcpRetransmissionTimeout: Optional[TimeValue] = None
+
+        # Enables (TRUE) or disables (FALSE) support of TCP slow start algorithm according to IETF RFC 5681.
+        self.tcpSlowStartEnabled: Optional[Boolean] = None
+
+        # Maximum number of times that a TCP SYN is retransmitted.
+        self.tcpSynMaxRtx: Optional[PositiveInteger] = None
+
+        # Timeout in [s] to complete a remotely initiated TCP connection establishment, i.e. maximum time waiting in SYN-RECEIVED for a confirming connection request acknowledgement after having both received and sent a connection request.
+        self.tcpSynReceivedTimeout: Optional[TimeValue] = None
+
+        # Default Time-to-live value of outgoing TCP packets.
+        self.tcpTtl: Optional[PositiveInteger] = None
+
+    def getTcpCongestionAvoidanceEnabled(self) -> Optional[Boolean]:
+        """Enables (TRUE) or disables (FALSE) support of TCP congestion avoidance algorithm according to IETF RFC 5681."""
+        return self.tcpCongestionAvoidanceEnabled
+
+    def setTcpCongestionAvoidanceEnabled(self, value: Optional[Boolean]) -> "TcpProps":
+        """Enables (TRUE) or disables (FALSE) support of TCP congestion avoidance algorithm according to IETF RFC 5681.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpCongestionAvoidanceEnabled = value
+        return self
+
+    def getTcpDelayedAckTimeout(self) -> Optional[TimeValue]:
+        """The maximal time an acknowledgement is delayed for transmission in seconds."""
+        return self.tcpDelayedAckTimeout
+
+    def setTcpDelayedAckTimeout(self, value: Optional[TimeValue]) -> "TcpProps":
+        """The maximal time an acknowledgement is delayed for transmission in seconds.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpDelayedAckTimeout = value
+        return self
+
+    def getTcpFastRecoveryEnabled(self) -> Optional[Boolean]:
+        """Enables (TRUE) or disables (FALSE) support of TCP Fast Recovery according to IETF RFC 5681."""
+        return self.tcpFastRecoveryEnabled
+
+    def setTcpFastRecoveryEnabled(self, value: Optional[Boolean]) -> "TcpProps":
+        """Enables (TRUE) or disables (FALSE) support of TCP Fast Recovery according to IETF RFC 5681.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpFastRecoveryEnabled = value
+        return self
+
+    def getTcpFastRetransmitEnabled(self) -> Optional[Boolean]:
+        """Enables (TRUE) or disables (FALSE) support of TCP Fast Retransmission according to IETF RFC 5681."""
+        return self.tcpFastRetransmitEnabled
+
+    def setTcpFastRetransmitEnabled(self, value: Optional[Boolean]) -> "TcpProps":
+        """Enables (TRUE) or disables (FALSE) support of TCP Fast Retransmission according to IETF RFC 5681.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpFastRetransmitEnabled = value
+        return self
+
+    def getTcpFinWait2Timeout(self) -> Optional[TimeValue]:
+        """Timeout in [s] to receive a FIN from the remote node (after this node has initiated connection termination), i.e. maximum time waiting in FINWAIT-2 for a connection termination request from the remote TCP."""
+        return self.tcpFinWait2Timeout
+
+    def setTcpFinWait2Timeout(self, value: Optional[TimeValue]) -> "TcpProps":
+        """Timeout in [s] to receive a FIN from the remote node (after this node has initiated connection termination), i.e. maximum time waiting in FINWAIT-2 for a connection termination request from the remote TCP.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpFinWait2Timeout = value
+        return self
+
+    def getTcpKeepAliveEnabled(self) -> Optional[Boolean]:
+        """Enables (TRUE) or disables (FALSE) TCP Keep Alive Probes according to IETF RFC 1122 chapter 4.2.3.6."""
+        return self.tcpKeepAliveEnabled
+
+    def setTcpKeepAliveEnabled(self, value: Optional[Boolean]) -> "TcpProps":
+        """Enables (TRUE) or disables (FALSE) TCP Keep Alive Probes according to IETF RFC 1122 chapter 4.2.3.6.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpKeepAliveEnabled = value
+        return self
+
+    def getTcpKeepAliveInterval(self) -> Optional[TimeValue]:
+        """Specifies the interval in seconds between subsequent keepalive probes."""
+        return self.tcpKeepAliveInterval
+
+    def setTcpKeepAliveInterval(self, value: Optional[TimeValue]) -> "TcpProps":
+        """Specifies the interval in seconds between subsequent keepalive probes.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpKeepAliveInterval = value
+        return self
+
+    def getTcpKeepAliveProbesMax(self) -> Optional[PositiveInteger]:
+        """Maximum number of times that a TCP Keep Alive is retransmitted before the connection is closed."""
+        return self.tcpKeepAliveProbesMax
+
+    def setTcpKeepAliveProbesMax(self, value: Optional[PositiveInteger]) -> "TcpProps":
+        """Maximum number of times that a TCP Keep Alive is retransmitted before the connection is closed.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpKeepAliveProbesMax = value
+        return self
+
+    def getTcpKeepAliveTime(self) -> Optional[TimeValue]:
+        """Specifies the time in [s] between the last data packet sent (simple ACKs are not considered data) and the first keepalive probe."""
+        return self.tcpKeepAliveTime
+
+    def setTcpKeepAliveTime(self, value: Optional[TimeValue]) -> "TcpProps":
+        """Specifies the time in [s] between the last data packet sent (simple ACKs are not considered data) and the first keepalive probe.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpKeepAliveTime = value
+        return self
+
+    def getTcpMaxRtx(self) -> Optional[PositiveInteger]:
+        """Maximum number of times that a TCP segment is retransmitted before the TCP connection is closed. This parameter is only valid if tcpRetransmissionTimeout is configured. Note: This parameter also applies for FIN retransmissions."""
+        return self.tcpMaxRtx
+
+    def setTcpMaxRtx(self, value: Optional[PositiveInteger]) -> "TcpProps":
+        """Maximum number of times that a TCP segment is retransmitted before the TCP connection is closed. This parameter is only valid if tcpRetransmissionTimeout is configured. Note: This parameter also applies for FIN retransmissions.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpMaxRtx = value
+        return self
+
+    def getTcpMsl(self) -> Optional[TimeValue]:
+        """Maximum segment lifetime in [s]."""
+        return self.tcpMsl
+
+    def setTcpMsl(self, value: Optional[TimeValue]) -> "TcpProps":
+        """Maximum segment lifetime in [s].
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpMsl = value
+        return self
+
+    def getTcpNagleEnabled(self) -> Optional[Boolean]:
+        """Enables (TRUE) or disables (FALSE) support of Nagle's algorithm according to IETF RFC 1122 (chapter 4.2.3.4 When to Send Data). If enabled the Nagle's algorithm is activated per default for all TCP sockets, but can be deactivated per Socket (with the attribute TcpTp.nagleAlgorithm)."""
+        return self.tcpNagleEnabled
+
+    def setTcpNagleEnabled(self, value: Optional[Boolean]) -> "TcpProps":
+        """Enables (TRUE) or disables (FALSE) support of Nagle's algorithm according to IETF RFC 1122 (chapter 4.2.3.4 When to Send Data). If enabled the Nagle's algorithm is activated per default for all TCP sockets, but can be deactivated per Socket (with the attribute TcpTp.nagleAlgorithm).
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpNagleEnabled = value
+        return self
+
+    def getTcpReceiveWindowMax(self) -> Optional[PositiveInteger]:
+        """Default value of maximum receive window in bytes."""
+        return self.tcpReceiveWindowMax
+
+    def setTcpReceiveWindowMax(self, value: Optional[PositiveInteger]) -> "TcpProps":
+        """Default value of maximum receive window in bytes.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpReceiveWindowMax = value
+        return self
+
+    def getTcpRetransmissionTimeout(self) -> Optional[TimeValue]:
+        """Timeout in [s] before an unacknowledged TCP segment is sent again. If the timeout is disabled, no TCP segments shall be retransmitted."""
+        return self.tcpRetransmissionTimeout
+
+    def setTcpRetransmissionTimeout(self, value: Optional[TimeValue]) -> "TcpProps":
+        """Timeout in [s] before an unacknowledged TCP segment is sent again. If the timeout is disabled, no TCP segments shall be retransmitted.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpRetransmissionTimeout = value
+        return self
+
+    def getTcpSlowStartEnabled(self) -> Optional[Boolean]:
+        """Enables (TRUE) or disables (FALSE) support of TCP slow start algorithm according to IETF RFC 5681."""
+        return self.tcpSlowStartEnabled
+
+    def setTcpSlowStartEnabled(self, value: Optional[Boolean]) -> "TcpProps":
+        """Enables (TRUE) or disables (FALSE) support of TCP slow start algorithm according to IETF RFC 5681.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpSlowStartEnabled = value
+        return self
+
+    def getTcpSynMaxRtx(self) -> Optional[PositiveInteger]:
+        """Maximum number of times that a TCP SYN is retransmitted."""
+        return self.tcpSynMaxRtx
+
+    def setTcpSynMaxRtx(self, value: Optional[PositiveInteger]) -> "TcpProps":
+        """Maximum number of times that a TCP SYN is retransmitted.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpSynMaxRtx = value
+        return self
+
+    def getTcpSynReceivedTimeout(self) -> Optional[TimeValue]:
+        """Timeout in [s] to complete a remotely initiated TCP connection establishment, i.e. maximum time waiting in SYN-RECEIVED for a confirming connection request acknowledgement after having both received and sent a connection request."""
+        return self.tcpSynReceivedTimeout
+
+    def setTcpSynReceivedTimeout(self, value: Optional[TimeValue]) -> "TcpProps":
+        """Timeout in [s] to complete a remotely initiated TCP connection establishment, i.e. maximum time waiting in SYN-RECEIVED for a confirming connection request acknowledgement after having both received and sent a connection request.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpSynReceivedTimeout = value
+        return self
+
+    def getTcpTtl(self) -> Optional[PositiveInteger]:
+        """Default Time-to-live value of outgoing TCP packets."""
+        return self.tcpTtl
+
+    def setTcpTtl(self, value: Optional[PositiveInteger]) -> "TcpProps":
+        """Default Time-to-live value of outgoing TCP packets.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpTtl = value
+        return self

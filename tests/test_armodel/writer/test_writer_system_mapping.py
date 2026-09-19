@@ -43,6 +43,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordTypeMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import J1939Cluster
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import TcpProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import (  # noqa: E501
     IPduMapping,
     ISignalMapping,
@@ -1850,3 +1851,45 @@ class TestWriterJ1939Cluster:
         assert conditional.find("NETWORK-ID") is None
         assert conditional.find("REQUEST-2-SUPPORT") is None
         assert conditional.find("USES-ADDRESS-ARBITRATION") is None
+
+
+def _time_value(val=1.0):
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue
+
+    return TimeValue().setValue(val)
+
+
+class TestWriterTcpProps:
+    """Tests for writeTcpProps handler (R23-11 TcpProps, Table 3.111, p.155)."""
+
+    def _make_props(self):
+        props = TcpProps()
+        props.setTcpCongestionAvoidanceEnabled(_boolean(True))
+        props.setTcpDelayedAckTimeout(_time_value(0.1))
+        props.setTcpKeepAliveProbesMax(_positive_int(5))
+        props.setTcpMaxRtx(_positive_int(4))
+        props.setTcpNagleEnabled(_boolean(False))
+        props.setTcpRetransmissionTimeout(_time_value(0.5))
+        props.setTcpTtl(_positive_int(64))
+        return props
+
+    def test_members_in_xsd_order(self, writer):
+        props = self._make_props()
+        parent = _parent()
+        writer.writeTcpProps(parent, props)
+
+        child = parent.find("TCP-PROPS")
+        assert child is not None
+        tags = [c.tag for c in child]
+        assert tags[:2] == ["TCP-CONGESTION-AVOIDANCE-ENABLED", "TCP-DELAYED-ACK-TIMEOUT"]
+        assert tags.index("TCP-KEEP-ALIVE-PROBES-MAX") < tags.index("TCP-MAX-RTX") < tags.index("TCP-NAGLE-ENABLED")
+        assert child.find("TCP-TTL").text == "64"
+        assert child.find("TCP-NAGLE-ENABLED").text == "false"
+
+    def test_none_members_not_emitted(self, writer):
+        props = TcpProps()
+        parent = _parent()
+        writer.writeTcpProps(parent, props)
+        child = parent.find("TCP-PROPS")
+        assert child is not None
+        assert len(child) == 0

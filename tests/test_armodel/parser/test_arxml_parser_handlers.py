@@ -25,6 +25,7 @@ from armodel.models import (
     InstanceEventInCompositionInstanceRef,
     InstantiationTimingEventProps,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import TcpProps
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -2521,3 +2522,38 @@ class TestReadJ1939Cluster:
         assert cluster.getNetworkId() is None
         assert cluster.getRequest2Support() is None
         assert cluster.getUsesAddressArbitration() is None
+
+
+class TestReadTcpProps:
+    """Tests for readTcpProps handler (R23-11 TcpProps, Table 3.111, p.155)."""
+
+    def test_read_tcp_props_full(self, parser):
+        element = _snip(
+            """
+                <TCP-CONGESTION-AVOIDANCE-ENABLED>true</TCP-CONGESTION-AVOIDANCE-ENABLED>
+                <TCP-DELAYED-ACK-TIMEOUT>0.1</TCP-DELAYED-ACK-TIMEOUT>
+                <TCP-KEEP-ALIVE-PROBES-MAX>5</TCP-KEEP-ALIVE-PROBES-MAX>
+                <TCP-MAX-RTX>4</TCP-MAX-RTX>
+                <TCP-NAGLE-ENABLED>false</TCP-NAGLE-ENABLED>
+                <TCP-RETRANSMISSION-TIMEOUT>0.5</TCP-RETRANSMISSION-TIMEOUT>
+                <TCP-TTL>64</TCP-TTL>
+            """,
+            root_tag="TCP-PROPS",
+        )
+        props = TcpProps()
+        parser.readTcpProps(element, props)
+        assert props.getTcpCongestionAvoidanceEnabled().getValue() is True
+        assert props.getTcpDelayedAckTimeout().getValue() == 0.1
+        assert props.getTcpKeepAliveProbesMax().getValue() == 5
+        assert props.getTcpMaxRtx().getValue() == 4
+        assert props.getTcpNagleEnabled().getValue() is False
+        assert props.getTcpRetransmissionTimeout().getValue() == 0.5
+        assert props.getTcpTtl().getValue() == 64
+
+    def test_read_tcp_props_empty(self, parser):
+        element = _snip("", root_tag="TCP-PROPS")
+        props = TcpProps()
+        parser.readTcpProps(element, props)
+        assert props.getTcpTtl() is None
+        assert props.getTcpNagleEnabled() is None
+        assert props.getTcpRetransmissionTimeout() is None

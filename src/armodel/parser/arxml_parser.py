@@ -776,6 +776,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     TpPort,
     TransportProtocolConfiguration,
     UdpTp,
+    TcpProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
@@ -9359,6 +9360,27 @@ class ARXMLParser(AbstractARXMLParser):
             cluster.setNetworkId(self.getChildElementOptionalPositiveInteger(child_element, "NETWORK-ID"))
             cluster.setRequest2Support(self.getChildElementOptionalBooleanValue(child_element, "REQUEST-2-SUPPORT"))
             cluster.setUsesAddressArbitration(self.getChildElementOptionalBooleanValue(child_element, "USES-ADDRESS-ARBITRATION"))
+
+    def readTcpProps(self, element: ET.Element, props: TcpProps):
+        """Read an R23-11 <TCP-PROPS> element (Table 3.111, p.155): 18 optional attributes in XSD order."""
+        props.setTcpCongestionAvoidanceEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-CONGESTION-AVOIDANCE-ENABLED"))
+        props.setTcpDelayedAckTimeout(self.getChildElementOptionalTimeValue(element, "TCP-DELAYED-ACK-TIMEOUT"))
+        props.setTcpFastRecoveryEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-FAST-RECOVERY-ENABLED"))
+        props.setTcpFastRetransmitEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-FAST-RETRANSMIT-ENABLED"))
+        props.setTcpFinWait2Timeout(self.getChildElementOptionalTimeValue(element, "TCP-FIN-WAIT2TIMEOUT"))
+        props.setTcpKeepAliveEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-KEEP-ALIVE-ENABLED"))
+        props.setTcpKeepAliveInterval(self.getChildElementOptionalTimeValue(element, "TCP-KEEP-ALIVE-INTERVAL"))
+        props.setTcpKeepAliveProbesMax(self.getChildElementOptionalPositiveInteger(element, "TCP-KEEP-ALIVE-PROBES-MAX"))
+        props.setTcpKeepAliveTime(self.getChildElementOptionalTimeValue(element, "TCP-KEEP-ALIVE-TIME"))
+        props.setTcpMaxRtx(self.getChildElementOptionalPositiveInteger(element, "TCP-MAX-RTX"))
+        props.setTcpMsl(self.getChildElementOptionalTimeValue(element, "TCP-MSL"))
+        props.setTcpNagleEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-NAGLE-ENABLED"))
+        props.setTcpReceiveWindowMax(self.getChildElementOptionalPositiveInteger(element, "TCP-RECEIVE-WINDOW-MAX"))
+        props.setTcpRetransmissionTimeout(self.getChildElementOptionalTimeValue(element, "TCP-RETRANSMISSION-TIMEOUT"))
+        props.setTcpSlowStartEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-SLOW-START-ENABLED"))
+        props.setTcpSynMaxRtx(self.getChildElementOptionalPositiveInteger(element, "TCP-SYN-MAX-RTX"))
+        props.setTcpSynReceivedTimeout(self.getChildElementOptionalTimeValue(element, "TCP-SYN-RECEIVED-TIMEOUT"))
+        props.setTcpTtl(self.getChildElementOptionalPositiveInteger(element, "TCP-TTL"))
 
     def readFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
         self.logger.debug("Read FlexrayCluster <%s>" % cluster.getShortName())
