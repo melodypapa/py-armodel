@@ -76,17 +76,17 @@ Input: R3.2.3 legacy spec `autosar/R3.2.3/pdf/AUTOSAR_ECU_Configuration.pdf` (V2
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — `value` optional per XSD (spec says 1); empty VALUE sample
   - [x] Step 9 — Verify (9a: 9501 passed, lint/black clean) + confirm (9b user OK 2026-09-19)
-- [ ] `LinkerSymbolValue` — R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.37, p.100 (R3.2 Rev 3)
+- [x] `LinkerSymbolValue` — R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.37, p.100 (R3.2 Rev 3) — DONE 2026-09-19, commit `c3e791a5` (handlers refactored to read/write-fill style in `772c3467`)
   - **Step 1 finding:** Base = `ARObject, ParameterValue, StringValue` → most-derived = `StringValue`. ZERO own members. XML `LINKER-SYMBOL-VALUE` (XSD group — verify line at Step 1). Not in Os_ECUC.arxml; completes section 3.4.4.5 family.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations — **none expected**
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none** (no own members; inherits StringValue's optional-value deviation)
+  - [x] Step 9 — Verify (9a: 9511 passed, lint/black clean) + confirm (9b user OK 2026-09-19)
 - [ ] `FunctionNameValue` — R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.38, p.100 (R3.2 Rev 3)
   - **Step 1 finding:** Base = `ARObject, LinkerSymbolValue, ParameterValue, StringValue` → most-derived = `LinkerSymbolValue`. ZERO own members. XML `FUNCTION-NAME-VALUE` (XSD group — verify line at Step 1). Not in Os_ECUC.arxml; completes section 3.4.4.6 family.
   - [ ] Step 1 — Sync members & description from spec
