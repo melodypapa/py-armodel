@@ -24,6 +24,7 @@ class InterpolationRoutine(ARObject):
 
     # InterpolationRoutine method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 2.6, pp.46-47 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getInterpolationRoutineRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -103,6 +104,7 @@ class InterpolationRoutineMapping(ARObject):
 
     # InterpolationRoutineMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 2.5, p.46 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getInterpolationRoutines    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -165,6 +167,7 @@ class InterpolationRoutineMappingSet(ARElement):
 
     # InterpolationRoutineMappingSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 2.4, p.46 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getInterpolationRoutineMappings       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

@@ -130,6 +130,7 @@ class OperationInSystemInstanceRef(AtpInstanceRef):
 
     # OperationInSystemInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table B.2, p.1002 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBaseRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -224,6 +225,7 @@ class PortGroupInSystemInstanceRef(AtpInstanceRef):
 
     # PortGroupInSystemInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table B.5, p.1007 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBaseRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

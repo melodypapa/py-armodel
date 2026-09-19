@@ -14,6 +14,7 @@ class SwComponentPrototypeAssignment(ARObject, VariationPointCapable):
 
     # SwComponentPrototypeAssignment method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.2, p.894 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getSwComponentIRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -49,6 +50,7 @@ class CpSoftwareCluster(ARElement):
 
     # CpSoftwareCluster method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.1, p.894 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getSoftwareClusterId         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

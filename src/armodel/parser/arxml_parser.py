@@ -697,8 +697,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     ClientIdDefinition,
     ClientIdDefinitionSet,
     ComManagementMapping,
-    J1939SharedAddressCluster,
     CpSoftwareCluster,
+    J1939SharedAddressCluster,
     SwComponentPrototypeAssignment,
     SwcToEcuMapping,
     System,
@@ -12518,6 +12518,15 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "FIBEX-ELEMENTS/FIBEX-ELEMENT-REF-CONDITIONAL/FIBEX-ELEMENT-REF"):
             system.addFibexElementRef(ref)
 
+    def readSystemDocumentations(self, element: ET.Element, system: System):
+        for chapter_element in self.findall(element, "SYSTEM-DOCUMENTATIONS/CHAPTER"):
+            chapter = system.createSystemDocumentation(self.getShortName(chapter_element))
+            self.readChapterBody(chapter_element, chapter)
+
+    def readSystemClientIdDefinitionSetRefs(self, element: ET.Element, system: System):
+        for ref in self.getChildElementRefTypeList(element, "CLIENT-ID-DEFINITION-SET-REFS/CLIENT-ID-DEFINITION-SET-REF"):
+            system.addClientIdDefinitionSetRef(ref)
+
     def readClientIdDefinition(self, element: ET.Element, id_definition: ClientIdDefinition):
         self.readIdentifiable(element, id_definition)
         id_definition.setClientId(self.getChildElementOptionalNumerical(element, "CLIENT-ID"))
@@ -12574,15 +12583,6 @@ class ARXMLParser(AbstractARXMLParser):
             self.readSwComponentPrototypeAssignment(child_element, assignment)
         for ref in self.getChildElementRefTypeList(element, "SW-COMPOSITIONS/COMPOSITION-SW-COMPONENT-TYPE-REF-CONDITIONAL/COMPOSITION-SW-COMPONENT-TYPE-REF"):
             cluster.addSwCompositionRef(ref)
-
-    def readSystemDocumentations(self, element: ET.Element, system: System):
-        for chapter_element in self.findall(element, "SYSTEM-DOCUMENTATIONS/CHAPTER"):
-            chapter = system.createSystemDocumentation(self.getShortName(chapter_element))
-            self.readChapterBody(chapter_element, chapter)
-
-    def readSystemClientIdDefinitionSetRefs(self, element: ET.Element, system: System):
-        for ref in self.getChildElementRefTypeList(element, "CLIENT-ID-DEFINITION-SET-REFS/CLIENT-ID-DEFINITION-SET-REF"):
-            system.addClientIdDefinitionSetRef(ref)
 
     def readSystemInterpolationRoutineMappingSetRefs(self, element: ET.Element, system: System):
         for ref in self.getChildElementRefTypeList(element, "INTERPOLATION-ROUTINE-MAPPING-SET-REFS/INTERPOLATION-ROUTINE-MAPPING-SET-REF"):

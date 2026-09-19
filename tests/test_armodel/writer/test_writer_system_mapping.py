@@ -1604,6 +1604,9 @@ class TestWriterClientIdDefinitionSet:
         package_2 = document_2.getARPackages()[0]
         id_definition_set_2 = package_2.getElement("IDS1", ClientIdDefinitionSet)
         assert id_definition_set_2 is not None
+        definitions = id_definition_set_2.getClientIdDefinitions()
+        assert len(definitions) == 1
+        assert definitions[0].getShortName() == "CID1"
 
 
 class TestWriterInterpolationRoutine:

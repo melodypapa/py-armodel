@@ -622,8 +622,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     ClientIdDefinition,
     ClientIdDefinitionSet,
     ComManagementMapping,
-    J1939SharedAddressCluster,
     CpSoftwareCluster,
+    J1939SharedAddressCluster,
     SwComponentPrototypeAssignment,
     SwcToEcuMapping,
     System,
@@ -10969,6 +10969,36 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element = ET.SubElement(fibex_elements_tag, "FIBEX-ELEMENT-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(child_element, "FIBEX-ELEMENT-REF", ref)
 
+    def writeSystemDocumentations(self, element: ET.Element, system: System):
+        chapters = system.getSystemDocumentations()
+        if len(chapters) > 0:
+            documentations_tag = ET.SubElement(element, "SYSTEM-DOCUMENTATIONS")
+            for chapter in chapters:
+                self.writeChapter(documentations_tag, chapter, "CHAPTER")
+
+    def writeSystemClientIdDefinitionSetRefs(self, element: ET.Element, system: System):
+        refs = system.getClientIdDefinitionSetRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "CLIENT-ID-DEFINITION-SET-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "CLIENT-ID-DEFINITION-SET-REF", ref)
+
+    def writeSystemInterpolationRoutineMappingSetRefs(self, element: ET.Element, system: System):
+        refs = system.getInterpolationRoutineMappingSetRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "INTERPOLATION-ROUTINE-MAPPING-SET-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "INTERPOLATION-ROUTINE-MAPPING-SET-REF", ref)
+
+    def writeJ1939SharedAddressCluster(self, element: ET.Element, cluster: J1939SharedAddressCluster):
+        self.writeIdentifiable(element, cluster, write_variation_point=False)
+        refs = cluster.getParticipatingJ1939ClusterRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "PARTICIPATING-J-1939-CLUSTER-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "PARTICIPATING-J-1939-CLUSTER-REF", ref)
+        self.writeVariationPoint(element, cluster.getVariationPoint())
+
     def writeClientIdDefinition(self, element: ET.Element, id_definition: ClientIdDefinition):
         child_element = ET.SubElement(element, "CLIENT-ID-DEFINITION")
         self.writeIdentifiable(child_element, id_definition, write_variation_point=False)
@@ -11034,36 +11064,6 @@ class ARXMLWriter(AbstractARXMLWriter):
             mappings_tag = ET.SubElement(child_element, "INTERPOLATION-ROUTINE-MAPPINGS")
             for mapping in mappings:
                 self.writeInterpolationRoutineMapping(mappings_tag, mapping)
-
-    def writeSystemDocumentations(self, element: ET.Element, system: System):
-        chapters = system.getSystemDocumentations()
-        if len(chapters) > 0:
-            documentations_tag = ET.SubElement(element, "SYSTEM-DOCUMENTATIONS")
-            for chapter in chapters:
-                self.writeChapter(documentations_tag, chapter, "CHAPTER")
-
-    def writeSystemClientIdDefinitionSetRefs(self, element: ET.Element, system: System):
-        refs = system.getClientIdDefinitionSetRefs()
-        if len(refs) > 0:
-            refs_tag = ET.SubElement(element, "CLIENT-ID-DEFINITION-SET-REFS")
-            for ref in refs:
-                self.setChildElementOptionalRefType(refs_tag, "CLIENT-ID-DEFINITION-SET-REF", ref)
-
-    def writeSystemInterpolationRoutineMappingSetRefs(self, element: ET.Element, system: System):
-        refs = system.getInterpolationRoutineMappingSetRefs()
-        if len(refs) > 0:
-            refs_tag = ET.SubElement(element, "INTERPOLATION-ROUTINE-MAPPING-SET-REFS")
-            for ref in refs:
-                self.setChildElementOptionalRefType(refs_tag, "INTERPOLATION-ROUTINE-MAPPING-SET-REF", ref)
-
-    def writeJ1939SharedAddressCluster(self, element: ET.Element, cluster: J1939SharedAddressCluster):
-        self.writeIdentifiable(element, cluster, write_variation_point=False)
-        refs = cluster.getParticipatingJ1939ClusterRefs()
-        if len(refs) > 0:
-            refs_tag = ET.SubElement(element, "PARTICIPATING-J-1939-CLUSTER-REFS")
-            for ref in refs:
-                self.setChildElementOptionalRefType(refs_tag, "PARTICIPATING-J-1939-CLUSTER-REF", ref)
-        self.writeVariationPoint(element, cluster.getVariationPoint())
 
     def writeSystemJ1939SharedAddressClusters(self, element: ET.Element, system: System):
         clusters = system.getJ1939SharedAddressClusters()

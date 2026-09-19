@@ -22,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RevisionLabelString, TRefType
+from armodel.models.M2.MSR.Documentation.Chapters import Chapter
 
 
 class SwcToEcuMapping(Identifiable, VariationPointCapable):
@@ -86,6 +87,7 @@ class ComManagementMapping(Identifiable, VariationPointCapable):
 
     # ComManagementMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.46, p.282
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addComManagementGroupRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -515,6 +517,7 @@ class J1939SharedAddressCluster(Identifiable, VariationPointCapable):
 
     # J1939SharedAddressCluster method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.324, p.694
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addParticipatingJ1939ClusterRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -550,6 +553,7 @@ class ClientIdDefinition(Identifiable, VariationPointCapable):
 
     # ClientIdDefinition method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 2.3, p.45 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getClientId                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -606,6 +610,7 @@ class ClientIdDefinitionSet(ARElement):
 
     # ClientIdDefinitionSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 2.2, p.44 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getClientIdDefinitions     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -653,6 +658,7 @@ class System(AtpStructureElement):
 
     # System method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 2.1, p.42
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addClientIdDefinitionSetRef                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
