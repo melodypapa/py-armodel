@@ -3,6 +3,7 @@ from pathlib import Path
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ComManagementMapping, J1939SharedAddressCluster, RootSwCompositionPrototype, System, SystemMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import PortGroupInSystemInstanceRef
 from armodel.models.M2.MSR.Documentation.Chapters import Chapter
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -108,6 +109,17 @@ COM_MANAGEMENT_MAPPING_ARXML = """<?xml version="1.0" encoding="UTF-8"?>
                     <COM-MANAGEMENT-GROUP-REF DEST="I-SIGNAL-I-PDU-GROUP">/Systems/IPduGroupA</COM-MANAGEMENT-GROUP-REF>
                     <COM-MANAGEMENT-GROUP-REF DEST="I-SIGNAL-I-PDU-GROUP">/Systems/IPduGroupB</COM-MANAGEMENT-GROUP-REF>
                   </COM-MANAGEMENT-GROUP-REFS>
+                  <COM-MANAGEMENT-PORT-GROUP-IREFS>
+                    <COM-MANAGEMENT-PORT-GROUP-IREF>
+                      <CONTEXT-COMPOSITION-REF DEST="ROOT-SW-COMPOSITION-PROTOTYPE">/Systems/RootSwCompositionPrototype</CONTEXT-COMPOSITION-REF>
+                      <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Systems/RootSwCompositionPrototype/Comp1</CONTEXT-COMPONENT-REF>
+                      <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Systems/RootSwCompositionPrototype/Comp1/NestedComp</CONTEXT-COMPONENT-REF>
+                      <TARGET-REF DEST="PORT-GROUP">/Systems/RootSwCompositionPrototype/Comp1/PG</TARGET-REF>
+                    </COM-MANAGEMENT-PORT-GROUP-IREF>
+                    <COM-MANAGEMENT-PORT-GROUP-IREF>
+                      <TARGET-REF DEST="PORT-GROUP">/Systems/RootSwCompositionPrototype/Comp2/PG2</TARGET-REF>
+                    </COM-MANAGEMENT-PORT-GROUP-IREF>
+                  </COM-MANAGEMENT-PORT-GROUP-IREFS>
                   <PHYSICAL-CHANNEL-REFS>
                     <PHYSICAL-CHANNEL-REF DEST="CAN-COMMUNICATION-CONNECTOR">/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel</PHYSICAL-CHANNEL-REF>
                     <PHYSICAL-CHANNEL-REF DEST="CAN-COMMUNICATION-CONNECTOR">/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel2</PHYSICAL-CHANNEL-REF>
@@ -290,7 +302,22 @@ class TestSystemTemplate:
         assert group_refs[1].getValue() == "/Systems/IPduGroupB"
         assert group_refs[1].getDest() == "I-SIGNAL-I-PDU-GROUP"
 
-        assert com_mapping.getComManagementPortGroupIRefs() == []
+        irefs = com_mapping.getComManagementPortGroupIRefs()
+        assert len(irefs) == 2
+        assert isinstance(irefs[0], PortGroupInSystemInstanceRef)
+        assert irefs[0].getContextCompositionRef().getValue() == "/Systems/RootSwCompositionPrototype"
+        assert irefs[0].getContextCompositionRef().getDest() == "ROOT-SW-COMPOSITION-PROTOTYPE"
+        comp_refs = irefs[0].getContextComponentRefs()
+        assert len(comp_refs) == 2
+        assert comp_refs[0].getValue() == "/Systems/RootSwCompositionPrototype/Comp1"
+        assert comp_refs[0].getDest() == "SW-COMPONENT-PROTOTYPE"
+        assert comp_refs[1].getValue() == "/Systems/RootSwCompositionPrototype/Comp1/NestedComp"
+        assert irefs[0].getTargetRef().getValue() == "/Systems/RootSwCompositionPrototype/Comp1/PG"
+        assert irefs[0].getTargetRef().getDest() == "PORT-GROUP"
+        assert irefs[1].getContextCompositionRef() is None
+        assert irefs[1].getContextComponentRefs() == []
+        assert irefs[1].getTargetRef().getValue() == "/Systems/RootSwCompositionPrototype/Comp2/PG2"
+        assert irefs[1].getTargetRef().getDest() == "PORT-GROUP"
 
         channel_refs = com_mapping.getPhysicalChannelRefs()
         assert len(channel_refs) == 2

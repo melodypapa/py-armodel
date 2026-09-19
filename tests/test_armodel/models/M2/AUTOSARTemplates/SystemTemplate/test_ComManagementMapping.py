@@ -10,8 +10,17 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ComManagementMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import PortGroupInSystemInstanceRef
 
 SPEC_NOTE = "Describes a mapping between one or several Mode Management PortGroups and communication channels."
+
+
+def _port_group_ref(value: str) -> RefType:
+    ref = RefType()
+    ref.setValue(value)
+    ref.setDest("PORT-GROUP")
+    return ref
+
 
 GROUP_NOTE = "IPduGroup participating in a Mode Management PortGroup."
 PORT_GROUP_NOTE = (
@@ -74,27 +83,29 @@ class TestComManagementMapping:
         assert adder_hints.get("return") is ComManagementMapping
 
     def test_get_set_com_management_port_group_irefs(self):
-        """Test comManagementPortGroupIRefs default, add chaining, None no-op and typing (Kind iref -> IRefs suffix)"""
+        """Test comManagementPortGroupIRefs default, add chaining, None no-op and typing (Kind iref -> PortGroupInSystemInstanceRef list)"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mapping = ComManagementMapping(ar_root, "TestPortGroupIRefs")
 
         assert mapping.getComManagementPortGroupIRefs() == []
 
-        ref = RefType()
-        ref.setValue("/Systems/RootComp/PortGroup")
-        ref.setDest("PORT-GROUP")
-        assert mapping == mapping.addComManagementPortGroupIRef(ref)
-        assert mapping.getComManagementPortGroupIRefs() == [ref]
+        iref1 = PortGroupInSystemInstanceRef()
+        iref1.setTargetRef(_port_group_ref("/Systems/RootComp/PortGroup1"))
+        iref2 = PortGroupInSystemInstanceRef()
+        iref2.setTargetRef(_port_group_ref("/Systems/RootComp/PortGroup2"))
+        assert mapping == mapping.addComManagementPortGroupIRef(iref1)
+        assert mapping == mapping.addComManagementPortGroupIRef(iref2)
+        assert mapping.getComManagementPortGroupIRefs() == [iref1, iref2]
 
         assert mapping == mapping.addComManagementPortGroupIRef(None)
-        assert mapping.getComManagementPortGroupIRefs() == [ref]
+        assert mapping.getComManagementPortGroupIRefs() == [iref1, iref2]
 
         getter_hints = typing.get_type_hints(ComManagementMapping.getComManagementPortGroupIRefs)
-        assert getter_hints.get("return") == typing.List[RefType]
+        assert getter_hints.get("return") == typing.List[PortGroupInSystemInstanceRef]
 
         adder_hints = typing.get_type_hints(ComManagementMapping.addComManagementPortGroupIRef)
-        assert adder_hints.get("value") == typing.Optional[RefType]
+        assert adder_hints.get("value") == typing.Optional[PortGroupInSystemInstanceRef]
         assert adder_hints.get("return") is ComManagementMapping
 
     def test_get_set_physical_channel_refs(self):

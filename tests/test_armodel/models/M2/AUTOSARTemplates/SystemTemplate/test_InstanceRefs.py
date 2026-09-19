@@ -2,6 +2,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure impor
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     ComponentInSystemInstanceRef,
     OperationInSystemInstanceRef,
+    PortGroupInSystemInstanceRef,
     VariableDataPrototypeInSystemInstanceRef,
 )
 
@@ -135,3 +136,54 @@ class Test_InstanceRefs:
         assert ref.getContextComponentRefs() == []
         assert ref.getContextPortRef() is None
         assert ref.getTargetOperationRef() is None
+
+    def test_PortGroupInSystemInstanceRef_initialization(self):
+        """Test PortGroupInSystemInstanceRef default values."""
+        ref = PortGroupInSystemInstanceRef()
+
+        assert isinstance(ref, AtpInstanceRef)
+
+        assert ref.getBaseRef() is None
+        assert ref.getContextCompositionRef() is None
+        assert ref.getContextComponentRefs() == []
+        assert ref.getTargetRef() is None
+
+    def test_PortGroupInSystemInstanceRef_get_set(self):
+        """Test PortGroupInSystemInstanceRef setter/getter methods."""
+        ref = PortGroupInSystemInstanceRef()
+
+        mock_base_ref = "mock_base_ref"
+        ref.setBaseRef(mock_base_ref)
+        assert ref.getBaseRef() == mock_base_ref
+
+        mock_context_composition_ref = "mock_context_composition_ref"
+        ref.setContextCompositionRef(mock_context_composition_ref)
+        assert ref.getContextCompositionRef() == mock_context_composition_ref
+
+        mock_target_ref = "mock_target_ref"
+        ref.setTargetRef(mock_target_ref)
+        assert ref.getTargetRef() == mock_target_ref
+
+    def test_PortGroupInSystemInstanceRef_add_context_component_refs(self):
+        """Test PortGroupInSystemInstanceRef context component ref aggregation."""
+        ref = PortGroupInSystemInstanceRef()
+
+        mock_comp_ref1 = "comp1"
+        mock_comp_ref2 = "comp2"
+        ref.addContextComponentRef(mock_comp_ref1)
+        ref.addContextComponentRef(mock_comp_ref2)
+        assert ref.getContextComponentRefs() == [mock_comp_ref1, mock_comp_ref2]
+
+    def test_PortGroupInSystemInstanceRef_none_noop(self):
+        """None is a no-op for all mutators of PortGroupInSystemInstanceRef."""
+        ref = PortGroupInSystemInstanceRef()
+
+        ref.setBaseRef(None)
+        ref.setContextCompositionRef(None)
+        ref.setTargetRef(None)
+        ref.addContextComponentRef(None)
+
+        assert ref.getBaseRef() is None
+        assert ref.getContextCompositionRef() is None
+        assert ref.getContextComponentRefs() == []
+        assert ref.getTargetRef() is None

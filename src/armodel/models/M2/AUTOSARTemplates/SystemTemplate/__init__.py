@@ -6,7 +6,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataMa
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import CryptoServiceMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, OperationInSystemInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, OperationInSystemInstanceRef, PortGroupInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToImplMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareCluster, SwComponentPrototypeAssignment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -86,12 +86,13 @@ class ComManagementMapping(Identifiable, VariationPointCapable):
 
     # ComManagementMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.46, p.282
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addComManagementGroupRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getComManagementGroupRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [ ] addComManagementPortGroupIRef  [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [ ] getComManagementPortGroupIRefs [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] addComManagementPortGroupIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getComManagementPortGroupIRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addPhysicalChannelRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getPhysicalChannelRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
@@ -102,8 +103,7 @@ class ComManagementMapping(Identifiable, VariationPointCapable):
         self.comManagementGroupRefs: List[RefType] = []
 
         # Mode Management PortGroup to be mapped onto a communication channel. This reference is optional in case that the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy systems.
-        # Placeholder List[RefType] until PortGroupInSystemInstanceRef is implemented (Rule 0001.10); Kind iref (Table 5.46)
-        self.comManagementPortGroupIRefs: List[RefType] = []
+        self.comManagementPortGroupIRefs: List[PortGroupInSystemInstanceRef] = []
 
         # This reference maps the Mode Management PortGroup partial network to communication channels.
         self.physicalChannelRefs: List[RefType] = []
@@ -124,7 +124,7 @@ class ComManagementMapping(Identifiable, VariationPointCapable):
         """
         return self.comManagementGroupRefs
 
-    def addComManagementPortGroupIRef(self, value: Optional[RefType]) -> "ComManagementMapping":
+    def addComManagementPortGroupIRef(self, value: Optional[PortGroupInSystemInstanceRef]) -> "ComManagementMapping":
         """
         Mode Management PortGroup to be mapped onto a communication channel. This reference is optional in case that the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy systems.
 
@@ -134,7 +134,7 @@ class ComManagementMapping(Identifiable, VariationPointCapable):
             self.comManagementPortGroupIRefs.append(value)
         return self
 
-    def getComManagementPortGroupIRefs(self) -> List[RefType]:
+    def getComManagementPortGroupIRefs(self) -> List[PortGroupInSystemInstanceRef]:
         """
         Mode Management PortGroup to be mapped onto a communication channel. This reference is optional in case that the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy systems.
         """
@@ -957,6 +957,7 @@ __all__ = [
     "Identifiable",
     "J1939SharedAddressCluster",
     "OperationInSystemInstanceRef",
+    "PortGroupInSystemInstanceRef",
     "PositiveInteger",
     "RefType",
     "RevisionLabelString",

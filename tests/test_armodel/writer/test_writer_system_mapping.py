@@ -50,6 +50,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     ComponentInSystemInstanceRef,
     OperationInSystemInstanceRef,
+    PortGroupInSystemInstanceRef,
     VariableDataPrototypeInSystemInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
@@ -1342,6 +1343,15 @@ class TestWriterComManagementMapping:
         com_mapping = system_mapping.createComManagementMapping("ComMapping1")
         com_mapping.addComManagementGroupRef(_ref("/Systems/IPduGroupA", "I-SIGNAL-I-PDU-GROUP"))
         com_mapping.addComManagementGroupRef(_ref("/Systems/IPduGroupB", "I-SIGNAL-I-PDU-GROUP"))
+        iref1 = PortGroupInSystemInstanceRef()
+        iref1.setContextCompositionRef(_ref("/Systems/RootSwCompositionPrototype", "ROOT-SW-COMPOSITION-PROTOTYPE"))
+        iref1.addContextComponentRef(_ref("/Systems/RootSwCompositionPrototype/Comp1", "SW-COMPONENT-PROTOTYPE"))
+        iref1.addContextComponentRef(_ref("/Systems/RootSwCompositionPrototype/Comp1/NestedComp", "SW-COMPONENT-PROTOTYPE"))
+        iref1.setTargetRef(_ref("/Systems/RootSwCompositionPrototype/Comp1/PG", "PORT-GROUP"))
+        iref2 = PortGroupInSystemInstanceRef()
+        iref2.setTargetRef(_ref("/Systems/RootSwCompositionPrototype/Comp2/PG2", "PORT-GROUP"))
+        com_mapping.addComManagementPortGroupIRef(iref1)
+        com_mapping.addComManagementPortGroupIRef(iref2)
         com_mapping.addPhysicalChannelRef(_ref("/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel", "CAN-COMMUNICATION-CONNECTOR"))
         variation_point = VariationPoint()
         variation_point.setShortLabel(Identifier().setValue("VP_COMMAP"))
@@ -1363,10 +1373,23 @@ class TestWriterComManagementMapping:
         com_element = mapping_element.find("COM-MANAGEMENT-MAPPINGS/COM-MANAGEMENT-MAPPING")
         assert com_element is not None
         child_tags = [c.tag for c in com_element]
-        assert child_tags.index("COM-MANAGEMENT-GROUP-REFS") < child_tags.index("PHYSICAL-CHANNEL-REFS") < child_tags.index("VARIATION-POINT")
+        assert child_tags.index("COM-MANAGEMENT-GROUP-REFS") < child_tags.index("COM-MANAGEMENT-PORT-GROUP-IREFS") < child_tags.index("PHYSICAL-CHANNEL-REFS") < child_tags.index("VARIATION-POINT")
         group_refs = com_element.findall("COM-MANAGEMENT-GROUP-REFS/COM-MANAGEMENT-GROUP-REF")
         assert [r.text for r in group_refs] == ["/Systems/IPduGroupA", "/Systems/IPduGroupB"]
         assert all(r.attrib["DEST"] == "I-SIGNAL-I-PDU-GROUP" for r in group_refs)
+        iref_elements = com_element.findall("COM-MANAGEMENT-PORT-GROUP-IREFS/COM-MANAGEMENT-PORT-GROUP-IREF")
+        assert len(iref_elements) == 2
+        composition_ref = iref_elements[0].find("CONTEXT-COMPOSITION-REF")
+        assert composition_ref.text == "/Systems/RootSwCompositionPrototype"
+        assert composition_ref.attrib["DEST"] == "ROOT-SW-COMPOSITION-PROTOTYPE"
+        comp_refs = iref_elements[0].findall("CONTEXT-COMPONENT-REF")
+        assert [r.text for r in comp_refs] == ["/Systems/RootSwCompositionPrototype/Comp1", "/Systems/RootSwCompositionPrototype/Comp1/NestedComp"]
+        assert all(r.attrib["DEST"] == "SW-COMPONENT-PROTOTYPE" for r in comp_refs)
+        assert iref_elements[0].find("TARGET-REF").text == "/Systems/RootSwCompositionPrototype/Comp1/PG"
+        assert iref_elements[0].find("TARGET-REF").attrib["DEST"] == "PORT-GROUP"
+        assert iref_elements[1].find("CONTEXT-COMPOSITION-REF") is None
+        assert iref_elements[1].findall("CONTEXT-COMPONENT-REF") == []
+        assert iref_elements[1].find("TARGET-REF").text == "/Systems/RootSwCompositionPrototype/Comp2/PG2"
         channel_refs = com_element.findall("PHYSICAL-CHANNEL-REFS/PHYSICAL-CHANNEL-REF")
         assert [r.text for r in channel_refs] == ["/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel"]
         assert all(r.attrib["DEST"] == "CAN-COMMUNICATION-CONNECTOR" for r in channel_refs)
@@ -1380,6 +1403,7 @@ class TestWriterComManagementMapping:
         com_element = parent[0].find("MAPPINGS/SYSTEM-MAPPING/COM-MANAGEMENT-MAPPINGS/COM-MANAGEMENT-MAPPING")
         assert com_element is not None
         assert com_element.find("COM-MANAGEMENT-GROUP-REFS") is None
+        assert com_element.find("COM-MANAGEMENT-PORT-GROUP-IREFS") is None
         assert com_element.find("PHYSICAL-CHANNEL-REFS") is None
 
     def test_round_trip_refs_and_variation_point(self, tmp_path):
@@ -1406,6 +1430,15 @@ class TestWriterComManagementMapping:
         group_refs = com_mapping_2.getComManagementGroupRefs()
         assert [r.getValue() for r in group_refs] == ["/Systems/IPduGroupA", "/Systems/IPduGroupB"]
         assert all(r.getDest() == "I-SIGNAL-I-PDU-GROUP" for r in group_refs)
+        irefs = com_mapping_2.getComManagementPortGroupIRefs()
+        assert len(irefs) == 2
+        assert irefs[0].getContextCompositionRef().getValue() == "/Systems/RootSwCompositionPrototype"
+        assert [r.getValue() for r in irefs[0].getContextComponentRefs()] == ["/Systems/RootSwCompositionPrototype/Comp1", "/Systems/RootSwCompositionPrototype/Comp1/NestedComp"]
+        assert irefs[0].getTargetRef().getValue() == "/Systems/RootSwCompositionPrototype/Comp1/PG"
+        assert irefs[0].getTargetRef().getDest() == "PORT-GROUP"
+        assert irefs[1].getContextCompositionRef() is None
+        assert irefs[1].getContextComponentRefs() == []
+        assert irefs[1].getTargetRef().getValue() == "/Systems/RootSwCompositionPrototype/Comp2/PG2"
         channel_refs = com_mapping_2.getPhysicalChannelRefs()
         assert [r.getValue() for r in channel_refs] == ["/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel"]
         assert all(r.getDest() == "CAN-COMMUNICATION-CONNECTOR" for r in channel_refs)
