@@ -9,12 +9,14 @@ Input: R3.2.3 legacy spec `autosar/R3.2.3/pdf/AUTOSAR_ECU_Configuration.pdf` (V2
 > 4. No class-name collisions (checked 2026-09-19: none of the 13 names below exists in `src/armodel/models`).
 > 5. Goal gate: `Os_ECUC.arxml` passes full round-trip (parse → write → re-parse → compare). Do NOT exclude it via `config.yaml` — superseded by this group.
 
-## Infrastructure prerequisites (non-class, before Step 2 of first class)
+## Infrastructure prerequisites (non-class, before Step 2 of first class) — DONE 2026-09-19
 
-- [ ] `AUTOSAR.setARRelease('3.2.3')` — add `"3.2.3": "autosar.xsd"` to `release_xsd_mappings` ([AutosarTopLevelStructure/__init__.py](file:///Users/ray/Workspace/py-armodel/src/armodel/models/M2/AUTOSARTemplates/AutosarTopLevelStructure/__init__.py) L151-L168); `setARRelease` L460 must emit `http://autosar.org autosar.xsd` (R3 namespace, NOT `/schema/r4.0`) for 3.2.3
-- [ ] Namespace detection — `AbstractARXMLParser.nsmap` is hardcoded `http://autosar.org/schema/r4.0` ([abstract_arxml_parser.py](file:///Users/ray/Workspace/py-armodel/src/armodel/parser/abstract_arxml_parser.py) L41): detect root ns in `load()` (e.g. `{http://autosar.org}AUTOSAR` → nsmap `http://autosar.org`)
-- [ ] `readARPackages` fallback — accept `TOP-LEVEL-PACKAGES/*` when `AR-PACKAGES` absent ([arxml_parser.py](file:///Users/ray/Workspace/py-armodel/src/armodel/parser/arxml_parser.py) L13037-L13044); writer mirror in `writeARPackages` ([arxml_writer.py](file:///Users/ray/Workspace/py-armodel/src/armodel/writer/arxml_writer.py) L12759) — emit `TOP-LEVEL-PACKAGES` wrapper when release is 3.2.3
-- [ ] `detect_autosar_version` in [test_roundtrip.py](file:///Users/ray/Workspace/py-armodel/tests/integration_tests/test_roundtrip.py) L179-193: map `http://autosar.org autosar.xsd` → `3.2.3`
+- [x] `AUTOSAR.setARRelease('3.2.3')` — add `"3.2.3": "autosar.xsd"` to `release_xsd_mappings` ([AutosarTopLevelStructure/__init__.py](file:///Users/ray/Workspace/py-armodel/src/armodel/models/M2/AUTOSARTemplates/AutosarTopLevelStructure/__init__.py) L151-L168); `setARRelease` L460 must emit `http://autosar.org autosar.xsd` (R3 namespace, NOT `/schema/r4.0`) for 3.2.3
+- [x] Namespace detection — `AbstractARXMLParser.nsmap` is hardcoded `http://autosar.org/schema/r4.0` ([abstract_arxml_parser.py](file:///Users/ray/Workspace/py-armodel/src/armodel/parser/abstract_arxml_parser.py) L41): detect root ns in `load()` (e.g. `{http://autosar.org}AUTOSAR` → nsmap `http://autosar.org`)
+- [x] `readARPackages` fallback — accept `TOP-LEVEL-PACKAGES/*` when `AR-PACKAGES` absent ([arxml_parser.py](file:///Users/ray/Workspace/py-armodel/src/armodel/parser/arxml_parser.py) L13037-L13044); writer mirror in `writeARPackages` ([arxml_writer.py](file:///Users/ray/Workspace/py-armodel/src/armodel/writer/arxml_writer.py) L12759) — emit `TOP-LEVEL-PACKAGES` wrapper when release is 3.2.3. **Extra (XSD L270):** nested R3 packages use `SUB-PACKAGES` (parser fallback + writer `_legacy_namespace` wrapper); legacy root skips FILE-INFO-COMMENT/INTRODUCTION (R3 root = ADMIN-DATA → TOP-LEVEL-PACKAGES only)
+- [x] `detect_autosar_version` in [test_roundtrip.py](file:///Users/ray/Workspace/py-armodel/tests/integration_tests/test_roundtrip.py) L179-193: map `http://autosar.org autosar.xsd` → `3.2.3` — implemented in [conftest.py](file:///Users/ray/Workspace/py-armodel/tests/integration_tests/conftest.py) `xsd_to_version_mapping` (the mapping lives there)
+
+> Smoke result 2026-09-19: Os_ECUC.arxml parses to 1 package (`Os`) with warning=True; writer emits legacy ns + `TOP-LEVEL-PACKAGES`; R4 files unaffected. Suite: 9451 unit PASS, integration 130/131 — Os_ECUC red at parse (`Unsupported <MODULE-CONFIGURATION>`) until the class queue below is done (goal gate).
 
 ## Queue (dependency-first)
 

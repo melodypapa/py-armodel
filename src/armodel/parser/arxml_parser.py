@@ -13035,7 +13035,15 @@ class ARXMLParser(AbstractARXMLParser):
         self.readReferenceBases(element, ar_package)
 
     def readARPackages(self, element: ET.Element, parent: ARPackage):
-        for child_element in self.findall(element, "AR-PACKAGES/*"):
+        child_elements = self.findall(element, "AR-PACKAGES/*")
+        if len(child_elements) == 0:
+            # Legacy R3.x releases: TOP-LEVEL-PACKAGES at document root, SUB-PACKAGES
+            # inside an AR-PACKAGE (autosar/R3.2.3/xsd/AUTOSAR.xsd L315/L270).
+            if isinstance(parent, AUTOSAR):
+                child_elements = self.findall(element, "TOP-LEVEL-PACKAGES/*")
+            else:
+                child_elements = self.findall(element, "SUB-PACKAGES/*")
+        for child_element in child_elements:
             tag_name = self.getTagName(child_element)
             if tag_name == "AR-PACKAGE":
                 ar_package = parent.createARPackage(self.getShortName(child_element))
@@ -13051,6 +13059,7 @@ class ARXMLParser(AbstractARXMLParser):
         if self.getPureTagName(root.tag) != "AUTOSAR":
             self.raiseError("Invalid ARXML file <%s>" % filename)
 
+        self.detectNamespace(root)
         self.getAUTOSARInfo(root, document)
         document.setAdminData(self.getAdminData(root, "ADMIN-DATA"))
         document.setFileInfoComment(self.getFileInfoComment(root, "FILE-INFO-COMMENT"))

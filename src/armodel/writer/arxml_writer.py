@@ -12758,7 +12758,20 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeARPackages(self, element: ET.Element, pkgs: List[ARPackage]):
         if len(pkgs) > 0:
-            child_element = ET.SubElement(element, "AR-PACKAGES")
+            if self._legacy_namespace:
+                # Legacy R3.x: packages nested in an AR-PACKAGE are wrapped in SUB-PACKAGES
+                child_element = ET.SubElement(element, "SUB-PACKAGES")
+            else:
+                child_element = ET.SubElement(element, "AR-PACKAGES")
+            for pkg in pkgs:
+                if isinstance(pkg, ARPackage):
+                    self.writeARPackage(child_element, pkg)
+                else:
+                    self.notImplemented("Unsupported ARPackage <%s>" % type(pkg))
+
+    def writeTopLevelARPackages(self, element: ET.Element, pkgs: List[ARPackage]):
+        if len(pkgs) > 0:
+            child_element = ET.SubElement(element, "TOP-LEVEL-PACKAGES")
             for pkg in pkgs:
                 if isinstance(pkg, ARPackage):
                     self.writeARPackage(child_element, pkg)
@@ -12768,16 +12781,28 @@ class ARXMLWriter(AbstractARXMLWriter):
     def save(self, filename, document: AUTOSAR):
         self.logger.info("Saving %s ..." % filename)
 
+        schema_location = document.schema_location
+        if schema_location is not None:
+            ns_uri = schema_location.split(" ")[0]
+        else:
+            ns_uri = "http://autosar.org/schema/r4.0"
+            schema_location = "http://autosar.org/schema/r4.0 AUTOSAR_4-0-3.xsd"
+
+        # Legacy R3.x releases use the pre-R4 namespace http://autosar.org
+        self._legacy_namespace = ns_uri == "http://autosar.org"
+        self.nsmap = {"xmlns": ns_uri}
+
         root = ET.Element("AUTOSAR", self.nsmap)
         root.attrib["xmlns:xsi"] = "http://www.w3.org/2001/XMLSchema-instance"
-        if document.schema_location is not None:
-            root.attrib["xsi:schemaLocation"] = document.schema_location
-        else:
-            root.attrib["xsi:schemaLocation"] = "http://autosar.org/schema/r4.0 AUTOSAR_4-0-3.xsd"
+        root.attrib["xsi:schemaLocation"] = schema_location
 
         self.setAdminData(root, document.getAdminData())
-        self.setFileInfoComment(root, document.getFileInfoComment())
-        self.writeDocumentationBlock(root, "INTRODUCTION", document.getIntroduction())
-        self.writeARPackages(root, document.getARPackages())
+        if self._legacy_namespace:
+            # Legacy R3.x root sequence is ADMIN-DATA -> TOP-LEVEL-PACKAGES only
+            self.writeTopLevelARPackages(root, document.getARPackages())
+        else:
+            self.setFileInfoComment(root, document.getFileInfoComment())
+            self.writeDocumentationBlock(root, "INTRODUCTION", document.getIntroduction())
+            self.writeARPackages(root, document.getARPackages())
 
         self.saveToFile(filename, root)

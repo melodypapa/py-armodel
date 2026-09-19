@@ -33,6 +33,11 @@ class AbstractARXMLWriter(ABC):
     management.
     """
 
+    # Legacy R3.x documents use the pre-R4 namespace and different package
+    # wrappers (TOP-LEVEL-PACKAGES at root, SUB-PACKAGES inside AR-PACKAGE);
+    # set by save() from the document's schema_location.
+    _legacy_namespace = False
+
     def __init__(self, options=None) -> None:
         if type(self) is AbstractARXMLWriter:
             raise TypeError("AbstractARXMLWriter is an abstract class.")

@@ -149,6 +149,7 @@ class AbstractAUTOSAR(ARObject):
         super().__init__()
 
         self.release_xsd_mappings = {
+            "3.2.3": "autosar.xsd",
             "4.0.3": "AUTOSAR_4-0-3.xsd",
             "4.1.0": "AUTOSAR_4-1-0.xsd",
             "4.1.1": "AUTOSAR_4-1-1.xsd",
@@ -460,7 +461,11 @@ class AbstractAUTOSAR(ARObject):
     def setARRelease(self, release: str):
         if release not in self.release_xsd_mappings:
             raise ValueError("invalid AUTOSAR Release <%s>" % release)
-        self.schema_location = "http://autosar.org/schema/r4.0 %s" % self.release_xsd_mappings[release]
+        if release == "3.2.3":
+            # Legacy R3.x releases use the pre-R4 namespace http://autosar.org
+            self.schema_location = "http://autosar.org %s" % self.release_xsd_mappings[release]
+        else:
+            self.schema_location = "http://autosar.org/schema/r4.0 %s" % self.release_xsd_mappings[release]
         return self
 
 
