@@ -9384,12 +9384,18 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "FUNCTIONAL-REQUEST-REFS/FUNCTIONAL-REQUEST-REF"):
             connection.addFunctionalRequestRef(ref)
 
+    def readDiagnosticConnectionPeriodicResponseUudtRefs(self, element: ET.Element, connection: DiagnosticConnection):
+        for ref in self.getChildElementRefTypeList(element, "PERIODIC-RESPONSE-UUDT-REFS/PERIODIC-RESPONSE-UUDT-REF"):
+            connection.addPeriodicResponseUudtRef(ref)
+
     def readDiagnosticConnection(self, element: ET.Element, connection: DiagnosticConnection):
         self.logger.debug("Read DiagnosticConnection <%s>" % connection.getShortName())
         self.readIdentifiable(element, connection)
         self.readDiagnosticConnectionFunctionalRequestRefs(element, connection)
+        self.readDiagnosticConnectionPeriodicResponseUudtRefs(element, connection)
         connection.setPhysicalRequestRef(self.getChildElementOptionalRefType(element, "PHYSICAL-REQUEST-REF"))
-        connection.setResponseOnEventRef(self.getChildElementOptionalRefType(element, "RESPONSE-REF"))
+        connection.setResponseRef(self.getChildElementOptionalRefType(element, "RESPONSE-REF"))
+        connection.setResponseOnEventRef(self.getChildElementOptionalRefType(element, "RESPONSE-ON-EVENT-REF"))
 
     def readDiagnosticServiceTableDiagnosticConnectionRefs(self, element: ET.Element, table: DiagnosticServiceTable):
         for ref in self.getChildElementRefTypeList(element, "DIAGNOSTIC-CONNECTIONS/DIAGNOSTIC-CONNECTION-REF-CONDITIONAL/DIAGNOSTIC-CONNECTION-REF"):

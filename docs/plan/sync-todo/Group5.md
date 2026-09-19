@@ -178,16 +178,16 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 7 — Update checklist comment — 6-column format with per-row release R23-11; 59 methods, source order; set-based check passes; deferred reader/writer rows ([ ]) noted for the 4 missing child classes; no marker (deferred to batch stamp)
   - [x] Step 8 — Deviations — placeholders (Rule 0001.10, stamp-deferring): ClientIdRange, DltConfig, DoIpConfig, EcuPartition, V2xSupportEnum — recorded in tracker with deferred reader/writer rows; stale tracker row (associatedcomipdugrouprefs spec-many) removed; XSD-only legacy elements not modeled per Rule 0015; in-pass fixes (not deviations): ASSOCIATED-CONSUMED wrapper tags, TCP-IP-*-PROPS-REF suffixes, PN-RESET-TIME XSD order, registry-filter getters → dedicated fields
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (359 touched tests + parser/writer/SystemTemplate dirs 5054 passed, lint/ruff/black clean, parity script OK, set-based check 59 methods in source order, integration 130-file round-trip PASS, no chained mutators, armodel.EcuInstance export resolves); 9b DEFERRED to batch stamp
-- [ ] `DiagnosticConnection` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 4.17 (multiple tables — resolve in per-class Phase 0))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DiagnosticConnection` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 4.17 (multiple tables — resolve in per-class Phase 0) · **Step 1 finding: own table = DEXT Table 4.17, p.61 (body rendered BEFORE caption at md 1630-1637 + after at 1645-1650 — page-split artifact); identical sibling copy SystemTemplate Table 6.271, p.633; concrete Class, Base most-derived = `ARElement` (matches src); Package row `...SystemTemplate::DiagnosticConnection` matches src; 5 attributes in displayed order: functionalRequest (TpConnectionIdent, `*`, ref), periodicResponseUudt (PduTriggering, `*`, ref), physicalRequest (TpConnectionIdent, 0..1, ref), response (TpConnectionIdent, 0..1, ref), responseOnEvent (TpConnectionIdent, 0..1, ref, **atp.Status=obsolete** — modeled with full coverage, not a deviation); XSD group AUTOSAR_00052.xsd line 33562 defines only FUNCTIONAL-REQUEST-REFS + PERIODIC-RESPONSE-UUDT-REFS wrappers (the three scalar elements are markdown-table attributes per Rule 0015, order physical→response→responseOnEvent); model fields already complete — sync = docstrings + reader/writer fixes: FIXED cross-pair bug (RESPONSE-REF was wired to responseOnEvent accessors, Rule 0013.2), added PERIODIC-RESPONSE-UUDT-REFS wrapper reader/writer, added RESPONSE-ON-EVENT-REF mapping)**
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — docstring-verbatim test failed pre-rewrite
+  - [x] Step 3 — Implement model class (Green) — fields already spec-shaped; docstrings rewritten
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — Note verbatim (incl. spec's own "DiagnosticConncection" typo), 5 attribute Notes verbatim, __init__ docless
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 3 failed pre-fix (cross-pair + missing wrapper + missing reader coverage)
+  - [x] Step 6 — Update parser & writer (Green) — cross-pair fixed, wrapper + RESPONSE-ON-EVENT-REF added
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none** (responseOnEvent obsolete tag documented; legacy scalars kept per Rule 0015)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (11 touched tests, flake8/ruff/black, parity, integration 2/2); 9b DEFERRED to batch stamp
 - [ ] `EthernetPhysicalChannel` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.49)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
