@@ -156,6 +156,7 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 7 — Update checklist comment — 6-column format, 5 rows all [x], release R23-11; `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 2.3, p.45 (R23-11)`; `# Spec verified:` marker deferred to 9b
   - [x] Step 8 — Deviations — **none** (base Identifiable correct; VariationPointCapable mixin per Rule 0020 XSD anchor "Applicable for: ClientIdDefinitionSet.clientIdDefinition"; iref member named clientServerOperationIRef per Rule 0001.5; no missing member types)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (full suite 9526 passed incl. integration round-trip, lint/ruff clean after test-import I001 fix, black unchanged, parity OK, chained-mutator grep clean); 9b confirmed by user (2026-09-19, wrap-artifact normalization disclosed) → stamped R23-11
+- [ ] `ClientIdDefinitionSet` (dependency of System, Table 2.2 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 2.2 · member type of `System.clientIdDefinitionSet` below · added by 2026-09-19 Group5 dependency audit · row header lost in 8618ec88, restored 2026-09-19)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
