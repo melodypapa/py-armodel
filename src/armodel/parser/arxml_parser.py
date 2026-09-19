@@ -779,6 +779,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     UdpTp,
     TcpProps,
     UdpProps,
+    TcpIpIcmpv4Props,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
@@ -9401,6 +9402,11 @@ class ARXMLParser(AbstractARXMLParser):
         props.setTcpSynMaxRtx(self.getChildElementOptionalPositiveInteger(element, "TCP-SYN-MAX-RTX"))
         props.setTcpSynReceivedTimeout(self.getChildElementOptionalTimeValue(element, "TCP-SYN-RECEIVED-TIMEOUT"))
         props.setTcpTtl(self.getChildElementOptionalPositiveInteger(element, "TCP-TTL"))
+
+    def readTcpIpIcmpv4Props(self, element: ET.Element, props: TcpIpIcmpv4Props):
+        """Read an R23-11 <TCP-IP-ICMPV-4-PROPS> element (Table 3.113, p.156): 2 optional attributes in XSD order."""
+        props.setTcpIpIcmpV4EchoReplyEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED"))
+        props.setTcpIpIcmpV4Ttl(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-ICMP-V-4-TTL"))
 
     def readFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
         self.logger.debug("Read FlexrayCluster <%s>" % cluster.getShortName())

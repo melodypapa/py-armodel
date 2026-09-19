@@ -302,15 +302,16 @@ markers were STRIPPED here; all stamps are deferred to one batch confirmation (u
   - [x] Step 8 — Deviations — **none**
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (426 touched tests incl. dispatch, lint/black/parity clean); 9b DEFERRED to batch stamp confirmation (user-instructed)
 - [ ] `TcpIpIcmpv4Props` (dependency of EcuInstance, Table 3.113 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.113 · member type of `EthTcpIpIcmpProps.icmpV4Props` below · added by 2026-09-19 Group5 dependency audit)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - **Step 1 finding:** PDF p.156 Table 3.113; Package `...Fibex4Ethernet::EthernetTopology` (leaf module EthernetTopology.py, Rule 0007 — same as TcpProps/UdpProps); Note "This meta-class specifies the configuration options for ICMPv4 (Internet Control Message Protocol)."; Base ARObject → most-derived ARObject (no SHORT-NAME, not Identifiable, NOT ARPackage-aggregatable — no parser dispatch/ARPackage factory, like TcpProps/UdpProps); 2 attrs both 0..1 attr, displayed order = XSD order: tcpIpIcmpV4EchoReplyEnabled (Boolean; markdown wrap artifact "tcpIpIcmp V4EchoReply Enabled" → XSD mmt.qualifiedName; element TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED) + tcpIpIcmpV4Ttl (PositiveInteger; element TCP-IP-ICMP-V-4-TTL); post-table constraint constr_5125 (tcpIpIcmpV4Ttl 1..255) appended to class docstring per System precedent; XSD group TCP-IP-ICMPV-4-PROPS L120312 / complexType L120334 (refs AR-OBJECT + own group only — no VARIATION-POINT anchor); no Tags/Stereotypes tails.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — 6 tests in TestTcpIpIcmpv4Props (inheritance/class-docstring-note incl. constr_5125 via inspect.cleandoc/initialization defaults/member order/get-set both attrs with None no-op); Red = ImportError at collection
+  - [x] Step 3 — Implement model class (Green) — `class TcpIpIcmpv4Props(ARObject)` appended after TcpProps in EthernetTopology.py; 2 Optional fields + getter/setter pairs in displayed order (getter-first, None-guards, chaining); armodel.TcpIpIcmpv4Props export resolves; 6/6 green
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class created in this pass with docstrings in place (wipe vacuous); class docstring = Note verbatim + constr_5125; member inline comments + get/set docstrings = Note column verbatim; setter None-no-op sentence; __init__ docless
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 2 parser tests (full 2-attr value asserts/empty all-None) + 2 writer tests (XSD-order tag list incl. text values/none-not-emitted len==0); Red = 4 failed AttributeError (no readTcpIpIcmpv4Props/writeTcpIpIcmpv4Props)
+  - [x] Step 6 — Update parser & writer (Green) — readTcpIpIcmpv4Props after readTcpProps (BOOLEAN→BooleanValue, POSITIVE-INTEGER→PositiveInteger, self-tagging writeTcpIpIcmpv4Props with TCP-IP-ICMPV-4-PROPS wrapper + same XSD order) placed after writeTcpProps; imports added to both files; NO ARPackage dispatch (Base=ARObject, like TcpProps/UdpProps — aggregated only by EthTcpIpIcmpProps queued later, aggregator call site deferred to that row); 516 touched tests green
+  - [x] Step 7 — Update checklist comment — 6-column format with per-row release R23-11; 5 rows all [x] (__init__ [—]/[—]; get rows [—]/[x]; set rows [x]/[—]), source order; no marker (deferred to batch confirmation)
+  - [x] Step 8 — Deviations — **none** (both attrs modeled 0..1 per XSD minOccurs="0"; member names verified against XSD mmt.qualifiedName; markdown wrap artifact "tcpIpIcmp V4EchoReply Enabled" normalized via XSD, not a deviation; no ARPackage dispatch — Base=ARObject; no Rule 0001.10 placeholders — Boolean/PositiveInteger primitives exist)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (4694 touched tests passed [Fibex4Ethernet model dir + parser dir + writer dir]; full suite 9774 passed, 0 failed, incl. integration 130-file round-trip; lint flake8+ruff clean, black unchanged/black-check clean, parity script OK [checklist==methods, source order], chained-mutator grep = baseline [187/0], verbatim docstring diff vs spec Notes OK); 9b DEFERRED to batch stamp confirmation (user-instructed)
 - [ ] `TcpIpIcmpv6Props` (dependency of EcuInstance, Table 3.114 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.114 · member type of `EthTcpIpIcmpProps.icmpV6Props` below · added by 2026-09-19 Group5 dependency audit)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

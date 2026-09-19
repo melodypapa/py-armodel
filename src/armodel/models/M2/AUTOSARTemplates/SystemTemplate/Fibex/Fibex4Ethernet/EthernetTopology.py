@@ -3666,3 +3666,52 @@ class TcpProps(ARObject):
         if value is not None:
             self.tcpTtl = value
         return self
+
+
+class TcpIpIcmpv4Props(ARObject):
+    """This meta-class specifies the configuration options for ICMPv4 (Internet Control Message Protocol).
+
+    [constr_5125] Value range of TcpIpIcmpv4Props.tcpIpIcmpV4Ttl: If defined, the value of TcpIpIcmpv4Props.tcpIpIcmpV4Ttl shall be in the range of 1..255.
+    """
+
+    # TcpIpIcmpv4Props method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.113, p.156 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTcpIpIcmpV4EchoReplyEnabled [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIcmpV4EchoReplyEnabled [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIcmpV4Ttl              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIcmpV4Ttl              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute enables or disables transmission of ICMP echo reply message in case of a ICMP echo reception.
+        self.tcpIpIcmpV4EchoReplyEnabled: Optional[Boolean] = None
+
+        # This attribute is only relevant in case that ICMP (Internet Control Message Protocol) is used. It specifies the default Time-to-live value of outgoing ICMP packets.
+        self.tcpIpIcmpV4Ttl: Optional[PositiveInteger] = None
+
+    def getTcpIpIcmpV4EchoReplyEnabled(self) -> Optional[Boolean]:
+        """This attribute enables or disables transmission of ICMP echo reply message in case of a ICMP echo reception."""
+        return self.tcpIpIcmpV4EchoReplyEnabled
+
+    def setTcpIpIcmpV4EchoReplyEnabled(self, value: Optional[Boolean]) -> "TcpIpIcmpv4Props":
+        """This attribute enables or disables transmission of ICMP echo reply message in case of a ICMP echo reception.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpIpIcmpV4EchoReplyEnabled = value
+        return self
+
+    def getTcpIpIcmpV4Ttl(self) -> Optional[PositiveInteger]:
+        """This attribute is only relevant in case that ICMP (Internet Control Message Protocol) is used. It specifies the default Time-to-live value of outgoing ICMP packets."""
+        return self.tcpIpIcmpV4Ttl
+
+    def setTcpIpIcmpV4Ttl(self, value: Optional[PositiveInteger]) -> "TcpIpIcmpv4Props":
+        """This attribute is only relevant in case that ICMP (Internet Control Message Protocol) is used. It specifies the default Time-to-live value of outgoing ICMP packets.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpIpIcmpV4Ttl = value
+        return self

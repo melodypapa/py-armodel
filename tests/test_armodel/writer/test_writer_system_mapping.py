@@ -43,7 +43,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordTypeMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import J1939Cluster
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import TcpProps, UdpProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import TcpIpIcmpv4Props, TcpProps, UdpProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import (  # noqa: E501
     IPduMapping,
     ISignalMapping,
@@ -1947,3 +1947,33 @@ class TestWriterEthTcpIpProps:
         assert child is not None
         assert child.find("TCP-PROPS") is None
         assert child.find("UDP-PROPS") is None
+
+
+class TestWriterTcpIpIcmpv4Props:
+    """Tests for writeTcpIpIcmpv4Props handler (R23-11 TcpIpIcmpv4Props, Table 3.113, p.156)."""
+
+    def _make_props(self):
+        props = TcpIpIcmpv4Props()
+        props.setTcpIpIcmpV4EchoReplyEnabled(_boolean(True))
+        props.setTcpIpIcmpV4Ttl(_positive_int(64))
+        return props
+
+    def test_members_in_xsd_order(self, writer):
+        props = self._make_props()
+        parent = _parent()
+        writer.writeTcpIpIcmpv4Props(parent, props)
+
+        child = parent.find("TCP-IP-ICMPV-4-PROPS")
+        assert child is not None
+        tags = [c.tag for c in child]
+        assert tags == ["TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED", "TCP-IP-ICMP-V-4-TTL"]
+        assert child.find("TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED").text == "true"
+        assert child.find("TCP-IP-ICMP-V-4-TTL").text == "64"
+
+    def test_none_members_not_emitted(self, writer):
+        props = TcpIpIcmpv4Props()
+        parent = _parent()
+        writer.writeTcpIpIcmpv4Props(parent, props)
+        child = parent.find("TCP-IP-ICMPV-4-PROPS")
+        assert child is not None
+        assert len(child) == 0

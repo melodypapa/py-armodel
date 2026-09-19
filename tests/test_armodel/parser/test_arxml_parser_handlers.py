@@ -25,7 +25,7 @@ from armodel.models import (
     InstanceEventInCompositionInstanceRef,
     InstantiationTimingEventProps,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthTcpIpProps, TcpProps, UdpProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthTcpIpProps, TcpIpIcmpv4Props, TcpProps, UdpProps
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -2610,3 +2610,27 @@ class TestReadEthTcpIpProps:
         parser.readEthTcpIpProps(element, props)
         assert props.getTcpProps() is None
         assert props.getUdpProps() is None
+
+
+class TestReadTcpIpIcmpv4Props:
+    """Tests for readTcpIpIcmpv4Props handler (R23-11 TcpIpIcmpv4Props, Table 3.113, p.156)."""
+
+    def test_read_tcp_ip_icmpv4_props_full(self, parser):
+        element = _snip(
+            """
+                <TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED>true</TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED>
+                <TCP-IP-ICMP-V-4-TTL>64</TCP-IP-ICMP-V-4-TTL>
+            """,
+            root_tag="TCP-IP-ICMPV-4-PROPS",
+        )
+        props = TcpIpIcmpv4Props()
+        parser.readTcpIpIcmpv4Props(element, props)
+        assert props.getTcpIpIcmpV4EchoReplyEnabled().getValue() is True
+        assert props.getTcpIpIcmpV4Ttl().getValue() == 64
+
+    def test_read_tcp_ip_icmpv4_props_empty(self, parser):
+        element = _snip("", root_tag="TCP-IP-ICMPV-4-PROPS")
+        props = TcpIpIcmpv4Props()
+        parser.readTcpIpIcmpv4Props(element, props)
+        assert props.getTcpIpIcmpV4EchoReplyEnabled() is None
+        assert props.getTcpIpIcmpV4Ttl() is None
