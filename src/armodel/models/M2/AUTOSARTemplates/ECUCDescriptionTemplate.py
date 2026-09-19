@@ -756,3 +756,34 @@ class FunctionNameValue(LinkerSymbolValue):
     # [x] setValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
     # ZERO own members (spec Table 3.38 attribute table is empty); inherits
     # definitionRef from ParameterValue and value from StringValue.
+
+
+class EnumerationValue(ParameterValue):
+    """
+    Representing a configuration value of definition type EnumerationParamDef
+    """
+
+    # EnumerationValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.39, p.101 (R3.2 Rev 3)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
+    # [x] getValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] setValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # Deviation: value optional — spec Mul=1 but XSD group ENUMERATION-VALUE (AUTOSAR.xsd
+    # L9275) has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins).
+
+    def __init__(self):
+        super().__init__()
+
+        # Stores the chosen literal.
+        self.value: Optional[String] = None
+
+    def getValue(self) -> Optional[String]:
+        """Stores the chosen literal."""
+        return self.value
+
+    def setValue(self, value: Optional[String]) -> "EnumerationValue":
+        """Stores the chosen literal. A None value is a no-op and does not overwrite an existing value."""
+        if value is not None:
+            self.value = value
+        return self

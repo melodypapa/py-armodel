@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucNumericalParamValue,
     EcucReferenceValue,
     EcucTextualParamValue,
+    EnumerationValue,
     FloatValue,
     FunctionNameValue,
     IntegerValue,
@@ -1110,5 +1111,46 @@ class TestFunctionNameValueWrite:
         writer.writeFunctionNameValue(parent, function_name_value)
         child = parent[0]
         assert child.tag == "FUNCTION-NAME-VALUE"
+        assert child.find("DEFINITION-REF") is None
+        assert child.find("VALUE") is None
+
+
+class TestEnumerationValueWrite:
+    """Tests for writeEnumerationValue handler (R3.2.3 EnumerationValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.39, p.101 (R3.2 Rev 3)
+    """
+
+    def test_set_enumeration_value_without_dest(self, writer):
+        enumeration_value = EnumerationValue()
+        enumeration_value.setDefinitionRef(_ref("/TS_T19D1M6I1R0_AS403/Os/OsOS/OsStatus"))
+        enumeration_value.setValue(String().setValue("EXTENDED"))
+        parent = _parent()
+        writer.writeEnumerationValue(parent, enumeration_value)
+        child = parent[0]
+        assert child.tag == "ENUMERATION-VALUE"
+        def_ref = child.find("DEFINITION-REF")
+        assert def_ref is not None
+        assert "DEST" not in def_ref.attrib
+        assert def_ref.text == "/TS_T19D1M6I1R0_AS403/Os/OsOS/OsStatus"
+        assert child.find("VALUE").text == "EXTENDED"
+
+    def test_set_enumeration_value_with_dest(self, writer):
+        enumeration_value = EnumerationValue()
+        enumeration_value.setDefinitionRef(_ref("/AUTOSAR/Rte/RteGeneration/RteGenerationMode", "ENUMERATION-PARAM-DEF"))
+        enumeration_value.setValue(String().setValue("CompatibilityMode"))
+        parent = _parent()
+        writer.writeEnumerationValue(parent, enumeration_value)
+        child = parent[0]
+        assert child.tag == "ENUMERATION-VALUE"
+        assert child.find("DEFINITION-REF").attrib["DEST"] == "ENUMERATION-PARAM-DEF"
+        assert child.find("VALUE").text == "CompatibilityMode"
+
+    def test_set_enumeration_value_empty(self, writer):
+        enumeration_value = EnumerationValue()
+        parent = _parent()
+        writer.writeEnumerationValue(parent, enumeration_value)
+        child = parent[0]
+        assert child.tag == "ENUMERATION-VALUE"
         assert child.find("DEFINITION-REF") is None
         assert child.find("VALUE") is None

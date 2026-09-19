@@ -351,6 +351,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucReferenceValue,
     EcucTextualParamValue,
     EcucValueCollection,
+    EnumerationValue,
     FloatValue,
     FunctionNameValue,
     IntegerValue,
@@ -11790,6 +11791,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readFunctionNameValue(self, element: ET.Element, function_name_value: FunctionNameValue):
         """Read an R3.2.3 <FUNCTION-NAME-VALUE> element (Table 3.38): DEFINITION-REF followed by VALUE."""
         self.readStringValue(element, function_name_value)
+
+    def readEnumerationValue(self, element: ET.Element, enumeration_value: EnumerationValue):
+        """Read an R3.2.3 <ENUMERATION-VALUE> element (Table 3.39): DEFINITION-REF followed by VALUE."""
+        self.readParameterValue(element, enumeration_value)
+        enumeration_value.setValue(self.getChildElementOptionalString(element, "VALUE"))
 
     def readEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))

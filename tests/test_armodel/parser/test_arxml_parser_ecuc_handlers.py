@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucNumericalParamValue,
     EcucReferenceValue,
     EcucTextualParamValue,
+    EnumerationValue,
     FloatValue,
     FunctionNameValue,
     IntegerValue,
@@ -2473,3 +2474,62 @@ class TestFunctionNameValue:
         parser.readFunctionNameValue(element, function_name_value)
         assert function_name_value.getDefinitionRef() is None
         assert function_name_value.getValue().getValue() == "OsTaskActivation"
+
+
+class TestEnumerationValue:
+    """Tests for readEnumerationValue handler (R3.2.3 EnumerationValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.39, p.101 (R3.2 Rev 3)
+    """
+
+    def test_get_enumeration_value_without_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsOS/OsStatus</DEFINITION-REF>
+                <VALUE>EXTENDED</VALUE>
+            """,
+            root_tag="ENUMERATION-VALUE",
+        )
+        enumeration_value = EnumerationValue()
+        parser.readEnumerationValue(element, enumeration_value)
+        assert isinstance(enumeration_value, EnumerationValue)
+        assert enumeration_value.getDefinitionRef().getValue() == "/TS_T19D1M6I1R0_AS403/Os/OsOS/OsStatus"
+        assert enumeration_value.getDefinitionRef().getDest() is None
+        assert enumeration_value.getValue().getValue() == "EXTENDED"
+
+    def test_get_enumeration_value_with_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF DEST="ENUMERATION-PARAM-DEF">/AUTOSAR/Rte/RteGeneration/RteGenerationMode</DEFINITION-REF>
+                <VALUE>CompatibilityMode</VALUE>
+            """,
+            root_tag="ENUMERATION-VALUE",
+        )
+        enumeration_value = EnumerationValue()
+        parser.readEnumerationValue(element, enumeration_value)
+        assert enumeration_value.getDefinitionRef().getDest() == "ENUMERATION-PARAM-DEF"
+        assert enumeration_value.getValue().getValue() == "CompatibilityMode"
+
+    def test_get_enumeration_value_missing_value(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/Literal</DEFINITION-REF>
+            """,
+            root_tag="ENUMERATION-VALUE",
+        )
+        enumeration_value = EnumerationValue()
+        parser.readEnumerationValue(element, enumeration_value)
+        assert enumeration_value.getDefinitionRef().getValue() == "/Defs/Literal"
+        assert enumeration_value.getValue() is None
+
+    def test_get_enumeration_value_missing_definition_ref(self, parser):
+        element = _snip(
+            """
+                <VALUE>EXTENDED</VALUE>
+            """,
+            root_tag="ENUMERATION-VALUE",
+        )
+        enumeration_value = EnumerationValue()
+        parser.readEnumerationValue(element, enumeration_value)
+        assert enumeration_value.getDefinitionRef() is None
+        assert enumeration_value.getValue().getValue() == "EXTENDED"

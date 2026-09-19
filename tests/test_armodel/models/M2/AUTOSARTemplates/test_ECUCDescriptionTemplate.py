@@ -8,6 +8,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
+    EnumerationValue,
     EcucAbstractReferenceValue,
     EcucAddInfoParamValue,
     EcucContainerValue,
@@ -431,5 +432,31 @@ class TestFunctionNameValue:
         assert result is obj
         assert obj.getValue() == value
         assert obj.getValue().getValue() == "OsTaskActivation"
+        obj.setValue(None)
+        assert obj.getValue() == value
+
+
+class TestEnumerationValue:
+    """
+    Test class for EnumerationValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.39, p.101 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(EnumerationValue, ParameterValue)
+
+    def test_initialization_defaults(self):
+        obj = EnumerationValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValue() is None
+
+    def test_get_set_value(self):
+        obj = EnumerationValue()
+        value = String().setValue("EXTENDED")
+        result = obj.setValue(value)
+        assert result is obj
+        assert obj.getValue() == value
+        assert obj.getValue().getValue() == "EXTENDED"
         obj.setValue(None)
         assert obj.getValue() == value

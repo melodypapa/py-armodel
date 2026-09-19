@@ -101,15 +101,16 @@ Input: R3.2.3 legacy spec `autosar/R3.2.3/pdf/AUTOSAR_ECU_Configuration.pdf` (V2
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (333 touched tests, lint flake8+ruff clean, black 948 unchanged, parity OK); 9b DEFERRED to batch stamp confirmation (user-instructed 2026-09-19) — marker to be written with the other 6 classes after the batch gate
 - [ ] `EnumerationValue` — R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.39, p.101 (R3.2 Rev 3)
   - **Step 1 finding:** Base = `ParameterValue`. Members: `value` (String, 1, attr — "Stores the chosen literal"). XML `ENUMERATION-VALUE` (XSD group L9269). 13× in Os_ECUC.arxml (`<VALUE>EXTENDED</VALUE>`).
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations — `value` optional per XSD (spec says 1)
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - **Step 1 verified 2026-09-19:** PDF p.101 Table 3.39 — Note "Representing a configuration value of definition type EnumerationParamDef", Base row ARObject/ParameterValue → most-derived ParameterValue, 1 attr value (String, 1, "Stores the chosen literal."); XSD complexType L9281 = PARAMETER-VALUE group → ENUMERATION-VALUE group, VALUE xsd:string minOccurs="0" (deviation pre-noted); XSD doc = Note verbatim; PARAMETER-VALUES choice membership L9262 (first member, before BOOLEAN-VALUE).
+  - [x] Step 1 — Sync members & description from spec — verified 2026-09-19 (see finding above)
+  - [x] Step 2 — Write model class unit test (Red) — 3 tests in TestEnumerationValue (inheritance/initialization/get_set_value); Red = ImportError at collection (class missing)
+  - [x] Step 3 — Implement model class (Green) — `class EnumerationValue(ParameterValue)` appended to ECUCDescriptionTemplate.py (after FunctionNameValue); member value: Optional[String]; 50/50 model tests green
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class created bare in Step 3 (wipe vacuous); class docstring = Table 3.39 Note verbatim; member inline comment + get/set docstrings = "Stores the chosen literal." verbatim; setter None-no-op sentence; __init__ docless
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 4 parser tests (without/with DEST, missing VALUE, missing DEFINITION-REF) + 3 writer tests (without/with DEST, empty); Red = AttributeError ×7
+  - [x] Step 6 — Update parser & writer (Green) — parser readEnumerationValue after readFunctionNameValue (readParameterValue + getChildElementOptionalString VALUE); writer writeEnumerationValue after writeFunctionNameValue (self-tagging ENUMERATION-VALUE + writeParameterValue + setChildElementOptionalString VALUE); imports extended in both; no ARPackage dispatch (not an ARElement — helper pair for future Container choice loop); 263 touched tests green
+  - [x] Step 7 — Update checklist comment — 6-column format with release column R3.2.3, 3 rows all [x] (getValue [—]/[x], setValue [x]/[—], __init__ [—]/[—]); `# Spec verified:` stamp deferred to batch confirmation (user-instructed 2026-09-19)
+  - [x] Step 8 — Deviations — `value` optional per XSD group ENUMERATION-VALUE (AUTOSAR.xsd L9275) minOccurs="0" (spec Mul=1; Rule 0019.3 inverted, sample evidence wins) — deviation note in class checklist
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (263 touched tests incl. all ECUC handler/model suites, lint/black/parity clean); 9b DEFERRED to batch stamp confirmation (user-instructed 2026-09-19)
 - [ ] `ConfigReferenceValue` (abstract) — R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.40, p.103 (R3.2 Rev 3)
   - **Step 1 finding:** Base = `ARObject` (abstract). Members: `definition` (ConfigReference, 1, ref, Tags: `xml.sequenceOffset=-10`). XML parent of `REFERENCE-VALUE`/`INSTANCE-REFERENCE-VALUE`.
   - [ ] Step 1 — Sync members & description from spec
