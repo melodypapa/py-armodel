@@ -65,27 +65,23 @@ class TestSystemTemplate:
 
         # Test default values
         assert mapping.getComManagementGroupRefs() == []
-        assert mapping.getComManagementPortGroupRefs() == []
-        assert mapping.getPhysicalChannelRef() is None
-
-        # Test setter/getter methods with method chaining - with None values
-        assert mapping == mapping.setPhysicalChannelRef(None)
-        assert mapping.getPhysicalChannelRef() is None
-
-        # Test setter/getter methods with method chaining - with actual values
-        mapping.setPhysicalChannelRef("channel_ref")
-        assert mapping.getPhysicalChannelRef() == "channel_ref"
-        assert mapping == mapping.setPhysicalChannelRef("channel_ref")
+        assert mapping.getComManagementPortGroupIRefs() == []
+        assert mapping.getPhysicalChannelRefs() == []
 
         # Test addComManagementGroupRef
         mapping.addComManagementGroupRef("group_ref")
         assert "group_ref" in mapping.getComManagementGroupRefs()
         assert mapping == mapping.addComManagementGroupRef("group_ref2")
 
-        # Test addComManagementPortGroupRef
-        mapping.addComManagementPortGroupRef("port_group_ref")
-        assert "port_group_ref" in mapping.getComManagementPortGroupRefs()
-        assert mapping == mapping.addComManagementPortGroupRef("port_group_ref2")
+        # Test addComManagementPortGroupIRef
+        mapping.addComManagementPortGroupIRef("port_group_iref")
+        assert "port_group_iref" in mapping.getComManagementPortGroupIRefs()
+        assert mapping == mapping.addComManagementPortGroupIRef("port_group_iref2")
+
+        # Test addPhysicalChannelRef
+        mapping.addPhysicalChannelRef("channel_ref")
+        assert "channel_ref" in mapping.getPhysicalChannelRefs()
+        assert mapping == mapping.addPhysicalChannelRef("channel_ref2")
 
     def test_system_mapping(self):
         """
@@ -212,6 +208,11 @@ class TestSystemTemplate:
         ecu_mapping = mapping.createECUMapping("ecu_mapping_name")
         assert ecu_mapping is not None
         assert ecu_mapping in mapping.getEcuResourceMappings()
+
+        com_mapping = mapping.createComManagementMapping("com_mapping_name")
+        assert com_mapping is not None
+        assert com_mapping in mapping.getComManagementMappings()
+        assert mapping.createComManagementMapping("com_mapping_name") is com_mapping
 
         impl_mapping = mapping.createSwcToImplMapping("impl_mapping_name")
         assert impl_mapping is not None

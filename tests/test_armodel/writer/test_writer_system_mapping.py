@@ -1325,3 +1325,80 @@ class TestWriterJ1939SharedAddressCluster:
         assert refs[1].getValue() == "/Systems/J1939ClusterB"
         assert refs[1].getDest() == "J-1939-CLUSTER"
         assert cluster_2.getVariationPoint().getShortLabel().getValue() == "VP_CLUSTER"
+
+
+class TestWriterComManagementMapping:
+    def _make_com_mapping(self):
+        system = _make_system()
+        system_mapping = system.createSystemMapping("SM")
+        com_mapping = system_mapping.createComManagementMapping("ComMapping1")
+        com_mapping.addComManagementGroupRef(_ref("/Systems/IPduGroupA", "I-SIGNAL-I-PDU-GROUP"))
+        com_mapping.addComManagementGroupRef(_ref("/Systems/IPduGroupB", "I-SIGNAL-I-PDU-GROUP"))
+        com_mapping.addPhysicalChannelRef(_ref("/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel", "CAN-COMMUNICATION-CONNECTOR"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(Identifier().setValue("VP_COMMAP"))
+        com_mapping.setVariationPoint(variation_point)
+        return system, com_mapping
+
+    def test_wrappers_and_variation_point_in_xsd_order(self, writer):
+        system, _com_mapping = self._make_com_mapping()
+        parent = _parent()
+        writer.writeSystem(parent, system)
+        s = parent[0]
+        assert s.tag == "SYSTEM"
+        mapping_element = s.find("MAPPINGS/SYSTEM-MAPPING")
+        assert mapping_element is not None
+        tags = [c.tag for c in mapping_element]
+        assert "COM-MANAGEMENT-MAPPINGS" in tags
+        if "DATA-MAPPINGS" in tags:
+            assert tags.index("COM-MANAGEMENT-MAPPINGS") < tags.index("DATA-MAPPINGS")
+        com_element = mapping_element.find("COM-MANAGEMENT-MAPPINGS/COM-MANAGEMENT-MAPPING")
+        assert com_element is not None
+        child_tags = [c.tag for c in com_element]
+        assert child_tags.index("COM-MANAGEMENT-GROUP-REFS") < child_tags.index("PHYSICAL-CHANNEL-REFS") < child_tags.index("VARIATION-POINT")
+        group_refs = com_element.findall("COM-MANAGEMENT-GROUP-REFS/COM-MANAGEMENT-GROUP-REF")
+        assert [r.text for r in group_refs] == ["/Systems/IPduGroupA", "/Systems/IPduGroupB"]
+        assert all(r.attrib["DEST"] == "I-SIGNAL-I-PDU-GROUP" for r in group_refs)
+        channel_refs = com_element.findall("PHYSICAL-CHANNEL-REFS/PHYSICAL-CHANNEL-REF")
+        assert [r.text for r in channel_refs] == ["/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel"]
+        assert all(r.attrib["DEST"] == "CAN-COMMUNICATION-CONNECTOR" for r in channel_refs)
+        assert com_element.find("VARIATION-POINT/SHORT-LABEL").text == "VP_COMMAP"
+
+    def test_empty_refs_wrappers_not_emitted(self, writer):
+        system = _make_system()
+        system.createSystemMapping("SM").createComManagementMapping("ComMapping1")
+        parent = _parent()
+        writer.writeSystem(parent, system)
+        com_element = parent[0].find("MAPPINGS/SYSTEM-MAPPING/COM-MANAGEMENT-MAPPINGS/COM-MANAGEMENT-MAPPING")
+        assert com_element is not None
+        assert com_element.find("COM-MANAGEMENT-GROUP-REFS") is None
+        assert com_element.find("PHYSICAL-CHANNEL-REFS") is None
+
+    def test_round_trip_refs_and_variation_point(self, tmp_path):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        system, _com_mapping = self._make_com_mapping()
+
+        file_path = str(tmp_path / "com_management_mapping_round_trip.arxml")
+        ARXMLWriter().save(file_path, document)
+
+        document_2 = AUTOSAR.getInstance()
+        document_2.clear()
+        ARXMLParser().load(file_path, document_2)
+
+        system_2 = document_2.getARPackages()[0].getElement("Sys")
+        assert system_2 is not None
+        com_mappings = system_2.getMappings()[0].getComManagementMappings()
+        assert len(com_mappings) == 1
+        com_mapping_2 = com_mappings[0]
+        assert com_mapping_2.getShortName() == "ComMapping1"
+        group_refs = com_mapping_2.getComManagementGroupRefs()
+        assert [r.getValue() for r in group_refs] == ["/Systems/IPduGroupA", "/Systems/IPduGroupB"]
+        assert all(r.getDest() == "I-SIGNAL-I-PDU-GROUP" for r in group_refs)
+        channel_refs = com_mapping_2.getPhysicalChannelRefs()
+        assert [r.getValue() for r in channel_refs] == ["/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel"]
+        assert all(r.getDest() == "CAN-COMMUNICATION-CONNECTOR" for r in channel_refs)
+        assert com_mapping_2.getVariationPoint().getShortLabel().getValue() == "VP_COMMAP"

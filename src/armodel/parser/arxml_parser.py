@@ -674,7 +674,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment, RoleBasedPortAssignment, SwcServiceDependency
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import J1939SharedAddressCluster, SwcToEcuMapping, System, SystemMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ComManagementMapping, J1939SharedAddressCluster, SwcToEcuMapping, System, SystemMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecCompositeTypeMapping,
     SenderReceiverToSignalGroupMapping,
@@ -12258,9 +12258,22 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported SwImplMapping <%s>" % tag_name)
 
+    def readComManagementMapping(self, element: ET.Element, mapping: ComManagementMapping):
+        self.readIdentifiable(element, mapping)
+        for ref in self.getChildElementRefTypeList(element, "COM-MANAGEMENT-GROUP-REFS/COM-MANAGEMENT-GROUP-REF"):
+            mapping.addComManagementGroupRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "PHYSICAL-CHANNEL-REFS/PHYSICAL-CHANNEL-REF"):
+            mapping.addPhysicalChannelRef(ref)
+
+    def readSystemMappingComManagementMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "COM-MANAGEMENT-MAPPINGS/COM-MANAGEMENT-MAPPING"):
+            com_mapping = mapping.createComManagementMapping(self.getShortName(child_element))
+            self.readComManagementMapping(child_element, com_mapping)
+
     def readSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         # self.logger.debug("Read SystemMapping <%s>" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
+        self.readSystemMappingComManagementMappings(element, mapping)
         self.readSystemMappingDataMappings(element, mapping)
         self.readSystemMappingEcuResourceMappings(element, mapping)
         self.readSystemMappingSwImplMappings(element, mapping)

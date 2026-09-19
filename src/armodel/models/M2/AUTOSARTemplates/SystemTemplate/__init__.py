@@ -81,50 +81,80 @@ class SwcToEcuMapping(Identifiable, VariationPointCapable):
 
 class ComManagementMapping(Identifiable, VariationPointCapable):
     """
-    Represents communication management mapping in the system,
-    defining how communication management groups and port groups
-    are mapped to physical communication channels.
+    Describes a mapping between one or several Mode Management PortGroups and communication channels.
     """
 
     # ComManagementMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getComManagementGroupRefs    [x] impl  [ ] docstring  [ ] test
-    # [ ] addComManagementGroupRef     [x] impl  [ ] docstring  [ ] test
-    # [ ] getComManagementPortGroupRefs [x] impl  [ ] docstring  [ ] test
-    # [ ] addComManagementPortGroupRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getPhysicalChannelRef        [x] impl  [ ] docstring  [ ] test
-    # [ ] setPhysicalChannelRef        [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.46, p.282
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addComManagementGroupRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getComManagementGroupRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [ ] addComManagementPortGroupIRef  [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [ ] getComManagementPortGroupIRefs [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] addPhysicalChannelRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPhysicalChannelRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # IPduGroup participating in a Mode Management PortGroup.
         self.comManagementGroupRefs: List[RefType] = []
-        self.comManagementPortGroupRefs: List[RefType] = []
-        self.physicalChannelRef: RefType = None
 
-    def getComManagementGroupRefs(self):
-        return self.comManagementGroupRefs
+        # Mode Management PortGroup to be mapped onto a communication channel. This reference is optional in case that the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy systems.
+        # Placeholder List[RefType] until PortGroupInSystemInstanceRef is implemented (Rule 0001.10); Kind iref (Table 5.46)
+        self.comManagementPortGroupIRefs: List[RefType] = []
 
-    def addComManagementGroupRef(self, value):
+        # This reference maps the Mode Management PortGroup partial network to communication channels.
+        self.physicalChannelRefs: List[RefType] = []
+
+    def addComManagementGroupRef(self, value: Optional[RefType]) -> "ComManagementMapping":
+        """
+        IPduGroup participating in a Mode Management PortGroup.
+
+        A None value is a no-op and does not add to comManagementGroupRefs.
+        """
         if value is not None:
             self.comManagementGroupRefs.append(value)
         return self
 
-    def getComManagementPortGroupRefs(self):
-        return self.comManagementPortGroupRefs
+    def getComManagementGroupRefs(self) -> List[RefType]:
+        """
+        IPduGroup participating in a Mode Management PortGroup.
+        """
+        return self.comManagementGroupRefs
 
-    def addComManagementPortGroupRef(self, value):
+    def addComManagementPortGroupIRef(self, value: Optional[RefType]) -> "ComManagementMapping":
+        """
+        Mode Management PortGroup to be mapped onto a communication channel. This reference is optional in case that the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy systems.
+
+        A None value is a no-op and does not add to comManagementPortGroupIRefs.
+        """
         if value is not None:
-            self.comManagementPortGroupRefs.append(value)
+            self.comManagementPortGroupIRefs.append(value)
         return self
 
-    def getPhysicalChannelRef(self):
-        return self.physicalChannelRef
+    def getComManagementPortGroupIRefs(self) -> List[RefType]:
+        """
+        Mode Management PortGroup to be mapped onto a communication channel. This reference is optional in case that the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy systems.
+        """
+        return self.comManagementPortGroupIRefs
 
-    def setPhysicalChannelRef(self, value):
+    def addPhysicalChannelRef(self, value: Optional[RefType]) -> "ComManagementMapping":
+        """
+        This reference maps the Mode Management PortGroup partial network to communication channels.
+
+        A None value is a no-op and does not add to physicalChannelRefs.
+        """
         if value is not None:
-            self.physicalChannelRef = value
+            self.physicalChannelRefs.append(value)
         return self
+
+    def getPhysicalChannelRefs(self) -> List[RefType]:
+        """
+        This reference maps the Mode Management PortGroup partial network to communication channels.
+        """
+        return self.physicalChannelRefs
 
 
 class SystemMapping(Identifiable, VariationPointCapable):
@@ -143,6 +173,7 @@ class SystemMapping(Identifiable, VariationPointCapable):
     # [ ] addAppOsTaskProxyToEcuTaskProxyMapping [x] impl  [ ] docstring  [ ] test
     # [ ] getComManagementMappings     [x] impl  [ ] docstring  [ ] test
     # [ ] addComManagementMapping      [x] impl  [ ] docstring  [ ] test
+    # [ ] createComManagementMapping   [x] impl  [ ] docstring  [ ] test
     # [ ] getCryptoServiceMappings     [x] impl  [ ] docstring  [ ] test
     # [ ] addCryptoServiceMapping      [x] impl  [ ] docstring  [ ] test
     # [ ] getDataMappings              [x] impl  [ ] docstring  [ ] test
@@ -235,6 +266,13 @@ class SystemMapping(Identifiable, VariationPointCapable):
     def addComManagementMapping(self, value):
         self.comManagementMappings.append(value)
         return self
+
+    def createComManagementMapping(self, short_name: str) -> ComManagementMapping:
+        if not self.IsElementExists(short_name, ComManagementMapping):
+            mapping = ComManagementMapping(self, short_name)
+            self.addElement(mapping)
+            self.comManagementMappings.append(mapping)
+        return self.getElement(short_name, ComManagementMapping)
 
     def getCryptoServiceMappings(self):
         return self.cryptoServiceMappings

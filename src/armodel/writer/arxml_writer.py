@@ -600,7 +600,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment, RoleBasedPortAssignment, SwcServiceDependency
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import J1939SharedAddressCluster, SwcToEcuMapping, System, SystemMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ComManagementMapping, J1939SharedAddressCluster, SwcToEcuMapping, System, SystemMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecCompositeTypeMapping,
     SenderReceiverToSignalGroupMapping,
@@ -10831,10 +10831,33 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported SwImplMapping <%s>" % type(sw_impl_mapping))
 
+    def writeComManagementMapping(self, element: ET.Element, mapping: ComManagementMapping):
+        self.writeIdentifiable(element, mapping, write_variation_point=False)
+        refs = mapping.getComManagementGroupRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "COM-MANAGEMENT-GROUP-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "COM-MANAGEMENT-GROUP-REF", ref)
+        refs = mapping.getPhysicalChannelRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "PHYSICAL-CHANNEL-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "PHYSICAL-CHANNEL-REF", ref)
+        self.writeVariationPoint(element, mapping.getVariationPoint())
+
+    def writeSystemMappingComManagementMappings(self, element: ET.Element, mapping: SystemMapping):
+        com_mappings = mapping.getComManagementMappings()
+        if len(com_mappings) > 0:
+            mappings_tag = ET.SubElement(element, "COM-MANAGEMENT-MAPPINGS")
+            for com_mapping in com_mappings:
+                child_element = ET.SubElement(mappings_tag, "COM-MANAGEMENT-MAPPING")
+                self.writeComManagementMapping(child_element, com_mapping)
+
     def writeSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         self.logger.debug("Write SystemMapping <%s>" % mapping.getShortName())
         child_element = ET.SubElement(element, "SYSTEM-MAPPING")
         self.writeIdentifiable(child_element, mapping)
+        self.writeSystemMappingComManagementMappings(child_element, mapping)
         self.writeSystemMappingDataMappings(child_element, mapping)
         self.writeSystemMappingEcuResourceMappings(child_element, mapping)
         self.writeSystemMappingSwImplMappings(child_element, mapping)
