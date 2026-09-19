@@ -59,15 +59,11 @@ reader/writer gate on `isinstance(obj, VariationPointCapable)`.
 | — *(missing)* | `—` | `arTypedPerInstanceMemory` | ``VariableDataPrototype`` | aggr | missing |
 
 ## `System`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 42
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `fibexelementrefs` | `—` | `fibexElement` | ``FibexElement`` | ref | type (spec many vs py single) |
-| — *(missing)* | `—` | `j1939SharedAddressCluster` | ``J1939SharedAddress Cluster`` | aggr | missing |
-| — *(missing)* | `—` | `mapping` | ``SystemMapping`` | aggr | missing |
+No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 2.1 (p.42, R23-11): all 13 attributes have typed fields, accessor pairs, and reader/writer coverage; the former `fibexelementrefs`/`j1939SharedAddressCluster`/`mapping` rows are resolved (list field, `createJ1939SharedAddressCluster`, `createSystemMapping` + dedicated `mappings` field). Interim note (not a deviation): aggregated `J1939SharedAddressCluster` children are read/written at Identifiable level until that class's own sync (Group5 Table 6.324) lands.
 
 ## `SenderReceiverInterface`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —

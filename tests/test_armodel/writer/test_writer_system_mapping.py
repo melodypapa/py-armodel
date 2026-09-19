@@ -583,6 +583,125 @@ class TestWriterSystem:
         assert s.find("ROOT-SOFTWARE-COMPOSITIONS") is not None
         assert s.find("SYSTEM-VERSION") is not None
 
+    def test_all_attributes_in_xsd_order(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
+
+        system = _make_system()
+        system.createSystemDocumentation("Doc1").setHelpEntry(String().setValue("help-topic-1"))
+        system.addClientIdDefinitionSetRef(_ref("/Systems/ClientIds", "CLIENT-ID-DEFINITION-SET"))
+        system.setContainerIPduHeaderByteOrder(_literal("MOST-SIGNIFICANT-BYTE-FIRST"))
+        system.setEcuExtractVersion(_revision("1.0.0"))
+        system.addFibexElementRef(_ref("/CanSystem/CLUSTERS/CanNetwork", "CAN-CLUSTER"))
+        system.addInterpolationRoutineMappingSetRef(_ref("/Systems/InterpMapping", "INTERPOLATION-ROUTINE-MAPPING-SET"))
+        system.createJ1939SharedAddressCluster("Cluster1")
+        system.createSystemMapping("SM")
+        system.setPncVectorLength(_positive_int(8))
+        system.setPncVectorOffset(_positive_int(4))
+        system.createRootSoftwareComposition("Root")
+        system.addSwClusterRef(_ref("/Systems/Cluster", "CP-SOFTWARE-CLUSTER"))
+        system.setSystemVersion(_revision("2.0.0"))
+        parent = _parent()
+        writer.writeSystem(parent, system)
+        s = parent[0]
+        assert s.tag == "SYSTEM"
+        expected_order = [
+            "SYSTEM-DOCUMENTATIONS",
+            "CLIENT-ID-DEFINITION-SET-REFS",
+            "CONTAINER-I-PDU-HEADER-BYTE-ORDER",
+            "ECU-EXTRACT-VERSION",
+            "FIBEX-ELEMENTS",
+            "INTERPOLATION-ROUTINE-MAPPING-SET-REFS",
+            "J-1939-SHARED-ADDRESS-CLUSTERS",
+            "MAPPINGS",
+            "PNC-VECTOR-LENGTH",
+            "PNC-VECTOR-OFFSET",
+            "ROOT-SOFTWARE-COMPOSITIONS",
+            "SW-CLUSTERS",
+            "SYSTEM-VERSION",
+        ]
+        tags = [c.tag for c in s]
+        assert [t for t in tags if t in expected_order] == expected_order
+        assert s.find("CLIENT-ID-DEFINITION-SET-REFS/CLIENT-ID-DEFINITION-SET-REF").text == "/Systems/ClientIds"
+        assert s.find("CONTAINER-I-PDU-HEADER-BYTE-ORDER").text == "MOST-SIGNIFICANT-BYTE-FIRST"
+        assert s.find("INTERPOLATION-ROUTINE-MAPPING-SET-REFS/INTERPOLATION-ROUTINE-MAPPING-SET-REF").text == "/Systems/InterpMapping"
+        assert s.find("J-1939-SHARED-ADDRESS-CLUSTERS/J-1939-SHARED-ADDRESS-CLUSTER") is not None
+        assert s.find("PNC-VECTOR-LENGTH").text == "8"
+        assert s.find("PNC-VECTOR-OFFSET").text == "4"
+        assert s.find("SW-CLUSTERS/CP-SOFTWARE-CLUSTER-REF-CONDITIONAL/CP-SOFTWARE-CLUSTER-REF").text == "/Systems/Cluster"
+        assert s.find("SYSTEM-DOCUMENTATIONS/CHAPTER") is not None
+
+    def test_empty_wrappers_not_emitted(self, writer):
+        system = _make_system()
+        parent = _parent()
+        writer.writeSystem(parent, system)
+        s = parent[0]
+        assert s.tag == "SYSTEM"
+        for wrapper in (
+            "SYSTEM-DOCUMENTATIONS",
+            "CLIENT-ID-DEFINITION-SET-REFS",
+            "CONTAINER-I-PDU-HEADER-BYTE-ORDER",
+            "ECU-EXTRACT-VERSION",
+            "FIBEX-ELEMENTS",
+            "INTERPOLATION-ROUTINE-MAPPING-SET-REFS",
+            "J-1939-SHARED-ADDRESS-CLUSTERS",
+            "MAPPINGS",
+            "PNC-VECTOR-LENGTH",
+            "PNC-VECTOR-OFFSET",
+            "ROOT-SOFTWARE-COMPOSITIONS",
+            "SW-CLUSTERS",
+            "SYSTEM-VERSION",
+        ):
+            assert s.find(wrapper) is None
+
+
+class TestSystemFullRoundTrip:
+    def test_round_trip_all_attributes(self, tmp_path):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        system = document.createARPackage("Systems").createSystem("FullSystem")
+        system.createSystemDocumentation("Doc1").setHelpEntry(String().setValue("help-topic-1"))
+        system.addClientIdDefinitionSetRef(_ref("/Systems/ClientIds", "CLIENT-ID-DEFINITION-SET"))
+        system.setContainerIPduHeaderByteOrder(_literal("MOST-SIGNIFICANT-BYTE-FIRST"))
+        system.setEcuExtractVersion(_revision("1.0.0"))
+        system.addFibexElementRef(_ref("/CanSystem/CLUSTERS/CanNetwork", "CAN-CLUSTER"))
+        system.addInterpolationRoutineMappingSetRef(_ref("/Systems/InterpMapping", "INTERPOLATION-ROUTINE-MAPPING-SET"))
+        system.createJ1939SharedAddressCluster("Cluster1")
+        system.createSystemMapping("SM")
+        system.setPncVectorLength(_positive_int(8))
+        system.setPncVectorOffset(_positive_int(4))
+        system.createRootSoftwareComposition("Root")
+        system.addSwClusterRef(_ref("/Systems/Cluster", "CP-SOFTWARE-CLUSTER"))
+        system.setSystemVersion(_revision("2.0.0"))
+
+        file_path = str(tmp_path / "system_full.arxml")
+        ARXMLWriter().save(file_path, document)
+
+        document_2 = AUTOSAR.getInstance()
+        document_2.clear()
+        ARXMLParser().load(file_path, document_2)
+
+        system_2 = document_2.getARPackages()[0].getElement("FullSystem")
+        assert system_2 is not None
+        chapters = system_2.getSystemDocumentations()
+        assert [c.getShortName() for c in chapters] == ["Doc1"]
+        assert chapters[0].getHelpEntry().getValue() == "help-topic-1"
+        assert system_2.getClientIdDefinitionSetRefs()[0].getValue() == "/Systems/ClientIds"
+        assert system_2.getContainerIPduHeaderByteOrder().getValue() == "MOST-SIGNIFICANT-BYTE-FIRST"
+        assert system_2.getEcuExtractVersion().getValue() == "1.0.0"
+        assert system_2.getFibexElementRefs()[0].getValue() == "/CanSystem/CLUSTERS/CanNetwork"
+        assert system_2.getInterpolationRoutineMappingSetRefs()[0].getValue() == "/Systems/InterpMapping"
+        assert [c.getShortName() for c in system_2.getJ1939SharedAddressClusters()] == ["Cluster1"]
+        assert [m.getShortName() for m in system_2.getMappings()] == ["SM"]
+        assert system_2.getPncVectorLength().getValue() == 8
+        assert system_2.getPncVectorOffset().getValue() == 4
+        assert system_2.getRootSoftwareComposition().getShortName() == "Root"
+        assert system_2.getSwClusterRefs()[0].getValue() == "/Systems/Cluster"
+        assert system_2.getSystemVersion().getValue() == "2.0.0"
+
 
 class TestWriterPhysicalDimension:
     def test_full(self, writer):

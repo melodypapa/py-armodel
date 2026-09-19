@@ -2115,7 +2115,7 @@ class TestSystemAndMappingHandlers:
         system = System(parent=_autosar_root(), short_name="sys")
         element = _snip(
             "<SHORT-NAME>sys</SHORT-NAME>"
-            "<ECU-EXTRACT-VERSION>1.0</ECU-EXTRACT-VERSION>"
+            "<ECU-EXTRACT-VERSION>1.0.0</ECU-EXTRACT-VERSION>"
             "<FIBEX-ELEMENTS>"
             "<FIBEX-ELEMENT-REF-CONDITIONAL>"
             "<FIBEX-ELEMENT-REF DEST='CAN-CLUSTER'>/can</FIBEX-ELEMENT-REF>"
@@ -2127,7 +2127,7 @@ class TestSystemAndMappingHandlers:
             root_tag="SYSTEM",
         )
         parser.readSystem(element, system)
-        assert system.getEcuExtractVersion().getValue() == "1.0"
+        assert system.getEcuExtractVersion().getValue() == "1.0.0"
         assert len(system.getFibexElementRefs()) == 1
         assert len(system.getMappings()) == 1
 
