@@ -54,17 +54,17 @@ Input: R3.2.3 legacy spec `autosar/R3.2.3/pdf/AUTOSAR_ECU_Configuration.pdf` (V2
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — `value` optional per XSD (spec says 1)
   - [x] Step 9 — Verify (9a: 9481 passed, lint/black clean) + confirm (9b user OK 2026-09-19)
-- [ ] `FloatValue` — R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.35, p.99 (R3.2 Rev 3)
+- [x] `FloatValue` — R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.35, p.99 (R3.2 Rev 3) — DONE 2026-09-19, commit `500cfd2b`
   - **Step 1 finding:** Base = `ParameterValue`. Members: `value` (Float, 1, attr). XML `FLOAT-VALUE` (XSD group L11254). 2× in Os_ECUC.arxml.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations — `value` optional per XSD (spec says 1)
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — `value` optional per XSD (spec says 1)
+  - [x] Step 9 — Verify (9a: 9491 passed, lint/black clean) + confirm (9b user OK 2026-09-19)
 - [ ] `StringValue` — R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.36, p.99 (R3.2 Rev 3)
   - **Step 1 finding:** Base = `ParameterValue`. Members: `value` (String, 1, attr). XML `STRING-VALUE` (XSD group L23739). 1× in Os_ECUC.arxml with **empty** `<VALUE></VALUE>` (Release param) — value must tolerate empty text.
   - [ ] Step 1 — Sync members & description from spec
