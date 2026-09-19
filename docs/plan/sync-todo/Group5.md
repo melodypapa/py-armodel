@@ -135,6 +135,76 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base already spec-correct; zero attrs; Note wrap-space artifact resolved via XSD doc)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (457 touched tests + integration 130-file round-trip, lint/ruff/black, parity, set-based check); 9b DEFERRED to batch stamp
+- [ ] `ClientIdDefinition` (dependency of System, Table 2.3 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 2.3 · member type of `ClientIdDefinitionSet.clientIdDefinition` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ClientIdDefinitionSet` (dependency of System, Table 2.2 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 2.2 · member type of `System.clientIdDefinitionSet` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `InterpolationRoutine` (dependency of System, Table 2.6 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 2.6 · member type of `InterpolationRoutineMapping.interpolationRoutine` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `InterpolationRoutineMapping` (dependency of System, Table 2.5 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 2.5 · member type of `InterpolationRoutineMappingSet.interpolationRoutineMapping` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `InterpolationRoutineMappingSet` (dependency of System, Table 2.4 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 2.4 · member type of `System.interpolationRoutineMappingSet` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SwComponentPrototypeAssignment` (dependency of System, Table 11.2 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 11.2 · member type of `CpSoftwareCluster.swComponentAssignment` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `CpSoftwareCluster` (dependency of System, Table 11.1 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 11.1 · member type of `System.swCluster` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `System` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 2.1)
   - **Step 1 finding:** own table = SystemTemplate TPS Table 2.1, p.42 (page-split into two rendered bodies: clientIdDefinitionSet…pncVectorOffset before the caption, rootSoftwareComposition…systemVersion after — render artifact, all rows verified as this class's); concrete Class (XSD complexType `SYSTEM` `abstract="false"`, AUTOSAR_00052.xsd group line 119210, complexType line 119390); Base row includes ARElement…AtpStructureElement → most-derived = `AtpStructureElement` (src base ALREADY correct); 13 attributes in displayed order (clientIdDefinitionSet, containerIPduHeaderByteOrder, ecuExtractVersion, fibexElement, interpolationRoutineMappingSet, j1939SharedAddressCluster, mapping, pncVectorLength, pncVectorOffset, rootSoftwareComposition, swCluster, systemDocumentation, systemVersion); NOT VP-capable (no VARIATION-POINT in SYSTEM group; aggr rows' atpVariation land on child types); model gaps: missing typing (containerIPduHeaderByteOrder/ecuExtractVersion/pnc*/systemVersion), adder naming (…SetRefs→…SetRef ×2), j1939 set→create shape, mappings/systemDocumentation registry-filter getters → dedicated fields, missing None-guards; reader/writer gaps: 8 attrs uncovered (clientIdDefinitionSet, containerIPduHeaderByteOrder, interpolationRoutineMappingSet, j1939SharedAddressCluster, pncVectorLength, pncVectorOffset, swCluster, systemDocumentation); XSD order: SYSTEM-DOCUMENTATIONS first (sequenceOffset=-10); all referenced classes exist (Chapter, ByteOrderEnum, RevisionLabelString, PositiveInteger, J1939SharedAddressCluster, SystemMapping, RootSwCompositionPrototype)
   - [x] Step 1 — Sync members & description from spec
@@ -146,6 +216,16 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 7 — Update checklist comment — 6-column format with per-row release R23-11; 27 methods, source order; no marker (deferred to batch stamp)
   - [x] Step 8 — Deviations — **none** (all findings fixed in-pass: adder renames, j1939 set→create, registry-filter getters → dedicated fields, typing, None-guards, 8 reader/writer gaps, ECU-EXTRACT-VERSION type upgrade); stale tracker rows for System removed in docs/examples/method_deviation_by_class_v2.md; interim note: J1939SharedAddressCluster children read/written at Identifiable level until its own sync (Table 6.324, next row)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (370 touched tests + integration 130/130 round-trip, lint/ruff/black, parity script, set-based check 27 methods, chained-mutator grep clean, verbatim docstring diff vs markdown); 9b DEFERRED to batch stamp
+- [ ] `J1939Cluster` (dependency of J1939SharedAddressCluster, Table 3.28 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.28 · member type of `J1939SharedAddressCluster.participatingJ1939Cluster` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `J1939SharedAddressCluster` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.324)
   - **Step 1 finding:** own table = SystemTemplate TPS Table 6.324, p.694 (markdown 18065, clean render body after caption; R4.3.1 sibling Table 6.245 p.435 Note-identical); concrete Class (XSD complexType `J-1939-SHARED-ADDRESS-CLUSTER` `abstract="false"`, AUTOSAR_00052.xsd line 75619, group line 75582); Base row ARObject/Identifiable/MultilanguageReferrable/Referrable → most-derived = `Identifiable` (src base ALREADY correct) + `VariationPointCapable` mixin (XSD VARIATION-POINT anchor line 75608, "Applicable for: System.j1939SharedAddressCluster" — Rule 0020); ONE own attribute in displayed order: `participatingJ1939Cluster` (J1939Cluster, *, ref → `participatingJ1939ClusterRefs: List[RefType]`, naming already Rule-0001.5-correct); model gaps: getter/setter missing type annotations, fabricated class docstring; reader/writer gaps: no `readJ1939SharedAddressCluster`/`writeJ1939SharedAddressCluster` helper — own group content (PARTICIPATING-J-1939-CLUSTER-REFS wrapper + VARIATION-POINT) dropped at Identifiable level (System sync interim note); XSD element order: PARTICIPATING-J-1939-CLUSTER-REFS then VARIATION-POINT (sequenceOffset 10000, last)
   - [x] Step 2 — Write model class unit test (Red) — 2/4 failed pre-implementation (docstring + annotations; init/docless already spec-correct)
@@ -167,6 +247,226 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 7 — Update checklist comment — 6-column format with per-row release R23-11; 7 methods, source order; iref pair reader/writer rows `[ ]` pending PortGroupInSystemInstanceRef; no marker (deferred to batch stamp)
   - [x] Step 8 — Deviations — **1 open**: `comManagementPortGroupIRefs` placeholder `List[RefType]` — referenced class PortGroupInSystemInstanceRef missing (Table B.5 image-only render; Rule 0001.10 relaxation; added to Pending 16.4 section); in-pass fixes (not deviations): iref rename per Rule 0001.5, physicalChannel spec-many conversion; stale tracker rows (both `type (spec many vs py single)`) removed as resolved; sibling note: SystemMapping.addComManagementMapping is add-shape for a Referrable child (Rule 0001.6) — left for SystemMapping's own sync; reader uses new createComManagementMapping
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (106 touched tests + parser/writer/SystemTemplate model dirs 808 passed, lint/ruff/black clean, parity script OK, integration 130-file round-trip 0 failed, set-based check 7 methods in source order, no chained mutators, verbatim docstring/comment diff vs spec Notes, Rule 0008 spacing by eye, armodel.ComManagementMapping export resolves); 9b DEFERRED to batch stamp
+- [ ] `TcpProps` (dependency of EcuInstance, Table 3.111 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.111 · member type of `EthTcpIpProps.tcpProps` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `UdpProps` (dependency of EcuInstance, Table 3.110 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.110 · member type of `EthTcpIpProps.udpProps` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `EthTcpIpProps` (dependency of EcuInstance, Table 3.109 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.109 · member type of `EcuInstance.tcpIpProps` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `TcpIpIcmpv4Props` (dependency of EcuInstance, Table 3.113 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.113 · member type of `EthTcpIpIcmpProps.icmpV4Props` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `TcpIpIcmpv6Props` (dependency of EcuInstance, Table 3.114 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.114 · member type of `EthTcpIpIcmpProps.icmpV6Props` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `EthTcpIpIcmpProps` (dependency of EcuInstance, Table 3.112 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.112 · member type of `EcuInstance.tcpIpIcmpProps` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `EcuPartition` (dependency of EcuInstance, Table 5.7 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 5.7 · member type of `EcuInstance.partition` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `OsTaskProxy` (dependency of EcuInstance, Table 5.15 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 5.15 · member type of `EcuInstance.ecuTaskProxy` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `PdurIPduGroup` (dependency of EcuInstance, Table 6.34 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.34 · member type of `EcuInstance.associatedPdurIPduGroup` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DoIpRoutingActivation` (dependency of EcuInstance, Table 6.204 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.204 · member type of `DoIpInterface.doIpRoutingActivation` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DoIpInterface` (dependency of EcuInstance, Table 6.203 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.203 · member type of `DoIpConfig.doipInterface` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DoIpConfig` (dependency of EcuInstance, Table 6.202 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.202 · member type of `EcuInstance.doIpConfig` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ConsumedProvidedServiceInstanceGroup` (dependency of EcuInstance, Table 6.174 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.174 · member type of `EcuInstance.associatedConsumedProvidedServiceInstanceGroup` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ClientIdRange` (dependency of EcuInstance, Table 3.2 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.2 · member type of `EcuInstance.clientIdRange` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `PrivacyLevel` (dependency of EcuInstance, Table 3.4 · R23-11 markdown · AUTOSAR_FO_TPS_LogAndTraceExtract · Table 3.4 · member type of `DltMessage.privacyLevel` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DltArgument` (dependency of EcuInstance, Table E.20 · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table E.20 · member type of `DltMessage.dltArgument` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DltMessage` (dependency of EcuInstance, Table F.50 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table F.50 · member type of `DltContext.dltMessage` and `DltLogChannel.dltMessage` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DltContext` (dependency of EcuInstance, Table F.48 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table F.48 · member type of `DltApplication.context` and `DltLogChannel.applicationContext` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DltApplication` (dependency of EcuInstance, Table F.47 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table F.47 · member type of `DltEcu.application` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DltEcu` (dependency of EcuInstance, Table F.49 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table F.49 · member type of `DltConfig.dltEcu` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DltLogChannel` (dependency of EcuInstance, Table 6.336 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.336 · member type of `DltConfig.dltLogChannel` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DltConfig` (dependency of EcuInstance, Table 6.335 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.335 · member type of `EcuInstance.dltConfig` below · added by 2026-09-19 Group5 dependency audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `EcuInstance` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.1)
   - **Step 1 finding:** own table = SystemTemplate TPS Table 3.1, p.52 (caption; page-split render into 3 chunks pp.50-52 — bodies at markdown 1229-1233 + 1243-1258 render BEFORE the caption at markdown 1266, final rows 1270-1274 after; all rows verified as this class's); concrete Class (XSD complexType `ECU-INSTANCE` abstract="false", AUTOSAR_00052.xsd line 50594, group line 50252; group = unbounded choice, NO sequenceOffsets); Base row ARObject/CollectableElement/FibexElement/Identifiable/MultilanguageReferrable/PackageableElement/Referrable → most-derived = `FibexElement` (src base ALREADY correct); NOT VP-capable (no own VARIATION-POINT in group/complexType; the one under the complexType is "Applicable for: EcuInstance.ecuInstanceProps" = EcuInstanceProps class; ref-row atpVariation Tags = association pattern → RefConditional wrapper, Rule 0020); 26 attributes in displayed order: associatedComIPduGroup, associatedConsumedProvidedServiceInstanceGroup, associatedPdurIPduGroup, channelSynchronousWakeup, clientIdRange, comConfigurationGwTimeBase, comConfigurationRxTimeBase, comConfigurationTxTimeBase, comEnableMDTForCyclicTransmission, commController, connector, dltConfig, doIpConfig, ecuTaskProxy, ethSwitchPortGroupDerivation, firewallRule, partition, pncNmRequest, pncPrepareSleepTimer, pncSynchronousWakeup, pnResetTime, sleepModeSupported, tcpIpIcmpProps, tcpIpProps, v2xSupported, wakeUpOverBusSupported; MISSING member classes (Rule 0001.10 placeholders): ClientIdRange (Table 3.2, Base ARObject → set/get shape kept), DltConfig (Table 6.335, Base ARObject), DoIpConfig (Table 6.202, Base ARObject), EcuPartition (Table 5.7, Base ...Referrable → eventual createEcuPartition shape; placeholder add kept), V2xSupportEnum (v2xSupported placeholder ARLiteral per stamped getChildElementOptionalLiteral convention); model gaps: 0..1 fields lack Optional[T] annotations, all accessors untyped, setters lack None-guards, getCommControllers/getConnectors filter the elements registry although dedicated fields exist (Rule 0004 to-fix; factories must append to the fields); reader/writer gaps: CLIENT-ID-RANGE/DLT-CONFIG/DO-IP-CONFIG/PARTITIONS not read/written (deferred — child classes missing, integration corpus carries none); ASSOCIATED-CONSUMED wrapper tag diverges from XSD (reader/writer "-GROUP-REFS/...-GROUP-REF" vs XSD wrapper "-GROUPS" item "CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REF-CONDITIONAL") → fix; TCP-IP-ICMP-PROPS/TCP-IP-PROPS read/written without -REF suffix (XSD: TCP-IP-ICMP-PROPS-REF/TCP-IP-PROPS-REF) → fix; XSD-only legacy elements absent from the PDF table → not modeled per Rule 0015 (CAN-TP-ADDRESS-REFS, DIAGNOSTIC-ADDRESS, DIAGNOSTIC-PROPS, ECU-INSTANCE-PROPSS, LIN-SLAVE, TTCAN-*, USER-DEFINED-*, TP-ADDRESS-REFS — none in corpus); wrap artifacts in Notes (ISignalIPdu Groups, Com_Main FunctionRouteSignals, numberOf Repetitions, cyclic Timing, Ecu Instance) resolved via XSD documentation
   - [x] Step 1 — Sync members & description from spec
