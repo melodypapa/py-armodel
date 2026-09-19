@@ -124,7 +124,7 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base already spec-correct; zero attrs; clean Note)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (455 touched tests + integration 130-file round-trip, lint/ruff/black, parity, set-based check); 9b confirmed by user (2026-09-19) → stamped R23-11; sync commit 3180597f, stamp commit a25f9a77
-- [ ] `WarningIndicatorRequestedBitNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.61)
+- [x] `WarningIndicatorRequestedBitNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.61)
   - **Step 1 finding:** own table = Swc TPS Table 13.61, p.811 (markdown 24004; body after caption, clean render); concrete Class (XSD complexType `WARNING-INDICATOR-REQUESTED-BIT-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd line 130845, group line 130836 `<xsd:sequence/>` empty); Base row = ...Referrable, ServiceNeeds → most-derived = `ServiceNeeds` (src base ALREADY correct); ZERO own attributes; Note verbatim via XSD doc ("This meta-class represents the ability to explicitly request the existence of the WarningIndicatorRequestedBit." — markdown 24010 renders a wrap-space artifact "WarningIndicator RequestedBit", PDF p.811 line-wrap identical to Base row's "Service Needs"; XSD documentation is the clean one-word copy; XSD appinfo carries no atp.Status → no Tags tail); XSD element in BOTH choice groups (11522 BSW, 12641 Swc), right after VENDOR-SPECIFIC-SERVICE-NEEDS (11521/12640), last in both choices; dispatch MISSING → full 5-place pattern + createWarningIndicatorRequestedBitNeeds factory needed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — 2/3 failed pre-implementation (docstring + docless; base already spec-correct)
@@ -134,7 +134,7 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch pattern added (factory + parser import/BSW dispatch/helper/SWC dispatch + writer import/2 dispatches/helper), branches after VENDOR-SPECIFIC-SERVICE-NEEDS per XSD order
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base already spec-correct; zero attrs; Note wrap-space artifact resolved via XSD doc)
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (457 touched tests + integration 130-file round-trip, lint/ruff/black, parity, set-based check); 9b DEFERRED to batch stamp
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (457 touched tests + integration 130-file round-trip, lint/ruff/black, parity, set-based check); 9b confirmed by user (2026-09-19) → stamped R23-11; sync commit a864fa46, stamp commit 1cd8edd8
 - [ ] `ClientIdDefinition` (dependency of System, Table 2.3 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 2.3 · member type of `ClientIdDefinitionSet.clientIdDefinition` below · added by 2026-09-19 Group5 dependency audit)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
