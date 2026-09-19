@@ -215,6 +215,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     V2xDataManagerNeeds,
     V2xFacUserNeeds,
     V2xMUserNeeds,
+    VendorSpecificServiceNeeds,
+    WarningIndicatorRequestedBitNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import (
     SignalServiceTranslationElementProps,
@@ -672,7 +674,22 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment, RoleBasedPortAssignment, SwcServiceDependency
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping, System, SystemMapping
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.InterpolationRoutineMappingSet import (
+    InterpolationRoutine,
+    InterpolationRoutineMapping,
+    InterpolationRoutineMappingSet,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
+    ClientIdDefinition,
+    ClientIdDefinitionSet,
+    ComManagementMapping,
+    CpSoftwareCluster,
+    J1939SharedAddressCluster,
+    SwComponentPrototypeAssignment,
+    SwcToEcuMapping,
+    System,
+    SystemMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecCompositeTypeMapping,
     SenderReceiverToSignalGroupMapping,
@@ -882,7 +899,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     AbstractCanPhysicalChannel,
     CanPhysicalChannel,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanClusterBusOffRecovery
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanClusterBusOffRecovery, J1939Cluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     AbstractCanCluster,
     CanCluster,
@@ -906,7 +923,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     TransmissionModeTiming,
     TriggerIPduSendCondition,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
+    ComponentInSystemInstanceRef,
+    OperationInSystemInstanceRef,
+    PortGroupInSystemInstanceRef,
+    VariableDataPrototypeInSystemInstanceRef,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
     CanNmCluster,
     CanNmClusterCoupling,
@@ -1619,6 +1641,31 @@ class ARXMLParser(AbstractARXMLParser):
             instance_ref.setTargetComponentRef(self.getChildElementOptionalRefType(element, "TARGET-COMPONENT-REF"))
         return instance_ref
 
+    def getOperationInSystemInstanceRef(self, element: ET.Element) -> OperationInSystemInstanceRef:
+        instance_ref = None
+        if element is not None:
+            instance_ref = OperationInSystemInstanceRef()
+            self.readARObject(element, instance_ref)
+            instance_ref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF"))
+            instance_ref.setContextCompositionRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPOSITION-REF"))
+            for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
+                instance_ref.addContextComponentRef(ref)
+            instance_ref.setContextPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-REF"))
+            instance_ref.setTargetOperationRef(self.getChildElementOptionalRefType(element, "TARGET-OPERATION-REF"))
+        return instance_ref
+
+    def getPortGroupInSystemInstanceRef(self, element: ET.Element) -> PortGroupInSystemInstanceRef:
+        instance_ref = None
+        if element is not None:
+            instance_ref = PortGroupInSystemInstanceRef()
+            self.readARObject(element, instance_ref)
+            instance_ref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF"))
+            instance_ref.setContextCompositionRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPOSITION-REF"))
+            for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
+                instance_ref.addContextComponentRef(ref)
+            instance_ref.setTargetRef(self.getChildElementOptionalRefType(element, "TARGET-REF"))
+        return instance_ref
+
     def getAutosarVariableRef(self, element: ET.Element, key: str) -> AutosarVariableRef:
         child_element = self.find(element, key)
         instance_ref = None
@@ -2194,6 +2241,14 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = V2xMUserNeeds(dependency, short_name)
                 self.readV2xMUserNeeds(child_element, needs)
+            elif tag_name == "VENDOR-SPECIFIC-SERVICE-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = VendorSpecificServiceNeeds(dependency, short_name)
+                self.readVendorSpecificServiceNeeds(child_element, needs)
+            elif tag_name == "WARNING-INDICATOR-REQUESTED-BIT-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = WarningIndicatorRequestedBitNeeds(dependency, short_name)
+                self.readWarningIndicatorRequestedBitNeeds(child_element, needs)
             elif tag_name == "ERROR-TRACER-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = ErrorTracerNeeds(dependency, short_name)
@@ -2568,6 +2623,12 @@ class ARXMLParser(AbstractARXMLParser):
     def readV2xMUserNeeds(self, element: ET.Element, needs: V2xMUserNeeds):
         self.readServiceNeeds(element, needs)
 
+    def readVendorSpecificServiceNeeds(self, element: ET.Element, needs: VendorSpecificServiceNeeds):
+        self.readServiceNeeds(element, needs)
+
+    def readWarningIndicatorRequestedBitNeeds(self, element: ET.Element, needs: WarningIndicatorRequestedBitNeeds):
+        self.readServiceNeeds(element, needs)
+
     def readSupervisedEntityNeeds(self, element: ET.Element, needs: SupervisedEntityNeeds):
         self.readServiceNeeds(element, needs)
         needs.setActivateAtStart(self.getChildElementOptionalBooleanValue(element, "ACTIVATE-AT-START"))
@@ -2737,6 +2798,12 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "V-2-X-M-USER-NEEDS":
                 needs = parent.createV2xMUserNeeds(self.getShortName(child_element))
                 self.readV2xMUserNeeds(child_element, needs)
+            elif tag_name == "VENDOR-SPECIFIC-SERVICE-NEEDS":
+                needs = parent.createVendorSpecificServiceNeeds(self.getShortName(child_element))
+                self.readVendorSpecificServiceNeeds(child_element, needs)
+            elif tag_name == "WARNING-INDICATOR-REQUESTED-BIT-NEEDS":
+                needs = parent.createWarningIndicatorRequestedBitNeeds(self.getShortName(child_element))
+                self.readWarningIndicatorRequestedBitNeeds(child_element, needs)
             elif tag_name == "OBD-INFO-SERVICE-NEEDS":
                 needs = parent.createObdInfoServiceNeeds(self.getShortName(child_element))
                 self.readObdInfoServiceNeeds(child_element, needs)
@@ -9269,6 +9336,16 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             self.readAbstractCanCluster(child_element, cluster)
 
+    def readJ1939Cluster(self, element: ET.Element, cluster: J1939Cluster):
+        self.logger.debug("Read J1939Cluster <%s>" % cluster.getShortName())
+        self.readIdentifiable(element, cluster)
+        child_element = self.find(element, "J-1939-CLUSTER-VARIANTS/J-1939-CLUSTER-CONDITIONAL")
+        if child_element is not None:
+            self.readAbstractCanCluster(child_element, cluster)
+            cluster.setNetworkId(self.getChildElementOptionalPositiveInteger(child_element, "NETWORK-ID"))
+            cluster.setRequest2Support(self.getChildElementOptionalBooleanValue(child_element, "REQUEST-2-SUPPORT"))
+            cluster.setUsesAddressArbitration(self.getChildElementOptionalBooleanValue(child_element, "USES-ADDRESS-ARBITRATION"))
+
     def readFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
         self.logger.debug("Read FlexrayCluster <%s>" % cluster.getShortName())
         self.readIdentifiable(element, cluster)
@@ -9362,12 +9439,18 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "FUNCTIONAL-REQUEST-REFS/FUNCTIONAL-REQUEST-REF"):
             connection.addFunctionalRequestRef(ref)
 
+    def readDiagnosticConnectionPeriodicResponseUudtRefs(self, element: ET.Element, connection: DiagnosticConnection):
+        for ref in self.getChildElementRefTypeList(element, "PERIODIC-RESPONSE-UUDT-REFS/PERIODIC-RESPONSE-UUDT-REF"):
+            connection.addPeriodicResponseUudtRef(ref)
+
     def readDiagnosticConnection(self, element: ET.Element, connection: DiagnosticConnection):
         self.logger.debug("Read DiagnosticConnection <%s>" % connection.getShortName())
         self.readIdentifiable(element, connection)
         self.readDiagnosticConnectionFunctionalRequestRefs(element, connection)
+        self.readDiagnosticConnectionPeriodicResponseUudtRefs(element, connection)
         connection.setPhysicalRequestRef(self.getChildElementOptionalRefType(element, "PHYSICAL-REQUEST-REF"))
-        connection.setResponseOnEventRef(self.getChildElementOptionalRefType(element, "RESPONSE-REF"))
+        connection.setResponseRef(self.getChildElementOptionalRefType(element, "RESPONSE-REF"))
+        connection.setResponseOnEventRef(self.getChildElementOptionalRefType(element, "RESPONSE-ON-EVENT-REF"))
 
     def readDiagnosticServiceTableDiagnosticConnectionRefs(self, element: ET.Element, table: DiagnosticServiceTable):
         for ref in self.getChildElementRefTypeList(element, "DIAGNOSTIC-CONNECTIONS/DIAGNOSTIC-CONNECTION-REF-CONDITIONAL/DIAGNOSTIC-CONNECTION-REF"):
@@ -11615,7 +11698,7 @@ class ARXMLParser(AbstractARXMLParser):
             instance.addAssociatedComIPduGroupRef(ref)
 
     def readEcuInstanceAssociatedConsumedProvidedServiceInstanceGroupRefs(self, element: ET.Element, instance: EcuInstance):
-        for ref in self.getChildElementRefTypeList(element, "ASSOCIATED-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REFS/ASSOCIATED-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REF"):
+        for ref in self.getChildElementRefTypeList(element, "ASSOCIATED-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUPS/CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REF-CONDITIONAL"):
             instance.addAssociatedConsumedProvidedServiceInstanceGroupRef(ref)
 
     def readEcuInstanceAssociatedPdurIPduGroupRefs(self, element: ET.Element, instance: EcuInstance):
@@ -11646,13 +11729,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.readEcuInstanceEcuTaskProxyRefs(element, instance)
         instance.setEthSwitchPortGroupDerivation(self.getChildElementOptionalBooleanValue(element, "ETH-SWITCH-PORT-GROUP-DERIVATION"))
         self.readEcuInstanceFirewallRuleRefs(element, instance)
+        instance.setPnResetTime(self.getChildElementOptionalTimeValue(element, "PN-RESET-TIME"))
         instance.setPncNmRequest(self.getChildElementOptionalBooleanValue(element, "PNC-NM-REQUEST"))
         instance.setPncPrepareSleepTimer(self.getChildElementOptionalTimeValue(element, "PNC-PREPARE-SLEEP-TIMER"))
         instance.setPncSynchronousWakeup(self.getChildElementOptionalBooleanValue(element, "PNC-SYNCHRONOUS-WAKEUP"))
-        instance.setPnResetTime(self.getChildElementOptionalTimeValue(element, "PN-RESET-TIME"))
         instance.setSleepModeSupported(self.getChildElementOptionalBooleanValue(element, "SLEEP-MODE-SUPPORTED"))
-        instance.setTcpIpIcmpPropsRef(self.getChildElementOptionalRefType(element, "TCP-IP-ICMP-PROPS"))
-        instance.setTcpIpPropsRef(self.getChildElementOptionalRefType(element, "TCP-IP-PROPS"))
+        instance.setTcpIpIcmpPropsRef(self.getChildElementOptionalRefType(element, "TCP-IP-ICMP-PROPS-REF"))
+        instance.setTcpIpPropsRef(self.getChildElementOptionalRefType(element, "TCP-IP-PROPS-REF"))
         instance.setV2xSupported(self.getChildElementOptionalLiteral(element, "V-2-X-SUPPORTED"))
         instance.setWakeUpOverBusSupported(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-OVER-BUS-SUPPORTED"))
 
@@ -12236,9 +12319,24 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported SwImplMapping <%s>" % tag_name)
 
+    def readComManagementMapping(self, element: ET.Element, mapping: ComManagementMapping):
+        self.readIdentifiable(element, mapping)
+        for ref in self.getChildElementRefTypeList(element, "COM-MANAGEMENT-GROUP-REFS/COM-MANAGEMENT-GROUP-REF"):
+            mapping.addComManagementGroupRef(ref)
+        for iref_element in self.findall(element, "COM-MANAGEMENT-PORT-GROUP-IREFS/COM-MANAGEMENT-PORT-GROUP-IREF"):
+            mapping.addComManagementPortGroupIRef(self.getPortGroupInSystemInstanceRef(iref_element))
+        for ref in self.getChildElementRefTypeList(element, "PHYSICAL-CHANNEL-REFS/PHYSICAL-CHANNEL-REF"):
+            mapping.addPhysicalChannelRef(ref)
+
+    def readSystemMappingComManagementMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "COM-MANAGEMENT-MAPPINGS/COM-MANAGEMENT-MAPPING"):
+            com_mapping = mapping.createComManagementMapping(self.getShortName(child_element))
+            self.readComManagementMapping(child_element, com_mapping)
+
     def readSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         # self.logger.debug("Read SystemMapping <%s>" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
+        self.readSystemMappingComManagementMappings(element, mapping)
         self.readSystemMappingDataMappings(element, mapping)
         self.readSystemMappingEcuResourceMappings(element, mapping)
         self.readSystemMappingSwImplMappings(element, mapping)
@@ -12274,13 +12372,105 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "FIBEX-ELEMENTS/FIBEX-ELEMENT-REF-CONDITIONAL/FIBEX-ELEMENT-REF"):
             system.addFibexElementRef(ref)
 
+    def readSystemDocumentations(self, element: ET.Element, system: System):
+        for chapter_element in self.findall(element, "SYSTEM-DOCUMENTATIONS/CHAPTER"):
+            chapter = system.createSystemDocumentation(self.getShortName(chapter_element))
+            self.readChapterBody(chapter_element, chapter)
+
+    def readSystemClientIdDefinitionSetRefs(self, element: ET.Element, system: System):
+        for ref in self.getChildElementRefTypeList(element, "CLIENT-ID-DEFINITION-SET-REFS/CLIENT-ID-DEFINITION-SET-REF"):
+            system.addClientIdDefinitionSetRef(ref)
+
+    def readClientIdDefinition(self, element: ET.Element, id_definition: ClientIdDefinition):
+        self.readIdentifiable(element, id_definition)
+        id_definition.setClientId(self.getChildElementOptionalNumerical(element, "CLIENT-ID"))
+        id_definition.setClientServerOperationIRef(self.getOperationInSystemInstanceRef(self.find(element, "CLIENT-SERVER-OPERATION-IREF")))
+
+    def readClientIdDefinitionSet(self, element: ET.Element, id_definition_set: ClientIdDefinitionSet):
+        self.logger.debug("Read ClientIdDefinitionSet <%s>" % id_definition_set.getShortName())
+        self.readARElement(element, id_definition_set)
+        wrapper_element = self.find(element, "CLIENT-ID-DEFINITIONS")
+        if wrapper_element is not None:
+            for child_element in self.findall(wrapper_element, "CLIENT-ID-DEFINITION"):
+                id_definition = id_definition_set.createClientIdDefinition(self.getShortName(child_element))
+                self.readClientIdDefinition(child_element, id_definition)
+
+    def readInterpolationRoutine(self, element: ET.Element, interpolation_routine: InterpolationRoutine):
+        self.logger.debug("Read InterpolationRoutine")
+        interpolation_routine.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
+        interpolation_routine.setIsDefault(self.getChildElementOptionalBooleanValue(element, "IS-DEFAULT"))
+        interpolation_routine.setInterpolationRoutineRef(self.getChildElementOptionalRefType(element, "INTERPOLATION-ROUTINE-REF"))
+
+    def readInterpolationRoutineMapping(self, element: ET.Element, mapping: InterpolationRoutineMapping):
+        self.logger.debug("Read InterpolationRoutineMapping")
+        wrapper_element = self.find(element, "INTERPOLATION-ROUTINES")
+        if wrapper_element is not None:
+            for child_element in self.findall(wrapper_element, "INTERPOLATION-ROUTINE"):
+                routine = mapping.createInterpolationRoutine()
+                self.readInterpolationRoutine(child_element, routine)
+        mapping.setSwRecordLayoutRef(self.getChildElementOptionalRefType(element, "SW-RECORD-LAYOUT-REF"))
+
+    def readInterpolationRoutineMappingSet(self, element: ET.Element, mapping_set: InterpolationRoutineMappingSet):
+        self.logger.debug("Read InterpolationRoutineMappingSet <%s>" % mapping_set.getShortName())
+        self.readARElement(element, mapping_set)
+        wrapper_element = self.find(element, "INTERPOLATION-ROUTINE-MAPPINGS")
+        if wrapper_element is not None:
+            for child_element in self.findall(wrapper_element, "INTERPOLATION-ROUTINE-MAPPING"):
+                mapping = mapping_set.createInterpolationRoutineMapping()
+                self.readInterpolationRoutineMapping(child_element, mapping)
+
+    def readSwComponentPrototypeAssignment(self, element: ET.Element, assignment: SwComponentPrototypeAssignment):
+        self.readARObject(element, assignment)
+        assignment.setSwComponentIRef(self.getComponentInSystemInstanceRef(self.find(element, "SW-COMPONENT-IREF")))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(assignment, VariationPointCapable):
+                assignment.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
+
+    def readCpSoftwareCluster(self, element: ET.Element, cluster: CpSoftwareCluster):
+        self.readARElement(element, cluster)
+        cluster.setSoftwareClusterId(self.getChildElementOptionalPositiveInteger(element, "SOFTWARE-CLUSTER-ID"))
+        for child_element in self.findall(element, "SW-COMPONENT-ASSIGNMENTS/SW-COMPONENT-PROTOTYPE-ASSIGNMENT"):
+            assignment = cluster.createSwComponentAssignment()
+            self.readSwComponentPrototypeAssignment(child_element, assignment)
+        for ref in self.getChildElementRefTypeList(element, "SW-COMPOSITIONS/COMPOSITION-SW-COMPONENT-TYPE-REF-CONDITIONAL/COMPOSITION-SW-COMPONENT-TYPE-REF"):
+            cluster.addSwCompositionRef(ref)
+
+    def readSystemInterpolationRoutineMappingSetRefs(self, element: ET.Element, system: System):
+        for ref in self.getChildElementRefTypeList(element, "INTERPOLATION-ROUTINE-MAPPING-SET-REFS/INTERPOLATION-ROUTINE-MAPPING-SET-REF"):
+            system.addInterpolationRoutineMappingSetRef(ref)
+
+    def readJ1939SharedAddressCluster(self, element: ET.Element, cluster: J1939SharedAddressCluster):
+        self.readIdentifiable(element, cluster)
+        for ref in self.getChildElementRefTypeList(element, "PARTICIPATING-J-1939-CLUSTER-REFS/PARTICIPATING-J-1939-CLUSTER-REF"):
+            cluster.addParticipatingJ1939ClusterRef(ref)
+
+    def readSystemJ1939SharedAddressClusters(self, element: ET.Element, system: System):
+        for child_element in self.findall(element, "J-1939-SHARED-ADDRESS-CLUSTERS/J-1939-SHARED-ADDRESS-CLUSTER"):
+            cluster = system.createJ1939SharedAddressCluster(self.getShortName(child_element))
+            self.readJ1939SharedAddressCluster(child_element, cluster)
+
+    def readSystemSwClusterRefs(self, element: ET.Element, system: System):
+        for ref in self.getChildElementRefTypeList(element, "SW-CLUSTERS/CP-SOFTWARE-CLUSTER-REF-CONDITIONAL/CP-SOFTWARE-CLUSTER-REF"):
+            system.addSwClusterRef(ref)
+
     def readSystem(self, element: ET.Element, system: System):
         self.logger.debug("Read System <%s>" % system.getShortName())
         self.readIdentifiable(element, system)
-        system.setEcuExtractVersion(self.getChildElementOptionalLiteral(element, "ECU-EXTRACT-VERSION"))
+        self.readSystemDocumentations(element, system)
+        self.readSystemClientIdDefinitionSetRefs(element, system)
+        system.setContainerIPduHeaderByteOrder(self.getChildElementOptionalLiteral(element, "CONTAINER-I-PDU-HEADER-BYTE-ORDER"))
+        system.setEcuExtractVersion(self.getChildElementOptionalRevisionLabelString(element, "ECU-EXTRACT-VERSION"))
         self.readSystemFibexElementRefs(element, system)
+        self.readSystemInterpolationRoutineMappingSetRefs(element, system)
+        self.readSystemJ1939SharedAddressClusters(element, system)
         self.readSystemMappings(element, system)
+        system.setPncVectorLength(self.getChildElementOptionalPositiveInteger(element, "PNC-VECTOR-LENGTH"))
+        system.setPncVectorOffset(self.getChildElementOptionalPositiveInteger(element, "PNC-VECTOR-OFFSET"))
         self.readRootSwCompositionPrototype(element, system)
+        self.readSystemSwClusterRefs(element, system)
         system.setSystemVersion(self.getChildElementOptionalRevisionLabelString(element, "SYSTEM-VERSION"))
         document = AUTOSAR.getInstance()
         document.addSystem(system)
@@ -12631,6 +12821,15 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "LIN-TP-CONFIG":
                 config = parent.createLinTpConfig(self.getShortName(child_element))
                 self.readLinTpConfig(child_element, config)
+            elif tag_name == "CLIENT-ID-DEFINITION-SET":
+                id_definition_set = parent.createClientIdDefinitionSet(self.getShortName(child_element))
+                self.readClientIdDefinitionSet(child_element, id_definition_set)
+            elif tag_name == "CP-SOFTWARE-CLUSTER":
+                cluster = parent.createCpSoftwareCluster(self.getShortName(child_element))
+                self.readCpSoftwareCluster(child_element, cluster)
+            elif tag_name == "INTERPOLATION-ROUTINE-MAPPING-SET":
+                mapping_set = parent.createInterpolationRoutineMappingSet(self.getShortName(child_element))
+                self.readInterpolationRoutineMappingSet(child_element, mapping_set)
             elif tag_name == "SYSTEM":
                 system = parent.createSystem(self.getShortName(child_element))
                 self.readSystem(child_element, system)
@@ -12646,6 +12845,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "CAN-CLUSTER":
                 cluster = parent.createCanCluster(self.getShortName(child_element))
                 self.readCanCluster(child_element, cluster)
+            elif tag_name == "J-1939-CLUSTER":
+                cluster = parent.createJ1939Cluster(self.getShortName(child_element))
+                self.readJ1939Cluster(child_element, cluster)
             elif tag_name == "CAN-FRAME":
                 frame = parent.createCanFrame(self.getShortName(child_element))
                 self.readCanFrame(child_element, frame)

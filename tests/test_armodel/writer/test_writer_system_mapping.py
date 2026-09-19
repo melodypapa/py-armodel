@@ -20,20 +20,29 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARNumerical,
     Boolean,
     Identifier,
+    Numerical,
     PositiveInteger,
     RefType,
     RevisionLabelString,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.InterpolationRoutineMappingSet import (
+    InterpolationRoutine,
+    InterpolationRoutineMapping,
+    InterpolationRoutineMappingSet,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ClientServerOperationMapping,
     DataPrototypeMapping,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition, ClientIdDefinitionSet, CpSoftwareCluster, SwComponentPrototypeAssignment
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderReceiverToSignalGroupMapping,
     SenderReceiverToSignalMapping,
     SenderRecRecordElementMapping,
     SenderRecRecordTypeMapping,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import J1939Cluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import (  # noqa: E501
     IPduMapping,
     ISignalMapping,
@@ -41,6 +50,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     ComponentInSystemInstanceRef,
+    OperationInSystemInstanceRef,
+    PortGroupInSystemInstanceRef,
     VariableDataPrototypeInSystemInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
@@ -572,6 +583,125 @@ class TestWriterSystem:
         assert s.find("MAPPINGS") is not None
         assert s.find("ROOT-SOFTWARE-COMPOSITIONS") is not None
         assert s.find("SYSTEM-VERSION") is not None
+
+    def test_all_attributes_in_xsd_order(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
+
+        system = _make_system()
+        system.createSystemDocumentation("Doc1").setHelpEntry(String().setValue("help-topic-1"))
+        system.addClientIdDefinitionSetRef(_ref("/Systems/ClientIds", "CLIENT-ID-DEFINITION-SET"))
+        system.setContainerIPduHeaderByteOrder(_literal("MOST-SIGNIFICANT-BYTE-FIRST"))
+        system.setEcuExtractVersion(_revision("1.0.0"))
+        system.addFibexElementRef(_ref("/CanSystem/CLUSTERS/CanNetwork", "CAN-CLUSTER"))
+        system.addInterpolationRoutineMappingSetRef(_ref("/Systems/InterpMapping", "INTERPOLATION-ROUTINE-MAPPING-SET"))
+        system.createJ1939SharedAddressCluster("Cluster1")
+        system.createSystemMapping("SM")
+        system.setPncVectorLength(_positive_int(8))
+        system.setPncVectorOffset(_positive_int(4))
+        system.createRootSoftwareComposition("Root")
+        system.addSwClusterRef(_ref("/Systems/Cluster", "CP-SOFTWARE-CLUSTER"))
+        system.setSystemVersion(_revision("2.0.0"))
+        parent = _parent()
+        writer.writeSystem(parent, system)
+        s = parent[0]
+        assert s.tag == "SYSTEM"
+        expected_order = [
+            "SYSTEM-DOCUMENTATIONS",
+            "CLIENT-ID-DEFINITION-SET-REFS",
+            "CONTAINER-I-PDU-HEADER-BYTE-ORDER",
+            "ECU-EXTRACT-VERSION",
+            "FIBEX-ELEMENTS",
+            "INTERPOLATION-ROUTINE-MAPPING-SET-REFS",
+            "J-1939-SHARED-ADDRESS-CLUSTERS",
+            "MAPPINGS",
+            "PNC-VECTOR-LENGTH",
+            "PNC-VECTOR-OFFSET",
+            "ROOT-SOFTWARE-COMPOSITIONS",
+            "SW-CLUSTERS",
+            "SYSTEM-VERSION",
+        ]
+        tags = [c.tag for c in s]
+        assert [t for t in tags if t in expected_order] == expected_order
+        assert s.find("CLIENT-ID-DEFINITION-SET-REFS/CLIENT-ID-DEFINITION-SET-REF").text == "/Systems/ClientIds"
+        assert s.find("CONTAINER-I-PDU-HEADER-BYTE-ORDER").text == "MOST-SIGNIFICANT-BYTE-FIRST"
+        assert s.find("INTERPOLATION-ROUTINE-MAPPING-SET-REFS/INTERPOLATION-ROUTINE-MAPPING-SET-REF").text == "/Systems/InterpMapping"
+        assert s.find("J-1939-SHARED-ADDRESS-CLUSTERS/J-1939-SHARED-ADDRESS-CLUSTER") is not None
+        assert s.find("PNC-VECTOR-LENGTH").text == "8"
+        assert s.find("PNC-VECTOR-OFFSET").text == "4"
+        assert s.find("SW-CLUSTERS/CP-SOFTWARE-CLUSTER-REF-CONDITIONAL/CP-SOFTWARE-CLUSTER-REF").text == "/Systems/Cluster"
+        assert s.find("SYSTEM-DOCUMENTATIONS/CHAPTER") is not None
+
+    def test_empty_wrappers_not_emitted(self, writer):
+        system = _make_system()
+        parent = _parent()
+        writer.writeSystem(parent, system)
+        s = parent[0]
+        assert s.tag == "SYSTEM"
+        for wrapper in (
+            "SYSTEM-DOCUMENTATIONS",
+            "CLIENT-ID-DEFINITION-SET-REFS",
+            "CONTAINER-I-PDU-HEADER-BYTE-ORDER",
+            "ECU-EXTRACT-VERSION",
+            "FIBEX-ELEMENTS",
+            "INTERPOLATION-ROUTINE-MAPPING-SET-REFS",
+            "J-1939-SHARED-ADDRESS-CLUSTERS",
+            "MAPPINGS",
+            "PNC-VECTOR-LENGTH",
+            "PNC-VECTOR-OFFSET",
+            "ROOT-SOFTWARE-COMPOSITIONS",
+            "SW-CLUSTERS",
+            "SYSTEM-VERSION",
+        ):
+            assert s.find(wrapper) is None
+
+
+class TestSystemFullRoundTrip:
+    def test_round_trip_all_attributes(self, tmp_path):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        system = document.createARPackage("Systems").createSystem("FullSystem")
+        system.createSystemDocumentation("Doc1").setHelpEntry(String().setValue("help-topic-1"))
+        system.addClientIdDefinitionSetRef(_ref("/Systems/ClientIds", "CLIENT-ID-DEFINITION-SET"))
+        system.setContainerIPduHeaderByteOrder(_literal("MOST-SIGNIFICANT-BYTE-FIRST"))
+        system.setEcuExtractVersion(_revision("1.0.0"))
+        system.addFibexElementRef(_ref("/CanSystem/CLUSTERS/CanNetwork", "CAN-CLUSTER"))
+        system.addInterpolationRoutineMappingSetRef(_ref("/Systems/InterpMapping", "INTERPOLATION-ROUTINE-MAPPING-SET"))
+        system.createJ1939SharedAddressCluster("Cluster1")
+        system.createSystemMapping("SM")
+        system.setPncVectorLength(_positive_int(8))
+        system.setPncVectorOffset(_positive_int(4))
+        system.createRootSoftwareComposition("Root")
+        system.addSwClusterRef(_ref("/Systems/Cluster", "CP-SOFTWARE-CLUSTER"))
+        system.setSystemVersion(_revision("2.0.0"))
+
+        file_path = str(tmp_path / "system_full.arxml")
+        ARXMLWriter().save(file_path, document)
+
+        document_2 = AUTOSAR.getInstance()
+        document_2.clear()
+        ARXMLParser().load(file_path, document_2)
+
+        system_2 = document_2.getARPackages()[0].getElement("FullSystem")
+        assert system_2 is not None
+        chapters = system_2.getSystemDocumentations()
+        assert [c.getShortName() for c in chapters] == ["Doc1"]
+        assert chapters[0].getHelpEntry().getValue() == "help-topic-1"
+        assert system_2.getClientIdDefinitionSetRefs()[0].getValue() == "/Systems/ClientIds"
+        assert system_2.getContainerIPduHeaderByteOrder().getValue() == "MOST-SIGNIFICANT-BYTE-FIRST"
+        assert system_2.getEcuExtractVersion().getValue() == "1.0.0"
+        assert system_2.getFibexElementRefs()[0].getValue() == "/CanSystem/CLUSTERS/CanNetwork"
+        assert system_2.getInterpolationRoutineMappingSetRefs()[0].getValue() == "/Systems/InterpMapping"
+        assert [c.getShortName() for c in system_2.getJ1939SharedAddressClusters()] == ["Cluster1"]
+        assert [m.getShortName() for m in system_2.getMappings()] == ["SM"]
+        assert system_2.getPncVectorLength().getValue() == 8
+        assert system_2.getPncVectorOffset().getValue() == 4
+        assert system_2.getRootSoftwareComposition().getShortName() == "Root"
+        assert system_2.getSwClusterRefs()[0].getValue() == "/Systems/Cluster"
+        assert system_2.getSystemVersion().getValue() == "2.0.0"
 
 
 class TestWriterPhysicalDimension:
@@ -1140,3 +1270,583 @@ class TestWriterISignal:
         s = parent[0]
         assert s.tag == "I-SIGNAL"
         assert s.find("I-SIGNAL-PROPS") is None
+
+
+class TestWriterJ1939SharedAddressCluster:
+    def _make_cluster(self):
+        system = _make_system()
+        cluster = system.createJ1939SharedAddressCluster("Cluster1")
+        cluster.addParticipatingJ1939ClusterRef(_ref("/Systems/J1939ClusterA", "J-1939-CLUSTER"))
+        cluster.addParticipatingJ1939ClusterRef(_ref("/Systems/J1939ClusterB", "J-1939-CLUSTER"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(Identifier().setValue("VP_CLUSTER"))
+        cluster.setVariationPoint(variation_point)
+        return system, cluster
+
+    def test_refs_wrapper_and_variation_point_in_xsd_order(self, writer):
+        system, _cluster = self._make_cluster()
+        parent = _parent()
+        writer.writeSystem(parent, system)
+        s = parent[0]
+        assert s.tag == "SYSTEM"
+        cluster_element = s.find("J-1939-SHARED-ADDRESS-CLUSTERS/J-1939-SHARED-ADDRESS-CLUSTER")
+        assert cluster_element is not None
+        tags = [c.tag for c in cluster_element]
+        assert tags.index("PARTICIPATING-J-1939-CLUSTER-REFS") < tags.index("VARIATION-POINT")
+        refs = cluster_element.findall("PARTICIPATING-J-1939-CLUSTER-REFS/PARTICIPATING-J-1939-CLUSTER-REF")
+        assert [r.text for r in refs] == ["/Systems/J1939ClusterA", "/Systems/J1939ClusterB"]
+        assert all(r.attrib["DEST"] == "J-1939-CLUSTER" for r in refs)
+        assert cluster_element.find("VARIATION-POINT/SHORT-LABEL").text == "VP_CLUSTER"
+
+    def test_empty_refs_wrapper_not_emitted(self, writer):
+        system = _make_system()
+        system.createJ1939SharedAddressCluster("Cluster1")
+        parent = _parent()
+        writer.writeSystem(parent, system)
+        cluster_element = parent[0].find("J-1939-SHARED-ADDRESS-CLUSTERS/J-1939-SHARED-ADDRESS-CLUSTER")
+        assert cluster_element is not None
+        assert cluster_element.find("PARTICIPATING-J-1939-CLUSTER-REFS") is None
+
+    def test_round_trip_refs_and_variation_point(self, tmp_path):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        system, _cluster = self._make_cluster()
+
+        file_path = str(tmp_path / "j1939_cluster_round_trip.arxml")
+        ARXMLWriter().save(file_path, document)
+
+        document_2 = AUTOSAR.getInstance()
+        document_2.clear()
+        ARXMLParser().load(file_path, document_2)
+
+        system_2 = document_2.getARPackages()[0].getElement("Sys")
+        assert system_2 is not None
+        clusters = system_2.getJ1939SharedAddressClusters()
+        assert len(clusters) == 1
+        cluster_2 = clusters[0]
+        assert cluster_2.getShortName() == "Cluster1"
+        refs = cluster_2.getParticipatingJ1939ClusterRefs()
+        assert len(refs) == 2
+        assert refs[0].getValue() == "/Systems/J1939ClusterA"
+        assert refs[0].getDest() == "J-1939-CLUSTER"
+        assert refs[1].getValue() == "/Systems/J1939ClusterB"
+        assert refs[1].getDest() == "J-1939-CLUSTER"
+        assert cluster_2.getVariationPoint().getShortLabel().getValue() == "VP_CLUSTER"
+
+
+class TestWriterComManagementMapping:
+    def _make_com_mapping(self):
+        system = _make_system()
+        system_mapping = system.createSystemMapping("SM")
+        com_mapping = system_mapping.createComManagementMapping("ComMapping1")
+        com_mapping.addComManagementGroupRef(_ref("/Systems/IPduGroupA", "I-SIGNAL-I-PDU-GROUP"))
+        com_mapping.addComManagementGroupRef(_ref("/Systems/IPduGroupB", "I-SIGNAL-I-PDU-GROUP"))
+        iref1 = PortGroupInSystemInstanceRef()
+        iref1.setContextCompositionRef(_ref("/Systems/RootSwCompositionPrototype", "ROOT-SW-COMPOSITION-PROTOTYPE"))
+        iref1.addContextComponentRef(_ref("/Systems/RootSwCompositionPrototype/Comp1", "SW-COMPONENT-PROTOTYPE"))
+        iref1.addContextComponentRef(_ref("/Systems/RootSwCompositionPrototype/Comp1/NestedComp", "SW-COMPONENT-PROTOTYPE"))
+        iref1.setTargetRef(_ref("/Systems/RootSwCompositionPrototype/Comp1/PG", "PORT-GROUP"))
+        iref2 = PortGroupInSystemInstanceRef()
+        iref2.setTargetRef(_ref("/Systems/RootSwCompositionPrototype/Comp2/PG2", "PORT-GROUP"))
+        com_mapping.addComManagementPortGroupIRef(iref1)
+        com_mapping.addComManagementPortGroupIRef(iref2)
+        com_mapping.addPhysicalChannelRef(_ref("/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel", "CAN-COMMUNICATION-CONNECTOR"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(Identifier().setValue("VP_COMMAP"))
+        com_mapping.setVariationPoint(variation_point)
+        return system, com_mapping
+
+    def test_wrappers_and_variation_point_in_xsd_order(self, writer):
+        system, _com_mapping = self._make_com_mapping()
+        parent = _parent()
+        writer.writeSystem(parent, system)
+        s = parent[0]
+        assert s.tag == "SYSTEM"
+        mapping_element = s.find("MAPPINGS/SYSTEM-MAPPING")
+        assert mapping_element is not None
+        tags = [c.tag for c in mapping_element]
+        assert "COM-MANAGEMENT-MAPPINGS" in tags
+        if "DATA-MAPPINGS" in tags:
+            assert tags.index("COM-MANAGEMENT-MAPPINGS") < tags.index("DATA-MAPPINGS")
+        com_element = mapping_element.find("COM-MANAGEMENT-MAPPINGS/COM-MANAGEMENT-MAPPING")
+        assert com_element is not None
+        child_tags = [c.tag for c in com_element]
+        assert child_tags.index("COM-MANAGEMENT-GROUP-REFS") < child_tags.index("COM-MANAGEMENT-PORT-GROUP-IREFS") < child_tags.index("PHYSICAL-CHANNEL-REFS") < child_tags.index("VARIATION-POINT")
+        group_refs = com_element.findall("COM-MANAGEMENT-GROUP-REFS/COM-MANAGEMENT-GROUP-REF")
+        assert [r.text for r in group_refs] == ["/Systems/IPduGroupA", "/Systems/IPduGroupB"]
+        assert all(r.attrib["DEST"] == "I-SIGNAL-I-PDU-GROUP" for r in group_refs)
+        iref_elements = com_element.findall("COM-MANAGEMENT-PORT-GROUP-IREFS/COM-MANAGEMENT-PORT-GROUP-IREF")
+        assert len(iref_elements) == 2
+        composition_ref = iref_elements[0].find("CONTEXT-COMPOSITION-REF")
+        assert composition_ref.text == "/Systems/RootSwCompositionPrototype"
+        assert composition_ref.attrib["DEST"] == "ROOT-SW-COMPOSITION-PROTOTYPE"
+        comp_refs = iref_elements[0].findall("CONTEXT-COMPONENT-REF")
+        assert [r.text for r in comp_refs] == ["/Systems/RootSwCompositionPrototype/Comp1", "/Systems/RootSwCompositionPrototype/Comp1/NestedComp"]
+        assert all(r.attrib["DEST"] == "SW-COMPONENT-PROTOTYPE" for r in comp_refs)
+        assert iref_elements[0].find("TARGET-REF").text == "/Systems/RootSwCompositionPrototype/Comp1/PG"
+        assert iref_elements[0].find("TARGET-REF").attrib["DEST"] == "PORT-GROUP"
+        assert iref_elements[1].find("CONTEXT-COMPOSITION-REF") is None
+        assert iref_elements[1].findall("CONTEXT-COMPONENT-REF") == []
+        assert iref_elements[1].find("TARGET-REF").text == "/Systems/RootSwCompositionPrototype/Comp2/PG2"
+        channel_refs = com_element.findall("PHYSICAL-CHANNEL-REFS/PHYSICAL-CHANNEL-REF")
+        assert [r.text for r in channel_refs] == ["/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel"]
+        assert all(r.attrib["DEST"] == "CAN-COMMUNICATION-CONNECTOR" for r in channel_refs)
+        assert com_element.find("VARIATION-POINT/SHORT-LABEL").text == "VP_COMMAP"
+
+    def test_empty_refs_wrappers_not_emitted(self, writer):
+        system = _make_system()
+        system.createSystemMapping("SM").createComManagementMapping("ComMapping1")
+        parent = _parent()
+        writer.writeSystem(parent, system)
+        com_element = parent[0].find("MAPPINGS/SYSTEM-MAPPING/COM-MANAGEMENT-MAPPINGS/COM-MANAGEMENT-MAPPING")
+        assert com_element is not None
+        assert com_element.find("COM-MANAGEMENT-GROUP-REFS") is None
+        assert com_element.find("COM-MANAGEMENT-PORT-GROUP-IREFS") is None
+        assert com_element.find("PHYSICAL-CHANNEL-REFS") is None
+
+    def test_round_trip_refs_and_variation_point(self, tmp_path):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        system, _com_mapping = self._make_com_mapping()
+
+        file_path = str(tmp_path / "com_management_mapping_round_trip.arxml")
+        ARXMLWriter().save(file_path, document)
+
+        document_2 = AUTOSAR.getInstance()
+        document_2.clear()
+        ARXMLParser().load(file_path, document_2)
+
+        system_2 = document_2.getARPackages()[0].getElement("Sys")
+        assert system_2 is not None
+        com_mappings = system_2.getMappings()[0].getComManagementMappings()
+        assert len(com_mappings) == 1
+        com_mapping_2 = com_mappings[0]
+        assert com_mapping_2.getShortName() == "ComMapping1"
+        group_refs = com_mapping_2.getComManagementGroupRefs()
+        assert [r.getValue() for r in group_refs] == ["/Systems/IPduGroupA", "/Systems/IPduGroupB"]
+        assert all(r.getDest() == "I-SIGNAL-I-PDU-GROUP" for r in group_refs)
+        irefs = com_mapping_2.getComManagementPortGroupIRefs()
+        assert len(irefs) == 2
+        assert irefs[0].getContextCompositionRef().getValue() == "/Systems/RootSwCompositionPrototype"
+        assert [r.getValue() for r in irefs[0].getContextComponentRefs()] == ["/Systems/RootSwCompositionPrototype/Comp1", "/Systems/RootSwCompositionPrototype/Comp1/NestedComp"]
+        assert irefs[0].getTargetRef().getValue() == "/Systems/RootSwCompositionPrototype/Comp1/PG"
+        assert irefs[0].getTargetRef().getDest() == "PORT-GROUP"
+        assert irefs[1].getContextCompositionRef() is None
+        assert irefs[1].getContextComponentRefs() == []
+        assert irefs[1].getTargetRef().getValue() == "/Systems/RootSwCompositionPrototype/Comp2/PG2"
+        channel_refs = com_mapping_2.getPhysicalChannelRefs()
+        assert [r.getValue() for r in channel_refs] == ["/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel"]
+        assert all(r.getDest() == "CAN-COMMUNICATION-CONNECTOR" for r in channel_refs)
+        assert com_mapping_2.getVariationPoint().getShortLabel().getValue() == "VP_COMMAP"
+
+
+class TestWriterOperationInSystemInstanceRef:
+    def test_full(self, writer):
+        iref = OperationInSystemInstanceRef()
+        iref.setBaseRef(_ref("/b", "COMPOSITION-SW-COMPONENT-TYPE"))
+        iref.setContextCompositionRef(_ref("/comp", "ROOT-SW-COMPOSITION-PROTOTYPE"))
+        iref.addContextComponentRef(_ref("/c1", "SW-COMPONENT-PROTOTYPE"))
+        iref.addContextComponentRef(_ref("/c2", "SW-COMPONENT-PROTOTYPE"))
+        iref.setContextPortRef(_ref("/port", "PORT-PROTOTYPE"))
+        iref.setTargetOperationRef(_ref("/op", "CLIENT-SERVER-OPERATION"))
+
+        parent = _parent()
+        writer.setOperationInSystemInstanceRef(parent, "OPERATION-IREF", iref)
+
+        child = parent.find("OPERATION-IREF")
+        assert child is not None
+        assert [c.tag for c in child] == [
+            "BASE-REF",
+            "CONTEXT-COMPOSITION-REF",
+            "CONTEXT-COMPONENT-REF",
+            "CONTEXT-COMPONENT-REF",
+            "CONTEXT-PORT-REF",
+            "TARGET-OPERATION-REF",
+        ]
+        assert child.find("BASE-REF").get("DEST") == "COMPOSITION-SW-COMPONENT-TYPE"
+        assert child.find("BASE-REF").text == "/b"
+        assert child.find("CONTEXT-COMPOSITION-REF").get("DEST") == "ROOT-SW-COMPOSITION-PROTOTYPE"
+        ctx = child.findall("CONTEXT-COMPONENT-REF")
+        assert [r.text for r in ctx] == ["/c1", "/c2"]
+        assert all(r.get("DEST") == "SW-COMPONENT-PROTOTYPE" for r in ctx)
+        assert child.find("CONTEXT-PORT-REF").get("DEST") == "PORT-PROTOTYPE"
+        assert child.find("TARGET-OPERATION-REF").get("DEST") == "CLIENT-SERVER-OPERATION"
+        assert child.find("TARGET-OPERATION-REF").text == "/op"
+
+    def test_none_ref(self, writer):
+        parent = _parent()
+        writer.setOperationInSystemInstanceRef(parent, "OPERATION-IREF", None)
+        assert len(parent) == 0
+
+    def test_empty_context_components(self, writer):
+        iref = OperationInSystemInstanceRef()
+        iref.setTargetOperationRef(_ref("/op", "CLIENT-SERVER-OPERATION"))
+
+        parent = _parent()
+        writer.setOperationInSystemInstanceRef(parent, "OPERATION-IREF", iref)
+
+        child = parent.find("OPERATION-IREF")
+        assert child is not None
+        assert [c.tag for c in child] == ["TARGET-OPERATION-REF"]
+
+
+class TestWriterClientIdDefinition:
+    def _make_id_definition(self):
+        id_definition = ClientIdDefinition(parent=AUTOSAR.getInstance(), short_name="CID1")
+        client_id = Numerical()
+        client_id.setValue("5")
+        id_definition.setClientId(client_id)
+        iref = OperationInSystemInstanceRef()
+        iref.setContextPortRef(_ref("/port", "R-PORT-PROTOTYPE"))
+        iref.setTargetOperationRef(_ref("/op", "CLIENT-SERVER-OPERATION"))
+        id_definition.setClientServerOperationIRef(iref)
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(Identifier().setValue("VP_CID"))
+        id_definition.setVariationPoint(variation_point)
+        return id_definition
+
+    def test_members_in_xsd_order(self, writer):
+        id_definition = self._make_id_definition()
+        parent = _parent()
+        writer.writeClientIdDefinition(parent, id_definition)
+
+        child = parent.find("CLIENT-ID-DEFINITION")
+        assert child is not None
+        tags = [c.tag for c in child]
+        assert tags.index("CLIENT-ID") < tags.index("CLIENT-SERVER-OPERATION-IREF") < tags.index("VARIATION-POINT")
+        assert child.find("CLIENT-ID").text == "5"
+        iref_element = child.find("CLIENT-SERVER-OPERATION-IREF")
+        assert iref_element.find("CONTEXT-PORT-REF").get("DEST") == "R-PORT-PROTOTYPE"
+        assert iref_element.find("CONTEXT-PORT-REF").text == "/port"
+        assert iref_element.find("TARGET-OPERATION-REF").get("DEST") == "CLIENT-SERVER-OPERATION"
+        assert iref_element.find("TARGET-OPERATION-REF").text == "/op"
+        assert child.find("VARIATION-POINT/SHORT-LABEL").text == "VP_CID"
+
+    def test_none_members_not_emitted(self, writer):
+        id_definition = ClientIdDefinition(parent=AUTOSAR.getInstance(), short_name="CID1")
+        parent = _parent()
+        writer.writeClientIdDefinition(parent, id_definition)
+
+        child = parent.find("CLIENT-ID-DEFINITION")
+        assert child is not None
+        assert child.find("CLIENT-ID") is None
+        assert child.find("CLIENT-SERVER-OPERATION-IREF") is None
+
+    def test_client_id_only_no_iref_element(self, writer):
+        id_definition = ClientIdDefinition(parent=AUTOSAR.getInstance(), short_name="CID1")
+        client_id = Numerical()
+        client_id.setValue("7")
+        id_definition.setClientId(client_id)
+        parent = _parent()
+        writer.writeClientIdDefinition(parent, id_definition)
+
+        child = parent.find("CLIENT-ID-DEFINITION")
+        assert child is not None
+        assert child.find("CLIENT-ID").text == "7"
+        assert child.find("CLIENT-SERVER-OPERATION-IREF") is None
+
+
+class TestWriterClientIdDefinitionSet:
+    def _make_set(self):
+        id_definition_set = ClientIdDefinitionSet(parent=AUTOSAR.getInstance(), short_name="IDS1")
+        id_definition = id_definition_set.createClientIdDefinition("CID1")
+        client_id = Numerical()
+        client_id.setValue("5")
+        id_definition.setClientId(client_id)
+        id_definition_set.createClientIdDefinition("CID2")
+        return id_definition_set
+
+    def test_wrapper_and_children_in_xsd_order(self, writer):
+        id_definition_set = self._make_set()
+        parent = _parent()
+        writer.writeClientIdDefinitionSet(parent, id_definition_set)
+
+        child = parent.find("CLIENT-ID-DEFINITION-SET")
+        assert child is not None
+        wrapper = child.find("CLIENT-ID-DEFINITIONS")
+        assert wrapper is not None
+        definitions = wrapper.findall("CLIENT-ID-DEFINITION")
+        assert len(definitions) == 2
+        assert [d.find("SHORT-NAME").text for d in definitions] == ["CID1", "CID2"]
+        assert definitions[0].find("CLIENT-ID").text == "5"
+
+    def test_empty_set_no_wrapper(self, writer):
+        id_definition_set = ClientIdDefinitionSet(parent=AUTOSAR.getInstance(), short_name="IDS1")
+        parent = _parent()
+        writer.writeClientIdDefinitionSet(parent, id_definition_set)
+
+        child = parent.find("CLIENT-ID-DEFINITION-SET")
+        assert child is not None
+        assert child.find("CLIENT-ID-DEFINITIONS") is None
+
+    def test_round_trip(self, tmp_path):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        package = document.createARPackage("Pkg")
+        package.createClientIdDefinitionSet("IDS1").createClientIdDefinition("CID1")
+
+        file_path = str(tmp_path / "client_id_definition_set_round_trip.arxml")
+        ARXMLWriter().save(file_path, document)
+
+        document_2 = AUTOSAR.getInstance()
+        document_2.clear()
+        ARXMLParser().load(file_path, document_2)
+
+        package_2 = document_2.getARPackages()[0]
+        id_definition_set_2 = package_2.getElement("IDS1", ClientIdDefinitionSet)
+        assert id_definition_set_2 is not None
+        definitions = id_definition_set_2.getClientIdDefinitions()
+        assert len(definitions) == 1
+        assert definitions[0].getShortName() == "CID1"
+
+
+class TestWriterInterpolationRoutine:
+    def test_full_in_xsd_order(self, writer):
+        routine = InterpolationRoutine()
+        short_label = Identifier()
+        short_label.setValue("LinearInterpolation")
+        routine.setShortLabel(short_label)
+        is_default = Boolean()
+        is_default.setValue(True)
+        routine.setIsDefault(is_default)
+        ref = RefType()
+        ref.setDest("BSW-MODULE-ENTRY")
+        ref.setValue("/BswM/BswEntries/InterpolationEntry")
+        routine.setInterpolationRoutineRef(ref)
+
+        parent = _parent()
+        writer.writeInterpolationRoutine(parent, routine)
+
+        child = parent.find("INTERPOLATION-ROUTINE")
+        assert child is not None
+        assert [e.tag for e in child] == ["SHORT-LABEL", "IS-DEFAULT", "INTERPOLATION-ROUTINE-REF"]
+        assert child.find("SHORT-LABEL").text == "LinearInterpolation"
+        assert child.find("IS-DEFAULT").text == "true"
+        ref_element = child.find("INTERPOLATION-ROUTINE-REF")
+        assert ref_element.get("DEST") == "BSW-MODULE-ENTRY"
+        assert ref_element.text == "/BswM/BswEntries/InterpolationEntry"
+
+    def test_empty_no_children(self, writer):
+        routine = InterpolationRoutine()
+        parent = _parent()
+        writer.writeInterpolationRoutine(parent, routine)
+
+        child = parent.find("INTERPOLATION-ROUTINE")
+        assert child is not None
+        assert len(child) == 0
+
+
+class TestWriterInterpolationRoutineMapping:
+    def test_full_in_xsd_order(self, writer):
+        mapping = InterpolationRoutineMapping()
+
+        routine = mapping.createInterpolationRoutine()
+        short_label = Identifier()
+        short_label.setValue("LinearInterpolation")
+        routine.setShortLabel(short_label)
+
+        routine2 = mapping.createInterpolationRoutine()
+        short_label2 = Identifier()
+        short_label2.setValue("TableLookup")
+        routine2.setShortLabel(short_label2)
+
+        ref = RefType()
+        ref.setDest("SW-RECORD-LAYOUT")
+        ref.setValue("/Package/SwRecordLayouts/Layout1")
+        mapping.setSwRecordLayoutRef(ref)
+
+        parent = _parent()
+        writer.writeInterpolationRoutineMapping(parent, mapping)
+
+        child = parent.find("INTERPOLATION-ROUTINE-MAPPING")
+        assert child is not None
+        assert [e.tag for e in child] == ["INTERPOLATION-ROUTINES", "SW-RECORD-LAYOUT-REF"]
+        routines_wrapper = child.find("INTERPOLATION-ROUTINES")
+        assert [e.tag for e in routines_wrapper] == ["INTERPOLATION-ROUTINE", "INTERPOLATION-ROUTINE"]
+        assert routines_wrapper[0].find("SHORT-LABEL").text == "LinearInterpolation"
+        assert routines_wrapper[1].find("SHORT-LABEL").text == "TableLookup"
+        ref_element = child.find("SW-RECORD-LAYOUT-REF")
+        assert ref_element.get("DEST") == "SW-RECORD-LAYOUT"
+        assert ref_element.text == "/Package/SwRecordLayouts/Layout1"
+
+    def test_empty_no_children(self, writer):
+        mapping = InterpolationRoutineMapping()
+        parent = _parent()
+        writer.writeInterpolationRoutineMapping(parent, mapping)
+
+        child = parent.find("INTERPOLATION-ROUTINE-MAPPING")
+        assert child is not None
+        assert len(child) == 0
+
+
+class TestWriterInterpolationRoutineMappingSet:
+    def _make_set(self):
+        mapping_set = InterpolationRoutineMappingSet(parent=AUTOSAR.getInstance(), short_name="IRS1")
+        mapping = mapping_set.createInterpolationRoutineMapping()
+        routine = mapping.createInterpolationRoutine()
+        short_label = Identifier()
+        short_label.setValue("LinearInterpolation")
+        routine.setShortLabel(short_label)
+        ref = RefType()
+        ref.setDest("SW-RECORD-LAYOUT")
+        ref.setValue("/Package/SwRecordLayouts/Layout1")
+        mapping.setSwRecordLayoutRef(ref)
+        return mapping_set
+
+    def test_wrapper_and_children_in_xsd_order(self, writer):
+        mapping_set = self._make_set()
+        parent = _parent()
+        writer.writeInterpolationRoutineMappingSet(parent, mapping_set)
+
+        child = parent.find("INTERPOLATION-ROUTINE-MAPPING-SET")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "IRS1"
+        wrapper = child.find("INTERPOLATION-ROUTINE-MAPPINGS")
+        assert wrapper is not None
+        mappings = wrapper.findall("INTERPOLATION-ROUTINE-MAPPING")
+        assert len(mappings) == 1
+        assert mappings[0].find("INTERPOLATION-ROUTINES/INTERPOLATION-ROUTINE/SHORT-LABEL").text == "LinearInterpolation"
+        ref_element = mappings[0].find("SW-RECORD-LAYOUT-REF")
+        assert ref_element.get("DEST") == "SW-RECORD-LAYOUT"
+        assert ref_element.text == "/Package/SwRecordLayouts/Layout1"
+
+    def test_empty_set_no_wrapper(self, writer):
+        mapping_set = InterpolationRoutineMappingSet(parent=AUTOSAR.getInstance(), short_name="IRS1")
+        parent = _parent()
+        writer.writeInterpolationRoutineMappingSet(parent, mapping_set)
+
+        child = parent.find("INTERPOLATION-ROUTINE-MAPPING-SET")
+        assert child is not None
+        assert child.find("INTERPOLATION-ROUTINE-MAPPINGS") is None
+
+
+class TestWriterSwComponentPrototypeAssignment:
+    def _make_assignment(self):
+        assignment = SwComponentPrototypeAssignment()
+        iref = ComponentInSystemInstanceRef()
+        iref.setContextCompositionRef(_ref("/comp", "COMPOSITION-SW-COMPONENT-PROTOTYPE"))
+        iref.setTargetComponentRef(_ref("/swc", "SW-COMPONENT-PROTOTYPE"))
+        assignment.setSwComponentIRef(iref)
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(Identifier().setValue("VP_SWCA"))
+        assignment.setVariationPoint(variation_point)
+        return assignment
+
+    def test_members_in_xsd_order(self, writer):
+        assignment = self._make_assignment()
+        parent = _parent()
+        writer.writeSwComponentPrototypeAssignment(parent, assignment)
+
+        child = parent.find("SW-COMPONENT-PROTOTYPE-ASSIGNMENT")
+        assert child is not None
+        tags = [c.tag for c in child]
+        assert tags.index("SW-COMPONENT-IREF") < tags.index("VARIATION-POINT")
+        iref_element = child.find("SW-COMPONENT-IREF")
+        assert iref_element.find("CONTEXT-COMPOSITION-REF").get("DEST") == "COMPOSITION-SW-COMPONENT-PROTOTYPE"
+        assert iref_element.find("CONTEXT-COMPOSITION-REF").text == "/comp"
+        assert iref_element.find("TARGET-COMPONENT-REF").get("DEST") == "SW-COMPONENT-PROTOTYPE"
+        assert iref_element.find("TARGET-COMPONENT-REF").text == "/swc"
+        assert child.find("VARIATION-POINT/SHORT-LABEL").text == "VP_SWCA"
+
+    def test_none_members_not_emitted(self, writer):
+        assignment = SwComponentPrototypeAssignment()
+        parent = _parent()
+        writer.writeSwComponentPrototypeAssignment(parent, assignment)
+
+        child = parent.find("SW-COMPONENT-PROTOTYPE-ASSIGNMENT")
+        assert child is not None
+        assert child.find("SW-COMPONENT-IREF") is None
+        assert child.find("VARIATION-POINT") is None
+
+
+class TestWriterCpSoftwareCluster:
+    def _make_cluster(self):
+        cluster = CpSoftwareCluster(parent=AUTOSAR.getInstance(), short_name="Cluster1")
+        cluster.setSoftwareClusterId(_positive_int(42))
+        assignment = SwComponentPrototypeAssignment()
+        iref = ComponentInSystemInstanceRef()
+        iref.setContextCompositionRef(_ref("/comp", "COMPOSITION-SW-COMPONENT-PROTOTYPE"))
+        iref.setTargetComponentRef(_ref("/swc", "SW-COMPONENT-PROTOTYPE"))
+        assignment.setSwComponentIRef(iref)
+        cluster.addSwComponentAssignment(assignment)
+        cluster.addSwCompositionRef(_ref("/Composition/Comp1", "COMPOSITION-SW-COMPONENT-TYPE"))
+        return cluster
+
+    def test_members_in_xsd_order(self, writer):
+        cluster = self._make_cluster()
+        parent = _parent()
+        writer.writeCpSoftwareCluster(parent, cluster)
+
+        child = parent.find("CP-SOFTWARE-CLUSTER")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "Cluster1"
+        tags = [c.tag for c in child]
+        assert tags.index("SOFTWARE-CLUSTER-ID") < tags.index("SW-COMPONENT-ASSIGNMENTS") < tags.index("SW-COMPOSITIONS")
+        assert child.find("SOFTWARE-CLUSTER-ID").text == "42"
+        assignment_elements = child.findall("SW-COMPONENT-ASSIGNMENTS/SW-COMPONENT-PROTOTYPE-ASSIGNMENT")
+        assert len(assignment_elements) == 1
+        assert assignment_elements[0].find("SW-COMPONENT-IREF/TARGET-COMPONENT-REF").text == "/swc"
+        conditional = child.find("SW-COMPOSITIONS/COMPOSITION-SW-COMPONENT-TYPE-REF-CONDITIONAL")
+        assert conditional.find("COMPOSITION-SW-COMPONENT-TYPE-REF").get("DEST") == "COMPOSITION-SW-COMPONENT-TYPE"
+        assert conditional.find("COMPOSITION-SW-COMPONENT-TYPE-REF").text == "/Composition/Comp1"
+
+    def test_none_members_not_emitted(self, writer):
+        cluster = CpSoftwareCluster(parent=AUTOSAR.getInstance(), short_name="Cluster1")
+        parent = _parent()
+        writer.writeCpSoftwareCluster(parent, cluster)
+
+        child = parent.find("CP-SOFTWARE-CLUSTER")
+        assert child is not None
+        assert child.find("SOFTWARE-CLUSTER-ID") is None
+        assert child.find("SW-COMPONENT-ASSIGNMENTS") is None
+        assert child.find("SW-COMPOSITIONS") is None
+
+
+class TestWriterJ1939Cluster:
+    def _make_cluster(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
+
+        cluster = J1939Cluster(parent=AUTOSAR.getInstance(), short_name="JCluster1")
+        cluster.setProtocolName(String().setValue("JAUS"))
+        cluster.setNetworkId(_positive_int(2))
+        cluster.setRequest2Support(_boolean(True))
+        cluster.setUsesAddressArbitration(_boolean(False))
+        return cluster
+
+    def test_members_in_xsd_order(self, writer):
+        cluster = self._make_cluster()
+        parent = _parent()
+        writer.writeJ1939Cluster(parent, cluster)
+
+        child = parent.find("J-1939-CLUSTER")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "JCluster1"
+        conditional = child.find("J-1939-CLUSTER-VARIANTS/J-1939-CLUSTER-CONDITIONAL")
+        assert conditional is not None
+        tags = [c.tag for c in conditional]
+        assert tags.index("PROTOCOL-NAME") < tags.index("NETWORK-ID") < tags.index("REQUEST-2-SUPPORT") < tags.index("USES-ADDRESS-ARBITRATION")
+        assert conditional.find("NETWORK-ID").text == "2"
+        assert conditional.find("REQUEST-2-SUPPORT").text == "true"
+        assert conditional.find("USES-ADDRESS-ARBITRATION").text == "false"
+
+    def test_none_members_not_emitted(self, writer):
+        cluster = J1939Cluster(parent=AUTOSAR.getInstance(), short_name="JCluster1")
+        parent = _parent()
+        writer.writeJ1939Cluster(parent, cluster)
+
+        child = parent.find("J-1939-CLUSTER")
+        assert child is not None
+        conditional = child.find("J-1939-CLUSTER-VARIANTS/J-1939-CLUSTER-CONDITIONAL")
+        assert conditional is not None
+        assert conditional.find("NETWORK-ID") is None
+        assert conditional.find("REQUEST-2-SUPPORT") is None
+        assert conditional.find("USES-ADDRESS-ARBITRATION") is None

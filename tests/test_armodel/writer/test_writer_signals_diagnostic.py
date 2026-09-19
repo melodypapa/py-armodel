@@ -441,7 +441,7 @@ class TestWriterDiagnosticConnection:
         conn = _make_diagnostic_connection()
         conn.addFunctionalRequestRef(_ref("/f", "DIAGNOSTIC-REQUEST"))
         conn.setPhysicalRequestRef(_ref("/p", "DIAGNOSTIC-REQUEST"))
-        conn.setResponseOnEventRef(_ref("/r", "DIAGNOSTIC-RESPONSE"))
+        conn.setResponseRef(_ref("/r", "DIAGNOSTIC-RESPONSE"))
         parent = _parent()
         writer.writeDiagnosticConnection(parent, conn)
         elem = parent.find("DIAGNOSTIC-CONNECTION")
@@ -450,6 +450,35 @@ class TestWriterDiagnosticConnection:
         assert elem.find("FUNCTIONAL-REQUEST-REFS") is not None
         assert elem.find("PHYSICAL-REQUEST-REF") is not None
         assert elem.find("RESPONSE-REF") is not None
+        assert elem.find("RESPONSE-REF").text == "/r"
+
+    def test_response_ref_maps_to_response_accessor(self, writer):
+        conn = _make_diagnostic_connection()
+        conn.setResponseRef(_ref("/resp", "DIAGNOSTIC-REQUEST"))
+        conn.setResponseOnEventRef(_ref("/roe", "DIAGNOSTIC-REQUEST"))
+        parent = _parent()
+        writer.writeDiagnosticConnection(parent, conn)
+        elem = parent.find("DIAGNOSTIC-CONNECTION")
+        assert elem.find("RESPONSE-REF").text == "/resp"
+        assert elem.find("RESPONSE-ON-EVENT-REF").text == "/roe"
+
+    def test_periodic_response_uudt_refs(self, writer):
+        conn = _make_diagnostic_connection()
+        conn.addPeriodicResponseUudtRef(_ref("/uudt1", "PDU-TRIGGERING"))
+        conn.addPeriodicResponseUudtRef(_ref("/uudt2", "PDU-TRIGGERING"))
+        parent = _parent()
+        writer.writeDiagnosticConnection(parent, conn)
+        elem = parent.find("DIAGNOSTIC-CONNECTION")
+        wrapper = elem.find("PERIODIC-RESPONSE-UUDT-REFS")
+        assert wrapper is not None
+        assert len(wrapper.findall("PERIODIC-RESPONSE-UUDT-REF")) == 2
+
+    def test_periodic_response_uudt_refs_empty_emits_nothing(self, writer):
+        conn = _make_diagnostic_connection()
+        parent = _parent()
+        writer.writeDiagnosticConnection(parent, conn)
+        elem = parent.find("DIAGNOSTIC-CONNECTION")
+        assert elem.find("PERIODIC-RESPONSE-UUDT-REFS") is None
 
 
 class TestWriterDiagnosticServiceTableDiagnosticConnectionRefs:

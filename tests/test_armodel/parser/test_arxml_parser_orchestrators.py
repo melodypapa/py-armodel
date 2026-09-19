@@ -874,6 +874,32 @@ class TestServiceNeedsHandlers:
         parser.readV2xMUserNeeds(element, needs)
         assert needs.getShortName() == "v2xmNeeds"
 
+    def test_readVendorSpecificServiceNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import VendorSpecificServiceNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>vendorNeeds</SHORT-NAME>", root_tag="VENDOR-SPECIFIC-SERVICE-NEEDS")
+        needs = dependency.createVendorSpecificServiceNeeds("vendorNeeds")
+        assert isinstance(needs, VendorSpecificServiceNeeds)
+        parser.readVendorSpecificServiceNeeds(element, needs)
+        assert needs.getShortName() == "vendorNeeds"
+
+    def test_readWarningIndicatorRequestedBitNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import WarningIndicatorRequestedBitNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>warningNeeds</SHORT-NAME>", root_tag="WARNING-INDICATOR-REQUESTED-BIT-NEEDS")
+        needs = dependency.createWarningIndicatorRequestedBitNeeds("warningNeeds")
+        assert isinstance(needs, WarningIndicatorRequestedBitNeeds)
+        parser.readWarningIndicatorRequestedBitNeeds(element, needs)
+        assert needs.getShortName() == "warningNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 
@@ -2115,7 +2141,7 @@ class TestSystemAndMappingHandlers:
         system = System(parent=_autosar_root(), short_name="sys")
         element = _snip(
             "<SHORT-NAME>sys</SHORT-NAME>"
-            "<ECU-EXTRACT-VERSION>1.0</ECU-EXTRACT-VERSION>"
+            "<ECU-EXTRACT-VERSION>1.0.0</ECU-EXTRACT-VERSION>"
             "<FIBEX-ELEMENTS>"
             "<FIBEX-ELEMENT-REF-CONDITIONAL>"
             "<FIBEX-ELEMENT-REF DEST='CAN-CLUSTER'>/can</FIBEX-ELEMENT-REF>"
@@ -2127,7 +2153,7 @@ class TestSystemAndMappingHandlers:
             root_tag="SYSTEM",
         )
         parser.readSystem(element, system)
-        assert system.getEcuExtractVersion().getValue() == "1.0"
+        assert system.getEcuExtractVersion().getValue() == "1.0.0"
         assert len(system.getFibexElementRefs()) == 1
         assert len(system.getMappings()) == 1
 

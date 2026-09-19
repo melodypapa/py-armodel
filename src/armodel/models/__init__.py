@@ -59,6 +59,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import * 
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import *  # noqa: F403

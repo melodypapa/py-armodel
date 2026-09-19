@@ -92,6 +92,7 @@ ELEMENT_TYPES_AND_TAGS = [
     ("LinTpConfig", "LIN-TP-CONFIG"),
     ("LinCluster", "LIN-CLUSTER"),
     ("CanCluster", "CAN-CLUSTER"),
+    ("J1939Cluster", "J-1939-CLUSTER"),
     ("CanFrame", "CAN-FRAME"),
     ("Gateway", "GATEWAY"),
     ("ISignal", "I-SIGNAL"),

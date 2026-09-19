@@ -63,6 +63,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     V2xDataManagerNeeds,
     V2xFacUserNeeds,
     V2xMUserNeeds,
+    VendorSpecificServiceNeeds,
+    WarningIndicatorRequestedBitNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceNeeds, ServiceDependency
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -1074,6 +1076,38 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, V2xMUserNeeds)
+
+    def createVendorSpecificServiceNeeds(self, short_name: str) -> VendorSpecificServiceNeeds:
+        """
+        Creates or retrieves a VendorSpecificServiceNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            VendorSpecificServiceNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, VendorSpecificServiceNeeds):
+            needs = VendorSpecificServiceNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, VendorSpecificServiceNeeds)
+
+    def createWarningIndicatorRequestedBitNeeds(self, short_name: str) -> WarningIndicatorRequestedBitNeeds:
+        """
+        Creates or retrieves a WarningIndicatorRequestedBitNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            WarningIndicatorRequestedBitNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, WarningIndicatorRequestedBitNeeds):
+            needs = WarningIndicatorRequestedBitNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, WarningIndicatorRequestedBitNeeds)
 
     def createIdsMgrNeeds(self, short_name: str) -> IdsMgrNeeds:
         """

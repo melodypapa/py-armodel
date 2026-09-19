@@ -63,70 +63,154 @@ class TpConnection(ARObject, ABC):
 
 class DiagnosticConnection(ARElement):
     """
-    Represents a diagnostic connection in the AUTOSAR system, defining the relationship
-    between diagnostic services and their communication endpoints. This class connects
-    functional requests, physical requests, and responses within the diagnostic communication
-    infrastructure of the system.
+    DiagnosticConncection that is used to describe the relationship between several TP connections.
     """
 
     # DiagnosticConnection method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getFunctionalRequestRefs     [x] impl  [ ] docstring  [ ] test
-    # [ ] addFunctionalRequestRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] getPeriodicResponseUudtRefs  [x] impl  [ ] docstring  [ ] test
-    # [ ] addPeriodicResponseUudtRef   [x] impl  [ ] docstring  [ ] test
-    # [ ] getPhysicalRequestRef        [x] impl  [ ] docstring  [ ] test
-    # [ ] setPhysicalRequestRef        [x] impl  [ ] docstring  [ ] test
-    # [ ] getResponseRef               [x] impl  [ ] docstring  [ ] test
-    # [ ] setResponseRef               [x] impl  [ ] docstring  [ ] test
-    # [ ] getResponseOnEventRef        [x] impl  [ ] docstring  [ ] test
-    # [ ] setResponseOnEventRef        [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.17, p.61 (sibling copy AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.271, p.633)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFunctionalRequestRefs          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addFunctionalRequestRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPeriodicResponseUudtRefs       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addPeriodicResponseUudtRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPhysicalRequestRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPhysicalRequestRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResponseRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResponseRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResponseOnEventRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResponseOnEventRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
+        # Reference to functional request messages.
         self.functionalRequestRefs: List[RefType] = []
+        # Reference to UUDT responses.
         self.periodicResponseUudtRefs: List[RefType] = []
+        # Reference to a physical request message.
         self.physicalRequestRef: RefType = None
+        # In the vast majority of cases a response is required. However, there are also cases where providing the response is not possible and/or not allowed.
         self.responseRef: RefType = None
+        # Reference to a ROE message.
         self.responseOnEventRef: RefType = None
 
     def getFunctionalRequestRefs(self):
+        """
+        Reference to functional request messages.
+
+        Returns:
+            List of RefType instances
+        """
         return self.functionalRequestRefs
 
     def addFunctionalRequestRef(self, value):
+        """
+        Reference to functional request messages.
+        Only appends the value if it is not None.
+
+        Args:
+            value: The functional request reference to add
+
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.functionalRequestRefs.append(value)
         return self
 
     def getPeriodicResponseUudtRefs(self):
+        """
+        Reference to UUDT responses.
+
+        Returns:
+            List of RefType instances
+        """
         return self.periodicResponseUudtRefs
 
     def addPeriodicResponseUudtRef(self, value):
+        """
+        Reference to UUDT responses.
+        Only appends the value if it is not None.
+
+        Args:
+            value: The UUDT response reference to add
+
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.periodicResponseUudtRefs.append(value)
         return self
 
     def getPhysicalRequestRef(self):
+        """
+        Reference to a physical request message.
+
+        Returns:
+            The RefType instance
+        """
         return self.physicalRequestRef
 
     def setPhysicalRequestRef(self, value):
+        """
+        Reference to a physical request message.
+        Only sets the value if it is not None.
+
+        Args:
+            value: The physical request reference to set
+
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.physicalRequestRef = value
         return self
 
     def getResponseRef(self):
+        """
+        In the vast majority of cases a response is required. However, there are also cases where providing the response is not possible and/or not allowed.
+
+        Returns:
+            The RefType instance
+        """
         return self.responseRef
 
     def setResponseRef(self, value):
+        """
+        In the vast majority of cases a response is required. However, there are also cases where providing the response is not possible and/or not allowed.
+        Only sets the value if it is not None.
+
+        Args:
+            value: The response reference to set
+
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.responseRef = value
         return self
 
     def getResponseOnEventRef(self):
+        """
+        Reference to a ROE message.
+
+        Returns:
+            The RefType instance
+        """
         return self.responseOnEventRef
 
     def setResponseOnEventRef(self, value):
+        """
+        Reference to a ROE message.
+        Only sets the value if it is not None.
+
+        Args:
+            value: The ROE message reference to set
+
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.responseOnEventRef = value
         return self

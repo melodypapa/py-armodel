@@ -503,6 +503,291 @@ class TestAdminDataAndReferrableHandlers:
         assert iref.getContextCompositionRef().getValue() == "/c"
         assert iref.getTargetComponentRef().getValue() == "/t"
 
+    def test_getOperationInSystemInstanceRef_full(self, parser):
+        element = _snip(
+            "<OPERATION-IREF>"
+            "<BASE-REF DEST='COMPOSITION-SW-COMPONENT-TYPE'>/b</BASE-REF>"
+            "<CONTEXT-COMPOSITION-REF DEST='ROOT-SW-COMPOSITION-PROTOTYPE'>/comp</CONTEXT-COMPOSITION-REF>"
+            "<CONTEXT-COMPONENT-REF DEST='SW-COMPONENT-PROTOTYPE'>/c1</CONTEXT-COMPONENT-REF>"
+            "<CONTEXT-COMPONENT-REF DEST='SW-COMPONENT-PROTOTYPE'>/c2</CONTEXT-COMPONENT-REF>"
+            "<CONTEXT-PORT-REF DEST='PORT-PROTOTYPE'>/port</CONTEXT-PORT-REF>"
+            "<TARGET-OPERATION-REF DEST='CLIENT-SERVER-OPERATION'>/op</TARGET-OPERATION-REF>"
+            "</OPERATION-IREF>",
+            root_tag="PARENT",
+        )
+        iref = parser.getOperationInSystemInstanceRef(parser.find(element, "OPERATION-IREF"))
+        assert iref is not None
+        assert iref.getBaseRef().getValue() == "/b"
+        assert iref.getBaseRef().getDest() == "COMPOSITION-SW-COMPONENT-TYPE"
+        assert iref.getContextCompositionRef().getValue() == "/comp"
+        assert iref.getContextCompositionRef().getDest() == "ROOT-SW-COMPOSITION-PROTOTYPE"
+        ctx = iref.getContextComponentRefs()
+        assert len(ctx) == 2
+        assert [r.getValue() for r in ctx] == ["/c1", "/c2"]
+        assert all(r.getDest() == "SW-COMPONENT-PROTOTYPE" for r in ctx)
+        assert iref.getContextPortRef().getValue() == "/port"
+        assert iref.getTargetOperationRef().getValue() == "/op"
+        assert iref.getTargetOperationRef().getDest() == "CLIENT-SERVER-OPERATION"
+
+    def test_getOperationInSystemInstanceRef_empty(self, parser):
+        element = _snip(
+            "<OPERATION-IREF>" "<TARGET-OPERATION-REF DEST='CLIENT-SERVER-OPERATION'>/op</TARGET-OPERATION-REF>" "</OPERATION-IREF>",
+            root_tag="PARENT",
+        )
+        iref = parser.getOperationInSystemInstanceRef(parser.find(element, "OPERATION-IREF"))
+        assert iref is not None
+        assert iref.getBaseRef() is None
+        assert iref.getContextCompositionRef() is None
+        assert iref.getContextComponentRefs() == []
+        assert iref.getContextPortRef() is None
+        assert iref.getTargetOperationRef().getValue() == "/op"
+
+    def test_getOperationInSystemInstanceRef_none_element(self, parser):
+        assert parser.getOperationInSystemInstanceRef(None) is None
+
+    def test_readClientIdDefinition_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition
+
+        id_definition = ClientIdDefinition(parent=_autosar_root(), short_name="CID1")
+        element = _snip(
+            "<CLIENT-ID>5</CLIENT-ID>"
+            "<CLIENT-SERVER-OPERATION-IREF>"
+            "<CONTEXT-PORT-REF DEST='R-PORT-PROTOTYPE'>/port</CONTEXT-PORT-REF>"
+            "<TARGET-OPERATION-REF DEST='CLIENT-SERVER-OPERATION'>/op</TARGET-OPERATION-REF>"
+            "</CLIENT-SERVER-OPERATION-IREF>",
+            root_tag="CLIENT-ID-DEFINITION",
+        )
+        parser.readClientIdDefinition(element, id_definition)
+        assert id_definition.getClientId().getValue() == "5"
+        iref = id_definition.getClientServerOperationIRef()
+        assert iref is not None
+        assert iref.getContextPortRef().getValue() == "/port"
+        assert iref.getTargetOperationRef().getValue() == "/op"
+        assert iref.getTargetOperationRef().getDest() == "CLIENT-SERVER-OPERATION"
+
+    def test_readClientIdDefinition_client_id_only(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition
+
+        id_definition = ClientIdDefinition(parent=_autosar_root(), short_name="CID1")
+        element = _snip("<CLIENT-ID>7</CLIENT-ID>", root_tag="CLIENT-ID-DEFINITION")
+        parser.readClientIdDefinition(element, id_definition)
+        assert id_definition.getClientId().getValue() == "7"
+        assert id_definition.getClientServerOperationIRef() is None
+
+    def test_readClientIdDefinition_empty(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition
+
+        id_definition = ClientIdDefinition(parent=_autosar_root(), short_name="CID1")
+        element = _snip("", root_tag="CLIENT-ID-DEFINITION")
+        parser.readClientIdDefinition(element, id_definition)
+        assert id_definition.getClientId() is None
+        assert id_definition.getClientServerOperationIRef() is None
+
+    def test_readClientIdDefinitionSet_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet
+
+        id_definition_set = ClientIdDefinitionSet(parent=_autosar_root(), short_name="IDS1")
+        element = _snip(
+            "<CLIENT-ID-DEFINITIONS>"
+            "<CLIENT-ID-DEFINITION><SHORT-NAME>CID1</SHORT-NAME><CLIENT-ID>5</CLIENT-ID></CLIENT-ID-DEFINITION>"
+            "<CLIENT-ID-DEFINITION><SHORT-NAME>CID2</SHORT-NAME><CLIENT-ID>7</CLIENT-ID></CLIENT-ID-DEFINITION>"
+            "</CLIENT-ID-DEFINITIONS>",
+            root_tag="CLIENT-ID-DEFINITION-SET",
+        )
+        parser.readClientIdDefinitionSet(element, id_definition_set)
+        definitions = id_definition_set.getClientIdDefinitions()
+        assert len(definitions) == 2
+        assert definitions[0].getShortName() == "CID1"
+        assert definitions[0].getClientId().getValue() == "5"
+        assert definitions[1].getShortName() == "CID2"
+        assert definitions[1].getClientId().getValue() == "7"
+
+    def test_readClientIdDefinitionSet_empty_wrapper(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet
+
+        id_definition_set = ClientIdDefinitionSet(parent=_autosar_root(), short_name="IDS1")
+        element = _snip("<CLIENT-ID-DEFINITIONS/>", root_tag="CLIENT-ID-DEFINITION-SET")
+        parser.readClientIdDefinitionSet(element, id_definition_set)
+        assert id_definition_set.getClientIdDefinitions() == []
+
+    def test_readClientIdDefinitionSet_no_wrapper(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet
+
+        id_definition_set = ClientIdDefinitionSet(parent=_autosar_root(), short_name="IDS1")
+        element = _snip("", root_tag="CLIENT-ID-DEFINITION-SET")
+        parser.readClientIdDefinitionSet(element, id_definition_set)
+        assert id_definition_set.getClientIdDefinitions() == []
+
+    def test_readInterpolationRoutine_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutine
+
+        routine = InterpolationRoutine()
+        element = _snip(
+            "<SHORT-LABEL>LinearInterpolation</SHORT-LABEL>"
+            "<IS-DEFAULT>true</IS-DEFAULT>"
+            '<INTERPOLATION-ROUTINE-REF DEST="BSW-MODULE-ENTRY">/BswM/BswEntries/InterpolationEntry</INTERPOLATION-ROUTINE-REF>',
+            root_tag="INTERPOLATION-ROUTINE",
+        )
+        parser.readInterpolationRoutine(element, routine)
+        assert routine.getShortLabel().getValue() == "LinearInterpolation"
+        assert routine.getIsDefault().getValue() is True
+        assert routine.getInterpolationRoutineRef().getDest() == "BSW-MODULE-ENTRY"
+        assert routine.getInterpolationRoutineRef().getValue() == "/BswM/BswEntries/InterpolationEntry"
+
+    def test_readInterpolationRoutine_empty(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutine
+
+        routine = InterpolationRoutine()
+        element = _snip("", root_tag="INTERPOLATION-ROUTINE")
+        parser.readInterpolationRoutine(element, routine)
+        assert routine.getShortLabel() is None
+        assert routine.getIsDefault() is None
+        assert routine.getInterpolationRoutineRef() is None
+
+    def test_readInterpolationRoutineMapping_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutineMapping
+
+        mapping = InterpolationRoutineMapping()
+        element = _snip(
+            "<INTERPOLATION-ROUTINES>"
+            "<INTERPOLATION-ROUTINE>"
+            "<SHORT-LABEL>LinearInterpolation</SHORT-LABEL>"
+            '<INTERPOLATION-ROUTINE-REF DEST="BSW-MODULE-ENTRY">/BswM/BswEntries/InterpolationEntry</INTERPOLATION-ROUTINE-REF>'
+            "</INTERPOLATION-ROUTINE>"
+            "<INTERPOLATION-ROUTINE>"
+            "<SHORT-LABEL>TableLookup</SHORT-LABEL>"
+            "</INTERPOLATION-ROUTINE>"
+            "</INTERPOLATION-ROUTINES>"
+            '<SW-RECORD-LAYOUT-REF DEST="SW-RECORD-LAYOUT">/Package/SwRecordLayouts/Layout1</SW-RECORD-LAYOUT-REF>',
+            root_tag="INTERPOLATION-ROUTINE-MAPPING",
+        )
+        parser.readInterpolationRoutineMapping(element, mapping)
+        routines = mapping.getInterpolationRoutines()
+        assert len(routines) == 2
+        assert routines[0].getShortLabel().getValue() == "LinearInterpolation"
+        assert routines[0].getInterpolationRoutineRef().getValue() == "/BswM/BswEntries/InterpolationEntry"
+        assert routines[1].getShortLabel().getValue() == "TableLookup"
+        assert mapping.getSwRecordLayoutRef().getDest() == "SW-RECORD-LAYOUT"
+        assert mapping.getSwRecordLayoutRef().getValue() == "/Package/SwRecordLayouts/Layout1"
+
+    def test_readInterpolationRoutineMapping_empty(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutineMapping
+
+        mapping = InterpolationRoutineMapping()
+        element = _snip("", root_tag="INTERPOLATION-ROUTINE-MAPPING")
+        parser.readInterpolationRoutineMapping(element, mapping)
+        assert mapping.getInterpolationRoutines() == []
+        assert mapping.getSwRecordLayoutRef() is None
+
+    def test_readInterpolationRoutineMappingSet_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutineMappingSet
+
+        mapping_set = InterpolationRoutineMappingSet(parent=_autosar_root(), short_name="IRS1")
+        element = _snip(
+            "<INTERPOLATION-ROUTINE-MAPPINGS>"
+            "<INTERPOLATION-ROUTINE-MAPPING>"
+            "<INTERPOLATION-ROUTINES>"
+            "<INTERPOLATION-ROUTINE><SHORT-LABEL>LinearInterpolation</SHORT-LABEL></INTERPOLATION-ROUTINE>"
+            "</INTERPOLATION-ROUTINES>"
+            '<SW-RECORD-LAYOUT-REF DEST="SW-RECORD-LAYOUT">/Package/SwRecordLayouts/Layout1</SW-RECORD-LAYOUT-REF>'
+            "</INTERPOLATION-ROUTINE-MAPPING>"
+            "<INTERPOLATION-ROUTINE-MAPPING>"
+            '<SW-RECORD-LAYOUT-REF DEST="SW-RECORD-LAYOUT">/Package/SwRecordLayouts/Layout2</SW-RECORD-LAYOUT-REF>'
+            "</INTERPOLATION-ROUTINE-MAPPING>"
+            "</INTERPOLATION-ROUTINE-MAPPINGS>",
+            root_tag="INTERPOLATION-ROUTINE-MAPPING-SET",
+        )
+        parser.readInterpolationRoutineMappingSet(element, mapping_set)
+        mappings = mapping_set.getInterpolationRoutineMappings()
+        assert len(mappings) == 2
+        assert mappings[0].getInterpolationRoutines()[0].getShortLabel().getValue() == "LinearInterpolation"
+        assert mappings[0].getSwRecordLayoutRef().getDest() == "SW-RECORD-LAYOUT"
+        assert mappings[0].getSwRecordLayoutRef().getValue() == "/Package/SwRecordLayouts/Layout1"
+        assert mappings[1].getInterpolationRoutines() == []
+        assert mappings[1].getSwRecordLayoutRef().getValue() == "/Package/SwRecordLayouts/Layout2"
+
+    def test_readInterpolationRoutineMappingSet_empty(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutineMappingSet
+
+        mapping_set = InterpolationRoutineMappingSet(parent=_autosar_root(), short_name="IRS1")
+        element = _snip("", root_tag="INTERPOLATION-ROUTINE-MAPPING-SET")
+        parser.readInterpolationRoutineMappingSet(element, mapping_set)
+        assert mapping_set.getInterpolationRoutineMappings() == []
+
+    def test_readSwComponentPrototypeAssignment_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import SwComponentPrototypeAssignment
+
+        assignment = SwComponentPrototypeAssignment()
+        element = _snip(
+            "<SW-COMPONENT-IREF>"
+            "<CONTEXT-COMPOSITION-REF DEST='COMPOSITION-SW-COMPONENT-PROTOTYPE'>/comp</CONTEXT-COMPOSITION-REF>"
+            "<TARGET-COMPONENT-REF DEST='SW-COMPONENT-PROTOTYPE'>/swc</TARGET-COMPONENT-REF>"
+            "</SW-COMPONENT-IREF>"
+            "<VARIATION-POINT><SHORT-LABEL>VP_SWCA</SHORT-LABEL></VARIATION-POINT>",
+            root_tag="SW-COMPONENT-PROTOTYPE-ASSIGNMENT",
+        )
+        parser.readSwComponentPrototypeAssignment(element, assignment)
+        iref = assignment.getSwComponentIRef()
+        assert iref is not None
+        assert iref.getContextCompositionRef().getValue() == "/comp"
+        assert iref.getContextCompositionRef().getDest() == "COMPOSITION-SW-COMPONENT-PROTOTYPE"
+        assert iref.getTargetComponentRef().getValue() == "/swc"
+        assert iref.getTargetComponentRef().getDest() == "SW-COMPONENT-PROTOTYPE"
+        assert assignment.getVariationPoint().getShortLabel().getValue() == "VP_SWCA"
+
+    def test_readSwComponentPrototypeAssignment_empty(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import SwComponentPrototypeAssignment
+
+        assignment = SwComponentPrototypeAssignment()
+        element = _snip("", root_tag="SW-COMPONENT-PROTOTYPE-ASSIGNMENT")
+        parser.readSwComponentPrototypeAssignment(element, assignment)
+        assert assignment.getSwComponentIRef() is None
+        assert assignment.getVariationPoint() is None
+
+    def test_readCpSoftwareCluster_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import CpSoftwareCluster
+
+        cluster = CpSoftwareCluster(parent=_autosar_root(), short_name="Cluster1")
+        element = _snip(
+            "<SOFTWARE-CLUSTER-ID>42</SOFTWARE-CLUSTER-ID>"
+            "<SW-COMPONENT-ASSIGNMENTS>"
+            "<SW-COMPONENT-PROTOTYPE-ASSIGNMENT>"
+            "<SW-COMPONENT-IREF>"
+            "<CONTEXT-COMPOSITION-REF DEST='COMPOSITION-SW-COMPONENT-PROTOTYPE'>/comp</CONTEXT-COMPOSITION-REF>"
+            "<TARGET-COMPONENT-REF DEST='SW-COMPONENT-PROTOTYPE'>/swc</TARGET-COMPONENT-REF>"
+            "</SW-COMPONENT-IREF>"
+            "</SW-COMPONENT-PROTOTYPE-ASSIGNMENT>"
+            "<SW-COMPONENT-PROTOTYPE-ASSIGNMENT/>"
+            "</SW-COMPONENT-ASSIGNMENTS>"
+            "<SW-COMPOSITIONS>"
+            "<COMPOSITION-SW-COMPONENT-TYPE-REF-CONDITIONAL>"
+            '<COMPOSITION-SW-COMPONENT-TYPE-REF DEST="COMPOSITION-SW-COMPONENT-TYPE">/Composition/Comp1</COMPOSITION-SW-COMPONENT-TYPE-REF>'
+            "</COMPOSITION-SW-COMPONENT-TYPE-REF-CONDITIONAL>"
+            "</SW-COMPOSITIONS>",
+            root_tag="CP-SOFTWARE-CLUSTER",
+        )
+        parser.readCpSoftwareCluster(element, cluster)
+        assert cluster.getSoftwareClusterId().getValue() == 42
+        assignments = cluster.getSwComponentAssignments()
+        assert len(assignments) == 2
+        assert assignments[0].getSwComponentIRef().getContextCompositionRef().getValue() == "/comp"
+        assert assignments[0].getSwComponentIRef().getTargetComponentRef().getValue() == "/swc"
+        assert assignments[1].getSwComponentIRef() is None
+        refs = cluster.getSwCompositionRefs()
+        assert len(refs) == 1
+        assert refs[0].getDest() == "COMPOSITION-SW-COMPONENT-TYPE"
+        assert refs[0].getValue() == "/Composition/Comp1"
+
+    def test_readCpSoftwareCluster_empty(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import CpSoftwareCluster
+
+        cluster = CpSoftwareCluster(parent=_autosar_root(), short_name="Cluster1")
+        element = _snip("", root_tag="CP-SOFTWARE-CLUSTER")
+        parser.readCpSoftwareCluster(element, cluster)
+        assert cluster.getSoftwareClusterId() is None
+        assert cluster.getSwComponentAssignments() == []
+        assert cluster.getSwCompositionRefs() == []
+
     def test_getAutosarVariableRef_with_iref(self, parser):
         element = _snip(
             "<ACCESSED-VARIABLE>"
@@ -2200,3 +2485,39 @@ class TestFlatMap:
 
 
 # ==================== ClientServerInterfaceMapping (L5601) ====================
+
+
+# ==================== J1939Cluster (Table 3.28, R23-11) ====================
+
+
+class TestReadJ1939Cluster:
+    def test_readJ1939Cluster_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import J1939Cluster
+
+        cluster = J1939Cluster(parent=_autosar_root(), short_name="JCluster1")
+        element = _snip(
+            "<J-1939-CLUSTER-VARIANTS>"
+            "<J-1939-CLUSTER-CONDITIONAL>"
+            "<PROTOCOL-NAME>JAUS</PROTOCOL-NAME>"
+            "<NETWORK-ID>2</NETWORK-ID>"
+            "<REQUEST-2-SUPPORT>true</REQUEST-2-SUPPORT>"
+            "<USES-ADDRESS-ARBITRATION>false</USES-ADDRESS-ARBITRATION>"
+            "</J-1939-CLUSTER-CONDITIONAL>"
+            "</J-1939-CLUSTER-VARIANTS>",
+            root_tag="J-1939-CLUSTER",
+        )
+        parser.readJ1939Cluster(element, cluster)
+        assert cluster.getProtocolName().getValue() == "JAUS"
+        assert cluster.getNetworkId().getValue() == 2
+        assert cluster.getRequest2Support().getValue() is True
+        assert cluster.getUsesAddressArbitration().getValue() is False
+
+    def test_readJ1939Cluster_empty(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import J1939Cluster
+
+        cluster = J1939Cluster(parent=_autosar_root(), short_name="JCluster1")
+        element = _snip("", root_tag="J-1939-CLUSTER")
+        parser.readJ1939Cluster(element, cluster)
+        assert cluster.getNetworkId() is None
+        assert cluster.getRequest2Support() is None
+        assert cluster.getUsesAddressArbitration() is None

@@ -38,6 +38,14 @@ if TYPE_CHECKING:
         PduTriggering,
     )
 
+    # Rule 0001.10 placeholders - referenced classes not yet implemented; TYPE_CHECKING imports
+    # satisfy the forward annotations and are never executed at runtime.
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate import V2xSupportEnum
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import DltConfig
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import ClientIdRange
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger
@@ -832,337 +840,650 @@ class CommConnectorPort(Identifiable, VariationPointCapable, ABC):
 
 class EcuInstance(FibexElement):
     """
-    ECUInstances are used to define the ECUs used in the topology.
-    The type of the ECU is defined by a reference to an ECU specified
-    with the ECU resource description.
+    ECUInstances are used to define the ECUs used in the topology. The type of the ECU is defined by a reference to an ECU specified with the ECU resource description.
+
+    [constr_3008] EcuInstance subelements: The CommunicationConnector and the CommunicationController that is referenced by the CommunicationConnector shall be owned by the same EcuInstance.
     """
 
     # EcuInstance method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.1, pp.50-52
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getAssociatedComIPduGroupRefs [x] impl  [x] docstring  [x] test
-    # [x] addAssociatedComIPduGroupRef [x] impl  [x] docstring  [x] test
-    # [x] getAssociatedConsumedProvidedServiceInstanceGroupRefs [x] impl  [x] docstring  [x] test
-    # [x] addAssociatedConsumedProvidedServiceInstanceGroupRef [x] impl  [x] docstring  [x] test
-    # [x] getAssociatedPdurIPduGroupRefs [x] impl  [x] docstring  [x] test
-    # [x] addAssociatedPdurIPduGroupRef [x] impl  [x] docstring  [x] test
-    # [x] getChannelSynchronousWakeup  [x] impl  [x] docstring  [x] test
-    # [x] setChannelSynchronousWakeup  [x] impl  [x] docstring  [x] test
-    # [x] getClientIdRange             [x] impl  [x] docstring  [x] test
-    # [x] setClientIdRange             [x] impl  [x] docstring  [x] test
-    # [x] getComConfigurationGwTimeBase [x] impl  [x] docstring  [x] test
-    # [x] setComConfigurationGwTimeBase [x] impl  [x] docstring  [x] test
-    # [x] getComConfigurationRxTimeBase [x] impl  [x] docstring  [x] test
-    # [x] setComConfigurationRxTimeBase [x] impl  [x] docstring  [x] test
-    # [x] getComConfigurationTxTimeBase [x] impl  [x] docstring  [x] test
-    # [x] setComConfigurationTxTimeBase [x] impl  [x] docstring  [x] test
-    # [x] getComEnableMDTForCyclicTransmission [x] impl  [x] docstring  [x] test
-    # [x] setComEnableMDTForCyclicTransmission [x] impl  [x] docstring  [x] test
-    # [x] getCommControllers           [x] impl  [x] docstring  [x] test
-    # [x] createCanCommunicationController [x] impl  [x] docstring  [x] test
-    # [x] createEthernetCommunicationController [x] impl  [x] docstring  [x] test
-    # [x] createLinMaster              [x] impl  [x] docstring  [x] test
-    # [x] createFlexrayCommunicationController [x] impl  [x] docstring  [x] test
-    # [x] getConnectors                [x] impl  [x] docstring  [x] test
-    # [x] createCanCommunicationConnector [x] impl  [x] docstring  [x] test
-    # [x] createEthernetCommunicationConnector [x] impl  [x] docstring  [x] test
-    # [x] createLinCommunicationConnector [x] impl  [x] docstring  [x] test
-    # [x] createFlexrayCommunicationConnector [x] impl  [x] docstring  [x] test
-    # [x] getDltConfig                 [x] impl  [x] docstring  [x] test
-    # [x] setDltConfig                 [x] impl  [x] docstring  [x] test
-    # [x] getDoIpConfig                [x] impl  [x] docstring  [x] test
-    # [x] setDoIpConfig                [x] impl  [x] docstring  [x] test
-    # [x] getEcuTaskProxyRefs          [x] impl  [x] docstring  [x] test
-    # [x] addEcuTaskProxyRef           [x] impl  [x] docstring  [x] test
-    # [x] getEthSwitchPortGroupDerivation [x] impl  [x] docstring  [x] test
-    # [x] setEthSwitchPortGroupDerivation [x] impl  [x] docstring  [x] test
-    # [x] getFirewallRuleRefs          [x] impl  [x] docstring  [x] test
-    # [x] addFirewallRuleRef           [x] impl  [x] docstring  [x] test
-    # [x] getPartitions                [x] impl  [x] docstring  [x] test
-    # [x] addPartition                 [x] impl  [x] docstring  [x] test
-    # [x] getPncNmRequest              [x] impl  [x] docstring  [x] test
-    # [x] setPncNmRequest              [x] impl  [x] docstring  [x] test
-    # [x] getPncPrepareSleepTimer      [x] impl  [x] docstring  [x] test
-    # [x] setPncPrepareSleepTimer      [x] impl  [x] docstring  [x] test
-    # [x] getPncSynchronousWakeup      [x] impl  [x] docstring  [x] test
-    # [x] setPncSynchronousWakeup      [x] impl  [x] docstring  [x] test
-    # [x] getPnResetTime               [x] impl  [x] docstring  [x] test
-    # [x] setPnResetTime               [x] impl  [x] docstring  [x] test
-    # [x] getSleepModeSupported        [x] impl  [x] docstring  [x] test
-    # [x] setSleepModeSupported        [x] impl  [x] docstring  [x] test
-    # [x] getTcpIpIcmpPropsRef         [x] impl  [x] docstring  [x] test
-    # [x] setTcpIpIcmpPropsRef         [x] impl  [x] docstring  [x] test
-    # [x] getTcpIpPropsRef             [x] impl  [x] docstring  [x] test
-    # [x] setTcpIpPropsRef             [x] impl  [x] docstring  [x] test
-    # [x] getV2xSupported              [x] impl  [x] docstring  [x] test
-    # [x] setV2xSupported              [x] impl  [x] docstring  [x] test
-    # [x] getWakeUpOverBusSupported    [x] impl  [x] docstring  [x] test
-    # [x] setWakeUpOverBusSupported    [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.1, p.52
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAssociatedComIPduGroupRef                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAssociatedComIPduGroupRefs                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addAssociatedConsumedProvidedServiceInstanceGroupRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAssociatedConsumedProvidedServiceInstanceGroupRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addAssociatedPdurIPduGroupRef                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAssociatedPdurIPduGroupRefs                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getChannelSynchronousWakeup                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setChannelSynchronousWakeup                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClientIdRange                                      [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] setClientIdRange                                      [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getComConfigurationGwTimeBase                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setComConfigurationGwTimeBase                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getComConfigurationRxTimeBase                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setComConfigurationRxTimeBase                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getComConfigurationTxTimeBase                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setComConfigurationTxTimeBase                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getComEnableMDTForCyclicTransmission                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setComEnableMDTForCyclicTransmission                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createCanCommunicationController                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEthernetCommunicationController                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createFlexrayCommunicationController                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createLinMaster                                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCommControllers                                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createCanCommunicationConnector                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEthernetCommunicationConnector                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createFlexrayCommunicationConnector                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createLinCommunicationConnector                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConnectors                                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDltConfig                                          [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] setDltConfig                                          [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getDoIpConfig                                         [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] setDoIpConfig                                         [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] addEcuTaskProxyRef                                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcuTaskProxyRefs                                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getEthSwitchPortGroupDerivation                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEthSwitchPortGroupDerivation                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addFirewallRuleRef                                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFirewallRuleRefs                                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addPartition                                          [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
+    # [x] getPartitions                                         [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] getPncNmRequest                                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPncNmRequest                                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPncPrepareSleepTimer                               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPncPrepareSleepTimer                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPncSynchronousWakeup                               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPncSynchronousWakeup                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPnResetTime                                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPnResetTime                                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSleepModeSupported                                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSleepModeSupported                                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIcmpPropsRef                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIcmpPropsRef                                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpPropsRef                                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpPropsRef                                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getV2xSupported                                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setV2xSupported                                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeUpOverBusSupported                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeUpOverBusSupported                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Deferred reader/writer rows ([ ]) pending missing child classes (Rule 0001.10):
+    # clientIdRange (ClientIdRange), dltConfig (DltConfig), doIpConfig (DoIpConfig), partition (EcuPartition)
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
+        # With this reference it is possible to identify which ISignalIPduGroups are applicable for which CommunicationConnector/ ECU. Only top level ISignalIPduGroups shall be referenced by an EcuInstance. If an ISignalIPduGroup contains other ISignalIPduGroups than these contained ISignalIPduGroups shall not be referenced by the EcuInstance. Contained ISignalIPduGroups are associated to an EcuInstance via the top level ISignalIPduGroup.
         self.associatedComIPduGroupRefs: List[RefType] = []
-        self.associatedConsumedProvidedServiceInstanceGroupRefs: List[RefType] = []
-        self.associatedPdurIPduGroupRefs: List[RefType] = []
-        self.channelSynchronousWakeup: Boolean = None
-        self.clientIdRange = None
-        self.comConfigurationGwTimeBase: TimeValue = None
-        self.comConfigurationRxTimeBase: TimeValue = None
-        self.comConfigurationTxTimeBase: TimeValue = None
-        self.comEnableMDTForCyclicTransmission: Boolean = None
-        self.commControllers: List[CommunicationController] = []
-        self.connectors: List[CommunicationConnector] = []
-        self.dltConfig = None
-        self.doIpConfig = None
-        self.ecuTaskProxyRefs: List[RefType] = []
-        self.ethSwitchPortGroupDerivation: Boolean = None
-        self.firewallRuleRefs: List[RefType] = []
-        self.partitions = []
-        self.pncNmRequest: Boolean = None
-        self.pncPrepareSleepTimer: TimeValue = None
-        self.pncSynchronousWakeup: Boolean = None
-        self.pnResetTime: TimeValue = None
-        self.sleepModeSupported: Boolean = None
-        self.tcpIpIcmpPropsRef: RefType = None
-        self.tcpIpPropsRef: RefType = None
-        self.v2xSupported = None
-        self.wakeUpOverBusSupported: Boolean = None
 
-    def getAssociatedComIPduGroupRefs(self):
+        # With this reference it is possible to identify which ConsumedProvidedServiceInstanceGroups are applicable for which ECUInstance.
+        self.associatedConsumedProvidedServiceInstanceGroupRefs: List[RefType] = []
+
+        # With this reference it is possible to identify which PduR IPdu Groups are applicable for which CommunicationConnector/ ECU.
+        self.associatedPdurIPduGroupRefs: List[RefType] = []
+
+        # If this parameter is available and set to true, then all available channels will be woken up as soon as at least one channel wakeup occurs. If PNCs are configured, then all PNCs will be requested upon a channel wakeup.
+        self.channelSynchronousWakeup: Optional[Boolean] = None
+
+        # Restriction of the Client Identifier for this Ecu to an allowed range of numerical values. The Client Identifier of the transaction handle is generated by the client RTE for inter-Ecu Client/Server communication.
+        # ClientIdRange class is not yet implemented (Rule 0001.10 placeholder)
+        self.clientIdRange: Optional["ClientIdRange"] = None
+
+        # The period between successive calls to Com_MainFunctionRouteSignals of the AUTOSAR COM module in seconds.
+        self.comConfigurationGwTimeBase: Optional[TimeValue] = None
+
+        # The period between successive calls to Com_MainFunctionRx of the AUTOSAR COM module in seconds.
+        self.comConfigurationRxTimeBase: Optional[TimeValue] = None
+
+        # The period between successive calls to Com_MainFunctionTx of the AUTOSAR COM module in seconds.
+        self.comConfigurationTxTimeBase: Optional[TimeValue] = None
+
+        # Enables for the Com module of this EcuInstance the minimum delay time monitoring for cyclic and repeated transmissions (TransmissionModeTiming has cyclicTiming assigned or eventControlledTiming with numberOfRepetitions > 0).
+        self.comEnableMDTForCyclicTransmission: Optional[Boolean] = None
+
+        # CommunicationControllers of the ECU.
+        self.commControllers: List[CommunicationController] = []
+
+        # All channels controlled by a single controller.
+        self.connectors: List[CommunicationConnector] = []
+
+        # Describes the Dlt configuration on this EcuInstance.
+        # DltConfig class is not yet implemented (Rule 0001.10 placeholder)
+        self.dltConfig: Optional["DltConfig"] = None
+
+        # DoIp configuration on this EcuInstance.
+        # DoIpConfig class is not yet implemented (Rule 0001.10 placeholder)
+        self.doIpConfig: Optional["DoIpConfig"] = None
+
+        # Reference to OsTaskProxies assigned to the EcuInstance.
+        self.ecuTaskProxyRefs: List[RefType] = []
+
+        # Defines whether the derivation of SwitchPortGroups based on VLAN and/or CouplingPort.pncMapping shall be performed for this EcuInstance. If not defined the derivation shall not be done.
+        self.ethSwitchPortGroupDerivation: Optional[Boolean] = None
+
+        # Firewall rules defined in the context of an EcuInstance.
+        self.firewallRuleRefs: List[RefType] = []
+
+        # Optional definition of Partitions within an Ecu.
+        # EcuPartition class is not yet implemented (Rule 0001.10 placeholder)
+        self.partitions: List["EcuPartition"] = []
+
+        # Defines if this EcuInstance shall request Nm on all its PhysicalChannels which have Nm variant set to FULL each time a PNC is requested.
+        self.pncNmRequest: Optional[Boolean] = None
+
+        # Time in seconds the PNC state machine shall wait in PNC_PREPARE_SLEEP.
+        self.pncPrepareSleepTimer: Optional[TimeValue] = None
+
+        # If this parameter is available and set to true then all available PNCs will be woken up as soon as a channel wakeup occurs. This is ensured by adding all PNCs to all channel wakeup sources during upstream mapping.
+        self.pncSynchronousWakeup: Optional[Boolean] = None
+
+        # Specifies the runtime of the reset timer in seconds. This reset time is valid for the reset of PN requests in the EIRA and in the ERA.
+        self.pnResetTime: Optional[TimeValue] = None
+
+        # Specifies whether the ECU instance may be put to a "low power mode" • true: sleep mode is supported • false: sleep mode is not supported Note: This flag may only be set to "true" if the feature is supported by both hardware and basic software.
+        self.sleepModeSupported: Optional[Boolean] = None
+
+        # EcuInstance specific ICMP (Internet Control Message Protocol) attributes
+        self.tcpIpIcmpPropsRef: Optional[RefType] = None
+
+        # EcuInstance specific TcpIp Stack attributes.
+        self.tcpIpPropsRef: Optional[RefType] = None
+
+        # This attribute is used to control the existence of the V2X stack on the given EcuInstance.
+        # V2xSupportEnum class is not yet implemented (Rule 0001.10 placeholder)
+        self.v2xSupported: Optional["V2xSupportEnum"] = None
+
+        # Driver support for wakeup over Bus.
+        self.wakeUpOverBusSupported: Optional[Boolean] = None
+
+    def addAssociatedComIPduGroupRef(self, value: Optional[RefType]) -> "EcuInstance":
+        """
+        With this reference it is possible to identify which ISignalIPduGroups are applicable for which CommunicationConnector/ ECU. Only top level ISignalIPduGroups shall be referenced by an EcuInstance. If an ISignalIPduGroup contains other ISignalIPduGroups than these contained ISignalIPduGroups shall not be referenced by the EcuInstance. Contained ISignalIPduGroups are associated to an EcuInstance via the top level ISignalIPduGroup.
+
+        A None value is a no-op and does not add to associatedComIPduGroupRefs.
+        """
+        if value is not None:
+            self.associatedComIPduGroupRefs.append(value)
+        return self
+
+    def getAssociatedComIPduGroupRefs(self) -> List[RefType]:
+        """
+        With this reference it is possible to identify which ISignalIPduGroups are applicable for which CommunicationConnector/ ECU. Only top level ISignalIPduGroups shall be referenced by an EcuInstance. If an ISignalIPduGroup contains other ISignalIPduGroups than these contained ISignalIPduGroups shall not be referenced by the EcuInstance. Contained ISignalIPduGroups are associated to an EcuInstance via the top level ISignalIPduGroup.
+        """
         return self.associatedComIPduGroupRefs
 
-    def addAssociatedComIPduGroupRef(self, value):
-        self.associatedComIPduGroupRefs.append(value)
+    def addAssociatedConsumedProvidedServiceInstanceGroupRef(self, value: Optional[RefType]) -> "EcuInstance":
+        """
+        With this reference it is possible to identify which ConsumedProvidedServiceInstanceGroups are applicable for which ECUInstance.
+
+        A None value is a no-op and does not add to associatedConsumedProvidedServiceInstanceGroupRefs.
+        """
+        if value is not None:
+            self.associatedConsumedProvidedServiceInstanceGroupRefs.append(value)
         return self
 
-    def getAssociatedConsumedProvidedServiceInstanceGroupRefs(self):
+    def getAssociatedConsumedProvidedServiceInstanceGroupRefs(self) -> List[RefType]:
+        """
+        With this reference it is possible to identify which ConsumedProvidedServiceInstanceGroups are applicable for which ECUInstance.
+        """
         return self.associatedConsumedProvidedServiceInstanceGroupRefs
 
-    def addAssociatedConsumedProvidedServiceInstanceGroupRef(self, value):
-        self.associatedConsumedProvidedServiceInstanceGroupRefs.append(value)
+    def addAssociatedPdurIPduGroupRef(self, value: Optional[RefType]) -> "EcuInstance":
+        """
+        With this reference it is possible to identify which PduR IPdu Groups are applicable for which CommunicationConnector/ ECU.
+
+        A None value is a no-op and does not add to associatedPdurIPduGroupRefs.
+        """
+        if value is not None:
+            self.associatedPdurIPduGroupRefs.append(value)
         return self
 
-    def getAssociatedPdurIPduGroupRefs(self):
+    def getAssociatedPdurIPduGroupRefs(self) -> List[RefType]:
+        """
+        With this reference it is possible to identify which PduR IPdu Groups are applicable for which CommunicationConnector/ ECU.
+        """
         return self.associatedPdurIPduGroupRefs
 
-    def addAssociatedPdurIPduGroupRef(self, value):
-        self.associatedPdurIPduGroupRefs.append(value)
-        return self
-
-    def getChannelSynchronousWakeup(self):
+    def getChannelSynchronousWakeup(self) -> Optional[Boolean]:
+        """
+        If this parameter is available and set to true, then all available channels will be woken up as soon as at least one channel wakeup occurs. If PNCs are configured, then all PNCs will be requested upon a channel wakeup.
+        """
         return self.channelSynchronousWakeup
 
-    def setChannelSynchronousWakeup(self, value):
-        self.channelSynchronousWakeup = value
+    def setChannelSynchronousWakeup(self, value: Optional[Boolean]) -> "EcuInstance":
+        """
+        If this parameter is available and set to true, then all available channels will be woken up as soon as at least one channel wakeup occurs. If PNCs are configured, then all PNCs will be requested upon a channel wakeup.
+
+        A None value is a no-op and does not overwrite an existing channelSynchronousWakeup.
+        """
+        if value is not None:
+            self.channelSynchronousWakeup = value
         return self
 
-    def getClientIdRange(self):
+    def getClientIdRange(self) -> Optional["ClientIdRange"]:
+        """
+        Restriction of the Client Identifier for this Ecu to an allowed range of numerical values. The Client Identifier of the transaction handle is generated by the client RTE for inter-Ecu Client/Server communication.
+        """
         return self.clientIdRange
 
-    def setClientIdRange(self, value):
-        self.clientIdRange = value
+    def setClientIdRange(self, value: Optional["ClientIdRange"]) -> "EcuInstance":
+        """
+        Restriction of the Client Identifier for this Ecu to an allowed range of numerical values. The Client Identifier of the transaction handle is generated by the client RTE for inter-Ecu Client/Server communication.
+
+        A None value is a no-op and does not overwrite an existing clientIdRange.
+        """
+        if value is not None:
+            self.clientIdRange = value
         return self
 
-    def getComConfigurationGwTimeBase(self):
+    def getComConfigurationGwTimeBase(self) -> Optional[TimeValue]:
+        """
+        The period between successive calls to Com_MainFunctionRouteSignals of the AUTOSAR COM module in seconds.
+        """
         return self.comConfigurationGwTimeBase
 
-    def setComConfigurationGwTimeBase(self, value):
-        self.comConfigurationGwTimeBase = value
+    def setComConfigurationGwTimeBase(self, value: Optional[TimeValue]) -> "EcuInstance":
+        """
+        The period between successive calls to Com_MainFunctionRouteSignals of the AUTOSAR COM module in seconds.
+
+        A None value is a no-op and does not overwrite an existing comConfigurationGwTimeBase.
+        """
+        if value is not None:
+            self.comConfigurationGwTimeBase = value
         return self
 
-    def getComConfigurationRxTimeBase(self):
+    def getComConfigurationRxTimeBase(self) -> Optional[TimeValue]:
+        """
+        The period between successive calls to Com_MainFunctionRx of the AUTOSAR COM module in seconds.
+        """
         return self.comConfigurationRxTimeBase
 
-    def setComConfigurationRxTimeBase(self, value):
-        self.comConfigurationRxTimeBase = value
+    def setComConfigurationRxTimeBase(self, value: Optional[TimeValue]) -> "EcuInstance":
+        """
+        The period between successive calls to Com_MainFunctionRx of the AUTOSAR COM module in seconds.
+
+        A None value is a no-op and does not overwrite an existing comConfigurationRxTimeBase.
+        """
+        if value is not None:
+            self.comConfigurationRxTimeBase = value
         return self
 
-    def getComConfigurationTxTimeBase(self):
+    def getComConfigurationTxTimeBase(self) -> Optional[TimeValue]:
+        """
+        The period between successive calls to Com_MainFunctionTx of the AUTOSAR COM module in seconds.
+        """
         return self.comConfigurationTxTimeBase
 
-    def setComConfigurationTxTimeBase(self, value):
-        self.comConfigurationTxTimeBase = value
+    def setComConfigurationTxTimeBase(self, value: Optional[TimeValue]) -> "EcuInstance":
+        """
+        The period between successive calls to Com_MainFunctionTx of the AUTOSAR COM module in seconds.
+
+        A None value is a no-op and does not overwrite an existing comConfigurationTxTimeBase.
+        """
+        if value is not None:
+            self.comConfigurationTxTimeBase = value
         return self
 
-    def getComEnableMDTForCyclicTransmission(self):
+    def getComEnableMDTForCyclicTransmission(self) -> Optional[Boolean]:
+        """
+        Enables for the Com module of this EcuInstance the minimum delay time monitoring for cyclic and repeated transmissions (TransmissionModeTiming has cyclicTiming assigned or eventControlledTiming with numberOfRepetitions > 0).
+        """
         return self.comEnableMDTForCyclicTransmission
 
-    def setComEnableMDTForCyclicTransmission(self, value):
-        self.comEnableMDTForCyclicTransmission = value
+    def setComEnableMDTForCyclicTransmission(self, value: Optional[Boolean]) -> "EcuInstance":
+        """
+        Enables for the Com module of this EcuInstance the minimum delay time monitoring for cyclic and repeated transmissions (TransmissionModeTiming has cyclicTiming assigned or eventControlledTiming with numberOfRepetitions > 0).
+
+        A None value is a no-op and does not overwrite an existing comEnableMDTForCyclicTransmission.
+        """
+        if value is not None:
+            self.comEnableMDTForCyclicTransmission = value
         return self
 
-    def getCommControllers(self):
-        return list(sorted(filter(lambda a: isinstance(a, CommunicationController), self.elements), key=lambda o: o.short_name))
-
     def createCanCommunicationController(self, short_name: str) -> CanCommunicationController:
+        """
+        CommunicationControllers of the ECU.
+        """
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationController
 
         if not self.IsElementExists(short_name, CanCommunicationController):
             controller = CanCommunicationController(self, short_name)
             self.addElement(controller)
+            self.commControllers.append(controller)
         return self.getElement(short_name, CanCommunicationController)
 
     def createEthernetCommunicationController(self, short_name: str) -> EthernetCommunicationController:
+        """
+        CommunicationControllers of the ECU.
+        """
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationController
 
         if not self.IsElementExists(short_name, EthernetCommunicationController):
             controller = EthernetCommunicationController(self, short_name)
             self.addElement(controller)
+            self.commControllers.append(controller)
         return self.getElement(short_name, EthernetCommunicationController)
 
-    def createLinMaster(self, short_name: str) -> LinMaster:
-        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinMaster
-
-        if not self.IsElementExists(short_name, LinMaster):
-            controller = LinMaster(self, short_name)
-            self.addElement(controller)
-        return self.getElement(short_name, LinMaster)
-
     def createFlexrayCommunicationController(self, short_name: str) -> FlexrayCommunicationController:
+        """
+        CommunicationControllers of the ECU.
+        """
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationController
 
         if not self.IsElementExists(short_name, FlexrayCommunicationController):
             controller = FlexrayCommunicationController(self, short_name)
             self.addElement(controller)
+            self.commControllers.append(controller)
         return self.getElement(short_name, FlexrayCommunicationController)
 
-    def getConnectors(self):
-        return list(sorted(filter(lambda a: isinstance(a, CommunicationConnector), self.elements), key=lambda o: o.short_name))
+    def createLinMaster(self, short_name: str) -> LinMaster:
+        """
+        CommunicationControllers of the ECU.
+        """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinMaster
+
+        if not self.IsElementExists(short_name, LinMaster):
+            controller = LinMaster(self, short_name)
+            self.addElement(controller)
+            self.commControllers.append(controller)
+        return self.getElement(short_name, LinMaster)
+
+    def getCommControllers(self) -> List[CommunicationController]:
+        """
+        CommunicationControllers of the ECU.
+        """
+        return self.commControllers
 
     def createCanCommunicationConnector(self, short_name: str) -> CanCommunicationConnector:
+        """
+        All channels controlled by a single controller.
+        """
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector
 
         if not self.IsElementExists(short_name, CanCommunicationConnector):
             connector = CanCommunicationConnector(self, short_name)
             self.addElement(connector)
+            self.connectors.append(connector)
         return self.getElement(short_name, CanCommunicationConnector)
 
     def createEthernetCommunicationConnector(self, short_name: str) -> EthernetCommunicationConnector:
+        """
+        All channels controlled by a single controller.
+        """
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationConnector
 
         if not self.IsElementExists(short_name, EthernetCommunicationConnector):
             connector = EthernetCommunicationConnector(self, short_name)
             self.addElement(connector)
+            self.connectors.append(connector)
         return self.getElement(short_name, EthernetCommunicationConnector)
 
-    def createLinCommunicationConnector(self, short_name: str) -> LinCommunicationConnector:
-        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector
-
-        if not self.IsElementExists(short_name, LinCommunicationConnector):
-            connector = LinCommunicationConnector(self, short_name)
-            self.addElement(connector)
-        return self.getElement(short_name, LinCommunicationConnector)
-
     def createFlexrayCommunicationConnector(self, short_name: str) -> FlexrayCommunicationConnector:
+        """
+        All channels controlled by a single controller.
+        """
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationConnector
 
         if not self.IsElementExists(short_name, FlexrayCommunicationConnector):
             connector = FlexrayCommunicationConnector(self, short_name)
             self.addElement(connector)
+            self.connectors.append(connector)
         return self.getElement(short_name, FlexrayCommunicationConnector)
 
-    def getDltConfig(self):
+    def createLinCommunicationConnector(self, short_name: str) -> LinCommunicationConnector:
+        """
+        All channels controlled by a single controller.
+        """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector
+
+        if not self.IsElementExists(short_name, LinCommunicationConnector):
+            connector = LinCommunicationConnector(self, short_name)
+            self.addElement(connector)
+            self.connectors.append(connector)
+        return self.getElement(short_name, LinCommunicationConnector)
+
+    def getConnectors(self) -> List[CommunicationConnector]:
+        """
+        All channels controlled by a single controller.
+        """
+        return self.connectors
+
+    def getDltConfig(self) -> Optional["DltConfig"]:
+        """
+        Describes the Dlt configuration on this EcuInstance.
+        """
         return self.dltConfig
 
-    def setDltConfig(self, value):
-        self.dltConfig = value
+    def setDltConfig(self, value: Optional["DltConfig"]) -> "EcuInstance":
+        """
+        Describes the Dlt configuration on this EcuInstance.
+
+        A None value is a no-op and does not overwrite an existing dltConfig.
+        """
+        if value is not None:
+            self.dltConfig = value
         return self
 
-    def getDoIpConfig(self):
+    def getDoIpConfig(self) -> Optional["DoIpConfig"]:
+        """
+        DoIp configuration on this EcuInstance.
+        """
         return self.doIpConfig
 
-    def setDoIpConfig(self, value):
-        self.doIpConfig = value
+    def setDoIpConfig(self, value: Optional["DoIpConfig"]) -> "EcuInstance":
+        """
+        DoIp configuration on this EcuInstance.
+
+        A None value is a no-op and does not overwrite an existing doIpConfig.
+        """
+        if value is not None:
+            self.doIpConfig = value
         return self
 
-    def getEcuTaskProxyRefs(self):
+    def addEcuTaskProxyRef(self, value: Optional[RefType]) -> "EcuInstance":
+        """
+        Reference to OsTaskProxies assigned to the EcuInstance.
+
+        A None value is a no-op and does not add to ecuTaskProxyRefs.
+        """
+        if value is not None:
+            self.ecuTaskProxyRefs.append(value)
+        return self
+
+    def getEcuTaskProxyRefs(self) -> List[RefType]:
+        """
+        Reference to OsTaskProxies assigned to the EcuInstance.
+        """
         return self.ecuTaskProxyRefs
 
-    def addEcuTaskProxyRef(self, value):
-        self.ecuTaskProxyRefs.append(value)
-        return self
-
-    def getEthSwitchPortGroupDerivation(self):
+    def getEthSwitchPortGroupDerivation(self) -> Optional[Boolean]:
+        """
+        Defines whether the derivation of SwitchPortGroups based on VLAN and/or CouplingPort.pncMapping shall be performed for this EcuInstance. If not defined the derivation shall not be done.
+        """
         return self.ethSwitchPortGroupDerivation
 
-    def setEthSwitchPortGroupDerivation(self, value):
-        self.ethSwitchPortGroupDerivation = value
+    def setEthSwitchPortGroupDerivation(self, value: Optional[Boolean]) -> "EcuInstance":
+        """
+        Defines whether the derivation of SwitchPortGroups based on VLAN and/or CouplingPort.pncMapping shall be performed for this EcuInstance. If not defined the derivation shall not be done.
+
+        A None value is a no-op and does not overwrite an existing ethSwitchPortGroupDerivation.
+        """
+        if value is not None:
+            self.ethSwitchPortGroupDerivation = value
         return self
 
-    def getFirewallRuleRefs(self):
+    def addFirewallRuleRef(self, value: Optional[RefType]) -> "EcuInstance":
+        """
+        Firewall rules defined in the context of an EcuInstance.
+
+        A None value is a no-op and does not add to firewallRuleRefs.
+        """
+        if value is not None:
+            self.firewallRuleRefs.append(value)
+        return self
+
+    def getFirewallRuleRefs(self) -> List[RefType]:
+        """
+        Firewall rules defined in the context of an EcuInstance.
+        """
         return self.firewallRuleRefs
 
-    def addFirewallRuleRef(self, value):
-        self.firewallRuleRefs.append(value)
+    def addPartition(self, value: Optional["EcuPartition"]) -> "EcuInstance":
+        """
+        Optional definition of Partitions within an Ecu.
+
+        A None value is a no-op and does not add to partitions.
+        """
+        if value is not None:
+            self.partitions.append(value)
         return self
 
-    def getPartitions(self):
+    def getPartitions(self) -> List["EcuPartition"]:
+        """
+        Optional definition of Partitions within an Ecu.
+        """
         return self.partitions
 
-    def addPartition(self, value):
-        self.partitions.append(value)
-        return self
-
-    def getPncNmRequest(self):
+    def getPncNmRequest(self) -> Optional[Boolean]:
+        """
+        Defines if this EcuInstance shall request Nm on all its PhysicalChannels which have Nm variant set to FULL each time a PNC is requested.
+        """
         return self.pncNmRequest
 
-    def setPncNmRequest(self, value):
-        self.pncNmRequest = value
+    def setPncNmRequest(self, value: Optional[Boolean]) -> "EcuInstance":
+        """
+        Defines if this EcuInstance shall request Nm on all its PhysicalChannels which have Nm variant set to FULL each time a PNC is requested.
+
+        A None value is a no-op and does not overwrite an existing pncNmRequest.
+        """
+        if value is not None:
+            self.pncNmRequest = value
         return self
 
-    def getPncPrepareSleepTimer(self):
+    def getPncPrepareSleepTimer(self) -> Optional[TimeValue]:
+        """
+        Time in seconds the PNC state machine shall wait in PNC_PREPARE_SLEEP.
+        """
         return self.pncPrepareSleepTimer
 
-    def setPncPrepareSleepTimer(self, value):
-        self.pncPrepareSleepTimer = value
+    def setPncPrepareSleepTimer(self, value: Optional[TimeValue]) -> "EcuInstance":
+        """
+        Time in seconds the PNC state machine shall wait in PNC_PREPARE_SLEEP.
+
+        A None value is a no-op and does not overwrite an existing pncPrepareSleepTimer.
+        """
+        if value is not None:
+            self.pncPrepareSleepTimer = value
         return self
 
-    def getPncSynchronousWakeup(self):
+    def getPncSynchronousWakeup(self) -> Optional[Boolean]:
+        """
+        If this parameter is available and set to true then all available PNCs will be woken up as soon as a channel wakeup occurs. This is ensured by adding all PNCs to all channel wakeup sources during upstream mapping.
+        """
         return self.pncSynchronousWakeup
 
-    def setPncSynchronousWakeup(self, value):
-        self.pncSynchronousWakeup = value
+    def setPncSynchronousWakeup(self, value: Optional[Boolean]) -> "EcuInstance":
+        """
+        If this parameter is available and set to true then all available PNCs will be woken up as soon as a channel wakeup occurs. This is ensured by adding all PNCs to all channel wakeup sources during upstream mapping.
+
+        A None value is a no-op and does not overwrite an existing pncSynchronousWakeup.
+        """
+        if value is not None:
+            self.pncSynchronousWakeup = value
         return self
 
-    def getPnResetTime(self):
+    def getPnResetTime(self) -> Optional[TimeValue]:
+        """
+        Specifies the runtime of the reset timer in seconds. This reset time is valid for the reset of PN requests in the EIRA and in the ERA.
+        """
         return self.pnResetTime
 
-    def setPnResetTime(self, value):
-        self.pnResetTime = value
+    def setPnResetTime(self, value: Optional[TimeValue]) -> "EcuInstance":
+        """
+        Specifies the runtime of the reset timer in seconds. This reset time is valid for the reset of PN requests in the EIRA and in the ERA.
+
+        A None value is a no-op and does not overwrite an existing pnResetTime.
+        """
+        if value is not None:
+            self.pnResetTime = value
         return self
 
-    def getSleepModeSupported(self):
+    def getSleepModeSupported(self) -> Optional[Boolean]:
+        """
+        Specifies whether the ECU instance may be put to a "low power mode" • true: sleep mode is supported • false: sleep mode is not supported Note: This flag may only be set to "true" if the feature is supported by both hardware and basic software.
+        """
         return self.sleepModeSupported
 
-    def setSleepModeSupported(self, value):
-        self.sleepModeSupported = value
+    def setSleepModeSupported(self, value: Optional[Boolean]) -> "EcuInstance":
+        """
+        Specifies whether the ECU instance may be put to a "low power mode" • true: sleep mode is supported • false: sleep mode is not supported Note: This flag may only be set to "true" if the feature is supported by both hardware and basic software.
+
+        A None value is a no-op and does not overwrite an existing sleepModeSupported.
+        """
+        if value is not None:
+            self.sleepModeSupported = value
         return self
 
-    def getTcpIpIcmpPropsRef(self):
+    def getTcpIpIcmpPropsRef(self) -> Optional[RefType]:
+        """
+        EcuInstance specific ICMP (Internet Control Message Protocol) attributes
+        """
         return self.tcpIpIcmpPropsRef
 
-    def setTcpIpIcmpPropsRef(self, value):
-        self.tcpIpIcmpPropsRef = value
+    def setTcpIpIcmpPropsRef(self, value: Optional[RefType]) -> "EcuInstance":
+        """
+        EcuInstance specific ICMP (Internet Control Message Protocol) attributes
+
+        A None value is a no-op and does not overwrite an existing tcpIpIcmpPropsRef.
+        """
+        if value is not None:
+            self.tcpIpIcmpPropsRef = value
         return self
 
-    def getTcpIpPropsRef(self):
+    def getTcpIpPropsRef(self) -> Optional[RefType]:
+        """
+        EcuInstance specific TcpIp Stack attributes.
+        """
         return self.tcpIpPropsRef
 
-    def setTcpIpPropsRef(self, value):
-        self.tcpIpPropsRef = value
+    def setTcpIpPropsRef(self, value: Optional[RefType]) -> "EcuInstance":
+        """
+        EcuInstance specific TcpIp Stack attributes.
+
+        A None value is a no-op and does not overwrite an existing tcpIpPropsRef.
+        """
+        if value is not None:
+            self.tcpIpPropsRef = value
         return self
 
-    def getV2xSupported(self):
+    def getV2xSupported(self) -> Optional["V2xSupportEnum"]:
+        """
+        This attribute is used to control the existence of the V2X stack on the given EcuInstance.
+        """
         return self.v2xSupported
 
-    def setV2xSupported(self, value):
-        self.v2xSupported = value
+    def setV2xSupported(self, value: Optional["V2xSupportEnum"]) -> "EcuInstance":
+        """
+        This attribute is used to control the existence of the V2X stack on the given EcuInstance.
+
+        A None value is a no-op and does not overwrite an existing v2xSupported.
+        """
+        if value is not None:
+            self.v2xSupported = value
         return self
 
-    def getWakeUpOverBusSupported(self):
+    def getWakeUpOverBusSupported(self) -> Optional[Boolean]:
+        """
+        Driver support for wakeup over Bus.
+        """
         return self.wakeUpOverBusSupported
 
-    def setWakeUpOverBusSupported(self, value):
-        self.wakeUpOverBusSupported = value
+    def setWakeUpOverBusSupported(self, value: Optional[Boolean]) -> "EcuInstance":
+        """
+        Driver support for wakeup over Bus.
+
+        A None value is a no-op and does not overwrite an existing wakeUpOverBusSupported.
+        """
+        if value is not None:
+            self.wakeUpOverBusSupported = value
         return self
