@@ -20,17 +20,18 @@ Input: R3.2.3 legacy spec `autosar/R3.2.3/pdf/AUTOSAR_ECU_Configuration.pdf` (V2
 
 ## Queue (dependency-first)
 
-- [ ] `ParameterValue` (abstract) — R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.32, p.97 (R3.2 Rev 3)
+- [x] `ParameterValue` (abstract) — R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.32, p.97 (R3.2 Rev 3) — DONE 2026-09-19, commit `ba944c20`
   - **Step 1 finding:** Base row = `ARObject` (NOT Identifiable — no SHORT-NAME). Members: `definition` (ConfigParameter, 1, ref, Tags: `xml.sequenceOffset=-10`). XML: abstract parent of all `*-VALUE` elements; each concrete value element = `DEFINITION-REF` + `VALUE`. Placement: leaf module [ECUCDescriptionTemplate.py](file:///Users/ray/Workspace/py-armodel/src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py) (spec package M2::AUTOSARTemplates::ECUCDescriptionTemplate — same leaf, Rule 0007 OK; no subpackage churn).
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) — abstract: reader/writer via concrete subclasses only
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations — **none expected**
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - **Step 8 deviations (recorded):** ① `definition` optional — spec Mul=1 but XSD group PARAMETER-VALUE (AUTOSAR.xsd L18140) minOccurs="0" (Rule 0019.3 inverted); renamed to `definitionRef` per ECUC ref-suffix convention. ② DEFINITION-REF DEST — XSD use="required" but Os_ECUC.arxml carries no DEST; reader/writer treat DEST as optional.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — abstract: reader/writer via concrete subclasses only (test-local `_R3ParameterValueStub`)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — 2 recorded (see above; "none expected" pre-check was inaccurate)
+  - [x] Step 9 — Verify (9a: 9461 passed, lint/black clean) + confirm (9b user OK 2026-09-19)
 - [ ] `IntegerValue` — R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.34, p.98 (R3.2 Rev 3)
   - **Step 1 finding:** Base = `ParameterValue`. Members: `value` (UnlimitedInteger, 1, attr). XML `INTEGER-VALUE`: `DEFINITION-REF` → `VALUE` (XSD group L13673; value minOccurs=0 — file has `<VALUE>5</VALUE>`; spec Mul=1 → deviation note Rule 0019.3). 33× in Os_ECUC.arxml. Reader/writer: `PARAMETER-VALUES` container inside `CONTAINER`.
   - [ ] Step 1 — Sync members & description from spec
