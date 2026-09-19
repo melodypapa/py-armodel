@@ -674,7 +674,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment, RoleBasedPortAssignment, SwcServiceDependency
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutine
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.InterpolationRoutineMappingSet import InterpolationRoutine, InterpolationRoutineMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition, ClientIdDefinitionSet, ComManagementMapping, J1939SharedAddressCluster, SwcToEcuMapping, System, SystemMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecCompositeTypeMapping,
@@ -12357,6 +12357,15 @@ class ARXMLParser(AbstractARXMLParser):
         interpolation_routine.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
         interpolation_routine.setIsDefault(self.getChildElementOptionalBooleanValue(element, "IS-DEFAULT"))
         interpolation_routine.setInterpolationRoutineRef(self.getChildElementOptionalRefType(element, "INTERPOLATION-ROUTINE-REF"))
+
+    def readInterpolationRoutineMapping(self, element: ET.Element, mapping: InterpolationRoutineMapping):
+        self.logger.debug("Read InterpolationRoutineMapping")
+        wrapper_element = self.find(element, "INTERPOLATION-ROUTINES")
+        if wrapper_element is not None:
+            for child_element in self.findall(wrapper_element, "INTERPOLATION-ROUTINE"):
+                routine = mapping.createInterpolationRoutine()
+                self.readInterpolationRoutine(child_element, routine)
+        mapping.setSwRecordLayoutRef(self.getChildElementOptionalRefType(element, "SW-RECORD-LAYOUT-REF"))
 
     def readSystemInterpolationRoutineMappingSetRefs(self, element: ET.Element, system: System):
         for ref in self.getChildElementRefTypeList(element, "INTERPOLATION-ROUTINE-MAPPING-SET-REFS/INTERPOLATION-ROUTINE-MAPPING-SET-REF"):

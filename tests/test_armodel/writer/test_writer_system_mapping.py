@@ -26,7 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RevisionLabelString,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutine
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.InterpolationRoutineMappingSet import InterpolationRoutine, InterpolationRoutineMapping
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ClientServerOperationMapping,
     DataPrototypeMapping,
@@ -1603,5 +1603,48 @@ class TestWriterInterpolationRoutine:
         writer.writeInterpolationRoutine(parent, routine)
 
         child = parent.find("INTERPOLATION-ROUTINE")
+        assert child is not None
+        assert len(child) == 0
+
+
+class TestWriterInterpolationRoutineMapping:
+    def test_full_in_xsd_order(self, writer):
+        mapping = InterpolationRoutineMapping()
+
+        routine = mapping.createInterpolationRoutine()
+        short_label = Identifier()
+        short_label.setValue("LinearInterpolation")
+        routine.setShortLabel(short_label)
+
+        routine2 = mapping.createInterpolationRoutine()
+        short_label2 = Identifier()
+        short_label2.setValue("TableLookup")
+        routine2.setShortLabel(short_label2)
+
+        ref = RefType()
+        ref.setDest("SW-RECORD-LAYOUT")
+        ref.setValue("/Package/SwRecordLayouts/Layout1")
+        mapping.setSwRecordLayoutRef(ref)
+
+        parent = _parent()
+        writer.writeInterpolationRoutineMapping(parent, mapping)
+
+        child = parent.find("INTERPOLATION-ROUTINE-MAPPING")
+        assert child is not None
+        assert [e.tag for e in child] == ["INTERPOLATION-ROUTINES", "SW-RECORD-LAYOUT-REF"]
+        routines_wrapper = child.find("INTERPOLATION-ROUTINES")
+        assert [e.tag for e in routines_wrapper] == ["INTERPOLATION-ROUTINE", "INTERPOLATION-ROUTINE"]
+        assert routines_wrapper[0].find("SHORT-LABEL").text == "LinearInterpolation"
+        assert routines_wrapper[1].find("SHORT-LABEL").text == "TableLookup"
+        ref_element = child.find("SW-RECORD-LAYOUT-REF")
+        assert ref_element.get("DEST") == "SW-RECORD-LAYOUT"
+        assert ref_element.text == "/Package/SwRecordLayouts/Layout1"
+
+    def test_empty_no_children(self, writer):
+        mapping = InterpolationRoutineMapping()
+        parent = _parent()
+        writer.writeInterpolationRoutineMapping(parent, mapping)
+
+        child = parent.find("INTERPOLATION-ROUTINE-MAPPING")
         assert child is not None
         assert len(child) == 0

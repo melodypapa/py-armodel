@@ -1,6 +1,6 @@
 """
 This module contains tests for the InterpolationRoutine class
-in the AUTOSAR SWComponentTemplate MeasurementAndCalibration module.
+in the AUTOSAR SWComponentTemplate MeasurementAndCalibration InterpolationRoutineMappingSet module.
 """
 
 import inspect
@@ -8,7 +8,7 @@ import typing
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, RefType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutine
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.InterpolationRoutineMappingSet import InterpolationRoutine
 
 SPEC_NOTE = "This represents an interpolation routine taken to evaluate the contents of a curve or map against a specific input value."
 
@@ -24,7 +24,7 @@ class TestInterpolationRoutine:
         assert routine.getShortLabel() is None
 
     def test_class_docstring_is_spec_note(self):
-        """Test that the class docstring carries the spec Note verbatim (R4.3.1 Table 5.115) plus the R23-11 constraint"""
+        """Test that the class docstring carries the spec Note verbatim (R23-11 Table 2.6) plus the [constr_5114] constraint"""
         doc = InterpolationRoutine.__doc__.strip()
         assert doc.startswith(SPEC_NOTE)
         assert "[constr_5114] Semantics of InterpolationRoutine.isDefault:" in doc
@@ -34,7 +34,7 @@ class TestInterpolationRoutine:
         assert InterpolationRoutine.__init__.__doc__ is None
 
     def test_member_order_matches_spec(self):
-        """Test member declaration order follows the R4.3.1 displayed row order"""
+        """Test member declaration order follows the R23-11 displayed row order"""
         source = inspect.getsource(InterpolationRoutine.__init__)
         assert source.find("self.interpolationRoutineRef") < source.find("self.isDefault") < source.find("self.shortLabel")
 
