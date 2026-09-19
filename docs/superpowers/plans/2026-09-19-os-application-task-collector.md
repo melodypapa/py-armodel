@@ -305,13 +305,14 @@ git commit -m "feat: convert ECUC OS objects to semantic model classes"
 
 **Files:**
 - Create: `src/armodel/report/os_export.py`
+- Modify: `src/armodel/report/__init__.py`
 - Create: `tests/test_armodel/report/__init__.py`
 - Create: `tests/test_armodel/report/test_os_export.py`
 
 **Interfaces:**
 - Consumes only `OsOs` model objects.
 - Produces `write_yaml(os_os: OsOs, output_path: Path) -> None` and `write_xlsx(os_os: OsOs, output_path: Path) -> None`.
-- The exporters live under `armodel.report` (the repo's home for report/export writers, e.g. `ExcelReporter`, `ConnectorXlsReport`), not under `models`.
+- The exporters live under `armodel.report` (the repo's home for report/export writers, e.g. `ExcelReporter`, `ConnectorXlsReport`), not under `models`, and are exported through the package `__init__.py` exactly like `ConnectorXlsReport` (`from armodel.report import write_xlsx, write_yaml`).
 - `pyyaml` is imported lazily inside `write_yaml`; when the module is missing, raise `ImportError` with the message `pyyaml is required for YAML export: pip install pyyaml`. Do not add pyyaml to the runtime dependencies or touch `pyproject.toml` (it is already in the `pytest` extra for tests).
 
 - [ ] **Step 1: Write failing exporter tests**
@@ -324,7 +325,7 @@ import yaml
 from openpyxl import load_workbook
 
 from armodel.models.extended.os import OsApplication, OsOs, OsTask
-from armodel.report.os_export import write_xlsx, write_yaml
+from armodel.report import write_xlsx, write_yaml
 
 
 def test_write_yaml_uses_semantic_names(tmp_path: Path):
@@ -355,7 +356,7 @@ def test_write_xlsx_uses_expected_sheets(tmp_path: Path):
 def test_write_yaml_without_pyyaml_raises_actionable_error(tmp_path: Path, monkeypatch):
     import builtins
 
-    from armodel.report import os_export
+    from armodel.report import write_yaml
 
     real_import = builtins.__import__
 
@@ -380,6 +381,8 @@ Expected: FAIL because exporter functions are not implemented.
 
 Use explicit serializer helpers over the project-style model getters, or a shared model-to-dictionary helper limited to the new OS classes. Serialize exact field names. Convert object relationships to `getName()` values to avoid recursive object graphs. Keep reference strings unchanged. Use `yaml.safe_dump(..., sort_keys=False)` with the lazy `pyyaml` import described in the interfaces.
 
+Then export the module through the package exactly like `ConnectorXlsReport`: in `src/armodel/report/__init__.py` add `from armodel.report.os_export import write_xlsx, write_yaml` and extend `__all__` accordingly.
+
 - [ ] **Step 4: Implement XLSX worksheets**
 
 Use `openpyxl` and the existing `ExcelReporter` conventions. Create worksheets `OsApplication` and `OsTask`; write exact field names in row 1 and one row per object. Serialize lists as stable delimiter-joined values and object relationships as `name` delimiter-joined values. Do not create separate nested-object worksheets because those fields are flattened into `OsTask`.
@@ -393,7 +396,7 @@ Expected: PASS.
 - [ ] **Step 6: Commit the exporter task**
 
 ```bash
-git add src/armodel/report/os_export.py tests/test_armodel/report
+git add src/armodel/report tests/test_armodel/report
 git commit -m "feat: export semantic OS configuration"
 ```
 
@@ -407,7 +410,7 @@ git commit -m "feat: export semantic OS configuration"
 **Interfaces:**
 - Console script: `os-config-export = armodel.cli.os_config_export_cli:main`.
 - Command: `os-config-export [-v/--verbose] [-w/--warning] INPUT... OUTPUT [--format {xlsx,yaml}]`, default format `xlsx`.
-- Follow the existing CLI house pattern exactly (see `connector2xlsx_cli.py` / `file_list_cli.py`): argparse with `-v/--verbose` and `-w/--warning` store-true flags, positional `INPUT` (`nargs="+"`) and `OUTPUT`, the shared `[%(levelname)s] : %(message)s` logging format with a stderr `StreamHandler` plus a `FileHandler` writing `os_config_export.log` next to `OUTPUT` (removed first if it exists), file handler at DEBUG, stdout at INFO (DEBUG when `--verbose`), the work inside `try/except` that re-raises, and the `if __name__ == "__main__": main()` guard.
+- Follow the existing CLI house pattern exactly (see `connector2xlsx_cli.py` / `file_list_cli.py`): stdlib imports first, then `from armodel import __version__` with the version banner in `ap.description`, then package-level imports (`from armodel.parser import ...`, `from armodel.report import ...` — no deep-module report imports); argparse with `-v/--verbose` and `-w/--warning` store-true flags, positional `INPUT` (`nargs="+"`) and `OUTPUT`, the shared `[%(levelname)s] : %(message)s` logging format with a stderr `StreamHandler` plus a `FileHandler` writing `os_config_export.log` next to `OUTPUT` (removed first if it exists), file handler at DEBUG, stdout at INFO (DEBUG when `--verbose`), the work inside `try/except` that re-raises, and the `if __name__ == "__main__": main()` guard.
 - `-w/--warning` is forwarded to `OsEcucParser.load(..., warning=True)` so unresolved standard references become logged warnings instead of conversion errors.
 
 - [ ] **Step 1: Write failing CLI tests**
@@ -460,25 +463,29 @@ Expected: FAIL because the module and console entry point are not implemented.
 
 - [ ] **Step 3: Implement the CLI following the house pattern**
 
+The module structure mirrors the other CLI tools (`file_list_cli.py`, `connector2xlsx_cli.py`): stdlib imports first, `from armodel import __version__` for the description banner, package-level imports (`from armodel.parser import ...`, `from armodel.report import ...` — no deep-module report imports), a single `main()`, the shared logging block, `try/except` re-raise, and the `__main__` guard:
+
 ```python
 import argparse
 import logging
 import os.path
 import sys
-from typing import List, Optional
 
-from armodel.models.extended.os import OsOs
+from armodel import __version__
 from armodel.parser import OsEcucParser
-from armodel.report.os_export import write_xlsx, write_yaml
+from armodel.report import write_xlsx, write_yaml
 
 
 def main():
+    version = __version__
+
     ap = argparse.ArgumentParser()
+    ap.description = "Export the semantic OS configuration (OsApplication, OsTask) from an ECUC ARXML file. <%s>" % version
     ap.add_argument("-v", "--verbose", required=False, help="Print debug information", action="store_true")
     ap.add_argument("-w", "--warning", required=False, help="Skip unresolved reference errors and report them as warning messages", action="store_true")
-    ap.add_argument("--format", required=False, choices=["xlsx", "yaml"], default="xlsx", help="Export format (default: xlsx)")
     ap.add_argument("INPUT", help="The path of the ECUC OS configuration ARXML", nargs="+")
     ap.add_argument("OUTPUT", help="The path of the output file (xlsx or yaml)")
+    ap.add_argument("--format", required=False, choices=["xlsx", "yaml"], default="xlsx", help="Export format (default: xlsx)")
 
     args = ap.parse_args()
 
