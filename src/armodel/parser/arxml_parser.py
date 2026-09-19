@@ -686,7 +686,11 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment, RoleBasedPortAssignment, SwcServiceDependency
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.InterpolationRoutineMappingSet import InterpolationRoutine, InterpolationRoutineMapping
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.InterpolationRoutineMappingSet import (
+    InterpolationRoutine,
+    InterpolationRoutineMapping,
+    InterpolationRoutineMappingSet,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition, ClientIdDefinitionSet, SwcToEcuMapping, System, SystemMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecCompositeTypeMapping,
@@ -12463,6 +12467,15 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readInterpolationRoutine(child_element, routine)
         mapping.setSwRecordLayoutRef(self.getChildElementOptionalRefType(element, "SW-RECORD-LAYOUT-REF"))
 
+    def readInterpolationRoutineMappingSet(self, element: ET.Element, mapping_set: InterpolationRoutineMappingSet):
+        self.logger.debug("Read InterpolationRoutineMappingSet <%s>" % mapping_set.getShortName())
+        self.readARElement(element, mapping_set)
+        wrapper_element = self.find(element, "INTERPOLATION-ROUTINE-MAPPINGS")
+        if wrapper_element is not None:
+            for child_element in self.findall(wrapper_element, "INTERPOLATION-ROUTINE-MAPPING"):
+                mapping = mapping_set.createInterpolationRoutineMapping()
+                self.readInterpolationRoutineMapping(child_element, mapping)
+
     def readSystem(self, element: ET.Element, system: System):
         self.logger.debug("Read System <%s>" % system.getShortName())
         self.readIdentifiable(element, system)
@@ -12823,6 +12836,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "CLIENT-ID-DEFINITION-SET":
                 id_definition_set = parent.createClientIdDefinitionSet(self.getShortName(child_element))
                 self.readClientIdDefinitionSet(child_element, id_definition_set)
+            elif tag_name == "INTERPOLATION-ROUTINE-MAPPING-SET":
+                mapping_set = parent.createInterpolationRoutineMappingSet(self.getShortName(child_element))
+                self.readInterpolationRoutineMappingSet(child_element, mapping_set)
             elif tag_name == "SYSTEM":
                 system = parent.createSystem(self.getShortName(child_element))
                 self.readSystem(child_element, system)

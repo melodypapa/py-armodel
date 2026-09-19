@@ -1182,6 +1182,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(element)
         return self.getElement(short_name, ClientIdDefinitionSet)
 
+    def createInterpolationRoutineMappingSet(self, short_name: str) -> InterpolationRoutineMappingSet:
+
+        if not self.IsElementExists(short_name, InterpolationRoutineMappingSet):
+            element = InterpolationRoutineMappingSet(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, InterpolationRoutineMappingSet)
+
     def createSystem(self, short_name: str) -> System:
 
         if not self.IsElementExists(short_name, System):
@@ -1800,6 +1807,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     SenderReceiverInterface,
     TriggerInterface,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutineMappingSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet, System  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection  # noqa: E402

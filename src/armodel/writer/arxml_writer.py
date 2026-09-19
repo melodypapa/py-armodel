@@ -611,7 +611,11 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment, RoleBasedPortAssignment, SwcServiceDependency
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.InterpolationRoutineMappingSet import InterpolationRoutine, InterpolationRoutineMapping
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.InterpolationRoutineMappingSet import (
+    InterpolationRoutine,
+    InterpolationRoutineMapping,
+    InterpolationRoutineMappingSet,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition, ClientIdDefinitionSet, SwcToEcuMapping, System, SystemMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecCompositeTypeMapping,
@@ -10912,6 +10916,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeInterpolationRoutine(routines_tag, routine)
         self.setChildElementOptionalRefType(child_element, "SW-RECORD-LAYOUT-REF", mapping.getSwRecordLayoutRef())
 
+    def writeInterpolationRoutineMappingSet(self, element: ET.Element, mapping_set: InterpolationRoutineMappingSet):
+        self.logger.debug("Write InterpolationRoutineMappingSet %s" % mapping_set.getShortName())
+        child_element = ET.SubElement(element, "INTERPOLATION-ROUTINE-MAPPING-SET")
+        self.writeARElement(child_element, mapping_set)
+        mappings = mapping_set.getInterpolationRoutineMappings()
+        if len(mappings) > 0:
+            mappings_tag = ET.SubElement(child_element, "INTERPOLATION-ROUTINE-MAPPINGS")
+            for mapping in mappings:
+                self.writeInterpolationRoutineMapping(mappings_tag, mapping)
+
     def writeSystem(self, element: ET.Element, system: System):
         self.logger.debug("Write System %s" % system.getShortName())
         child_element = ET.SubElement(element, "SYSTEM")
@@ -12553,6 +12567,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeISignal(element, ar_element)
         elif isinstance(ar_element, ClientIdDefinitionSet):
             self.writeClientIdDefinitionSet(element, ar_element)
+        elif isinstance(ar_element, InterpolationRoutineMappingSet):
+            self.writeInterpolationRoutineMappingSet(element, ar_element)
         elif isinstance(ar_element, System):
             self.writeSystem(element, ar_element)
         elif isinstance(ar_element, EcuInstance):

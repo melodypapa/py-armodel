@@ -4,12 +4,14 @@ InterpolationRoutineMappingSet module for AUTOSAR M2 models.
 
 from typing import List, Optional
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, RefType
 
 __all__ = [
     "InterpolationRoutine",
     "InterpolationRoutineMapping",
+    "InterpolationRoutineMappingSet",
 ]
 
 
@@ -154,3 +156,44 @@ class InterpolationRoutineMapping(ARObject):
         if value is not None:
             self.swRecordLayoutRef = value
         return self
+
+
+class InterpolationRoutineMappingSet(ARElement):
+    """
+    This meta-class specifies a set of interpolation routine mappings. Tags: atp.recommendedPackage=InterpolationRoutineMappingSets
+    """
+
+    # InterpolationRoutineMappingSet method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 2.4, p.46 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInterpolationRoutineMappings       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addInterpolationRoutineMapping        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createInterpolationRoutineMapping     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This specifies one particular mapping of recordlayout and its matching interpolationRoutines.
+        self.interpolationRoutineMappings: List[InterpolationRoutineMapping] = []
+
+    def getInterpolationRoutineMappings(self) -> List[InterpolationRoutineMapping]:
+        """
+        This specifies one particular mapping of recordlayout and its matching interpolationRoutines.
+        """
+        return self.interpolationRoutineMappings
+
+    def addInterpolationRoutineMapping(self, value: InterpolationRoutineMapping) -> "InterpolationRoutineMappingSet":
+        """
+        This specifies one particular mapping of recordlayout and its matching interpolationRoutines.
+        """
+        self.interpolationRoutineMappings.append(value)
+        return self
+
+    def createInterpolationRoutineMapping(self) -> InterpolationRoutineMapping:
+        """
+        This specifies one particular mapping of recordlayout and its matching interpolationRoutines.
+        """
+        mapping = InterpolationRoutineMapping()
+        self.interpolationRoutineMappings.append(mapping)
+        return mapping
