@@ -1,7 +1,29 @@
 Changelog
 =========
 
-Version 1.9.4 (Current)
+Version 1.9.7 (Current)
+-----------------------
+
+* Synced EcuInstance TCP/IP stack props classes to AUTOSAR R23-11 spec: ``TcpProps``
+  (Table 3.111), ``UdpProps`` (Table 3.110), ``EthTcpIpProps`` (Table 3.109),
+  ``TcpIpIcmpv4Props`` (Table 3.113), ``TcpIpIcmpv6Props`` (Table 3.114) with
+  parser/writer coverage and ARPackage dispatch for ``EthTcpIpProps`` (PR #746)
+* Corrected Group5 sync queue row statuses (deferred-9b classes remain unchecked
+  until batch stamp confirmation)
+* Bumped project version metadata to 1.9.7
+
+Version 1.9.6
+-------------
+
+* Synced Group5 ServiceNeeds classes to R23-11 spec and renamed Ecuc RefType
+  members (PR #739)
+
+Version 1.9.5
+-------------
+
+* Added ``VariationPointCapable`` mixin; ``Identifiable`` reverted to spec (PR #714)
+
+Version 1.9.4
 -----------------------
 
 * Synced SWC template classes to AUTOSAR R23-11 spec: ``AtomicSwComponentType``,
