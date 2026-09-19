@@ -909,7 +909,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     AbstractCanPhysicalChannel,
     CanPhysicalChannel,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanClusterBusOffRecovery
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanClusterBusOffRecovery, J1939Cluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     AbstractCanCluster,
     CanCluster,
@@ -9309,6 +9309,16 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             self.readAbstractCanCluster(child_element, cluster)
 
+    def readJ1939Cluster(self, element: ET.Element, cluster: J1939Cluster):
+        self.logger.debug("Read J1939Cluster <%s>" % cluster.getShortName())
+        self.readIdentifiable(element, cluster)
+        child_element = self.find(element, "J-1939-CLUSTER-VARIANTS/J-1939-CLUSTER-CONDITIONAL")
+        if child_element is not None:
+            self.readAbstractCanCluster(child_element, cluster)
+            cluster.setNetworkId(self.getChildElementOptionalPositiveInteger(child_element, "NETWORK-ID"))
+            cluster.setRequest2Support(self.getChildElementOptionalBooleanValue(child_element, "REQUEST-2-SUPPORT"))
+            cluster.setUsesAddressArbitration(self.getChildElementOptionalBooleanValue(child_element, "USES-ADDRESS-ARBITRATION"))
+
     def readFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
         self.logger.debug("Read FlexrayCluster <%s>" % cluster.getShortName())
         self.readIdentifiable(element, cluster)
@@ -12884,6 +12894,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "CAN-CLUSTER":
                 cluster = parent.createCanCluster(self.getShortName(child_element))
                 self.readCanCluster(child_element, cluster)
+            elif tag_name == "J-1939-CLUSTER":
+                cluster = parent.createJ1939Cluster(self.getShortName(child_element))
+                self.readJ1939Cluster(child_element, cluster)
             elif tag_name == "CAN-FRAME":
                 frame = parent.createCanFrame(self.getShortName(child_element))
                 self.readCanFrame(child_element, frame)

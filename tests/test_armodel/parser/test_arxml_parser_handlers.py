@@ -2485,3 +2485,39 @@ class TestFlatMap:
 
 
 # ==================== ClientServerInterfaceMapping (L5601) ====================
+
+
+# ==================== J1939Cluster (Table 3.28, R23-11) ====================
+
+
+class TestReadJ1939Cluster:
+    def test_readJ1939Cluster_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import J1939Cluster
+
+        cluster = J1939Cluster(parent=_autosar_root(), short_name="JCluster1")
+        element = _snip(
+            "<J-1939-CLUSTER-VARIANTS>"
+            "<J-1939-CLUSTER-CONDITIONAL>"
+            "<PROTOCOL-NAME>JAUS</PROTOCOL-NAME>"
+            "<NETWORK-ID>2</NETWORK-ID>"
+            "<REQUEST-2-SUPPORT>true</REQUEST-2-SUPPORT>"
+            "<USES-ADDRESS-ARBITRATION>false</USES-ADDRESS-ARBITRATION>"
+            "</J-1939-CLUSTER-CONDITIONAL>"
+            "</J-1939-CLUSTER-VARIANTS>",
+            root_tag="J-1939-CLUSTER",
+        )
+        parser.readJ1939Cluster(element, cluster)
+        assert cluster.getProtocolName().getValue() == "JAUS"
+        assert cluster.getNetworkId().getValue() == 2
+        assert cluster.getRequest2Support().getValue() is True
+        assert cluster.getUsesAddressArbitration().getValue() is False
+
+    def test_readJ1939Cluster_empty(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import J1939Cluster
+
+        cluster = J1939Cluster(parent=_autosar_root(), short_name="JCluster1")
+        element = _snip("", root_tag="J-1939-CLUSTER")
+        parser.readJ1939Cluster(element, cluster)
+        assert cluster.getNetworkId() is None
+        assert cluster.getRequest2Support() is None
+        assert cluster.getUsesAddressArbitration() is None

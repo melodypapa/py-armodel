@@ -808,7 +808,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     AbstractCanPhysicalChannel,
     CanPhysicalChannel,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanClusterBusOffRecovery
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanClusterBusOffRecovery, J1939Cluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     AbstractCanCluster,
     CanCluster,
@@ -9455,6 +9455,20 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeCommunicationCluster(child_element, cluster)
             self.writeAbstractCanCluster(child_element, cluster)
 
+    def writeJ1939Cluster(self, element: ET.Element, cluster: J1939Cluster):
+        if cluster is not None:
+            self.logger.debug("J1939Cluster %s" % cluster.getShortName())
+            child_element = ET.SubElement(element, "J-1939-CLUSTER")
+            self.writeIdentifiable(child_element, cluster)
+
+            child_element = ET.SubElement(child_element, "J-1939-CLUSTER-VARIANTS")
+            child_element = ET.SubElement(child_element, "J-1939-CLUSTER-CONDITIONAL")
+            self.writeCommunicationCluster(child_element, cluster)
+            self.writeAbstractCanCluster(child_element, cluster)
+            self.setChildElementOptionalPositiveInteger(child_element, "NETWORK-ID", cluster.getNetworkId())
+            self.setChildElementOptionalBooleanValue(child_element, "REQUEST-2-SUPPORT", cluster.getRequest2Support())
+            self.setChildElementOptionalBooleanValue(child_element, "USES-ADDRESS-ARBITRATION", cluster.getUsesAddressArbitration())
+
     def writeFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
         if cluster is not None:
             self.logger.debug("Write FlexrayCluster <%s>" % cluster.getShortName())
@@ -12589,6 +12603,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeLinCluster(element, ar_element)
         elif isinstance(ar_element, CanCluster):
             self.writeCanCluster(element, ar_element)
+        elif isinstance(ar_element, J1939Cluster):
+            self.writeJ1939Cluster(element, ar_element)
         elif isinstance(ar_element, CanFrame):
             self.writeCanFrame(element, ar_element)
         elif isinstance(ar_element, Gateway):
