@@ -696,6 +696,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     TcpProps,
     UdpProps,
     TcpIpIcmpv4Props,
+    TcpIpIcmpv6Props,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
@@ -9555,6 +9556,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "TCP-IP-ICMPV-4-PROPS")
             self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED", props.getTcpIpIcmpV4EchoReplyEnabled())
             self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-ICMP-V-4-TTL", props.getTcpIpIcmpV4Ttl())
+
+    def writeTcpIpIcmpv6Props(self, element: ET.Element, props: TcpIpIcmpv6Props):
+        """Write an R23-11 <ICMP-V-6-PROPS> element (Table 3.114, p.157): 5 optional attributes in XSD order."""
+        if props is not None:
+            child_element = ET.SubElement(element, "ICMP-V-6-PROPS")
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-6-ECHO-REPLY-AVOID-FRAGMENTATION", props.getTcpIpIcmpV6EchoReplyAvoidFragmentation())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-6-ECHO-REPLY-ENABLED", props.getTcpIpIcmpV6EchoReplyEnabled())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-ICMP-V-6-HOP-LIMIT", props.getTcpIpIcmpV6HopLimit())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED", props.getTcpIpIcmpV6MsgDestinationUnreachableEnabled())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED", props.getTcpIpIcmpV6MsgParameterProblemEnabled())
 
     def writeFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
         if cluster is not None:

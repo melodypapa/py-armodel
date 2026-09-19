@@ -43,7 +43,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordTypeMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import J1939Cluster
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import TcpIpIcmpv4Props, TcpProps, UdpProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import TcpIpIcmpv4Props, TcpIpIcmpv6Props, TcpProps, UdpProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import (  # noqa: E501
     IPduMapping,
     ISignalMapping,
@@ -1975,5 +1975,47 @@ class TestWriterTcpIpIcmpv4Props:
         parent = _parent()
         writer.writeTcpIpIcmpv4Props(parent, props)
         child = parent.find("TCP-IP-ICMPV-4-PROPS")
+        assert child is not None
+        assert len(child) == 0
+
+
+class TestWriterTcpIpIcmpv6Props:
+    """Tests for writeTcpIpIcmpv6Props handler (R23-11 TcpIpIcmpv6Props, Table 3.114, p.157)."""
+
+    def _make_props(self):
+        props = TcpIpIcmpv6Props()
+        props.setTcpIpIcmpV6EchoReplyAvoidFragmentation(_boolean(True))
+        props.setTcpIpIcmpV6EchoReplyEnabled(_boolean(False))
+        props.setTcpIpIcmpV6HopLimit(_positive_int(255))
+        props.setTcpIpIcmpV6MsgDestinationUnreachableEnabled(_boolean(True))
+        props.setTcpIpIcmpV6MsgParameterProblemEnabled(_boolean(False))
+        return props
+
+    def test_members_in_xsd_order(self, writer):
+        props = self._make_props()
+        parent = _parent()
+        writer.writeTcpIpIcmpv6Props(parent, props)
+
+        child = parent.find("ICMP-V-6-PROPS")
+        assert child is not None
+        tags = [c.tag for c in child]
+        assert tags == [
+            "TCP-IP-ICMP-V-6-ECHO-REPLY-AVOID-FRAGMENTATION",
+            "TCP-IP-ICMP-V-6-ECHO-REPLY-ENABLED",
+            "TCP-IP-ICMP-V-6-HOP-LIMIT",
+            "TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED",
+            "TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED",
+        ]
+        assert child.find("TCP-IP-ICMP-V-6-ECHO-REPLY-AVOID-FRAGMENTATION").text == "true"
+        assert child.find("TCP-IP-ICMP-V-6-ECHO-REPLY-ENABLED").text == "false"
+        assert child.find("TCP-IP-ICMP-V-6-HOP-LIMIT").text == "255"
+        assert child.find("TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED").text == "true"
+        assert child.find("TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED").text == "false"
+
+    def test_none_members_not_emitted(self, writer):
+        props = TcpIpIcmpv6Props()
+        parent = _parent()
+        writer.writeTcpIpIcmpv6Props(parent, props)
+        child = parent.find("ICMP-V-6-PROPS")
         assert child is not None
         assert len(child) == 0

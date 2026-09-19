@@ -25,7 +25,7 @@ from armodel.models import (
     InstanceEventInCompositionInstanceRef,
     InstantiationTimingEventProps,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthTcpIpProps, TcpIpIcmpv4Props, TcpProps, UdpProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthTcpIpProps, TcpIpIcmpv4Props, TcpIpIcmpv6Props, TcpProps, UdpProps
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -2634,3 +2634,36 @@ class TestReadTcpIpIcmpv4Props:
         parser.readTcpIpIcmpv4Props(element, props)
         assert props.getTcpIpIcmpV4EchoReplyEnabled() is None
         assert props.getTcpIpIcmpV4Ttl() is None
+
+
+class TestReadTcpIpIcmpv6Props:
+    """Tests for readTcpIpIcmpv6Props handler (R23-11 TcpIpIcmpv6Props, Table 3.114, p.157)."""
+
+    def test_read_tcp_ip_icmpv6_props_full(self, parser):
+        element = _snip(
+            """
+                <TCP-IP-ICMP-V-6-ECHO-REPLY-AVOID-FRAGMENTATION>true</TCP-IP-ICMP-V-6-ECHO-REPLY-AVOID-FRAGMENTATION>
+                <TCP-IP-ICMP-V-6-ECHO-REPLY-ENABLED>false</TCP-IP-ICMP-V-6-ECHO-REPLY-ENABLED>
+                <TCP-IP-ICMP-V-6-HOP-LIMIT>255</TCP-IP-ICMP-V-6-HOP-LIMIT>
+                <TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED>true</TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED>
+                <TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED>false</TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED>
+            """,
+            root_tag="ICMP-V-6-PROPS",
+        )
+        props = TcpIpIcmpv6Props()
+        parser.readTcpIpIcmpv6Props(element, props)
+        assert props.getTcpIpIcmpV6EchoReplyAvoidFragmentation().getValue() is True
+        assert props.getTcpIpIcmpV6EchoReplyEnabled().getValue() is False
+        assert props.getTcpIpIcmpV6HopLimit().getValue() == 255
+        assert props.getTcpIpIcmpV6MsgDestinationUnreachableEnabled().getValue() is True
+        assert props.getTcpIpIcmpV6MsgParameterProblemEnabled().getValue() is False
+
+    def test_read_tcp_ip_icmpv6_props_empty(self, parser):
+        element = _snip("", root_tag="ICMP-V-6-PROPS")
+        props = TcpIpIcmpv6Props()
+        parser.readTcpIpIcmpv6Props(element, props)
+        assert props.getTcpIpIcmpV6EchoReplyAvoidFragmentation() is None
+        assert props.getTcpIpIcmpV6EchoReplyEnabled() is None
+        assert props.getTcpIpIcmpV6HopLimit() is None
+        assert props.getTcpIpIcmpV6MsgDestinationUnreachableEnabled() is None
+        assert props.getTcpIpIcmpV6MsgParameterProblemEnabled() is None

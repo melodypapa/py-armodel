@@ -3715,3 +3715,103 @@ class TcpIpIcmpv4Props(ARObject):
         if value is not None:
             self.tcpIpIcmpV4Ttl = value
         return self
+
+
+class TcpIpIcmpv6Props(ARObject):
+    """This meta-class specifies the configuration options for ICMPv6 (Internet Control Message Protocol).
+
+    [constr_5154] Value range of TcpIpIcmpv6Props.tcpIpIcmpV6HopLimit: If defined, the value of TcpIpIcmpv6Props.tcpIpIcmpV6HopLimit shall be in the range of 1..255.
+    """
+
+    # TcpIpIcmpv6Props method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.114, p.157 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTcpIpIcmpV6EchoReplyAvoidFragmentation      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIcmpV6EchoReplyAvoidFragmentation      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIcmpV6EchoReplyEnabled                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIcmpV6EchoReplyEnabled                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIcmpV6HopLimit                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIcmpV6HopLimit                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIcmpV6MsgDestinationUnreachableEnabled [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIcmpV6MsgDestinationUnreachableEnabled [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIcmpV6MsgParameterProblemEnabled       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIcmpV6MsgParameterProblemEnabled       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute defines whether the echo reply is only transmitted in case that the incoming ICMPv6 Echo Request (Pings) fits the MTU of the respective interface, i.e. can be transmitted without IPv6 fragmentation.
+        self.tcpIpIcmpV6EchoReplyAvoidFragmentation: Optional[Boolean] = None
+
+        # This attribute enables or disables transmission of ICMP echo reply message in case of a ICMP echo reception.
+        self.tcpIpIcmpV6EchoReplyEnabled: Optional[Boolean] = None
+
+        # Default Hop-Limit value of outgoing ICMPv6 packets.
+        self.tcpIpIcmpV6HopLimit: Optional[PositiveInteger] = None
+
+        # This attribute Enables/Disables the transmission of Destination Unreachable Messages.
+        self.tcpIpIcmpV6MsgDestinationUnreachableEnabled: Optional[Boolean] = None
+
+        # If enabled an ICMPv6 parameter problem message will be sent if a received packet has been dropped due to unknown options or headers that are found in the packet.
+        self.tcpIpIcmpV6MsgParameterProblemEnabled: Optional[Boolean] = None
+
+    def getTcpIpIcmpV6EchoReplyAvoidFragmentation(self) -> Optional[Boolean]:
+        """This attribute defines whether the echo reply is only transmitted in case that the incoming ICMPv6 Echo Request (Pings) fits the MTU of the respective interface, i.e. can be transmitted without IPv6 fragmentation."""
+        return self.tcpIpIcmpV6EchoReplyAvoidFragmentation
+
+    def setTcpIpIcmpV6EchoReplyAvoidFragmentation(self, value: Optional[Boolean]) -> "TcpIpIcmpv6Props":
+        """This attribute defines whether the echo reply is only transmitted in case that the incoming ICMPv6 Echo Request (Pings) fits the MTU of the respective interface, i.e. can be transmitted without IPv6 fragmentation.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpIpIcmpV6EchoReplyAvoidFragmentation = value
+        return self
+
+    def getTcpIpIcmpV6EchoReplyEnabled(self) -> Optional[Boolean]:
+        """This attribute enables or disables transmission of ICMP echo reply message in case of a ICMP echo reception."""
+        return self.tcpIpIcmpV6EchoReplyEnabled
+
+    def setTcpIpIcmpV6EchoReplyEnabled(self, value: Optional[Boolean]) -> "TcpIpIcmpv6Props":
+        """This attribute enables or disables transmission of ICMP echo reply message in case of a ICMP echo reception.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpIpIcmpV6EchoReplyEnabled = value
+        return self
+
+    def getTcpIpIcmpV6HopLimit(self) -> Optional[PositiveInteger]:
+        """Default Hop-Limit value of outgoing ICMPv6 packets."""
+        return self.tcpIpIcmpV6HopLimit
+
+    def setTcpIpIcmpV6HopLimit(self, value: Optional[PositiveInteger]) -> "TcpIpIcmpv6Props":
+        """Default Hop-Limit value of outgoing ICMPv6 packets.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpIpIcmpV6HopLimit = value
+        return self
+
+    def getTcpIpIcmpV6MsgDestinationUnreachableEnabled(self) -> Optional[Boolean]:
+        """This attribute Enables/Disables the transmission of Destination Unreachable Messages."""
+        return self.tcpIpIcmpV6MsgDestinationUnreachableEnabled
+
+    def setTcpIpIcmpV6MsgDestinationUnreachableEnabled(self, value: Optional[Boolean]) -> "TcpIpIcmpv6Props":
+        """This attribute Enables/Disables the transmission of Destination Unreachable Messages.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpIpIcmpV6MsgDestinationUnreachableEnabled = value
+        return self
+
+    def getTcpIpIcmpV6MsgParameterProblemEnabled(self) -> Optional[Boolean]:
+        """If enabled an ICMPv6 parameter problem message will be sent if a received packet has been dropped due to unknown options or headers that are found in the packet."""
+        return self.tcpIpIcmpV6MsgParameterProblemEnabled
+
+    def setTcpIpIcmpV6MsgParameterProblemEnabled(self, value: Optional[Boolean]) -> "TcpIpIcmpv6Props":
+        """If enabled an ICMPv6 parameter problem message will be sent if a received packet has been dropped due to unknown options or headers that are found in the packet.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpIpIcmpV6MsgParameterProblemEnabled = value
+        return self

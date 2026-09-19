@@ -780,6 +780,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     TcpProps,
     UdpProps,
     TcpIpIcmpv4Props,
+    TcpIpIcmpv6Props,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
@@ -9407,6 +9408,14 @@ class ARXMLParser(AbstractARXMLParser):
         """Read an R23-11 <TCP-IP-ICMPV-4-PROPS> element (Table 3.113, p.156): 2 optional attributes in XSD order."""
         props.setTcpIpIcmpV4EchoReplyEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED"))
         props.setTcpIpIcmpV4Ttl(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-ICMP-V-4-TTL"))
+
+    def readTcpIpIcmpv6Props(self, element: ET.Element, props: TcpIpIcmpv6Props):
+        """Read an R23-11 <ICMP-V-6-PROPS> element (Table 3.114, p.157): 5 optional attributes in XSD order."""
+        props.setTcpIpIcmpV6EchoReplyAvoidFragmentation(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ICMP-V-6-ECHO-REPLY-AVOID-FRAGMENTATION"))
+        props.setTcpIpIcmpV6EchoReplyEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ICMP-V-6-ECHO-REPLY-ENABLED"))
+        props.setTcpIpIcmpV6HopLimit(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-ICMP-V-6-HOP-LIMIT"))
+        props.setTcpIpIcmpV6MsgDestinationUnreachableEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED"))
+        props.setTcpIpIcmpV6MsgParameterProblemEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED"))
 
     def readFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
         self.logger.debug("Read FlexrayCluster <%s>" % cluster.getShortName())
