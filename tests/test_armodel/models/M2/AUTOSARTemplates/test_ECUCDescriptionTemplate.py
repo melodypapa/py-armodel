@@ -18,10 +18,11 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucReferenceValue,
     EcucTextualParamValue,
     EcucValueCollection,
+    IntegerValue,
     ParameterValue,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, RevisionLabelString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, RevisionLabelString, UnlimitedInteger
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
 
@@ -271,3 +272,29 @@ class TestParameterValue:
         assert obj.getDefinitionRef() == ref
         obj.setDefinitionRef(None)
         assert obj.getDefinitionRef() == ref
+
+
+class TestIntegerValue:
+    """
+    Test class for IntegerValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.34, p.98 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(IntegerValue, ParameterValue)
+
+    def test_initialization_defaults(self):
+        obj = IntegerValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValue() is None
+
+    def test_get_set_value(self):
+        obj = IntegerValue()
+        value = UnlimitedInteger().setValue(5)
+        result = obj.setValue(value)
+        assert result is obj
+        assert obj.getValue() == value
+        assert obj.getValue().getValue() == 5
+        obj.setValue(None)
+        assert obj.getValue() == value

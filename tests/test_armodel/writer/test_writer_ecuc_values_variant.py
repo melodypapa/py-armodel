@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucNumericalParamValue,
     EcucReferenceValue,
     EcucTextualParamValue,
+    IntegerValue,
     ParameterValue,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import (  # noqa E501
@@ -23,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     RefType,
     RevisionLabelString,
+    UnlimitedInteger,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (  # noqa E501
     SwSystemconstValue,
@@ -856,3 +858,44 @@ class TestParameterValueWrite:
         writer.writeParameterValue(parent, param_value)
         assert parent.find("DEFINITION-REF") is None
         assert len(parent) == 0
+
+
+class TestIntegerValueWrite:
+    """Tests for setIntegerValue handler (R3.2.3 IntegerValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.34, p.98 (R3.2 Rev 3)
+    """
+
+    def test_set_integer_value_without_dest(self, writer):
+        integer_value = IntegerValue()
+        integer_value.setDefinitionRef(_ref("/TS_T19D1M6I1R0_AS403/Os/ArMajorVersion"))
+        integer_value.setValue(UnlimitedInteger().setValue(5))
+        parent = _parent()
+        writer.setIntegerValue(parent, integer_value)
+        child = parent[0]
+        assert child.tag == "INTEGER-VALUE"
+        def_ref = child.find("DEFINITION-REF")
+        assert def_ref is not None
+        assert "DEST" not in def_ref.attrib
+        assert def_ref.text == "/TS_T19D1M6I1R0_AS403/Os/ArMajorVersion"
+        assert child.find("VALUE").text == "5"
+
+    def test_set_integer_value_with_dest(self, writer):
+        integer_value = IntegerValue()
+        integer_value.setDefinitionRef(_ref("/AUTOSAR/Rte/PositionInTask", "INTEGER-PARAM-DEF"))
+        integer_value.setValue(UnlimitedInteger().setValue(5))
+        parent = _parent()
+        writer.setIntegerValue(parent, integer_value)
+        child = parent[0]
+        assert child.tag == "INTEGER-VALUE"
+        assert child.find("DEFINITION-REF").attrib["DEST"] == "INTEGER-PARAM-DEF"
+        assert child.find("VALUE").text == "5"
+
+    def test_set_integer_value_empty(self, writer):
+        integer_value = IntegerValue()
+        parent = _parent()
+        writer.setIntegerValue(parent, integer_value)
+        child = parent[0]
+        assert child.tag == "INTEGER-VALUE"
+        assert child.find("DEFINITION-REF") is None
+        assert child.find("VALUE") is None

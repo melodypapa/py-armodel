@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     RefType,
     RevisionLabelString,
+    UnlimitedInteger,
     VerbatimString,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum
@@ -592,4 +593,36 @@ class ParameterValue(ARObject, ABC):
         """Reference to the definition of this ParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
         if value is not None:
             self.definitionRef = value
+        return self
+
+
+class IntegerValue(ParameterValue):
+    """
+    Representing a configuration value of definition type IntegerParamDef.
+    """
+
+    # IntegerValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.34, p.98 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Deviation: value optional — spec Mul=1 but XSD group INTEGER-VALUE (AUTOSAR.xsd
+    # L13680) has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins).
+
+    def __init__(self):
+        super().__init__()
+
+        # Stores the value of the Integer parameter.
+        self.value: Optional[UnlimitedInteger] = None
+
+    def getValue(self) -> Optional[UnlimitedInteger]:
+        """Stores the value of the Integer parameter."""
+        return self.value
+
+    def setValue(self, value: Optional[UnlimitedInteger]) -> "IntegerValue":
+        """Stores the value of the Integer parameter. A None value is a no-op and does not overwrite an existing value."""
+        if value is not None:
+            self.value = value
         return self

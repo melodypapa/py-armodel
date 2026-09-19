@@ -350,6 +350,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucReferenceValue,
     EcucTextualParamValue,
     EcucValueCollection,
+    IntegerValue,
     ParameterValue,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
@@ -446,6 +447,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     SectionInitializationPolicyType,
     String,
     UriString,
+    UnlimitedInteger,
     VerbatimString,
     VerbatimStringPlain,
     ViewTokens,
@@ -11750,6 +11752,18 @@ class ARXMLParser(AbstractARXMLParser):
     def readParameterValue(self, element: ET.Element, param_value: ParameterValue):
         """Read the R3.2.3 abstract ParameterValue members (DEFINITION-REF; DEST optional in legacy files)."""
         param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+
+    def getIntegerValue(self, element: ET.Element) -> IntegerValue:
+        """Read an R3.2.3 <INTEGER-VALUE> element (Table 3.34): DEFINITION-REF followed by VALUE."""
+        integer_value = IntegerValue()
+        self.readParameterValue(element, integer_value)
+        child_element = self.find(element, "VALUE")
+        if child_element is not None:
+            value = UnlimitedInteger()
+            self.readARType(child_element, value)
+            value.setValue(child_element.text)
+            integer_value.setValue(value)
+        return integer_value
 
     def readEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))

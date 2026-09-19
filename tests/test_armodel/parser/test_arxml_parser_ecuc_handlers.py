@@ -7,8 +7,8 @@ from unittest.mock import MagicMock
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import ParameterValue
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RevisionLabelString
+from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import IntegerValue, ParameterValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RevisionLabelString, UnlimitedInteger
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -2090,3 +2090,59 @@ class TestParameterValue:
         element = _snip("")
         parser.readParameterValue(element, param_value)
         assert param_value.getDefinitionRef() is None
+
+
+class TestIntegerValue:
+    """Tests for getIntegerValue handler (R3.2.3 IntegerValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.34, p.98 (R3.2 Rev 3)
+    """
+
+    def test_get_integer_value_without_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/ArMajorVersion</DEFINITION-REF>
+                <VALUE>5</VALUE>
+            """,
+            root_tag="INTEGER-VALUE",
+        )
+        integer_value = parser.getIntegerValue(element)
+        assert isinstance(integer_value, IntegerValue)
+        assert integer_value.getDefinitionRef().getValue() == "/TS_T19D1M6I1R0_AS403/Os/ArMajorVersion"
+        assert integer_value.getDefinitionRef().getDest() is None
+        assert isinstance(integer_value.getValue(), UnlimitedInteger)
+        assert integer_value.getValue().getValue() == 5
+
+    def test_get_integer_value_with_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF DEST="INTEGER-PARAM-DEF">/AUTOSAR/Rte/PositionInTask</DEFINITION-REF>
+                <VALUE>5</VALUE>
+            """,
+            root_tag="INTEGER-VALUE",
+        )
+        integer_value = parser.getIntegerValue(element)
+        assert integer_value.getDefinitionRef().getDest() == "INTEGER-PARAM-DEF"
+        assert integer_value.getValue().getValue() == 5
+
+    def test_get_integer_value_missing_value(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/Param</DEFINITION-REF>
+            """,
+            root_tag="INTEGER-VALUE",
+        )
+        integer_value = parser.getIntegerValue(element)
+        assert integer_value.getDefinitionRef().getValue() == "/Defs/Param"
+        assert integer_value.getValue() is None
+
+    def test_get_integer_value_missing_definition_ref(self, parser):
+        element = _snip(
+            """
+                <VALUE>42</VALUE>
+            """,
+            root_tag="INTEGER-VALUE",
+        )
+        integer_value = parser.getIntegerValue(element)
+        assert integer_value.getDefinitionRef() is None
+        assert integer_value.getValue().getValue() == 42
