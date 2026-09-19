@@ -683,6 +683,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     ClientIdDefinition,
     ClientIdDefinitionSet,
     ComManagementMapping,
+    CpSoftwareCluster,
     J1939SharedAddressCluster,
     SwComponentPrototypeAssignment,
     SwcToEcuMapping,
@@ -12399,6 +12400,15 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
+    def readCpSoftwareCluster(self, element: ET.Element, cluster: CpSoftwareCluster):
+        self.readARElement(element, cluster)
+        cluster.setSoftwareClusterId(self.getChildElementOptionalPositiveInteger(element, "SOFTWARE-CLUSTER-ID"))
+        for child_element in self.findall(element, "SW-COMPONENT-ASSIGNMENTS/SW-COMPONENT-PROTOTYPE-ASSIGNMENT"):
+            assignment = cluster.createSwComponentAssignment()
+            self.readSwComponentPrototypeAssignment(child_element, assignment)
+        for ref in self.getChildElementRefTypeList(element, "SW-COMPOSITIONS/COMPOSITION-SW-COMPONENT-TYPE-REF-CONDITIONAL/COMPOSITION-SW-COMPONENT-TYPE-REF"):
+            cluster.addSwCompositionRef(ref)
+
     def readSystemInterpolationRoutineMappingSetRefs(self, element: ET.Element, system: System):
         for ref in self.getChildElementRefTypeList(element, "INTERPOLATION-ROUTINE-MAPPING-SET-REFS/INTERPOLATION-ROUTINE-MAPPING-SET-REF"):
             system.addInterpolationRoutineMappingSetRef(ref)
@@ -12785,6 +12795,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "CLIENT-ID-DEFINITION-SET":
                 id_definition_set = parent.createClientIdDefinitionSet(self.getShortName(child_element))
                 self.readClientIdDefinitionSet(child_element, id_definition_set)
+            elif tag_name == "CP-SOFTWARE-CLUSTER":
+                cluster = parent.createCpSoftwareCluster(self.getShortName(child_element))
+                self.readCpSoftwareCluster(child_element, cluster)
             elif tag_name == "INTERPOLATION-ROUTINE-MAPPING-SET":
                 mapping_set = parent.createInterpolationRoutineMappingSet(self.getShortName(child_element))
                 self.readInterpolationRoutineMappingSet(child_element, mapping_set)

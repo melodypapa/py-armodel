@@ -609,6 +609,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     ClientIdDefinition,
     ClientIdDefinitionSet,
     ComManagementMapping,
+    CpSoftwareCluster,
     J1939SharedAddressCluster,
     SwComponentPrototypeAssignment,
     SwcToEcuMapping,
@@ -10974,6 +10975,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setComponentInSystemInstanceRef(child_element, "SW-COMPONENT-IREF", assignment.getSwComponentIRef())
         self.writeVariationPoint(child_element, assignment.getVariationPoint())
 
+    def writeCpSoftwareCluster(self, element: ET.Element, cluster: CpSoftwareCluster):
+        child_element = ET.SubElement(element, "CP-SOFTWARE-CLUSTER")
+        self.writeARElement(child_element, cluster)
+        self.setChildElementOptionalPositiveInteger(child_element, "SOFTWARE-CLUSTER-ID", cluster.getSoftwareClusterId())
+        assignments = cluster.getSwComponentAssignments()
+        if len(assignments) > 0:
+            assignments_tag = ET.SubElement(child_element, "SW-COMPONENT-ASSIGNMENTS")
+            for assignment in assignments:
+                self.writeSwComponentPrototypeAssignment(assignments_tag, assignment)
+        refs = cluster.getSwCompositionRefs()
+        if len(refs) > 0:
+            compositions_tag = ET.SubElement(child_element, "SW-COMPOSITIONS")
+            for ref in refs:
+                conditional_element = ET.SubElement(compositions_tag, "COMPOSITION-SW-COMPONENT-TYPE-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_element, "COMPOSITION-SW-COMPONENT-TYPE-REF", ref)
+
     def writeInterpolationRoutine(self, element: ET.Element, interpolation_routine: InterpolationRoutine):
         self.logger.debug("Write InterpolationRoutine")
         child_element = ET.SubElement(element, "INTERPOLATION-ROUTINE")
@@ -12552,6 +12569,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeISignal(element, ar_element)
         elif isinstance(ar_element, ClientIdDefinitionSet):
             self.writeClientIdDefinitionSet(element, ar_element)
+        elif isinstance(ar_element, CpSoftwareCluster):
+            self.writeCpSoftwareCluster(element, ar_element)
         elif isinstance(ar_element, InterpolationRoutineMappingSet):
             self.writeInterpolationRoutineMappingSet(element, ar_element)
         elif isinstance(ar_element, System):
