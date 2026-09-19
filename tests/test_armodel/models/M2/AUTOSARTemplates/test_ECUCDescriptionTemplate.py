@@ -23,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EnumerationValue,
     FloatValue,
     FunctionNameValue,
+    InstanceReferenceValue,
     IntegerValue,
     LinkerSymbolValue,
     ParameterValue,
@@ -30,6 +31,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     StringValue,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, RefType, RevisionLabelString, String, UnlimitedInteger
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
@@ -518,3 +520,29 @@ class TestReferenceValue:
         assert obj.getValueRef() == ref
         obj.setValueRef(None)
         assert obj.getValueRef() == ref
+
+
+class TestInstanceReferenceValue:
+    """
+    Test class for InstanceReferenceValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.42, p.106 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(InstanceReferenceValue, ConfigReferenceValue)
+
+    def test_initialization_defaults(self):
+        obj = InstanceReferenceValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValueIRef() is None
+
+    def test_get_set_value_iref(self):
+        obj = InstanceReferenceValue()
+        iref = AnyInstanceRef()
+        iref.setTargetRef(RefType().setValue("/Os/Os/OsTask1"))
+        result = obj.setValueIRef(iref)
+        assert result is obj
+        assert obj.getValueIRef() == iref
+        obj.setValueIRef(None)
+        assert obj.getValueIRef() == iref

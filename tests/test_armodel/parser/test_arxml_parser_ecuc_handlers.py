@@ -18,12 +18,14 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EnumerationValue,
     FloatValue,
     FunctionNameValue,
+    InstanceReferenceValue,
     IntegerValue,
     LinkerSymbolValue,
     ParameterValue,
     ReferenceValue,
     StringValue,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, RevisionLabelString, String, UnlimitedInteger
 from armodel.parser.arxml_parser import ARXMLParser
 
@@ -2632,3 +2634,62 @@ class TestReferenceValue:
         parser.readReferenceValue(element, reference_value)
         assert reference_value.getDefinitionRef() is None
         assert reference_value.getValueRef().getValue() == "/Os/Os/Rte_Counter"
+
+
+class TestInstanceReferenceValue:
+    """Tests for readInstanceReferenceValue handler (R3.2.3 InstanceReferenceValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.42, p.106 (R3.2 Rev 3)
+    """
+
+    def test_get_instance_reference_value_full(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/InstanceRefParam</DEFINITION-REF>
+                <VALUE-IREF>
+                    <CONTEXT-REF>/Os/Os/OsApplication1</CONTEXT-REF>
+                    <VALUE-REF>/Os/Os/OsTask1</VALUE-REF>
+                </VALUE-IREF>
+            """,
+            root_tag="INSTANCE-REFERENCE-VALUE",
+        )
+        instance_reference_value = InstanceReferenceValue()
+        parser.readInstanceReferenceValue(element, instance_reference_value)
+        assert isinstance(instance_reference_value, InstanceReferenceValue)
+        assert instance_reference_value.getDefinitionRef().getValue() == "/Defs/InstanceRefParam"
+        iref = instance_reference_value.getValueIRef()
+        assert iref is not None
+        assert isinstance(iref, AnyInstanceRef)
+        assert len(iref.getContextElementRefs()) == 1
+        assert iref.getContextElementRefs()[0].getValue() == "/Os/Os/OsApplication1"
+        assert iref.getTargetRef().getValue() == "/Os/Os/OsTask1"
+
+    def test_get_instance_reference_value_multiple_contexts(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/InstanceRefParam</DEFINITION-REF>
+                <VALUE-IREF>
+                    <CONTEXT-REF>/Ecu/EcuA</CONTEXT-REF>
+                    <CONTEXT-REF>/Ecu/EcuA/Comp1</CONTEXT-REF>
+                    <VALUE-REF>/Ecu/EcuA/Comp1/Port1</VALUE-REF>
+                </VALUE-IREF>
+            """,
+            root_tag="INSTANCE-REFERENCE-VALUE",
+        )
+        instance_reference_value = InstanceReferenceValue()
+        parser.readInstanceReferenceValue(element, instance_reference_value)
+        iref = instance_reference_value.getValueIRef()
+        assert len(iref.getContextElementRefs()) == 2
+        assert iref.getTargetRef().getValue() == "/Ecu/EcuA/Comp1/Port1"
+
+    def test_get_instance_reference_value_missing_value_iref(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/InstanceRefParam</DEFINITION-REF>
+            """,
+            root_tag="INSTANCE-REFERENCE-VALUE",
+        )
+        instance_reference_value = InstanceReferenceValue()
+        parser.readInstanceReferenceValue(element, instance_reference_value)
+        assert instance_reference_value.getDefinitionRef().getValue() == "/Defs/InstanceRefParam"
+        assert instance_reference_value.getValueIRef() is None

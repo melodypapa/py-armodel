@@ -252,6 +252,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EnumerationValue,
     FloatValue,
     FunctionNameValue,
+    InstanceReferenceValue,
     IntegerValue,
     LinkerSymbolValue,
     ParameterValue,
@@ -11216,6 +11217,17 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "REFERENCE-VALUE")
         self.writeConfigReferenceValue(child_element, reference_value)
         self.setChildElementOptionalRefType(child_element, "VALUE-REF", reference_value.getValueRef())
+
+    def writeInstanceReferenceValue(self, element: ET.Element, instance_reference_value: InstanceReferenceValue):
+        """Write an R3.2.3 <INSTANCE-REFERENCE-VALUE> element (Table 3.42): DEFINITION-REF followed by VALUE-IREF (CONTEXT-REF* then VALUE-REF)."""
+        child_element = ET.SubElement(element, "INSTANCE-REFERENCE-VALUE")
+        self.writeConfigReferenceValue(child_element, instance_reference_value)
+        iref = instance_reference_value.getValueIRef()
+        if iref is not None:
+            value_iref_element = ET.SubElement(child_element, "VALUE-IREF")
+            for ref in iref.getContextElementRefs():
+                self.setChildElementOptionalRefType(value_iref_element, "CONTEXT-REF", ref)
+            self.setChildElementOptionalRefType(value_iref_element, "VALUE-REF", iref.getTargetRef())
 
     def writeEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())

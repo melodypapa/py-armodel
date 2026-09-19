@@ -356,6 +356,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EnumerationValue,
     FloatValue,
     FunctionNameValue,
+    InstanceReferenceValue,
     IntegerValue,
     LinkerSymbolValue,
     ParameterValue,
@@ -11807,6 +11808,17 @@ class ARXMLParser(AbstractARXMLParser):
         """Read an R3.2.3 <REFERENCE-VALUE> element (Table 3.41): DEFINITION-REF followed by VALUE-REF."""
         self.readConfigReferenceValue(element, reference_value)
         reference_value.setValueRef(self.getChildElementOptionalRefType(element, "VALUE-REF"))
+
+    def readInstanceReferenceValue(self, element: ET.Element, instance_reference_value: InstanceReferenceValue):
+        """Read an R3.2.3 <INSTANCE-REFERENCE-VALUE> element (Table 3.42): DEFINITION-REF followed by VALUE-IREF (CONTEXT-REF* then VALUE-REF)."""
+        self.readConfigReferenceValue(element, instance_reference_value)
+        child_element = self.find(element, "VALUE-IREF")
+        if child_element is not None:
+            iref = AnyInstanceRef()
+            for ref in self.getChildElementRefTypeList(child_element, "CONTEXT-REF"):
+                iref.addContextElementRef(ref)
+            iref.setTargetRef(self.getChildElementOptionalRefType(child_element, "VALUE-REF"))
+            instance_reference_value.setValueIRef(iref)
 
     def readEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))

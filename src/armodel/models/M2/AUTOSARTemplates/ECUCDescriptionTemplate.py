@@ -867,3 +867,38 @@ class ReferenceValue(ConfigReferenceValue):
         if value is not None:
             self.valueRef = value
         return self
+
+
+class InstanceReferenceValue(ConfigReferenceValue):
+    """
+    InstanceReference representation in the ECU Configuration.
+    """
+
+    # InstanceReferenceValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.42, p.106 (R3.2 Rev 3)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
+    # [x] getValueIRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] setValueIRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # Deviations (spec member name is `value`, kind iref; named valueIRef per Rule 0001.5
+    # IRef suffix — R4 EcucInstanceReferenceValue precedent, decomposed via AnyInstanceRef):
+    # value optional — spec Mul=1 but XSD group INSTANCE-REFERENCE-VALUE (AUTOSAR.xsd
+    # L13507) VALUE-IREF has minOccurs="0" (Rule 0019.3 inverted); R3 VALUE-IREF content
+    # = CONTEXT-REF* (offset 10) + VALUE-REF (offset 20), serialized with the R3 element
+    # names (NOT the R4 CONTEXT-ELEMENT-REF/TARGET-REF names).
+
+    def __init__(self):
+        super().__init__()
+
+        # InstanceReference representation in the ECU Configuration.
+        self.valueIRef: Optional[AnyInstanceRef] = None
+
+    def getValueIRef(self) -> Optional[AnyInstanceRef]:
+        """InstanceReference representation in the ECU Configuration."""
+        return self.valueIRef
+
+    def setValueIRef(self, value: Optional[AnyInstanceRef]) -> "InstanceReferenceValue":
+        """InstanceReference representation in the ECU Configuration. A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.valueIRef = value
+        return self

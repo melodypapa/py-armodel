@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EnumerationValue,
     FloatValue,
     FunctionNameValue,
+    InstanceReferenceValue,
     IntegerValue,
     LinkerSymbolValue,
     ParameterValue,
@@ -1239,3 +1240,40 @@ class TestReferenceValueWrite:
         assert child.tag == "REFERENCE-VALUE"
         assert child.find("DEFINITION-REF") is None
         assert child.find("VALUE-REF") is None
+
+
+class TestInstanceReferenceValueWrite:
+    """Tests for writeInstanceReferenceValue handler (R3.2.3 InstanceReferenceValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.42, p.106 (R3.2 Rev 3)
+    """
+
+    def test_set_instance_reference_value_full(self, writer):
+        instance_reference_value = InstanceReferenceValue()
+        instance_reference_value.setDefinitionRef(_ref("/Defs/InstanceRefParam"))
+        iref = AnyInstanceRef()
+        iref.addContextElementRef(RefType().setValue("/Os/Os/OsApplication1"))
+        iref.setTargetRef(RefType().setValue("/Os/Os/OsTask1"))
+        instance_reference_value.setValueIRef(iref)
+        parent = _parent()
+        writer.writeInstanceReferenceValue(parent, instance_reference_value)
+        child = parent[0]
+        assert child.tag == "INSTANCE-REFERENCE-VALUE"
+        assert child.find("DEFINITION-REF").text == "/Defs/InstanceRefParam"
+        value_iref = child.find("VALUE-IREF")
+        assert value_iref is not None
+        contexts = value_iref.findall("CONTEXT-REF")
+        assert len(contexts) == 1
+        assert contexts[0].text == "/Os/Os/OsApplication1"
+        assert value_iref.find("VALUE-REF").text == "/Os/Os/OsTask1"
+        tags = [c.tag for c in value_iref]
+        assert tags.index("CONTEXT-REF") < tags.index("VALUE-REF")
+
+    def test_set_instance_reference_value_empty_iref(self, writer):
+        instance_reference_value = InstanceReferenceValue()
+        instance_reference_value.setDefinitionRef(_ref("/Defs/InstanceRefParam"))
+        parent = _parent()
+        writer.writeInstanceReferenceValue(parent, instance_reference_value)
+        child = parent[0]
+        assert child.tag == "INSTANCE-REFERENCE-VALUE"
+        assert child.find("VALUE-IREF") is None
