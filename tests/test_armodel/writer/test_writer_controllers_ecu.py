@@ -23,6 +23,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortDetails,
     VlanMembership,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
+from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -36,7 +38,22 @@ def reset_autosar():
 @pytest.fixture
 def writer():
     AUTOSAR.getInstance().new()
+    document = AUTOSAR.getInstance()
+    document.setARRelease("R23-11")
     return ARXMLWriter()
+
+
+@pytest.fixture
+def parser():
+    return ARXMLParser(options={"warning": True})
+
+
+def _reload(parser, path):
+    AUTOSAR.getInstance().new()
+    document = AUTOSAR.getInstance()
+    document.setARRelease("R23-11")
+    parser.load(path, document)
+    return document
 
 
 def _parent():
@@ -730,6 +747,58 @@ class TestWriterEcuInstanceCommControllers:
         assert len(parent) == 0
 
 
+ECU_INSTANCE_XSD_ORDER = [
+    "ASSOCIATED-COM-I-PDU-GROUP-REFS",
+    "ASSOCIATED-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUPS",
+    "ASSOCIATED-PDUR-I-PDU-GROUP-REFS",
+    "CHANNEL-SYNCHRONOUS-WAKEUP",
+    "COM-CONFIGURATION-GW-TIME-BASE",
+    "COM-CONFIGURATION-RX-TIME-BASE",
+    "COM-CONFIGURATION-TX-TIME-BASE",
+    "COM-ENABLE-MDT-FOR-CYCLIC-TRANSMISSION",
+    "COMM-CONTROLLERS",
+    "CONNECTORS",
+    "ECU-TASK-PROXY-REFS",
+    "ETH-SWITCH-PORT-GROUP-DERIVATION",
+    "FIREWALL-RULE-REFS",
+    "PN-RESET-TIME",
+    "PNC-NM-REQUEST",
+    "PNC-PREPARE-SLEEP-TIMER",
+    "PNC-SYNCHRONOUS-WAKEUP",
+    "SLEEP-MODE-SUPPORTED",
+    "TCP-IP-ICMP-PROPS-REF",
+    "TCP-IP-PROPS-REF",
+    "V-2-X-SUPPORTED",
+    "WAKE-UP-OVER-BUS-SUPPORTED",
+]
+
+
+def _fill_ecu_instance(instance):
+    instance.addAssociatedComIPduGroupRef(_ref("/g0", "I-SIGNAL-I-PDU-GROUP"))
+    instance.addAssociatedConsumedProvidedServiceInstanceGroupRef(_ref("/g1", "CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP"))
+    instance.addAssociatedPdurIPduGroupRef(_ref("/g2", "PDUR-I-PDU-GROUP"))
+    instance.setChannelSynchronousWakeup(_bool(True))
+    instance.setComConfigurationGwTimeBase(_time("0.01"))
+    instance.setComConfigurationRxTimeBase(_time("0.02"))
+    instance.setComConfigurationTxTimeBase(_time("0.03"))
+    instance.setComEnableMDTForCyclicTransmission(_bool(False))
+    instance.createCanCommunicationController("can")
+    instance.createCanCommunicationConnector("conn")
+    instance.addEcuTaskProxyRef(_ref("/t1", "OS-TASK-PROXY"))
+    instance.setEthSwitchPortGroupDerivation(_bool(True))
+    instance.addFirewallRuleRef(_ref("/f1", "STATE-DEPENDENT-FIREWALL"))
+    instance.setPncNmRequest(_bool(True))
+    instance.setPncPrepareSleepTimer(_time("1.5"))
+    instance.setPncSynchronousWakeup(_bool(True))
+    instance.setPnResetTime(_time("2.0"))
+    instance.setSleepModeSupported(_bool(True))
+    instance.setTcpIpIcmpPropsRef(_ref("/icmp", "ETH-TCP-IP-ICMP-PROPS"))
+    instance.setTcpIpPropsRef(_ref("/tcp", "ETH-TCP-IP-PROPS"))
+    instance.setV2xSupported(_literal("V-2-X-SUPPORTED"))
+    instance.setWakeUpOverBusSupported(_bool(False))
+    return instance
+
+
 class TestWriterCommunicationConnector:
     def test_full(self, writer):
         instance = _make_ecu_instance()
@@ -886,8 +955,94 @@ class TestWriterEcuInstance:
         assert ei.find("PNC-SYNCHRONOUS-WAKEUP") is not None
         assert ei.find("PNC-PREPARE-SLEEP-TIMER") is not None
         assert ei.find("PN-RESET-TIME") is not None
-        assert ei.find("TCP-IP-ICMP-PROPS") is not None
-        assert ei.find("TCP-IP-PROPS") is not None
+        assert ei.find("TCP-IP-ICMP-PROPS-REF") is not None
+        assert ei.find("TCP-IP-PROPS-REF") is not None
         assert ei.find("V-2-X-SUPPORTED") is not None
         assert ei.find("SLEEP-MODE-SUPPORTED") is not None
         assert ei.find("WAKE-UP-OVER-BUS-SUPPORTED") is not None
+
+    def test_writeEcuInstance_xsd_element_order(self, writer):
+        instance = _fill_ecu_instance(_make_ecu_instance())
+        parent = _parent()
+        writer.writeEcuInstance(parent, instance)
+        ecu = parent.find("ECU-INSTANCE")
+        tags = [c.tag for c in ecu]
+        assert tags == ["SHORT-NAME"] + ECU_INSTANCE_XSD_ORDER
+
+    def test_writeEcuInstance_consumed_provided_wrapper_uses_xsd_tags(self, writer):
+        instance = _make_ecu_instance()
+        instance.addAssociatedConsumedProvidedServiceInstanceGroupRef(_ref("/g1", "CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP"))
+        parent = _parent()
+        writer.writeEcuInstance(parent, instance)
+        ecu = parent.find("ECU-INSTANCE")
+        wrapper = ecu.find("ASSOCIATED-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUPS")
+        assert wrapper is not None
+        ref = wrapper.find("CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REF-CONDITIONAL")
+        assert ref is not None and ref.text == "/g1"
+        assert ecu.find("ASSOCIATED-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REFS") is None
+
+    def test_writeEcuInstance_tcp_ip_refs_use_xsd_tags(self, writer):
+        instance = _make_ecu_instance()
+        instance.setTcpIpIcmpPropsRef(_ref("/icmp", "ETH-TCP-IP-ICMP-PROPS"))
+        instance.setTcpIpPropsRef(_ref("/tcp", "ETH-TCP-IP-PROPS"))
+        parent = _parent()
+        writer.writeEcuInstance(parent, instance)
+        ecu = parent.find("ECU-INSTANCE")
+        assert ecu.find("TCP-IP-ICMP-PROPS-REF").text == "/icmp"
+        assert ecu.find("TCP-IP-PROPS-REF").text == "/tcp"
+        assert ecu.find("TCP-IP-ICMP-PROPS") is None
+        assert ecu.find("TCP-IP-PROPS") is None
+
+    def test_writeEcuInstance_empty_writes_no_wrappers(self, writer):
+        instance = _make_ecu_instance()
+        parent = _parent()
+        writer.writeEcuInstance(parent, instance)
+        ecu = parent.find("ECU-INSTANCE")
+        assert [c.tag for c in ecu] == ["SHORT-NAME"]
+        for tag in (
+            "ASSOCIATED-COM-I-PDU-GROUP-REFS",
+            "ASSOCIATED-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUPS",
+            "ASSOCIATED-PDUR-I-PDU-GROUP-REFS",
+            "COMM-CONTROLLERS",
+            "CONNECTORS",
+            "ECU-TASK-PROXY-REFS",
+            "FIREWALL-RULE-REFS",
+        ):
+            assert ecu.find(tag) is None
+
+    def test_ecu_instance_full_round_trip(self, writer, parser, tmp_path):
+        _fill_ecu_instance(_make_ecu_instance())
+
+        out_file = str(tmp_path / "ecu_instance.arxml")
+        writer.save(out_file, AUTOSAR.getInstance())
+
+        document = _reload(parser, out_file)
+        re_instance = document.find("Pkg").getElement("EcuInst", EcuInstance)
+        assert re_instance is not None
+
+        assert [r.getValue() for r in re_instance.getAssociatedComIPduGroupRefs()] == ["/g0"]
+        assert [r.getValue() for r in re_instance.getAssociatedConsumedProvidedServiceInstanceGroupRefs()] == ["/g1"]
+        assert [r.getValue() for r in re_instance.getAssociatedPdurIPduGroupRefs()] == ["/g2"]
+        assert re_instance.getChannelSynchronousWakeup().getValue() is True
+        assert re_instance.getComConfigurationGwTimeBase().getValue() == 0.01
+        assert re_instance.getComConfigurationRxTimeBase().getValue() == 0.02
+        assert re_instance.getComConfigurationTxTimeBase().getValue() == 0.03
+        assert re_instance.getComEnableMDTForCyclicTransmission().getValue() is False
+
+        controllers = re_instance.getCommControllers()
+        assert len(controllers) == 1 and controllers[0].getShortName() == "can"
+        connectors = re_instance.getConnectors()
+        assert len(connectors) == 1 and connectors[0].getShortName() == "conn"
+
+        assert [r.getValue() for r in re_instance.getEcuTaskProxyRefs()] == ["/t1"]
+        assert re_instance.getEthSwitchPortGroupDerivation().getValue() is True
+        assert [r.getValue() for r in re_instance.getFirewallRuleRefs()] == ["/f1"]
+        assert re_instance.getPncNmRequest().getValue() is True
+        assert re_instance.getPncPrepareSleepTimer().getValue() == 1.5
+        assert re_instance.getPncSynchronousWakeup().getValue() is True
+        assert re_instance.getPnResetTime().getValue() == 2.0
+        assert re_instance.getSleepModeSupported().getValue() is True
+        assert re_instance.getTcpIpIcmpPropsRef().getValue() == "/icmp"
+        assert re_instance.getTcpIpPropsRef().getValue() == "/tcp"
+        assert re_instance.getV2xSupported().getValue() == "V-2-X-SUPPORTED"
+        assert re_instance.getWakeUpOverBusSupported().getValue() is False
