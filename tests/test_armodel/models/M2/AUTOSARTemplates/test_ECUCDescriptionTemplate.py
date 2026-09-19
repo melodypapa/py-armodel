@@ -7,6 +7,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    BooleanValue,
     EcucAbstractReferenceValue,
     EcucAddInfoParamValue,
     EcucContainerValue,
@@ -296,5 +297,31 @@ class TestIntegerValue:
         assert result is obj
         assert obj.getValue() == value
         assert obj.getValue().getValue() == 5
+        obj.setValue(None)
+        assert obj.getValue() == value
+
+
+class TestBooleanValue:
+    """
+    Test class for BooleanValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.33, p.97 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(BooleanValue, ParameterValue)
+
+    def test_initialization_defaults(self):
+        obj = BooleanValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValue() is None
+
+    def test_get_set_value(self):
+        obj = BooleanValue()
+        value = Boolean().setValue(True)
+        result = obj.setValue(value)
+        assert result is obj
+        assert obj.getValue() == value
+        assert obj.getValue().getValue() is True
         obj.setValue(None)
         assert obj.getValue() == value

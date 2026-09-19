@@ -340,6 +340,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    BooleanValue,
     EcucAbstractReferenceValue,
     EcucAddInfoParamValue,
     EcucContainerValue,
@@ -11764,6 +11765,13 @@ class ARXMLParser(AbstractARXMLParser):
             value.setValue(child_element.text)
             integer_value.setValue(value)
         return integer_value
+
+    def getBooleanValue(self, element: ET.Element) -> BooleanValue:
+        """Read an R3.2.3 <BOOLEAN-VALUE> element (Table 3.33): DEFINITION-REF followed by VALUE."""
+        boolean_value = BooleanValue()
+        self.readParameterValue(element, boolean_value)
+        boolean_value.setValue(self.getChildElementOptionalBooleanValue(element, "VALUE"))
+        return boolean_value
 
     def readEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))

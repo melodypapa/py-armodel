@@ -626,3 +626,35 @@ class IntegerValue(ParameterValue):
         if value is not None:
             self.value = value
         return self
+
+
+class BooleanValue(ParameterValue):
+    """
+    Representing a configuration value of definition type BooleanParamDef.
+    """
+
+    # BooleanValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.33, p.97 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Deviation: value optional — spec Mul=1 but XSD group BOOLEAN-VALUE (AUTOSAR.xsd
+    # L1551) has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins).
+
+    def __init__(self):
+        super().__init__()
+
+        # Stores the value of the Boolean parameter.
+        self.value: Optional[Boolean] = None
+
+    def getValue(self) -> Optional[Boolean]:
+        """Stores the value of the Boolean parameter."""
+        return self.value
+
+    def setValue(self, value: Optional[Boolean]) -> "BooleanValue":
+        """Stores the value of the Boolean parameter. A None value is a no-op and does not overwrite an existing value."""
+        if value is not None:
+            self.value = value
+        return self

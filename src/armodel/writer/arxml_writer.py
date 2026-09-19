@@ -236,6 +236,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    BooleanValue,
     EcucAbstractReferenceValue,
     EcucAddInfoParamValue,
     EcucContainerValue,
@@ -11162,6 +11163,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "INTEGER-VALUE")
         self.writeParameterValue(child_element, integer_value)
         self.setChildElementOptionalIntegerValue(child_element, "VALUE", integer_value.getValue())
+
+    def setBooleanValue(self, element: ET.Element, boolean_value: BooleanValue):
+        """Write an R3.2.3 <BOOLEAN-VALUE> element (Table 3.33): DEFINITION-REF followed by VALUE."""
+        child_element = ET.SubElement(element, "BOOLEAN-VALUE")
+        self.writeParameterValue(child_element, boolean_value)
+        self.setChildElementOptionalBooleanValue(child_element, "VALUE", boolean_value.getValue())
 
     def writeEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())

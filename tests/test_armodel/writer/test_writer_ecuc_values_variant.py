@@ -6,6 +6,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    BooleanValue,
     EcucAddInfoParamValue,
     EcucContainerValue,
     EcucInstanceReferenceValue,
@@ -897,5 +898,46 @@ class TestIntegerValueWrite:
         writer.setIntegerValue(parent, integer_value)
         child = parent[0]
         assert child.tag == "INTEGER-VALUE"
+        assert child.find("DEFINITION-REF") is None
+        assert child.find("VALUE") is None
+
+
+class TestBooleanValueWrite:
+    """Tests for setBooleanValue handler (R3.2.3 BooleanValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.33, p.97 (R3.2 Rev 3)
+    """
+
+    def test_set_boolean_value_without_dest(self, writer):
+        boolean_value = BooleanValue()
+        boolean_value.setDefinitionRef(_ref("/TS_T19D1M6I1R0_AS403/Os/OsStackMonitoring"))
+        boolean_value.setValue(Boolean().setValue(False))
+        parent = _parent()
+        writer.setBooleanValue(parent, boolean_value)
+        child = parent[0]
+        assert child.tag == "BOOLEAN-VALUE"
+        def_ref = child.find("DEFINITION-REF")
+        assert def_ref is not None
+        assert "DEST" not in def_ref.attrib
+        assert def_ref.text == "/TS_T19D1M6I1R0_AS403/Os/OsStackMonitoring"
+        assert child.find("VALUE").text == "false"
+
+    def test_set_boolean_value_with_dest(self, writer):
+        boolean_value = BooleanValue()
+        boolean_value.setDefinitionRef(_ref("/Defs/Flag", "BOOLEAN-PARAM-DEF"))
+        boolean_value.setValue(Boolean().setValue(True))
+        parent = _parent()
+        writer.setBooleanValue(parent, boolean_value)
+        child = parent[0]
+        assert child.tag == "BOOLEAN-VALUE"
+        assert child.find("DEFINITION-REF").attrib["DEST"] == "BOOLEAN-PARAM-DEF"
+        assert child.find("VALUE").text == "true"
+
+    def test_set_boolean_value_empty(self, writer):
+        boolean_value = BooleanValue()
+        parent = _parent()
+        writer.setBooleanValue(parent, boolean_value)
+        child = parent[0]
+        assert child.tag == "BOOLEAN-VALUE"
         assert child.find("DEFINITION-REF") is None
         assert child.find("VALUE") is None

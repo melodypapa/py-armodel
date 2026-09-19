@@ -7,7 +7,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import IntegerValue, ParameterValue
+from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import BooleanValue, IntegerValue, ParameterValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RevisionLabelString, UnlimitedInteger
 from armodel.parser.arxml_parser import ARXMLParser
 
@@ -2146,3 +2146,59 @@ class TestIntegerValue:
         integer_value = parser.getIntegerValue(element)
         assert integer_value.getDefinitionRef() is None
         assert integer_value.getValue().getValue() == 42
+
+
+class TestBooleanValue:
+    """Tests for getBooleanValue handler (R3.2.3 BooleanValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.33, p.97 (R3.2 Rev 3)
+    """
+
+    def test_get_boolean_value_without_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsStackMonitoring</DEFINITION-REF>
+                <VALUE>false</VALUE>
+            """,
+            root_tag="BOOLEAN-VALUE",
+        )
+        boolean_value = parser.getBooleanValue(element)
+        assert isinstance(boolean_value, BooleanValue)
+        assert boolean_value.getDefinitionRef().getValue() == "/TS_T19D1M6I1R0_AS403/Os/OsStackMonitoring"
+        assert boolean_value.getDefinitionRef().getDest() is None
+        assert isinstance(boolean_value.getValue(), Boolean)
+        assert boolean_value.getValue().getValue() is False
+
+    def test_get_boolean_value_with_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF DEST="BOOLEAN-PARAM-DEF">/Defs/Flag</DEFINITION-REF>
+                <VALUE>true</VALUE>
+            """,
+            root_tag="BOOLEAN-VALUE",
+        )
+        boolean_value = parser.getBooleanValue(element)
+        assert boolean_value.getDefinitionRef().getDest() == "BOOLEAN-PARAM-DEF"
+        assert boolean_value.getValue().getValue() is True
+
+    def test_get_boolean_value_missing_value(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/Param</DEFINITION-REF>
+            """,
+            root_tag="BOOLEAN-VALUE",
+        )
+        boolean_value = parser.getBooleanValue(element)
+        assert boolean_value.getDefinitionRef().getValue() == "/Defs/Param"
+        assert boolean_value.getValue() is None
+
+    def test_get_boolean_value_missing_definition_ref(self, parser):
+        element = _snip(
+            """
+                <VALUE>true</VALUE>
+            """,
+            root_tag="BOOLEAN-VALUE",
+        )
+        boolean_value = parser.getBooleanValue(element)
+        assert boolean_value.getDefinitionRef() is None
+        assert boolean_value.getValue().getValue() is True
