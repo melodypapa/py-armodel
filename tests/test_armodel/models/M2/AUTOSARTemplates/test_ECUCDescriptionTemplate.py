@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     InstanceReferenceValue,
     IntegerValue,
     LinkerSymbolValue,
+    ModuleConfiguration,
     ParameterValue,
     ReferenceValue,
     StringValue,
@@ -613,3 +614,63 @@ class TestContainer:
         again = obj.createSubContainer("OsOSConfig")
         assert again is sub
         assert len(obj.getSubContainers()) == 1
+
+
+class TestModuleConfiguration:
+    """
+    Test class for ModuleConfiguration functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.30, p.86 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+        assert issubclass(ModuleConfiguration, ARElement)
+
+    def test_initialization_defaults(self):
+        pkg = AUTOSAR.getInstance().createARPackage("R3ModulePkg")
+        obj = ModuleConfiguration(pkg, "Os")
+        assert obj.getDefinitionRef() is None
+        assert obj.getImplementationConfigVariant() is None
+        assert obj.getModuleDescriptionRef() is None
+        assert obj.getContainers() == []
+
+    def test_get_set_definition_ref(self):
+        pkg = AUTOSAR.getInstance().createARPackage("R3ModulePkg")
+        obj = ModuleConfiguration(pkg, "Os")
+        ref = RefType().setValue("/TS_T19D1M6I1R0_AS403/Os")
+        result = obj.setDefinitionRef(ref)
+        assert result is obj
+        assert obj.getDefinitionRef() == ref
+        obj.setDefinitionRef(None)
+        assert obj.getDefinitionRef() == ref
+
+    def test_get_set_implementation_config_variant(self):
+        pkg = AUTOSAR.getInstance().createARPackage("R3ModulePkg")
+        obj = ModuleConfiguration(pkg, "Os")
+        result = obj.setImplementationConfigVariant(EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE)
+        assert result is obj
+        assert obj.getImplementationConfigVariant() == EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE
+        obj.setImplementationConfigVariant(None)
+        assert obj.getImplementationConfigVariant() == EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE
+
+    def test_get_set_module_description_ref(self):
+        pkg = AUTOSAR.getInstance().createARPackage("R3ModulePkg")
+        obj = ModuleConfiguration(pkg, "Os")
+        ref = RefType().setValue("/Vendor/OsImplementation")
+        result = obj.setModuleDescriptionRef(ref)
+        assert result is obj
+        assert obj.getModuleDescriptionRef() == ref
+        obj.setModuleDescriptionRef(None)
+        assert obj.getModuleDescriptionRef() == ref
+
+    def test_create_container(self):
+        pkg = AUTOSAR.getInstance().createARPackage("R3ModulePkg")
+        obj = ModuleConfiguration(pkg, "Os")
+        container = obj.createContainer("OsOS")
+        assert isinstance(container, Container)
+        assert obj.getContainers() == [container]
+        again = obj.createContainer("OsOS")
+        assert again is container
+        assert len(obj.getContainers()) == 1

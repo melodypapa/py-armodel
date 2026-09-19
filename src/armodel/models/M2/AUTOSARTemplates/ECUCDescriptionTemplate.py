@@ -987,3 +987,97 @@ class Container(Identifiable):
             self.addElement(sub_container)
             self.subContainers.append(sub_container)
         return self.getElement(short_name, Container)
+
+
+class ModuleConfiguration(ARElement):
+    """
+    Head of the configuration of one Module. A Module can be a BSW module as well as the RTE and ECU Infrastructure.
+
+    As part of tthe BSW module description, the ModuleConfiguration has two different roles:
+
+    The recommendedConfiguration contains parameter values recommended by the BSW module vendor.
+
+    The preconfiguredConfiguration contains values for those parameters which are fixed by the implementation and cannot be changed.
+
+    These two ModuleConfigurations are used when the base ModuleConfiguration (as part of the base ECU configuration) is created to fill parameters with initial values.
+    """
+
+    # ModuleConfiguration method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.30, p.86 (R3.2 Rev 3)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
+    # [x] createContainer                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # [x] getContainers                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] getDefinitionRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] setDefinitionRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # [x] getImplementationConfigVariant   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] setImplementationConfigVariant   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # [x] getModuleDescriptionRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] setModuleDescriptionRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # Deviations (spec member names `definition`/`moduleDescription` kind ref; renamed per
+    # ECUC ref-suffix convention to definitionRef/moduleDescriptionRef):
+    # definition + implementationConfigVariant optional — spec Mul=1 but XSD group
+    # MODULE-CONFIGURATION (AUTOSAR.xsd L16416) DEFINITION-REF and
+    # IMPLEMENTATION-CONFIG-VARIANT have minOccurs="0" (Rule 0019.3 inverted; Os_ECUC.arxml
+    # carries neither); DEFINITION-REF/MODULE-DESCRIPTION-REF DEST use="required" in XSD
+    # but sample carries no DEST → DEST optional. Aggregated by ARPackage.element (XSD
+    # L222) → ARPackage.createModuleConfiguration factory.
+    # XML element order (XSD sequenceOffset): DEFINITION-REF (-10) → IMPLEMENTATION-CONFIG-VARIANT (0)
+    # → MODULE-DESCRIPTION-REF (0) → CONTAINERS (10).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Aggregates all containers that belong to this module configuration. Tags: xml.sequenceOffset=10
+        self.containers: List[Container] = []
+
+        # Reference to the definition of this ModuleConfiguration. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10
+        self.definitionRef: Optional[RefType] = None
+
+        # Specifies the ConfigurationVariant used for this ModuleConfiguration.
+        self.implementationConfigVariant: Optional[EcucConfigurationVariantEnum] = None
+
+        # Referencing the BSW module description, which this ModuleConfiguration is configuring. This is optional because the ModuleConfiguration is also used to configure the ECU infrastructure (memory map) or Application SW-Cs.
+        self.moduleDescriptionRef: Optional[RefType] = None
+
+    def createContainer(self, short_name: str) -> Container:
+        """Aggregates all containers that belong to this module configuration. Tags: xml.sequenceOffset=10"""
+        if not self.IsElementExists(short_name, Container):
+            container = Container(self, short_name)
+            self.addElement(container)
+            self.containers.append(container)
+        return self.getElement(short_name, Container)
+
+    def getContainers(self) -> List[Container]:
+        """Aggregates all containers that belong to this module configuration. Tags: xml.sequenceOffset=10"""
+        return self.containers
+
+    def getDefinitionRef(self) -> Optional[RefType]:
+        """Reference to the definition of this ModuleConfiguration. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10"""
+        return self.definitionRef
+
+    def setDefinitionRef(self, value: Optional[RefType]) -> "ModuleConfiguration":
+        """Reference to the definition of this ModuleConfiguration. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.definitionRef = value
+        return self
+
+    def getImplementationConfigVariant(self) -> Optional[EcucConfigurationVariantEnum]:
+        """Specifies the ConfigurationVariant used for this ModuleConfiguration."""
+        return self.implementationConfigVariant
+
+    def setImplementationConfigVariant(self, value: Optional[EcucConfigurationVariantEnum]) -> "ModuleConfiguration":
+        """Specifies the ConfigurationVariant used for this ModuleConfiguration. A None value is a no-op and does not overwrite an existing configuration variant."""
+        if value is not None:
+            self.implementationConfigVariant = value
+        return self
+
+    def getModuleDescriptionRef(self) -> Optional[RefType]:
+        """Referencing the BSW module description, which this ModuleConfiguration is configuring. This is optional because the ModuleConfiguration is also used to configure the ECU infrastructure (memory map) or Application SW-Cs."""
+        return self.moduleDescriptionRef
+
+    def setModuleDescriptionRef(self, value: Optional[RefType]) -> "ModuleConfiguration":
+        """Referencing the BSW module description, which this ModuleConfiguration is configuring. This is optional because the ModuleConfiguration is also used to configure the ECU infrastructure (memory map) or Application SW-Cs. A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.moduleDescriptionRef = value
+        return self

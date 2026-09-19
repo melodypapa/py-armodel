@@ -360,6 +360,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     InstanceReferenceValue,
     IntegerValue,
     LinkerSymbolValue,
+    ModuleConfiguration,
     ParameterValue,
     StringValue,
 )
@@ -11877,6 +11878,20 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Container sub container <%s>" % tag_name)
 
+    def readModuleConfiguration(self, element: ET.Element, module_configuration: ModuleConfiguration):
+        """Read an R3.2.3 <MODULE-CONFIGURATION> element (Table 3.30): DEFINITION-REF, IMPLEMENTATION-CONFIG-VARIANT, MODULE-DESCRIPTION-REF, CONTAINERS."""
+        self.readIdentifiable(element, module_configuration)
+        module_configuration.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        module_configuration.setImplementationConfigVariant(self.getChildElementOptionalLiteral(element, "IMPLEMENTATION-CONFIG-VARIANT"))
+        module_configuration.setModuleDescriptionRef(self.getChildElementOptionalRefType(element, "MODULE-DESCRIPTION-REF"))
+        for child_element in self.findall(element, "CONTAINERS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "CONTAINER":
+                container = module_configuration.createContainer(self.getShortName(child_element))
+                self.readContainer(child_element, container)
+            else:
+                self.notImplemented("Unsupported ModuleConfiguration container <%s>" % tag_name)
+
     def readEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
         param_value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
@@ -12804,6 +12819,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECUC-MODULE-CONFIGURATION-VALUES":
                 values = parent.createEcucModuleConfigurationValues(self.getShortName(child_element))
                 self.readEcucModuleConfigurationValues(child_element, values)
+            elif tag_name == "MODULE-CONFIGURATION":
+                module_configuration = parent.createModuleConfiguration(self.getShortName(child_element))
+                self.readModuleConfiguration(child_element, module_configuration)
             elif tag_name == "PHYSICAL-DIMENSION":
                 dimension = parent.createPhysicalDimension(self.getShortName(child_element))
                 self.readPhysicalDimension(child_element, dimension)

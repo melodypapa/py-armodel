@@ -21,10 +21,12 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     InstanceReferenceValue,
     IntegerValue,
     LinkerSymbolValue,
+    ModuleConfiguration,
     ParameterValue,
     ReferenceValue,
     StringValue,
 )
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import (  # noqa E501
     AnyInstanceRef,
 )
@@ -1333,3 +1335,51 @@ class TestContainerWrite:
         assert child.find("PARAMETER-VALUES") is None
         assert child.find("REFERENCE-VALUES") is None
         assert child.find("SUB-CONTAINERS") is None
+
+
+class TestModuleConfigurationWrite:
+    """Tests for writeModuleConfiguration handler (R3.2.3 ModuleConfiguration).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.30, p.86 (R3.2 Rev 3)
+    """
+
+    def _make_module_configuration(self):
+        pkg = AUTOSAR.getInstance().createARPackage("R3Pkg")
+        module_configuration = ModuleConfiguration(pkg, "Os")
+        module_configuration.setDefinitionRef(_ref("/TS_T19D1M6I1R0_AS403/Os"))
+        module_configuration.setImplementationConfigVariant(EcucConfigurationVariantEnum().setValue("VARIANT-PRE-COMPILE"))
+        module_configuration.setModuleDescriptionRef(_ref("/Vendor/OsImplementation"))
+        container = module_configuration.createContainer("OsOS")
+        container.setDefinitionRef(_ref("/Os/OsOS"))
+        int_value = IntegerValue()
+        int_value.setDefinitionRef(_ref("/Os/OsOS/OsNumberOfCores"))
+        int_value.setValue(UnlimitedInteger().setValue(1))
+        container.addParameterValue(int_value)
+        return module_configuration
+
+    def test_set_module_configuration_full_in_xsd_order(self, writer):
+        module_configuration = self._make_module_configuration()
+        parent = _parent()
+        writer.writeModuleConfiguration(parent, module_configuration)
+        child = parent.find("MODULE-CONFIGURATION")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "Os"
+        tags = [c.tag for c in child]
+        assert tags.index("DEFINITION-REF") < tags.index("IMPLEMENTATION-CONFIG-VARIANT") < tags.index("MODULE-DESCRIPTION-REF") < tags.index("CONTAINERS")
+        assert child.find("IMPLEMENTATION-CONFIG-VARIANT").text == "VARIANT-PRE-COMPILE"
+        containers = child.find("CONTAINERS")
+        assert containers[0].tag == "CONTAINER"
+        assert containers[0].find("SHORT-NAME").text == "OsOS"
+
+    def test_set_module_configuration_minimal(self, writer):
+        pkg = AUTOSAR.getInstance().createARPackage("R3Pkg2")
+        module_configuration = ModuleConfiguration(pkg, "Os")
+        parent = _parent()
+        writer.writeModuleConfiguration(parent, module_configuration)
+        child = parent.find("MODULE-CONFIGURATION")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "Os"
+        assert child.find("DEFINITION-REF") is None
+        assert child.find("IMPLEMENTATION-CONFIG-VARIANT") is None
+        assert child.find("MODULE-DESCRIPTION-REF") is None
+        assert child.find("CONTAINERS") is None

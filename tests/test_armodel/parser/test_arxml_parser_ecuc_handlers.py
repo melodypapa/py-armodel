@@ -22,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     InstanceReferenceValue,
     IntegerValue,
     LinkerSymbolValue,
+    ModuleConfiguration,
     ParameterValue,
     ReferenceValue,
     StringValue,
@@ -2788,3 +2789,59 @@ class TestContainer:
         assert container.getParameterValues() == []
         assert container.getReferenceValues() == []
         assert container.getSubContainers() == []
+
+
+class TestModuleConfiguration:
+    """Tests for readModuleConfiguration handler (R3.2.3 ModuleConfiguration).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.30, p.86 (R3.2 Rev 3)
+    """
+
+    def test_get_module_configuration_full(self, parser):
+        element = _snip(
+            """
+                <SHORT-NAME>Os</SHORT-NAME>
+                <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os</DEFINITION-REF>
+                <IMPLEMENTATION-CONFIG-VARIANT>VARIANT-PRE-COMPILE</IMPLEMENTATION-CONFIG-VARIANT>
+                <MODULE-DESCRIPTION-REF>/Vendor/OsImplementation</MODULE-DESCRIPTION-REF>
+                <CONTAINERS>
+                    <CONTAINER>
+                        <SHORT-NAME>OsOS</SHORT-NAME>
+                        <DEFINITION-REF>/Os/OsOS</DEFINITION-REF>
+                        <PARAMETER-VALUES>
+                            <INTEGER-VALUE>
+                                <DEFINITION-REF>/Os/OsOS/OsNumberOfCores</DEFINITION-REF>
+                                <VALUE>1</VALUE>
+                            </INTEGER-VALUE>
+                        </PARAMETER-VALUES>
+                    </CONTAINER>
+                </CONTAINERS>
+            """,
+            root_tag="MODULE-CONFIGURATION",
+        )
+        pkg = AUTOSAR.getInstance().createARPackage("R3Pkg")
+        module_configuration = ModuleConfiguration(pkg, "Os")
+        parser.readModuleConfiguration(element, module_configuration)
+        assert module_configuration.getShortName() == "Os"
+        assert module_configuration.getDefinitionRef().getValue() == "/TS_T19D1M6I1R0_AS403/Os"
+        assert module_configuration.getImplementationConfigVariant().getValue() == "VARIANT-PRE-COMPILE"
+        assert module_configuration.getModuleDescriptionRef().getValue() == "/Vendor/OsImplementation"
+        containers = module_configuration.getContainers()
+        assert len(containers) == 1
+        assert containers[0].getShortName() == "OsOS"
+        assert containers[0].getParameterValues()[0].getValue().getValue() == 1
+
+    def test_get_module_configuration_minimal(self, parser):
+        element = _snip(
+            """
+                <SHORT-NAME>Os</SHORT-NAME>
+            """,
+            root_tag="MODULE-CONFIGURATION",
+        )
+        pkg = AUTOSAR.getInstance().createARPackage("R3Pkg")
+        module_configuration = ModuleConfiguration(pkg, "Os")
+        parser.readModuleConfiguration(element, module_configuration)
+        assert module_configuration.getDefinitionRef() is None
+        assert module_configuration.getImplementationConfigVariant() is None
+        assert module_configuration.getModuleDescriptionRef() is None
+        assert module_configuration.getContainers() == []

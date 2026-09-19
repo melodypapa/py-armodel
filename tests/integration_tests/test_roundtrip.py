@@ -291,9 +291,41 @@ class TestRoundTrip:
                         normalized.append(line)
                     return normalized
 
+                def normalize_xml_declaration_and_root(lines):
+                    """
+                    Normalize the XML declaration and root open tag formatting.
+
+                    Vendor R3.2.3 files declare <?xml version='1.0'?> and wrap the
+                    <AUTOSAR ...> root attributes over multiple lines, while the
+                    writer emits <?xml version="1.0" encoding="UTF-8"?> and a
+                    single-line root element. Both spellings are semantically
+                    identical, so fold both sides to the canonical form before the
+                    line comparison (formatting-only — content is untouched).
+                    """
+                    if lines and lines[0].lstrip().startswith("<?xml"):
+                        lines = ['<?xml version="1.0" encoding="UTF-8"?>\n'] + lines[1:]
+
+                    normalized = []
+                    i = 0
+                    while i < len(lines):
+                        stripped = lines[i].strip()
+                        if stripped.startswith("<AUTOSAR") and not stripped.endswith(">"):
+                            joined = stripped
+                            i += 1
+                            while i < len(lines):
+                                joined += " " + lines[i].strip()
+                                if lines[i].strip().endswith(">"):
+                                    break
+                                i += 1
+                            normalized.append(" ".join(joined.split()) + "\n")
+                        else:
+                            normalized.append(lines[i])
+                        i += 1
+                    return normalized
+
                 # Apply normalization before comparison
-                original_lines = normalize_xml_entities(original_lines)
-                generated_lines = normalize_xml_entities(generated_lines)
+                original_lines = normalize_xml_declaration_and_root(normalize_xml_entities(original_lines))
+                generated_lines = normalize_xml_declaration_and_root(normalize_xml_entities(generated_lines))
 
                 # Compare line by line
                 if len(original_lines) != len(generated_lines):

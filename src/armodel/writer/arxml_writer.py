@@ -256,6 +256,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     InstanceReferenceValue,
     IntegerValue,
     LinkerSymbolValue,
+    ModuleConfiguration,
     ParameterValue,
     StringValue,
 )
@@ -11272,6 +11273,20 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for sub_container in sub_containers:
                     self.writeContainer(wrapper_element, sub_container)
 
+    def writeModuleConfiguration(self, element: ET.Element, module_configuration: ModuleConfiguration):
+        """Write an R3.2.3 <MODULE-CONFIGURATION> element (Table 3.30): DEFINITION-REF, IMPLEMENTATION-CONFIG-VARIANT, MODULE-DESCRIPTION-REF, CONTAINERS."""
+        if module_configuration is not None:
+            child_element = ET.SubElement(element, "MODULE-CONFIGURATION")
+            self.writeIdentifiable(child_element, module_configuration)
+            self.setChildElementOptionalRefType(child_element, "DEFINITION-REF", module_configuration.getDefinitionRef())
+            self.setChildElementOptionalLiteral(child_element, "IMPLEMENTATION-CONFIG-VARIANT", module_configuration.getImplementationConfigVariant())
+            self.setChildElementOptionalRefType(child_element, "MODULE-DESCRIPTION-REF", module_configuration.getModuleDescriptionRef())
+            containers = module_configuration.getContainers()
+            if len(containers) > 0:
+                wrapper_element = ET.SubElement(child_element, "CONTAINERS")
+                for container in containers:
+                    self.writeContainer(wrapper_element, container)
+
     def writeEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())
         self.setChildElementOptionalPositiveInteger(element, "INDEX", param_value.getIndex())
@@ -12580,6 +12595,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEcucDestinationUriDefSet(element, ar_element)
         elif isinstance(ar_element, EcucModuleConfigurationValues):
             self.writeEcucModuleConfigurationValues(element, ar_element)
+        elif isinstance(ar_element, ModuleConfiguration):
+            self.writeModuleConfiguration(element, ar_element)
         elif isinstance(ar_element, SwSystemconst):
             self.writeSwSystemconst(element, ar_element)
         elif isinstance(ar_element, SwSystemconstantValueSet):
