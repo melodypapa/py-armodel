@@ -611,9 +611,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment, RoleBasedPortAssignment, SwcServiceDependency
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutine
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.InterpolationRoutineMappingSet import InterpolationRoutine, InterpolationRoutineMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition, ClientIdDefinitionSet, SwcToEcuMapping, System, SystemMapping
-
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecCompositeTypeMapping,
     SenderReceiverToSignalGroupMapping,
@@ -10902,6 +10901,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", interpolation_routine.getShortLabel())
         self.setChildElementOptionalBooleanValue(child_element, "IS-DEFAULT", interpolation_routine.getIsDefault())
         self.setChildElementOptionalRefType(child_element, "INTERPOLATION-ROUTINE-REF", interpolation_routine.getInterpolationRoutineRef())
+
+    def writeInterpolationRoutineMapping(self, element: ET.Element, mapping: InterpolationRoutineMapping):
+        self.logger.debug("Write InterpolationRoutineMapping")
+        child_element = ET.SubElement(element, "INTERPOLATION-ROUTINE-MAPPING")
+        routines = mapping.getInterpolationRoutines()
+        if len(routines) > 0:
+            routines_tag = ET.SubElement(child_element, "INTERPOLATION-ROUTINES")
+            for routine in routines:
+                self.writeInterpolationRoutine(routines_tag, routine)
+        self.setChildElementOptionalRefType(child_element, "SW-RECORD-LAYOUT-REF", mapping.getSwRecordLayoutRef())
 
     def writeSystem(self, element: ET.Element, system: System):
         self.logger.debug("Write System %s" % system.getShortName())

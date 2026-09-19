@@ -644,6 +644,41 @@ class TestAdminDataAndReferrableHandlers:
         assert routine.getIsDefault() is None
         assert routine.getInterpolationRoutineRef() is None
 
+    def test_readInterpolationRoutineMapping_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutineMapping
+
+        mapping = InterpolationRoutineMapping()
+        element = _snip(
+            "<INTERPOLATION-ROUTINES>"
+            "<INTERPOLATION-ROUTINE>"
+            "<SHORT-LABEL>LinearInterpolation</SHORT-LABEL>"
+            '<INTERPOLATION-ROUTINE-REF DEST="BSW-MODULE-ENTRY">/BswM/BswEntries/InterpolationEntry</INTERPOLATION-ROUTINE-REF>'
+            "</INTERPOLATION-ROUTINE>"
+            "<INTERPOLATION-ROUTINE>"
+            "<SHORT-LABEL>TableLookup</SHORT-LABEL>"
+            "</INTERPOLATION-ROUTINE>"
+            "</INTERPOLATION-ROUTINES>"
+            '<SW-RECORD-LAYOUT-REF DEST="SW-RECORD-LAYOUT">/Package/SwRecordLayouts/Layout1</SW-RECORD-LAYOUT-REF>',
+            root_tag="INTERPOLATION-ROUTINE-MAPPING",
+        )
+        parser.readInterpolationRoutineMapping(element, mapping)
+        routines = mapping.getInterpolationRoutines()
+        assert len(routines) == 2
+        assert routines[0].getShortLabel().getValue() == "LinearInterpolation"
+        assert routines[0].getInterpolationRoutineRef().getValue() == "/BswM/BswEntries/InterpolationEntry"
+        assert routines[1].getShortLabel().getValue() == "TableLookup"
+        assert mapping.getSwRecordLayoutRef().getDest() == "SW-RECORD-LAYOUT"
+        assert mapping.getSwRecordLayoutRef().getValue() == "/Package/SwRecordLayouts/Layout1"
+
+    def test_readInterpolationRoutineMapping_empty(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutineMapping
+
+        mapping = InterpolationRoutineMapping()
+        element = _snip("", root_tag="INTERPOLATION-ROUTINE-MAPPING")
+        parser.readInterpolationRoutineMapping(element, mapping)
+        assert mapping.getInterpolationRoutines() == []
+        assert mapping.getSwRecordLayoutRef() is None
+
     def test_getAutosarVariableRef_with_iref(self, parser):
         element = _snip(
             "<ACCESSED-VARIABLE>"
