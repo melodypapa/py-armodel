@@ -11927,13 +11927,22 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_tag, "FUNCTIONAL-REQUEST-REF", ref)
 
+    def writeDiagnosticConnectionPeriodicResponseUudtRefs(self, element: ET.Element, connection: DiagnosticConnection):
+        refs = connection.getPeriodicResponseUudtRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "PERIODIC-RESPONSE-UUDT-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "PERIODIC-RESPONSE-UUDT-REF", ref)
+
     def writeDiagnosticConnection(self, element: ET.Element, connection: DiagnosticConnection):
         self.logger.debug("Write DiagnosticConnection %s" % connection.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-CONNECTION")
         self.writeIdentifiable(child_element, connection)
         self.writeDiagnosticConnectionFunctionalRequestRefs(child_element, connection)
+        self.writeDiagnosticConnectionPeriodicResponseUudtRefs(child_element, connection)
         self.setChildElementOptionalRefType(child_element, "PHYSICAL-REQUEST-REF", connection.getPhysicalRequestRef())
-        self.setChildElementOptionalRefType(child_element, "RESPONSE-REF", connection.getResponseOnEventRef())
+        self.setChildElementOptionalRefType(child_element, "RESPONSE-REF", connection.getResponseRef())
+        self.setChildElementOptionalRefType(child_element, "RESPONSE-ON-EVENT-REF", connection.getResponseOnEventRef())
 
     def writeDiagnosticServiceTableDiagnosticConnectionRefs(self, element: ET.Element, table: DiagnosticServiceTable):
         refs = table.getDiagnosticConnectionRefs()

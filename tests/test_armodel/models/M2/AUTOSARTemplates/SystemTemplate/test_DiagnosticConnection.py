@@ -1,6 +1,9 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
+
+SPEC_NOTE = "DiagnosticConncection that is used to describe the relationship between several TP connections."
 
 
 class MockParent(ARObject):
@@ -10,6 +13,14 @@ class MockParent(ARObject):
 
 class Test_DiagnosticConnection:
     """Test cases for DiagnosticConnection class."""
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (DEXT Table 4.17)"""
+        assert DiagnosticConnection.__doc__.strip() == SPEC_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert DiagnosticConnection.__init__.__doc__ is None
 
     def test_DiagnosticConnection(self):
         """Test DiagnosticConnection class functionality."""
@@ -46,3 +57,21 @@ class Test_DiagnosticConnection:
 
         diag_conn.setResponseOnEventRef(mock_ref1)
         assert diag_conn.getResponseOnEventRef() == mock_ref1
+
+    def test_setters_none_is_noop(self):
+        """Test that guarded setters ignore None (round-trip + None no-op)"""
+        parent = MockParent()
+        conn = DiagnosticConnection(parent, "conn")
+        ref = RefType().setValue("/Tp/Conn")
+
+        conn.setPhysicalRequestRef(ref)
+        conn.setPhysicalRequestRef(None)
+        assert conn.getPhysicalRequestRef() == ref
+
+        conn.setResponseRef(ref)
+        conn.setResponseRef(None)
+        assert conn.getResponseRef() == ref
+
+        conn.setResponseOnEventRef(ref)
+        conn.setResponseOnEventRef(None)
+        assert conn.getResponseOnEventRef() == ref

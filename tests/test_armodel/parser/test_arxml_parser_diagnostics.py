@@ -217,6 +217,28 @@ class TestDiagnosticConnectionGaps:
         parser.readDiagnosticConnectionFunctionalRequestRefs(element, conn)
         assert len(conn.getFunctionalRequestRefs()) == 1
 
+    def test_readDiagnosticConnection_full(self, parser):
+        from armodel.models import DiagnosticConnection
+
+        conn = DiagnosticConnection(parent=MagicMock(), short_name="Dc")
+        element = _snip(
+            "<FUNCTIONAL-REQUEST-REFS>"
+            '<FUNCTIONAL-REQUEST-REF DEST="DIAGNOSTIC-REQUEST">/fr</FUNCTIONAL-REQUEST-REF>'
+            "</FUNCTIONAL-REQUEST-REFS>"
+            "<PERIODIC-RESPONSE-UUDT-REFS>"
+            '<PERIODIC-RESPONSE-UUDT-REF DEST="PDU-TRIGGERING">/uudt</PERIODIC-RESPONSE-UUDT-REF>'
+            "</PERIODIC-RESPONSE-UUDT-REFS>"
+            '<PHYSICAL-REQUEST-REF DEST="DIAGNOSTIC-REQUEST">/phys</PHYSICAL-REQUEST-REF>'
+            '<RESPONSE-REF DEST="DIAGNOSTIC-REQUEST">/resp</RESPONSE-REF>'
+            '<RESPONSE-ON-EVENT-REF DEST="DIAGNOSTIC-REQUEST">/roe</RESPONSE-ON-EVENT-REF>'
+        )
+        parser.readDiagnosticConnection(element, conn)
+        assert len(conn.getFunctionalRequestRefs()) == 1
+        assert len(conn.getPeriodicResponseUudtRefs()) == 1
+        assert conn.getPhysicalRequestRef().getValue() == "/phys"
+        assert conn.getResponseRef().getValue() == "/resp"
+        assert conn.getResponseOnEventRef().getValue() == "/roe"
+
     def test_readDiagnosticServiceTableDiagnosticConnectionRefs_adds(self, parser):
         from armodel.models import DiagnosticServiceTable
 
