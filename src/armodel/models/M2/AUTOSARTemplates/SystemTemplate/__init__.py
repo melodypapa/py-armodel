@@ -656,6 +656,7 @@ class System(AtpStructureElement):
 
     # System method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 2.1, p.42
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addClientIdDefinitionSetRef                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
