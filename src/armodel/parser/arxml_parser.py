@@ -694,6 +694,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibr
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     ClientIdDefinition,
     ClientIdDefinitionSet,
+    ComManagementMapping,
     J1939SharedAddressCluster,
     CpSoftwareCluster,
     SwComponentPrototypeAssignment,
@@ -934,7 +935,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     TransmissionModeTiming,
     TriggerIPduSendCondition,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, OperationInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
+    ComponentInSystemInstanceRef,
+    OperationInSystemInstanceRef,
+    PortGroupInSystemInstanceRef,
+    VariableDataPrototypeInSystemInstanceRef,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
     CanNmCluster,
     CanNmClusterCoupling,
@@ -1658,6 +1664,18 @@ class ARXMLParser(AbstractARXMLParser):
                 instance_ref.addContextComponentRef(ref)
             instance_ref.setContextPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-REF"))
             instance_ref.setTargetOperationRef(self.getChildElementOptionalRefType(element, "TARGET-OPERATION-REF"))
+        return instance_ref
+
+    def getPortGroupInSystemInstanceRef(self, element: ET.Element) -> PortGroupInSystemInstanceRef:
+        instance_ref = None
+        if element is not None:
+            instance_ref = PortGroupInSystemInstanceRef()
+            self.readARObject(element, instance_ref)
+            instance_ref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF"))
+            instance_ref.setContextCompositionRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPOSITION-REF"))
+            for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
+                instance_ref.addContextComponentRef(ref)
+            instance_ref.setTargetRef(self.getChildElementOptionalRefType(element, "TARGET-REF"))
         return instance_ref
 
     def getAutosarVariableRef(self, element: ET.Element, key: str) -> AutosarVariableRef:
@@ -12419,9 +12437,24 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported SwImplMapping <%s>" % tag_name)
 
+    def readComManagementMapping(self, element: ET.Element, mapping: ComManagementMapping):
+        self.readIdentifiable(element, mapping)
+        for ref in self.getChildElementRefTypeList(element, "COM-MANAGEMENT-GROUP-REFS/COM-MANAGEMENT-GROUP-REF"):
+            mapping.addComManagementGroupRef(ref)
+        for iref_element in self.findall(element, "COM-MANAGEMENT-PORT-GROUP-IREFS/COM-MANAGEMENT-PORT-GROUP-IREF"):
+            mapping.addComManagementPortGroupIRef(self.getPortGroupInSystemInstanceRef(iref_element))
+        for ref in self.getChildElementRefTypeList(element, "PHYSICAL-CHANNEL-REFS/PHYSICAL-CHANNEL-REF"):
+            mapping.addPhysicalChannelRef(ref)
+
+    def readSystemMappingComManagementMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "COM-MANAGEMENT-MAPPINGS/COM-MANAGEMENT-MAPPING"):
+            com_mapping = mapping.createComManagementMapping(self.getShortName(child_element))
+            self.readComManagementMapping(child_element, com_mapping)
+
     def readSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         # self.logger.debug("Read SystemMapping <%s>" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
+        self.readSystemMappingComManagementMappings(element, mapping)
         self.readSystemMappingDataMappings(element, mapping)
         self.readSystemMappingEcuResourceMappings(element, mapping)
         self.readSystemMappingSwImplMappings(element, mapping)

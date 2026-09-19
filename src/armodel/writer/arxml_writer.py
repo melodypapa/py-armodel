@@ -619,6 +619,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibr
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     ClientIdDefinition,
     ClientIdDefinitionSet,
+    ComManagementMapping,
     J1939SharedAddressCluster,
     CpSoftwareCluster,
     SwComponentPrototypeAssignment,
@@ -833,7 +834,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     TransmissionModeTiming,
     TriggerIPduSendCondition,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, OperationInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
+    ComponentInSystemInstanceRef,
+    OperationInSystemInstanceRef,
+    PortGroupInSystemInstanceRef,
+    VariableDataPrototypeInSystemInstanceRef,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
     CanNmCluster,
     CanNmEcu,
@@ -3727,6 +3733,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", component_ref)
             self.setChildElementOptionalRefType(child_element, "CONTEXT-PORT-REF", ref.getContextPortRef())
             self.setChildElementOptionalRefType(child_element, "TARGET-OPERATION-REF", ref.getTargetOperationRef())
+
+    def setPortGroupInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: PortGroupInSystemInstanceRef):
+        if ref is not None:
+            child_element = ET.SubElement(element, tag_name)
+            self.writeARObject(child_element, ref)
+            self.setChildElementOptionalRefType(child_element, "BASE-REF", ref.getBaseRef())
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPOSITION-REF", ref.getContextCompositionRef())
+            for component_ref in ref.getContextComponentRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", component_ref)
+            self.setChildElementOptionalRefType(child_element, "TARGET-REF", ref.getTargetRef())
 
     def writeVariableAccess(self, element: ET.Element, access: VariableAccess):
         child_element = ET.SubElement(element, "VARIABLE-ACCESS")
@@ -10863,10 +10879,38 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported SwImplMapping <%s>" % type(sw_impl_mapping))
 
+    def writeComManagementMapping(self, element: ET.Element, mapping: ComManagementMapping):
+        self.writeIdentifiable(element, mapping, write_variation_point=False)
+        refs = mapping.getComManagementGroupRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "COM-MANAGEMENT-GROUP-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "COM-MANAGEMENT-GROUP-REF", ref)
+        irefs = mapping.getComManagementPortGroupIRefs()
+        if len(irefs) > 0:
+            irefs_tag = ET.SubElement(element, "COM-MANAGEMENT-PORT-GROUP-IREFS")
+            for iref in irefs:
+                self.setPortGroupInSystemInstanceRef(irefs_tag, "COM-MANAGEMENT-PORT-GROUP-IREF", iref)
+        refs = mapping.getPhysicalChannelRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "PHYSICAL-CHANNEL-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "PHYSICAL-CHANNEL-REF", ref)
+        self.writeVariationPoint(element, mapping.getVariationPoint())
+
+    def writeSystemMappingComManagementMappings(self, element: ET.Element, mapping: SystemMapping):
+        com_mappings = mapping.getComManagementMappings()
+        if len(com_mappings) > 0:
+            mappings_tag = ET.SubElement(element, "COM-MANAGEMENT-MAPPINGS")
+            for com_mapping in com_mappings:
+                child_element = ET.SubElement(mappings_tag, "COM-MANAGEMENT-MAPPING")
+                self.writeComManagementMapping(child_element, com_mapping)
+
     def writeSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         self.logger.debug("Write SystemMapping <%s>" % mapping.getShortName())
         child_element = ET.SubElement(element, "SYSTEM-MAPPING")
         self.writeIdentifiable(child_element, mapping)
+        self.writeSystemMappingComManagementMappings(child_element, mapping)
         self.writeSystemMappingDataMappings(child_element, mapping)
         self.writeSystemMappingEcuResourceMappings(child_element, mapping)
         self.writeSystemMappingSwImplMappings(child_element, mapping)

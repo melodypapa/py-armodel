@@ -1112,14 +1112,15 @@ No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 2.1 (p.42, R23-1
 | — *(missing)* | `—` | `senderToSignalTextTableMapping` | ``TextTableMapping`` | aggr | missing |
 
 ## `ComManagementMapping`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 282
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 282  | **table:** Table 5.46
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `commanagementportgrouprefs` | `—` | `comManagementPortGroup` | ``PortGroup`` | iref | type (spec many vs py single) |
-| `physicalchannelref` | `—` | `physicalChannel` | ``PhysicalChannel`` | ref | type (spec many vs py single) |
+| `comManagementPortGroupIRefs` | `List[RefType]` | `comManagementPortGroup` | `PortGroup` (InstanceRef implemented by `PortGroupInSystemInstanceRef`) | iref | class not yet implemented (`PortGroupInSystemInstanceRef`, Table B.5 image-only render; XSD group line 92195) — placeholder `RefType` per Rule 0001.10; `COM-MANAGEMENT-PORT-GROUP-IREFS` wrapper reader/writer deferred until the child class syncs |
+
+Former rows removed as resolved in-pass: `commanagementportgrouprefs` renamed to `comManagementPortGroupIRefs` (Kind iref → IRefs suffix, Rule 0001.5) and `physicalchannelref` converted to the spec-many list `physicalChannelRefs` with `addPhysicalChannelRef`/`getPhysicalChannelRefs` (Table 5.46 Mult. `*`).
 
 ## `ContainedIPduProps`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 355

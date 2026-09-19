@@ -51,6 +51,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     ComponentInSystemInstanceRef,
     OperationInSystemInstanceRef,
+    PortGroupInSystemInstanceRef,
     VariableDataPrototypeInSystemInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
@@ -1271,6 +1272,180 @@ class TestWriterISignal:
         assert s.find("I-SIGNAL-PROPS") is None
 
 
+class TestWriterJ1939SharedAddressCluster:
+    def _make_cluster(self):
+        system = _make_system()
+        cluster = system.createJ1939SharedAddressCluster("Cluster1")
+        cluster.addParticipatingJ1939ClusterRef(_ref("/Systems/J1939ClusterA", "J-1939-CLUSTER"))
+        cluster.addParticipatingJ1939ClusterRef(_ref("/Systems/J1939ClusterB", "J-1939-CLUSTER"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(Identifier().setValue("VP_CLUSTER"))
+        cluster.setVariationPoint(variation_point)
+        return system, cluster
+
+    def test_refs_wrapper_and_variation_point_in_xsd_order(self, writer):
+        system, _cluster = self._make_cluster()
+        parent = _parent()
+        writer.writeSystem(parent, system)
+        s = parent[0]
+        assert s.tag == "SYSTEM"
+        cluster_element = s.find("J-1939-SHARED-ADDRESS-CLUSTERS/J-1939-SHARED-ADDRESS-CLUSTER")
+        assert cluster_element is not None
+        tags = [c.tag for c in cluster_element]
+        assert tags.index("PARTICIPATING-J-1939-CLUSTER-REFS") < tags.index("VARIATION-POINT")
+        refs = cluster_element.findall("PARTICIPATING-J-1939-CLUSTER-REFS/PARTICIPATING-J-1939-CLUSTER-REF")
+        assert [r.text for r in refs] == ["/Systems/J1939ClusterA", "/Systems/J1939ClusterB"]
+        assert all(r.attrib["DEST"] == "J-1939-CLUSTER" for r in refs)
+        assert cluster_element.find("VARIATION-POINT/SHORT-LABEL").text == "VP_CLUSTER"
+
+    def test_empty_refs_wrapper_not_emitted(self, writer):
+        system = _make_system()
+        system.createJ1939SharedAddressCluster("Cluster1")
+        parent = _parent()
+        writer.writeSystem(parent, system)
+        cluster_element = parent[0].find("J-1939-SHARED-ADDRESS-CLUSTERS/J-1939-SHARED-ADDRESS-CLUSTER")
+        assert cluster_element is not None
+        assert cluster_element.find("PARTICIPATING-J-1939-CLUSTER-REFS") is None
+
+    def test_round_trip_refs_and_variation_point(self, tmp_path):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        system, _cluster = self._make_cluster()
+
+        file_path = str(tmp_path / "j1939_cluster_round_trip.arxml")
+        ARXMLWriter().save(file_path, document)
+
+        document_2 = AUTOSAR.getInstance()
+        document_2.clear()
+        ARXMLParser().load(file_path, document_2)
+
+        system_2 = document_2.getARPackages()[0].getElement("Sys")
+        assert system_2 is not None
+        clusters = system_2.getJ1939SharedAddressClusters()
+        assert len(clusters) == 1
+        cluster_2 = clusters[0]
+        assert cluster_2.getShortName() == "Cluster1"
+        refs = cluster_2.getParticipatingJ1939ClusterRefs()
+        assert len(refs) == 2
+        assert refs[0].getValue() == "/Systems/J1939ClusterA"
+        assert refs[0].getDest() == "J-1939-CLUSTER"
+        assert refs[1].getValue() == "/Systems/J1939ClusterB"
+        assert refs[1].getDest() == "J-1939-CLUSTER"
+        assert cluster_2.getVariationPoint().getShortLabel().getValue() == "VP_CLUSTER"
+
+
+class TestWriterComManagementMapping:
+    def _make_com_mapping(self):
+        system = _make_system()
+        system_mapping = system.createSystemMapping("SM")
+        com_mapping = system_mapping.createComManagementMapping("ComMapping1")
+        com_mapping.addComManagementGroupRef(_ref("/Systems/IPduGroupA", "I-SIGNAL-I-PDU-GROUP"))
+        com_mapping.addComManagementGroupRef(_ref("/Systems/IPduGroupB", "I-SIGNAL-I-PDU-GROUP"))
+        iref1 = PortGroupInSystemInstanceRef()
+        iref1.setContextCompositionRef(_ref("/Systems/RootSwCompositionPrototype", "ROOT-SW-COMPOSITION-PROTOTYPE"))
+        iref1.addContextComponentRef(_ref("/Systems/RootSwCompositionPrototype/Comp1", "SW-COMPONENT-PROTOTYPE"))
+        iref1.addContextComponentRef(_ref("/Systems/RootSwCompositionPrototype/Comp1/NestedComp", "SW-COMPONENT-PROTOTYPE"))
+        iref1.setTargetRef(_ref("/Systems/RootSwCompositionPrototype/Comp1/PG", "PORT-GROUP"))
+        iref2 = PortGroupInSystemInstanceRef()
+        iref2.setTargetRef(_ref("/Systems/RootSwCompositionPrototype/Comp2/PG2", "PORT-GROUP"))
+        com_mapping.addComManagementPortGroupIRef(iref1)
+        com_mapping.addComManagementPortGroupIRef(iref2)
+        com_mapping.addPhysicalChannelRef(_ref("/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel", "CAN-COMMUNICATION-CONNECTOR"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(Identifier().setValue("VP_COMMAP"))
+        com_mapping.setVariationPoint(variation_point)
+        return system, com_mapping
+
+    def test_wrappers_and_variation_point_in_xsd_order(self, writer):
+        system, _com_mapping = self._make_com_mapping()
+        parent = _parent()
+        writer.writeSystem(parent, system)
+        s = parent[0]
+        assert s.tag == "SYSTEM"
+        mapping_element = s.find("MAPPINGS/SYSTEM-MAPPING")
+        assert mapping_element is not None
+        tags = [c.tag for c in mapping_element]
+        assert "COM-MANAGEMENT-MAPPINGS" in tags
+        if "DATA-MAPPINGS" in tags:
+            assert tags.index("COM-MANAGEMENT-MAPPINGS") < tags.index("DATA-MAPPINGS")
+        com_element = mapping_element.find("COM-MANAGEMENT-MAPPINGS/COM-MANAGEMENT-MAPPING")
+        assert com_element is not None
+        child_tags = [c.tag for c in com_element]
+        assert child_tags.index("COM-MANAGEMENT-GROUP-REFS") < child_tags.index("COM-MANAGEMENT-PORT-GROUP-IREFS") < child_tags.index("PHYSICAL-CHANNEL-REFS") < child_tags.index("VARIATION-POINT")
+        group_refs = com_element.findall("COM-MANAGEMENT-GROUP-REFS/COM-MANAGEMENT-GROUP-REF")
+        assert [r.text for r in group_refs] == ["/Systems/IPduGroupA", "/Systems/IPduGroupB"]
+        assert all(r.attrib["DEST"] == "I-SIGNAL-I-PDU-GROUP" for r in group_refs)
+        iref_elements = com_element.findall("COM-MANAGEMENT-PORT-GROUP-IREFS/COM-MANAGEMENT-PORT-GROUP-IREF")
+        assert len(iref_elements) == 2
+        composition_ref = iref_elements[0].find("CONTEXT-COMPOSITION-REF")
+        assert composition_ref.text == "/Systems/RootSwCompositionPrototype"
+        assert composition_ref.attrib["DEST"] == "ROOT-SW-COMPOSITION-PROTOTYPE"
+        comp_refs = iref_elements[0].findall("CONTEXT-COMPONENT-REF")
+        assert [r.text for r in comp_refs] == ["/Systems/RootSwCompositionPrototype/Comp1", "/Systems/RootSwCompositionPrototype/Comp1/NestedComp"]
+        assert all(r.attrib["DEST"] == "SW-COMPONENT-PROTOTYPE" for r in comp_refs)
+        assert iref_elements[0].find("TARGET-REF").text == "/Systems/RootSwCompositionPrototype/Comp1/PG"
+        assert iref_elements[0].find("TARGET-REF").attrib["DEST"] == "PORT-GROUP"
+        assert iref_elements[1].find("CONTEXT-COMPOSITION-REF") is None
+        assert iref_elements[1].findall("CONTEXT-COMPONENT-REF") == []
+        assert iref_elements[1].find("TARGET-REF").text == "/Systems/RootSwCompositionPrototype/Comp2/PG2"
+        channel_refs = com_element.findall("PHYSICAL-CHANNEL-REFS/PHYSICAL-CHANNEL-REF")
+        assert [r.text for r in channel_refs] == ["/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel"]
+        assert all(r.attrib["DEST"] == "CAN-COMMUNICATION-CONNECTOR" for r in channel_refs)
+        assert com_element.find("VARIATION-POINT/SHORT-LABEL").text == "VP_COMMAP"
+
+    def test_empty_refs_wrappers_not_emitted(self, writer):
+        system = _make_system()
+        system.createSystemMapping("SM").createComManagementMapping("ComMapping1")
+        parent = _parent()
+        writer.writeSystem(parent, system)
+        com_element = parent[0].find("MAPPINGS/SYSTEM-MAPPING/COM-MANAGEMENT-MAPPINGS/COM-MANAGEMENT-MAPPING")
+        assert com_element is not None
+        assert com_element.find("COM-MANAGEMENT-GROUP-REFS") is None
+        assert com_element.find("COM-MANAGEMENT-PORT-GROUP-IREFS") is None
+        assert com_element.find("PHYSICAL-CHANNEL-REFS") is None
+
+    def test_round_trip_refs_and_variation_point(self, tmp_path):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        system, _com_mapping = self._make_com_mapping()
+
+        file_path = str(tmp_path / "com_management_mapping_round_trip.arxml")
+        ARXMLWriter().save(file_path, document)
+
+        document_2 = AUTOSAR.getInstance()
+        document_2.clear()
+        ARXMLParser().load(file_path, document_2)
+
+        system_2 = document_2.getARPackages()[0].getElement("Sys")
+        assert system_2 is not None
+        com_mappings = system_2.getMappings()[0].getComManagementMappings()
+        assert len(com_mappings) == 1
+        com_mapping_2 = com_mappings[0]
+        assert com_mapping_2.getShortName() == "ComMapping1"
+        group_refs = com_mapping_2.getComManagementGroupRefs()
+        assert [r.getValue() for r in group_refs] == ["/Systems/IPduGroupA", "/Systems/IPduGroupB"]
+        assert all(r.getDest() == "I-SIGNAL-I-PDU-GROUP" for r in group_refs)
+        irefs = com_mapping_2.getComManagementPortGroupIRefs()
+        assert len(irefs) == 2
+        assert irefs[0].getContextCompositionRef().getValue() == "/Systems/RootSwCompositionPrototype"
+        assert [r.getValue() for r in irefs[0].getContextComponentRefs()] == ["/Systems/RootSwCompositionPrototype/Comp1", "/Systems/RootSwCompositionPrototype/Comp1/NestedComp"]
+        assert irefs[0].getTargetRef().getValue() == "/Systems/RootSwCompositionPrototype/Comp1/PG"
+        assert irefs[0].getTargetRef().getDest() == "PORT-GROUP"
+        assert irefs[1].getContextCompositionRef() is None
+        assert irefs[1].getContextComponentRefs() == []
+        assert irefs[1].getTargetRef().getValue() == "/Systems/RootSwCompositionPrototype/Comp2/PG2"
+        channel_refs = com_mapping_2.getPhysicalChannelRefs()
+        assert [r.getValue() for r in channel_refs] == ["/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel"]
+        assert all(r.getDest() == "CAN-COMMUNICATION-CONNECTOR" for r in channel_refs)
+        assert com_mapping_2.getVariationPoint().getShortLabel().getValue() == "VP_COMMAP"
+
+
 class TestWriterOperationInSystemInstanceRef:
     def test_full(self, writer):
         iref = OperationInSystemInstanceRef()
@@ -1429,72 +1604,6 @@ class TestWriterClientIdDefinitionSet:
         package_2 = document_2.getARPackages()[0]
         id_definition_set_2 = package_2.getElement("IDS1", ClientIdDefinitionSet)
         assert id_definition_set_2 is not None
-
-
-class TestWriterJ1939SharedAddressCluster:
-    def _make_cluster(self):
-        system = _make_system()
-        cluster = system.createJ1939SharedAddressCluster("Cluster1")
-        cluster.addParticipatingJ1939ClusterRef(_ref("/Systems/J1939ClusterA", "J-1939-CLUSTER"))
-        cluster.addParticipatingJ1939ClusterRef(_ref("/Systems/J1939ClusterB", "J-1939-CLUSTER"))
-        variation_point = VariationPoint()
-        variation_point.setShortLabel(Identifier().setValue("VP_CLUSTER"))
-        cluster.setVariationPoint(variation_point)
-        return system, cluster
-
-    def test_refs_wrapper_and_variation_point_in_xsd_order(self, writer):
-        system, _cluster = self._make_cluster()
-        parent = _parent()
-        writer.writeSystem(parent, system)
-        s = parent[0]
-        assert s.tag == "SYSTEM"
-        cluster_element = s.find("J-1939-SHARED-ADDRESS-CLUSTERS/J-1939-SHARED-ADDRESS-CLUSTER")
-        assert cluster_element is not None
-        tags = [c.tag for c in cluster_element]
-        assert tags.index("PARTICIPATING-J-1939-CLUSTER-REFS") < tags.index("VARIATION-POINT")
-        refs = cluster_element.findall("PARTICIPATING-J-1939-CLUSTER-REFS/PARTICIPATING-J-1939-CLUSTER-REF")
-        assert [r.text for r in refs] == ["/Systems/J1939ClusterA", "/Systems/J1939ClusterB"]
-        assert all(r.attrib["DEST"] == "J-1939-CLUSTER" for r in refs)
-        assert cluster_element.find("VARIATION-POINT/SHORT-LABEL").text == "VP_CLUSTER"
-
-    def test_empty_refs_wrapper_not_emitted(self, writer):
-        system = _make_system()
-        system.createJ1939SharedAddressCluster("Cluster1")
-        parent = _parent()
-        writer.writeSystem(parent, system)
-        cluster_element = parent[0].find("J-1939-SHARED-ADDRESS-CLUSTERS/J-1939-SHARED-ADDRESS-CLUSTER")
-        assert cluster_element is not None
-        assert cluster_element.find("PARTICIPATING-J-1939-CLUSTER-REFS") is None
-
-    def test_round_trip_refs_and_variation_point(self, tmp_path):
-        from armodel.parser.arxml_parser import ARXMLParser
-
-        AUTOSAR.getInstance().setARRelease("R23-11")
-        document = AUTOSAR.getInstance()
-        document.clear()
-        system, _cluster = self._make_cluster()
-
-        file_path = str(tmp_path / "j1939_cluster_round_trip.arxml")
-        ARXMLWriter().save(file_path, document)
-
-        document_2 = AUTOSAR.getInstance()
-        document_2.clear()
-        ARXMLParser().load(file_path, document_2)
-
-        system_2 = document_2.getARPackages()[0].getElement("Sys")
-        assert system_2 is not None
-        clusters = system_2.getJ1939SharedAddressClusters()
-        assert len(clusters) == 1
-        cluster_2 = clusters[0]
-        assert cluster_2.getShortName() == "Cluster1"
-
-        refs = cluster_2.getParticipatingJ1939ClusterRefs()
-        assert len(refs) == 2
-        assert refs[0].getValue() == "/Systems/J1939ClusterA"
-        assert refs[0].getDest() == "J-1939-CLUSTER"
-        assert refs[1].getValue() == "/Systems/J1939ClusterB"
-        assert refs[1].getDest() == "J-1939-CLUSTER"
-        assert cluster_2.getVariationPoint().getShortLabel().getValue() == "VP_CLUSTER"
 
 
 class TestWriterInterpolationRoutine:
