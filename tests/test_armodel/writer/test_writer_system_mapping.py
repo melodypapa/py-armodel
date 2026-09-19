@@ -1914,3 +1914,36 @@ class TestWriterUdpProps:
         child = parent.find("UDP-PROPS")
         assert child is not None
         assert len(child) == 0
+
+
+class TestWriterEthTcpIpProps:
+    """Tests for writeEthTcpIpProps handler (R23-11 EthTcpIpProps, Table 3.109, p.153)."""
+
+    def test_children_in_xsd_order(self, writer):
+        pkg = AUTOSAR.getInstance().createARPackage("EthPropsPkg")
+        props = pkg.createEthTcpIpProps("Props1")
+        tcp = TcpProps()
+        tcp.setTcpTtl(_positive_int(64))
+        props.setTcpProps(tcp)
+        udp = UdpProps()
+        udp.setUdpTtl(_positive_int(32))
+        props.setUdpProps(udp)
+
+        parent = _parent()
+        writer.writeEthTcpIpProps(parent, props)
+        child = parent.find("ETH-TCP-IP-PROPS")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "Props1"
+        assert [c.tag for c in child if c.tag in ("TCP-PROPS", "UDP-PROPS")] == ["TCP-PROPS", "UDP-PROPS"]
+        assert child.find("TCP-PROPS/TCP-TTL").text == "64"
+        assert child.find("UDP-PROPS/UDP-TTL").text == "32"
+
+    def test_empty_children_omitted(self, writer):
+        pkg = AUTOSAR.getInstance().createARPackage("EthPropsPkg2")
+        props = pkg.createEthTcpIpProps("Props1")
+        parent = _parent()
+        writer.writeEthTcpIpProps(parent, props)
+        child = parent.find("ETH-TCP-IP-PROPS")
+        assert child is not None
+        assert child.find("TCP-PROPS") is None
+        assert child.find("UDP-PROPS") is None

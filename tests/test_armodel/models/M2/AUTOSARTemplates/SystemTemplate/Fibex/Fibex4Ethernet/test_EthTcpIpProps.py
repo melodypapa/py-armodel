@@ -2,13 +2,14 @@
 
 import inspect
 
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
     TimeValue,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import TcpProps, UdpProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthTcpIpProps, TcpProps, UdpProps
 
 
 class TestTcpProps:
@@ -122,3 +123,50 @@ class TestUdpProps:
         assert obj.getUdpTtl() == value
         obj.setUdpTtl(None)
         assert obj.getUdpTtl() == value
+
+
+class TestEthTcpIpProps:
+    """
+    Test class for EthTcpIpProps functionality.
+
+    Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.109, p.153 (R23-11)
+    """
+
+    def test_inheritance(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+        assert issubclass(EthTcpIpProps, ARElement)
+
+    def test_class_docstring_note(self):
+        expected = "This meta-class is used to configure the EcuInstance specific TcpIp Stack attributes." " Tags: atp.recommendedPackage=EthTcpIpProps"
+        assert inspect.cleandoc(EthTcpIpProps.__doc__) == expected
+
+    def test_initialization_defaults(self):
+        pkg = AUTOSAR.getInstance().createARPackage("EthTcpIpPropsPkg")
+        obj = EthTcpIpProps(pkg, "TcpIpProps1")
+        assert obj.getTcpProps() is None
+        assert obj.getUdpProps() is None
+
+    def test_get_set_tcp_props(self):
+        pkg = AUTOSAR.getInstance().createARPackage("EthTcpIpPropsPkg")
+        obj = EthTcpIpProps(pkg, "TcpIpProps1")
+        tcp = TcpProps()
+        result = obj.setTcpProps(tcp)
+        assert result is obj
+        assert obj.getTcpProps() is tcp
+        obj.setTcpProps(None)
+        assert obj.getTcpProps() is tcp
+
+    def test_get_set_udp_props(self):
+        pkg = AUTOSAR.getInstance().createARPackage("EthTcpIpPropsPkg")
+        obj = EthTcpIpProps(pkg, "TcpIpProps1")
+        udp = UdpProps()
+        obj.setUdpProps(udp)
+        assert obj.getUdpProps() is udp
+
+    def test_arpackage_factory(self):
+        pkg = AUTOSAR.getInstance().createARPackage("EthTcpIpPropsPkg2")
+        props = pkg.createEthTcpIpProps("Props1")
+        assert isinstance(props, EthTcpIpProps)
+        again = pkg.createEthTcpIpProps("Props1")
+        assert again is props

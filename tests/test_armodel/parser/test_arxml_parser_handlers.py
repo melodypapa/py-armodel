@@ -25,7 +25,7 @@ from armodel.models import (
     InstanceEventInCompositionInstanceRef,
     InstantiationTimingEventProps,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import TcpProps, UdpProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthTcpIpProps, TcpProps, UdpProps
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -2573,3 +2573,40 @@ class TestReadUdpProps:
         props = UdpProps()
         parser.readUdpProps(element, props)
         assert props.getUdpTtl() is None
+
+
+class TestReadEthTcpIpProps:
+    """Tests for readEthTcpIpProps handler (R23-11 EthTcpIpProps, Table 3.109, p.153)."""
+
+    def test_read_eth_tcp_ip_props_full(self, parser):
+
+        element = _snip(
+            """
+                <SHORT-NAME>Props1</SHORT-NAME>
+                <TCP-PROPS>
+                    <TCP-TTL>64</TCP-TTL>
+                </TCP-PROPS>
+                <UDP-PROPS>
+                    <UDP-TTL>32</UDP-TTL>
+                </UDP-PROPS>
+            """,
+            root_tag="ETH-TCP-IP-PROPS",
+        )
+        props = EthTcpIpProps(parent=_autosar_root(), short_name="Props1")
+        parser.readEthTcpIpProps(element, props)
+        assert props.getTcpProps() is not None
+        assert props.getTcpProps().getTcpTtl().getValue() == 64
+        assert props.getUdpProps() is not None
+        assert props.getUdpProps().getUdpTtl().getValue() == 32
+
+    def test_read_eth_tcp_ip_props_empty(self, parser):
+        element = _snip(
+            """
+                <SHORT-NAME>Props1</SHORT-NAME>
+            """,
+            root_tag="ETH-TCP-IP-PROPS",
+        )
+        props = EthTcpIpProps(parent=_autosar_root(), short_name="Props1")
+        parser.readEthTcpIpProps(element, props)
+        assert props.getTcpProps() is None
+        assert props.getUdpProps() is None

@@ -291,15 +291,16 @@ markers were STRIPPED here; all stamps are deferred to one batch confirmation (u
   - [x] Step 8 — Deviations — **none**
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (303 touched tests, lint/black clean, parity OK); 9b DEFERRED to batch stamp confirmation (user-instructed)
 - [ ] `EthTcpIpProps` (dependency of EcuInstance, Table 3.109 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.109 · member type of `EcuInstance.tcpIpProps` below · added by 2026-09-19 Group5 dependency audit)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - **Step 1 finding:** PDF p.153 Table 3.109; Package EthernetTopology leaf; Note "This meta-class is used to configure the EcuInstance specific TcpIp Stack attributes." + Tags tail atp.recommendedPackage=EthTcpIpProps; Base chain → most-derived ARElement (ARPackage-aggregatable, XSD element L5284 in AR-PACKAGE/ELEMENTS choice); 2 attrs displayed order: tcpProps (TcpProps, 0..1, aggr — XSD element TCP-PROPS, "TCP configuration properties") + udpProps (UdpProps, 0..1, aggr — XSD element UDP-PROPS, "UDP configuration properties"); group ETH-TCP-IP-PROPS L55930 = TCP-PROPS then UDP-PROPS.
+  - [x] Step 1 — Sync members & description from spec — verified 2026-09-20 (see finding above)
+  - [x] Step 2 — Write model class unit test (Red) — 6 tests in TestEthTcpIpProps (inheritance ARElement/class-docstring-note incl. Tags tail/initialization/get-set tcpProps + udpProps with None no-op/ARPackage.createEthTcpIpProps duplicate protection); Red = ImportError
+  - [x] Step 3 — Implement model class (Green) — `class EthTcpIpProps(ARElement)` inserted before UdpProps in EthernetTopology.py (ARElement import added to module); ARPackage.createEthTcpIpProps factory (type-qualified IsElementExists) + delayed import; test file renamed test_TcpUdpProps.py → test_EthTcpIpProps.py; 17/17 green
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — docstrings written verbatim in-pass (wipe vacuous); child Notes "TCP/UDP configuration properties" verbatim; setter None-no-op sentences; __init__ docless
+  - [x] Step 5 — Write reader/writer round-trip test — 2 parser tests (full TCP-TTL/UDP-TTL values/empty) + 2 writer tests (children XSD order incl. nested text/empty children omitted); batch-pass disclosure: handlers written alongside tests
+  - [x] Step 6 — Update parser & writer (Green) — readEthTcpIpProps (readIdentifiable → TCP-PROPS find → TcpProps + readTcpProps → UDP-PROPS → UdpProps + readUdpProps) + ARPackage ELEMENTS dispatch "ETH-TCP-IP-PROPS" before ECUC-MODULE-CONFIGURATION-VALUES; writeEthTcpIpProps self-tagging (writeIdentifiable → conditional writeTcpProps/writeUdpProps) + isinstance dispatch after ModuleConfiguration; dispatch test param ("EthTcpIpProps", "ETH-TCP-IP-PROPS"); 426 touched tests green
+  - [x] Step 7 — Update checklist comment — 5 rows all [x], release R23-11; stamp deferred to batch confirmation
+  - [x] Step 8 — Deviations — **none**
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (426 touched tests incl. dispatch, lint/black/parity clean); 9b DEFERRED to batch stamp confirmation (user-instructed)
 - [ ] `TcpIpIcmpv4Props` (dependency of EcuInstance, Table 3.113 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.113 · member type of `EthTcpIpIcmpProps.icmpV4Props` below · added by 2026-09-19 Group5 dependency audit)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

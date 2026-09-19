@@ -749,6 +749,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    EthTcpIpProps,
     CouplingPort,
     CouplingPortAbstractShaper,
     CouplingPortConnection,
@@ -9366,6 +9367,20 @@ class ARXMLParser(AbstractARXMLParser):
         """Read an R23-11 <UDP-PROPS> element (Table 3.110, p.154): single optional UDP-TTL."""
         props.setUdpTtl(self.getChildElementOptionalPositiveInteger(element, "UDP-TTL"))
 
+    def readEthTcpIpProps(self, element: ET.Element, props: EthTcpIpProps):
+        """Read an R23-11 <ETH-TCP-IP-PROPS> element (Table 3.109, p.153): SHORT-NAME, TCP-PROPS, UDP-PROPS."""
+        self.readIdentifiable(element, props)
+        child_element = self.find(element, "TCP-PROPS")
+        if child_element is not None:
+            tcp_props = TcpProps()
+            self.readTcpProps(child_element, tcp_props)
+            props.setTcpProps(tcp_props)
+        child_element = self.find(element, "UDP-PROPS")
+        if child_element is not None:
+            udp_props = UdpProps()
+            self.readUdpProps(child_element, udp_props)
+            props.setUdpProps(udp_props)
+
     def readTcpProps(self, element: ET.Element, props: TcpProps):
         """Read an R23-11 <TCP-PROPS> element (Table 3.111, p.155): 18 optional attributes in XSD order."""
         props.setTcpCongestionAvoidanceEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-CONGESTION-AVOIDANCE-ENABLED"))
@@ -13045,6 +13060,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECUC-VALUE-COLLECTION":
                 collection = parent.createEcucValueCollection(self.getShortName(child_element))
                 self.readEcucValueCollection(child_element, collection)
+            elif tag_name == "ETH-TCP-IP-PROPS":
+                props = parent.createEthTcpIpProps(self.getShortName(child_element))
+                self.readEthTcpIpProps(child_element, props)
             elif tag_name == "ECUC-MODULE-CONFIGURATION-VALUES":
                 values = parent.createEcucModuleConfigurationValues(self.getShortName(child_element))
                 self.readEcucModuleConfigurationValues(child_element, values)

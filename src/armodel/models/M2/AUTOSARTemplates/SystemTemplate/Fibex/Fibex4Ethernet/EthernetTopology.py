@@ -5,6 +5,7 @@ from abc import ABC
 from typing import TYPE_CHECKING, List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
@@ -3261,6 +3262,53 @@ class EthernetPhysicalChannel(PhysicalChannel):
             self.vlan = config
             self.addElement(config)
         return self.getElement(short_name, VlanConfig)
+
+
+class EthTcpIpProps(ARElement):
+    """This meta-class is used to configure the EcuInstance specific TcpIp Stack attributes. Tags: atp.recommendedPackage=EthTcpIpProps"""
+
+    # EthTcpIpProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.109, p.153 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTcpProps     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpProps     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUdpProps     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUdpProps     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Aggregated by ARPackage.element (XSD L5284) → ARPackage.createEthTcpIpProps factory.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # TCP configuration properties
+        self.tcpProps: Optional[TcpProps] = None
+
+        # UDP configuration properties
+        self.udpProps: Optional[UdpProps] = None
+
+    def getTcpProps(self) -> Optional[TcpProps]:
+        """TCP configuration properties"""
+        return self.tcpProps
+
+    def setTcpProps(self, value: Optional[TcpProps]) -> "EthTcpIpProps":
+        """TCP configuration properties
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.tcpProps = value
+        return self
+
+    def getUdpProps(self) -> Optional[UdpProps]:
+        """UDP configuration properties"""
+        return self.udpProps
+
+    def setUdpProps(self, value: Optional[UdpProps]) -> "EthTcpIpProps":
+        """UDP configuration properties
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.udpProps = value
+        return self
 
 
 class UdpProps(ARObject):

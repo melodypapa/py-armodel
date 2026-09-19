@@ -137,6 +137,7 @@ ELEMENT_TYPES_AND_TAGS = [
     ("EcucDefinitionCollection", "ECUC-DEFINITION-COLLECTION"),
     ("EcucModuleConfigurationValues", "ECUC-MODULE-CONFIGURATION-VALUES"),
     ("ModuleConfiguration", "MODULE-CONFIGURATION"),
+    ("EthTcpIpProps", "ETH-TCP-IP-PROPS"),
     ("SwSystemConst", "SW-SYSTEMCONST"),
     ("SwSystemconstantValueSet", "SW-SYSTEMCONSTANT-VALUE-SET"),
     ("PredefinedVariant", "PREDEFINED-VARIANT"),
