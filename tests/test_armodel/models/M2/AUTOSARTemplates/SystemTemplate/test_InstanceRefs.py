@@ -1,5 +1,9 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
+    ComponentInSystemInstanceRef,
+    OperationInSystemInstanceRef,
+    VariableDataPrototypeInSystemInstanceRef,
+)
 
 
 class Test_InstanceRefs:
@@ -73,3 +77,61 @@ class Test_InstanceRefs:
         ref.addContextComponentRef(mock_comp_ref1)
         ref.addContextComponentRef(mock_comp_ref2)
         assert ref.getContextComponentRefs() == [mock_comp_ref1, mock_comp_ref2]
+
+    def test_OperationInSystemInstanceRef_initialization(self):
+        """Test OperationInSystemInstanceRef default values."""
+        ref = OperationInSystemInstanceRef()
+
+        assert isinstance(ref, AtpInstanceRef)
+
+        assert ref.getBaseRef() is None
+        assert ref.getContextCompositionRef() is None
+        assert ref.getContextComponentRefs() == []
+        assert ref.getContextPortRef() is None
+        assert ref.getTargetOperationRef() is None
+
+    def test_OperationInSystemInstanceRef_get_set(self):
+        """Test OperationInSystemInstanceRef setter/getter methods."""
+        ref = OperationInSystemInstanceRef()
+
+        mock_base_ref = "mock_base_ref"
+        ref.setBaseRef(mock_base_ref)
+        assert ref.getBaseRef() == mock_base_ref
+
+        mock_context_composition_ref = "mock_context_composition_ref"
+        ref.setContextCompositionRef(mock_context_composition_ref)
+        assert ref.getContextCompositionRef() == mock_context_composition_ref
+
+        mock_context_port_ref = "mock_context_port_ref"
+        ref.setContextPortRef(mock_context_port_ref)
+        assert ref.getContextPortRef() == mock_context_port_ref
+
+        mock_target_operation_ref = "mock_target_operation_ref"
+        ref.setTargetOperationRef(mock_target_operation_ref)
+        assert ref.getTargetOperationRef() == mock_target_operation_ref
+
+    def test_OperationInSystemInstanceRef_add_context_component_refs(self):
+        """Test OperationInSystemInstanceRef context component ref aggregation."""
+        ref = OperationInSystemInstanceRef()
+
+        mock_comp_ref1 = "comp1"
+        mock_comp_ref2 = "comp2"
+        ref.addContextComponentRef(mock_comp_ref1)
+        ref.addContextComponentRef(mock_comp_ref2)
+        assert ref.getContextComponentRefs() == [mock_comp_ref1, mock_comp_ref2]
+
+    def test_OperationInSystemInstanceRef_none_noop(self):
+        """None is a no-op for all mutators of OperationInSystemInstanceRef."""
+        ref = OperationInSystemInstanceRef()
+
+        ref.setBaseRef(None)
+        ref.setContextCompositionRef(None)
+        ref.setContextPortRef(None)
+        ref.setTargetOperationRef(None)
+        ref.addContextComponentRef(None)
+
+        assert ref.getBaseRef() is None
+        assert ref.getContextCompositionRef() is None
+        assert ref.getContextComponentRefs() == []
+        assert ref.getContextPortRef() is None
+        assert ref.getTargetOperationRef() is None

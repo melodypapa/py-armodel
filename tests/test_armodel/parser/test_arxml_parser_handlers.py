@@ -503,6 +503,48 @@ class TestAdminDataAndReferrableHandlers:
         assert iref.getContextCompositionRef().getValue() == "/c"
         assert iref.getTargetComponentRef().getValue() == "/t"
 
+    def test_getOperationInSystemInstanceRef_full(self, parser):
+        element = _snip(
+            "<OPERATION-IREF>"
+            "<BASE-REF DEST='COMPOSITION-SW-COMPONENT-TYPE'>/b</BASE-REF>"
+            "<CONTEXT-COMPOSITION-REF DEST='ROOT-SW-COMPOSITION-PROTOTYPE'>/comp</CONTEXT-COMPOSITION-REF>"
+            "<CONTEXT-COMPONENT-REF DEST='SW-COMPONENT-PROTOTYPE'>/c1</CONTEXT-COMPONENT-REF>"
+            "<CONTEXT-COMPONENT-REF DEST='SW-COMPONENT-PROTOTYPE'>/c2</CONTEXT-COMPONENT-REF>"
+            "<CONTEXT-PORT-REF DEST='PORT-PROTOTYPE'>/port</CONTEXT-PORT-REF>"
+            "<TARGET-OPERATION-REF DEST='CLIENT-SERVER-OPERATION'>/op</TARGET-OPERATION-REF>"
+            "</OPERATION-IREF>",
+            root_tag="PARENT",
+        )
+        iref = parser.getOperationInSystemInstanceRef(parser.find(element, "OPERATION-IREF"))
+        assert iref is not None
+        assert iref.getBaseRef().getValue() == "/b"
+        assert iref.getBaseRef().getDest() == "COMPOSITION-SW-COMPONENT-TYPE"
+        assert iref.getContextCompositionRef().getValue() == "/comp"
+        assert iref.getContextCompositionRef().getDest() == "ROOT-SW-COMPOSITION-PROTOTYPE"
+        ctx = iref.getContextComponentRefs()
+        assert len(ctx) == 2
+        assert [r.getValue() for r in ctx] == ["/c1", "/c2"]
+        assert all(r.getDest() == "SW-COMPONENT-PROTOTYPE" for r in ctx)
+        assert iref.getContextPortRef().getValue() == "/port"
+        assert iref.getTargetOperationRef().getValue() == "/op"
+        assert iref.getTargetOperationRef().getDest() == "CLIENT-SERVER-OPERATION"
+
+    def test_getOperationInSystemInstanceRef_empty(self, parser):
+        element = _snip(
+            "<OPERATION-IREF>" "<TARGET-OPERATION-REF DEST='CLIENT-SERVER-OPERATION'>/op</TARGET-OPERATION-REF>" "</OPERATION-IREF>",
+            root_tag="PARENT",
+        )
+        iref = parser.getOperationInSystemInstanceRef(parser.find(element, "OPERATION-IREF"))
+        assert iref is not None
+        assert iref.getBaseRef() is None
+        assert iref.getContextCompositionRef() is None
+        assert iref.getContextComponentRefs() == []
+        assert iref.getContextPortRef() is None
+        assert iref.getTargetOperationRef().getValue() == "/op"
+
+    def test_getOperationInSystemInstanceRef_none_element(self, parser):
+        assert parser.getOperationInSystemInstanceRef(None) is None
+
     def test_getAutosarVariableRef_with_iref(self, parser):
         element = _snip(
             "<ACCESSED-VARIABLE>"

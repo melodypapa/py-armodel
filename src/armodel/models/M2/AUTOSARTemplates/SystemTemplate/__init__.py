@@ -2,21 +2,20 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpStructureElement
+from armodel.models.M2.MSR.Documentation.Chapters import Chapter
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import CryptoServiceMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, OperationInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToImplMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement as ARElement,
-)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ByteOrderEnum as ByteOrderEnum,
+    ByteOrderEnum,
     PositiveInteger,
     RefType,
 )
@@ -650,3 +649,33 @@ class System(AtpStructureElement):
     def setSystemVersion(self, value):
         self.systemVersion = value
         return self
+
+
+__all__ = [
+    "ApplicationPartitionToEcuPartitionMapping",
+    "ARElement",
+    "AppOsTaskProxyToEcuTaskProxyMapping",
+    "ARObject",
+    "AtpPrototype",
+    "AtpStructureElement",
+    "ByteOrderEnum",
+    "Chapter",
+    "ComponentInSystemInstanceRef",
+    "ComManagementMapping",
+    "CryptoServiceMapping",
+    "DataMapping",
+    "ECUMapping",
+    "Identifiable",
+    "J1939SharedAddressCluster",
+    "OperationInSystemInstanceRef",
+    "PositiveInteger",
+    "RefType",
+    "RevisionLabelString",
+    "RootSwCompositionPrototype",
+    "SwcToEcuMapping",
+    "SwcToImplMapping",
+    "System",
+    "SystemMapping",
+    "TRefType",
+    "VariationPointCapable",
+]

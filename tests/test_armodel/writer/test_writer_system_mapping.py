@@ -41,6 +41,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     ComponentInSystemInstanceRef,
+    OperationInSystemInstanceRef,
     VariableDataPrototypeInSystemInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
@@ -1140,3 +1141,53 @@ class TestWriterISignal:
         s = parent[0]
         assert s.tag == "I-SIGNAL"
         assert s.find("I-SIGNAL-PROPS") is None
+
+
+class TestWriterOperationInSystemInstanceRef:
+    def test_full(self, writer):
+        iref = OperationInSystemInstanceRef()
+        iref.setBaseRef(_ref("/b", "COMPOSITION-SW-COMPONENT-TYPE"))
+        iref.setContextCompositionRef(_ref("/comp", "ROOT-SW-COMPOSITION-PROTOTYPE"))
+        iref.addContextComponentRef(_ref("/c1", "SW-COMPONENT-PROTOTYPE"))
+        iref.addContextComponentRef(_ref("/c2", "SW-COMPONENT-PROTOTYPE"))
+        iref.setContextPortRef(_ref("/port", "PORT-PROTOTYPE"))
+        iref.setTargetOperationRef(_ref("/op", "CLIENT-SERVER-OPERATION"))
+
+        parent = _parent()
+        writer.setOperationInSystemInstanceRef(parent, "OPERATION-IREF", iref)
+
+        child = parent.find("OPERATION-IREF")
+        assert child is not None
+        assert [c.tag for c in child] == [
+            "BASE-REF",
+            "CONTEXT-COMPOSITION-REF",
+            "CONTEXT-COMPONENT-REF",
+            "CONTEXT-COMPONENT-REF",
+            "CONTEXT-PORT-REF",
+            "TARGET-OPERATION-REF",
+        ]
+        assert child.find("BASE-REF").get("DEST") == "COMPOSITION-SW-COMPONENT-TYPE"
+        assert child.find("BASE-REF").text == "/b"
+        assert child.find("CONTEXT-COMPOSITION-REF").get("DEST") == "ROOT-SW-COMPOSITION-PROTOTYPE"
+        ctx = child.findall("CONTEXT-COMPONENT-REF")
+        assert [r.text for r in ctx] == ["/c1", "/c2"]
+        assert all(r.get("DEST") == "SW-COMPONENT-PROTOTYPE" for r in ctx)
+        assert child.find("CONTEXT-PORT-REF").get("DEST") == "PORT-PROTOTYPE"
+        assert child.find("TARGET-OPERATION-REF").get("DEST") == "CLIENT-SERVER-OPERATION"
+        assert child.find("TARGET-OPERATION-REF").text == "/op"
+
+    def test_none_ref(self, writer):
+        parent = _parent()
+        writer.setOperationInSystemInstanceRef(parent, "OPERATION-IREF", None)
+        assert len(parent) == 0
+
+    def test_empty_context_components(self, writer):
+        iref = OperationInSystemInstanceRef()
+        iref.setTargetOperationRef(_ref("/op", "CLIENT-SERVER-OPERATION"))
+
+        parent = _parent()
+        writer.setOperationInSystemInstanceRef(parent, "OPERATION-IREF", iref)
+
+        child = parent.find("OPERATION-IREF")
+        assert child is not None
+        assert [c.tag for c in child] == ["TARGET-OPERATION-REF"]
