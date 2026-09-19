@@ -21,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucValueCollection,
     FloatValue,
     IntegerValue,
+    LinkerSymbolValue,
     ParameterValue,
     StringValue,
 )
@@ -377,5 +378,31 @@ class TestStringValue:
         assert result is obj
         assert obj.getValue() == value
         assert obj.getValue().getValue() == "1.0.0"
+        obj.setValue(None)
+        assert obj.getValue() == value
+
+
+class TestLinkerSymbolValue:
+    """
+    Test class for LinkerSymbolValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.37, p.100 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(LinkerSymbolValue, StringValue)
+
+    def test_initialization_defaults(self):
+        obj = LinkerSymbolValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValue() is None
+
+    def test_get_set_value(self):
+        obj = LinkerSymbolValue()
+        value = String().setValue("RtePimInit")
+        result = obj.setValue(value)
+        assert result is obj
+        assert obj.getValue() == value
+        assert obj.getValue().getValue() == "RtePimInit"
         obj.setValue(None)
         assert obj.getValue() == value

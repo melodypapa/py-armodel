@@ -724,3 +724,20 @@ class StringValue(ParameterValue):
         if value is not None:
             self.value = value
         return self
+
+
+class LinkerSymbolValue(StringValue):
+    """
+    Representing a configuration value of definition type LinkerSymbolDef.
+    """
+
+    # LinkerSymbolValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.37, p.100 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # ZERO own members (spec Table 3.37 attribute table is empty); inherits
+    # definitionRef from ParameterValue and value from StringValue.
+
+    def __init__(self):
+        super().__init__()
