@@ -26,7 +26,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RevisionLabelString,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.InterpolationRoutineMappingSet import InterpolationRoutine, InterpolationRoutineMapping
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.InterpolationRoutineMappingSet import (
+    InterpolationRoutine,
+    InterpolationRoutineMapping,
+    InterpolationRoutineMappingSet,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ClientServerOperationMapping,
     DataPrototypeMapping,
@@ -1648,3 +1652,44 @@ class TestWriterInterpolationRoutineMapping:
         child = parent.find("INTERPOLATION-ROUTINE-MAPPING")
         assert child is not None
         assert len(child) == 0
+
+
+class TestWriterInterpolationRoutineMappingSet:
+    def _make_set(self):
+        mapping_set = InterpolationRoutineMappingSet(parent=AUTOSAR.getInstance(), short_name="IRS1")
+        mapping = mapping_set.createInterpolationRoutineMapping()
+        routine = mapping.createInterpolationRoutine()
+        short_label = Identifier()
+        short_label.setValue("LinearInterpolation")
+        routine.setShortLabel(short_label)
+        ref = RefType()
+        ref.setDest("SW-RECORD-LAYOUT")
+        ref.setValue("/Package/SwRecordLayouts/Layout1")
+        mapping.setSwRecordLayoutRef(ref)
+        return mapping_set
+
+    def test_wrapper_and_children_in_xsd_order(self, writer):
+        mapping_set = self._make_set()
+        parent = _parent()
+        writer.writeInterpolationRoutineMappingSet(parent, mapping_set)
+
+        child = parent.find("INTERPOLATION-ROUTINE-MAPPING-SET")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "IRS1"
+        wrapper = child.find("INTERPOLATION-ROUTINE-MAPPINGS")
+        assert wrapper is not None
+        mappings = wrapper.findall("INTERPOLATION-ROUTINE-MAPPING")
+        assert len(mappings) == 1
+        assert mappings[0].find("INTERPOLATION-ROUTINES/INTERPOLATION-ROUTINE/SHORT-LABEL").text == "LinearInterpolation"
+        ref_element = mappings[0].find("SW-RECORD-LAYOUT-REF")
+        assert ref_element.get("DEST") == "SW-RECORD-LAYOUT"
+        assert ref_element.text == "/Package/SwRecordLayouts/Layout1"
+
+    def test_empty_set_no_wrapper(self, writer):
+        mapping_set = InterpolationRoutineMappingSet(parent=AUTOSAR.getInstance(), short_name="IRS1")
+        parent = _parent()
+        writer.writeInterpolationRoutineMappingSet(parent, mapping_set)
+
+        child = parent.find("INTERPOLATION-ROUTINE-MAPPING-SET")
+        assert child is not None
+        assert child.find("INTERPOLATION-ROUTINE-MAPPINGS") is None

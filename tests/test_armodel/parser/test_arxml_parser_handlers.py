@@ -679,6 +679,41 @@ class TestAdminDataAndReferrableHandlers:
         assert mapping.getInterpolationRoutines() == []
         assert mapping.getSwRecordLayoutRef() is None
 
+    def test_readInterpolationRoutineMappingSet_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutineMappingSet
+
+        mapping_set = InterpolationRoutineMappingSet(parent=_autosar_root(), short_name="IRS1")
+        element = _snip(
+            "<INTERPOLATION-ROUTINE-MAPPINGS>"
+            "<INTERPOLATION-ROUTINE-MAPPING>"
+            "<INTERPOLATION-ROUTINES>"
+            "<INTERPOLATION-ROUTINE><SHORT-LABEL>LinearInterpolation</SHORT-LABEL></INTERPOLATION-ROUTINE>"
+            "</INTERPOLATION-ROUTINES>"
+            '<SW-RECORD-LAYOUT-REF DEST="SW-RECORD-LAYOUT">/Package/SwRecordLayouts/Layout1</SW-RECORD-LAYOUT-REF>'
+            "</INTERPOLATION-ROUTINE-MAPPING>"
+            "<INTERPOLATION-ROUTINE-MAPPING>"
+            '<SW-RECORD-LAYOUT-REF DEST="SW-RECORD-LAYOUT">/Package/SwRecordLayouts/Layout2</SW-RECORD-LAYOUT-REF>'
+            "</INTERPOLATION-ROUTINE-MAPPING>"
+            "</INTERPOLATION-ROUTINE-MAPPINGS>",
+            root_tag="INTERPOLATION-ROUTINE-MAPPING-SET",
+        )
+        parser.readInterpolationRoutineMappingSet(element, mapping_set)
+        mappings = mapping_set.getInterpolationRoutineMappings()
+        assert len(mappings) == 2
+        assert mappings[0].getInterpolationRoutines()[0].getShortLabel().getValue() == "LinearInterpolation"
+        assert mappings[0].getSwRecordLayoutRef().getDest() == "SW-RECORD-LAYOUT"
+        assert mappings[0].getSwRecordLayoutRef().getValue() == "/Package/SwRecordLayouts/Layout1"
+        assert mappings[1].getInterpolationRoutines() == []
+        assert mappings[1].getSwRecordLayoutRef().getValue() == "/Package/SwRecordLayouts/Layout2"
+
+    def test_readInterpolationRoutineMappingSet_empty(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutineMappingSet
+
+        mapping_set = InterpolationRoutineMappingSet(parent=_autosar_root(), short_name="IRS1")
+        element = _snip("", root_tag="INTERPOLATION-ROUTINE-MAPPING-SET")
+        parser.readInterpolationRoutineMappingSet(element, mapping_set)
+        assert mapping_set.getInterpolationRoutineMappings() == []
+
     def test_getAutosarVariableRef_with_iref(self, parser):
         element = _snip(
             "<ACCESSED-VARIABLE>"
