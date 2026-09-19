@@ -4354,21 +4354,15 @@ class V2xMUserNeeds(ServiceNeeds):
 
 class VendorSpecificServiceNeeds(ServiceNeeds):
     """
-    Represents Vendor Specific Service needs in AUTOSAR models.
-    This class defines requirements for vendor-specific services.
+    This represents the ability to define vendor-specific service needs.
     """
 
     # VendorSpecificServiceNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.53, p.604
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the VendorSpecificServiceNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this vendor specific service needs
-            short_name: The unique short name of this vendor specific service needs
-        """
         super().__init__(parent, short_name)
 
 

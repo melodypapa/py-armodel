@@ -874,6 +874,19 @@ class TestServiceNeedsHandlers:
         parser.readV2xMUserNeeds(element, needs)
         assert needs.getShortName() == "v2xmNeeds"
 
+    def test_readVendorSpecificServiceNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import VendorSpecificServiceNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>vendorNeeds</SHORT-NAME>", root_tag="VENDOR-SPECIFIC-SERVICE-NEEDS")
+        needs = dependency.createVendorSpecificServiceNeeds("vendorNeeds")
+        assert isinstance(needs, VendorSpecificServiceNeeds)
+        parser.readVendorSpecificServiceNeeds(element, needs)
+        assert needs.getShortName() == "vendorNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 
