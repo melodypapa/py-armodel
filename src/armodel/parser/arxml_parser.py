@@ -749,6 +749,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    EthTcpIpProps,
     CouplingPort,
     CouplingPortAbstractShaper,
     CouplingPortConnection,
@@ -776,6 +777,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     TpPort,
     TransportProtocolConfiguration,
     UdpTp,
+    TcpProps,
+    UdpProps,
+    TcpIpIcmpv4Props,
+    TcpIpIcmpv6Props,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
@@ -9360,6 +9365,58 @@ class ARXMLParser(AbstractARXMLParser):
             cluster.setRequest2Support(self.getChildElementOptionalBooleanValue(child_element, "REQUEST-2-SUPPORT"))
             cluster.setUsesAddressArbitration(self.getChildElementOptionalBooleanValue(child_element, "USES-ADDRESS-ARBITRATION"))
 
+    def readUdpProps(self, element: ET.Element, props: UdpProps):
+        """Read an R23-11 <UDP-PROPS> element (Table 3.110, p.154): single optional UDP-TTL."""
+        props.setUdpTtl(self.getChildElementOptionalPositiveInteger(element, "UDP-TTL"))
+
+    def readEthTcpIpProps(self, element: ET.Element, props: EthTcpIpProps):
+        """Read an R23-11 <ETH-TCP-IP-PROPS> element (Table 3.109, p.153): SHORT-NAME, TCP-PROPS, UDP-PROPS."""
+        self.readIdentifiable(element, props)
+        child_element = self.find(element, "TCP-PROPS")
+        if child_element is not None:
+            tcp_props = TcpProps()
+            self.readTcpProps(child_element, tcp_props)
+            props.setTcpProps(tcp_props)
+        child_element = self.find(element, "UDP-PROPS")
+        if child_element is not None:
+            udp_props = UdpProps()
+            self.readUdpProps(child_element, udp_props)
+            props.setUdpProps(udp_props)
+
+    def readTcpProps(self, element: ET.Element, props: TcpProps):
+        """Read an R23-11 <TCP-PROPS> element (Table 3.111, p.155): 18 optional attributes in XSD order."""
+        props.setTcpCongestionAvoidanceEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-CONGESTION-AVOIDANCE-ENABLED"))
+        props.setTcpDelayedAckTimeout(self.getChildElementOptionalTimeValue(element, "TCP-DELAYED-ACK-TIMEOUT"))
+        props.setTcpFastRecoveryEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-FAST-RECOVERY-ENABLED"))
+        props.setTcpFastRetransmitEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-FAST-RETRANSMIT-ENABLED"))
+        props.setTcpFinWait2Timeout(self.getChildElementOptionalTimeValue(element, "TCP-FIN-WAIT2TIMEOUT"))
+        props.setTcpKeepAliveEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-KEEP-ALIVE-ENABLED"))
+        props.setTcpKeepAliveInterval(self.getChildElementOptionalTimeValue(element, "TCP-KEEP-ALIVE-INTERVAL"))
+        props.setTcpKeepAliveProbesMax(self.getChildElementOptionalPositiveInteger(element, "TCP-KEEP-ALIVE-PROBES-MAX"))
+        props.setTcpKeepAliveTime(self.getChildElementOptionalTimeValue(element, "TCP-KEEP-ALIVE-TIME"))
+        props.setTcpMaxRtx(self.getChildElementOptionalPositiveInteger(element, "TCP-MAX-RTX"))
+        props.setTcpMsl(self.getChildElementOptionalTimeValue(element, "TCP-MSL"))
+        props.setTcpNagleEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-NAGLE-ENABLED"))
+        props.setTcpReceiveWindowMax(self.getChildElementOptionalPositiveInteger(element, "TCP-RECEIVE-WINDOW-MAX"))
+        props.setTcpRetransmissionTimeout(self.getChildElementOptionalTimeValue(element, "TCP-RETRANSMISSION-TIMEOUT"))
+        props.setTcpSlowStartEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-SLOW-START-ENABLED"))
+        props.setTcpSynMaxRtx(self.getChildElementOptionalPositiveInteger(element, "TCP-SYN-MAX-RTX"))
+        props.setTcpSynReceivedTimeout(self.getChildElementOptionalTimeValue(element, "TCP-SYN-RECEIVED-TIMEOUT"))
+        props.setTcpTtl(self.getChildElementOptionalPositiveInteger(element, "TCP-TTL"))
+
+    def readTcpIpIcmpv4Props(self, element: ET.Element, props: TcpIpIcmpv4Props):
+        """Read an R23-11 <TCP-IP-ICMPV-4-PROPS> element (Table 3.113, p.156): 2 optional attributes in XSD order."""
+        props.setTcpIpIcmpV4EchoReplyEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED"))
+        props.setTcpIpIcmpV4Ttl(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-ICMP-V-4-TTL"))
+
+    def readTcpIpIcmpv6Props(self, element: ET.Element, props: TcpIpIcmpv6Props):
+        """Read an R23-11 <ICMP-V-6-PROPS> element (Table 3.114, p.157): 5 optional attributes in XSD order."""
+        props.setTcpIpIcmpV6EchoReplyAvoidFragmentation(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ICMP-V-6-ECHO-REPLY-AVOID-FRAGMENTATION"))
+        props.setTcpIpIcmpV6EchoReplyEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ICMP-V-6-ECHO-REPLY-ENABLED"))
+        props.setTcpIpIcmpV6HopLimit(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-ICMP-V-6-HOP-LIMIT"))
+        props.setTcpIpIcmpV6MsgDestinationUnreachableEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED"))
+        props.setTcpIpIcmpV6MsgParameterProblemEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED"))
+
     def readFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
         self.logger.debug("Read FlexrayCluster <%s>" % cluster.getShortName())
         self.readIdentifiable(element, cluster)
@@ -13018,6 +13075,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECUC-VALUE-COLLECTION":
                 collection = parent.createEcucValueCollection(self.getShortName(child_element))
                 self.readEcucValueCollection(child_element, collection)
+            elif tag_name == "ETH-TCP-IP-PROPS":
+                props = parent.createEthTcpIpProps(self.getShortName(child_element))
+                self.readEthTcpIpProps(child_element, props)
             elif tag_name == "ECUC-MODULE-CONFIGURATION-VALUES":
                 values = parent.createEcucModuleConfigurationValues(self.getShortName(child_element))
                 self.readEcucModuleConfigurationValues(child_element, values)

@@ -25,6 +25,7 @@ from armodel.models import (
     InstanceEventInCompositionInstanceRef,
     InstantiationTimingEventProps,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthTcpIpProps, TcpIpIcmpv4Props, TcpIpIcmpv6Props, TcpProps, UdpProps
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -2521,3 +2522,148 @@ class TestReadJ1939Cluster:
         assert cluster.getNetworkId() is None
         assert cluster.getRequest2Support() is None
         assert cluster.getUsesAddressArbitration() is None
+
+
+class TestReadTcpProps:
+    """Tests for readTcpProps handler (R23-11 TcpProps, Table 3.111, p.155)."""
+
+    def test_read_tcp_props_full(self, parser):
+        element = _snip(
+            """
+                <TCP-CONGESTION-AVOIDANCE-ENABLED>true</TCP-CONGESTION-AVOIDANCE-ENABLED>
+                <TCP-DELAYED-ACK-TIMEOUT>0.1</TCP-DELAYED-ACK-TIMEOUT>
+                <TCP-KEEP-ALIVE-PROBES-MAX>5</TCP-KEEP-ALIVE-PROBES-MAX>
+                <TCP-MAX-RTX>4</TCP-MAX-RTX>
+                <TCP-NAGLE-ENABLED>false</TCP-NAGLE-ENABLED>
+                <TCP-RETRANSMISSION-TIMEOUT>0.5</TCP-RETRANSMISSION-TIMEOUT>
+                <TCP-TTL>64</TCP-TTL>
+            """,
+            root_tag="TCP-PROPS",
+        )
+        props = TcpProps()
+        parser.readTcpProps(element, props)
+        assert props.getTcpCongestionAvoidanceEnabled().getValue() is True
+        assert props.getTcpDelayedAckTimeout().getValue() == 0.1
+        assert props.getTcpKeepAliveProbesMax().getValue() == 5
+        assert props.getTcpMaxRtx().getValue() == 4
+        assert props.getTcpNagleEnabled().getValue() is False
+        assert props.getTcpRetransmissionTimeout().getValue() == 0.5
+        assert props.getTcpTtl().getValue() == 64
+
+    def test_read_tcp_props_empty(self, parser):
+        element = _snip("", root_tag="TCP-PROPS")
+        props = TcpProps()
+        parser.readTcpProps(element, props)
+        assert props.getTcpTtl() is None
+        assert props.getTcpNagleEnabled() is None
+        assert props.getTcpRetransmissionTimeout() is None
+
+
+class TestReadUdpProps:
+    """Tests for readUdpProps handler (R23-11 UdpProps, Table 3.110, p.154)."""
+
+    def test_read_udp_props_full(self, parser):
+        element = _snip("<UDP-TTL>64</UDP-TTL>", root_tag="UDP-PROPS")
+        props = UdpProps()
+        parser.readUdpProps(element, props)
+        assert props.getUdpTtl().getValue() == 64
+
+    def test_read_udp_props_empty(self, parser):
+        element = _snip("", root_tag="UDP-PROPS")
+        props = UdpProps()
+        parser.readUdpProps(element, props)
+        assert props.getUdpTtl() is None
+
+
+class TestReadEthTcpIpProps:
+    """Tests for readEthTcpIpProps handler (R23-11 EthTcpIpProps, Table 3.109, p.153)."""
+
+    def test_read_eth_tcp_ip_props_full(self, parser):
+
+        element = _snip(
+            """
+                <SHORT-NAME>Props1</SHORT-NAME>
+                <TCP-PROPS>
+                    <TCP-TTL>64</TCP-TTL>
+                </TCP-PROPS>
+                <UDP-PROPS>
+                    <UDP-TTL>32</UDP-TTL>
+                </UDP-PROPS>
+            """,
+            root_tag="ETH-TCP-IP-PROPS",
+        )
+        props = EthTcpIpProps(parent=_autosar_root(), short_name="Props1")
+        parser.readEthTcpIpProps(element, props)
+        assert props.getTcpProps() is not None
+        assert props.getTcpProps().getTcpTtl().getValue() == 64
+        assert props.getUdpProps() is not None
+        assert props.getUdpProps().getUdpTtl().getValue() == 32
+
+    def test_read_eth_tcp_ip_props_empty(self, parser):
+        element = _snip(
+            """
+                <SHORT-NAME>Props1</SHORT-NAME>
+            """,
+            root_tag="ETH-TCP-IP-PROPS",
+        )
+        props = EthTcpIpProps(parent=_autosar_root(), short_name="Props1")
+        parser.readEthTcpIpProps(element, props)
+        assert props.getTcpProps() is None
+        assert props.getUdpProps() is None
+
+
+class TestReadTcpIpIcmpv4Props:
+    """Tests for readTcpIpIcmpv4Props handler (R23-11 TcpIpIcmpv4Props, Table 3.113, p.156)."""
+
+    def test_read_tcp_ip_icmpv4_props_full(self, parser):
+        element = _snip(
+            """
+                <TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED>true</TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED>
+                <TCP-IP-ICMP-V-4-TTL>64</TCP-IP-ICMP-V-4-TTL>
+            """,
+            root_tag="TCP-IP-ICMPV-4-PROPS",
+        )
+        props = TcpIpIcmpv4Props()
+        parser.readTcpIpIcmpv4Props(element, props)
+        assert props.getTcpIpIcmpV4EchoReplyEnabled().getValue() is True
+        assert props.getTcpIpIcmpV4Ttl().getValue() == 64
+
+    def test_read_tcp_ip_icmpv4_props_empty(self, parser):
+        element = _snip("", root_tag="TCP-IP-ICMPV-4-PROPS")
+        props = TcpIpIcmpv4Props()
+        parser.readTcpIpIcmpv4Props(element, props)
+        assert props.getTcpIpIcmpV4EchoReplyEnabled() is None
+        assert props.getTcpIpIcmpV4Ttl() is None
+
+
+class TestReadTcpIpIcmpv6Props:
+    """Tests for readTcpIpIcmpv6Props handler (R23-11 TcpIpIcmpv6Props, Table 3.114, p.157)."""
+
+    def test_read_tcp_ip_icmpv6_props_full(self, parser):
+        element = _snip(
+            """
+                <TCP-IP-ICMP-V-6-ECHO-REPLY-AVOID-FRAGMENTATION>true</TCP-IP-ICMP-V-6-ECHO-REPLY-AVOID-FRAGMENTATION>
+                <TCP-IP-ICMP-V-6-ECHO-REPLY-ENABLED>false</TCP-IP-ICMP-V-6-ECHO-REPLY-ENABLED>
+                <TCP-IP-ICMP-V-6-HOP-LIMIT>255</TCP-IP-ICMP-V-6-HOP-LIMIT>
+                <TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED>true</TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED>
+                <TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED>false</TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED>
+            """,
+            root_tag="ICMP-V-6-PROPS",
+        )
+        props = TcpIpIcmpv6Props()
+        parser.readTcpIpIcmpv6Props(element, props)
+        assert props.getTcpIpIcmpV6EchoReplyAvoidFragmentation().getValue() is True
+        assert props.getTcpIpIcmpV6EchoReplyEnabled().getValue() is False
+        assert props.getTcpIpIcmpV6HopLimit().getValue() == 255
+        assert props.getTcpIpIcmpV6MsgDestinationUnreachableEnabled().getValue() is True
+        assert props.getTcpIpIcmpV6MsgParameterProblemEnabled().getValue() is False
+
+    def test_read_tcp_ip_icmpv6_props_empty(self, parser):
+        element = _snip("", root_tag="ICMP-V-6-PROPS")
+        props = TcpIpIcmpv6Props()
+        parser.readTcpIpIcmpv6Props(element, props)
+        assert props.getTcpIpIcmpV6EchoReplyAvoidFragmentation() is None
+        assert props.getTcpIpIcmpV6EchoReplyEnabled() is None
+        assert props.getTcpIpIcmpV6HopLimit() is None
+        assert props.getTcpIpIcmpV6MsgDestinationUnreachableEnabled() is None
+        assert props.getTcpIpIcmpV6MsgParameterProblemEnabled() is None

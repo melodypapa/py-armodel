@@ -670,6 +670,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    EthTcpIpProps,
     CouplingPort,
     CouplingPortAbstractShaper,
     CouplingPortConnection,
@@ -692,6 +693,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     MacMulticastGroup,
     SdClientConfig,
     VlanMembership,
+    TcpProps,
+    UdpProps,
+    TcpIpIcmpv4Props,
+    TcpIpIcmpv6Props,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
@@ -9506,6 +9511,62 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalBooleanValue(child_element, "REQUEST-2-SUPPORT", cluster.getRequest2Support())
             self.setChildElementOptionalBooleanValue(child_element, "USES-ADDRESS-ARBITRATION", cluster.getUsesAddressArbitration())
 
+    def writeUdpProps(self, element: ET.Element, props: UdpProps):
+        """Write an R23-11 <UDP-PROPS> element (Table 3.110, p.154): single optional UDP-TTL."""
+        if props is not None:
+            child_element = ET.SubElement(element, "UDP-PROPS")
+            self.setChildElementOptionalPositiveInteger(child_element, "UDP-TTL", props.getUdpTtl())
+
+    def writeEthTcpIpProps(self, element: ET.Element, props: EthTcpIpProps):
+        """Write an R23-11 <ETH-TCP-IP-PROPS> element (Table 3.109, p.153): SHORT-NAME, TCP-PROPS, UDP-PROPS."""
+        if props is not None:
+            child_element = ET.SubElement(element, "ETH-TCP-IP-PROPS")
+            self.writeIdentifiable(child_element, props)
+            if props.getTcpProps() is not None:
+                self.writeTcpProps(child_element, props.getTcpProps())
+            if props.getUdpProps() is not None:
+                self.writeUdpProps(child_element, props.getUdpProps())
+
+    def writeTcpProps(self, element: ET.Element, props: TcpProps):
+        """Write an R23-11 <TCP-PROPS> element (Table 3.111, p.155): 18 optional attributes in XSD order."""
+        if props is not None:
+            child_element = ET.SubElement(element, "TCP-PROPS")
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-CONGESTION-AVOIDANCE-ENABLED", props.getTcpCongestionAvoidanceEnabled())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-DELAYED-ACK-TIMEOUT", props.getTcpDelayedAckTimeout())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-FAST-RECOVERY-ENABLED", props.getTcpFastRecoveryEnabled())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-FAST-RETRANSMIT-ENABLED", props.getTcpFastRetransmitEnabled())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-FIN-WAIT2TIMEOUT", props.getTcpFinWait2Timeout())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-KEEP-ALIVE-ENABLED", props.getTcpKeepAliveEnabled())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-KEEP-ALIVE-INTERVAL", props.getTcpKeepAliveInterval())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-KEEP-ALIVE-PROBES-MAX", props.getTcpKeepAliveProbesMax())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-KEEP-ALIVE-TIME", props.getTcpKeepAliveTime())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-MAX-RTX", props.getTcpMaxRtx())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-MSL", props.getTcpMsl())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-NAGLE-ENABLED", props.getTcpNagleEnabled())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-RECEIVE-WINDOW-MAX", props.getTcpReceiveWindowMax())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-RETRANSMISSION-TIMEOUT", props.getTcpRetransmissionTimeout())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-SLOW-START-ENABLED", props.getTcpSlowStartEnabled())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-SYN-MAX-RTX", props.getTcpSynMaxRtx())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-SYN-RECEIVED-TIMEOUT", props.getTcpSynReceivedTimeout())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-TTL", props.getTcpTtl())
+
+    def writeTcpIpIcmpv4Props(self, element: ET.Element, props: TcpIpIcmpv4Props):
+        """Write an R23-11 <TCP-IP-ICMPV-4-PROPS> element (Table 3.113, p.156): 2 optional attributes in XSD order."""
+        if props is not None:
+            child_element = ET.SubElement(element, "TCP-IP-ICMPV-4-PROPS")
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED", props.getTcpIpIcmpV4EchoReplyEnabled())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-ICMP-V-4-TTL", props.getTcpIpIcmpV4Ttl())
+
+    def writeTcpIpIcmpv6Props(self, element: ET.Element, props: TcpIpIcmpv6Props):
+        """Write an R23-11 <ICMP-V-6-PROPS> element (Table 3.114, p.157): 5 optional attributes in XSD order."""
+        if props is not None:
+            child_element = ET.SubElement(element, "ICMP-V-6-PROPS")
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-6-ECHO-REPLY-AVOID-FRAGMENTATION", props.getTcpIpIcmpV6EchoReplyAvoidFragmentation())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-6-ECHO-REPLY-ENABLED", props.getTcpIpIcmpV6EchoReplyEnabled())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-ICMP-V-6-HOP-LIMIT", props.getTcpIpIcmpV6HopLimit())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED", props.getTcpIpIcmpV6MsgDestinationUnreachableEnabled())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED", props.getTcpIpIcmpV6MsgParameterProblemEnabled())
+
     def writeFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
         if cluster is not None:
             self.logger.debug("Write FlexrayCluster <%s>" % cluster.getShortName())
@@ -12837,6 +12898,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEcucModuleConfigurationValues(element, ar_element)
         elif isinstance(ar_element, ModuleConfiguration):
             self.writeModuleConfiguration(element, ar_element)
+        elif isinstance(ar_element, EthTcpIpProps):
+            self.writeEthTcpIpProps(element, ar_element)
         elif isinstance(ar_element, SwSystemconst):
             self.writeSwSystemconst(element, ar_element)
         elif isinstance(ar_element, SwSystemconstantValueSet):

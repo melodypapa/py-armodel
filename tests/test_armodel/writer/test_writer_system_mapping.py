@@ -43,6 +43,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordTypeMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import J1939Cluster
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import TcpIpIcmpv4Props, TcpIpIcmpv6Props, TcpProps, UdpProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import (  # noqa: E501
     IPduMapping,
     ISignalMapping,
@@ -1850,3 +1851,171 @@ class TestWriterJ1939Cluster:
         assert conditional.find("NETWORK-ID") is None
         assert conditional.find("REQUEST-2-SUPPORT") is None
         assert conditional.find("USES-ADDRESS-ARBITRATION") is None
+
+
+def _time_value(val=1.0):
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue
+
+    return TimeValue().setValue(val)
+
+
+class TestWriterTcpProps:
+    """Tests for writeTcpProps handler (R23-11 TcpProps, Table 3.111, p.155)."""
+
+    def _make_props(self):
+        props = TcpProps()
+        props.setTcpCongestionAvoidanceEnabled(_boolean(True))
+        props.setTcpDelayedAckTimeout(_time_value(0.1))
+        props.setTcpKeepAliveProbesMax(_positive_int(5))
+        props.setTcpMaxRtx(_positive_int(4))
+        props.setTcpNagleEnabled(_boolean(False))
+        props.setTcpRetransmissionTimeout(_time_value(0.5))
+        props.setTcpTtl(_positive_int(64))
+        return props
+
+    def test_members_in_xsd_order(self, writer):
+        props = self._make_props()
+        parent = _parent()
+        writer.writeTcpProps(parent, props)
+
+        child = parent.find("TCP-PROPS")
+        assert child is not None
+        tags = [c.tag for c in child]
+        assert tags[:2] == ["TCP-CONGESTION-AVOIDANCE-ENABLED", "TCP-DELAYED-ACK-TIMEOUT"]
+        assert tags.index("TCP-KEEP-ALIVE-PROBES-MAX") < tags.index("TCP-MAX-RTX") < tags.index("TCP-NAGLE-ENABLED")
+        assert child.find("TCP-TTL").text == "64"
+        assert child.find("TCP-NAGLE-ENABLED").text == "false"
+
+    def test_none_members_not_emitted(self, writer):
+        props = TcpProps()
+        parent = _parent()
+        writer.writeTcpProps(parent, props)
+        child = parent.find("TCP-PROPS")
+        assert child is not None
+        assert len(child) == 0
+
+
+class TestWriterUdpProps:
+    """Tests for writeUdpProps handler (R23-11 UdpProps, Table 3.110, p.154)."""
+
+    def test_set_udp_ttl(self, writer):
+        props = UdpProps()
+        props.setUdpTtl(_positive_int(64))
+        parent = _parent()
+        writer.writeUdpProps(parent, props)
+        child = parent.find("UDP-PROPS")
+        assert child is not None
+        assert child.find("UDP-TTL").text == "64"
+
+    def test_none_member_not_emitted(self, writer):
+        props = UdpProps()
+        parent = _parent()
+        writer.writeUdpProps(parent, props)
+        child = parent.find("UDP-PROPS")
+        assert child is not None
+        assert len(child) == 0
+
+
+class TestWriterEthTcpIpProps:
+    """Tests for writeEthTcpIpProps handler (R23-11 EthTcpIpProps, Table 3.109, p.153)."""
+
+    def test_children_in_xsd_order(self, writer):
+        pkg = AUTOSAR.getInstance().createARPackage("EthPropsPkg")
+        props = pkg.createEthTcpIpProps("Props1")
+        tcp = TcpProps()
+        tcp.setTcpTtl(_positive_int(64))
+        props.setTcpProps(tcp)
+        udp = UdpProps()
+        udp.setUdpTtl(_positive_int(32))
+        props.setUdpProps(udp)
+
+        parent = _parent()
+        writer.writeEthTcpIpProps(parent, props)
+        child = parent.find("ETH-TCP-IP-PROPS")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "Props1"
+        assert [c.tag for c in child if c.tag in ("TCP-PROPS", "UDP-PROPS")] == ["TCP-PROPS", "UDP-PROPS"]
+        assert child.find("TCP-PROPS/TCP-TTL").text == "64"
+        assert child.find("UDP-PROPS/UDP-TTL").text == "32"
+
+    def test_empty_children_omitted(self, writer):
+        pkg = AUTOSAR.getInstance().createARPackage("EthPropsPkg2")
+        props = pkg.createEthTcpIpProps("Props1")
+        parent = _parent()
+        writer.writeEthTcpIpProps(parent, props)
+        child = parent.find("ETH-TCP-IP-PROPS")
+        assert child is not None
+        assert child.find("TCP-PROPS") is None
+        assert child.find("UDP-PROPS") is None
+
+
+class TestWriterTcpIpIcmpv4Props:
+    """Tests for writeTcpIpIcmpv4Props handler (R23-11 TcpIpIcmpv4Props, Table 3.113, p.156)."""
+
+    def _make_props(self):
+        props = TcpIpIcmpv4Props()
+        props.setTcpIpIcmpV4EchoReplyEnabled(_boolean(True))
+        props.setTcpIpIcmpV4Ttl(_positive_int(64))
+        return props
+
+    def test_members_in_xsd_order(self, writer):
+        props = self._make_props()
+        parent = _parent()
+        writer.writeTcpIpIcmpv4Props(parent, props)
+
+        child = parent.find("TCP-IP-ICMPV-4-PROPS")
+        assert child is not None
+        tags = [c.tag for c in child]
+        assert tags == ["TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED", "TCP-IP-ICMP-V-4-TTL"]
+        assert child.find("TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED").text == "true"
+        assert child.find("TCP-IP-ICMP-V-4-TTL").text == "64"
+
+    def test_none_members_not_emitted(self, writer):
+        props = TcpIpIcmpv4Props()
+        parent = _parent()
+        writer.writeTcpIpIcmpv4Props(parent, props)
+        child = parent.find("TCP-IP-ICMPV-4-PROPS")
+        assert child is not None
+        assert len(child) == 0
+
+
+class TestWriterTcpIpIcmpv6Props:
+    """Tests for writeTcpIpIcmpv6Props handler (R23-11 TcpIpIcmpv6Props, Table 3.114, p.157)."""
+
+    def _make_props(self):
+        props = TcpIpIcmpv6Props()
+        props.setTcpIpIcmpV6EchoReplyAvoidFragmentation(_boolean(True))
+        props.setTcpIpIcmpV6EchoReplyEnabled(_boolean(False))
+        props.setTcpIpIcmpV6HopLimit(_positive_int(255))
+        props.setTcpIpIcmpV6MsgDestinationUnreachableEnabled(_boolean(True))
+        props.setTcpIpIcmpV6MsgParameterProblemEnabled(_boolean(False))
+        return props
+
+    def test_members_in_xsd_order(self, writer):
+        props = self._make_props()
+        parent = _parent()
+        writer.writeTcpIpIcmpv6Props(parent, props)
+
+        child = parent.find("ICMP-V-6-PROPS")
+        assert child is not None
+        tags = [c.tag for c in child]
+        assert tags == [
+            "TCP-IP-ICMP-V-6-ECHO-REPLY-AVOID-FRAGMENTATION",
+            "TCP-IP-ICMP-V-6-ECHO-REPLY-ENABLED",
+            "TCP-IP-ICMP-V-6-HOP-LIMIT",
+            "TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED",
+            "TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED",
+        ]
+        assert child.find("TCP-IP-ICMP-V-6-ECHO-REPLY-AVOID-FRAGMENTATION").text == "true"
+        assert child.find("TCP-IP-ICMP-V-6-ECHO-REPLY-ENABLED").text == "false"
+        assert child.find("TCP-IP-ICMP-V-6-HOP-LIMIT").text == "255"
+        assert child.find("TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED").text == "true"
+        assert child.find("TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED").text == "false"
+
+    def test_none_members_not_emitted(self, writer):
+        props = TcpIpIcmpv6Props()
+        parent = _parent()
+        writer.writeTcpIpIcmpv6Props(parent, props)
+        child = parent.find("ICMP-V-6-PROPS")
+        assert child is not None
+        assert len(child) == 0
