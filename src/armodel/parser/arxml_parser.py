@@ -679,7 +679,16 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibr
     InterpolationRoutineMapping,
     InterpolationRoutineMappingSet,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition, ClientIdDefinitionSet, ComManagementMapping, J1939SharedAddressCluster, SwcToEcuMapping, System, SystemMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
+    ClientIdDefinition,
+    ClientIdDefinitionSet,
+    ComManagementMapping,
+    J1939SharedAddressCluster,
+    SwComponentPrototypeAssignment,
+    SwcToEcuMapping,
+    System,
+    SystemMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecCompositeTypeMapping,
     SenderReceiverToSignalGroupMapping,
@@ -12379,6 +12388,16 @@ class ARXMLParser(AbstractARXMLParser):
             for child_element in self.findall(wrapper_element, "INTERPOLATION-ROUTINE-MAPPING"):
                 mapping = mapping_set.createInterpolationRoutineMapping()
                 self.readInterpolationRoutineMapping(child_element, mapping)
+
+    def readSwComponentPrototypeAssignment(self, element: ET.Element, assignment: SwComponentPrototypeAssignment):
+        self.readARObject(element, assignment)
+        assignment.setSwComponentIRef(self.getComponentInSystemInstanceRef(self.find(element, "SW-COMPONENT-IREF")))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(assignment, VariationPointCapable):
+                assignment.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
     def readSystemInterpolationRoutineMappingSetRefs(self, element: ET.Element, system: System):
         for ref in self.getChildElementRefTypeList(element, "INTERPOLATION-ROUTINE-MAPPING-SET-REFS/INTERPOLATION-ROUTINE-MAPPING-SET-REF"):

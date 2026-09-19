@@ -35,7 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     ClientServerOperationMapping,
     DataPrototypeMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition, ClientIdDefinitionSet
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition, ClientIdDefinitionSet, SwComponentPrototypeAssignment
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderReceiverToSignalGroupMapping,
     SenderReceiverToSignalMapping,
@@ -1693,3 +1693,42 @@ class TestWriterInterpolationRoutineMappingSet:
         child = parent.find("INTERPOLATION-ROUTINE-MAPPING-SET")
         assert child is not None
         assert child.find("INTERPOLATION-ROUTINE-MAPPINGS") is None
+
+
+class TestWriterSwComponentPrototypeAssignment:
+    def _make_assignment(self):
+        assignment = SwComponentPrototypeAssignment()
+        iref = ComponentInSystemInstanceRef()
+        iref.setContextCompositionRef(_ref("/comp", "COMPOSITION-SW-COMPONENT-PROTOTYPE"))
+        iref.setTargetComponentRef(_ref("/swc", "SW-COMPONENT-PROTOTYPE"))
+        assignment.setSwComponentIRef(iref)
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(Identifier().setValue("VP_SWCA"))
+        assignment.setVariationPoint(variation_point)
+        return assignment
+
+    def test_members_in_xsd_order(self, writer):
+        assignment = self._make_assignment()
+        parent = _parent()
+        writer.writeSwComponentPrototypeAssignment(parent, assignment)
+
+        child = parent.find("SW-COMPONENT-PROTOTYPE-ASSIGNMENT")
+        assert child is not None
+        tags = [c.tag for c in child]
+        assert tags.index("SW-COMPONENT-IREF") < tags.index("VARIATION-POINT")
+        iref_element = child.find("SW-COMPONENT-IREF")
+        assert iref_element.find("CONTEXT-COMPOSITION-REF").get("DEST") == "COMPOSITION-SW-COMPONENT-PROTOTYPE"
+        assert iref_element.find("CONTEXT-COMPOSITION-REF").text == "/comp"
+        assert iref_element.find("TARGET-COMPONENT-REF").get("DEST") == "SW-COMPONENT-PROTOTYPE"
+        assert iref_element.find("TARGET-COMPONENT-REF").text == "/swc"
+        assert child.find("VARIATION-POINT/SHORT-LABEL").text == "VP_SWCA"
+
+    def test_none_members_not_emitted(self, writer):
+        assignment = SwComponentPrototypeAssignment()
+        parent = _parent()
+        writer.writeSwComponentPrototypeAssignment(parent, assignment)
+
+        child = parent.find("SW-COMPONENT-PROTOTYPE-ASSIGNMENT")
+        assert child is not None
+        assert child.find("SW-COMPONENT-IREF") is None
+        assert child.find("VARIATION-POINT") is None

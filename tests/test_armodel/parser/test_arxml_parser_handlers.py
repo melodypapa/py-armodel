@@ -714,6 +714,36 @@ class TestAdminDataAndReferrableHandlers:
         parser.readInterpolationRoutineMappingSet(element, mapping_set)
         assert mapping_set.getInterpolationRoutineMappings() == []
 
+    def test_readSwComponentPrototypeAssignment_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import SwComponentPrototypeAssignment
+
+        assignment = SwComponentPrototypeAssignment()
+        element = _snip(
+            "<SW-COMPONENT-IREF>"
+            "<CONTEXT-COMPOSITION-REF DEST='COMPOSITION-SW-COMPONENT-PROTOTYPE'>/comp</CONTEXT-COMPOSITION-REF>"
+            "<TARGET-COMPONENT-REF DEST='SW-COMPONENT-PROTOTYPE'>/swc</TARGET-COMPONENT-REF>"
+            "</SW-COMPONENT-IREF>"
+            "<VARIATION-POINT><SHORT-LABEL>VP_SWCA</SHORT-LABEL></VARIATION-POINT>",
+            root_tag="SW-COMPONENT-PROTOTYPE-ASSIGNMENT",
+        )
+        parser.readSwComponentPrototypeAssignment(element, assignment)
+        iref = assignment.getSwComponentIRef()
+        assert iref is not None
+        assert iref.getContextCompositionRef().getValue() == "/comp"
+        assert iref.getContextCompositionRef().getDest() == "COMPOSITION-SW-COMPONENT-PROTOTYPE"
+        assert iref.getTargetComponentRef().getValue() == "/swc"
+        assert iref.getTargetComponentRef().getDest() == "SW-COMPONENT-PROTOTYPE"
+        assert assignment.getVariationPoint().getShortLabel().getValue() == "VP_SWCA"
+
+    def test_readSwComponentPrototypeAssignment_empty(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import SwComponentPrototypeAssignment
+
+        assignment = SwComponentPrototypeAssignment()
+        element = _snip("", root_tag="SW-COMPONENT-PROTOTYPE-ASSIGNMENT")
+        parser.readSwComponentPrototypeAssignment(element, assignment)
+        assert assignment.getSwComponentIRef() is None
+        assert assignment.getVariationPoint() is None
+
     def test_getAutosarVariableRef_with_iref(self, parser):
         element = _snip(
             "<ACCESSED-VARIABLE>"
