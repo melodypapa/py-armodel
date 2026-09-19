@@ -694,6 +694,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibr
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     ClientIdDefinition,
     ClientIdDefinitionSet,
+    J1939SharedAddressCluster,
     CpSoftwareCluster,
     SwComponentPrototypeAssignment,
     SwcToEcuMapping,
@@ -12526,10 +12527,15 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "INTERPOLATION-ROUTINE-MAPPING-SET-REFS/INTERPOLATION-ROUTINE-MAPPING-SET-REF"):
             system.addInterpolationRoutineMappingSetRef(ref)
 
+    def readJ1939SharedAddressCluster(self, element: ET.Element, cluster: J1939SharedAddressCluster):
+        self.readIdentifiable(element, cluster)
+        for ref in self.getChildElementRefTypeList(element, "PARTICIPATING-J-1939-CLUSTER-REFS/PARTICIPATING-J-1939-CLUSTER-REF"):
+            cluster.addParticipatingJ1939ClusterRef(ref)
+
     def readSystemJ1939SharedAddressClusters(self, element: ET.Element, system: System):
         for child_element in self.findall(element, "J-1939-SHARED-ADDRESS-CLUSTERS/J-1939-SHARED-ADDRESS-CLUSTER"):
             cluster = system.createJ1939SharedAddressCluster(self.getShortName(child_element))
-            self.readIdentifiable(child_element, cluster)
+            self.readJ1939SharedAddressCluster(child_element, cluster)
 
     def readSystemSwClusterRefs(self, element: ET.Element, system: System):
         for ref in self.getChildElementRefTypeList(element, "SW-CLUSTERS/CP-SOFTWARE-CLUSTER-REF-CONDITIONAL/CP-SOFTWARE-CLUSTER-REF"):
