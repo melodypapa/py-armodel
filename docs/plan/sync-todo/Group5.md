@@ -135,8 +135,19 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base already spec-correct; zero attrs; Note wrap-space artifact resolved via XSD doc)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (457 touched tests + integration 130-file round-trip, lint/ruff/black, parity, set-based check); 9b confirmed by user (2026-09-19) → stamped R23-11; sync commit a864fa46, stamp commit 1cd8edd8
-- [ ] `ClientIdDefinition` (dependency of System, Table 2.3 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 2.3 · member type of `ClientIdDefinitionSet.clientIdDefinition` below · added by 2026-09-19 Group5 dependency audit)
+- [ ] `OperationInSystemInstanceRef` (dependency of ClientIdDefinition, XSD-only · R23-11 XSD · AUTOSAR_00052.xsd line 87078 · member type of `ClientIdDefinition.clientServerOperation` (iref) · added 2026-09-19 while syncing ClientIdDefinition)
+  - Note: no own table in R23-11 or R4.3.1 markdown (XSD-only instance-ref class); derive attributes from XSD group OPERATION-IN-SYSTEM-INSTANCE-REF (contextComposition 0..1, contextComponent 0..*, contextPort 0..1, targetOperation 0..1 — all REF); place in SystemTemplate/InstanceRefs.py mirroring siblings (ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef); carries `# XSD verified: AUTOSAR_00052.xsd` on completion.
   - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ClientIdDefinition` (dependency of System, Table 2.3 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 2.3 · member type of `ClientIdDefinitionSet.clientIdDefinition` below · added by 2026-09-19 Group5 dependency audit)
+  - [x] Step 1 — Sync members & description from spec — Table 2.3 (p.45) extracted: Base = Identifiable; clientId (Numerical, 0..1, attr); clientServerOperation (ClientServerOperation, 0..1, iref → OperationInSystemInstanceRef, XSD CLIENT-SERVER-OPERATION-IREF). Blocked on missing member type OperationInSystemInstanceRef — queued above per user decision (2026-09-19); resume at Step 2.
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
