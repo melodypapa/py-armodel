@@ -26,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RevisionLabelString,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutine
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ClientServerOperationMapping,
     DataPrototypeMapping,
@@ -1307,3 +1308,39 @@ class TestWriterClientIdDefinitionSet:
         definitions = id_definition_set_2.getClientIdDefinitions()
         assert len(definitions) == 1
         assert definitions[0].getShortName() == "CID1"
+
+
+class TestWriterInterpolationRoutine:
+    def test_full_in_xsd_order(self, writer):
+        routine = InterpolationRoutine()
+        short_label = Identifier()
+        short_label.setValue("LinearInterpolation")
+        routine.setShortLabel(short_label)
+        is_default = Boolean()
+        is_default.setValue(True)
+        routine.setIsDefault(is_default)
+        ref = RefType()
+        ref.setDest("BSW-MODULE-ENTRY")
+        ref.setValue("/BswM/BswEntries/InterpolationEntry")
+        routine.setInterpolationRoutineRef(ref)
+
+        parent = _parent()
+        writer.writeInterpolationRoutine(parent, routine)
+
+        child = parent.find("INTERPOLATION-ROUTINE")
+        assert child is not None
+        assert [e.tag for e in child] == ["SHORT-LABEL", "IS-DEFAULT", "INTERPOLATION-ROUTINE-REF"]
+        assert child.find("SHORT-LABEL").text == "LinearInterpolation"
+        assert child.find("IS-DEFAULT").text == "true"
+        ref_element = child.find("INTERPOLATION-ROUTINE-REF")
+        assert ref_element.get("DEST") == "BSW-MODULE-ENTRY"
+        assert ref_element.text == "/BswM/BswEntries/InterpolationEntry"
+
+    def test_empty_no_children(self, writer):
+        routine = InterpolationRoutine()
+        parent = _parent()
+        writer.writeInterpolationRoutine(parent, routine)
+
+        child = parent.find("INTERPOLATION-ROUTINE")
+        assert child is not None
+        assert len(child) == 0

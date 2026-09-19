@@ -686,7 +686,9 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment, RoleBasedPortAssignment, SwcServiceDependency
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutine
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition, ClientIdDefinitionSet, SwcToEcuMapping, System, SystemMapping
+
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecCompositeTypeMapping,
     SenderReceiverToSignalGroupMapping,
@@ -12446,6 +12448,12 @@ class ARXMLParser(AbstractARXMLParser):
             for child_element in self.findall(wrapper_element, "CLIENT-ID-DEFINITION"):
                 id_definition = id_definition_set.createClientIdDefinition(self.getShortName(child_element))
                 self.readClientIdDefinition(child_element, id_definition)
+
+    def readInterpolationRoutine(self, element: ET.Element, interpolation_routine: InterpolationRoutine):
+        self.logger.debug("Read InterpolationRoutine")
+        interpolation_routine.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
+        interpolation_routine.setIsDefault(self.getChildElementOptionalBooleanValue(element, "IS-DEFAULT"))
+        interpolation_routine.setInterpolationRoutineRef(self.getChildElementOptionalRefType(element, "INTERPOLATION-ROUTINE-REF"))
 
     def readSystem(self, element: ET.Element, system: System):
         self.logger.debug("Read System <%s>" % system.getShortName())

@@ -618,6 +618,32 @@ class TestAdminDataAndReferrableHandlers:
         parser.readClientIdDefinitionSet(element, id_definition_set)
         assert id_definition_set.getClientIdDefinitions() == []
 
+    def test_readInterpolationRoutine_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutine
+
+        routine = InterpolationRoutine()
+        element = _snip(
+            "<SHORT-LABEL>LinearInterpolation</SHORT-LABEL>"
+            "<IS-DEFAULT>true</IS-DEFAULT>"
+            '<INTERPOLATION-ROUTINE-REF DEST="BSW-MODULE-ENTRY">/BswM/BswEntries/InterpolationEntry</INTERPOLATION-ROUTINE-REF>',
+            root_tag="INTERPOLATION-ROUTINE",
+        )
+        parser.readInterpolationRoutine(element, routine)
+        assert routine.getShortLabel().getValue() == "LinearInterpolation"
+        assert routine.getIsDefault().getValue() is True
+        assert routine.getInterpolationRoutineRef().getDest() == "BSW-MODULE-ENTRY"
+        assert routine.getInterpolationRoutineRef().getValue() == "/BswM/BswEntries/InterpolationEntry"
+
+    def test_readInterpolationRoutine_empty(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutine
+
+        routine = InterpolationRoutine()
+        element = _snip("", root_tag="INTERPOLATION-ROUTINE")
+        parser.readInterpolationRoutine(element, routine)
+        assert routine.getShortLabel() is None
+        assert routine.getIsDefault() is None
+        assert routine.getInterpolationRoutineRef() is None
+
     def test_getAutosarVariableRef_with_iref(self, parser):
         element = _snip(
             "<ACCESSED-VARIABLE>"
