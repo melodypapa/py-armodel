@@ -22,7 +22,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RevisionLabelString, TRefType
-from armodel.models.M2.MSR.Documentation.Chapters import Chapter
 
 
 class SwcToEcuMapping(Identifiable, VariationPointCapable):
