@@ -8,7 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController, PhysicalChannel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CommunicationConnector, CommunicationController, PhysicalChannel
 
 
 class CanControllerFdConfiguration(ARObject):
@@ -1296,4 +1296,90 @@ class CanClusterBusOffRecovery(ARObject):
     def setMainFunctionPeriod(self, value):
         if value is not None:
             self.mainFunctionPeriod = value
+        return self
+
+
+class J1939Cluster(AbstractCanCluster):
+    """J1939 specific cluster attributes. Tags: atp.recommendedPackage=CommunicationClusters
+
+    [constr_3050] J1939Cluster uses exactly one CanPhysicalChannel: A J1939Cluster shall aggregate exactly one CanPhysicalChannel.
+
+    [constr_1463] Applicable values for J1939Cluster.networkId: The values of the attribute J1939Cluster.networkId shall always be within the interval 1..4.
+    """
+
+    # J1939Cluster method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.28, p.78 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNetworkId                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkId                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequest2Support           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequest2Support           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUsesAddressArbitration    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUsesAddressArbitration    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the network ID for the J1939 cluster.
+        self.networkId: Optional[PositiveInteger] = None
+
+        # Enables support for the Request2 PGN (RQST2).
+        self.request2Support: Optional[Boolean] = None
+
+        # Defines whether the nodes attached to this channel use an initial address claim, and whether they react to contending address claims of other nodes.
+        self.usesAddressArbitration: Optional[Boolean] = None
+
+    def getNetworkId(self) -> Optional[PositiveInteger]:
+        """
+        This represents the network ID for the J1939 cluster.
+        """
+        return self.networkId
+
+    def setNetworkId(self, value: Optional[PositiveInteger]) -> "J1939Cluster":
+        """
+        This represents the network ID for the J1939 cluster.
+        A None value is a no-op and does not overwrite an existing networkId.
+        """
+        if value is not None:
+            self.networkId = value
+        return self
+
+    def getRequest2Support(self) -> Optional[Boolean]:
+        """
+        Enables support for the Request2 PGN (RQST2).
+        """
+        return self.request2Support
+
+    def setRequest2Support(self, value: Optional[Boolean]) -> "J1939Cluster":
+        """
+        Enables support for the Request2 PGN (RQST2).
+        A None value is a no-op and does not overwrite an existing request2Support.
+        """
+        if value is not None:
+            self.request2Support = value
+        return self
+
+    def getUsesAddressArbitration(self) -> Optional[Boolean]:
+        """
+        Defines whether the nodes attached to this channel use an initial address claim, and whether they react to contending address claims of other nodes.
+
+        True: The initial address claim is sent, and the node reacts to address claims of other nodes.
+
+        False: The node only sends an address claim upon request, and does not care for contending address claims.
+        """
+        return self.usesAddressArbitration
+
+    def setUsesAddressArbitration(self, value: Optional[Boolean]) -> "J1939Cluster":
+        """
+        Defines whether the nodes attached to this channel use an initial address claim, and whether they react to contending address claims of other nodes.
+
+        True: The initial address claim is sent, and the node reacts to address claims of other nodes.
+
+        False: The node only sends an address claim upon request, and does not care for contending address claims.
+        A None value is a no-op and does not overwrite an existing usesAddressArbitration.
+        """
+        if value is not None:
+            self.usesAddressArbitration = value
         return self

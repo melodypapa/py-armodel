@@ -42,6 +42,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordElementMapping,
     SenderRecRecordTypeMapping,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import J1939Cluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import (  # noqa: E501
     IPduMapping,
     ISignalMapping,
@@ -1808,3 +1809,44 @@ class TestWriterCpSoftwareCluster:
         assert child.find("SOFTWARE-CLUSTER-ID") is None
         assert child.find("SW-COMPONENT-ASSIGNMENTS") is None
         assert child.find("SW-COMPOSITIONS") is None
+
+
+class TestWriterJ1939Cluster:
+    def _make_cluster(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
+
+        cluster = J1939Cluster(parent=AUTOSAR.getInstance(), short_name="JCluster1")
+        cluster.setProtocolName(String().setValue("JAUS"))
+        cluster.setNetworkId(_positive_int(2))
+        cluster.setRequest2Support(_boolean(True))
+        cluster.setUsesAddressArbitration(_boolean(False))
+        return cluster
+
+    def test_members_in_xsd_order(self, writer):
+        cluster = self._make_cluster()
+        parent = _parent()
+        writer.writeJ1939Cluster(parent, cluster)
+
+        child = parent.find("J-1939-CLUSTER")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "JCluster1"
+        conditional = child.find("J-1939-CLUSTER-VARIANTS/J-1939-CLUSTER-CONDITIONAL")
+        assert conditional is not None
+        tags = [c.tag for c in conditional]
+        assert tags.index("PROTOCOL-NAME") < tags.index("NETWORK-ID") < tags.index("REQUEST-2-SUPPORT") < tags.index("USES-ADDRESS-ARBITRATION")
+        assert conditional.find("NETWORK-ID").text == "2"
+        assert conditional.find("REQUEST-2-SUPPORT").text == "true"
+        assert conditional.find("USES-ADDRESS-ARBITRATION").text == "false"
+
+    def test_none_members_not_emitted(self, writer):
+        cluster = J1939Cluster(parent=AUTOSAR.getInstance(), short_name="JCluster1")
+        parent = _parent()
+        writer.writeJ1939Cluster(parent, cluster)
+
+        child = parent.find("J-1939-CLUSTER")
+        assert child is not None
+        conditional = child.find("J-1939-CLUSTER-VARIANTS/J-1939-CLUSTER-CONDITIONAL")
+        assert conditional is not None
+        assert conditional.find("NETWORK-ID") is None
+        assert conditional.find("REQUEST-2-SUPPORT") is None
+        assert conditional.find("USES-ADDRESS-ARBITRATION") is None

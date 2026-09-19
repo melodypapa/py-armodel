@@ -931,6 +931,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(cluster)
         return self.getElement(short_name, CanCluster)
 
+    def createJ1939Cluster(self, short_name: str) -> J1939Cluster:
+
+        if not self.IsElementExists(short_name, J1939Cluster):
+            cluster = J1939Cluster(self, short_name)
+            self.addElement(cluster)
+        return self.getElement(short_name, J1939Cluster)
+
     def createLinUnconditionalFrame(self, short_name: str) -> LinUnconditionalFrame:
 
         if not self.IsElementExists(short_name, LinUnconditionalFrame):
@@ -1811,7 +1818,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation im
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet, CpSoftwareCluster, System  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanXlProps  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanXlProps, J1939Cluster  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SoAdRoutingGroup  # noqa: E402
