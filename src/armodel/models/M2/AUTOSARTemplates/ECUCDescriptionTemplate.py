@@ -554,3 +554,42 @@ class EcucModuleConfigurationValues(ARElement):
 # (canonical, # Spec verified: R23-11 — AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.13, p.53).
 # The duplicate stub that used to sit here was removed; import it from
 # armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate when needed.
+
+
+class ParameterValue(ARObject, ABC):
+    """
+    Common class to all types of configuration values.
+    """
+
+    # ParameterValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.32, p.97 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDefinitionRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefinitionRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Deviations (spec member name is `definition`, kind ref; renamed per ECUC ref-suffix
+    # convention to definitionRef):
+    # 1. definition optional — spec Mul=1 but XSD group PARAMETER-VALUE (AUTOSAR.xsd L18140)
+    #    has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins).
+    # 2. DEFINITION-REF DEST attribute — XSD says use="required" but Os_ECUC.arxml carries
+    #    no DEST; reader/writer treat DEST as optional.
+
+    def __init__(self):
+        if type(self) is ParameterValue:
+            raise TypeError("ParameterValue is an abstract class.")
+
+        super().__init__()
+
+        # Reference to the definition of this ParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10
+        self.definitionRef: Optional[RefType] = None
+
+    def getDefinitionRef(self) -> Optional[RefType]:
+        """Reference to the definition of this ParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10"""
+        return self.definitionRef
+
+    def setDefinitionRef(self, value: Optional[RefType]) -> "ParameterValue":
+        """Reference to the definition of this ParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.definitionRef = value
+        return self

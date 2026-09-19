@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucReferenceValue,
     EcucTextualParamValue,
     EcucValueCollection,
+    ParameterValue,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, RevisionLabelString
@@ -26,6 +27,13 @@ from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
 def _instantiate(cls, name):
     return cls(AUTOSAR.getInstance().createARPackage("Pkg_" + cls.__name__), name)
+
+
+class _R3ParameterValueStub(ParameterValue):
+    """
+    Minimal concrete subclass of the abstract R3.2.3 ParameterValue, used to
+    exercise the inherited abstract-base behavior in unit tests.
+    """
 
 
 class TestEcucValueCollection:
@@ -238,3 +246,28 @@ class TestEcucAbstractReferenceValue:
 
     def test_inheritance(self):
         assert issubclass(EcucInstanceReferenceValue, EcucAbstractReferenceValue)
+
+
+class TestParameterValue:
+    """
+    Test class for ParameterValue (abstract base) functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.32, p.97 (R3.2 Rev 3)
+    """
+
+    def test_rejects_direct_instantiation(self):
+        with pytest.raises(TypeError):
+            ParameterValue()
+
+    def test_initialization_defaults(self):
+        obj = _R3ParameterValueStub()
+        assert obj.getDefinitionRef() is None
+
+    def test_get_set_definition_ref(self):
+        obj = _R3ParameterValueStub()
+        ref = RefType().setValue("/TS_T19D1M6I1R0_AS403/Os/Param")
+        result = obj.setDefinitionRef(ref)
+        assert result is obj
+        assert obj.getDefinitionRef() == ref
+        obj.setDefinitionRef(None)
+        assert obj.getDefinitionRef() == ref

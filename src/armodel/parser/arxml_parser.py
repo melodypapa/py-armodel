@@ -350,6 +350,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucReferenceValue,
     EcucTextualParamValue,
     EcucValueCollection,
+    ParameterValue,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucAbstractConfigurationClass,
@@ -11745,6 +11746,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, collection)
         collection.setEcuExtractRef(self.getChildElementOptionalRefType(element, "ECU-EXTRACT-REF"))
         self.readEcucValueCollectionEcucValues(element, collection)
+
+    def readParameterValue(self, element: ET.Element, param_value: ParameterValue):
+        """Read the R3.2.3 abstract ParameterValue members (DEFINITION-REF; DEST optional in legacy files)."""
+        param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
 
     def readEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))

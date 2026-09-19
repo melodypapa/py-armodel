@@ -7,6 +7,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from armodel.models import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import ParameterValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RevisionLabelString
 from armodel.parser.arxml_parser import ARXMLParser
 
@@ -2052,3 +2053,40 @@ class TestEcucValidationCondition:
         assert vc.getEcucQueries()[0].getShortName() == "Q1"
         assert vc.getValidationFormula() is not None
         assert vc.getValidationFormula().getEcucQueryRef().getValue() == "/Ref/Query1"
+
+
+class _R3ParameterValueStub(ParameterValue):
+    """Minimal concrete subclass of the abstract R3.2.3 ParameterValue."""
+
+    pass
+
+
+class TestParameterValue:
+    """Tests for readParameterValue handler (R3.2.3 abstract ParameterValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.32, p.97 (R3.2 Rev 3)
+    """
+
+    def test_read_definition_ref_without_dest(self, parser):
+        param_value = _R3ParameterValueStub()
+        element = _snip("<DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/Param</DEFINITION-REF>")
+        parser.readParameterValue(element, param_value)
+        ref = param_value.getDefinitionRef()
+        assert ref is not None
+        assert ref.getValue() == "/TS_T19D1M6I1R0_AS403/Os/Param"
+        assert ref.getDest() is None
+
+    def test_read_definition_ref_with_dest(self, parser):
+        param_value = _R3ParameterValueStub()
+        element = _snip('<DEFINITION-REF DEST="BOOLEAN-PARAM-DEF">/Defs/Flag</DEFINITION-REF>')
+        parser.readParameterValue(element, param_value)
+        ref = param_value.getDefinitionRef()
+        assert ref is not None
+        assert ref.getValue() == "/Defs/Flag"
+        assert ref.getDest() == "BOOLEAN-PARAM-DEF"
+
+    def test_read_missing_definition_ref(self, parser):
+        param_value = _R3ParameterValueStub()
+        element = _snip("")
+        parser.readParameterValue(element, param_value)
+        assert param_value.getDefinitionRef() is None

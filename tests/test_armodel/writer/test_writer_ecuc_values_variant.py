@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucNumericalParamValue,
     EcucReferenceValue,
     EcucTextualParamValue,
+    ParameterValue,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import (  # noqa E501
     AnyInstanceRef,
@@ -814,3 +815,44 @@ class TestWriterPredefinedVariant:
         assert parent[0].find("INCLUDED-VARIANT-REFS") is None
         assert parent[0].find("POST-BUILD-VARIANT-CRITERION-VALUE-SET-REFS") is None
         assert parent[0].find("SW-SYSTEMCONSTANT-VALUE-SET-REFS") is None
+
+
+class _R3ParameterValueStub(ParameterValue):
+    """Minimal concrete subclass of the abstract R3.2.3 ParameterValue."""
+
+    pass
+
+
+class TestParameterValueWrite:
+    """Tests for writeParameterValue helper (R3.2.3 abstract ParameterValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.32, p.97 (R3.2 Rev 3)
+    """
+
+    def test_write_definition_ref_without_dest(self, writer):
+        # Os_ECUC.arxml R3.2.3 legacy: DEFINITION-REF carries NO DEST attribute
+        param_value = _R3ParameterValueStub()
+        param_value.setDefinitionRef(_ref("/TS_T19D1M6I1R0_AS403/Os/Param"))
+        parent = _parent()
+        writer.writeParameterValue(parent, param_value)
+        child = parent.find("DEFINITION-REF")
+        assert child is not None
+        assert "DEST" not in child.attrib
+        assert child.text == "/TS_T19D1M6I1R0_AS403/Os/Param"
+
+    def test_write_definition_ref_with_dest(self, writer):
+        param_value = _R3ParameterValueStub()
+        param_value.setDefinitionRef(_ref("/Defs/Flag", "BOOLEAN-PARAM-DEF"))
+        parent = _parent()
+        writer.writeParameterValue(parent, param_value)
+        child = parent.find("DEFINITION-REF")
+        assert child is not None
+        assert child.attrib["DEST"] == "BOOLEAN-PARAM-DEF"
+        assert child.text == "/Defs/Flag"
+
+    def test_write_none_definition_ref_omits_element(self, writer):
+        param_value = _R3ParameterValueStub()
+        parent = _parent()
+        writer.writeParameterValue(parent, param_value)
+        assert parent.find("DEFINITION-REF") is None
+        assert len(parent) == 0

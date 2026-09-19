@@ -246,6 +246,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucReferenceValue,
     EcucTextualParamValue,
     EcucValueCollection,
+    ParameterValue,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucAbstractConfigurationClass,
@@ -11150,6 +11151,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEcucContainValue(sub_containers_tag, sub_container)
                 else:
                     self.notImplemented("Unsupported Sub Container %s" % type(container))
+
+    def writeParameterValue(self, element: ET.Element, param_value: ParameterValue):
+        """Write the R3.2.3 abstract ParameterValue members (DEFINITION-REF without a forced DEST attribute)."""
+        self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())
 
     def writeEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())
