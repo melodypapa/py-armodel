@@ -342,6 +342,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    BooleanValue,
     EcucAbstractReferenceValue,
     EcucAddInfoParamValue,
     EcucContainerValue,
@@ -352,6 +353,11 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucReferenceValue,
     EcucTextualParamValue,
     EcucValueCollection,
+    FloatValue,
+    IntegerValue,
+    LinkerSymbolValue,
+    ParameterValue,
+    StringValue,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucAbstractConfigurationClass,
@@ -447,6 +453,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     SectionInitializationPolicyType,
     String,
     UriString,
+    UnlimitedInteger,
     VerbatimString,
     VerbatimStringPlain,
     ViewTokens,
@@ -11829,6 +11836,39 @@ class ARXMLParser(AbstractARXMLParser):
         collection.setEcuExtractRef(self.getChildElementOptionalRefType(element, "ECU-EXTRACT-REF"))
         self.readEcucValueCollectionEcucValues(element, collection)
 
+    def readParameterValue(self, element: ET.Element, param_value: ParameterValue):
+        """Read the R3.2.3 abstract ParameterValue members (DEFINITION-REF; DEST optional in legacy files)."""
+        param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+
+    def readIntegerValue(self, element: ET.Element, integer_value: IntegerValue):
+        """Read an R3.2.3 <INTEGER-VALUE> element (Table 3.34): DEFINITION-REF followed by VALUE."""
+        self.readParameterValue(element, integer_value)
+        child_element = self.find(element, "VALUE")
+        if child_element is not None:
+            value = UnlimitedInteger()
+            self.readARType(child_element, value)
+            value.setValue(child_element.text)
+            integer_value.setValue(value)
+
+    def readBooleanValue(self, element: ET.Element, boolean_value: BooleanValue):
+        """Read an R3.2.3 <BOOLEAN-VALUE> element (Table 3.33): DEFINITION-REF followed by VALUE."""
+        self.readParameterValue(element, boolean_value)
+        boolean_value.setValue(self.getChildElementOptionalBooleanValue(element, "VALUE"))
+
+    def readFloatValue(self, element: ET.Element, float_value: FloatValue):
+        """Read an R3.2.3 <FLOAT-VALUE> element (Table 3.35): DEFINITION-REF followed by VALUE."""
+        self.readParameterValue(element, float_value)
+        float_value.setValue(self.getChildElementOptionalFloatValue(element, "VALUE"))
+
+    def readStringValue(self, element: ET.Element, string_value: StringValue):
+        """Read an R3.2.3 <STRING-VALUE> element (Table 3.36): DEFINITION-REF followed by VALUE."""
+        self.readParameterValue(element, string_value)
+        string_value.setValue(self.getChildElementOptionalString(element, "VALUE"))
+
+    def readLinkerSymbolValue(self, element: ET.Element, linker_symbol_value: LinkerSymbolValue):
+        """Read an R3.2.3 <LINKER-SYMBOL-VALUE> element (Table 3.37): DEFINITION-REF followed by VALUE."""
+        self.readStringValue(element, linker_symbol_value)
+
     def readEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
         param_value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
@@ -11836,33 +11876,33 @@ class ARXMLParser(AbstractARXMLParser):
             param_value.addAnnotation(annotation)
         param_value.setIsAutoValue(self.getChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE"))
 
-    def getEcucTextualParamValue(self, element: ET.Element) -> EcucTextualParamValue:
-        param_value = EcucTextualParamValue()
+    def readEcucTextualParamValue(self, element: ET.Element, param_value: EcucTextualParamValue):
         self.readEcucParameterValue(element, param_value)
         param_value.setValue(self.getChildElementOptionalVerbatimString(element, "VALUE"))
-        return param_value
 
-    def getEcucNumericalParamValue(self, element: ET.Element) -> EcucNumericalParamValue:
-        param_value = EcucNumericalParamValue()
+    def readEcucNumericalParamValue(self, element: ET.Element, param_value: EcucNumericalParamValue):
         self.readEcucParameterValue(element, param_value)
         param_value.setValue(self.getChildElementOptionalNumerical(element, "VALUE"))
-        return param_value
 
-    def getEcucAddInfoParamValue(self, element: ET.Element) -> EcucAddInfoParamValue:
-        param_value = EcucAddInfoParamValue()
+    def readEcucAddInfoParamValue(self, element: ET.Element, param_value: EcucAddInfoParamValue):
         self.readEcucParameterValue(element, param_value)
         param_value.setValue(self.getDocumentationBlock(element, "VALUE"))
-        return param_value
 
     def readEcucContainerValueParameterValues(self, element: ET.Element, container_value: EcucContainerValue):
         for child_element in self.findall(element, "PARAMETER-VALUES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "ECUC-TEXTUAL-PARAM-VALUE":
-                container_value.addParameterValue(self.getEcucTextualParamValue(child_element))
+                param_value = EcucTextualParamValue()
+                self.readEcucTextualParamValue(child_element, param_value)
+                container_value.addParameterValue(param_value)
             elif tag_name == "ECUC-NUMERICAL-PARAM-VALUE":
-                container_value.addParameterValue(self.getEcucNumericalParamValue(child_element))
+                param_value = EcucNumericalParamValue()
+                self.readEcucNumericalParamValue(child_element, param_value)
+                container_value.addParameterValue(param_value)
             elif tag_name == "ECUC-ADD-INFO-PARAM-VALUE":
-                container_value.addParameterValue(self.getEcucAddInfoParamValue(child_element))
+                param_value = EcucAddInfoParamValue()
+                self.readEcucAddInfoParamValue(child_element, param_value)
+                container_value.addParameterValue(param_value)
             else:
                 self.notImplemented("Unsupported EcucParameterValue <%s>" % tag_name)
 
@@ -11873,11 +11913,9 @@ class ARXMLParser(AbstractARXMLParser):
             value.addAnnotation(annotation)
         value.setIsAutoValue(self.getChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE"))
 
-    def getEcucReferenceValue(self, element: ET.Element) -> EcucReferenceValue:
-        value = EcucReferenceValue()
+    def readEcucReferenceValue(self, element: ET.Element, value: EcucReferenceValue):
         self.readEcucAbstractReferenceValue(element, value)
         value.setValueRef(self.getChildElementOptionalRefType(element, "VALUE-REF"))
-        return value
 
     def getAnyInstanceRef(self, element: ET.Element, key) -> AnyInstanceRef:
         instance_ref = None
@@ -11894,19 +11932,21 @@ class ARXMLParser(AbstractARXMLParser):
         instance_ref.setTargetRef(self.getChildElementOptionalRefType(child_element, "TARGET-REF"))
         return instance_ref
 
-    def getEcucInstanceReferenceValue(self, element: ET.Element) -> EcucInstanceReferenceValue:
-        value = EcucInstanceReferenceValue()
+    def readEcucInstanceReferenceValue(self, element: ET.Element, value: EcucInstanceReferenceValue):
         self.readEcucAbstractReferenceValue(element, value)
         value.setValueIRef(self.getAnyInstanceRef(element, "VALUE-IREF"))
-        return value
 
     def readEcucContainerValueReferenceValues(self, element: ET.Element, container_value: EcucContainerValue):
         for child_element in self.findall(element, "REFERENCE-VALUES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "ECUC-REFERENCE-VALUE":
-                container_value.addReferenceValue(self.getEcucReferenceValue(child_element))
+                value = EcucReferenceValue()
+                self.readEcucReferenceValue(child_element, value)
+                container_value.addReferenceValue(value)
             elif tag_name == "ECUC-INSTANCE-REFERENCE-VALUE":
-                container_value.addReferenceValue(self.getEcucInstanceReferenceValue(child_element))
+                value = EcucInstanceReferenceValue()
+                self.readEcucInstanceReferenceValue(child_element, value)
+                container_value.addReferenceValue(value)
             else:
                 self.notImplemented("Unsupported EcucParameterValue <%s>" % tag_name)
 
@@ -13237,7 +13277,15 @@ class ARXMLParser(AbstractARXMLParser):
         self.readReferenceBases(element, ar_package)
 
     def readARPackages(self, element: ET.Element, parent: ARPackage):
-        for child_element in self.findall(element, "AR-PACKAGES/*"):
+        child_elements = self.findall(element, "AR-PACKAGES/*")
+        if len(child_elements) == 0:
+            # Legacy R3.x releases: TOP-LEVEL-PACKAGES at document root, SUB-PACKAGES
+            # inside an AR-PACKAGE (autosar/R3.2.3/xsd/AUTOSAR.xsd L315/L270).
+            if isinstance(parent, AUTOSAR):
+                child_elements = self.findall(element, "TOP-LEVEL-PACKAGES/*")
+            else:
+                child_elements = self.findall(element, "SUB-PACKAGES/*")
+        for child_element in child_elements:
             tag_name = self.getTagName(child_element)
             if tag_name == "AR-PACKAGE":
                 ar_package = parent.createARPackage(self.getShortName(child_element))
@@ -13253,6 +13301,7 @@ class ARXMLParser(AbstractARXMLParser):
         if self.getPureTagName(root.tag) != "AUTOSAR":
             self.raiseError("Invalid ARXML file <%s>" % filename)
 
+        self.detectNamespace(root)
         self.getAUTOSARInfo(root, document)
         document.setAdminData(self.getAdminData(root, "ADMIN-DATA"))
         document.setFileInfoComment(self.getFileInfoComment(root, "FILE-INFO-COMMENT"))

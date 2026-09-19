@@ -238,6 +238,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    BooleanValue,
     EcucAbstractReferenceValue,
     EcucAddInfoParamValue,
     EcucContainerValue,
@@ -248,6 +249,11 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucReferenceValue,
     EcucTextualParamValue,
     EcucValueCollection,
+    FloatValue,
+    IntegerValue,
+    LinkerSymbolValue,
+    ParameterValue,
+    StringValue,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucAbstractConfigurationClass,
@@ -11374,23 +11380,57 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Sub Container %s" % type(container))
 
+    def writeParameterValue(self, element: ET.Element, param_value: ParameterValue):
+        """Write the R3.2.3 abstract ParameterValue members (DEFINITION-REF without a forced DEST attribute)."""
+        self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())
+
+    def writeIntegerValue(self, element: ET.Element, integer_value: IntegerValue):
+        """Write an R3.2.3 <INTEGER-VALUE> element (Table 3.34): DEFINITION-REF followed by VALUE."""
+        child_element = ET.SubElement(element, "INTEGER-VALUE")
+        self.writeParameterValue(child_element, integer_value)
+        self.setChildElementOptionalIntegerValue(child_element, "VALUE", integer_value.getValue())
+
+    def writeBooleanValue(self, element: ET.Element, boolean_value: BooleanValue):
+        """Write an R3.2.3 <BOOLEAN-VALUE> element (Table 3.33): DEFINITION-REF followed by VALUE."""
+        child_element = ET.SubElement(element, "BOOLEAN-VALUE")
+        self.writeParameterValue(child_element, boolean_value)
+        self.setChildElementOptionalBooleanValue(child_element, "VALUE", boolean_value.getValue())
+
+    def writeFloatValue(self, element: ET.Element, float_value: FloatValue):
+        """Write an R3.2.3 <FLOAT-VALUE> element (Table 3.35): DEFINITION-REF followed by VALUE."""
+        child_element = ET.SubElement(element, "FLOAT-VALUE")
+        self.writeParameterValue(child_element, float_value)
+        self.setChildElementOptionalFloatValue(child_element, "VALUE", float_value.getValue())
+
+    def writeStringValue(self, element: ET.Element, string_value: StringValue):
+        """Write an R3.2.3 <STRING-VALUE> element (Table 3.36): DEFINITION-REF followed by VALUE."""
+        child_element = ET.SubElement(element, "STRING-VALUE")
+        self.writeParameterValue(child_element, string_value)
+        self.setChildElementOptionalString(child_element, "VALUE", string_value.getValue())
+
+    def writeLinkerSymbolValue(self, element: ET.Element, linker_symbol_value: LinkerSymbolValue):
+        """Write an R3.2.3 <LINKER-SYMBOL-VALUE> element (Table 3.37): DEFINITION-REF followed by VALUE."""
+        child_element = ET.SubElement(element, "LINKER-SYMBOL-VALUE")
+        self.writeParameterValue(child_element, linker_symbol_value)
+        self.setChildElementOptionalString(child_element, "VALUE", linker_symbol_value.getValue())
+
     def writeEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())
         self.setChildElementOptionalPositiveInteger(element, "INDEX", param_value.getIndex())
         self.setAnnotations(element, param_value.getAnnotations())
         self.setChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE", param_value.getIsAutoValue())
 
-    def setEcucTextualParamValue(self, element: ET.Element, param_value: EcucTextualParamValue):
+    def writeEcucTextualParamValue(self, element: ET.Element, param_value: EcucTextualParamValue):
         child_element = ET.SubElement(element, "ECUC-TEXTUAL-PARAM-VALUE")
         self.writeEcucParameterValue(child_element, param_value)
         self.setChildElementOptionalLiteral(child_element, "VALUE", param_value.getValue())
 
-    def setEcucNumericalParamValue(self, element: ET.Element, param_value: EcucNumericalParamValue):
+    def writeEcucNumericalParamValue(self, element: ET.Element, param_value: EcucNumericalParamValue):
         child_element = ET.SubElement(element, "ECUC-NUMERICAL-PARAM-VALUE")
         self.writeEcucParameterValue(child_element, param_value)
         self.setChildElementOptionalNumerical(child_element, "VALUE", param_value.getValue())
 
-    def setEcucAddInfoParamValue(self, element: ET.Element, param_value: EcucAddInfoParamValue):
+    def writeEcucAddInfoParamValue(self, element: ET.Element, param_value: EcucAddInfoParamValue):
         child_element = ET.SubElement(element, "ECUC-ADD-INFO-PARAM-VALUE")
         self.writeEcucParameterValue(child_element, param_value)
         self.writeDocumentationBlock(child_element, "VALUE", param_value.getValue())
@@ -11401,11 +11441,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "PARAMETER-VALUES")
             for param_value in param_values:
                 if isinstance(param_value, EcucTextualParamValue):
-                    self.setEcucTextualParamValue(child_element, param_value)
+                    self.writeEcucTextualParamValue(child_element, param_value)
                 elif isinstance(param_value, EcucNumericalParamValue):
-                    self.setEcucNumericalParamValue(child_element, param_value)
+                    self.writeEcucNumericalParamValue(child_element, param_value)
                 elif isinstance(param_value, EcucAddInfoParamValue):
-                    self.setEcucAddInfoParamValue(child_element, param_value)
+                    self.writeEcucAddInfoParamValue(child_element, param_value)
                 else:
                     self.notImplemented("Unsupported EcucParameterValue <%s>" % type(param_value))
 
@@ -11415,7 +11455,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setAnnotations(element, value.getAnnotations())
         self.setChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE", value.getIsAutoValue())
 
-    def setEcucReferenceValue(self, element: ET.Element, value=None):
+    def writeEcucReferenceValue(self, element: ET.Element, value=None):
         if value is not None:
             child_element = ET.SubElement(element, "ECUC-REFERENCE-VALUE")
             self.writeEcucAbstractReferenceValue(child_element, value)
@@ -11433,7 +11473,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "TARGET-REF", instance_ref.getTargetRef())
         return instance_ref
 
-    def setEcucInstanceReferenceValue(self, element: ET.Element, value: EcucInstanceReferenceValue):
+    def writeEcucInstanceReferenceValue(self, element: ET.Element, value: EcucInstanceReferenceValue):
         child_element = ET.SubElement(element, "ECUC-INSTANCE-REFERENCE-VALUE")
         self.writeEcucAbstractReferenceValue(child_element, value)
         self.setAnyInstanceRef(child_element, "VALUE-IREF", value.getValueIRef())
@@ -11445,9 +11485,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "REFERENCE-VALUES")
             for reference_value in reference_values:
                 if isinstance(reference_value, EcucReferenceValue):
-                    self.setEcucReferenceValue(child_element, reference_value)
+                    self.writeEcucReferenceValue(child_element, reference_value)
                 elif isinstance(reference_value, EcucInstanceReferenceValue):
-                    self.setEcucInstanceReferenceValue(child_element, reference_value)
+                    self.writeEcucInstanceReferenceValue(child_element, reference_value)
                 else:
                     self.notImplemented("Unsupported EcucParameterValue <%s>" % type(reference_value))
 
@@ -12998,7 +13038,20 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeARPackages(self, element: ET.Element, pkgs: List[ARPackage]):
         if len(pkgs) > 0:
-            child_element = ET.SubElement(element, "AR-PACKAGES")
+            if self._legacy_namespace:
+                # Legacy R3.x: packages nested in an AR-PACKAGE are wrapped in SUB-PACKAGES
+                child_element = ET.SubElement(element, "SUB-PACKAGES")
+            else:
+                child_element = ET.SubElement(element, "AR-PACKAGES")
+            for pkg in pkgs:
+                if isinstance(pkg, ARPackage):
+                    self.writeARPackage(child_element, pkg)
+                else:
+                    self.notImplemented("Unsupported ARPackage <%s>" % type(pkg))
+
+    def writeTopLevelARPackages(self, element: ET.Element, pkgs: List[ARPackage]):
+        if len(pkgs) > 0:
+            child_element = ET.SubElement(element, "TOP-LEVEL-PACKAGES")
             for pkg in pkgs:
                 if isinstance(pkg, ARPackage):
                     self.writeARPackage(child_element, pkg)
@@ -13008,16 +13061,28 @@ class ARXMLWriter(AbstractARXMLWriter):
     def save(self, filename, document: AUTOSAR):
         self.logger.info("Saving %s ..." % filename)
 
+        schema_location = document.schema_location
+        if schema_location is not None:
+            ns_uri = schema_location.split(" ")[0]
+        else:
+            ns_uri = "http://autosar.org/schema/r4.0"
+            schema_location = "http://autosar.org/schema/r4.0 AUTOSAR_4-0-3.xsd"
+
+        # Legacy R3.x releases use the pre-R4 namespace http://autosar.org
+        self._legacy_namespace = ns_uri == "http://autosar.org"
+        self.nsmap = {"xmlns": ns_uri}
+
         root = ET.Element("AUTOSAR", self.nsmap)
         root.attrib["xmlns:xsi"] = "http://www.w3.org/2001/XMLSchema-instance"
-        if document.schema_location is not None:
-            root.attrib["xsi:schemaLocation"] = document.schema_location
-        else:
-            root.attrib["xsi:schemaLocation"] = "http://autosar.org/schema/r4.0 AUTOSAR_4-0-3.xsd"
+        root.attrib["xsi:schemaLocation"] = schema_location
 
         self.setAdminData(root, document.getAdminData())
-        self.setFileInfoComment(root, document.getFileInfoComment())
-        self.writeDocumentationBlock(root, "INTRODUCTION", document.getIntroduction())
-        self.writeARPackages(root, document.getARPackages())
+        if self._legacy_namespace:
+            # Legacy R3.x root sequence is ADMIN-DATA -> TOP-LEVEL-PACKAGES only
+            self.writeTopLevelARPackages(root, document.getARPackages())
+        else:
+            self.setFileInfoComment(root, document.getFileInfoComment())
+            self.writeDocumentationBlock(root, "INTRODUCTION", document.getIntroduction())
+            self.writeARPackages(root, document.getARPackages())
 
         self.saveToFile(filename, root)

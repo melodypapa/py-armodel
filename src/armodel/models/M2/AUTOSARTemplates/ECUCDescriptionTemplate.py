@@ -8,10 +8,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
+    Float,
     Numerical,
     PositiveInteger,
     RefType,
     RevisionLabelString,
+    String,
+    UnlimitedInteger,
     VerbatimString,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum
@@ -554,3 +557,187 @@ class EcucModuleConfigurationValues(ARElement):
 # (canonical, # Spec verified: R23-11 — AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.13, p.53).
 # The duplicate stub that used to sit here was removed; import it from
 # armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate when needed.
+
+
+class ParameterValue(ARObject, ABC):
+    """
+    Common class to all types of configuration values.
+    """
+
+    # ParameterValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.32, p.97 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDefinitionRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefinitionRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Deviations (spec member name is `definition`, kind ref; renamed per ECUC ref-suffix
+    # convention to definitionRef):
+    # 1. definition optional — spec Mul=1 but XSD group PARAMETER-VALUE (AUTOSAR.xsd L18140)
+    #    has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins).
+    # 2. DEFINITION-REF DEST attribute — XSD says use="required" but Os_ECUC.arxml carries
+    #    no DEST; reader/writer treat DEST as optional.
+
+    def __init__(self):
+        if type(self) is ParameterValue:
+            raise TypeError("ParameterValue is an abstract class.")
+
+        super().__init__()
+
+        # Reference to the definition of this ParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10
+        self.definitionRef: Optional[RefType] = None
+
+    def getDefinitionRef(self) -> Optional[RefType]:
+        """Reference to the definition of this ParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10"""
+        return self.definitionRef
+
+    def setDefinitionRef(self, value: Optional[RefType]) -> "ParameterValue":
+        """Reference to the definition of this ParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.definitionRef = value
+        return self
+
+
+class IntegerValue(ParameterValue):
+    """
+    Representing a configuration value of definition type IntegerParamDef.
+    """
+
+    # IntegerValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.34, p.98 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Deviation: value optional — spec Mul=1 but XSD group INTEGER-VALUE (AUTOSAR.xsd
+    # L13680) has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins).
+
+    def __init__(self):
+        super().__init__()
+
+        # Stores the value of the Integer parameter.
+        self.value: Optional[UnlimitedInteger] = None
+
+    def getValue(self) -> Optional[UnlimitedInteger]:
+        """Stores the value of the Integer parameter."""
+        return self.value
+
+    def setValue(self, value: Optional[UnlimitedInteger]) -> "IntegerValue":
+        """Stores the value of the Integer parameter. A None value is a no-op and does not overwrite an existing value."""
+        if value is not None:
+            self.value = value
+        return self
+
+
+class BooleanValue(ParameterValue):
+    """
+    Representing a configuration value of definition type BooleanParamDef.
+    """
+
+    # BooleanValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.33, p.97 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Deviation: value optional — spec Mul=1 but XSD group BOOLEAN-VALUE (AUTOSAR.xsd
+    # L1551) has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins).
+
+    def __init__(self):
+        super().__init__()
+
+        # Stores the value of the Boolean parameter.
+        self.value: Optional[Boolean] = None
+
+    def getValue(self) -> Optional[Boolean]:
+        """Stores the value of the Boolean parameter."""
+        return self.value
+
+    def setValue(self, value: Optional[Boolean]) -> "BooleanValue":
+        """Stores the value of the Boolean parameter. A None value is a no-op and does not overwrite an existing value."""
+        if value is not None:
+            self.value = value
+        return self
+
+
+class FloatValue(ParameterValue):
+    """
+    Representing a configuration value of definition type FloatParamDef.
+    """
+
+    # FloatValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.35, p.99 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Deviation: value optional — spec Mul=1 but XSD group FLOAT-VALUE (AUTOSAR.xsd
+    # L11261) has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins).
+
+    def __init__(self):
+        super().__init__()
+
+        # Stores the value of the Float parameter.
+        self.value: Optional[Float] = None
+
+    def getValue(self) -> Optional[Float]:
+        """Stores the value of the Float parameter."""
+        return self.value
+
+    def setValue(self, value: Optional[Float]) -> "FloatValue":
+        """Stores the value of the Float parameter. A None value is a no-op and does not overwrite an existing value."""
+        if value is not None:
+            self.value = value
+        return self
+
+
+class StringValue(ParameterValue):
+    """
+    Representing a configuration value of definition type StringParamDef.
+    """
+
+    # StringValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.36, p.99 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Deviation: value optional — spec Mul=1 but XSD group STRING-VALUE (AUTOSAR.xsd
+    # L23746) has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins).
+
+    def __init__(self):
+        super().__init__()
+
+        # Stores the value of the String parameter.
+        self.value: Optional[String] = None
+
+    def getValue(self) -> Optional[String]:
+        """Stores the value of the String parameter."""
+        return self.value
+
+    def setValue(self, value: Optional[String]) -> "StringValue":
+        """Stores the value of the String parameter. A None value is a no-op and does not overwrite an existing value."""
+        if value is not None:
+            self.value = value
+        return self
+
+
+class LinkerSymbolValue(StringValue):
+    """
+    Representing a configuration value of definition type LinkerSymbolDef.
+    """
+
+    # LinkerSymbolValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.37, p.100 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # ZERO own members (spec Table 3.37 attribute table is empty); inherits
+    # definitionRef from ParameterValue and value from StringValue.
+
+    def __init__(self):
+        super().__init__()

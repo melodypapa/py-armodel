@@ -7,6 +7,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    BooleanValue,
     EcucAbstractReferenceValue,
     EcucAddInfoParamValue,
     EcucContainerValue,
@@ -18,14 +19,26 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucReferenceValue,
     EcucTextualParamValue,
     EcucValueCollection,
+    FloatValue,
+    IntegerValue,
+    LinkerSymbolValue,
+    ParameterValue,
+    StringValue,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, RevisionLabelString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, RefType, RevisionLabelString, String, UnlimitedInteger
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
 
 def _instantiate(cls, name):
     return cls(AUTOSAR.getInstance().createARPackage("Pkg_" + cls.__name__), name)
+
+
+class _R3ParameterValueStub(ParameterValue):
+    """
+    Minimal concrete subclass of the abstract R3.2.3 ParameterValue, used to
+    exercise the inherited abstract-base behavior in unit tests.
+    """
 
 
 class TestEcucValueCollection:
@@ -238,3 +251,158 @@ class TestEcucAbstractReferenceValue:
 
     def test_inheritance(self):
         assert issubclass(EcucInstanceReferenceValue, EcucAbstractReferenceValue)
+
+
+class TestParameterValue:
+    """
+    Test class for ParameterValue (abstract base) functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.32, p.97 (R3.2 Rev 3)
+    """
+
+    def test_rejects_direct_instantiation(self):
+        with pytest.raises(TypeError):
+            ParameterValue()
+
+    def test_initialization_defaults(self):
+        obj = _R3ParameterValueStub()
+        assert obj.getDefinitionRef() is None
+
+    def test_get_set_definition_ref(self):
+        obj = _R3ParameterValueStub()
+        ref = RefType().setValue("/TS_T19D1M6I1R0_AS403/Os/Param")
+        result = obj.setDefinitionRef(ref)
+        assert result is obj
+        assert obj.getDefinitionRef() == ref
+        obj.setDefinitionRef(None)
+        assert obj.getDefinitionRef() == ref
+
+
+class TestIntegerValue:
+    """
+    Test class for IntegerValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.34, p.98 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(IntegerValue, ParameterValue)
+
+    def test_initialization_defaults(self):
+        obj = IntegerValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValue() is None
+
+    def test_get_set_value(self):
+        obj = IntegerValue()
+        value = UnlimitedInteger().setValue(5)
+        result = obj.setValue(value)
+        assert result is obj
+        assert obj.getValue() == value
+        assert obj.getValue().getValue() == 5
+        obj.setValue(None)
+        assert obj.getValue() == value
+
+
+class TestBooleanValue:
+    """
+    Test class for BooleanValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.33, p.97 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(BooleanValue, ParameterValue)
+
+    def test_initialization_defaults(self):
+        obj = BooleanValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValue() is None
+
+    def test_get_set_value(self):
+        obj = BooleanValue()
+        value = Boolean().setValue(True)
+        result = obj.setValue(value)
+        assert result is obj
+        assert obj.getValue() == value
+        assert obj.getValue().getValue() is True
+        obj.setValue(None)
+        assert obj.getValue() == value
+
+
+class TestFloatValue:
+    """
+    Test class for FloatValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.35, p.99 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(FloatValue, ParameterValue)
+
+    def test_initialization_defaults(self):
+        obj = FloatValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValue() is None
+
+    def test_get_set_value(self):
+        obj = FloatValue()
+        value = Float().setValue(74.8)
+        result = obj.setValue(value)
+        assert result is obj
+        assert obj.getValue() == value
+        assert obj.getValue().getValue() == 74.8
+        obj.setValue(None)
+        assert obj.getValue() == value
+
+
+class TestStringValue:
+    """
+    Test class for StringValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.36, p.99 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(StringValue, ParameterValue)
+
+    def test_initialization_defaults(self):
+        obj = StringValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValue() is None
+
+    def test_get_set_value(self):
+        obj = StringValue()
+        value = String().setValue("1.0.0")
+        result = obj.setValue(value)
+        assert result is obj
+        assert obj.getValue() == value
+        assert obj.getValue().getValue() == "1.0.0"
+        obj.setValue(None)
+        assert obj.getValue() == value
+
+
+class TestLinkerSymbolValue:
+    """
+    Test class for LinkerSymbolValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.37, p.100 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(LinkerSymbolValue, StringValue)
+
+    def test_initialization_defaults(self):
+        obj = LinkerSymbolValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValue() is None
+
+    def test_get_set_value(self):
+        obj = LinkerSymbolValue()
+        value = String().setValue("RtePimInit")
+        result = obj.setValue(value)
+        assert result is obj
+        assert obj.getValue() == value
+        assert obj.getValue().getValue() == "RtePimInit"
+        obj.setValue(None)
+        assert obj.getValue() == value
