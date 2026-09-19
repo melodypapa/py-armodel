@@ -10717,9 +10717,9 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeEcuInstanceAssociatedConsumedProvidedServiceInstanceGroupRefs(self, element: ET.Element, instance: EcuInstance):
         refs = instance.getAssociatedConsumedProvidedServiceInstanceGroupRefs()
         if len(refs) > 0:
-            child_element = ET.SubElement(element, "ASSOCIATED-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REFS")
+            child_element = ET.SubElement(element, "ASSOCIATED-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUPS")
             for ref in refs:
-                self.setChildElementOptionalRefType(child_element, "ASSOCIATED-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REF", ref)
+                self.setChildElementOptionalRefType(child_element, "CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REF-CONDITIONAL", ref)
 
     def writeEcuInstanceAssociatedPdurIPduGroupRefs(self, element: ET.Element, instance: EcuInstance):
         refs = instance.getAssociatedPdurIPduGroupRefs()
@@ -10759,13 +10759,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeEcuInstanceEcuTaskProxyRefs(child_element, instance)
         self.setChildElementOptionalBooleanValue(child_element, "ETH-SWITCH-PORT-GROUP-DERIVATION", instance.getEthSwitchPortGroupDerivation())
         self.writeEcuInstanceFirewallRuleRefs(child_element, instance)
+        self.setChildElementOptionalTimeValue(child_element, "PN-RESET-TIME", instance.getPnResetTime())
         self.setChildElementOptionalBooleanValue(child_element, "PNC-NM-REQUEST", instance.getPncNmRequest())
         self.setChildElementOptionalTimeValue(child_element, "PNC-PREPARE-SLEEP-TIMER", instance.getPncPrepareSleepTimer())
         self.setChildElementOptionalBooleanValue(child_element, "PNC-SYNCHRONOUS-WAKEUP", instance.getPncSynchronousWakeup())
-        self.setChildElementOptionalTimeValue(child_element, "PN-RESET-TIME", instance.getPnResetTime())
         self.setChildElementOptionalBooleanValue(child_element, "SLEEP-MODE-SUPPORTED", instance.getSleepModeSupported())
-        self.setChildElementOptionalRefType(child_element, "TCP-IP-ICMP-PROPS", instance.getTcpIpIcmpPropsRef())
-        self.setChildElementOptionalRefType(child_element, "TCP-IP-PROPS", instance.getTcpIpPropsRef())
+        self.setChildElementOptionalRefType(child_element, "TCP-IP-ICMP-PROPS-REF", instance.getTcpIpIcmpPropsRef())
+        self.setChildElementOptionalRefType(child_element, "TCP-IP-PROPS-REF", instance.getTcpIpPropsRef())
         self.setChildElementOptionalLiteral(child_element, "V-2-X-SUPPORTED", instance.getV2xSupported())
         self.setChildElementOptionalBooleanValue(child_element, "WAKE-UP-OVER-BUS-SUPPORTED", instance.getWakeUpOverBusSupported())
 

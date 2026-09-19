@@ -344,13 +344,19 @@ No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 2.1 (p.42, R23-1
 | `constantvaluemappingrefs` | `—` | `constantValueMapping` | ``ConstantSpecification MappingSet`` | ref | type (spec many vs py single) |
 
 ## `EcuInstance`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 50
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::EcuInstance`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/EcuInstance.py`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 52 (Table 3.1; page-split render pp.50-52)
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `associatedcomipdugrouprefs` | `—` | `associatedComIPduGroup` | ``ISignalIPduGroup`` | ref | type (spec many vs py single) |
+| `clientIdRange` | `Optional["ClientIdRange"]` | `clientIdRange` | `ClientIdRange` | aggr | class not yet implemented (Rule 0001.10 placeholder); reader/writer deferred (own table Table 3.2, Base ARObject) |
+| `dltConfig` | `Optional["DltConfig"]` | `dltConfig` | `DltConfig` | aggr | class not yet implemented (Rule 0001.10 placeholder); reader/writer deferred (own table Table 6.335, Base ARObject) |
+| `doIpConfig` | `Optional["DoIpConfig"]` | `doIpConfig` | `DoIpConfig` | aggr | class not yet implemented (Rule 0001.10 placeholder); reader/writer deferred (own table Table 6.202, Base ARObject) |
+| `partitions` | `List["EcuPartition"]` | `partition` | `EcuPartition` | aggr | class not yet implemented (Rule 0001.10 placeholder); reader/writer deferred; spec shape is `createEcuPartition(short_name)` once the class lands (own table Table 5.7, Base ...Referrable) |
+| `v2xSupported` | `Optional["V2xSupportEnum"]` | `v2xSupported` | `V2xSupportEnum` | attr | class not yet implemented (Rule 0001.10 placeholder); parser stores a generic `ARLiteral` per the stamped literal-reader convention |
+
+Stale row removed 2026-09-18: `associatedcomipdugrouprefs` / `type (spec many vs py single)` — the field is the spec-many list `associatedComIPduGroupRefs: List[RefType]`. No other deviations; all 26 Table 3.1 attributes are modeled (assoc. refs via `RefType` lists, controllers/connectors via dedicated typed list fields + per-subtype factories), reader/writer cover every attribute whose child classes exist, wrapper `ASSOCIATED-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUPS` + `CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REF-CONDITIONAL` and refs `TCP-IP-ICMP-PROPS-REF`/`TCP-IP-PROPS-REF` follow the R23-11 XSD (AUTOSAR_00052.xsd group line 50252). XSD-only legacy elements (CAN-TP-ADDRESS-REFS, DIAGNOSTIC-ADDRESS, DIAGNOSTIC-PROPS, ECU-INSTANCE-PROPSS, LIN-SLAVE, TTCAN-*, USER-DEFINED-*, TP-ADDRESS-REFS) are not modeled per Rule 0015 (absent from the PDF table; carried by no integration fixture).
 
 ## `DiagnosticConnection`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —
