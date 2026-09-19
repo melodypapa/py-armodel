@@ -2,7 +2,7 @@
 
 ## Goal
 
-Convert parsed ECUC model objects into actual AUTOSAR OS semantic model classes, specifically `OsApplication` and `OsTask`, using the AUTOSAR CP R23-11 OS specification as the source of truth. Store these classes under `src/armodel/models/extended/os` and follow the class conventions used by `src/armodel/models/M2`.
+Convert parsed ECUC model objects into actual AUTOSAR OS semantic model classes, specifically `OsApplication` and `OsTask`, using the AUTOSAR CP R23-11 OS specification as the source of truth. Store these classes under `src/armodel/data_models/os` — the repo's existing home for standalone models (e.g. `sw_connector.py`) — following the accessor style used by `src/armodel/models/M2`.
 
 The existing generic ECUC parser remains responsible for reading ARXML. The new conversion layer reads ECUC objects and fills OS model classes. Consumers receive OS-domain objects rather than ECUC container objects.
 
@@ -17,9 +17,9 @@ The existing generic ECUC parser remains responsible for reading ARXML. The new 
 
 The first implementation supports the legacy ECUC model represented by `tests/integration_tests/test_files/Os_ECUC.arxml`.
 
-Only standard AUTOSAR OS R23-11 Chapter 10 fields are first-class model members. Vendor-specific fields are ignored by the strict converter. In particular, the demo's `OsStacksize` is not mapped because it is not an R23-11 standard `OsTask` parameter.
+All standard AUTOSAR OS R23-11 Chapter 10 fields are first-class model members — including `OsStacksize`, which IS a standard SWS OS `OsTask` parameter and is collected like any other field. Only genuinely vendor-specific parameters (e.g. the fixture's `OsVendorSpecificParam`) are ignored by the strict converter, and the ignored set is explicit in the converter tests.
 
-The model identity member follows the existing `Identifiable` convention, exposed through `getShortName()` and the inherited `short_name` member.
+The model identity member is `name`, exposed through `getName()` and `setName()` (accepted deviation from the M2 `shortName` accessor; see "Accepted Deviations").
 
 ## Semantic Model Classes
 
@@ -67,6 +67,7 @@ The class uses the exact Chapter 10 parameter names as public members and access
 - `OsTaskPeriod: Optional[float]`
 - `OsTaskPriority: Optional[int]`
 - `OsTaskSchedule: Optional[str]`
+- `OsStacksize: Optional[int]`
 - `OsMemoryMappingCodeLocationRef: Optional[str]`
 - `OsTaskAccessingApplication: List[OsApplication]`
 - `OsTaskEventRef: List[str]`
@@ -124,11 +125,11 @@ OsOs.from_file(path)
 The primary loader is `armodel.parser.OsEcucParser`:
 
 ```python
-OsEcucParser().load(path, document=None)
-OsEcucParser().parseEcuc(document)
+OsEcucParser().load(path, document=None, warning=False)
+OsEcucParser().parseEcuc(document, warning=False)
 ```
 
-`load` performs the required AUTOSAR release setup and invokes the existing `ARXMLParser` to construct ECUC model objects, then delegates to `parseEcuc`. `parseEcuc` accepts the already parsed ECUC document and populates standalone OS model classes. `OsOs.from_file` and `OsOs.from_ecuc` may remain convenience delegates, but conversion ownership belongs to `OsEcucParser`.
+`load` performs the required AUTOSAR release setup and invokes the existing `ARXMLParser` to construct ECUC model objects, then delegates to `parseEcuc`. `parseEcuc` accepts the already parsed ECUC document and populates standalone OS model classes. With `warning=True`, unresolved standard references are logged as warnings instead of raising conversion errors (the CLI `-w/--warning` flag feeds this). `OsOs.from_file` and `OsOs.from_ecuc` may remain convenience delegates, but conversion ownership belongs to `OsEcucParser`.
 
 ## Conversion Flow
 
@@ -168,33 +169,36 @@ Required coverage includes:
 - Conversion of `OsApplication_QM` into `OsApplication`.
 - Conversion of all four demo tasks into `OsTask`.
 - Exact Chapter 10 parameter names and model member names.
-- Existing `getShortName()` identity behavior.
+- `getName()` identity behavior.
 - Typed boolean, integer, float, and enumeration conversion.
 - Repeated application/task references.
 - Bidirectional application/task resolution without duplicate task objects.
 - Flattened autostart and timing-protection conversion into `OsTask`.
 - Ordered resource-lock budget/reference pairs.
-- Omission of vendor-only `OsStacksize` from the strict semantic mapping.
-- Missing optional values and unresolved references.
+- Collection of the standard `OsStacksize` parameter.
+- Ignoring of genuinely vendor-specific parameters (the fixture's `OsVendorSpecificParam`).
+- Missing optional values and unresolved references (error mode and `warning=True` mode).
 - File entry point delegation through `OsEcucParser`.
 
 ## CLI Export
 
 Add a new dedicated CLI command for converting an ECUC ARXML OS configuration into an export file containing the semantic `OsApplication` and `OsTask` data.
 
+The command follows the existing CLI house pattern (`connector2xlsx_cli.py`, `file_list_cli.py`): argparse with `-v/--verbose` and `-w/--warning` store-true flags, positional `INPUT` (`nargs="+"`) and `OUTPUT`, the shared `[%(levelname)s] : %(message)s` logging format with a stderr stream handler plus a `FileHandler` writing `os_config_export.log` next to `OUTPUT`, file handler at DEBUG and stdout at INFO (DEBUG with `--verbose`), the work inside `try/except`, and the `if __name__ == "__main__"` guard.
+
 The command accepts one format selector:
 
 ```text
-os-config-export INPUT OUTPUT [--format {xlsx,yaml}]
+os-config-export [-v] [-w] INPUT... OUTPUT [--format {xlsx,yaml}]
 ```
 
 `--format` defaults to `xlsx`. The command shall:
 
 1. Parse the input ARXML into the existing ECUC model.
-2. Convert the ECUC model into `OsOs` model objects.
+2. Convert the ECUC model into `OsOs` model objects, forwarding `-w/--warning` to `OsEcucParser.load(..., warning=True)`.
 3. Export the model objects using the selected format.
 
-The command shall return a non-zero exit status for invalid input, conversion errors, unsupported formats, or output failures. It shall not silently overwrite the input file. The output extension may be validated against `--format` or generated from the requested format according to the existing CLI conventions.
+The command shall return a non-zero exit status for invalid input, conversion errors (except when downgraded by `--warning`), unsupported formats, or output failures. It shall not silently overwrite the input file. The output extension may be validated against `--format` or generated from the requested format according to the existing CLI conventions.
 
 ### YAML Output
 
@@ -203,9 +207,9 @@ YAML shall represent the semantic model structure, including:
 - `OsApplication` objects
 - `OsTask` objects
 - exact AUTOSAR Chapter 10 field names
-- `ShortName`
+- `name` as the identity member of each object
 - flattened standard fields from the `OsTaskAutostart`, `OsTaskTimingProtection`, and `OsTaskResourceLock` containers
-- application/task references represented consistently by `ShortName` or serialized reference paths, without Python object identity details
+- application/task references represented consistently by `name` values or serialized reference paths, without Python object identity details
 
 ### Excel Output
 
@@ -215,9 +219,21 @@ The default XLSX export shall provide separate worksheets for the primary semant
 - `OsTask`
 - flattened `OsTask` autostart and timing-protection fields
 
-Each worksheet shall use `ShortName` as the object identity column and exact AUTOSAR field names for exported attributes. Repeated references shall be represented in a stable, readable form, preserving their order. The workbook shall be suitable for inspection and downstream spreadsheet processing.
+Each worksheet shall use `name` as the object identity column and exact AUTOSAR field names for exported attributes. Repeated references shall be represented in a stable, readable form, preserving their order. The workbook shall be suitable for inspection and downstream spreadsheet processing.
 
 The CLI export layer must consume `OsOs` model objects and must not read ECUC model internals directly.
+
+## Accepted Deviations
+
+These deviations from the general repo conventions are deliberate for the OS collector and must not be "corrected" by later sync or refactoring passes:
+
+1. **PascalCase semantic field names.** OS model members and accessor suffixes keep the verbatim ECUC parameter names (`OsTaskPriority`, `OsAppTaskRef`, ...) instead of the repo's camelCase model-field convention, because the collector's contract is exact Chapter 10 naming.
+2. **`name` identity instead of M2 `shortName`.** The standalone OS classes do not inherit from M2 `Identifiable`, so the identity member is `name` with `getName()`/`setName()`; YAML and XLSX exports use `name` as the identity column.
+3. **`OsStacksize` is collected.** It is a standard SWS OS `OsTask` parameter, not a vendor extension; the strict mapping includes it. Only genuinely vendor-specific parameters are ignored.
+4. **Exporters live in `armodel.report`** (`src/armodel/report/os_export.py`), the repo's home for report/export writers, not under `models`; they are exported through the package `__init__.py` (`from armodel.report import write_xlsx, write_yaml`) exactly like `ConnectorXlsReport`.
+5. **`pyyaml` is not a runtime dependency.** `write_yaml` imports it lazily and raises an actionable `ImportError` (`pip install pyyaml`) when absent; pyyaml remains in the `pytest` extra for tests.
+6. **The CLI follows the house pattern** (`-v/--verbose`, `-w/--warning`, INPUT/OUTPUT positionals, `[%(levelname)s] : %(message)s` logging with `os_config_export.log` next to the output) rather than a bespoke argparse setup, and `-w` maps to the converter's `warning=True` mode.
+7. **The demo fixture joins the integration corpus.** `Os_ECUC.arxml` lives in `tests/integration_tests/test_files/` and is therefore round-trip tested by the integration suite; Task 0 of the implementation plan verifies this stays green.
 
 ## Alternatives Considered
 
