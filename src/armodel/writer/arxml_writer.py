@@ -239,6 +239,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
     ConfigReferenceValue,
     EcucAbstractReferenceValue,
+    ReferenceValue,
     EcucAddInfoParamValue,
     EcucContainerValue,
     EcucInstanceReferenceValue,
@@ -11209,6 +11210,12 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeConfigReferenceValue(self, element: ET.Element, config_reference_value: ConfigReferenceValue):
         """Write the R3.2.3 abstract ConfigReferenceValue members (DEFINITION-REF without a forced DEST attribute)."""
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", config_reference_value.getDefinitionRef())
+
+    def writeReferenceValue(self, element: ET.Element, reference_value: ReferenceValue):
+        """Write an R3.2.3 <REFERENCE-VALUE> element (Table 3.41): DEFINITION-REF followed by VALUE-REF."""
+        child_element = ET.SubElement(element, "REFERENCE-VALUE")
+        self.writeConfigReferenceValue(child_element, reference_value)
+        self.setChildElementOptionalRefType(child_element, "VALUE-REF", reference_value.getValueRef())
 
     def writeEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())

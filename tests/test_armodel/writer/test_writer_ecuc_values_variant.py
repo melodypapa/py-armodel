@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     IntegerValue,
     LinkerSymbolValue,
     ParameterValue,
+    ReferenceValue,
     StringValue,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import (  # noqa E501
@@ -1194,3 +1195,47 @@ class TestConfigReferenceValueWrite:
         parent = _parent()
         writer.writeConfigReferenceValue(parent, obj)
         assert parent.find("DEFINITION-REF") is None
+
+
+class TestReferenceValueWrite:
+    """Tests for writeReferenceValue handler (R3.2.3 ReferenceValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.41, p.103 (R3.2 Rev 3)
+    """
+
+    def test_set_reference_value_full(self, writer):
+        reference_value = ReferenceValue()
+        reference_value.setDefinitionRef(_ref("/TS_T19D1M6I1R0_AS403/Os/OsApplication/OsAppAlarmRef"))
+        reference_value.setValueRef(_ref("/Os/Os/AlarmIncrementRteCounter"))
+        parent = _parent()
+        writer.writeReferenceValue(parent, reference_value)
+        child = parent[0]
+        assert child.tag == "REFERENCE-VALUE"
+        def_ref = child.find("DEFINITION-REF")
+        assert def_ref is not None
+        assert "DEST" not in def_ref.attrib
+        assert def_ref.text == "/TS_T19D1M6I1R0_AS403/Os/OsApplication/OsAppAlarmRef"
+        value_ref = child.find("VALUE-REF")
+        assert value_ref is not None
+        assert "DEST" not in value_ref.attrib
+        assert value_ref.text == "/Os/Os/AlarmIncrementRteCounter"
+
+    def test_set_reference_value_with_dest(self, writer):
+        reference_value = ReferenceValue()
+        reference_value.setDefinitionRef(_ref("/Defs/AlarmRef", "REFERENCE-PARAM-DEF"))
+        reference_value.setValueRef(_ref("/Os/Os/HwCounter", "COUNTER"))
+        parent = _parent()
+        writer.writeReferenceValue(parent, reference_value)
+        child = parent[0]
+        assert child.tag == "REFERENCE-VALUE"
+        assert child.find("DEFINITION-REF").attrib["DEST"] == "REFERENCE-PARAM-DEF"
+        assert child.find("VALUE-REF").attrib["DEST"] == "COUNTER"
+
+    def test_set_reference_value_empty(self, writer):
+        reference_value = ReferenceValue()
+        parent = _parent()
+        writer.writeReferenceValue(parent, reference_value)
+        child = parent[0]
+        assert child.tag == "REFERENCE-VALUE"
+        assert child.find("DEFINITION-REF") is None
+        assert child.find("VALUE-REF") is None

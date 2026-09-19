@@ -831,3 +831,39 @@ class ConfigReferenceValue(ARObject, ABC):
         if value is not None:
             self.definitionRef = value
         return self
+
+
+class ReferenceValue(ConfigReferenceValue):
+    """
+    Used to represent a configuration value that has a parameter definition of type ConfigReference (used for all of its specializations excluding InstanceReferenceParamDef).
+
+    [ecuc_sws_2093] If a ConfigReferenceValue references a container within some ModuleConfiguration the referenced container shall be part of a ModuleConfiguration which is itself part of the EcuConfiguration. According to figure 3.20 a ModuleConfiguration is part of the EcuConfiguration if it is referenced with the module role.
+    """
+
+    # ReferenceValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.41, p.103 (R3.2 Rev 3)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
+    # [x] getValueRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] setValueRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # Deviations (spec member name is `value`, kind ref; renamed per ECUC ref-suffix
+    # convention to valueRef — EcucReferenceValue precedent):
+    # value optional — spec Mul=1 but XSD group REFERENCE-VALUE (AUTOSAR.xsd L20706)
+    # VALUE-REF has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins);
+    # VALUE-REF DEST use="required" in XSD but sample carries no DEST → DEST optional.
+
+    def __init__(self):
+        super().__init__()
+
+        # Specifies the destination of the reference.
+        self.valueRef: Optional[RefType] = None
+
+    def getValueRef(self) -> Optional[RefType]:
+        """Specifies the destination of the reference."""
+        return self.valueRef
+
+    def setValueRef(self, value: Optional[RefType]) -> "ReferenceValue":
+        """Specifies the destination of the reference. A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.valueRef = value
+        return self

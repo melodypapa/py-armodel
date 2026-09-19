@@ -343,6 +343,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
     ConfigReferenceValue,
     EcucAbstractReferenceValue,
+    ReferenceValue,
     EcucAddInfoParamValue,
     EcucContainerValue,
     EcucInstanceReferenceValue,
@@ -11801,6 +11802,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readConfigReferenceValue(self, element: ET.Element, config_reference_value: ConfigReferenceValue):
         """Read the R3.2.3 abstract ConfigReferenceValue members (DEFINITION-REF; DEST optional in legacy files)."""
         config_reference_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+
+    def readReferenceValue(self, element: ET.Element, reference_value: ReferenceValue):
+        """Read an R3.2.3 <REFERENCE-VALUE> element (Table 3.41): DEFINITION-REF followed by VALUE-REF."""
+        self.readConfigReferenceValue(element, reference_value)
+        reference_value.setValueRef(self.getChildElementOptionalRefType(element, "VALUE-REF"))
 
     def readEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))

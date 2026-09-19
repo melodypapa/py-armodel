@@ -26,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     IntegerValue,
     LinkerSymbolValue,
     ParameterValue,
+    ReferenceValue,
     StringValue,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum
@@ -492,3 +493,28 @@ class TestConfigReferenceValue:
         assert obj.getDefinitionRef() == ref
         obj.setDefinitionRef(None)
         assert obj.getDefinitionRef() == ref
+
+
+class TestReferenceValue:
+    """
+    Test class for ReferenceValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.41, p.103 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(ReferenceValue, ConfigReferenceValue)
+
+    def test_initialization_defaults(self):
+        obj = ReferenceValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValueRef() is None
+
+    def test_get_set_value_ref(self):
+        obj = ReferenceValue()
+        ref = RefType().setValue("/Os/Os/AlarmIncrementRteCounter")
+        result = obj.setValueRef(ref)
+        assert result is obj
+        assert obj.getValueRef() == ref
+        obj.setValueRef(None)
+        assert obj.getValueRef() == ref

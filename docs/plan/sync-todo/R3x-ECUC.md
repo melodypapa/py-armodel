@@ -125,15 +125,16 @@ Input: R3.2.3 legacy spec `autosar/R3.2.3/pdf/AUTOSAR_ECU_Configuration.pdf` (V2
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (352 touched tests, lint flake8+ruff clean after test-import I001 fix, black 948 unchanged, parity OK); 9b DEFERRED to batch stamp confirmation (user-instructed 2026-09-19)
 - [ ] `ReferenceValue` — R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.41, p.103 (R3.2 Rev 3)
   - **Step 1 finding:** Base = `ConfigReferenceValue`. Members: `value` (Identifiable, 1, ref). XML `REFERENCE-VALUE`: `DEFINITION-REF` → `VALUE-REF` (XSD group L20706; verify element order at Step 1). 18× in Os_ECUC.arxml under `REFERENCE-VALUES` (XSD group CONFIG-REFERENCE-VALUE L6087 wraps the choice).
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations — `value` optional per XSD (spec says 1)
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - **Step 1 verified 2026-09-19:** PDF p.103 Table 3.41 — Note "Used to represent a configuration value that has a parameter definition of type ConfigReference (used for all of its specializations excluding InstanceReferenceParamDef).", Base ARObject/ConfigReferenceValue → most-derived ConfigReferenceValue, 1 attr value (Identifiable, 1, ref, Note "Specifies the destination of the reference."); post-table prose [ecuc_sws_2093] appended to class docstring per precedent (disclosed at batch gate); XSD complexType L20729 = CONFIG-REFERENCE-VALUE group → REFERENCE-VALUE group; VALUE-REF minOccurs="0" (Rule 0019.3 inverted) + DEST use="required" IDENTIFIABLE--SUBTYPES-ENUM (sample carries NO DEST → DEST optional); sample order DEFINITION-REF → VALUE-REF confirmed in Os_ECUC.arxml (18×).
+  - [x] Step 1 — Sync members & description from spec — verified 2026-09-19 (see finding above)
+  - [x] Step 2 — Write model class unit test (Red) — 3 tests in TestReferenceValue (inheritance/initialization/get_set_value_ref); Red = 3 failed (NameError — class missing after partial import)
+  - [x] Step 3 — Implement model class (Green) — `class ReferenceValue(ConfigReferenceValue)` appended to ECUCDescriptionTemplate.py; member valueRef: Optional[RefType] (renamed from spec `value` per ECUC ref-suffix convention, EcucReferenceValue precedent); 56/56 model tests green
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class created bare in Step 3 (wipe vacuous); class docstring = Table 3.41 Note verbatim + [ecuc_sws_2093]; member inline comment + get/set docstrings = value Note verbatim; setter None-no-op sentence; __init__ docless
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 4 parser tests (full/with DEST both refs/missing VALUE-REF/missing DEFINITION-REF) + 3 writer tests (full no-DEST/with DEST/empty); Red = AttributeError ×7
+  - [x] Step 6 — Update parser & writer (Green) — parser readReferenceValue after readConfigReferenceValue (readConfigReferenceValue + VALUE-REF via getChildElementOptionalRefType); writer writeReferenceValue after writeConfigReferenceValue (self-tagging REFERENCE-VALUE + writeConfigReferenceValue + setChildElementOptionalRefType VALUE-REF); imports extended in both; 282 touched tests green
+  - [x] Step 7 — Update checklist comment — 6-column format with release column R3.2.3, 3 rows all [x] (getValueRef [—]/[x], setValueRef [x]/[—], __init__ [—]/[—]); `# Spec verified:` stamp deferred to batch confirmation (user-instructed 2026-09-19)
+  - [x] Step 8 — Deviations — recorded in class checklist: `value` renamed `valueRef` (kind ref, ECUC ref-suffix convention); `value` optional — spec Mul=1 but XSD group REFERENCE-VALUE L20706 minOccurs="0" (Rule 0019.3 inverted); VALUE-REF DEST optional per sample
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (282 touched tests, lint flake8+ruff clean after test-import fixes, black unchanged, parity OK); 9b DEFERRED to batch stamp confirmation (user-instructed 2026-09-19)
 - [ ] `InstanceReferenceValue` — R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.42, p.106 (R3.2 Rev 3)
   - **Step 1 finding:** Base = `ConfigReferenceValue`. Members: `value` (Identifiable, 1, **iref** — decomposed context path + target; compare R4 pattern `AbstractEcucInstanceReferenceValue` in same leaf module). XML `INSTANCE-REFERENCE-VALUE`. Not in Os_ECUC.arxml; completes section 3.4.5.1.
   - [ ] Step 1 — Sync members & description from spec

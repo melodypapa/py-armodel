@@ -21,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     IntegerValue,
     LinkerSymbolValue,
     ParameterValue,
+    ReferenceValue,
     StringValue,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, RevisionLabelString, String, UnlimitedInteger
@@ -2571,3 +2572,63 @@ class TestConfigReferenceValue:
         element = _snip("")
         parser.readConfigReferenceValue(element, obj)
         assert obj.getDefinitionRef() is None
+
+
+class TestReferenceValue:
+    """Tests for readReferenceValue handler (R3.2.3 ReferenceValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.41, p.103 (R3.2 Rev 3)
+    """
+
+    def test_get_reference_value_full(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsApplication/OsAppAlarmRef</DEFINITION-REF>
+                <VALUE-REF>/Os/Os/AlarmIncrementRteCounter</VALUE-REF>
+            """,
+            root_tag="REFERENCE-VALUE",
+        )
+        reference_value = ReferenceValue()
+        parser.readReferenceValue(element, reference_value)
+        assert isinstance(reference_value, ReferenceValue)
+        assert reference_value.getDefinitionRef().getValue() == "/TS_T19D1M6I1R0_AS403/Os/OsApplication/OsAppAlarmRef"
+        assert reference_value.getDefinitionRef().getDest() is None
+        assert reference_value.getValueRef().getValue() == "/Os/Os/AlarmIncrementRteCounter"
+        assert reference_value.getValueRef().getDest() is None
+
+    def test_get_reference_value_with_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF DEST="REFERENCE-PARAM-DEF">/Defs/AlarmRef</DEFINITION-REF>
+                <VALUE-REF DEST="COUNTER">/Os/Os/HwCounter</VALUE-REF>
+            """,
+            root_tag="REFERENCE-VALUE",
+        )
+        reference_value = ReferenceValue()
+        parser.readReferenceValue(element, reference_value)
+        assert reference_value.getDefinitionRef().getDest() == "REFERENCE-PARAM-DEF"
+        assert reference_value.getValueRef().getDest() == "COUNTER"
+
+    def test_get_reference_value_missing_value_ref(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/Ref</DEFINITION-REF>
+            """,
+            root_tag="REFERENCE-VALUE",
+        )
+        reference_value = ReferenceValue()
+        parser.readReferenceValue(element, reference_value)
+        assert reference_value.getDefinitionRef().getValue() == "/Defs/Ref"
+        assert reference_value.getValueRef() is None
+
+    def test_get_reference_value_missing_definition_ref(self, parser):
+        element = _snip(
+            """
+                <VALUE-REF>/Os/Os/Rte_Counter</VALUE-REF>
+            """,
+            root_tag="REFERENCE-VALUE",
+        )
+        reference_value = ReferenceValue()
+        parser.readReferenceValue(element, reference_value)
+        assert reference_value.getDefinitionRef() is None
+        assert reference_value.getValueRef().getValue() == "/Os/Os/Rte_Counter"
