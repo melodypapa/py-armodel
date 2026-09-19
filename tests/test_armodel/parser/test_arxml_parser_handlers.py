@@ -545,6 +545,44 @@ class TestAdminDataAndReferrableHandlers:
     def test_getOperationInSystemInstanceRef_none_element(self, parser):
         assert parser.getOperationInSystemInstanceRef(None) is None
 
+    def test_readClientIdDefinition_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition
+
+        id_definition = ClientIdDefinition(parent=_autosar_root(), short_name="CID1")
+        element = _snip(
+            "<CLIENT-ID>5</CLIENT-ID>"
+            "<CLIENT-SERVER-OPERATION-IREF>"
+            "<CONTEXT-PORT-REF DEST='R-PORT-PROTOTYPE'>/port</CONTEXT-PORT-REF>"
+            "<TARGET-OPERATION-REF DEST='CLIENT-SERVER-OPERATION'>/op</TARGET-OPERATION-REF>"
+            "</CLIENT-SERVER-OPERATION-IREF>",
+            root_tag="CLIENT-ID-DEFINITION",
+        )
+        parser.readClientIdDefinition(element, id_definition)
+        assert id_definition.getClientId().getValue() == "5"
+        iref = id_definition.getClientServerOperationIRef()
+        assert iref is not None
+        assert iref.getContextPortRef().getValue() == "/port"
+        assert iref.getTargetOperationRef().getValue() == "/op"
+        assert iref.getTargetOperationRef().getDest() == "CLIENT-SERVER-OPERATION"
+
+    def test_readClientIdDefinition_client_id_only(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition
+
+        id_definition = ClientIdDefinition(parent=_autosar_root(), short_name="CID1")
+        element = _snip("<CLIENT-ID>7</CLIENT-ID>", root_tag="CLIENT-ID-DEFINITION")
+        parser.readClientIdDefinition(element, id_definition)
+        assert id_definition.getClientId().getValue() == "7"
+        assert id_definition.getClientServerOperationIRef() is None
+
+    def test_readClientIdDefinition_empty(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition
+
+        id_definition = ClientIdDefinition(parent=_autosar_root(), short_name="CID1")
+        element = _snip("", root_tag="CLIENT-ID-DEFINITION")
+        parser.readClientIdDefinition(element, id_definition)
+        assert id_definition.getClientId() is None
+        assert id_definition.getClientServerOperationIRef() is None
+
     def test_getAutosarVariableRef_with_iref(self, parser):
         element = _snip(
             "<ACCESSED-VARIABLE>"

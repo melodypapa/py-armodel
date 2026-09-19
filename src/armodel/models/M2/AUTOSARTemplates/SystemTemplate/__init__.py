@@ -16,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ByteOrderEnum,
+    Numerical,
     PositiveInteger,
     RefType,
 )
@@ -495,6 +496,62 @@ class J1939SharedAddressCluster(Identifiable, VariationPointCapable):
         return self
 
 
+class ClientIdDefinition(Identifiable, VariationPointCapable):
+    """
+    Several clients in one client-ECU can communicate via inter-ECU client-server communication with a server on a different ECU, if a client identifier is used to distinguish the different clients. The Client Identifier of the transaction handle that is used by the RTE can be defined by this element.
+    """
+
+    # ClientIdDefinition method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 2.3, p.45 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getClientId                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClientId                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClientServerOperationIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClientServerOperationIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The Client Identifier of the transaction handle used for an inter-ECU client server communication is defined by this attribute. If defined the RTE generator shall use this client Id.
+        self.clientId: Optional[Numerical] = None
+
+        # Reference to the ClientServerOperation that is called by the client. InstanceRef implemented by: OperationInSystemInstanceRef
+        self.clientServerOperationIRef: Optional[OperationInSystemInstanceRef] = None
+
+    def getClientId(self) -> Optional[Numerical]:
+        """
+        The Client Identifier of the transaction handle used for an inter-ECU client server communication is defined by this attribute. If defined the RTE generator shall use this client Id.
+        """
+        return self.clientId
+
+    def setClientId(self, value: Optional[Numerical]) -> "ClientIdDefinition":
+        """
+        The Client Identifier of the transaction handle used for an inter-ECU client server communication is defined by this attribute. If defined the RTE generator shall use this client Id.
+
+        A None value is a no-op and does not overwrite an existing clientId.
+        """
+        if value is not None:
+            self.clientId = value
+        return self
+
+    def getClientServerOperationIRef(self) -> Optional[OperationInSystemInstanceRef]:
+        """
+        Reference to the ClientServerOperation that is called by the client. InstanceRef implemented by: OperationInSystemInstanceRef
+        """
+        return self.clientServerOperationIRef
+
+    def setClientServerOperationIRef(self, value: Optional[OperationInSystemInstanceRef]) -> "ClientIdDefinition":
+        """
+        Reference to the ClientServerOperation that is called by the client. InstanceRef implemented by: OperationInSystemInstanceRef
+
+        A None value is a no-op and does not overwrite an existing clientServerOperationIRef.
+        """
+        if value is not None:
+            self.clientServerOperationIRef = value
+        return self
+
+
 class System(AtpStructureElement):
     """
     Represents the top-level system in the AUTOSAR system template,
@@ -660,6 +717,7 @@ __all__ = [
     "AtpStructureElement",
     "ByteOrderEnum",
     "Chapter",
+    "ClientIdDefinition",
     "ComponentInSystemInstanceRef",
     "ComManagementMapping",
     "CryptoServiceMapping",

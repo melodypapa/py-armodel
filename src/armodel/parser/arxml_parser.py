@@ -686,7 +686,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment, RoleBasedPortAssignment, SwcServiceDependency
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping, System, SystemMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition, SwcToEcuMapping, System, SystemMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecCompositeTypeMapping,
     SenderReceiverToSignalGroupMapping,
@@ -12432,6 +12432,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readSystemFibexElementRefs(self, element: ET.Element, system: System):
         for ref in self.getChildElementRefTypeList(element, "FIBEX-ELEMENTS/FIBEX-ELEMENT-REF-CONDITIONAL/FIBEX-ELEMENT-REF"):
             system.addFibexElementRef(ref)
+
+    def readClientIdDefinition(self, element: ET.Element, id_definition: ClientIdDefinition):
+        self.readIdentifiable(element, id_definition)
+        id_definition.setClientId(self.getChildElementOptionalNumerical(element, "CLIENT-ID"))
+        id_definition.setClientServerOperationIRef(self.getOperationInSystemInstanceRef(self.find(element, "CLIENT-SERVER-OPERATION-IREF")))
 
     def readSystem(self, element: ET.Element, system: System):
         self.logger.debug("Read System <%s>" % system.getShortName())

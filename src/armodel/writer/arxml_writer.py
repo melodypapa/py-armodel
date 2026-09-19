@@ -611,7 +611,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment, RoleBasedPortAssignment, SwcServiceDependency
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping, System, SystemMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition, SwcToEcuMapping, System, SystemMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecCompositeTypeMapping,
     SenderReceiverToSignalGroupMapping,
@@ -10876,6 +10876,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 child_element = ET.SubElement(fibex_elements_tag, "FIBEX-ELEMENT-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(child_element, "FIBEX-ELEMENT-REF", ref)
+
+    def writeClientIdDefinition(self, element: ET.Element, id_definition: ClientIdDefinition):
+        child_element = ET.SubElement(element, "CLIENT-ID-DEFINITION")
+        self.writeIdentifiable(child_element, id_definition, write_variation_point=False)
+        self.setChildElementOptionalNumerical(child_element, "CLIENT-ID", id_definition.getClientId())
+        self.setOperationInSystemInstanceRef(child_element, "CLIENT-SERVER-OPERATION-IREF", id_definition.getClientServerOperationIRef())
+        self.writeVariationPoint(child_element, id_definition.getVariationPoint())
 
     def writeSystem(self, element: ET.Element, system: System):
         self.logger.debug("Write System %s" % system.getShortName())
