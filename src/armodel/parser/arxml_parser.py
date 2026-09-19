@@ -341,6 +341,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration impor
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
+    ConfigReferenceValue,
     EcucAbstractReferenceValue,
     EcucAddInfoParamValue,
     EcucContainerValue,
@@ -11796,6 +11797,10 @@ class ARXMLParser(AbstractARXMLParser):
         """Read an R3.2.3 <ENUMERATION-VALUE> element (Table 3.39): DEFINITION-REF followed by VALUE."""
         self.readParameterValue(element, enumeration_value)
         enumeration_value.setValue(self.getChildElementOptionalString(element, "VALUE"))
+
+    def readConfigReferenceValue(self, element: ET.Element, config_reference_value: ConfigReferenceValue):
+        """Read the R3.2.3 abstract ConfigReferenceValue members (DEFINITION-REF; DEST optional in legacy files)."""
+        config_reference_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
 
     def readEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))

@@ -8,7 +8,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
-    EnumerationValue,
+    ConfigReferenceValue,
     EcucAbstractReferenceValue,
     EcucAddInfoParamValue,
     EcucContainerValue,
@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucReferenceValue,
     EcucTextualParamValue,
     EcucValueCollection,
+    EnumerationValue,
     FloatValue,
     FunctionNameValue,
     IntegerValue,
@@ -460,3 +461,34 @@ class TestEnumerationValue:
         assert obj.getValue().getValue() == "EXTENDED"
         obj.setValue(None)
         assert obj.getValue() == value
+
+
+class TestConfigReferenceValue:
+    """
+    Test class for ConfigReferenceValue (abstract) functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.40, p.103 (R3.2 Rev 3)
+    """
+
+    def test_rejects_direct_instantiation(self):
+        with pytest.raises(TypeError):
+            ConfigReferenceValue()
+
+    def test_initialization_defaults(self):
+        class _Stub(ConfigReferenceValue):
+            pass
+
+        obj = _Stub()
+        assert obj.getDefinitionRef() is None
+
+    def test_get_set_definition_ref(self):
+        class _Stub(ConfigReferenceValue):
+            pass
+
+        obj = _Stub()
+        ref = RefType().setValue("/TS_T19D1M6I1R0_AS403/Os/OsOS/OsTask")
+        result = obj.setDefinitionRef(ref)
+        assert result is obj
+        assert obj.getDefinitionRef() == ref
+        obj.setDefinitionRef(None)
+        assert obj.getDefinitionRef() == ref

@@ -113,15 +113,16 @@ Input: R3.2.3 legacy spec `autosar/R3.2.3/pdf/AUTOSAR_ECU_Configuration.pdf` (V2
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (263 touched tests incl. all ECUC handler/model suites, lint/black/parity clean); 9b DEFERRED to batch stamp confirmation (user-instructed 2026-09-19)
 - [ ] `ConfigReferenceValue` (abstract) — R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.40, p.103 (R3.2 Rev 3)
   - **Step 1 finding:** Base = `ARObject` (abstract). Members: `definition` (ConfigReference, 1, ref, Tags: `xml.sequenceOffset=-10`). XML parent of `REFERENCE-VALUE`/`INSTANCE-REFERENCE-VALUE`.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) — abstract: via concrete subclasses
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations — **none expected**
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - **Step 1 verified 2026-09-19:** PDF p.103 Table 3.40 — Note "Abstract class to be used as common parent for all reference values in the ECU Configuration Description.", Base ARObject, 1 attr definition (ConfigReference, 1, ref, Note "Reference to the definition of this ConfigReferenceValue subclasses in the ECU Configuration Parameter Definition." + Tags xml.sequenceOffset=-10); post-table prose [ecuc_sws_3027]/[ecuc_sws_3028]/[ecuc_sws_3029] appended to class docstring per System/InterpolationRoutine precedent (disclosed at batch gate); XSD group CONFIG-REFERENCE-VALUE L6087: DEFINITION-REF minOccurs="0" (Rule 0019.3 inverted) + DEST use="required" CONFIG-REFERENCE--SUBTYPES-ENUM (DEST optional per sample, ParameterValue precedent).
+  - [x] Step 1 — Sync members & description from spec — verified 2026-09-19 (see finding above)
+  - [x] Step 2 — Write model class unit test (Red) — 3 tests in TestConfigReferenceValue (rejects_direct_instantiation/initialization via local stub/get_set_definition_ref); Red = ImportError at collection (class missing)
+  - [x] Step 3 — Implement model class (Green) — `class ConfigReferenceValue(ARObject, ABC)` appended to ECUCDescriptionTemplate.py (after EnumerationValue); abstract type guard; member definitionRef: Optional[RefType] (renamed from spec `definition` per ECUC ref-suffix convention, ParameterValue precedent); 53/53 model tests green
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class created bare in Step 3 (wipe vacuous); class docstring = Table 3.40 Note verbatim + ecuc_sws_3027/3028/3029 (PDF-text restored, wrap artifacts joined); member inline comment + get/set docstrings = definition Note verbatim; setter None-no-op sentence; __init__ docless
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — abstract: via test-local `_R3ConfigReferenceValueStub` in both files (ParameterValue precedent); 3 parser tests (without/with DEST, missing DEFINITION-REF) + 3 writer tests (without/with DEST, none-omitted); Red = AttributeError ×6
+  - [x] Step 6 — Update parser & writer (Green) — parser readConfigReferenceValue after readEnumerationValue (DEFINITION-REF via getChildElementOptionalRefType, DEST optional); writer writeConfigReferenceValue after writeEnumerationValue (no self-tag — abstract parent helper, DEFINITION-REF via setChildElementOptionalRefType); imports extended in both; concrete subclasses call it (ReferenceValue/InstanceReferenceValue next); 272 touched tests green
+  - [x] Step 7 — Update checklist comment — 6-column format with release column R3.2.3, 3 rows all [x] (getDefinitionRef [—]/[x], setDefinitionRef [x]/[—], __init__ [—]/[—]); `# Spec verified:` stamp deferred to batch confirmation (user-instructed 2026-09-19)
+  - [x] Step 8 — Deviations — recorded in class checklist: ① `definition` optional — spec Mul=1 but XSD group CONFIG-REFERENCE-VALUE L6087 minOccurs="0" (Rule 0019.3 inverted); renamed `definitionRef` per ECUC ref-suffix convention. ② DEFINITION-REF DEST use="required" in XSD but sample carries no DEST → reader/writer treat DEST as optional (ParameterValue precedent)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (352 touched tests, lint flake8+ruff clean after test-import I001 fix, black 948 unchanged, parity OK); 9b DEFERRED to batch stamp confirmation (user-instructed 2026-09-19)
 - [ ] `ReferenceValue` — R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.41, p.103 (R3.2 Rev 3)
   - **Step 1 finding:** Base = `ConfigReferenceValue`. Members: `value` (Identifiable, 1, ref). XML `REFERENCE-VALUE`: `DEFINITION-REF` → `VALUE-REF` (XSD group L20706; verify element order at Step 1). 18× in Os_ECUC.arxml under `REFERENCE-VALUES` (XSD group CONFIG-REFERENCE-VALUE L6087 wraps the choice).
   - [ ] Step 1 — Sync members & description from spec

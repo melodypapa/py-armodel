@@ -7,6 +7,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
+    ConfigReferenceValue,
     EcucAddInfoParamValue,
     EcucContainerValue,
     EcucInstanceReferenceValue,
@@ -834,6 +835,12 @@ class _R3ParameterValueStub(ParameterValue):
     pass
 
 
+class _R3ConfigReferenceValueStub(ConfigReferenceValue):
+    """Minimal concrete subclass of the abstract R3.2.3 ConfigReferenceValue."""
+
+    pass
+
+
 class TestParameterValueWrite:
     """Tests for writeParameterValue helper (R3.2.3 abstract ParameterValue).
 
@@ -1154,3 +1161,36 @@ class TestEnumerationValueWrite:
         assert child.tag == "ENUMERATION-VALUE"
         assert child.find("DEFINITION-REF") is None
         assert child.find("VALUE") is None
+
+
+class TestConfigReferenceValueWrite:
+    """Tests for writeConfigReferenceValue handler (R3.2.3 abstract ConfigReferenceValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.40, p.103 (R3.2 Rev 3)
+    """
+
+    def test_write_definition_ref_without_dest(self, writer):
+        obj = _R3ConfigReferenceValueStub()
+        obj.setDefinitionRef(_ref("/TS_T19D1M6I1R0_AS403/Os/OsOS/OsTask"))
+        parent = _parent()
+        writer.writeConfigReferenceValue(parent, obj)
+        child = parent.find("DEFINITION-REF")
+        assert child is not None
+        assert "DEST" not in child.attrib
+        assert child.text == "/TS_T19D1M6I1R0_AS403/Os/OsOS/OsTask"
+
+    def test_write_definition_ref_with_dest(self, writer):
+        obj = _R3ConfigReferenceValueStub()
+        obj.setDefinitionRef(_ref("/Defs/Task", "CONTAINER-DEF"))
+        parent = _parent()
+        writer.writeConfigReferenceValue(parent, obj)
+        child = parent.find("DEFINITION-REF")
+        assert child is not None
+        assert child.attrib["DEST"] == "CONTAINER-DEF"
+        assert child.text == "/Defs/Task"
+
+    def test_write_none_definition_ref_omits_element(self, writer):
+        obj = _R3ConfigReferenceValueStub()
+        parent = _parent()
+        writer.writeConfigReferenceValue(parent, obj)
+        assert parent.find("DEFINITION-REF") is None

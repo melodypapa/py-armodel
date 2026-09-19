@@ -237,6 +237,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration impor
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
+    ConfigReferenceValue,
     EcucAbstractReferenceValue,
     EcucAddInfoParamValue,
     EcucContainerValue,
@@ -11204,6 +11205,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "ENUMERATION-VALUE")
         self.writeParameterValue(child_element, enumeration_value)
         self.setChildElementOptionalString(child_element, "VALUE", enumeration_value.getValue())
+
+    def writeConfigReferenceValue(self, element: ET.Element, config_reference_value: ConfigReferenceValue):
+        """Write the R3.2.3 abstract ConfigReferenceValue members (DEFINITION-REF without a forced DEST attribute)."""
+        self.setChildElementOptionalRefType(element, "DEFINITION-REF", config_reference_value.getDefinitionRef())
 
     def writeEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())

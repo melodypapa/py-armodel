@@ -9,6 +9,7 @@ import pytest
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
+    ConfigReferenceValue,
     EcucAddInfoParamValue,
     EcucInstanceReferenceValue,
     EcucNumericalParamValue,
@@ -2086,6 +2087,12 @@ class _R3ParameterValueStub(ParameterValue):
     pass
 
 
+class _R3ConfigReferenceValueStub(ConfigReferenceValue):
+    """Minimal concrete subclass of the abstract R3.2.3 ConfigReferenceValue."""
+
+    pass
+
+
 class TestParameterValue:
     """Tests for readParameterValue handler (R3.2.3 abstract ParameterValue).
 
@@ -2533,3 +2540,34 @@ class TestEnumerationValue:
         parser.readEnumerationValue(element, enumeration_value)
         assert enumeration_value.getDefinitionRef() is None
         assert enumeration_value.getValue().getValue() == "EXTENDED"
+
+
+class TestConfigReferenceValue:
+    """Tests for readConfigReferenceValue handler (R3.2.3 abstract ConfigReferenceValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.40, p.103 (R3.2 Rev 3)
+    """
+
+    def test_read_definition_ref_without_dest(self, parser):
+        obj = _R3ConfigReferenceValueStub()
+        element = _snip("<DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsOS/OsTask</DEFINITION-REF>")
+        parser.readConfigReferenceValue(element, obj)
+        ref = obj.getDefinitionRef()
+        assert ref is not None
+        assert ref.getValue() == "/TS_T19D1M6I1R0_AS403/Os/OsOS/OsTask"
+        assert ref.getDest() is None
+
+    def test_read_definition_ref_with_dest(self, parser):
+        obj = _R3ConfigReferenceValueStub()
+        element = _snip('<DEFINITION-REF DEST="CONTAINER-DEF">/Defs/Task</DEFINITION-REF>')
+        parser.readConfigReferenceValue(element, obj)
+        ref = obj.getDefinitionRef()
+        assert ref is not None
+        assert ref.getValue() == "/Defs/Task"
+        assert ref.getDest() == "CONTAINER-DEF"
+
+    def test_read_missing_definition_ref(self, parser):
+        obj = _R3ConfigReferenceValueStub()
+        element = _snip("")
+        parser.readConfigReferenceValue(element, obj)
+        assert obj.getDefinitionRef() is None

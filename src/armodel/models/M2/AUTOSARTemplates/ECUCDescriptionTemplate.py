@@ -787,3 +787,47 @@ class EnumerationValue(ParameterValue):
         if value is not None:
             self.value = value
         return self
+
+
+class ConfigReferenceValue(ARObject, ABC):
+    """
+    Abstract class to be used as common parent for all reference values in the ECU Configuration Description.
+
+    [ecuc_sws_3027] The metamodel class ReferenceValue provides the mechanism to reference to any model element of type Identifiable.
+
+    [ecuc_sws_3028] Therefore this class provides the means to describe all kinds of reference definitions except an InstanceReferenceParamDef, which is described in section 3.4.5.1 in more detail.
+
+    [ecuc_sws_3029] A ChoiceReferenceParamDef translates to a ReferenceValue in the ECU Configuration Description because the choice has to be resolved in that description. Therefore no special configuration description type is introduced.
+    """
+
+    # ConfigReferenceValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.40, p.103 (R3.2 Rev 3)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
+    # [x] getDefinitionRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] setDefinitionRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # Deviations (spec member name is `definition`, kind ref; renamed per ECUC ref-suffix
+    # convention to definitionRef):
+    # 1. definition optional — spec Mul=1 but XSD group CONFIG-REFERENCE-VALUE (AUTOSAR.xsd
+    #    L6087) DEFINITION-REF has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins).
+    # 2. DEFINITION-REF DEST attribute — XSD says use="required" but Os_ECUC.arxml carries
+    #    no DEST; reader/writer treat DEST as optional (ParameterValue precedent).
+
+    def __init__(self):
+        if type(self) is ConfigReferenceValue:
+            raise TypeError("ConfigReferenceValue is an abstract class.")
+
+        super().__init__()
+
+        # Reference to the definition of this ConfigReferenceValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10
+        self.definitionRef: Optional[RefType] = None
+
+    def getDefinitionRef(self) -> Optional[RefType]:
+        """Reference to the definition of this ConfigReferenceValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10"""
+        return self.definitionRef
+
+    def setDefinitionRef(self, value: Optional[RefType]) -> "ConfigReferenceValue":
+        """Reference to the definition of this ConfigReferenceValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.definitionRef = value
+        return self
