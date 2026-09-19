@@ -2336,28 +2336,37 @@ class TestEcucDefAndValueHandlers:
         assert len(container.getReferenceValues()) == 1
         assert len(container.getSubContainers()) == 1
 
-    def test_getEcucNumericalParamValue_full(self, parser):
+    def test_readEcucNumericalParamValue_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucNumericalParamValue
+
         element = _snip(
             "<DEFINITION-REF DEST='ECUC-INTEGER-PARAM-DEF'>/def</DEFINITION-REF>" "<VALUE>100</VALUE>",
             root_tag="ECUC-NUMERICAL-PARAM-VALUE",
         )
-        param = parser.getEcucNumericalParamValue(element)
+        param = EcucNumericalParamValue()
+        parser.readEcucNumericalParamValue(element, param)
         assert param.getValue().getValue() == "100"
 
-    def test_getEcucTextualParamValue_full(self, parser):
+    def test_readEcucTextualParamValue_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucTextualParamValue
+
         element = _snip(
             "<DEFINITION-REF DEST='ECUC-STRING-PARAM-DEF'>/def</DEFINITION-REF>" "<VALUE>text</VALUE>",
             root_tag="ECUC-TEXTUAL-PARAM-VALUE",
         )
-        param = parser.getEcucTextualParamValue(element)
+        param = EcucTextualParamValue()
+        parser.readEcucTextualParamValue(element, param)
         assert param.getValue().getValue() == "text"
 
-    def test_getEcucReferenceValue_full(self, parser):
+    def test_readEcucReferenceValue_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucReferenceValue
+
         element = _snip(
             "<DEFINITION-REF DEST='ECUC-REFERENCE-DEF'>/def</DEFINITION-REF>" "<VALUE-REF DEST='ECUC-CONTAINER-VALUE'>/ref</VALUE-REF>",
             root_tag="ECUC-REFERENCE-VALUE",
         )
-        ref = parser.getEcucReferenceValue(element)
+        ref = EcucReferenceValue()
+        parser.readEcucReferenceValue(element, ref)
         assert ref.getValueRef().getValue() == "/ref"
 
 

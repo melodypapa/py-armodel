@@ -8,10 +8,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
+    Float,
     Numerical,
     PositiveInteger,
     RefType,
     RevisionLabelString,
+    String,
+    UnlimitedInteger,
     VerbatimString,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum
@@ -554,3 +557,527 @@ class EcucModuleConfigurationValues(ARElement):
 # (canonical, # Spec verified: R23-11 — AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.13, p.53).
 # The duplicate stub that used to sit here was removed; import it from
 # armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate when needed.
+
+
+class ParameterValue(ARObject, ABC):
+    """
+    Common class to all types of configuration values.
+    """
+
+    # ParameterValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.32, p.97 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDefinitionRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefinitionRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Deviations (spec member name is `definition`, kind ref; renamed per ECUC ref-suffix
+    # convention to definitionRef):
+    # 1. definition optional — spec Mul=1 but XSD group PARAMETER-VALUE (AUTOSAR.xsd L18140)
+    #    has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins).
+    # 2. DEFINITION-REF DEST attribute — XSD says use="required" but Os_ECUC.arxml carries
+    #    no DEST; reader/writer treat DEST as optional.
+
+    def __init__(self):
+        if type(self) is ParameterValue:
+            raise TypeError("ParameterValue is an abstract class.")
+
+        super().__init__()
+
+        # Reference to the definition of this ParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10
+        self.definitionRef: Optional[RefType] = None
+
+    def getDefinitionRef(self) -> Optional[RefType]:
+        """Reference to the definition of this ParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10"""
+        return self.definitionRef
+
+    def setDefinitionRef(self, value: Optional[RefType]) -> "ParameterValue":
+        """Reference to the definition of this ParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.definitionRef = value
+        return self
+
+
+class IntegerValue(ParameterValue):
+    """
+    Representing a configuration value of definition type IntegerParamDef.
+    """
+
+    # IntegerValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.34, p.98 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Deviation: value optional — spec Mul=1 but XSD group INTEGER-VALUE (AUTOSAR.xsd
+    # L13680) has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins).
+
+    def __init__(self):
+        super().__init__()
+
+        # Stores the value of the Integer parameter.
+        self.value: Optional[UnlimitedInteger] = None
+
+    def getValue(self) -> Optional[UnlimitedInteger]:
+        """Stores the value of the Integer parameter."""
+        return self.value
+
+    def setValue(self, value: Optional[UnlimitedInteger]) -> "IntegerValue":
+        """Stores the value of the Integer parameter. A None value is a no-op and does not overwrite an existing value."""
+        if value is not None:
+            self.value = value
+        return self
+
+
+class BooleanValue(ParameterValue):
+    """
+    Representing a configuration value of definition type BooleanParamDef.
+    """
+
+    # BooleanValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.33, p.97 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Deviation: value optional — spec Mul=1 but XSD group BOOLEAN-VALUE (AUTOSAR.xsd
+    # L1551) has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins).
+
+    def __init__(self):
+        super().__init__()
+
+        # Stores the value of the Boolean parameter.
+        self.value: Optional[Boolean] = None
+
+    def getValue(self) -> Optional[Boolean]:
+        """Stores the value of the Boolean parameter."""
+        return self.value
+
+    def setValue(self, value: Optional[Boolean]) -> "BooleanValue":
+        """Stores the value of the Boolean parameter. A None value is a no-op and does not overwrite an existing value."""
+        if value is not None:
+            self.value = value
+        return self
+
+
+class FloatValue(ParameterValue):
+    """
+    Representing a configuration value of definition type FloatParamDef.
+    """
+
+    # FloatValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.35, p.99 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Deviation: value optional — spec Mul=1 but XSD group FLOAT-VALUE (AUTOSAR.xsd
+    # L11261) has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins).
+
+    def __init__(self):
+        super().__init__()
+
+        # Stores the value of the Float parameter.
+        self.value: Optional[Float] = None
+
+    def getValue(self) -> Optional[Float]:
+        """Stores the value of the Float parameter."""
+        return self.value
+
+    def setValue(self, value: Optional[Float]) -> "FloatValue":
+        """Stores the value of the Float parameter. A None value is a no-op and does not overwrite an existing value."""
+        if value is not None:
+            self.value = value
+        return self
+
+
+class StringValue(ParameterValue):
+    """
+    Representing a configuration value of definition type StringParamDef.
+    """
+
+    # StringValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.36, p.99 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Deviation: value optional — spec Mul=1 but XSD group STRING-VALUE (AUTOSAR.xsd
+    # L23746) has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins).
+
+    def __init__(self):
+        super().__init__()
+
+        # Stores the value of the String parameter.
+        self.value: Optional[String] = None
+
+    def getValue(self) -> Optional[String]:
+        """Stores the value of the String parameter."""
+        return self.value
+
+    def setValue(self, value: Optional[String]) -> "StringValue":
+        """Stores the value of the String parameter. A None value is a no-op and does not overwrite an existing value."""
+        if value is not None:
+            self.value = value
+        return self
+
+
+class LinkerSymbolValue(StringValue):
+    """
+    Representing a configuration value of definition type LinkerSymbolDef.
+    """
+
+    # LinkerSymbolValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.37, p.100 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # ZERO own members (spec Table 3.37 attribute table is empty); inherits
+    # definitionRef from ParameterValue and value from StringValue.
+
+    def __init__(self):
+        super().__init__()
+
+
+class FunctionNameValue(LinkerSymbolValue):
+    """
+    Representing a configuration value of definition type FunctionNameDef
+    """
+
+    # FunctionNameValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.38, p.100 (R3.2 Rev 3)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
+    # [x] getValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] setValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # ZERO own members (spec Table 3.38 attribute table is empty); inherits
+    # definitionRef from ParameterValue and value from StringValue.
+
+
+class EnumerationValue(ParameterValue):
+    """
+    Representing a configuration value of definition type EnumerationParamDef
+    """
+
+    # EnumerationValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.39, p.101 (R3.2 Rev 3)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
+    # [x] getValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] setValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # Deviation: value optional — spec Mul=1 but XSD group ENUMERATION-VALUE (AUTOSAR.xsd
+    # L9275) has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins).
+
+    def __init__(self):
+        super().__init__()
+
+        # Stores the chosen literal.
+        self.value: Optional[String] = None
+
+    def getValue(self) -> Optional[String]:
+        """Stores the chosen literal."""
+        return self.value
+
+    def setValue(self, value: Optional[String]) -> "EnumerationValue":
+        """Stores the chosen literal. A None value is a no-op and does not overwrite an existing value."""
+        if value is not None:
+            self.value = value
+        return self
+
+
+class ConfigReferenceValue(ARObject, ABC):
+    """
+    Abstract class to be used as common parent for all reference values in the ECU Configuration Description.
+
+    [ecuc_sws_3027] The metamodel class ReferenceValue provides the mechanism to reference to any model element of type Identifiable.
+
+    [ecuc_sws_3028] Therefore this class provides the means to describe all kinds of reference definitions except an InstanceReferenceParamDef, which is described in section 3.4.5.1 in more detail.
+
+    [ecuc_sws_3029] A ChoiceReferenceParamDef translates to a ReferenceValue in the ECU Configuration Description because the choice has to be resolved in that description. Therefore no special configuration description type is introduced.
+    """
+
+    # ConfigReferenceValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.40, p.103 (R3.2 Rev 3)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
+    # [x] getDefinitionRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] setDefinitionRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # Deviations (spec member name is `definition`, kind ref; renamed per ECUC ref-suffix
+    # convention to definitionRef):
+    # 1. definition optional — spec Mul=1 but XSD group CONFIG-REFERENCE-VALUE (AUTOSAR.xsd
+    #    L6087) DEFINITION-REF has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins).
+    # 2. DEFINITION-REF DEST attribute — XSD says use="required" but Os_ECUC.arxml carries
+    #    no DEST; reader/writer treat DEST as optional (ParameterValue precedent).
+
+    def __init__(self):
+        if type(self) is ConfigReferenceValue:
+            raise TypeError("ConfigReferenceValue is an abstract class.")
+
+        super().__init__()
+
+        # Reference to the definition of this ConfigReferenceValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10
+        self.definitionRef: Optional[RefType] = None
+
+    def getDefinitionRef(self) -> Optional[RefType]:
+        """Reference to the definition of this ConfigReferenceValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10"""
+        return self.definitionRef
+
+    def setDefinitionRef(self, value: Optional[RefType]) -> "ConfigReferenceValue":
+        """Reference to the definition of this ConfigReferenceValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.definitionRef = value
+        return self
+
+
+class ReferenceValue(ConfigReferenceValue):
+    """
+    Used to represent a configuration value that has a parameter definition of type ConfigReference (used for all of its specializations excluding InstanceReferenceParamDef).
+
+    [ecuc_sws_2093] If a ConfigReferenceValue references a container within some ModuleConfiguration the referenced container shall be part of a ModuleConfiguration which is itself part of the EcuConfiguration. According to figure 3.20 a ModuleConfiguration is part of the EcuConfiguration if it is referenced with the module role.
+    """
+
+    # ReferenceValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.41, p.103 (R3.2 Rev 3)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
+    # [x] getValueRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] setValueRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # Deviations (spec member name is `value`, kind ref; renamed per ECUC ref-suffix
+    # convention to valueRef — EcucReferenceValue precedent):
+    # value optional — spec Mul=1 but XSD group REFERENCE-VALUE (AUTOSAR.xsd L20706)
+    # VALUE-REF has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins);
+    # VALUE-REF DEST use="required" in XSD but sample carries no DEST → DEST optional.
+
+    def __init__(self):
+        super().__init__()
+
+        # Specifies the destination of the reference.
+        self.valueRef: Optional[RefType] = None
+
+    def getValueRef(self) -> Optional[RefType]:
+        """Specifies the destination of the reference."""
+        return self.valueRef
+
+    def setValueRef(self, value: Optional[RefType]) -> "ReferenceValue":
+        """Specifies the destination of the reference. A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.valueRef = value
+        return self
+
+
+class InstanceReferenceValue(ConfigReferenceValue):
+    """
+    InstanceReference representation in the ECU Configuration.
+    """
+
+    # InstanceReferenceValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.42, p.106 (R3.2 Rev 3)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
+    # [x] getValueIRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] setValueIRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # Deviations (spec member name is `value`, kind iref; named valueIRef per Rule 0001.5
+    # IRef suffix — R4 EcucInstanceReferenceValue precedent, decomposed via AnyInstanceRef):
+    # value optional — spec Mul=1 but XSD group INSTANCE-REFERENCE-VALUE (AUTOSAR.xsd
+    # L13507) VALUE-IREF has minOccurs="0" (Rule 0019.3 inverted); R3 VALUE-IREF content
+    # = CONTEXT-REF* (offset 10) + VALUE-REF (offset 20), serialized with the R3 element
+    # names (NOT the R4 CONTEXT-ELEMENT-REF/TARGET-REF names).
+
+    def __init__(self):
+        super().__init__()
+
+        # InstanceReference representation in the ECU Configuration.
+        self.valueIRef: Optional[AnyInstanceRef] = None
+
+    def getValueIRef(self) -> Optional[AnyInstanceRef]:
+        """InstanceReference representation in the ECU Configuration."""
+        return self.valueIRef
+
+    def setValueIRef(self, value: Optional[AnyInstanceRef]) -> "InstanceReferenceValue":
+        """InstanceReference representation in the ECU Configuration. A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.valueIRef = value
+        return self
+
+
+class Container(Identifiable):
+    """
+    Represents a Container definition in the ECU Configuration Description.
+
+    [ecuc_sws_2092] If a ParamConfContainerDef is specified to be the multipleConfigurationContainer there can be several Container elements defined in the ECU Configuration. Each Container shortName does specify the name of the configuration set it contains.
+
+    The multipleConfigurationContainer is further detailed in section 3.4.7.
+    """
+
+    # Container method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.31, p.93 (R3.2 Rev 3)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
+    # [x] getDefinitionRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] setDefinitionRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # [x] getParameterValues    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] addParameterValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # [x] getReferenceValues    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] addReferenceValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # [x] getSubContainers      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] createSubContainer    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # Deviations (spec member name is `definition`, kind ref; renamed per ECUC ref-suffix
+    # convention to definitionRef):
+    # definition optional — spec Mul=1 but XSD group CONTAINER (AUTOSAR.xsd L6243)
+    # DEFINITION-REF has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins);
+    # DEFINITION-REF DEST use="required" in XSD but sample carries no DEST → DEST optional.
+    # Aggregate member names pluralized per spec mult `*` (parameterValues /
+    # referenceValues / subContainers; EcucContainerValue precedent).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10
+        self.definitionRef: Optional[RefType] = None
+
+        # Aggregates all ECU Configuration Values within this Container.
+        self.parameterValues: List[ParameterValue] = []
+
+        # Aggregates all References with this container.
+        self.referenceValues: List[ConfigReferenceValue] = []
+
+        # Aggregates all sub-containers within this container.
+        self.subContainers: List["Container"] = []
+
+    def getDefinitionRef(self) -> Optional[RefType]:
+        """Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10"""
+        return self.definitionRef
+
+    def setDefinitionRef(self, value: Optional[RefType]) -> "Container":
+        """Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.definitionRef = value
+        return self
+
+    def getParameterValues(self) -> List[ParameterValue]:
+        """Aggregates all ECU Configuration Values within this Container."""
+        return self.parameterValues
+
+    def addParameterValue(self, value: ParameterValue) -> "Container":
+        """Aggregates all ECU Configuration Values within this Container."""
+        self.parameterValues.append(value)
+        return self
+
+    def getReferenceValues(self) -> List[ConfigReferenceValue]:
+        """Aggregates all References with this container."""
+        return self.referenceValues
+
+    def addReferenceValue(self, value: ConfigReferenceValue) -> "Container":
+        """Aggregates all References with this container."""
+        self.referenceValues.append(value)
+        return self
+
+    def getSubContainers(self) -> List["Container"]:
+        """Aggregates all sub-containers within this container."""
+        return self.subContainers
+
+    def createSubContainer(self, short_name: str) -> "Container":
+        """Aggregates all sub-containers within this container."""
+        if not self.IsElementExists(short_name, Container):
+            sub_container = Container(self, short_name)
+            self.addElement(sub_container)
+            self.subContainers.append(sub_container)
+        return self.getElement(short_name, Container)
+
+
+class ModuleConfiguration(ARElement):
+    """
+    Head of the configuration of one Module. A Module can be a BSW module as well as the RTE and ECU Infrastructure.
+
+    As part of tthe BSW module description, the ModuleConfiguration has two different roles:
+
+    The recommendedConfiguration contains parameter values recommended by the BSW module vendor.
+
+    The preconfiguredConfiguration contains values for those parameters which are fixed by the implementation and cannot be changed.
+
+    These two ModuleConfigurations are used when the base ModuleConfiguration (as part of the base ECU configuration) is created to fill parameters with initial values.
+    """
+
+    # ModuleConfiguration method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.30, p.86 (R3.2 Rev 3)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
+    # [x] createContainer                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # [x] getContainers                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] getDefinitionRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] setDefinitionRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # [x] getImplementationConfigVariant   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] setImplementationConfigVariant   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # [x] getModuleDescriptionRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] setModuleDescriptionRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # Deviations (spec member names `definition`/`moduleDescription` kind ref; renamed per
+    # ECUC ref-suffix convention to definitionRef/moduleDescriptionRef):
+    # definition + implementationConfigVariant optional — spec Mul=1 but XSD group
+    # MODULE-CONFIGURATION (AUTOSAR.xsd L16416) DEFINITION-REF and
+    # IMPLEMENTATION-CONFIG-VARIANT have minOccurs="0" (Rule 0019.3 inverted; Os_ECUC.arxml
+    # carries neither); DEFINITION-REF/MODULE-DESCRIPTION-REF DEST use="required" in XSD
+    # but sample carries no DEST → DEST optional. Aggregated by ARPackage.element (XSD
+    # L222) → ARPackage.createModuleConfiguration factory.
+    # XML element order (XSD sequenceOffset): DEFINITION-REF (-10) → IMPLEMENTATION-CONFIG-VARIANT (0)
+    # → MODULE-DESCRIPTION-REF (0) → CONTAINERS (10).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Aggregates all containers that belong to this module configuration. Tags: xml.sequenceOffset=10
+        self.containers: List[Container] = []
+
+        # Reference to the definition of this ModuleConfiguration. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10
+        self.definitionRef: Optional[RefType] = None
+
+        # Specifies the ConfigurationVariant used for this ModuleConfiguration.
+        self.implementationConfigVariant: Optional[EcucConfigurationVariantEnum] = None
+
+        # Referencing the BSW module description, which this ModuleConfiguration is configuring. This is optional because the ModuleConfiguration is also used to configure the ECU infrastructure (memory map) or Application SW-Cs.
+        self.moduleDescriptionRef: Optional[RefType] = None
+
+    def createContainer(self, short_name: str) -> Container:
+        """Aggregates all containers that belong to this module configuration. Tags: xml.sequenceOffset=10"""
+        if not self.IsElementExists(short_name, Container):
+            container = Container(self, short_name)
+            self.addElement(container)
+            self.containers.append(container)
+        return self.getElement(short_name, Container)
+
+    def getContainers(self) -> List[Container]:
+        """Aggregates all containers that belong to this module configuration. Tags: xml.sequenceOffset=10"""
+        return self.containers
+
+    def getDefinitionRef(self) -> Optional[RefType]:
+        """Reference to the definition of this ModuleConfiguration. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10"""
+        return self.definitionRef
+
+    def setDefinitionRef(self, value: Optional[RefType]) -> "ModuleConfiguration":
+        """Reference to the definition of this ModuleConfiguration. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.definitionRef = value
+        return self
+
+    def getImplementationConfigVariant(self) -> Optional[EcucConfigurationVariantEnum]:
+        """Specifies the ConfigurationVariant used for this ModuleConfiguration."""
+        return self.implementationConfigVariant
+
+    def setImplementationConfigVariant(self, value: Optional[EcucConfigurationVariantEnum]) -> "ModuleConfiguration":
+        """Specifies the ConfigurationVariant used for this ModuleConfiguration. A None value is a no-op and does not overwrite an existing configuration variant."""
+        if value is not None:
+            self.implementationConfigVariant = value
+        return self
+
+    def getModuleDescriptionRef(self) -> Optional[RefType]:
+        """Referencing the BSW module description, which this ModuleConfiguration is configuring. This is optional because the ModuleConfiguration is also used to configure the ECU infrastructure (memory map) or Application SW-Cs."""
+        return self.moduleDescriptionRef
+
+    def setModuleDescriptionRef(self, value: Optional[RefType]) -> "ModuleConfiguration":
+        """Referencing the BSW module description, which this ModuleConfiguration is configuring. This is optional because the ModuleConfiguration is also used to configure the ECU infrastructure (memory map) or Application SW-Cs. A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.moduleDescriptionRef = value
+        return self

@@ -145,6 +145,8 @@ def xsd_to_version_mapping() -> Dict[str, str]:
         Dict mapping XSD filename to ARRelease version string
     """
     return {
+        # AUTOSAR 3.x releases (legacy)
+        "autosar.xsd": "3.2.3",
         # AUTOSAR 4.x releases
         "AUTOSAR_4-0-3.xsd": "4.0.3",
         "AUTOSAR_4-1-0.xsd": "4.1.0",

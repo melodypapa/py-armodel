@@ -7,7 +7,28 @@ from unittest.mock import MagicMock
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RevisionLabelString
+from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    BooleanValue,
+    ConfigReferenceValue,
+    Container,
+    EcucAddInfoParamValue,
+    EcucInstanceReferenceValue,
+    EcucNumericalParamValue,
+    EcucReferenceValue,
+    EcucTextualParamValue,
+    EnumerationValue,
+    FloatValue,
+    FunctionNameValue,
+    InstanceReferenceValue,
+    IntegerValue,
+    LinkerSymbolValue,
+    ModuleConfiguration,
+    ParameterValue,
+    ReferenceValue,
+    StringValue,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, RevisionLabelString, String, UnlimitedInteger
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -799,7 +820,7 @@ def _make_module_configuration_values(short_name="ModuleValues"):
 
 
 class TestGetEcucInstanceReferenceValue:
-    """Tests for getEcucInstanceReferenceValue (L5127-5131)."""
+    """Tests for readEcucInstanceReferenceValue (L5127-5131)."""
 
     def test_with_value_iref_and_definition_ref(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -815,7 +836,8 @@ class TestGetEcucInstanceReferenceValue:
             """,
             root_tag="ECUC-INSTANCE-REFERENCE-VALUE",
         )
-        value = parser.getEcucInstanceReferenceValue(element)
+        value = EcucInstanceReferenceValue()
+        parser.readEcucInstanceReferenceValue(element, value)
         assert value is not None
         assert value.getDefinitionRef() is not None
         assert value.getIndex() is not None
@@ -834,7 +856,8 @@ class TestGetEcucInstanceReferenceValue:
             """,
             root_tag="ECUC-INSTANCE-REFERENCE-VALUE",
         )
-        value = parser.getEcucInstanceReferenceValue(element)
+        value = EcucInstanceReferenceValue()
+        parser.readEcucInstanceReferenceValue(element, value)
         assert value is not None
         assert value.getDefinitionRef() is not None
         assert value.getValueIRef() is None
@@ -854,13 +877,14 @@ class TestGetEcucInstanceReferenceValue:
             """,
             root_tag="ECUC-INSTANCE-REFERENCE-VALUE",
         )
-        value = parser.getEcucInstanceReferenceValue(element)
+        value = EcucInstanceReferenceValue()
+        parser.readEcucInstanceReferenceValue(element, value)
         assert value is not None
         assert len(value.getAnnotations()) == 1
 
 
 class TestGetEcucReferenceValue:
-    """Tests for getEcucReferenceValue covering the Table 2.53 fields of EcucAbstractReferenceValue."""
+    """Tests for readEcucReferenceValue covering the Table 2.53 fields of EcucAbstractReferenceValue."""
 
     def test_reads_all_ecuc_abstract_reference_value_fields(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -880,7 +904,8 @@ class TestGetEcucReferenceValue:
             """,
             root_tag="ECUC-REFERENCE-VALUE",
         )
-        value = parser.getEcucReferenceValue(element)
+        value = EcucReferenceValue()
+        parser.readEcucReferenceValue(element, value)
         assert value is not None
         assert value.getDefinitionRef() is not None
         assert value.getDefinitionRef().getValue() == "/Path/To/Def"
@@ -901,7 +926,8 @@ class TestGetEcucReferenceValue:
             """,
             root_tag="ECUC-REFERENCE-VALUE",
         )
-        value = parser.getEcucReferenceValue(element)
+        value = EcucReferenceValue()
+        parser.readEcucReferenceValue(element, value)
         assert value is not None
         assert value.getDefinitionRef() is None
         assert value.getIndex() is None
@@ -962,7 +988,7 @@ class TestReadEcucParameterValue:
 
 
 class TestGetEcucTextualParamValue:
-    """Tests for getEcucTextualParamValue handler (Table 2.50)."""
+    """Tests for readEcucTextualParamValue handler (Table 2.50)."""
 
     def test_reads_value_as_verbatim_string(self, parser):
         from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
@@ -978,7 +1004,8 @@ class TestGetEcucTextualParamValue:
             """,
             root_tag="ECUC-TEXTUAL-PARAM-VALUE",
         )
-        param_value = parser.getEcucTextualParamValue(element)
+        param_value = EcucTextualParamValue()
+        parser.readEcucTextualParamValue(element, param_value)
         assert isinstance(param_value, EcucTextualParamValue)
         assert param_value.getDefinitionRef() is not None
         assert param_value.getDefinitionRef().getValue() == "/EcucDefs/Rte/Param"
@@ -988,12 +1015,13 @@ class TestGetEcucTextualParamValue:
     def test_empty_element_leaves_value_unset(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
         element = _snip("", root_tag="ECUC-TEXTUAL-PARAM-VALUE")
-        param_value = parser.getEcucTextualParamValue(element)
+        param_value = EcucTextualParamValue()
+        parser.readEcucTextualParamValue(element, param_value)
         assert param_value.getValue() is None
 
 
 class TestGetEcucNumericalParamValue:
-    """Tests for getEcucNumericalParamValue handler (Table 2.51)."""
+    """Tests for readEcucNumericalParamValue handler (Table 2.51)."""
 
     def test_reads_value_as_numerical(self, parser):
         from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
@@ -1009,7 +1037,8 @@ class TestGetEcucNumericalParamValue:
             """,
             root_tag="ECUC-NUMERICAL-PARAM-VALUE",
         )
-        param_value = parser.getEcucNumericalParamValue(element)
+        param_value = EcucNumericalParamValue()
+        parser.readEcucNumericalParamValue(element, param_value)
         assert isinstance(param_value, EcucNumericalParamValue)
         assert param_value.getDefinitionRef() is not None
         assert param_value.getDefinitionRef().getValue() == "/EcucDefs/Rte/SchedulingPeriod"
@@ -1019,12 +1048,13 @@ class TestGetEcucNumericalParamValue:
     def test_empty_element_leaves_value_unset(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
         element = _snip("", root_tag="ECUC-NUMERICAL-PARAM-VALUE")
-        param_value = parser.getEcucNumericalParamValue(element)
+        param_value = EcucNumericalParamValue()
+        parser.readEcucNumericalParamValue(element, param_value)
         assert param_value.getValue() is None
 
 
 class TestGetEcucAddInfoParamValue:
-    """Tests for getEcucAddInfoParamValue handler (Table 2.52)."""
+    """Tests for readEcucAddInfoParamValue handler (Table 2.52)."""
 
     def test_reads_value_as_documentation_block(self, parser):
         from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
@@ -1044,7 +1074,8 @@ class TestGetEcucAddInfoParamValue:
             """,
             root_tag="ECUC-ADD-INFO-PARAM-VALUE",
         )
-        param_value = parser.getEcucAddInfoParamValue(element)
+        param_value = EcucAddInfoParamValue()
+        parser.readEcucAddInfoParamValue(element, param_value)
         assert isinstance(param_value, EcucAddInfoParamValue)
         assert param_value.getDefinitionRef() is not None
         assert param_value.getDefinitionRef().getValue() == "/EcucDefs/Dcm/Dtc"
@@ -1058,7 +1089,8 @@ class TestGetEcucAddInfoParamValue:
     def test_empty_element_leaves_value_unset(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
         element = _snip("", root_tag="ECUC-ADD-INFO-PARAM-VALUE")
-        param_value = parser.getEcucAddInfoParamValue(element)
+        param_value = EcucAddInfoParamValue()
+        parser.readEcucAddInfoParamValue(element, param_value)
         assert param_value.getValue() is None
 
 
@@ -2052,3 +2084,764 @@ class TestEcucValidationCondition:
         assert vc.getEcucQueries()[0].getShortName() == "Q1"
         assert vc.getValidationFormula() is not None
         assert vc.getValidationFormula().getEcucQueryRef().getValue() == "/Ref/Query1"
+
+
+class _R3ParameterValueStub(ParameterValue):
+    """Minimal concrete subclass of the abstract R3.2.3 ParameterValue."""
+
+    pass
+
+
+class _R3ConfigReferenceValueStub(ConfigReferenceValue):
+    """Minimal concrete subclass of the abstract R3.2.3 ConfigReferenceValue."""
+
+    pass
+
+
+class TestParameterValue:
+    """Tests for readParameterValue handler (R3.2.3 abstract ParameterValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.32, p.97 (R3.2 Rev 3)
+    """
+
+    def test_read_definition_ref_without_dest(self, parser):
+        param_value = _R3ParameterValueStub()
+        element = _snip("<DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/Param</DEFINITION-REF>")
+        parser.readParameterValue(element, param_value)
+        ref = param_value.getDefinitionRef()
+        assert ref is not None
+        assert ref.getValue() == "/TS_T19D1M6I1R0_AS403/Os/Param"
+        assert ref.getDest() is None
+
+    def test_read_definition_ref_with_dest(self, parser):
+        param_value = _R3ParameterValueStub()
+        element = _snip('<DEFINITION-REF DEST="BOOLEAN-PARAM-DEF">/Defs/Flag</DEFINITION-REF>')
+        parser.readParameterValue(element, param_value)
+        ref = param_value.getDefinitionRef()
+        assert ref is not None
+        assert ref.getValue() == "/Defs/Flag"
+        assert ref.getDest() == "BOOLEAN-PARAM-DEF"
+
+    def test_read_missing_definition_ref(self, parser):
+        param_value = _R3ParameterValueStub()
+        element = _snip("")
+        parser.readParameterValue(element, param_value)
+        assert param_value.getDefinitionRef() is None
+
+
+class TestIntegerValue:
+    """Tests for readIntegerValue handler (R3.2.3 IntegerValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.34, p.98 (R3.2 Rev 3)
+    """
+
+    def test_get_integer_value_without_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/ArMajorVersion</DEFINITION-REF>
+                <VALUE>5</VALUE>
+            """,
+            root_tag="INTEGER-VALUE",
+        )
+        integer_value = IntegerValue()
+        parser.readIntegerValue(element, integer_value)
+        assert isinstance(integer_value, IntegerValue)
+        assert integer_value.getDefinitionRef().getValue() == "/TS_T19D1M6I1R0_AS403/Os/ArMajorVersion"
+        assert integer_value.getDefinitionRef().getDest() is None
+        assert isinstance(integer_value.getValue(), UnlimitedInteger)
+        assert integer_value.getValue().getValue() == 5
+
+    def test_get_integer_value_with_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF DEST="INTEGER-PARAM-DEF">/AUTOSAR/Rte/PositionInTask</DEFINITION-REF>
+                <VALUE>5</VALUE>
+            """,
+            root_tag="INTEGER-VALUE",
+        )
+        integer_value = IntegerValue()
+        parser.readIntegerValue(element, integer_value)
+        assert integer_value.getDefinitionRef().getDest() == "INTEGER-PARAM-DEF"
+        assert integer_value.getValue().getValue() == 5
+
+    def test_get_integer_value_missing_value(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/Param</DEFINITION-REF>
+            """,
+            root_tag="INTEGER-VALUE",
+        )
+        integer_value = IntegerValue()
+        parser.readIntegerValue(element, integer_value)
+        assert integer_value.getDefinitionRef().getValue() == "/Defs/Param"
+        assert integer_value.getValue() is None
+
+    def test_get_integer_value_missing_definition_ref(self, parser):
+        element = _snip(
+            """
+                <VALUE>42</VALUE>
+            """,
+            root_tag="INTEGER-VALUE",
+        )
+        integer_value = IntegerValue()
+        parser.readIntegerValue(element, integer_value)
+        assert integer_value.getDefinitionRef() is None
+        assert integer_value.getValue().getValue() == 42
+
+
+class TestBooleanValue:
+    """Tests for readBooleanValue handler (R3.2.3 BooleanValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.33, p.97 (R3.2 Rev 3)
+    """
+
+    def test_get_boolean_value_without_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsStackMonitoring</DEFINITION-REF>
+                <VALUE>false</VALUE>
+            """,
+            root_tag="BOOLEAN-VALUE",
+        )
+        boolean_value = BooleanValue()
+        parser.readBooleanValue(element, boolean_value)
+        assert isinstance(boolean_value, BooleanValue)
+        assert boolean_value.getDefinitionRef().getValue() == "/TS_T19D1M6I1R0_AS403/Os/OsStackMonitoring"
+        assert boolean_value.getDefinitionRef().getDest() is None
+        assert isinstance(boolean_value.getValue(), Boolean)
+        assert boolean_value.getValue().getValue() is False
+
+    def test_get_boolean_value_with_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF DEST="BOOLEAN-PARAM-DEF">/Defs/Flag</DEFINITION-REF>
+                <VALUE>true</VALUE>
+            """,
+            root_tag="BOOLEAN-VALUE",
+        )
+        boolean_value = BooleanValue()
+        parser.readBooleanValue(element, boolean_value)
+        assert boolean_value.getDefinitionRef().getDest() == "BOOLEAN-PARAM-DEF"
+        assert boolean_value.getValue().getValue() is True
+
+    def test_get_boolean_value_missing_value(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/Param</DEFINITION-REF>
+            """,
+            root_tag="BOOLEAN-VALUE",
+        )
+        boolean_value = BooleanValue()
+        parser.readBooleanValue(element, boolean_value)
+        assert boolean_value.getDefinitionRef().getValue() == "/Defs/Param"
+        assert boolean_value.getValue() is None
+
+    def test_get_boolean_value_missing_definition_ref(self, parser):
+        element = _snip(
+            """
+                <VALUE>true</VALUE>
+            """,
+            root_tag="BOOLEAN-VALUE",
+        )
+        boolean_value = BooleanValue()
+        parser.readBooleanValue(element, boolean_value)
+        assert boolean_value.getDefinitionRef() is None
+        assert boolean_value.getValue().getValue() is True
+
+
+class TestFloatValue:
+    """Tests for readFloatValue handler (R3.2.3 FloatValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.35, p.99 (R3.2 Rev 3)
+    """
+
+    def test_get_float_value_without_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Rte/SchedulingPeriod</DEFINITION-REF>
+                <VALUE>0.005</VALUE>
+            """,
+            root_tag="FLOAT-VALUE",
+        )
+        float_value = FloatValue()
+        parser.readFloatValue(element, float_value)
+        assert isinstance(float_value, FloatValue)
+        assert float_value.getDefinitionRef().getValue() == "/Rte/SchedulingPeriod"
+        assert float_value.getDefinitionRef().getDest() is None
+        assert isinstance(float_value.getValue(), Float)
+        assert float_value.getValue().getValue() == 0.005
+
+    def test_get_float_value_with_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF DEST="FLOAT-PARAM-DEF">/Defs/Period</DEFINITION-REF>
+                <VALUE>74.8</VALUE>
+            """,
+            root_tag="FLOAT-VALUE",
+        )
+        float_value = FloatValue()
+        parser.readFloatValue(element, float_value)
+        assert float_value.getDefinitionRef().getDest() == "FLOAT-PARAM-DEF"
+        assert float_value.getValue().getValue() == 74.8
+
+    def test_get_float_value_missing_value(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/Param</DEFINITION-REF>
+            """,
+            root_tag="FLOAT-VALUE",
+        )
+        float_value = FloatValue()
+        parser.readFloatValue(element, float_value)
+        assert float_value.getDefinitionRef().getValue() == "/Defs/Param"
+        assert float_value.getValue() is None
+
+    def test_get_float_value_missing_definition_ref(self, parser):
+        element = _snip(
+            """
+                <VALUE>1.5</VALUE>
+            """,
+            root_tag="FLOAT-VALUE",
+        )
+        float_value = FloatValue()
+        parser.readFloatValue(element, float_value)
+        assert float_value.getDefinitionRef() is None
+        assert float_value.getValue().getValue() == 1.5
+
+
+class TestStringValue:
+    """Tests for readStringValue handler (R3.2.3 StringValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.36, p.99 (R3.2 Rev 3)
+    """
+
+    def test_get_string_value(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Os/Release</DEFINITION-REF>
+                <VALUE>1.0.0</VALUE>
+            """,
+            root_tag="STRING-VALUE",
+        )
+        string_value = StringValue()
+        parser.readStringValue(element, string_value)
+        assert isinstance(string_value, StringValue)
+        assert string_value.getDefinitionRef().getValue() == "/Os/Release"
+        assert string_value.getDefinitionRef().getDest() is None
+        assert isinstance(string_value.getValue(), String)
+        assert string_value.getValue().getValue() == "1.0.0"
+
+    def test_get_string_value_empty(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF DEST="STRING-PARAM-DEF">/Os/Release</DEFINITION-REF>
+                <VALUE></VALUE>
+            """,
+            root_tag="STRING-VALUE",
+        )
+        string_value = StringValue()
+        parser.readStringValue(element, string_value)
+        assert string_value.getDefinitionRef().getDest() == "STRING-PARAM-DEF"
+        assert isinstance(string_value.getValue(), String)
+        assert string_value.getValue().getValue() == ""
+
+    def test_get_string_value_missing_value(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/Param</DEFINITION-REF>
+            """,
+            root_tag="STRING-VALUE",
+        )
+        string_value = StringValue()
+        parser.readStringValue(element, string_value)
+        assert string_value.getDefinitionRef().getValue() == "/Defs/Param"
+        assert string_value.getValue() is None
+
+    def test_get_string_value_missing_definition_ref(self, parser):
+        element = _snip(
+            """
+                <VALUE>text</VALUE>
+            """,
+            root_tag="STRING-VALUE",
+        )
+        string_value = StringValue()
+        parser.readStringValue(element, string_value)
+        assert string_value.getDefinitionRef() is None
+        assert string_value.getValue().getValue() == "text"
+
+
+class TestLinkerSymbolValue:
+    """Tests for readLinkerSymbolValue handler (R3.2.3 LinkerSymbolValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.37, p.100 (R3.2 Rev 3)
+    """
+
+    def test_get_linker_symbol_value_without_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Rte/Resource/Pim/RtePimInitializationSymbol</DEFINITION-REF>
+                <VALUE>RtePimInit</VALUE>
+            """,
+            root_tag="LINKER-SYMBOL-VALUE",
+        )
+        linker_symbol_value = LinkerSymbolValue()
+        parser.readLinkerSymbolValue(element, linker_symbol_value)
+        assert isinstance(linker_symbol_value, LinkerSymbolValue)
+        assert linker_symbol_value.getDefinitionRef().getValue() == "/Rte/Resource/Pim/RtePimInitializationSymbol"
+        assert linker_symbol_value.getDefinitionRef().getDest() is None
+        assert linker_symbol_value.getValue().getValue() == "RtePimInit"
+
+    def test_get_linker_symbol_value_with_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF DEST="LINKER-SYMBOL-DEF">/Rte/Resource/Pim/RtePimInitializationSymbol</DEFINITION-REF>
+                <VALUE>RtePimInit</VALUE>
+            """,
+            root_tag="LINKER-SYMBOL-VALUE",
+        )
+        linker_symbol_value = LinkerSymbolValue()
+        parser.readLinkerSymbolValue(element, linker_symbol_value)
+        assert linker_symbol_value.getDefinitionRef().getDest() == "LINKER-SYMBOL-DEF"
+        assert linker_symbol_value.getValue().getValue() == "RtePimInit"
+
+    def test_get_linker_symbol_value_missing_value(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/Symbol</DEFINITION-REF>
+            """,
+            root_tag="LINKER-SYMBOL-VALUE",
+        )
+        linker_symbol_value = LinkerSymbolValue()
+        parser.readLinkerSymbolValue(element, linker_symbol_value)
+        assert linker_symbol_value.getDefinitionRef().getValue() == "/Defs/Symbol"
+        assert linker_symbol_value.getValue() is None
+
+    def test_get_linker_symbol_value_missing_definition_ref(self, parser):
+        element = _snip(
+            """
+                <VALUE>RtePimInit</VALUE>
+            """,
+            root_tag="LINKER-SYMBOL-VALUE",
+        )
+        linker_symbol_value = LinkerSymbolValue()
+        parser.readLinkerSymbolValue(element, linker_symbol_value)
+        assert linker_symbol_value.getDefinitionRef() is None
+        assert linker_symbol_value.getValue().getValue() == "RtePimInit"
+
+
+class TestFunctionNameValue:
+    """Tests for readFunctionNameValue handler (R3.2.3 FunctionNameValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.38, p.100 (R3.2 Rev 3)
+    """
+
+    def test_get_function_name_value_without_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Os/OsTask/OsTaskActivation</DEFINITION-REF>
+                <VALUE>OsTaskActivation</VALUE>
+            """,
+            root_tag="FUNCTION-NAME-VALUE",
+        )
+        function_name_value = FunctionNameValue()
+        parser.readFunctionNameValue(element, function_name_value)
+        assert isinstance(function_name_value, FunctionNameValue)
+        assert function_name_value.getDefinitionRef().getValue() == "/Os/OsTask/OsTaskActivation"
+        assert function_name_value.getDefinitionRef().getDest() is None
+        assert function_name_value.getValue().getValue() == "OsTaskActivation"
+
+    def test_get_function_name_value_with_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF DEST="FUNCTION-NAME-DEF">/Os/OsTask/OsTaskActivation</DEFINITION-REF>
+                <VALUE>OsTaskActivation</VALUE>
+            """,
+            root_tag="FUNCTION-NAME-VALUE",
+        )
+        function_name_value = FunctionNameValue()
+        parser.readFunctionNameValue(element, function_name_value)
+        assert function_name_value.getDefinitionRef().getDest() == "FUNCTION-NAME-DEF"
+        assert function_name_value.getValue().getValue() == "OsTaskActivation"
+
+    def test_get_function_name_value_missing_value(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/Function</DEFINITION-REF>
+            """,
+            root_tag="FUNCTION-NAME-VALUE",
+        )
+        function_name_value = FunctionNameValue()
+        parser.readFunctionNameValue(element, function_name_value)
+        assert function_name_value.getDefinitionRef().getValue() == "/Defs/Function"
+        assert function_name_value.getValue() is None
+
+    def test_get_function_name_value_missing_definition_ref(self, parser):
+        element = _snip(
+            """
+                <VALUE>OsTaskActivation</VALUE>
+            """,
+            root_tag="FUNCTION-NAME-VALUE",
+        )
+        function_name_value = FunctionNameValue()
+        parser.readFunctionNameValue(element, function_name_value)
+        assert function_name_value.getDefinitionRef() is None
+        assert function_name_value.getValue().getValue() == "OsTaskActivation"
+
+
+class TestEnumerationValue:
+    """Tests for readEnumerationValue handler (R3.2.3 EnumerationValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.39, p.101 (R3.2 Rev 3)
+    """
+
+    def test_get_enumeration_value_without_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsOS/OsStatus</DEFINITION-REF>
+                <VALUE>EXTENDED</VALUE>
+            """,
+            root_tag="ENUMERATION-VALUE",
+        )
+        enumeration_value = EnumerationValue()
+        parser.readEnumerationValue(element, enumeration_value)
+        assert isinstance(enumeration_value, EnumerationValue)
+        assert enumeration_value.getDefinitionRef().getValue() == "/TS_T19D1M6I1R0_AS403/Os/OsOS/OsStatus"
+        assert enumeration_value.getDefinitionRef().getDest() is None
+        assert enumeration_value.getValue().getValue() == "EXTENDED"
+
+    def test_get_enumeration_value_with_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF DEST="ENUMERATION-PARAM-DEF">/AUTOSAR/Rte/RteGeneration/RteGenerationMode</DEFINITION-REF>
+                <VALUE>CompatibilityMode</VALUE>
+            """,
+            root_tag="ENUMERATION-VALUE",
+        )
+        enumeration_value = EnumerationValue()
+        parser.readEnumerationValue(element, enumeration_value)
+        assert enumeration_value.getDefinitionRef().getDest() == "ENUMERATION-PARAM-DEF"
+        assert enumeration_value.getValue().getValue() == "CompatibilityMode"
+
+    def test_get_enumeration_value_missing_value(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/Literal</DEFINITION-REF>
+            """,
+            root_tag="ENUMERATION-VALUE",
+        )
+        enumeration_value = EnumerationValue()
+        parser.readEnumerationValue(element, enumeration_value)
+        assert enumeration_value.getDefinitionRef().getValue() == "/Defs/Literal"
+        assert enumeration_value.getValue() is None
+
+    def test_get_enumeration_value_missing_definition_ref(self, parser):
+        element = _snip(
+            """
+                <VALUE>EXTENDED</VALUE>
+            """,
+            root_tag="ENUMERATION-VALUE",
+        )
+        enumeration_value = EnumerationValue()
+        parser.readEnumerationValue(element, enumeration_value)
+        assert enumeration_value.getDefinitionRef() is None
+        assert enumeration_value.getValue().getValue() == "EXTENDED"
+
+
+class TestConfigReferenceValue:
+    """Tests for readConfigReferenceValue handler (R3.2.3 abstract ConfigReferenceValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.40, p.103 (R3.2 Rev 3)
+    """
+
+    def test_read_definition_ref_without_dest(self, parser):
+        obj = _R3ConfigReferenceValueStub()
+        element = _snip("<DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsOS/OsTask</DEFINITION-REF>")
+        parser.readConfigReferenceValue(element, obj)
+        ref = obj.getDefinitionRef()
+        assert ref is not None
+        assert ref.getValue() == "/TS_T19D1M6I1R0_AS403/Os/OsOS/OsTask"
+        assert ref.getDest() is None
+
+    def test_read_definition_ref_with_dest(self, parser):
+        obj = _R3ConfigReferenceValueStub()
+        element = _snip('<DEFINITION-REF DEST="CONTAINER-DEF">/Defs/Task</DEFINITION-REF>')
+        parser.readConfigReferenceValue(element, obj)
+        ref = obj.getDefinitionRef()
+        assert ref is not None
+        assert ref.getValue() == "/Defs/Task"
+        assert ref.getDest() == "CONTAINER-DEF"
+
+    def test_read_missing_definition_ref(self, parser):
+        obj = _R3ConfigReferenceValueStub()
+        element = _snip("")
+        parser.readConfigReferenceValue(element, obj)
+        assert obj.getDefinitionRef() is None
+
+
+class TestReferenceValue:
+    """Tests for readReferenceValue handler (R3.2.3 ReferenceValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.41, p.103 (R3.2 Rev 3)
+    """
+
+    def test_get_reference_value_full(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsApplication/OsAppAlarmRef</DEFINITION-REF>
+                <VALUE-REF>/Os/Os/AlarmIncrementRteCounter</VALUE-REF>
+            """,
+            root_tag="REFERENCE-VALUE",
+        )
+        reference_value = ReferenceValue()
+        parser.readReferenceValue(element, reference_value)
+        assert isinstance(reference_value, ReferenceValue)
+        assert reference_value.getDefinitionRef().getValue() == "/TS_T19D1M6I1R0_AS403/Os/OsApplication/OsAppAlarmRef"
+        assert reference_value.getDefinitionRef().getDest() is None
+        assert reference_value.getValueRef().getValue() == "/Os/Os/AlarmIncrementRteCounter"
+        assert reference_value.getValueRef().getDest() is None
+
+    def test_get_reference_value_with_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF DEST="REFERENCE-PARAM-DEF">/Defs/AlarmRef</DEFINITION-REF>
+                <VALUE-REF DEST="COUNTER">/Os/Os/HwCounter</VALUE-REF>
+            """,
+            root_tag="REFERENCE-VALUE",
+        )
+        reference_value = ReferenceValue()
+        parser.readReferenceValue(element, reference_value)
+        assert reference_value.getDefinitionRef().getDest() == "REFERENCE-PARAM-DEF"
+        assert reference_value.getValueRef().getDest() == "COUNTER"
+
+    def test_get_reference_value_missing_value_ref(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/Ref</DEFINITION-REF>
+            """,
+            root_tag="REFERENCE-VALUE",
+        )
+        reference_value = ReferenceValue()
+        parser.readReferenceValue(element, reference_value)
+        assert reference_value.getDefinitionRef().getValue() == "/Defs/Ref"
+        assert reference_value.getValueRef() is None
+
+    def test_get_reference_value_missing_definition_ref(self, parser):
+        element = _snip(
+            """
+                <VALUE-REF>/Os/Os/Rte_Counter</VALUE-REF>
+            """,
+            root_tag="REFERENCE-VALUE",
+        )
+        reference_value = ReferenceValue()
+        parser.readReferenceValue(element, reference_value)
+        assert reference_value.getDefinitionRef() is None
+        assert reference_value.getValueRef().getValue() == "/Os/Os/Rte_Counter"
+
+
+class TestInstanceReferenceValue:
+    """Tests for readInstanceReferenceValue handler (R3.2.3 InstanceReferenceValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.42, p.106 (R3.2 Rev 3)
+    """
+
+    def test_get_instance_reference_value_full(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/InstanceRefParam</DEFINITION-REF>
+                <VALUE-IREF>
+                    <CONTEXT-REF>/Os/Os/OsApplication1</CONTEXT-REF>
+                    <VALUE-REF>/Os/Os/OsTask1</VALUE-REF>
+                </VALUE-IREF>
+            """,
+            root_tag="INSTANCE-REFERENCE-VALUE",
+        )
+        instance_reference_value = InstanceReferenceValue()
+        parser.readInstanceReferenceValue(element, instance_reference_value)
+        assert isinstance(instance_reference_value, InstanceReferenceValue)
+        assert instance_reference_value.getDefinitionRef().getValue() == "/Defs/InstanceRefParam"
+        iref = instance_reference_value.getValueIRef()
+        assert iref is not None
+        assert isinstance(iref, AnyInstanceRef)
+        assert len(iref.getContextElementRefs()) == 1
+        assert iref.getContextElementRefs()[0].getValue() == "/Os/Os/OsApplication1"
+        assert iref.getTargetRef().getValue() == "/Os/Os/OsTask1"
+
+    def test_get_instance_reference_value_multiple_contexts(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/InstanceRefParam</DEFINITION-REF>
+                <VALUE-IREF>
+                    <CONTEXT-REF>/Ecu/EcuA</CONTEXT-REF>
+                    <CONTEXT-REF>/Ecu/EcuA/Comp1</CONTEXT-REF>
+                    <VALUE-REF>/Ecu/EcuA/Comp1/Port1</VALUE-REF>
+                </VALUE-IREF>
+            """,
+            root_tag="INSTANCE-REFERENCE-VALUE",
+        )
+        instance_reference_value = InstanceReferenceValue()
+        parser.readInstanceReferenceValue(element, instance_reference_value)
+        iref = instance_reference_value.getValueIRef()
+        assert len(iref.getContextElementRefs()) == 2
+        assert iref.getTargetRef().getValue() == "/Ecu/EcuA/Comp1/Port1"
+
+    def test_get_instance_reference_value_missing_value_iref(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/InstanceRefParam</DEFINITION-REF>
+            """,
+            root_tag="INSTANCE-REFERENCE-VALUE",
+        )
+        instance_reference_value = InstanceReferenceValue()
+        parser.readInstanceReferenceValue(element, instance_reference_value)
+        assert instance_reference_value.getDefinitionRef().getValue() == "/Defs/InstanceRefParam"
+        assert instance_reference_value.getValueIRef() is None
+
+
+class TestContainer:
+    """Tests for readContainer handler (R3.2.3 Container).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.31, p.93 (R3.2 Rev 3)
+    """
+
+    def test_get_container_full(self, parser):
+        element = _snip(
+            """
+                <SHORT-NAME>OsOS</SHORT-NAME>
+                <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsOS</DEFINITION-REF>
+                <PARAMETER-VALUES>
+                    <INTEGER-VALUE>
+                        <DEFINITION-REF>/Os/OsOS/OsNumberOfCores</DEFINITION-REF>
+                        <VALUE>1</VALUE>
+                    </INTEGER-VALUE>
+                    <BOOLEAN-VALUE>
+                        <DEFINITION-REF>/Os/OsOS/OsStackMonitoring</DEFINITION-REF>
+                        <VALUE>false</VALUE>
+                    </BOOLEAN-VALUE>
+                    <ENUMERATION-VALUE>
+                        <DEFINITION-REF>/Os/OsOS/OsStatus</DEFINITION-REF>
+                        <VALUE>EXTENDED</VALUE>
+                    </ENUMERATION-VALUE>
+                </PARAMETER-VALUES>
+                <REFERENCE-VALUES>
+                    <REFERENCE-VALUE>
+                        <DEFINITION-REF>/Os/OsApplication/OsAppAlarmRef</DEFINITION-REF>
+                        <VALUE-REF>/Os/Os/AlarmIncrementRteCounter</VALUE-REF>
+                    </REFERENCE-VALUE>
+                    <INSTANCE-REFERENCE-VALUE>
+                        <DEFINITION-REF>/Defs/InstanceRefParam</DEFINITION-REF>
+                        <VALUE-IREF>
+                            <CONTEXT-REF>/Os/Os/OsApplication1</CONTEXT-REF>
+                            <VALUE-REF>/Os/Os/OsTask1</VALUE-REF>
+                        </VALUE-IREF>
+                    </INSTANCE-REFERENCE-VALUE>
+                </REFERENCE-VALUES>
+                <SUB-CONTAINERS>
+                    <CONTAINER>
+                        <SHORT-NAME>OsScalabilityClass</SHORT-NAME>
+                        <DEFINITION-REF>/Os/OsOS/OsScalabilityClass</DEFINITION-REF>
+                        <PARAMETER-VALUES>
+                            <INTEGER-VALUE>
+                                <DEFINITION-REF>/Os/OsOS/OsScalabilityClass/OsSc</DEFINITION-REF>
+                                <VALUE>2</VALUE>
+                            </INTEGER-VALUE>
+                        </PARAMETER-VALUES>
+                    </CONTAINER>
+                </SUB-CONTAINERS>
+            """,
+            root_tag="CONTAINER",
+        )
+        pkg = AUTOSAR.getInstance().createARPackage("R3Pkg")
+        container = Container(pkg, "OsOS")
+        parser.readContainer(element, container)
+        assert container.getShortName() == "OsOS"
+        assert container.getDefinitionRef().getValue() == "/TS_T19D1M6I1R0_AS403/Os/OsOS"
+        param_values = container.getParameterValues()
+        assert len(param_values) == 3
+        assert isinstance(param_values[0], IntegerValue)
+        assert param_values[0].getValue().getValue() == 1
+        assert isinstance(param_values[1], BooleanValue)
+        assert param_values[1].getValue().getValue() is False
+        assert isinstance(param_values[2], EnumerationValue)
+        assert param_values[2].getValue().getValue() == "EXTENDED"
+        ref_values = container.getReferenceValues()
+        assert len(ref_values) == 2
+        assert isinstance(ref_values[0], ReferenceValue)
+        assert ref_values[0].getValueRef().getValue() == "/Os/Os/AlarmIncrementRteCounter"
+        assert isinstance(ref_values[1], InstanceReferenceValue)
+        assert ref_values[1].getValueIRef().getTargetRef().getValue() == "/Os/Os/OsTask1"
+        sub_containers = container.getSubContainers()
+        assert len(sub_containers) == 1
+        assert sub_containers[0].getShortName() == "OsScalabilityClass"
+        assert len(sub_containers[0].getParameterValues()) == 1
+        assert sub_containers[0].getParameterValues()[0].getValue().getValue() == 2
+
+    def test_get_container_empty(self, parser):
+        element = _snip(
+            """
+                <SHORT-NAME>EmptyContainer</SHORT-NAME>
+            """,
+            root_tag="CONTAINER",
+        )
+        pkg = AUTOSAR.getInstance().createARPackage("R3Pkg")
+        container = Container(pkg, "EmptyContainer")
+        parser.readContainer(element, container)
+        assert container.getDefinitionRef() is None
+        assert container.getParameterValues() == []
+        assert container.getReferenceValues() == []
+        assert container.getSubContainers() == []
+
+
+class TestModuleConfiguration:
+    """Tests for readModuleConfiguration handler (R3.2.3 ModuleConfiguration).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.30, p.86 (R3.2 Rev 3)
+    """
+
+    def test_get_module_configuration_full(self, parser):
+        element = _snip(
+            """
+                <SHORT-NAME>Os</SHORT-NAME>
+                <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os</DEFINITION-REF>
+                <IMPLEMENTATION-CONFIG-VARIANT>VARIANT-PRE-COMPILE</IMPLEMENTATION-CONFIG-VARIANT>
+                <MODULE-DESCRIPTION-REF>/Vendor/OsImplementation</MODULE-DESCRIPTION-REF>
+                <CONTAINERS>
+                    <CONTAINER>
+                        <SHORT-NAME>OsOS</SHORT-NAME>
+                        <DEFINITION-REF>/Os/OsOS</DEFINITION-REF>
+                        <PARAMETER-VALUES>
+                            <INTEGER-VALUE>
+                                <DEFINITION-REF>/Os/OsOS/OsNumberOfCores</DEFINITION-REF>
+                                <VALUE>1</VALUE>
+                            </INTEGER-VALUE>
+                        </PARAMETER-VALUES>
+                    </CONTAINER>
+                </CONTAINERS>
+            """,
+            root_tag="MODULE-CONFIGURATION",
+        )
+        pkg = AUTOSAR.getInstance().createARPackage("R3Pkg")
+        module_configuration = ModuleConfiguration(pkg, "Os")
+        parser.readModuleConfiguration(element, module_configuration)
+        assert module_configuration.getShortName() == "Os"
+        assert module_configuration.getDefinitionRef().getValue() == "/TS_T19D1M6I1R0_AS403/Os"
+        assert module_configuration.getImplementationConfigVariant().getValue() == "VARIANT-PRE-COMPILE"
+        assert module_configuration.getModuleDescriptionRef().getValue() == "/Vendor/OsImplementation"
+        containers = module_configuration.getContainers()
+        assert len(containers) == 1
+        assert containers[0].getShortName() == "OsOS"
+        assert containers[0].getParameterValues()[0].getValue().getValue() == 1
+
+    def test_get_module_configuration_minimal(self, parser):
+        element = _snip(
+            """
+                <SHORT-NAME>Os</SHORT-NAME>
+            """,
+            root_tag="MODULE-CONFIGURATION",
+        )
+        pkg = AUTOSAR.getInstance().createARPackage("R3Pkg")
+        module_configuration = ModuleConfiguration(pkg, "Os")
+        parser.readModuleConfiguration(element, module_configuration)
+        assert module_configuration.getDefinitionRef() is None
+        assert module_configuration.getImplementationConfigVariant() is None
+        assert module_configuration.getModuleDescriptionRef() is None
+        assert module_configuration.getContainers() == []

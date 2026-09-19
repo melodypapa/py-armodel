@@ -136,6 +136,7 @@ ELEMENT_TYPES_AND_TAGS = [
     ("EcucModuleDef", "ECUC-MODULE-DEF"),
     ("EcucDefinitionCollection", "ECUC-DEFINITION-COLLECTION"),
     ("EcucModuleConfigurationValues", "ECUC-MODULE-CONFIGURATION-VALUES"),
+    ("ModuleConfiguration", "MODULE-CONFIGURATION"),
     ("SwSystemConst", "SW-SYSTEMCONST"),
     ("SwSystemconstantValueSet", "SW-SYSTEMCONSTANT-VALUE-SET"),
     ("PredefinedVariant", "PREDEFINED-VARIANT"),

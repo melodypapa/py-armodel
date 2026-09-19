@@ -1049,7 +1049,7 @@ fixed by renaming to the common name, never by documenting the mismatch:
 |---|---|---|---|
 | Model field accessor | `setXxx(value)` | `getXxx()` | `setValue` / `getValue` |
 | Shared base structure | `readXxx(element, obj)` | `writeXxx(element, obj)` | `readEcucParameterValue` / `writeEcucParameterValue` |
-| Concrete ARXML element | `getXxx(element)` — creates + populates | `setXxx(element, obj)` — emits + populates | `getEcucNumericalParamValue` / `setEcucNumericalParamValue` |
+| Concrete ARXML element | `readXxx(element, obj)` — populates the passed instance | `writeXxx(element, obj)` — emits + populates | `readEcucNumericalParamValue` / `writeEcucNumericalParamValue` |
 | XML leaf / primitive type | `getChildElementOptional<T>(element, key)` | `setChildElementOptional<T>(element, key, value)` | `<T>` = `Numerical`, `VerbatimString`, `RevisionLabelString`, … |
 
 - This applies to **every** type, not just primitives: when a sync adds, retypes, or renames

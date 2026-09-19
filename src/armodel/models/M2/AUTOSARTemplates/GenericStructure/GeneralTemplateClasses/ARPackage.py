@@ -1098,6 +1098,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(element)
         return self.getElement(short_name, EcucValueCollection)
 
+    def createModuleConfiguration(self, short_name: str) -> ModuleConfiguration:
+
+        if not self.IsElementExists(short_name, ModuleConfiguration):
+            module_configuration = ModuleConfiguration(self, short_name)
+            self.addElement(module_configuration)
+        return self.getElement(short_name, ModuleConfiguration)
+
     def createEcucModuleConfigurationValues(self, short_name: str) -> EcucModuleConfigurationValues:
 
         if not self.IsElementExists(short_name, EcucModuleConfigurationValues):
@@ -1760,6 +1767,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (  # noqa: E402
     EcucModuleConfigurationValues,
     EcucValueCollection,
+    ModuleConfiguration,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (  # noqa: E402
     EcucDefinitionCollection,

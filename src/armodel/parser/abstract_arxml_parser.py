@@ -391,6 +391,16 @@ class AbstractARXMLParser(ABC):
 
         self.logger.debug("schemaLocation %s" % document.schema_location)
 
+    def detectNamespace(self, element: ET.Element):
+        """Detect the AUTOSAR namespace of the document from the root element tag.
+
+        Supports the R4.x namespace (http://autosar.org/schema/r4.0) and the
+        legacy R3.x namespace (http://autosar.org).
+        """
+        tag = element.tag
+        if isinstance(tag, str) and tag.startswith("{"):
+            self.nsmap = {"xmlns": tag[1 : tag.index("}")]}
+
     def getShortName(self, element: ET.Element) -> str:
         child_element = self.find(element, "SHORT-NAME")
         if child_element is None:

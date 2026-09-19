@@ -2,6 +2,7 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpStructureElement
+from armodel.models.M2.MSR.Documentation.Chapters import Chapter
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import CryptoServiceMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping
@@ -21,7 +22,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RevisionLabelString, TRefType
-from armodel.models.M2.MSR.Documentation.Chapters import Chapter
 
 
 class SwcToEcuMapping(Identifiable, VariationPointCapable):

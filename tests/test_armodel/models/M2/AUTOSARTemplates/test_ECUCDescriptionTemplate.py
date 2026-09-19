@@ -7,6 +7,9 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    BooleanValue,
+    ConfigReferenceValue,
+    Container,
     EcucAbstractReferenceValue,
     EcucAddInfoParamValue,
     EcucContainerValue,
@@ -18,14 +21,33 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucReferenceValue,
     EcucTextualParamValue,
     EcucValueCollection,
+    EnumerationValue,
+    FloatValue,
+    FunctionNameValue,
+    InstanceReferenceValue,
+    IntegerValue,
+    LinkerSymbolValue,
+    ModuleConfiguration,
+    ParameterValue,
+    ReferenceValue,
+    StringValue,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, RevisionLabelString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, RefType, RevisionLabelString, String, UnlimitedInteger
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
 
 def _instantiate(cls, name):
     return cls(AUTOSAR.getInstance().createARPackage("Pkg_" + cls.__name__), name)
+
+
+class _R3ParameterValueStub(ParameterValue):
+    """
+    Minimal concrete subclass of the abstract R3.2.3 ParameterValue, used to
+    exercise the inherited abstract-base behavior in unit tests.
+    """
 
 
 class TestEcucValueCollection:
@@ -238,3 +260,417 @@ class TestEcucAbstractReferenceValue:
 
     def test_inheritance(self):
         assert issubclass(EcucInstanceReferenceValue, EcucAbstractReferenceValue)
+
+
+class TestParameterValue:
+    """
+    Test class for ParameterValue (abstract base) functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.32, p.97 (R3.2 Rev 3)
+    """
+
+    def test_rejects_direct_instantiation(self):
+        with pytest.raises(TypeError):
+            ParameterValue()
+
+    def test_initialization_defaults(self):
+        obj = _R3ParameterValueStub()
+        assert obj.getDefinitionRef() is None
+
+    def test_get_set_definition_ref(self):
+        obj = _R3ParameterValueStub()
+        ref = RefType().setValue("/TS_T19D1M6I1R0_AS403/Os/Param")
+        result = obj.setDefinitionRef(ref)
+        assert result is obj
+        assert obj.getDefinitionRef() == ref
+        obj.setDefinitionRef(None)
+        assert obj.getDefinitionRef() == ref
+
+
+class TestIntegerValue:
+    """
+    Test class for IntegerValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.34, p.98 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(IntegerValue, ParameterValue)
+
+    def test_initialization_defaults(self):
+        obj = IntegerValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValue() is None
+
+    def test_get_set_value(self):
+        obj = IntegerValue()
+        value = UnlimitedInteger().setValue(5)
+        result = obj.setValue(value)
+        assert result is obj
+        assert obj.getValue() == value
+        assert obj.getValue().getValue() == 5
+        obj.setValue(None)
+        assert obj.getValue() == value
+
+
+class TestBooleanValue:
+    """
+    Test class for BooleanValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.33, p.97 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(BooleanValue, ParameterValue)
+
+    def test_initialization_defaults(self):
+        obj = BooleanValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValue() is None
+
+    def test_get_set_value(self):
+        obj = BooleanValue()
+        value = Boolean().setValue(True)
+        result = obj.setValue(value)
+        assert result is obj
+        assert obj.getValue() == value
+        assert obj.getValue().getValue() is True
+        obj.setValue(None)
+        assert obj.getValue() == value
+
+
+class TestFloatValue:
+    """
+    Test class for FloatValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.35, p.99 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(FloatValue, ParameterValue)
+
+    def test_initialization_defaults(self):
+        obj = FloatValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValue() is None
+
+    def test_get_set_value(self):
+        obj = FloatValue()
+        value = Float().setValue(74.8)
+        result = obj.setValue(value)
+        assert result is obj
+        assert obj.getValue() == value
+        assert obj.getValue().getValue() == 74.8
+        obj.setValue(None)
+        assert obj.getValue() == value
+
+
+class TestStringValue:
+    """
+    Test class for StringValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.36, p.99 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(StringValue, ParameterValue)
+
+    def test_initialization_defaults(self):
+        obj = StringValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValue() is None
+
+    def test_get_set_value(self):
+        obj = StringValue()
+        value = String().setValue("1.0.0")
+        result = obj.setValue(value)
+        assert result is obj
+        assert obj.getValue() == value
+        assert obj.getValue().getValue() == "1.0.0"
+        obj.setValue(None)
+        assert obj.getValue() == value
+
+
+class TestLinkerSymbolValue:
+    """
+    Test class for LinkerSymbolValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.37, p.100 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(LinkerSymbolValue, StringValue)
+
+    def test_initialization_defaults(self):
+        obj = LinkerSymbolValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValue() is None
+
+    def test_get_set_value(self):
+        obj = LinkerSymbolValue()
+        value = String().setValue("RtePimInit")
+        result = obj.setValue(value)
+        assert result is obj
+        assert obj.getValue() == value
+        assert obj.getValue().getValue() == "RtePimInit"
+        obj.setValue(None)
+        assert obj.getValue() == value
+
+
+class TestFunctionNameValue:
+    """
+    Test class for FunctionNameValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.38, p.100 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(FunctionNameValue, LinkerSymbolValue)
+
+    def test_initialization_defaults(self):
+        obj = FunctionNameValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValue() is None
+
+    def test_get_set_value(self):
+        obj = FunctionNameValue()
+        value = String().setValue("OsTaskActivation")
+        result = obj.setValue(value)
+        assert result is obj
+        assert obj.getValue() == value
+        assert obj.getValue().getValue() == "OsTaskActivation"
+        obj.setValue(None)
+        assert obj.getValue() == value
+
+
+class TestEnumerationValue:
+    """
+    Test class for EnumerationValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.39, p.101 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(EnumerationValue, ParameterValue)
+
+    def test_initialization_defaults(self):
+        obj = EnumerationValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValue() is None
+
+    def test_get_set_value(self):
+        obj = EnumerationValue()
+        value = String().setValue("EXTENDED")
+        result = obj.setValue(value)
+        assert result is obj
+        assert obj.getValue() == value
+        assert obj.getValue().getValue() == "EXTENDED"
+        obj.setValue(None)
+        assert obj.getValue() == value
+
+
+class TestConfigReferenceValue:
+    """
+    Test class for ConfigReferenceValue (abstract) functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.40, p.103 (R3.2 Rev 3)
+    """
+
+    def test_rejects_direct_instantiation(self):
+        with pytest.raises(TypeError):
+            ConfigReferenceValue()
+
+    def test_initialization_defaults(self):
+        class _Stub(ConfigReferenceValue):
+            pass
+
+        obj = _Stub()
+        assert obj.getDefinitionRef() is None
+
+    def test_get_set_definition_ref(self):
+        class _Stub(ConfigReferenceValue):
+            pass
+
+        obj = _Stub()
+        ref = RefType().setValue("/TS_T19D1M6I1R0_AS403/Os/OsOS/OsTask")
+        result = obj.setDefinitionRef(ref)
+        assert result is obj
+        assert obj.getDefinitionRef() == ref
+        obj.setDefinitionRef(None)
+        assert obj.getDefinitionRef() == ref
+
+
+class TestReferenceValue:
+    """
+    Test class for ReferenceValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.41, p.103 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(ReferenceValue, ConfigReferenceValue)
+
+    def test_initialization_defaults(self):
+        obj = ReferenceValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValueRef() is None
+
+    def test_get_set_value_ref(self):
+        obj = ReferenceValue()
+        ref = RefType().setValue("/Os/Os/AlarmIncrementRteCounter")
+        result = obj.setValueRef(ref)
+        assert result is obj
+        assert obj.getValueRef() == ref
+        obj.setValueRef(None)
+        assert obj.getValueRef() == ref
+
+
+class TestInstanceReferenceValue:
+    """
+    Test class for InstanceReferenceValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.42, p.106 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(InstanceReferenceValue, ConfigReferenceValue)
+
+    def test_initialization_defaults(self):
+        obj = InstanceReferenceValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValueIRef() is None
+
+    def test_get_set_value_iref(self):
+        obj = InstanceReferenceValue()
+        iref = AnyInstanceRef()
+        iref.setTargetRef(RefType().setValue("/Os/Os/OsTask1"))
+        result = obj.setValueIRef(iref)
+        assert result is obj
+        assert obj.getValueIRef() == iref
+        obj.setValueIRef(None)
+        assert obj.getValueIRef() == iref
+
+
+class TestContainer:
+    """
+    Test class for Container functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.31, p.93 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(Container, Identifiable)
+
+    def test_initialization_defaults(self):
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR as _AUTOSAR
+
+        pkg = _AUTOSAR.getInstance().createARPackage("R3ContainerPkg")
+        obj = Container(pkg, "OsOS")
+        assert obj.getDefinitionRef() is None
+        assert obj.getParameterValues() == []
+        assert obj.getReferenceValues() == []
+        assert obj.getSubContainers() == []
+
+    def test_get_set_definition_ref(self):
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR as _AUTOSAR
+
+        pkg = _AUTOSAR.getInstance().createARPackage("R3ContainerPkg")
+        obj = Container(pkg, "OsOS")
+        ref = RefType().setValue("/TS_T19D1M6I1R0_AS403/Os/OsOS")
+        result = obj.setDefinitionRef(ref)
+        assert result is obj
+        assert obj.getDefinitionRef() == ref
+        obj.setDefinitionRef(None)
+        assert obj.getDefinitionRef() == ref
+
+    def test_add_get_parameter_values(self):
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR as _AUTOSAR
+
+        pkg = _AUTOSAR.getInstance().createARPackage("R3ContainerPkg")
+        obj = Container(pkg, "OsOS")
+        int_value = IntegerValue()
+        bool_value = BooleanValue()
+        obj.addParameterValue(int_value)
+        obj.addParameterValue(bool_value)
+        assert obj.getParameterValues() == [int_value, bool_value]
+
+    def test_add_get_reference_values(self):
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR as _AUTOSAR
+
+        pkg = _AUTOSAR.getInstance().createARPackage("R3ContainerPkg")
+        obj = Container(pkg, "OsOS")
+        ref_value = ReferenceValue()
+        obj.addReferenceValue(ref_value)
+        assert obj.getReferenceValues() == [ref_value]
+
+    def test_create_sub_container(self):
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR as _AUTOSAR
+
+        pkg = _AUTOSAR.getInstance().createARPackage("R3ContainerPkg")
+        obj = Container(pkg, "OsOS")
+        sub = obj.createSubContainer("OsOSConfig")
+        assert isinstance(sub, Container)
+        assert obj.getSubContainers() == [sub]
+        again = obj.createSubContainer("OsOSConfig")
+        assert again is sub
+        assert len(obj.getSubContainers()) == 1
+
+
+class TestModuleConfiguration:
+    """
+    Test class for ModuleConfiguration functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.30, p.86 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+        assert issubclass(ModuleConfiguration, ARElement)
+
+    def test_initialization_defaults(self):
+        pkg = AUTOSAR.getInstance().createARPackage("R3ModulePkg")
+        obj = ModuleConfiguration(pkg, "Os")
+        assert obj.getDefinitionRef() is None
+        assert obj.getImplementationConfigVariant() is None
+        assert obj.getModuleDescriptionRef() is None
+        assert obj.getContainers() == []
+
+    def test_get_set_definition_ref(self):
+        pkg = AUTOSAR.getInstance().createARPackage("R3ModulePkg")
+        obj = ModuleConfiguration(pkg, "Os")
+        ref = RefType().setValue("/TS_T19D1M6I1R0_AS403/Os")
+        result = obj.setDefinitionRef(ref)
+        assert result is obj
+        assert obj.getDefinitionRef() == ref
+        obj.setDefinitionRef(None)
+        assert obj.getDefinitionRef() == ref
+
+    def test_get_set_implementation_config_variant(self):
+        pkg = AUTOSAR.getInstance().createARPackage("R3ModulePkg")
+        obj = ModuleConfiguration(pkg, "Os")
+        result = obj.setImplementationConfigVariant(EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE)
+        assert result is obj
+        assert obj.getImplementationConfigVariant() == EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE
+        obj.setImplementationConfigVariant(None)
+        assert obj.getImplementationConfigVariant() == EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE
+
+    def test_get_set_module_description_ref(self):
+        pkg = AUTOSAR.getInstance().createARPackage("R3ModulePkg")
+        obj = ModuleConfiguration(pkg, "Os")
+        ref = RefType().setValue("/Vendor/OsImplementation")
+        result = obj.setModuleDescriptionRef(ref)
+        assert result is obj
+        assert obj.getModuleDescriptionRef() == ref
+        obj.setModuleDescriptionRef(None)
+        assert obj.getModuleDescriptionRef() == ref
+
+    def test_create_container(self):
+        pkg = AUTOSAR.getInstance().createARPackage("R3ModulePkg")
+        obj = ModuleConfiguration(pkg, "Os")
+        container = obj.createContainer("OsOS")
+        assert isinstance(container, Container)
+        assert obj.getContainers() == [container]
+        again = obj.createContainer("OsOS")
+        assert again is container
+        assert len(obj.getContainers()) == 1

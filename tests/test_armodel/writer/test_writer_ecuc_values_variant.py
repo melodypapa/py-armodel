@@ -6,13 +6,27 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    BooleanValue,
+    ConfigReferenceValue,
+    Container,
     EcucAddInfoParamValue,
     EcucContainerValue,
     EcucInstanceReferenceValue,
     EcucNumericalParamValue,
     EcucReferenceValue,
     EcucTextualParamValue,
+    EnumerationValue,
+    FloatValue,
+    FunctionNameValue,
+    InstanceReferenceValue,
+    IntegerValue,
+    LinkerSymbolValue,
+    ModuleConfiguration,
+    ParameterValue,
+    ReferenceValue,
+    StringValue,
 )
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import (  # noqa E501
     AnyInstanceRef,
 )
@@ -20,8 +34,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARLiteral,
     ARNumerical,
     Boolean,
+    Float,
     RefType,
     RevisionLabelString,
+    String,
+    UnlimitedInteger,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (  # noqa E501
     SwSystemconstValue,
@@ -242,7 +259,7 @@ class TestWriterSetEcucTextualParamValue:
         param.setDefinitionRef(_ref("/d", "ECUC-STRING-PARAM-DEF"))
         param.setValue(VerbatimString().setValue("NVM_BLOCK_NATIVE"))
         parent = _parent()
-        writer.setEcucTextualParamValue(parent, param)
+        writer.writeEcucTextualParamValue(parent, param)
         child = parent.find("ECUC-TEXTUAL-PARAM-VALUE")
         assert child is not None
         assert child.find("DEFINITION-REF").text == "/d"
@@ -251,7 +268,7 @@ class TestWriterSetEcucTextualParamValue:
     def test_minimal_writes_no_value(self, writer):
         param = EcucTextualParamValue()
         parent = _parent()
-        writer.setEcucTextualParamValue(parent, param)
+        writer.writeEcucTextualParamValue(parent, param)
         child = parent.find("ECUC-TEXTUAL-PARAM-VALUE")
         assert child is not None
         assert child.find("VALUE") is None
@@ -265,7 +282,7 @@ class TestWriterSetEcucNumericalParamValue:
         param.setDefinitionRef(_ref("/d", "ECUC-FLOAT-PARAM-DEF"))
         param.setValue(Numerical().setValue("74.8"))
         parent = _parent()
-        writer.setEcucNumericalParamValue(parent, param)
+        writer.writeEcucNumericalParamValue(parent, param)
         child = parent.find("ECUC-NUMERICAL-PARAM-VALUE")
         assert child is not None
         assert child.find("DEFINITION-REF").text == "/d"
@@ -274,7 +291,7 @@ class TestWriterSetEcucNumericalParamValue:
     def test_minimal_writes_no_value(self, writer):
         param = EcucNumericalParamValue()
         parent = _parent()
-        writer.setEcucNumericalParamValue(parent, param)
+        writer.writeEcucNumericalParamValue(parent, param)
         child = parent.find("ECUC-NUMERICAL-PARAM-VALUE")
         assert child is not None
         assert child.find("VALUE") is None
@@ -297,7 +314,7 @@ class TestWriterSetEcucAddInfoParamValue:
         param.setDefinitionRef(_ref("/d", "ECUC-ADD-INFO-PARAM-DEF"))
         param.setValue(block)
         parent = _parent()
-        writer.setEcucAddInfoParamValue(parent, param)
+        writer.writeEcucAddInfoParamValue(parent, param)
         child = parent.find("ECUC-ADD-INFO-PARAM-VALUE")
         assert child is not None
         assert child.find("DEFINITION-REF").text == "/d"
@@ -311,7 +328,7 @@ class TestWriterSetEcucAddInfoParamValue:
     def test_minimal_writes_no_value(self, writer):
         param = EcucAddInfoParamValue()
         parent = _parent()
-        writer.setEcucAddInfoParamValue(parent, param)
+        writer.writeEcucAddInfoParamValue(parent, param)
         child = parent.find("ECUC-ADD-INFO-PARAM-VALUE")
         assert child is not None
         assert child.find("VALUE") is None
@@ -415,7 +432,7 @@ class TestWriterEcucReferenceValue:
         ref_val.setIsAutoValue(Boolean().setValue(True))
         ref_val.setValueRef(_ref("/v", "ECUC-CONTAINER-VALUE"))
         parent = _parent()
-        writer.setEcucReferenceValue(parent, ref_val)
+        writer.writeEcucReferenceValue(parent, ref_val)
         el = parent[0]
         assert el.tag == "ECUC-REFERENCE-VALUE"
         assert [child.tag for child in el] == [
@@ -436,12 +453,12 @@ class TestWriterEcucReferenceValue:
     def test_omits_all_unset_optional_fields(self, writer):
         ref_val = EcucReferenceValue()
         parent = _parent()
-        writer.setEcucReferenceValue(parent, ref_val)
+        writer.writeEcucReferenceValue(parent, ref_val)
         assert parent.find("ECUC-REFERENCE-VALUE") is None
 
     def test_none_emit_nothing(self, writer):
         parent = _parent()
-        writer.setEcucReferenceValue(parent, None)
+        writer.writeEcucReferenceValue(parent, None)
         assert len(parent) == 0
 
 
@@ -499,7 +516,8 @@ class TestWriterEcucContainerValueReferenceValues:
         written = parent.find("REFERENCE-VALUES/ECUC-INSTANCE-REFERENCE-VALUE")
         wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % ET.tostring(written, encoding="unicode"))
         parser = ARXMLParser()
-        read_val = parser.getEcucInstanceReferenceValue(wrapped[0])
+        read_val = EcucInstanceReferenceValue()
+        parser.readEcucInstanceReferenceValue(wrapped[0], read_val)
         assert read_val.getValueIRef() is not None
         assert read_val.getValueIRef().getBaseRef().getValue() == "/b"
         assert read_val.getValueIRef().getTargetRef().getValue() == "/t"
@@ -814,3 +832,554 @@ class TestWriterPredefinedVariant:
         assert parent[0].find("INCLUDED-VARIANT-REFS") is None
         assert parent[0].find("POST-BUILD-VARIANT-CRITERION-VALUE-SET-REFS") is None
         assert parent[0].find("SW-SYSTEMCONSTANT-VALUE-SET-REFS") is None
+
+
+class _R3ParameterValueStub(ParameterValue):
+    """Minimal concrete subclass of the abstract R3.2.3 ParameterValue."""
+
+    pass
+
+
+class _R3ConfigReferenceValueStub(ConfigReferenceValue):
+    """Minimal concrete subclass of the abstract R3.2.3 ConfigReferenceValue."""
+
+    pass
+
+
+class TestParameterValueWrite:
+    """Tests for writeParameterValue helper (R3.2.3 abstract ParameterValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.32, p.97 (R3.2 Rev 3)
+    """
+
+    def test_write_definition_ref_without_dest(self, writer):
+        # Os_ECUC.arxml R3.2.3 legacy: DEFINITION-REF carries NO DEST attribute
+        param_value = _R3ParameterValueStub()
+        param_value.setDefinitionRef(_ref("/TS_T19D1M6I1R0_AS403/Os/Param"))
+        parent = _parent()
+        writer.writeParameterValue(parent, param_value)
+        child = parent.find("DEFINITION-REF")
+        assert child is not None
+        assert "DEST" not in child.attrib
+        assert child.text == "/TS_T19D1M6I1R0_AS403/Os/Param"
+
+    def test_write_definition_ref_with_dest(self, writer):
+        param_value = _R3ParameterValueStub()
+        param_value.setDefinitionRef(_ref("/Defs/Flag", "BOOLEAN-PARAM-DEF"))
+        parent = _parent()
+        writer.writeParameterValue(parent, param_value)
+        child = parent.find("DEFINITION-REF")
+        assert child is not None
+        assert child.attrib["DEST"] == "BOOLEAN-PARAM-DEF"
+        assert child.text == "/Defs/Flag"
+
+    def test_write_none_definition_ref_omits_element(self, writer):
+        param_value = _R3ParameterValueStub()
+        parent = _parent()
+        writer.writeParameterValue(parent, param_value)
+        assert parent.find("DEFINITION-REF") is None
+        assert len(parent) == 0
+
+
+class TestIntegerValueWrite:
+    """Tests for writeIntegerValue handler (R3.2.3 IntegerValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.34, p.98 (R3.2 Rev 3)
+    """
+
+    def test_set_integer_value_without_dest(self, writer):
+        integer_value = IntegerValue()
+        integer_value.setDefinitionRef(_ref("/TS_T19D1M6I1R0_AS403/Os/ArMajorVersion"))
+        integer_value.setValue(UnlimitedInteger().setValue(5))
+        parent = _parent()
+        writer.writeIntegerValue(parent, integer_value)
+        child = parent[0]
+        assert child.tag == "INTEGER-VALUE"
+        def_ref = child.find("DEFINITION-REF")
+        assert def_ref is not None
+        assert "DEST" not in def_ref.attrib
+        assert def_ref.text == "/TS_T19D1M6I1R0_AS403/Os/ArMajorVersion"
+        assert child.find("VALUE").text == "5"
+
+    def test_set_integer_value_with_dest(self, writer):
+        integer_value = IntegerValue()
+        integer_value.setDefinitionRef(_ref("/AUTOSAR/Rte/PositionInTask", "INTEGER-PARAM-DEF"))
+        integer_value.setValue(UnlimitedInteger().setValue(5))
+        parent = _parent()
+        writer.writeIntegerValue(parent, integer_value)
+        child = parent[0]
+        assert child.tag == "INTEGER-VALUE"
+        assert child.find("DEFINITION-REF").attrib["DEST"] == "INTEGER-PARAM-DEF"
+        assert child.find("VALUE").text == "5"
+
+    def test_set_integer_value_empty(self, writer):
+        integer_value = IntegerValue()
+        parent = _parent()
+        writer.writeIntegerValue(parent, integer_value)
+        child = parent[0]
+        assert child.tag == "INTEGER-VALUE"
+        assert child.find("DEFINITION-REF") is None
+        assert child.find("VALUE") is None
+
+
+class TestBooleanValueWrite:
+    """Tests for writeBooleanValue handler (R3.2.3 BooleanValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.33, p.97 (R3.2 Rev 3)
+    """
+
+    def test_set_boolean_value_without_dest(self, writer):
+        boolean_value = BooleanValue()
+        boolean_value.setDefinitionRef(_ref("/TS_T19D1M6I1R0_AS403/Os/OsStackMonitoring"))
+        boolean_value.setValue(Boolean().setValue(False))
+        parent = _parent()
+        writer.writeBooleanValue(parent, boolean_value)
+        child = parent[0]
+        assert child.tag == "BOOLEAN-VALUE"
+        def_ref = child.find("DEFINITION-REF")
+        assert def_ref is not None
+        assert "DEST" not in def_ref.attrib
+        assert def_ref.text == "/TS_T19D1M6I1R0_AS403/Os/OsStackMonitoring"
+        assert child.find("VALUE").text == "false"
+
+    def test_set_boolean_value_with_dest(self, writer):
+        boolean_value = BooleanValue()
+        boolean_value.setDefinitionRef(_ref("/Defs/Flag", "BOOLEAN-PARAM-DEF"))
+        boolean_value.setValue(Boolean().setValue(True))
+        parent = _parent()
+        writer.writeBooleanValue(parent, boolean_value)
+        child = parent[0]
+        assert child.tag == "BOOLEAN-VALUE"
+        assert child.find("DEFINITION-REF").attrib["DEST"] == "BOOLEAN-PARAM-DEF"
+        assert child.find("VALUE").text == "true"
+
+    def test_set_boolean_value_empty(self, writer):
+        boolean_value = BooleanValue()
+        parent = _parent()
+        writer.writeBooleanValue(parent, boolean_value)
+        child = parent[0]
+        assert child.tag == "BOOLEAN-VALUE"
+        assert child.find("DEFINITION-REF") is None
+        assert child.find("VALUE") is None
+
+
+class TestFloatValueWrite:
+    """Tests for writeFloatValue handler (R3.2.3 FloatValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.35, p.99 (R3.2 Rev 3)
+    """
+
+    def test_set_float_value_without_dest(self, writer):
+        float_value = FloatValue()
+        float_value.setDefinitionRef(_ref("/Rte/SchedulingPeriod"))
+        float_value.setValue(Float().setValue(0.005))
+        parent = _parent()
+        writer.writeFloatValue(parent, float_value)
+        child = parent[0]
+        assert child.tag == "FLOAT-VALUE"
+        def_ref = child.find("DEFINITION-REF")
+        assert def_ref is not None
+        assert "DEST" not in def_ref.attrib
+        assert def_ref.text == "/Rte/SchedulingPeriod"
+        assert child.find("VALUE").text == "0.005"
+
+    def test_set_float_value_with_dest(self, writer):
+        float_value = FloatValue()
+        float_value.setDefinitionRef(_ref("/Defs/Period", "FLOAT-PARAM-DEF"))
+        float_value.setValue(Float().setValue(74.8))
+        parent = _parent()
+        writer.writeFloatValue(parent, float_value)
+        child = parent[0]
+        assert child.tag == "FLOAT-VALUE"
+        assert child.find("DEFINITION-REF").attrib["DEST"] == "FLOAT-PARAM-DEF"
+        assert child.find("VALUE").text == "74.8"
+
+    def test_set_float_value_empty(self, writer):
+        float_value = FloatValue()
+        parent = _parent()
+        writer.writeFloatValue(parent, float_value)
+        child = parent[0]
+        assert child.tag == "FLOAT-VALUE"
+        assert child.find("DEFINITION-REF") is None
+        assert child.find("VALUE") is None
+
+
+class TestStringValueWrite:
+    """Tests for writeStringValue handler (R3.2.3 StringValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.36, p.99 (R3.2 Rev 3)
+    """
+
+    def test_set_string_value(self, writer):
+        string_value = StringValue()
+        string_value.setDefinitionRef(_ref("/Os/Release"))
+        string_value.setValue(String().setValue("1.0.0"))
+        parent = _parent()
+        writer.writeStringValue(parent, string_value)
+        child = parent[0]
+        assert child.tag == "STRING-VALUE"
+        def_ref = child.find("DEFINITION-REF")
+        assert def_ref is not None
+        assert "DEST" not in def_ref.attrib
+        assert def_ref.text == "/Os/Release"
+        assert child.find("VALUE").text == "1.0.0"
+
+    def test_set_string_value_empty(self, writer):
+        string_value = StringValue()
+        string_value.setDefinitionRef(_ref("/Os/Release", "STRING-PARAM-DEF"))
+        string_value.setValue(String().setValue(""))
+        parent = _parent()
+        writer.writeStringValue(parent, string_value)
+        child = parent[0]
+        assert child.tag == "STRING-VALUE"
+        assert child.find("DEFINITION-REF").attrib["DEST"] == "STRING-PARAM-DEF"
+        assert child.find("VALUE").text == ""
+
+    def test_set_string_value_no_value(self, writer):
+        string_value = StringValue()
+        parent = _parent()
+        writer.writeStringValue(parent, string_value)
+        child = parent[0]
+        assert child.tag == "STRING-VALUE"
+        assert child.find("DEFINITION-REF") is None
+        assert child.find("VALUE") is None
+
+
+class TestLinkerSymbolValueWrite:
+    """Tests for writeLinkerSymbolValue handler (R3.2.3 LinkerSymbolValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.37, p.100 (R3.2 Rev 3)
+    """
+
+    def test_set_linker_symbol_value_without_dest(self, writer):
+        linker_symbol_value = LinkerSymbolValue()
+        linker_symbol_value.setDefinitionRef(_ref("/Rte/Resource/Pim/RtePimInitializationSymbol"))
+        linker_symbol_value.setValue(String().setValue("RtePimInit"))
+        parent = _parent()
+        writer.writeLinkerSymbolValue(parent, linker_symbol_value)
+        child = parent[0]
+        assert child.tag == "LINKER-SYMBOL-VALUE"
+        def_ref = child.find("DEFINITION-REF")
+        assert def_ref is not None
+        assert "DEST" not in def_ref.attrib
+        assert def_ref.text == "/Rte/Resource/Pim/RtePimInitializationSymbol"
+        assert child.find("VALUE").text == "RtePimInit"
+
+    def test_set_linker_symbol_value_with_dest(self, writer):
+        linker_symbol_value = LinkerSymbolValue()
+        linker_symbol_value.setDefinitionRef(_ref("/Rte/Resource/Pim/RtePimInitializationSymbol", "LINKER-SYMBOL-DEF"))
+        linker_symbol_value.setValue(String().setValue("RtePimInit"))
+        parent = _parent()
+        writer.writeLinkerSymbolValue(parent, linker_symbol_value)
+        child = parent[0]
+        assert child.tag == "LINKER-SYMBOL-VALUE"
+        assert child.find("DEFINITION-REF").attrib["DEST"] == "LINKER-SYMBOL-DEF"
+        assert child.find("VALUE").text == "RtePimInit"
+
+    def test_set_linker_symbol_value_empty(self, writer):
+        linker_symbol_value = LinkerSymbolValue()
+        parent = _parent()
+        writer.writeLinkerSymbolValue(parent, linker_symbol_value)
+        child = parent[0]
+        assert child.tag == "LINKER-SYMBOL-VALUE"
+        assert child.find("DEFINITION-REF") is None
+        assert child.find("VALUE") is None
+
+
+class TestFunctionNameValueWrite:
+    """Tests for writeFunctionNameValue handler (R3.2.3 FunctionNameValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.38, p.100 (R3.2 Rev 3)
+    """
+
+    def test_set_function_name_value_without_dest(self, writer):
+        function_name_value = FunctionNameValue()
+        function_name_value.setDefinitionRef(_ref("/Os/OsTask/OsTaskActivation"))
+        function_name_value.setValue(String().setValue("OsTaskActivation"))
+        parent = _parent()
+        writer.writeFunctionNameValue(parent, function_name_value)
+        child = parent[0]
+        assert child.tag == "FUNCTION-NAME-VALUE"
+        def_ref = child.find("DEFINITION-REF")
+        assert def_ref is not None
+        assert "DEST" not in def_ref.attrib
+        assert def_ref.text == "/Os/OsTask/OsTaskActivation"
+        assert child.find("VALUE").text == "OsTaskActivation"
+
+    def test_set_function_name_value_with_dest(self, writer):
+        function_name_value = FunctionNameValue()
+        function_name_value.setDefinitionRef(_ref("/Os/OsTask/OsTaskActivation", "FUNCTION-NAME-DEF"))
+        function_name_value.setValue(String().setValue("OsTaskActivation"))
+        parent = _parent()
+        writer.writeFunctionNameValue(parent, function_name_value)
+        child = parent[0]
+        assert child.tag == "FUNCTION-NAME-VALUE"
+        assert child.find("DEFINITION-REF").attrib["DEST"] == "FUNCTION-NAME-DEF"
+        assert child.find("VALUE").text == "OsTaskActivation"
+
+    def test_set_function_name_value_empty(self, writer):
+        function_name_value = FunctionNameValue()
+        parent = _parent()
+        writer.writeFunctionNameValue(parent, function_name_value)
+        child = parent[0]
+        assert child.tag == "FUNCTION-NAME-VALUE"
+        assert child.find("DEFINITION-REF") is None
+        assert child.find("VALUE") is None
+
+
+class TestEnumerationValueWrite:
+    """Tests for writeEnumerationValue handler (R3.2.3 EnumerationValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.39, p.101 (R3.2 Rev 3)
+    """
+
+    def test_set_enumeration_value_without_dest(self, writer):
+        enumeration_value = EnumerationValue()
+        enumeration_value.setDefinitionRef(_ref("/TS_T19D1M6I1R0_AS403/Os/OsOS/OsStatus"))
+        enumeration_value.setValue(String().setValue("EXTENDED"))
+        parent = _parent()
+        writer.writeEnumerationValue(parent, enumeration_value)
+        child = parent[0]
+        assert child.tag == "ENUMERATION-VALUE"
+        def_ref = child.find("DEFINITION-REF")
+        assert def_ref is not None
+        assert "DEST" not in def_ref.attrib
+        assert def_ref.text == "/TS_T19D1M6I1R0_AS403/Os/OsOS/OsStatus"
+        assert child.find("VALUE").text == "EXTENDED"
+
+    def test_set_enumeration_value_with_dest(self, writer):
+        enumeration_value = EnumerationValue()
+        enumeration_value.setDefinitionRef(_ref("/AUTOSAR/Rte/RteGeneration/RteGenerationMode", "ENUMERATION-PARAM-DEF"))
+        enumeration_value.setValue(String().setValue("CompatibilityMode"))
+        parent = _parent()
+        writer.writeEnumerationValue(parent, enumeration_value)
+        child = parent[0]
+        assert child.tag == "ENUMERATION-VALUE"
+        assert child.find("DEFINITION-REF").attrib["DEST"] == "ENUMERATION-PARAM-DEF"
+        assert child.find("VALUE").text == "CompatibilityMode"
+
+    def test_set_enumeration_value_empty(self, writer):
+        enumeration_value = EnumerationValue()
+        parent = _parent()
+        writer.writeEnumerationValue(parent, enumeration_value)
+        child = parent[0]
+        assert child.tag == "ENUMERATION-VALUE"
+        assert child.find("DEFINITION-REF") is None
+        assert child.find("VALUE") is None
+
+
+class TestConfigReferenceValueWrite:
+    """Tests for writeConfigReferenceValue handler (R3.2.3 abstract ConfigReferenceValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.40, p.103 (R3.2 Rev 3)
+    """
+
+    def test_write_definition_ref_without_dest(self, writer):
+        obj = _R3ConfigReferenceValueStub()
+        obj.setDefinitionRef(_ref("/TS_T19D1M6I1R0_AS403/Os/OsOS/OsTask"))
+        parent = _parent()
+        writer.writeConfigReferenceValue(parent, obj)
+        child = parent.find("DEFINITION-REF")
+        assert child is not None
+        assert "DEST" not in child.attrib
+        assert child.text == "/TS_T19D1M6I1R0_AS403/Os/OsOS/OsTask"
+
+    def test_write_definition_ref_with_dest(self, writer):
+        obj = _R3ConfigReferenceValueStub()
+        obj.setDefinitionRef(_ref("/Defs/Task", "CONTAINER-DEF"))
+        parent = _parent()
+        writer.writeConfigReferenceValue(parent, obj)
+        child = parent.find("DEFINITION-REF")
+        assert child is not None
+        assert child.attrib["DEST"] == "CONTAINER-DEF"
+        assert child.text == "/Defs/Task"
+
+    def test_write_none_definition_ref_omits_element(self, writer):
+        obj = _R3ConfigReferenceValueStub()
+        parent = _parent()
+        writer.writeConfigReferenceValue(parent, obj)
+        assert parent.find("DEFINITION-REF") is None
+
+
+class TestReferenceValueWrite:
+    """Tests for writeReferenceValue handler (R3.2.3 ReferenceValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.41, p.103 (R3.2 Rev 3)
+    """
+
+    def test_set_reference_value_full(self, writer):
+        reference_value = ReferenceValue()
+        reference_value.setDefinitionRef(_ref("/TS_T19D1M6I1R0_AS403/Os/OsApplication/OsAppAlarmRef"))
+        reference_value.setValueRef(_ref("/Os/Os/AlarmIncrementRteCounter"))
+        parent = _parent()
+        writer.writeReferenceValue(parent, reference_value)
+        child = parent[0]
+        assert child.tag == "REFERENCE-VALUE"
+        def_ref = child.find("DEFINITION-REF")
+        assert def_ref is not None
+        assert "DEST" not in def_ref.attrib
+        assert def_ref.text == "/TS_T19D1M6I1R0_AS403/Os/OsApplication/OsAppAlarmRef"
+        value_ref = child.find("VALUE-REF")
+        assert value_ref is not None
+        assert "DEST" not in value_ref.attrib
+        assert value_ref.text == "/Os/Os/AlarmIncrementRteCounter"
+
+    def test_set_reference_value_with_dest(self, writer):
+        reference_value = ReferenceValue()
+        reference_value.setDefinitionRef(_ref("/Defs/AlarmRef", "REFERENCE-PARAM-DEF"))
+        reference_value.setValueRef(_ref("/Os/Os/HwCounter", "COUNTER"))
+        parent = _parent()
+        writer.writeReferenceValue(parent, reference_value)
+        child = parent[0]
+        assert child.tag == "REFERENCE-VALUE"
+        assert child.find("DEFINITION-REF").attrib["DEST"] == "REFERENCE-PARAM-DEF"
+        assert child.find("VALUE-REF").attrib["DEST"] == "COUNTER"
+
+    def test_set_reference_value_empty(self, writer):
+        reference_value = ReferenceValue()
+        parent = _parent()
+        writer.writeReferenceValue(parent, reference_value)
+        child = parent[0]
+        assert child.tag == "REFERENCE-VALUE"
+        assert child.find("DEFINITION-REF") is None
+        assert child.find("VALUE-REF") is None
+
+
+class TestInstanceReferenceValueWrite:
+    """Tests for writeInstanceReferenceValue handler (R3.2.3 InstanceReferenceValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.42, p.106 (R3.2 Rev 3)
+    """
+
+    def test_set_instance_reference_value_full(self, writer):
+        instance_reference_value = InstanceReferenceValue()
+        instance_reference_value.setDefinitionRef(_ref("/Defs/InstanceRefParam"))
+        iref = AnyInstanceRef()
+        iref.addContextElementRef(RefType().setValue("/Os/Os/OsApplication1"))
+        iref.setTargetRef(RefType().setValue("/Os/Os/OsTask1"))
+        instance_reference_value.setValueIRef(iref)
+        parent = _parent()
+        writer.writeInstanceReferenceValue(parent, instance_reference_value)
+        child = parent[0]
+        assert child.tag == "INSTANCE-REFERENCE-VALUE"
+        assert child.find("DEFINITION-REF").text == "/Defs/InstanceRefParam"
+        value_iref = child.find("VALUE-IREF")
+        assert value_iref is not None
+        contexts = value_iref.findall("CONTEXT-REF")
+        assert len(contexts) == 1
+        assert contexts[0].text == "/Os/Os/OsApplication1"
+        assert value_iref.find("VALUE-REF").text == "/Os/Os/OsTask1"
+        tags = [c.tag for c in value_iref]
+        assert tags.index("CONTEXT-REF") < tags.index("VALUE-REF")
+
+    def test_set_instance_reference_value_empty_iref(self, writer):
+        instance_reference_value = InstanceReferenceValue()
+        instance_reference_value.setDefinitionRef(_ref("/Defs/InstanceRefParam"))
+        parent = _parent()
+        writer.writeInstanceReferenceValue(parent, instance_reference_value)
+        child = parent[0]
+        assert child.tag == "INSTANCE-REFERENCE-VALUE"
+        assert child.find("VALUE-IREF") is None
+
+
+class TestContainerWrite:
+    """Tests for writeContainer handler (R3.2.3 Container).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.31, p.93 (R3.2 Rev 3)
+    """
+
+    def _make_container(self):
+        pkg = AUTOSAR.getInstance().createARPackage("R3Pkg")
+        container = Container(pkg, "OsOS")
+        container.setDefinitionRef(_ref("/TS_T19D1M6I1R0_AS403/Os/OsOS"))
+        int_value = IntegerValue()
+        int_value.setDefinitionRef(_ref("/Os/OsOS/OsNumberOfCores"))
+        int_value.setValue(UnlimitedInteger().setValue(1))
+        container.addParameterValue(int_value)
+        ref_value = ReferenceValue()
+        ref_value.setDefinitionRef(_ref("/Os/OsApplication/OsAppAlarmRef"))
+        ref_value.setValueRef(_ref("/Os/Os/AlarmIncrementRteCounter"))
+        container.addReferenceValue(ref_value)
+        sub = container.createSubContainer("OsScalabilityClass")
+        sub.setDefinitionRef(_ref("/Os/OsOS/OsScalabilityClass"))
+        return container
+
+    def test_set_container_full_in_xsd_order(self, writer):
+        container = self._make_container()
+        parent = _parent()
+        writer.writeContainer(parent, container)
+        child = parent.find("CONTAINER")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "OsOS"
+        tags = [c.tag for c in child]
+        assert tags.index("SHORT-NAME") < tags.index("DEFINITION-REF") < tags.index("PARAMETER-VALUES") < tags.index("REFERENCE-VALUES") < tags.index("SUB-CONTAINERS")
+        param_values = child.find("PARAMETER-VALUES")
+        assert param_values[0].tag == "INTEGER-VALUE"
+        assert param_values[0].find("VALUE").text == "1"
+        ref_values = child.find("REFERENCE-VALUES")
+        assert ref_values[0].tag == "REFERENCE-VALUE"
+        assert ref_values[0].find("VALUE-REF").text == "/Os/Os/AlarmIncrementRteCounter"
+        sub_containers = child.find("SUB-CONTAINERS")
+        assert sub_containers[0].tag == "CONTAINER"
+        assert sub_containers[0].find("SHORT-NAME").text == "OsScalabilityClass"
+
+    def test_set_container_empty_no_wrappers(self, writer):
+        pkg = AUTOSAR.getInstance().createARPackage("R3Pkg2")
+        container = Container(pkg, "EmptyContainer")
+        parent = _parent()
+        writer.writeContainer(parent, container)
+        child = parent.find("CONTAINER")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "EmptyContainer"
+        assert child.find("DEFINITION-REF") is None
+        assert child.find("PARAMETER-VALUES") is None
+        assert child.find("REFERENCE-VALUES") is None
+        assert child.find("SUB-CONTAINERS") is None
+
+
+class TestModuleConfigurationWrite:
+    """Tests for writeModuleConfiguration handler (R3.2.3 ModuleConfiguration).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.30, p.86 (R3.2 Rev 3)
+    """
+
+    def _make_module_configuration(self):
+        pkg = AUTOSAR.getInstance().createARPackage("R3Pkg")
+        module_configuration = ModuleConfiguration(pkg, "Os")
+        module_configuration.setDefinitionRef(_ref("/TS_T19D1M6I1R0_AS403/Os"))
+        module_configuration.setImplementationConfigVariant(EcucConfigurationVariantEnum().setValue("VARIANT-PRE-COMPILE"))
+        module_configuration.setModuleDescriptionRef(_ref("/Vendor/OsImplementation"))
+        container = module_configuration.createContainer("OsOS")
+        container.setDefinitionRef(_ref("/Os/OsOS"))
+        int_value = IntegerValue()
+        int_value.setDefinitionRef(_ref("/Os/OsOS/OsNumberOfCores"))
+        int_value.setValue(UnlimitedInteger().setValue(1))
+        container.addParameterValue(int_value)
+        return module_configuration
+
+    def test_set_module_configuration_full_in_xsd_order(self, writer):
+        module_configuration = self._make_module_configuration()
+        parent = _parent()
+        writer.writeModuleConfiguration(parent, module_configuration)
+        child = parent.find("MODULE-CONFIGURATION")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "Os"
+        tags = [c.tag for c in child]
+        assert tags.index("DEFINITION-REF") < tags.index("IMPLEMENTATION-CONFIG-VARIANT") < tags.index("MODULE-DESCRIPTION-REF") < tags.index("CONTAINERS")
+        assert child.find("IMPLEMENTATION-CONFIG-VARIANT").text == "VARIANT-PRE-COMPILE"
+        containers = child.find("CONTAINERS")
+        assert containers[0].tag == "CONTAINER"
+        assert containers[0].find("SHORT-NAME").text == "OsOS"
+
+    def test_set_module_configuration_minimal(self, writer):
+        pkg = AUTOSAR.getInstance().createARPackage("R3Pkg2")
+        module_configuration = ModuleConfiguration(pkg, "Os")
+        parent = _parent()
+        writer.writeModuleConfiguration(parent, module_configuration)
+        child = parent.find("MODULE-CONFIGURATION")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "Os"
+        assert child.find("DEFINITION-REF") is None
+        assert child.find("IMPLEMENTATION-CONFIG-VARIANT") is None
+        assert child.find("MODULE-DESCRIPTION-REF") is None
+        assert child.find("CONTAINERS") is None
