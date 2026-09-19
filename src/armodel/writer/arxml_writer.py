@@ -238,6 +238,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
     ConfigReferenceValue,
+    Container,
     EcucAbstractReferenceValue,
     ReferenceValue,
     EcucAddInfoParamValue,
@@ -11228,6 +11229,48 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in iref.getContextElementRefs():
                 self.setChildElementOptionalRefType(value_iref_element, "CONTEXT-REF", ref)
             self.setChildElementOptionalRefType(value_iref_element, "VALUE-REF", iref.getTargetRef())
+
+    def writeContainer(self, element: ET.Element, container: Container):
+        """Write an R3.2.3 <CONTAINER> element (Table 3.31): SHORT-NAME, DEFINITION-REF, PARAMETER-VALUES, REFERENCE-VALUES, SUB-CONTAINERS."""
+        if container is not None:
+            child_element = ET.SubElement(element, "CONTAINER")
+            self.writeIdentifiable(child_element, container)
+            self.setChildElementOptionalRefType(child_element, "DEFINITION-REF", container.getDefinitionRef())
+            param_values = container.getParameterValues()
+            if len(param_values) > 0:
+                wrapper_element = ET.SubElement(child_element, "PARAMETER-VALUES")
+                for param_value in param_values:
+                    if isinstance(param_value, BooleanValue):
+                        self.writeBooleanValue(wrapper_element, param_value)
+                    elif isinstance(param_value, EnumerationValue):
+                        self.writeEnumerationValue(wrapper_element, param_value)
+                    elif isinstance(param_value, FloatValue):
+                        self.writeFloatValue(wrapper_element, param_value)
+                    elif isinstance(param_value, FunctionNameValue):
+                        self.writeFunctionNameValue(wrapper_element, param_value)
+                    elif isinstance(param_value, LinkerSymbolValue):
+                        self.writeLinkerSymbolValue(wrapper_element, param_value)
+                    elif isinstance(param_value, IntegerValue):
+                        self.writeIntegerValue(wrapper_element, param_value)
+                    elif isinstance(param_value, StringValue):
+                        self.writeStringValue(wrapper_element, param_value)
+                    else:
+                        self.notImplemented("Unsupported Container parameter value <%s>" % type(param_value))
+            reference_values = container.getReferenceValues()
+            if len(reference_values) > 0:
+                wrapper_element = ET.SubElement(child_element, "REFERENCE-VALUES")
+                for reference_value in reference_values:
+                    if isinstance(reference_value, ReferenceValue):
+                        self.writeReferenceValue(wrapper_element, reference_value)
+                    elif isinstance(reference_value, InstanceReferenceValue):
+                        self.writeInstanceReferenceValue(wrapper_element, reference_value)
+                    else:
+                        self.notImplemented("Unsupported Container reference value <%s>" % type(reference_value))
+            sub_containers = container.getSubContainers()
+            if len(sub_containers) > 0:
+                wrapper_element = ET.SubElement(child_element, "SUB-CONTAINERS")
+                for sub_container in sub_containers:
+                    self.writeContainer(wrapper_element, sub_container)
 
     def writeEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())

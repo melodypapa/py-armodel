@@ -342,6 +342,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
     ConfigReferenceValue,
+    Container,
     EcucAbstractReferenceValue,
     ReferenceValue,
     EcucAddInfoParamValue,
@@ -11819,6 +11820,62 @@ class ARXMLParser(AbstractARXMLParser):
                 iref.addContextElementRef(ref)
             iref.setTargetRef(self.getChildElementOptionalRefType(child_element, "VALUE-REF"))
             instance_reference_value.setValueIRef(iref)
+
+    def readContainer(self, element: ET.Element, container: Container):
+        """Read an R3.2.3 <CONTAINER> element (Table 3.31): SHORT-NAME, DEFINITION-REF, PARAMETER-VALUES, REFERENCE-VALUES, SUB-CONTAINERS."""
+        self.readIdentifiable(element, container)
+        container.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        for child_element in self.findall(element, "PARAMETER-VALUES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BOOLEAN-VALUE":
+                value = BooleanValue()
+                self.readBooleanValue(child_element, value)
+                container.addParameterValue(value)
+            elif tag_name == "ENUMERATION-VALUE":
+                value = EnumerationValue()
+                self.readEnumerationValue(child_element, value)
+                container.addParameterValue(value)
+            elif tag_name == "FLOAT-VALUE":
+                value = FloatValue()
+                self.readFloatValue(child_element, value)
+                container.addParameterValue(value)
+            elif tag_name == "FUNCTION-NAME-VALUE":
+                value = FunctionNameValue()
+                self.readFunctionNameValue(child_element, value)
+                container.addParameterValue(value)
+            elif tag_name == "INTEGER-VALUE":
+                value = IntegerValue()
+                self.readIntegerValue(child_element, value)
+                container.addParameterValue(value)
+            elif tag_name == "LINKER-SYMBOL-VALUE":
+                value = LinkerSymbolValue()
+                self.readLinkerSymbolValue(child_element, value)
+                container.addParameterValue(value)
+            elif tag_name == "STRING-VALUE":
+                value = StringValue()
+                self.readStringValue(child_element, value)
+                container.addParameterValue(value)
+            else:
+                self.notImplemented("Unsupported Container parameter value <%s>" % tag_name)
+        for child_element in self.findall(element, "REFERENCE-VALUES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "REFERENCE-VALUE":
+                value = ReferenceValue()
+                self.readReferenceValue(child_element, value)
+                container.addReferenceValue(value)
+            elif tag_name == "INSTANCE-REFERENCE-VALUE":
+                value = InstanceReferenceValue()
+                self.readInstanceReferenceValue(child_element, value)
+                container.addReferenceValue(value)
+            else:
+                self.notImplemented("Unsupported Container reference value <%s>" % tag_name)
+        for child_element in self.findall(element, "SUB-CONTAINERS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "CONTAINER":
+                sub_container = container.createSubContainer(self.getShortName(child_element))
+                self.readContainer(child_element, sub_container)
+            else:
+                self.notImplemented("Unsupported Container sub container <%s>" % tag_name)
 
     def readEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))

@@ -9,6 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
     ConfigReferenceValue,
+    Container,
     EcucAbstractReferenceValue,
     EcucAddInfoParamValue,
     EcucContainerValue,
@@ -32,6 +33,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, RefType, RevisionLabelString, String, UnlimitedInteger
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
@@ -546,3 +548,68 @@ class TestInstanceReferenceValue:
         assert obj.getValueIRef() == iref
         obj.setValueIRef(None)
         assert obj.getValueIRef() == iref
+
+
+class TestContainer:
+    """
+    Test class for Container functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.31, p.93 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(Container, Identifiable)
+
+    def test_initialization_defaults(self):
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR as _AUTOSAR
+
+        pkg = _AUTOSAR.getInstance().createARPackage("R3ContainerPkg")
+        obj = Container(pkg, "OsOS")
+        assert obj.getDefinitionRef() is None
+        assert obj.getParameterValues() == []
+        assert obj.getReferenceValues() == []
+        assert obj.getSubContainers() == []
+
+    def test_get_set_definition_ref(self):
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR as _AUTOSAR
+
+        pkg = _AUTOSAR.getInstance().createARPackage("R3ContainerPkg")
+        obj = Container(pkg, "OsOS")
+        ref = RefType().setValue("/TS_T19D1M6I1R0_AS403/Os/OsOS")
+        result = obj.setDefinitionRef(ref)
+        assert result is obj
+        assert obj.getDefinitionRef() == ref
+        obj.setDefinitionRef(None)
+        assert obj.getDefinitionRef() == ref
+
+    def test_add_get_parameter_values(self):
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR as _AUTOSAR
+
+        pkg = _AUTOSAR.getInstance().createARPackage("R3ContainerPkg")
+        obj = Container(pkg, "OsOS")
+        int_value = IntegerValue()
+        bool_value = BooleanValue()
+        obj.addParameterValue(int_value)
+        obj.addParameterValue(bool_value)
+        assert obj.getParameterValues() == [int_value, bool_value]
+
+    def test_add_get_reference_values(self):
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR as _AUTOSAR
+
+        pkg = _AUTOSAR.getInstance().createARPackage("R3ContainerPkg")
+        obj = Container(pkg, "OsOS")
+        ref_value = ReferenceValue()
+        obj.addReferenceValue(ref_value)
+        assert obj.getReferenceValues() == [ref_value]
+
+    def test_create_sub_container(self):
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR as _AUTOSAR
+
+        pkg = _AUTOSAR.getInstance().createARPackage("R3ContainerPkg")
+        obj = Container(pkg, "OsOS")
+        sub = obj.createSubContainer("OsOSConfig")
+        assert isinstance(sub, Container)
+        assert obj.getSubContainers() == [sub]
+        again = obj.createSubContainer("OsOSConfig")
+        assert again is sub
+        assert len(obj.getSubContainers()) == 1

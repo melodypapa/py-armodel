@@ -902,3 +902,88 @@ class InstanceReferenceValue(ConfigReferenceValue):
         if value is not None:
             self.valueIRef = value
         return self
+
+
+class Container(Identifiable):
+    """
+    Represents a Container definition in the ECU Configuration Description.
+
+    [ecuc_sws_2092] If a ParamConfContainerDef is specified to be the multipleConfigurationContainer there can be several Container elements defined in the ECU Configuration. Each Container shortName does specify the name of the configuration set it contains.
+
+    The multipleConfigurationContainer is further detailed in section 3.4.7.
+    """
+
+    # Container method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.31, p.93 (R3.2 Rev 3)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
+    # [x] getDefinitionRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] setDefinitionRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # [x] getParameterValues    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] addParameterValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # [x] getReferenceValues    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] addReferenceValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # [x] getSubContainers      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
+    # [x] createSubContainer    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
+    # Deviations (spec member name is `definition`, kind ref; renamed per ECUC ref-suffix
+    # convention to definitionRef):
+    # definition optional — spec Mul=1 but XSD group CONTAINER (AUTOSAR.xsd L6243)
+    # DEFINITION-REF has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins);
+    # DEFINITION-REF DEST use="required" in XSD but sample carries no DEST → DEST optional.
+    # Aggregate member names pluralized per spec mult `*` (parameterValues /
+    # referenceValues / subContainers; EcucContainerValue precedent).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10
+        self.definitionRef: Optional[RefType] = None
+
+        # Aggregates all ECU Configuration Values within this Container.
+        self.parameterValues: List[ParameterValue] = []
+
+        # Aggregates all References with this container.
+        self.referenceValues: List[ConfigReferenceValue] = []
+
+        # Aggregates all sub-containers within this container.
+        self.subContainers: List["Container"] = []
+
+    def getDefinitionRef(self) -> Optional[RefType]:
+        """Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10"""
+        return self.definitionRef
+
+    def setDefinitionRef(self, value: Optional[RefType]) -> "Container":
+        """Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.definitionRef = value
+        return self
+
+    def getParameterValues(self) -> List[ParameterValue]:
+        """Aggregates all ECU Configuration Values within this Container."""
+        return self.parameterValues
+
+    def addParameterValue(self, value: ParameterValue) -> "Container":
+        """Aggregates all ECU Configuration Values within this Container."""
+        self.parameterValues.append(value)
+        return self
+
+    def getReferenceValues(self) -> List[ConfigReferenceValue]:
+        """Aggregates all References with this container."""
+        return self.referenceValues
+
+    def addReferenceValue(self, value: ConfigReferenceValue) -> "Container":
+        """Aggregates all References with this container."""
+        self.referenceValues.append(value)
+        return self
+
+    def getSubContainers(self) -> List["Container"]:
+        """Aggregates all sub-containers within this container."""
+        return self.subContainers
+
+    def createSubContainer(self, short_name: str) -> "Container":
+        """Aggregates all sub-containers within this container."""
+        if not self.IsElementExists(short_name, Container):
+            sub_container = Container(self, short_name)
+            self.addElement(sub_container)
+            self.subContainers.append(sub_container)
+        return self.getElement(short_name, Container)

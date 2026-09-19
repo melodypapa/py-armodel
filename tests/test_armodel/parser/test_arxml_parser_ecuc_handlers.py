@@ -10,6 +10,7 @@ from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
     ConfigReferenceValue,
+    Container,
     EcucAddInfoParamValue,
     EcucInstanceReferenceValue,
     EcucNumericalParamValue,
@@ -2693,3 +2694,97 @@ class TestInstanceReferenceValue:
         parser.readInstanceReferenceValue(element, instance_reference_value)
         assert instance_reference_value.getDefinitionRef().getValue() == "/Defs/InstanceRefParam"
         assert instance_reference_value.getValueIRef() is None
+
+
+class TestContainer:
+    """Tests for readContainer handler (R3.2.3 Container).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.31, p.93 (R3.2 Rev 3)
+    """
+
+    def test_get_container_full(self, parser):
+        element = _snip(
+            """
+                <SHORT-NAME>OsOS</SHORT-NAME>
+                <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsOS</DEFINITION-REF>
+                <PARAMETER-VALUES>
+                    <INTEGER-VALUE>
+                        <DEFINITION-REF>/Os/OsOS/OsNumberOfCores</DEFINITION-REF>
+                        <VALUE>1</VALUE>
+                    </INTEGER-VALUE>
+                    <BOOLEAN-VALUE>
+                        <DEFINITION-REF>/Os/OsOS/OsStackMonitoring</DEFINITION-REF>
+                        <VALUE>false</VALUE>
+                    </BOOLEAN-VALUE>
+                    <ENUMERATION-VALUE>
+                        <DEFINITION-REF>/Os/OsOS/OsStatus</DEFINITION-REF>
+                        <VALUE>EXTENDED</VALUE>
+                    </ENUMERATION-VALUE>
+                </PARAMETER-VALUES>
+                <REFERENCE-VALUES>
+                    <REFERENCE-VALUE>
+                        <DEFINITION-REF>/Os/OsApplication/OsAppAlarmRef</DEFINITION-REF>
+                        <VALUE-REF>/Os/Os/AlarmIncrementRteCounter</VALUE-REF>
+                    </REFERENCE-VALUE>
+                    <INSTANCE-REFERENCE-VALUE>
+                        <DEFINITION-REF>/Defs/InstanceRefParam</DEFINITION-REF>
+                        <VALUE-IREF>
+                            <CONTEXT-REF>/Os/Os/OsApplication1</CONTEXT-REF>
+                            <VALUE-REF>/Os/Os/OsTask1</VALUE-REF>
+                        </VALUE-IREF>
+                    </INSTANCE-REFERENCE-VALUE>
+                </REFERENCE-VALUES>
+                <SUB-CONTAINERS>
+                    <CONTAINER>
+                        <SHORT-NAME>OsScalabilityClass</SHORT-NAME>
+                        <DEFINITION-REF>/Os/OsOS/OsScalabilityClass</DEFINITION-REF>
+                        <PARAMETER-VALUES>
+                            <INTEGER-VALUE>
+                                <DEFINITION-REF>/Os/OsOS/OsScalabilityClass/OsSc</DEFINITION-REF>
+                                <VALUE>2</VALUE>
+                            </INTEGER-VALUE>
+                        </PARAMETER-VALUES>
+                    </CONTAINER>
+                </SUB-CONTAINERS>
+            """,
+            root_tag="CONTAINER",
+        )
+        pkg = AUTOSAR.getInstance().createARPackage("R3Pkg")
+        container = Container(pkg, "OsOS")
+        parser.readContainer(element, container)
+        assert container.getShortName() == "OsOS"
+        assert container.getDefinitionRef().getValue() == "/TS_T19D1M6I1R0_AS403/Os/OsOS"
+        param_values = container.getParameterValues()
+        assert len(param_values) == 3
+        assert isinstance(param_values[0], IntegerValue)
+        assert param_values[0].getValue().getValue() == 1
+        assert isinstance(param_values[1], BooleanValue)
+        assert param_values[1].getValue().getValue() is False
+        assert isinstance(param_values[2], EnumerationValue)
+        assert param_values[2].getValue().getValue() == "EXTENDED"
+        ref_values = container.getReferenceValues()
+        assert len(ref_values) == 2
+        assert isinstance(ref_values[0], ReferenceValue)
+        assert ref_values[0].getValueRef().getValue() == "/Os/Os/AlarmIncrementRteCounter"
+        assert isinstance(ref_values[1], InstanceReferenceValue)
+        assert ref_values[1].getValueIRef().getTargetRef().getValue() == "/Os/Os/OsTask1"
+        sub_containers = container.getSubContainers()
+        assert len(sub_containers) == 1
+        assert sub_containers[0].getShortName() == "OsScalabilityClass"
+        assert len(sub_containers[0].getParameterValues()) == 1
+        assert sub_containers[0].getParameterValues()[0].getValue().getValue() == 2
+
+    def test_get_container_empty(self, parser):
+        element = _snip(
+            """
+                <SHORT-NAME>EmptyContainer</SHORT-NAME>
+            """,
+            root_tag="CONTAINER",
+        )
+        pkg = AUTOSAR.getInstance().createARPackage("R3Pkg")
+        container = Container(pkg, "EmptyContainer")
+        parser.readContainer(element, container)
+        assert container.getDefinitionRef() is None
+        assert container.getParameterValues() == []
+        assert container.getReferenceValues() == []
+        assert container.getSubContainers() == []

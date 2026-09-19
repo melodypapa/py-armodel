@@ -8,6 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
     ConfigReferenceValue,
+    Container,
     EcucAddInfoParamValue,
     EcucContainerValue,
     EcucInstanceReferenceValue,
@@ -1277,3 +1278,58 @@ class TestInstanceReferenceValueWrite:
         child = parent[0]
         assert child.tag == "INSTANCE-REFERENCE-VALUE"
         assert child.find("VALUE-IREF") is None
+
+
+class TestContainerWrite:
+    """Tests for writeContainer handler (R3.2.3 Container).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.31, p.93 (R3.2 Rev 3)
+    """
+
+    def _make_container(self):
+        pkg = AUTOSAR.getInstance().createARPackage("R3Pkg")
+        container = Container(pkg, "OsOS")
+        container.setDefinitionRef(_ref("/TS_T19D1M6I1R0_AS403/Os/OsOS"))
+        int_value = IntegerValue()
+        int_value.setDefinitionRef(_ref("/Os/OsOS/OsNumberOfCores"))
+        int_value.setValue(UnlimitedInteger().setValue(1))
+        container.addParameterValue(int_value)
+        ref_value = ReferenceValue()
+        ref_value.setDefinitionRef(_ref("/Os/OsApplication/OsAppAlarmRef"))
+        ref_value.setValueRef(_ref("/Os/Os/AlarmIncrementRteCounter"))
+        container.addReferenceValue(ref_value)
+        sub = container.createSubContainer("OsScalabilityClass")
+        sub.setDefinitionRef(_ref("/Os/OsOS/OsScalabilityClass"))
+        return container
+
+    def test_set_container_full_in_xsd_order(self, writer):
+        container = self._make_container()
+        parent = _parent()
+        writer.writeContainer(parent, container)
+        child = parent.find("CONTAINER")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "OsOS"
+        tags = [c.tag for c in child]
+        assert tags.index("SHORT-NAME") < tags.index("DEFINITION-REF") < tags.index("PARAMETER-VALUES") < tags.index("REFERENCE-VALUES") < tags.index("SUB-CONTAINERS")
+        param_values = child.find("PARAMETER-VALUES")
+        assert param_values[0].tag == "INTEGER-VALUE"
+        assert param_values[0].find("VALUE").text == "1"
+        ref_values = child.find("REFERENCE-VALUES")
+        assert ref_values[0].tag == "REFERENCE-VALUE"
+        assert ref_values[0].find("VALUE-REF").text == "/Os/Os/AlarmIncrementRteCounter"
+        sub_containers = child.find("SUB-CONTAINERS")
+        assert sub_containers[0].tag == "CONTAINER"
+        assert sub_containers[0].find("SHORT-NAME").text == "OsScalabilityClass"
+
+    def test_set_container_empty_no_wrappers(self, writer):
+        pkg = AUTOSAR.getInstance().createARPackage("R3Pkg2")
+        container = Container(pkg, "EmptyContainer")
+        parent = _parent()
+        writer.writeContainer(parent, container)
+        child = parent.find("CONTAINER")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "EmptyContainer"
+        assert child.find("DEFINITION-REF") is None
+        assert child.find("PARAMETER-VALUES") is None
+        assert child.find("REFERENCE-VALUES") is None
+        assert child.find("SUB-CONTAINERS") is None
