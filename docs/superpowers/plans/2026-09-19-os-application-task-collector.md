@@ -4,7 +4,7 @@
 
 **Goal:** Convert parsed ECUC OS configuration objects into actual AUTOSAR OS model classes and export them through a new `os-config-export` CLI command as XLSX or YAML.
 
-**Architecture:** Keep the generic ARXML parser responsible for ECUC model construction. Add standalone no-argument OS model classes under `armodel.models.extended.os`, with M2-style getters, setters, and adders but no M2 inheritance or parent field. Add `OsEcucParser` under `armodel.parser` as the dedicated ECUC-to-OS loader; it reads ECUC objects and populates `OsOs`, `OsApplication`, and `OsTask`. Register a new `os-config-export` console script with `--format {xlsx,yaml}`, defaulting to `xlsx`, following the existing CLI house pattern (verbose/warning flags, logging setup, INPUT/OUTPUT positionals).
+**Architecture:** Keep the generic ARXML parser responsible for ECUC model construction. Add standalone no-argument OS model classes under `armodel.data_models.os` (the repo's existing home for standalone models, e.g. `sw_connector.py`), with M2-style getters, setters, and adders but no M2 inheritance or parent field. Add `OsEcucParser` under `armodel.parser` as the dedicated ECUC-to-OS loader; it reads ECUC objects and populates `OsOs`, `OsApplication`, and `OsTask`. Register a new `os-config-export` console script with `--format {xlsx,yaml}`, defaulting to `xlsx`, following the existing CLI house pattern (verbose/warning flags, logging setup, INPUT/OUTPUT positionals).
 
 **Tech Stack:** Python 3.8-compatible typing and project-style model classes, existing `ARXMLParser` and `AUTOSAR` singleton, `argparse`, `openpyxl`, lazy-imported `pyyaml` (already present via the `pytest` extra; never a hard runtime import).
 
@@ -61,12 +61,10 @@ git commit -m "test: add OS ECUC integration fixture"
 ### Task 1: Add OS Semantic Model Classes
 
 **Files:**
-- Create: `src/armodel/models/extended/__init__.py`
-- Create: `src/armodel/models/extended/os/__init__.py`
-- Create: `src/armodel/models/extended/os/models.py`
-- Create: `tests/test_armodel/models/extended/__init__.py`
-- Create: `tests/test_armodel/models/extended/os/__init__.py`
-- Create: `tests/test_armodel/models/extended/os/test_models.py`
+- Create: `src/armodel/data_models/os/__init__.py`
+- Create: `src/armodel/data_models/os/models.py`
+- Create: `tests/test_armodel/data_models/os/__init__.py`
+- Create: `tests/test_armodel/data_models/os/test_models.py`
 
 **Interfaces:**
 - Produces standalone `OsApplication`, `OsTask`, and `OsOs` classes with M2-style accessors, no M2 inheritance, no parent field, no-argument constructors, and a `name` identity member.
@@ -78,7 +76,7 @@ git commit -m "test: add OS ECUC integration fixture"
 - [ ] **Step 1: Write failing model-class shape tests**
 
 ```python
-from armodel.models.extended.os import OsApplication, OsOs, OsTask
+from armodel.data_models.os import OsApplication, OsOs, OsTask
 
 
 def test_os_model_identity_and_standard_fields():
@@ -111,9 +109,9 @@ def test_os_relationship_fields_are_initialized_independently():
 
 - [ ] **Step 2: Run the focused tests and verify they fail**
 
-Run: `uv run pytest tests/test_armodel/models/extended/os/test_models.py -v`
+Run: `uv run pytest tests/test_armodel/data_models/os/test_models.py -v`
 
-Expected: FAIL because `armodel.models.extended.os` and the model classes do not yet exist.
+Expected: FAIL because `armodel.data_models.os` and the model classes do not yet exist.
 
 - [ ] **Step 3: Implement project-style model classes**
 
@@ -165,7 +163,7 @@ class OsTask:
 
 - [ ] **Step 4: Run the focused tests and verify they pass**
 
-Run: `uv run pytest tests/test_armodel/models/extended/os/test_models.py -v`
+Run: `uv run pytest tests/test_armodel/data_models/os/test_models.py -v`
 
 Expected: PASS.
 
@@ -173,12 +171,12 @@ Expected: PASS.
 
 Run: `uv run python scripts/check_model_test_parity.py`
 
-Expected: OK. (`models.py` is a model source file under `src/armodel/models`; `test_models.py` references all three classes, so class coverage is satisfied and no orphan is raised.)
+Expected: OK. (`src/armodel/data_models` is outside the parity scan root `src/armodel/models`, so the new package introduces no file-presence or class-coverage requirements; the check confirms nothing existing regressed.)
 
 - [ ] **Step 6: Commit the datamodel task**
 
 ```bash
-git add src/armodel/models/extended tests/test_armodel/models/extended
+git add src/armodel/data_models/os tests/test_armodel/data_models/os
 git commit -m "feat: add AUTOSAR OS semantic model classes"
 ```
 
@@ -187,7 +185,7 @@ git commit -m "feat: add AUTOSAR OS semantic model classes"
 **Files:**
 - Create: `src/armodel/parser/os_ecuc_parser.py`
 - Modify: `src/armodel/parser/__init__.py`
-- Create: `tests/test_armodel/models/extended/os/test_converter.py`
+- Create: `tests/test_armodel/data_models/os/test_converter.py`
 
 **Interfaces:**
 - Produces `OsEcucParser.load(path, document=None, warning=False) -> OsOs` and `OsEcucParser.parseEcuc(document, warning=False) -> OsOs`.
@@ -201,7 +199,7 @@ git commit -m "feat: add AUTOSAR OS semantic model classes"
 ```python
 from pathlib import Path
 
-from armodel.models.extended.os import OsOs
+from armodel.data_models.os import OsOs
 from armodel.parser import OsEcucParser
 
 
@@ -227,7 +225,7 @@ def test_from_file_converts_demo_os_configuration():
 
 - [ ] **Step 2: Run the demo test and verify it fails**
 
-Run: `uv run pytest tests/test_armodel/models/extended/os/test_converter.py::test_from_file_converts_demo_os_configuration -v`
+Run: `uv run pytest tests/test_armodel/data_models/os/test_converter.py::test_from_file_converts_demo_os_configuration -v`
 
 Expected: FAIL because the conversion API is not implemented.
 
@@ -284,20 +282,20 @@ Raise a specific conversion error for a standard reference whose target cannot b
 
 Add tests for absent optional fields, repeated references, the ignored vendor parameter, `OsStacksize` collection, malformed scalar values, and unresolved standard references (both error and `warning=True` modes).
 
-Run: `uv run pytest tests/test_armodel/models/extended/os/test_converter.py -v`
+Run: `uv run pytest tests/test_armodel/data_models/os/test_converter.py -v`
 
 Expected: PASS.
 
 - [ ] **Step 7: Run the full OS test package**
 
-Run: `uv run pytest tests/test_armodel/models/extended/os -v`
+Run: `uv run pytest tests/test_armodel/data_models/os -v`
 
 Expected: PASS.
 
 - [ ] **Step 8: Commit the converter task**
 
 ```bash
-git add src/armodel/parser/os_ecuc_parser.py src/armodel/parser/__init__.py tests/test_armodel/models/extended/os/test_converter.py
+git add src/armodel/parser/os_ecuc_parser.py src/armodel/parser/__init__.py tests/test_armodel/data_models/os/test_converter.py
 git commit -m "feat: convert ECUC OS objects to semantic model classes"
 ```
 
@@ -324,7 +322,7 @@ import pytest
 import yaml
 from openpyxl import load_workbook
 
-from armodel.models.extended.os import OsApplication, OsOs, OsTask
+from armodel.data_models.os import OsApplication, OsOs, OsTask
 from armodel.report import write_xlsx, write_yaml
 
 
@@ -565,7 +563,7 @@ git commit -m "feat: add OS configuration export CLI"
 
 - [ ] **Step 1: Run the complete focused test suite**
 
-Run: `uv run pytest tests/test_armodel/models/extended/os tests/test_armodel/report/test_os_export.py tests/test_armodel/cli/test_os_config_export_cli.py -v`
+Run: `uv run pytest tests/test_armodel/data_models/os tests/test_armodel/report/test_os_export.py tests/test_armodel/cli/test_os_config_export_cli.py -v`
 
 Expected: PASS.
 

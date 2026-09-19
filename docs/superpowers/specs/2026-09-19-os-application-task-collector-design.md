@@ -2,7 +2,7 @@
 
 ## Goal
 
-Convert parsed ECUC model objects into actual AUTOSAR OS semantic model classes, specifically `OsApplication` and `OsTask`, using the AUTOSAR CP R23-11 OS specification as the source of truth. Store these classes under `src/armodel/models/extended/os` and follow the class conventions used by `src/armodel/models/M2`.
+Convert parsed ECUC model objects into actual AUTOSAR OS semantic model classes, specifically `OsApplication` and `OsTask`, using the AUTOSAR CP R23-11 OS specification as the source of truth. Store these classes under `src/armodel/data_models/os` — the repo's existing home for standalone models (e.g. `sw_connector.py`) — following the accessor style used by `src/armodel/models/M2`.
 
 The existing generic ECUC parser remains responsible for reading ARXML. The new conversion layer reads ECUC objects and fills OS model classes. Consumers receive OS-domain objects rather than ECUC container objects.
 
