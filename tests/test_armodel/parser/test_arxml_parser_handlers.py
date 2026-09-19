@@ -744,6 +744,50 @@ class TestAdminDataAndReferrableHandlers:
         assert assignment.getSwComponentIRef() is None
         assert assignment.getVariationPoint() is None
 
+    def test_readCpSoftwareCluster_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import CpSoftwareCluster
+
+        cluster = CpSoftwareCluster(parent=_autosar_root(), short_name="Cluster1")
+        element = _snip(
+            "<SOFTWARE-CLUSTER-ID>42</SOFTWARE-CLUSTER-ID>"
+            "<SW-COMPONENT-ASSIGNMENTS>"
+            "<SW-COMPONENT-PROTOTYPE-ASSIGNMENT>"
+            "<SW-COMPONENT-IREF>"
+            "<CONTEXT-COMPOSITION-REF DEST='COMPOSITION-SW-COMPONENT-PROTOTYPE'>/comp</CONTEXT-COMPOSITION-REF>"
+            "<TARGET-COMPONENT-REF DEST='SW-COMPONENT-PROTOTYPE'>/swc</TARGET-COMPONENT-REF>"
+            "</SW-COMPONENT-IREF>"
+            "</SW-COMPONENT-PROTOTYPE-ASSIGNMENT>"
+            "<SW-COMPONENT-PROTOTYPE-ASSIGNMENT/>"
+            "</SW-COMPONENT-ASSIGNMENTS>"
+            "<SW-COMPOSITIONS>"
+            "<COMPOSITION-SW-COMPONENT-TYPE-REF-CONDITIONAL>"
+            '<COMPOSITION-SW-COMPONENT-TYPE-REF DEST="COMPOSITION-SW-COMPONENT-TYPE">/Composition/Comp1</COMPOSITION-SW-COMPONENT-TYPE-REF>'
+            "</COMPOSITION-SW-COMPONENT-TYPE-REF-CONDITIONAL>"
+            "</SW-COMPOSITIONS>",
+            root_tag="CP-SOFTWARE-CLUSTER",
+        )
+        parser.readCpSoftwareCluster(element, cluster)
+        assert cluster.getSoftwareClusterId().getValue() == 42
+        assignments = cluster.getSwComponentAssignments()
+        assert len(assignments) == 2
+        assert assignments[0].getSwComponentIRef().getContextCompositionRef().getValue() == "/comp"
+        assert assignments[0].getSwComponentIRef().getTargetComponentRef().getValue() == "/swc"
+        assert assignments[1].getSwComponentIRef() is None
+        refs = cluster.getSwCompositionRefs()
+        assert len(refs) == 1
+        assert refs[0].getDest() == "COMPOSITION-SW-COMPONENT-TYPE"
+        assert refs[0].getValue() == "/Composition/Comp1"
+
+    def test_readCpSoftwareCluster_empty(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import CpSoftwareCluster
+
+        cluster = CpSoftwareCluster(parent=_autosar_root(), short_name="Cluster1")
+        element = _snip("", root_tag="CP-SOFTWARE-CLUSTER")
+        parser.readCpSoftwareCluster(element, cluster)
+        assert cluster.getSoftwareClusterId() is None
+        assert cluster.getSwComponentAssignments() == []
+        assert cluster.getSwCompositionRefs() == []
+
     def test_getAutosarVariableRef_with_iref(self, parser):
         element = _snip(
             "<ACCESSED-VARIABLE>"

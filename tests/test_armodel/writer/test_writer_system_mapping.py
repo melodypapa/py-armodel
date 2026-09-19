@@ -35,7 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     ClientServerOperationMapping,
     DataPrototypeMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition, ClientIdDefinitionSet, SwComponentPrototypeAssignment
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition, ClientIdDefinitionSet, CpSoftwareCluster, SwComponentPrototypeAssignment
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderReceiverToSignalGroupMapping,
     SenderReceiverToSignalMapping,
@@ -1471,3 +1471,46 @@ class TestWriterSwComponentPrototypeAssignment:
         assert child is not None
         assert child.find("SW-COMPONENT-IREF") is None
         assert child.find("VARIATION-POINT") is None
+
+
+class TestWriterCpSoftwareCluster:
+    def _make_cluster(self):
+        cluster = CpSoftwareCluster(parent=AUTOSAR.getInstance(), short_name="Cluster1")
+        cluster.setSoftwareClusterId(_positive_int(42))
+        assignment = SwComponentPrototypeAssignment()
+        iref = ComponentInSystemInstanceRef()
+        iref.setContextCompositionRef(_ref("/comp", "COMPOSITION-SW-COMPONENT-PROTOTYPE"))
+        iref.setTargetComponentRef(_ref("/swc", "SW-COMPONENT-PROTOTYPE"))
+        assignment.setSwComponentIRef(iref)
+        cluster.addSwComponentAssignment(assignment)
+        cluster.addSwCompositionRef(_ref("/Composition/Comp1", "COMPOSITION-SW-COMPONENT-TYPE"))
+        return cluster
+
+    def test_members_in_xsd_order(self, writer):
+        cluster = self._make_cluster()
+        parent = _parent()
+        writer.writeCpSoftwareCluster(parent, cluster)
+
+        child = parent.find("CP-SOFTWARE-CLUSTER")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "Cluster1"
+        tags = [c.tag for c in child]
+        assert tags.index("SOFTWARE-CLUSTER-ID") < tags.index("SW-COMPONENT-ASSIGNMENTS") < tags.index("SW-COMPOSITIONS")
+        assert child.find("SOFTWARE-CLUSTER-ID").text == "42"
+        assignment_elements = child.findall("SW-COMPONENT-ASSIGNMENTS/SW-COMPONENT-PROTOTYPE-ASSIGNMENT")
+        assert len(assignment_elements) == 1
+        assert assignment_elements[0].find("SW-COMPONENT-IREF/TARGET-COMPONENT-REF").text == "/swc"
+        conditional = child.find("SW-COMPOSITIONS/COMPOSITION-SW-COMPONENT-TYPE-REF-CONDITIONAL")
+        assert conditional.find("COMPOSITION-SW-COMPONENT-TYPE-REF").get("DEST") == "COMPOSITION-SW-COMPONENT-TYPE"
+        assert conditional.find("COMPOSITION-SW-COMPONENT-TYPE-REF").text == "/Composition/Comp1"
+
+    def test_none_members_not_emitted(self, writer):
+        cluster = CpSoftwareCluster(parent=AUTOSAR.getInstance(), short_name="Cluster1")
+        parent = _parent()
+        writer.writeCpSoftwareCluster(parent, cluster)
+
+        child = parent.find("CP-SOFTWARE-CLUSTER")
+        assert child is not None
+        assert child.find("SOFTWARE-CLUSTER-ID") is None
+        assert child.find("SW-COMPONENT-ASSIGNMENTS") is None
+        assert child.find("SW-COMPOSITIONS") is None
