@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARNumerical,
     Boolean,
     Identifier,
+    Numerical,
     PositiveInteger,
     RefType,
     RevisionLabelString,
@@ -29,6 +30,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     ClientServerOperationMapping,
     DataPrototypeMapping,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderReceiverToSignalGroupMapping,
     SenderReceiverToSignalMapping,
@@ -1453,3 +1455,59 @@ class TestWriterOperationInSystemInstanceRef:
         child = parent.find("OPERATION-IREF")
         assert child is not None
         assert [c.tag for c in child] == ["TARGET-OPERATION-REF"]
+
+
+class TestWriterClientIdDefinition:
+    def _make_id_definition(self):
+        id_definition = ClientIdDefinition(parent=AUTOSAR.getInstance(), short_name="CID1")
+        client_id = Numerical()
+        client_id.setValue("5")
+        id_definition.setClientId(client_id)
+        iref = OperationInSystemInstanceRef()
+        iref.setContextPortRef(_ref("/port", "R-PORT-PROTOTYPE"))
+        iref.setTargetOperationRef(_ref("/op", "CLIENT-SERVER-OPERATION"))
+        id_definition.setClientServerOperationIRef(iref)
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(Identifier().setValue("VP_CID"))
+        id_definition.setVariationPoint(variation_point)
+        return id_definition
+
+    def test_members_in_xsd_order(self, writer):
+        id_definition = self._make_id_definition()
+        parent = _parent()
+        writer.writeClientIdDefinition(parent, id_definition)
+
+        child = parent.find("CLIENT-ID-DEFINITION")
+        assert child is not None
+        tags = [c.tag for c in child]
+        assert tags.index("CLIENT-ID") < tags.index("CLIENT-SERVER-OPERATION-IREF") < tags.index("VARIATION-POINT")
+        assert child.find("CLIENT-ID").text == "5"
+        iref_element = child.find("CLIENT-SERVER-OPERATION-IREF")
+        assert iref_element.find("CONTEXT-PORT-REF").get("DEST") == "R-PORT-PROTOTYPE"
+        assert iref_element.find("CONTEXT-PORT-REF").text == "/port"
+        assert iref_element.find("TARGET-OPERATION-REF").get("DEST") == "CLIENT-SERVER-OPERATION"
+        assert iref_element.find("TARGET-OPERATION-REF").text == "/op"
+        assert child.find("VARIATION-POINT/SHORT-LABEL").text == "VP_CID"
+
+    def test_none_members_not_emitted(self, writer):
+        id_definition = ClientIdDefinition(parent=AUTOSAR.getInstance(), short_name="CID1")
+        parent = _parent()
+        writer.writeClientIdDefinition(parent, id_definition)
+
+        child = parent.find("CLIENT-ID-DEFINITION")
+        assert child is not None
+        assert child.find("CLIENT-ID") is None
+        assert child.find("CLIENT-SERVER-OPERATION-IREF") is None
+
+    def test_client_id_only_no_iref_element(self, writer):
+        id_definition = ClientIdDefinition(parent=AUTOSAR.getInstance(), short_name="CID1")
+        client_id = Numerical()
+        client_id.setValue("7")
+        id_definition.setClientId(client_id)
+        parent = _parent()
+        writer.writeClientIdDefinition(parent, id_definition)
+
+        child = parent.find("CLIENT-ID-DEFINITION")
+        assert child is not None
+        assert child.find("CLIENT-ID").text == "7"
+        assert child.find("CLIENT-SERVER-OPERATION-IREF") is None

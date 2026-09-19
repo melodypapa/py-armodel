@@ -148,15 +148,14 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (full pytest suite, lint/ruff, black-check, parity, wildcard-chain spot check after `__all__` rework); 9b confirmed by user (2026-09-19) → stamped R23-11 (user also caught the `as` re-export; replaced with complete `__all__` in SystemTemplate/__init__.py); sync commit 4e0c3cbe
 - [ ] `ClientIdDefinition` (dependency of System, Table 2.3 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 2.3 · member type of `ClientIdDefinitionSet.clientIdDefinition` below · added by 2026-09-19 Group5 dependency audit)
   - [x] Step 1 — Sync members & description from spec — Table 2.3 (p.45) extracted: Base = Identifiable; clientId (Numerical, 0..1, attr); clientServerOperation (ClientServerOperation, 0..1, iref → OperationInSystemInstanceRef, XSD CLIENT-SERVER-OPERATION-IREF). Blocked on missing member type OperationInSystemInstanceRef — queued above per user decision (2026-09-19); resume at Step 2.
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `ClientIdDefinitionSet` (dependency of System, Table 2.2 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 2.2 · member type of `System.clientIdDefinitionSet` below · added by 2026-09-19 Group5 dependency audit)
+  - [x] Step 2 — Write model class unit test (Red) — 5 tests in TestClientIdDefinition (initialization/docstring-note/docless-init/get_set_client_id/get_set_client_server_operation_iref); Red = ImportError (class missing)
+  - [x] Step 3 — Implement model class (Green) — `class ClientIdDefinition(Identifiable, VariationPointCapable)` in SystemTemplate/__init__.py (after J1939SharedAddressCluster, Rule 0007 non-leaf package); members clientId: Optional[Numerical], clientServerOperationIRef: Optional[OperationInSystemInstanceRef]; "ClientIdDefinition" added to SystemTemplate __all__
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — new class: class docstring = Table 2.3 Note verbatim; per-member inline comment + getter/setter docstrings = Note column verbatim (guarded setters append None-no-op); markdown wrap artifact "OperationInSystem InstanceRef" normalized to class name
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — parser 3 (full/client_id_only/empty) + writer 3 (XSD-order+DEST/none-members/client_id_only); Red = AttributeError x6; direct-call style per OperationInSystemInstanceRef precedent (aggregator ClientIdDefinitionSet queued next, element not ARPackage-aggregatable)
+  - [x] Step 6 — Update parser & writer (Green) — parser readClientIdDefinition (readIdentifiable + getChildElementOptionalNumerical CLIENT-ID + getOperationInSystemInstanceRef dispatch) after readSystemClientIdDefinitionSetRefs; writer writeClientIdDefinition (self-tagging like writeSystemMapping; writeIdentifiable write_variation_point=False + setChildElementOptionalNumerical + setOperationInSystemInstanceRef + writeVariationPoint last per seqOffset 10000) after writeJ1939SharedAddressCluster; imports at parser L677 / writer L603; 11 tests green
+  - [x] Step 7 — Update checklist comment — 6-column format, 5 rows all [x], release R23-11; `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 2.3, p.45 (R23-11)`; `# Spec verified:` marker deferred to 9b
+  - [x] Step 8 — Deviations — **none** (base Identifiable correct; VariationPointCapable mixin per Rule 0020 XSD anchor "Applicable for: ClientIdDefinitionSet.clientIdDefinition"; iref member named clientServerOperationIRef per Rule 0001.5; no missing member types)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (full suite 9526 passed incl. integration round-trip, lint/ruff clean after test-import I001 fix, black unchanged, parity OK, chained-mutator grep clean); 9b confirmed by user (2026-09-19, wrap-artifact normalization disclosed) → stamped R23-11
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

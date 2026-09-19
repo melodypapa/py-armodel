@@ -600,7 +600,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment, RoleBasedPortAssignment, SwcServiceDependency
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ComManagementMapping, J1939SharedAddressCluster, SwcToEcuMapping, System, SystemMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition, ComManagementMapping, J1939SharedAddressCluster, SwcToEcuMapping, System, SystemMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecCompositeTypeMapping,
     SenderReceiverToSignalGroupMapping,
@@ -10936,6 +10936,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_tag, "PARTICIPATING-J-1939-CLUSTER-REF", ref)
         self.writeVariationPoint(element, cluster.getVariationPoint())
+
+    def writeClientIdDefinition(self, element: ET.Element, id_definition: ClientIdDefinition):
+        child_element = ET.SubElement(element, "CLIENT-ID-DEFINITION")
+        self.writeIdentifiable(child_element, id_definition, write_variation_point=False)
+        self.setChildElementOptionalNumerical(child_element, "CLIENT-ID", id_definition.getClientId())
+        self.setOperationInSystemInstanceRef(child_element, "CLIENT-SERVER-OPERATION-IREF", id_definition.getClientServerOperationIRef())
+        self.writeVariationPoint(child_element, id_definition.getVariationPoint())
 
     def writeSystemJ1939SharedAddressClusters(self, element: ET.Element, system: System):
         clusters = system.getJ1939SharedAddressClusters()
