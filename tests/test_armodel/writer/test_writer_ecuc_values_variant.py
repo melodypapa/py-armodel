@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucNumericalParamValue,
     EcucReferenceValue,
     EcucTextualParamValue,
+    FloatValue,
     IntegerValue,
     ParameterValue,
 )
@@ -23,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARLiteral,
     ARNumerical,
     Boolean,
+    Float,
     RefType,
     RevisionLabelString,
     UnlimitedInteger,
@@ -939,5 +941,46 @@ class TestBooleanValueWrite:
         writer.setBooleanValue(parent, boolean_value)
         child = parent[0]
         assert child.tag == "BOOLEAN-VALUE"
+        assert child.find("DEFINITION-REF") is None
+        assert child.find("VALUE") is None
+
+
+class TestFloatValueWrite:
+    """Tests for setFloatValue handler (R3.2.3 FloatValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.35, p.99 (R3.2 Rev 3)
+    """
+
+    def test_set_float_value_without_dest(self, writer):
+        float_value = FloatValue()
+        float_value.setDefinitionRef(_ref("/Rte/SchedulingPeriod"))
+        float_value.setValue(Float().setValue(0.005))
+        parent = _parent()
+        writer.setFloatValue(parent, float_value)
+        child = parent[0]
+        assert child.tag == "FLOAT-VALUE"
+        def_ref = child.find("DEFINITION-REF")
+        assert def_ref is not None
+        assert "DEST" not in def_ref.attrib
+        assert def_ref.text == "/Rte/SchedulingPeriod"
+        assert child.find("VALUE").text == "0.005"
+
+    def test_set_float_value_with_dest(self, writer):
+        float_value = FloatValue()
+        float_value.setDefinitionRef(_ref("/Defs/Period", "FLOAT-PARAM-DEF"))
+        float_value.setValue(Float().setValue(74.8))
+        parent = _parent()
+        writer.setFloatValue(parent, float_value)
+        child = parent[0]
+        assert child.tag == "FLOAT-VALUE"
+        assert child.find("DEFINITION-REF").attrib["DEST"] == "FLOAT-PARAM-DEF"
+        assert child.find("VALUE").text == "74.8"
+
+    def test_set_float_value_empty(self, writer):
+        float_value = FloatValue()
+        parent = _parent()
+        writer.setFloatValue(parent, float_value)
+        child = parent[0]
+        assert child.tag == "FLOAT-VALUE"
         assert child.find("DEFINITION-REF") is None
         assert child.find("VALUE") is None

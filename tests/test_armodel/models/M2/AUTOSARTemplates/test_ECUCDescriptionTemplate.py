@@ -19,11 +19,12 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucReferenceValue,
     EcucTextualParamValue,
     EcucValueCollection,
+    FloatValue,
     IntegerValue,
     ParameterValue,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, RevisionLabelString, UnlimitedInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, RefType, RevisionLabelString, UnlimitedInteger
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
 
@@ -323,5 +324,31 @@ class TestBooleanValue:
         assert result is obj
         assert obj.getValue() == value
         assert obj.getValue().getValue() is True
+        obj.setValue(None)
+        assert obj.getValue() == value
+
+
+class TestFloatValue:
+    """
+    Test class for FloatValue functionality.
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.35, p.99 (R3.2 Rev 3)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(FloatValue, ParameterValue)
+
+    def test_initialization_defaults(self):
+        obj = FloatValue()
+        assert obj.getDefinitionRef() is None
+        assert obj.getValue() is None
+
+    def test_get_set_value(self):
+        obj = FloatValue()
+        value = Float().setValue(74.8)
+        result = obj.setValue(value)
+        assert result is obj
+        assert obj.getValue() == value
+        assert obj.getValue().getValue() == 74.8
         obj.setValue(None)
         assert obj.getValue() == value

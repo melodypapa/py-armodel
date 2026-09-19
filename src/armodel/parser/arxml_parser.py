@@ -351,6 +351,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucReferenceValue,
     EcucTextualParamValue,
     EcucValueCollection,
+    FloatValue,
     IntegerValue,
     ParameterValue,
 )
@@ -11772,6 +11773,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.readParameterValue(element, boolean_value)
         boolean_value.setValue(self.getChildElementOptionalBooleanValue(element, "VALUE"))
         return boolean_value
+
+    def getFloatValue(self, element: ET.Element) -> FloatValue:
+        """Read an R3.2.3 <FLOAT-VALUE> element (Table 3.35): DEFINITION-REF followed by VALUE."""
+        float_value = FloatValue()
+        self.readParameterValue(element, float_value)
+        float_value.setValue(self.getChildElementOptionalFloatValue(element, "VALUE"))
+        return float_value
 
     def readEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))

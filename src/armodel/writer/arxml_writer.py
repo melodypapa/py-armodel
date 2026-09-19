@@ -247,6 +247,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucReferenceValue,
     EcucTextualParamValue,
     EcucValueCollection,
+    FloatValue,
     IntegerValue,
     ParameterValue,
 )
@@ -11169,6 +11170,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "BOOLEAN-VALUE")
         self.writeParameterValue(child_element, boolean_value)
         self.setChildElementOptionalBooleanValue(child_element, "VALUE", boolean_value.getValue())
+
+    def setFloatValue(self, element: ET.Element, float_value: FloatValue):
+        """Write an R3.2.3 <FLOAT-VALUE> element (Table 3.35): DEFINITION-REF followed by VALUE."""
+        child_element = ET.SubElement(element, "FLOAT-VALUE")
+        self.writeParameterValue(child_element, float_value)
+        self.setChildElementOptionalFloatValue(child_element, "VALUE", float_value.getValue())
 
     def writeEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())

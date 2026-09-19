@@ -7,8 +7,8 @@ from unittest.mock import MagicMock
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import BooleanValue, IntegerValue, ParameterValue
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RevisionLabelString, UnlimitedInteger
+from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import BooleanValue, FloatValue, IntegerValue, ParameterValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, RevisionLabelString, UnlimitedInteger
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -2202,3 +2202,59 @@ class TestBooleanValue:
         boolean_value = parser.getBooleanValue(element)
         assert boolean_value.getDefinitionRef() is None
         assert boolean_value.getValue().getValue() is True
+
+
+class TestFloatValue:
+    """Tests for getFloatValue handler (R3.2.3 FloatValue).
+
+    Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.35, p.99 (R3.2 Rev 3)
+    """
+
+    def test_get_float_value_without_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Rte/SchedulingPeriod</DEFINITION-REF>
+                <VALUE>0.005</VALUE>
+            """,
+            root_tag="FLOAT-VALUE",
+        )
+        float_value = parser.getFloatValue(element)
+        assert isinstance(float_value, FloatValue)
+        assert float_value.getDefinitionRef().getValue() == "/Rte/SchedulingPeriod"
+        assert float_value.getDefinitionRef().getDest() is None
+        assert isinstance(float_value.getValue(), Float)
+        assert float_value.getValue().getValue() == 0.005
+
+    def test_get_float_value_with_dest(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF DEST="FLOAT-PARAM-DEF">/Defs/Period</DEFINITION-REF>
+                <VALUE>74.8</VALUE>
+            """,
+            root_tag="FLOAT-VALUE",
+        )
+        float_value = parser.getFloatValue(element)
+        assert float_value.getDefinitionRef().getDest() == "FLOAT-PARAM-DEF"
+        assert float_value.getValue().getValue() == 74.8
+
+    def test_get_float_value_missing_value(self, parser):
+        element = _snip(
+            """
+                <DEFINITION-REF>/Defs/Param</DEFINITION-REF>
+            """,
+            root_tag="FLOAT-VALUE",
+        )
+        float_value = parser.getFloatValue(element)
+        assert float_value.getDefinitionRef().getValue() == "/Defs/Param"
+        assert float_value.getValue() is None
+
+    def test_get_float_value_missing_definition_ref(self, parser):
+        element = _snip(
+            """
+                <VALUE>1.5</VALUE>
+            """,
+            root_tag="FLOAT-VALUE",
+        )
+        float_value = parser.getFloatValue(element)
+        assert float_value.getDefinitionRef() is None
+        assert float_value.getValue().getValue() == 1.5

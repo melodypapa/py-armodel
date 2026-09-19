@@ -8,6 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
+    Float,
     Numerical,
     PositiveInteger,
     RefType,
@@ -655,6 +656,38 @@ class BooleanValue(ParameterValue):
 
     def setValue(self, value: Optional[Boolean]) -> "BooleanValue":
         """Stores the value of the Boolean parameter. A None value is a no-op and does not overwrite an existing value."""
+        if value is not None:
+            self.value = value
+        return self
+
+
+class FloatValue(ParameterValue):
+    """
+    Representing a configuration value of definition type FloatParamDef.
+    """
+
+    # FloatValue method parity checklist:
+    # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.35, p.99 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Deviation: value optional — spec Mul=1 but XSD group FLOAT-VALUE (AUTOSAR.xsd
+    # L11261) has minOccurs="0" (Rule 0019.3 inverted, sample evidence wins).
+
+    def __init__(self):
+        super().__init__()
+
+        # Stores the value of the Float parameter.
+        self.value: Optional[Float] = None
+
+    def getValue(self) -> Optional[Float]:
+        """Stores the value of the Float parameter."""
+        return self.value
+
+    def setValue(self, value: Optional[Float]) -> "FloatValue":
+        """Stores the value of the Float parameter. A None value is a no-op and does not overwrite an existing value."""
         if value is not None:
             self.value = value
         return self
