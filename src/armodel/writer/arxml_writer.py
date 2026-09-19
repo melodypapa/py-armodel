@@ -808,7 +808,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     TransmissionModeTiming,
     TriggerIPduSendCondition,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, OperationInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
     CanNmCluster,
     CanNmEcu,
@@ -3691,6 +3691,17 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "BASE-REF", ref.getBaseRef())
             self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPOSITION-REF", ref.getContextCompositionRef())
             self.setChildElementOptionalRefType(child_element, "TARGET-COMPONENT-REF", ref.getTargetComponentRef())
+
+    def setOperationInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: OperationInSystemInstanceRef):
+        if ref is not None:
+            child_element = ET.SubElement(element, tag_name)
+            self.writeARObject(child_element, ref)
+            self.setChildElementOptionalRefType(child_element, "BASE-REF", ref.getBaseRef())
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPOSITION-REF", ref.getContextCompositionRef())
+            for component_ref in ref.getContextComponentRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", component_ref)
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-PORT-REF", ref.getContextPortRef())
+            self.setChildElementOptionalRefType(child_element, "TARGET-OPERATION-REF", ref.getTargetOperationRef())
 
     def writeVariableAccess(self, element: ET.Element, access: VariableAccess):
         child_element = ET.SubElement(element, "VARIABLE-ACCESS")
