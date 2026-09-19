@@ -674,7 +674,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment, RoleBasedPortAssignment, SwcServiceDependency
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition, ComManagementMapping, J1939SharedAddressCluster, SwcToEcuMapping, System, SystemMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinition, ClientIdDefinitionSet, ComManagementMapping, J1939SharedAddressCluster, SwcToEcuMapping, System, SystemMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecCompositeTypeMapping,
     SenderReceiverToSignalGroupMapping,
@@ -12342,6 +12342,15 @@ class ARXMLParser(AbstractARXMLParser):
         id_definition.setClientId(self.getChildElementOptionalNumerical(element, "CLIENT-ID"))
         id_definition.setClientServerOperationIRef(self.getOperationInSystemInstanceRef(self.find(element, "CLIENT-SERVER-OPERATION-IREF")))
 
+    def readClientIdDefinitionSet(self, element: ET.Element, id_definition_set: ClientIdDefinitionSet):
+        self.logger.debug("Read ClientIdDefinitionSet <%s>" % id_definition_set.getShortName())
+        self.readARElement(element, id_definition_set)
+        wrapper_element = self.find(element, "CLIENT-ID-DEFINITIONS")
+        if wrapper_element is not None:
+            for child_element in self.findall(wrapper_element, "CLIENT-ID-DEFINITION"):
+                id_definition = id_definition_set.createClientIdDefinition(self.getShortName(child_element))
+                self.readClientIdDefinition(child_element, id_definition)
+
     def readSystemInterpolationRoutineMappingSetRefs(self, element: ET.Element, system: System):
         for ref in self.getChildElementRefTypeList(element, "INTERPOLATION-ROUTINE-MAPPING-SET-REFS/INTERPOLATION-ROUTINE-MAPPING-SET-REF"):
             system.addInterpolationRoutineMappingSetRef(ref)
@@ -12725,6 +12734,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "LIN-TP-CONFIG":
                 config = parent.createLinTpConfig(self.getShortName(child_element))
                 self.readLinTpConfig(child_element, config)
+            elif tag_name == "CLIENT-ID-DEFINITION-SET":
+                id_definition_set = parent.createClientIdDefinitionSet(self.getShortName(child_element))
+                self.readClientIdDefinitionSet(child_element, id_definition_set)
             elif tag_name == "SYSTEM":
                 system = parent.createSystem(self.getShortName(child_element))
                 self.readSystem(child_element, system)

@@ -600,6 +600,50 @@ class ClientIdDefinition(Identifiable, VariationPointCapable):
         return self
 
 
+class ClientIdDefinitionSet(ARElement):
+    """
+    Set of Client Identifiers that are used for inter-ECU client-server communication in the System. Tags: atp.recommendedPackage=ClientIdDefinitionSets
+    """
+
+    # ClientIdDefinitionSet method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 2.2, p.44 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getClientIdDefinitions     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addClientIdDefinition      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createClientIdDefinition   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of a Client Identifier that will be used by the RTE in a inter-ECU client-server communication. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=clientIdDefinition.shortName, clientIdDefinition.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.clientIdDefinitions: List[ClientIdDefinition] = []
+
+    def getClientIdDefinitions(self) -> List[ClientIdDefinition]:
+        """
+        Definition of a Client Identifier that will be used by the RTE in a inter-ECU client-server communication. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=clientIdDefinition.shortName, clientIdDefinition.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.clientIdDefinitions
+
+    def addClientIdDefinition(self, value: ClientIdDefinition) -> "ClientIdDefinitionSet":
+        """
+        Definition of a Client Identifier that will be used by the RTE in a inter-ECU client-server communication. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=clientIdDefinition.shortName, clientIdDefinition.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        self.clientIdDefinitions.append(value)
+        return self
+
+    def createClientIdDefinition(self, short_name: str) -> ClientIdDefinition:
+        """
+        Definition of a Client Identifier that will be used by the RTE in a inter-ECU client-server communication. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=clientIdDefinition.shortName, clientIdDefinition.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsElementExists(short_name, ClientIdDefinition):
+            id_definition = ClientIdDefinition(self, short_name)
+            self.addElement(id_definition)
+            self.clientIdDefinitions.append(id_definition)
+        return self.getElement(short_name, ClientIdDefinition)
+
+
 class System(AtpStructureElement):
     """
     The top level element of the System Description. The System description defines five major elements: Topology, Software, Communication, Mapping and Mapping Constraints. The System element directly aggregates the elements describing the Software, Mapping and Mapping Constraints; it contains a reference to an ASAM FIBEX description specifying Communication and Topology. Tags: atp.recommendedPackage=Systems
@@ -901,6 +945,7 @@ __all__ = [
     "ByteOrderEnum",
     "Chapter",
     "ClientIdDefinition",
+    "ClientIdDefinitionSet",
     "ComponentInSystemInstanceRef",
     "ComManagementMapping",
     "CryptoServiceMapping",
