@@ -280,15 +280,16 @@ markers were STRIPPED here; all stamps are deferred to one batch confirmation (u
   - [x] Step 8 — Deviations — **none** (all 18 attrs modeled 0..1 per XSD minOccurs="0"; member names verified against XSD mmt.qualifiedName; no ARPackage dispatch — Base=ARObject, aggregated only by EthTcpIpProps queued next)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (295 touched tests, lint flake8+ruff clean after test-import fixes, black unchanged, parity OK); 9b DEFERRED to batch stamp confirmation (user-instructed)
 - [ ] `UdpProps` (dependency of EcuInstance, Table 3.110 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.110 · member type of `EthTcpIpProps.udpProps` below · added by 2026-09-19 Group5 dependency audit)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - **Step 1 finding:** PDF p.154 Table 3.110; same Package/Base as TcpProps (EthernetTopology leaf, ARObject most-derived); Note "This meta-class specifies the configuration options for UDP (User Datagram Protocol)."; ONE attr udpTtl (PositiveInteger, 0..1, "Default Time-to-live value of outgoing UDP packets."); XSD group UDP-PROPS L127837 = single UDP-TTL element; constr_5118 (udpTtl 1..255) appended to class docstring.
+  - [x] Step 1 — Sync members & description from spec — verified 2026-09-20 (see finding above)
+  - [x] Step 2 — Write model class unit test (Red) — 4 tests in TestUdpProps (inheritance/class-docstring-note incl. constr_5118/initialization/get-set-udpTtl with None no-op); Red = ImportError
+  - [x] Step 3 — Implement model class (Green) — `class UdpProps(ARObject)` inserted before TcpProps in EthernetTopology.py; 11/11 TcpUdpProps tests green (test file renamed test_TcpProps.py → test_TcpUdpProps.py to host both classes)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — docstrings written verbatim in-pass (wipe vacuous); constr_5118 in class docstring; setter None-no-op sentence
+  - [x] Step 5 — Write reader/writer round-trip test — 2 parser tests (full/empty) + 2 writer tests (UDP-TTL text/none-not-emitted); batch-pass disclosure: handlers written alongside tests
+  - [x] Step 6 — Update parser & writer (Green) — readUdpProps/writeUdpProps (self-tagging UDP-PROPS, single UDP-TTL) placed before the TcpProps handlers; imports added
+  - [x] Step 7 — Update checklist comment — 3 rows all [x], release R23-11; stamp deferred to batch confirmation
+  - [x] Step 8 — Deviations — **none**
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (303 touched tests, lint/black clean, parity OK); 9b DEFERRED to batch stamp confirmation (user-instructed)
 - [ ] `EthTcpIpProps` (dependency of EcuInstance, Table 3.109 · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.109 · member type of `EcuInstance.tcpIpProps` below · added by 2026-09-19 Group5 dependency audit)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

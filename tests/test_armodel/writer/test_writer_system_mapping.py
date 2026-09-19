@@ -43,7 +43,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordTypeMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import J1939Cluster
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import TcpProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import TcpProps, UdpProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import (  # noqa: E501
     IPduMapping,
     ISignalMapping,
@@ -1891,5 +1891,26 @@ class TestWriterTcpProps:
         parent = _parent()
         writer.writeTcpProps(parent, props)
         child = parent.find("TCP-PROPS")
+        assert child is not None
+        assert len(child) == 0
+
+
+class TestWriterUdpProps:
+    """Tests for writeUdpProps handler (R23-11 UdpProps, Table 3.110, p.154)."""
+
+    def test_set_udp_ttl(self, writer):
+        props = UdpProps()
+        props.setUdpTtl(_positive_int(64))
+        parent = _parent()
+        writer.writeUdpProps(parent, props)
+        child = parent.find("UDP-PROPS")
+        assert child is not None
+        assert child.find("UDP-TTL").text == "64"
+
+    def test_none_member_not_emitted(self, writer):
+        props = UdpProps()
+        parent = _parent()
+        writer.writeUdpProps(parent, props)
+        child = parent.find("UDP-PROPS")
         assert child is not None
         assert len(child) == 0

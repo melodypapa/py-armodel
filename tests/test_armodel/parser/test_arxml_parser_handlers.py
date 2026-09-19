@@ -25,7 +25,7 @@ from armodel.models import (
     InstanceEventInCompositionInstanceRef,
     InstantiationTimingEventProps,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import TcpProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import TcpProps, UdpProps
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -2557,3 +2557,19 @@ class TestReadTcpProps:
         assert props.getTcpTtl() is None
         assert props.getTcpNagleEnabled() is None
         assert props.getTcpRetransmissionTimeout() is None
+
+
+class TestReadUdpProps:
+    """Tests for readUdpProps handler (R23-11 UdpProps, Table 3.110, p.154)."""
+
+    def test_read_udp_props_full(self, parser):
+        element = _snip("<UDP-TTL>64</UDP-TTL>", root_tag="UDP-PROPS")
+        props = UdpProps()
+        parser.readUdpProps(element, props)
+        assert props.getUdpTtl().getValue() == 64
+
+    def test_read_udp_props_empty(self, parser):
+        element = _snip("", root_tag="UDP-PROPS")
+        props = UdpProps()
+        parser.readUdpProps(element, props)
+        assert props.getUdpTtl() is None

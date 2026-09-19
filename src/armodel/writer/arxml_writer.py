@@ -693,6 +693,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     SdClientConfig,
     VlanMembership,
     TcpProps,
+    UdpProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
@@ -9506,6 +9507,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "NETWORK-ID", cluster.getNetworkId())
             self.setChildElementOptionalBooleanValue(child_element, "REQUEST-2-SUPPORT", cluster.getRequest2Support())
             self.setChildElementOptionalBooleanValue(child_element, "USES-ADDRESS-ARBITRATION", cluster.getUsesAddressArbitration())
+
+    def writeUdpProps(self, element: ET.Element, props: UdpProps):
+        """Write an R23-11 <UDP-PROPS> element (Table 3.110, p.154): single optional UDP-TTL."""
+        if props is not None:
+            child_element = ET.SubElement(element, "UDP-PROPS")
+            self.setChildElementOptionalPositiveInteger(child_element, "UDP-TTL", props.getUdpTtl())
 
     def writeTcpProps(self, element: ET.Element, props: TcpProps):
         """Write an R23-11 <TCP-PROPS> element (Table 3.111, p.155): 18 optional attributes in XSD order."""

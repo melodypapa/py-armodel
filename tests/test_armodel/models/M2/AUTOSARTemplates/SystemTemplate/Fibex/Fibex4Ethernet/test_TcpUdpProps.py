@@ -8,7 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     TimeValue,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import TcpProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import TcpProps, UdpProps
 
 
 class TestTcpProps:
@@ -90,3 +90,35 @@ class TestTcpProps:
         assert obj.getTcpNagleEnabled() == value
         obj.setTcpNagleEnabled(None)
         assert obj.getTcpNagleEnabled() == value
+
+
+class TestUdpProps:
+    """
+    Test class for UdpProps functionality.
+
+    Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.110, p.154 (R23-11)
+    """
+
+    def test_inheritance(self):
+        assert issubclass(UdpProps, ARObject)
+
+    def test_class_docstring_note(self):
+        expected = (
+            "This meta-class specifies the configuration options for UDP (User Datagram Protocol)."
+            "\n\n"
+            "[constr_5118] Value range of UdpProps.udpTtl: If defined, the value of UdpProps.udpTtl shall be in the range of 1..255."
+        )
+        assert inspect.cleandoc(UdpProps.__doc__) == expected
+
+    def test_initialization_defaults(self):
+        obj = UdpProps()
+        assert obj.udpTtl is None
+
+    def test_get_set_udp_ttl(self):
+        obj = UdpProps()
+        value = PositiveInteger().setValue(64)
+        result = obj.setUdpTtl(value)
+        assert result is obj
+        assert obj.getUdpTtl() == value
+        obj.setUdpTtl(None)
+        assert obj.getUdpTtl() == value

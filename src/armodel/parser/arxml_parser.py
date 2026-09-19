@@ -777,6 +777,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     TransportProtocolConfiguration,
     UdpTp,
     TcpProps,
+    UdpProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
@@ -9360,6 +9361,10 @@ class ARXMLParser(AbstractARXMLParser):
             cluster.setNetworkId(self.getChildElementOptionalPositiveInteger(child_element, "NETWORK-ID"))
             cluster.setRequest2Support(self.getChildElementOptionalBooleanValue(child_element, "REQUEST-2-SUPPORT"))
             cluster.setUsesAddressArbitration(self.getChildElementOptionalBooleanValue(child_element, "USES-ADDRESS-ARBITRATION"))
+
+    def readUdpProps(self, element: ET.Element, props: UdpProps):
+        """Read an R23-11 <UDP-PROPS> element (Table 3.110, p.154): single optional UDP-TTL."""
+        props.setUdpTtl(self.getChildElementOptionalPositiveInteger(element, "UDP-TTL"))
 
     def readTcpProps(self, element: ET.Element, props: TcpProps):
         """Read an R23-11 <TCP-PROPS> element (Table 3.111, p.155): 18 optional attributes in XSD order."""

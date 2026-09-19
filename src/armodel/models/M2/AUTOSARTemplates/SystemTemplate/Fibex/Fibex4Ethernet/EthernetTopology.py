@@ -3263,6 +3263,38 @@ class EthernetPhysicalChannel(PhysicalChannel):
         return self.getElement(short_name, VlanConfig)
 
 
+class UdpProps(ARObject):
+    """This meta-class specifies the configuration options for UDP (User Datagram Protocol).
+
+    [constr_5118] Value range of UdpProps.udpTtl: If defined, the value of UdpProps.udpTtl shall be in the range of 1..255.
+    """
+
+    # UdpProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.110, p.154 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getUdpTtl     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUdpTtl     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Default Time-to-live value of outgoing UDP packets.
+        self.udpTtl: Optional[PositiveInteger] = None
+
+    def getUdpTtl(self) -> Optional[PositiveInteger]:
+        """Default Time-to-live value of outgoing UDP packets."""
+        return self.udpTtl
+
+    def setUdpTtl(self, value: Optional[PositiveInteger]) -> "UdpProps":
+        """Default Time-to-live value of outgoing UDP packets.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.udpTtl = value
+        return self
+
+
 class TcpProps(ARObject):
     """This meta-class specifies the configuration options for TCP (Transmission Control Protocol).
 
