@@ -307,3 +307,15 @@ class OsOs:
     def addOsTask(self, value: OsTask) -> "OsOs":
         self.OsTask.append(value)
         return self
+
+    @classmethod
+    def from_ecuc(cls, document, warning: bool = False) -> "OsOs":
+        from armodel.parser import OsEcucParser
+
+        return OsEcucParser().parseEcuc(document, warning=warning)
+
+    @classmethod
+    def from_file(cls, path, warning: bool = False) -> "OsOs":
+        from armodel.parser import OsEcucParser
+
+        return OsEcucParser().load(path, warning=warning)
