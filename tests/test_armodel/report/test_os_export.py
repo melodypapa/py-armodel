@@ -4,8 +4,8 @@ import pytest
 import yaml
 from openpyxl import load_workbook
 
-from armodel.data_models.ecuc import OsApplication, OsOs, OsTask
-from armodel.report import OsConfigExporter, OsConfigXlsxExporter, OsConfigYamlExporter
+from armodel.data_models.ecuc import OsAlarm, OsApplication, OsIsr, OsOs, OsScheduleTable, OsScheduleTableExpiryPoint, OsTask
+from armodel.report import OsConfigExporter, OsConfigModelMapper, OsConfigXlsxExporter, OsConfigYamlExporter
 
 
 def test_write_yaml_uses_semantic_names(tmp_path: Path):
@@ -126,7 +126,9 @@ def test_write_xlsx_rows_use_name_identity_and_exact_fields(tmp_path: Path):
     rows = list(task_sheet.iter_rows(min_row=2, values_only=True))
     assert rows[0][headers.index("name")] == "Task"
     assert rows[0][headers.index("OsTaskPriority")] == 5
-    assert rows[0][headers.index("OsTaskEventRef")] == "/Os/Os/Event1, /Os/Os/Event2"
+    event_cell = task_sheet.cell(row=2, column=headers.index("OsTaskEventRef") + 1)
+    assert event_cell.value == "/Os/Os/Event1\n/Os/Os/Event2"
+    assert event_cell.alignment.wrap_text is True
 
     application_sheet = workbook["OsApplication"]
     app_headers = [cell.value for cell in application_sheet[1]]
@@ -134,3 +136,114 @@ def test_write_xlsx_rows_use_name_identity_and_exact_fields(tmp_path: Path):
     assert app_rows[0][app_headers.index("name")] == "App"
     assert app_rows[0][app_headers.index("OsTrusted")] is False
     assert app_rows[0][app_headers.index("OsAppTaskRef")] == "Task"
+
+
+def test_write_yaml_exports_alarm_isr_and_schedule_table_sections(tmp_path: Path):
+    alarm = OsAlarm().setName("Alarm1").setOsAlarmCounterRef("/Os/Os/HwCounter").setOsAlarmIncrementCounterRef("/Os/Os/Rte_Counter").setOsAlarmAlarmTime(1).setOsAlarmAutostartType("RELATIVE")
+    isr = OsIsr().setName("CanIsr").setOsIsrCategory("CATEGORY_2").setOsIsrPeriod(0.005).setOsIsrExecutionBudget(0.001)
+    isr.addOsIsrResourceLockBudget(0.0005)
+    isr.addOsIsrResourceLockResourceRef("/Os/Os/OsStackResource")
+    expiry_point1 = OsScheduleTableExpiryPoint().setOsScheduleTableExpiryPointOffset(2).setOsScheduleTableActivateTaskRef("/Os/Os/Rte_Time_Task")
+    expiry_point2 = (
+        OsScheduleTableExpiryPoint()
+        .setOsScheduleTableExpiryPointOffset(5)
+        .setOsScheduleTableMaxShorten(1)
+        .setOsScheduleTableSetEventTaskRef("/Os/Os/Rte_Event_Task")
+        .setOsScheduleTableSetEventRef("/Os/Os/Rte_OSShutdownEvent")
+    )
+    schedule_table = (
+        OsScheduleTable()
+        .setName("SystemScheduleTable")
+        .setOsScheduleTableCounterRef("/Os/Os/HwCounter")
+        .setOsScheduleTableDuration(10)
+        .setOsScheduleTableRepeating(True)
+        .setOsScheduleTableAutostartType("RELATIVE")
+        .setOsScheduleTableSyncStrategy("IMPLICIT")
+    )
+    schedule_table.addOsScheduleTableExpiryPoint(expiry_point1)
+    schedule_table.addOsScheduleTableExpiryPoint(expiry_point2)
+    os_os = OsOs().setName("Os")
+    os_os.addOsAlarm(alarm)
+    os_os.addOsIsr(isr)
+    os_os.addOsScheduleTable(schedule_table)
+    output = tmp_path / "os.yaml"
+
+    OsConfigYamlExporter().export(os_os, output)
+
+    data = yaml.safe_load(output.read_text(encoding="utf-8"))
+    assert set(data) == {"OsApplication", "OsTask", "OsAlarm", "OsIsr", "OsScheduleTable"}
+    assert data["OsAlarm"][0] == {
+        "name": "Alarm1",
+        "OsAlarmCounterRef": "/Os/Os/HwCounter",
+        "OsAlarmIncrementCounterRef": "/Os/Os/Rte_Counter",
+        "OsAlarmAlarmTime": 1,
+        "OsAlarmAutostartType": "RELATIVE",
+    }
+    assert data["OsIsr"][0] == {
+        "name": "CanIsr",
+        "OsIsrCategory": "CATEGORY_2",
+        "OsIsrPeriod": 0.005,
+        "OsIsrExecutionBudget": 0.001,
+        "OsIsrResourceLockBudget": [0.0005],
+        "OsIsrResourceLockResourceRef": ["/Os/Os/OsStackResource"],
+    }
+    assert data["OsScheduleTable"][0] == {
+        "name": "SystemScheduleTable",
+        "OsScheduleTableCounterRef": "/Os/Os/HwCounter",
+        "OsScheduleTableDuration": 10,
+        "OsScheduleTableRepeating": True,
+        "OsScheduleTableAutostartType": "RELATIVE",
+        "OsScheduleTableSyncStrategy": "IMPLICIT",
+        "OsScheduleTableExpiryPoint": [
+            {"OsScheduleTblExpPointOffset": 2, "OsScheduleTableActivateTaskRef": "/Os/Os/Rte_Time_Task"},
+            {
+                "OsScheduleTblExpPointOffset": 5,
+                "OsScheduleTableMaxShorten": 1,
+                "OsScheduleTableSetEventTaskRef": "/Os/Os/Rte_Event_Task",
+                "OsScheduleTableSetEventRef": "/Os/Os/Rte_OSShutdownEvent",
+            },
+        ],
+    }
+
+
+def test_mapper_to_dict_contains_five_sections_with_defaults():
+    data = OsConfigModelMapper().to_dict(OsOs().setName("Os"))
+
+    assert set(data) == {"OsApplication", "OsTask", "OsAlarm", "OsIsr", "OsScheduleTable"}
+    assert data["OsApplication"] == []
+    assert data["OsTask"] == []
+    assert data["OsAlarm"] == []
+    assert data["OsIsr"] == []
+    assert data["OsScheduleTable"] == []
+
+
+def test_write_xlsx_uses_correct_headers_for_empty_new_sections(tmp_path: Path):
+    output = tmp_path / "os.xlsx"
+
+    OsConfigXlsxExporter().export(OsOs().setName("Os"), output)
+
+    workbook = load_workbook(output)
+    assert workbook.sheetnames == ["OsApplication", "OsTask", "OsAlarm", "OsIsr", "OsScheduleTable"]
+    isr_headers = [cell.value for cell in workbook["OsIsr"][1]]
+    assert isr_headers[0] == "name"
+    assert "OsIsrCategory" in isr_headers
+    table_headers = [cell.value for cell in workbook["OsScheduleTable"][1]]
+    assert table_headers[0] == "name"
+    assert "OsScheduleTableCounterRef" in table_headers
+
+
+def test_write_xlsx_formats_expiry_point_dicts_readably(tmp_path: Path):
+    expiry_point = OsScheduleTableExpiryPoint().setOsScheduleTableExpiryPointOffset(2).setOsScheduleTableActivateTaskRef("/Os/Os/Task1")
+    schedule_table = OsScheduleTable().setName("Table1").setOsScheduleTableDuration(10)
+    schedule_table.addOsScheduleTableExpiryPoint(expiry_point)
+    os_os = OsOs().setName("Os")
+    os_os.addOsScheduleTable(schedule_table)
+    output = tmp_path / "os.xlsx"
+
+    OsConfigXlsxExporter().export(os_os, output)
+
+    workbook = load_workbook(output)
+    sheet = workbook["OsScheduleTable"]
+    headers = [cell.value for cell in sheet[1]]
+    cell = sheet.cell(row=2, column=headers.index("OsScheduleTableExpiryPoint") + 1)
+    assert cell.value == "OsScheduleTblExpPointOffset=2,OsScheduleTableActivateTaskRef=/Os/Os/Task1"

@@ -1,7 +1,7 @@
 import logging
 from typing import Dict, List, Optional, TypeVar
 
-from armodel.data_models.ecuc import OsApplication, OsOs, OsTask
+from armodel.data_models.ecuc import OsAlarm, OsApplication, OsIsr, OsOs, OsScheduleTable, OsScheduleTableExpiryPoint, OsTask
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import Container
 from armodel.parser.ecuc_parser import EcucParser, EcucScalar
@@ -44,6 +44,7 @@ class OsEcucParser(EcucParser):
             if self.get_definition_name(container.getDefinitionRef()) == "OsTask":
                 task = OsTask()
                 task.setName(container.getShortName())
+                self.logger.info("Parsing OsTask: %s", task.getName())
                 self.get_collect_task(task, container, index, warning)
                 tasks[path] = task
                 os_os.addOsTask(task)
@@ -52,6 +53,7 @@ class OsEcucParser(EcucParser):
             if self.get_definition_name(container.getDefinitionRef()) == "OsApplication":
                 application = OsApplication()
                 application.setName(container.getShortName())
+                self.logger.info("Parsing OsApplication: %s", application.getName())
                 self.get_collect_application(application, container, index, warning)
                 applications[path] = application
                 os_os.addOsApplication(application)
@@ -60,9 +62,285 @@ class OsEcucParser(EcucParser):
             self.get_resolve_task_objects(tasks[path], index[path], applications, index, warning)
         for path in applications:
             self.get_resolve_application_objects(applications[path], index[path], tasks, index, warning)
+
+        alarms: Dict[str, OsAlarm] = {}
+        for path in index:
+            container = index[path]
+            if self.get_definition_name(container.getDefinitionRef()) == "OsAlarm":
+                alarm = OsAlarm()
+                alarm.setName(container.getShortName())
+                self.logger.info("Parsing OsAlarm: %s", alarm.getName())
+                self.get_collect_alarm(alarm, container, index, warning)
+                alarms[path] = alarm
+                os_os.addOsAlarm(alarm)
+
+        isrs: Dict[str, OsIsr] = {}
+        for path in index:
+            container = index[path]
+            if self.get_definition_name(container.getDefinitionRef()) == "OsIsr":
+                isr = OsIsr()
+                isr.setName(container.getShortName())
+                self.logger.info("Parsing OsIsr: %s", isr.getName())
+                self.get_collect_isr(isr, container, index, warning)
+                isrs[path] = isr
+                os_os.addOsIsr(isr)
+
+        schedule_tables: Dict[str, OsScheduleTable] = {}
+        for path in index:
+            container = index[path]
+            if self.get_definition_name(container.getDefinitionRef()) == "OsScheduleTable":
+                schedule_table = OsScheduleTable()
+                schedule_table.setName(container.getShortName())
+                self.logger.info("Parsing OsScheduleTable: %s", schedule_table.getName())
+                self.get_collect_schedule_table(schedule_table, container, index, warning)
+                schedule_tables[path] = schedule_table
+                os_os.addOsScheduleTable(schedule_table)
         return os_os
 
+    def get_collect_alarm(self, alarm: OsAlarm, container: Container, index: Dict[str, Container], warning: bool) -> None:
+        for parameter in self.get_parameter_values(container):
+            name = self.get_definition_name(parameter.getDefinitionRef())
+            raw = self.get_raw_value(parameter)
+            if name == "OsAlarmCallbackName":
+                alarm.setOsAlarmCallbackName(self.get_str(name, raw))
+            else:
+                self.logger.debug("Ignore non-standard OsAlarm parameter %s" % name)
+
+        for reference in self.get_reference_values(container):
+            name = self.get_definition_name(reference.getDefinitionRef())
+            value_ref = reference.getValueRef()
+            if value_ref is None or value_ref.getValue() is None:
+                continue
+            path = value_ref.getValue().strip()
+            if name == "OsAlarmCounterRef":
+                alarm.setOsAlarmCounterRef(self.check_reference_path(name, path, index))
+            elif name == "OsAlarmAccessingApplication":
+                alarm.addOsAlarmAccessingApplication(self.check_reference_path(name, path, index))
+            else:
+                self.logger.debug("Ignore non-standard OsAlarm reference %s" % name)
+
+        sub_containers = self.get_sub_containers_by_name(container)
+        for autostart in sub_containers.get("OsAlarmAutostart", []):
+            for parameter in self.get_parameter_values(autostart):
+                name = self.get_definition_name(parameter.getDefinitionRef())
+                raw = self.get_raw_value(parameter)
+                if name == "OsAlarmAlarmTime":
+                    alarm.setOsAlarmAlarmTime(self.get_int(name, raw))
+                elif name == "OsAlarmAutostartType":
+                    alarm.setOsAlarmAutostartType(self.get_str(name, raw))
+                elif name == "OsAlarmCycleTime":
+                    alarm.setOsAlarmCycleTime(self.get_int(name, raw))
+                else:
+                    self.logger.debug("Ignore non-standard OsAlarmAutostart parameter %s" % name)
+            for reference in self.get_reference_values(autostart):
+                name = self.get_definition_name(reference.getDefinitionRef())
+                value_ref = reference.getValueRef()
+                if value_ref is None or value_ref.getValue() is None:
+                    continue
+                path = value_ref.getValue().strip()
+                if name == "OsAlarmAppModeRef":
+                    alarm.setOsAlarmAppModeRef(self.check_reference_path(name, path, index))
+                else:
+                    self.logger.debug("Ignore non-standard OsAlarmAutostart reference %s" % name)
+
+        action_containers = []
+        for choice in ("OsAlarmActivateTask", "OsAlarmCallback", "OsAlarmIncrementCounter", "OsAlarmSetEvent"):
+            action_containers.extend(sub_containers.get(choice, []))
+        for action in action_containers:
+            for reference in self.get_reference_values(action):
+                name = self.get_definition_name(reference.getDefinitionRef())
+                value_ref = reference.getValueRef()
+                if value_ref is None or value_ref.getValue() is None:
+                    continue
+                path = value_ref.getValue().strip()
+                if name == "OsAlarmActivateTaskRef":
+                    alarm.setOsAlarmActivateTaskRef(self.check_reference_path(name, path, index))
+                elif name == "OsAlarmSetEventTaskRef":
+                    alarm.setOsAlarmSetEventTaskRef(self.check_reference_path(name, path, index))
+                elif name == "OsAlarmSetEventRef":
+                    alarm.setOsAlarmSetEventRef(self.check_reference_path(name, path, index))
+                elif name == "OsAlarmIncrementCounterRef":
+                    alarm.setOsAlarmIncrementCounterRef(self.check_reference_path(name, path, index))
+                else:
+                    self.logger.debug("Ignore non-standard OsAlarmAction reference %s" % name)
+            for parameter in self.get_parameter_values(action):
+                name = self.get_definition_name(parameter.getDefinitionRef())
+                raw = self.get_raw_value(parameter)
+                if name == "OsAlarmCallbackName":
+                    alarm.setOsAlarmCallbackName(self.get_str(name, raw))
+                else:
+                    self.logger.debug("Ignore non-standard OsAlarmAction parameter %s" % name)
+
+    def get_collect_isr(self, isr: OsIsr, container: Container, index: Dict[str, Container], warning: bool) -> None:
+        for parameter in self.get_parameter_values(container):
+            name = self.get_definition_name(parameter.getDefinitionRef())
+            raw = self.get_raw_value(parameter)
+            if name == "OsIsrCategory":
+                isr.setOsIsrCategory(self.get_str(name, raw))
+            elif name == "OsIsrPeriod":
+                isr.setOsIsrPeriod(self.get_float(name, raw))
+            elif name == "OsIsrPriority":
+                isr.setOsIsrPriority(self.get_int(name, raw))
+            elif name == "OsIsrName":
+                isr.setOsIsrName(self.get_str(name, raw))
+            else:
+                self.logger.debug("Ignore non-standard OsIsr parameter %s" % name)
+
+        for reference in self.get_reference_values(container):
+            name = self.get_definition_name(reference.getDefinitionRef())
+            value_ref = reference.getValueRef()
+            if value_ref is None or value_ref.getValue() is None:
+                continue
+            path = value_ref.getValue().strip()
+            if name == "OsIsrResourceRef":
+                isr.setOsIsrResourceRef(self.check_reference_path(name, path, index))
+            elif name == "OsIsrInterruptSource":
+                isr.setOsIsrInterruptSource(self.check_reference_path(name, path, index))
+            elif name == "OsIsrAccessingApplication":
+                isr.addOsIsrAccessingApplication(self.check_reference_path(name, path, index))
+            elif name == "OsMemoryMappingCodeLocationRef":
+                isr.setOsMemoryMappingCodeLocationRef(self.check_reference_path(name, path, index))
+            else:
+                self.logger.debug("Ignore non-standard OsIsr reference %s" % name)
+
+        sub_containers = self.get_sub_containers_by_name(container)
+        for timing_protection in sub_containers.get("OsIsrTimingProtection", []):
+            for parameter in self.get_parameter_values(timing_protection):
+                name = self.get_definition_name(parameter.getDefinitionRef())
+                raw = self.get_raw_value(parameter)
+                if name == "OsIsrExecutionBudget":
+                    isr.setOsIsrExecutionBudget(self.get_float(name, raw))
+                elif name == "OsIsrTimeFrame":
+                    isr.setOsIsrTimeFrame(self.get_float(name, raw))
+                elif name == "OsIsrAllInterruptLockBudget":
+                    isr.setOsIsrAllInterruptLockBudget(self.get_float(name, raw))
+                elif name == "OsIsrOsInterruptLockBudget":
+                    isr.setOsIsrOsInterruptLockBudget(self.get_float(name, raw))
+                else:
+                    self.logger.debug("Ignore non-standard OsIsrTimingProtection parameter %s" % name)
+            for resource_lock in self.get_sub_containers_by_name(timing_protection).get("OsIsrResourceLock", []):
+                for parameter in self.get_parameter_values(resource_lock):
+                    name = self.get_definition_name(parameter.getDefinitionRef())
+                    raw = self.get_raw_value(parameter)
+                    if name == "OsIsrResourceLockBudget":
+                        isr.addOsIsrResourceLockBudget(self.get_float(name, raw))
+                    else:
+                        self.logger.debug("Ignore non-standard OsIsrResourceLock parameter %s" % name)
+                for reference in self.get_reference_values(resource_lock):
+                    name = self.get_definition_name(reference.getDefinitionRef())
+                    value_ref = reference.getValueRef()
+                    if value_ref is None or value_ref.getValue() is None:
+                        continue
+                    path = value_ref.getValue().strip()
+                    if name == "OsIsrResourceLockResourceRef":
+                        isr.addOsIsrResourceLockResourceRef(self.check_reference_path(name, path, index))
+                    else:
+                        self.logger.debug("Ignore non-standard OsIsrResourceLock reference %s" % name)
+
+    def get_collect_schedule_table(self, schedule_table: OsScheduleTable, container: Container, index: Dict[str, Container], warning: bool) -> None:
+        for parameter in self.get_parameter_values(container):
+            name = self.get_definition_name(parameter.getDefinitionRef())
+            raw = self.get_raw_value(parameter)
+            if name == "OsScheduleTableDuration":
+                schedule_table.setOsScheduleTableDuration(self.get_int(name, raw))
+            elif name == "OsScheduleTableRepeating":
+                schedule_table.setOsScheduleTableRepeating(self.get_bool(name, raw))
+            else:
+                self.logger.debug("Ignore non-standard OsScheduleTable parameter %s" % name)
+
+        for reference in self.get_reference_values(container):
+            name = self.get_definition_name(reference.getDefinitionRef())
+            value_ref = reference.getValueRef()
+            if value_ref is None or value_ref.getValue() is None:
+                continue
+            path = value_ref.getValue().strip()
+            if name == "OsScheduleTableCounterRef":
+                schedule_table.setOsScheduleTableCounterRef(self.check_reference_path(name, path, index))
+            elif name == "OsScheduleTableAccessingApplication":
+                schedule_table.addOsScheduleTableAccessingApplication(self.check_reference_path(name, path, index))
+            else:
+                self.logger.debug("Ignore non-standard OsScheduleTable reference %s" % name)
+
+        sub_containers = self.get_sub_containers_by_name(container)
+        for autostart in sub_containers.get("OsScheduleTableAutostart", []):
+            for parameter in self.get_parameter_values(autostart):
+                name = self.get_definition_name(parameter.getDefinitionRef())
+                raw = self.get_raw_value(parameter)
+                if name == "OsScheduleTableAutostartType":
+                    schedule_table.setOsScheduleTableAutostartType(self.get_str(name, raw))
+                elif name == "OsScheduleTableStartValue":
+                    schedule_table.setOsScheduleTableStartValue(self.get_int(name, raw))
+                else:
+                    self.logger.debug("Ignore non-standard OsScheduleTableAutostart parameter %s" % name)
+            for reference in self.get_reference_values(autostart):
+                name = self.get_definition_name(reference.getDefinitionRef())
+                value_ref = reference.getValueRef()
+                if value_ref is None or value_ref.getValue() is None:
+                    continue
+                path = value_ref.getValue().strip()
+                if name == "OsScheduleTableAppModeRef":
+                    schedule_table.setOsScheduleTableAppModeRef(self.check_reference_path(name, path, index))
+                else:
+                    self.logger.debug("Ignore non-standard OsScheduleTableAutostart reference %s" % name)
+
+        for sync in sub_containers.get("OsScheduleTableSync", []):
+            for parameter in self.get_parameter_values(sync):
+                name = self.get_definition_name(parameter.getDefinitionRef())
+                raw = self.get_raw_value(parameter)
+                if name == "OsScheduleTblSyncStrategy":
+                    schedule_table.setOsScheduleTableSyncStrategy(self.get_str(name, raw))
+                elif name == "OsScheduleTblExplicitPrecision":
+                    schedule_table.setOsScheduleTableExplicitPrecision(self.get_int(name, raw))
+                else:
+                    self.logger.debug("Ignore non-standard OsScheduleTableSync parameter %s" % name)
+
+        for expiry_container in sub_containers.get("OsScheduleTableExpiryPoint", []):
+            expiry_point = OsScheduleTableExpiryPoint()
+            for parameter in self.get_parameter_values(expiry_container):
+                name = self.get_definition_name(parameter.getDefinitionRef())
+                raw = self.get_raw_value(parameter)
+                if name == "OsScheduleTblExpPointOffset":
+                    expiry_point.setOsScheduleTableExpiryPointOffset(self.get_int(name, raw))
+                elif name == "OsScheduleTableMaxShorten":
+                    expiry_point.setOsScheduleTableMaxShorten(self.get_int(name, raw))
+                elif name == "OsScheduleTableMaxLengthen":
+                    expiry_point.setOsScheduleTableMaxLengthen(self.get_int(name, raw))
+                else:
+                    self.logger.debug("Ignore non-standard OsScheduleTableExpiryPoint parameter %s" % name)
+            expiry_sub_containers = self.get_sub_containers_by_name(expiry_container)
+            for task_activation in expiry_sub_containers.get("OsScheduleTableTaskActivation", []):
+                for reference in self.get_reference_values(task_activation):
+                    name = self.get_definition_name(reference.getDefinitionRef())
+                    value_ref = reference.getValueRef()
+                    if value_ref is None or value_ref.getValue() is None:
+                        continue
+                    path = value_ref.getValue().strip()
+                    if name == "OsScheduleTableActivateTaskRef":
+                        expiry_point.setOsScheduleTableActivateTaskRef(self.check_reference_path(name, path, index))
+                    else:
+                        self.logger.debug("Ignore non-standard OsScheduleTableTaskActivation reference %s" % name)
+            for event_setting in expiry_sub_containers.get("OsScheduleTableEventSetting", []):
+                for reference in self.get_reference_values(event_setting):
+                    name = self.get_definition_name(reference.getDefinitionRef())
+                    value_ref = reference.getValueRef()
+                    if value_ref is None or value_ref.getValue() is None:
+                        continue
+                    path = value_ref.getValue().strip()
+                    if name == "OsScheduleTableSetEventTaskRef":
+                        expiry_point.setOsScheduleTableSetEventTaskRef(self.check_reference_path(name, path, index))
+                    elif name == "OsScheduleTableSetEventRef":
+                        expiry_point.setOsScheduleTableSetEventRef(self.check_reference_path(name, path, index))
+                    else:
+                        self.logger.debug("Ignore non-standard OsScheduleTableEventSetting reference %s" % name)
+            schedule_table.addOsScheduleTableExpiryPoint(expiry_point)
+
     def get_bool(self, name: str, raw: EcucScalar) -> Optional[bool]:
+        """Convert an ECUC scalar to a boolean OS parameter value.
+
+        Boolean values accept native booleans and the strings ``true``,
+        ``false``, ``1``, and ``0``. ``None`` is preserved for optional
+        parameters; invalid values raise :class:`OsEcucConversionError`.
+        """
         if raw is None:
             return None
         if isinstance(raw, bool):
@@ -72,6 +350,13 @@ class OsEcucParser(EcucParser):
         raise OsEcucConversionError("Parameter %s expects a boolean value, got %r" % (name, raw))
 
     def get_int(self, name: str, raw: EcucScalar) -> Optional[int]:
+        """Convert an ECUC scalar to an integer OS parameter value.
+
+        Native integers, integral floats, and strings accepted by
+        ``int(value, 0)`` are supported. ``None`` is preserved for optional
+        parameters; booleans and invalid values raise
+        :class:`OsEcucConversionError`.
+        """
         if raw is None:
             return None
         if isinstance(raw, bool):
@@ -88,6 +373,12 @@ class OsEcucParser(EcucParser):
         raise OsEcucConversionError("Parameter %s expects an integer value, got %r" % (name, raw))
 
     def get_float(self, name: str, raw: EcucScalar) -> Optional[float]:
+        """Convert an ECUC scalar to a floating-point OS parameter value.
+
+        Numeric values and numeric strings are accepted. ``None`` is
+        preserved for optional parameters; booleans and invalid values raise
+        :class:`OsEcucConversionError`.
+        """
         if raw is None:
             return None
         if isinstance(raw, str):
@@ -100,6 +391,11 @@ class OsEcucParser(EcucParser):
         return float(raw)
 
     def get_str(self, name: str, raw: EcucScalar) -> Optional[str]:
+        """Validate and return a string-valued OS parameter.
+
+        ``None`` is preserved for optional parameters. Non-string values
+        raise :class:`OsEcucConversionError`.
+        """
         if raw is None:
             return None
         if not isinstance(raw, str):
@@ -107,10 +403,12 @@ class OsEcucParser(EcucParser):
         return raw
 
     def get_unique(self, target: List[ValueType], value: ValueType) -> None:
+        """Append ``value`` to ``target`` only when it is not already present."""
         if value not in target:
             target.append(value)
 
     def get_lookup_task(self, name: str, path: str, tasks: Dict[str, OsTask], index: Dict[str, Container], warning: bool) -> Optional[OsTask]:
+        """Resolve an OS task reference and apply strict or warning handling."""
         if path in tasks:
             return tasks[path]
         info = index.get(path)
@@ -125,6 +423,7 @@ class OsEcucParser(EcucParser):
         return None
 
     def get_lookup_application(self, name: str, path: str, applications: Dict[str, OsApplication], index: Dict[str, Container], warning: bool) -> Optional[OsApplication]:
+        """Resolve an OS-Application reference and apply strict or warning handling."""
         if path in applications:
             return applications[path]
         info = index.get(path)
@@ -164,11 +463,11 @@ class OsEcucParser(EcucParser):
             if name == "OsTaskAccessingApplication":
                 continue
             elif name == "OsTaskEventRef":
-                task.addOsTaskEventRef(self.get_check_reference_path(name, path, index, warning))
+                task.addOsTaskEventRef(self.check_reference_path(name, path, index))
             elif name == "OsTaskResourceRef":
-                task.addOsTaskResourceRef(self.get_check_reference_path(name, path, index, warning))
+                task.addOsTaskResourceRef(self.check_reference_path(name, path, index))
             elif name == "OsMemoryMappingCodeLocationRef":
-                task.setOsMemoryMappingCodeLocationRef(self.get_check_reference_path(name, path, index, warning))
+                task.setOsMemoryMappingCodeLocationRef(self.check_reference_path(name, path, index))
             else:
                 self.logger.debug("Ignore non-standard OsTask reference %s" % name)
 
@@ -181,7 +480,7 @@ class OsEcucParser(EcucParser):
                     continue
                 path = value_ref.getValue().strip()
                 if name == "OsTaskAppModeRef":
-                    task.addOsTaskAppModeRef(self.get_check_reference_path(name, path, index, warning))
+                    task.addOsTaskAppModeRef(self.check_reference_path(name, path, index))
                 else:
                     self.logger.debug("Ignore non-standard OsTaskAutostart reference %s" % name)
 
@@ -214,7 +513,7 @@ class OsEcucParser(EcucParser):
                         continue
                     path = value_ref.getValue().strip()
                     if name == "OsTaskResourceLockResourceRef":
-                        task.addOsTaskResourceLockResourceRef(self.get_check_reference_path(name, path, index, warning))
+                        task.addOsTaskResourceLockResourceRef(self.check_reference_path(name, path, index))
                     else:
                         self.logger.debug("Ignore non-standard OsTaskResourceLock reference %s" % name)
 
@@ -240,17 +539,17 @@ class OsEcucParser(EcucParser):
             if name in ("OsAppTaskRef", "OsRestartTask", "OsTaskAccessingApplication"):
                 continue
             elif name == "OsAppAlarmRef":
-                application.addOsAppAlarmRef(self.get_check_reference_path(name, path, index, warning))
+                application.addOsAppAlarmRef(self.check_reference_path(name, path, index))
             elif name == "OsAppCounterRef":
-                application.addOsAppCounterRef(self.get_check_reference_path(name, path, index, warning))
+                application.addOsAppCounterRef(self.check_reference_path(name, path, index))
             elif name == "OsAppEcucPartitionRef":
-                application.setOsAppEcucPartitionRef(self.get_check_reference_path(name, path, index, warning))
+                application.setOsAppEcucPartitionRef(self.check_reference_path(name, path, index))
             elif name == "OsAppIsrRef":
-                application.addOsAppIsrRef(self.get_check_reference_path(name, path, index, warning))
+                application.addOsAppIsrRef(self.check_reference_path(name, path, index))
             elif name == "OsAppScheduleTableRef":
-                application.addOsAppScheduleTableRef(self.get_check_reference_path(name, path, index, warning))
+                application.addOsAppScheduleTableRef(self.check_reference_path(name, path, index))
             elif name == "OsMemoryMappingCodeLocationRef":
-                application.setOsMemoryMappingCodeLocationRef(self.get_check_reference_path(name, path, index, warning))
+                application.setOsMemoryMappingCodeLocationRef(self.check_reference_path(name, path, index))
             else:
                 self.logger.debug("Ignore non-standard OsApplication reference %s" % name)
 

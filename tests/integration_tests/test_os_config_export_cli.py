@@ -28,9 +28,15 @@ def test_os_config_export_cli_exports_real_os_ecuc_to_xlsx(monkeypatch, tmp_path
     main()
 
     workbook = load_workbook(output)
-    assert workbook.sheetnames == ["OsApplication", "OsTask"]
+    assert workbook.sheetnames == ["OsApplication", "OsTask", "OsAlarm", "OsIsr", "OsScheduleTable"]
     assert workbook["OsApplication"]["A2"].value == "OsApplication_QM"
     assert workbook["OsTask"]["A2"].value == "Init_Task"
+    alarm_headers = [cell.value for cell in workbook["OsAlarm"][1]]
+    alarm_names = [row[0] for row in workbook["OsAlarm"].iter_rows(min_row=2, values_only=True)]
+    assert alarm_names == ["AlarmSetRteShutdownEvent", "AlarmIncrementRteCounter"]
+    assert "OsAlarmCounterRef" in alarm_headers
+    assert workbook["OsIsr"]["A2"].value == "CanIsr"
+    assert workbook["OsScheduleTable"]["A2"].value == "SystemScheduleTable"
     assert (tmp_path / "os_ecuc_export.log").exists()
 
 
@@ -56,11 +62,18 @@ def test_os_config_export_cli_matches_complete_yaml_fixture(monkeypatch, tmp_pat
     expected = yaml.safe_load(EXPECTED_YAML_FILE.read_text(encoding="utf-8"))
 
     assert generated == expected
-    assert set(generated) == {"OsApplication", "OsTask"}
+    assert set(generated) == {"OsApplication", "OsTask", "OsAlarm", "OsIsr", "OsScheduleTable"}
     assert generated["OsApplication"]
     assert generated["OsTask"]
+    assert generated["OsAlarm"]
+    assert generated["OsIsr"]
+    assert generated["OsScheduleTable"]
     assert all(set(application) == APPLICATION_FIELDS for application in generated["OsApplication"])
     assert all(value is not None and value != [] for task in generated["OsTask"] for value in task.values())
+    assert [alarm["name"] for alarm in generated["OsAlarm"]] == ["AlarmSetRteShutdownEvent", "AlarmIncrementRteCounter"]
+    assert generated["OsIsr"][0]["name"] == "CanIsr"
+    assert generated["OsIsr"][0]["OsIsrCategory"] == "CATEGORY_2"
+    assert [point["OsScheduleTblExpPointOffset"] for point in generated["OsScheduleTable"][0]["OsScheduleTableExpiryPoint"]] == [2, 5]
 
 
 def test_os_config_export_cli_4_4_matches_existing_yaml_fixture(monkeypatch, tmp_path: Path):

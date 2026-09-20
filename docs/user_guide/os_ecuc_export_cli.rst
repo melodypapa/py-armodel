@@ -158,8 +158,8 @@ Examples from the fixture include:
 
 Fields whose values are ``None`` or empty lists are omitted from YAML.
 Repeated values are exported as lists. In Excel, repeated values are written
-as comma-separated text in the corresponding cell, and the complete column
-set is retained.
+one per line in the corresponding wrapped cell, and the complete column set
+is retained.
 
 Warning Mode
 ------------

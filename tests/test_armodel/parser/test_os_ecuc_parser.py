@@ -85,6 +85,13 @@ def _reference(name, path):
     return reference
 
 
+def _application_partition_reference(path):
+    reference = ReferenceValue()
+    reference.setDefinitionRef(_ref("/TS/Os/OsApplication/OsAppEcucPartitionRef"))
+    reference.setValueRef(_ref(path))
+    return reference
+
+
 def _copy_children(target, blueprint):
     for sub_blueprint in blueprint.getSubContainers():
         sub_container = target.createSubContainer(sub_blueprint.getShortName())
@@ -176,7 +183,7 @@ def test_numeric_string_values_are_converted_for_autosar_4_ecuc():
     assert result.getOsTasks()[0].getOsStacksize() == 1024
 
 
-def test_unresolved_reference_raises_in_strict_mode():
+def test_unresolved_reference_warns_and_preserves_destination(caplog):
     containers = [
         _container(
             "Dangling_Task",
@@ -187,8 +194,11 @@ def test_unresolved_reference_raises_in_strict_mode():
     ]
     document = _build_document(containers)
 
-    with pytest.raises(OsEcucConversionError, match="MissingEvent"):
-        OsEcucParser().parseEcuc(document)
+    with caplog.at_level(logging.WARNING):
+        result = OsEcucParser().parseEcuc(document)
+
+    assert result.getOsTasks()[0].getOsTaskEventRefs() == ["/Os/Os/MissingEvent"]
+    assert any("MissingEvent" in record.message for record in caplog.records)
 
 
 def test_unresolved_reference_warns_in_warning_mode(caplog):
@@ -207,6 +217,24 @@ def test_unresolved_reference_warns_in_warning_mode(caplog):
 
     assert result.getOsTasks()[0].getOsTaskEventRefs() == ["/Os/Os/MissingEvent"]
     assert any("MissingEvent" in record.message for record in caplog.records)
+
+
+def test_unresolved_application_ecuc_partition_reference_warns_without_failing(caplog):
+    containers = [
+        _container(
+            "Application",
+            "OsApplication",
+            references=[_application_partition_reference("/Os/Os/MissingPartition")],
+        )
+    ]
+    document = _build_document(containers)
+
+    with caplog.at_level(logging.WARNING):
+        result = OsEcucParser().parseEcuc(document)
+
+    application = result.getOsApplications()[0]
+    assert application.getOsAppEcucPartitionRef() == "/Os/Os/MissingPartition"
+    assert any("MissingPartition" in record.message for record in caplog.records)
 
 
 def test_unresolved_task_accessing_application_warns_in_warning_mode():
@@ -264,3 +292,334 @@ def test_from_ecuc_delegate_matches_parser():
 
     assert result.getName() == "Os"
     assert result.getOsTasks()[0].osTaskPriority == 5
+
+
+def _alarm_action_container(definition_name, parameters=(), references=()):
+    return _container("OsAlarmAction", "OsAlarmAction/" + definition_name, parameters=parameters, references=references)
+
+
+def test_collect_alarm_with_autostart_and_increment_counter_action():
+    alarm_container = _container(
+        "Alarm1",
+        "OsAlarm",
+        references=[_reference("OsAlarmCounterRef", "/Os/Os/HwCounter")],
+        sub_containers=[
+            _container(
+                "OsAlarmAutostart",
+                "OsAlarmAutostart",
+                parameters=[
+                    _int_parameter("OsAlarmAlarmTime", 1),
+                    _enum_parameter("OsAlarmAutostartType", "RELATIVE"),
+                    _int_parameter("OsAlarmCycleTime", 2),
+                ],
+                references=[_reference("OsAlarmAppModeRef", "/Os/Os/OSDEFAULTAPPMODE")],
+            ),
+            _alarm_action_container("OsAlarmIncrementCounter", references=[_reference("OsAlarmIncrementCounterRef", "/Os/Os/Rte_Counter")]),
+        ],
+    )
+    containers = [
+        _container("HwCounter", "OsCounter"),
+        _container("Rte_Counter", "OsCounter"),
+        _container("OSDEFAULTAPPMODE", "OsAppMode"),
+        alarm_container,
+    ]
+    document = _build_document(containers)
+
+    result = OsEcucParser().parseEcuc(document)
+
+    alarm = result.getOsAlarms()[0]
+    assert alarm.getName() == "Alarm1"
+    assert alarm.getOsAlarmCounterRef() == "/Os/Os/HwCounter"
+    assert alarm.getOsAlarmAlarmTime() == 1
+    assert alarm.getOsAlarmAutostartType() == "RELATIVE"
+    assert alarm.getOsAlarmCycleTime() == 2
+    assert alarm.getOsAlarmAppModeRef() == "/Os/Os/OSDEFAULTAPPMODE"
+    assert alarm.getOsAlarmIncrementCounterRef() == "/Os/Os/Rte_Counter"
+
+
+def test_collect_alarm_with_set_event_activate_task_and_callback_actions():
+    set_event_container = _container(
+        "Alarm2",
+        "OsAlarm",
+        sub_containers=[
+            _alarm_action_container(
+                "OsAlarmSetEvent",
+                references=[
+                    _reference("OsAlarmSetEventTaskRef", "/Os/Os/Task1"),
+                    _reference("OsAlarmSetEventRef", "/Os/Os/Event1"),
+                ],
+            )
+        ],
+    )
+    activate_task_container = _container(
+        "Alarm3",
+        "OsAlarm",
+        sub_containers=[_alarm_action_container("OsAlarmActivateTask", references=[_reference("OsAlarmActivateTaskRef", "/Os/Os/Task1")])],
+    )
+    callback_container = _container(
+        "Alarm4",
+        "OsAlarm",
+        sub_containers=[_alarm_action_container("OsAlarmCallback", parameters=[_string_parameter("OsAlarmCallbackName", "AlarmCb")])],
+    )
+    containers = [
+        _container("Task1", "OsTask"),
+        _container("Event1", "OsEvent"),
+        set_event_container,
+        activate_task_container,
+        callback_container,
+    ]
+    document = _build_document(containers)
+
+    result = OsEcucParser().parseEcuc(document)
+
+    alarms = {alarm.getName(): alarm for alarm in result.getOsAlarms()}
+    assert alarms["Alarm2"].getOsAlarmSetEventTaskRef() == "/Os/Os/Task1"
+    assert alarms["Alarm2"].getOsAlarmSetEventRef() == "/Os/Os/Event1"
+    assert alarms["Alarm3"].getOsAlarmActivateTaskRef() == "/Os/Os/Task1"
+    assert alarms["Alarm4"].getOsAlarmCallbackName() == "AlarmCb"
+
+
+def test_collect_alarm_unresolved_counter_ref_warns_and_preserves_destination(caplog):
+    containers = [_container("Alarm5", "OsAlarm", references=[_reference("OsAlarmCounterRef", "/Os/Os/MissingCounter")])]
+    document = _build_document(containers)
+
+    with caplog.at_level(logging.WARNING):
+        result = OsEcucParser().parseEcuc(document)
+
+    assert result.getOsAlarms()[0].getOsAlarmCounterRef() == "/Os/Os/MissingCounter"
+    assert any("MissingCounter" in record.message for record in caplog.records)
+
+
+def test_collect_alarm_accessing_application_collected_as_path():
+    containers = [
+        _container("App1", "OsApplication"),
+        _container("Alarm6", "OsAlarm", references=[_reference("OsAlarmAccessingApplication", "/Os/Os/App1")]),
+    ]
+    document = _build_document(containers)
+
+    result = OsEcucParser().parseEcuc(document)
+
+    assert result.getOsAlarms()[0].getOsAlarmAccessingApplications() == ["/Os/Os/App1"]
+
+
+def test_collect_isr_with_timing_protection_and_resource_lock():
+    isr_container = _container(
+        "CanIsr",
+        "OsIsr",
+        parameters=[
+            _enum_parameter("OsIsrCategory", "CATEGORY_2"),
+            _float_parameter("OsIsrPeriod", 0.005),
+        ],
+        references=[_reference("OsIsrResourceRef", "/Os/Os/OsStackResource")],
+        sub_containers=[
+            _container(
+                "OsIsrTimingProtection",
+                "OsIsrTimingProtection",
+                parameters=[
+                    _float_parameter("OsIsrExecutionBudget", 0.001),
+                    _float_parameter("OsIsrTimeFrame", 0.02),
+                ],
+                sub_containers=[
+                    _container(
+                        "OsIsrResourceLock",
+                        "OsIsrResourceLock",
+                        parameters=[_float_parameter("OsIsrResourceLockBudget", 0.0005)],
+                        references=[_reference("OsIsrResourceLockResourceRef", "/Os/Os/OsStackResource")],
+                    )
+                ],
+            )
+        ],
+    )
+    containers = [_container("OsStackResource", "OsResource"), isr_container]
+    document = _build_document(containers)
+
+    result = OsEcucParser().parseEcuc(document)
+
+    isr = result.getOsIsrs()[0]
+    assert isr.getName() == "CanIsr"
+    assert isr.getOsIsrCategory() == "CATEGORY_2"
+    assert isr.getOsIsrPeriod() == 0.005
+    assert isr.getOsIsrResourceRef() == "/Os/Os/OsStackResource"
+    assert isr.getOsIsrExecutionBudget() == 0.001
+    assert isr.getOsIsrTimeFrame() == 0.02
+    assert isr.getOsIsrResourceLockBudgets() == [0.0005]
+    assert isr.getOsIsrResourceLockResourceRefs() == ["/Os/Os/OsStackResource"]
+
+
+def test_collect_isr_with_lock_budgets_and_accessing_applications():
+    isr_container = _container(
+        "IscIsr",
+        "OsIsr",
+        parameters=[_enum_parameter("OsIsrCategory", "CATEGORY_1"), _int_parameter("OsIsrPriority", 3)],
+        references=[
+            _reference("OsIsrAccessingApplication", "/Os/Os/App1"),
+            _reference("OsIsrAccessingApplication", "/Os/Os/App2"),
+            _reference("OsMemoryMappingCodeLocationRef", "/Os/Os/MemRegion1"),
+        ],
+        sub_containers=[
+            _container(
+                "OsIsrTimingProtection",
+                "OsIsrTimingProtection",
+                parameters=[
+                    _float_parameter("OsIsrAllInterruptLockBudget", 0.0001),
+                    _float_parameter("OsIsrOsInterruptLockBudget", 0.0002),
+                ],
+                sub_containers=[
+                    _container(
+                        "OsIsrResourceLock",
+                        "OsIsrResourceLock",
+                        parameters=[_float_parameter("OsIsrResourceLockBudget", 0.0003), _float_parameter("OsIsrResourceLockBudget", 0.0004)],
+                        references=[
+                            _reference("OsIsrResourceLockResourceRef", "/Os/Os/Res1"),
+                            _reference("OsIsrResourceLockResourceRef", "/Os/Os/Res2"),
+                        ],
+                    )
+                ],
+            )
+        ],
+    )
+    containers = [
+        _container("App1", "OsApplication"),
+        _container("App2", "OsApplication"),
+        _container("MemRegion1", "OsMemorySection"),
+        _container("Res1", "OsResource"),
+        _container("Res2", "OsResource"),
+        isr_container,
+    ]
+    document = _build_document(containers)
+
+    result = OsEcucParser().parseEcuc(document)
+
+    isr = result.getOsIsrs()[0]
+    assert isr.getOsIsrCategory() == "CATEGORY_1"
+    assert isr.getOsIsrPriority() == 3
+    assert isr.getOsIsrAccessingApplications() == ["/Os/Os/App1", "/Os/Os/App2"]
+    assert isr.getOsMemoryMappingCodeLocationRef() == "/Os/Os/MemRegion1"
+    assert isr.getOsIsrAllInterruptLockBudget() == 0.0001
+    assert isr.getOsIsrOsInterruptLockBudget() == 0.0002
+    assert isr.getOsIsrResourceLockBudgets() == [0.0003, 0.0004]
+    assert isr.getOsIsrResourceLockResourceRefs() == ["/Os/Os/Res1", "/Os/Os/Res2"]
+
+
+def test_collect_isr_unresolved_resource_ref_warns_and_preserves_destination(caplog):
+    containers = [_container("BadIsr", "OsIsr", references=[_reference("OsIsrResourceRef", "/Os/Os/MissingResource")])]
+    document = _build_document(containers)
+
+    with caplog.at_level(logging.WARNING):
+        result = OsEcucParser().parseEcuc(document)
+
+    assert result.getOsIsrs()[0].getOsIsrResourceRef() == "/Os/Os/MissingResource"
+    assert any("MissingResource" in record.message for record in caplog.records)
+
+
+def test_collect_schedule_table_with_autostart_sync_and_expiry_points():
+    schedule_table_container = _container(
+        "Table1",
+        "OsScheduleTable",
+        parameters=[
+            _int_parameter("OsScheduleTableDuration", 10),
+            _bool_parameter("OsScheduleTableRepeating", True),
+        ],
+        references=[_reference("OsScheduleTableCounterRef", "/Os/Os/HwCounter")],
+        sub_containers=[
+            _container(
+                "OsScheduleTableAutostart",
+                "OsScheduleTableAutostart",
+                parameters=[
+                    _enum_parameter("OsScheduleTableAutostartType", "RELATIVE"),
+                    _int_parameter("OsScheduleTableStartValue", 0),
+                ],
+                references=[_reference("OsScheduleTableAppModeRef", "/Os/Os/OSDEFAULTAPPMODE")],
+            ),
+            _container(
+                "OsScheduleTableSync",
+                "OsScheduleTableSync",
+                parameters=[_enum_parameter("OsScheduleTblSyncStrategy", "IMPLICIT")],
+            ),
+            _container(
+                "ExpiryPoint1",
+                "OsScheduleTableExpiryPoint",
+                parameters=[
+                    _int_parameter("OsScheduleTblExpPointOffset", 2),
+                    _int_parameter("OsScheduleTableMaxShorten", 1),
+                    _int_parameter("OsScheduleTableMaxLengthen", 1),
+                ],
+                sub_containers=[
+                    _container(
+                        "OsScheduleTableTaskActivation",
+                        "OsScheduleTableTaskActivation",
+                        references=[_reference("OsScheduleTableActivateTaskRef", "/Os/Os/Task1")],
+                    )
+                ],
+            ),
+            _container(
+                "ExpiryPoint2",
+                "OsScheduleTableExpiryPoint",
+                parameters=[_int_parameter("OsScheduleTblExpPointOffset", 5)],
+                sub_containers=[
+                    _container(
+                        "OsScheduleTableEventSetting",
+                        "OsScheduleTableEventSetting",
+                        references=[
+                            _reference("OsScheduleTableSetEventTaskRef", "/Os/Os/Task2"),
+                            _reference("OsScheduleTableSetEventRef", "/Os/Os/Event1"),
+                        ],
+                    )
+                ],
+            ),
+        ],
+    )
+    containers = [
+        _container("HwCounter", "OsCounter"),
+        _container("OSDEFAULTAPPMODE", "OsAppMode"),
+        _container("Task1", "OsTask"),
+        _container("Task2", "OsTask"),
+        _container("Event1", "OsEvent"),
+        schedule_table_container,
+    ]
+    document = _build_document(containers)
+
+    result = OsEcucParser().parseEcuc(document)
+
+    schedule_table = result.getOsScheduleTables()[0]
+    assert schedule_table.getName() == "Table1"
+    assert schedule_table.getOsScheduleTableCounterRef() == "/Os/Os/HwCounter"
+    assert schedule_table.getOsScheduleTableDuration() == 10
+    assert schedule_table.getOsScheduleTableRepeating() is True
+    assert schedule_table.getOsScheduleTableAutostartType() == "RELATIVE"
+    assert schedule_table.getOsScheduleTableStartValue() == 0
+    assert schedule_table.getOsScheduleTableAppModeRef() == "/Os/Os/OSDEFAULTAPPMODE"
+    assert schedule_table.getOsScheduleTableSyncStrategy() == "IMPLICIT"
+
+    expiry_points = schedule_table.getOsScheduleTableExpiryPoints()
+    assert len(expiry_points) == 2
+    assert expiry_points[0].getOsScheduleTableExpiryPointOffset() == 2
+    assert expiry_points[0].getOsScheduleTableMaxShorten() == 1
+    assert expiry_points[0].getOsScheduleTableMaxLengthen() == 1
+    assert expiry_points[0].getOsScheduleTableActivateTaskRef() == "/Os/Os/Task1"
+    assert expiry_points[1].getOsScheduleTableExpiryPointOffset() == 5
+    assert expiry_points[1].getOsScheduleTableSetEventTaskRef() == "/Os/Os/Task2"
+    assert expiry_points[1].getOsScheduleTableSetEventRef() == "/Os/Os/Event1"
+
+
+def test_collect_schedule_table_unresolved_counter_ref_warns_and_preserves_destination(caplog):
+    containers = [_container("BadTable", "OsScheduleTable", references=[_reference("OsScheduleTableCounterRef", "/Os/Os/MissingCounter")])]
+    document = _build_document(containers)
+
+    with caplog.at_level(logging.WARNING):
+        result = OsEcucParser().parseEcuc(document)
+
+    assert result.getOsScheduleTables()[0].getOsScheduleTableCounterRef() == "/Os/Os/MissingCounter"
+    assert any("MissingCounter" in record.message for record in caplog.records)
+
+
+def test_collect_schedule_table_accessing_application_collected_as_path():
+    containers = [
+        _container("App1", "OsApplication"),
+        _container("Table2", "OsScheduleTable", references=[_reference("OsScheduleTableAccessingApplication", "/Os/Os/App1")]),
+    ]
+    document = _build_document(containers)
+
+    result = OsEcucParser().parseEcuc(document)
+
+    assert result.getOsScheduleTables()[0].getOsScheduleTableAccessingApplications() == ["/Os/Os/App1"]
