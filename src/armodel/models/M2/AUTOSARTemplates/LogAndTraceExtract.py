@@ -2,7 +2,8 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
@@ -217,4 +218,146 @@ class DltArgument(Identifiable):
         """
         if value is not None:
             self.variableLength = value
+        return self
+
+
+class DltMessage(Identifiable, VariationPointCapable):
+    """
+    This element defines a DltMessage.
+
+    [constr_5301] Existence of DltMessage.messageId: For each DltMessage, the attribute messageId shall exist when the Log And Trace Extract is created.
+    """
+
+    # DltMessage method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.50, p.12 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createDltArgument      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDltArguments        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMessageId           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMessageId           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMessageLineNumber   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMessageLineNumber   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMessageSourceFile   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMessageSourceFile   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMessageTypeInfo     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMessageTypeInfo     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPrivacyLevel        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPrivacyLevel        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Ordered collection of DltArguments in the DltMessage.
+        self.dltArguments: List[DltArgument] = []
+
+        # This attribute defines the unique Id for the DltMessage.
+        self.messageId: Optional[PositiveInteger] = None
+
+        # This attribute describes the position in the source file in which this log message was called.
+        self.messageLineNumber: Optional[PositiveInteger] = None
+
+        # This attribute describes the source file in which this log message was called.
+        self.messageSourceFile: Optional[String] = None
+
+        # This attribute describes the message Type
+        self.messageTypeInfo: Optional[String] = None
+
+        # The Privacy Level helps to identify the Log and Trace content towards the degree of privacy to it.
+        self.privacyLevel: Optional[PrivacyLevel] = None
+
+    def createDltArgument(self, short_name: str) -> "DltArgument":
+        """
+        Ordered collection of DltArguments in the DltMessage.
+        """
+        if not self.IsElementExists(short_name, DltArgument):
+            argument = DltArgument(self, short_name)
+            self.addElement(argument)
+            self.dltArguments.append(argument)
+        return self.getElement(short_name, DltArgument)
+
+    def getDltArguments(self) -> List["DltArgument"]:
+        """
+        Ordered collection of DltArguments in the DltMessage.
+        """
+        return self.dltArguments
+
+    def getMessageId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the unique Id for the DltMessage.
+        """
+        return self.messageId
+
+    def setMessageId(self, value: Optional[PositiveInteger]) -> "DltMessage":
+        """
+        This attribute defines the unique Id for the DltMessage.
+
+        A None value is a no-op and does not overwrite an existing messageId.
+        """
+        if value is not None:
+            self.messageId = value
+        return self
+
+    def getMessageLineNumber(self) -> Optional[PositiveInteger]:
+        """
+        This attribute describes the position in the source file in which this log message was called.
+        """
+        return self.messageLineNumber
+
+    def setMessageLineNumber(self, value: Optional[PositiveInteger]) -> "DltMessage":
+        """
+        This attribute describes the position in the source file in which this log message was called.
+
+        A None value is a no-op and does not overwrite an existing messageLineNumber.
+        """
+        if value is not None:
+            self.messageLineNumber = value
+        return self
+
+    def getMessageSourceFile(self) -> Optional[String]:
+        """
+        This attribute describes the source file in which this log message was called.
+        """
+        return self.messageSourceFile
+
+    def setMessageSourceFile(self, value: Optional[String]) -> "DltMessage":
+        """
+        This attribute describes the source file in which this log message was called.
+
+        A None value is a no-op and does not overwrite an existing messageSourceFile.
+        """
+        if value is not None:
+            self.messageSourceFile = value
+        return self
+
+    def getMessageTypeInfo(self) -> Optional[String]:
+        """
+        This attribute describes the message Type
+        """
+        return self.messageTypeInfo
+
+    def setMessageTypeInfo(self, value: Optional[String]) -> "DltMessage":
+        """
+        This attribute describes the message Type
+
+        A None value is a no-op and does not overwrite an existing messageTypeInfo.
+        """
+        if value is not None:
+            self.messageTypeInfo = value
+        return self
+
+    def getPrivacyLevel(self) -> Optional[PrivacyLevel]:
+        """
+        The Privacy Level helps to identify the Log and Trace content towards the degree of privacy to it.
+        """
+        return self.privacyLevel
+
+    def setPrivacyLevel(self, value: Optional[PrivacyLevel]) -> "DltMessage":
+        """
+        The Privacy Level helps to identify the Log and Trace content towards the degree of privacy to it.
+
+        A None value is a no-op and does not overwrite an existing privacyLevel.
+        """
+        if value is not None:
+            self.privacyLevel = value
         return self

@@ -939,7 +939,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
-from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltArgument, PrivacyLevel
+from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltArgument, DltMessage, PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
@@ -11849,6 +11849,25 @@ class ARXMLParser(AbstractARXMLParser):
         argument.setOptional(self.getChildElementOptionalBooleanValue(element, "OPTIONAL"))
         argument.setPredefinedText(self.getChildElementOptionalBooleanValue(element, "PREDEFINED-TEXT"))
         argument.setVariableLength(self.getChildElementOptionalBooleanValue(element, "VARIABLE-LENGTH"))
+
+    def readDltMessage(self, element: ET.Element, message: DltMessage):
+        self.readIdentifiable(element, message)
+        for child_element in self.findall(element, "DLT-ARGUMENTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "DLT-ARGUMENT":
+                argument = message.createDltArgument(self.getShortName(child_element))
+                self.readDltArgument(child_element, argument)
+            else:
+                self.notImplemented("Unsupported DltMessage Argument <%s>" % tag_name)
+        message.setMessageId(self.getChildElementOptionalPositiveInteger(element, "MESSAGE-ID"))
+        message.setMessageLineNumber(self.getChildElementOptionalPositiveInteger(element, "MESSAGE-LINE-NUMBER"))
+        message.setMessageSourceFile(self.getChildElementOptionalString(element, "MESSAGE-SOURCE-FILE"))
+        message.setMessageTypeInfo(self.getChildElementOptionalString(element, "MESSAGE-TYPE-INFO"))
+        privacy_level_element = self.find(element, "PRIVACY-LEVEL")
+        if privacy_level_element is not None:
+            privacy_level = PrivacyLevel()
+            self.readPrivacyLevel(privacy_level_element, privacy_level)
+            message.setPrivacyLevel(privacy_level)
 
     def readClientIdRange(self, element: ET.Element, id_range: ClientIdRange):
         id_range.setLowerLimit(self.getChildLimitElement(element, "LOWER-LIMIT"))

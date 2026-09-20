@@ -1,12 +1,13 @@
-"""Tests for PrivacyLevel (R23-11 AUTOSAR_FO_TPS_LogAndTraceExtract, Table 3.4, p.18) and DltArgument (R23-11 Table E.20, p.13)."""
+"""Tests for PrivacyLevel (R23-11 AUTOSAR_FO_TPS_LogAndTraceExtract, Table 3.4, p.18), DltArgument (R23-11 Table E.20, p.13) and DltMessage (R23-11 AUTOSAR_CP_TPS_SystemTemplate, Table F.50, p.12)."""
 
 import inspect
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType
-from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltArgument, PrivacyLevel
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltArgument, DltMessage, PrivacyLevel
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
@@ -186,3 +187,118 @@ class TestDltArgument:
         assert argument.getVariableLength().getValue() is False
         assert argument.setVariableLength(None) is argument
         assert argument.getVariableLength() is value
+
+
+class TestDltMessage:
+    """Test cases for DltMessage (R23-11 AUTOSAR_CP_TPS_SystemTemplate, Table F.50, p.12)."""
+
+    MEMBERS = [
+        "dltArguments",
+        "messageId",
+        "messageLineNumber",
+        "messageSourceFile",
+        "messageTypeInfo",
+        "privacyLevel",
+    ]
+
+    def _create_message(self, short_name: str = "dlt_message") -> DltMessage:
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        return DltMessage(ar_root, short_name)
+
+    def test_inheritance(self):
+        assert issubclass(DltMessage, ARObject)
+        assert issubclass(DltMessage, Referrable)
+        assert issubclass(DltMessage, MultilanguageReferrable)
+        assert issubclass(DltMessage, Identifiable)
+        assert issubclass(DltMessage, VariationPointCapable)
+
+    def test_class_docstring_note(self):
+        expected = (
+            "This element defines a DltMessage.\n"
+            "\n"
+            "[constr_5301] Existence of DltMessage.messageId: For each DltMessage, the attribute messageId shall exist when the Log And Trace Extract is created."
+        )
+        assert inspect.cleandoc(DltMessage.__doc__) == expected
+
+    def test_initialization_defaults(self):
+        message = self._create_message()
+        assert isinstance(message, ARObject)
+        assert isinstance(message, Referrable)
+        assert isinstance(message, MultilanguageReferrable)
+        assert isinstance(message, Identifiable)
+        assert isinstance(message, VariationPointCapable)
+        assert message.short_name == "dlt_message"
+        assert message.getDltArguments() == []
+        assert message.getMessageId() is None
+        assert message.getMessageLineNumber() is None
+        assert message.getMessageSourceFile() is None
+        assert message.getMessageTypeInfo() is None
+        assert message.getPrivacyLevel() is None
+
+    def test_member_order(self):
+        message = self._create_message()
+        members = [k for k in vars(message) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_create_dlt_argument(self):
+        message = self._create_message()
+        argument = message.createDltArgument("arg1")
+        assert isinstance(argument, DltArgument)
+        assert argument.short_name == "arg1"
+        assert argument.parent == message
+        assert message.getDltArguments() == [argument]
+        argument2 = message.createDltArgument("arg1")
+        assert argument2 is argument
+        assert len(message.getDltArguments()) == 1
+        argument3 = message.createDltArgument("arg2")
+        assert argument3 is not argument
+        assert argument3.short_name == "arg2"
+        assert len(message.getDltArguments()) == 2
+
+    def test_get_set_message_id(self):
+        message = self._create_message()
+        value = PositiveInteger()
+        value.setValue("42")
+        assert message == message.setMessageId(value)
+        assert message.getMessageId() is value
+        assert message.getMessageId().getValue() == 42
+        assert message.setMessageId(None) is message
+        assert message.getMessageId() is value
+
+    def test_get_set_message_line_number(self):
+        message = self._create_message()
+        value = PositiveInteger()
+        value.setValue("17")
+        assert message == message.setMessageLineNumber(value)
+        assert message.getMessageLineNumber() is value
+        assert message.getMessageLineNumber().getValue() == 17
+        assert message.setMessageLineNumber(None) is message
+        assert message.getMessageLineNumber() is value
+
+    def test_get_set_message_source_file(self):
+        message = self._create_message()
+        value = String()
+        value.setValue("logger.c")
+        assert message == message.setMessageSourceFile(value)
+        assert message.getMessageSourceFile() is value
+        assert message.getMessageSourceFile().getValue() == "logger.c"
+        assert message.setMessageSourceFile(None) is message
+        assert message.getMessageSourceFile() is value
+
+    def test_get_set_message_type_info(self):
+        message = self._create_message()
+        value = String()
+        value.setValue("DLT_LOG_INFO")
+        assert message == message.setMessageTypeInfo(value)
+        assert message.getMessageTypeInfo() is value
+        assert message.getMessageTypeInfo().getValue() == "DLT_LOG_INFO"
+        assert message.setMessageTypeInfo(None) is message
+        assert message.getMessageTypeInfo() is value
+
+    def test_get_set_privacy_level(self):
+        message = self._create_message()
+        value = PrivacyLevel()
+        assert message == message.setPrivacyLevel(value)
+        assert message.getPrivacyLevel() is value
+        assert message.setPrivacyLevel(None) is message
+        assert message.getPrivacyLevel() is value

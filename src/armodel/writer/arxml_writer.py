@@ -838,7 +838,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
-from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltArgument, PrivacyLevel
+from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltArgument, DltMessage, PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
@@ -10881,6 +10881,21 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "OPTIONAL", argument.getOptional())
         self.setChildElementOptionalBooleanValue(child_element, "PREDEFINED-TEXT", argument.getPredefinedText())
         self.setChildElementOptionalBooleanValue(child_element, "VARIABLE-LENGTH", argument.getVariableLength())
+
+    def writeDltMessage(self, element: ET.Element, message: DltMessage):
+        child_element = ET.SubElement(element, "DLT-MESSAGE")
+        self.writeIdentifiable(child_element, message)
+        arguments = message.getDltArguments()
+        if len(arguments) > 0:
+            arguments_element = ET.SubElement(child_element, "DLT-ARGUMENTS")
+            for argument in arguments:
+                self.writeDltArgument(arguments_element, argument)
+        self.setChildElementOptionalPositiveInteger(child_element, "MESSAGE-ID", message.getMessageId())
+        self.setChildElementOptionalPositiveInteger(child_element, "MESSAGE-LINE-NUMBER", message.getMessageLineNumber())
+        self.setChildElementOptionalString(child_element, "MESSAGE-SOURCE-FILE", message.getMessageSourceFile())
+        self.setChildElementOptionalString(child_element, "MESSAGE-TYPE-INFO", message.getMessageTypeInfo())
+        if message.getPrivacyLevel() is not None:
+            self.writePrivacyLevel(child_element, message.getPrivacyLevel())
 
     def writeClientIdRange(self, element: ET.Element, id_range: ClientIdRange):
         child_element = ET.SubElement(element, "CLIENT-ID-RANGE")
