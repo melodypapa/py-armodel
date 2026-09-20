@@ -6,10 +6,16 @@ from armodel.data_models.ecuc import OsOs
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
+    ConfigReferenceValue,
     Container,
+    EcucAbstractReferenceValue,
+    EcucModuleConfigurationValues,
+    EcucParameterValue,
     EnumerationValue,
     FloatValue,
     IntegerValue,
+    ModuleConfiguration,
+    ParameterValue,
     ReferenceValue,
     StringValue,
 )
@@ -144,6 +150,22 @@ def test_generic_ecuc_parser_discovers_module_containers():
 
     assert list(index) == ["/Os/Os/Generic_Task"]
     assert parser.get_definition_name(index["/Os/Os/Generic_Task"].getDefinitionRef()) == "OsTask"
+
+
+def test_generic_ecuc_parser_returns_existing_model_objects():
+    parameter = _int_parameter("OsTaskActivation", 1)
+    reference = _reference("OsTaskEventRef", "/Os/Os/Event")
+    container = _container("Typed_Task", "OsTask", parameters=[parameter], references=[reference])
+    document = _build_document([container])
+
+    parser = EcucParser()
+    modules = parser.get_modules(document)
+    values = parser.get_parameter_values(document.getARPackages()[0].getElement("Os", ModuleConfiguration).getContainers()[0])
+    references = parser.get_reference_values(document.getARPackages()[0].getElement("Os", ModuleConfiguration).getContainers()[0])
+
+    assert isinstance(modules[0], (ModuleConfiguration, EcucModuleConfigurationValues))
+    assert isinstance(values[0], (ParameterValue, EcucParameterValue))
+    assert isinstance(references[0], (ConfigReferenceValue, EcucAbstractReferenceValue))
 
 
 def test_numeric_string_values_are_converted_for_autosar_4_ecuc():
