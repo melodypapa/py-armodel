@@ -839,7 +839,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
 from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltEcu, DltMessage, PrivacyLevel
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import DltLogChannel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import DltConfig, DltLogChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
@@ -10953,6 +10953,21 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "SEGMENTATION-SUPPORTED", channel.getSegmentationSupported())
         self.setChildElementOptionalRefType(child_element, "TX-PDU-TRIGGERING-REF", channel.getTxPduTriggeringRef())
 
+    def writeDltConfig(self, element: ET.Element, config: DltConfig):
+        child_element = ET.SubElement(element, "DLT-CONFIG")
+        self.writeARObject(child_element, config)
+        self.setChildElementOptionalRefType(child_element, "DLT-ECU-REF", config.getDltEcuRef())
+        channels = config.getDltLogChannels()
+        if len(channels) > 0:
+            channels_element = ET.SubElement(child_element, "DLT-LOG-CHANNELS")
+            for channel in channels:
+                if isinstance(channel, DltLogChannel):
+                    self.writeDltLogChannel(channels_element, channel)
+                else:
+                    self.notImplemented("Unsupported DltConfig DltLogChannel <%s>" % type(channel))
+        self.setChildElementOptionalBooleanValue(child_element, "SESSION-ID-SUPPORT", config.getSessionIdSupport())
+        self.setChildElementOptionalBooleanValue(child_element, "TIMESTAMP-SUPPORT", config.getTimestampSupport())
+
     def writeClientIdRange(self, element: ET.Element, id_range: ClientIdRange):
         child_element = ET.SubElement(element, "CLIENT-ID-RANGE")
         self.setChildLimitElement(child_element, "LOWER-LIMIT", id_range.getLowerLimit())
@@ -10961,6 +10976,10 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeEcuInstanceClientIdRange(self, element: ET.Element, instance: EcuInstance):
         if instance.getClientIdRange() is not None:
             self.writeClientIdRange(element, instance.getClientIdRange())
+
+    def writeEcuInstanceDltConfig(self, element: ET.Element, instance: EcuInstance):
+        if instance.getDltConfig() is not None:
+            self.writeDltConfig(element, instance.getDltConfig())
 
     def writeEcuInstanceDoIpConfig(self, element: ET.Element, instance: EcuInstance):
         if instance.getDoIpConfig() is not None:
@@ -10981,6 +11000,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "COM-ENABLE-MDT-FOR-CYCLIC-TRANSMISSION", instance.getComEnableMDTForCyclicTransmission())  # noqa E501
         self.writeEcuInstanceCommControllers(child_element, instance)
         self.writeEcuInstanceConnectors(child_element, instance)
+        self.writeEcuInstanceDltConfig(child_element, instance)
         self.writeEcuInstanceDoIpConfig(child_element, instance)
         self.writeEcuInstanceEcuTaskProxyRefs(child_element, instance)
         self.setChildElementOptionalBooleanValue(child_element, "ETH-SWITCH-PORT-GROUP-DERIVATION", instance.getEthSwitchPortGroupDerivation())

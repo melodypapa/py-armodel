@@ -876,8 +876,8 @@ class EcuInstance(FibexElement):
     # [x] createFlexrayCommunicationConnector                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createLinCommunicationConnector                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getConnectors                                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] getDltConfig                                          [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] setDltConfig                                          [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getDltConfig                                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDltConfig                                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getDoIpConfig                                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setDoIpConfig                                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] addEcuTaskProxyRef                                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -908,9 +908,10 @@ class EcuInstance(FibexElement):
     # [x] getWakeUpOverBusSupported                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setWakeUpOverBusSupported                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # Deferred reader/writer rows ([ ]) pending missing child classes (Rule 0001.10):
-    # dltConfig (DltConfig);
     # clientIdRange (ClientIdRange) wired 2026-09-20: reader via readEcuInstanceClientIdRange (create + fill),
     # writer via writeEcuInstanceClientIdRange (getClientIdRange), CLIENT-ID-RANGE element between CHANNEL-SYNCHRONOUS-WAKEUP and COM-CONFIGURATION-GW-TIME-BASE.
+    # dltConfig (DltConfig) wired 2026-09-20: reader via readEcuInstanceDltConfig (create + fill),
+    # writer via writeEcuInstanceDltConfig (getDltConfig), DLT-CONFIG element between CONNECTORS and DO-IP-CONFIG.
     # doIpConfig (DoIpConfig) wired 2026-09-20: reader via readEcuInstanceDoIpConfig (create + fill),
     # writer via writeEcuInstanceDoIpConfig (getDoIpConfig), DO-IP-CONFIG element between CONNECTORS and ECU-TASK-PROXY-REFS.
     # partition (EcuPartition) wired 2026-09-20: reader via createEcuPartition, writer via getPartitions;
@@ -953,7 +954,6 @@ class EcuInstance(FibexElement):
         self.connectors: List[CommunicationConnector] = []
 
         # Describes the Dlt configuration on this EcuInstance.
-        # DltConfig class is not yet implemented (Rule 0001.10 placeholder)
         self.dltConfig: Optional["DltConfig"] = None
 
         # DoIp configuration on this EcuInstance.

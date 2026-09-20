@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import (
+    DltConfig,
     DltDefaultTraceStateEnum,
     DltLogChannel,
     LogTraceDefaultLogLevelEnum,
@@ -268,3 +269,87 @@ class TestDltLogChannel:
         assert channel.getTxPduTriggeringRef().getValue() == "/Topology/Cluster/PhysicalChannel/PduTriggering2"
         assert channel.setTxPduTriggeringRef(None) is channel
         assert channel.getTxPduTriggeringRef() is value
+
+
+class TestDltConfig:
+    """Tests for DltConfig (R23-11 AUTOSAR_CP_TPS_SystemTemplate, Table 6.335, p.722)."""
+
+    MEMBERS = [
+        "dltEcuRef",
+        "dltLogChannels",
+        "sessionIdSupport",
+        "timestampSupport",
+    ]
+
+    def _create_config(self) -> DltConfig:
+        return DltConfig()
+
+    def test_inheritance(self):
+        assert issubclass(DltConfig, ARObject)
+
+    def test_class_docstring_note(self):
+        expected = (
+            "This element defines a Dlt configuration for a specific Ecu.\n"
+            "\n"
+            "[constr_5309] Existence of DltConfig.sessionIdSupport: For each DltConfig, the attribute sessionIdSupport shall be defined at the time when the System Description is complete.\n"
+            "\n"
+            "[constr_5310] Existence of DltConfig.timestampSupport: For each DltConfig, the attribute timestampSupport shall be defined at the time when the System Description is complete."
+        )
+        assert inspect.cleandoc(DltConfig.__doc__) == expected
+
+    def test_initialization_defaults(self):
+        config = self._create_config()
+        assert isinstance(config, ARObject)
+        assert config.getDltEcuRef() is None
+        assert config.getDltLogChannels() == []
+        assert config.getSessionIdSupport() is None
+        assert config.getTimestampSupport() is None
+
+    def test_member_order(self):
+        config = self._create_config()
+        members = [k for k in vars(config) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_dlt_ecu_ref(self):
+        config = self._create_config()
+        value = RefType()
+        value.setValue("/LogAndTrace/DltEcus/Ecu1")
+        assert config == config.setDltEcuRef(value)
+        assert config.getDltEcuRef() is value
+        assert config.getDltEcuRef().getValue() == "/LogAndTrace/DltEcus/Ecu1"
+        assert config.setDltEcuRef(None) is config
+        assert config.getDltEcuRef() is value
+
+    def test_create_dlt_log_channel(self):
+        config = self._create_config()
+        channel = config.createDltLogChannel("Channel1")
+        assert isinstance(channel, DltLogChannel)
+        assert channel.getShortName() == "Channel1"
+        assert config.getDltLogChannels() == [channel]
+        duplicate = config.createDltLogChannel("Channel1")
+        assert duplicate is channel
+        assert len(config.getDltLogChannels()) == 1
+
+    def test_get_dlt_log_channels_empty(self):
+        config = self._create_config()
+        assert config.getDltLogChannels() == []
+
+    def test_get_set_session_id_support(self):
+        config = self._create_config()
+        value = Boolean()
+        value.setValue("true")
+        assert config == config.setSessionIdSupport(value)
+        assert config.getSessionIdSupport() is value
+        assert config.getSessionIdSupport().getValue() is True
+        assert config.setSessionIdSupport(None) is config
+        assert config.getSessionIdSupport() is value
+
+    def test_get_set_timestamp_support(self):
+        config = self._create_config()
+        value = Boolean()
+        value.setValue("false")
+        assert config == config.setTimestampSupport(value)
+        assert config.getTimestampSupport() is value
+        assert config.getTimestampSupport().getValue() is False
+        assert config.setTimestampSupport(None) is config
+        assert config.getTimestampSupport() is value

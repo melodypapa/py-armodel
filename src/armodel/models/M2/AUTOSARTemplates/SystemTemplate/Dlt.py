@@ -297,3 +297,106 @@ class DltLogChannel(Identifiable):
         if value is not None:
             self.txPduTriggeringRef = value
         return self
+
+
+class DltConfig(ARObject):
+    """
+    This element defines a Dlt configuration for a specific Ecu.
+
+    [constr_5309] Existence of DltConfig.sessionIdSupport: For each DltConfig, the attribute sessionIdSupport shall be defined at the time when the System Description is complete.
+
+    [constr_5310] Existence of DltConfig.timestampSupport: For each DltConfig, the attribute timestampSupport shall be defined at the time when the System Description is complete.
+    """
+
+    # DltConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.335, p.722 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDltEcuRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDltEcuRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDltLogChannel    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDltLogChannels      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSessionIdSupport    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSessionIdSupport    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimestampSupport    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimestampSupport    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to the Ecu representation in the Log And Trace Extract.
+        self.dltEcuRef: Optional[RefType] = None
+
+        # Describes the DltLogChannels that are configured for the log/trace message output
+        self.dltLogChannels: List[DltLogChannel] = []
+
+        # This attribute defines whether the sessionId is used or not.
+        self.sessionIdSupport: Optional[Boolean] = None
+
+        # This attribute defines whether a timestamp shall be added to the Dlt messages or not.
+        self.timestampSupport: Optional[Boolean] = None
+
+    def getDltEcuRef(self) -> Optional[RefType]:
+        """
+        Reference to the Ecu representation in the Log And Trace Extract.
+        """
+        return self.dltEcuRef
+
+    def setDltEcuRef(self, value: Optional[RefType]) -> "DltConfig":
+        """
+        Reference to the Ecu representation in the Log And Trace Extract.
+
+        A None value is a no-op and does not overwrite an existing dltEcuRef.
+        """
+        if value is not None:
+            self.dltEcuRef = value
+        return self
+
+    def createDltLogChannel(self, short_name: str) -> DltLogChannel:
+        """
+        Describes the DltLogChannels that are configured for the log/trace message output
+        """
+        for channel in self.dltLogChannels:
+            if channel.getShortName() == short_name:
+                return channel
+        channel = DltLogChannel(self, short_name)
+        self.dltLogChannels.append(channel)
+        return channel
+
+    def getDltLogChannels(self) -> List[DltLogChannel]:
+        """
+        Describes the DltLogChannels that are configured for the log/trace message output
+        """
+        return self.dltLogChannels
+
+    def getSessionIdSupport(self) -> Optional[Boolean]:
+        """
+        This attribute defines whether the sessionId is used or not.
+        """
+        return self.sessionIdSupport
+
+    def setSessionIdSupport(self, value: Optional[Boolean]) -> "DltConfig":
+        """
+        This attribute defines whether the sessionId is used or not.
+
+        A None value is a no-op and does not overwrite an existing sessionIdSupport.
+        """
+        if value is not None:
+            self.sessionIdSupport = value
+        return self
+
+    def getTimestampSupport(self) -> Optional[Boolean]:
+        """
+        This attribute defines whether a timestamp shall be added to the Dlt messages or not.
+        """
+        return self.timestampSupport
+
+    def setTimestampSupport(self, value: Optional[Boolean]) -> "DltConfig":
+        """
+        This attribute defines whether a timestamp shall be added to the Dlt messages or not.
+
+        A None value is a no-op and does not overwrite an existing timestampSupport.
+        """
+        if value is not None:
+            self.timestampSupport = value
+        return self
