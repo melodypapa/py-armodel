@@ -50,3 +50,42 @@ OsTask:
   OsStacksize: 512
   OsTaskAccessingApplication:
   - OsApplication_QM
+OsAlarm:
+- name: AlarmSetRteShutdownEvent
+  OsAlarmCounterRef: /Os/Os/Rte_Counter
+  OsAlarmSetEventTaskRef: /Os/Os/Rte_Event_Task
+  OsAlarmSetEventRef: /Os/Os/Rte_OSShutdownEvent
+- name: AlarmIncrementRteCounter
+  OsAlarmCounterRef: /Os/Os/HwCounter
+  OsAlarmIncrementCounterRef: /Os/Os/Rte_Counter
+  OsAlarmAlarmTime: 1
+  OsAlarmAutostartType: RELATIVE
+  OsAlarmCycleTime: 1
+  OsAlarmAppModeRef: /Os/Os/OSDEFAULTAPPMODE
+OsIsr:
+- name: CanIsr
+  OsIsrCategory: CATEGORY_2
+  OsIsrPeriod: 0.005
+  OsIsrExecutionBudget: 0.001
+  OsIsrTimeFrame: 0.02
+  OsIsrResourceLockBudget:
+  - 0.0005
+  OsIsrResourceLockResourceRef:
+  - /Os/Os/OsStackResource
+OsScheduleTable:
+- name: SystemScheduleTable
+  OsScheduleTableCounterRef: /Os/Os/HwCounter
+  OsScheduleTableDuration: 10
+  OsScheduleTableRepeating: true
+  OsScheduleTableAutostartType: RELATIVE
+  OsScheduleTableStartValue: 0
+  OsScheduleTableAppModeRef: /Os/Os/OSDEFAULTAPPMODE
+  OsScheduleTableSyncStrategy: IMPLICIT
+  OsScheduleTableExpiryPoint:
+  - OsScheduleTblExpPointOffset: 2
+    OsScheduleTableActivateTaskRef: /Os/Os/Rte_Time_Task
+  - OsScheduleTblExpPointOffset: 5
+    OsScheduleTableMaxShorten: 1
+    OsScheduleTableMaxLengthen: 1
+    OsScheduleTableSetEventTaskRef: /Os/Os/Rte_Event_Task
+    OsScheduleTableSetEventRef: /Os/Os/Rte_OSShutdownEvent
