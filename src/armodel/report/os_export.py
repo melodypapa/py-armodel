@@ -1,7 +1,7 @@
 import os
 from typing import Any, Dict, List, Union
 
-from armodel.data_models.os import OsApplication, OsOs, OsTask
+from armodel.data_models.ecuc import OsApplication, OsOs, OsTask
 from armodel.report.excel_report import ExcelReporter
 
 

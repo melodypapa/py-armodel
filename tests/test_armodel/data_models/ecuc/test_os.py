@@ -1,4 +1,4 @@
-from armodel.data_models.os import OsApplication, OsOs, OsTask
+from armodel.data_models.ecuc import OsApplication, OsOs, OsTask
 
 
 def test_os_model_identity_and_standard_fields():

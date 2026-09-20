@@ -1,7 +1,7 @@
 import logging
 from typing import Dict, List, Optional, Tuple
 
-from armodel.data_models.os import OsApplication, OsOs, OsTask
+from armodel.data_models.ecuc import OsApplication, OsOs, OsTask
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucModuleConfigurationValues,

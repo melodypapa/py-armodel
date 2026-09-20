@@ -4,7 +4,7 @@ import pytest
 import yaml
 from openpyxl import load_workbook
 
-from armodel.data_models.os import OsApplication, OsOs, OsTask
+from armodel.data_models.ecuc import OsApplication, OsOs, OsTask
 from armodel.report import write_xlsx, write_yaml
 
 
