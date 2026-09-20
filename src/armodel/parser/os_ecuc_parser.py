@@ -44,6 +44,7 @@ class OsEcucParser(EcucParser):
             if self.get_definition_name(container.getDefinitionRef()) == "OsTask":
                 task = OsTask()
                 task.setName(container.getShortName())
+                self.logger.info("Parsing OsTask: %s", task.getName())
                 self.get_collect_task(task, container, index, warning)
                 tasks[path] = task
                 os_os.addOsTask(task)
@@ -52,6 +53,7 @@ class OsEcucParser(EcucParser):
             if self.get_definition_name(container.getDefinitionRef()) == "OsApplication":
                 application = OsApplication()
                 application.setName(container.getShortName())
+                self.logger.info("Parsing OsApplication: %s", application.getName())
                 self.get_collect_application(application, container, index, warning)
                 applications[path] = application
                 os_os.addOsApplication(application)
@@ -63,6 +65,12 @@ class OsEcucParser(EcucParser):
         return os_os
 
     def get_bool(self, name: str, raw: EcucScalar) -> Optional[bool]:
+        """Convert an ECUC scalar to a boolean OS parameter value.
+
+        Boolean values accept native booleans and the strings ``true``,
+        ``false``, ``1``, and ``0``. ``None`` is preserved for optional
+        parameters; invalid values raise :class:`OsEcucConversionError`.
+        """
         if raw is None:
             return None
         if isinstance(raw, bool):
@@ -72,6 +80,13 @@ class OsEcucParser(EcucParser):
         raise OsEcucConversionError("Parameter %s expects a boolean value, got %r" % (name, raw))
 
     def get_int(self, name: str, raw: EcucScalar) -> Optional[int]:
+        """Convert an ECUC scalar to an integer OS parameter value.
+
+        Native integers, integral floats, and strings accepted by
+        ``int(value, 0)`` are supported. ``None`` is preserved for optional
+        parameters; booleans and invalid values raise
+        :class:`OsEcucConversionError`.
+        """
         if raw is None:
             return None
         if isinstance(raw, bool):
@@ -88,6 +103,12 @@ class OsEcucParser(EcucParser):
         raise OsEcucConversionError("Parameter %s expects an integer value, got %r" % (name, raw))
 
     def get_float(self, name: str, raw: EcucScalar) -> Optional[float]:
+        """Convert an ECUC scalar to a floating-point OS parameter value.
+
+        Numeric values and numeric strings are accepted. ``None`` is
+        preserved for optional parameters; booleans and invalid values raise
+        :class:`OsEcucConversionError`.
+        """
         if raw is None:
             return None
         if isinstance(raw, str):
@@ -100,6 +121,11 @@ class OsEcucParser(EcucParser):
         return float(raw)
 
     def get_str(self, name: str, raw: EcucScalar) -> Optional[str]:
+        """Validate and return a string-valued OS parameter.
+
+        ``None`` is preserved for optional parameters. Non-string values
+        raise :class:`OsEcucConversionError`.
+        """
         if raw is None:
             return None
         if not isinstance(raw, str):
@@ -107,10 +133,12 @@ class OsEcucParser(EcucParser):
         return raw
 
     def get_unique(self, target: List[ValueType], value: ValueType) -> None:
+        """Append ``value`` to ``target`` only when it is not already present."""
         if value not in target:
             target.append(value)
 
     def get_lookup_task(self, name: str, path: str, tasks: Dict[str, OsTask], index: Dict[str, Container], warning: bool) -> Optional[OsTask]:
+        """Resolve an OS task reference and apply strict or warning handling."""
         if path in tasks:
             return tasks[path]
         info = index.get(path)
@@ -125,6 +153,7 @@ class OsEcucParser(EcucParser):
         return None
 
     def get_lookup_application(self, name: str, path: str, applications: Dict[str, OsApplication], index: Dict[str, Container], warning: bool) -> Optional[OsApplication]:
+        """Resolve an OS-Application reference and apply strict or warning handling."""
         if path in applications:
             return applications[path]
         info = index.get(path)

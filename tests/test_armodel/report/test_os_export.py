@@ -126,7 +126,9 @@ def test_write_xlsx_rows_use_name_identity_and_exact_fields(tmp_path: Path):
     rows = list(task_sheet.iter_rows(min_row=2, values_only=True))
     assert rows[0][headers.index("name")] == "Task"
     assert rows[0][headers.index("OsTaskPriority")] == 5
-    assert rows[0][headers.index("OsTaskEventRef")] == "/Os/Os/Event1, /Os/Os/Event2"
+    event_cell = task_sheet.cell(row=2, column=headers.index("OsTaskEventRef") + 1)
+    assert event_cell.value == "/Os/Os/Event1\n/Os/Os/Event2"
+    assert event_cell.alignment.wrap_text is True
 
     application_sheet = workbook["OsApplication"]
     app_headers = [cell.value for cell in application_sheet[1]]

@@ -5,22 +5,55 @@ class OsApplication:
     """AUTOSAR OS-Application configuration as defined by SWS_Os_00114."""
 
     def __init__(self) -> None:
+        # Short name identifying the OS-Application.
         self.name: str = ""
+
+        # Specifies whether the OS-Application is trusted.
         self.osTrusted: Optional[bool] = None
+
+        # Specifies whether timing violations in a trusted OS-Application are delayed until return to the calling OS-Application.
         self.osTrustedApplicationDelayTimingViolationCall: Optional[bool] = None
+
+        # Specifies whether a trusted OS-Application is executed with memory protection.
         self.osTrustedApplicationWithProtection: Optional[bool] = None
+
+        # Specifies the OsAlarms that belong to the OS-Application.
         self.osAppAlarmRef: List[str] = []
+
+        # References the OsCounters that belong to the OS-Application.
         self.osAppCounterRef: List[str] = []
+
+        # Denotes which EcucPartition is implemented by this OS-Application.
         self.osAppEcucPartitionRef: Optional[str] = None
+
+        # References the OsISRs that belong to the OS-Application.
         self.osAppIsrRef: List[str] = []
+
+        # References the OsScheduleTables that belong to the OS-Application.
         self.osAppScheduleTableRef: List[str] = []
+
+        # References the OsTasks that belong to the OS-Application.
         self.osAppTaskRef: List[OsTask] = []
+
+        # Specifies the memory mapping code location of the OS-Application.
         self.osMemoryMappingCodeLocationRef: Optional[str] = None
+
+        # References the task that shall be executed when the OS-Application is restarted.
         self.osRestartTask: Optional[OsTask] = None
+
+        # Specifies whether the startup hook is enabled for the OS-Application.
         self.osAppStartupHook: Optional[bool] = None
+
+        # Specifies whether the error hook is enabled for the OS-Application.
         self.osAppErrorHook: Optional[bool] = None
+
+        # Specifies whether the shutdown hook is enabled for the OS-Application.
         self.osAppShutdownHook: Optional[bool] = None
+
+        # Contains the names of trusted functions provided by the OS-Application.
         self.osTrustedFunctionName: List[str] = []
+
+        # Specifies the initial state of the OS-Application.
         self.applicationState: str = "APPLICATION_ACCESSIBLE"
 
     def getName(self) -> str:
@@ -147,22 +180,55 @@ class OsTask:
     """AUTOSAR OS task configuration as defined by SWS_Os_00073."""
 
     def __init__(self) -> None:
+        # Short name identifying the OS task.
         self.name: str = ""
+
+        # Defines the maximum number of queued activation requests for the task.
         self.osTaskActivation: Optional[int] = None
+
+        # Specifies the period in seconds for a cyclically activated task.
         self.osTaskPeriod: Optional[float] = None
+
+        # Specifies the priority of the task.
         self.osTaskPriority: Optional[int] = None
+
+        # Specifies the scheduling policy of the task.
         self.osTaskSchedule: Optional[str] = None
+
+        # Specifies the stack size of the task.
         self.osStacksize: Optional[int] = None
+
+        # Specifies the memory mapping code location of the task.
         self.osMemoryMappingCodeLocationRef: Optional[str] = None
+
+        # References the OS-Applications that have access to the task.
         self.osTaskAccessingApplication: List[OsApplication] = []
+
+        # References the events assigned to the task.
         self.osTaskEventRef: List[str] = []
+
+        # References the resources assigned to the task.
         self.osTaskResourceRef: List[str] = []
+
+        # References the application modes in which the task is started automatically.
         self.osTaskAppModeRef: List[str] = []
+
+        # Specifies the maximum time for which the task may lock all interrupts.
         self.osTaskAllInterruptLockBudget: Optional[float] = None
+
+        # Specifies the execution-time budget of the task.
         self.osTaskExecutionBudget: Optional[float] = None
+
+        # Specifies the maximum time for which the task may lock OS interrupts.
         self.osTaskOsInterruptLockBudget: Optional[float] = None
+
+        # Specifies the time frame used for task arrival protection.
         self.osTaskTimeFrame: Optional[float] = None
+
+        # Specifies the resource-lock budgets configured for the task.
         self.osTaskResourceLockBudget: List[float] = []
+
+        # References the resources associated with the resource-lock budgets.
         self.osTaskResourceLockResourceRef: List[str] = []
 
     def getName(self) -> str:
@@ -289,8 +355,13 @@ class OsOs:
     """Semantic OS configuration containing applications and tasks."""
 
     def __init__(self) -> None:
+        # Short name identifying the OS configuration.
         self.name: str = ""
+
+        # Contains the semantic OS-Application objects extracted from ECUC.
         self.osApplication: List[OsApplication] = []
+
+        # Contains the semantic OS task objects extracted from ECUC.
         self.osTask: List[OsTask] = []
 
     def getName(self) -> str:

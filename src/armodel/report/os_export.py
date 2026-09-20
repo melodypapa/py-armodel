@@ -1,6 +1,8 @@
 import os
 from typing import Any, Dict, List, Union
 
+from openpyxl.styles import Alignment
+
 from armodel.data_models.ecuc import OsApplication, OsOs, OsTask
 from armodel.report.excel_report import ExcelReporter
 
@@ -90,9 +92,11 @@ class OsConfigXlsxExporter(ExcelReporter):
             for row_index, row in enumerate(rows):
                 for column_index, header in enumerate(headers):
                     value = row[header]
+                    format = None
                     if isinstance(value, list):
-                        value = ", ".join(str(item) for item in value)
-                    self.write_cell(sheet, row_index + 2, column_index + 1, value)
+                        value = "\n".join(str(item) for item in value)
+                        format = {"alignment": Alignment(wrap_text=True)}
+                    self.write_cell(sheet, row_index + 2, column_index + 1, value, format)
             self.auto_width(sheet)
         self.save(output_path)
 
