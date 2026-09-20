@@ -631,6 +631,186 @@ class OsIsr:
         return self
 
 
+class OsScheduleTableExpiryPoint:
+    """AUTOSAR OS schedule table expiry point configuration as defined by SWS_Os_00235."""
+
+    def __init__(self) -> None:
+        # Specifies the offset of the expiry point (counter ticks).
+        self.osScheduleTableExpiryPointOffset: Optional[int] = None
+
+        # Specifies the maximum number of ticks that can be subtracted from the expiry point offset.
+        self.osScheduleTableMaxShorten: Optional[int] = None
+
+        # Specifies the maximum number of ticks that can be added to the expiry point offset.
+        self.osScheduleTableMaxLengthen: Optional[int] = None
+
+        # References the task that is activated at the expiry point (OsScheduleTableTaskActivation).
+        self.osScheduleTableActivateTaskRef: Optional[str] = None
+
+        # References the task that receives the event at the expiry point (OsScheduleTableEventSetting).
+        self.osScheduleTableSetEventTaskRef: Optional[str] = None
+
+        # References the event that is set at the expiry point (OsScheduleTableEventSetting).
+        self.osScheduleTableSetEventRef: Optional[str] = None
+
+    def getOsScheduleTableExpiryPointOffset(self) -> Optional[int]:
+        return self.osScheduleTableExpiryPointOffset
+
+    def setOsScheduleTableExpiryPointOffset(self, value: Optional[int]) -> "OsScheduleTableExpiryPoint":
+        self.osScheduleTableExpiryPointOffset = value
+        return self
+
+    def getOsScheduleTableMaxShorten(self) -> Optional[int]:
+        return self.osScheduleTableMaxShorten
+
+    def setOsScheduleTableMaxShorten(self, value: Optional[int]) -> "OsScheduleTableExpiryPoint":
+        self.osScheduleTableMaxShorten = value
+        return self
+
+    def getOsScheduleTableMaxLengthen(self) -> Optional[int]:
+        return self.osScheduleTableMaxLengthen
+
+    def setOsScheduleTableMaxLengthen(self, value: Optional[int]) -> "OsScheduleTableExpiryPoint":
+        self.osScheduleTableMaxLengthen = value
+        return self
+
+    def getOsScheduleTableActivateTaskRef(self) -> Optional[str]:
+        return self.osScheduleTableActivateTaskRef
+
+    def setOsScheduleTableActivateTaskRef(self, value: Optional[str]) -> "OsScheduleTableExpiryPoint":
+        self.osScheduleTableActivateTaskRef = value
+        return self
+
+    def getOsScheduleTableSetEventTaskRef(self) -> Optional[str]:
+        return self.osScheduleTableSetEventTaskRef
+
+    def setOsScheduleTableSetEventTaskRef(self, value: Optional[str]) -> "OsScheduleTableExpiryPoint":
+        self.osScheduleTableSetEventTaskRef = value
+        return self
+
+    def getOsScheduleTableSetEventRef(self) -> Optional[str]:
+        return self.osScheduleTableSetEventRef
+
+    def setOsScheduleTableSetEventRef(self, value: Optional[str]) -> "OsScheduleTableExpiryPoint":
+        self.osScheduleTableSetEventRef = value
+        return self
+
+
+class OsScheduleTable:
+    """AUTOSAR OS schedule table configuration as defined by SWS_Os_00232."""
+
+    def __init__(self) -> None:
+        # Short name identifying the OS schedule table.
+        self.name: str = ""
+
+        # References the counter that drives the schedule table.
+        self.osScheduleTableCounterRef: Optional[str] = None
+
+        # Specifies the duration of the schedule table (counter ticks).
+        self.osScheduleTableDuration: Optional[int] = None
+
+        # Specifies whether the schedule table is repeated after completion.
+        self.osScheduleTableRepeating: Optional[bool] = None
+
+        # References the OS-Applications that have access to the schedule table.
+        self.osScheduleTableAccessingApplication: List[str] = []
+
+        # Contains the expiry points of the schedule table in configuration order.
+        self.osScheduleTableExpiryPoint: List[OsScheduleTableExpiryPoint] = []
+
+        # Specifies whether the autostart schedule table is ABSOLUTE or RELATIVE.
+        self.osScheduleTableAutostartType: Optional[str] = None
+
+        # Specifies the absolute tick value or relative offset when the schedule table starts.
+        self.osScheduleTableStartValue: Optional[int] = None
+
+        # References the application mode in which the schedule table is started automatically.
+        self.osScheduleTableAppModeRef: Optional[str] = None
+
+        # Specifies the synchronization strategy (NONE, IMPLICIT, or EXPLICIT).
+        self.osScheduleTableSyncStrategy: Optional[str] = None
+
+        # Specifies the maximum adjustment for explicit synchronization (counter ticks).
+        self.osScheduleTableExplicitPrecision: Optional[int] = None
+
+    def getName(self) -> str:
+        return self.name
+
+    def setName(self, value: str) -> "OsScheduleTable":
+        self.name = value
+        return self
+
+    def getOsScheduleTableCounterRef(self) -> Optional[str]:
+        return self.osScheduleTableCounterRef
+
+    def setOsScheduleTableCounterRef(self, value: Optional[str]) -> "OsScheduleTable":
+        self.osScheduleTableCounterRef = value
+        return self
+
+    def getOsScheduleTableDuration(self) -> Optional[int]:
+        return self.osScheduleTableDuration
+
+    def setOsScheduleTableDuration(self, value: Optional[int]) -> "OsScheduleTable":
+        self.osScheduleTableDuration = value
+        return self
+
+    def getOsScheduleTableRepeating(self) -> Optional[bool]:
+        return self.osScheduleTableRepeating
+
+    def setOsScheduleTableRepeating(self, value: Optional[bool]) -> "OsScheduleTable":
+        self.osScheduleTableRepeating = value
+        return self
+
+    def getOsScheduleTableAccessingApplications(self) -> List[str]:
+        return self.osScheduleTableAccessingApplication
+
+    def addOsScheduleTableAccessingApplication(self, value: str) -> "OsScheduleTable":
+        self.osScheduleTableAccessingApplication.append(value)
+        return self
+
+    def getOsScheduleTableExpiryPoints(self) -> List[OsScheduleTableExpiryPoint]:
+        return self.osScheduleTableExpiryPoint
+
+    def addOsScheduleTableExpiryPoint(self, value: OsScheduleTableExpiryPoint) -> "OsScheduleTable":
+        self.osScheduleTableExpiryPoint.append(value)
+        return self
+
+    def getOsScheduleTableAutostartType(self) -> Optional[str]:
+        return self.osScheduleTableAutostartType
+
+    def setOsScheduleTableAutostartType(self, value: Optional[str]) -> "OsScheduleTable":
+        self.osScheduleTableAutostartType = value
+        return self
+
+    def getOsScheduleTableStartValue(self) -> Optional[int]:
+        return self.osScheduleTableStartValue
+
+    def setOsScheduleTableStartValue(self, value: Optional[int]) -> "OsScheduleTable":
+        self.osScheduleTableStartValue = value
+        return self
+
+    def getOsScheduleTableAppModeRef(self) -> Optional[str]:
+        return self.osScheduleTableAppModeRef
+
+    def setOsScheduleTableAppModeRef(self, value: Optional[str]) -> "OsScheduleTable":
+        self.osScheduleTableAppModeRef = value
+        return self
+
+    def getOsScheduleTableSyncStrategy(self) -> Optional[str]:
+        return self.osScheduleTableSyncStrategy
+
+    def setOsScheduleTableSyncStrategy(self, value: Optional[str]) -> "OsScheduleTable":
+        self.osScheduleTableSyncStrategy = value
+        return self
+
+    def getOsScheduleTableExplicitPrecision(self) -> Optional[int]:
+        return self.osScheduleTableExplicitPrecision
+
+    def setOsScheduleTableExplicitPrecision(self, value: Optional[int]) -> "OsScheduleTable":
+        self.osScheduleTableExplicitPrecision = value
+        return self
+
+
 class OsOs:
     """Semantic OS configuration containing applications and tasks."""
 
@@ -649,6 +829,9 @@ class OsOs:
 
         # Contains the semantic OS ISR objects extracted from ECUC.
         self.osIsr: List[OsIsr] = []
+
+        # Contains the semantic OS schedule table objects extracted from ECUC.
+        self.osScheduleTable: List[OsScheduleTable] = []
 
     def getName(self) -> str:
         return self.name
@@ -683,6 +866,13 @@ class OsOs:
 
     def addOsIsr(self, value: OsIsr) -> "OsOs":
         self.osIsr.append(value)
+        return self
+
+    def getOsScheduleTables(self) -> List[OsScheduleTable]:
+        return self.osScheduleTable
+
+    def addOsScheduleTable(self, value: OsScheduleTable) -> "OsOs":
+        self.osScheduleTable.append(value)
         return self
 
     @classmethod

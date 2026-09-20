@@ -1,4 +1,4 @@
-from armodel.data_models.ecuc import OsAlarm, OsApplication, OsIsr, OsOs, OsTask
+from armodel.data_models.ecuc import OsAlarm, OsApplication, OsIsr, OsOs, OsScheduleTable, OsScheduleTableExpiryPoint, OsTask
 
 
 def test_os_model_identity_and_standard_fields():
@@ -190,3 +190,89 @@ def test_os_os_isr_collection():
 
     assert os_os.addOsIsr(isr) is os_os
     assert os_os.getOsIsrs() == [isr]
+
+
+def test_os_schedule_table_expiry_point_default_values_and_setters():
+    expiry_point = OsScheduleTableExpiryPoint()
+
+    assert expiry_point.getOsScheduleTableExpiryPointOffset() is None
+    assert expiry_point.getOsScheduleTableMaxShorten() is None
+    assert expiry_point.getOsScheduleTableMaxLengthen() is None
+    assert expiry_point.getOsScheduleTableActivateTaskRef() is None
+    assert expiry_point.getOsScheduleTableSetEventTaskRef() is None
+    assert expiry_point.getOsScheduleTableSetEventRef() is None
+
+    assert (
+        expiry_point.setOsScheduleTableExpiryPointOffset(2)
+        .setOsScheduleTableMaxShorten(1)
+        .setOsScheduleTableMaxLengthen(1)
+        .setOsScheduleTableActivateTaskRef("/Os/Os/Task1")
+        .setOsScheduleTableSetEventTaskRef("/Os/Os/Task2")
+        .setOsScheduleTableSetEventRef("/Os/Os/Event1")
+        is expiry_point
+    )
+
+    assert expiry_point.getOsScheduleTableExpiryPointOffset() == 2
+    assert expiry_point.getOsScheduleTableMaxShorten() == 1
+    assert expiry_point.getOsScheduleTableMaxLengthen() == 1
+    assert expiry_point.getOsScheduleTableActivateTaskRef() == "/Os/Os/Task1"
+    assert expiry_point.getOsScheduleTableSetEventTaskRef() == "/Os/Os/Task2"
+    assert expiry_point.getOsScheduleTableSetEventRef() == "/Os/Os/Event1"
+
+
+def test_os_schedule_table_default_values():
+    schedule_table = OsScheduleTable()
+
+    assert schedule_table.getName() == ""
+    assert schedule_table.getOsScheduleTableCounterRef() is None
+    assert schedule_table.getOsScheduleTableDuration() is None
+    assert schedule_table.getOsScheduleTableRepeating() is None
+    assert schedule_table.getOsScheduleTableAccessingApplications() == []
+    assert schedule_table.getOsScheduleTableExpiryPoints() == []
+    assert schedule_table.getOsScheduleTableAutostartType() is None
+    assert schedule_table.getOsScheduleTableStartValue() is None
+    assert schedule_table.getOsScheduleTableAppModeRef() is None
+    assert schedule_table.getOsScheduleTableSyncStrategy() is None
+    assert schedule_table.getOsScheduleTableExplicitPrecision() is None
+
+
+def test_os_schedule_table_chained_setters_return_self():
+    schedule_table = OsScheduleTable()
+    first = OsScheduleTableExpiryPoint().setOsScheduleTableExpiryPointOffset(2)
+    second = OsScheduleTableExpiryPoint().setOsScheduleTableExpiryPointOffset(5)
+    result = (
+        schedule_table.setName("Table1")
+        .setOsScheduleTableCounterRef("/Os/Os/HwCounter")
+        .setOsScheduleTableDuration(10)
+        .setOsScheduleTableRepeating(True)
+        .setOsScheduleTableAutostartType("RELATIVE")
+        .setOsScheduleTableStartValue(0)
+        .setOsScheduleTableAppModeRef("/Os/Os/OSDEFAULTAPPMODE")
+        .setOsScheduleTableSyncStrategy("IMPLICIT")
+        .setOsScheduleTableExplicitPrecision(0)
+    )
+
+    assert result is schedule_table
+    assert schedule_table.addOsScheduleTableAccessingApplication("/Os/Os/App1") is schedule_table
+    assert schedule_table.addOsScheduleTableExpiryPoint(first) is schedule_table
+    schedule_table.addOsScheduleTableExpiryPoint(second)
+
+    assert schedule_table.getName() == "Table1"
+    assert schedule_table.getOsScheduleTableCounterRef() == "/Os/Os/HwCounter"
+    assert schedule_table.getOsScheduleTableDuration() == 10
+    assert schedule_table.getOsScheduleTableRepeating() is True
+    assert schedule_table.getOsScheduleTableAccessingApplications() == ["/Os/Os/App1"]
+    assert schedule_table.getOsScheduleTableExpiryPoints() == [first, second]
+    assert schedule_table.getOsScheduleTableAutostartType() == "RELATIVE"
+    assert schedule_table.getOsScheduleTableStartValue() == 0
+    assert schedule_table.getOsScheduleTableAppModeRef() == "/Os/Os/OSDEFAULTAPPMODE"
+    assert schedule_table.getOsScheduleTableSyncStrategy() == "IMPLICIT"
+    assert schedule_table.getOsScheduleTableExplicitPrecision() == 0
+
+
+def test_os_os_schedule_table_collection():
+    schedule_table = OsScheduleTable().setName("Table1")
+    os_os = OsOs().setName("Os")
+
+    assert os_os.addOsScheduleTable(schedule_table) is os_os
+    assert os_os.getOsScheduleTables() == [schedule_table]
