@@ -8,11 +8,11 @@ def test_os_model_identity_and_standard_fields():
     task.setName("Task")
     assert application.getName() == "App"
     assert task.getName() == "Task"
-    assert hasattr(application, "OsTrusted")
-    assert hasattr(task, "OsTaskPriority")
-    assert hasattr(task, "OsTaskAppModeRef")
-    assert hasattr(task, "OsTaskExecutionBudget")
-    assert hasattr(task, "OsStacksize")
+    assert hasattr(application, "osTrusted")
+    assert hasattr(task, "osTaskPriority")
+    assert hasattr(task, "osTaskAppModeRef")
+    assert hasattr(task, "osTaskExecutionBudget")
+    assert hasattr(task, "osStacksize")
 
 
 def test_os_relationship_fields_are_initialized_independently():
@@ -34,16 +34,16 @@ def test_os_model_default_values():
     task = OsTask()
     os_os = OsOs()
 
-    assert application.OsTrusted is None
-    assert application.OsAppEcucPartitionRef is None
-    assert application.OsRestartTask is None
-    assert application.OsAppTaskRef == []
-    assert application.OsTrustedFunctionName == []
-    assert application.ApplicationState == "APPLICATION_ACCESSIBLE"
-    assert task.OsTaskActivation is None
-    assert task.OsStacksize is None
-    assert task.OsTaskResourceLockBudget == []
-    assert task.OsTaskAccessingApplication == []
+    assert application.osTrusted is None
+    assert application.osAppEcucPartitionRef is None
+    assert application.osRestartTask is None
+    assert application.osAppTaskRef == []
+    assert application.osTrustedFunctionName == []
+    assert application.applicationState == "APPLICATION_ACCESSIBLE"
+    assert task.osTaskActivation is None
+    assert task.osStacksize is None
+    assert task.osTaskResourceLockBudget == []
+    assert task.osTaskAccessingApplication == []
     assert os_os.getOsApplications() == []
     assert os_os.getOsTasks() == []
 

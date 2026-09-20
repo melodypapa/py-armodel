@@ -5,7 +5,7 @@ import yaml
 from openpyxl import load_workbook
 
 from armodel.data_models.ecuc import OsApplication, OsOs, OsTask
-from armodel.report import write_xlsx, write_yaml
+from armodel.report import OsConfigXlsxExporter, OsConfigYamlExporter
 
 
 def test_write_yaml_uses_semantic_names(tmp_path: Path):
@@ -14,7 +14,7 @@ def test_write_yaml_uses_semantic_names(tmp_path: Path):
     os_os.addOsTask(OsTask().setName("Task").setOsTaskPriority(5))
     output = tmp_path / "os.yaml"
 
-    write_yaml(os_os, output)
+    OsConfigYamlExporter().export(os_os, output)
 
     data = yaml.safe_load(output.read_text(encoding="utf-8"))
     assert data["OsApplication"][0]["name"] == "App"
@@ -26,7 +26,7 @@ def test_write_xlsx_uses_expected_sheets(tmp_path: Path):
     os_os = OsOs().setName("Os")
     os_os.addOsApplication(OsApplication().setName("App"))
     os_os.addOsTask(OsTask().setName("Task"))
-    write_xlsx(os_os, output)
+    OsConfigXlsxExporter().export(os_os, output)
 
     workbook = load_workbook(output)
     assert "OsApplication" in workbook.sheetnames
@@ -35,8 +35,6 @@ def test_write_xlsx_uses_expected_sheets(tmp_path: Path):
 
 def test_write_yaml_without_pyyaml_raises_actionable_error(tmp_path: Path, monkeypatch):
     import builtins
-
-    from armodel.report import write_yaml
 
     real_import = builtins.__import__
 
@@ -48,7 +46,7 @@ def test_write_yaml_without_pyyaml_raises_actionable_error(tmp_path: Path, monke
     monkeypatch.setattr(builtins, "__import__", blocked_import)
     os_os = OsOs().setName("Os")
     with pytest.raises(ImportError, match="pip install pyyaml"):
-        write_yaml(os_os, tmp_path / "os.yaml")
+        OsConfigYamlExporter().export(os_os, tmp_path / "os.yaml")
 
 
 def test_write_yaml_represents_relationships_by_name(tmp_path: Path):
@@ -62,7 +60,7 @@ def test_write_yaml_represents_relationships_by_name(tmp_path: Path):
     os_os.addOsTask(task)
     output = tmp_path / "os.yaml"
 
-    write_yaml(os_os, output)
+    OsConfigYamlExporter().export(os_os, output)
 
     data = yaml.safe_load(output.read_text(encoding="utf-8"))
     assert data["OsApplication"][0]["OsAppTaskRef"] == ["Task"]
@@ -80,7 +78,7 @@ def test_write_yaml_keeps_flattened_and_reference_fields(tmp_path: Path):
     os_os.addOsTask(task)
 
     output = tmp_path / "os.yaml"
-    write_yaml(os_os, output)
+    OsConfigYamlExporter().export(os_os, output)
 
     data = yaml.safe_load(output.read_text(encoding="utf-8"))
     exported = data["OsTask"][0]
@@ -101,7 +99,7 @@ def test_write_xlsx_rows_use_name_identity_and_exact_fields(tmp_path: Path):
     os_os.addOsTask(task)
     output = tmp_path / "os.xlsx"
 
-    write_xlsx(os_os, output)
+    OsConfigXlsxExporter().export(os_os, output)
 
     workbook = load_workbook(output)
     task_sheet = workbook["OsTask"]

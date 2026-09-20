@@ -132,7 +132,7 @@ def test_vendor_specific_parameter_is_ignored():
     result = OsEcucParser().parseEcuc(_build_document(containers))
 
     assert [item.getName() for item in result.getOsTasks()] == ["Vendor_Task"]
-    assert result.getOsTasks()[0].OsTaskActivation == 1
+    assert result.getOsTasks()[0].osTaskActivation == 1
 
 
 def test_unresolved_reference_raises_in_strict_mode():
@@ -222,4 +222,4 @@ def test_from_ecuc_delegate_matches_parser():
     result = OsOs.from_ecuc(document)
 
     assert result.getName() == "Os"
-    assert result.getOsTasks()[0].OsTaskPriority == 5
+    assert result.getOsTasks()[0].osTaskPriority == 5

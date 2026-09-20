@@ -5,7 +5,7 @@ import sys
 
 from armodel import __version__
 from armodel.parser import OsEcucParser
-from armodel.report import write_xlsx, write_yaml
+from armodel.report import OsConfigExporter
 
 
 def main():
@@ -56,10 +56,7 @@ def main():
             raise ValueError("The OUTPUT file must not overwrite the input file <%s>" % args.INPUT[0])
 
         os_os = OsEcucParser().load(args.INPUT[0], warning=args.warning)
-        if args.format == "yaml":
-            write_yaml(os_os, args.OUTPUT)
-        else:
-            write_xlsx(os_os, args.OUTPUT)
+        OsConfigExporter().export(os_os, args.OUTPUT, args.format)
     except Exception as e:
         # print(e)
         raise e
