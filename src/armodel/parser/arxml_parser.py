@@ -927,6 +927,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     AbstractCanCluster,
     CanCluster,
+    ClientIdRange,
     CommunicationCluster,
     CommunicationConnector,
     CommunicationController,
@@ -11829,6 +11830,17 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, partition)
         partition.setExecInUserMode(self.getChildElementOptionalBooleanValue(element, "EXEC-IN-USER-MODE"))
 
+    def readClientIdRange(self, element: ET.Element, id_range: ClientIdRange):
+        id_range.setLowerLimit(self.getChildLimitElement(element, "LOWER-LIMIT"))
+        id_range.setUpperLimit(self.getChildLimitElement(element, "UPPER-LIMIT"))
+
+    def readEcuInstanceClientIdRange(self, element: ET.Element, instance: EcuInstance):
+        client_id_range_element = self.find(element, "CLIENT-ID-RANGE")
+        if client_id_range_element is not None:
+            id_range = ClientIdRange()
+            instance.setClientIdRange(id_range)
+            self.readClientIdRange(client_id_range_element, id_range)
+
     def readEcuInstanceDoIpConfig(self, element: ET.Element, instance: EcuInstance):
         do_ip_config_element = self.find(element, "DO-IP-CONFIG")
         if do_ip_config_element is not None:
@@ -11843,6 +11855,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readEcuInstanceAssociatedConsumedProvidedServiceInstanceGroupRefs(element, instance)
         self.readEcuInstanceAssociatedPdurIPduGroupRefs(element, instance)
         instance.setChannelSynchronousWakeup(self.getChildElementOptionalBooleanValue(element, "CHANNEL-SYNCHRONOUS-WAKEUP"))
+        self.readEcuInstanceClientIdRange(element, instance)
         instance.setComConfigurationGwTimeBase(self.getChildElementOptionalTimeValue(element, "COM-CONFIGURATION-GW-TIME-BASE"))
         instance.setComConfigurationRxTimeBase(self.getChildElementOptionalTimeValue(element, "COM-CONFIGURATION-RX-TIME-BASE"))
         instance.setComConfigurationTxTimeBase(self.getChildElementOptionalTimeValue(element, "COM-CONFIGURATION-TX-TIME-BASE"))
