@@ -838,7 +838,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
-from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import PrivacyLevel
+from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltArgument, PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
@@ -10867,6 +10867,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "PRIVACY-LEVEL")
         self.setChildElementOptionalRefType(child_element, "COMPU-METHOD-REF", privacy_level.getCompuMethodRef())
         self.setChildElementOptionalPositiveInteger(child_element, "PRIVACY-LEVEL", privacy_level.getPrivacyLevel())
+
+    def writeDltArgument(self, element: ET.Element, argument: DltArgument):
+        child_element = ET.SubElement(element, "DLT-ARGUMENT")
+        self.writeIdentifiable(child_element, argument)
+        entries = argument.getDltArgumentEntries()
+        if len(entries) > 0:
+            entries_element = ET.SubElement(child_element, "DLT-ARGUMENT-ENTRYS")
+            for entry in entries:
+                self.writeDltArgument(entries_element, entry)
+        self.setChildElementOptionalPositiveInteger(child_element, "LENGTH", argument.getLength())
+        self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION", argument.getNetworkRepresentation())
+        self.setChildElementOptionalBooleanValue(child_element, "OPTIONAL", argument.getOptional())
+        self.setChildElementOptionalBooleanValue(child_element, "PREDEFINED-TEXT", argument.getPredefinedText())
+        self.setChildElementOptionalBooleanValue(child_element, "VARIABLE-LENGTH", argument.getVariableLength())
 
     def writeClientIdRange(self, element: ET.Element, id_range: ClientIdRange):
         child_element = ET.SubElement(element, "CLIENT-ID-RANGE")

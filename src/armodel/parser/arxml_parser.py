@@ -939,7 +939,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
-from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import PrivacyLevel
+from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltArgument, PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
@@ -11834,6 +11834,21 @@ class ARXMLParser(AbstractARXMLParser):
     def readPrivacyLevel(self, element: ET.Element, privacy_level: PrivacyLevel):
         privacy_level.setCompuMethodRef(self.getChildElementOptionalRefType(element, "COMPU-METHOD-REF"))
         privacy_level.setPrivacyLevel(self.getChildElementOptionalPositiveInteger(element, "PRIVACY-LEVEL"))
+
+    def readDltArgument(self, element: ET.Element, argument: DltArgument):
+        self.readIdentifiable(element, argument)
+        for child_element in self.findall(element, "DLT-ARGUMENT-ENTRYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "DLT-ARGUMENT":
+                entry = argument.createDltArgumentEntry(self.getShortName(child_element))
+                self.readDltArgument(child_element, entry)
+            else:
+                self.notImplemented("Unsupported DltArgument Entry <%s>" % tag_name)
+        argument.setLength(self.getChildElementOptionalPositiveInteger(element, "LENGTH"))
+        argument.setNetworkRepresentation(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION"))
+        argument.setOptional(self.getChildElementOptionalBooleanValue(element, "OPTIONAL"))
+        argument.setPredefinedText(self.getChildElementOptionalBooleanValue(element, "PREDEFINED-TEXT"))
+        argument.setVariableLength(self.getChildElementOptionalBooleanValue(element, "VARIABLE-LENGTH"))
 
     def readClientIdRange(self, element: ET.Element, id_range: ClientIdRange):
         id_range.setLowerLimit(self.getChildLimitElement(element, "LOWER-LIMIT"))
