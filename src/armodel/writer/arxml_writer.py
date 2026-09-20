@@ -637,7 +637,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordTypeMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpRoutingActivation
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpInterface, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
@@ -11861,6 +11861,37 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDataPrototypeInPortInterfaceRef(child_element, dp_ref)
         self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION-PROPS", props.getNetworkRepresentationProps())
         self.setChildElementOptionalRefType(child_element, "TRANSFORMATION-PROPS-REF", props.getTransformationPropsRef())
+
+    def writeDoIpInterface(self, element: ET.Element, interface: DoIpInterface):
+        self.logger.debug("Set DoIpInterface %s" % interface.getShortName())
+        child_element = ET.SubElement(element, "DO-IP-INTERFACE")
+        self.writeIdentifiable(child_element, interface)
+        self.setChildElementOptionalTimeValue(child_element, "ALIVE-CHECK-RESPONSE-TIMEOUT", interface.getAliveCheckResponseTimeout())
+        activations = interface.getDoIpRoutingActivations()
+        if len(activations) > 0:
+            activations_tag = ET.SubElement(child_element, "DO-IP-ROUTING-ACTIVATIONS")
+            for activation in activations:
+                self.writeDoIpRoutingActivation(activations_tag, activation)
+        self.setChildElementOptionalRefType(child_element, "DOIP-CHANNEL-COLLECTION-REF", interface.getDoipChannelCollectionRef())
+        doip_connection_refs = interface.getDoipConnectionRefs()
+        if len(doip_connection_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "DOIP-CONNECTION-REFS")
+            for ref in doip_connection_refs:
+                self.setChildElementOptionalRefType(refs_tag, "DOIP-CONNECTION-REF", ref)
+        self.setChildElementOptionalTimeValue(child_element, "GENERAL-INACTIVITY-TIME", interface.getGeneralInactivityTime())
+        self.setChildElementOptionalTimeValue(child_element, "INITIAL-INACTIVITY-TIME", interface.getInitialInactivityTime())
+        self.setChildElementOptionalTimeValue(child_element, "INITIAL-VEHICLE-ANNOUNCEMENT-TIME", interface.getInitialVehicleAnnouncementTime())
+        self.setChildElementOptionalBooleanValue(child_element, "IS-ACTIVATION-LINE-DEPENDENT", interface.getIsActivationLineDependent())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-TESTER-CONNECTIONS", interface.getMaxTesterConnections())
+        socket_connection_refs = interface.getSocketConnectionRefs()
+        if len(socket_connection_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "SOCKET-CONNECTION-REFS")
+            for ref in socket_connection_refs:
+                self.setChildElementOptionalRefType(refs_tag, "SOCKET-CONNECTION-REF", ref)
+        self.setChildElementOptionalBooleanValue(child_element, "USE-MAC-ADDRESS-FOR-IDENTIFICATION", interface.getUseMacAddressForIdentification())
+        self.setChildElementOptionalBooleanValue(child_element, "USE-VEHICLE-IDENTIFICATION-SYNC-STATUS", interface.getUseVehicleIdentificationSyncStatus())
+        self.setChildElementOptionalPositiveInteger(child_element, "VEHICLE-ANNOUNCEMENT-COUNT", interface.getVehicleAnnouncementCount())
+        self.setChildElementOptionalTimeValue(child_element, "VEHICLE-ANNOUNCEMENT-INTERVAL", interface.getVehicleAnnouncementInterval())
 
     def writeDoIpRoutingActivation(self, element: ET.Element, activation: DoIpRoutingActivation):
         self.logger.debug("Set DoIpRoutingActivation %s" % activation.getShortName())
