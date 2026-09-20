@@ -939,6 +939,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
+from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
@@ -11829,6 +11830,10 @@ class ARXMLParser(AbstractARXMLParser):
     def readEcuPartition(self, element: ET.Element, partition: EcuPartition):
         self.readIdentifiable(element, partition)
         partition.setExecInUserMode(self.getChildElementOptionalBooleanValue(element, "EXEC-IN-USER-MODE"))
+
+    def readPrivacyLevel(self, element: ET.Element, privacy_level: PrivacyLevel):
+        privacy_level.setCompuMethodRef(self.getChildElementOptionalRefType(element, "COMPU-METHOD-REF"))
+        privacy_level.setPrivacyLevel(self.getChildElementOptionalPositiveInteger(element, "PRIVACY-LEVEL"))
 
     def readClientIdRange(self, element: ET.Element, id_range: ClientIdRange):
         id_range.setLowerLimit(self.getChildLimitElement(element, "LOWER-LIMIT"))

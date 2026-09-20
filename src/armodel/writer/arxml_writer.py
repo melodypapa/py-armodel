@@ -838,6 +838,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
+from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
@@ -10861,6 +10862,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "ECU-PARTITION")
         self.writeIdentifiable(child_element, partition)
         self.setChildElementOptionalBooleanValue(child_element, "EXEC-IN-USER-MODE", partition.getExecInUserMode())
+
+    def writePrivacyLevel(self, element: ET.Element, privacy_level: PrivacyLevel):
+        child_element = ET.SubElement(element, "PRIVACY-LEVEL")
+        self.setChildElementOptionalRefType(child_element, "COMPU-METHOD-REF", privacy_level.getCompuMethodRef())
+        self.setChildElementOptionalPositiveInteger(child_element, "PRIVACY-LEVEL", privacy_level.getPrivacyLevel())
 
     def writeClientIdRange(self, element: ET.Element, id_range: ClientIdRange):
         child_element = ET.SubElement(element, "CLIENT-ID-RANGE")
