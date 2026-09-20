@@ -637,13 +637,11 @@ No deviations — all 3 spec attributes modeled (frame/framePort/pduTriggering r
 No deviations — the Table 4.68 attribute column is `-` (zero own attributes; concrete Class, XSD complexType `QUEUED-SENDER-COM-SPEC` `abstract="false"`, AUTOSAR_00052.xsd line 95021, group line 95012 `<xsd:sequence/>` empty); most-derived base `SenderComSpec` (Table 4.67) per the Base row — all seven inherited attributes (`compositeNetworkRepresentation`, `dataElement`, `handleOutOfRange`, `networkRepresentation`, `transmissionAcknowledge`, `transmissionProps`, `usesEndToEndProtection`) and their reader/writer coverage live on the stamped base; full reader/writer coverage via the polymorphic dispatch (`getQueuedSenderComSpec`/`writeQueuedSenderComSpec` + QUEUED-SENDER-COM-SPEC elif branches in `readProvidedComSpec`/`writePPortComSpec`, tested at dispatch level); former `missing` row built on the table's `-` placeholder resolved as stale in the 2026-09 sync.
 
 ## `UserDefinedTransformationComSpecProps`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 200  | **table:** Table 4.91
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Communication`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
+No deviations — the Table 4.91 attribute column is `-` (zero own attributes; concrete Class, XSD complexType `USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS` `abstract="false"`, AUTOSAR_00052.xsd line 129080, group line 129071 `<xsd:sequence/>` empty); most-derived base `TransformationComSpecProps` (Table 4.86) per the Base row (`ARObject, Describable, TransformationComSpecProps`); full reader/writer coverage via the polymorphic dispatch (`readUserDefinedTransformationComSpecProps`/`writeUserDefinedTransformationComSpecProps` + USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS branches in `getTransformationComSpecProps`/`readTransformationComSpecPropss`/`writeTransformationComSpecPropss`/the RECEIVER-COM-SPEC inline site, tested at dispatch level); the readReceiverComSpec transformation-props loop was fixed this pass to the XSD shape (subtype elements directly under the TRANSFORMATION-COM-SPEC-PROPSS wrapper — l.16771/96109/105153); former `missing` row built on the table's `-` placeholder resolved as stale in the 2026-09 sync.
 
 ## `EndToEndProtectionVariablePrototype`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —

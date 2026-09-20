@@ -668,6 +668,22 @@ class TestTransformationComSpecProps:
         element = _snip("")
         parser.readUserDefinedTransformationComSpecProps(element, props)
 
+    def test_receiver_com_spec_user_defined_transformation_dispatch(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <TRANSFORMATION-COM-SPEC-PROPSS>
+                <USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS></USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS>
+            </TRANSFORMATION-COM-SPEC-PROPSS>
+            """,
+            root_tag="NONQUEUED-RECEIVER-COM-SPEC",
+        )
+        com_spec = parser.getNonqueuedReceiverComSpec(element)
+        assert com_spec is not None
+        props = com_spec.getTransformationComSpecProps()
+        assert len(props) == 1
+        assert isinstance(props[0], UserDefinedTransformationComSpecProps)
+
     def test_readServerComSpecTransformationComSpecProps_adds_props(self, parser):
         from armodel.models import ServerComSpec
 

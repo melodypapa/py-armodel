@@ -6562,8 +6562,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readVariableAccess(replace_with, variable_access)
             com_spec.setReplaceWith(variable_access)
         com_spec.setSyncCounterInit(self.getChildElementOptionalPositiveInteger(element, "SYNC-COUNTER-INIT"))
-        for child_element in self.findall(element, "TRANSFORMATION-COM-SPEC-PROPSS/TRANSFORMATION-COM-SPEC-PROPS"):
-            com_spec.addTransformationComSpecProps(self.getTransformationComSpecProps(child_element))
+        self.readTransformationComSpecPropss(element, com_spec)
 
     def getReceptionComSpecProps(self, element: ET.Element, key: str) -> ReceptionComSpecProps:
         child_element = self.find(element, key)

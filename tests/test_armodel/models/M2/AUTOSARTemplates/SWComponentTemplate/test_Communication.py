@@ -771,6 +771,24 @@ class TestUserDefinedTransformationComSpecProps:
         _user_def = UserDefinedTransformationComSpecProps()
         # Just verify it can be initialized
 
+    def test_user_defined_transformation_com_spec_props_spec_base(self):
+        """UserDefinedTransformationComSpecProps is a concrete subclass of TransformationComSpecProps (Table 4.91 Base row)."""
+        assert issubclass(UserDefinedTransformationComSpecProps, TransformationComSpecProps)
+        assert issubclass(UserDefinedTransformationComSpecProps, ARObject)
+
+        props = UserDefinedTransformationComSpecProps()
+        assert isinstance(props, UserDefinedTransformationComSpecProps)
+        assert isinstance(props, TransformationComSpecProps)
+
+    def test_user_defined_transformation_com_spec_props_class_docstring_note(self):
+        """Class docstring is the spec Note verbatim (Table 4.91, p.200)."""
+        note = "The UserDefinedTransformationComSpecProps is used to specify port specific configuration properties for custom transformers."
+        assert inspect.cleandoc(UserDefinedTransformationComSpecProps.__doc__) == note
+
+    def test_user_defined_transformation_com_spec_props_init_docless(self):
+        """__init__ carries no docstring (Rule 0012.2.4)."""
+        assert UserDefinedTransformationComSpecProps.__init__.__doc__ is None
+
 
 class TestServerComSpec:
     """Test class for ServerComSpec class."""

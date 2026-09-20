@@ -342,6 +342,26 @@ class TestWriteTransformationComSpec:
         writer.writeServerComSpecTransformationComSpecProps(parent, com_spec)
         assert parent[0].tag == "TRANSFORMATION-COM-SPEC-PROPSS"
 
+    def test_user_defined_transformation_props_receiver_com_spec_round_trip(self, writer):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        com_spec = NonqueuedReceiverComSpec()
+        com_spec.addTransformationComSpecProps(UserDefinedTransformationComSpecProps())
+
+        parent = _parent()
+        writer.writeNonqueuedReceiverComSpec(parent, com_spec)
+        com_spec_element = parent.find("NONQUEUED-RECEIVER-COM-SPEC")
+        props_tag = com_spec_element.find("TRANSFORMATION-COM-SPEC-PROPSS")
+        assert props_tag is not None
+        assert props_tag.find("USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS") is not None
+
+        xml_text = ET.tostring(com_spec_element, encoding="unicode")
+        reloaded_element = ET.fromstring(xml_text.replace("NONQUEUED-RECEIVER-COM-SPEC", "NONQUEUED-RECEIVER-COM-SPEC xmlns='http://autosar.org/schema/r4.0'", 1))
+        reloaded = ARXMLParser().getNonqueuedReceiverComSpec(reloaded_element)
+        assert reloaded is not None
+        props = reloaded.getTransformationComSpecProps()
+        assert len(props) == 1
+        assert isinstance(props[0], UserDefinedTransformationComSpecProps)
+
 
 class TestWriteServerComSpec:
     def test_write_server_comspec(self, writer):
