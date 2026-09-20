@@ -3,7 +3,7 @@
 **Date:** 2024-01-15  
 **Project:** py-armodel  
 **Feature:** OS ECUC Export Enhancement  
-**Status:** Design Review
+**Status:** Implemented
 
 ---
 
@@ -453,4 +453,12 @@ Output: YAML or XLSX with 5 sheets
 - SWS_Os_00128 — OsIsr definition
 - SWS_Os_00232 — OsScheduleTable definition
 - AUTOSAR_CP_SWS_OS.md § 10.2 (ECUC configuration tables)
+
+## Implementation Notes
+
+- Schedule-table numeric parameters follow the R23-11 spec (`EcucIntegerParamDef`): `osScheduleTableDuration`, offsets, `MaxShorten`/`MaxLengthen`, `StartValue`, `ExplicitPrecision` are `Optional[int]`, not `Optional[float]` as sketched in §2.3/§2.4.
+- ECUC names use the spec spellings: `OsScheduleTblExpPointOffset`, `OsScheduleTblSyncStrategy`, `OsScheduleTblExplicitPrecision`, `OsScheduleTableStartValue`.
+- `OsIsr` includes three spec-aligned fields not in §2.2: `osIsrPeriod`, `osIsrResourceRef`, `osMemoryMappingCodeLocationRef`.
+- No `get_resolve_*` methods were needed: per §5.1 all cross-references remain string paths.
+- The XLSX exporter's empty-sheet header fallback was replaced by `OsConfigXlsxExporter._headers_for()` covering all five sections (§4.3).
 
