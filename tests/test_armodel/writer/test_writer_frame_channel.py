@@ -171,6 +171,22 @@ class TestWriteFrameTriggering:
         writer.writeFrameTriggering(parent, ft)
         assert parent.find("SHORT-NAME") is not None
 
+    def test_write_frame_triggering_empty_omits_wrappers(self, writer):
+        pkg = _pkg()
+        ft = CanFrameTriggering(pkg, "Ft")
+        parent = _parent()
+        writer.writeFrameTriggering(parent, ft)
+        assert parent.find("FRAME-PORT-REFS") is None
+        assert parent.find("PDU-TRIGGERINGS") is None
+
+        NS = "http://autosar.org/schema/r4.0"
+        xml_str = ET.tostring(parent).decode().replace("<PARENT>", '<PARENT xmlns="%s">' % NS, 1)
+        namespaced = ET.fromstring(xml_str)
+        reparsed = CanFrameTriggering(pkg, "Ft2")
+        ARXMLParser().readFrameTriggering(namespaced, reparsed)
+        assert reparsed.getFramePortRefs() == []
+        assert reparsed.getPduTriggeringRefs() == []
+
     def test_write_frame_triggering_with_refs(self, writer):
         pkg = _pkg()
         ft = CanFrameTriggering(pkg, "Ft")

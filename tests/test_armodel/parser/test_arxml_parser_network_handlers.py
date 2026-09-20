@@ -1197,6 +1197,40 @@ class TestFrameAndPduHandlers:
         parser.readFrameTriggering(element, triggering)
         assert len(triggering.getFramePortRefs()) == 1
 
+    def test_readFrameTriggering_adds_pduTriggeringRefs(self, parser):
+        from armodel.models import CanCluster, CanFrameTriggering, CanPhysicalChannel
+
+        cluster = CanCluster(parent=_autosar_root(), short_name="c")
+        channel = CanPhysicalChannel(parent=cluster, short_name="ch")
+        triggering = CanFrameTriggering(parent=channel, short_name="ft")
+        element = _snip(
+            "<SHORT-NAME>ft</SHORT-NAME>"
+            "<PDU-TRIGGERINGS>"
+            "<PDU-TRIGGERING-REF-CONDITIONAL><PDU-TRIGGERING-REF DEST='PDU-TRIGGERING'>/pt1</PDU-TRIGGERING-REF></PDU-TRIGGERING-REF-CONDITIONAL>"
+            "<PDU-TRIGGERING-REF-CONDITIONAL><PDU-TRIGGERING-REF DEST='PDU-TRIGGERING'>/pt2</PDU-TRIGGERING-REF></PDU-TRIGGERING-REF-CONDITIONAL>"
+            "</PDU-TRIGGERINGS>",
+            root_tag="CAN-FRAME-TRIGGERING",
+        )
+        parser.readFrameTriggering(element, triggering)
+        refs = triggering.getPduTriggeringRefs()
+        assert len(refs) == 2
+        assert refs[0].getValue() == "/pt1"
+        assert refs[1].getValue() == "/pt2"
+
+    def test_readFrameTriggering_skips_empty_wrappers(self, parser):
+        from armodel.models import CanCluster, CanFrameTriggering, CanPhysicalChannel
+
+        cluster = CanCluster(parent=_autosar_root(), short_name="c")
+        channel = CanPhysicalChannel(parent=cluster, short_name="ch")
+        triggering = CanFrameTriggering(parent=channel, short_name="ft")
+        element = _snip(
+            "<SHORT-NAME>ft</SHORT-NAME>" "<FRAME-PORT-REFS></FRAME-PORT-REFS>" "<PDU-TRIGGERINGS><PDU-TRIGGERING-REF-CONDITIONAL/></PDU-TRIGGERINGS>",
+            root_tag="CAN-FRAME-TRIGGERING",
+        )
+        parser.readFrameTriggering(element, triggering)
+        assert triggering.getFramePortRefs() == []
+        assert triggering.getPduTriggeringRefs() == []
+
     def test_readCanFrameTriggering_sets_canAddressingMode(self, parser):
         from armodel.models import CanCluster, CanFrameTriggering, CanPhysicalChannel
 

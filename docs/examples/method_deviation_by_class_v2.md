@@ -435,13 +435,11 @@ No deviations — all three Table 3.49 attributes (`networkEndpoint` NetworkEndp
 | — *(missing)* | `—` | `serviceInstance` | ``DiagnosticService Instance`` | ref | missing |
 
 ## `FrameTriggering`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 418
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `pdutriggeringrefs` | `—` | `pduTriggering` | ``PduTriggering`` | ref | type (spec many vs py single) |
+No deviations — all 3 spec attributes modeled (frame/framePort/pduTriggering refs; Rule 0001.5 Ref/Refs suffixes), most-derived base Identifiable + VariationPointCapable per Rule 0020 XSD anchor, full reader/writer coverage via readFrameTriggering/writeFrameTriggering (shared helper reused by Can/Lin/Flexray subclasses). Stale to-fix row `pdutriggeringrefs type (spec many vs py single)` removed 2026-09-20 — member is now `List[RefType]` with addPduTriggeringRef/getPduTriggeringRefs.
 
 ## `HwAttributeValue`
 - **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** 16
