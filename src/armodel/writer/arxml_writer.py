@@ -6439,10 +6439,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(child_element, prototype)
             irefs = prototype.getReceiverIrefs()
             if len(irefs) > 0:
-                child_element = ET.SubElement(child_element, "RECEIVER-IREFS")
+                receivers_element = ET.SubElement(child_element, "RECEIVER-IREFS")
                 for iref in irefs:
-                    self.setVariableDataPrototypeInSystemInstanceRef(child_element, "RECEIVER-IREF", iref)
-            self.setVariableDataPrototypeInSystemInstanceRef(child_element, "SENDER-IREF", prototype.senderIRef)
+                    self.setVariableDataPrototypeInSystemInstanceRef(receivers_element, "RECEIVER-IREF", iref)
+            self.setVariableDataPrototypeInSystemInstanceRef(child_element, "SENDER-IREF", prototype.getSenderIref())
+            self.setChildElementOptionalIdentifier(child_element, "SHORT-LABEL", prototype.getShortLabel())
+            self.writeVariationPoint(child_element, prototype.getVariationPoint())
 
     def writeEndToEndProtectionEndToEndProtectionVariablePrototypes(self, element: ET.Element, protection: EndToEndProtection):
         prototypes = protection.getEndToEndProtectionVariablePrototypes()

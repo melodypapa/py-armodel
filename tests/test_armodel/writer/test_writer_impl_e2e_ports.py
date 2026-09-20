@@ -32,6 +32,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     RefType,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (  # noqa: E501
     VariableDataPrototype,
 )
@@ -46,6 +47,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.EndToEndProtection import
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (  # noqa: E501
     VariableDataPrototypeInSystemInstanceRef,
 )
+from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -454,6 +456,69 @@ class TestWriteEndToEndProtectionVariablePrototype:
         receivers = proto_tag.find("RECEIVER-IREFS")
         assert receivers is not None
         assert receivers.find("RECEIVER-IREF") is not None
+
+    def test_write_e2e_prototype_full_round_trip(self, writer):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        prototype = EndToEndProtectionVariablePrototype()
+        sender = VariableDataPrototypeInSystemInstanceRef()
+        sender.setContextCompositionRef(_make_ref("COMPOSITION-SW-COMPONENT-TYPE", "/comp/Root"))
+        sender.setTargetDataPrototypeRef(_make_ref("VARIABLE-DATA-PROTOTYPE", "/vdp/Var"))
+        prototype.setSenderIref(sender)
+        receiver = VariableDataPrototypeInSystemInstanceRef()
+        receiver.addContextComponentRef(_make_ref("SW-COMPONENT-PROTOTYPE", "/comp/Swc1"))
+        receiver.setTargetDataPrototypeRef(_make_ref("VARIABLE-DATA-PROTOTYPE", "/vdp/Recv1"))
+        prototype.addReceiverIref(receiver)
+        label = Identifier()
+        label.setValue("Label1")
+        prototype.setShortLabel(label)
+
+        parent = _parent()
+        writer.writeEndToEndProtectionVariablePrototype(parent, prototype)
+        proto_tag = parent[0]
+        assert proto_tag.tag == "END-TO-END-PROTECTION-VARIABLE-PROTOTYPE"
+        irefs_tag = proto_tag.find("RECEIVER-IREFS")
+        assert irefs_tag is not None
+        assert irefs_tag.find("RECEIVER-IREF") is not None
+        assert proto_tag.find("SENDER-IREF") is not None
+        assert proto_tag.find("SHORT-LABEL") is not None
+        assert proto_tag.find("SHORT-LABEL").text == "Label1"
+
+        xml_text = ET.tostring(proto_tag, encoding="unicode")
+        reloaded_element = ET.fromstring(xml_text.replace("END-TO-END-PROTECTION-VARIABLE-PROTOTYPE", "END-TO-END-PROTECTION-VARIABLE-PROTOTYPE xmlns='http://autosar.org/schema/r4.0'", 1))
+        reloaded = ARXMLParser().readEndToEndProtectionVariablePrototype(reloaded_element, EndToEndProtectionVariablePrototype())
+        assert reloaded.getSenderIref().getContextCompositionRef().getValue() == "/comp/Root"
+        assert reloaded.getSenderIref().getTargetDataPrototypeRef().getValue() == "/vdp/Var"
+        receivers = reloaded.getReceiverIrefs()
+        assert len(receivers) == 1
+        assert receivers[0].getContextComponentRefs()[0].getValue() == "/comp/Swc1"
+        assert receivers[0].getTargetDataPrototypeRef().getValue() == "/vdp/Recv1"
+        assert reloaded.getShortLabel().getValue() == "Label1"
+
+    def test_write_e2e_prototype_variation_point_round_trip(self, writer):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        prototype = EndToEndProtectionVariablePrototype()
+        label = Identifier()
+        label.setValue("Label1")
+        prototype.setShortLabel(label)
+        variation_point = VariationPoint()
+        vp_label = Identifier()
+        vp_label.setValue("VPL")
+        variation_point.setShortLabel(vp_label)
+        prototype.setVariationPoint(variation_point)
+
+        parent = _parent()
+        writer.writeEndToEndProtectionVariablePrototype(parent, prototype)
+        proto_tag = parent[0]
+        assert proto_tag.find("SHORT-LABEL") is not None
+        vp_tag = proto_tag.find("VARIATION-POINT")
+        assert vp_tag is not None
+
+        xml_text = ET.tostring(proto_tag, encoding="unicode")
+        reloaded_element = ET.fromstring(xml_text.replace("END-TO-END-PROTECTION-VARIABLE-PROTOTYPE", "END-TO-END-PROTECTION-VARIABLE-PROTOTYPE xmlns='http://autosar.org/schema/r4.0'", 1))
+        reloaded = ARXMLParser().readEndToEndProtectionVariablePrototype(reloaded_element, EndToEndProtectionVariablePrototype())
+        assert reloaded.getShortLabel().getValue() == "Label1"
+        assert reloaded.getVariationPoint() is not None
+        assert reloaded.getVariationPoint().getShortLabel().getValue() == "VPL"
 
 
 class TestWriteEndToEndProtectionVariablePrototypes:

@@ -644,13 +644,11 @@ No deviations — the Table 4.68 attribute column is `-` (zero own attributes; c
 No deviations — the Table 4.91 attribute column is `-` (zero own attributes; concrete Class, XSD complexType `USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS` `abstract="false"`, AUTOSAR_00052.xsd line 129080, group line 129071 `<xsd:sequence/>` empty); most-derived base `TransformationComSpecProps` (Table 4.86) per the Base row (`ARObject, Describable, TransformationComSpecProps`); full reader/writer coverage via the polymorphic dispatch (`readUserDefinedTransformationComSpecProps`/`writeUserDefinedTransformationComSpecProps` + USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS branches in `getTransformationComSpecProps`/`readTransformationComSpecPropss`/`writeTransformationComSpecPropss`/the RECEIVER-COM-SPEC inline site, tested at dispatch level); the readReceiverComSpec transformation-props loop was fixed this pass to the XSD shape (subtype elements directly under the TRANSFORMATION-COM-SPEC-PROPSS wrapper — l.16771/96109/105153); former `missing` row built on the table's `-` placeholder resolved as stale in the 2026-09 sync.
 
 ## `EndToEndProtectionVariablePrototype`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 216  | **table:** Table 4.98
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::EndToEndProtection`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/EndToEndProtection.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `sender` | ``VariableDataPrototype`` | iref | missing |
+No deviations — all three Table 4.98 attributes modeled with full reader/writer coverage (`receiver` iref `*` → `receiverIRefs` + `addReceiverIref`/`getReceiverIrefs` via the RECEIVER-IREFS wrapper; `sender` iref 0..1 → `senderIRef` + `getSenderIref`/`setSenderIref`; `shortLabel` attr 0..1 → `Optional[Identifier]` + `getShortLabel`/`setShortLabel`); concrete Class (XSD complexType `END-TO-END-PROTECTION-VARIABLE-PROTOTYPE` `abstract="false"`, AUTOSAR_00052.xsd line 54457, group line 54411); most-derived base `ARObject` per the Base row, VP-capable per the XSD (VARIATION-POINT element in the group, sequenceOffset 10000) via the VariationPointCapable mixin; XML element order RECEIVER-IREFS→SENDER-IREF→SHORT-LABEL→VARIATION-POINT; this pass also fixed the writer's SENDER-IREF-inside-RECEIVER-IREFS mis-nesting (the wrapper loop reassigned `child_element`) and added the missing SHORT-LABEL/VARIATION-POINT reader/writer coverage; former `missing` row for `sender` built on the pre-sync stub (no accessor pair) resolved in the 2026-09 sync.
 
 ## `EndToEndProtectionSet`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 4.96

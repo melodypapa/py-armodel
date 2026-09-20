@@ -8054,9 +8054,14 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(element, prototype)
         for child_element in self.findall(element, "RECEIVER-IREFS/RECEIVER-IREF"):
             prototype.addReceiverIref(self.getVariableDataPrototypeInSystemInstanceRef(child_element))
-        child_element = self.find(element, "SENDER-IREF")
-        if child_element is not None:
-            prototype.senderIRef = self.getVariableDataPrototypeInSystemInstanceRef(child_element)
+        prototype.setSenderIref(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "SENDER-IREF")))
+        prototype.setShortLabel(self.getChildElementOptionalIdentifier(element, "SHORT-LABEL"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(prototype, VariationPointCapable):
+                prototype.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
         return prototype
 
     def readEndToEndProtectionEndToEndProtectionVariablePrototypes(self, element: ET.Element, protection: EndToEndProtection):
