@@ -1044,13 +1044,6 @@ class Test_FibexCoreCommunication:
         assert ipdu.getUnusedBitPattern() == 255
         assert ipdu == ipdu.setUnusedBitPattern(255)  # Test method chaining
 
-    def test_GeneralPurposePdu(self):
-        """Test GeneralPurposePdu class functionality."""
-        parent = MockParent()
-        pdu = GeneralPurposePdu(parent, "test_general_purpose_pdu")
-
-        assert isinstance(pdu, Pdu)
-
     def test_GeneralPurposeIPdu(self):
         """Test GeneralPurposeIPdu class functionality."""
         parent = MockParent()
@@ -1371,3 +1364,35 @@ class TestDynamicPartAlternative:
             inspect.cleandoc(DynamicPartAlternative.setSelectorFieldCode.__doc__).strip()
             == SELECTOR_FIELD_CODE_NOTE + "\nA None value is a no-op and does not overwrite an existing selectorFieldCode."
         )
+
+
+GENERAL_PURPOSE_PDU_CLASS_NOTE = (
+    "This element is used for AUTOSAR Pdus without additional attributes that are routed by a bus interface. "
+    "Please note that the category name of such Pdus is standardized in the AUTOSAR System Template. "
+    "Tags: atp.recommendedPackage=Pdus\n"
+    "\n"
+    "[constr_3081] Value of category in GeneralPurposePdu: The attribute category of GeneralPurposePdu "
+    "can have the following values: SD (Service Discovery), GLOBAL_TIME, DoIP"
+)
+
+
+class TestGeneralPurposePdu:
+    """Test cases for GeneralPurposePdu (Table 6.25, p.344)."""
+
+    def test_inheritance(self):
+        assert issubclass(GeneralPurposePdu, Pdu)
+        assert issubclass(GeneralPurposePdu, FibexElement)
+        assert issubclass(GeneralPurposePdu, Identifiable)
+        assert issubclass(GeneralPurposePdu, ARObject)
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(GeneralPurposePdu.__doc__) == GENERAL_PURPOSE_PDU_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert GeneralPurposePdu.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        pdu = GeneralPurposePdu(MockParent(), "gpPdu")
+        assert pdu.getShortName() == "gpPdu"
+        assert pdu.getHasDynamicLength() is None
+        assert pdu.getLength() is None

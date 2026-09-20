@@ -1406,13 +1406,11 @@ No deviations — the single Table 6.73 attribute `iPdu` (ISignalIPdu, Mult `0..
 No deviations — the three Table 6.75 attributes modeled in displayed order: `initialDynamicPart` (Boolean, Mult `0..1`, Kind `attr`) as `initialDynamicPart: Optional[Boolean]`, `iPdu` (ISignalIPdu, Mult `0..1`, Kind `ref`) as `iPduRef: Optional[RefType]` with `getIPduRef`/`setIPduRef` per the Kind `ref`→`Ref` suffix (the PDF Type column names the ref *target* — for a `ref` attribute the model type is `RefType`; the target type constrains the DEST enum only), `selectorFieldCode` (Integer, Mult `0..1`, Kind `attr`) as `selectorFieldCode: Optional[Integer]`; base `ARObject` per the Base row; full reader/writer coverage via `readDynamicPartAlternative`/`writeDynamicPartAlternative` in XSD group order I-PDU-REF → INITIAL-DYNAMIC-PART → SELECTOR-FIELD-CODE with spec-typed helpers; former `type (PDF ISignalIPdu vs py RefType)` row resolved as stale in the 2026-09 sync.
 
 ## `GeneralPurposePdu`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 344  | **table:** Table 6.25
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
+No deviations — the Table 6.25 attribute column is `-` (zero own attributes; XSD group `GENERAL-PURPOSE-PDU` `<xsd:sequence/>` empty); concrete class on the most-derived base `Pdu` per the Base row (the chain has NO `IPdu` — unlike sibling NPdu/DcmIPdu/GeneralPurposeIPdu); full reader/writer coverage via the pre-existing 5-place dispatch (`ARPackage.createGeneralPurposePdu` factory + parser `GENERAL-PURPOSE-PDU` branch + `readGeneralPurposePdu`/`writeGeneralPurposePdu` delegating to `readPdu`/`writePdu` for the inherited HAS-DYNAMIC-LENGTH/LENGTH elements); former `missing` row built on the table's `-` placeholder resolved as stale in the 2026-09 sync.
 
 ## `GeneralPurposeIPdu`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —

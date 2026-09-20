@@ -332,6 +332,20 @@ class TestUserDefinedAndGeneralPurposePduHandlers:
         parser.readGeneralPurposePdu(element, pdu)
         assert pdu.getShortName() == "gpPdu"
 
+    def test_readGeneralPurposePdu_with_length(self, parser):
+        from armodel.models import GeneralPurposePdu
+
+        pdu = GeneralPurposePdu(parent=_autosar_root(), short_name="gpPdu")
+        element = _snip(
+            "<SHORT-NAME>gpPdu</SHORT-NAME>" "<LENGTH>64</LENGTH>",
+            root_tag="GENERAL-PURPOSE-PDU",
+        )
+        parser.readGeneralPurposePdu(element, pdu)
+        assert pdu.getShortName() == "gpPdu"
+        assert pdu.getLength() is not None
+        assert pdu.getLength().getValue() == 64
+        assert pdu.getHasDynamicLength() is None
+
     def test_readGeneralPurposeIPdu_minimal(self, parser):
         from armodel.models import GeneralPurposeIPdu
 

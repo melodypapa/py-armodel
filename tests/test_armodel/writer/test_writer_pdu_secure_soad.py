@@ -499,6 +499,34 @@ class TestWriteGeneralPurposePdu:
         assert child.find("SHORT-NAME").text == "gpPdu"
         assert child.find("LENGTH").text == "64"
 
+    def test_empty(self, writer):
+        pkg = _pkg()
+        pdu = GeneralPurposePdu(pkg, "gpPdu")
+        parent = _parent()
+        writer.writeGeneralPurposePdu(parent, pdu)
+        child = parent.find("GENERAL-PURPOSE-PDU")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "gpPdu"
+        assert child.find("LENGTH") is None
+        assert child.find("HAS-DYNAMIC-LENGTH") is None
+
+    def test_write_reparse_round_trip(self, writer):
+        pkg = _pkg()
+        pdu = GeneralPurposePdu(pkg, "gpPdu")
+        pdu.setLength(_int("64"))
+        parent = _parent()
+        writer.writeGeneralPurposePdu(parent, pdu)
+        child = parent.find("GENERAL-PURPOSE-PDU")
+        xml_str = ET.tostring(child).decode()
+        idx = xml_str.find(">")
+        xml_str = xml_str[:idx] + ' xmlns="http://autosar.org/schema/r4.0"' + xml_str[idx:]
+        reloaded = GeneralPurposePdu(parent=_pkg(), short_name="gpPdu")
+        ARXMLParser().readGeneralPurposePdu(ET.fromstring(xml_str), reloaded)
+        assert reloaded.getShortName() == "gpPdu"
+        assert reloaded.getLength() is not None
+        assert reloaded.getLength().getValue() == 64
+        assert reloaded.getHasDynamicLength() is None
+
 
 class TestWriteGeneralPurposeIPdu:
     def test_full(self, writer):
