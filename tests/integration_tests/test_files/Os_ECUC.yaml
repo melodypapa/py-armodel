@@ -1,0 +1,102 @@
+OsApplication:
+- name: OsApplication_QM
+  OsTrusted: false
+  OsTrustedApplicationDelayTimingViolationCall: null
+  OsTrustedApplicationWithProtection: null
+  OsAppAlarmRef:
+  - /Os/Os/AlarmIncrementRteCounter
+  OsAppCounterRef:
+  - /Os/Os/HwCounter
+  - /Os/Os/Rte_Counter
+  OsAppEcucPartitionRef: null
+  OsAppIsrRef: []
+  OsAppScheduleTableRef: []
+  OsAppTaskRef:
+  - Init_Task
+  - Rte_Event_Task
+  - Rte_Time_Task
+  - SchMDiagStateTask_20ms
+  OsMemoryMappingCodeLocationRef: null
+  OsRestartTask: null
+  OsAppStartupHook: false
+  OsAppErrorHook: false
+  OsAppShutdownHook: false
+  OsTrustedFunctionName: []
+  ApplicationState: APPLICATION_ACCESSIBLE
+OsTask:
+- name: Init_Task
+  OsTaskActivation: 1
+  OsTaskPeriod: null
+  OsTaskPriority: 127
+  OsTaskSchedule: NON
+  OsStacksize: 1024
+  OsMemoryMappingCodeLocationRef: null
+  OsTaskAccessingApplication:
+  - OsApplication_QM
+  OsTaskEventRef: []
+  OsTaskResourceRef: []
+  OsTaskAppModeRef:
+  - /Os/Os/OSDEFAULTAPPMODE
+  OsTaskAllInterruptLockBudget: null
+  OsTaskExecutionBudget: null
+  OsTaskOsInterruptLockBudget: null
+  OsTaskTimeFrame: null
+  OsTaskResourceLockBudget: []
+  OsTaskResourceLockResourceRef: []
+- name: Rte_Time_Task
+  OsTaskActivation: 1
+  OsTaskPeriod: null
+  OsTaskPriority: 52
+  OsTaskSchedule: FULL
+  OsStacksize: 1024
+  OsMemoryMappingCodeLocationRef: null
+  OsTaskAccessingApplication:
+  - OsApplication_QM
+  OsTaskEventRef: []
+  OsTaskResourceRef: []
+  OsTaskAppModeRef: []
+  OsTaskAllInterruptLockBudget: null
+  OsTaskExecutionBudget: null
+  OsTaskOsInterruptLockBudget: null
+  OsTaskTimeFrame: null
+  OsTaskResourceLockBudget: []
+  OsTaskResourceLockResourceRef: []
+- name: Rte_Event_Task
+  OsTaskActivation: 1
+  OsTaskPeriod: null
+  OsTaskPriority: 51
+  OsTaskSchedule: FULL
+  OsStacksize: 1024
+  OsMemoryMappingCodeLocationRef: null
+  OsTaskAccessingApplication:
+  - OsApplication_QM
+  OsTaskEventRef:
+  - /Os/Os/Rte_OSShutdownEvent
+  - /Os/Os/Rte_OSTriggerExecutableEvent_Rte_Event_Task_DRE_523E8C37B43C9473DFA14A98BC1F65F2
+  - /Os/Os/Rte_OSTriggerExecutableEvent_Rte_Event_Task_MSE_4FF9241E67DF8B0AADC83685D425BB32
+  OsTaskResourceRef: []
+  OsTaskAppModeRef: []
+  OsTaskAllInterruptLockBudget: null
+  OsTaskExecutionBudget: null
+  OsTaskOsInterruptLockBudget: null
+  OsTaskTimeFrame: null
+  OsTaskResourceLockBudget: []
+  OsTaskResourceLockResourceRef: []
+- name: SchMDiagStateTask_20ms
+  OsTaskActivation: 1
+  OsTaskPeriod: null
+  OsTaskPriority: 50
+  OsTaskSchedule: FULL
+  OsStacksize: 512
+  OsMemoryMappingCodeLocationRef: null
+  OsTaskAccessingApplication:
+  - OsApplication_QM
+  OsTaskEventRef: []
+  OsTaskResourceRef: []
+  OsTaskAppModeRef: []
+  OsTaskAllInterruptLockBudget: null
+  OsTaskExecutionBudget: null
+  OsTaskOsInterruptLockBudget: null
+  OsTaskTimeFrame: null
+  OsTaskResourceLockBudget: []
+  OsTaskResourceLockResourceRef: []
