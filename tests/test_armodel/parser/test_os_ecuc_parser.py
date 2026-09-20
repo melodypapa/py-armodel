@@ -2,7 +2,7 @@ import logging
 
 import pytest
 
-from armodel.data_models.ecuc import OsAlarm, OsIsr, OsOs, OsScheduleTable
+from armodel.data_models.ecuc import OsOs
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,

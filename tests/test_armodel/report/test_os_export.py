@@ -144,7 +144,13 @@ def test_write_yaml_exports_alarm_isr_and_schedule_table_sections(tmp_path: Path
     isr.addOsIsrResourceLockBudget(0.0005)
     isr.addOsIsrResourceLockResourceRef("/Os/Os/OsStackResource")
     expiry_point1 = OsScheduleTableExpiryPoint().setOsScheduleTableExpiryPointOffset(2).setOsScheduleTableActivateTaskRef("/Os/Os/Rte_Time_Task")
-    expiry_point2 = OsScheduleTableExpiryPoint().setOsScheduleTableExpiryPointOffset(5).setOsScheduleTableMaxShorten(1).setOsScheduleTableSetEventTaskRef("/Os/Os/Rte_Event_Task").setOsScheduleTableSetEventRef("/Os/Os/Rte_OSShutdownEvent")
+    expiry_point2 = (
+        OsScheduleTableExpiryPoint()
+        .setOsScheduleTableExpiryPointOffset(5)
+        .setOsScheduleTableMaxShorten(1)
+        .setOsScheduleTableSetEventTaskRef("/Os/Os/Rte_Event_Task")
+        .setOsScheduleTableSetEventRef("/Os/Os/Rte_OSShutdownEvent")
+    )
     schedule_table = (
         OsScheduleTable()
         .setName("SystemScheduleTable")
