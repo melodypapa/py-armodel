@@ -55,6 +55,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     PortGroupInSystemInstanceRef,
     VariableDataPrototypeInSystemInstanceRef,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskPreemptabilityEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationISignalProps,
 )
@@ -1963,7 +1964,7 @@ class TestWriterTcpIpIcmpv4Props:
         parent = _parent()
         writer.writeTcpIpIcmpv4Props(parent, props)
 
-        child = parent.find("TCP-IP-ICMPV-4-PROPS")
+        child = parent.find("ICMP-V-4-PROPS")
         assert child is not None
         tags = [c.tag for c in child]
         assert tags == ["TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED", "TCP-IP-ICMP-V-4-TTL"]
@@ -1974,7 +1975,7 @@ class TestWriterTcpIpIcmpv4Props:
         props = TcpIpIcmpv4Props()
         parent = _parent()
         writer.writeTcpIpIcmpv4Props(parent, props)
-        child = parent.find("TCP-IP-ICMPV-4-PROPS")
+        child = parent.find("ICMP-V-4-PROPS")
         assert child is not None
         assert len(child) == 0
 
@@ -2019,3 +2020,72 @@ class TestWriterTcpIpIcmpv6Props:
         child = parent.find("ICMP-V-6-PROPS")
         assert child is not None
         assert len(child) == 0
+
+
+class TestWriterEthTcpIpIcmpProps:
+    """Tests for writeEthTcpIpIcmpProps handler (R23-11 EthTcpIpIcmpProps, Table 3.112, p.156)."""
+
+    def test_children_in_xsd_order(self, writer):
+        pkg = AUTOSAR.getInstance().createARPackage("EthIcmpPropsPkg")
+        props = pkg.createEthTcpIpIcmpProps("Props1")
+        v4 = TcpIpIcmpv4Props()
+        v4.setTcpIpIcmpV4EchoReplyEnabled(_boolean(True))
+        v4.setTcpIpIcmpV4Ttl(_positive_int(64))
+        props.setIcmpV4Props(v4)
+        v6 = TcpIpIcmpv6Props()
+        v6.setTcpIpIcmpV6EchoReplyEnabled(_boolean(False))
+        v6.setTcpIpIcmpV6HopLimit(_positive_int(255))
+        props.setIcmpV6Props(v6)
+
+        parent = _parent()
+        writer.writeEthTcpIpIcmpProps(parent, props)
+        child = parent.find("ETH-TCP-IP-ICMP-PROPS")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "Props1"
+        assert [c.tag for c in child if c.tag in ("ICMP-V-4-PROPS", "ICMP-V-6-PROPS")] == ["ICMP-V-4-PROPS", "ICMP-V-6-PROPS"]
+        assert child.find("ICMP-V-4-PROPS/TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED").text == "true"
+        assert child.find("ICMP-V-4-PROPS/TCP-IP-ICMP-V-4-TTL").text == "64"
+        assert child.find("ICMP-V-6-PROPS/TCP-IP-ICMP-V-6-ECHO-REPLY-ENABLED").text == "false"
+        assert child.find("ICMP-V-6-PROPS/TCP-IP-ICMP-V-6-HOP-LIMIT").text == "255"
+
+    def test_empty_children_omitted(self, writer):
+        pkg = AUTOSAR.getInstance().createARPackage("EthIcmpPropsPkg2")
+        props = pkg.createEthTcpIpIcmpProps("Props1")
+        parent = _parent()
+        writer.writeEthTcpIpIcmpProps(parent, props)
+        child = parent.find("ETH-TCP-IP-ICMP-PROPS")
+        assert child is not None
+        assert child.find("ICMP-V-4-PROPS") is None
+        assert child.find("ICMP-V-6-PROPS") is None
+
+
+class TestWriteOsTaskProxy:
+    """Tests for writeOsTaskProxy handler (R23-11 OsTaskProxy, Table 5.15, p.208)."""
+
+    def test_children_in_xsd_order(self, writer):
+        pkg = AUTOSAR.getInstance().createARPackage("OsTaskProxyPkg")
+        proxy = pkg.createOsTaskProxy("TaskProxy1")
+        proxy.setPeriod(_time_value(0.01))
+        proxy.setPreemptability(OsTaskPreemptabilityEnum().setValue("FULL"))
+        proxy.setPriority(_positive_int(4))
+
+        parent = _parent()
+        writer.writeOsTaskProxy(parent, proxy)
+        child = parent.find("OS-TASK-PROXY")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "TaskProxy1"
+        assert [c.tag for c in child if c.tag in ("PERIOD", "PREEMPTABILITY", "PRIORITY")] == ["PERIOD", "PREEMPTABILITY", "PRIORITY"]
+        assert child.find("PERIOD").text == "0.01"
+        assert child.find("PREEMPTABILITY").text == "FULL"
+        assert child.find("PRIORITY").text == "4"
+
+    def test_empty_children_omitted(self, writer):
+        pkg = AUTOSAR.getInstance().createARPackage("OsTaskProxyPkg2")
+        proxy = pkg.createOsTaskProxy("TaskProxy1")
+        parent = _parent()
+        writer.writeOsTaskProxy(parent, proxy)
+        child = parent.find("OS-TASK-PROXY")
+        assert child is not None
+        assert child.find("PERIOD") is None
+        assert child.find("PREEMPTABILITY") is None
+        assert child.find("PRIORITY") is None

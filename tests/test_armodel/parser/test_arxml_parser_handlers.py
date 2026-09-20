@@ -25,7 +25,8 @@ from armodel.models import (
     InstanceEventInCompositionInstanceRef,
     InstantiationTimingEventProps,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthTcpIpProps, TcpIpIcmpv4Props, TcpIpIcmpv6Props, TcpProps, UdpProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthTcpIpIcmpProps, EthTcpIpProps, TcpIpIcmpv4Props, TcpIpIcmpv6Props, TcpProps, UdpProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskPreemptabilityEnum, OsTaskProxy
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -2621,7 +2622,7 @@ class TestReadTcpIpIcmpv4Props:
                 <TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED>true</TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED>
                 <TCP-IP-ICMP-V-4-TTL>64</TCP-IP-ICMP-V-4-TTL>
             """,
-            root_tag="TCP-IP-ICMPV-4-PROPS",
+            root_tag="ICMP-V-4-PROPS",
         )
         props = TcpIpIcmpv4Props()
         parser.readTcpIpIcmpv4Props(element, props)
@@ -2629,7 +2630,7 @@ class TestReadTcpIpIcmpv4Props:
         assert props.getTcpIpIcmpV4Ttl().getValue() == 64
 
     def test_read_tcp_ip_icmpv4_props_empty(self, parser):
-        element = _snip("", root_tag="TCP-IP-ICMPV-4-PROPS")
+        element = _snip("", root_tag="ICMP-V-4-PROPS")
         props = TcpIpIcmpv4Props()
         parser.readTcpIpIcmpv4Props(element, props)
         assert props.getTcpIpIcmpV4EchoReplyEnabled() is None
@@ -2667,3 +2668,80 @@ class TestReadTcpIpIcmpv6Props:
         assert props.getTcpIpIcmpV6HopLimit() is None
         assert props.getTcpIpIcmpV6MsgDestinationUnreachableEnabled() is None
         assert props.getTcpIpIcmpV6MsgParameterProblemEnabled() is None
+
+
+class TestReadEthTcpIpIcmpProps:
+    """Tests for readEthTcpIpIcmpProps handler (R23-11 EthTcpIpIcmpProps, Table 3.112, p.156)."""
+
+    def test_read_eth_tcp_ip_icmp_props_full(self, parser):
+        element = _snip(
+            """
+                <SHORT-NAME>Props1</SHORT-NAME>
+                <ICMP-V-4-PROPS>
+                    <TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED>true</TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED>
+                    <TCP-IP-ICMP-V-4-TTL>64</TCP-IP-ICMP-V-4-TTL>
+                </ICMP-V-4-PROPS>
+                <ICMP-V-6-PROPS>
+                    <TCP-IP-ICMP-V-6-ECHO-REPLY-ENABLED>false</TCP-IP-ICMP-V-6-ECHO-REPLY-ENABLED>
+                    <TCP-IP-ICMP-V-6-HOP-LIMIT>255</TCP-IP-ICMP-V-6-HOP-LIMIT>
+                </ICMP-V-6-PROPS>
+            """,
+            root_tag="ETH-TCP-IP-ICMP-PROPS",
+        )
+        props = EthTcpIpIcmpProps(parent=_autosar_root(), short_name="Props1")
+        parser.readEthTcpIpIcmpProps(element, props)
+        assert props.getIcmpV4Props() is not None
+        assert props.getIcmpV4Props().getTcpIpIcmpV4EchoReplyEnabled().getValue() is True
+        assert props.getIcmpV4Props().getTcpIpIcmpV4Ttl().getValue() == 64
+        assert props.getIcmpV6Props() is not None
+        assert props.getIcmpV6Props().getTcpIpIcmpV6EchoReplyEnabled().getValue() is False
+        assert props.getIcmpV6Props().getTcpIpIcmpV6HopLimit().getValue() == 255
+
+    def test_read_eth_tcp_ip_icmp_props_empty(self, parser):
+        element = _snip(
+            """
+                <SHORT-NAME>Props1</SHORT-NAME>
+            """,
+            root_tag="ETH-TCP-IP-ICMP-PROPS",
+        )
+        props = EthTcpIpIcmpProps(parent=_autosar_root(), short_name="Props1")
+        parser.readEthTcpIpIcmpProps(element, props)
+        assert props.getIcmpV4Props() is None
+        assert props.getIcmpV6Props() is None
+
+
+class TestReadOsTaskProxy:
+    """Tests for readOsTaskProxy handler (R23-11 OsTaskProxy, Table 5.15, p.208)."""
+
+    def test_read_os_task_proxy_full(self, parser):
+        element = _snip(
+            """
+                <SHORT-NAME>TaskProxy1</SHORT-NAME>
+                <PERIOD>0.01</PERIOD>
+                <PREEMPTABILITY>FULL</PREEMPTABILITY>
+                <PRIORITY>4</PRIORITY>
+            """,
+            root_tag="OS-TASK-PROXY",
+        )
+        proxy = OsTaskProxy(parent=_autosar_root(), short_name="TaskProxy1")
+        parser.readOsTaskProxy(element, proxy)
+        assert proxy.getPeriod() is not None
+        assert proxy.getPeriod().getValue() == 0.01
+        assert proxy.getPreemptability() is not None
+        assert isinstance(proxy.getPreemptability(), OsTaskPreemptabilityEnum)
+        assert proxy.getPreemptability().getValue() == "FULL"
+        assert proxy.getPriority() is not None
+        assert proxy.getPriority().getValue() == 4
+
+    def test_read_os_task_proxy_empty(self, parser):
+        element = _snip(
+            """
+                <SHORT-NAME>TaskProxy1</SHORT-NAME>
+            """,
+            root_tag="OS-TASK-PROXY",
+        )
+        proxy = OsTaskProxy(parent=_autosar_root(), short_name="TaskProxy1")
+        parser.readOsTaskProxy(element, proxy)
+        assert proxy.getPeriod() is None
+        assert proxy.getPreemptability() is None
+        assert proxy.getPriority() is None

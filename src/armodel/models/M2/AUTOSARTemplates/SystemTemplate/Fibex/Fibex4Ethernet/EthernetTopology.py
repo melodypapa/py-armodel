@@ -3815,3 +3815,50 @@ class TcpIpIcmpv6Props(ARObject):
         if value is not None:
             self.tcpIpIcmpV6MsgParameterProblemEnabled = value
         return self
+
+
+class EthTcpIpIcmpProps(ARElement):
+    """This meta-class is used to configure the EcuInstance specific ICMP (Internet Control Message Protocol) attributes Tags: atp.recommendedPackage=EthTcpIcmpProps"""
+
+    # EthTcpIpIcmpProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.112, p.156 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIcmpV4Props  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIcmpV4Props  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIcmpV6Props  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIcmpV6Props  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Aggregated by ARPackage.element (XSD L5283) → ARPackage.createEthTcpIpIcmpProps factory.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # ICMPv4 configuration properties
+        self.icmpV4Props: Optional[TcpIpIcmpv4Props] = None
+
+        # ICMPv6 configuration properties
+        self.icmpV6Props: Optional[TcpIpIcmpv6Props] = None
+
+    def getIcmpV4Props(self) -> Optional[TcpIpIcmpv4Props]:
+        """ICMPv4 configuration properties"""
+        return self.icmpV4Props
+
+    def setIcmpV4Props(self, value: Optional[TcpIpIcmpv4Props]) -> "EthTcpIpIcmpProps":
+        """ICMPv4 configuration properties
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.icmpV4Props = value
+        return self
+
+    def getIcmpV6Props(self) -> Optional[TcpIpIcmpv6Props]:
+        """ICMPv6 configuration properties"""
+        return self.icmpV6Props
+
+    def setIcmpV6Props(self, value: Optional[TcpIpIcmpv6Props]) -> "EthTcpIpIcmpProps":
+        """ICMPv6 configuration properties
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.icmpV6Props = value
+        return self

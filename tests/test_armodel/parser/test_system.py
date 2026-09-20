@@ -4,6 +4,7 @@ from pathlib import Path
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ComManagementMapping, J1939SharedAddressCluster, RootSwCompositionPrototype, System, SystemMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import PortGroupInSystemInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.MSR.Documentation.Chapters import Chapter
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -329,3 +330,91 @@ class TestSystemTemplate:
         variation_point = com_mapping.getVariationPoint()
         assert variation_point is not None
         assert variation_point.getShortLabel().getValue() == "VP_COMMAP"
+
+
+ECU_INSTANCE_PARTITIONS_ARXML = """<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_4-0-3.xsd">
+  <AR-PACKAGES>
+    <AR-PACKAGE>
+      <SHORT-NAME>TopLevelDecorations</SHORT-NAME>
+      <ELEMENTS>
+        <ECU-INSTANCE>
+          <SHORT-NAME>EcuInst</SHORT-NAME>
+          <PARTITIONS>
+            <ECU-PARTITION>
+              <SHORT-NAME>PartA</SHORT-NAME>
+              <EXEC-IN-USER-MODE>true</EXEC-IN-USER-MODE>
+            </ECU-PARTITION>
+            <ECU-PARTITION>
+              <SHORT-NAME>PartB</SHORT-NAME>
+              <EXEC-IN-USER-MODE>false</EXEC-IN-USER-MODE>
+            </ECU-PARTITION>
+          </PARTITIONS>
+          <PN-RESET-TIME>2.0</PN-RESET-TIME>
+        </ECU-INSTANCE>
+      </ELEMENTS>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>
+"""
+
+ECU_INSTANCE_NO_PARTITIONS_ARXML = """<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_4-0-3.xsd">
+  <AR-PACKAGES>
+    <AR-PACKAGE>
+      <SHORT-NAME>TopLevelDecorations</SHORT-NAME>
+      <ELEMENTS>
+        <ECU-INSTANCE>
+          <SHORT-NAME>EcuInst</SHORT-NAME>
+        </ECU-INSTANCE>
+      </ELEMENTS>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>
+"""
+
+
+class TestEcuInstancePartitions:
+    def test_partitions_round_trip(self, tmp_path):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        arxml_file = tmp_path / "ecu_instance_partitions.arxml"
+        arxml_file.write_text(ECU_INSTANCE_PARTITIONS_ARXML, encoding="utf-8")
+        ARXMLParser().load(str(arxml_file), document)
+
+        ecu = document.getARPackages()[0].getElement("EcuInst")
+        assert ecu is not None
+
+        partitions = ecu.getPartitions()
+        assert [p.getShortName() for p in partitions] == ["PartA", "PartB"]
+        assert all(isinstance(p, EcuPartition) for p in partitions)
+        assert partitions[0].getExecInUserMode().getValue() is True
+        assert partitions[1].getExecInUserMode().getValue() is False
+        assert ecu.getPnResetTime() is not None
+
+        saved_file = tmp_path / "ecu_instance_partitions_saved.arxml"
+        ARXMLWriter().save(str(saved_file), document)
+
+        document_2 = AUTOSAR.getInstance()
+        document_2.clear()
+        ARXMLParser().load(str(saved_file), document_2)
+
+        ecu_2 = document_2.getARPackages()[0].getElement("EcuInst")
+        partitions_2 = ecu_2.getPartitions()
+        assert [p.getShortName() for p in partitions_2] == ["PartA", "PartB"]
+        assert partitions_2[0].getExecInUserMode().getValue() is True
+        assert partitions_2[1].getExecInUserMode().getValue() is False
+        assert ecu_2.getPnResetTime() is not None
+
+    def test_ecu_instance_without_partitions(self, tmp_path):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        arxml_file = tmp_path / "ecu_instance_no_partitions.arxml"
+        arxml_file.write_text(ECU_INSTANCE_NO_PARTITIONS_ARXML, encoding="utf-8")
+        ARXMLParser().load(str(arxml_file), document)
+
+        ecu = document.getARPackages()[0].getElement("EcuInst")
+        assert ecu is not None
+        assert ecu.getPartitions() == []

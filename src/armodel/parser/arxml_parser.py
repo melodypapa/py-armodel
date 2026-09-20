@@ -713,6 +713,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskPreemptabilityEnum, OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanAddressingModeType,
     CanFrame,
@@ -749,6 +750,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    EthTcpIpIcmpProps,
     EthTcpIpProps,
     CouplingPort,
     CouplingPortAbstractShaper,
@@ -933,6 +935,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
     EventControlledTiming,
@@ -9417,6 +9420,29 @@ class ARXMLParser(AbstractARXMLParser):
         props.setTcpIpIcmpV6MsgDestinationUnreachableEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED"))
         props.setTcpIpIcmpV6MsgParameterProblemEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED"))
 
+    def readEthTcpIpIcmpProps(self, element: ET.Element, props: EthTcpIpIcmpProps):
+        """Read an R23-11 <ETH-TCP-IP-ICMP-PROPS> element (Table 3.112, p.156): SHORT-NAME, ICMP-V-4-PROPS, ICMP-V-6-PROPS."""
+        self.readIdentifiable(element, props)
+        child_element = self.find(element, "ICMP-V-4-PROPS")
+        if child_element is not None:
+            v4_props = TcpIpIcmpv4Props()
+            self.readTcpIpIcmpv4Props(child_element, v4_props)
+            props.setIcmpV4Props(v4_props)
+        child_element = self.find(element, "ICMP-V-6-PROPS")
+        if child_element is not None:
+            v6_props = TcpIpIcmpv6Props()
+            self.readTcpIpIcmpv6Props(child_element, v6_props)
+            props.setIcmpV6Props(v6_props)
+
+    def readOsTaskProxy(self, element: ET.Element, proxy: OsTaskProxy):
+        """Read an R23-11 <OS-TASK-PROXY> element (Table 5.15, p.208): SHORT-NAME, PERIOD, PREEMPTABILITY, PRIORITY."""
+        self.readIdentifiable(element, proxy)
+        proxy.setPeriod(self.getChildElementOptionalTimeValue(element, "PERIOD"))
+        child_element = self.find(element, "PREEMPTABILITY")
+        if child_element is not None:
+            proxy.setPreemptability(OsTaskPreemptabilityEnum().setValue(child_element.text))
+        proxy.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
+
     def readFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
         self.logger.debug("Read FlexrayCluster <%s>" % cluster.getShortName())
         self.readIdentifiable(element, cluster)
@@ -11784,6 +11810,15 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "FIREWALL-RULE-REFS/FIREWALL-RULE-REF"):
             instance.addFirewallRuleRef(ref)
 
+    def readEcuInstancePartitions(self, element: ET.Element, instance: EcuInstance):
+        for child_element in self.findall(element, "PARTITIONS/ECU-PARTITION"):
+            partition = instance.createEcuPartition(self.getShortName(child_element))
+            self.readEcuPartition(child_element, partition)
+
+    def readEcuPartition(self, element: ET.Element, partition: EcuPartition):
+        self.readIdentifiable(element, partition)
+        partition.setExecInUserMode(self.getChildElementOptionalBooleanValue(element, "EXEC-IN-USER-MODE"))
+
     def readEcuInstance(self, element: ET.Element, instance: EcuInstance):
         self.logger.debug("Read EcuInstance <%s>" % instance.getShortName())
         self.readIdentifiable(element, instance)
@@ -11800,6 +11835,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readEcuInstanceEcuTaskProxyRefs(element, instance)
         instance.setEthSwitchPortGroupDerivation(self.getChildElementOptionalBooleanValue(element, "ETH-SWITCH-PORT-GROUP-DERIVATION"))
         self.readEcuInstanceFirewallRuleRefs(element, instance)
+        self.readEcuInstancePartitions(element, instance)
         instance.setPnResetTime(self.getChildElementOptionalTimeValue(element, "PN-RESET-TIME"))
         instance.setPncNmRequest(self.getChildElementOptionalBooleanValue(element, "PNC-NM-REQUEST"))
         instance.setPncPrepareSleepTimer(self.getChildElementOptionalTimeValue(element, "PNC-PREPARE-SLEEP-TIMER"))
@@ -13078,6 +13114,12 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ETH-TCP-IP-PROPS":
                 props = parent.createEthTcpIpProps(self.getShortName(child_element))
                 self.readEthTcpIpProps(child_element, props)
+            elif tag_name == "ETH-TCP-IP-ICMP-PROPS":
+                props = parent.createEthTcpIpIcmpProps(self.getShortName(child_element))
+                self.readEthTcpIpIcmpProps(child_element, props)
+            elif tag_name == "OS-TASK-PROXY":
+                proxy = parent.createOsTaskProxy(self.getShortName(child_element))
+                self.readOsTaskProxy(child_element, proxy)
             elif tag_name == "ECUC-MODULE-CONFIGURATION-VALUES":
                 values = parent.createEcucModuleConfigurationValues(self.getShortName(child_element))
                 self.readEcucModuleConfigurationValues(child_element, values)

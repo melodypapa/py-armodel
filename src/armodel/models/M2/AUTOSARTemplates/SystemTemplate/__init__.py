@@ -5,7 +5,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure impor
 from armodel.models.M2.MSR.Documentation.Chapters import Chapter
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import CryptoServiceMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping, OsTaskPreemptabilityEnum, OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, OperationInSystemInstanceRef, PortGroupInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToImplMapping
@@ -957,6 +957,8 @@ __all__ = [
     "Identifiable",
     "J1939SharedAddressCluster",
     "OperationInSystemInstanceRef",
+    "OsTaskPreemptabilityEnum",
+    "OsTaskProxy",
     "PortGroupInSystemInstanceRef",
     "PositiveInteger",
     "RefType",

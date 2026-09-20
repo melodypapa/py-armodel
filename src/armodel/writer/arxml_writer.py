@@ -638,6 +638,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanFrame,
     CanFrameTriggering,
@@ -670,6 +671,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    EthTcpIpIcmpProps,
     EthTcpIpProps,
     CouplingPort,
     CouplingPortAbstractShaper,
@@ -832,6 +834,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
     EventControlledTiming,
@@ -9551,9 +9554,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "TCP-TTL", props.getTcpTtl())
 
     def writeTcpIpIcmpv4Props(self, element: ET.Element, props: TcpIpIcmpv4Props):
-        """Write an R23-11 <TCP-IP-ICMPV-4-PROPS> element (Table 3.113, p.156): 2 optional attributes in XSD order."""
+        """Write an R23-11 <ICMP-V-4-PROPS> element (Table 3.113, p.156): 2 optional attributes in XSD order."""
         if props is not None:
-            child_element = ET.SubElement(element, "TCP-IP-ICMPV-4-PROPS")
+            child_element = ET.SubElement(element, "ICMP-V-4-PROPS")
             self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED", props.getTcpIpIcmpV4EchoReplyEnabled())
             self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-ICMP-V-4-TTL", props.getTcpIpIcmpV4Ttl())
 
@@ -9566,6 +9569,26 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-ICMP-V-6-HOP-LIMIT", props.getTcpIpIcmpV6HopLimit())
             self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED", props.getTcpIpIcmpV6MsgDestinationUnreachableEnabled())
             self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED", props.getTcpIpIcmpV6MsgParameterProblemEnabled())
+
+    def writeEthTcpIpIcmpProps(self, element: ET.Element, props: EthTcpIpIcmpProps):
+        """Write an R23-11 <ETH-TCP-IP-ICMP-PROPS> element (Table 3.112, p.156): SHORT-NAME, ICMP-V-4-PROPS, ICMP-V-6-PROPS."""
+        if props is not None:
+            child_element = ET.SubElement(element, "ETH-TCP-IP-ICMP-PROPS")
+            self.writeIdentifiable(child_element, props)
+            if props.getIcmpV4Props() is not None:
+                self.writeTcpIpIcmpv4Props(child_element, props.getIcmpV4Props())
+            if props.getIcmpV6Props() is not None:
+                self.writeTcpIpIcmpv6Props(child_element, props.getIcmpV6Props())
+
+    def writeOsTaskProxy(self, element: ET.Element, proxy: OsTaskProxy):
+        """Write an R23-11 <OS-TASK-PROXY> element (Table 5.15, p.208): SHORT-NAME, PERIOD, PREEMPTABILITY, PRIORITY."""
+        if proxy is not None:
+            child_element = ET.SubElement(element, "OS-TASK-PROXY")
+            self.writeIdentifiable(child_element, proxy)
+            self.setChildElementOptionalTimeValue(child_element, "PERIOD", proxy.getPeriod())
+            if proxy.getPreemptability() is not None:
+                self.setChildElementOptionalLiteral(child_element, "PREEMPTABILITY", proxy.getPreemptability())
+            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", proxy.getPriority())
 
     def writeFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
         if cluster is not None:
@@ -10803,6 +10826,21 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(child_element, "FIREWALL-RULE-REF", ref)
 
+    def writeEcuInstancePartitions(self, element: ET.Element, instance: EcuInstance):
+        partitions = instance.getPartitions()
+        if len(partitions) > 0:
+            child_element = ET.SubElement(element, "PARTITIONS")
+            for partition in partitions:
+                if isinstance(partition, EcuPartition):
+                    self.writeEcuPartition(child_element, partition)
+                else:
+                    self.notImplemented("Unsupported Partition <%s>" % type(partition))
+
+    def writeEcuPartition(self, element: ET.Element, partition: EcuPartition):
+        child_element = ET.SubElement(element, "ECU-PARTITION")
+        self.writeIdentifiable(child_element, partition)
+        self.setChildElementOptionalBooleanValue(child_element, "EXEC-IN-USER-MODE", partition.getExecInUserMode())
+
     def writeEcuInstance(self, element: ET.Element, instance: EcuInstance):
         self.logger.debug("EcuInstance %s" % instance.getShortName())
         child_element = ET.SubElement(element, "ECU-INSTANCE")
@@ -10820,6 +10858,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeEcuInstanceEcuTaskProxyRefs(child_element, instance)
         self.setChildElementOptionalBooleanValue(child_element, "ETH-SWITCH-PORT-GROUP-DERIVATION", instance.getEthSwitchPortGroupDerivation())
         self.writeEcuInstanceFirewallRuleRefs(child_element, instance)
+        self.writeEcuInstancePartitions(child_element, instance)
         self.setChildElementOptionalTimeValue(child_element, "PN-RESET-TIME", instance.getPnResetTime())
         self.setChildElementOptionalBooleanValue(child_element, "PNC-NM-REQUEST", instance.getPncNmRequest())
         self.setChildElementOptionalTimeValue(child_element, "PNC-PREPARE-SLEEP-TIMER", instance.getPncPrepareSleepTimer())
@@ -12900,6 +12939,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeModuleConfiguration(element, ar_element)
         elif isinstance(ar_element, EthTcpIpProps):
             self.writeEthTcpIpProps(element, ar_element)
+        elif isinstance(ar_element, EthTcpIpIcmpProps):
+            self.writeEthTcpIpIcmpProps(element, ar_element)
+        elif isinstance(ar_element, OsTaskProxy):
+            self.writeOsTaskProxy(element, ar_element)
         elif isinstance(ar_element, SwSystemconst):
             self.writeSwSystemconst(element, ar_element)
         elif isinstance(ar_element, SwSystemconstantValueSet):
