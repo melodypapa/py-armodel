@@ -2,11 +2,14 @@
 # It defines logic address properties and configurations for DoIP communication
 
 from abc import ABC
-from typing import List, Optional
+from typing import TYPE_CHECKING, List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, TimeValue
+
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import DoIpLogicAddress
 
 
 class AbstractDoIpLogicAddressProps(Identifiable, ABC):
@@ -393,3 +396,60 @@ class DoIpInterface(Identifiable):
         if value is not None:
             self.vehicleAnnouncementInterval = value
         return self
+
+
+class DoIpConfig(ARObject):
+    """
+    This element defines the DoIp configuration for a specific Ecu.
+    """
+
+    # DoIpConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.202, p.551
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createDoIpInterface  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDoIpInterfaces    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createLogicAddress   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLogicAddress      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # DoIP node consists of one or several DoIPInterfaces over which the ECU is able to communicate via DoIP independently. I.e. DoIP functionalities on each IP interface are isolated from each other.
+        self.doipInterfaces: List[DoIpInterface] = []
+
+        # Describes the logical address of the DoIP entity, i.e. the Local Address that will route diagnostic requests to the Dcm of the DoIP entity.
+        self.logicAddress: Optional["DoIpLogicAddress"] = None
+
+    def createDoIpInterface(self, short_name: str) -> DoIpInterface:
+        """
+        DoIP node consists of one or several DoIPInterfaces over which the ECU is able to communicate via DoIP independently. I.e. DoIP functionalities on each IP interface are isolated from each other.
+        """
+        for interface in self.doipInterfaces:
+            if interface.getShortName() == short_name:
+                return interface
+        interface = DoIpInterface(self, short_name)
+        self.doipInterfaces.append(interface)
+        return interface
+
+    def getDoIpInterfaces(self) -> List[DoIpInterface]:
+        """
+        DoIP node consists of one or several DoIPInterfaces over which the ECU is able to communicate via DoIP independently. I.e. DoIP functionalities on each IP interface are isolated from each other.
+        """
+        return self.doipInterfaces
+
+    def createLogicAddress(self, short_name: str) -> "DoIpLogicAddress":
+        """
+        Describes the logical address of the DoIP entity, i.e. the Local Address that will route diagnostic requests to the Dcm of the DoIP entity.
+        """
+        if self.logicAddress is None:
+            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import DoIpLogicAddress
+
+            self.logicAddress = DoIpLogicAddress(self, short_name)
+        return self.logicAddress
+
+    def getLogicAddress(self) -> Optional["DoIpLogicAddress"]:
+        """
+        Describes the logical address of the DoIP entity, i.e. the Local Address that will route diagnostic requests to the Dcm of the DoIP entity.
+        """
+        return self.logicAddress

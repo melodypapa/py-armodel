@@ -637,7 +637,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordTypeMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpInterface, DoIpRoutingActivation
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
@@ -10843,6 +10843,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, partition)
         self.setChildElementOptionalBooleanValue(child_element, "EXEC-IN-USER-MODE", partition.getExecInUserMode())
 
+    def writeEcuInstanceDoIpConfig(self, element: ET.Element, instance: EcuInstance):
+        if instance.getDoIpConfig() is not None:
+            self.writeDoIpConfig(element, instance.getDoIpConfig())
+
     def writeEcuInstance(self, element: ET.Element, instance: EcuInstance):
         self.logger.debug("EcuInstance %s" % instance.getShortName())
         child_element = ET.SubElement(element, "ECU-INSTANCE")
@@ -10857,6 +10861,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "COM-ENABLE-MDT-FOR-CYCLIC-TRANSMISSION", instance.getComEnableMDTForCyclicTransmission())  # noqa E501
         self.writeEcuInstanceCommControllers(child_element, instance)
         self.writeEcuInstanceConnectors(child_element, instance)
+        self.writeEcuInstanceDoIpConfig(child_element, instance)
         self.writeEcuInstanceEcuTaskProxyRefs(child_element, instance)
         self.setChildElementOptionalBooleanValue(child_element, "ETH-SWITCH-PORT-GROUP-DERIVATION", instance.getEthSwitchPortGroupDerivation())
         self.writeEcuInstanceFirewallRuleRefs(child_element, instance)
@@ -11861,6 +11866,23 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDataPrototypeInPortInterfaceRef(child_element, dp_ref)
         self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION-PROPS", props.getNetworkRepresentationProps())
         self.setChildElementOptionalRefType(child_element, "TRANSFORMATION-PROPS-REF", props.getTransformationPropsRef())
+
+    def writeDoIpConfig(self, element: ET.Element, config: DoIpConfig):
+        child_element = ET.SubElement(element, "DO-IP-CONFIG")
+        self.writeARObject(child_element, config)
+        interfaces = config.getDoIpInterfaces()
+        if len(interfaces) > 0:
+            interfaces_tag = ET.SubElement(child_element, "DOIP-INTERFACES")
+            for interface in interfaces:
+                if isinstance(interface, DoIpInterface):
+                    self.writeDoIpInterface(interfaces_tag, interface)
+                else:
+                    self.notImplemented("Unsupported DoIpInterface <%s>" % type(interface))
+        address = config.getLogicAddress()
+        if address is not None:
+            address_tag = ET.SubElement(child_element, "LOGIC-ADDRESS")
+            self.writeIdentifiable(address_tag, address)
+            self.setChildElementOptionalIntegerValue(address_tag, "ADDRESS", address.getAddress())
 
     def writeDoIpInterface(self, element: ET.Element, interface: DoIpInterface):
         self.logger.debug("Set DoIpInterface %s" % interface.getShortName())

@@ -6,7 +6,15 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, TimeValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps, DoIpInterface, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps, DoIpRoutingActivation
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import (
+    AbstractDoIpLogicAddressProps,
+    DoIpConfig,
+    DoIpInterface,
+    DoIpLogicTargetAddressProps,
+    DoIpLogicTesterAddressProps,
+    DoIpRoutingActivation,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import DoIpLogicAddress
 
 
 class MockParent(ARObject):
@@ -293,3 +301,55 @@ class Test_DoIpInterface:
         assert interface.getDoIpRoutingActivations() == [activation]
         assert interface.createDoIpRoutingActivation("RoutingActivation1") is activation
         assert interface.getDoIpRoutingActivations() == [activation]
+
+
+@pytest.fixture(autouse=True)
+def reset_autosar_for_doip_config():
+    AUTOSAR.getInstance().new()
+    AUTOSAR.getInstance().setARRelease("R23-11")
+    yield
+    AUTOSAR.getInstance().new()
+
+
+class Test_DoIpConfig:
+    """Test cases for DoIpConfig (Table 6.202, p.551)."""
+
+    MEMBERS = [
+        "doipInterfaces",
+        "logicAddress",
+    ]
+
+    def test_inheritance(self):
+        assert issubclass(DoIpConfig, ARObject)
+
+    def test_class_docstring_note(self):
+        expected = "This element defines the DoIp configuration for a specific Ecu."
+        assert inspect.cleandoc(DoIpConfig.__doc__) == expected
+
+    def test_initialization_defaults(self):
+        config = DoIpConfig()
+        assert config.getDoIpInterfaces() == []
+        assert config.getLogicAddress() is None
+
+    def test_member_order(self):
+        config = DoIpConfig()
+        members = [k for k in vars(config) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_create_do_ip_interface(self):
+        config = DoIpConfig()
+        interface = config.createDoIpInterface("Interface1")
+        assert interface.getShortName() == "Interface1"
+        assert isinstance(interface, DoIpInterface)
+        assert config.getDoIpInterfaces() == [interface]
+        assert config.createDoIpInterface("Interface1") is interface
+        assert config.getDoIpInterfaces() == [interface]
+
+    def test_create_logic_address(self):
+        config = DoIpConfig()
+        address = config.createLogicAddress("LogicAddress1")
+        assert address.getShortName() == "LogicAddress1"
+        assert isinstance(address, DoIpLogicAddress)
+        assert config.getLogicAddress() is address
+        assert config.createLogicAddress("LogicAddress1") is address
+        assert config.getLogicAddress() is address

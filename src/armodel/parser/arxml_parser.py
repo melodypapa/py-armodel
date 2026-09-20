@@ -712,7 +712,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordTypeMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpInterface, DoIpRoutingActivation
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskPreemptabilityEnum, OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
@@ -11821,6 +11821,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, partition)
         partition.setExecInUserMode(self.getChildElementOptionalBooleanValue(element, "EXEC-IN-USER-MODE"))
 
+    def readEcuInstanceDoIpConfig(self, element: ET.Element, instance: EcuInstance):
+        do_ip_config_element = self.find(element, "DO-IP-CONFIG")
+        if do_ip_config_element is not None:
+            config = DoIpConfig()
+            instance.setDoIpConfig(config)
+            self.readDoIpConfig(do_ip_config_element, config)
+
     def readEcuInstance(self, element: ET.Element, instance: EcuInstance):
         self.logger.debug("Read EcuInstance <%s>" % instance.getShortName())
         self.readIdentifiable(element, instance)
@@ -11834,6 +11841,7 @@ class ARXMLParser(AbstractARXMLParser):
         instance.setComEnableMDTForCyclicTransmission(self.getChildElementOptionalBooleanValue(element, "COM-ENABLE-MDT-FOR-CYCLIC-TRANSMISSION"))
         self.readEcuInstanceCommControllers(element, instance)
         self.readEcuInstanceConnectors(element, instance)
+        self.readEcuInstanceDoIpConfig(element, instance)
         self.readEcuInstanceEcuTaskProxyRefs(element, instance)
         instance.setEthSwitchPortGroupDerivation(self.getChildElementOptionalBooleanValue(element, "ETH-SWITCH-PORT-GROUP-DERIVATION"))
         self.readEcuInstanceFirewallRuleRefs(element, instance)
@@ -12431,6 +12439,15 @@ class ARXMLParser(AbstractARXMLParser):
             timing.setMinimumDelay(self.getChildElementOptionalTimeValue(child_element, "MINIMUM-DELAY"))
             timing.setTransmissionModeDeclaration(self.getTransmissionModeDeclaration(child_element, "TRANSMISSION-MODE-DECLARATION"))
         return timing
+
+    def readDoIpConfig(self, element: ET.Element, config: DoIpConfig):
+        for child_element in self.findall(element, "DOIP-INTERFACES/DO-IP-INTERFACE"):
+            interface = config.createDoIpInterface(self.getShortName(child_element))
+            self.readDoIpInterface(child_element, interface)
+        logic_address_element = self.find(element, "LOGIC-ADDRESS")
+        if logic_address_element is not None:
+            address = config.createLogicAddress(self.getShortName(logic_address_element))
+            self.readDoIpLogicAddress(logic_address_element, address)
 
     def readDoIpInterface(self, element: ET.Element, interface: DoIpInterface):
         self.logger.debug("Read DoIpInterface <%s>" % interface.getShortName())
