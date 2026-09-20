@@ -658,6 +658,57 @@ class TestEthernetClusterHandlers:
         parser.readEthernetPhysicalChannelNetworkEndPoints(element, channel)
         assert len(channel.getNetworkEndpoints()) == 1
 
+    def test_readEthernetPhysicalChannel_full_read_field_values(self, parser):
+        from armodel.models import EthernetCluster, EthernetPhysicalChannel
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import SoAdConfig
+
+        cluster = EthernetCluster(parent=_autosar_root(), short_name="eth")
+        channel = EthernetPhysicalChannel(parent=cluster, short_name="ch")
+        element = _snip(
+            "<NETWORK-ENDPOINTS>"
+            "<NETWORK-ENDPOINT>"
+            "<SHORT-NAME>ne1</SHORT-NAME>"
+            "<PRIORITY>5</PRIORITY>"
+            "</NETWORK-ENDPOINT>"
+            "</NETWORK-ENDPOINTS>"
+            "<SO-AD-CONFIG/>"
+            "<VLAN>"
+            "<SHORT-NAME>vlan1</SHORT-NAME>"
+            "<VLAN-IDENTIFIER>100</VLAN-IDENTIFIER>"
+            "</VLAN>",
+            root_tag="ETHERNET-PHYSICAL-CHANNEL",
+        )
+        parser.readEthernetPhysicalChannel(element, channel)
+        endpoints = channel.getNetworkEndpoints()
+        assert len(endpoints) == 1
+        assert endpoints[0].getShortName() == "ne1"
+        assert endpoints[0].getPriority().getValue() == 5
+        assert isinstance(channel.getSoAdConfig(), SoAdConfig)
+        assert channel.getVlan().getShortName() == "vlan1"
+        assert channel.getVlan().getVlanIdentifier().getValue() == 100
+
+    def test_readCommunicationClusterPhysicalChannels_ethernet_dispatch_reads_content(self, parser):
+        from armodel.models import EthernetCluster
+
+        cluster = EthernetCluster(parent=_autosar_root(), short_name="eth")
+        element = _snip(
+            "<PHYSICAL-CHANNELS>"
+            "<ETHERNET-PHYSICAL-CHANNEL>"
+            "<SHORT-NAME>epc</SHORT-NAME>"
+            "<VLAN>"
+            "<SHORT-NAME>vlan1</SHORT-NAME>"
+            "<VLAN-IDENTIFIER>42</VLAN-IDENTIFIER>"
+            "</VLAN>"
+            "</ETHERNET-PHYSICAL-CHANNEL>"
+            "</PHYSICAL-CHANNELS>",
+            root_tag="ETHERNET-CLUSTER",
+        )
+        parser.readCommunicationClusterPhysicalChannels(element, cluster)
+        channels = cluster.getPhysicalChannels()
+        assert len(channels) == 1
+        assert channels[0].getShortName() == "epc"
+        assert channels[0].getVlan().getVlanIdentifier().getValue() == 42
+
     def test_readNetworkEndPoint_sets_priority(self, parser):
         from armodel.models import EthernetCluster, EthernetPhysicalChannel, NetworkEndpoint
 

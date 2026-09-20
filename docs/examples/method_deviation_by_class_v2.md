@@ -374,13 +374,11 @@ No deviations — the single Table 5.7 attribute `execInUserMode` (Boolean, 0..1
 | `functionalrequestrefs` | `—` | `functionalRequest` | ``TpConnectionIdent`` | ref | type (spec many vs py single) |
 
 ## `EthernetPhysicalChannel`
-- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 105  | **table:** Table 3.49
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `networkEndpoint` | ``NetworkEndpoint`` | aggr | missing |
+No deviations — all three Table 3.49 attributes (`networkEndpoint` NetworkEndpoint `*` aggr, `soAdConfig` SoAdConfig 0..1 aggr, `vlan` VlanConfig 0..1 aggr) are modeled with typed fields + accessor pairs (aggregated mutator-first per Rule 0001.11); Base most-derived = `PhysicalChannel` (stamped); reader `readEthernetPhysicalChannel`/writer `writeEthernetPhysicalChannel` cover all three in XSD order (NETWORK-ENDPOINTS→SO-AD-CONFIG→VLAN, AUTOSAR_00052.xsd group line 56571) with dispatch in read/writeCommunicationClusterPhysicalChannels. In-pass fixes (not deviations): `createNetworkEndPoint`→`createNetworkEndpoint` rename (Rule 0001.5), `soAdConfig`/`vlan` retyped `Optional[...]` PEP 526 (Rule 0001.4), None no-op added to `setSoAdConfig`. Member types all exist in src (NetworkEndpoint, VlanConfig same file — unstamped, stamps deferred to their own passes per batch constraint; SoAdConfig stamped). Stale tracker row removed 2026-09-20 (claimed `networkEndpoint` missing / wrong package CoreTopology — pre-dates this sync).
 
 ## `DataInterface`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —

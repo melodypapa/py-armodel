@@ -573,15 +573,16 @@ markers were STRIPPED here; all stamps are deferred to one batch confirmation (u
   - [x] Step 8 — Deviations — **none** (responseOnEvent obsolete tag documented; legacy scalars kept per Rule 0015)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (11 touched tests, flake8/ruff/black, parity, integration 2/2); 9b DEFERRED to batch stamp confirmation (user-instructed)
 - [ ] `EthernetPhysicalChannel` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.49)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - **Step 1 finding:** own table = SystemTemplate TPS Table 3.49, p.105 (clean render); concrete Class (XSD complexType `ETHERNET-PHYSICAL-CHANNEL` `abstract="false"`, AUTOSAR_00052.xsd line 56607, group line 56571); Base row = ARObject, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable → most-derived = `PhysicalChannel` (stamped, Table 3.7 p.59) — src base ALREADY correct; Package row `...Fibex4Ethernet::EthernetTopology` matches src file (Rule 0007 OK); 3 attributes in displayed order: networkEndpoint (NetworkEndpoint, `*`, aggr), soAdConfig (SoAdConfig, 0..1, aggr), vlan (VlanConfig, 0..1, aggr); Aggregated by CommunicationCluster.physicalChannel (createEthernetPhysicalChannel factory exists); all member types exist in src (NetworkEndpoint/VlanConfig same file, SoAdConfig ServiceInstances.py stamped); XSD order NETWORK-ENDPOINTS→SO-AD-CONFIG→VLAN — reader/writer dispatch + 3-element coverage already exist; model fixes needed: rename createNetworkEndPoint→createNetworkEndpoint (Rule 0001.5), Optional retype for soAdConfig/vlan (Rule 0001.4), None no-op on setSoAdConfig, typed accessors, verbatim docstrings
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — 3/5 failed pre-implementation (docstring verbatim + createNetworkEndpoint rename + setSoAdConfig None no-op; init defaults + createVlanConfig already spec-shaped)
+  - [x] Step 3 — Implement model class (Green) — createNetworkEndPoint→createNetworkEndpoint renamed (parser + 2 test consumers), Optional[SoAdConfig]/Optional[VlanConfig] PEP 526 retype (SoAdConfig via TYPE_CHECKING — ServiceInstances imports back), None no-op on setSoAdConfig, typed accessors; 4/5 green (docstring test green in Step 4)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — Note verbatim (Table 3.49 p.105) + 4 class-level constr rows (constr_3333/3334/3365/3336), 3 attribute Notes verbatim (Stereotypes:/Tags: tails dropped), None-no-op line on setter; 5/5 green (inspect.cleandoc convention)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 7 new tests (parser: full-read field values + dispatch-content; writer: write→reparse round-trip + empty-aggrs no-wrapper case); 0 failed on first run — reader/writer coverage already complete (dispatch + wrapper + XSD order + None guards in place)
+  - [x] Step 6 — Update parser & writer (Green) — no source changes needed (coverage verified: readEthernetPhysicalChannel/writeEthernetPhysicalChannel + NetworkEndPoints/Vlan helper pairs matched Rule 0013.2, element order NETWORK-ENDPOINTS→SO-AD-CONFIG→VLAN per XSD group line 56571); accessor order fixed in model (mutator-first for aggregated attrs, Rule 0001.11); parser call site rename landed in Step 3; 482 touched tests green
+  - [x] Step 7 — Update checklist comment — 6-column format with per-row release R23-11; 7 methods in source order (aggregated attrs mutator-first); no marker (deferred to batch stamp)
+  - [x] Step 8 — Deviations — **none**; stale tracker row removed (claimed networkEndpoint missing / wrong package CoreTopology — pre-dated sync); in-pass fixes recorded (rename, Optional retype, None no-op, accessor order); member types exist in src (NetworkEndpoint/VlanConfig unstamped — stamps deferred to their own passes per batch constraint)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL unit+integration suite 10104 passed / 0 failed, lint flake8+ruff clean, black-check clean, set-based check 7 methods checklist==methods in source order, armodel.EthernetPhysicalChannel export resolves, integration round-trip in full suite PASS); 9b DEFERRED to batch stamp confirmation (user-instructed)
 - [ ] `FrameTriggering` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.79)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

@@ -1779,7 +1779,7 @@ class TestWriteEthernetPhysicalChannel:
     def test_write_ethernet_physical_channel(self, writer):
         pkg = _pkg()
         ch = EthernetPhysicalChannel(pkg, "EthCh")
-        ch.createNetworkEndPoint("Ep")
+        ch.createNetworkEndpoint("Ep")
         cfg = SoAdConfig()
         ch.setSoAdConfig(cfg)
         ch.createVlanConfig("Vlan")
@@ -1790,6 +1790,56 @@ class TestWriteEthernetPhysicalChannel:
         assert epc.find("NETWORK-ENDPOINTS") is not None
         assert epc.find("SO-AD-CONFIG") is not None
         assert epc.find("VLAN") is not None
+
+    def test_write_ethernet_physical_channel_roundtrip(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        NS = "http://autosar.org/schema/r4.0"
+        pkg = _pkg()
+        ch = EthernetPhysicalChannel(pkg, "EthCh")
+        ch.createNetworkEndpoint("Ep")
+        ch.setSoAdConfig(SoAdConfig())
+        vlan = ch.createVlanConfig("Vlan")
+        vlan.setVlanIdentifier(PositiveInteger().setValue("100"))
+
+        parent = _parent()
+        writer.writeEthernetPhysicalChannel(parent, ch)
+        xml_str = ET.tostring(parent).decode().replace("<PARENT>", '<PARENT xmlns="%s">' % NS, 1)
+        namespaced = ET.fromstring(xml_str)
+
+        reparsed = EthernetPhysicalChannel(pkg, "EthCh2")
+        parser = ARXMLParser()
+        ARXMLParser().readEthernetPhysicalChannel(parser.find(namespaced, "ETHERNET-PHYSICAL-CHANNEL"), reparsed)
+        endpoints = reparsed.getNetworkEndpoints()
+        assert len(endpoints) == 1
+        assert endpoints[0].getShortName() == "Ep"
+        assert isinstance(reparsed.getSoAdConfig(), SoAdConfig)
+        assert reparsed.getVlan().getShortName() == "Vlan"
+        assert reparsed.getVlan().getVlanIdentifier().getValue() == 100
+
+    def test_write_ethernet_physical_channel_empty_aggrs_roundtrip(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        NS = "http://autosar.org/schema/r4.0"
+        pkg = _pkg()
+        ch = EthernetPhysicalChannel(pkg, "EthCh")
+
+        parent = _parent()
+        writer.writeEthernetPhysicalChannel(parent, ch)
+        epc = parent.find("ETHERNET-PHYSICAL-CHANNEL")
+        assert epc.find("NETWORK-ENDPOINTS") is None
+        assert epc.find("SO-AD-CONFIG") is None
+        assert epc.find("VLAN") is None
+
+        xml_str = ET.tostring(parent).decode().replace("<PARENT>", '<PARENT xmlns="%s">' % NS, 1)
+        namespaced = ET.fromstring(xml_str)
+
+        reparsed = EthernetPhysicalChannel(pkg, "EthCh2")
+        parser = ARXMLParser()
+        ARXMLParser().readEthernetPhysicalChannel(parser.find(namespaced, "ETHERNET-PHYSICAL-CHANNEL"), reparsed)
+        assert reparsed.getNetworkEndpoints() == []
+        assert reparsed.getSoAdConfig() is None
+        assert reparsed.getVlan() is None
 
 
 class TestWriteFlexrayPhysicalChannel:

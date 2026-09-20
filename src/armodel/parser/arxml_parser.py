@@ -8834,7 +8834,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEthernetPhysicalChannelNetworkEndPoints(self, element: ET.Element, channel: EthernetPhysicalChannel):
         for child_element in self.findall(element, "NETWORK-ENDPOINTS/NETWORK-ENDPOINT"):
-            end_point = channel.createNetworkEndPoint(self.getShortName(child_element))
+            end_point = channel.createNetworkEndpoint(self.getShortName(child_element))
             self.readNetworkEndPoint(child_element, end_point)
 
     def getSocketConnectionIpduIdentifier(self, element: ET.Element) -> SocketConnectionIpduIdentifier:

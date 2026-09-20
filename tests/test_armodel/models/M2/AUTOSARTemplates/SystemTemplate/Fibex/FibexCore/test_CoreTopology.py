@@ -217,7 +217,7 @@ class Test_FibexCoreTopology:
         assert channel == channel.setSoAdConfig(soad_config)  # Test method chaining
 
         # Test network endpoint creation
-        endpoint = channel.createNetworkEndPoint("test_endpoint")
+        endpoint = channel.createNetworkEndpoint("test_endpoint")
         assert isinstance(endpoint, NetworkEndpoint)
         assert len(channel.getNetworkEndpoints()) == 1
 

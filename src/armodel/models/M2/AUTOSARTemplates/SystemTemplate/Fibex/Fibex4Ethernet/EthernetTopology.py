@@ -29,6 +29,7 @@ if TYPE_CHECKING:
         ConsumedServiceInstance,
         ProvidedServiceInstance,
         RequestResponseDelay,
+        SoAdConfig,
         TransportProtocolConfiguration,
     )
 
@@ -3213,55 +3214,78 @@ class VlanConfig(Identifiable):
 
 class EthernetPhysicalChannel(PhysicalChannel):
     """
-    Represents an Ethernet physical channel in the communication system,
-    defining Ethernet-specific properties including network endpoints,
-    Socket Adaptor (SoAd) configuration, and VLAN settings.
+    The EthernetPhysicalChannel represents a VLAN or an untagged channel. An untagged channel is modeled as an EthernetPhysicalChannel without an aggregated VLAN.
+
+    [constr_3333] Standardized values for the attribute category of meta-class EthernetPhysicalChannel: The following values of the attribute category of metaclass EthernetPhysicalChannel are reserved by the AUTOSAR standard:
+    - WIRED: This represents the usage of the EthernetPhysicalChannel in case of a wired ethernet connection
+    - WIRELESS: This represents the usage of the EthernetPhysicalChannel in case of a wireless ethernet connection
+
+    [constr_3334] Allowed references between EthernetPhysicalChannel and EthernetCommunicationConnector: An EthernetPhysicalChannel is only allowed to reference EthernetCommunicationConnectors in the role commConnector that have the same category value as the referencing EthernetPhysicalChannel.
+
+    [constr_3365] EthernetPhysicalChannels with different category values are not allowed within an EthernetCluster: A mix of EthernetPhysicalChannels with different category values within an EthernetCluster is currently not supported by AUTOSAR.
+
+    [constr_3336] EthernetPhysicalChannel.soAdConfig in case of WIRELESS EthernetPhysicalChannel: If EthernetPhysicalChannel has the category WIRELESS then the EthernetPhysicalChannel shall not aggregate the SoAdConfig.
     """
 
     # EthernetPhysicalChannel method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getNetworkEndpoints          [x] impl  [ ] docstring  [ ] test
-    # [ ] createNetworkEndPoint        [x] impl  [ ] docstring  [ ] test
-    # [ ] getSoAdConfig                [x] impl  [ ] docstring  [ ] test
-    # [ ] setSoAdConfig                [x] impl  [ ] docstring  [ ] test
-    # [ ] getVlan                      [x] impl  [ ] docstring  [ ] test
-    # [ ] createVlanConfig             [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.49, p.105 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createNetworkEndpoint  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNetworkEndpoints    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSoAdConfig          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSoAdConfig          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createVlanConfig       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVlan                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # Collection of NetworkEndpoints that are used in the VLan.
         self.networkEndpoints: List[NetworkEndpoint] = []
-        self.soAdConfig = None
-        self.vlan: VlanConfig = None
 
-    def getNetworkEndpoints(self):
-        return self.networkEndpoints
+        # SoAd Configuration for one specific Physical Channel.
+        self.soAdConfig: Optional[SoAdConfig] = None
 
-    def createNetworkEndPoint(self, short_name: str) -> NetworkEndpoint:
-        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import NetworkEndpoint
+        # VLAN Configuration.
+        self.vlan: Optional[VlanConfig] = None
 
+    def createNetworkEndpoint(self, short_name: str) -> NetworkEndpoint:
+        """Collection of NetworkEndpoints that are used in the VLan."""
         if not self.IsElementExists(short_name, NetworkEndpoint):
             end_point = NetworkEndpoint(self, short_name)
             self.addElement(end_point)
             self.networkEndpoints.append(end_point)
         return self.getElement(short_name, NetworkEndpoint)
 
-    def getSoAdConfig(self):
+    def getNetworkEndpoints(self) -> List[NetworkEndpoint]:
+        """Collection of NetworkEndpoints that are used in the VLan."""
+        return self.networkEndpoints
+
+    def getSoAdConfig(self) -> Optional[SoAdConfig]:
+        """SoAd Configuration for one specific Physical Channel."""
         return self.soAdConfig
 
-    def setSoAdConfig(self, value):
-        self.soAdConfig = value
+    def setSoAdConfig(self, value: Optional[SoAdConfig]) -> "EthernetPhysicalChannel":
+        """
+        SoAd Configuration for one specific Physical Channel.
+        A None value is a no-op and does not overwrite an existing soAdConfig.
+        """
+        if value is not None:
+            self.soAdConfig = value
         return self
 
-    def getVlan(self):
-        return self.vlan
-
     def createVlanConfig(self, short_name: str) -> VlanConfig:
+        """VLAN Configuration."""
         if not self.IsElementExists(short_name, VlanConfig):
             config = VlanConfig(self, short_name)
-            self.vlan = config
             self.addElement(config)
+            self.vlan = config
         return self.getElement(short_name, VlanConfig)
+
+    def getVlan(self) -> Optional[VlanConfig]:
+        """VLAN Configuration."""
+        return self.vlan
 
 
 class EthTcpIpProps(ARElement):
