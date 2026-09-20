@@ -934,6 +934,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
     EventControlledTiming,
@@ -11799,6 +11800,15 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "FIREWALL-RULE-REFS/FIREWALL-RULE-REF"):
             instance.addFirewallRuleRef(ref)
 
+    def readEcuInstancePartitions(self, element: ET.Element, instance: EcuInstance):
+        for child_element in self.findall(element, "PARTITIONS/ECU-PARTITION"):
+            partition = instance.createEcuPartition(self.getShortName(child_element))
+            self.readEcuPartition(child_element, partition)
+
+    def readEcuPartition(self, element: ET.Element, partition: EcuPartition):
+        self.readIdentifiable(element, partition)
+        partition.setExecInUserMode(self.getChildElementOptionalBooleanValue(element, "EXEC-IN-USER-MODE"))
+
     def readEcuInstance(self, element: ET.Element, instance: EcuInstance):
         self.logger.debug("Read EcuInstance <%s>" % instance.getShortName())
         self.readIdentifiable(element, instance)
@@ -11815,6 +11825,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readEcuInstanceEcuTaskProxyRefs(element, instance)
         instance.setEthSwitchPortGroupDerivation(self.getChildElementOptionalBooleanValue(element, "ETH-SWITCH-PORT-GROUP-DERIVATION"))
         self.readEcuInstanceFirewallRuleRefs(element, instance)
+        self.readEcuInstancePartitions(element, instance)
         instance.setPnResetTime(self.getChildElementOptionalTimeValue(element, "PN-RESET-TIME"))
         instance.setPncNmRequest(self.getChildElementOptionalBooleanValue(element, "PNC-NM-REQUEST"))
         instance.setPncPrepareSleepTimer(self.getChildElementOptionalTimeValue(element, "PNC-PREPARE-SLEEP-TIMER"))

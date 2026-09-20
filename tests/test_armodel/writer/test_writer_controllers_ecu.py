@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     VlanMembership,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -761,6 +762,7 @@ ECU_INSTANCE_XSD_ORDER = [
     "ECU-TASK-PROXY-REFS",
     "ETH-SWITCH-PORT-GROUP-DERIVATION",
     "FIREWALL-RULE-REFS",
+    "PARTITIONS",
     "PN-RESET-TIME",
     "PNC-NM-REQUEST",
     "PNC-PREPARE-SLEEP-TIMER",
@@ -787,6 +789,8 @@ def _fill_ecu_instance(instance):
     instance.addEcuTaskProxyRef(_ref("/t1", "OS-TASK-PROXY"))
     instance.setEthSwitchPortGroupDerivation(_bool(True))
     instance.addFirewallRuleRef(_ref("/f1", "STATE-DEPENDENT-FIREWALL"))
+    part_f = instance.createEcuPartition("PartF")
+    part_f.setExecInUserMode(_bool(True))
     instance.setPncNmRequest(_bool(True))
     instance.setPncPrepareSleepTimer(_time("1.5"))
     instance.setPncSynchronousWakeup(_bool(True))
@@ -1007,6 +1011,7 @@ class TestWriterEcuInstance:
             "CONNECTORS",
             "ECU-TASK-PROXY-REFS",
             "FIREWALL-RULE-REFS",
+            "PARTITIONS",
         ):
             assert ecu.find(tag) is None
 
@@ -1037,6 +1042,10 @@ class TestWriterEcuInstance:
         assert [r.getValue() for r in re_instance.getEcuTaskProxyRefs()] == ["/t1"]
         assert re_instance.getEthSwitchPortGroupDerivation().getValue() is True
         assert [r.getValue() for r in re_instance.getFirewallRuleRefs()] == ["/f1"]
+        partitions = re_instance.getPartitions()
+        assert [p.getShortName() for p in partitions] == ["PartF"]
+        assert isinstance(partitions[0], EcuPartition)
+        assert partitions[0].getExecInUserMode().getValue() is True
         assert re_instance.getPncNmRequest().getValue() is True
         assert re_instance.getPncPrepareSleepTimer().getValue() == 1.5
         assert re_instance.getPncSynchronousWakeup().getValue() is True
@@ -1046,3 +1055,39 @@ class TestWriterEcuInstance:
         assert re_instance.getTcpIpPropsRef().getValue() == "/tcp"
         assert re_instance.getV2xSupported().getValue() == "V-2-X-SUPPORTED"
         assert re_instance.getWakeUpOverBusSupported().getValue() is False
+
+
+class TestWriterEcuInstancePartitions:
+    def test_partitions_wrapper_and_values(self, writer):
+        instance = _make_ecu_instance()
+        part_a = instance.createEcuPartition("PartA")
+        part_a.setExecInUserMode(_bool(True))
+        part_b = instance.createEcuPartition("PartB")
+        part_b.setExecInUserMode(_bool(False))
+        parent = _parent()
+        writer.writeEcuInstancePartitions(parent, instance)
+        assert parent[0].tag == "PARTITIONS"
+        partitions = parent[0].findall("ECU-PARTITION")
+        assert len(partitions) == 2
+        assert partitions[0].find("SHORT-NAME").text == "PartA"
+        assert partitions[0].find("EXEC-IN-USER-MODE").text == "true"
+        assert partitions[1].find("SHORT-NAME").text == "PartB"
+        assert partitions[1].find("EXEC-IN-USER-MODE").text == "false"
+
+    def test_empty(self, writer):
+        instance = _make_ecu_instance()
+        parent = _parent()
+        writer.writeEcuInstancePartitions(parent, instance)
+        assert len(parent) == 0
+
+    def test_writeEcuInstance_partitions_in_xsd_position(self, writer):
+        instance = _make_ecu_instance()
+        instance.addFirewallRuleRef(_ref("/f1", "STATE-DEPENDENT-FIREWALL"))
+        instance.createEcuPartition("PartA")
+        instance.setPnResetTime(_time(2.0))
+        parent = _parent()
+        writer.writeEcuInstance(parent, instance)
+        ecu = parent.find("ECU-INSTANCE")
+        tags = [c.tag for c in ecu]
+        assert tags.index("PARTITIONS") > tags.index("FIREWALL-RULE-REFS")
+        assert tags.index("PARTITIONS") < tags.index("PN-RESET-TIME")

@@ -833,6 +833,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
     EventControlledTiming,
@@ -10814,6 +10815,21 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(child_element, "FIREWALL-RULE-REF", ref)
 
+    def writeEcuInstancePartitions(self, element: ET.Element, instance: EcuInstance):
+        partitions = instance.getPartitions()
+        if len(partitions) > 0:
+            child_element = ET.SubElement(element, "PARTITIONS")
+            for partition in partitions:
+                if isinstance(partition, EcuPartition):
+                    self.writeEcuPartition(child_element, partition)
+                else:
+                    self.notImplemented("Unsupported Partition <%s>" % type(partition))
+
+    def writeEcuPartition(self, element: ET.Element, partition: EcuPartition):
+        child_element = ET.SubElement(element, "ECU-PARTITION")
+        self.writeIdentifiable(child_element, partition)
+        self.setChildElementOptionalBooleanValue(child_element, "EXEC-IN-USER-MODE", partition.getExecInUserMode())
+
     def writeEcuInstance(self, element: ET.Element, instance: EcuInstance):
         self.logger.debug("EcuInstance %s" % instance.getShortName())
         child_element = ET.SubElement(element, "ECU-INSTANCE")
@@ -10831,6 +10847,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeEcuInstanceEcuTaskProxyRefs(child_element, instance)
         self.setChildElementOptionalBooleanValue(child_element, "ETH-SWITCH-PORT-GROUP-DERIVATION", instance.getEthSwitchPortGroupDerivation())
         self.writeEcuInstanceFirewallRuleRefs(child_element, instance)
+        self.writeEcuInstancePartitions(child_element, instance)
         self.setChildElementOptionalTimeValue(child_element, "PN-RESET-TIME", instance.getPnResetTime())
         self.setChildElementOptionalBooleanValue(child_element, "PNC-NM-REQUEST", instance.getPncNmRequest())
         self.setChildElementOptionalTimeValue(child_element, "PNC-PREPARE-SLEEP-TIMER", instance.getPncPrepareSleepTimer())

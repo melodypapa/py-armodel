@@ -887,8 +887,9 @@ class EcuInstance(FibexElement):
     # [x] setEthSwitchPortGroupDerivation                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] addFirewallRuleRef                                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getFirewallRuleRefs                                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addPartition                                          [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
-    # [x] getPartitions                                         [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] createEcuPartition                                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addPartition                                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPartitions                                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getPncNmRequest                                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setPncNmRequest                                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getPncPrepareSleepTimer                               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -908,7 +909,9 @@ class EcuInstance(FibexElement):
     # [x] getWakeUpOverBusSupported                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setWakeUpOverBusSupported                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # Deferred reader/writer rows ([ ]) pending missing child classes (Rule 0001.10):
-    # clientIdRange (ClientIdRange), dltConfig (DltConfig), doIpConfig (DoIpConfig), partition (EcuPartition)
+    # clientIdRange (ClientIdRange), dltConfig (DltConfig), doIpConfig (DoIpConfig)
+    # partition (EcuPartition) wired 2026-09-20: reader via createEcuPartition, writer via getPartitions;
+    # addPartition kept as an added convenience mutator (no reader/writer route).
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
@@ -965,7 +968,6 @@ class EcuInstance(FibexElement):
         self.firewallRuleRefs: List[RefType] = []
 
         # Optional definition of Partitions within an Ecu.
-        # EcuPartition class is not yet implemented (Rule 0001.10 placeholder)
         self.partitions: List["EcuPartition"] = []
 
         # Defines if this EcuInstance shall request Nm on all its PhysicalChannels which have Nm variant set to FULL each time a PNC is requested.
@@ -1327,6 +1329,18 @@ class EcuInstance(FibexElement):
         Firewall rules defined in the context of an EcuInstance.
         """
         return self.firewallRuleRefs
+
+    def createEcuPartition(self, short_name: str) -> "EcuPartition":
+        """
+        Optional definition of Partitions within an Ecu.
+        """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
+
+        if not self.IsElementExists(short_name, EcuPartition):
+            partition = EcuPartition(self, short_name)
+            self.addElement(partition)
+            self.partitions.append(partition)
+        return self.getElement(short_name, EcuPartition)
 
     def addPartition(self, value: Optional["EcuPartition"]) -> "EcuInstance":
         """
