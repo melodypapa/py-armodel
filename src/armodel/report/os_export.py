@@ -66,8 +66,10 @@ class OsConfigYamlExporter:
         except ImportError as e:
             raise ImportError("pyyaml is required for YAML export: pip install pyyaml") from e
 
+        data = self.mapper.to_dict(os_os)
+        filtered_data = {section: [{key: value for key, value in row.items() if value is not None and value != []} for row in rows] for section, rows in data.items()}
         with open(output_path, "w", encoding="utf-8") as file:
-            yaml.safe_dump(self.mapper.to_dict(os_os), file, sort_keys=False)
+            yaml.safe_dump(filtered_data, file, sort_keys=False)
 
 
 class OsConfigXlsxExporter(ExcelReporter):
@@ -100,9 +102,12 @@ class OsConfigExporter:
         mapper = mapper or OsConfigModelMapper()
         self._exporters = {"yaml": OsConfigYamlExporter(mapper), "xlsx": OsConfigXlsxExporter(mapper)}
 
-    def export(self, os_os: OsOs, output_path: Union[str, os.PathLike], output_format: str) -> None:
+    def export(self, os_os: OsOs, output_path: Union[str, os.PathLike]) -> None:
+        extension = os.path.splitext(os.fspath(output_path))[1].lower().lstrip(".")
+        if extension == "yml":
+            extension = "yaml"
         try:
-            exporter = self._exporters[output_format]
+            exporter = self._exporters[extension]
         except KeyError as e:
-            raise ValueError("Unsupported OS configuration export format: %s" % output_format) from e
+            raise ValueError("Unsupported OS configuration export format: %s" % extension) from e
         exporter.export(os_os, output_path)

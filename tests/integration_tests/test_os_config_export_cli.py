@@ -11,41 +11,13 @@ EXPECTED_YAML_FILE = Path(__file__).parent / "test_files" / "Os_ECUC.yaml"
 APPLICATION_FIELDS = {
     "name",
     "OsTrusted",
-    "OsTrustedApplicationDelayTimingViolationCall",
-    "OsTrustedApplicationWithProtection",
     "OsAppAlarmRef",
     "OsAppCounterRef",
-    "OsAppEcucPartitionRef",
-    "OsAppIsrRef",
-    "OsAppScheduleTableRef",
     "OsAppTaskRef",
-    "OsMemoryMappingCodeLocationRef",
-    "OsRestartTask",
     "OsAppStartupHook",
     "OsAppErrorHook",
     "OsAppShutdownHook",
-    "OsTrustedFunctionName",
     "ApplicationState",
-}
-
-TASK_FIELDS = {
-    "name",
-    "OsTaskActivation",
-    "OsTaskPeriod",
-    "OsTaskPriority",
-    "OsTaskSchedule",
-    "OsStacksize",
-    "OsMemoryMappingCodeLocationRef",
-    "OsTaskAccessingApplication",
-    "OsTaskEventRef",
-    "OsTaskResourceRef",
-    "OsTaskAppModeRef",
-    "OsTaskAllInterruptLockBudget",
-    "OsTaskExecutionBudget",
-    "OsTaskOsInterruptLockBudget",
-    "OsTaskTimeFrame",
-    "OsTaskResourceLockBudget",
-    "OsTaskResourceLockResourceRef",
 }
 
 
@@ -64,7 +36,7 @@ def test_os_config_export_cli_exports_real_os_ecuc_to_xlsx(monkeypatch, tmp_path
 
 def test_os_config_export_cli_exports_real_os_ecuc_to_yaml(monkeypatch, tmp_path: Path):
     output = tmp_path / "os.yaml"
-    monkeypatch.setattr("sys.argv", ["os-ecuc-export", str(OS_ECUC_FILE), str(output), "--format", "yaml"])
+    monkeypatch.setattr("sys.argv", ["os-ecuc-export", str(OS_ECUC_FILE), str(output)])
 
     main()
 
@@ -76,7 +48,7 @@ def test_os_config_export_cli_exports_real_os_ecuc_to_yaml(monkeypatch, tmp_path
 
 def test_os_config_export_cli_matches_complete_yaml_fixture(monkeypatch, tmp_path: Path):
     output = tmp_path / "os.yaml"
-    monkeypatch.setattr("sys.argv", ["os-ecuc-export", str(OS_ECUC_FILE), str(output), "--format", "yaml"])
+    monkeypatch.setattr("sys.argv", ["os-ecuc-export", str(OS_ECUC_FILE), str(output)])
 
     main()
 
@@ -88,13 +60,13 @@ def test_os_config_export_cli_matches_complete_yaml_fixture(monkeypatch, tmp_pat
     assert generated["OsApplication"]
     assert generated["OsTask"]
     assert all(set(application) == APPLICATION_FIELDS for application in generated["OsApplication"])
-    assert all(set(task) == TASK_FIELDS for task in generated["OsTask"])
+    assert all(value is not None and value != [] for task in generated["OsTask"] for value in task.values())
 
 
 def test_os_config_export_cli_4_4_matches_existing_yaml_fixture(monkeypatch, tmp_path: Path):
     output = tmp_path / "os-4.4.0.yaml"
     input_file = OS_ECUC_FILE.with_name("Os_ECUC_4.4.0.arxml")
-    monkeypatch.setattr("sys.argv", ["os-ecuc-export", str(input_file), str(output), "--format", "yaml"])
+    monkeypatch.setattr("sys.argv", ["os-ecuc-export", str(input_file), str(output)])
 
     main()
 

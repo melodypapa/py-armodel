@@ -100,8 +100,9 @@ Documentation Structure
    user_guide/installation
    user_guide/quickstart
    user_guide/arxml_parsing
-   user_guide/arxml_writing
-   user_guide/cli_tools
+    user_guide/arxml_writing
+    user_guide/cli_tools
+    user_guide/os_ecuc_export_cli
 
 .. toctree::
    :maxdepth: 2

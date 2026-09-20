@@ -5,7 +5,7 @@ import yaml
 from openpyxl import load_workbook
 
 from armodel.data_models.ecuc import OsApplication, OsOs, OsTask
-from armodel.report import OsConfigXlsxExporter, OsConfigYamlExporter
+from armodel.report import OsConfigExporter, OsConfigXlsxExporter, OsConfigYamlExporter
 
 
 def test_write_yaml_uses_semantic_names(tmp_path: Path):
@@ -19,6 +19,22 @@ def test_write_yaml_uses_semantic_names(tmp_path: Path):
     data = yaml.safe_load(output.read_text(encoding="utf-8"))
     assert data["OsApplication"][0]["name"] == "App"
     assert data["OsTask"][0]["OsTaskPriority"] == 5
+
+
+def test_write_yaml_omits_none_and_empty_list_values(tmp_path: Path):
+    os_os = OsOs().setName("Os")
+    os_os.addOsTask(OsTask().setName("Task").setOsTaskPriority(5))
+    output = tmp_path / "os.yaml"
+
+    OsConfigYamlExporter().export(os_os, output)
+
+    task = yaml.safe_load(output.read_text(encoding="utf-8"))["OsTask"][0]
+    assert task == {"name": "Task", "OsTaskPriority": 5}
+
+
+def test_os_config_export_rejects_unsupported_extension(tmp_path: Path):
+    with pytest.raises(ValueError, match="Unsupported OS configuration export format"):
+        OsConfigExporter().export(OsOs(), tmp_path / "os.json")
 
 
 def test_write_xlsx_uses_expected_sheets(tmp_path: Path):
