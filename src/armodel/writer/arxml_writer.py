@@ -729,6 +729,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     AbstractServiceInstance,
     ConsumedEventGroup,
+    ConsumedProvidedServiceInstanceGroup,
     ConsumedServiceInstance,
     EventHandler,
     PduActivationRoutingGroup,
@@ -9133,6 +9134,23 @@ class ARXMLWriter(AbstractARXMLWriter):
             wrapper = ET.SubElement(element, "METHOD-ACTIVATION-ROUTING-GROUPS")
             self.setPduActivationRoutingGroup(wrapper, group)
 
+    def writeConsumedProvidedServiceInstanceGroup(self, element: ET.Element, group: ConsumedProvidedServiceInstanceGroup):
+        if group is not None:
+            child_element = ET.SubElement(element, "CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP")
+            self.writeIdentifiable(child_element, group)
+            refs = group.getConsumedServiceInstanceRefs()
+            if len(refs) > 0:
+                wrapper = ET.SubElement(child_element, "CONSUMED-SERVICE-INSTANCES")
+                for ref in refs:
+                    cond_tag = ET.SubElement(wrapper, "CONSUMED-SERVICE-INSTANCE-REF-CONDITIONAL")
+                    self.setChildElementOptionalRefType(cond_tag, "CONSUMED-SERVICE-INSTANCE-REF", ref)
+            refs = group.getProvidedServiceInstanceRefs()
+            if len(refs) > 0:
+                wrapper = ET.SubElement(child_element, "PROVIDED-SERVICE-INSTANCES")
+                for ref in refs:
+                    cond_tag = ET.SubElement(wrapper, "PROVIDED-SERVICE-INSTANCE-REF-CONDITIONAL")
+                    self.setChildElementOptionalRefType(cond_tag, "PROVIDED-SERVICE-INSTANCE-REF", ref)
+
     def writeConsumedServiceInstance(self, element: ET.Element, instance: ConsumedServiceInstance):
         if instance is not None:
             child_element = ET.SubElement(element, "CONSUMED-SERVICE-INSTANCE")
@@ -12926,6 +12944,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSystem(element, ar_element)
         elif isinstance(ar_element, EcuInstance):
             self.writeEcuInstance(element, ar_element)
+        elif isinstance(ar_element, ConsumedProvidedServiceInstanceGroup):
+            self.writeConsumedProvidedServiceInstanceGroup(element, ar_element)
         elif isinstance(ar_element, ISignalIPdu):
             self.writeISignalIPdu(element, ar_element)
         elif isinstance(ar_element, SystemSignal):

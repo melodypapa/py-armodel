@@ -1036,6 +1036,27 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(element)
         return self.getElement(short_name, EcuInstance)
 
+    def createConsumedProvidedServiceInstanceGroup(self, short_name: str) -> ConsumedProvidedServiceInstanceGroup:
+        """
+        Creates a new ConsumedProvidedServiceInstanceGroup with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        A ConsumedProvidedServiceInstanceGroup encloses ConsumedServiceInstances and
+        ProvidedServiceInstances that the AUTOSAR ServiceDiscovery starts and stops
+        together at runtime.
+
+        Args:
+            short_name: The short name for the new ConsumedProvidedServiceInstanceGroup
+
+        Returns:
+            The newly created or existing ConsumedProvidedServiceInstanceGroup instance
+        """
+
+        if not self.IsElementExists(short_name, ConsumedProvidedServiceInstanceGroup):
+            element = ConsumedProvidedServiceInstanceGroup(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, ConsumedProvidedServiceInstanceGroup)
+
     def createGateway(self, short_name: str) -> Gateway:
 
         if not self.IsElementExists(short_name, Gateway):
@@ -1861,6 +1882,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthTcpIpIcmpProps, EthernetCluster, EthTcpIpProps  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SoAdRoutingGroup  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (  # noqa: E402
+    ConsumedProvidedServiceInstanceGroup,
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,

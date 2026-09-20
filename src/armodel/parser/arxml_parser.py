@@ -823,6 +823,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     AbstractServiceInstance,
     ConsumedEventGroup,
+    ConsumedProvidedServiceInstanceGroup,
     ConsumedServiceInstance,
     EventGroupControlTypeEnum,
     EventHandler,
@@ -9043,6 +9044,13 @@ class ARXMLParser(AbstractARXMLParser):
                 versions.append(version)
         return versions
 
+    def readConsumedProvidedServiceInstanceGroup(self, element: ET.Element, instance: ConsumedProvidedServiceInstanceGroup):
+        self.readIdentifiable(element, instance)
+        for ref in self.getChildElementRefTypeList(element, "CONSUMED-SERVICE-INSTANCES/CONSUMED-SERVICE-INSTANCE-REF-CONDITIONAL/CONSUMED-SERVICE-INSTANCE-REF"):
+            instance.addConsumedServiceInstanceRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "PROVIDED-SERVICE-INSTANCES/PROVIDED-SERVICE-INSTANCE-REF-CONDITIONAL/PROVIDED-SERVICE-INSTANCE-REF"):
+            instance.addProvidedServiceInstanceRef(ref)
+
     def readConsumedServiceInstance(self, element: ET.Element, instance: ConsumedServiceInstance):
         self.readIdentifiable(element, instance)
         for ref in self.getChildElementRefTypeList(element, "ALLOWED-SERVICE-PROVIDERS/NETWORK-ENDPOINT-REF-CONDITIONAL/NETWORK-ENDPOINT-REF"):
@@ -13129,6 +13137,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECU-INSTANCE":
                 instance = parent.createEcuInstance(self.getShortName(child_element))
                 self.readEcuInstance(child_element, instance)
+            elif tag_name == "CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP":
+                group = parent.createConsumedProvidedServiceInstanceGroup(self.getShortName(child_element))
+                self.readConsumedProvidedServiceInstanceGroup(child_element, group)
             elif tag_name == "GATEWAY":
                 gateway = parent.createGateway(self.getShortName(child_element))
                 self.readGateway(child_element, gateway)
