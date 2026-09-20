@@ -351,6 +351,131 @@ class OsTask:
         return self
 
 
+class OsAlarm:
+    """AUTOSAR OS alarm configuration as defined by SWS_Os_00114."""
+
+    def __init__(self) -> None:
+        # Short name identifying the OS alarm.
+        self.name: str = ""
+
+        # References the counter that drives the alarm.
+        self.osAlarmCounterRef: Optional[str] = None
+
+        # References the OS-Applications that have access to the alarm.
+        self.osAlarmAccessingApplication: List[str] = []
+
+        # References the task that is activated when the alarm expires (OsAlarmActivateTask action).
+        self.osAlarmActivateTaskRef: Optional[str] = None
+
+        # References the task that receives the event when the alarm expires (OsAlarmSetEvent action).
+        self.osAlarmSetEventTaskRef: Optional[str] = None
+
+        # References the event that is set when the alarm expires (OsAlarmSetEvent action).
+        self.osAlarmSetEventRef: Optional[str] = None
+
+        # References the counter that is incremented when the alarm expires (OsAlarmIncrementCounter action).
+        self.osAlarmIncrementCounterRef: Optional[str] = None
+
+        # Specifies the callback function that is called when the alarm expires (OsAlarmCallback action).
+        self.osAlarmCallbackName: Optional[str] = None
+
+        # Specifies the alarm time of the autostart alarm (ticks).
+        self.osAlarmAlarmTime: Optional[int] = None
+
+        # Specifies whether the autostart alarm is ABSOLUTE or RELATIVE.
+        self.osAlarmAutostartType: Optional[str] = None
+
+        # Specifies the cycle time of a periodic autostart alarm (ticks).
+        self.osAlarmCycleTime: Optional[int] = None
+
+        # References the application mode in which the alarm is started automatically.
+        self.osAlarmAppModeRef: Optional[str] = None
+
+    def getName(self) -> str:
+        return self.name
+
+    def setName(self, value: str) -> "OsAlarm":
+        self.name = value
+        return self
+
+    def getOsAlarmCounterRef(self) -> Optional[str]:
+        return self.osAlarmCounterRef
+
+    def setOsAlarmCounterRef(self, value: Optional[str]) -> "OsAlarm":
+        self.osAlarmCounterRef = value
+        return self
+
+    def getOsAlarmAccessingApplications(self) -> List[str]:
+        return self.osAlarmAccessingApplication
+
+    def addOsAlarmAccessingApplication(self, value: str) -> "OsAlarm":
+        self.osAlarmAccessingApplication.append(value)
+        return self
+
+    def getOsAlarmActivateTaskRef(self) -> Optional[str]:
+        return self.osAlarmActivateTaskRef
+
+    def setOsAlarmActivateTaskRef(self, value: Optional[str]) -> "OsAlarm":
+        self.osAlarmActivateTaskRef = value
+        return self
+
+    def getOsAlarmSetEventTaskRef(self) -> Optional[str]:
+        return self.osAlarmSetEventTaskRef
+
+    def setOsAlarmSetEventTaskRef(self, value: Optional[str]) -> "OsAlarm":
+        self.osAlarmSetEventTaskRef = value
+        return self
+
+    def getOsAlarmSetEventRef(self) -> Optional[str]:
+        return self.osAlarmSetEventRef
+
+    def setOsAlarmSetEventRef(self, value: Optional[str]) -> "OsAlarm":
+        self.osAlarmSetEventRef = value
+        return self
+
+    def getOsAlarmIncrementCounterRef(self) -> Optional[str]:
+        return self.osAlarmIncrementCounterRef
+
+    def setOsAlarmIncrementCounterRef(self, value: Optional[str]) -> "OsAlarm":
+        self.osAlarmIncrementCounterRef = value
+        return self
+
+    def getOsAlarmCallbackName(self) -> Optional[str]:
+        return self.osAlarmCallbackName
+
+    def setOsAlarmCallbackName(self, value: Optional[str]) -> "OsAlarm":
+        self.osAlarmCallbackName = value
+        return self
+
+    def getOsAlarmAlarmTime(self) -> Optional[int]:
+        return self.osAlarmAlarmTime
+
+    def setOsAlarmAlarmTime(self, value: Optional[int]) -> "OsAlarm":
+        self.osAlarmAlarmTime = value
+        return self
+
+    def getOsAlarmAutostartType(self) -> Optional[str]:
+        return self.osAlarmAutostartType
+
+    def setOsAlarmAutostartType(self, value: Optional[str]) -> "OsAlarm":
+        self.osAlarmAutostartType = value
+        return self
+
+    def getOsAlarmCycleTime(self) -> Optional[int]:
+        return self.osAlarmCycleTime
+
+    def setOsAlarmCycleTime(self, value: Optional[int]) -> "OsAlarm":
+        self.osAlarmCycleTime = value
+        return self
+
+    def getOsAlarmAppModeRef(self) -> Optional[str]:
+        return self.osAlarmAppModeRef
+
+    def setOsAlarmAppModeRef(self, value: Optional[str]) -> "OsAlarm":
+        self.osAlarmAppModeRef = value
+        return self
+
+
 class OsOs:
     """Semantic OS configuration containing applications and tasks."""
 
@@ -363,6 +488,9 @@ class OsOs:
 
         # Contains the semantic OS task objects extracted from ECUC.
         self.osTask: List[OsTask] = []
+
+        # Contains the semantic OS alarm objects extracted from ECUC.
+        self.osAlarm: List[OsAlarm] = []
 
     def getName(self) -> str:
         return self.name
@@ -383,6 +511,13 @@ class OsOs:
 
     def addOsTask(self, value: OsTask) -> "OsOs":
         self.osTask.append(value)
+        return self
+
+    def getOsAlarms(self) -> List[OsAlarm]:
+        return self.osAlarm
+
+    def addOsAlarm(self, value: OsAlarm) -> "OsOs":
+        self.osAlarm.append(value)
         return self
 
     @classmethod
