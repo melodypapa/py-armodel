@@ -16,6 +16,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -440,6 +441,12 @@ class TestSystemDispatch:
         parent = _make_parent()
         _dispatch(parser, parent, _snip("GATEWAY", "GW1"))
         assert len(parent.getGateways()) == 1
+
+    def test_os_task_proxy(self, parser):
+        parent = _make_parent()
+        _dispatch(parser, parent, _snip("OS-TASK-PROXY", "OTP1"))
+        assert parent.getElement("OTP1", OsTaskProxy) is not None
+        assert isinstance(parent.getElement("OTP1"), OsTaskProxy)
 
 
 # ==================== ECUC ====================

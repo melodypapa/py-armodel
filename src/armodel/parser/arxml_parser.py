@@ -713,6 +713,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskPreemptabilityEnum, OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanAddressingModeType,
     CanFrame,
@@ -9433,6 +9434,15 @@ class ARXMLParser(AbstractARXMLParser):
             self.readTcpIpIcmpv6Props(child_element, v6_props)
             props.setIcmpV6Props(v6_props)
 
+    def readOsTaskProxy(self, element: ET.Element, proxy: OsTaskProxy):
+        """Read an R23-11 <OS-TASK-PROXY> element (Table 5.15, p.208): SHORT-NAME, PERIOD, PREEMPTABILITY, PRIORITY."""
+        self.readIdentifiable(element, proxy)
+        proxy.setPeriod(self.getChildElementOptionalTimeValue(element, "PERIOD"))
+        child_element = self.find(element, "PREEMPTABILITY")
+        if child_element is not None:
+            proxy.setPreemptability(OsTaskPreemptabilityEnum().setValue(child_element.text))
+        proxy.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
+
     def readFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
         self.logger.debug("Read FlexrayCluster <%s>" % cluster.getShortName())
         self.readIdentifiable(element, cluster)
@@ -13107,6 +13117,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ETH-TCP-IP-ICMP-PROPS":
                 props = parent.createEthTcpIpIcmpProps(self.getShortName(child_element))
                 self.readEthTcpIpIcmpProps(child_element, props)
+            elif tag_name == "OS-TASK-PROXY":
+                proxy = parent.createOsTaskProxy(self.getShortName(child_element))
+                self.readOsTaskProxy(child_element, proxy)
             elif tag_name == "ECUC-MODULE-CONFIGURATION-VALUES":
                 values = parent.createEcucModuleConfigurationValues(self.getShortName(child_element))
                 self.readEcucModuleConfigurationValues(child_element, values)

@@ -1112,6 +1112,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(props)
         return self.getElement(short_name, EthTcpIpIcmpProps)
 
+    def createOsTaskProxy(self, short_name: str) -> OsTaskProxy:
+
+        if not self.IsElementExists(short_name, OsTaskProxy):
+            proxy = OsTaskProxy(self, short_name)
+            self.addElement(proxy)
+        return self.getElement(short_name, OsTaskProxy)
+
     def createModuleConfiguration(self, short_name: str) -> ModuleConfiguration:
 
         if not self.IsElementExists(short_name, ModuleConfiguration):
@@ -1839,6 +1846,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibr
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet, CpSoftwareCluster, System  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanXlProps, J1939Cluster  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame  # noqa: E402

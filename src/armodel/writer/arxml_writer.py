@@ -638,6 +638,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanFrame,
     CanFrameTriggering,
@@ -9579,6 +9580,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             if props.getIcmpV6Props() is not None:
                 self.writeTcpIpIcmpv6Props(child_element, props.getIcmpV6Props())
 
+    def writeOsTaskProxy(self, element: ET.Element, proxy: OsTaskProxy):
+        """Write an R23-11 <OS-TASK-PROXY> element (Table 5.15, p.208): SHORT-NAME, PERIOD, PREEMPTABILITY, PRIORITY."""
+        if proxy is not None:
+            child_element = ET.SubElement(element, "OS-TASK-PROXY")
+            self.writeIdentifiable(child_element, proxy)
+            self.setChildElementOptionalTimeValue(child_element, "PERIOD", proxy.getPeriod())
+            if proxy.getPreemptability() is not None:
+                self.setChildElementOptionalLiteral(child_element, "PREEMPTABILITY", proxy.getPreemptability())
+            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", proxy.getPriority())
+
     def writeFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
         if cluster is not None:
             self.logger.debug("Write FlexrayCluster <%s>" % cluster.getShortName())
@@ -12930,6 +12941,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEthTcpIpProps(element, ar_element)
         elif isinstance(ar_element, EthTcpIpIcmpProps):
             self.writeEthTcpIpIcmpProps(element, ar_element)
+        elif isinstance(ar_element, OsTaskProxy):
+            self.writeOsTaskProxy(element, ar_element)
         elif isinstance(ar_element, SwSystemconst):
             self.writeSwSystemconst(element, ar_element)
         elif isinstance(ar_element, SwSystemconstantValueSet):

@@ -55,6 +55,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     PortGroupInSystemInstanceRef,
     VariableDataPrototypeInSystemInstanceRef,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskPreemptabilityEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationISignalProps,
 )
@@ -2056,3 +2057,35 @@ class TestWriterEthTcpIpIcmpProps:
         assert child is not None
         assert child.find("ICMP-V-4-PROPS") is None
         assert child.find("ICMP-V-6-PROPS") is None
+
+
+class TestWriteOsTaskProxy:
+    """Tests for writeOsTaskProxy handler (R23-11 OsTaskProxy, Table 5.15, p.208)."""
+
+    def test_children_in_xsd_order(self, writer):
+        pkg = AUTOSAR.getInstance().createARPackage("OsTaskProxyPkg")
+        proxy = pkg.createOsTaskProxy("TaskProxy1")
+        proxy.setPeriod(_time_value(0.01))
+        proxy.setPreemptability(OsTaskPreemptabilityEnum().setValue("FULL"))
+        proxy.setPriority(_positive_int(4))
+
+        parent = _parent()
+        writer.writeOsTaskProxy(parent, proxy)
+        child = parent.find("OS-TASK-PROXY")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "TaskProxy1"
+        assert [c.tag for c in child if c.tag in ("PERIOD", "PREEMPTABILITY", "PRIORITY")] == ["PERIOD", "PREEMPTABILITY", "PRIORITY"]
+        assert child.find("PERIOD").text == "0.01"
+        assert child.find("PREEMPTABILITY").text == "FULL"
+        assert child.find("PRIORITY").text == "4"
+
+    def test_empty_children_omitted(self, writer):
+        pkg = AUTOSAR.getInstance().createARPackage("OsTaskProxyPkg2")
+        proxy = pkg.createOsTaskProxy("TaskProxy1")
+        parent = _parent()
+        writer.writeOsTaskProxy(parent, proxy)
+        child = parent.find("OS-TASK-PROXY")
+        assert child is not None
+        assert child.find("PERIOD") is None
+        assert child.find("PREEMPTABILITY") is None
+        assert child.find("PRIORITY") is None

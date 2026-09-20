@@ -26,6 +26,7 @@ from armodel.models import (
     InstantiationTimingEventProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthTcpIpIcmpProps, EthTcpIpProps, TcpIpIcmpv4Props, TcpIpIcmpv6Props, TcpProps, UdpProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskPreemptabilityEnum, OsTaskProxy
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -2707,3 +2708,40 @@ class TestReadEthTcpIpIcmpProps:
         parser.readEthTcpIpIcmpProps(element, props)
         assert props.getIcmpV4Props() is None
         assert props.getIcmpV6Props() is None
+
+
+class TestReadOsTaskProxy:
+    """Tests for readOsTaskProxy handler (R23-11 OsTaskProxy, Table 5.15, p.208)."""
+
+    def test_read_os_task_proxy_full(self, parser):
+        element = _snip(
+            """
+                <SHORT-NAME>TaskProxy1</SHORT-NAME>
+                <PERIOD>0.01</PERIOD>
+                <PREEMPTABILITY>FULL</PREEMPTABILITY>
+                <PRIORITY>4</PRIORITY>
+            """,
+            root_tag="OS-TASK-PROXY",
+        )
+        proxy = OsTaskProxy(parent=_autosar_root(), short_name="TaskProxy1")
+        parser.readOsTaskProxy(element, proxy)
+        assert proxy.getPeriod() is not None
+        assert proxy.getPeriod().getValue() == 0.01
+        assert proxy.getPreemptability() is not None
+        assert isinstance(proxy.getPreemptability(), OsTaskPreemptabilityEnum)
+        assert proxy.getPreemptability().getValue() == "FULL"
+        assert proxy.getPriority() is not None
+        assert proxy.getPriority().getValue() == 4
+
+    def test_read_os_task_proxy_empty(self, parser):
+        element = _snip(
+            """
+                <SHORT-NAME>TaskProxy1</SHORT-NAME>
+            """,
+            root_tag="OS-TASK-PROXY",
+        )
+        proxy = OsTaskProxy(parent=_autosar_root(), short_name="TaskProxy1")
+        parser.readOsTaskProxy(element, proxy)
+        assert proxy.getPeriod() is None
+        assert proxy.getPreemptability() is None
+        assert proxy.getPriority() is None
