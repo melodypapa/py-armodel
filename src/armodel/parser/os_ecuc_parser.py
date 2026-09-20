@@ -1,13 +1,8 @@
 import logging
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 from armodel.data_models.ecuc import OsApplication, OsOs, OsTask
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
-    EcucModuleConfigurationValues,
-    ModuleConfiguration,
-)
-from armodel.parser.arxml_parser import ARXMLParser
+from armodel.parser.ecuc_parser import EcucParser
 
 logger = logging.getLogger("armodel.parser.os_ecuc_parser")
 
@@ -23,33 +18,25 @@ class _ContainerInfo:
         self.container = container
 
 
-class OsEcucParser:
+class OsEcucParser(EcucParser):
+    container_info_type = _ContainerInfo
+    conversion_error = OsEcucConversionError
+
     def __init__(self):
-        self.logger = logging.getLogger("OsEcucParser")
+        super().__init__()
 
     def load(self, path, document=None, warning: bool = False) -> OsOs:
-        if document is None:
-            document = AUTOSAR.getInstance()
-            document.clear()
-            document.setARRelease("R23-11")
-        ARXMLParser().load(str(path), document)
-        return self.parseEcuc(document, warning=warning)
+        return super().load(path, document=document, warning=warning)
 
     def parseEcuc(self, document, warning: bool = False) -> OsOs:
-        modules: List[Tuple[str, object]] = []
-        for package in document.getARPackages():
-            self.get_collect_modules(package, "/" + package.getShortName(), modules)
-
-        index: Dict[str, _ContainerInfo] = {}
+        modules = self.get_modules(document)
+        index: Dict[str, _ContainerInfo] = self.get_module_containers(document, module_name="Os")
         os_name = None
         for module_path, module in modules:
             if self.get_definition_name(module.getDefinitionRef()) != "Os":
                 continue
             if os_name is None:
                 os_name = module.getShortName()
-            for container in module.getContainers():
-                path = module_path + "/" + container.getShortName()
-                index[path] = _ContainerInfo(path, self.get_definition_name(container.getDefinitionRef()), container)
 
         os_os = OsOs()
         os_os.setName(os_name if os_name is not None else "Os")
@@ -79,44 +66,13 @@ class OsEcucParser:
             self.get_resolve_application_objects(applications[path], index[path].container, tasks, index, warning)
         return os_os
 
-    def get_definition_name(self, definition_ref) -> str:
-        if definition_ref is None or definition_ref.getValue() is None:
-            return ""
-        return definition_ref.getValue().rstrip("/").rsplit("/", 1)[-1]
-
-    def get_raw_value(self, parameter) -> object:
-        value = parameter.getValue()
-        if value is None:
-            return None
-        return getattr(value, "value", None)
-
-    def get_sub_name(self, container) -> str:
-        name = self.get_definition_name(container.getDefinitionRef())
-        return name or container.getShortName()
-
-    def get_parameter_values(self, container) -> List[Tuple[str, object]]:
-        return [(self.get_definition_name(parameter.getDefinitionRef()), self.get_raw_value(parameter)) for parameter in container.getParameterValues()]
-
-    def get_reference_values(self, container) -> List[Tuple[str, str]]:
-        result = []
-        for reference in container.getReferenceValues():
-            name = self.get_definition_name(reference.getDefinitionRef())
-            value_ref = reference.getValueRef()
-            if value_ref is not None and value_ref.getValue() is not None:
-                result.append((name, value_ref.getValue().strip()))
-        return result
-
-    def get_sub_containers_by_name(self, container) -> Dict[str, List]:
-        result: Dict[str, List] = {}
-        for sub_container in container.getSubContainers():
-            result.setdefault(self.get_sub_name(sub_container), []).append(sub_container)
-        return result
-
     def get_bool(self, name: str, raw: object) -> Optional[bool]:
         if raw is None:
             return None
         if isinstance(raw, bool):
             return raw
+        if isinstance(raw, str) and raw.lower() in ("true", "false", "0", "1"):
+            return raw.lower() in ("true", "1")
         raise OsEcucConversionError("Parameter %s expects a boolean value, got %r" % (name, raw))
 
     def get_int(self, name: str, raw: object) -> Optional[int]:
@@ -128,11 +84,21 @@ class OsEcucParser:
             return raw
         if isinstance(raw, float) and raw.is_integer():
             return int(raw)
+        if isinstance(raw, str):
+            try:
+                return int(raw, 0)
+            except ValueError:
+                pass
         raise OsEcucConversionError("Parameter %s expects an integer value, got %r" % (name, raw))
 
     def get_float(self, name: str, raw: object) -> Optional[float]:
         if raw is None:
             return None
+        if isinstance(raw, str):
+            try:
+                return float(raw)
+            except ValueError:
+                raise OsEcucConversionError("Parameter %s expects a float value, got %r" % (name, raw))
         if isinstance(raw, bool) or not isinstance(raw, (int, float)):
             raise OsEcucConversionError("Parameter %s expects a float value, got %r" % (name, raw))
         return float(raw)
@@ -147,23 +113,6 @@ class OsEcucParser:
     def get_unique(self, target: List, value) -> None:
         if value not in target:
             target.append(value)
-
-    def get_collect_modules(self, package, package_path: str, modules: List[Tuple[str, object]]) -> None:
-        for element in package.getElements():
-            if isinstance(element, (ModuleConfiguration, EcucModuleConfigurationValues)):
-                modules.append((package_path + "/" + element.getShortName(), element))
-        for sub_package in package.getARPackages():
-            self.get_collect_modules(sub_package, package_path + "/" + sub_package.getShortName(), modules)
-
-    def get_check_reference_path(self, name: str, path: str, index: Dict[str, _ContainerInfo], warning: bool) -> str:
-        if path in index:
-            return path
-        message = "Unresolved standard reference %s -> %s" % (name, path)
-        if warning:
-            self.logger.warning(message)
-        else:
-            raise OsEcucConversionError(message)
-        return path
 
     def get_lookup_task(self, name: str, path: str, tasks: Dict[str, OsTask], index: Dict[str, _ContainerInfo], warning: bool) -> Optional[OsTask]:
         if path in tasks:

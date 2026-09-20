@@ -51,7 +51,7 @@ TASK_FIELDS = {
 
 def test_os_config_export_cli_exports_real_os_ecuc_to_xlsx(monkeypatch, tmp_path: Path):
     output = tmp_path / "os.xlsx"
-    monkeypatch.setattr("sys.argv", ["os-config-export", str(OS_ECUC_FILE), str(output)])
+    monkeypatch.setattr("sys.argv", ["os-ecuc-export", str(OS_ECUC_FILE), str(output)])
 
     main()
 
@@ -59,24 +59,24 @@ def test_os_config_export_cli_exports_real_os_ecuc_to_xlsx(monkeypatch, tmp_path
     assert workbook.sheetnames == ["OsApplication", "OsTask"]
     assert workbook["OsApplication"]["A2"].value == "OsApplication_QM"
     assert workbook["OsTask"]["A2"].value == "Init_Task"
-    assert (tmp_path / "os_config_export.log").exists()
+    assert (tmp_path / "os_ecuc_export.log").exists()
 
 
 def test_os_config_export_cli_exports_real_os_ecuc_to_yaml(monkeypatch, tmp_path: Path):
     output = tmp_path / "os.yaml"
-    monkeypatch.setattr("sys.argv", ["os-config-export", str(OS_ECUC_FILE), str(output), "--format", "yaml"])
+    monkeypatch.setattr("sys.argv", ["os-ecuc-export", str(OS_ECUC_FILE), str(output), "--format", "yaml"])
 
     main()
 
     content = output.read_text(encoding="utf-8")
     assert "name: OsApplication_QM" in content
     assert "name: Init_Task" in content
-    assert (tmp_path / "os_config_export.log").exists()
+    assert (tmp_path / "os_ecuc_export.log").exists()
 
 
 def test_os_config_export_cli_matches_complete_yaml_fixture(monkeypatch, tmp_path: Path):
     output = tmp_path / "os.yaml"
-    monkeypatch.setattr("sys.argv", ["os-config-export", str(OS_ECUC_FILE), str(output), "--format", "yaml"])
+    monkeypatch.setattr("sys.argv", ["os-ecuc-export", str(OS_ECUC_FILE), str(output), "--format", "yaml"])
 
     main()
 
@@ -89,3 +89,17 @@ def test_os_config_export_cli_matches_complete_yaml_fixture(monkeypatch, tmp_pat
     assert generated["OsTask"]
     assert all(set(application) == APPLICATION_FIELDS for application in generated["OsApplication"])
     assert all(set(task) == TASK_FIELDS for task in generated["OsTask"])
+
+
+def test_os_config_export_cli_4_4_matches_existing_yaml_fixture(monkeypatch, tmp_path: Path):
+    output = tmp_path / "os-4.4.0.yaml"
+    input_file = OS_ECUC_FILE.with_name("Os_ECUC_4.4.0.arxml")
+    monkeypatch.setattr("sys.argv", ["os-ecuc-export", str(input_file), str(output), "--format", "yaml"])
+
+    main()
+
+    generated = yaml.safe_load(output.read_text(encoding="utf-8"))
+    expected = yaml.safe_load(EXPECTED_YAML_FILE.read_text(encoding="utf-8"))
+
+    assert generated["OsApplication"] == expected["OsApplication"]
+    assert sorted(generated["OsTask"], key=lambda task: task["name"]) == sorted(expected["OsTask"], key=lambda task: task["name"])

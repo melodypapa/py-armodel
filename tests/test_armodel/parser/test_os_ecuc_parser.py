@@ -20,7 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
     UnlimitedInteger,
 )
-from armodel.parser import OsEcucConversionError, OsEcucParser
+from armodel.parser import EcucParser, OsEcucConversionError, OsEcucParser
 
 
 def _ref(path):
@@ -133,6 +133,25 @@ def test_vendor_specific_parameter_is_ignored():
 
     assert [item.getName() for item in result.getOsTasks()] == ["Vendor_Task"]
     assert result.getOsTasks()[0].osTaskActivation == 1
+
+
+def test_generic_ecuc_parser_discovers_module_containers():
+    containers = [_container("Generic_Task", "OsTask")]
+    document = _build_document(containers)
+
+    parser = EcucParser()
+    index = parser.get_module_containers(document, module_name="Os")
+
+    assert list(index) == ["/Os/Os/Generic_Task"]
+    assert parser.get_definition_name(index["/Os/Os/Generic_Task"].getDefinitionRef()) == "OsTask"
+
+
+def test_numeric_string_values_are_converted_for_autosar_4_ecuc():
+    containers = [_container("String_Task", "OsTask", parameters=[_string_parameter("OsStacksize", "1024")])]
+
+    result = OsEcucParser().parseEcuc(_build_document(containers))
+
+    assert result.getOsTasks()[0].getOsStacksize() == 1024
 
 
 def test_unresolved_reference_raises_in_strict_mode():

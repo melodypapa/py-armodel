@@ -29,7 +29,7 @@ def main():
     stdout_handler.setFormatter(formatter)
 
     base_path = os.path.dirname(args.OUTPUT)
-    log_file = os.path.join(base_path, "os_config_export.log")
+    log_file = os.path.join(base_path, "os_ecuc_export.log")
 
     if os.path.exists(log_file):
         os.remove(log_file)
