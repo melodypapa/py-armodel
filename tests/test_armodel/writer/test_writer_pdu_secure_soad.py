@@ -217,6 +217,63 @@ class TestWriteDynamicPartAlternative:
         assert child.find("INITIAL-DYNAMIC-PART").text == "true"
         assert child.find("SELECTOR-FIELD-CODE").text == "1"
 
+    def test_full(self, writer):
+        alternative = DynamicPartAlternative()
+        alternative.setIPduRef(_ref("I-SIGNAL-I-PDU", "/pdus/DynamicAlt"))
+        alternative.setInitialDynamicPart(_bool("true"))
+        alternative.setSelectorFieldCode(_int("1023"))
+        parent = _parent()
+        writer.writeDynamicPartAlternative(parent, alternative)
+        child = parent.find("DYNAMIC-PART-ALTERNATIVE")
+        assert child is not None
+        ref_element = child.find("I-PDU-REF")
+        assert ref_element is not None
+        assert ref_element.text == "/pdus/DynamicAlt"
+        assert ref_element.get("DEST") == "I-SIGNAL-I-PDU"
+        initial_element = child.find("INITIAL-DYNAMIC-PART")
+        assert initial_element is not None
+        assert initial_element.text == "true"
+        code_element = child.find("SELECTOR-FIELD-CODE")
+        assert code_element is not None
+        assert code_element.text == "1023"
+        children = [c.tag for c in child]
+        assert children.index("I-PDU-REF") < children.index("INITIAL-DYNAMIC-PART")
+        assert children.index("INITIAL-DYNAMIC-PART") < children.index("SELECTOR-FIELD-CODE")
+
+    def test_empty(self, writer):
+        alternative = DynamicPartAlternative()
+        parent = _parent()
+        writer.writeDynamicPartAlternative(parent, alternative)
+        child = parent.find("DYNAMIC-PART-ALTERNATIVE")
+        assert child is not None
+        assert child.find("I-PDU-REF") is None
+        assert child.find("INITIAL-DYNAMIC-PART") is None
+        assert child.find("SELECTOR-FIELD-CODE") is None
+
+    def test_write_reparse_round_trip(self, writer):
+        alternative = DynamicPartAlternative()
+        alternative.setIPduRef(_ref("I-SIGNAL-I-PDU", "/pdus/DynamicAlt"))
+        alternative.setInitialDynamicPart(_bool("true"))
+        alternative.setSelectorFieldCode(_int("1023"))
+        parent = _parent()
+        writer.writeDynamicPartAlternative(parent, alternative)
+        child = parent.find("DYNAMIC-PART-ALTERNATIVE")
+
+        xml_str = ET.tostring(child).decode()
+        idx = xml_str.find(">")
+        xml_str = xml_str[:idx] + ' xmlns="http://autosar.org/schema/r4.0"' + xml_str[idx:]
+        reloaded = DynamicPartAlternative()
+        ARXMLParser().readDynamicPartAlternative(ET.fromstring(xml_str), reloaded)
+        assert reloaded.getIPduRef() is not None
+        assert reloaded.getIPduRef().getValue() == "/pdus/DynamicAlt"
+        assert reloaded.getIPduRef().getDest() == "I-SIGNAL-I-PDU"
+        assert reloaded.getInitialDynamicPart() is not None
+        assert isinstance(reloaded.getInitialDynamicPart(), Boolean)
+        assert reloaded.getInitialDynamicPart().getValue() is True
+        assert reloaded.getSelectorFieldCode() is not None
+        assert isinstance(reloaded.getSelectorFieldCode(), Integer)
+        assert reloaded.getSelectorFieldCode().getValue() == 1023
+
 
 class TestWriteDynamicPartDynamicPartAlternatives:
     def test_empty(self, writer):

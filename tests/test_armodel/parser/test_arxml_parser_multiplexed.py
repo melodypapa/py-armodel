@@ -82,6 +82,7 @@ class TestMultiplexedPartHandlers:
         assert alternative.getIPduRef().getValue() == "/pdus/DynAlt"
         assert alternative.getIPduRef().getDest() == "I-PDU"
         assert alternative.getInitialDynamicPart() is not None
+        assert alternative.getInitialDynamicPart().getValue() is True
         assert alternative.getSelectorFieldCode() is not None
         assert alternative.getSelectorFieldCode().getValue() == 1
 

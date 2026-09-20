@@ -1399,13 +1399,11 @@ No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 6.324 (p.694, R2
 No deviations — the single Table 6.73 attribute `iPdu` (ISignalIPdu, Mult `0..1`, Kind `ref`) modeled as `iPduRef: Optional[RefType]` with `getIPduRef`/`setIPduRef` per the Kind `ref`→`Ref` suffix (the PDF Type column names the ref *target* — for a `ref` attribute the model type is `RefType`; the target type constrains the DEST enum only); most-derived base MultiplexedPart + VariationPointCapable mixin (VP-capable per the STATIC-PART XSD group); full reader/writer coverage via `readStaticPart`/`writeStaticPart` incl. VARIATION-POINT; former `type (PDF ISignalIPdu vs py RefType)` row resolved as stale in the 2026-09 sync.
 
 ## `DynamicPartAlternative`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 411  | **table:** Table 6.75
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `iPduRef` | `RefType` | `iPdu` | ``ISignalIPdu`` | ref | type (PDF ISignalIPdu vs py RefType) |
+No deviations — the three Table 6.75 attributes modeled in displayed order: `initialDynamicPart` (Boolean, Mult `0..1`, Kind `attr`) as `initialDynamicPart: Optional[Boolean]`, `iPdu` (ISignalIPdu, Mult `0..1`, Kind `ref`) as `iPduRef: Optional[RefType]` with `getIPduRef`/`setIPduRef` per the Kind `ref`→`Ref` suffix (the PDF Type column names the ref *target* — for a `ref` attribute the model type is `RefType`; the target type constrains the DEST enum only), `selectorFieldCode` (Integer, Mult `0..1`, Kind `attr`) as `selectorFieldCode: Optional[Integer]`; base `ARObject` per the Base row; full reader/writer coverage via `readDynamicPartAlternative`/`writeDynamicPartAlternative` in XSD group order I-PDU-REF → INITIAL-DYNAMIC-PART → SELECTOR-FIELD-CODE with spec-typed helpers; former `type (PDF ISignalIPdu vs py RefType)` row resolved as stale in the 2026-09 sync.
 
 ## `GeneralPurposePdu`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —

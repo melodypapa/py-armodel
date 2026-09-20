@@ -2210,47 +2210,79 @@ class StaticPart(MultiplexedPart, VariationPointCapable):
 
 class DynamicPartAlternative(ARObject):
     """
-    Defines an alternative for dynamic parts in multiplexed communication,
-    specifying selector field codes, initial dynamic part properties,
-    and Interaction Protocol Data Unit (IPDU) references.
+    One of the Com IPdu alternatives that are transmitted in the Dynamic Part of the MultiplexedIPdu. The selectorFieldCode specifies which Com IPdu is contained in the DynamicPart within a certain transmission of a multiplexed PDU.
+
+    [constr_9178] Existence of DynamicPartAlternative.initialDynamicPart: For each DynamicPartAlternative the attribute initialDynamicPart shall exist at the time when the System Description is complete.
+
+    [constr_9179] Existence of DynamicPartAlternative.iPdu: For each DynamicPartAlternative, the reference to ISignalIPdu in role iPdu shall exist at the time when the System Description is complete.
+
+    [constr_9180] Existence of DynamicPartAlternative.selectorFieldCode: For each DynamicPartAlternative, the attribute selectorFieldCode shall exist at the time when the System Description is complete.
     """
 
     # DynamicPartAlternative method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitialDynamicPart        [x] impl  [ ] docstring  [ ] test
-    # [ ] setInitialDynamicPart        [x] impl  [ ] docstring  [ ] test
-    # [ ] getIPduRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setIPduRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getSelectorFieldCode         [x] impl  [ ] docstring  [ ] test
-    # [ ] setSelectorFieldCode         [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.75, p.411 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInitialDynamicPart   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitialDynamicPart   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIPduRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIPduRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSelectorFieldCode    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSelectorFieldCode    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.initialDynamicPart = None  # type: Boolean
-        self.iPduRef = None  # type: RefType
-        self.selectorFieldCode = None  # type: Integer
+        # Dynamic part that shall be used to initialize this multiplexed IPdu. Constraint: Only one "DynamicPartAlternative" in a "DynamicPart" shall be the initialDynamicPart.
+        self.initialDynamicPart: Optional[Boolean] = None
 
-    def getInitialDynamicPart(self):
+        # Reference to a Com IPdu which is routed to the IPduM module and is combined to a multiplexedPdu.
+        self.iPduRef: Optional[RefType] = None
+
+        # The selector field is part of a multiplexed IPdu. It consists of contiguous bits. The value of the selector field selects the layout of the multiplexed part of the IPdu.
+        self.selectorFieldCode: Optional[Integer] = None
+
+    def getInitialDynamicPart(self) -> Optional[Boolean]:
+        """
+        Dynamic part that shall be used to initialize this multiplexed IPdu. Constraint: Only one "DynamicPartAlternative" in a "DynamicPart" shall be the initialDynamicPart.
+        """
         return self.initialDynamicPart
 
-    def setInitialDynamicPart(self, value):
+    def setInitialDynamicPart(self, value: Optional[Boolean]) -> "DynamicPartAlternative":
+        """
+        Dynamic part that shall be used to initialize this multiplexed IPdu. Constraint: Only one "DynamicPartAlternative" in a "DynamicPart" shall be the initialDynamicPart.
+        A None value is a no-op and does not overwrite an existing initialDynamicPart.
+        """
         if value is not None:
             self.initialDynamicPart = value
         return self
 
-    def getIPduRef(self):
+    def getIPduRef(self) -> Optional[RefType]:
+        """
+        Reference to a Com IPdu which is routed to the IPduM module and is combined to a multiplexedPdu.
+        """
         return self.iPduRef
 
-    def setIPduRef(self, value):
+    def setIPduRef(self, value: Optional[RefType]) -> "DynamicPartAlternative":
+        """
+        Reference to a Com IPdu which is routed to the IPduM module and is combined to a multiplexedPdu.
+        A None value is a no-op and does not overwrite an existing iPduRef.
+        """
         if value is not None:
             self.iPduRef = value
         return self
 
-    def getSelectorFieldCode(self):
+    def getSelectorFieldCode(self) -> Optional[Integer]:
+        """
+        The selector field is part of a multiplexed IPdu. It consists of contiguous bits. The value of the selector field selects the layout of the multiplexed part of the IPdu.
+        """
         return self.selectorFieldCode
 
-    def setSelectorFieldCode(self, value):
+    def setSelectorFieldCode(self, value: Optional[Integer]) -> "DynamicPartAlternative":
+        """
+        The selector field is part of a multiplexed IPdu. It consists of contiguous bits. The value of the selector field selects the layout of the multiplexed part of the IPdu.
+        A None value is a no-op and does not overwrite an existing selectorFieldCode.
+        """
         if value is not None:
             self.selectorFieldCode = value
         return self
