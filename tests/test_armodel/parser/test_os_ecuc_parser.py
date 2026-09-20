@@ -2,7 +2,7 @@ import logging
 
 import pytest
 
-from armodel.data_models.ecuc import OsAlarm, OsIsr, OsOs
+from armodel.data_models.ecuc import OsAlarm, OsIsr, OsOs, OsScheduleTable
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
@@ -476,3 +476,113 @@ def test_collect_isr_unresolved_resource_ref_raises_in_strict_mode():
 
     with pytest.raises(OsEcucConversionError, match="MissingResource"):
         OsEcucParser().parseEcuc(document)
+
+
+def test_collect_schedule_table_with_autostart_sync_and_expiry_points():
+    schedule_table_container = _container(
+        "Table1",
+        "OsScheduleTable",
+        parameters=[
+            _int_parameter("OsScheduleTableDuration", 10),
+            _bool_parameter("OsScheduleTableRepeating", True),
+        ],
+        references=[_reference("OsScheduleTableCounterRef", "/Os/Os/HwCounter")],
+        sub_containers=[
+            _container(
+                "OsScheduleTableAutostart",
+                "OsScheduleTableAutostart",
+                parameters=[
+                    _enum_parameter("OsScheduleTableAutostartType", "RELATIVE"),
+                    _int_parameter("OsScheduleTableStartValue", 0),
+                ],
+                references=[_reference("OsScheduleTableAppModeRef", "/Os/Os/OSDEFAULTAPPMODE")],
+            ),
+            _container(
+                "OsScheduleTableSync",
+                "OsScheduleTableSync",
+                parameters=[_enum_parameter("OsScheduleTblSyncStrategy", "IMPLICIT")],
+            ),
+            _container(
+                "ExpiryPoint1",
+                "OsScheduleTableExpiryPoint",
+                parameters=[
+                    _int_parameter("OsScheduleTblExpPointOffset", 2),
+                    _int_parameter("OsScheduleTableMaxShorten", 1),
+                    _int_parameter("OsScheduleTableMaxLengthen", 1),
+                ],
+                sub_containers=[
+                    _container(
+                        "OsScheduleTableTaskActivation",
+                        "OsScheduleTableTaskActivation",
+                        references=[_reference("OsScheduleTableActivateTaskRef", "/Os/Os/Task1")],
+                    )
+                ],
+            ),
+            _container(
+                "ExpiryPoint2",
+                "OsScheduleTableExpiryPoint",
+                parameters=[_int_parameter("OsScheduleTblExpPointOffset", 5)],
+                sub_containers=[
+                    _container(
+                        "OsScheduleTableEventSetting",
+                        "OsScheduleTableEventSetting",
+                        references=[
+                            _reference("OsScheduleTableSetEventTaskRef", "/Os/Os/Task2"),
+                            _reference("OsScheduleTableSetEventRef", "/Os/Os/Event1"),
+                        ],
+                    )
+                ],
+            ),
+        ],
+    )
+    containers = [
+        _container("HwCounter", "OsCounter"),
+        _container("OSDEFAULTAPPMODE", "OsAppMode"),
+        _container("Task1", "OsTask"),
+        _container("Task2", "OsTask"),
+        _container("Event1", "OsEvent"),
+        schedule_table_container,
+    ]
+    document = _build_document(containers)
+
+    result = OsEcucParser().parseEcuc(document)
+
+    schedule_table = result.getOsScheduleTables()[0]
+    assert schedule_table.getName() == "Table1"
+    assert schedule_table.getOsScheduleTableCounterRef() == "/Os/Os/HwCounter"
+    assert schedule_table.getOsScheduleTableDuration() == 10
+    assert schedule_table.getOsScheduleTableRepeating() is True
+    assert schedule_table.getOsScheduleTableAutostartType() == "RELATIVE"
+    assert schedule_table.getOsScheduleTableStartValue() == 0
+    assert schedule_table.getOsScheduleTableAppModeRef() == "/Os/Os/OSDEFAULTAPPMODE"
+    assert schedule_table.getOsScheduleTableSyncStrategy() == "IMPLICIT"
+
+    expiry_points = schedule_table.getOsScheduleTableExpiryPoints()
+    assert len(expiry_points) == 2
+    assert expiry_points[0].getOsScheduleTableExpiryPointOffset() == 2
+    assert expiry_points[0].getOsScheduleTableMaxShorten() == 1
+    assert expiry_points[0].getOsScheduleTableMaxLengthen() == 1
+    assert expiry_points[0].getOsScheduleTableActivateTaskRef() == "/Os/Os/Task1"
+    assert expiry_points[1].getOsScheduleTableExpiryPointOffset() == 5
+    assert expiry_points[1].getOsScheduleTableSetEventTaskRef() == "/Os/Os/Task2"
+    assert expiry_points[1].getOsScheduleTableSetEventRef() == "/Os/Os/Event1"
+
+
+def test_collect_schedule_table_unresolved_counter_ref_raises_in_strict_mode():
+    containers = [_container("BadTable", "OsScheduleTable", references=[_reference("OsScheduleTableCounterRef", "/Os/Os/MissingCounter")])]
+    document = _build_document(containers)
+
+    with pytest.raises(OsEcucConversionError, match="MissingCounter"):
+        OsEcucParser().parseEcuc(document)
+
+
+def test_collect_schedule_table_accessing_application_collected_as_path():
+    containers = [
+        _container("App1", "OsApplication"),
+        _container("Table2", "OsScheduleTable", references=[_reference("OsScheduleTableAccessingApplication", "/Os/Os/App1")]),
+    ]
+    document = _build_document(containers)
+
+    result = OsEcucParser().parseEcuc(document)
+
+    assert result.getOsScheduleTables()[0].getOsScheduleTableAccessingApplications() == ["/Os/Os/App1"]

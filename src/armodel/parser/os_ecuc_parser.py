@@ -1,7 +1,7 @@
 import logging
 from typing import Dict, List, Optional, TypeVar
 
-from armodel.data_models.ecuc import OsAlarm, OsApplication, OsIsr, OsOs, OsTask
+from armodel.data_models.ecuc import OsAlarm, OsApplication, OsIsr, OsOs, OsScheduleTable, OsScheduleTableExpiryPoint, OsTask
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import Container
 from armodel.parser.ecuc_parser import EcucParser, EcucScalar
@@ -84,6 +84,17 @@ class OsEcucParser(EcucParser):
                 self.get_collect_isr(isr, container, index, warning)
                 isrs[path] = isr
                 os_os.addOsIsr(isr)
+
+        schedule_tables: Dict[str, OsScheduleTable] = {}
+        for path in index:
+            container = index[path]
+            if self.get_definition_name(container.getDefinitionRef()) == "OsScheduleTable":
+                schedule_table = OsScheduleTable()
+                schedule_table.setName(container.getShortName())
+                self.logger.info("Parsing OsScheduleTable: %s", schedule_table.getName())
+                self.get_collect_schedule_table(schedule_table, container, index, warning)
+                schedule_tables[path] = schedule_table
+                os_os.addOsScheduleTable(schedule_table)
         return os_os
 
     def get_collect_alarm(self, alarm: OsAlarm, container: Container, index: Dict[str, Container], warning: bool) -> None:
@@ -225,6 +236,103 @@ class OsEcucParser(EcucParser):
                         isr.addOsIsrResourceLockResourceRef(self.get_check_reference_path(name, path, index, warning))
                     else:
                         self.logger.debug("Ignore non-standard OsIsrResourceLock reference %s" % name)
+
+    def get_collect_schedule_table(self, schedule_table: OsScheduleTable, container: Container, index: Dict[str, Container], warning: bool) -> None:
+        for parameter in self.get_parameter_values(container):
+            name = self.get_definition_name(parameter.getDefinitionRef())
+            raw = self.get_raw_value(parameter)
+            if name == "OsScheduleTableDuration":
+                schedule_table.setOsScheduleTableDuration(self.get_int(name, raw))
+            elif name == "OsScheduleTableRepeating":
+                schedule_table.setOsScheduleTableRepeating(self.get_bool(name, raw))
+            else:
+                self.logger.debug("Ignore non-standard OsScheduleTable parameter %s" % name)
+
+        for reference in self.get_reference_values(container):
+            name = self.get_definition_name(reference.getDefinitionRef())
+            value_ref = reference.getValueRef()
+            if value_ref is None or value_ref.getValue() is None:
+                continue
+            path = value_ref.getValue().strip()
+            if name == "OsScheduleTableCounterRef":
+                schedule_table.setOsScheduleTableCounterRef(self.get_check_reference_path(name, path, index, warning))
+            elif name == "OsScheduleTableAccessingApplication":
+                schedule_table.addOsScheduleTableAccessingApplication(self.get_check_reference_path(name, path, index, warning))
+            else:
+                self.logger.debug("Ignore non-standard OsScheduleTable reference %s" % name)
+
+        sub_containers = self.get_sub_containers_by_name(container)
+        for autostart in sub_containers.get("OsScheduleTableAutostart", []):
+            for parameter in self.get_parameter_values(autostart):
+                name = self.get_definition_name(parameter.getDefinitionRef())
+                raw = self.get_raw_value(parameter)
+                if name == "OsScheduleTableAutostartType":
+                    schedule_table.setOsScheduleTableAutostartType(self.get_str(name, raw))
+                elif name == "OsScheduleTableStartValue":
+                    schedule_table.setOsScheduleTableStartValue(self.get_int(name, raw))
+                else:
+                    self.logger.debug("Ignore non-standard OsScheduleTableAutostart parameter %s" % name)
+            for reference in self.get_reference_values(autostart):
+                name = self.get_definition_name(reference.getDefinitionRef())
+                value_ref = reference.getValueRef()
+                if value_ref is None or value_ref.getValue() is None:
+                    continue
+                path = value_ref.getValue().strip()
+                if name == "OsScheduleTableAppModeRef":
+                    schedule_table.setOsScheduleTableAppModeRef(self.get_check_reference_path(name, path, index, warning))
+                else:
+                    self.logger.debug("Ignore non-standard OsScheduleTableAutostart reference %s" % name)
+
+        for sync in sub_containers.get("OsScheduleTableSync", []):
+            for parameter in self.get_parameter_values(sync):
+                name = self.get_definition_name(parameter.getDefinitionRef())
+                raw = self.get_raw_value(parameter)
+                if name == "OsScheduleTblSyncStrategy":
+                    schedule_table.setOsScheduleTableSyncStrategy(self.get_str(name, raw))
+                elif name == "OsScheduleTblExplicitPrecision":
+                    schedule_table.setOsScheduleTableExplicitPrecision(self.get_int(name, raw))
+                else:
+                    self.logger.debug("Ignore non-standard OsScheduleTableSync parameter %s" % name)
+
+        for expiry_container in sub_containers.get("OsScheduleTableExpiryPoint", []):
+            expiry_point = OsScheduleTableExpiryPoint()
+            for parameter in self.get_parameter_values(expiry_container):
+                name = self.get_definition_name(parameter.getDefinitionRef())
+                raw = self.get_raw_value(parameter)
+                if name == "OsScheduleTblExpPointOffset":
+                    expiry_point.setOsScheduleTableExpiryPointOffset(self.get_int(name, raw))
+                elif name == "OsScheduleTableMaxShorten":
+                    expiry_point.setOsScheduleTableMaxShorten(self.get_int(name, raw))
+                elif name == "OsScheduleTableMaxLengthen":
+                    expiry_point.setOsScheduleTableMaxLengthen(self.get_int(name, raw))
+                else:
+                    self.logger.debug("Ignore non-standard OsScheduleTableExpiryPoint parameter %s" % name)
+            expiry_sub_containers = self.get_sub_containers_by_name(expiry_container)
+            for task_activation in expiry_sub_containers.get("OsScheduleTableTaskActivation", []):
+                for reference in self.get_reference_values(task_activation):
+                    name = self.get_definition_name(reference.getDefinitionRef())
+                    value_ref = reference.getValueRef()
+                    if value_ref is None or value_ref.getValue() is None:
+                        continue
+                    path = value_ref.getValue().strip()
+                    if name == "OsScheduleTableActivateTaskRef":
+                        expiry_point.setOsScheduleTableActivateTaskRef(self.get_check_reference_path(name, path, index, warning))
+                    else:
+                        self.logger.debug("Ignore non-standard OsScheduleTableTaskActivation reference %s" % name)
+            for event_setting in expiry_sub_containers.get("OsScheduleTableEventSetting", []):
+                for reference in self.get_reference_values(event_setting):
+                    name = self.get_definition_name(reference.getDefinitionRef())
+                    value_ref = reference.getValueRef()
+                    if value_ref is None or value_ref.getValue() is None:
+                        continue
+                    path = value_ref.getValue().strip()
+                    if name == "OsScheduleTableSetEventTaskRef":
+                        expiry_point.setOsScheduleTableSetEventTaskRef(self.get_check_reference_path(name, path, index, warning))
+                    elif name == "OsScheduleTableSetEventRef":
+                        expiry_point.setOsScheduleTableSetEventRef(self.get_check_reference_path(name, path, index, warning))
+                    else:
+                        self.logger.debug("Ignore non-standard OsScheduleTableEventSetting reference %s" % name)
+            schedule_table.addOsScheduleTableExpiryPoint(expiry_point)
 
     def get_bool(self, name: str, raw: EcucScalar) -> Optional[bool]:
         """Convert an ECUC scalar to a boolean OS parameter value.
