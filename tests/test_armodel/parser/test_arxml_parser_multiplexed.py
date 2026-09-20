@@ -357,6 +357,21 @@ class TestUserDefinedAndGeneralPurposePduHandlers:
         parser.readGeneralPurposeIPdu(element, ipdu)
         assert ipdu.getShortName() == "gpIPdu"
 
+    def test_readGeneralPurposeIPdu_with_length(self, parser):
+        from armodel.models import GeneralPurposeIPdu
+
+        ipdu = GeneralPurposeIPdu(parent=_autosar_root(), short_name="gpIPdu")
+        element = _snip(
+            "<SHORT-NAME>gpIPdu</SHORT-NAME>" "<LENGTH>128</LENGTH>",
+            root_tag="GENERAL-PURPOSE-I-PDU",
+        )
+        parser.readGeneralPurposeIPdu(element, ipdu)
+        assert ipdu.getShortName() == "gpIPdu"
+        assert ipdu.getLength() is not None
+        assert ipdu.getLength().getValue() == 128
+        assert ipdu.getHasDynamicLength() is None
+        assert ipdu.getContainedIPduProps() is None
+
 
 class TestSecureCommunicationHandlers:
     """Tests for SecureCommunication props handlers."""

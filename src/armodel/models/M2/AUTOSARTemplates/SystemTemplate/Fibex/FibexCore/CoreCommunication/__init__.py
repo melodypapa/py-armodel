@@ -2424,12 +2424,15 @@ class GeneralPurposePdu(Pdu):
 
 class GeneralPurposeIPdu(IPdu):
     """
-    Represents a general-purpose Interaction Protocol Data Unit (IPDU) for flexible
-    interaction-based communication patterns that don't fit into specific IPDU categories.
+    This element is used for AUTOSAR Pdus without attributes that are routed by the PduR. Please note that the category name of such Pdus is standardized in the AUTOSAR System Template. Tags: atp.recommendedPackage=Pdus
+
+    [constr_3082] Value of category in GeneralPurposeIPdu: The attribute category of GeneralPurposeIPdu can have the following values: XCP, SOMEIP_SEGMENTED_IPDU, DLT, IDS
     """
 
     # GeneralPurposeIPdu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.26, p.345 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

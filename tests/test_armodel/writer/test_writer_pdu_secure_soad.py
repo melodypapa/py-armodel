@@ -540,6 +540,36 @@ class TestWriteGeneralPurposeIPdu:
         assert child.find("SHORT-NAME").text == "gpIpdu"
         assert child.find("LENGTH").text == "128"
 
+    def test_empty(self, writer):
+        pkg = _pkg()
+        ipdu = GeneralPurposeIPdu(pkg, "gpIpdu")
+        parent = _parent()
+        writer.writeGeneralPurposeIPdu(parent, ipdu)
+        child = parent.find("GENERAL-PURPOSE-I-PDU")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "gpIpdu"
+        assert child.find("LENGTH") is None
+        assert child.find("HAS-DYNAMIC-LENGTH") is None
+        assert child.find("CONTAINED-I-PDU-PROPS") is None
+
+    def test_write_reparse_round_trip(self, writer):
+        pkg = _pkg()
+        ipdu = GeneralPurposeIPdu(pkg, "gpIpdu")
+        ipdu.setLength(_int("128"))
+        parent = _parent()
+        writer.writeGeneralPurposeIPdu(parent, ipdu)
+        child = parent.find("GENERAL-PURPOSE-I-PDU")
+        xml_str = ET.tostring(child).decode()
+        idx = xml_str.find(">")
+        xml_str = xml_str[:idx] + ' xmlns="http://autosar.org/schema/r4.0"' + xml_str[idx:]
+        reloaded = GeneralPurposeIPdu(parent=_pkg(), short_name="gpIpdu")
+        ARXMLParser().readGeneralPurposeIPdu(ET.fromstring(xml_str), reloaded)
+        assert reloaded.getShortName() == "gpIpdu"
+        assert reloaded.getLength() is not None
+        assert reloaded.getLength().getValue() == 128
+        assert reloaded.getHasDynamicLength() is None
+        assert reloaded.getContainedIPduProps() is None
+
 
 class TestWriteSecureCommunicationAuthenticationProps:
     def test_with_mock(self, writer):

@@ -1044,13 +1044,6 @@ class Test_FibexCoreCommunication:
         assert ipdu.getUnusedBitPattern() == 255
         assert ipdu == ipdu.setUnusedBitPattern(255)  # Test method chaining
 
-    def test_GeneralPurposeIPdu(self):
-        """Test GeneralPurposeIPdu class functionality."""
-        parent = MockParent()
-        ipdu = GeneralPurposeIPdu(parent, "test_general_purpose_ipdu")
-
-        assert isinstance(ipdu, IPdu)
-
     def test_SecureCommunicationPropsSet_initialization(self):
         parent = MockParent()
         props_set = SecureCommunicationPropsSet(parent, "test_secure_com_props_set")
@@ -1396,3 +1389,37 @@ class TestGeneralPurposePdu:
         assert pdu.getShortName() == "gpPdu"
         assert pdu.getHasDynamicLength() is None
         assert pdu.getLength() is None
+
+
+GENERAL_PURPOSE_IPDU_CLASS_NOTE = (
+    "This element is used for AUTOSAR Pdus without attributes that are routed by the PduR. "
+    "Please note that the category name of such Pdus is standardized in the AUTOSAR System Template. "
+    "Tags: atp.recommendedPackage=Pdus\n"
+    "\n"
+    "[constr_3082] Value of category in GeneralPurposeIPdu: The attribute category of GeneralPurposeIPdu "
+    "can have the following values: XCP, SOMEIP_SEGMENTED_IPDU, DLT, IDS"
+)
+
+
+class TestGeneralPurposeIPdu:
+    """Test cases for GeneralPurposeIPdu (Table 6.26, p.345)."""
+
+    def test_inheritance(self):
+        assert issubclass(GeneralPurposeIPdu, IPdu)
+        assert issubclass(GeneralPurposeIPdu, Pdu)
+        assert issubclass(GeneralPurposeIPdu, FibexElement)
+        assert issubclass(GeneralPurposeIPdu, Identifiable)
+        assert issubclass(GeneralPurposeIPdu, ARObject)
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(GeneralPurposeIPdu.__doc__) == GENERAL_PURPOSE_IPDU_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert GeneralPurposeIPdu.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        ipdu = GeneralPurposeIPdu(MockParent(), "gpIpdu")
+        assert ipdu.getShortName() == "gpIpdu"
+        assert ipdu.getContainedIPduProps() is None
+        assert ipdu.getHasDynamicLength() is None
+        assert ipdu.getLength() is None
