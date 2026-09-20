@@ -113,9 +113,9 @@ class OsEcucParser(EcucParser):
                 continue
             path = value_ref.getValue().strip()
             if name == "OsAlarmCounterRef":
-                alarm.setOsAlarmCounterRef(self.get_check_reference_path(name, path, index, warning))
+                alarm.setOsAlarmCounterRef(self.check_reference_path(name, path, index))
             elif name == "OsAlarmAccessingApplication":
-                alarm.addOsAlarmAccessingApplication(self.get_check_reference_path(name, path, index, warning))
+                alarm.addOsAlarmAccessingApplication(self.check_reference_path(name, path, index))
             else:
                 self.logger.debug("Ignore non-standard OsAlarm reference %s" % name)
 
@@ -139,7 +139,7 @@ class OsEcucParser(EcucParser):
                     continue
                 path = value_ref.getValue().strip()
                 if name == "OsAlarmAppModeRef":
-                    alarm.setOsAlarmAppModeRef(self.get_check_reference_path(name, path, index, warning))
+                    alarm.setOsAlarmAppModeRef(self.check_reference_path(name, path, index))
                 else:
                     self.logger.debug("Ignore non-standard OsAlarmAutostart reference %s" % name)
 
@@ -154,13 +154,13 @@ class OsEcucParser(EcucParser):
                     continue
                 path = value_ref.getValue().strip()
                 if name == "OsAlarmActivateTaskRef":
-                    alarm.setOsAlarmActivateTaskRef(self.get_check_reference_path(name, path, index, warning))
+                    alarm.setOsAlarmActivateTaskRef(self.check_reference_path(name, path, index))
                 elif name == "OsAlarmSetEventTaskRef":
-                    alarm.setOsAlarmSetEventTaskRef(self.get_check_reference_path(name, path, index, warning))
+                    alarm.setOsAlarmSetEventTaskRef(self.check_reference_path(name, path, index))
                 elif name == "OsAlarmSetEventRef":
-                    alarm.setOsAlarmSetEventRef(self.get_check_reference_path(name, path, index, warning))
+                    alarm.setOsAlarmSetEventRef(self.check_reference_path(name, path, index))
                 elif name == "OsAlarmIncrementCounterRef":
-                    alarm.setOsAlarmIncrementCounterRef(self.get_check_reference_path(name, path, index, warning))
+                    alarm.setOsAlarmIncrementCounterRef(self.check_reference_path(name, path, index))
                 else:
                     self.logger.debug("Ignore non-standard OsAlarmAction reference %s" % name)
             for parameter in self.get_parameter_values(action):
@@ -193,13 +193,13 @@ class OsEcucParser(EcucParser):
                 continue
             path = value_ref.getValue().strip()
             if name == "OsIsrResourceRef":
-                isr.setOsIsrResourceRef(self.get_check_reference_path(name, path, index, warning))
+                isr.setOsIsrResourceRef(self.check_reference_path(name, path, index))
             elif name == "OsIsrInterruptSource":
-                isr.setOsIsrInterruptSource(self.get_check_reference_path(name, path, index, warning))
+                isr.setOsIsrInterruptSource(self.check_reference_path(name, path, index))
             elif name == "OsIsrAccessingApplication":
-                isr.addOsIsrAccessingApplication(self.get_check_reference_path(name, path, index, warning))
+                isr.addOsIsrAccessingApplication(self.check_reference_path(name, path, index))
             elif name == "OsMemoryMappingCodeLocationRef":
-                isr.setOsMemoryMappingCodeLocationRef(self.get_check_reference_path(name, path, index, warning))
+                isr.setOsMemoryMappingCodeLocationRef(self.check_reference_path(name, path, index))
             else:
                 self.logger.debug("Ignore non-standard OsIsr reference %s" % name)
 
@@ -233,7 +233,7 @@ class OsEcucParser(EcucParser):
                         continue
                     path = value_ref.getValue().strip()
                     if name == "OsIsrResourceLockResourceRef":
-                        isr.addOsIsrResourceLockResourceRef(self.get_check_reference_path(name, path, index, warning))
+                        isr.addOsIsrResourceLockResourceRef(self.check_reference_path(name, path, index))
                     else:
                         self.logger.debug("Ignore non-standard OsIsrResourceLock reference %s" % name)
 
@@ -255,9 +255,9 @@ class OsEcucParser(EcucParser):
                 continue
             path = value_ref.getValue().strip()
             if name == "OsScheduleTableCounterRef":
-                schedule_table.setOsScheduleTableCounterRef(self.get_check_reference_path(name, path, index, warning))
+                schedule_table.setOsScheduleTableCounterRef(self.check_reference_path(name, path, index))
             elif name == "OsScheduleTableAccessingApplication":
-                schedule_table.addOsScheduleTableAccessingApplication(self.get_check_reference_path(name, path, index, warning))
+                schedule_table.addOsScheduleTableAccessingApplication(self.check_reference_path(name, path, index))
             else:
                 self.logger.debug("Ignore non-standard OsScheduleTable reference %s" % name)
 
@@ -279,7 +279,7 @@ class OsEcucParser(EcucParser):
                     continue
                 path = value_ref.getValue().strip()
                 if name == "OsScheduleTableAppModeRef":
-                    schedule_table.setOsScheduleTableAppModeRef(self.get_check_reference_path(name, path, index, warning))
+                    schedule_table.setOsScheduleTableAppModeRef(self.check_reference_path(name, path, index))
                 else:
                     self.logger.debug("Ignore non-standard OsScheduleTableAutostart reference %s" % name)
 
@@ -316,7 +316,7 @@ class OsEcucParser(EcucParser):
                         continue
                     path = value_ref.getValue().strip()
                     if name == "OsScheduleTableActivateTaskRef":
-                        expiry_point.setOsScheduleTableActivateTaskRef(self.get_check_reference_path(name, path, index, warning))
+                        expiry_point.setOsScheduleTableActivateTaskRef(self.check_reference_path(name, path, index))
                     else:
                         self.logger.debug("Ignore non-standard OsScheduleTableTaskActivation reference %s" % name)
             for event_setting in expiry_sub_containers.get("OsScheduleTableEventSetting", []):
@@ -327,9 +327,9 @@ class OsEcucParser(EcucParser):
                         continue
                     path = value_ref.getValue().strip()
                     if name == "OsScheduleTableSetEventTaskRef":
-                        expiry_point.setOsScheduleTableSetEventTaskRef(self.get_check_reference_path(name, path, index, warning))
+                        expiry_point.setOsScheduleTableSetEventTaskRef(self.check_reference_path(name, path, index))
                     elif name == "OsScheduleTableSetEventRef":
-                        expiry_point.setOsScheduleTableSetEventRef(self.get_check_reference_path(name, path, index, warning))
+                        expiry_point.setOsScheduleTableSetEventRef(self.check_reference_path(name, path, index))
                     else:
                         self.logger.debug("Ignore non-standard OsScheduleTableEventSetting reference %s" % name)
             schedule_table.addOsScheduleTableExpiryPoint(expiry_point)
@@ -463,11 +463,11 @@ class OsEcucParser(EcucParser):
             if name == "OsTaskAccessingApplication":
                 continue
             elif name == "OsTaskEventRef":
-                task.addOsTaskEventRef(self.get_check_reference_path(name, path, index, warning))
+                task.addOsTaskEventRef(self.check_reference_path(name, path, index))
             elif name == "OsTaskResourceRef":
-                task.addOsTaskResourceRef(self.get_check_reference_path(name, path, index, warning))
+                task.addOsTaskResourceRef(self.check_reference_path(name, path, index))
             elif name == "OsMemoryMappingCodeLocationRef":
-                task.setOsMemoryMappingCodeLocationRef(self.get_check_reference_path(name, path, index, warning))
+                task.setOsMemoryMappingCodeLocationRef(self.check_reference_path(name, path, index))
             else:
                 self.logger.debug("Ignore non-standard OsTask reference %s" % name)
 
@@ -480,7 +480,7 @@ class OsEcucParser(EcucParser):
                     continue
                 path = value_ref.getValue().strip()
                 if name == "OsTaskAppModeRef":
-                    task.addOsTaskAppModeRef(self.get_check_reference_path(name, path, index, warning))
+                    task.addOsTaskAppModeRef(self.check_reference_path(name, path, index))
                 else:
                     self.logger.debug("Ignore non-standard OsTaskAutostart reference %s" % name)
 
@@ -513,7 +513,7 @@ class OsEcucParser(EcucParser):
                         continue
                     path = value_ref.getValue().strip()
                     if name == "OsTaskResourceLockResourceRef":
-                        task.addOsTaskResourceLockResourceRef(self.get_check_reference_path(name, path, index, warning))
+                        task.addOsTaskResourceLockResourceRef(self.check_reference_path(name, path, index))
                     else:
                         self.logger.debug("Ignore non-standard OsTaskResourceLock reference %s" % name)
 
@@ -539,17 +539,17 @@ class OsEcucParser(EcucParser):
             if name in ("OsAppTaskRef", "OsRestartTask", "OsTaskAccessingApplication"):
                 continue
             elif name == "OsAppAlarmRef":
-                application.addOsAppAlarmRef(self.get_check_reference_path(name, path, index, warning))
+                application.addOsAppAlarmRef(self.check_reference_path(name, path, index))
             elif name == "OsAppCounterRef":
-                application.addOsAppCounterRef(self.get_check_reference_path(name, path, index, warning))
+                application.addOsAppCounterRef(self.check_reference_path(name, path, index))
             elif name == "OsAppEcucPartitionRef":
-                application.setOsAppEcucPartitionRef(self.get_check_reference_path(name, path, index, warning))
+                application.setOsAppEcucPartitionRef(self.check_reference_path(name, path, index))
             elif name == "OsAppIsrRef":
-                application.addOsAppIsrRef(self.get_check_reference_path(name, path, index, warning))
+                application.addOsAppIsrRef(self.check_reference_path(name, path, index))
             elif name == "OsAppScheduleTableRef":
-                application.addOsAppScheduleTableRef(self.get_check_reference_path(name, path, index, warning))
+                application.addOsAppScheduleTableRef(self.check_reference_path(name, path, index))
             elif name == "OsMemoryMappingCodeLocationRef":
-                application.setOsMemoryMappingCodeLocationRef(self.get_check_reference_path(name, path, index, warning))
+                application.setOsMemoryMappingCodeLocationRef(self.check_reference_path(name, path, index))
             else:
                 self.logger.debug("Ignore non-standard OsApplication reference %s" % name)
 

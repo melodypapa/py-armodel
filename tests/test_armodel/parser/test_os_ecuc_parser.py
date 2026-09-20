@@ -85,6 +85,13 @@ def _reference(name, path):
     return reference
 
 
+def _application_partition_reference(path):
+    reference = ReferenceValue()
+    reference.setDefinitionRef(_ref("/TS/Os/OsApplication/OsAppEcucPartitionRef"))
+    reference.setValueRef(_ref(path))
+    return reference
+
+
 def _copy_children(target, blueprint):
     for sub_blueprint in blueprint.getSubContainers():
         sub_container = target.createSubContainer(sub_blueprint.getShortName())
@@ -176,7 +183,7 @@ def test_numeric_string_values_are_converted_for_autosar_4_ecuc():
     assert result.getOsTasks()[0].getOsStacksize() == 1024
 
 
-def test_unresolved_reference_raises_in_strict_mode():
+def test_unresolved_reference_warns_and_preserves_destination(caplog):
     containers = [
         _container(
             "Dangling_Task",
@@ -187,8 +194,11 @@ def test_unresolved_reference_raises_in_strict_mode():
     ]
     document = _build_document(containers)
 
-    with pytest.raises(OsEcucConversionError, match="MissingEvent"):
-        OsEcucParser().parseEcuc(document)
+    with caplog.at_level(logging.WARNING):
+        result = OsEcucParser().parseEcuc(document)
+
+    assert result.getOsTasks()[0].getOsTaskEventRefs() == ["/Os/Os/MissingEvent"]
+    assert any("MissingEvent" in record.message for record in caplog.records)
 
 
 def test_unresolved_reference_warns_in_warning_mode(caplog):
@@ -207,6 +217,24 @@ def test_unresolved_reference_warns_in_warning_mode(caplog):
 
     assert result.getOsTasks()[0].getOsTaskEventRefs() == ["/Os/Os/MissingEvent"]
     assert any("MissingEvent" in record.message for record in caplog.records)
+
+
+def test_unresolved_application_ecuc_partition_reference_warns_without_failing(caplog):
+    containers = [
+        _container(
+            "Application",
+            "OsApplication",
+            references=[_application_partition_reference("/Os/Os/MissingPartition")],
+        )
+    ]
+    document = _build_document(containers)
+
+    with caplog.at_level(logging.WARNING):
+        result = OsEcucParser().parseEcuc(document)
+
+    application = result.getOsApplications()[0]
+    assert application.getOsAppEcucPartitionRef() == "/Os/Os/MissingPartition"
+    assert any("MissingPartition" in record.message for record in caplog.records)
 
 
 def test_unresolved_task_accessing_application_warns_in_warning_mode():
@@ -351,12 +379,15 @@ def test_collect_alarm_with_set_event_activate_task_and_callback_actions():
     assert alarms["Alarm4"].getOsAlarmCallbackName() == "AlarmCb"
 
 
-def test_collect_alarm_unresolved_counter_ref_raises_in_strict_mode():
+def test_collect_alarm_unresolved_counter_ref_warns_and_preserves_destination(caplog):
     containers = [_container("Alarm5", "OsAlarm", references=[_reference("OsAlarmCounterRef", "/Os/Os/MissingCounter")])]
     document = _build_document(containers)
 
-    with pytest.raises(OsEcucConversionError, match="MissingCounter"):
-        OsEcucParser().parseEcuc(document)
+    with caplog.at_level(logging.WARNING):
+        result = OsEcucParser().parseEcuc(document)
+
+    assert result.getOsAlarms()[0].getOsAlarmCounterRef() == "/Os/Os/MissingCounter"
+    assert any("MissingCounter" in record.message for record in caplog.records)
 
 
 def test_collect_alarm_accessing_application_collected_as_path():
@@ -470,12 +501,15 @@ def test_collect_isr_with_lock_budgets_and_accessing_applications():
     assert isr.getOsIsrResourceLockResourceRefs() == ["/Os/Os/Res1", "/Os/Os/Res2"]
 
 
-def test_collect_isr_unresolved_resource_ref_raises_in_strict_mode():
+def test_collect_isr_unresolved_resource_ref_warns_and_preserves_destination(caplog):
     containers = [_container("BadIsr", "OsIsr", references=[_reference("OsIsrResourceRef", "/Os/Os/MissingResource")])]
     document = _build_document(containers)
 
-    with pytest.raises(OsEcucConversionError, match="MissingResource"):
-        OsEcucParser().parseEcuc(document)
+    with caplog.at_level(logging.WARNING):
+        result = OsEcucParser().parseEcuc(document)
+
+    assert result.getOsIsrs()[0].getOsIsrResourceRef() == "/Os/Os/MissingResource"
+    assert any("MissingResource" in record.message for record in caplog.records)
 
 
 def test_collect_schedule_table_with_autostart_sync_and_expiry_points():
@@ -568,12 +602,15 @@ def test_collect_schedule_table_with_autostart_sync_and_expiry_points():
     assert expiry_points[1].getOsScheduleTableSetEventRef() == "/Os/Os/Event1"
 
 
-def test_collect_schedule_table_unresolved_counter_ref_raises_in_strict_mode():
+def test_collect_schedule_table_unresolved_counter_ref_warns_and_preserves_destination(caplog):
     containers = [_container("BadTable", "OsScheduleTable", references=[_reference("OsScheduleTableCounterRef", "/Os/Os/MissingCounter")])]
     document = _build_document(containers)
 
-    with pytest.raises(OsEcucConversionError, match="MissingCounter"):
-        OsEcucParser().parseEcuc(document)
+    with caplog.at_level(logging.WARNING):
+        result = OsEcucParser().parseEcuc(document)
+
+    assert result.getOsScheduleTables()[0].getOsScheduleTableCounterRef() == "/Os/Os/MissingCounter"
+    assert any("MissingCounter" in record.message for record in caplog.records)
 
 
 def test_collect_schedule_table_accessing_application_collected_as_path():

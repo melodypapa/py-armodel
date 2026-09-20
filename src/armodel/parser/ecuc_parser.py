@@ -94,12 +94,9 @@ class EcucParser:
         for sub_package in package.getARPackages():
             self.get_collect_modules(sub_package, modules)
 
-    def get_check_reference_path(self, name: str, path: str, index: Dict[str, Container], warning: bool) -> str:
+    def check_reference_path(self, name: str, path: str, index: Dict[str, Container]) -> str:
         if path in index:
             return path
         message = "Unresolved standard reference %s -> %s" % (name, path)
-        if warning:
-            self.logger.warning(message)
-        else:
-            raise self.conversion_error(message)
+        self.logger.warning(message)
         return path
