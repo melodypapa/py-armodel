@@ -403,6 +403,27 @@ class TcpRoleEnum(AREnum):
         )
 
 
+class PduCollectionTriggerEnum(AREnum):
+    """
+    Defines whether a Pdu contributes to the triggering of the data transmission if Pdu collection is enabled.
+    """
+
+    # PduCollectionTriggerEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.41, p.357 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ContainedIPduProps.trigger
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Pdu will trigger the transmission of the data. Tags: atp.EnumerationLiteralIndex=0
+    ALWAYS = "always"
+
+    # Pdu will be buffered and will not trigger the transmission of the data. Tags: atp.EnumerationLiteralIndex=1
+    NEVER = "never"
+
+    def __init__(self):
+        super().__init__([PduCollectionTriggerEnum.ALWAYS, PduCollectionTriggerEnum.NEVER])
+
+
 class PduActivationRoutingGroup(Identifiable, VariationPointCapable):
     """
     Group of Pdus that can be activated or deactivated for transmission over a socket connection.

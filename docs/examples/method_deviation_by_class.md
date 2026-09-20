@@ -2403,14 +2403,11 @@ No deviations — Table 3.36 has no `Attribute` rows (all members inherited from
 | `physicalChannelRef` | `—` | `physicalChannelRefs` | `Ref (PhysicalChannel)` | Refs | type (spec many vs py single) |
 
 ## `ContainedIPduProps`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 355
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 356
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `containedPduTriggeringRef` | `Ref (PduTriggering)` | Ref | missing |
-| — *(missing)* | `—` | `priority` | `PositiveInteger` | — | missing |
+No deviations — all 9 Table 6.39 attributes modeled (`collectionSemantics`, `containedPduTriggeringRef` `Ref (PduTriggering)` per the Kind `ref`→`Ref` suffix, `headerIdLongHeader`, `headerIdShortHeader`, `offset`, `priority`, `timeout` `TimeValue`, `trigger`, `updateIndicationBitPosition`); former `missing` rows for `containedPduTriggeringRef`/`priority` resolved in the 2026-09 sync (members implemented with full reader/writer coverage); enum member types `ContainedIPduCollectionSemanticsEnum` (Table 6.40) and `PduCollectionTriggerEnum` (Table 6.41) implemented in the same pass.
 
 ## `SecureCommunicationProps`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 369

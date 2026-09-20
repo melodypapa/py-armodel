@@ -9938,12 +9938,14 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             props = ContainedIPduProps()
             props.setCollectionSemantics(self.getChildElementOptionalLiteral(child_element, "COLLECTION-SEMANTICS"))
+            props.setContainedPduTriggeringRef(self.getChildElementOptionalRefType(child_element, "CONTAINED-PDU-TRIGGERING-REF"))
             props.setHeaderIdLongHeader(self.getChildElementOptionalPositiveInteger(child_element, "HEADER-ID-LONG-HEADER"))
             props.setHeaderIdShortHeader(self.getChildElementOptionalPositiveInteger(child_element, "HEADER-ID-SHORT-HEADER"))
-            props.setOffset(self.getChildElementOptionalNumericalValue(child_element, "OFFSET"))
-            props.setTimeout(self.getChildElementOptionalNumericalValue(child_element, "TIMEOUT"))
+            props.setOffset(self.getChildElementOptionalPositiveInteger(child_element, "OFFSET"))
+            props.setPriority(self.getChildElementOptionalPositiveInteger(child_element, "PRIORITY"))
+            props.setTimeout(self.getChildElementOptionalTimeValue(child_element, "TIMEOUT"))
             props.setTrigger(self.getChildElementOptionalLiteral(child_element, "TRIGGER"))
-            props.setUpdateIndicationBitPosition(self.getChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION"))
+            props.setUpdateIndicationBitPosition(self.getChildElementOptionalPositiveInteger(child_element, "UPDATE-INDICATION-BIT-POSITION"))
         return props
 
     def readIPdu(self, element: ET.Element, pdu: IPdu):

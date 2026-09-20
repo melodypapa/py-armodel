@@ -1487,6 +1487,67 @@ class TestFrameAndPduHandlers:
         parser.readIPdu(element, ipdu)
         assert ipdu.getContainedIPduProps() is None
 
+    def test_readIPdu_sets_containedIPduProps_priority_and_containedPduTriggeringRef(self, parser):
+        from armodel.models import GeneralPurposeIPdu
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+            PositiveInteger,
+            TimeValue,
+        )
+
+        ipdu = GeneralPurposeIPdu(parent=_autosar_root(), short_name="ipdu")
+        element = _snip(
+            "<SHORT-NAME>ipdu</SHORT-NAME>"
+            "<CONTAINED-I-PDU-PROPS>"
+            "<COLLECTION-SEMANTICS>queued</COLLECTION-SEMANTICS>"
+            "<CONTAINED-PDU-TRIGGERING-REF DEST='PDU-TRIGGERING'>/PduTriggering/pt1</CONTAINED-PDU-TRIGGERING-REF>"
+            "<HEADER-ID-LONG-HEADER>100</HEADER-ID-LONG-HEADER>"
+            "<HEADER-ID-SHORT-HEADER>50</HEADER-ID-SHORT-HEADER>"
+            "<OFFSET>4</OFFSET>"
+            "<PRIORITY>6</PRIORITY>"
+            "<TIMEOUT>0.01</TIMEOUT>"
+            "<TRIGGER>always</TRIGGER>"
+            "<UPDATE-INDICATION-BIT-POSITION>7</UPDATE-INDICATION-BIT-POSITION>"
+            "</CONTAINED-I-PDU-PROPS>",
+            root_tag="GENERAL-PURPOSE-I-PDU",
+        )
+        parser.readIPdu(element, ipdu)
+        props = ipdu.getContainedIPduProps()
+        assert props is not None
+        assert props.getPriority().getValue() == 6
+        assert props.getContainedPduTriggeringRef().getValue() == "/PduTriggering/pt1"
+        assert props.getContainedPduTriggeringRef().getDest() == "PDU-TRIGGERING"
+        assert props.getCollectionSemantics().getValue() == "queued"
+        assert props.getHeaderIdLongHeader().getValue() == 100
+        assert props.getHeaderIdShortHeader().getValue() == 50
+        assert props.getOffset().getValue() == 4
+        assert props.getTimeout().getValue() == 0.01
+        assert props.getTrigger().getValue() == "always"
+        assert props.getUpdateIndicationBitPosition().getValue() == 7
+        assert isinstance(props.getOffset(), PositiveInteger)
+        assert isinstance(props.getUpdateIndicationBitPosition(), PositiveInteger)
+        assert isinstance(props.getTimeout(), TimeValue)
+
+    def test_readIPdu_containedIPduProps_partial_elements(self, parser):
+        from armodel.models import GeneralPurposeIPdu
+
+        ipdu = GeneralPurposeIPdu(parent=_autosar_root(), short_name="ipdu")
+        element = _snip(
+            "<SHORT-NAME>ipdu</SHORT-NAME>" "<CONTAINED-I-PDU-PROPS>" "<COLLECTION-SEMANTICS>lastIsBest</COLLECTION-SEMANTICS>" "<PRIORITY>3</PRIORITY>" "</CONTAINED-I-PDU-PROPS>",
+            root_tag="GENERAL-PURPOSE-I-PDU",
+        )
+        parser.readIPdu(element, ipdu)
+        props = ipdu.getContainedIPduProps()
+        assert props is not None
+        assert props.getCollectionSemantics().getValue() == "lastIsBest"
+        assert props.getPriority().getValue() == 3
+        assert props.getContainedPduTriggeringRef() is None
+        assert props.getHeaderIdLongHeader() is None
+        assert props.getHeaderIdShortHeader() is None
+        assert props.getOffset() is None
+        assert props.getTimeout() is None
+        assert props.getTrigger() is None
+        assert props.getUpdateIndicationBitPosition() is None
+
 
 class TestISignalAndGroupHandlers:
     def test_readISignal_sets_length(self, parser):

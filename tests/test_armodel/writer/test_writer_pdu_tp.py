@@ -268,6 +268,90 @@ class TestWriteContainedIPduProps:
         assert child.find("TRIGGER").text == "onChange"
         assert child.find("UPDATE-INDICATION-BIT-POSITION").text == "7"
 
+    def test_full_props_with_priority_and_ref(self, writer):
+        props = ContainedIPduProps()
+        props.setCollectionSemantics(_literal("queued"))
+        ref = RefType()
+        ref.setDest("PDU-TRIGGERING")
+        ref.setValue("/PduTriggering/pt1")
+        props.setContainedPduTriggeringRef(ref)
+        props.setHeaderIdLongHeader(_pos_int("100"))
+        props.setHeaderIdShortHeader(_pos_int("50"))
+        props.setOffset(_pos_int("4"))
+        props.setPriority(_pos_int("6"))
+        props.setTimeout(_time("0.01"))
+        props.setTrigger(_literal("always"))
+        props.setUpdateIndicationBitPosition(_pos_int("7"))
+        parent = _parent()
+        writer.writeContainedIPduProps(parent, props)
+        assert len(parent) == 1
+        child = parent[0]
+        assert child.tag == "CONTAINED-I-PDU-PROPS"
+        assert [element.tag for element in child] == [
+            "COLLECTION-SEMANTICS",
+            "CONTAINED-PDU-TRIGGERING-REF",
+            "HEADER-ID-LONG-HEADER",
+            "HEADER-ID-SHORT-HEADER",
+            "OFFSET",
+            "PRIORITY",
+            "TIMEOUT",
+            "TRIGGER",
+            "UPDATE-INDICATION-BIT-POSITION",
+        ]
+        assert child.find("COLLECTION-SEMANTICS").text == "queued"
+        ref_element = child.find("CONTAINED-PDU-TRIGGERING-REF")
+        assert ref_element.text == "/PduTriggering/pt1"
+        assert ref_element.attrib["DEST"] == "PDU-TRIGGERING"
+        assert child.find("HEADER-ID-LONG-HEADER").text == "100"
+        assert child.find("HEADER-ID-SHORT-HEADER").text == "50"
+        assert child.find("OFFSET").text == "4"
+        assert child.find("PRIORITY").text == "6"
+        assert child.find("TIMEOUT").text == "0.01"
+        assert child.find("TRIGGER").text == "always"
+        assert child.find("UPDATE-INDICATION-BIT-POSITION").text == "7"
+
+    def test_write_containedIPduProps_roundtrip(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import PduCollectionTriggerEnum
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ContainedIPduCollectionSemanticsEnum
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        NS = "http://autosar.org/schema/r4.0"
+        props = ContainedIPduProps()
+        semantics = ContainedIPduCollectionSemanticsEnum()
+        semantics.setValue(ContainedIPduCollectionSemanticsEnum.LAST_IS_BEST)
+        props.setCollectionSemantics(semantics)
+        ref = RefType()
+        ref.setDest("PDU-TRIGGERING")
+        ref.setValue("/PduTriggering/pt1")
+        props.setContainedPduTriggeringRef(ref)
+        props.setHeaderIdLongHeader(_pos_int("100"))
+        props.setHeaderIdShortHeader(_pos_int("50"))
+        props.setOffset(_pos_int("4"))
+        props.setPriority(_pos_int("6"))
+        props.setTimeout(_time("0.01"))
+        trigger = PduCollectionTriggerEnum()
+        trigger.setValue(PduCollectionTriggerEnum.NEVER)
+        props.setTrigger(trigger)
+        props.setUpdateIndicationBitPosition(_pos_int("7"))
+
+        parent = _parent()
+        writer.writeContainedIPduProps(parent, props)
+        xml_str = ET.tostring(parent).decode().replace("<PARENT>", '<PARENT xmlns="%s">' % NS, 1)
+        namespaced = ET.fromstring(xml_str)
+
+        reparsed = ARXMLParser().readContainedIPduProps(namespaced)
+        assert reparsed is not None
+        assert reparsed.getCollectionSemantics().getValue() == "lastIsBest"
+        assert reparsed.getContainedPduTriggeringRef().getValue() == "/PduTriggering/pt1"
+        assert reparsed.getContainedPduTriggeringRef().getDest() == "PDU-TRIGGERING"
+        assert reparsed.getHeaderIdLongHeader().getValue() == 100
+        assert reparsed.getHeaderIdShortHeader().getValue() == 50
+        assert reparsed.getOffset().getValue() == 4
+        assert reparsed.getPriority().getValue() == 6
+        assert reparsed.getTimeout().getValue() == 0.01
+        assert reparsed.getTrigger().getValue() == "never"
+        assert reparsed.getUpdateIndicationBitPosition().getValue() == 7
+
 
 class TestSetSecureCommunicationProps:
     def test_none(self, writer):

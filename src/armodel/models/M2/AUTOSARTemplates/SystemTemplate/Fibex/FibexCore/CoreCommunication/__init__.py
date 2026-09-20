@@ -6,7 +6,7 @@ from typing import List, Optional, TYPE_CHECKING
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Describable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, ARNumerical, PositiveInteger, Boolean, ByteOrderEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, PositiveInteger, Boolean, ByteOrderEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, UnlimitedInteger
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import TransmissionModeDeclaration, TriggerIPduSendCondition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommConnectorPort
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import PduCollectionTriggerEnum
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
@@ -171,88 +172,222 @@ class Frame(FibexElement, ABC):
         return list(sorted(filter(lambda a: isinstance(a, PduToFrameMapping), self.elements), key=lambda o: o.short_name))
 
 
+class ContainedIPduCollectionSemanticsEnum(AREnum):
+    """
+    Defines the collection semantics for ContainedIPdus.
+    """
+
+    # ContainedIPduCollectionSemanticsEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.40, p.357 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ContainedIPduProps.collectionSemantics
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The ContainedIPdu data will be fetched via TriggerTransmit just before the transmission executes. Tags: atp.EnumerationLiteralIndex=0
+    LAST_IS_BEST = "lastIsBest"
+
+    # The ContainedIPdu data will instantly be stored to the ContainerIPdu in the context of the Transmit API. Tags: atp.EnumerationLiteralIndex=1
+    QUEUED = "queued"
+
+    def __init__(self):
+        super().__init__([ContainedIPduCollectionSemanticsEnum.LAST_IS_BEST, ContainedIPduCollectionSemanticsEnum.QUEUED])
+
+
 class ContainedIPduProps(ARObject):
     """
-    Defines properties for contained Interaction Protocol Data Units (IPDUs),
-    specifying collection semantics, header IDs, offset, timeout,
-    trigger, and update indication bit position properties.
+    Defines the aspects of an IPdu which can be collected inside a ContainerIPdu.
+
+    [constr_9202] Existence of ContainedIPduProps.collectionSemantics: For each ContainedIPduProps, the attribute collectionSemantics shall exist at the time when the System Description is complete.
+    [constr_5268] Existence of ContainedIPduProps.containedPduTriggering reference: If a ContainedIPduProps is aggregated at the ContainerIPdu in the role ContainerIPdu.containedIPduTriggeringProps then the reference ContainedIPduProps.containedPduTriggering shall exist.
+    [constr_5269] Exclusion of ContainedIPduProps.containedPduTriggering reference: If a ContainedIPduProps is aggregated at the IPdu in the role IPdu.containedIPduProps then the reference ContainedIPduProps.containedPduTriggering shall NOT exist.
     """
 
     # ContainedIPduProps method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCollectionSemantics       [x] impl  [ ] docstring  [ ] test
-    # [ ] setCollectionSemantics       [x] impl  [ ] docstring  [ ] test
-    # [ ] getHeaderIdLongHeader        [x] impl  [ ] docstring  [ ] test
-    # [ ] setHeaderIdLongHeader        [x] impl  [ ] docstring  [ ] test
-    # [ ] getHeaderIdShortHeader       [x] impl  [ ] docstring  [ ] test
-    # [ ] setHeaderIdShortHeader       [x] impl  [ ] docstring  [ ] test
-    # [ ] getOffset                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setOffset                    [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeout                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeout                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getTrigger                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setTrigger                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getUpdateIndicationBitPosition [x] impl  [ ] docstring  [ ] test
-    # [ ] setUpdateIndicationBitPosition [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.39, p.356 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCollectionSemantics               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCollectionSemantics               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContainedPduTriggeringRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContainedPduTriggeringRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHeaderIdLongHeader                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHeaderIdLongHeader                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHeaderIdShortHeader               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHeaderIdShortHeader               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOffset                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOffset                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPriority                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPriority                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeout                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeout                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTrigger                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTrigger                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUpdateIndicationBitPosition       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUpdateIndicationBitPosition       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.collectionSemantics: ARLiteral = None
-        self.headerIdLongHeader: PositiveInteger = None
-        self.headerIdShortHeader: PositiveInteger = None
-        self.offset: ARNumerical = None
-        self.timeout: ARNumerical = None
-        self.trigger: ARLiteral = None
-        self.updateIndicationBitPosition: ARNumerical = None
+        # Defines whether this ContainedIPdu shall be collected using a last-is-best or queued semantics.
+        self.collectionSemantics: Optional[ContainedIPduCollectionSemanticsEnum] = None
 
-    def getCollectionSemantics(self):
+        # Reference to Pdu for which the ContainedIPduProps are valid.
+        self.containedPduTriggeringRef: Optional[RefType] = None
+
+        # Defines the header id this IPdu shall have in case this IPdu is put inside a ContainerIPdu with headerType = longHeader.
+        self.headerIdLongHeader: Optional[PositiveInteger] = None
+
+        # Defines the header id this IPdu shall have in case this IPdu is put inside a ContainerIPdu with headerType = shortHeader.
+        self.headerIdShortHeader: Optional[PositiveInteger] = None
+
+        # Byte offset that describes the location of the ContainedPdu in the ContainerPdu if no header is used.
+        self.offset: Optional[PositiveInteger] = None
+
+        # Defines a priority of a ContainedTxPdu. 255 represents the lowest priority and 0 represent the highest priority.
+        self.priority: Optional[PositiveInteger] = None
+
+        # Defines a IPdu specific sender timeout which can reduce the ContainerIPdu timer when this containedIPdu is put inside the ContainerIPdu. This attribute is ignored on receiver side.
+        self.timeout: Optional[TimeValue] = None
+
+        # Defines whether this IPdu does trigger the sending of the ContainerIPdu. This attribute is ignored on receiver side.
+        self.trigger: Optional[PduCollectionTriggerEnum] = None
+
+        # The updateIndicationBit specifies the bit location of ContainedIPdu Update-Bit in the Container PDU. It indicates to the receivers that the ContainedIPdu in the ContainerIPdu was updated.
+        self.updateIndicationBitPosition: Optional[PositiveInteger] = None
+
+    def getCollectionSemantics(self) -> Optional[ContainedIPduCollectionSemanticsEnum]:
+        """
+        Defines whether this ContainedIPdu shall be collected using a last-is-best or queued semantics.
+        """
         return self.collectionSemantics
 
-    def setCollectionSemantics(self, value):
-        self.collectionSemantics = value
+    def setCollectionSemantics(self, value: Optional[ContainedIPduCollectionSemanticsEnum]) -> "ContainedIPduProps":
+        """
+        Defines whether this ContainedIPdu shall be collected using a last-is-best or queued semantics.
+        A None value is a no-op and does not overwrite an existing collectionSemantics.
+        """
+        if value is not None:
+            self.collectionSemantics = value
         return self
 
-    def getHeaderIdLongHeader(self):
+    def getContainedPduTriggeringRef(self) -> Optional[RefType]:
+        """
+        Reference to Pdu for which the ContainedIPduProps are valid.
+        """
+        return self.containedPduTriggeringRef
+
+    def setContainedPduTriggeringRef(self, value: Optional[RefType]) -> "ContainedIPduProps":
+        """
+        Reference to Pdu for which the ContainedIPduProps are valid.
+        A None value is a no-op and does not overwrite an existing containedPduTriggeringRef.
+        """
+        if value is not None:
+            self.containedPduTriggeringRef = value
+        return self
+
+    def getHeaderIdLongHeader(self) -> Optional[PositiveInteger]:
+        """
+        Defines the header id this IPdu shall have in case this IPdu is put inside a ContainerIPdu with headerType = longHeader.
+        """
         return self.headerIdLongHeader
 
-    def setHeaderIdLongHeader(self, value):
-        self.headerIdLongHeader = value
+    def setHeaderIdLongHeader(self, value: Optional[PositiveInteger]) -> "ContainedIPduProps":
+        """
+        Defines the header id this IPdu shall have in case this IPdu is put inside a ContainerIPdu with headerType = longHeader.
+        A None value is a no-op and does not overwrite an existing headerIdLongHeader.
+        """
+        if value is not None:
+            self.headerIdLongHeader = value
         return self
 
-    def getHeaderIdShortHeader(self):
+    def getHeaderIdShortHeader(self) -> Optional[PositiveInteger]:
+        """
+        Defines the header id this IPdu shall have in case this IPdu is put inside a ContainerIPdu with headerType = shortHeader.
+        """
         return self.headerIdShortHeader
 
-    def setHeaderIdShortHeader(self, value):
-        self.headerIdShortHeader = value
+    def setHeaderIdShortHeader(self, value: Optional[PositiveInteger]) -> "ContainedIPduProps":
+        """
+        Defines the header id this IPdu shall have in case this IPdu is put inside a ContainerIPdu with headerType = shortHeader.
+        A None value is a no-op and does not overwrite an existing headerIdShortHeader.
+        """
+        if value is not None:
+            self.headerIdShortHeader = value
         return self
 
-    def getOffset(self):
+    def getOffset(self) -> Optional[PositiveInteger]:
+        """
+        Byte offset that describes the location of the ContainedPdu in the ContainerPdu if no header is used.
+        """
         return self.offset
 
-    def setOffset(self, value):
-        self.offset = value
+    def setOffset(self, value: Optional[PositiveInteger]) -> "ContainedIPduProps":
+        """
+        Byte offset that describes the location of the ContainedPdu in the ContainerPdu if no header is used.
+        A None value is a no-op and does not overwrite an existing offset.
+        """
+        if value is not None:
+            self.offset = value
         return self
 
-    def getTimeout(self):
+    def getPriority(self) -> Optional[PositiveInteger]:
+        """
+        Defines a priority of a ContainedTxPdu. 255 represents the lowest priority and 0 represent the highest priority.
+        """
+        return self.priority
+
+    def setPriority(self, value: Optional[PositiveInteger]) -> "ContainedIPduProps":
+        """
+        Defines a priority of a ContainedTxPdu. 255 represents the lowest priority and 0 represent the highest priority.
+        A None value is a no-op and does not overwrite an existing priority.
+        """
+        if value is not None:
+            self.priority = value
+        return self
+
+    def getTimeout(self) -> Optional[TimeValue]:
+        """
+        Defines a IPdu specific sender timeout which can reduce the ContainerIPdu timer when this containedIPdu is put inside the ContainerIPdu. This attribute is ignored on receiver side.
+        """
         return self.timeout
 
-    def setTimeout(self, value):
-        self.timeout = value
+    def setTimeout(self, value: Optional[TimeValue]) -> "ContainedIPduProps":
+        """
+        Defines a IPdu specific sender timeout which can reduce the ContainerIPdu timer when this containedIPdu is put inside the ContainerIPdu. This attribute is ignored on receiver side.
+        A None value is a no-op and does not overwrite an existing timeout.
+        """
+        if value is not None:
+            self.timeout = value
         return self
 
-    def getTrigger(self):
+    def getTrigger(self) -> Optional[PduCollectionTriggerEnum]:
+        """
+        Defines whether this IPdu does trigger the sending of the ContainerIPdu. This attribute is ignored on receiver side.
+        """
         return self.trigger
 
-    def setTrigger(self, value):
-        self.trigger = value
+    def setTrigger(self, value: Optional[PduCollectionTriggerEnum]) -> "ContainedIPduProps":
+        """
+        Defines whether this IPdu does trigger the sending of the ContainerIPdu. This attribute is ignored on receiver side.
+        A None value is a no-op and does not overwrite an existing trigger.
+        """
+        if value is not None:
+            self.trigger = value
         return self
 
-    def getUpdateIndicationBitPosition(self):
+    def getUpdateIndicationBitPosition(self) -> Optional[PositiveInteger]:
+        """
+        The updateIndicationBit specifies the bit location of ContainedIPdu Update-Bit in the Container PDU. It indicates to the receivers that the ContainedIPdu in the ContainerIPdu was updated.
+        """
         return self.updateIndicationBitPosition
 
-    def setUpdateIndicationBitPosition(self, value):
-        self.updateIndicationBitPosition = value
+    def setUpdateIndicationBitPosition(self, value: Optional[PositiveInteger]) -> "ContainedIPduProps":
+        """
+        The updateIndicationBit specifies the bit location of ContainedIPdu Update-Bit in the Container PDU. It indicates to the receivers that the ContainedIPdu in the ContainerIPdu was updated.
+        A None value is a no-op and does not overwrite an existing updateIndicationBitPosition.
+        """
+        if value is not None:
+            self.updateIndicationBitPosition = value
         return self
 
 

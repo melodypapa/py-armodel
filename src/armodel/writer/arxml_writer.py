@@ -12285,12 +12285,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         if props is not None:
             child_element = ET.SubElement(element, "CONTAINED-I-PDU-PROPS")
             self.setChildElementOptionalLiteral(child_element, "COLLECTION-SEMANTICS", props.getCollectionSemantics())
+            self.setChildElementOptionalRefType(child_element, "CONTAINED-PDU-TRIGGERING-REF", props.getContainedPduTriggeringRef())
             self.setChildElementOptionalPositiveInteger(child_element, "HEADER-ID-LONG-HEADER", props.getHeaderIdLongHeader())
             self.setChildElementOptionalPositiveInteger(child_element, "HEADER-ID-SHORT-HEADER", props.getHeaderIdShortHeader())
-            self.setChildElementOptionalNumericalValue(child_element, "OFFSET", props.getOffset())
-            self.setChildElementOptionalNumericalValue(child_element, "TIMEOUT", props.getTimeout())
+            self.setChildElementOptionalPositiveInteger(child_element, "OFFSET", props.getOffset())
+            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", props.getPriority())
+            self.setChildElementOptionalTimeValue(child_element, "TIMEOUT", props.getTimeout())
             self.setChildElementOptionalLiteral(child_element, "TRIGGER", props.getTrigger())
-            self.setChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION", props.getUpdateIndicationBitPosition())
+            self.setChildElementOptionalPositiveInteger(child_element, "UPDATE-INDICATION-BIT-POSITION", props.getUpdateIndicationBitPosition())
 
     def writeIPdu(self, element: ET.Element, pdu: IPdu):
         self.writePdu(element, pdu)
