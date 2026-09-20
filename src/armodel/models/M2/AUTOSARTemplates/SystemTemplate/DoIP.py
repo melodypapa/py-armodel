@@ -2,6 +2,7 @@
 # It defines logic address properties and configurations for DoIP communication
 
 from abc import ABC
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -63,3 +64,37 @@ class DoIpLogicTesterAddressProps(AbstractDoIpLogicAddressProps):
         if value is not None:
             self.doIpTesterRoutingActivationRef = value
         return self
+
+
+class DoIpRoutingActivation(Identifiable):
+    """
+    This meta-class defines a DoIP routing activation possibility that activates the routing to the referenced doIPTargetAddress. This means that the diagnostic request messages related to the specified doIPTargetAddress received by socketConnections that are referenced by the same DoIpInterface that aggregates this DoIpRoutingActivation are activated.
+    """
+
+    # DoIpRoutingActivation method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.204, p.553
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addDoIpTargetAddressRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDoIpTargetAddressRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to DoIPTargetAddress which is activated on this DoIpRoutingActivation.
+        self.doIpTargetAddressRefs: List[RefType] = []
+
+    def addDoIpTargetAddressRef(self, value: Optional[RefType]) -> "DoIpRoutingActivation":
+        """
+        Reference to DoIPTargetAddress which is activated on this DoIpRoutingActivation.
+        A None value is a no-op and does not add to doIpTargetAddressRefs.
+        """
+        if value is not None:
+            self.doIpTargetAddressRefs.append(value)
+        return self
+
+    def getDoIpTargetAddressRefs(self) -> List[RefType]:
+        """
+        Reference to DoIPTargetAddress which is activated on this DoIpRoutingActivation.
+        """
+        return self.doIpTargetAddressRefs

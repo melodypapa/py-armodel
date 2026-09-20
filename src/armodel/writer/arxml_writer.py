@@ -637,6 +637,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordTypeMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
@@ -11860,6 +11861,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDataPrototypeInPortInterfaceRef(child_element, dp_ref)
         self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION-PROPS", props.getNetworkRepresentationProps())
         self.setChildElementOptionalRefType(child_element, "TRANSFORMATION-PROPS-REF", props.getTransformationPropsRef())
+
+    def writeDoIpRoutingActivation(self, element: ET.Element, activation: DoIpRoutingActivation):
+        self.logger.debug("Set DoIpRoutingActivation %s" % activation.getShortName())
+        child_element = ET.SubElement(element, "DO-IP-ROUTING-ACTIVATION")
+        self.writeIdentifiable(child_element, activation)
+        refs = activation.getDoIpTargetAddressRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "DO-IP-TARGET-ADDRESS-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "DO-IP-TARGET-ADDRESS-REF", ref)
 
     def writeEndToEndTransformationISignalPropsDataIds(self, element: ET.Element, props: EndToEndTransformationISignalProps):
         ids = props.getDataIds()

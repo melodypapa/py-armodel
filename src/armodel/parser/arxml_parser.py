@@ -712,6 +712,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordTypeMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskPreemptabilityEnum, OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
@@ -12430,6 +12431,12 @@ class ARXMLParser(AbstractARXMLParser):
             timing.setMinimumDelay(self.getChildElementOptionalTimeValue(child_element, "MINIMUM-DELAY"))
             timing.setTransmissionModeDeclaration(self.getTransmissionModeDeclaration(child_element, "TRANSMISSION-MODE-DECLARATION"))
         return timing
+
+    def readDoIpRoutingActivation(self, element: ET.Element, activation: DoIpRoutingActivation):
+        self.logger.debug("Read DoIpRoutingActivation <%s>" % activation.getShortName())
+        self.readIdentifiable(element, activation)
+        for ref in self.getChildElementRefTypeList(element, "DO-IP-TARGET-ADDRESS-REFS/DO-IP-TARGET-ADDRESS-REF"):
+            activation.addDoIpTargetAddressRef(ref)
 
     def readISignalIPdu(self, element: ET.Element, ipdu: ISignalIPdu):
         self.logger.debug("Read ISignalIPdu <%s>" % ipdu.getShortName())
