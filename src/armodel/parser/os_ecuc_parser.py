@@ -1,7 +1,7 @@
 import logging
 from typing import Dict, List, Optional, TypeVar
 
-from armodel.data_models.ecuc import OsApplication, OsOs, OsTask
+from armodel.data_models.ecuc import OsAlarm, OsApplication, OsOs, OsTask
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import Container
 from armodel.parser.ecuc_parser import EcucParser, EcucScalar
@@ -62,7 +62,92 @@ class OsEcucParser(EcucParser):
             self.get_resolve_task_objects(tasks[path], index[path], applications, index, warning)
         for path in applications:
             self.get_resolve_application_objects(applications[path], index[path], tasks, index, warning)
+
+        alarms: Dict[str, OsAlarm] = {}
+        for path in index:
+            container = index[path]
+            if self.get_definition_name(container.getDefinitionRef()) == "OsAlarm":
+                alarm = OsAlarm()
+                alarm.setName(container.getShortName())
+                self.logger.info("Parsing OsAlarm: %s", alarm.getName())
+                self.get_collect_alarm(alarm, container, index, warning)
+                alarms[path] = alarm
+                os_os.addOsAlarm(alarm)
         return os_os
+
+    def get_collect_alarm(self, alarm: OsAlarm, container: Container, index: Dict[str, Container], warning: bool) -> None:
+        for parameter in self.get_parameter_values(container):
+            name = self.get_definition_name(parameter.getDefinitionRef())
+            raw = self.get_raw_value(parameter)
+            if name == "OsAlarmCallbackName":
+                alarm.setOsAlarmCallbackName(self.get_str(name, raw))
+            else:
+                self.logger.debug("Ignore non-standard OsAlarm parameter %s" % name)
+
+        for reference in self.get_reference_values(container):
+            name = self.get_definition_name(reference.getDefinitionRef())
+            value_ref = reference.getValueRef()
+            if value_ref is None or value_ref.getValue() is None:
+                continue
+            path = value_ref.getValue().strip()
+            if name == "OsAlarmCounterRef":
+                alarm.setOsAlarmCounterRef(self.get_check_reference_path(name, path, index, warning))
+            elif name == "OsAlarmAccessingApplication":
+                alarm.addOsAlarmAccessingApplication(self.get_check_reference_path(name, path, index, warning))
+            else:
+                self.logger.debug("Ignore non-standard OsAlarm reference %s" % name)
+
+        sub_containers = self.get_sub_containers_by_name(container)
+        for autostart in sub_containers.get("OsAlarmAutostart", []):
+            for parameter in self.get_parameter_values(autostart):
+                name = self.get_definition_name(parameter.getDefinitionRef())
+                raw = self.get_raw_value(parameter)
+                if name == "OsAlarmAlarmTime":
+                    alarm.setOsAlarmAlarmTime(self.get_int(name, raw))
+                elif name == "OsAlarmAutostartType":
+                    alarm.setOsAlarmAutostartType(self.get_str(name, raw))
+                elif name == "OsAlarmCycleTime":
+                    alarm.setOsAlarmCycleTime(self.get_int(name, raw))
+                else:
+                    self.logger.debug("Ignore non-standard OsAlarmAutostart parameter %s" % name)
+            for reference in self.get_reference_values(autostart):
+                name = self.get_definition_name(reference.getDefinitionRef())
+                value_ref = reference.getValueRef()
+                if value_ref is None or value_ref.getValue() is None:
+                    continue
+                path = value_ref.getValue().strip()
+                if name == "OsAlarmAppModeRef":
+                    alarm.setOsAlarmAppModeRef(self.get_check_reference_path(name, path, index, warning))
+                else:
+                    self.logger.debug("Ignore non-standard OsAlarmAutostart reference %s" % name)
+
+        action_containers = []
+        for choice in ("OsAlarmActivateTask", "OsAlarmCallback", "OsAlarmIncrementCounter", "OsAlarmSetEvent"):
+            action_containers.extend(sub_containers.get(choice, []))
+        for action in action_containers:
+            for reference in self.get_reference_values(action):
+                name = self.get_definition_name(reference.getDefinitionRef())
+                value_ref = reference.getValueRef()
+                if value_ref is None or value_ref.getValue() is None:
+                    continue
+                path = value_ref.getValue().strip()
+                if name == "OsAlarmActivateTaskRef":
+                    alarm.setOsAlarmActivateTaskRef(self.get_check_reference_path(name, path, index, warning))
+                elif name == "OsAlarmSetEventTaskRef":
+                    alarm.setOsAlarmSetEventTaskRef(self.get_check_reference_path(name, path, index, warning))
+                elif name == "OsAlarmSetEventRef":
+                    alarm.setOsAlarmSetEventRef(self.get_check_reference_path(name, path, index, warning))
+                elif name == "OsAlarmIncrementCounterRef":
+                    alarm.setOsAlarmIncrementCounterRef(self.get_check_reference_path(name, path, index, warning))
+                else:
+                    self.logger.debug("Ignore non-standard OsAlarmAction reference %s" % name)
+            for parameter in self.get_parameter_values(action):
+                name = self.get_definition_name(parameter.getDefinitionRef())
+                raw = self.get_raw_value(parameter)
+                if name == "OsAlarmCallbackName":
+                    alarm.setOsAlarmCallbackName(self.get_str(name, raw))
+                else:
+                    self.logger.debug("Ignore non-standard OsAlarmAction parameter %s" % name)
 
     def get_bool(self, name: str, raw: EcucScalar) -> Optional[bool]:
         """Convert an ECUC scalar to a boolean OS parameter value.

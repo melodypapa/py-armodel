@@ -2,7 +2,7 @@ import logging
 
 import pytest
 
-from armodel.data_models.ecuc import OsOs
+from armodel.data_models.ecuc import OsAlarm, OsOs
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
@@ -264,3 +264,108 @@ def test_from_ecuc_delegate_matches_parser():
 
     assert result.getName() == "Os"
     assert result.getOsTasks()[0].osTaskPriority == 5
+
+
+def _alarm_action_container(definition_name, parameters=(), references=()):
+    return _container("OsAlarmAction", "OsAlarmAction/" + definition_name, parameters=parameters, references=references)
+
+
+def test_collect_alarm_with_autostart_and_increment_counter_action():
+    alarm_container = _container(
+        "Alarm1",
+        "OsAlarm",
+        references=[_reference("OsAlarmCounterRef", "/Os/Os/HwCounter")],
+        sub_containers=[
+            _container(
+                "OsAlarmAutostart",
+                "OsAlarmAutostart",
+                parameters=[
+                    _int_parameter("OsAlarmAlarmTime", 1),
+                    _enum_parameter("OsAlarmAutostartType", "RELATIVE"),
+                    _int_parameter("OsAlarmCycleTime", 2),
+                ],
+                references=[_reference("OsAlarmAppModeRef", "/Os/Os/OSDEFAULTAPPMODE")],
+            ),
+            _alarm_action_container("OsAlarmIncrementCounter", references=[_reference("OsAlarmIncrementCounterRef", "/Os/Os/Rte_Counter")]),
+        ],
+    )
+    containers = [
+        _container("HwCounter", "OsCounter"),
+        _container("Rte_Counter", "OsCounter"),
+        _container("OSDEFAULTAPPMODE", "OsAppMode"),
+        alarm_container,
+    ]
+    document = _build_document(containers)
+
+    result = OsEcucParser().parseEcuc(document)
+
+    alarm = result.getOsAlarms()[0]
+    assert alarm.getName() == "Alarm1"
+    assert alarm.getOsAlarmCounterRef() == "/Os/Os/HwCounter"
+    assert alarm.getOsAlarmAlarmTime() == 1
+    assert alarm.getOsAlarmAutostartType() == "RELATIVE"
+    assert alarm.getOsAlarmCycleTime() == 2
+    assert alarm.getOsAlarmAppModeRef() == "/Os/Os/OSDEFAULTAPPMODE"
+    assert alarm.getOsAlarmIncrementCounterRef() == "/Os/Os/Rte_Counter"
+
+
+def test_collect_alarm_with_set_event_activate_task_and_callback_actions():
+    set_event_container = _container(
+        "Alarm2",
+        "OsAlarm",
+        sub_containers=[
+            _alarm_action_container(
+                "OsAlarmSetEvent",
+                references=[
+                    _reference("OsAlarmSetEventTaskRef", "/Os/Os/Task1"),
+                    _reference("OsAlarmSetEventRef", "/Os/Os/Event1"),
+                ],
+            )
+        ],
+    )
+    activate_task_container = _container(
+        "Alarm3",
+        "OsAlarm",
+        sub_containers=[_alarm_action_container("OsAlarmActivateTask", references=[_reference("OsAlarmActivateTaskRef", "/Os/Os/Task1")])],
+    )
+    callback_container = _container(
+        "Alarm4",
+        "OsAlarm",
+        sub_containers=[_alarm_action_container("OsAlarmCallback", parameters=[_string_parameter("OsAlarmCallbackName", "AlarmCb")])],
+    )
+    containers = [
+        _container("Task1", "OsTask"),
+        _container("Event1", "OsEvent"),
+        set_event_container,
+        activate_task_container,
+        callback_container,
+    ]
+    document = _build_document(containers)
+
+    result = OsEcucParser().parseEcuc(document)
+
+    alarms = {alarm.getName(): alarm for alarm in result.getOsAlarms()}
+    assert alarms["Alarm2"].getOsAlarmSetEventTaskRef() == "/Os/Os/Task1"
+    assert alarms["Alarm2"].getOsAlarmSetEventRef() == "/Os/Os/Event1"
+    assert alarms["Alarm3"].getOsAlarmActivateTaskRef() == "/Os/Os/Task1"
+    assert alarms["Alarm4"].getOsAlarmCallbackName() == "AlarmCb"
+
+
+def test_collect_alarm_unresolved_counter_ref_raises_in_strict_mode():
+    containers = [_container("Alarm5", "OsAlarm", references=[_reference("OsAlarmCounterRef", "/Os/Os/MissingCounter")])]
+    document = _build_document(containers)
+
+    with pytest.raises(OsEcucConversionError, match="MissingCounter"):
+        OsEcucParser().parseEcuc(document)
+
+
+def test_collect_alarm_accessing_application_collected_as_path():
+    containers = [
+        _container("App1", "OsApplication"),
+        _container("Alarm6", "OsAlarm", references=[_reference("OsAlarmAccessingApplication", "/Os/Os/App1")]),
+    ]
+    document = _build_document(containers)
+
+    result = OsEcucParser().parseEcuc(document)
+
+    assert result.getOsAlarms()[0].getOsAlarmAccessingApplications() == ["/Os/Os/App1"]
