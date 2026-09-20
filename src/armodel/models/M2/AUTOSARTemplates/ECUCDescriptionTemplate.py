@@ -750,6 +750,7 @@ class FunctionNameValue(LinkerSymbolValue):
 
     # FunctionNameValue method parity checklist:
     # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.38, p.100 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
     # [x] getValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
@@ -765,6 +766,7 @@ class EnumerationValue(ParameterValue):
 
     # EnumerationValue method parity checklist:
     # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.39, p.101 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
     # [x] getValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
@@ -802,6 +804,7 @@ class ConfigReferenceValue(ARObject, ABC):
 
     # ConfigReferenceValue method parity checklist:
     # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.40, p.103 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
     # [x] getDefinitionRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
@@ -842,6 +845,7 @@ class ReferenceValue(ConfigReferenceValue):
 
     # ReferenceValue method parity checklist:
     # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.41, p.103 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
     # [x] getValueRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
@@ -876,6 +880,7 @@ class InstanceReferenceValue(ConfigReferenceValue):
 
     # InstanceReferenceValue method parity checklist:
     # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.42, p.106 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
     # [x] getValueIRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
@@ -915,6 +920,7 @@ class Container(Identifiable):
 
     # Container method parity checklist:
     # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.31, p.93 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
     # [x] getDefinitionRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
@@ -1004,6 +1010,7 @@ class ModuleConfiguration(ARElement):
 
     # ModuleConfiguration method parity checklist:
     # Spec: R3.2.3/AUTOSAR_ECU_Configuration.pdf, Table 3.30, p.86 (R3.2 Rev 3)
+    # Spec verified: R3.2.3
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
     # [x] createContainer                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
