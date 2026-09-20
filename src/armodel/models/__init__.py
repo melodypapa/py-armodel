@@ -105,6 +105,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import * 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import *  # noqa: F403
 
 # Additional MSR imports
