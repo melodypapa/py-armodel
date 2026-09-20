@@ -1,7 +1,7 @@
 import logging
 from typing import Dict, List, Optional, TypeVar
 
-from armodel.data_models.ecuc import OsAlarm, OsApplication, OsOs, OsTask
+from armodel.data_models.ecuc import OsAlarm, OsApplication, OsIsr, OsOs, OsTask
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import Container
 from armodel.parser.ecuc_parser import EcucParser, EcucScalar
@@ -73,6 +73,17 @@ class OsEcucParser(EcucParser):
                 self.get_collect_alarm(alarm, container, index, warning)
                 alarms[path] = alarm
                 os_os.addOsAlarm(alarm)
+
+        isrs: Dict[str, OsIsr] = {}
+        for path in index:
+            container = index[path]
+            if self.get_definition_name(container.getDefinitionRef()) == "OsIsr":
+                isr = OsIsr()
+                isr.setName(container.getShortName())
+                self.logger.info("Parsing OsIsr: %s", isr.getName())
+                self.get_collect_isr(isr, container, index, warning)
+                isrs[path] = isr
+                os_os.addOsIsr(isr)
         return os_os
 
     def get_collect_alarm(self, alarm: OsAlarm, container: Container, index: Dict[str, Container], warning: bool) -> None:
@@ -148,6 +159,72 @@ class OsEcucParser(EcucParser):
                     alarm.setOsAlarmCallbackName(self.get_str(name, raw))
                 else:
                     self.logger.debug("Ignore non-standard OsAlarmAction parameter %s" % name)
+
+    def get_collect_isr(self, isr: OsIsr, container: Container, index: Dict[str, Container], warning: bool) -> None:
+        for parameter in self.get_parameter_values(container):
+            name = self.get_definition_name(parameter.getDefinitionRef())
+            raw = self.get_raw_value(parameter)
+            if name == "OsIsrCategory":
+                isr.setOsIsrCategory(self.get_str(name, raw))
+            elif name == "OsIsrPeriod":
+                isr.setOsIsrPeriod(self.get_float(name, raw))
+            elif name == "OsIsrPriority":
+                isr.setOsIsrPriority(self.get_int(name, raw))
+            elif name == "OsIsrName":
+                isr.setOsIsrName(self.get_str(name, raw))
+            else:
+                self.logger.debug("Ignore non-standard OsIsr parameter %s" % name)
+
+        for reference in self.get_reference_values(container):
+            name = self.get_definition_name(reference.getDefinitionRef())
+            value_ref = reference.getValueRef()
+            if value_ref is None or value_ref.getValue() is None:
+                continue
+            path = value_ref.getValue().strip()
+            if name == "OsIsrResourceRef":
+                isr.setOsIsrResourceRef(self.get_check_reference_path(name, path, index, warning))
+            elif name == "OsIsrInterruptSource":
+                isr.setOsIsrInterruptSource(self.get_check_reference_path(name, path, index, warning))
+            elif name == "OsIsrAccessingApplication":
+                isr.addOsIsrAccessingApplication(self.get_check_reference_path(name, path, index, warning))
+            elif name == "OsMemoryMappingCodeLocationRef":
+                isr.setOsMemoryMappingCodeLocationRef(self.get_check_reference_path(name, path, index, warning))
+            else:
+                self.logger.debug("Ignore non-standard OsIsr reference %s" % name)
+
+        sub_containers = self.get_sub_containers_by_name(container)
+        for timing_protection in sub_containers.get("OsIsrTimingProtection", []):
+            for parameter in self.get_parameter_values(timing_protection):
+                name = self.get_definition_name(parameter.getDefinitionRef())
+                raw = self.get_raw_value(parameter)
+                if name == "OsIsrExecutionBudget":
+                    isr.setOsIsrExecutionBudget(self.get_float(name, raw))
+                elif name == "OsIsrTimeFrame":
+                    isr.setOsIsrTimeFrame(self.get_float(name, raw))
+                elif name == "OsIsrAllInterruptLockBudget":
+                    isr.setOsIsrAllInterruptLockBudget(self.get_float(name, raw))
+                elif name == "OsIsrOsInterruptLockBudget":
+                    isr.setOsIsrOsInterruptLockBudget(self.get_float(name, raw))
+                else:
+                    self.logger.debug("Ignore non-standard OsIsrTimingProtection parameter %s" % name)
+            for resource_lock in self.get_sub_containers_by_name(timing_protection).get("OsIsrResourceLock", []):
+                for parameter in self.get_parameter_values(resource_lock):
+                    name = self.get_definition_name(parameter.getDefinitionRef())
+                    raw = self.get_raw_value(parameter)
+                    if name == "OsIsrResourceLockBudget":
+                        isr.addOsIsrResourceLockBudget(self.get_float(name, raw))
+                    else:
+                        self.logger.debug("Ignore non-standard OsIsrResourceLock parameter %s" % name)
+                for reference in self.get_reference_values(resource_lock):
+                    name = self.get_definition_name(reference.getDefinitionRef())
+                    value_ref = reference.getValueRef()
+                    if value_ref is None or value_ref.getValue() is None:
+                        continue
+                    path = value_ref.getValue().strip()
+                    if name == "OsIsrResourceLockResourceRef":
+                        isr.addOsIsrResourceLockResourceRef(self.get_check_reference_path(name, path, index, warning))
+                    else:
+                        self.logger.debug("Ignore non-standard OsIsrResourceLock reference %s" % name)
 
     def get_bool(self, name: str, raw: EcucScalar) -> Optional[bool]:
         """Convert an ECUC scalar to a boolean OS parameter value.

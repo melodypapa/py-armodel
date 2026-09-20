@@ -2,7 +2,7 @@ import logging
 
 import pytest
 
-from armodel.data_models.ecuc import OsAlarm, OsOs
+from armodel.data_models.ecuc import OsAlarm, OsIsr, OsOs
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
@@ -369,3 +369,110 @@ def test_collect_alarm_accessing_application_collected_as_path():
     result = OsEcucParser().parseEcuc(document)
 
     assert result.getOsAlarms()[0].getOsAlarmAccessingApplications() == ["/Os/Os/App1"]
+
+
+def test_collect_isr_with_timing_protection_and_resource_lock():
+    isr_container = _container(
+        "CanIsr",
+        "OsIsr",
+        parameters=[
+            _enum_parameter("OsIsrCategory", "CATEGORY_2"),
+            _float_parameter("OsIsrPeriod", 0.005),
+        ],
+        references=[_reference("OsIsrResourceRef", "/Os/Os/OsStackResource")],
+        sub_containers=[
+            _container(
+                "OsIsrTimingProtection",
+                "OsIsrTimingProtection",
+                parameters=[
+                    _float_parameter("OsIsrExecutionBudget", 0.001),
+                    _float_parameter("OsIsrTimeFrame", 0.02),
+                ],
+                sub_containers=[
+                    _container(
+                        "OsIsrResourceLock",
+                        "OsIsrResourceLock",
+                        parameters=[_float_parameter("OsIsrResourceLockBudget", 0.0005)],
+                        references=[_reference("OsIsrResourceLockResourceRef", "/Os/Os/OsStackResource")],
+                    )
+                ],
+            )
+        ],
+    )
+    containers = [_container("OsStackResource", "OsResource"), isr_container]
+    document = _build_document(containers)
+
+    result = OsEcucParser().parseEcuc(document)
+
+    isr = result.getOsIsrs()[0]
+    assert isr.getName() == "CanIsr"
+    assert isr.getOsIsrCategory() == "CATEGORY_2"
+    assert isr.getOsIsrPeriod() == 0.005
+    assert isr.getOsIsrResourceRef() == "/Os/Os/OsStackResource"
+    assert isr.getOsIsrExecutionBudget() == 0.001
+    assert isr.getOsIsrTimeFrame() == 0.02
+    assert isr.getOsIsrResourceLockBudgets() == [0.0005]
+    assert isr.getOsIsrResourceLockResourceRefs() == ["/Os/Os/OsStackResource"]
+
+
+def test_collect_isr_with_lock_budgets_and_accessing_applications():
+    isr_container = _container(
+        "IscIsr",
+        "OsIsr",
+        parameters=[_enum_parameter("OsIsrCategory", "CATEGORY_1"), _int_parameter("OsIsrPriority", 3)],
+        references=[
+            _reference("OsIsrAccessingApplication", "/Os/Os/App1"),
+            _reference("OsIsrAccessingApplication", "/Os/Os/App2"),
+            _reference("OsMemoryMappingCodeLocationRef", "/Os/Os/MemRegion1"),
+        ],
+        sub_containers=[
+            _container(
+                "OsIsrTimingProtection",
+                "OsIsrTimingProtection",
+                parameters=[
+                    _float_parameter("OsIsrAllInterruptLockBudget", 0.0001),
+                    _float_parameter("OsIsrOsInterruptLockBudget", 0.0002),
+                ],
+                sub_containers=[
+                    _container(
+                        "OsIsrResourceLock",
+                        "OsIsrResourceLock",
+                        parameters=[_float_parameter("OsIsrResourceLockBudget", 0.0003), _float_parameter("OsIsrResourceLockBudget", 0.0004)],
+                        references=[
+                            _reference("OsIsrResourceLockResourceRef", "/Os/Os/Res1"),
+                            _reference("OsIsrResourceLockResourceRef", "/Os/Os/Res2"),
+                        ],
+                    )
+                ],
+            )
+        ],
+    )
+    containers = [
+        _container("App1", "OsApplication"),
+        _container("App2", "OsApplication"),
+        _container("MemRegion1", "OsMemorySection"),
+        _container("Res1", "OsResource"),
+        _container("Res2", "OsResource"),
+        isr_container,
+    ]
+    document = _build_document(containers)
+
+    result = OsEcucParser().parseEcuc(document)
+
+    isr = result.getOsIsrs()[0]
+    assert isr.getOsIsrCategory() == "CATEGORY_1"
+    assert isr.getOsIsrPriority() == 3
+    assert isr.getOsIsrAccessingApplications() == ["/Os/Os/App1", "/Os/Os/App2"]
+    assert isr.getOsMemoryMappingCodeLocationRef() == "/Os/Os/MemRegion1"
+    assert isr.getOsIsrAllInterruptLockBudget() == 0.0001
+    assert isr.getOsIsrOsInterruptLockBudget() == 0.0002
+    assert isr.getOsIsrResourceLockBudgets() == [0.0003, 0.0004]
+    assert isr.getOsIsrResourceLockResourceRefs() == ["/Os/Os/Res1", "/Os/Os/Res2"]
+
+
+def test_collect_isr_unresolved_resource_ref_raises_in_strict_mode():
+    containers = [_container("BadIsr", "OsIsr", references=[_reference("OsIsrResourceRef", "/Os/Os/MissingResource")])]
+    document = _build_document(containers)
+
+    with pytest.raises(OsEcucConversionError, match="MissingResource"):
+        OsEcucParser().parseEcuc(document)
