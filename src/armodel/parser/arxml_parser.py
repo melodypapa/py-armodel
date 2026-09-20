@@ -940,6 +940,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
 from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltEcu, DltMessage, PrivacyLevel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import DltDefaultTraceStateEnum, DltLogChannel, LogTraceDefaultLogLevelEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
@@ -11893,6 +11894,24 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported DltEcu Application <%s>" % tag_name)
         ecu.setEcuId(self.getChildElementOptionalString(element, "ECU-ID"))
+
+    def readDltLogChannel(self, element: ET.Element, channel: DltLogChannel):
+        self.readIdentifiable(element, channel)
+        for ref in self.getChildElementRefTypeList(element, "APPLICATION-CONTEXT-REFS/APPLICATION-CONTEXT-REF"):
+            channel.addApplicationContextRef(ref)
+        default_trace_state_element = self.find(element, "DEFAULT-TRACE-STATE")
+        if default_trace_state_element is not None:
+            channel.setDefaultTraceState(DltDefaultTraceStateEnum().setValue(default_trace_state_element.text))
+        for ref in self.getChildElementRefTypeList(element, "DLT-MESSAGE-REFS/DLT-MESSAGE-REF"):
+            channel.addDltMessageRef(ref)
+        channel.setLogChannelId(self.getChildElementOptionalString(element, "LOG-CHANNEL-ID"))
+        log_trace_default_log_threshold_element = self.find(element, "LOG-TRACE-DEFAULT-LOG-THRESHOLD")
+        if log_trace_default_log_threshold_element is not None:
+            channel.setLogTraceDefaultLogThreshold(LogTraceDefaultLogLevelEnum().setValue(log_trace_default_log_threshold_element.text))
+        channel.setNonVerboseMode(self.getChildElementOptionalBooleanValue(element, "NON-VERBOSE-MODE"))
+        channel.setRxPduTriggeringRef(self.getChildElementOptionalRefType(element, "RX-PDU-TRIGGERING-REF"))
+        channel.setSegmentationSupported(self.getChildElementOptionalBooleanValue(element, "SEGMENTATION-SUPPORTED"))
+        channel.setTxPduTriggeringRef(self.getChildElementOptionalRefType(element, "TX-PDU-TRIGGERING-REF"))
 
     def readClientIdRange(self, element: ET.Element, id_range: ClientIdRange):
         id_range.setLowerLimit(self.getChildLimitElement(element, "LOWER-LIMIT"))

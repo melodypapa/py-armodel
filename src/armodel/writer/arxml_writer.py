@@ -839,6 +839,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
 from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltEcu, DltMessage, PrivacyLevel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import DltLogChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
@@ -10930,6 +10931,27 @@ class ARXMLWriter(AbstractARXMLWriter):
             for application in applications:
                 self.writeDltApplication(applications_element, application)
         self.setChildElementOptionalString(child_element, "ECU-ID", ecu.getEcuId())
+
+    def writeDltLogChannel(self, element: ET.Element, channel: DltLogChannel):
+        child_element = ET.SubElement(element, "DLT-LOG-CHANNEL")
+        self.writeIdentifiable(child_element, channel)
+        context_refs = channel.getApplicationContextRefs()
+        if len(context_refs) > 0:
+            contexts_element = ET.SubElement(child_element, "APPLICATION-CONTEXT-REFS")
+            for ref in context_refs:
+                self.setChildElementOptionalRefType(contexts_element, "APPLICATION-CONTEXT-REF", ref)
+        self.setChildElementOptionalLiteral(child_element, "DEFAULT-TRACE-STATE", channel.getDefaultTraceState())
+        message_refs = channel.getDltMessageRefs()
+        if len(message_refs) > 0:
+            messages_element = ET.SubElement(child_element, "DLT-MESSAGE-REFS")
+            for ref in message_refs:
+                self.setChildElementOptionalRefType(messages_element, "DLT-MESSAGE-REF", ref)
+        self.setChildElementOptionalString(child_element, "LOG-CHANNEL-ID", channel.getLogChannelId())
+        self.setChildElementOptionalLiteral(child_element, "LOG-TRACE-DEFAULT-LOG-THRESHOLD", channel.getLogTraceDefaultLogThreshold())
+        self.setChildElementOptionalBooleanValue(child_element, "NON-VERBOSE-MODE", channel.getNonVerboseMode())
+        self.setChildElementOptionalRefType(child_element, "RX-PDU-TRIGGERING-REF", channel.getRxPduTriggeringRef())
+        self.setChildElementOptionalBooleanValue(child_element, "SEGMENTATION-SUPPORTED", channel.getSegmentationSupported())
+        self.setChildElementOptionalRefType(child_element, "TX-PDU-TRIGGERING-REF", channel.getTxPduTriggeringRef())
 
     def writeClientIdRange(self, element: ET.Element, id_range: ClientIdRange):
         child_element = ET.SubElement(element, "CLIENT-ID-RANGE")
