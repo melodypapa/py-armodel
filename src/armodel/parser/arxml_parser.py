@@ -904,6 +904,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     NPdu,
     Pdu,
     PduTriggering,
+    PdurIPduGroup,
     SecureCommunicationAuthenticationProps,
     SecureCommunicationFreshnessProps,
     SecureCommunicationProps,
@@ -12454,6 +12455,13 @@ class ARXMLParser(AbstractARXMLParser):
         for ref_type in self.getISignalIPduRefs(element):
             group.addISignalIPduRef(ref_type)
 
+    def readPdurIPduGroup(self, element: ET.Element, group: PdurIPduGroup):
+        self.logger.debug("Read PdurIPduGroup <%s>" % group.getShortName())
+        self.readIdentifiable(element, group)
+        group.setCommunicationMode(self.getChildElementOptionalString(element, "COMMUNICATION-MODE"))
+        for child_element in self.findall(element, "I-PDUS/PDU-TRIGGERING-REF-CONDITIONAL"):
+            group.addIPduRef(self.getChildElementOptionalRefType(child_element, "PDU-TRIGGERING-REF"))
+
     def readSenderReceiverToSignalMapping(self, element: ET.Element, mapping: SenderReceiverToSignalMapping):
         mapping.setCommunicationDirection(self.getChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION"))
         mapping.setDataElementIRef(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "DATA-ELEMENT-IREF")))
@@ -13081,6 +13089,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "I-SIGNAL-I-PDU-GROUP":
                 group = parent.createISignalIPduGroup(self.getShortName(child_element))
                 self.readISignalIPduGroup(child_element, group)
+            elif tag_name == "PDUR-I-PDU-GROUP":
+                group = parent.createPdurIPduGroup(self.getShortName(child_element))
+                self.readPdurIPduGroup(child_element, group)
             elif tag_name == "CAN-CLUSTER":
                 cluster = parent.createCanCluster(self.getShortName(child_element))
                 self.readCanCluster(child_element, cluster)

@@ -153,6 +153,7 @@ __all__ = [
     "KeywordSet",
     "LifeCycleInfoSet",
     "LinCluster",
+    "PdurIPduGroup",
     "LinTpConfig",
     "LinUnconditionalFrame",
     "McFunction",
@@ -1203,6 +1204,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(element)
         return self.getElement(short_name, ISignalIPduGroup)
 
+    def createPdurIPduGroup(self, short_name: str) -> PdurIPduGroup:
+
+        if not self.IsElementExists(short_name, PdurIPduGroup):
+            element = PdurIPduGroup(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, PdurIPduGroup)
+
     def createClientIdDefinitionSet(self, short_name: str) -> ClientIdDefinitionSet:
 
         if not self.IsElementExists(short_name, ClientIdDefinitionSet):
@@ -1874,6 +1882,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     MultiplexedIPdu,
     NPdu,
     NmPdu,
+    PdurIPduGroup,
     SecureCommunicationPropsSet,
     SecuredIPdu,
     SystemSignal,

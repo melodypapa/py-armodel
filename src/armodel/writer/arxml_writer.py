@@ -803,6 +803,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     NPdu,
     Pdu,
     PduTriggering,
+    PdurIPduGroup,
     SecureCommunicationAuthenticationProps,
     SecureCommunicationFreshnessProps,
     SecureCommunicationProps,
@@ -11914,6 +11915,18 @@ class ARXMLWriter(AbstractARXMLWriter):
                 ref_conditional_tag = ET.SubElement(pdu_refs_tag, "I-SIGNAL-I-PDU-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(ref_conditional_tag, "I-SIGNAL-I-PDU-REF", pdu_ref)
 
+    def writePdurIPduGroup(self, element: ET.Element, group: PdurIPduGroup):
+        self.logger.debug("Set PdurIPduGroup %s" % group.getShortName())
+        child_element = ET.SubElement(element, "PDUR-I-PDU-GROUP")
+        self.writeIdentifiable(child_element, group)
+        self.setChildElementOptionalString(child_element, "COMMUNICATION-MODE", group.getCommunicationMode())
+        pdu_refs = group.getIPduRefs()
+        if len(pdu_refs) > 0:
+            pdu_refs_tag = ET.SubElement(child_element, "I-PDUS")
+            for pdu_ref in pdu_refs:
+                ref_conditional_tag = ET.SubElement(pdu_refs_tag, "PDU-TRIGGERING-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(ref_conditional_tag, "PDU-TRIGGERING-REF", pdu_ref)
+
     def writeSystemSignal(self, element: ET.Element, signal: SystemSignal):
         self.logger.debug("SystemSignal %s" % signal.getShortName())
         child_element = ET.SubElement(element, "SYSTEM-SIGNAL")
@@ -12873,6 +12886,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEthernetCluster(element, ar_element)
         elif isinstance(ar_element, ISignalIPduGroup):
             self.writeISignalIPduGroup(element, ar_element)
+        elif isinstance(ar_element, PdurIPduGroup):
+            self.writePdurIPduGroup(element, ar_element)
         elif isinstance(ar_element, DiagnosticConnection):
             self.writeDiagnosticConnection(element, ar_element)
         elif isinstance(ar_element, DiagnosticServiceTable):

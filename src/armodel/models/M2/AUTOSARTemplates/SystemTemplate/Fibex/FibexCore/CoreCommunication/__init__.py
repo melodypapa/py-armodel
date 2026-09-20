@@ -1667,6 +1667,60 @@ class PduTriggering(Identifiable, VariationPointCapable):
         return self
 
 
+class PdurIPduGroup(FibexElement):
+    """
+    The AUTOSAR PduR will enable and disable the sending of configurable groups of IPdus during runtime according to the AUTOSAR PduR specification. Tags: atp.recommendedPackage=PdurIPduGroups
+    """
+
+    # PdurIPduGroup method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.34, p.352
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationMode    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationMode    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addIPduRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIPduRefs             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute defines the use-case for this PduRIPduGroup. For example, in a diagnostic mode all IPdus - which are not involved in diagnostic - are disabled. The use cases are not limited to a fixed enumeration and can be specified as a string.
+        self.communicationMode: Optional[String] = None
+
+        # Reference to a set of IPdus, which are contained in the PduR I-Pdu Group. If an IPdu is routed by the PduR to different destinations (PduR fan-out) than an PduTriggering for each destination is created in the System Template. To enable/disable a specific destination the PdurIPduGroup refers to the PduTriggering. atpVariation: The content of a PduR I-Pdu group can vary (->vehicle modes).
+        self.iPduRefs: List[RefType] = []
+
+    def getCommunicationMode(self) -> Optional[String]:
+        """
+        This attribute defines the use-case for this PduRIPduGroup. For example, in a diagnostic mode all IPdus - which are not involved in diagnostic - are disabled. The use cases are not limited to a fixed enumeration and can be specified as a string.
+        """
+        return self.communicationMode
+
+    def setCommunicationMode(self, value: Optional[String]) -> "PdurIPduGroup":
+        """
+        This attribute defines the use-case for this PduRIPduGroup. For example, in a diagnostic mode all IPdus - which are not involved in diagnostic - are disabled. The use cases are not limited to a fixed enumeration and can be specified as a string.
+        A None value is a no-op and does not overwrite an existing communicationMode.
+        """
+        if value is not None:
+            self.communicationMode = value
+        return self
+
+    def addIPduRef(self, value: Optional[RefType]) -> "PdurIPduGroup":
+        """
+        Reference to a set of IPdus, which are contained in the PduR I-Pdu Group. If an IPdu is routed by the PduR to different destinations (PduR fan-out) than an PduTriggering for each destination is created in the System Template. To enable/disable a specific destination the PdurIPduGroup refers to the PduTriggering. atpVariation: The content of a PduR I-Pdu group can vary (->vehicle modes).
+        A None value is a no-op and does not add to iPduRefs.
+        """
+        if value is not None:
+            self.iPduRefs.append(value)
+        return self
+
+    def getIPduRefs(self) -> List[RefType]:
+        """
+        Reference to a set of IPdus, which are contained in the PduR I-Pdu Group. If an IPdu is routed by the PduR to different destinations (PduR fan-out) than an PduTriggering for each destination is created in the System Template. To enable/disable a specific destination the PdurIPduGroup refers to the PduTriggering. atpVariation: The content of a PduR I-Pdu group can vary (->vehicle modes).
+        """
+        return self.iPduRefs
+
+
 class FrameTriggering(Identifiable, VariationPointCapable, ABC):
     """
     Abstract base class for frame triggering mechanisms, defining
