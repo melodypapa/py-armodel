@@ -24,7 +24,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from armodel.models import AUTOSAR, ApplicationSwComponentType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import UserDefinedTransformationComSpecProps
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import QueuedSenderComSpec, UserDefinedTransformationComSpecProps
 from tests.test_armodel.parser._helpers import _autosar_root, _snip
 
 
@@ -518,6 +518,29 @@ class TestReadProvidedComSpec:
         specs = p_port.getProvidedComSpecs()
         assert len(specs) == 1
         assert specs[0].getParameterRef().getValue() == "/if/Param"
+
+    def test_queued_sender_branch_value(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        p_port = _make_p_port()
+        element = _snip(
+            """
+            <PROVIDED-COM-SPECS>
+                <QUEUED-SENDER-COM-SPEC>
+                    <DATA-ELEMENT-REF DEST="VARIABLE-DATA-PROTOTYPE">/vdp/QueuedElem</DATA-ELEMENT-REF>
+                    <HANDLE-OUT-OF-RANGE>SATURATE</HANDLE-OUT-OF-RANGE>
+                    <USES-END-TO-END-PROTECTION>true</USES-END-TO-END-PROTECTION>
+                </QUEUED-SENDER-COM-SPEC>
+            </PROVIDED-COM-SPECS>
+            """
+        )
+        parser.readProvidedComSpec(element, p_port)
+        specs = p_port.getProvidedComSpecs()
+        assert len(specs) == 1
+        assert isinstance(specs[0], QueuedSenderComSpec)
+        assert specs[0].getDataElementRef().getValue() == "/vdp/QueuedElem"
+        assert specs[0].getDataElementRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+        assert specs[0].getHandleOutOfRange().getValue() == "SATURATE"
+        assert specs[0].getUsesEndToEndProtection().getValue() is True
 
     def test_nv_provide_branch_with_mock_parent(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
