@@ -476,6 +476,161 @@ class OsAlarm:
         return self
 
 
+class OsIsr:
+    """AUTOSAR OS interrupt service routine configuration as defined by SWS_Os_00128."""
+
+    def __init__(self) -> None:
+        # Short name identifying the OS ISR.
+        self.name: str = ""
+
+        # Specifies the name of the ISR function.
+        self.osIsrName: Optional[str] = None
+
+        # Specifies whether the ISR is CATEGORY_1 or CATEGORY_2.
+        self.osIsrCategory: Optional[str] = None
+
+        # Specifies the priority of the ISR.
+        self.osIsrPriority: Optional[int] = None
+
+        # Specifies the period in seconds of a cyclically triggered interrupt.
+        self.osIsrPeriod: Optional[float] = None
+
+        # References the resource that is assigned to the ISR.
+        self.osIsrResourceRef: Optional[str] = None
+
+        # References the hardware interrupt source of the ISR.
+        self.osIsrInterruptSource: Optional[str] = None
+
+        # References the OS-Applications that have access to the ISR.
+        self.osIsrAccessingApplication: List[str] = []
+
+        # Specifies the memory mapping code location of the ISR.
+        self.osMemoryMappingCodeLocationRef: Optional[str] = None
+
+        # Specifies the execution-time budget of the ISR (OsIsrTimingProtection).
+        self.osIsrExecutionBudget: Optional[float] = None
+
+        # Specifies the time frame used for ISR arrival protection (OsIsrTimingProtection).
+        self.osIsrTimeFrame: Optional[float] = None
+
+        # Specifies the maximum time for which the ISR may lock all interrupts (OsIsrTimingProtection).
+        self.osIsrAllInterruptLockBudget: Optional[float] = None
+
+        # Specifies the maximum time for which the ISR may lock OS interrupts (OsIsrTimingProtection).
+        self.osIsrOsInterruptLockBudget: Optional[float] = None
+
+        # Specifies the resource-lock budgets configured for the ISR (OsIsrResourceLock).
+        self.osIsrResourceLockBudget: List[float] = []
+
+        # References the resources associated with the resource-lock budgets.
+        self.osIsrResourceLockResourceRef: List[str] = []
+
+    def getName(self) -> str:
+        return self.name
+
+    def setName(self, value: str) -> "OsIsr":
+        self.name = value
+        return self
+
+    def getOsIsrName(self) -> Optional[str]:
+        return self.osIsrName
+
+    def setOsIsrName(self, value: Optional[str]) -> "OsIsr":
+        self.osIsrName = value
+        return self
+
+    def getOsIsrCategory(self) -> Optional[str]:
+        return self.osIsrCategory
+
+    def setOsIsrCategory(self, value: Optional[str]) -> "OsIsr":
+        self.osIsrCategory = value
+        return self
+
+    def getOsIsrPriority(self) -> Optional[int]:
+        return self.osIsrPriority
+
+    def setOsIsrPriority(self, value: Optional[int]) -> "OsIsr":
+        self.osIsrPriority = value
+        return self
+
+    def getOsIsrPeriod(self) -> Optional[float]:
+        return self.osIsrPeriod
+
+    def setOsIsrPeriod(self, value: Optional[float]) -> "OsIsr":
+        self.osIsrPeriod = value
+        return self
+
+    def getOsIsrResourceRef(self) -> Optional[str]:
+        return self.osIsrResourceRef
+
+    def setOsIsrResourceRef(self, value: Optional[str]) -> "OsIsr":
+        self.osIsrResourceRef = value
+        return self
+
+    def getOsIsrInterruptSource(self) -> Optional[str]:
+        return self.osIsrInterruptSource
+
+    def setOsIsrInterruptSource(self, value: Optional[str]) -> "OsIsr":
+        self.osIsrInterruptSource = value
+        return self
+
+    def getOsIsrAccessingApplications(self) -> List[str]:
+        return self.osIsrAccessingApplication
+
+    def addOsIsrAccessingApplication(self, value: str) -> "OsIsr":
+        self.osIsrAccessingApplication.append(value)
+        return self
+
+    def getOsMemoryMappingCodeLocationRef(self) -> Optional[str]:
+        return self.osMemoryMappingCodeLocationRef
+
+    def setOsMemoryMappingCodeLocationRef(self, value: Optional[str]) -> "OsIsr":
+        self.osMemoryMappingCodeLocationRef = value
+        return self
+
+    def getOsIsrExecutionBudget(self) -> Optional[float]:
+        return self.osIsrExecutionBudget
+
+    def setOsIsrExecutionBudget(self, value: Optional[float]) -> "OsIsr":
+        self.osIsrExecutionBudget = value
+        return self
+
+    def getOsIsrTimeFrame(self) -> Optional[float]:
+        return self.osIsrTimeFrame
+
+    def setOsIsrTimeFrame(self, value: Optional[float]) -> "OsIsr":
+        self.osIsrTimeFrame = value
+        return self
+
+    def getOsIsrAllInterruptLockBudget(self) -> Optional[float]:
+        return self.osIsrAllInterruptLockBudget
+
+    def setOsIsrAllInterruptLockBudget(self, value: Optional[float]) -> "OsIsr":
+        self.osIsrAllInterruptLockBudget = value
+        return self
+
+    def getOsIsrOsInterruptLockBudget(self) -> Optional[float]:
+        return self.osIsrOsInterruptLockBudget
+
+    def setOsIsrOsInterruptLockBudget(self, value: Optional[float]) -> "OsIsr":
+        self.osIsrOsInterruptLockBudget = value
+        return self
+
+    def getOsIsrResourceLockBudgets(self) -> List[float]:
+        return self.osIsrResourceLockBudget
+
+    def addOsIsrResourceLockBudget(self, value: float) -> "OsIsr":
+        self.osIsrResourceLockBudget.append(value)
+        return self
+
+    def getOsIsrResourceLockResourceRefs(self) -> List[str]:
+        return self.osIsrResourceLockResourceRef
+
+    def addOsIsrResourceLockResourceRef(self, value: str) -> "OsIsr":
+        self.osIsrResourceLockResourceRef.append(value)
+        return self
+
+
 class OsOs:
     """Semantic OS configuration containing applications and tasks."""
 
@@ -491,6 +646,9 @@ class OsOs:
 
         # Contains the semantic OS alarm objects extracted from ECUC.
         self.osAlarm: List[OsAlarm] = []
+
+        # Contains the semantic OS ISR objects extracted from ECUC.
+        self.osIsr: List[OsIsr] = []
 
     def getName(self) -> str:
         return self.name
@@ -518,6 +676,13 @@ class OsOs:
 
     def addOsAlarm(self, value: OsAlarm) -> "OsOs":
         self.osAlarm.append(value)
+        return self
+
+    def getOsIsrs(self) -> List[OsIsr]:
+        return self.osIsr
+
+    def addOsIsr(self, value: OsIsr) -> "OsOs":
+        self.osIsr.append(value)
         return self
 
     @classmethod

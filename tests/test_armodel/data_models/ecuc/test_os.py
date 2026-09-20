@@ -1,4 +1,4 @@
-from armodel.data_models.ecuc import OsAlarm, OsApplication, OsOs, OsTask
+from armodel.data_models.ecuc import OsAlarm, OsApplication, OsIsr, OsOs, OsTask
 
 
 def test_os_model_identity_and_standard_fields():
@@ -118,3 +118,75 @@ def test_os_os_alarm_collection():
 
     assert os_os.getOsAlarms() == [alarm]
     assert other.getOsAlarms() == []
+
+
+def test_os_isr_default_values():
+    isr = OsIsr()
+
+    assert isr.getName() == ""
+    assert isr.getOsIsrName() is None
+    assert isr.getOsIsrCategory() is None
+    assert isr.getOsIsrPriority() is None
+    assert isr.getOsIsrPeriod() is None
+    assert isr.getOsIsrResourceRef() is None
+    assert isr.getOsIsrInterruptSource() is None
+    assert isr.getOsIsrAccessingApplications() == []
+    assert isr.getOsMemoryMappingCodeLocationRef() is None
+    assert isr.getOsIsrExecutionBudget() is None
+    assert isr.getOsIsrTimeFrame() is None
+    assert isr.getOsIsrAllInterruptLockBudget() is None
+    assert isr.getOsIsrOsInterruptLockBudget() is None
+    assert isr.getOsIsrResourceLockBudgets() == []
+    assert isr.getOsIsrResourceLockResourceRefs() == []
+
+
+def test_os_isr_chained_setters_return_self():
+    isr = OsIsr()
+    result = (
+        isr.setName("CanIsr")
+        .setOsIsrName("CanIsrFunction")
+        .setOsIsrCategory("CATEGORY_2")
+        .setOsIsrPriority(5)
+        .setOsIsrPeriod(0.005)
+        .setOsIsrResourceRef("/Os/Os/Res1")
+        .setOsIsrInterruptSource("/Os/Os/Source1")
+        .setOsMemoryMappingCodeLocationRef("/Os/Os/MemRegion")
+        .setOsIsrExecutionBudget(0.001)
+        .setOsIsrTimeFrame(0.02)
+        .setOsIsrAllInterruptLockBudget(0.0001)
+        .setOsIsrOsInterruptLockBudget(0.0002)
+    )
+
+    assert result is isr
+    assert isr.getName() == "CanIsr"
+    assert isr.getOsIsrName() == "CanIsrFunction"
+    assert isr.getOsIsrCategory() == "CATEGORY_2"
+    assert isr.getOsIsrPriority() == 5
+    assert isr.getOsIsrPeriod() == 0.005
+    assert isr.getOsIsrResourceRef() == "/Os/Os/Res1"
+    assert isr.getOsIsrInterruptSource() == "/Os/Os/Source1"
+    assert isr.getOsMemoryMappingCodeLocationRef() == "/Os/Os/MemRegion"
+    assert isr.getOsIsrExecutionBudget() == 0.001
+    assert isr.getOsIsrTimeFrame() == 0.02
+    assert isr.getOsIsrAllInterruptLockBudget() == 0.0001
+    assert isr.getOsIsrOsInterruptLockBudget() == 0.0002
+
+
+def test_os_isr_resource_lock_lists_are_per_instance():
+    first = OsIsr().setName("ISR1")
+    second = OsIsr().setName("ISR2")
+    first.addOsIsrResourceLockBudget(0.0005)
+    first.addOsIsrResourceLockResourceRef("/Os/Os/Res1")
+
+    assert first.getOsIsrResourceLockBudgets() == [0.0005]
+    assert first.getOsIsrResourceLockResourceRefs() == ["/Os/Os/Res1"]
+    assert second.getOsIsrResourceLockBudgets() == []
+    assert second.getOsIsrResourceLockResourceRefs() == []
+
+
+def test_os_os_isr_collection():
+    isr = OsIsr().setName("CanIsr")
+    os_os = OsOs().setName("Os")
+
+    assert os_os.addOsIsr(isr) is os_os
+    assert os_os.getOsIsrs() == [isr]
