@@ -500,7 +500,7 @@ class EcucModuleConfigurationValues(ARElement):
 
     def getContainers(self) -> List[EcucContainerValue]:
         """Aggregates all containers that belong to this module configuration. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=container.shortName, container.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=10"""
-        return list(sorted(self.containers, key=lambda o: o.short_name))
+        return list(self.containers)
 
     def getDefinitionRef(self) -> Optional[RefType]:
         """Reference to the definition of this EcucModuleConfigurationValues element. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10"""

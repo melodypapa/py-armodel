@@ -157,7 +157,7 @@ def xsd_to_version_mapping() -> Dict[str, str]:
         "AUTOSAR_4-2-2.xsd": "4.2.2",
         "AUTOSAR_4-3-0.xsd": "4.3.0",
         "AUTOSAR_4-3-1.xsd": "4.3.1",
-        "AUTOSAR_4-4-0.xsd": "4.4.0",
+        "AUTOSAR_00046.xsd": "4.4.0",
         # AUTOSAR R19-11 (CP)
         "AUTOSAR_00048.xsd": "R19-11",
         # AUTOSAR R20-11 (CP)
