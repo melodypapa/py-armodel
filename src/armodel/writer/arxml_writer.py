@@ -670,6 +670,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    EthTcpIpIcmpProps,
     EthTcpIpProps,
     CouplingPort,
     CouplingPortAbstractShaper,
@@ -9551,9 +9552,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "TCP-TTL", props.getTcpTtl())
 
     def writeTcpIpIcmpv4Props(self, element: ET.Element, props: TcpIpIcmpv4Props):
-        """Write an R23-11 <TCP-IP-ICMPV-4-PROPS> element (Table 3.113, p.156): 2 optional attributes in XSD order."""
+        """Write an R23-11 <ICMP-V-4-PROPS> element (Table 3.113, p.156): 2 optional attributes in XSD order."""
         if props is not None:
-            child_element = ET.SubElement(element, "TCP-IP-ICMPV-4-PROPS")
+            child_element = ET.SubElement(element, "ICMP-V-4-PROPS")
             self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-4-ECHO-REPLY-ENABLED", props.getTcpIpIcmpV4EchoReplyEnabled())
             self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-ICMP-V-4-TTL", props.getTcpIpIcmpV4Ttl())
 
@@ -9566,6 +9567,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-ICMP-V-6-HOP-LIMIT", props.getTcpIpIcmpV6HopLimit())
             self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED", props.getTcpIpIcmpV6MsgDestinationUnreachableEnabled())
             self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED", props.getTcpIpIcmpV6MsgParameterProblemEnabled())
+
+    def writeEthTcpIpIcmpProps(self, element: ET.Element, props: EthTcpIpIcmpProps):
+        """Write an R23-11 <ETH-TCP-IP-ICMP-PROPS> element (Table 3.112, p.156): SHORT-NAME, ICMP-V-4-PROPS, ICMP-V-6-PROPS."""
+        if props is not None:
+            child_element = ET.SubElement(element, "ETH-TCP-IP-ICMP-PROPS")
+            self.writeIdentifiable(child_element, props)
+            if props.getIcmpV4Props() is not None:
+                self.writeTcpIpIcmpv4Props(child_element, props.getIcmpV4Props())
+            if props.getIcmpV6Props() is not None:
+                self.writeTcpIpIcmpv6Props(child_element, props.getIcmpV6Props())
 
     def writeFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
         if cluster is not None:
@@ -12900,6 +12911,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeModuleConfiguration(element, ar_element)
         elif isinstance(ar_element, EthTcpIpProps):
             self.writeEthTcpIpProps(element, ar_element)
+        elif isinstance(ar_element, EthTcpIpIcmpProps):
+            self.writeEthTcpIpIcmpProps(element, ar_element)
         elif isinstance(ar_element, SwSystemconst):
             self.writeSwSystemconst(element, ar_element)
         elif isinstance(ar_element, SwSystemconstantValueSet):

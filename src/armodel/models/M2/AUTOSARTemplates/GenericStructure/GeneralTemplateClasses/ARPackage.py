@@ -1105,6 +1105,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(props)
         return self.getElement(short_name, EthTcpIpProps)
 
+    def createEthTcpIpIcmpProps(self, short_name: str) -> EthTcpIpIcmpProps:
+
+        if not self.IsElementExists(short_name, EthTcpIpIcmpProps):
+            props = EthTcpIpIcmpProps(self, short_name)
+            self.addElement(props)
+        return self.getElement(short_name, EthTcpIpIcmpProps)
+
     def createModuleConfiguration(self, short_name: str) -> ModuleConfiguration:
 
         if not self.IsElementExists(short_name, ModuleConfiguration):
@@ -1835,7 +1842,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection impo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanXlProps, J1939Cluster  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster, EthTcpIpProps  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthTcpIpIcmpProps, EthernetCluster, EthTcpIpProps  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SoAdRoutingGroup  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (  # noqa: E402
     SomeipSdClientEventGroupTimingConfig,

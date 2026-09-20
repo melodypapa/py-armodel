@@ -749,6 +749,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    EthTcpIpIcmpProps,
     EthTcpIpProps,
     CouplingPort,
     CouplingPortAbstractShaper,
@@ -9417,6 +9418,20 @@ class ARXMLParser(AbstractARXMLParser):
         props.setTcpIpIcmpV6MsgDestinationUnreachableEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED"))
         props.setTcpIpIcmpV6MsgParameterProblemEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED"))
 
+    def readEthTcpIpIcmpProps(self, element: ET.Element, props: EthTcpIpIcmpProps):
+        """Read an R23-11 <ETH-TCP-IP-ICMP-PROPS> element (Table 3.112, p.156): SHORT-NAME, ICMP-V-4-PROPS, ICMP-V-6-PROPS."""
+        self.readIdentifiable(element, props)
+        child_element = self.find(element, "ICMP-V-4-PROPS")
+        if child_element is not None:
+            v4_props = TcpIpIcmpv4Props()
+            self.readTcpIpIcmpv4Props(child_element, v4_props)
+            props.setIcmpV4Props(v4_props)
+        child_element = self.find(element, "ICMP-V-6-PROPS")
+        if child_element is not None:
+            v6_props = TcpIpIcmpv6Props()
+            self.readTcpIpIcmpv6Props(child_element, v6_props)
+            props.setIcmpV6Props(v6_props)
+
     def readFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
         self.logger.debug("Read FlexrayCluster <%s>" % cluster.getShortName())
         self.readIdentifiable(element, cluster)
@@ -13078,6 +13093,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ETH-TCP-IP-PROPS":
                 props = parent.createEthTcpIpProps(self.getShortName(child_element))
                 self.readEthTcpIpProps(child_element, props)
+            elif tag_name == "ETH-TCP-IP-ICMP-PROPS":
+                props = parent.createEthTcpIpIcmpProps(self.getShortName(child_element))
+                self.readEthTcpIpIcmpProps(child_element, props)
             elif tag_name == "ECUC-MODULE-CONFIGURATION-VALUES":
                 values = parent.createEcucModuleConfigurationValues(self.getShortName(child_element))
                 self.readEcucModuleConfigurationValues(child_element, values)
