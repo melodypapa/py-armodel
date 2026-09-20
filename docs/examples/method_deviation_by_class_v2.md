@@ -1420,13 +1420,11 @@ No deviations — the Table 6.25 attribute column is `-` (zero own attributes; X
 No deviations — the Table 6.26 attribute column is `-` (zero own attributes; XSD group `GENERAL-PURPOSE-I-PDU` `<xsd:sequence/>` empty); concrete class on the most-derived base `IPdu` per the Base row (the chain INCLUDES `IPdu` — unlike sibling GeneralPurposePdu, DcmIPdu/NPdu precedent); full reader/writer coverage via the pre-existing 5-place dispatch (`ARPackage.createGeneralPurposeIPdu` factory + parser `GENERAL-PURPOSE-I-PDU` branch + `readGeneralPurposeIPdu`/`writeGeneralPurposeIPdu` delegating to `readIPdu`/`writeIPdu` for the inherited I-PDU group elements); former `missing` row built on the table's `-` placeholder resolved as stale in the 2026-09 sync.
 
 ## `CommunicationCycle`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.84
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 424  | **table:** Table 6.83
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
+No deviations — the Table 6.83 attribute column is `-` (zero own attributes; abstract Class, XSD has no complexType named `COMMUNICATION-CYCLE` — only group line 20494 `<xsd:sequence/>` empty); abstract base on `ARObject` per the Base row (concrete, instantiable only via subclasses `CycleCounter` Table 6.84 / `CycleRepetition` Table 6.85, both synced this pass); full reader/writer coverage via the polymorphic dispatch (`readCommunicationCycle`/`writeCommunicationCycle` called by both subtype helpers; CYCLE-COUNTER + CYCLE-REPETITION elif branches in all four aggregator dispatch helpers `readFlexrayAbsolutelyScheduledTimingCommunicationCycle` / `readTtcanAbsolutelyScheduledTimingCommunicationCycle` / writer counterparts, tested at dispatch level); former `missing` row built on the table's `-` placeholder resolved as stale in the 2026-09 sync.
 
 ## `FramePort`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.3

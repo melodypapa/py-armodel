@@ -83,6 +83,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (  # noqa: E501
     CanCluster,
+    CycleCounter,
     CycleRepetition,
 )
 from armodel.parser.arxml_parser import ARXMLParser
@@ -370,6 +371,74 @@ class TestWriteCommunicationCycle:
         assert rep is not None
         assert rep.find("BASE-CYCLE").text == "2"
         assert rep.find("CYCLE-REPETITION").text == "C1"
+
+    def test_write_cycle_counter_none(self, writer):
+        parent = _parent()
+        writer.writeCycleCounter(parent, None)
+        assert len(parent) == 0
+
+    def test_write_cycle_counter_full(self, writer):
+        cycle = CycleCounter()
+        cycle.setCycleCounter(_integer("5"))
+        parent = _parent()
+        writer.writeCycleCounter(parent, cycle)
+        cc = parent.find("CYCLE-COUNTER")
+        assert cc is not None
+        assert cc.find("CYCLE-COUNTER").text == "5"
+
+    def test_write_comm_cycle_with_counter(self, writer):
+        timing = FlexrayAbsolutelyScheduledTiming()
+        cycle = CycleCounter()
+        cycle.setCycleCounter(_integer("6"))
+        timing.setCommunicationCycle(cycle)
+        parent = _parent()
+        writer.writeFlexrayAbsolutelyScheduledTimingCommunicationCycle(parent, timing)
+        cc = parent.find("COMMUNICATION-CYCLE")
+        assert cc is not None
+        assert cc.find("CYCLE-COUNTER") is not None
+        assert cc.find("CYCLE-COUNTER/CYCLE-COUNTER").text == "6"
+
+    def test_write_ttcan_comm_cycle_with_counter(self, writer):
+        timing = TtcanAbsolutelyScheduledTiming()
+        cycle = CycleCounter()
+        cycle.setCycleCounter(_integer("2"))
+        timing.setCommunicationCycle(cycle)
+        parent = _parent()
+        writer.writeTtcanAbsolutelyScheduledTimingCommunicationCycle(parent, timing)
+        cc = parent.find("COMMUNICATION-CYCLE")
+        assert cc is not None
+        assert cc.find("CYCLE-COUNTER") is not None
+        assert cc.find("CYCLE-COUNTER/CYCLE-COUNTER").text == "2"
+
+    def test_write_read_ttcan_cycle_repetition_round_trip(self, writer):
+        timing = TtcanAbsolutelyScheduledTiming()
+        cycle = CycleRepetition()
+        cycle.setBaseCycle(_integer("2"))
+        cycle.setCycleRepetition(_literal("CYCLE-REPETITION-4"))
+        timing.setCommunicationCycle(cycle)
+        parent = _parent()
+        writer.writeTtcanAbsolutelyScheduledTimingCommunicationCycle(parent, timing)
+        xml_str = ET.tostring(parent).decode().replace("<PARENT>", '<PARENT xmlns="%s">' % _NS, 1)
+        namespaced = ET.fromstring(xml_str)
+        timing2 = TtcanAbsolutelyScheduledTiming()
+        ARXMLParser().readTtcanAbsolutelyScheduledTimingCommunicationCycle(namespaced, timing2)
+        assert isinstance(timing2.getCommunicationCycle(), CycleRepetition)
+        assert timing2.getCommunicationCycle().getBaseCycle().getValue() == 2
+        assert timing2.getCommunicationCycle().getCycleRepetition().getValue() == "CYCLE-REPETITION-4"
+
+    def test_write_read_cycle_counter_round_trip(self, writer):
+        timing = FlexrayAbsolutelyScheduledTiming()
+        cycle = CycleCounter()
+        cycle.setCycleCounter(_integer("9"))
+        timing.setCommunicationCycle(cycle)
+        parent = _parent()
+        writer.writeFlexrayAbsolutelyScheduledTimingCommunicationCycle(parent, timing)
+        xml_str = ET.tostring(parent).decode().replace("<PARENT>", '<PARENT xmlns="%s">' % _NS, 1)
+        namespaced = ET.fromstring(xml_str)
+        timing2 = FlexrayAbsolutelyScheduledTiming()
+        ARXMLParser().readFlexrayAbsolutelyScheduledTimingCommunicationCycle(namespaced, timing2)
+        assert isinstance(timing2.getCommunicationCycle(), CycleCounter)
+        assert timing2.getCommunicationCycle().getCycleCounter().getValue() == 9
 
 
 class TestWriteFlexrayAbsolutelyScheduledTiming:

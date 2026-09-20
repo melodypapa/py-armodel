@@ -932,6 +932,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     CommunicationConnector,
     CommunicationController,
     CommunicationCycle,
+    CycleCounter,
     CycleRepetition,
     PhysicalChannel,
 )
@@ -8458,6 +8459,10 @@ class ARXMLParser(AbstractARXMLParser):
     def readCommunicationCycle(self, element: ET.Element, cycle: CommunicationCycle):
         self.readARObject(element, cycle)
 
+    def readCycleCounter(self, element: ET.Element, cycle: CycleCounter):
+        self.readCommunicationCycle(element, cycle)
+        cycle.setCycleCounter(self.getChildElementOptionalIntegerValue(element, "CYCLE-COUNTER"))
+
     def readCycleRepetition(self, element: ET.Element, cycle: CycleRepetition):
         self.readCommunicationCycle(element, cycle)
         cycle.setBaseCycle(self.getChildElementOptionalIntegerValue(element, "BASE-CYCLE"))
@@ -8466,7 +8471,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readFlexrayAbsolutelyScheduledTimingCommunicationCycle(self, element: ET.Element, timing: FlexrayAbsolutelyScheduledTiming):
         for child_element in self.findall(element, "COMMUNICATION-CYCLE/*"):
             tag_name = self.getTagName(child_element)
-            if tag_name == "CYCLE-REPETITION":
+            if tag_name == "CYCLE-COUNTER":
+                counter = CycleCounter()
+                self.readCycleCounter(child_element, counter)
+                timing.setCommunicationCycle(counter)
+            elif tag_name == "CYCLE-REPETITION":
                 repetition = CycleRepetition()
                 self.readCycleRepetition(child_element, repetition)
                 timing.setCommunicationCycle(repetition)
@@ -8491,7 +8500,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readTtcanAbsolutelyScheduledTimingCommunicationCycle(self, element: ET.Element, timing: TtcanAbsolutelyScheduledTiming):
         for child_element in self.findall(element, "COMMUNICATION-CYCLE/*"):
             tag_name = self.getTagName(child_element)
-            if tag_name == "CYCLE-REPETITION":
+            if tag_name == "CYCLE-COUNTER":
+                counter = CycleCounter()
+                self.readCycleCounter(child_element, counter)
+                timing.setCommunicationCycle(counter)
+            elif tag_name == "CYCLE-REPETITION":
                 repetition = CycleRepetition()
                 self.readCycleRepetition(child_element, repetition)
                 timing.setCommunicationCycle(repetition)

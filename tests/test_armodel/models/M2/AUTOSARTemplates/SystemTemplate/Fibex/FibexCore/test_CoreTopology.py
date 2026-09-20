@@ -5,7 +5,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Limit, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, Limit, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
     AbstractCanPhysicalChannel,
@@ -71,67 +71,6 @@ def _assert_return_is(hints: dict, expected: type):
 
 class Test_FibexCoreTopology:
     """Test cases for FibexCore Topology classes."""
-
-    def test_CommunicationCycle(self):
-        """Test CommunicationCycle abstract class functionality."""
-        # Test that CommunicationCycle cannot be instantiated directly
-        with pytest.raises(TypeError, match="CommunicationCycle is an abstract class"):
-            CommunicationCycle()
-
-        # Test that a concrete subclass can be instantiated
-        cycle = CycleCounter()
-        assert isinstance(cycle, ARObject)
-        assert isinstance(cycle, CommunicationCycle)
-
-    def test_CycleCounter(self):
-        """Test CycleCounter class functionality."""
-        counter = CycleCounter()
-
-        assert isinstance(counter, CommunicationCycle)
-
-        # Test default values
-        assert counter.getCycleCounter() is None
-
-        # Test setter/getter methods with method chaining - with None
-        assert counter == counter.setCycleCounter(None)  # Test method chaining with None
-        assert counter.getCycleCounter() is None  # Should remain None
-
-        # Test setter/getter methods with method chaining - with actual value
-        counter.setCycleCounter(10)
-        assert counter.getCycleCounter() == 10
-        assert counter == counter.setCycleCounter(10)  # Test method chaining
-
-    def test_CycleRepetitionType(self):
-        """Test CycleRepetitionType enum functionality."""
-        enum = CycleRepetitionType()
-        assert enum is not None
-
-    def test_CycleRepetition(self):
-        """Test CycleRepetition class functionality."""
-        repetition = CycleRepetition()
-
-        assert isinstance(repetition, CommunicationCycle)
-
-        # Test default values
-        assert repetition.getBaseCycle() is None
-        assert repetition.getCycleRepetition() is None
-
-        # Test setter/getter methods with method chaining - with None
-        assert repetition == repetition.setBaseCycle(None)  # Test method chaining with None
-        assert repetition.getBaseCycle() is None  # Should remain None
-
-        assert repetition == repetition.setCycleRepetition(None)  # Test method chaining with None
-        assert repetition.getCycleRepetition() is None  # Should remain None
-
-        # Test setter/getter methods with method chaining - with actual value
-        repetition.setBaseCycle(5)
-        assert repetition.getBaseCycle() == 5
-        assert repetition == repetition.setBaseCycle(5)  # Test method chaining
-
-        enum = CycleRepetitionType()
-        repetition.setCycleRepetition(enum)
-        assert repetition.getCycleRepetition() == enum
-        assert repetition == repetition.setCycleRepetition(enum)  # Test method chaining
 
     def test_PhysicalChannel(self):
         """Test PhysicalChannel abstract class instantiation."""
@@ -1383,3 +1322,153 @@ class Test_ClientIdRange:
         assert id_range.getUpperLimit() is limit
         assert id_range.setUpperLimit(None) is id_range
         assert id_range.getUpperLimit() is limit
+
+
+class Test_CycleCounter:
+    """Test cases for CycleCounter (Table 6.84, p.424)."""
+
+    MEMBERS = [
+        "CycleCounter",
+    ]
+
+    def test_inheritance(self):
+        assert issubclass(CycleCounter, CommunicationCycle)
+        assert issubclass(CycleCounter, ARObject)
+
+    def test_class_docstring_note(self):
+        expected = (
+            'The communication cycle where the frame is send is described by the attribute "cycleCounter".\n'
+            "\n"
+            "[constr_9128] Existence of CycleCounter.CycleCounter: For each CycleCounter, the attribute CycleCounter shall exist at the time when the System Description is complete."
+        )
+        assert inspect.cleandoc(CycleCounter.__doc__) == expected
+
+    def test_init_docless(self):
+        assert CycleCounter.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        counter = CycleCounter()
+        assert counter.getCycleCounter() is None
+
+    def test_member_order(self):
+        counter = CycleCounter()
+        members = [k for k in vars(counter) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_cycle_counter(self):
+        counter = CycleCounter()
+        value = Integer()
+        value.setValue("5")
+        assert counter == counter.setCycleCounter(value)
+        assert counter.getCycleCounter() is value
+        assert counter.getCycleCounter().getValue() == 5
+        assert counter == counter.setCycleCounter(None)
+        assert counter.getCycleCounter() is value
+
+
+CYCLE_REPETITION_TYPE_CLASS_NOTE = "The number of communication cycles (after the first cycle) whenever the frame is sent again. " "The FlexRay communication controller allows only determined values."
+
+
+class Test_CycleRepetitionType:
+    """Test cases for CycleRepetitionType (Table 6.86, p.426)."""
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(CycleRepetitionType.__doc__) == CYCLE_REPETITION_TYPE_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert CycleRepetitionType.__init__.__doc__ is None
+
+    def test_initialization(self):
+        enum = CycleRepetitionType()
+        assert enum is not None
+        enum.setValue(CycleRepetitionType.ENUM_CYCLE_REPETITION_1)
+        assert enum.getValue() == "cycleRepetition1"
+
+    def test_literals(self):
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_1 == "cycleRepetition1"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_10 == "cycleRepetition10"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_16 == "cycleRepetition16"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_2 == "cycleRepetition2"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_20 == "cycleRepetition20"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_32 == "cycleRepetition32"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_4 == "cycleRepetition4"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_40 == "cycleRepetition40"
+
+        enum = CycleRepetitionType()
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_1 in enum.getEnumValues()
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_40 in enum.getEnumValues()
+        assert len(enum.getEnumValues()) == 8
+
+
+class Test_CycleRepetition:
+    """Test cases for CycleRepetition (Table 6.85, p.425)."""
+
+    MEMBERS = [
+        "BaseCycle",
+        "CycleRepetition",
+    ]
+
+    def test_inheritance(self):
+        assert issubclass(CycleRepetition, CommunicationCycle)
+        assert issubclass(CycleRepetition, ARObject)
+
+    def test_class_docstring_note(self):
+        expected = "The communication cycle where the frame is send is described by the attributes baseCycle and cycle Repetition."
+        assert inspect.cleandoc(CycleRepetition.__doc__) == expected
+
+    def test_init_docless(self):
+        assert CycleRepetition.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        repetition = CycleRepetition()
+        assert repetition.getBaseCycle() is None
+        assert repetition.getCycleRepetition() is None
+
+    def test_member_order(self):
+        repetition = CycleRepetition()
+        members = [k for k in vars(repetition) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_base_cycle(self):
+        repetition = CycleRepetition()
+        value = Integer()
+        value.setValue("3")
+        assert repetition == repetition.setBaseCycle(value)
+        assert repetition.getBaseCycle() is value
+        assert repetition.getBaseCycle().getValue() == 3
+        assert repetition == repetition.setBaseCycle(None)
+        assert repetition.getBaseCycle() is value
+
+    def test_get_set_cycle_repetition(self):
+        repetition = CycleRepetition()
+        value = CycleRepetitionType()
+        value.setValue(CycleRepetitionType.ENUM_CYCLE_REPETITION_4)
+        assert repetition == repetition.setCycleRepetition(value)
+        assert repetition.getCycleRepetition() is value
+        assert repetition.getCycleRepetition().getValue() == "cycleRepetition4"
+        assert repetition == repetition.setCycleRepetition(None)
+        assert repetition.getCycleRepetition() is value
+
+
+class Test_CommunicationCycle:
+    """Test cases for CommunicationCycle (Table 6.83, p.424)."""
+
+    def test_inheritance(self):
+        assert issubclass(CommunicationCycle, ARObject)
+
+    def test_abstract_guard(self):
+        with pytest.raises(TypeError, match="CommunicationCycle is an abstract class"):
+            CommunicationCycle()
+
+    def test_concrete_subclasses(self):
+        assert issubclass(CycleCounter, CommunicationCycle)
+        assert issubclass(CycleRepetition, CommunicationCycle)
+        assert isinstance(CycleCounter(), CommunicationCycle)
+        assert isinstance(CycleRepetition(), CommunicationCycle)
+
+    def test_class_docstring_note(self):
+        expected = "The communication cycle where the frame is sent."
+        assert inspect.cleandoc(CommunicationCycle.__doc__) == expected
+
+    def test_init_docless(self):
+        assert CommunicationCycle.__init__.__doc__ is None

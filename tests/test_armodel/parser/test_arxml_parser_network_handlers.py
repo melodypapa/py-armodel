@@ -502,6 +502,43 @@ class TestFlexrayClusterHandlers:
         assert cycle.getCycleRepetition() is not None
         assert cycle.getCycleRepetition().getValue() == "1"
 
+    def test_readCycleCounter_sets_value(self, parser):
+        from armodel.models import CycleCounter
+
+        cycle = CycleCounter()
+        element = _snip("<CYCLE-COUNTER>7</CYCLE-COUNTER>", root_tag="CYCLE-COUNTER")
+        parser.readCycleCounter(element, cycle)
+        assert cycle.getCycleCounter() is not None
+        assert cycle.getCycleCounter().getValue() == 7
+
+    def test_readFlexrayAbsolutelyScheduledTimingCommunicationCycle_cycleCounter(self, parser):
+        from armodel.models import CycleCounter, FlexrayAbsolutelyScheduledTiming
+
+        timing = FlexrayAbsolutelyScheduledTiming()
+        element = _snip("<COMMUNICATION-CYCLE><CYCLE-COUNTER><CYCLE-COUNTER>3</CYCLE-COUNTER></CYCLE-COUNTER></COMMUNICATION-CYCLE>")
+        parser.readFlexrayAbsolutelyScheduledTimingCommunicationCycle(element, timing)
+        assert isinstance(timing.getCommunicationCycle(), CycleCounter)
+        assert timing.getCommunicationCycle().getCycleCounter().getValue() == 3
+
+    def test_readTtcanAbsolutelyScheduledTimingCommunicationCycle_cycleCounter(self, parser):
+        from armodel.models import CycleCounter, TtcanAbsolutelyScheduledTiming
+
+        timing = TtcanAbsolutelyScheduledTiming()
+        element = _snip("<COMMUNICATION-CYCLE><CYCLE-COUNTER><CYCLE-COUNTER>4</CYCLE-COUNTER></CYCLE-COUNTER></COMMUNICATION-CYCLE>")
+        parser.readTtcanAbsolutelyScheduledTimingCommunicationCycle(element, timing)
+        assert isinstance(timing.getCommunicationCycle(), CycleCounter)
+        assert timing.getCommunicationCycle().getCycleCounter().getValue() == 4
+
+    def test_readTtcanAbsolutelyScheduledTimingCommunicationCycle_cycleRepetition(self, parser):
+        from armodel.models import CycleRepetition, TtcanAbsolutelyScheduledTiming
+
+        timing = TtcanAbsolutelyScheduledTiming()
+        element = _snip("<COMMUNICATION-CYCLE><CYCLE-REPETITION><BASE-CYCLE>2</BASE-CYCLE><CYCLE-REPETITION>CYCLE-REPETITION-4</CYCLE-REPETITION></CYCLE-REPETITION></COMMUNICATION-CYCLE>")
+        parser.readTtcanAbsolutelyScheduledTimingCommunicationCycle(element, timing)
+        assert isinstance(timing.getCommunicationCycle(), CycleRepetition)
+        assert timing.getCommunicationCycle().getBaseCycle().getValue() == 2
+        assert timing.getCommunicationCycle().getCycleRepetition().getValue() == "CYCLE-REPETITION-4"
+
     def test_readFlexrayAbsolutelyScheduledTiming_sets_slotId(self, parser):
         from armodel.models import FlexrayAbsolutelyScheduledTiming
 

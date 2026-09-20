@@ -831,6 +831,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     CommunicationConnector,
     CommunicationController,
     CommunicationCycle,
+    CycleCounter,
     CycleRepetition,
     PhysicalChannel,
 )
@@ -8551,6 +8552,12 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCommunicationCycle(self, element: ET.Element, cycle: CommunicationCycle):
         self.writeARObject(element, cycle)
 
+    def writeCycleCounter(self, element: ET.Element, cycle: CycleCounter):
+        if cycle is not None:
+            child_element = ET.SubElement(element, "CYCLE-COUNTER")
+            self.writeCommunicationCycle(child_element, cycle)
+            self.setChildElementOptionalIntegerValue(child_element, "CYCLE-COUNTER", cycle.getCycleCounter())
+
     def writeCycleRepetition(self, element: ET.Element, cycle: CycleRepetition):
         if cycle is not None:
             child_element = ET.SubElement(element, "CYCLE-REPETITION")
@@ -8562,10 +8569,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         cycle = timing.getCommunicationCycle()
         if cycle is not None:
             child_element = ET.SubElement(element, "COMMUNICATION-CYCLE")
-            if isinstance(cycle, CycleRepetition):
+            if isinstance(cycle, CycleCounter):
+                self.writeCycleCounter(child_element, cycle)
+            elif isinstance(cycle, CycleRepetition):
                 self.writeCycleRepetition(child_element, cycle)
             else:
-                self.notImplemented("Unsupported CommunicationCycle <%s>" % type(child_element))
+                self.notImplemented("Unsupported CommunicationCycle <%s>" % type(cycle))
 
     def writeFlexrayAbsolutelyScheduledTiming(self, element: ET.Element, timing: FlexrayAbsolutelyScheduledTiming):
         if timing is not None:
@@ -8588,7 +8597,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         cycle = timing.getCommunicationCycle()
         if cycle is not None:
             child_element = ET.SubElement(element, "COMMUNICATION-CYCLE")
-            if isinstance(cycle, CycleRepetition):
+            if isinstance(cycle, CycleCounter):
+                self.writeCycleCounter(child_element, cycle)
+            elif isinstance(cycle, CycleRepetition):
                 self.writeCycleRepetition(child_element, cycle)
             else:
                 self.notImplemented("Unsupported CommunicationCycle <%s>" % type(cycle))
