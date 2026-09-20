@@ -2,24 +2,26 @@ from typing import List, Optional
 
 
 class OsApplication:
+    """AUTOSAR OS-Application configuration as defined by SWS_Os_00114."""
+
     def __init__(self) -> None:
         self.name: str = ""
-        self.OsTrusted: Optional[bool] = None
-        self.OsTrustedApplicationDelayTimingViolationCall: Optional[bool] = None
-        self.OsTrustedApplicationWithProtection: Optional[bool] = None
-        self.OsAppAlarmRef: List[str] = []
-        self.OsAppCounterRef: List[str] = []
-        self.OsAppEcucPartitionRef: Optional[str] = None
-        self.OsAppIsrRef: List[str] = []
-        self.OsAppScheduleTableRef: List[str] = []
-        self.OsAppTaskRef: List[OsTask] = []
-        self.OsMemoryMappingCodeLocationRef: Optional[str] = None
-        self.OsRestartTask: Optional[OsTask] = None
-        self.OsAppStartupHook: Optional[bool] = None
-        self.OsAppErrorHook: Optional[bool] = None
-        self.OsAppShutdownHook: Optional[bool] = None
-        self.OsTrustedFunctionName: List[str] = []
-        self.ApplicationState: str = "APPLICATION_ACCESSIBLE"
+        self.osTrusted: Optional[bool] = None
+        self.osTrustedApplicationDelayTimingViolationCall: Optional[bool] = None
+        self.osTrustedApplicationWithProtection: Optional[bool] = None
+        self.osAppAlarmRef: List[str] = []
+        self.osAppCounterRef: List[str] = []
+        self.osAppEcucPartitionRef: Optional[str] = None
+        self.osAppIsrRef: List[str] = []
+        self.osAppScheduleTableRef: List[str] = []
+        self.osAppTaskRef: List[OsTask] = []
+        self.osMemoryMappingCodeLocationRef: Optional[str] = None
+        self.osRestartTask: Optional[OsTask] = None
+        self.osAppStartupHook: Optional[bool] = None
+        self.osAppErrorHook: Optional[bool] = None
+        self.osAppShutdownHook: Optional[bool] = None
+        self.osTrustedFunctionName: List[str] = []
+        self.applicationState: str = "APPLICATION_ACCESSIBLE"
 
     def getName(self) -> str:
         return self.name
@@ -29,137 +31,139 @@ class OsApplication:
         return self
 
     def getOsTrusted(self) -> Optional[bool]:
-        return self.OsTrusted
+        return self.osTrusted
 
     def setOsTrusted(self, value: Optional[bool]) -> "OsApplication":
-        self.OsTrusted = value
+        self.osTrusted = value
         return self
 
     def getOsTrustedApplicationDelayTimingViolationCall(self) -> Optional[bool]:
-        return self.OsTrustedApplicationDelayTimingViolationCall
+        return self.osTrustedApplicationDelayTimingViolationCall
 
     def setOsTrustedApplicationDelayTimingViolationCall(self, value: Optional[bool]) -> "OsApplication":
-        self.OsTrustedApplicationDelayTimingViolationCall = value
+        self.osTrustedApplicationDelayTimingViolationCall = value
         return self
 
     def getOsTrustedApplicationWithProtection(self) -> Optional[bool]:
-        return self.OsTrustedApplicationWithProtection
+        return self.osTrustedApplicationWithProtection
 
     def setOsTrustedApplicationWithProtection(self, value: Optional[bool]) -> "OsApplication":
-        self.OsTrustedApplicationWithProtection = value
+        self.osTrustedApplicationWithProtection = value
         return self
 
     def getOsAppAlarmRefs(self) -> List[str]:
-        return self.OsAppAlarmRef
+        return self.osAppAlarmRef
 
     def addOsAppAlarmRef(self, value: str) -> "OsApplication":
-        self.OsAppAlarmRef.append(value)
+        self.osAppAlarmRef.append(value)
         return self
 
     def getOsAppCounterRefs(self) -> List[str]:
-        return self.OsAppCounterRef
+        return self.osAppCounterRef
 
     def addOsAppCounterRef(self, value: str) -> "OsApplication":
-        self.OsAppCounterRef.append(value)
+        self.osAppCounterRef.append(value)
         return self
 
     def getOsAppEcucPartitionRef(self) -> Optional[str]:
-        return self.OsAppEcucPartitionRef
+        return self.osAppEcucPartitionRef
 
     def setOsAppEcucPartitionRef(self, value: Optional[str]) -> "OsApplication":
-        self.OsAppEcucPartitionRef = value
+        self.osAppEcucPartitionRef = value
         return self
 
     def getOsAppIsrRefs(self) -> List[str]:
-        return self.OsAppIsrRef
+        return self.osAppIsrRef
 
     def addOsAppIsrRef(self, value: str) -> "OsApplication":
-        self.OsAppIsrRef.append(value)
+        self.osAppIsrRef.append(value)
         return self
 
     def getOsAppScheduleTableRefs(self) -> List[str]:
-        return self.OsAppScheduleTableRef
+        return self.osAppScheduleTableRef
 
     def addOsAppScheduleTableRef(self, value: str) -> "OsApplication":
-        self.OsAppScheduleTableRef.append(value)
+        self.osAppScheduleTableRef.append(value)
         return self
 
     def getOsAppTaskRefs(self) -> List["OsTask"]:
-        return self.OsAppTaskRef
+        return self.osAppTaskRef
 
     def addOsAppTaskRef(self, value: "OsTask") -> "OsApplication":
-        self.OsAppTaskRef.append(value)
+        self.osAppTaskRef.append(value)
         return self
 
     def getOsMemoryMappingCodeLocationRef(self) -> Optional[str]:
-        return self.OsMemoryMappingCodeLocationRef
+        return self.osMemoryMappingCodeLocationRef
 
     def setOsMemoryMappingCodeLocationRef(self, value: Optional[str]) -> "OsApplication":
-        self.OsMemoryMappingCodeLocationRef = value
+        self.osMemoryMappingCodeLocationRef = value
         return self
 
     def getOsRestartTask(self) -> Optional["OsTask"]:
-        return self.OsRestartTask
+        return self.osRestartTask
 
     def setOsRestartTask(self, value: Optional["OsTask"]) -> "OsApplication":
-        self.OsRestartTask = value
+        self.osRestartTask = value
         return self
 
     def getOsAppStartupHook(self) -> Optional[bool]:
-        return self.OsAppStartupHook
+        return self.osAppStartupHook
 
     def setOsAppStartupHook(self, value: Optional[bool]) -> "OsApplication":
-        self.OsAppStartupHook = value
+        self.osAppStartupHook = value
         return self
 
     def getOsAppErrorHook(self) -> Optional[bool]:
-        return self.OsAppErrorHook
+        return self.osAppErrorHook
 
     def setOsAppErrorHook(self, value: Optional[bool]) -> "OsApplication":
-        self.OsAppErrorHook = value
+        self.osAppErrorHook = value
         return self
 
     def getOsAppShutdownHook(self) -> Optional[bool]:
-        return self.OsAppShutdownHook
+        return self.osAppShutdownHook
 
     def setOsAppShutdownHook(self, value: Optional[bool]) -> "OsApplication":
-        self.OsAppShutdownHook = value
+        self.osAppShutdownHook = value
         return self
 
     def getOsTrustedFunctionNames(self) -> List[str]:
-        return self.OsTrustedFunctionName
+        return self.osTrustedFunctionName
 
     def addOsTrustedFunctionName(self, value: str) -> "OsApplication":
-        self.OsTrustedFunctionName.append(value)
+        self.osTrustedFunctionName.append(value)
         return self
 
     def getApplicationState(self) -> str:
-        return self.ApplicationState
+        return self.applicationState
 
     def setApplicationState(self, value: str) -> "OsApplication":
-        self.ApplicationState = value
+        self.applicationState = value
         return self
 
 
 class OsTask:
+    """AUTOSAR OS task configuration as defined by SWS_Os_00073."""
+
     def __init__(self) -> None:
         self.name: str = ""
-        self.OsTaskActivation: Optional[int] = None
-        self.OsTaskPeriod: Optional[float] = None
-        self.OsTaskPriority: Optional[int] = None
-        self.OsTaskSchedule: Optional[str] = None
-        self.OsStacksize: Optional[int] = None
-        self.OsMemoryMappingCodeLocationRef: Optional[str] = None
-        self.OsTaskAccessingApplication: List[OsApplication] = []
-        self.OsTaskEventRef: List[str] = []
-        self.OsTaskResourceRef: List[str] = []
-        self.OsTaskAppModeRef: List[str] = []
-        self.OsTaskAllInterruptLockBudget: Optional[float] = None
-        self.OsTaskExecutionBudget: Optional[float] = None
-        self.OsTaskOsInterruptLockBudget: Optional[float] = None
-        self.OsTaskTimeFrame: Optional[float] = None
-        self.OsTaskResourceLockBudget: List[float] = []
-        self.OsTaskResourceLockResourceRef: List[str] = []
+        self.osTaskActivation: Optional[int] = None
+        self.osTaskPeriod: Optional[float] = None
+        self.osTaskPriority: Optional[int] = None
+        self.osTaskSchedule: Optional[str] = None
+        self.osStacksize: Optional[int] = None
+        self.osMemoryMappingCodeLocationRef: Optional[str] = None
+        self.osTaskAccessingApplication: List[OsApplication] = []
+        self.osTaskEventRef: List[str] = []
+        self.osTaskResourceRef: List[str] = []
+        self.osTaskAppModeRef: List[str] = []
+        self.osTaskAllInterruptLockBudget: Optional[float] = None
+        self.osTaskExecutionBudget: Optional[float] = None
+        self.osTaskOsInterruptLockBudget: Optional[float] = None
+        self.osTaskTimeFrame: Optional[float] = None
+        self.osTaskResourceLockBudget: List[float] = []
+        self.osTaskResourceLockResourceRef: List[str] = []
 
     def getName(self) -> str:
         return self.name
@@ -169,123 +173,125 @@ class OsTask:
         return self
 
     def getOsTaskActivation(self) -> Optional[int]:
-        return self.OsTaskActivation
+        return self.osTaskActivation
 
     def setOsTaskActivation(self, value: Optional[int]) -> "OsTask":
-        self.OsTaskActivation = value
+        self.osTaskActivation = value
         return self
 
     def getOsTaskPeriod(self) -> Optional[float]:
-        return self.OsTaskPeriod
+        return self.osTaskPeriod
 
     def setOsTaskPeriod(self, value: Optional[float]) -> "OsTask":
-        self.OsTaskPeriod = value
+        self.osTaskPeriod = value
         return self
 
     def getOsTaskPriority(self) -> Optional[int]:
-        return self.OsTaskPriority
+        return self.osTaskPriority
 
     def setOsTaskPriority(self, value: Optional[int]) -> "OsTask":
-        self.OsTaskPriority = value
+        self.osTaskPriority = value
         return self
 
     def getOsTaskSchedule(self) -> Optional[str]:
-        return self.OsTaskSchedule
+        return self.osTaskSchedule
 
     def setOsTaskSchedule(self, value: Optional[str]) -> "OsTask":
-        self.OsTaskSchedule = value
+        self.osTaskSchedule = value
         return self
 
     def getOsStacksize(self) -> Optional[int]:
-        return self.OsStacksize
+        return self.osStacksize
 
     def setOsStacksize(self, value: Optional[int]) -> "OsTask":
-        self.OsStacksize = value
+        self.osStacksize = value
         return self
 
     def getOsMemoryMappingCodeLocationRef(self) -> Optional[str]:
-        return self.OsMemoryMappingCodeLocationRef
+        return self.osMemoryMappingCodeLocationRef
 
     def setOsMemoryMappingCodeLocationRef(self, value: Optional[str]) -> "OsTask":
-        self.OsMemoryMappingCodeLocationRef = value
+        self.osMemoryMappingCodeLocationRef = value
         return self
 
     def getOsTaskAccessingApplications(self) -> List[OsApplication]:
-        return self.OsTaskAccessingApplication
+        return self.osTaskAccessingApplication
 
     def addOsTaskAccessingApplication(self, value: OsApplication) -> "OsTask":
-        self.OsTaskAccessingApplication.append(value)
+        self.osTaskAccessingApplication.append(value)
         return self
 
     def getOsTaskEventRefs(self) -> List[str]:
-        return self.OsTaskEventRef
+        return self.osTaskEventRef
 
     def addOsTaskEventRef(self, value: str) -> "OsTask":
-        self.OsTaskEventRef.append(value)
+        self.osTaskEventRef.append(value)
         return self
 
     def getOsTaskResourceRefs(self) -> List[str]:
-        return self.OsTaskResourceRef
+        return self.osTaskResourceRef
 
     def addOsTaskResourceRef(self, value: str) -> "OsTask":
-        self.OsTaskResourceRef.append(value)
+        self.osTaskResourceRef.append(value)
         return self
 
     def getOsTaskAppModeRefs(self) -> List[str]:
-        return self.OsTaskAppModeRef
+        return self.osTaskAppModeRef
 
     def addOsTaskAppModeRef(self, value: str) -> "OsTask":
-        self.OsTaskAppModeRef.append(value)
+        self.osTaskAppModeRef.append(value)
         return self
 
     def getOsTaskAllInterruptLockBudget(self) -> Optional[float]:
-        return self.OsTaskAllInterruptLockBudget
+        return self.osTaskAllInterruptLockBudget
 
     def setOsTaskAllInterruptLockBudget(self, value: Optional[float]) -> "OsTask":
-        self.OsTaskAllInterruptLockBudget = value
+        self.osTaskAllInterruptLockBudget = value
         return self
 
     def getOsTaskExecutionBudget(self) -> Optional[float]:
-        return self.OsTaskExecutionBudget
+        return self.osTaskExecutionBudget
 
     def setOsTaskExecutionBudget(self, value: Optional[float]) -> "OsTask":
-        self.OsTaskExecutionBudget = value
+        self.osTaskExecutionBudget = value
         return self
 
     def getOsTaskOsInterruptLockBudget(self) -> Optional[float]:
-        return self.OsTaskOsInterruptLockBudget
+        return self.osTaskOsInterruptLockBudget
 
     def setOsTaskOsInterruptLockBudget(self, value: Optional[float]) -> "OsTask":
-        self.OsTaskOsInterruptLockBudget = value
+        self.osTaskOsInterruptLockBudget = value
         return self
 
     def getOsTaskTimeFrame(self) -> Optional[float]:
-        return self.OsTaskTimeFrame
+        return self.osTaskTimeFrame
 
     def setOsTaskTimeFrame(self, value: Optional[float]) -> "OsTask":
-        self.OsTaskTimeFrame = value
+        self.osTaskTimeFrame = value
         return self
 
     def getOsTaskResourceLockBudgets(self) -> List[float]:
-        return self.OsTaskResourceLockBudget
+        return self.osTaskResourceLockBudget
 
     def addOsTaskResourceLockBudget(self, value: float) -> "OsTask":
-        self.OsTaskResourceLockBudget.append(value)
+        self.osTaskResourceLockBudget.append(value)
         return self
 
     def getOsTaskResourceLockResourceRefs(self) -> List[str]:
-        return self.OsTaskResourceLockResourceRef
+        return self.osTaskResourceLockResourceRef
 
     def addOsTaskResourceLockResourceRef(self, value: str) -> "OsTask":
-        self.OsTaskResourceLockResourceRef.append(value)
+        self.osTaskResourceLockResourceRef.append(value)
         return self
 
 
 class OsOs:
+    """Semantic OS configuration containing applications and tasks."""
+
     def __init__(self) -> None:
         self.name: str = ""
-        self.OsApplication: List[OsApplication] = []
-        self.OsTask: List[OsTask] = []
+        self.osApplication: List[OsApplication] = []
+        self.osTask: List[OsTask] = []
 
     def getName(self) -> str:
         return self.name
@@ -295,17 +301,17 @@ class OsOs:
         return self
 
     def getOsApplications(self) -> List[OsApplication]:
-        return self.OsApplication
+        return self.osApplication
 
     def addOsApplication(self, value: OsApplication) -> "OsOs":
-        self.OsApplication.append(value)
+        self.osApplication.append(value)
         return self
 
     def getOsTasks(self) -> List[OsTask]:
-        return self.OsTask
+        return self.osTask
 
     def addOsTask(self, value: OsTask) -> "OsOs":
-        self.OsTask.append(value)
+        self.osTask.append(value)
         return self
 
     @classmethod

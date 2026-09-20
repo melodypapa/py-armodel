@@ -5,7 +5,7 @@ import sys
 
 from armodel import __version__
 from armodel.parser import OsEcucParser
-from armodel.report import write_xlsx, write_yaml
+from armodel.report import OsConfigExporter
 
 
 def main():
@@ -16,8 +16,7 @@ def main():
     ap.add_argument("-v", "--verbose", required=False, help="Print debug information", action="store_true")
     ap.add_argument("-w", "--warning", required=False, help="Skip unresolved reference errors and report them as warning messages", action="store_true")
     ap.add_argument("INPUT", help="The path of the ECUC OS configuration ARXML", nargs="+")
-    ap.add_argument("OUTPUT", help="The path of the output file (xlsx or yaml)")
-    ap.add_argument("--format", required=False, choices=["xlsx", "yaml"], default="xlsx", help="Export format (default: xlsx)")
+    ap.add_argument("OUTPUT", help="The path of the output file (.xlsx, .yaml, or .yml)")
 
     args = ap.parse_args()
 
@@ -29,7 +28,7 @@ def main():
     stdout_handler.setFormatter(formatter)
 
     base_path = os.path.dirname(args.OUTPUT)
-    log_file = os.path.join(base_path, "os_config_export.log")
+    log_file = os.path.join(base_path, "os_ecuc_export.log")
 
     if os.path.exists(log_file):
         os.remove(log_file)
@@ -56,10 +55,7 @@ def main():
             raise ValueError("The OUTPUT file must not overwrite the input file <%s>" % args.INPUT[0])
 
         os_os = OsEcucParser().load(args.INPUT[0], warning=args.warning)
-        if args.format == "yaml":
-            write_yaml(os_os, args.OUTPUT)
-        else:
-            write_xlsx(os_os, args.OUTPUT)
+        OsConfigExporter().export(os_os, args.OUTPUT)
     except Exception as e:
         # print(e)
         raise e

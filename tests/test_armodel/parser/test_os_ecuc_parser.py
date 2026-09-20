@@ -6,10 +6,16 @@ from armodel.data_models.ecuc import OsOs
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
+    ConfigReferenceValue,
     Container,
+    EcucAbstractReferenceValue,
+    EcucModuleConfigurationValues,
+    EcucParameterValue,
     EnumerationValue,
     FloatValue,
     IntegerValue,
+    ModuleConfiguration,
+    ParameterValue,
     ReferenceValue,
     StringValue,
 )
@@ -20,7 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
     UnlimitedInteger,
 )
-from armodel.parser import OsEcucConversionError, OsEcucParser
+from armodel.parser import EcucParser, OsEcucConversionError, OsEcucParser
 
 
 def _ref(path):
@@ -132,7 +138,42 @@ def test_vendor_specific_parameter_is_ignored():
     result = OsEcucParser().parseEcuc(_build_document(containers))
 
     assert [item.getName() for item in result.getOsTasks()] == ["Vendor_Task"]
-    assert result.getOsTasks()[0].OsTaskActivation == 1
+    assert result.getOsTasks()[0].osTaskActivation == 1
+
+
+def test_generic_ecuc_parser_discovers_module_containers():
+    containers = [_container("Generic_Task", "OsTask")]
+    document = _build_document(containers)
+
+    parser = EcucParser()
+    index = parser.get_module_containers(document, module_name="Os")
+
+    assert list(index) == ["/Os/Os/Generic_Task"]
+    assert parser.get_definition_name(index["/Os/Os/Generic_Task"].getDefinitionRef()) == "OsTask"
+
+
+def test_generic_ecuc_parser_returns_existing_model_objects():
+    parameter = _int_parameter("OsTaskActivation", 1)
+    reference = _reference("OsTaskEventRef", "/Os/Os/Event")
+    container = _container("Typed_Task", "OsTask", parameters=[parameter], references=[reference])
+    document = _build_document([container])
+
+    parser = EcucParser()
+    modules = parser.get_modules(document)
+    values = parser.get_parameter_values(document.getARPackages()[0].getElement("Os", ModuleConfiguration).getContainers()[0])
+    references = parser.get_reference_values(document.getARPackages()[0].getElement("Os", ModuleConfiguration).getContainers()[0])
+
+    assert isinstance(modules[0], (ModuleConfiguration, EcucModuleConfigurationValues))
+    assert isinstance(values[0], (ParameterValue, EcucParameterValue))
+    assert isinstance(references[0], (ConfigReferenceValue, EcucAbstractReferenceValue))
+
+
+def test_numeric_string_values_are_converted_for_autosar_4_ecuc():
+    containers = [_container("String_Task", "OsTask", parameters=[_string_parameter("OsStacksize", "1024")])]
+
+    result = OsEcucParser().parseEcuc(_build_document(containers))
+
+    assert result.getOsTasks()[0].getOsStacksize() == 1024
 
 
 def test_unresolved_reference_raises_in_strict_mode():
@@ -222,4 +263,4 @@ def test_from_ecuc_delegate_matches_parser():
     result = OsOs.from_ecuc(document)
 
     assert result.getName() == "Os"
-    assert result.getOsTasks()[0].OsTaskPriority == 5
+    assert result.getOsTasks()[0].osTaskPriority == 5

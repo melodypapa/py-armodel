@@ -224,19 +224,15 @@
                 </REFERENCE-VALUE>
                 <REFERENCE-VALUE>
                   <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsApplication/OsAppTaskRef</DEFINITION-REF>
-                  <VALUE-REF>/Os/Os/Rte_Time_Task</VALUE-REF>
-                </REFERENCE-VALUE>
-                <REFERENCE-VALUE>
-                  <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsApplication/OsAppTaskRef</DEFINITION-REF>
                   <VALUE-REF>/Os/Os/Rte_Event_Task</VALUE-REF>
                 </REFERENCE-VALUE>
                 <REFERENCE-VALUE>
                   <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsApplication/OsAppTaskRef</DEFINITION-REF>
-                  <VALUE-REF>/Os/Os/SchMDiagStateTask_20ms</VALUE-REF>
+                  <VALUE-REF>/Os/Os/Rte_Time_Task</VALUE-REF>
                 </REFERENCE-VALUE>
                 <REFERENCE-VALUE>
-                  <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsApplication/OsRestartTask</DEFINITION-REF>
-                  <VALUE-REF>/Os/Os/Init_Task</VALUE-REF>
+                  <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsApplication/OsAppTaskRef</DEFINITION-REF>
+                  <VALUE-REF>/Os/Os/SchMDiagStateTask_20ms</VALUE-REF>
                 </REFERENCE-VALUE>
               </REFERENCE-VALUES>
               <SUB-CONTAINERS>
@@ -333,14 +329,6 @@
               <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsEvent</DEFINITION-REF>
             </CONTAINER>
             <CONTAINER>
-              <SHORT-NAME>Resource_Init</SHORT-NAME>
-              <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsResource</DEFINITION-REF>
-            </CONTAINER>
-            <CONTAINER>
-              <SHORT-NAME>Resource_Diag</SHORT-NAME>
-              <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsResource</DEFINITION-REF>
-            </CONTAINER>
-            <CONTAINER>
               <SHORT-NAME>AlarmIncrementRteCounter</SHORT-NAME>
               <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsAlarm</DEFINITION-REF>
               <REFERENCE-VALUES>
@@ -394,10 +382,6 @@
                   <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskActivation</DEFINITION-REF>
                   <VALUE>1</VALUE>
                 </INTEGER-VALUE>
-                <FLOAT-VALUE>
-                  <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskPeriod</DEFINITION-REF>
-                  <VALUE>0.02</VALUE>
-                </FLOAT-VALUE>
                 <INTEGER-VALUE>
                   <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskPriority</DEFINITION-REF>
                   <VALUE>127</VALUE>
@@ -409,10 +393,6 @@
                 <INTEGER-VALUE>
                   <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsStacksize</DEFINITION-REF>
                   <VALUE>1024</VALUE>
-                </INTEGER-VALUE>
-                <INTEGER-VALUE>
-                  <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsVendorSpecificParam</DEFINITION-REF>
-                  <VALUE>42</VALUE>
                 </INTEGER-VALUE>
               </PARAMETER-VALUES>
               <REFERENCE-VALUES>
@@ -432,54 +412,6 @@
                     </REFERENCE-VALUE>
                   </REFERENCE-VALUES>
                 </CONTAINER>
-                <CONTAINER>
-                  <SHORT-NAME>OsTaskTimingProtection</SHORT-NAME>
-                  <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskTimingProtection</DEFINITION-REF>
-                  <PARAMETER-VALUES>
-                    <FLOAT-VALUE>
-                      <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskTimingProtection/OsTaskAllInterruptLockBudget</DEFINITION-REF>
-                      <VALUE>0.001</VALUE>
-                    </FLOAT-VALUE>
-                    <FLOAT-VALUE>
-                      <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskTimingProtection/OsTaskExecutionBudget</DEFINITION-REF>
-                      <VALUE>0.005</VALUE>
-                    </FLOAT-VALUE>
-                    <FLOAT-VALUE>
-                      <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskTimingProtection/OsTaskOsInterruptLockBudget</DEFINITION-REF>
-                      <VALUE>0.002</VALUE>
-                    </FLOAT-VALUE>
-                    <FLOAT-VALUE>
-                      <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskTimingProtection/OsTaskTimeFrame</DEFINITION-REF>
-                      <VALUE>0.02</VALUE>
-                    </FLOAT-VALUE>
-                  </PARAMETER-VALUES>
-                  <SUB-CONTAINERS>
-                    <CONTAINER>
-                      <SHORT-NAME>OsTaskResourceLock</SHORT-NAME>
-                      <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskTimingProtection/OsTaskResourceLock</DEFINITION-REF>
-                      <PARAMETER-VALUES>
-                        <FLOAT-VALUE>
-                          <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskTimingProtection/OsTaskResourceLock/OsTaskResourceLockBudget</DEFINITION-REF>
-                          <VALUE>0.001</VALUE>
-                        </FLOAT-VALUE>
-                        <FLOAT-VALUE>
-                          <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskTimingProtection/OsTaskResourceLock/OsTaskResourceLockBudget</DEFINITION-REF>
-                          <VALUE>0.002</VALUE>
-                        </FLOAT-VALUE>
-                      </PARAMETER-VALUES>
-                      <REFERENCE-VALUES>
-                        <REFERENCE-VALUE>
-                          <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskTimingProtection/OsTaskResourceLock/OsTaskResourceLockResourceRef</DEFINITION-REF>
-                          <VALUE-REF>/Os/Os/Resource_Init</VALUE-REF>
-                        </REFERENCE-VALUE>
-                        <REFERENCE-VALUE>
-                          <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskTimingProtection/OsTaskResourceLock/OsTaskResourceLockResourceRef</DEFINITION-REF>
-                          <VALUE-REF>/Os/Os/Resource_Diag</VALUE-REF>
-                        </REFERENCE-VALUE>
-                      </REFERENCE-VALUES>
-                    </CONTAINER>
-                  </SUB-CONTAINERS>
-                </CONTAINER>
               </SUB-CONTAINERS>
             </CONTAINER>
             <CONTAINER>
@@ -490,10 +422,6 @@
                   <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskActivation</DEFINITION-REF>
                   <VALUE>1</VALUE>
                 </INTEGER-VALUE>
-                <FLOAT-VALUE>
-                  <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskPeriod</DEFINITION-REF>
-                  <VALUE>0.01</VALUE>
-                </FLOAT-VALUE>
                 <INTEGER-VALUE>
                   <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskPriority</DEFINITION-REF>
                   <VALUE>52</VALUE>
@@ -522,10 +450,6 @@
                   <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskActivation</DEFINITION-REF>
                   <VALUE>1</VALUE>
                 </INTEGER-VALUE>
-                <FLOAT-VALUE>
-                  <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskPeriod</DEFINITION-REF>
-                  <VALUE>0.005</VALUE>
-                </FLOAT-VALUE>
                 <INTEGER-VALUE>
                   <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskPriority</DEFINITION-REF>
                   <VALUE>51</VALUE>
@@ -566,10 +490,6 @@
                   <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskActivation</DEFINITION-REF>
                   <VALUE>1</VALUE>
                 </INTEGER-VALUE>
-                <FLOAT-VALUE>
-                  <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskPeriod</DEFINITION-REF>
-                  <VALUE>0.02</VALUE>
-                </FLOAT-VALUE>
                 <INTEGER-VALUE>
                   <DEFINITION-REF>/TS_T19D1M6I1R0_AS403/Os/OsTask/OsTaskPriority</DEFINITION-REF>
                   <VALUE>50</VALUE>

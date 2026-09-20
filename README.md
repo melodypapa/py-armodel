@@ -313,6 +313,47 @@ $connector2xlsx src/armodel/tests/test_files/SoftwareComponents.arxml data/Softw
 $connector-update src/armodel/tests/test_files/SoftwareComponents.arxml data/SoftwareComponents.xlsx data/Test.arxml
 ```
 
+### 1.10.5. os-ecuc-export
+
+**Export the semantic OS configuration from an ECUC ARXML file to YAML or Excel.**
+
+The output format is selected from the output filename extension. The
+`--format` option is not used.
+
+```text
+os-ecuc-export [-h] [-v] [-w] INPUT [INPUT ...] OUTPUT
+```
+
+- `.yaml` or `.yml`: export YAML
+- `.xlsx`: export an Excel workbook
+- `-v`, `--verbose`: print debug information
+- `-w`, `--warning`: report unresolved references as warnings instead of raising errors
+
+Use the integration OS ECUC fixture from the repository root:
+
+```bash
+os-ecuc-export tests/integration_tests/test_files/Os_ECUC.arxml build/os_config.yaml
+os-ecuc-export tests/integration_tests/test_files/Os_ECUC.arxml build/os_config.xlsx
+```
+
+The generated semantic configuration contains `OsApplication` and `OsTask`
+sections. For `Os_ECUC.arxml`, the YAML export contains the
+`OsApplication_QM` application and the tasks `Init_Task`, `Rte_Event_Task`,
+`Rte_Time_Task`, and `SchMDiagStateTask_20ms`. Task and application references
+are exported by semantic name where the parser resolves them; other ECUC
+references remain normalized ECUC paths such as `/Os/Os/OSDEFAULTAPPMODE`.
+
+For a file containing unresolved standard references, use warning mode:
+
+```bash
+os-ecuc-export -w input/Os_ECUC.arxml build/os_config.yaml
+```
+
+Unsupported output extensions, such as `.json`, are rejected. See
+[the detailed OS ECUC export guide](docs/user_guide/os_ecuc_export_cli.rst)
+for the complete exported field list and example output. YAML omits fields
+whose values are `null` or empty lists; Excel keeps the complete column set.
+
 
 ## 1.11. API
 

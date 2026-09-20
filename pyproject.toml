@@ -44,7 +44,7 @@ armodel-system-signal = "armodel.cli.system_signal_cli:main"
 armodel-memory-section = "armodel.cli.memory_section_cli:main"
 armodel-file-list = "armodel.cli.file_list_cli:main"
 armodel-uuid-checker = "armodel.cli.uuid_checker_cli:main"
-os-config-export = "armodel.cli.os_config_export_cli:main"
+os-ecuc-export = "armodel.cli.os_config_export_cli:main"
 
 [tool.setuptools]
 zip-safe = false
