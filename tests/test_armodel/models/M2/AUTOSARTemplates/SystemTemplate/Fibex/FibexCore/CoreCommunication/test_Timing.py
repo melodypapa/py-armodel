@@ -1,6 +1,10 @@
+import inspect
+import typing
+
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
     EventControlledTiming,
@@ -14,25 +18,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 
 class Test_FibexCoreTiming:
     """Test cases for FibexCore Timing classes with method chaining."""
-
-    def test_ModeDrivenTransmissionModeCondition(self):
-        """Test ModeDrivenTransmissionModeCondition class functionality with method chaining."""
-        condition = ModeDrivenTransmissionModeCondition()
-
-        assert isinstance(condition, ARObject)
-
-        # Test default values
-        assert condition.getModeDeclarationRef() is None
-
-        # Test setter/getter methods with method chaining
-        result = condition.setModeDeclarationRef("mode_ref")
-        assert condition.getModeDeclarationRef() == "mode_ref"
-        assert result == condition  # Test method chaining
-
-        # Test setting None value
-        result = condition.setModeDeclarationRef(None)
-        assert condition.getModeDeclarationRef() is None
-        assert result == condition  # Test method chaining
 
     def test_TransmissionModeCondition(self):
         """Test TransmissionModeCondition class functionality with method chaining."""
@@ -242,3 +227,73 @@ class Test_FibexCoreTiming:
         result = declaration.addTransmissionModeCondition(None)
         assert len(declaration.getTransmissionModeConditions()) == original_transmission_count + 1  # Count should increase by 1
         assert result == declaration  # Test method chaining
+
+
+CLASS_NOTE = (
+    "The condition defined by this class evaluates to true if one of the referenced modeDeclarations (OR associated) is active. "
+    "All referenced modeDeclarations shall be from the same ModeDeclarationGroup. "
+    "The condition is used to define which TransmissionMode shall be activated using Com_SwitchIpduTxMode.\n"
+    "\n"
+    "[constr_9187] Existence of ModeDrivenTransmissionModeCondition.modeDeclaration: For each ModeDrivenTransmissionModeCondition, "
+    "the reference to ModeDeclaration in the role modeDeclaration shall exist at the time when the System Description is complete."
+)
+
+MODE_DECLARATION_NOTE = "Reference to one modeDeclaration which is OR associated in the context of the ModeDrivenTransmissionModeCondition."
+
+
+class TestModeDrivenTransmissionModeCondition:
+    """Test cases for ModeDrivenTransmissionModeCondition (Table 6.61, p.393)."""
+
+    MEMBERS = [
+        "modeDeclarationRefs",
+    ]
+
+    def test_inheritance(self):
+        assert issubclass(ModeDrivenTransmissionModeCondition, ARObject)
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(ModeDrivenTransmissionModeCondition.__doc__) == CLASS_NOTE
+
+    def test_init_docless(self):
+        assert ModeDrivenTransmissionModeCondition.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        condition = ModeDrivenTransmissionModeCondition()
+        assert condition.getModeDeclarationRefs() == []
+
+    def test_member_order(self):
+        condition = ModeDrivenTransmissionModeCondition()
+        members = [k for k in vars(condition) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_add_get_mode_declaration_refs(self):
+        condition = ModeDrivenTransmissionModeCondition()
+        ref1 = RefType()
+        ref1.setDest("MODE-DECLARATION")
+        ref1.setValue("/ModeDcl/FirstMode")
+        ref2 = RefType()
+        ref2.setDest("MODE-DECLARATION")
+        ref2.setValue("/ModeDcl/SecondMode")
+
+        assert condition == condition.addModeDeclarationRef(ref1)
+        assert condition == condition.addModeDeclarationRef(ref2)
+        refs = condition.getModeDeclarationRefs()
+        assert len(refs) == 2
+        assert refs[0].getValue() == "/ModeDcl/FirstMode"
+        assert refs[0].getDest() == "MODE-DECLARATION"
+        assert refs[1].getValue() == "/ModeDcl/SecondMode"
+
+        assert condition == condition.addModeDeclarationRef(None)
+        assert len(condition.getModeDeclarationRefs()) == 2
+
+        getter_hints = typing.get_type_hints(ModeDrivenTransmissionModeCondition.getModeDeclarationRefs)
+        assert getter_hints.get("return") == typing.List[RefType]
+
+        add_hints = typing.get_type_hints(ModeDrivenTransmissionModeCondition.addModeDeclarationRef)
+        assert add_hints.get("value") == typing.Optional[RefType]
+        assert add_hints.get("return") is ModeDrivenTransmissionModeCondition
+
+    def test_docstrings_are_spec_notes(self):
+        """Test that the accessor docstrings carry the attribute Note verbatim (Table 6.61)."""
+        assert ModeDrivenTransmissionModeCondition.getModeDeclarationRefs.__doc__.strip() == MODE_DECLARATION_NOTE
+        assert inspect.cleandoc(ModeDrivenTransmissionModeCondition.addModeDeclarationRef.__doc__).strip() == MODE_DECLARATION_NOTE + "\nA None value is a no-op and does not append anything."

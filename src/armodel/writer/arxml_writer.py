@@ -844,6 +844,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuParti
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
     EventControlledTiming,
+    ModeDrivenTransmissionModeCondition,
     TimeRangeType,
     TransmissionModeCondition,
     TransmissionModeDeclaration,
@@ -8657,6 +8658,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_tag, "MODE-DECLARATION-REF", ref)
 
+    def writeModeDrivenTransmissionModeCondition(self, element: ET.Element, condition: ModeDrivenTransmissionModeCondition):
+        child_element = ET.SubElement(element, "MODE-DRIVEN-TRANSMISSION-MODE-CONDITION")
+        refs = condition.getModeDeclarationRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "MODE-DECLARATION-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "MODE-DECLARATION-REF", ref)
+
     def writePhysicalChannelCommConnectorRefs(self, element, channel):
         connectors = channel.getCommConnectorRefs()
         if len(connectors) > 0:
@@ -12774,6 +12783,16 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setTransmissionModeDeclaration(self, element: ET.Element, key: str, decl: TransmissionModeDeclaration):
         if decl is not None:
             child_element = ET.SubElement(element, key)
+            false_conditions = decl.getModeDrivenFalseConditions()
+            if len(false_conditions) > 0:
+                false_conditions_tag = ET.SubElement(child_element, "MODE-DRIVEN-FALSE-CONDITIONS")
+                for condition in false_conditions:
+                    self.writeModeDrivenTransmissionModeCondition(false_conditions_tag, condition)
+            true_conditions = decl.getModeDrivenTrueConditions()
+            if len(true_conditions) > 0:
+                true_conditions_tag = ET.SubElement(child_element, "MODE-DRIVEN-TRUE-CONDITIONS")
+                for condition in true_conditions:
+                    self.writeModeDrivenTransmissionModeCondition(true_conditions_tag, condition)
             self.setTransmissionModeConditions(child_element, "TRANSMISSION-MODE-CONDITIONS", decl.getTransmissionModeConditions())
             self.setTransmissionModeTiming(child_element, "TRANSMISSION-MODE-FALSE-TIMING", decl.getTransmissionModeFalseTiming())
             self.setTransmissionModeTiming(child_element, "TRANSMISSION-MODE-TRUE-TIMING", decl.getTransmissionModeTrueTiming())

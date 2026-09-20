@@ -2455,11 +2455,9 @@ No deviations — all 9 Table 6.39 attributes modeled (`collectionSemantics`, `c
 ## `ModeDrivenTransmissionModeCondition`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 393
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/Timing.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `modeDeclarationRef` | `—` | `modeDeclarationRefs` | `Ref (ModeDeclaration)` | Refs | type (spec many vs py single) |
+No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, Kind `ref`) modeled as `modeDeclarationRefs: List[RefType]` with `getModeDeclarationRefs`/`addModeDeclarationRef` per the Kind `ref`→`Refs` suffix and singular-spec-`*`→plural rule; former `type (spec many vs py single)` row for `modeDeclarationRef` resolved in the 2026-09 sync (list shape + full reader/writer coverage via `readModeDrivenTransmissionModeCondition`/`writeModeDrivenTransmissionModeCondition` and TransmissionModeDeclaration dispatch).
 
 ## `MultiplexedIPdu`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 408

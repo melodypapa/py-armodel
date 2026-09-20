@@ -1755,6 +1755,73 @@ class TestISignalIPduIPduTimingSpecification:
         assert timing is None
 
 
+class TestModeDrivenTransmissionModeCondition:
+    def test_readModeDrivenTransmissionModeCondition_adds_refs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
+            ModeDrivenTransmissionModeCondition,
+        )
+
+        condition = ModeDrivenTransmissionModeCondition()
+        element = _snip(
+            "<MODE-DECLARATION-REFS>"
+            "<MODE-DECLARATION-REF DEST='MODE-DECLARATION'>/ModeDclGroup/M1</MODE-DECLARATION-REF>"
+            "<MODE-DECLARATION-REF DEST='MODE-DECLARATION'>/ModeDclGroup/M2</MODE-DECLARATION-REF>"
+            "</MODE-DECLARATION-REFS>",
+            root_tag="MODE-DRIVEN-TRANSMISSION-MODE-CONDITION",
+        )
+        parser.readModeDrivenTransmissionModeCondition(element, condition)
+        refs = condition.getModeDeclarationRefs()
+        assert len(refs) == 2
+        assert refs[0].getValue() == "/ModeDclGroup/M1"
+        assert refs[0].getDest() == "MODE-DECLARATION"
+        assert refs[1].getValue() == "/ModeDclGroup/M2"
+
+    def test_readModeDrivenTransmissionModeCondition_absent_refs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
+            ModeDrivenTransmissionModeCondition,
+        )
+
+        condition = ModeDrivenTransmissionModeCondition()
+        element = _snip("", root_tag="MODE-DRIVEN-TRANSMISSION-MODE-CONDITION")
+        parser.readModeDrivenTransmissionModeCondition(element, condition)
+        assert condition.getModeDeclarationRefs() == []
+
+    def test_getTransmissionModeDeclaration_reads_modeDrivenConditions(self, parser):
+        element = _snip(
+            "<TRANSMISSION-MODE-DECLARATION>"
+            "<MODE-DRIVEN-FALSE-CONDITIONS>"
+            "<MODE-DRIVEN-TRANSMISSION-MODE-CONDITION>"
+            "<MODE-DECLARATION-REFS>"
+            "<MODE-DECLARATION-REF DEST='MODE-DECLARATION'>/Mdg/FalseMode</MODE-DECLARATION-REF>"
+            "</MODE-DECLARATION-REFS>"
+            "</MODE-DRIVEN-TRANSMISSION-MODE-CONDITION>"
+            "</MODE-DRIVEN-FALSE-CONDITIONS>"
+            "<MODE-DRIVEN-TRUE-CONDITIONS>"
+            "<MODE-DRIVEN-TRANSMISSION-MODE-CONDITION>"
+            "<MODE-DECLARATION-REFS>"
+            "<MODE-DECLARATION-REF DEST='MODE-DECLARATION'>/Mdg/TrueMode1</MODE-DECLARATION-REF>"
+            "<MODE-DECLARATION-REF DEST='MODE-DECLARATION'>/Mdg/TrueMode2</MODE-DECLARATION-REF>"
+            "</MODE-DECLARATION-REFS>"
+            "</MODE-DRIVEN-TRANSMISSION-MODE-CONDITION>"
+            "</MODE-DRIVEN-TRUE-CONDITIONS>"
+            "</TRANSMISSION-MODE-DECLARATION>",
+            root_tag="ROOT",
+        )
+        decl = parser.getTransmissionModeDeclaration(element, "TRANSMISSION-MODE-DECLARATION")
+        assert decl is not None
+        false_conditions = decl.getModeDrivenFalseConditions()
+        assert len(false_conditions) == 1
+        false_refs = false_conditions[0].getModeDeclarationRefs()
+        assert len(false_refs) == 1
+        assert false_refs[0].getValue() == "/Mdg/FalseMode"
+        true_conditions = decl.getModeDrivenTrueConditions()
+        assert len(true_conditions) == 1
+        true_refs = true_conditions[0].getModeDeclarationRefs()
+        assert len(true_refs) == 2
+        assert true_refs[0].getValue() == "/Mdg/TrueMode1"
+        assert true_refs[1].getValue() == "/Mdg/TrueMode2"
+
+
 class TestEndToEndProtectionHandlers:
     def test_getEndToEndDescription_sets_category(self, parser):
         element = _snip(
