@@ -939,7 +939,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
-from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltMessage, PrivacyLevel
+from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltEcu, DltMessage, PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
@@ -11883,6 +11883,17 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "CONTEXTS/DLT-CONTEXT-REF-CONDITIONAL/DLT-CONTEXT-REF"):
             application.addContextRef(ref)
 
+    def readDltEcu(self, element: ET.Element, ecu: DltEcu):
+        self.readIdentifiable(element, ecu)
+        for child_element in self.findall(element, "APPLICATIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "DLT-APPLICATION":
+                application = ecu.createApplication(self.getShortName(child_element))
+                self.readDltApplication(child_element, application)
+            else:
+                self.notImplemented("Unsupported DltEcu Application <%s>" % tag_name)
+        ecu.setEcuId(self.getChildElementOptionalString(element, "ECU-ID"))
+
     def readClientIdRange(self, element: ET.Element, id_range: ClientIdRange):
         id_range.setLowerLimit(self.getChildLimitElement(element, "LOWER-LIMIT"))
         id_range.setUpperLimit(self.getChildLimitElement(element, "UPPER-LIMIT"))
@@ -13293,6 +13304,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DLT-CONTEXT":
                 context = parent.createDltContext(self.getShortName(child_element))
                 self.readDltContext(child_element, context)
+            elif tag_name == "DLT-ECU":
+                ecu = parent.createDltEcu(self.getShortName(child_element))
+                self.readDltEcu(child_element, ecu)
             elif tag_name == "DOCUMENTATION":
                 documentation = parent.createDocumentation(self.getShortName(child_element))
                 self.readDocumentation(child_element, documentation)

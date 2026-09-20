@@ -838,7 +838,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
-from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltMessage, PrivacyLevel
+from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltEcu, DltMessage, PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
@@ -10921,6 +10921,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                 conditional_element = ET.SubElement(contexts_element, "DLT-CONTEXT-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(conditional_element, "DLT-CONTEXT-REF", ref)
 
+    def writeDltEcu(self, element: ET.Element, ecu: DltEcu):
+        child_element = ET.SubElement(element, "DLT-ECU")
+        self.writeIdentifiable(child_element, ecu)
+        applications = ecu.getApplications()
+        if len(applications) > 0:
+            applications_element = ET.SubElement(child_element, "APPLICATIONS")
+            for application in applications:
+                self.writeDltApplication(applications_element, application)
+        self.setChildElementOptionalString(child_element, "ECU-ID", ecu.getEcuId())
+
     def writeClientIdRange(self, element: ET.Element, id_range: ClientIdRange):
         child_element = ET.SubElement(element, "CLIENT-ID-RANGE")
         self.setChildLimitElement(child_element, "LOWER-LIMIT", id_range.getLowerLimit())
@@ -13048,6 +13058,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticServiceTable(element, ar_element)
         elif isinstance(ar_element, DltContext):
             self.writeDltContext(element, ar_element)
+        elif isinstance(ar_element, DltEcu):
+            self.writeDltEcu(element, ar_element)
         elif isinstance(ar_element, Documentation):
             self.writeDocumentation(element, ar_element)
         elif isinstance(ar_element, MultiplexedIPdu):

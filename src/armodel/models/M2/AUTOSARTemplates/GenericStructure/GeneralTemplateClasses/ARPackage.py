@@ -1322,6 +1322,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(context)
         return self.getElement(short_name, DltContext)
 
+    def createDltEcu(self, short_name: str) -> DltEcu:
+
+        if not self.IsElementExists(short_name, DltEcu):
+            ecu = DltEcu(self, short_name)
+            self.addElement(ecu)
+        return self.getElement(short_name, DltEcu)
+
     def createMultiplexedIPdu(self, short_name: str) -> MultiplexedIPdu:
 
         if not self.IsElementExists(short_name, MultiplexedIPdu):
@@ -1878,7 +1885,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     SenderReceiverInterface,
     TriggerInterface,
 )
-from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltContext  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltContext, DltEcu  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutineMappingSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet, CpSoftwareCluster, System  # noqa: E402

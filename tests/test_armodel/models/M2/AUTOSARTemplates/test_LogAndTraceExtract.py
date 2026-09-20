@@ -1,4 +1,4 @@
-"""Tests for PrivacyLevel (R23-11 AUTOSAR_FO_TPS_LogAndTraceExtract, Table 3.4, p.18), DltArgument (R23-11 Table E.20, p.13), DltMessage (R23-11 AUTOSAR_CP_TPS_SystemTemplate, Table F.50, p.12), DltContext (R23-11 AUTOSAR_CP_TPS_SystemTemplate, Table F.48, p.9) and DltApplication (R23-11 AUTOSAR_CP_TPS_SystemTemplate, Table F.47, p.9)."""
+"""Tests for PrivacyLevel (R23-11 AUTOSAR_FO_TPS_LogAndTraceExtract, Table 3.4, p.18), DltArgument (R23-11 Table E.20, p.13), DltMessage (R23-11 AUTOSAR_CP_TPS_SystemTemplate, Table F.50, p.12), DltContext (R23-11 AUTOSAR_CP_TPS_SystemTemplate, Table F.48, p.9), DltApplication (R23-11 AUTOSAR_CP_TPS_SystemTemplate, Table F.47, p.9) and DltEcu (R23-11 AUTOSAR_CP_TPS_SystemTemplate, Table F.49, p.8)."""
 
 import inspect
 
@@ -8,7 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
-from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltMessage, PrivacyLevel
+from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltEcu, DltMessage, PrivacyLevel
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
@@ -469,3 +469,72 @@ class TestDltApplication:
         assert application.getContextRefs() == [ref1, ref2]
         assert application.addContextRef(None) is application
         assert application.getContextRefs() == [ref1, ref2]
+
+
+class TestDltEcu:
+    """Test cases for DltEcu (R23-11 AUTOSAR_CP_TPS_SystemTemplate, Table F.49, p.8)."""
+
+    MEMBERS = [
+        "applications",
+        "ecuId",
+    ]
+
+    def _create_ecu(self, short_name: str = "dlt_ecu") -> DltEcu:
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        return DltEcu(ar_root, short_name)
+
+    def test_inheritance(self):
+        assert issubclass(DltEcu, ARObject)
+        assert issubclass(DltEcu, Referrable)
+        assert issubclass(DltEcu, MultilanguageReferrable)
+        assert issubclass(DltEcu, Identifiable)
+        assert issubclass(DltEcu, ARElement)
+
+    def test_class_docstring_note(self):
+        expected = (
+            "This element represents an Ecu or Machine that produces logging and tracing information. Tags: atp.recommendedPackage=DltEcus\n"
+            "\n"
+            "[constr_5294] Existence of DltEcu.ecuId: For each DltEcu, the attribute ecuId shall exist when the Log And Trace Extract is created."
+        )
+        assert inspect.cleandoc(DltEcu.__doc__) == expected
+
+    def test_initialization_defaults(self):
+        ecu = self._create_ecu()
+        assert isinstance(ecu, ARObject)
+        assert isinstance(ecu, Referrable)
+        assert isinstance(ecu, MultilanguageReferrable)
+        assert isinstance(ecu, Identifiable)
+        assert isinstance(ecu, ARElement)
+        assert ecu.short_name == "dlt_ecu"
+        assert ecu.getApplications() == []
+        assert ecu.getEcuId() is None
+
+    def test_member_order(self):
+        ecu = self._create_ecu()
+        members = [k for k in vars(ecu) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_create_application(self):
+        ecu = self._create_ecu()
+        application = ecu.createApplication("app1")
+        assert isinstance(application, DltApplication)
+        assert application.short_name == "app1"
+        assert application.parent == ecu
+        assert ecu.getApplications() == [application]
+        application2 = ecu.createApplication("app1")
+        assert application2 is application
+        assert len(ecu.getApplications()) == 1
+        application3 = ecu.createApplication("app2")
+        assert application3 is not application
+        assert application3.short_name == "app2"
+        assert len(ecu.getApplications()) == 2
+
+    def test_get_set_ecu_id(self):
+        ecu = self._create_ecu()
+        value = String()
+        value.setValue("ECU1")
+        assert ecu == ecu.setEcuId(value)
+        assert ecu.getEcuId() is value
+        assert ecu.getEcuId().getValue() == "ECU1"
+        assert ecu.setEcuId(None) is ecu
+        assert ecu.getEcuId() is value

@@ -528,3 +528,61 @@ class DltApplication(Identifiable, VariationPointCapable):
         Definition of ContextIds for the Application.
         """
         return self.contextRefs
+
+
+class DltEcu(ARElement):
+    """
+    This element represents an Ecu or Machine that produces logging and tracing information. Tags: atp.recommendedPackage=DltEcus
+
+    [constr_5294] Existence of DltEcu.ecuId: For each DltEcu, the attribute ecuId shall exist when the Log And Trace Extract is created.
+    """
+
+    # DltEcu method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.49, p.8 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createApplication  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getApplications    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getEcuId           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuId           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Application on DltEcu that provides log or trace data.
+        self.applications: List[DltApplication] = []
+
+        # This attribute defines the name of the ECU for use within the Dlt protocol.
+        self.ecuId: Optional[String] = None
+
+    def createApplication(self, short_name: str) -> DltApplication:
+        """
+        Application on DltEcu that provides log or trace data.
+        """
+        if not self.IsElementExists(short_name, DltApplication):
+            application = DltApplication(self, short_name)
+            self.addElement(application)
+            self.applications.append(application)
+        return self.getElement(short_name, DltApplication)
+
+    def getApplications(self) -> List[DltApplication]:
+        """
+        Application on DltEcu that provides log or trace data.
+        """
+        return self.applications
+
+    def getEcuId(self) -> Optional[String]:
+        """
+        This attribute defines the name of the ECU for use within the Dlt protocol.
+        """
+        return self.ecuId
+
+    def setEcuId(self, value: Optional[String]) -> "DltEcu":
+        """
+        This attribute defines the name of the ECU for use within the Dlt protocol.
+
+        A None value is a no-op and does not overwrite an existing ecuId.
+        """
+        if value is not None:
+            self.ecuId = value
+        return self
