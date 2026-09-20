@@ -1427,14 +1427,11 @@ No deviations — the Table 6.26 attribute column is `-` (zero own attributes; X
 No deviations — the Table 6.83 attribute column is `-` (zero own attributes; abstract Class, XSD has no complexType named `COMMUNICATION-CYCLE` — only group line 20494 `<xsd:sequence/>` empty); abstract base on `ARObject` per the Base row (concrete, instantiable only via subclasses `CycleCounter` Table 6.84 / `CycleRepetition` Table 6.85, both synced this pass); full reader/writer coverage via the polymorphic dispatch (`readCommunicationCycle`/`writeCommunicationCycle` called by both subtype helpers; CYCLE-COUNTER + CYCLE-REPETITION elif branches in all four aggregator dispatch helpers `readFlexrayAbsolutelyScheduledTimingCommunicationCycle` / `readTtcanAbsolutelyScheduledTimingCommunicationCycle` / writer counterparts, tested at dispatch level); former `missing` row built on the table's `-` placeholder resolved as stale in the 2026-09 sync.
 
 ## `FramePort`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.3
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 304  | **table:** Table 6.2
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
-- **Note:** the earlier `Package: …::FibexCore::CoreTopology` row was stale — the spec `Package` row of Table 6.3 is `…::CoreCommunication`; the class is a direct member of `CoreCommunication.py` together with its `CommConnectorPort` base (Rule 0007).
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
+No deviations — the Table 6.2 attribute column is `-` (zero own attributes; concrete Class, XSD complexType `FRAME-PORT` `abstract="false"`, AUTOSAR_00052.xsd line 63127, group line 63118 `<xsd:sequence/>` empty); most-derived base `CommConnectorPort` (Table 6.1) per the Base row — the inherited `communicationDirection` attribute and its reader/writer coverage live on the stamped base; full reader/writer coverage via the polymorphic dispatch (`readFramePort`/`writeFramePort` + FRAME-PORT elif branches in `readCommunicationConnectorEcuCommPortInstances`/`writeCommunicationConnectorEcuCommPortInstances` + `createFramePort` factory, tested at dispatch level); former `missing` row built on the table's `-` placeholder resolved as stale in the 2026-09 sync (it also cited Table 6.3 — IPduPort's table — and a `CoreCommunication.py` path; both corrected here).
 
 ## `AbstractEthernetFrame`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.229

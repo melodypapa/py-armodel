@@ -354,27 +354,6 @@ class Test_FibexCoreTopology:
         assert hints["value"] == typing.Optional[CommunicationDirectionType]
         _assert_return_is(hints, CommConnectorPort)
 
-    def test_FramePort(self):
-        """Test FramePort class functionality."""
-        parent = MockParent()
-        port = FramePort(parent, "test_frame_port")
-
-        assert isinstance(port, Identifiable)
-
-        # Test default values
-        assert port.getCommunicationDirection() is None
-
-        # Test setter/getter methods with method chaining - with None
-        assert port == port.setCommunicationDirection(None)  # Test method chaining with None
-        assert port.getCommunicationDirection() is None  # Should remain None
-
-        # Test setter/getter methods with method chaining - with actual value
-        direction = CommunicationDirectionType()
-        direction.setValue(CommunicationDirectionType.ENUM_IN)
-        port.setCommunicationDirection(direction)
-        assert port.getCommunicationDirection() == direction
-        assert port == port.setCommunicationDirection(direction)  # Test method chaining
-
     def test_IPduSignalProcessingEnum(self):
         """Test IPduSignalProcessingEnum enum functionality."""
         enum = IPduSignalProcessingEnum()

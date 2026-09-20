@@ -2870,6 +2870,22 @@ class TestEcuInstanceHandlers:
         parser.readCommunicationConnectorEcuCommPortInstances(element, conn)
         assert len(conn.getEcuCommPortInstances()) == 1
 
+    def test_readCommunicationConnectorEcuCommPortInstances_framePort_value(self, parser):
+        from armodel.models import CanCommunicationConnector, EcuInstance, FramePort
+
+        instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
+        conn = CanCommunicationConnector(parent=instance, short_name="conn")
+        element = _snip(
+            "<ECU-COMM-PORT-INSTANCES>" "<FRAME-PORT>" "<SHORT-NAME>fp</SHORT-NAME>" "<COMMUNICATION-DIRECTION>out</COMMUNICATION-DIRECTION>" "</FRAME-PORT>" "</ECU-COMM-PORT-INSTANCES>",
+            root_tag="CAN-COMMUNICATION-CONNECTOR",
+        )
+        parser.readCommunicationConnectorEcuCommPortInstances(element, conn)
+        ports = conn.getEcuCommPortInstances()
+        assert len(ports) == 1
+        assert isinstance(ports[0], FramePort)
+        assert ports[0].getShortName() == "fp"
+        assert ports[0].getCommunicationDirection().getValue() == "out"
+
     def test_readCommunicationConnectorEcuCommPortInstances_ipduPort(self, parser):
         from armodel.models import EcuInstance, EthernetCommunicationConnector
 

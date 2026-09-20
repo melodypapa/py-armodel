@@ -2728,12 +2728,13 @@ class CommunicationDirectionType(AREnum):
 
 class FramePort(CommConnectorPort):
     """
-    Represents a frame port for communication connectors,
-    handling frame-based communication at the connector level.
+    Connectors reception or send port on the referenced channel referenced by a FrameTriggering.
     """
 
     # FramePort method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.2, p.304 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

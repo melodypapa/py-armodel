@@ -105,6 +105,34 @@ class TestCommConnectorPort:
 
         assert reloaded.getCommunicationDirection() is None
 
+    def test_frame_port_dispatch_round_trip(self, writer, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector
+
+        connector = CanCommunicationConnector(_parent(), "conn")
+        connector.createFramePort("fp")
+        direction = CommunicationDirectionType()
+        direction.setValue(CommunicationDirectionType.ENUM_OUT)
+        connector.getEcuCommPortInstances()[0].setCommunicationDirection(direction)
+
+        parent = ET.Element("PARENT")
+        writer.writeCommunicationConnectorEcuCommPortInstances(parent, connector)
+
+        instances_tag = parent.find("ECU-COMM-PORT-INSTANCES")
+        assert instances_tag is not None
+        frame_port_tag = instances_tag.find("FRAME-PORT")
+        assert frame_port_tag is not None
+        assert frame_port_tag.find("SHORT-NAME") is not None
+        assert frame_port_tag.find("COMMUNICATION-DIRECTION") is not None
+        assert frame_port_tag.find("COMMUNICATION-DIRECTION").text == "out"
+
+        reloaded = CanCommunicationConnector(_parent(), "conn")
+        parser.readCommunicationConnectorEcuCommPortInstances(_namespaced(parent), reloaded)
+        ports = reloaded.getEcuCommPortInstances()
+        assert len(ports) == 1
+        assert isinstance(ports[0], FramePort)
+        assert ports[0].getShortName() == "fp"
+        assert ports[0].getCommunicationDirection().getValue() == "out"
+
     def test_ipdu_port_round_trip(self, writer, parser):
         port = IPduPort(MockParent(), "ip")
         direction = CommunicationDirectionType()
