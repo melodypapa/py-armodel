@@ -154,6 +154,29 @@ class TestMultiplexedPartHandlers:
         assert part.getIPduRef() is not None
         assert part.getIPduRef().getValue() == "/pdus/Static"
 
+    def test_readStaticPart_sets_variation_point(self, parser):
+        from armodel.models import StaticPart
+
+        part = StaticPart()
+        element = _snip(
+            '<I-PDU-REF DEST="I-SIGNAL-I-PDU">/pdus/Static</I-PDU-REF>' "<VARIATION-POINT>" "<SHORT-LABEL>staticVp</SHORT-LABEL>" "</VARIATION-POINT>",
+        )
+        parser.readStaticPart(element, part)
+        assert part.getIPduRef() is not None
+        assert part.getIPduRef().getValue() == "/pdus/Static"
+        assert part.getIPduRef().getDest() == "I-SIGNAL-I-PDU"
+        assert part.getVariationPoint() is not None
+        assert part.getVariationPoint().getShortLabel().getValue() == "staticVp"
+
+    def test_readStaticPart_empty(self, parser):
+        from armodel.models import StaticPart
+
+        part = StaticPart()
+        element = _snip("")
+        parser.readStaticPart(element, part)
+        assert part.getIPduRef() is None
+        assert part.getVariationPoint() is None
+
 
 class TestMultiplexedIPduHandlers:
     """Tests for MultiplexedIPdu dynamic/static part handlers."""

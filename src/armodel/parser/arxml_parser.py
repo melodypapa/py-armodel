@@ -9627,6 +9627,12 @@ class ARXMLParser(AbstractARXMLParser):
     def readStaticPart(self, element: ET.Element, part: StaticPart):
         self.readMultiplexedPart(element, part)
         part.setIPduRef(self.getChildElementOptionalRefType(element, "I-PDU-REF"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(part, VariationPointCapable):
+                part.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
     def readMultiplexedIPduStaticParts(self, element: ET.Element, ipdu: MultiplexedIPdu):
         for child_element in self.findall(element, "STATIC-PARTS/*"):

@@ -1392,13 +1392,11 @@ No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 6.324 (p.694, R2
 | — *(missing)* | `—` | `defaultValueElement` | ``DefaultValueElement`` | aggr | missing |
 
 ## `StaticPart`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.74
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 410  | **table:** Table 6.73
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `iPduRef` | `RefType` | `iPdu` | ``ISignalIPdu`` | ref | type (PDF ISignalIPdu vs py RefType) |
+No deviations — the single Table 6.73 attribute `iPdu` (ISignalIPdu, Mult `0..1`, Kind `ref`) modeled as `iPduRef: Optional[RefType]` with `getIPduRef`/`setIPduRef` per the Kind `ref`→`Ref` suffix (the PDF Type column names the ref *target* — for a `ref` attribute the model type is `RefType`; the target type constrains the DEST enum only); most-derived base MultiplexedPart + VariationPointCapable mixin (VP-capable per the STATIC-PART XSD group); full reader/writer coverage via `readStaticPart`/`writeStaticPart` incl. VARIATION-POINT; former `type (PDF ISignalIPdu vs py RefType)` row resolved as stale in the 2026-09 sync.
 
 ## `DynamicPartAlternative`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —

@@ -2174,25 +2174,35 @@ class MultiplexedPart(ARObject, ABC):
 
 class StaticPart(MultiplexedPart, VariationPointCapable):
     """
-    Defines a static part of multiplexed communication, specifying
-    Interaction Protocol Data Unit (IPDU) references for fixed
-    segments in multiplexed communication.
+    Some parts/signals of the I-PDU may be the same regardless of the selector field. Such a part is called static part. The static part is optional.
+
+    [constr_9176] Existence of StaticPart.iPdu: For each StaticPart, the reference to ISignalIPdu in role iPdu shall exist at the time when the System Description is complete.
     """
 
     # StaticPart method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIPduRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setIPduRef                   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.73, p.410 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIPduRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIPduRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.iPduRef = None  # type: RefType
+        # Reference to a Com IPdu which is routed to the IPduM module and is combined to a multiplexedPdu.
+        self.iPduRef: Optional[RefType] = None
 
-    def getIPduRef(self):
+    def getIPduRef(self) -> Optional[RefType]:
+        """
+        Reference to a Com IPdu which is routed to the IPduM module and is combined to a multiplexedPdu.
+        """
         return self.iPduRef
 
-    def setIPduRef(self, value):
+    def setIPduRef(self, value: Optional[RefType]) -> "StaticPart":
+        """
+        Reference to a Com IPdu which is routed to the IPduM module and is combined to a multiplexedPdu.
+        A None value is a no-op and does not overwrite an existing iPduRef.
+        """
         if value is not None:
             self.iPduRef = value
         return self

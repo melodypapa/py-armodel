@@ -1,9 +1,14 @@
+import inspect
+import typing
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ByteOrderEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ByteOrderEnum, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     ContainedIPduProps,
     DcmIPdu,
@@ -1169,3 +1174,78 @@ class Test_FibexCoreCommunication:
         assert freshness_props.getUseFreshnessTimestamp() is True
         assert freshness_props == freshness_props.setUseFreshnessTimestamp(None)
         assert freshness_props.getUseFreshnessTimestamp() is True
+
+
+STATIC_PART_CLASS_NOTE = (
+    "Some parts/signals of the I-PDU may be the same regardless of the selector field. "
+    "Such a part is called static part. The static part is optional.\n"
+    "\n"
+    "[constr_9176] Existence of StaticPart.iPdu: For each StaticPart, "
+    "the reference to ISignalIPdu in role iPdu shall exist at the time when the System Description is complete."
+)
+
+IPDU_REF_NOTE = "Reference to a Com IPdu which is routed to the IPduM module and is combined to a multiplexedPdu."
+
+
+class TestStaticPart:
+    """Test cases for StaticPart (Table 6.73, p.410)."""
+
+    OWN_MEMBERS = ["iPduRef"]
+
+    def test_inheritance(self):
+        assert issubclass(StaticPart, MultiplexedPart)
+        assert issubclass(StaticPart, VariationPointCapable)
+        assert issubclass(StaticPart, ARObject)
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(StaticPart.__doc__) == STATIC_PART_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert StaticPart.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        part = StaticPart()
+        assert part.getIPduRef() is None
+        assert part.getVariationPoint() is None
+        assert part.getSegmentPositions() == []
+
+    def test_member_order(self):
+        part = StaticPart()
+        members = [k for k in vars(part) if k in set(self.OWN_MEMBERS)]
+        assert members == self.OWN_MEMBERS
+
+    def test_get_set_i_pdu_ref(self):
+        part = StaticPart()
+        ref = RefType()
+        ref.setDest("I-SIGNAL-I-PDU")
+        ref.setValue("/pdus/StaticIpdu")
+
+        assert part == part.setIPduRef(ref)
+        assert part.getIPduRef() == ref
+        assert part.getIPduRef().getValue() == "/pdus/StaticIpdu"
+        assert part.getIPduRef().getDest() == "I-SIGNAL-I-PDU"
+
+        assert part == part.setIPduRef(None)
+        assert part.getIPduRef() == ref
+
+        getter_hints = typing.get_type_hints(StaticPart.getIPduRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(StaticPart.setIPduRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is StaticPart
+
+    def test_get_set_variation_point(self):
+        part = StaticPart()
+        vp = VariationPoint()
+
+        assert part == part.setVariationPoint(vp)
+        assert part.getVariationPoint() == vp
+
+        assert part == part.setVariationPoint(None)
+        assert part.getVariationPoint() == vp
+
+    def test_docstrings_are_spec_notes(self):
+        """Test that the accessor docstrings carry the attribute Note verbatim (Table 6.73)."""
+        assert StaticPart.getIPduRef.__doc__.strip() == IPDU_REF_NOTE
+        assert inspect.cleandoc(StaticPart.setIPduRef.__doc__).strip() == IPDU_REF_NOTE + "\nA None value is a no-op and does not overwrite an existing iPduRef."

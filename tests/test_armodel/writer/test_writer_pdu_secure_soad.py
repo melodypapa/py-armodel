@@ -10,10 +10,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARLiteral,
     ARNumerical,
     Boolean,
+    Identifier,
     Integer,
     PositiveInteger,
     RefType,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SoAdRoutingGroup
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     DynamicPart,
@@ -33,6 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     DoIpTpConfig,
     DoIpTpConnection,
 )
+from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -291,6 +294,56 @@ class TestWriteStaticPart:
         assert child is not None
         assert child.find("SEGMENT-POSITIONS") is not None
         assert child.find("I-PDU-REF") is not None
+
+    def test_with_variation_point(self, writer):
+        part = StaticPart()
+        part.setIPduRef(_ref("I-SIGNAL-I-PDU", "/pdus/Static"))
+        vp = VariationPoint()
+        vp.setShortLabel(Identifier().setValue("staticVp"))
+        part.setVariationPoint(vp)
+        parent = _parent()
+        writer.writeStaticPart(parent, part)
+        child = parent.find("STATIC-PART")
+        assert child is not None
+        ref_element = child.find("I-PDU-REF")
+        assert ref_element is not None
+        assert ref_element.text == "/pdus/Static"
+        assert ref_element.get("DEST") == "I-SIGNAL-I-PDU"
+        vp_element = child.find("VARIATION-POINT")
+        assert vp_element is not None
+        assert vp_element.find("SHORT-LABEL").text == "staticVp"
+        children = [c.tag for c in child]
+        assert children.index("I-PDU-REF") < children.index("VARIATION-POINT")
+
+    def test_empty(self, writer):
+        part = StaticPart()
+        parent = _parent()
+        writer.writeStaticPart(parent, part)
+        child = parent.find("STATIC-PART")
+        assert child is not None
+        assert child.find("I-PDU-REF") is None
+        assert child.find("VARIATION-POINT") is None
+
+    def test_write_reparse_round_trip(self, writer):
+        part = StaticPart()
+        part.setIPduRef(_ref("I-SIGNAL-I-PDU", "/pdus/Static"))
+        vp = VariationPoint()
+        vp.setShortLabel(Identifier().setValue("staticVp"))
+        part.setVariationPoint(vp)
+        parent = _parent()
+        writer.writeStaticPart(parent, part)
+        child = parent.find("STATIC-PART")
+
+        xml_str = ET.tostring(child).decode()
+        idx = xml_str.find(">")
+        xml_str = xml_str[:idx] + ' xmlns="http://autosar.org/schema/r4.0"' + xml_str[idx:]
+        reloaded = StaticPart()
+        ARXMLParser().readStaticPart(ET.fromstring(xml_str), reloaded)
+        assert reloaded.getIPduRef() is not None
+        assert reloaded.getIPduRef().getValue() == "/pdus/Static"
+        assert reloaded.getIPduRef().getDest() == "I-SIGNAL-I-PDU"
+        assert reloaded.getVariationPoint() is not None
+        assert reloaded.getVariationPoint().getShortLabel().getValue() == "staticVp"
 
 
 class TestWriteMultiplexedIPduStaticParts:

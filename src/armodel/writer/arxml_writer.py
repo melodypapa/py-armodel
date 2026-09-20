@@ -12362,6 +12362,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "STATIC-PART")
         self.writeMultiplexedPart(child_element, part)
         self.setChildElementOptionalRefType(child_element, "I-PDU-REF", part.getIPduRef())
+        self.writeVariationPoint(child_element, part.getVariationPoint())
 
     def writeMultiplexedIPduStaticParts(self, element: ET.Element, ipdu: MultiplexedIPdu):
         part = ipdu.getStaticPart()
