@@ -1,4 +1,4 @@
-"""Tests for PrivacyLevel (R23-11 AUTOSAR_FO_TPS_LogAndTraceExtract, Table 3.4, p.18), DltArgument (R23-11 Table E.20, p.13), DltMessage (R23-11 AUTOSAR_CP_TPS_SystemTemplate, Table F.50, p.12) and DltContext (R23-11 AUTOSAR_CP_TPS_SystemTemplate, Table F.48, p.9)."""
+"""Tests for PrivacyLevel (R23-11 AUTOSAR_FO_TPS_LogAndTraceExtract, Table 3.4, p.18), DltArgument (R23-11 Table E.20, p.13), DltMessage (R23-11 AUTOSAR_CP_TPS_SystemTemplate, Table F.50, p.12), DltContext (R23-11 AUTOSAR_CP_TPS_SystemTemplate, Table F.48, p.9) and DltApplication (R23-11 AUTOSAR_CP_TPS_SystemTemplate, Table F.47, p.9)."""
 
 import inspect
 
@@ -8,7 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
-from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltArgument, DltContext, DltMessage, PrivacyLevel
+from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltMessage, PrivacyLevel
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
@@ -386,3 +386,86 @@ class TestDltContext:
         assert context.getDltMessageRefs() == [ref1, ref2]
         assert context.addDltMessageRef(None) is context
         assert context.getDltMessageRefs() == [ref1, ref2]
+
+
+class TestDltApplication:
+    """Test cases for DltApplication (R23-11 AUTOSAR_CP_TPS_SystemTemplate, Table F.47, p.9)."""
+
+    MEMBERS = [
+        "applicationDescription",
+        "applicationId",
+        "contextRefs",
+    ]
+
+    def _create_application(self, short_name: str = "dlt_application") -> DltApplication:
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        return DltApplication(ar_root, short_name)
+
+    def test_inheritance(self):
+        assert issubclass(DltApplication, ARObject)
+        assert issubclass(DltApplication, Referrable)
+        assert issubclass(DltApplication, MultilanguageReferrable)
+        assert issubclass(DltApplication, Identifiable)
+        assert issubclass(DltApplication, VariationPointCapable)
+
+    def test_class_docstring_note(self):
+        expected = (
+            "This meta-class represents the application from which the log and trace message originates.\n"
+            "\n"
+            "[constr_5295] Existence of DltApplication.context: Each DltApplication shall reference at least one DltContext in the role context when the Log And Trace Extract is created.\n"
+            "\n"
+            "[constr_5296] Existence of DltApplication.applicationId: For each DltApplication, the attribute applicationId shall exist when the Log And Trace Extract is created.\n"
+            "\n"
+            "[constr_5297] Existence of DltApplication.applicationDescription: For each DltApplication, the attribute applicationDescription shall exist when the Log And Trace Extract is created."
+        )
+        assert inspect.cleandoc(DltApplication.__doc__) == expected
+
+    def test_initialization_defaults(self):
+        application = self._create_application()
+        assert isinstance(application, ARObject)
+        assert isinstance(application, Referrable)
+        assert isinstance(application, MultilanguageReferrable)
+        assert isinstance(application, Identifiable)
+        assert isinstance(application, VariationPointCapable)
+        assert application.short_name == "dlt_application"
+        assert application.getApplicationDescription() is None
+        assert application.getApplicationId() is None
+        assert application.getContextRefs() == []
+
+    def test_member_order(self):
+        application = self._create_application()
+        members = [k for k in vars(application) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_application_description(self):
+        application = self._create_application()
+        value = String()
+        value.setValue("Diagnostic application of the ECU")
+        assert application == application.setApplicationDescription(value)
+        assert application.getApplicationDescription() is value
+        assert application.getApplicationDescription().getValue() == "Diagnostic application of the ECU"
+        assert application.setApplicationDescription(None) is application
+        assert application.getApplicationDescription() is value
+
+    def test_get_set_application_id(self):
+        application = self._create_application()
+        value = String()
+        value.setValue("APP1")
+        assert application == application.setApplicationId(value)
+        assert application.getApplicationId() is value
+        assert application.getApplicationId().getValue() == "APP1"
+        assert application.setApplicationId(None) is application
+        assert application.getApplicationId() is value
+
+    def test_add_context_ref(self):
+        application = self._create_application()
+        ref1 = RefType()
+        ref1.setValue("/Package/DltContextCollection/Context1")
+        assert application == application.addContextRef(ref1)
+        assert application.getContextRefs() == [ref1]
+        ref2 = RefType()
+        ref2.setValue("/Package/DltContextCollection/Context2")
+        application.addContextRef(ref2)
+        assert application.getContextRefs() == [ref1, ref2]
+        assert application.addContextRef(None) is application
+        assert application.getContextRefs() == [ref1, ref2]

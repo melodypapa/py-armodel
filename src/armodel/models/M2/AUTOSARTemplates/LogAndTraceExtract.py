@@ -445,3 +445,86 @@ class DltContext(ARElement):
         Group of Log and Trace Messages assigned to the Dlt Context
         """
         return self.dltMessageRefs
+
+
+class DltApplication(Identifiable, VariationPointCapable):
+    """
+    This meta-class represents the application from which the log and trace message originates.
+
+    [constr_5295] Existence of DltApplication.context: Each DltApplication shall reference at least one DltContext in the role context when the Log And Trace Extract is created.
+
+    [constr_5296] Existence of DltApplication.applicationId: For each DltApplication, the attribute applicationId shall exist when the Log And Trace Extract is created.
+
+    [constr_5297] Existence of DltApplication.applicationDescription: For each DltApplication, the attribute applicationDescription shall exist when the Log And Trace Extract is created.
+    """
+
+    # DltApplication method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.47, p.9 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApplicationDescription      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setApplicationDescription      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getApplicationId               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setApplicationId               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addContextRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextRefs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute can be used to describe the applicationId that is used in the log and trace message in more detail.
+        self.applicationDescription: Optional[String] = None
+
+        # This attribute identifies the SW-C/BSW module in the log and trace message.
+        self.applicationId: Optional[String] = None
+
+        # Definition of ContextIds for the Application.
+        self.contextRefs: List[RefType] = []
+
+    def getApplicationDescription(self) -> Optional[String]:
+        """
+        This attribute can be used to describe the applicationId that is used in the log and trace message in more detail.
+        """
+        return self.applicationDescription
+
+    def setApplicationDescription(self, value: Optional[String]) -> "DltApplication":
+        """
+        This attribute can be used to describe the applicationId that is used in the log and trace message in more detail.
+
+        A None value is a no-op and does not overwrite an existing applicationDescription.
+        """
+        if value is not None:
+            self.applicationDescription = value
+        return self
+
+    def getApplicationId(self) -> Optional[String]:
+        """
+        This attribute identifies the SW-C/BSW module in the log and trace message.
+        """
+        return self.applicationId
+
+    def setApplicationId(self, value: Optional[String]) -> "DltApplication":
+        """
+        This attribute identifies the SW-C/BSW module in the log and trace message.
+
+        A None value is a no-op and does not overwrite an existing applicationId.
+        """
+        if value is not None:
+            self.applicationId = value
+        return self
+
+    def addContextRef(self, value: Optional[RefType]) -> "DltApplication":
+        """
+        Definition of ContextIds for the Application.
+
+        A None value is a no-op and does not append to contextRefs.
+        """
+        if value is not None:
+            self.contextRefs.append(value)
+        return self
+
+    def getContextRefs(self) -> List[RefType]:
+        """
+        Definition of ContextIds for the Application.
+        """
+        return self.contextRefs

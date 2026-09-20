@@ -838,7 +838,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
-from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltArgument, DltContext, DltMessage, PrivacyLevel
+from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltMessage, PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
@@ -10908,6 +10908,18 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 conditional_element = ET.SubElement(messages_element, "DLT-MESSAGE-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(conditional_element, "DLT-MESSAGE-REF", ref)
+
+    def writeDltApplication(self, element: ET.Element, application: DltApplication):
+        child_element = ET.SubElement(element, "DLT-APPLICATION")
+        self.writeIdentifiable(child_element, application)
+        self.setChildElementOptionalString(child_element, "APPLICATION-DESCRIPTION", application.getApplicationDescription())
+        self.setChildElementOptionalString(child_element, "APPLICATION-ID", application.getApplicationId())
+        refs = application.getContextRefs()
+        if len(refs) > 0:
+            contexts_element = ET.SubElement(child_element, "CONTEXTS")
+            for ref in refs:
+                conditional_element = ET.SubElement(contexts_element, "DLT-CONTEXT-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_element, "DLT-CONTEXT-REF", ref)
 
     def writeClientIdRange(self, element: ET.Element, id_range: ClientIdRange):
         child_element = ET.SubElement(element, "CLIENT-ID-RANGE")
