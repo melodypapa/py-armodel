@@ -838,7 +838,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
-from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltArgument, DltMessage, PrivacyLevel
+from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltArgument, DltContext, DltMessage, PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
@@ -10897,6 +10897,18 @@ class ARXMLWriter(AbstractARXMLWriter):
         if message.getPrivacyLevel() is not None:
             self.writePrivacyLevel(child_element, message.getPrivacyLevel())
 
+    def writeDltContext(self, element: ET.Element, context: DltContext):
+        child_element = ET.SubElement(element, "DLT-CONTEXT")
+        self.writeIdentifiable(child_element, context)
+        self.setChildElementOptionalString(child_element, "CONTEXT-DESCRIPTION", context.getContextDescription())
+        self.setChildElementOptionalString(child_element, "CONTEXT-ID", context.getContextId())
+        refs = context.getDltMessageRefs()
+        if len(refs) > 0:
+            messages_element = ET.SubElement(child_element, "DLT-MESSAGES")
+            for ref in refs:
+                conditional_element = ET.SubElement(messages_element, "DLT-MESSAGE-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_element, "DLT-MESSAGE-REF", ref)
+
     def writeClientIdRange(self, element: ET.Element, id_range: ClientIdRange):
         child_element = ET.SubElement(element, "CLIENT-ID-RANGE")
         self.setChildLimitElement(child_element, "LOWER-LIMIT", id_range.getLowerLimit())
@@ -13022,6 +13034,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticConnection(element, ar_element)
         elif isinstance(ar_element, DiagnosticServiceTable):
             self.writeDiagnosticServiceTable(element, ar_element)
+        elif isinstance(ar_element, DltContext):
+            self.writeDltContext(element, ar_element)
         elif isinstance(ar_element, Documentation):
             self.writeDocumentation(element, ar_element)
         elif isinstance(ar_element, MultiplexedIPdu):

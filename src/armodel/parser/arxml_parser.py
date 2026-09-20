@@ -939,7 +939,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
-from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltArgument, DltMessage, PrivacyLevel
+from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltArgument, DltContext, DltMessage, PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
@@ -11869,6 +11869,13 @@ class ARXMLParser(AbstractARXMLParser):
             self.readPrivacyLevel(privacy_level_element, privacy_level)
             message.setPrivacyLevel(privacy_level)
 
+    def readDltContext(self, element: ET.Element, context: DltContext):
+        self.readIdentifiable(element, context)
+        context.setContextDescription(self.getChildElementOptionalString(element, "CONTEXT-DESCRIPTION"))
+        context.setContextId(self.getChildElementOptionalString(element, "CONTEXT-ID"))
+        for ref in self.getChildElementRefTypeList(element, "DLT-MESSAGES/DLT-MESSAGE-REF-CONDITIONAL/DLT-MESSAGE-REF"):
+            context.addDltMessageRef(ref)
+
     def readClientIdRange(self, element: ET.Element, id_range: ClientIdRange):
         id_range.setLowerLimit(self.getChildLimitElement(element, "LOWER-LIMIT"))
         id_range.setUpperLimit(self.getChildLimitElement(element, "UPPER-LIMIT"))
@@ -13276,6 +13283,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-SERVICE-TABLE":
                 table = parent.createDiagnosticServiceTable(self.getShortName(child_element))
                 self.readDiagnosticServiceTable(child_element, table)
+            elif tag_name == "DLT-CONTEXT":
+                context = parent.createDltContext(self.getShortName(child_element))
+                self.readDltContext(child_element, context)
             elif tag_name == "DOCUMENTATION":
                 documentation = parent.createDocumentation(self.getShortName(child_element))
                 self.readDocumentation(child_element, documentation)
