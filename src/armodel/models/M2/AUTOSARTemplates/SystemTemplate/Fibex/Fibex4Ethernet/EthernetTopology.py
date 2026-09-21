@@ -3089,15 +3089,14 @@ class CouplingPortRatePolicy(ARObject):
 
 class TransportProtocolConfiguration(ARObject, ABC):
     """
-    Abstract base class for transport protocol configurations,
-    defining the common properties and behavior for different
-    transport protocols (TCP, UDP, etc.) used in service-oriented
-    communication.
+    Transport Protocol configuration.
     """
 
     # TransportProtocolConfiguration method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf (R23-11), Table 6.125
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.125, p.459
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is TransportProtocolConfiguration:

@@ -53,9 +53,20 @@ class Test_Fibex4EthernetServiceInstances:
     """Test cases for Fibex4Ethernet ServiceInstances classes."""
 
     def test_TransportProtocolConfiguration(self):
-        """Test TransportProtocolConfiguration abstract class instantiation."""
+        """Test TransportProtocolConfiguration abstract class instantiation (Table 6.125, p.459)."""
         with pytest.raises(TypeError):
             TransportProtocolConfiguration()
+
+    def test_TransportProtocolConfiguration_docstring_is_spec_note(self):
+        """Class docstring carries the spec Note verbatim (Table 6.125, p.459)."""
+        assert TransportProtocolConfiguration.__doc__.strip() == "Transport Protocol configuration."
+
+    def test_TransportProtocolConfiguration_init_has_no_docstring(self):
+        assert TransportProtocolConfiguration.__init__.__doc__ is None
+
+    def test_TransportProtocolConfiguration_subclasses(self):
+        assert issubclass(GenericTp, TransportProtocolConfiguration)
+        assert issubclass(TcpUdpConfig, TransportProtocolConfiguration)
 
     def test_GenericTp(self):
         """Test GenericTp class functionality."""
