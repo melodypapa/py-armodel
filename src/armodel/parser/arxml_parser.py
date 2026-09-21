@@ -11568,9 +11568,10 @@ class ARXMLParser(AbstractARXMLParser):
         return config
 
     def readVlanMembership(self, element: ET.Element, membership: VlanMembership):
+        membership.setDefaultPriority(self.getChildElementOptionalPositiveInteger(element, "DEFAULT-PRIORITY"))
+        membership.setDhcpAddressAssignment(self.getDhcpServerConfiguration(element, "DHCP-ADDRESS-ASSIGNMENT"))
         membership.setSendActivity(self.getChildElementOptionalLiteral(element, "SEND-ACTIVITY"))
         membership.setVlanRef(self.getChildElementOptionalRefType(element, "VLAN-REF"))
-        membership.setDhcpAddressAssignment(self.getDhcpServerConfiguration(element, "DHCP-ADDRESS-ASSIGNMENT"))
 
     def readCouplingPortVlanMemberships(self, element: ET.Element, port: CouplingPort):
         for child_element in self.findall(element, "VLAN-MEMBERSHIPS/*"):

@@ -55,15 +55,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 7 — Update checklist comment — 6-column parity checklists for CouplingPortScheduler (Table 3.65) and EthernetCouplingPortSchedulerEnum (Table 3.66, "(no methods)" form); markers deferred to 9b
   - [x] Step 8 — Deviations  [resolved in-pass: missing member type EthernetCouplingPortSchedulerEnum implemented (Rule 0016.4/0001.10); reader previously stored bare ARLiteral for portScheduler — kept per macLayerType precedent, enum available for typed construction. Observation: stamped CouplingPortRoleEnum uses camelCase wire values ("hostPort") vs XSD "HOST-PORT" — pre-existing drift in a stamped class, not this row]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `VlanMembership` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.59)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [x] `VlanMembership` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.59) — **finished, stamped `# Spec verified: R23-11`, commit 2aa74da9 (in-pass: EthernetSwitchVlanEgressTaggingEnum Table 3.78 created; DEFAULT-PRIORITY reader/writer drop fixed; XML order corrected to XSD)**
+  - [x] Step 1 — Sync members & description from spec — Table 3.59, p.112; Base = ARObject only; attrs in displayed order: defaultPriority (PositiveInteger 0..1), dhcpAddressAssignment (DhcpServerConfiguration 0..1 aggr, stamped Table 3.79), sendActivity (EthernetSwitchVlanEgressTaggingEnum 0..1), vlan (ref → EthernetPhysicalChannel, accessor vlanRef); XSD element order DEFAULT-PRIORITY → DHCP-ADDRESS-ASSIGNMENT → SEND-ACTIVITY → VLAN-REF; enum Table 3.78 (p.130) NOT in src ⇒ in-pass (Rule 0016.4); **reader/writer dropped DEFAULT-PRIORITY entirely + wrote wrong element order ⇒ to-fix in Step 6**
+  - [x] Step 2 — Write model class unit test (Red) — defaults, verbatim class-Note docstring (Red), None no-ops, typed PositiveInteger/enum/RefType/DhcpServerConfiguration round-trips, enum wire-value test (Red: ImportError)
+  - [x] Step 3 — Implement model class (Green) — EthernetSwitchVlanEgressTaggingEnum AREnum created (XSD wire values NOT-SENT/SENT-TAGGED/SENT-UNTAGGED, literal docstrings from Table 3.78); VlanMembership rewritten: PEP 526 annotations replace `# type:` comments (Rule 0003), typed accessor signatures
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note (2 sentences) + all four attr Notes verbatim on inline comments + getters + setters (None no-op sentences appended)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer test files: all 4 fields incl. nested IPV-4 DHCP gateway, exact XSD element-order assertion, empty-omits case, write→read round-trip; 3 Red on missing DEFAULT-PRIORITY
+  - [x] Step 6 — Update parser & writer (Green) — readVlanMembership/writeVlanMembership rewritten in XSD order with setDefaultPriority/getDefaultPriority added (getChildElementOptionalPositiveInteger / setChildElementOptionalPositiveInteger); 5 affected tests pass
+  - [x] Step 7 — Update checklist comment — 6-column parity checklists for VlanMembership (Table 3.59) and EthernetSwitchVlanEgressTaggingEnum (Table 3.78, "(no methods)" form); markers deferred to 9b
+  - [x] Step 8 — Deviations  [resolved in-step: reader/writer omission of DEFAULT-PRIORITY (silent round-trip drop) fixed; element order corrected to XSD sequence; missing member type EthernetSwitchVlanEgressTaggingEnum implemented in-pass (Rule 0016.4/0001.10)]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `NetworkEndpointAddress` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.135)
   - [ ] Step 1 — Sync members & description from spec

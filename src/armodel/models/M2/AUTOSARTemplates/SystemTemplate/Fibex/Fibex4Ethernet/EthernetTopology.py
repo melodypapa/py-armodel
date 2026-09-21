@@ -481,58 +481,94 @@ class CouplingPortDetails(ARObject):
 
 class VlanMembership(ARObject):
     """
-    Defines VLAN membership properties for network interfaces,
-    specifying default priorities, DHCP configurations, and VLAN
-    tagging behaviors for Ethernet communication.
+    Static logical channel or VLAN binding to a switch-port. The reference to an EthernetPhysicalChannel without a VLAN defined represents the handling of untagged frames.
     """
 
     # VlanMembership method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDefaultPriority           [x] impl  [ ] docstring  [ ] test
-    # [ ] setDefaultPriority           [x] impl  [ ] docstring  [ ] test
-    # [ ] getDhcpAddressAssignment     [x] impl  [ ] docstring  [ ] test
-    # [ ] setDhcpAddressAssignment     [x] impl  [ ] docstring  [ ] test
-    # [ ] getSendActivity              [x] impl  [ ] docstring  [ ] test
-    # [ ] setSendActivity              [x] impl  [ ] docstring  [ ] test
-    # [ ] getVlanRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setVlanRef                   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.59, p.112
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultPriority        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultPriority        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDhcpAddressAssignment  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDhcpAddressAssignment  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSendActivity           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSendActivity           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVlanRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVlanRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.defaultPriority = None  # type: PositiveInteger
-        self.dhcpAddressAssignment = None  # type: DhcpServerConfiguration
-        self.sendActivity = None  # type: EthernetSwitchVlanEgressTaggingEnum
-        self.vlanRef = None  # type: RefType
+        # Standard output-priority outgoing Frames will be tagged with. Defines the priority that received frames are assigned together with the VLAN Id (defaultVlan). The values from 0 (best effort) to 7 (highest) are allowed. In case modifyVlan and an already tagged received frame, the actual priority of the received frame is not modified.
+        self.defaultPriority: Optional[PositiveInteger] = None
 
-    def getDefaultPriority(self):
+        # Specifies the IP Address which will be assigned to a DHCP Client at this SwitchPort. If no dhcpAddressAssignment is provided all DHCP-Discover messages received at this Port will be discarded by the DHCP Server.
+        self.dhcpAddressAssignment: Optional[DhcpServerConfiguration] = None
+
+        # Attribute denotes whether a VLAN tagged ethernet frame will be 1. sent with its VLAN tag (sentTagged) 2. sent without a VLAN tag (sentUntagged) 3. will be dropped at this port (notSent or VLAN not member of this list)
+        self.sendActivity: Optional[EthernetSwitchVlanEgressTaggingEnum] = None
+
+        # References a channel that represents a VLAN or an untagged channel.
+        self.vlanRef: Optional[RefType] = None
+
+    def getDefaultPriority(self) -> Optional[PositiveInteger]:
+        """
+        Standard output-priority outgoing Frames will be tagged with. Defines the priority that received frames are assigned together with the VLAN Id (defaultVlan). The values from 0 (best effort) to 7 (highest) are allowed. In case modifyVlan and an already tagged received frame, the actual priority of the received frame is not modified.
+        """
         return self.defaultPriority
 
-    def setDefaultPriority(self, value):
+    def setDefaultPriority(self, value: Optional[PositiveInteger]) -> "VlanMembership":
+        """
+        Standard output-priority outgoing Frames will be tagged with. Defines the priority that received frames are assigned together with the VLAN Id (defaultVlan). The values from 0 (best effort) to 7 (highest) are allowed. In case modifyVlan and an already tagged received frame, the actual priority of the received frame is not modified.
+        A None value is a no-op and does not overwrite an existing defaultPriority.
+        """
         if value is not None:
             self.defaultPriority = value
         return self
 
-    def getDhcpAddressAssignment(self):
+    def getDhcpAddressAssignment(self) -> Optional[DhcpServerConfiguration]:
+        """
+        Specifies the IP Address which will be assigned to a DHCP Client at this SwitchPort. If no dhcpAddressAssignment is provided all DHCP-Discover messages received at this Port will be discarded by the DHCP Server.
+        """
         return self.dhcpAddressAssignment
 
-    def setDhcpAddressAssignment(self, value):
+    def setDhcpAddressAssignment(self, value: Optional[DhcpServerConfiguration]) -> "VlanMembership":
+        """
+        Specifies the IP Address which will be assigned to a DHCP Client at this SwitchPort. If no dhcpAddressAssignment is provided all DHCP-Discover messages received at this Port will be discarded by the DHCP Server.
+        A None value is a no-op and does not overwrite an existing dhcpAddressAssignment.
+        """
         if value is not None:
             self.dhcpAddressAssignment = value
         return self
 
-    def getSendActivity(self):
+    def getSendActivity(self) -> Optional[EthernetSwitchVlanEgressTaggingEnum]:
+        """
+        Attribute denotes whether a VLAN tagged ethernet frame will be 1. sent with its VLAN tag (sentTagged) 2. sent without a VLAN tag (sentUntagged) 3. will be dropped at this port (notSent or VLAN not member of this list)
+        """
         return self.sendActivity
 
-    def setSendActivity(self, value):
+    def setSendActivity(self, value: Optional[EthernetSwitchVlanEgressTaggingEnum]) -> "VlanMembership":
+        """
+        Attribute denotes whether a VLAN tagged ethernet frame will be 1. sent with its VLAN tag (sentTagged) 2. sent without a VLAN tag (sentUntagged) 3. will be dropped at this port (notSent or VLAN not member of this list)
+        A None value is a no-op and does not overwrite an existing sendActivity.
+        """
         if value is not None:
             self.sendActivity = value
         return self
 
-    def getVlanRef(self):
+    def getVlanRef(self) -> Optional[RefType]:
+        """
+        References a channel that represents a VLAN or an untagged channel.
+        """
         return self.vlanRef
 
-    def setVlanRef(self, value):
+    def setVlanRef(self, value: Optional[RefType]) -> "VlanMembership":
+        """
+        References a channel that represents a VLAN or an untagged channel.
+        A None value is a no-op and does not overwrite an existing vlanRef.
+        """
         if value is not None:
             self.vlanRef = value
         return self
@@ -2029,6 +2065,36 @@ class EthernetCouplingPortSchedulerEnum(AREnum):
                 EthernetCouplingPortSchedulerEnum.DEFICIT_ROUND_ROBIN,
                 EthernetCouplingPortSchedulerEnum.STRICT_PRIORITY,
                 EthernetCouplingPortSchedulerEnum.WEIGHTED_ROUND_ROBIN,
+            ]
+        )
+
+
+class EthernetSwitchVlanEgressTaggingEnum(AREnum):
+    """
+    Defines the VLAN tag sending behavior.
+    """
+
+    # EthernetSwitchVlanEgressTaggingEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.78, p.130
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on VlanMembership.sendActivity
+
+    # will not be sent Tags: atp.EnumerationLiteralIndex=0
+    NOT_SENT = "NOT-SENT"
+
+    # sent with its VLAN tag Tags: atp.EnumerationLiteralIndex=1
+    SENT_TAGGED = "SENT-TAGGED"
+
+    # sent without a VLAN tag Tags: atp.EnumerationLiteralIndex=2
+    SENT_UNTAGGED = "SENT-UNTAGGED"
+
+    def __init__(self):
+        super().__init__(
+            [
+                EthernetSwitchVlanEgressTaggingEnum.NOT_SENT,
+                EthernetSwitchVlanEgressTaggingEnum.SENT_TAGGED,
+                EthernetSwitchVlanEgressTaggingEnum.SENT_UNTAGGED,
             ]
         )
 

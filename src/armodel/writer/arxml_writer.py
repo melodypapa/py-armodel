@@ -10700,9 +10700,10 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeVlanMembership(self, element: ET.Element, membership: VlanMembership):
         if membership is not None:
             child_element = ET.SubElement(element, "VLAN-MEMBERSHIP")
+            self.setChildElementOptionalPositiveInteger(child_element, "DEFAULT-PRIORITY", membership.getDefaultPriority())
+            self.setDhcpServerConfiguration(child_element, "DHCP-ADDRESS-ASSIGNMENT", membership.getDhcpAddressAssignment())
             self.setChildElementOptionalLiteral(child_element, "SEND-ACTIVITY", membership.getSendActivity())
             self.setChildElementOptionalRefType(child_element, "VLAN-REF", membership.getVlanRef())
-            self.setDhcpServerConfiguration(child_element, "DHCP-ADDRESS-ASSIGNMENT", membership.getDhcpAddressAssignment())
 
     def writeCouplingPortVlanMemberships(self, element: ET.Element, port: CouplingPort):
         memberships = port.getVlanMemberships()

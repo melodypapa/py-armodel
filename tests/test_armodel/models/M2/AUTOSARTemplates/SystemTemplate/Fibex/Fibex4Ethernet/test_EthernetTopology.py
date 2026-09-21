@@ -371,7 +371,7 @@ class TestEthernetTopology:
 
     def test_vlan_membership(self):
         """
-        Test the VlanMembership class initialization and methods.
+        Test the VlanMembership class initialization and methods (Table 3.59, p.112).
         """
         membership = VlanMembership()
 
@@ -380,22 +380,64 @@ class TestEthernetTopology:
         assert membership.getSendActivity() is None
         assert membership.getVlanRef() is None
 
-        # Test setting values with method chaining
-        result = membership.setDefaultPriority(3)
-        assert membership.getDefaultPriority() == 3
-        assert result == membership  # Test method chaining
+    def test_vlan_membership_docstring_is_spec_note(self):
+        """Class docstring carries the spec Note verbatim (Table 3.59, p.112)."""
+        assert VlanMembership.__doc__.strip() == (
+            "Static logical channel or VLAN binding to a switch-port. " "The reference to an EthernetPhysicalChannel without a VLAN defined represents the handling of untagged frames."
+        )
 
-        result = membership.setSendActivity("Tagged")
-        assert membership.getSendActivity() == "Tagged"
-        assert result == membership  # Test method chaining
+    def test_vlan_membership_init_has_no_docstring(self):
+        assert VlanMembership.__init__.__doc__ is None
 
-        result = membership.setVlanRef("Vlan100")
-        assert membership.getVlanRef() == "Vlan100"
-        assert result == membership  # Test method chaining
+    def test_vlan_membership_get_set_default_priority(self):
+        membership = VlanMembership()
+        priority = PositiveInteger()
+        priority.setValue(5)
+        assert membership.setDefaultPriority(priority) is membership
+        assert membership.getDefaultPriority() is priority
+        assert membership.getDefaultPriority().getValue() == 5
+        membership.setDefaultPriority(None)
+        assert membership.getDefaultPriority() is priority
 
-        result = membership.setDhcpAddressAssignment("dhcp_config")
-        assert membership.getDhcpAddressAssignment() == "dhcp_config"
-        assert result == membership  # Test method chaining
+    def test_vlan_membership_get_set_send_activity(self):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetSwitchVlanEgressTaggingEnum
+
+        membership = VlanMembership()
+        value = EthernetSwitchVlanEgressTaggingEnum()
+        value.setValue("SENT-TAGGED")
+        assert membership.setSendActivity(value) is membership
+        assert membership.getSendActivity() is value
+        membership.setSendActivity(None)
+        assert membership.getSendActivity() is value
+
+    def test_vlan_membership_get_set_vlan_ref(self):
+        membership = VlanMembership()
+        ref = RefType()
+        ref.setDest("ETHERNET-PHYSICAL-CHANNEL")
+        ref.setValue("/Clusters/Ch1")
+        assert membership.setVlanRef(ref) is membership
+        assert membership.getVlanRef() is ref
+        assert membership.getVlanRef().getDest() == "ETHERNET-PHYSICAL-CHANNEL"
+        membership.setVlanRef(None)
+        assert membership.getVlanRef() is ref
+
+    def test_vlan_membership_get_set_dhcp_address_assignment(self):
+        membership = VlanMembership()
+        config = DhcpServerConfiguration()
+        assert membership.setDhcpAddressAssignment(config) is membership
+        assert membership.getDhcpAddressAssignment() is config
+        membership.setDhcpAddressAssignment(None)
+        assert membership.getDhcpAddressAssignment() is config
+
+    def test_ethernet_switch_vlan_egress_tagging_enum(self):
+        """EthernetSwitchVlanEgressTaggingEnum members and wire values (Table 3.78, p.130)."""
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetSwitchVlanEgressTaggingEnum
+
+        value = EthernetSwitchVlanEgressTaggingEnum()
+        value.setValue(EthernetSwitchVlanEgressTaggingEnum.NOT_SENT)
+        assert value.getValue() == "NOT-SENT"
+        assert EthernetSwitchVlanEgressTaggingEnum.SENT_TAGGED == "SENT-TAGGED"
+        assert EthernetSwitchVlanEgressTaggingEnum.SENT_UNTAGGED == "SENT-UNTAGGED"
 
     def test_coupling_port(self):
         """
