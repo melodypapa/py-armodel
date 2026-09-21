@@ -998,9 +998,23 @@ class Test_Fibex4EthernetNetworkEndpoint:
     """Test cases for the NetworkEndpoint classes relocated to Fibex4Ethernet.EthernetTopology."""
 
     def test_NetworkEndpointAddress(self):
-        """Test NetworkEndpointAddress abstract class instantiation."""
+        """Test NetworkEndpointAddress abstract class instantiation (Table 6.135, p.464)."""
         with pytest.raises(TypeError):
             NetworkEndpointAddress()
+
+    def test_NetworkEndpointAddress_docstring_is_spec_note(self):
+        """Class docstring carries the spec Note verbatim (Table 6.135, p.464)."""
+        assert (
+            NetworkEndpointAddress.__doc__.strip()
+            == "To build a valid network endpoint address there has to be either one MAC multicast group reference or an ipv4 configuration or an ipv6 configuration."
+        )
+
+    def test_NetworkEndpointAddress_init_has_no_docstring(self):
+        assert NetworkEndpointAddress.__init__.__doc__ is None
+
+    def test_NetworkEndpointAddress_subclasses(self):
+        assert issubclass(Ipv4Configuration, NetworkEndpointAddress)
+        assert issubclass(Ipv6Configuration, NetworkEndpointAddress)
 
     def test_Ipv4Configuration(self):
         """Test Ipv4Configuration class functionality."""

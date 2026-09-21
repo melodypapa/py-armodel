@@ -715,6 +715,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     ApplicationEndpoint,
     DoIpEntity,
     InfrastructureServices,
+    Ipv4Configuration,
     Ipv6Configuration,
     NetworkEndpoint,
     NetworkEndpointAddress,
@@ -8877,6 +8878,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writePhysicalChannel(child_element, channel)
         self.writeLinPhysicalChannelScheduleTables(child_element, channel)
 
+    def setIpv4Configuration(self, element: ET.Element, configuration: Ipv4Configuration):
+        if configuration is not None:
+            child_element = ET.SubElement(element, "IPV-4-CONFIGURATION")
+            self.setChildElementOptionalPositiveInteger(child_element, "ASSIGNMENT-PRIORITY", configuration.getAssignmentPriority())
+            self.setChildElementOptionalLiteral(child_element, "DEFAULT-GATEWAY", configuration.getDefaultGateway())
+            addresses = configuration.getDnsServerAddresses()
+            if len(addresses) > 0:
+                dns_element = ET.SubElement(child_element, "DNS-SERVER-ADDRESSES")
+                for address in addresses:
+                    self.setChildElementOptionalLiteral(dns_element, "DNS-SERVER-ADDRESS", address)
+            self.setChildElementOptionalLiteral(child_element, "IP-ADDRESS-KEEP-BEHAVIOR", configuration.getIpAddressKeepBehavior())
+            self.setChildElementOptionalLiteral(child_element, "IPV-4-ADDRESS", configuration.getIpv4Address())
+            self.setChildElementOptionalLiteral(child_element, "IPV-4-ADDRESS-SOURCE", configuration.getIpv4AddressSource())
+            self.setChildElementOptionalLiteral(child_element, "NETWORK-MASK", configuration.getNetworkMask())
+            self.setChildElementOptionalPositiveInteger(child_element, "TTL", configuration.getTtl())
+
     def setIpv6Configuration(self, element: ET.Element, configuration: Ipv6Configuration):
         if configuration is not None:
             child_element = ET.SubElement(element, "IPV-6-CONFIGURATION")
@@ -8898,7 +8915,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(addresses) > 0:
             child_element = ET.SubElement(element, "NETWORK-ENDPOINT-ADDRESSES")
             for address in addresses:
-                if isinstance(address, Ipv6Configuration):
+                if isinstance(address, Ipv4Configuration):
+                    self.setIpv4Configuration(child_element, address)
+                elif isinstance(address, Ipv6Configuration):
                     self.setIpv6Configuration(child_element, address)
                 else:
                     self.notImplemented("Unsupported Network EndPoint Address <%s>" % type(address))

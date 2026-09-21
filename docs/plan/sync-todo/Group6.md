@@ -65,15 +65,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 7 — Update checklist comment — 6-column parity checklists for VlanMembership (Table 3.59) and EthernetSwitchVlanEgressTaggingEnum (Table 3.78, "(no methods)" form); markers deferred to 9b
   - [x] Step 8 — Deviations  [resolved in-step: reader/writer omission of DEFAULT-PRIORITY (silent round-trip drop) fixed; element order corrected to XSD sequence; missing member type EthernetSwitchVlanEgressTaggingEnum implemented in-pass (Rule 0016.4/0001.10)]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `NetworkEndpointAddress` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.135)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [x] `NetworkEndpointAddress` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.135) — **finished, stamped `# Spec verified: R23-11`, commit 17f23e9c (IPV-4-CONFIGURATION reader/writer dispatch gap fixed)**
+  - [x] Step 1 — Sync members & description from spec — Table 6.135, p.464; abstract, Base = ARObject; zero attribute rows (XSD group NETWORK-ENDPOINT-ADDRESS empty sequence); Note re valid endpoint addresses; subclasses Ipv4Configuration/Ipv6Configuration/MacMulticastConfiguration aggregated by NetworkEndpoint.networkEndpointAddress (XSD choice); **reader/writer dispatch only handled IPV-6-CONFIGURATION ⇒ IPV-4-CONFIGURATION silently dropped (notImplemented) — to-fix in Step 6; MAC-MULTICAST-CONFIGURATION class absent from src ⇒ recorded under Pending 16.4**
+  - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring (Red: fabricated), no-`__init__`-docstring, abstract raise, subclass heritage (Ipv4/Ipv6)
+  - [x] Step 3 — Implement model class (Green) — shape already spec-correct: base ARObject, zero attrs, abstract guard
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstring replaced with verbatim Note (matches XSD documentation); `__init__` carries no docstring
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer dispatch tests: IPV-4-CONFIGURATION with field values (assignmentPriority/defaultGateway/dns list/ipv4Address/networkMask/ttl), abstract-type pin isinstance NetworkEndpointAddress, XSD-order assertion, round-trip; 3 Red on missing dispatch
+  - [x] Step 6 — Update parser & writer (Green) — getIpv4Configuration/setIpv4Configuration helpers added (XSD element order, IPv6-helper template); IPV-4-CONFIGURATION branches added to readNetworkEndPointNetworkEndPointAddress / writeNetworkEndPointNetworkEndPointAddresses; Ipv4AddressSourceEnum absent from src ⇒ reader stores literal (precedent) — noted
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.135 p.464 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
+  - [x] Step 8 — Deviations  [resolved in-step (Rule 0014): reader/writer coverage gap — IPV-4-CONFIGURATION dispatch missing both sides, IPv4 endpoint addresses were silently dropped; fixed. Missing subclass MacMulticastConfiguration (Table 6.136) recorded under Pending 16.4 resolution — sibling class, not a member type of this row; Ipv4AddressSourceEnum missing noted]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [x] `OrderedMaster` — already verified (# Spec verified: R23-11, `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`)
 - [ ] `TimeSyncClientConfiguration` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.146 · after `OrderedMaster` (aggr `orderedMaster`))
@@ -299,7 +299,8 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 9 — Verify (9a) + confirm (9b) — focused model/parser/writer tests pass; 9b confirmed by user in this session; stamp written
 ## Pending 16.4 resolution (NEW — not in src)
 
-_(none)_
+- `MacMulticastConfiguration` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.136) — concrete subclass of NetworkEndpointAddress, aggregated by NetworkEndpoint.networkEndpointAddress (XSD choice member MAC-MULTICAST-CONFIGURATION); discovered 2026-09-21 during `NetworkEndpointAddress` sync; not yet in src
+- `Ipv4AddressSourceEnum` (R23-11 · own enumeration table) — member type of Ipv4Configuration.ipv4AddressSource; not yet in src (reader currently stores a literal)
 
 ## Not queued
 

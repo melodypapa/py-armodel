@@ -1777,13 +1777,14 @@ class ApplicationEndpoint(Identifiable):
 
 class NetworkEndpointAddress(ARObject, ABC):
     """
-    Abstract base class for network endpoint addresses, defining the
-    common properties and behavior for different types of network
-    addresses (IPv4, IPv6, etc.) used in AUTOSAR communication.
+    To build a valid network endpoint address there has to be either one MAC multicast group reference or an ipv4 configuration or an ipv6 configuration.
     """
 
     # NetworkEndpointAddress method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.135, p.464
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is NetworkEndpointAddress:
