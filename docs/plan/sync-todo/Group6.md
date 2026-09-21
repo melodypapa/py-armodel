@@ -127,15 +127,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 8 — Deviations  [none for this class: zero attribute rows modeled exactly; Base → Identifiable + VariationPointCapable mixin per XSD VARIATION-POINT; docstring verbatim; TLS-CRYPTO-SERVICE-MAPPING wrapper branch (and SecOcCryptoServiceMapping's own Table 6.49 full sync) belong to the queued TlsCryptoServiceMapping row / separate tables]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `TlsCryptoServiceMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.211)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 6.211, p.560; concrete, Base → stamped `CryptoServiceMapping`; attrs in displayed order: keyExchange (CryptoServicePrimitive *, ref, accessor keyExchangeRefs), tlsCipherSuite (TlsCryptoCipherSuite *, aggr), useClientAuthenticationRequest (Boolean 0..1), useSecurityExtensionRecordSizeLimit (Boolean 0..1); XML order per XSD group: KEY-EXCHANGE-REFS → TLS-CIPHER-SUITES → USE-CLIENT-AUTHENTICATION-REQUEST → USE-SECURITY-EXTENSION-RECORD-SIZE-LIMIT; markdown splits "useClient Authentication Request" = useClientAuthenticationRequest
+  - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring (Red: fabricated), no-`__init__`-docstring, defaults, keyExchangeRefs * ref list (add/None no-op/chaining — Red: old single keyExchangeRef accessor), both Boolean round-trips + None no-ops, heritage
+  - [x] Step 3 — Implement model class (Green) — keyExchangeRef single → dedicated typed `keyExchangeRefs: List[RefType]` + addKeyExchangeRef/getKeyExchangeRefs (Rule 0001.5 ref-`*` naming); PEP 526 Optional[Boolean] annotations replace bare `Boolean` (Rule 0003); member order = displayed order
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note + all 4 attr Notes verbatim on inline comments + getters + setters (None no-op sentences appended)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer tests: KEY-EXCHANGE-REFS values + DEST, both booleans, exact XSD element-order assertion, empty-omits case, ns-injected write→re-parse round-trip; 4 Red (TLS dispatch was notImplemented)
+  - [x] Step 6 — Update parser & writer (Green) — readTlsCryptoServiceMapping/writeTlsCryptoServiceMapping helpers added (XSD order); TLS-CRYPTO-SERVICE-MAPPING branches in readSystemMappingCryptoServiceMappings/writeSystemMappingCryptoServiceMappings; SystemMapping.createTlsCryptoServiceMapping factory added (in-pass, Rule 0016.4/0001.10)
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.211 p.560 citation, release column; marker deferred to 9b
+  - [x] Step 8 — Deviations  [member type TlsCryptoCipherSuite (Table 6.212, p.561 + TlsVersionEnum/TlsPskIdentity closure) absent from src ⇒ tlsCipherSuites kept as dedicated generic list, TLS-CIPHER-SUITES reader/writer notImplemented — recorded under Pending 16.4; rest exact]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `DataTransformationSet` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 7.1 · after `DataTransformation`/`TransformationTechnology`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -306,6 +306,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
 - `RtpTp` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · own table) — concrete subclass of TransportProtocolConfiguration (XSD choice member RTP-TP); not yet in src
 - `FlexrayNmScheduleVariant` (R23-11 · AUTOSAR_CP_TPS_SystemTemplate · Table 6.310, p.680) — member type of FlexrayNmClusterCoupling.nmScheduleVariant; not yet in src; FLEXRAY-NM-CLUSTER-COUPLING reader/writer dispatch also missing (FlexrayNmClusterCoupling class itself exists in src but is not queued in this group); discovered 2026-09-21 during `NmClusterCoupling` sync
 - `LinNmCluster` (R23-11 · XSD-only · AUTOSAR_00052.xsd group LIN-NM-CLUSTER, line 77474) — concrete subclass of NmCluster (XSD choice member LIN-NM-CLUSTER in NM-CLUSTERS), but carries atp.Status="removed" in R23-11 and has no own table; NOT created — queued here only for the record; discovered 2026-09-21 during `NmConfig` sync
+- `TlsCryptoCipherSuite` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.212, p.561) — member type of TlsCryptoServiceMapping.tlsCipherSuite (XSD wrapper TLS-CIPHER-SUITES, choice member TLS-CRYPTO-CIPHER-SUITE); closure includes TlsVersionEnum (Table 6.212 Enumeration), TlsPskIdentity, TlsCryptoCipherSuiteProps, CryptoEllipticCurveProps, TlsSignatureScheme, CryptoServiceCertificate; TLS-CIPHER-SUITES reader/writer currently notImplemented; discovered 2026-09-22 during `TlsCryptoServiceMapping` sync; not yet in src
 
 ## Not queued
 

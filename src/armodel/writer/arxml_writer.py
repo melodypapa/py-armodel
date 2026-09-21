@@ -710,6 +710,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecLocalKayProps,
     MacSecProps,
     SecOcCryptoServiceMapping,
+    TlsCryptoServiceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -11286,6 +11287,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if isinstance(crypto_mapping, SecOcCryptoServiceMapping):
                     child_element = ET.SubElement(mappings_tag, "SEC-OC-CRYPTO-SERVICE-MAPPING")
                     self.writeSecOcCryptoServiceMapping(child_element, crypto_mapping)
+                elif isinstance(crypto_mapping, TlsCryptoServiceMapping):
+                    child_element = ET.SubElement(mappings_tag, "TLS-CRYPTO-SERVICE-MAPPING")
+                    self.writeTlsCryptoServiceMapping(child_element, crypto_mapping)
                 else:
                     self.notImplemented("Unsupported CryptoServiceMapping %s" % type(crypto_mapping))
 
@@ -11294,6 +11298,18 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(element, "AUTHENTICATION-REF", mapping.getAuthenticationRef())
         self.setChildElementOptionalRefType(element, "CRYPTO-SERVICE-KEY-REF", mapping.getCryptoServiceKeyRef())
         self.setChildElementOptionalRefType(element, "CRYPTO-SERVICE-QUEUE-REF", mapping.getCryptoServiceQueueRef())
+
+    def writeTlsCryptoServiceMapping(self, element: ET.Element, mapping: TlsCryptoServiceMapping):
+        self.writeIdentifiable(element, mapping)
+        refs = mapping.getKeyExchangeRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "KEY-EXCHANGE-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "KEY-EXCHANGE-REF", ref)
+        if len(mapping.getTlsCipherSuites()) > 0:
+            self.notImplemented("TLS-CIPHER-SUITES aggregation is not implemented (missing member class TlsCryptoCipherSuite)")
+        self.setChildElementOptionalBooleanValue(element, "USE-CLIENT-AUTHENTICATION-REQUEST", mapping.getUseClientAuthenticationRequest())
+        self.setChildElementOptionalBooleanValue(element, "USE-SECURITY-EXTENSION-RECORD-SIZE-LIMIT", mapping.getUseSecurityExtensionRecordSizeLimit())
 
     def writeSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         self.logger.debug("Write SystemMapping <%s>" % mapping.getShortName())

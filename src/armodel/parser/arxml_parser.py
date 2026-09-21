@@ -798,6 +798,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecProps,
     MacSecRoleEnum,
     SecOcCryptoServiceMapping,
+    TlsCryptoServiceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -12876,6 +12877,9 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "SEC-OC-CRYPTO-SERVICE-MAPPING":
                 crypto_mapping = mapping.createSecOcCryptoServiceMapping(self.getShortName(child_element))
                 self.readSecOcCryptoServiceMapping(child_element, crypto_mapping)
+            elif tag_name == "TLS-CRYPTO-SERVICE-MAPPING":
+                crypto_mapping = mapping.createTlsCryptoServiceMapping(self.getShortName(child_element))
+                self.readTlsCryptoServiceMapping(child_element, crypto_mapping)
             else:
                 self.notImplemented("Unsupported CryptoServiceMapping %s" % tag_name)
 
@@ -12890,6 +12894,15 @@ class ARXMLParser(AbstractARXMLParser):
         ref = self.getChildElementOptionalRefType(element, "CRYPTO-SERVICE-QUEUE-REF")
         if ref is not None:
             mapping.setCryptoServiceQueueRef(ref)
+
+    def readTlsCryptoServiceMapping(self, element: ET.Element, mapping: TlsCryptoServiceMapping):
+        self.readIdentifiable(element, mapping)
+        for ref in self.getChildElementRefTypeList(element, "KEY-EXCHANGE-REFS/KEY-EXCHANGE-REF"):
+            mapping.addKeyExchangeRef(ref)
+        if self.find(element, "TLS-CIPHER-SUITES") is not None:
+            self.notImplemented("TLS-CIPHER-SUITES aggregation is not implemented (missing member class TlsCryptoCipherSuite)")
+        mapping.setUseClientAuthenticationRequest(self.getChildElementOptionalBooleanValue(element, "USE-CLIENT-AUTHENTICATION-REQUEST"))
+        mapping.setUseSecurityExtensionRecordSizeLimit(self.getChildElementOptionalBooleanValue(element, "USE-SECURITY-EXTENSION-RECORD-SIZE-LIMIT"))
 
     def readSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         # self.logger.debug("Read SystemMapping <%s>" % mapping.getShortName())
