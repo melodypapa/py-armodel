@@ -82,6 +82,7 @@ class TestMultiplexedPartHandlers:
         assert alternative.getIPduRef().getValue() == "/pdus/DynAlt"
         assert alternative.getIPduRef().getDest() == "I-PDU"
         assert alternative.getInitialDynamicPart() is not None
+        assert alternative.getInitialDynamicPart().getValue() is True
         assert alternative.getSelectorFieldCode() is not None
         assert alternative.getSelectorFieldCode().getValue() == 1
 
@@ -153,6 +154,29 @@ class TestMultiplexedPartHandlers:
         assert len(part.getSegmentPositions()) == 1
         assert part.getIPduRef() is not None
         assert part.getIPduRef().getValue() == "/pdus/Static"
+
+    def test_readStaticPart_sets_variation_point(self, parser):
+        from armodel.models import StaticPart
+
+        part = StaticPart()
+        element = _snip(
+            '<I-PDU-REF DEST="I-SIGNAL-I-PDU">/pdus/Static</I-PDU-REF>' "<VARIATION-POINT>" "<SHORT-LABEL>staticVp</SHORT-LABEL>" "</VARIATION-POINT>",
+        )
+        parser.readStaticPart(element, part)
+        assert part.getIPduRef() is not None
+        assert part.getIPduRef().getValue() == "/pdus/Static"
+        assert part.getIPduRef().getDest() == "I-SIGNAL-I-PDU"
+        assert part.getVariationPoint() is not None
+        assert part.getVariationPoint().getShortLabel().getValue() == "staticVp"
+
+    def test_readStaticPart_empty(self, parser):
+        from armodel.models import StaticPart
+
+        part = StaticPart()
+        element = _snip("")
+        parser.readStaticPart(element, part)
+        assert part.getIPduRef() is None
+        assert part.getVariationPoint() is None
 
 
 class TestMultiplexedIPduHandlers:
@@ -308,6 +332,20 @@ class TestUserDefinedAndGeneralPurposePduHandlers:
         parser.readGeneralPurposePdu(element, pdu)
         assert pdu.getShortName() == "gpPdu"
 
+    def test_readGeneralPurposePdu_with_length(self, parser):
+        from armodel.models import GeneralPurposePdu
+
+        pdu = GeneralPurposePdu(parent=_autosar_root(), short_name="gpPdu")
+        element = _snip(
+            "<SHORT-NAME>gpPdu</SHORT-NAME>" "<LENGTH>64</LENGTH>",
+            root_tag="GENERAL-PURPOSE-PDU",
+        )
+        parser.readGeneralPurposePdu(element, pdu)
+        assert pdu.getShortName() == "gpPdu"
+        assert pdu.getLength() is not None
+        assert pdu.getLength().getValue() == 64
+        assert pdu.getHasDynamicLength() is None
+
     def test_readGeneralPurposeIPdu_minimal(self, parser):
         from armodel.models import GeneralPurposeIPdu
 
@@ -318,6 +356,21 @@ class TestUserDefinedAndGeneralPurposePduHandlers:
         )
         parser.readGeneralPurposeIPdu(element, ipdu)
         assert ipdu.getShortName() == "gpIPdu"
+
+    def test_readGeneralPurposeIPdu_with_length(self, parser):
+        from armodel.models import GeneralPurposeIPdu
+
+        ipdu = GeneralPurposeIPdu(parent=_autosar_root(), short_name="gpIPdu")
+        element = _snip(
+            "<SHORT-NAME>gpIPdu</SHORT-NAME>" "<LENGTH>128</LENGTH>",
+            root_tag="GENERAL-PURPOSE-I-PDU",
+        )
+        parser.readGeneralPurposeIPdu(element, ipdu)
+        assert ipdu.getShortName() == "gpIPdu"
+        assert ipdu.getLength() is not None
+        assert ipdu.getLength().getValue() == 128
+        assert ipdu.getHasDynamicLength() is None
+        assert ipdu.getContainedIPduProps() is None
 
 
 class TestSecureCommunicationHandlers:

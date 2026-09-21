@@ -637,6 +637,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordTypeMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
@@ -728,6 +729,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     AbstractServiceInstance,
     ConsumedEventGroup,
+    ConsumedProvidedServiceInstanceGroup,
     ConsumedServiceInstance,
     EventHandler,
     PduActivationRoutingGroup,
@@ -803,6 +805,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     NPdu,
     Pdu,
     PduTriggering,
+    PdurIPduGroup,
     SecureCommunicationAuthenticationProps,
     SecureCommunicationFreshnessProps,
     SecureCommunicationProps,
@@ -823,10 +826,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     AbstractCanCluster,
     CanCluster,
+    ClientIdRange,
     CommunicationCluster,
     CommunicationConnector,
     CommunicationController,
     CommunicationCycle,
+    CycleCounter,
     CycleRepetition,
     PhysicalChannel,
 )
@@ -834,10 +839,13 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
+from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltEcu, DltMessage, PrivacyLevel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import DltConfig, DltLogChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
     EventControlledTiming,
+    ModeDrivenTransmissionModeCondition,
     TimeRangeType,
     TransmissionModeCondition,
     TransmissionModeDeclaration,
@@ -6431,10 +6439,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(child_element, prototype)
             irefs = prototype.getReceiverIrefs()
             if len(irefs) > 0:
-                child_element = ET.SubElement(child_element, "RECEIVER-IREFS")
+                receivers_element = ET.SubElement(child_element, "RECEIVER-IREFS")
                 for iref in irefs:
-                    self.setVariableDataPrototypeInSystemInstanceRef(child_element, "RECEIVER-IREF", iref)
-            self.setVariableDataPrototypeInSystemInstanceRef(child_element, "SENDER-IREF", prototype.senderIRef)
+                    self.setVariableDataPrototypeInSystemInstanceRef(receivers_element, "RECEIVER-IREF", iref)
+            self.setVariableDataPrototypeInSystemInstanceRef(child_element, "SENDER-IREF", prototype.getSenderIref())
+            self.setChildElementOptionalIdentifier(child_element, "SHORT-LABEL", prototype.getShortLabel())
+            self.writeVariationPoint(child_element, prototype.getVariationPoint())
 
     def writeEndToEndProtectionEndToEndProtectionVariablePrototypes(self, element: ET.Element, protection: EndToEndProtection):
         prototypes = protection.getEndToEndProtectionVariablePrototypes()
@@ -8544,6 +8554,12 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCommunicationCycle(self, element: ET.Element, cycle: CommunicationCycle):
         self.writeARObject(element, cycle)
 
+    def writeCycleCounter(self, element: ET.Element, cycle: CycleCounter):
+        if cycle is not None:
+            child_element = ET.SubElement(element, "CYCLE-COUNTER")
+            self.writeCommunicationCycle(child_element, cycle)
+            self.setChildElementOptionalIntegerValue(child_element, "CYCLE-COUNTER", cycle.getCycleCounter())
+
     def writeCycleRepetition(self, element: ET.Element, cycle: CycleRepetition):
         if cycle is not None:
             child_element = ET.SubElement(element, "CYCLE-REPETITION")
@@ -8555,10 +8571,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         cycle = timing.getCommunicationCycle()
         if cycle is not None:
             child_element = ET.SubElement(element, "COMMUNICATION-CYCLE")
-            if isinstance(cycle, CycleRepetition):
+            if isinstance(cycle, CycleCounter):
+                self.writeCycleCounter(child_element, cycle)
+            elif isinstance(cycle, CycleRepetition):
                 self.writeCycleRepetition(child_element, cycle)
             else:
-                self.notImplemented("Unsupported CommunicationCycle <%s>" % type(child_element))
+                self.notImplemented("Unsupported CommunicationCycle <%s>" % type(cycle))
 
     def writeFlexrayAbsolutelyScheduledTiming(self, element: ET.Element, timing: FlexrayAbsolutelyScheduledTiming):
         if timing is not None:
@@ -8581,7 +8599,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         cycle = timing.getCommunicationCycle()
         if cycle is not None:
             child_element = ET.SubElement(element, "COMMUNICATION-CYCLE")
-            if isinstance(cycle, CycleRepetition):
+            if isinstance(cycle, CycleCounter):
+                self.writeCycleCounter(child_element, cycle)
+            elif isinstance(cycle, CycleRepetition):
                 self.writeCycleRepetition(child_element, cycle)
             else:
                 self.notImplemented("Unsupported CommunicationCycle <%s>" % type(cycle))
@@ -8645,6 +8665,14 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeTriggerIPduSendCondition(self, element: ET.Element, condition: TriggerIPduSendCondition):
         child_element = ET.SubElement(element, "TRIGGER-I-PDU-SEND-CONDITION")
+        refs = condition.getModeDeclarationRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "MODE-DECLARATION-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "MODE-DECLARATION-REF", ref)
+
+    def writeModeDrivenTransmissionModeCondition(self, element: ET.Element, condition: ModeDrivenTransmissionModeCondition):
+        child_element = ET.SubElement(element, "MODE-DRIVEN-TRANSMISSION-MODE-CONDITION")
         refs = condition.getModeDeclarationRefs()
         if len(refs) > 0:
             refs_tag = ET.SubElement(child_element, "MODE-DECLARATION-REFS")
@@ -9130,6 +9158,23 @@ class ARXMLWriter(AbstractARXMLWriter):
         if group is not None:
             wrapper = ET.SubElement(element, "METHOD-ACTIVATION-ROUTING-GROUPS")
             self.setPduActivationRoutingGroup(wrapper, group)
+
+    def writeConsumedProvidedServiceInstanceGroup(self, element: ET.Element, group: ConsumedProvidedServiceInstanceGroup):
+        if group is not None:
+            child_element = ET.SubElement(element, "CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP")
+            self.writeIdentifiable(child_element, group)
+            refs = group.getConsumedServiceInstanceRefs()
+            if len(refs) > 0:
+                wrapper = ET.SubElement(child_element, "CONSUMED-SERVICE-INSTANCES")
+                for ref in refs:
+                    cond_tag = ET.SubElement(wrapper, "CONSUMED-SERVICE-INSTANCE-REF-CONDITIONAL")
+                    self.setChildElementOptionalRefType(cond_tag, "CONSUMED-SERVICE-INSTANCE-REF", ref)
+            refs = group.getProvidedServiceInstanceRefs()
+            if len(refs) > 0:
+                wrapper = ET.SubElement(child_element, "PROVIDED-SERVICE-INSTANCES")
+                for ref in refs:
+                    cond_tag = ET.SubElement(wrapper, "PROVIDED-SERVICE-INSTANCE-REF-CONDITIONAL")
+                    self.setChildElementOptionalRefType(cond_tag, "PROVIDED-SERVICE-INSTANCE-REF", ref)
 
     def writeConsumedServiceInstance(self, element: ET.Element, instance: ConsumedServiceInstance):
         if instance is not None:
@@ -10841,6 +10886,127 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, partition)
         self.setChildElementOptionalBooleanValue(child_element, "EXEC-IN-USER-MODE", partition.getExecInUserMode())
 
+    def writePrivacyLevel(self, element: ET.Element, privacy_level: PrivacyLevel):
+        child_element = ET.SubElement(element, "PRIVACY-LEVEL")
+        self.setChildElementOptionalRefType(child_element, "COMPU-METHOD-REF", privacy_level.getCompuMethodRef())
+        self.setChildElementOptionalPositiveInteger(child_element, "PRIVACY-LEVEL", privacy_level.getPrivacyLevel())
+
+    def writeDltArgument(self, element: ET.Element, argument: DltArgument):
+        child_element = ET.SubElement(element, "DLT-ARGUMENT")
+        self.writeIdentifiable(child_element, argument)
+        entries = argument.getDltArgumentEntries()
+        if len(entries) > 0:
+            entries_element = ET.SubElement(child_element, "DLT-ARGUMENT-ENTRYS")
+            for entry in entries:
+                self.writeDltArgument(entries_element, entry)
+        self.setChildElementOptionalPositiveInteger(child_element, "LENGTH", argument.getLength())
+        self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION", argument.getNetworkRepresentation())
+        self.setChildElementOptionalBooleanValue(child_element, "OPTIONAL", argument.getOptional())
+        self.setChildElementOptionalBooleanValue(child_element, "PREDEFINED-TEXT", argument.getPredefinedText())
+        self.setChildElementOptionalBooleanValue(child_element, "VARIABLE-LENGTH", argument.getVariableLength())
+
+    def writeDltMessage(self, element: ET.Element, message: DltMessage):
+        child_element = ET.SubElement(element, "DLT-MESSAGE")
+        self.writeIdentifiable(child_element, message)
+        arguments = message.getDltArguments()
+        if len(arguments) > 0:
+            arguments_element = ET.SubElement(child_element, "DLT-ARGUMENTS")
+            for argument in arguments:
+                self.writeDltArgument(arguments_element, argument)
+        self.setChildElementOptionalPositiveInteger(child_element, "MESSAGE-ID", message.getMessageId())
+        self.setChildElementOptionalPositiveInteger(child_element, "MESSAGE-LINE-NUMBER", message.getMessageLineNumber())
+        self.setChildElementOptionalString(child_element, "MESSAGE-SOURCE-FILE", message.getMessageSourceFile())
+        self.setChildElementOptionalString(child_element, "MESSAGE-TYPE-INFO", message.getMessageTypeInfo())
+        if message.getPrivacyLevel() is not None:
+            self.writePrivacyLevel(child_element, message.getPrivacyLevel())
+
+    def writeDltContext(self, element: ET.Element, context: DltContext):
+        child_element = ET.SubElement(element, "DLT-CONTEXT")
+        self.writeIdentifiable(child_element, context)
+        self.setChildElementOptionalString(child_element, "CONTEXT-DESCRIPTION", context.getContextDescription())
+        self.setChildElementOptionalString(child_element, "CONTEXT-ID", context.getContextId())
+        refs = context.getDltMessageRefs()
+        if len(refs) > 0:
+            messages_element = ET.SubElement(child_element, "DLT-MESSAGES")
+            for ref in refs:
+                conditional_element = ET.SubElement(messages_element, "DLT-MESSAGE-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_element, "DLT-MESSAGE-REF", ref)
+
+    def writeDltApplication(self, element: ET.Element, application: DltApplication):
+        child_element = ET.SubElement(element, "DLT-APPLICATION")
+        self.writeIdentifiable(child_element, application)
+        self.setChildElementOptionalString(child_element, "APPLICATION-DESCRIPTION", application.getApplicationDescription())
+        self.setChildElementOptionalString(child_element, "APPLICATION-ID", application.getApplicationId())
+        refs = application.getContextRefs()
+        if len(refs) > 0:
+            contexts_element = ET.SubElement(child_element, "CONTEXTS")
+            for ref in refs:
+                conditional_element = ET.SubElement(contexts_element, "DLT-CONTEXT-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_element, "DLT-CONTEXT-REF", ref)
+
+    def writeDltEcu(self, element: ET.Element, ecu: DltEcu):
+        child_element = ET.SubElement(element, "DLT-ECU")
+        self.writeIdentifiable(child_element, ecu)
+        applications = ecu.getApplications()
+        if len(applications) > 0:
+            applications_element = ET.SubElement(child_element, "APPLICATIONS")
+            for application in applications:
+                self.writeDltApplication(applications_element, application)
+        self.setChildElementOptionalString(child_element, "ECU-ID", ecu.getEcuId())
+
+    def writeDltLogChannel(self, element: ET.Element, channel: DltLogChannel):
+        child_element = ET.SubElement(element, "DLT-LOG-CHANNEL")
+        self.writeIdentifiable(child_element, channel)
+        context_refs = channel.getApplicationContextRefs()
+        if len(context_refs) > 0:
+            contexts_element = ET.SubElement(child_element, "APPLICATION-CONTEXT-REFS")
+            for ref in context_refs:
+                self.setChildElementOptionalRefType(contexts_element, "APPLICATION-CONTEXT-REF", ref)
+        self.setChildElementOptionalLiteral(child_element, "DEFAULT-TRACE-STATE", channel.getDefaultTraceState())
+        message_refs = channel.getDltMessageRefs()
+        if len(message_refs) > 0:
+            messages_element = ET.SubElement(child_element, "DLT-MESSAGE-REFS")
+            for ref in message_refs:
+                self.setChildElementOptionalRefType(messages_element, "DLT-MESSAGE-REF", ref)
+        self.setChildElementOptionalString(child_element, "LOG-CHANNEL-ID", channel.getLogChannelId())
+        self.setChildElementOptionalLiteral(child_element, "LOG-TRACE-DEFAULT-LOG-THRESHOLD", channel.getLogTraceDefaultLogThreshold())
+        self.setChildElementOptionalBooleanValue(child_element, "NON-VERBOSE-MODE", channel.getNonVerboseMode())
+        self.setChildElementOptionalRefType(child_element, "RX-PDU-TRIGGERING-REF", channel.getRxPduTriggeringRef())
+        self.setChildElementOptionalBooleanValue(child_element, "SEGMENTATION-SUPPORTED", channel.getSegmentationSupported())
+        self.setChildElementOptionalRefType(child_element, "TX-PDU-TRIGGERING-REF", channel.getTxPduTriggeringRef())
+
+    def writeDltConfig(self, element: ET.Element, config: DltConfig):
+        child_element = ET.SubElement(element, "DLT-CONFIG")
+        self.writeARObject(child_element, config)
+        self.setChildElementOptionalRefType(child_element, "DLT-ECU-REF", config.getDltEcuRef())
+        channels = config.getDltLogChannels()
+        if len(channels) > 0:
+            channels_element = ET.SubElement(child_element, "DLT-LOG-CHANNELS")
+            for channel in channels:
+                if isinstance(channel, DltLogChannel):
+                    self.writeDltLogChannel(channels_element, channel)
+                else:
+                    self.notImplemented("Unsupported DltConfig DltLogChannel <%s>" % type(channel))
+        self.setChildElementOptionalBooleanValue(child_element, "SESSION-ID-SUPPORT", config.getSessionIdSupport())
+        self.setChildElementOptionalBooleanValue(child_element, "TIMESTAMP-SUPPORT", config.getTimestampSupport())
+
+    def writeClientIdRange(self, element: ET.Element, id_range: ClientIdRange):
+        child_element = ET.SubElement(element, "CLIENT-ID-RANGE")
+        self.setChildLimitElement(child_element, "LOWER-LIMIT", id_range.getLowerLimit())
+        self.setChildLimitElement(child_element, "UPPER-LIMIT", id_range.getUpperLimit())
+
+    def writeEcuInstanceClientIdRange(self, element: ET.Element, instance: EcuInstance):
+        if instance.getClientIdRange() is not None:
+            self.writeClientIdRange(element, instance.getClientIdRange())
+
+    def writeEcuInstanceDltConfig(self, element: ET.Element, instance: EcuInstance):
+        if instance.getDltConfig() is not None:
+            self.writeDltConfig(element, instance.getDltConfig())
+
+    def writeEcuInstanceDoIpConfig(self, element: ET.Element, instance: EcuInstance):
+        if instance.getDoIpConfig() is not None:
+            self.writeDoIpConfig(element, instance.getDoIpConfig())
+
     def writeEcuInstance(self, element: ET.Element, instance: EcuInstance):
         self.logger.debug("EcuInstance %s" % instance.getShortName())
         child_element = ET.SubElement(element, "ECU-INSTANCE")
@@ -10849,12 +11015,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeEcuInstanceAssociatedConsumedProvidedServiceInstanceGroupRefs(child_element, instance)
         self.writeEcuInstanceAssociatedPdurIPduGroupRefs(child_element, instance)
         self.setChildElementOptionalBooleanValue(child_element, "CHANNEL-SYNCHRONOUS-WAKEUP", instance.getChannelSynchronousWakeup())
+        self.writeEcuInstanceClientIdRange(child_element, instance)
         self.setChildElementOptionalTimeValue(child_element, "COM-CONFIGURATION-GW-TIME-BASE", instance.getComConfigurationGwTimeBase())
         self.setChildElementOptionalTimeValue(child_element, "COM-CONFIGURATION-RX-TIME-BASE", instance.getComConfigurationRxTimeBase())
         self.setChildElementOptionalTimeValue(child_element, "COM-CONFIGURATION-TX-TIME-BASE", instance.getComConfigurationTxTimeBase())
         self.setChildElementOptionalBooleanValue(child_element, "COM-ENABLE-MDT-FOR-CYCLIC-TRANSMISSION", instance.getComEnableMDTForCyclicTransmission())  # noqa E501
         self.writeEcuInstanceCommControllers(child_element, instance)
         self.writeEcuInstanceConnectors(child_element, instance)
+        self.writeEcuInstanceDltConfig(child_element, instance)
+        self.writeEcuInstanceDoIpConfig(child_element, instance)
         self.writeEcuInstanceEcuTaskProxyRefs(child_element, instance)
         self.setChildElementOptionalBooleanValue(child_element, "ETH-SWITCH-PORT-GROUP-DERIVATION", instance.getEthSwitchPortGroupDerivation())
         self.writeEcuInstanceFirewallRuleRefs(child_element, instance)
@@ -11860,6 +12029,64 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION-PROPS", props.getNetworkRepresentationProps())
         self.setChildElementOptionalRefType(child_element, "TRANSFORMATION-PROPS-REF", props.getTransformationPropsRef())
 
+    def writeDoIpConfig(self, element: ET.Element, config: DoIpConfig):
+        child_element = ET.SubElement(element, "DO-IP-CONFIG")
+        self.writeARObject(child_element, config)
+        interfaces = config.getDoIpInterfaces()
+        if len(interfaces) > 0:
+            interfaces_tag = ET.SubElement(child_element, "DOIP-INTERFACES")
+            for interface in interfaces:
+                if isinstance(interface, DoIpInterface):
+                    self.writeDoIpInterface(interfaces_tag, interface)
+                else:
+                    self.notImplemented("Unsupported DoIpInterface <%s>" % type(interface))
+        address = config.getLogicAddress()
+        if address is not None:
+            address_tag = ET.SubElement(child_element, "LOGIC-ADDRESS")
+            self.writeIdentifiable(address_tag, address)
+            self.setChildElementOptionalIntegerValue(address_tag, "ADDRESS", address.getAddress())
+
+    def writeDoIpInterface(self, element: ET.Element, interface: DoIpInterface):
+        self.logger.debug("Set DoIpInterface %s" % interface.getShortName())
+        child_element = ET.SubElement(element, "DO-IP-INTERFACE")
+        self.writeIdentifiable(child_element, interface)
+        self.setChildElementOptionalTimeValue(child_element, "ALIVE-CHECK-RESPONSE-TIMEOUT", interface.getAliveCheckResponseTimeout())
+        activations = interface.getDoIpRoutingActivations()
+        if len(activations) > 0:
+            activations_tag = ET.SubElement(child_element, "DO-IP-ROUTING-ACTIVATIONS")
+            for activation in activations:
+                self.writeDoIpRoutingActivation(activations_tag, activation)
+        self.setChildElementOptionalRefType(child_element, "DOIP-CHANNEL-COLLECTION-REF", interface.getDoipChannelCollectionRef())
+        doip_connection_refs = interface.getDoipConnectionRefs()
+        if len(doip_connection_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "DOIP-CONNECTION-REFS")
+            for ref in doip_connection_refs:
+                self.setChildElementOptionalRefType(refs_tag, "DOIP-CONNECTION-REF", ref)
+        self.setChildElementOptionalTimeValue(child_element, "GENERAL-INACTIVITY-TIME", interface.getGeneralInactivityTime())
+        self.setChildElementOptionalTimeValue(child_element, "INITIAL-INACTIVITY-TIME", interface.getInitialInactivityTime())
+        self.setChildElementOptionalTimeValue(child_element, "INITIAL-VEHICLE-ANNOUNCEMENT-TIME", interface.getInitialVehicleAnnouncementTime())
+        self.setChildElementOptionalBooleanValue(child_element, "IS-ACTIVATION-LINE-DEPENDENT", interface.getIsActivationLineDependent())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-TESTER-CONNECTIONS", interface.getMaxTesterConnections())
+        socket_connection_refs = interface.getSocketConnectionRefs()
+        if len(socket_connection_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "SOCKET-CONNECTION-REFS")
+            for ref in socket_connection_refs:
+                self.setChildElementOptionalRefType(refs_tag, "SOCKET-CONNECTION-REF", ref)
+        self.setChildElementOptionalBooleanValue(child_element, "USE-MAC-ADDRESS-FOR-IDENTIFICATION", interface.getUseMacAddressForIdentification())
+        self.setChildElementOptionalBooleanValue(child_element, "USE-VEHICLE-IDENTIFICATION-SYNC-STATUS", interface.getUseVehicleIdentificationSyncStatus())
+        self.setChildElementOptionalPositiveInteger(child_element, "VEHICLE-ANNOUNCEMENT-COUNT", interface.getVehicleAnnouncementCount())
+        self.setChildElementOptionalTimeValue(child_element, "VEHICLE-ANNOUNCEMENT-INTERVAL", interface.getVehicleAnnouncementInterval())
+
+    def writeDoIpRoutingActivation(self, element: ET.Element, activation: DoIpRoutingActivation):
+        self.logger.debug("Set DoIpRoutingActivation %s" % activation.getShortName())
+        child_element = ET.SubElement(element, "DO-IP-ROUTING-ACTIVATION")
+        self.writeIdentifiable(child_element, activation)
+        refs = activation.getDoIpTargetAddressRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "DO-IP-TARGET-ADDRESS-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "DO-IP-TARGET-ADDRESS-REF", ref)
+
     def writeEndToEndTransformationISignalPropsDataIds(self, element: ET.Element, props: EndToEndTransformationISignalProps):
         ids = props.getDataIds()
         if len(ids) > 0:
@@ -11913,6 +12140,18 @@ class ARXMLWriter(AbstractARXMLWriter):
             for pdu_ref in pdu_refs:
                 ref_conditional_tag = ET.SubElement(pdu_refs_tag, "I-SIGNAL-I-PDU-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(ref_conditional_tag, "I-SIGNAL-I-PDU-REF", pdu_ref)
+
+    def writePdurIPduGroup(self, element: ET.Element, group: PdurIPduGroup):
+        self.logger.debug("Set PdurIPduGroup %s" % group.getShortName())
+        child_element = ET.SubElement(element, "PDUR-I-PDU-GROUP")
+        self.writeIdentifiable(child_element, group)
+        self.setChildElementOptionalString(child_element, "COMMUNICATION-MODE", group.getCommunicationMode())
+        pdu_refs = group.getIPduRefs()
+        if len(pdu_refs) > 0:
+            pdu_refs_tag = ET.SubElement(child_element, "I-PDUS")
+            for pdu_ref in pdu_refs:
+                ref_conditional_tag = ET.SubElement(pdu_refs_tag, "PDU-TRIGGERING-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(ref_conditional_tag, "PDU-TRIGGERING-REF", pdu_ref)
 
     def writeSystemSignal(self, element: ET.Element, signal: SystemSignal):
         self.logger.debug("SystemSignal %s" % signal.getShortName())
@@ -12068,12 +12307,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         if props is not None:
             child_element = ET.SubElement(element, "CONTAINED-I-PDU-PROPS")
             self.setChildElementOptionalLiteral(child_element, "COLLECTION-SEMANTICS", props.getCollectionSemantics())
+            self.setChildElementOptionalRefType(child_element, "CONTAINED-PDU-TRIGGERING-REF", props.getContainedPduTriggeringRef())
             self.setChildElementOptionalPositiveInteger(child_element, "HEADER-ID-LONG-HEADER", props.getHeaderIdLongHeader())
             self.setChildElementOptionalPositiveInteger(child_element, "HEADER-ID-SHORT-HEADER", props.getHeaderIdShortHeader())
-            self.setChildElementOptionalNumericalValue(child_element, "OFFSET", props.getOffset())
-            self.setChildElementOptionalNumericalValue(child_element, "TIMEOUT", props.getTimeout())
+            self.setChildElementOptionalPositiveInteger(child_element, "OFFSET", props.getOffset())
+            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", props.getPriority())
+            self.setChildElementOptionalTimeValue(child_element, "TIMEOUT", props.getTimeout())
             self.setChildElementOptionalLiteral(child_element, "TRIGGER", props.getTrigger())
-            self.setChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION", props.getUpdateIndicationBitPosition())
+            self.setChildElementOptionalPositiveInteger(child_element, "UPDATE-INDICATION-BIT-POSITION", props.getUpdateIndicationBitPosition())
 
     def writeIPdu(self, element: ET.Element, pdu: IPdu):
         self.writePdu(element, pdu)
@@ -12134,6 +12375,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "STATIC-PART")
         self.writeMultiplexedPart(child_element, part)
         self.setChildElementOptionalRefType(child_element, "I-PDU-REF", part.getIPduRef())
+        self.writeVariationPoint(child_element, part.getVariationPoint())
 
     def writeMultiplexedIPduStaticParts(self, element: ET.Element, ipdu: MultiplexedIPdu):
         part = ipdu.getStaticPart()
@@ -12555,6 +12797,16 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setTransmissionModeDeclaration(self, element: ET.Element, key: str, decl: TransmissionModeDeclaration):
         if decl is not None:
             child_element = ET.SubElement(element, key)
+            false_conditions = decl.getModeDrivenFalseConditions()
+            if len(false_conditions) > 0:
+                false_conditions_tag = ET.SubElement(child_element, "MODE-DRIVEN-FALSE-CONDITIONS")
+                for condition in false_conditions:
+                    self.writeModeDrivenTransmissionModeCondition(false_conditions_tag, condition)
+            true_conditions = decl.getModeDrivenTrueConditions()
+            if len(true_conditions) > 0:
+                true_conditions_tag = ET.SubElement(child_element, "MODE-DRIVEN-TRUE-CONDITIONS")
+                for condition in true_conditions:
+                    self.writeModeDrivenTransmissionModeCondition(true_conditions_tag, condition)
             self.setTransmissionModeConditions(child_element, "TRANSMISSION-MODE-CONDITIONS", decl.getTransmissionModeConditions())
             self.setTransmissionModeTiming(child_element, "TRANSMISSION-MODE-FALSE-TIMING", decl.getTransmissionModeFalseTiming())
             self.setTransmissionModeTiming(child_element, "TRANSMISSION-MODE-TRUE-TIMING", decl.getTransmissionModeTrueTiming())
@@ -12849,6 +13101,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSystem(element, ar_element)
         elif isinstance(ar_element, EcuInstance):
             self.writeEcuInstance(element, ar_element)
+        elif isinstance(ar_element, ConsumedProvidedServiceInstanceGroup):
+            self.writeConsumedProvidedServiceInstanceGroup(element, ar_element)
         elif isinstance(ar_element, ISignalIPdu):
             self.writeISignalIPdu(element, ar_element)
         elif isinstance(ar_element, SystemSignal):
@@ -12873,10 +13127,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEthernetCluster(element, ar_element)
         elif isinstance(ar_element, ISignalIPduGroup):
             self.writeISignalIPduGroup(element, ar_element)
+        elif isinstance(ar_element, PdurIPduGroup):
+            self.writePdurIPduGroup(element, ar_element)
         elif isinstance(ar_element, DiagnosticConnection):
             self.writeDiagnosticConnection(element, ar_element)
         elif isinstance(ar_element, DiagnosticServiceTable):
             self.writeDiagnosticServiceTable(element, ar_element)
+        elif isinstance(ar_element, DltContext):
+            self.writeDltContext(element, ar_element)
+        elif isinstance(ar_element, DltEcu):
+            self.writeDltEcu(element, ar_element)
         elif isinstance(ar_element, Documentation):
             self.writeDocumentation(element, ar_element)
         elif isinstance(ar_element, MultiplexedIPdu):

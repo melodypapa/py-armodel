@@ -712,6 +712,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordTypeMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskPreemptabilityEnum, OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
@@ -822,6 +823,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     AbstractServiceInstance,
     ConsumedEventGroup,
+    ConsumedProvidedServiceInstanceGroup,
     ConsumedServiceInstance,
     EventGroupControlTypeEnum,
     EventHandler,
@@ -904,6 +906,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     NPdu,
     Pdu,
     PduTriggering,
+    PdurIPduGroup,
     SecureCommunicationAuthenticationProps,
     SecureCommunicationFreshnessProps,
     SecureCommunicationProps,
@@ -924,10 +927,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     AbstractCanCluster,
     CanCluster,
+    ClientIdRange,
     CommunicationCluster,
     CommunicationConnector,
     CommunicationController,
     CommunicationCycle,
+    CycleCounter,
     CycleRepetition,
     PhysicalChannel,
 )
@@ -935,10 +940,13 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
+from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltEcu, DltMessage, PrivacyLevel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import DltConfig, DltDefaultTraceStateEnum, DltLogChannel, LogTraceDefaultLogLevelEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
     EventControlledTiming,
+    ModeDrivenTransmissionModeCondition,
     TimeRangeType,
     TransmissionModeCondition,
     TransmissionModeDeclaration,
@@ -6554,8 +6562,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readVariableAccess(replace_with, variable_access)
             com_spec.setReplaceWith(variable_access)
         com_spec.setSyncCounterInit(self.getChildElementOptionalPositiveInteger(element, "SYNC-COUNTER-INIT"))
-        for child_element in self.findall(element, "TRANSFORMATION-COM-SPEC-PROPSS/TRANSFORMATION-COM-SPEC-PROPS"):
-            com_spec.addTransformationComSpecProps(self.getTransformationComSpecProps(child_element))
+        self.readTransformationComSpecPropss(element, com_spec)
 
     def getReceptionComSpecProps(self, element: ET.Element, key: str) -> ReceptionComSpecProps:
         child_element = self.find(element, key)
@@ -8047,9 +8054,14 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(element, prototype)
         for child_element in self.findall(element, "RECEIVER-IREFS/RECEIVER-IREF"):
             prototype.addReceiverIref(self.getVariableDataPrototypeInSystemInstanceRef(child_element))
-        child_element = self.find(element, "SENDER-IREF")
-        if child_element is not None:
-            prototype.senderIRef = self.getVariableDataPrototypeInSystemInstanceRef(child_element)
+        prototype.setSenderIref(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "SENDER-IREF")))
+        prototype.setShortLabel(self.getChildElementOptionalIdentifier(element, "SHORT-LABEL"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(prototype, VariationPointCapable):
+                prototype.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
         return prototype
 
     def readEndToEndProtectionEndToEndProtectionVariablePrototypes(self, element: ET.Element, protection: EndToEndProtection):
@@ -8451,6 +8463,10 @@ class ARXMLParser(AbstractARXMLParser):
     def readCommunicationCycle(self, element: ET.Element, cycle: CommunicationCycle):
         self.readARObject(element, cycle)
 
+    def readCycleCounter(self, element: ET.Element, cycle: CycleCounter):
+        self.readCommunicationCycle(element, cycle)
+        cycle.setCycleCounter(self.getChildElementOptionalIntegerValue(element, "CYCLE-COUNTER"))
+
     def readCycleRepetition(self, element: ET.Element, cycle: CycleRepetition):
         self.readCommunicationCycle(element, cycle)
         cycle.setBaseCycle(self.getChildElementOptionalIntegerValue(element, "BASE-CYCLE"))
@@ -8459,7 +8475,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readFlexrayAbsolutelyScheduledTimingCommunicationCycle(self, element: ET.Element, timing: FlexrayAbsolutelyScheduledTiming):
         for child_element in self.findall(element, "COMMUNICATION-CYCLE/*"):
             tag_name = self.getTagName(child_element)
-            if tag_name == "CYCLE-REPETITION":
+            if tag_name == "CYCLE-COUNTER":
+                counter = CycleCounter()
+                self.readCycleCounter(child_element, counter)
+                timing.setCommunicationCycle(counter)
+            elif tag_name == "CYCLE-REPETITION":
                 repetition = CycleRepetition()
                 self.readCycleRepetition(child_element, repetition)
                 timing.setCommunicationCycle(repetition)
@@ -8484,7 +8504,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readTtcanAbsolutelyScheduledTimingCommunicationCycle(self, element: ET.Element, timing: TtcanAbsolutelyScheduledTiming):
         for child_element in self.findall(element, "COMMUNICATION-CYCLE/*"):
             tag_name = self.getTagName(child_element)
-            if tag_name == "CYCLE-REPETITION":
+            if tag_name == "CYCLE-COUNTER":
+                counter = CycleCounter()
+                self.readCycleCounter(child_element, counter)
+                timing.setCommunicationCycle(counter)
+            elif tag_name == "CYCLE-REPETITION":
                 repetition = CycleRepetition()
                 self.readCycleRepetition(child_element, repetition)
                 timing.setCommunicationCycle(repetition)
@@ -8528,6 +8552,10 @@ class ARXMLParser(AbstractARXMLParser):
             triggering.addTriggerIPduSendCondition(condition)
 
     def readTriggerIPduSendCondition(self, element: ET.Element, condition: TriggerIPduSendCondition):
+        for ref in self.getChildElementRefTypeList(element, "MODE-DECLARATION-REFS/MODE-DECLARATION-REF"):
+            condition.addModeDeclarationRef(ref)
+
+    def readModeDrivenTransmissionModeCondition(self, element: ET.Element, condition: ModeDrivenTransmissionModeCondition):
         for ref in self.getChildElementRefTypeList(element, "MODE-DECLARATION-REFS/MODE-DECLARATION-REF"):
             condition.addModeDeclarationRef(ref)
 
@@ -8828,7 +8856,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEthernetPhysicalChannelNetworkEndPoints(self, element: ET.Element, channel: EthernetPhysicalChannel):
         for child_element in self.findall(element, "NETWORK-ENDPOINTS/NETWORK-ENDPOINT"):
-            end_point = channel.createNetworkEndPoint(self.getShortName(child_element))
+            end_point = channel.createNetworkEndpoint(self.getShortName(child_element))
             self.readNetworkEndPoint(child_element, end_point)
 
     def getSocketConnectionIpduIdentifier(self, element: ET.Element) -> SocketConnectionIpduIdentifier:
@@ -9040,6 +9068,13 @@ class ARXMLParser(AbstractARXMLParser):
                 version.setMinorVersion(self.getChildElementOptionalPositiveInteger(child_element, "MINOR-VERSION"))
                 versions.append(version)
         return versions
+
+    def readConsumedProvidedServiceInstanceGroup(self, element: ET.Element, instance: ConsumedProvidedServiceInstanceGroup):
+        self.readIdentifiable(element, instance)
+        for ref in self.getChildElementRefTypeList(element, "CONSUMED-SERVICE-INSTANCES/CONSUMED-SERVICE-INSTANCE-REF-CONDITIONAL/CONSUMED-SERVICE-INSTANCE-REF"):
+            instance.addConsumedServiceInstanceRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "PROVIDED-SERVICE-INSTANCES/PROVIDED-SERVICE-INSTANCE-REF-CONDITIONAL/PROVIDED-SERVICE-INSTANCE-REF"):
+            instance.addProvidedServiceInstanceRef(ref)
 
     def readConsumedServiceInstance(self, element: ET.Element, instance: ConsumedServiceInstance):
         self.readIdentifiable(element, instance)
@@ -9609,6 +9644,12 @@ class ARXMLParser(AbstractARXMLParser):
     def readStaticPart(self, element: ET.Element, part: StaticPart):
         self.readMultiplexedPart(element, part)
         part.setIPduRef(self.getChildElementOptionalRefType(element, "I-PDU-REF"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(part, VariationPointCapable):
+                part.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
     def readMultiplexedIPduStaticParts(self, element: ET.Element, ipdu: MultiplexedIPdu):
         for child_element in self.findall(element, "STATIC-PARTS/*"):
@@ -9925,12 +9966,14 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             props = ContainedIPduProps()
             props.setCollectionSemantics(self.getChildElementOptionalLiteral(child_element, "COLLECTION-SEMANTICS"))
+            props.setContainedPduTriggeringRef(self.getChildElementOptionalRefType(child_element, "CONTAINED-PDU-TRIGGERING-REF"))
             props.setHeaderIdLongHeader(self.getChildElementOptionalPositiveInteger(child_element, "HEADER-ID-LONG-HEADER"))
             props.setHeaderIdShortHeader(self.getChildElementOptionalPositiveInteger(child_element, "HEADER-ID-SHORT-HEADER"))
-            props.setOffset(self.getChildElementOptionalNumericalValue(child_element, "OFFSET"))
-            props.setTimeout(self.getChildElementOptionalNumericalValue(child_element, "TIMEOUT"))
+            props.setOffset(self.getChildElementOptionalPositiveInteger(child_element, "OFFSET"))
+            props.setPriority(self.getChildElementOptionalPositiveInteger(child_element, "PRIORITY"))
+            props.setTimeout(self.getChildElementOptionalTimeValue(child_element, "TIMEOUT"))
             props.setTrigger(self.getChildElementOptionalLiteral(child_element, "TRIGGER"))
-            props.setUpdateIndicationBitPosition(self.getChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION"))
+            props.setUpdateIndicationBitPosition(self.getChildElementOptionalPositiveInteger(child_element, "UPDATE-INDICATION-BIT-POSITION"))
         return props
 
     def readIPdu(self, element: ET.Element, pdu: IPdu):
@@ -11819,6 +11862,124 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, partition)
         partition.setExecInUserMode(self.getChildElementOptionalBooleanValue(element, "EXEC-IN-USER-MODE"))
 
+    def readPrivacyLevel(self, element: ET.Element, privacy_level: PrivacyLevel):
+        privacy_level.setCompuMethodRef(self.getChildElementOptionalRefType(element, "COMPU-METHOD-REF"))
+        privacy_level.setPrivacyLevel(self.getChildElementOptionalPositiveInteger(element, "PRIVACY-LEVEL"))
+
+    def readDltArgument(self, element: ET.Element, argument: DltArgument):
+        self.readIdentifiable(element, argument)
+        for child_element in self.findall(element, "DLT-ARGUMENT-ENTRYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "DLT-ARGUMENT":
+                entry = argument.createDltArgumentEntry(self.getShortName(child_element))
+                self.readDltArgument(child_element, entry)
+            else:
+                self.notImplemented("Unsupported DltArgument Entry <%s>" % tag_name)
+        argument.setLength(self.getChildElementOptionalPositiveInteger(element, "LENGTH"))
+        argument.setNetworkRepresentation(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION"))
+        argument.setOptional(self.getChildElementOptionalBooleanValue(element, "OPTIONAL"))
+        argument.setPredefinedText(self.getChildElementOptionalBooleanValue(element, "PREDEFINED-TEXT"))
+        argument.setVariableLength(self.getChildElementOptionalBooleanValue(element, "VARIABLE-LENGTH"))
+
+    def readDltMessage(self, element: ET.Element, message: DltMessage):
+        self.readIdentifiable(element, message)
+        for child_element in self.findall(element, "DLT-ARGUMENTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "DLT-ARGUMENT":
+                argument = message.createDltArgument(self.getShortName(child_element))
+                self.readDltArgument(child_element, argument)
+            else:
+                self.notImplemented("Unsupported DltMessage Argument <%s>" % tag_name)
+        message.setMessageId(self.getChildElementOptionalPositiveInteger(element, "MESSAGE-ID"))
+        message.setMessageLineNumber(self.getChildElementOptionalPositiveInteger(element, "MESSAGE-LINE-NUMBER"))
+        message.setMessageSourceFile(self.getChildElementOptionalString(element, "MESSAGE-SOURCE-FILE"))
+        message.setMessageTypeInfo(self.getChildElementOptionalString(element, "MESSAGE-TYPE-INFO"))
+        privacy_level_element = self.find(element, "PRIVACY-LEVEL")
+        if privacy_level_element is not None:
+            privacy_level = PrivacyLevel()
+            self.readPrivacyLevel(privacy_level_element, privacy_level)
+            message.setPrivacyLevel(privacy_level)
+
+    def readDltContext(self, element: ET.Element, context: DltContext):
+        self.readIdentifiable(element, context)
+        context.setContextDescription(self.getChildElementOptionalString(element, "CONTEXT-DESCRIPTION"))
+        context.setContextId(self.getChildElementOptionalString(element, "CONTEXT-ID"))
+        for ref in self.getChildElementRefTypeList(element, "DLT-MESSAGES/DLT-MESSAGE-REF-CONDITIONAL/DLT-MESSAGE-REF"):
+            context.addDltMessageRef(ref)
+
+    def readDltApplication(self, element: ET.Element, application: DltApplication):
+        self.readIdentifiable(element, application)
+        application.setApplicationDescription(self.getChildElementOptionalString(element, "APPLICATION-DESCRIPTION"))
+        application.setApplicationId(self.getChildElementOptionalString(element, "APPLICATION-ID"))
+        for ref in self.getChildElementRefTypeList(element, "CONTEXTS/DLT-CONTEXT-REF-CONDITIONAL/DLT-CONTEXT-REF"):
+            application.addContextRef(ref)
+
+    def readDltEcu(self, element: ET.Element, ecu: DltEcu):
+        self.readIdentifiable(element, ecu)
+        for child_element in self.findall(element, "APPLICATIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "DLT-APPLICATION":
+                application = ecu.createApplication(self.getShortName(child_element))
+                self.readDltApplication(child_element, application)
+            else:
+                self.notImplemented("Unsupported DltEcu Application <%s>" % tag_name)
+        ecu.setEcuId(self.getChildElementOptionalString(element, "ECU-ID"))
+
+    def readDltLogChannel(self, element: ET.Element, channel: DltLogChannel):
+        self.readIdentifiable(element, channel)
+        for ref in self.getChildElementRefTypeList(element, "APPLICATION-CONTEXT-REFS/APPLICATION-CONTEXT-REF"):
+            channel.addApplicationContextRef(ref)
+        default_trace_state_element = self.find(element, "DEFAULT-TRACE-STATE")
+        if default_trace_state_element is not None:
+            channel.setDefaultTraceState(DltDefaultTraceStateEnum().setValue(default_trace_state_element.text))
+        for ref in self.getChildElementRefTypeList(element, "DLT-MESSAGE-REFS/DLT-MESSAGE-REF"):
+            channel.addDltMessageRef(ref)
+        channel.setLogChannelId(self.getChildElementOptionalString(element, "LOG-CHANNEL-ID"))
+        log_trace_default_log_threshold_element = self.find(element, "LOG-TRACE-DEFAULT-LOG-THRESHOLD")
+        if log_trace_default_log_threshold_element is not None:
+            channel.setLogTraceDefaultLogThreshold(LogTraceDefaultLogLevelEnum().setValue(log_trace_default_log_threshold_element.text))
+        channel.setNonVerboseMode(self.getChildElementOptionalBooleanValue(element, "NON-VERBOSE-MODE"))
+        channel.setRxPduTriggeringRef(self.getChildElementOptionalRefType(element, "RX-PDU-TRIGGERING-REF"))
+        channel.setSegmentationSupported(self.getChildElementOptionalBooleanValue(element, "SEGMENTATION-SUPPORTED"))
+        channel.setTxPduTriggeringRef(self.getChildElementOptionalRefType(element, "TX-PDU-TRIGGERING-REF"))
+
+    def readDltConfig(self, element: ET.Element, config: DltConfig):
+        config.setDltEcuRef(self.getChildElementOptionalRefType(element, "DLT-ECU-REF"))
+        for child_element in self.findall(element, "DLT-LOG-CHANNELS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "DLT-LOG-CHANNEL":
+                channel = config.createDltLogChannel(self.getShortName(child_element))
+                self.readDltLogChannel(child_element, channel)
+            else:
+                self.notImplemented("Unsupported DltConfig DltLogChannel <%s>" % tag_name)
+        config.setSessionIdSupport(self.getChildElementOptionalBooleanValue(element, "SESSION-ID-SUPPORT"))
+        config.setTimestampSupport(self.getChildElementOptionalBooleanValue(element, "TIMESTAMP-SUPPORT"))
+
+    def readClientIdRange(self, element: ET.Element, id_range: ClientIdRange):
+        id_range.setLowerLimit(self.getChildLimitElement(element, "LOWER-LIMIT"))
+        id_range.setUpperLimit(self.getChildLimitElement(element, "UPPER-LIMIT"))
+
+    def readEcuInstanceClientIdRange(self, element: ET.Element, instance: EcuInstance):
+        client_id_range_element = self.find(element, "CLIENT-ID-RANGE")
+        if client_id_range_element is not None:
+            id_range = ClientIdRange()
+            instance.setClientIdRange(id_range)
+            self.readClientIdRange(client_id_range_element, id_range)
+
+    def readEcuInstanceDltConfig(self, element: ET.Element, instance: EcuInstance):
+        dlt_config_element = self.find(element, "DLT-CONFIG")
+        if dlt_config_element is not None:
+            config = DltConfig()
+            instance.setDltConfig(config)
+            self.readDltConfig(dlt_config_element, config)
+
+    def readEcuInstanceDoIpConfig(self, element: ET.Element, instance: EcuInstance):
+        do_ip_config_element = self.find(element, "DO-IP-CONFIG")
+        if do_ip_config_element is not None:
+            config = DoIpConfig()
+            instance.setDoIpConfig(config)
+            self.readDoIpConfig(do_ip_config_element, config)
+
     def readEcuInstance(self, element: ET.Element, instance: EcuInstance):
         self.logger.debug("Read EcuInstance <%s>" % instance.getShortName())
         self.readIdentifiable(element, instance)
@@ -11826,12 +11987,15 @@ class ARXMLParser(AbstractARXMLParser):
         self.readEcuInstanceAssociatedConsumedProvidedServiceInstanceGroupRefs(element, instance)
         self.readEcuInstanceAssociatedPdurIPduGroupRefs(element, instance)
         instance.setChannelSynchronousWakeup(self.getChildElementOptionalBooleanValue(element, "CHANNEL-SYNCHRONOUS-WAKEUP"))
+        self.readEcuInstanceClientIdRange(element, instance)
         instance.setComConfigurationGwTimeBase(self.getChildElementOptionalTimeValue(element, "COM-CONFIGURATION-GW-TIME-BASE"))
         instance.setComConfigurationRxTimeBase(self.getChildElementOptionalTimeValue(element, "COM-CONFIGURATION-RX-TIME-BASE"))
         instance.setComConfigurationTxTimeBase(self.getChildElementOptionalTimeValue(element, "COM-CONFIGURATION-TX-TIME-BASE"))
         instance.setComEnableMDTForCyclicTransmission(self.getChildElementOptionalBooleanValue(element, "COM-ENABLE-MDT-FOR-CYCLIC-TRANSMISSION"))
         self.readEcuInstanceCommControllers(element, instance)
         self.readEcuInstanceConnectors(element, instance)
+        self.readEcuInstanceDltConfig(element, instance)
+        self.readEcuInstanceDoIpConfig(element, instance)
         self.readEcuInstanceEcuTaskProxyRefs(element, instance)
         instance.setEthSwitchPortGroupDerivation(self.getChildElementOptionalBooleanValue(element, "ETH-SWITCH-PORT-GROUP-DERIVATION"))
         self.readEcuInstanceFirewallRuleRefs(element, instance)
@@ -12415,6 +12579,14 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             decl = TransmissionModeDeclaration()
+            for condition_element in self.findall(child_element, "MODE-DRIVEN-FALSE-CONDITIONS/MODE-DRIVEN-TRANSMISSION-MODE-CONDITION"):
+                condition = ModeDrivenTransmissionModeCondition()
+                self.readModeDrivenTransmissionModeCondition(condition_element, condition)
+                decl.addModeDrivenFalseCondition(condition)
+            for condition_element in self.findall(child_element, "MODE-DRIVEN-TRUE-CONDITIONS/MODE-DRIVEN-TRANSMISSION-MODE-CONDITION"):
+                condition = ModeDrivenTransmissionModeCondition()
+                self.readModeDrivenTransmissionModeCondition(condition_element, condition)
+                decl.addModeDrivenTrueCondition(condition)
             for condition in self.getTransmissionModeConditions(child_element, "TRANSMISSION-MODE-CONDITIONS/TRANSMISSION-MODE-CONDITION"):
                 decl.addTransmissionModeCondition(condition)
             decl.setTransmissionModeFalseTiming(self.getTransmissionModeTiming(child_element, "TRANSMISSION-MODE-FALSE-TIMING"))
@@ -12429,6 +12601,43 @@ class ARXMLParser(AbstractARXMLParser):
             timing.setMinimumDelay(self.getChildElementOptionalTimeValue(child_element, "MINIMUM-DELAY"))
             timing.setTransmissionModeDeclaration(self.getTransmissionModeDeclaration(child_element, "TRANSMISSION-MODE-DECLARATION"))
         return timing
+
+    def readDoIpConfig(self, element: ET.Element, config: DoIpConfig):
+        for child_element in self.findall(element, "DOIP-INTERFACES/DO-IP-INTERFACE"):
+            interface = config.createDoIpInterface(self.getShortName(child_element))
+            self.readDoIpInterface(child_element, interface)
+        logic_address_element = self.find(element, "LOGIC-ADDRESS")
+        if logic_address_element is not None:
+            address = config.createLogicAddress(self.getShortName(logic_address_element))
+            self.readDoIpLogicAddress(logic_address_element, address)
+
+    def readDoIpInterface(self, element: ET.Element, interface: DoIpInterface):
+        self.logger.debug("Read DoIpInterface <%s>" % interface.getShortName())
+        self.readIdentifiable(element, interface)
+        interface.setAliveCheckResponseTimeout(self.getChildElementOptionalTimeValue(element, "ALIVE-CHECK-RESPONSE-TIMEOUT"))
+        for child_element in self.findall(element, "DO-IP-ROUTING-ACTIVATIONS/DO-IP-ROUTING-ACTIVATION"):
+            activation = interface.createDoIpRoutingActivation(self.getShortName(child_element))
+            self.readDoIpRoutingActivation(child_element, activation)
+        interface.setDoipChannelCollectionRef(self.getChildElementOptionalRefType(element, "DOIP-CHANNEL-COLLECTION-REF"))
+        for ref in self.getChildElementRefTypeList(element, "DOIP-CONNECTION-REFS/DOIP-CONNECTION-REF"):
+            interface.addDoipConnectionRef(ref)
+        interface.setGeneralInactivityTime(self.getChildElementOptionalTimeValue(element, "GENERAL-INACTIVITY-TIME"))
+        interface.setInitialInactivityTime(self.getChildElementOptionalTimeValue(element, "INITIAL-INACTIVITY-TIME"))
+        interface.setInitialVehicleAnnouncementTime(self.getChildElementOptionalTimeValue(element, "INITIAL-VEHICLE-ANNOUNCEMENT-TIME"))
+        interface.setIsActivationLineDependent(self.getChildElementOptionalBooleanValue(element, "IS-ACTIVATION-LINE-DEPENDENT"))
+        interface.setMaxTesterConnections(self.getChildElementOptionalPositiveInteger(element, "MAX-TESTER-CONNECTIONS"))
+        for ref in self.getChildElementRefTypeList(element, "SOCKET-CONNECTION-REFS/SOCKET-CONNECTION-REF"):
+            interface.addSocketConnectionRef(ref)
+        interface.setUseMacAddressForIdentification(self.getChildElementOptionalBooleanValue(element, "USE-MAC-ADDRESS-FOR-IDENTIFICATION"))
+        interface.setUseVehicleIdentificationSyncStatus(self.getChildElementOptionalBooleanValue(element, "USE-VEHICLE-IDENTIFICATION-SYNC-STATUS"))
+        interface.setVehicleAnnouncementCount(self.getChildElementOptionalPositiveInteger(element, "VEHICLE-ANNOUNCEMENT-COUNT"))
+        interface.setVehicleAnnouncementInterval(self.getChildElementOptionalTimeValue(element, "VEHICLE-ANNOUNCEMENT-INTERVAL"))
+
+    def readDoIpRoutingActivation(self, element: ET.Element, activation: DoIpRoutingActivation):
+        self.logger.debug("Read DoIpRoutingActivation <%s>" % activation.getShortName())
+        self.readIdentifiable(element, activation)
+        for ref in self.getChildElementRefTypeList(element, "DO-IP-TARGET-ADDRESS-REFS/DO-IP-TARGET-ADDRESS-REF"):
+            activation.addDoIpTargetAddressRef(ref)
 
     def readISignalIPdu(self, element: ET.Element, ipdu: ISignalIPdu):
         self.logger.debug("Read ISignalIPdu <%s>" % ipdu.getShortName())
@@ -12453,6 +12662,13 @@ class ARXMLParser(AbstractARXMLParser):
             group.addContainedISignalIPduGroupRef(ref_type)
         for ref_type in self.getISignalIPduRefs(element):
             group.addISignalIPduRef(ref_type)
+
+    def readPdurIPduGroup(self, element: ET.Element, group: PdurIPduGroup):
+        self.logger.debug("Read PdurIPduGroup <%s>" % group.getShortName())
+        self.readIdentifiable(element, group)
+        group.setCommunicationMode(self.getChildElementOptionalString(element, "COMMUNICATION-MODE"))
+        for child_element in self.findall(element, "I-PDUS/PDU-TRIGGERING-REF-CONDITIONAL"):
+            group.addIPduRef(self.getChildElementOptionalRefType(child_element, "PDU-TRIGGERING-REF"))
 
     def readSenderReceiverToSignalMapping(self, element: ET.Element, mapping: SenderReceiverToSignalMapping):
         mapping.setCommunicationDirection(self.getChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION"))
@@ -13075,12 +13291,18 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECU-INSTANCE":
                 instance = parent.createEcuInstance(self.getShortName(child_element))
                 self.readEcuInstance(child_element, instance)
+            elif tag_name == "CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP":
+                group = parent.createConsumedProvidedServiceInstanceGroup(self.getShortName(child_element))
+                self.readConsumedProvidedServiceInstanceGroup(child_element, group)
             elif tag_name == "GATEWAY":
                 gateway = parent.createGateway(self.getShortName(child_element))
                 self.readGateway(child_element, gateway)
             elif tag_name == "I-SIGNAL-I-PDU-GROUP":
                 group = parent.createISignalIPduGroup(self.getShortName(child_element))
                 self.readISignalIPduGroup(child_element, group)
+            elif tag_name == "PDUR-I-PDU-GROUP":
+                group = parent.createPdurIPduGroup(self.getShortName(child_element))
+                self.readPdurIPduGroup(child_element, group)
             elif tag_name == "CAN-CLUSTER":
                 cluster = parent.createCanCluster(self.getShortName(child_element))
                 self.readCanCluster(child_element, cluster)
@@ -13156,6 +13378,12 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-SERVICE-TABLE":
                 table = parent.createDiagnosticServiceTable(self.getShortName(child_element))
                 self.readDiagnosticServiceTable(child_element, table)
+            elif tag_name == "DLT-CONTEXT":
+                context = parent.createDltContext(self.getShortName(child_element))
+                self.readDltContext(child_element, context)
+            elif tag_name == "DLT-ECU":
+                ecu = parent.createDltEcu(self.getShortName(child_element))
+                self.readDltEcu(child_element, ecu)
             elif tag_name == "DOCUMENTATION":
                 documentation = parent.createDocumentation(self.getShortName(child_element))
                 self.readDocumentation(child_element, documentation)

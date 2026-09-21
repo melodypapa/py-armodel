@@ -543,12 +543,13 @@ class SenderComSpec(PPortComSpec, ABC):
 
 class QueuedSenderComSpec(SenderComSpec):
     """
-    Communication attributes specific to distribution of events (PPortPrototype,
-    SenderReceiverInterface and dataElement carries an 'event').
+    Communication attributes specific to distribution of events (PPortPrototype, SenderReceiverInterface and dataElement carries an "event").
     """
 
     # QueuedSenderComSpec method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.68, p.179 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1398,12 +1399,13 @@ class TransformationComSpecProps(Describable, ABC):
 
 class UserDefinedTransformationComSpecProps(TransformationComSpecProps):
     """
-    The UserDefinedTransformationComSpecProps is used to specify port specific
-    configuration properties for custom transformers.
+    The UserDefinedTransformationComSpecProps is used to specify port specific configuration properties for custom transformers.
     """
 
     # UserDefinedTransformationComSpecProps method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.91, p.200 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()

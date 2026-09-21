@@ -40,6 +40,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,
     EventControlledTiming,
+    ModeDrivenTransmissionModeCondition,
     TimeRangeType,
     TransmissionModeCondition,
     TransmissionModeDeclaration,
@@ -498,6 +499,125 @@ class TestWriterTransmissionModeDeclaration:
         parent = _parent()
         writer.setTransmissionModeDeclaration(parent, "TRANSMISSION-MODE-DECLARATION", None)
         assert len(parent) == 0
+
+
+class TestWriterModeDrivenTransmissionModeCondition:
+    def test_writeModeDrivenTransmissionModeCondition_writes_refs(self, writer):
+        condition = ModeDrivenTransmissionModeCondition()
+        ref1 = RefType()
+        ref1.setValue("/Mdg/FalseMode")
+        ref1.setDest("MODE-DECLARATION")
+        ref2 = RefType()
+        ref2.setValue("/Mdg/TrueMode")
+        ref2.setDest("MODE-DECLARATION")
+        condition.addModeDeclarationRef(ref1)
+        condition.addModeDeclarationRef(ref2)
+        parent = _parent()
+        writer.writeModeDrivenTransmissionModeCondition(parent, condition)
+        assert parent[0].tag == "MODE-DRIVEN-TRANSMISSION-MODE-CONDITION"
+        refs_tag = parent[0].find("MODE-DECLARATION-REFS")
+        assert refs_tag is not None
+        refs = refs_tag.findall("MODE-DECLARATION-REF")
+        assert len(refs) == 2
+        assert refs[0].text == "/Mdg/FalseMode"
+        assert refs[0].attrib["DEST"] == "MODE-DECLARATION"
+        assert refs[1].text == "/Mdg/TrueMode"
+
+    def test_writeModeDrivenTransmissionModeCondition_empty(self, writer):
+        condition = ModeDrivenTransmissionModeCondition()
+        parent = _parent()
+        writer.writeModeDrivenTransmissionModeCondition(parent, condition)
+        assert parent[0].tag == "MODE-DRIVEN-TRANSMISSION-MODE-CONDITION"
+        assert parent[0].find("MODE-DECLARATION-REFS") is None
+
+    def test_setTransmissionModeDeclaration_writes_modeDrivenConditions_in_xsd_order(self, writer):
+        decl = TransmissionModeDeclaration()
+        false_condition = ModeDrivenTransmissionModeCondition()
+        false_ref = RefType()
+        false_ref.setValue("/Mdg/FalseMode")
+        false_ref.setDest("MODE-DECLARATION")
+        false_condition.addModeDeclarationRef(false_ref)
+        decl.addModeDrivenFalseCondition(false_condition)
+        true_condition = ModeDrivenTransmissionModeCondition()
+        true_ref = RefType()
+        true_ref.setValue("/Mdg/TrueMode")
+        true_ref.setDest("MODE-DECLARATION")
+        true_condition.addModeDeclarationRef(true_ref)
+        decl.addModeDrivenTrueCondition(true_condition)
+        cond = TransmissionModeCondition()
+        cond.setISignalInIPduRef(_ref("/sig", "I-SIGNAL-IN-I-PDU"))
+        decl.addTransmissionModeCondition(cond)
+        false_timing = TransmissionModeTiming()
+        false_cyclic = CyclicTiming()
+        false_period = TimeRangeType()
+        false_period.setValue(_time(0.2))
+        false_cyclic.setTimePeriod(false_period)
+        false_timing.setCyclicTiming(false_cyclic)
+        decl.setTransmissionModeFalseTiming(false_timing)
+        true_timing = TransmissionModeTiming()
+        true_cyclic = CyclicTiming()
+        true_period = TimeRangeType()
+        true_period.setValue(_time(0.1))
+        true_cyclic.setTimePeriod(true_period)
+        true_timing.setCyclicTiming(true_cyclic)
+        decl.setTransmissionModeTrueTiming(true_timing)
+        parent = _parent()
+        writer.setTransmissionModeDeclaration(parent, "TRANSMISSION-MODE-DECLARATION", decl)
+        assert parent[0].tag == "TRANSMISSION-MODE-DECLARATION"
+        tags = [child.tag for child in parent[0]]
+        assert tags == [
+            "MODE-DRIVEN-FALSE-CONDITIONS",
+            "MODE-DRIVEN-TRUE-CONDITIONS",
+            "TRANSMISSION-MODE-CONDITIONS",
+            "TRANSMISSION-MODE-FALSE-TIMING",
+            "TRANSMISSION-MODE-TRUE-TIMING",
+        ]
+        false_refs = parent[0].find("MODE-DRIVEN-FALSE-CONDITIONS/MODE-DRIVEN-TRANSMISSION-MODE-CONDITION/MODE-DECLARATION-REFS")
+        assert false_refs.find("MODE-DECLARATION-REF").text == "/Mdg/FalseMode"
+        true_refs = parent[0].find("MODE-DRIVEN-TRUE-CONDITIONS/MODE-DRIVEN-TRANSMISSION-MODE-CONDITION/MODE-DECLARATION-REFS")
+        assert true_refs.find("MODE-DECLARATION-REF").text == "/Mdg/TrueMode"
+
+    def test_setTransmissionModeDeclaration_skips_empty_modeDrivenWrappers(self, writer):
+        decl = TransmissionModeDeclaration()
+        parent = _parent()
+        writer.setTransmissionModeDeclaration(parent, "TRANSMISSION-MODE-DECLARATION", decl)
+        assert parent[0].find("MODE-DRIVEN-FALSE-CONDITIONS") is None
+        assert parent[0].find("MODE-DRIVEN-TRUE-CONDITIONS") is None
+
+    def test_modeDrivenCondition_round_trip(self, writer):
+        parser = ARXMLParser()
+        decl = TransmissionModeDeclaration()
+        false_condition = ModeDrivenTransmissionModeCondition()
+        false_ref = RefType()
+        false_ref.setValue("/Mdg/FalseMode")
+        false_ref.setDest("MODE-DECLARATION")
+        false_condition.addModeDeclarationRef(false_ref)
+        decl.addModeDrivenFalseCondition(false_condition)
+        true_condition = ModeDrivenTransmissionModeCondition()
+        true_ref1 = RefType()
+        true_ref1.setValue("/Mdg/TrueMode1")
+        true_ref1.setDest("MODE-DECLARATION")
+        true_ref2 = RefType()
+        true_ref2.setValue("/Mdg/TrueMode2")
+        true_ref2.setDest("MODE-DECLARATION")
+        true_condition.addModeDeclarationRef(true_ref1)
+        true_condition.addModeDeclarationRef(true_ref2)
+        decl.addModeDrivenTrueCondition(true_condition)
+        parent = _parent()
+        writer.setTransmissionModeDeclaration(parent, "TRANSMISSION-MODE-DECLARATION", decl)
+        xml = ET.tostring(parent, encoding="unicode")
+        reparsed = ET.fromstring(f"<ROOT xmlns='http://autosar.org/schema/r4.0'>{xml}</ROOT>")
+        redecl = parser.getTransmissionModeDeclaration(reparsed[0], "TRANSMISSION-MODE-DECLARATION")
+        assert redecl is not None
+        assert len(redecl.getModeDrivenFalseConditions()) == 1
+        re_false_refs = redecl.getModeDrivenFalseConditions()[0].getModeDeclarationRefs()
+        assert len(re_false_refs) == 1
+        assert re_false_refs[0].getValue() == "/Mdg/FalseMode"
+        assert re_false_refs[0].getDest() == "MODE-DECLARATION"
+        re_true_refs = redecl.getModeDrivenTrueConditions()[0].getModeDeclarationRefs()
+        assert len(re_true_refs) == 2
+        assert re_true_refs[0].getValue() == "/Mdg/TrueMode1"
+        assert re_true_refs[1].getValue() == "/Mdg/TrueMode2"
 
 
 class TestWriterIPduTiming:

@@ -1,3 +1,5 @@
+import inspect
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -20,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     AbstractServiceInstance,
     ConsumedEventGroup,
+    ConsumedProvidedServiceInstanceGroup,
     ConsumedServiceInstance,
     EventGroupControlTypeEnum,
     EventHandler,
@@ -38,6 +41,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     TcpRoleEnum,
     UdpChecksumCalculationEnum,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
 
 
 class MockParent(ARObject):
@@ -1845,3 +1849,67 @@ class TestEventHandler:
         """
         handler = self._new_handler()
         assert not hasattr(handler, "applicationEndpointRef")
+
+
+class Test_ConsumedProvidedServiceInstanceGroup:
+    """Test cases for ConsumedProvidedServiceInstanceGroup (Table 6.174, p.523)."""
+
+    MEMBERS = [
+        "consumedServiceInstanceRefs",
+        "providedServiceInstanceRefs",
+    ]
+
+    def test_inheritance(self):
+        parent = MockParent()
+        group = ConsumedProvidedServiceInstanceGroup(parent, "group1")
+
+        assert isinstance(group, FibexElement)
+        assert isinstance(group, ConsumedProvidedServiceInstanceGroup)
+
+    def test_class_docstring_note(self):
+        expected = (
+            "The AUTOSAR ServiceDiscovery is able to start and to stop ClientServices and Server Services,respectively, "
+            "at runtime. A SdServiceGroup contains several ClientServices and Server Services, respectively. "
+            "Tags: atp.recommendedPackage=ConsumedProvidedServiceInstanceGroups"
+        )
+        assert inspect.cleandoc(ConsumedProvidedServiceInstanceGroup.__doc__) == expected
+
+    def test_initialization_defaults(self):
+        parent = MockParent()
+        group = ConsumedProvidedServiceInstanceGroup(parent, "group1")
+
+        assert group.getConsumedServiceInstanceRefs() == []
+        assert group.getProvidedServiceInstanceRefs() == []
+
+    def test_member_order(self):
+        parent = MockParent()
+        group = ConsumedProvidedServiceInstanceGroup(parent, "group1")
+
+        members = [k for k in vars(group) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_add_get_consumed_service_instance_refs(self):
+        parent = MockParent()
+        group = ConsumedProvidedServiceInstanceGroup(parent, "group1")
+        ref = RefType()
+        ref.setValue("/ServiceInstances/ConsumedServiceInstance1")
+
+        result = group.addConsumedServiceInstanceRef(ref)
+        assert group.getConsumedServiceInstanceRefs() == [ref]
+        assert result == group  # method chaining
+
+        group.addConsumedServiceInstanceRef(None)
+        assert group.getConsumedServiceInstanceRefs() == [ref]
+
+    def test_add_get_provided_service_instance_refs(self):
+        parent = MockParent()
+        group = ConsumedProvidedServiceInstanceGroup(parent, "group1")
+        ref = RefType()
+        ref.setValue("/ServiceInstances/ProvidedServiceInstance1")
+
+        result = group.addProvidedServiceInstanceRef(ref)
+        assert group.getProvidedServiceInstanceRefs() == [ref]
+        assert result == group  # method chaining
+
+        group.addProvidedServiceInstanceRef(None)
+        assert group.getProvidedServiceInstanceRefs() == [ref]

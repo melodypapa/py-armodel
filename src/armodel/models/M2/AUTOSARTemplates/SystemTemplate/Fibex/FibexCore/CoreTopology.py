@@ -43,25 +43,24 @@ if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate import V2xSupportEnum
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import DltConfig
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig
-    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import ClientIdRange
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, Limit, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, RefType, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
 
 
 class CommunicationCycle(ARObject, ABC):
     """
-    Abstract base class for communication cycles, defining common
-    properties for different types of communication timing cycles
-    in the AUTOSAR communication system.
+    The communication cycle where the frame is sent.
     """
 
     # CommunicationCycle method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.83, p.424 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is CommunicationCycle:
@@ -71,24 +70,35 @@ class CommunicationCycle(ARObject, ABC):
 
 class CycleCounter(CommunicationCycle):
     """
-    Defines a counter for communication cycles, specifying the
-    count value for cycle tracking in timed communication systems.
+    The communication cycle where the frame is send is described by the attribute "cycleCounter".
+
+    [constr_9128] Existence of CycleCounter.CycleCounter: For each CycleCounter, the attribute CycleCounter shall exist at the time when the System Description is complete.
     """
 
     # CycleCounter method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCycleCounter              [x] impl  [ ] docstring  [ ] test
-    # [ ] setCycleCounter              [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.84, p.424 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCycleCounter     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCycleCounter     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.CycleCounter: Integer = None
+        # The communication cycle where the frame described by this timing is sent. If a timing is given in this way the referencing FlexrayCluster shall specify the cycleCount Max as upper bound and point of total repetition. This value is incremented at the beginning of each new cycle, ranging from 0 to cycleCountMax, and is reset to 0 after a sequence of cycleCountMax+1 cycles.
+        self.CycleCounter: Optional[Integer] = None
 
-    def getCycleCounter(self):
+    def getCycleCounter(self) -> Optional[Integer]:
+        """
+        The communication cycle where the frame described by this timing is sent. If a timing is given in this way the referencing FlexrayCluster shall specify the cycleCount Max as upper bound and point of total repetition. This value is incremented at the beginning of each new cycle, ranging from 0 to cycleCountMax, and is reset to 0 after a sequence of cycleCountMax+1 cycles.
+        """
         return self.CycleCounter
 
-    def setCycleCounter(self, value):
+    def setCycleCounter(self, value: Optional[Integer]) -> "CycleCounter":
+        """
+        The communication cycle where the frame described by this timing is sent. If a timing is given in this way the referencing FlexrayCluster shall specify the cycleCount Max as upper bound and point of total repetition. This value is incremented at the beginning of each new cycle, ranging from 0 to cycleCountMax, and is reset to 0 after a sequence of cycleCountMax+1 cycles.
+        A None value is a no-op and does not overwrite an existing CycleCounter.
+        """
         if value is not None:
             self.CycleCounter = value
         return self
@@ -96,50 +106,102 @@ class CycleCounter(CommunicationCycle):
 
 class CycleRepetitionType(AREnum):
     """
-    Enumeration defining types of cycle repetitions in communication
-    scheduling, specifying how communication cycles are repeated
-    over time.
+    The number of communication cycles (after the first cycle) whenever the frame is sent again. The FlexRay communication controller allows only determined values.
     """
 
     # CycleRepetitionType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.86, p.426 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+
+    # Attribute cycleRepetition value="1" valid only for FlexRay Protocol 2.1 Rev A Tags: atp.EnumerationLiteralIndex=0
+    ENUM_CYCLE_REPETITION_1 = "cycleRepetition1"
+
+    # Attribute cycleRepetition value="10" to support FlexRay 3.0 Tags: atp.EnumerationLiteralIndex=1
+    ENUM_CYCLE_REPETITION_10 = "cycleRepetition10"
+
+    # Attribute cycleRepetition value="16" valid only for FlexRay Protocol 2.1 Rev A Tags: atp.EnumerationLiteralIndex=2
+    ENUM_CYCLE_REPETITION_16 = "cycleRepetition16"
+
+    # Attribute cycleRepetition value="2" valid only for FlexRay Protocol 2.1 Rev A Tags: atp.EnumerationLiteralIndex=3
+    ENUM_CYCLE_REPETITION_2 = "cycleRepetition2"
+
+    # Attribute cycleRepetition value="20" to support FlexRay 3.0 Tags: atp.EnumerationLiteralIndex=4
+    ENUM_CYCLE_REPETITION_20 = "cycleRepetition20"
+
+    # Attribute cycleRepetition value="32" valid only for FlexRay Protocol 2.1 Rev A Tags: atp.EnumerationLiteralIndex=5
+    ENUM_CYCLE_REPETITION_32 = "cycleRepetition32"
+
+    # Attribute cycleRepetition value="4" valid only for FlexRay Protocol 2.1 Rev A Tags: atp.EnumerationLiteralIndex=6
+    ENUM_CYCLE_REPETITION_4 = "cycleRepetition4"
+
+    # Attribute cycleRepetition value="40" to support FlexRay 3.0 Tags: atp.EnumerationLiteralIndex=7
+    ENUM_CYCLE_REPETITION_40 = "cycleRepetition40"
 
     def __init__(self):
-        super().__init__([])
+        super().__init__(
+            [
+                CycleRepetitionType.ENUM_CYCLE_REPETITION_1,
+                CycleRepetitionType.ENUM_CYCLE_REPETITION_10,
+                CycleRepetitionType.ENUM_CYCLE_REPETITION_16,
+                CycleRepetitionType.ENUM_CYCLE_REPETITION_2,
+                CycleRepetitionType.ENUM_CYCLE_REPETITION_20,
+                CycleRepetitionType.ENUM_CYCLE_REPETITION_32,
+                CycleRepetitionType.ENUM_CYCLE_REPETITION_4,
+                CycleRepetitionType.ENUM_CYCLE_REPETITION_40,
+            ]
+        )
 
 
 class CycleRepetition(CommunicationCycle):
     """
-    Defines repetition properties for communication cycles,
-    specifying base cycle and repetition pattern for cyclic
-    communication scheduling.
+    The communication cycle where the frame is send is described by the attributes baseCycle and cycle Repetition.
     """
 
     # CycleRepetition method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getBaseCycle                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setBaseCycle                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getCycleRepetition           [x] impl  [ ] docstring  [ ] test
-    # [ ] setCycleRepetition           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.85, p.425 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseCycle           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseCycle           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCycleRepetition     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCycleRepetition     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.BaseCycle: Integer = None
-        self.CycleRepetition: CycleRepetitionType = None
+        # The first communication cycle where the frame is sent. This value is incremented at the beginning of each new cycle, ranging from 0 to 63, and is reset to 0 after a sequence of 64 cycles.
+        self.BaseCycle: Optional[Integer] = None
 
-    def getBaseCycle(self):
+        # The number of communication cycles (after the first cycle) whenever the frame described by this timing is sent again.
+        self.CycleRepetition: Optional[CycleRepetitionType] = None
+
+    def getBaseCycle(self) -> Optional[Integer]:
+        """
+        The first communication cycle where the frame is sent. This value is incremented at the beginning of each new cycle, ranging from 0 to 63, and is reset to 0 after a sequence of 64 cycles.
+        """
         return self.BaseCycle
 
-    def setBaseCycle(self, value):
+    def setBaseCycle(self, value: Optional[Integer]) -> "CycleRepetition":
+        """
+        The first communication cycle where the frame is sent. This value is incremented at the beginning of each new cycle, ranging from 0 to 63, and is reset to 0 after a sequence of 64 cycles.
+        A None value is a no-op and does not overwrite an existing BaseCycle.
+        """
         if value is not None:
             self.BaseCycle = value
         return self
 
-    def getCycleRepetition(self):
+    def getCycleRepetition(self) -> Optional[CycleRepetitionType]:
+        """
+        The number of communication cycles (after the first cycle) whenever the frame described by this timing is sent again.
+        """
         return self.CycleRepetition
 
-    def setCycleRepetition(self, value):
+    def setCycleRepetition(self, value: Optional[CycleRepetitionType]) -> "CycleRepetition":
+        """
+        The number of communication cycles (after the first cycle) whenever the frame described by this timing is sent again.
+        A None value is a no-op and does not overwrite an existing CycleRepetition.
+        """
         if value is not None:
             self.CycleRepetition = value
         return self
@@ -857,8 +919,8 @@ class EcuInstance(FibexElement):
     # [x] getAssociatedPdurIPduGroupRefs                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getChannelSynchronousWakeup                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setChannelSynchronousWakeup                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getClientIdRange                                      [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] setClientIdRange                                      [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getClientIdRange                                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClientIdRange                                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getComConfigurationGwTimeBase                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setComConfigurationGwTimeBase                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getComConfigurationRxTimeBase                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -877,10 +939,10 @@ class EcuInstance(FibexElement):
     # [x] createFlexrayCommunicationConnector                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createLinCommunicationConnector                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getConnectors                                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] getDltConfig                                          [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] setDltConfig                                          [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # [x] getDoIpConfig                                         [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] setDoIpConfig                                         [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getDltConfig                                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDltConfig                                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDoIpConfig                                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDoIpConfig                                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] addEcuTaskProxyRef                                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getEcuTaskProxyRefs                                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getEthSwitchPortGroupDerivation                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -909,7 +971,12 @@ class EcuInstance(FibexElement):
     # [x] getWakeUpOverBusSupported                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setWakeUpOverBusSupported                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # Deferred reader/writer rows ([ ]) pending missing child classes (Rule 0001.10):
-    # clientIdRange (ClientIdRange), dltConfig (DltConfig), doIpConfig (DoIpConfig)
+    # clientIdRange (ClientIdRange) wired 2026-09-20: reader via readEcuInstanceClientIdRange (create + fill),
+    # writer via writeEcuInstanceClientIdRange (getClientIdRange), CLIENT-ID-RANGE element between CHANNEL-SYNCHRONOUS-WAKEUP and COM-CONFIGURATION-GW-TIME-BASE.
+    # dltConfig (DltConfig) wired 2026-09-20: reader via readEcuInstanceDltConfig (create + fill),
+    # writer via writeEcuInstanceDltConfig (getDltConfig), DLT-CONFIG element between CONNECTORS and DO-IP-CONFIG.
+    # doIpConfig (DoIpConfig) wired 2026-09-20: reader via readEcuInstanceDoIpConfig (create + fill),
+    # writer via writeEcuInstanceDoIpConfig (getDoIpConfig), DO-IP-CONFIG element between CONNECTORS and ECU-TASK-PROXY-REFS.
     # partition (EcuPartition) wired 2026-09-20: reader via createEcuPartition, writer via getPartitions;
     # addPartition kept as an added convenience mutator (no reader/writer route).
 
@@ -929,7 +996,6 @@ class EcuInstance(FibexElement):
         self.channelSynchronousWakeup: Optional[Boolean] = None
 
         # Restriction of the Client Identifier for this Ecu to an allowed range of numerical values. The Client Identifier of the transaction handle is generated by the client RTE for inter-Ecu Client/Server communication.
-        # ClientIdRange class is not yet implemented (Rule 0001.10 placeholder)
         self.clientIdRange: Optional["ClientIdRange"] = None
 
         # The period between successive calls to Com_MainFunctionRouteSignals of the AUTOSAR COM module in seconds.
@@ -951,11 +1017,9 @@ class EcuInstance(FibexElement):
         self.connectors: List[CommunicationConnector] = []
 
         # Describes the Dlt configuration on this EcuInstance.
-        # DltConfig class is not yet implemented (Rule 0001.10 placeholder)
         self.dltConfig: Optional["DltConfig"] = None
 
         # DoIp configuration on this EcuInstance.
-        # DoIpConfig class is not yet implemented (Rule 0001.10 placeholder)
         self.doIpConfig: Optional["DoIpConfig"] = None
 
         # Reference to OsTaskProxies assigned to the EcuInstance.
@@ -1500,4 +1564,66 @@ class EcuInstance(FibexElement):
         """
         if value is not None:
             self.wakeUpOverBusSupported = value
+        return self
+
+
+class ClientIdRange(ARObject):
+    """
+    With this element it is possible to restrict the Client Identifier of the transaction handle that is generated by the client RTE for inter-Ecu Client/Server communication to an allowed range of numerical values.
+
+    [constr_3116] Overlap of ClientIdRanges in the context of the enclosing System: The ClientIdRange defined for an EcuInstance shall not overlap with the ClientIdRange of any other EcuInstance in the context of the enclosing System.
+
+    [constr_5396] Existence of ClientIdRange.lowerLimit: For each ClientIdRange, the attribute lowerLimit shall exist at the time when the System Description is complete.
+
+    [constr_5397] Existence of ClientIdRange.upperLimit: For each ClientIdRange, the attribute upperLimit shall exist at the time when the System Description is complete.
+    """
+
+    # ClientIdRange method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.2, p.52
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLowerLimit [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLowerLimit [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUpperLimit [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUpperLimit [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This specifies the lower limit of the ClientIdRange.
+        self.lowerLimit: Optional[Limit] = None
+
+        # This specifies the upper limit of the ClientIdRange.
+        self.upperLimit: Optional[Limit] = None
+
+    def getLowerLimit(self) -> Optional[Limit]:
+        """
+        This specifies the lower limit of the ClientIdRange.
+        """
+        return self.lowerLimit
+
+    def setLowerLimit(self, value: Optional[Limit]) -> "ClientIdRange":
+        """
+        This specifies the lower limit of the ClientIdRange.
+
+        A None value is a no-op and does not overwrite an existing lowerLimit.
+        """
+        if value is not None:
+            self.lowerLimit = value
+        return self
+
+    def getUpperLimit(self) -> Optional[Limit]:
+        """
+        This specifies the upper limit of the ClientIdRange.
+        """
+        return self.upperLimit
+
+    def setUpperLimit(self, value: Optional[Limit]) -> "ClientIdRange":
+        """
+        This specifies the upper limit of the ClientIdRange.
+
+        A None value is a no-op and does not overwrite an existing upperLimit.
+        """
+        if value is not None:
+            self.upperLimit = value
         return self

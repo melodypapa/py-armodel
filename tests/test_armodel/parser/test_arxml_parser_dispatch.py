@@ -16,6 +16,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import PdurIPduGroup
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy
 from armodel.parser.arxml_parser import ARXMLParser
 
@@ -346,6 +347,12 @@ class TestNetworkDispatch:
         parent = _make_parent()
         _dispatch(parser, parent, _snip("I-SIGNAL-I-PDU-GROUP", "IIPG1"))
         assert parent.getElement("IIPG1") is not None
+
+    def test_pdur_ipdu_group(self, parser):
+        parent = _make_parent()
+        _dispatch(parser, parent, _snip("PDUR-I-PDU-GROUP", "PIPG1"))
+        assert parent.getElement("PIPG1", PdurIPduGroup) is not None
+        assert isinstance(parent.getElement("PIPG1"), PdurIPduGroup)
 
     def test_system_signal(self, parser):
         parent = _make_parent()

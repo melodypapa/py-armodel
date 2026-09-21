@@ -342,6 +342,26 @@ class TestWriteTransformationComSpec:
         writer.writeServerComSpecTransformationComSpecProps(parent, com_spec)
         assert parent[0].tag == "TRANSFORMATION-COM-SPEC-PROPSS"
 
+    def test_user_defined_transformation_props_receiver_com_spec_round_trip(self, writer):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        com_spec = NonqueuedReceiverComSpec()
+        com_spec.addTransformationComSpecProps(UserDefinedTransformationComSpecProps())
+
+        parent = _parent()
+        writer.writeNonqueuedReceiverComSpec(parent, com_spec)
+        com_spec_element = parent.find("NONQUEUED-RECEIVER-COM-SPEC")
+        props_tag = com_spec_element.find("TRANSFORMATION-COM-SPEC-PROPSS")
+        assert props_tag is not None
+        assert props_tag.find("USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS") is not None
+
+        xml_text = ET.tostring(com_spec_element, encoding="unicode")
+        reloaded_element = ET.fromstring(xml_text.replace("NONQUEUED-RECEIVER-COM-SPEC", "NONQUEUED-RECEIVER-COM-SPEC xmlns='http://autosar.org/schema/r4.0'", 1))
+        reloaded = ARXMLParser().getNonqueuedReceiverComSpec(reloaded_element)
+        assert reloaded is not None
+        props = reloaded.getTransformationComSpecProps()
+        assert len(props) == 1
+        assert isinstance(props[0], UserDefinedTransformationComSpecProps)
+
 
 class TestWriteServerComSpec:
     def test_write_server_comspec(self, writer):
@@ -469,6 +489,34 @@ class TestWritePPortComSpec:
         parent = _parent()
         writer.writePPortComSpec(parent, com_spec)
         assert parent.find("QUEUED-SENDER-COM-SPEC") is not None
+
+    def test_queued_sender_com_spec_dispatch_round_trip(self, writer):
+        com_spec = QueuedSenderComSpec()
+        com_spec.setDataElementRef(_ref("/vdp/QueuedElem"))
+        handle_out_of_range = HandleOutOfRangeEnum().setValue(HandleOutOfRangeEnum.SATURATE)
+        com_spec.setHandleOutOfRange(handle_out_of_range)
+        uses_e2e = Boolean()
+        uses_e2e.setValue(True)
+        com_spec.setUsesEndToEndProtection(uses_e2e)
+
+        parent = _parent()
+        writer.writePPortComSpec(parent, com_spec)
+        queued_tag = parent.find("QUEUED-SENDER-COM-SPEC")
+        assert queued_tag is not None
+        assert queued_tag.find("DATA-ELEMENT-REF").text == "/vdp/QueuedElem"
+        assert queued_tag.find("DATA-ELEMENT-REF").get("DEST") == "VARIABLE-DATA-PROTOTYPE"
+        assert queued_tag.find("HANDLE-OUT-OF-RANGE").text == "saturate"
+        assert queued_tag.find("USES-END-TO-END-PROTECTION").text == "true"
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        xml_text = ET.tostring(queued_tag, encoding="unicode")
+        reloaded_element = ET.fromstring(xml_text.replace("QUEUED-SENDER-COM-SPEC", "QUEUED-SENDER-COM-SPEC xmlns='http://autosar.org/schema/r4.0'", 1))
+        reloaded = QueuedSenderComSpec()
+        ARXMLParser().readSenderComSpec(reloaded_element, reloaded)
+        assert reloaded.getDataElementRef().getValue() == "/vdp/QueuedElem"
+        assert reloaded.getDataElementRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+        assert reloaded.getHandleOutOfRange().getValue() == "saturate"
+        assert reloaded.getUsesEndToEndProtection().getValue() is True
 
     def test_dispatches_mode_switch_sender(self, writer):
         com_spec = ModeSwitchSenderComSpec()

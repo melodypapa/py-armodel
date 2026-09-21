@@ -502,6 +502,43 @@ class TestFlexrayClusterHandlers:
         assert cycle.getCycleRepetition() is not None
         assert cycle.getCycleRepetition().getValue() == "1"
 
+    def test_readCycleCounter_sets_value(self, parser):
+        from armodel.models import CycleCounter
+
+        cycle = CycleCounter()
+        element = _snip("<CYCLE-COUNTER>7</CYCLE-COUNTER>", root_tag="CYCLE-COUNTER")
+        parser.readCycleCounter(element, cycle)
+        assert cycle.getCycleCounter() is not None
+        assert cycle.getCycleCounter().getValue() == 7
+
+    def test_readFlexrayAbsolutelyScheduledTimingCommunicationCycle_cycleCounter(self, parser):
+        from armodel.models import CycleCounter, FlexrayAbsolutelyScheduledTiming
+
+        timing = FlexrayAbsolutelyScheduledTiming()
+        element = _snip("<COMMUNICATION-CYCLE><CYCLE-COUNTER><CYCLE-COUNTER>3</CYCLE-COUNTER></CYCLE-COUNTER></COMMUNICATION-CYCLE>")
+        parser.readFlexrayAbsolutelyScheduledTimingCommunicationCycle(element, timing)
+        assert isinstance(timing.getCommunicationCycle(), CycleCounter)
+        assert timing.getCommunicationCycle().getCycleCounter().getValue() == 3
+
+    def test_readTtcanAbsolutelyScheduledTimingCommunicationCycle_cycleCounter(self, parser):
+        from armodel.models import CycleCounter, TtcanAbsolutelyScheduledTiming
+
+        timing = TtcanAbsolutelyScheduledTiming()
+        element = _snip("<COMMUNICATION-CYCLE><CYCLE-COUNTER><CYCLE-COUNTER>4</CYCLE-COUNTER></CYCLE-COUNTER></COMMUNICATION-CYCLE>")
+        parser.readTtcanAbsolutelyScheduledTimingCommunicationCycle(element, timing)
+        assert isinstance(timing.getCommunicationCycle(), CycleCounter)
+        assert timing.getCommunicationCycle().getCycleCounter().getValue() == 4
+
+    def test_readTtcanAbsolutelyScheduledTimingCommunicationCycle_cycleRepetition(self, parser):
+        from armodel.models import CycleRepetition, TtcanAbsolutelyScheduledTiming
+
+        timing = TtcanAbsolutelyScheduledTiming()
+        element = _snip("<COMMUNICATION-CYCLE><CYCLE-REPETITION><BASE-CYCLE>2</BASE-CYCLE><CYCLE-REPETITION>CYCLE-REPETITION-4</CYCLE-REPETITION></CYCLE-REPETITION></COMMUNICATION-CYCLE>")
+        parser.readTtcanAbsolutelyScheduledTimingCommunicationCycle(element, timing)
+        assert isinstance(timing.getCommunicationCycle(), CycleRepetition)
+        assert timing.getCommunicationCycle().getBaseCycle().getValue() == 2
+        assert timing.getCommunicationCycle().getCycleRepetition().getValue() == "CYCLE-REPETITION-4"
+
     def test_readFlexrayAbsolutelyScheduledTiming_sets_slotId(self, parser):
         from armodel.models import FlexrayAbsolutelyScheduledTiming
 
@@ -657,6 +694,57 @@ class TestEthernetClusterHandlers:
         )
         parser.readEthernetPhysicalChannelNetworkEndPoints(element, channel)
         assert len(channel.getNetworkEndpoints()) == 1
+
+    def test_readEthernetPhysicalChannel_full_read_field_values(self, parser):
+        from armodel.models import EthernetCluster, EthernetPhysicalChannel
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import SoAdConfig
+
+        cluster = EthernetCluster(parent=_autosar_root(), short_name="eth")
+        channel = EthernetPhysicalChannel(parent=cluster, short_name="ch")
+        element = _snip(
+            "<NETWORK-ENDPOINTS>"
+            "<NETWORK-ENDPOINT>"
+            "<SHORT-NAME>ne1</SHORT-NAME>"
+            "<PRIORITY>5</PRIORITY>"
+            "</NETWORK-ENDPOINT>"
+            "</NETWORK-ENDPOINTS>"
+            "<SO-AD-CONFIG/>"
+            "<VLAN>"
+            "<SHORT-NAME>vlan1</SHORT-NAME>"
+            "<VLAN-IDENTIFIER>100</VLAN-IDENTIFIER>"
+            "</VLAN>",
+            root_tag="ETHERNET-PHYSICAL-CHANNEL",
+        )
+        parser.readEthernetPhysicalChannel(element, channel)
+        endpoints = channel.getNetworkEndpoints()
+        assert len(endpoints) == 1
+        assert endpoints[0].getShortName() == "ne1"
+        assert endpoints[0].getPriority().getValue() == 5
+        assert isinstance(channel.getSoAdConfig(), SoAdConfig)
+        assert channel.getVlan().getShortName() == "vlan1"
+        assert channel.getVlan().getVlanIdentifier().getValue() == 100
+
+    def test_readCommunicationClusterPhysicalChannels_ethernet_dispatch_reads_content(self, parser):
+        from armodel.models import EthernetCluster
+
+        cluster = EthernetCluster(parent=_autosar_root(), short_name="eth")
+        element = _snip(
+            "<PHYSICAL-CHANNELS>"
+            "<ETHERNET-PHYSICAL-CHANNEL>"
+            "<SHORT-NAME>epc</SHORT-NAME>"
+            "<VLAN>"
+            "<SHORT-NAME>vlan1</SHORT-NAME>"
+            "<VLAN-IDENTIFIER>42</VLAN-IDENTIFIER>"
+            "</VLAN>"
+            "</ETHERNET-PHYSICAL-CHANNEL>"
+            "</PHYSICAL-CHANNELS>",
+            root_tag="ETHERNET-CLUSTER",
+        )
+        parser.readCommunicationClusterPhysicalChannels(element, cluster)
+        channels = cluster.getPhysicalChannels()
+        assert len(channels) == 1
+        assert channels[0].getShortName() == "epc"
+        assert channels[0].getVlan().getVlanIdentifier().getValue() == 42
 
     def test_readNetworkEndPoint_sets_priority(self, parser):
         from armodel.models import EthernetCluster, EthernetPhysicalChannel, NetworkEndpoint
@@ -1146,6 +1234,40 @@ class TestFrameAndPduHandlers:
         parser.readFrameTriggering(element, triggering)
         assert len(triggering.getFramePortRefs()) == 1
 
+    def test_readFrameTriggering_adds_pduTriggeringRefs(self, parser):
+        from armodel.models import CanCluster, CanFrameTriggering, CanPhysicalChannel
+
+        cluster = CanCluster(parent=_autosar_root(), short_name="c")
+        channel = CanPhysicalChannel(parent=cluster, short_name="ch")
+        triggering = CanFrameTriggering(parent=channel, short_name="ft")
+        element = _snip(
+            "<SHORT-NAME>ft</SHORT-NAME>"
+            "<PDU-TRIGGERINGS>"
+            "<PDU-TRIGGERING-REF-CONDITIONAL><PDU-TRIGGERING-REF DEST='PDU-TRIGGERING'>/pt1</PDU-TRIGGERING-REF></PDU-TRIGGERING-REF-CONDITIONAL>"
+            "<PDU-TRIGGERING-REF-CONDITIONAL><PDU-TRIGGERING-REF DEST='PDU-TRIGGERING'>/pt2</PDU-TRIGGERING-REF></PDU-TRIGGERING-REF-CONDITIONAL>"
+            "</PDU-TRIGGERINGS>",
+            root_tag="CAN-FRAME-TRIGGERING",
+        )
+        parser.readFrameTriggering(element, triggering)
+        refs = triggering.getPduTriggeringRefs()
+        assert len(refs) == 2
+        assert refs[0].getValue() == "/pt1"
+        assert refs[1].getValue() == "/pt2"
+
+    def test_readFrameTriggering_skips_empty_wrappers(self, parser):
+        from armodel.models import CanCluster, CanFrameTriggering, CanPhysicalChannel
+
+        cluster = CanCluster(parent=_autosar_root(), short_name="c")
+        channel = CanPhysicalChannel(parent=cluster, short_name="ch")
+        triggering = CanFrameTriggering(parent=channel, short_name="ft")
+        element = _snip(
+            "<SHORT-NAME>ft</SHORT-NAME>" "<FRAME-PORT-REFS></FRAME-PORT-REFS>" "<PDU-TRIGGERINGS><PDU-TRIGGERING-REF-CONDITIONAL/></PDU-TRIGGERINGS>",
+            root_tag="CAN-FRAME-TRIGGERING",
+        )
+        parser.readFrameTriggering(element, triggering)
+        assert triggering.getFramePortRefs() == []
+        assert triggering.getPduTriggeringRefs() == []
+
     def test_readCanFrameTriggering_sets_canAddressingMode(self, parser):
         from armodel.models import CanCluster, CanFrameTriggering, CanPhysicalChannel
 
@@ -1402,6 +1524,67 @@ class TestFrameAndPduHandlers:
         parser.readIPdu(element, ipdu)
         assert ipdu.getContainedIPduProps() is None
 
+    def test_readIPdu_sets_containedIPduProps_priority_and_containedPduTriggeringRef(self, parser):
+        from armodel.models import GeneralPurposeIPdu
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+            PositiveInteger,
+            TimeValue,
+        )
+
+        ipdu = GeneralPurposeIPdu(parent=_autosar_root(), short_name="ipdu")
+        element = _snip(
+            "<SHORT-NAME>ipdu</SHORT-NAME>"
+            "<CONTAINED-I-PDU-PROPS>"
+            "<COLLECTION-SEMANTICS>queued</COLLECTION-SEMANTICS>"
+            "<CONTAINED-PDU-TRIGGERING-REF DEST='PDU-TRIGGERING'>/PduTriggering/pt1</CONTAINED-PDU-TRIGGERING-REF>"
+            "<HEADER-ID-LONG-HEADER>100</HEADER-ID-LONG-HEADER>"
+            "<HEADER-ID-SHORT-HEADER>50</HEADER-ID-SHORT-HEADER>"
+            "<OFFSET>4</OFFSET>"
+            "<PRIORITY>6</PRIORITY>"
+            "<TIMEOUT>0.01</TIMEOUT>"
+            "<TRIGGER>always</TRIGGER>"
+            "<UPDATE-INDICATION-BIT-POSITION>7</UPDATE-INDICATION-BIT-POSITION>"
+            "</CONTAINED-I-PDU-PROPS>",
+            root_tag="GENERAL-PURPOSE-I-PDU",
+        )
+        parser.readIPdu(element, ipdu)
+        props = ipdu.getContainedIPduProps()
+        assert props is not None
+        assert props.getPriority().getValue() == 6
+        assert props.getContainedPduTriggeringRef().getValue() == "/PduTriggering/pt1"
+        assert props.getContainedPduTriggeringRef().getDest() == "PDU-TRIGGERING"
+        assert props.getCollectionSemantics().getValue() == "queued"
+        assert props.getHeaderIdLongHeader().getValue() == 100
+        assert props.getHeaderIdShortHeader().getValue() == 50
+        assert props.getOffset().getValue() == 4
+        assert props.getTimeout().getValue() == 0.01
+        assert props.getTrigger().getValue() == "always"
+        assert props.getUpdateIndicationBitPosition().getValue() == 7
+        assert isinstance(props.getOffset(), PositiveInteger)
+        assert isinstance(props.getUpdateIndicationBitPosition(), PositiveInteger)
+        assert isinstance(props.getTimeout(), TimeValue)
+
+    def test_readIPdu_containedIPduProps_partial_elements(self, parser):
+        from armodel.models import GeneralPurposeIPdu
+
+        ipdu = GeneralPurposeIPdu(parent=_autosar_root(), short_name="ipdu")
+        element = _snip(
+            "<SHORT-NAME>ipdu</SHORT-NAME>" "<CONTAINED-I-PDU-PROPS>" "<COLLECTION-SEMANTICS>lastIsBest</COLLECTION-SEMANTICS>" "<PRIORITY>3</PRIORITY>" "</CONTAINED-I-PDU-PROPS>",
+            root_tag="GENERAL-PURPOSE-I-PDU",
+        )
+        parser.readIPdu(element, ipdu)
+        props = ipdu.getContainedIPduProps()
+        assert props is not None
+        assert props.getCollectionSemantics().getValue() == "lastIsBest"
+        assert props.getPriority().getValue() == 3
+        assert props.getContainedPduTriggeringRef() is None
+        assert props.getHeaderIdLongHeader() is None
+        assert props.getHeaderIdShortHeader() is None
+        assert props.getOffset() is None
+        assert props.getTimeout() is None
+        assert props.getTrigger() is None
+        assert props.getUpdateIndicationBitPosition() is None
+
 
 class TestISignalAndGroupHandlers:
     def test_readISignal_sets_length(self, parser):
@@ -1607,6 +1790,73 @@ class TestISignalIPduIPduTimingSpecification:
         element = _snip("<SHORT-NAME>ipdu</SHORT-NAME>", root_tag="I-SIGNAL-I-PDU")
         timing = parser.getISignalIPduIPduTimingSpecification(element)
         assert timing is None
+
+
+class TestModeDrivenTransmissionModeCondition:
+    def test_readModeDrivenTransmissionModeCondition_adds_refs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
+            ModeDrivenTransmissionModeCondition,
+        )
+
+        condition = ModeDrivenTransmissionModeCondition()
+        element = _snip(
+            "<MODE-DECLARATION-REFS>"
+            "<MODE-DECLARATION-REF DEST='MODE-DECLARATION'>/ModeDclGroup/M1</MODE-DECLARATION-REF>"
+            "<MODE-DECLARATION-REF DEST='MODE-DECLARATION'>/ModeDclGroup/M2</MODE-DECLARATION-REF>"
+            "</MODE-DECLARATION-REFS>",
+            root_tag="MODE-DRIVEN-TRANSMISSION-MODE-CONDITION",
+        )
+        parser.readModeDrivenTransmissionModeCondition(element, condition)
+        refs = condition.getModeDeclarationRefs()
+        assert len(refs) == 2
+        assert refs[0].getValue() == "/ModeDclGroup/M1"
+        assert refs[0].getDest() == "MODE-DECLARATION"
+        assert refs[1].getValue() == "/ModeDclGroup/M2"
+
+    def test_readModeDrivenTransmissionModeCondition_absent_refs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
+            ModeDrivenTransmissionModeCondition,
+        )
+
+        condition = ModeDrivenTransmissionModeCondition()
+        element = _snip("", root_tag="MODE-DRIVEN-TRANSMISSION-MODE-CONDITION")
+        parser.readModeDrivenTransmissionModeCondition(element, condition)
+        assert condition.getModeDeclarationRefs() == []
+
+    def test_getTransmissionModeDeclaration_reads_modeDrivenConditions(self, parser):
+        element = _snip(
+            "<TRANSMISSION-MODE-DECLARATION>"
+            "<MODE-DRIVEN-FALSE-CONDITIONS>"
+            "<MODE-DRIVEN-TRANSMISSION-MODE-CONDITION>"
+            "<MODE-DECLARATION-REFS>"
+            "<MODE-DECLARATION-REF DEST='MODE-DECLARATION'>/Mdg/FalseMode</MODE-DECLARATION-REF>"
+            "</MODE-DECLARATION-REFS>"
+            "</MODE-DRIVEN-TRANSMISSION-MODE-CONDITION>"
+            "</MODE-DRIVEN-FALSE-CONDITIONS>"
+            "<MODE-DRIVEN-TRUE-CONDITIONS>"
+            "<MODE-DRIVEN-TRANSMISSION-MODE-CONDITION>"
+            "<MODE-DECLARATION-REFS>"
+            "<MODE-DECLARATION-REF DEST='MODE-DECLARATION'>/Mdg/TrueMode1</MODE-DECLARATION-REF>"
+            "<MODE-DECLARATION-REF DEST='MODE-DECLARATION'>/Mdg/TrueMode2</MODE-DECLARATION-REF>"
+            "</MODE-DECLARATION-REFS>"
+            "</MODE-DRIVEN-TRANSMISSION-MODE-CONDITION>"
+            "</MODE-DRIVEN-TRUE-CONDITIONS>"
+            "</TRANSMISSION-MODE-DECLARATION>",
+            root_tag="ROOT",
+        )
+        decl = parser.getTransmissionModeDeclaration(element, "TRANSMISSION-MODE-DECLARATION")
+        assert decl is not None
+        false_conditions = decl.getModeDrivenFalseConditions()
+        assert len(false_conditions) == 1
+        false_refs = false_conditions[0].getModeDeclarationRefs()
+        assert len(false_refs) == 1
+        assert false_refs[0].getValue() == "/Mdg/FalseMode"
+        true_conditions = decl.getModeDrivenTrueConditions()
+        assert len(true_conditions) == 1
+        true_refs = true_conditions[0].getModeDeclarationRefs()
+        assert len(true_refs) == 2
+        assert true_refs[0].getValue() == "/Mdg/TrueMode1"
+        assert true_refs[1].getValue() == "/Mdg/TrueMode2"
 
 
 class TestEndToEndProtectionHandlers:
@@ -2619,6 +2869,22 @@ class TestEcuInstanceHandlers:
         )
         parser.readCommunicationConnectorEcuCommPortInstances(element, conn)
         assert len(conn.getEcuCommPortInstances()) == 1
+
+    def test_readCommunicationConnectorEcuCommPortInstances_framePort_value(self, parser):
+        from armodel.models import CanCommunicationConnector, EcuInstance, FramePort
+
+        instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
+        conn = CanCommunicationConnector(parent=instance, short_name="conn")
+        element = _snip(
+            "<ECU-COMM-PORT-INSTANCES>" "<FRAME-PORT>" "<SHORT-NAME>fp</SHORT-NAME>" "<COMMUNICATION-DIRECTION>out</COMMUNICATION-DIRECTION>" "</FRAME-PORT>" "</ECU-COMM-PORT-INSTANCES>",
+            root_tag="CAN-COMMUNICATION-CONNECTOR",
+        )
+        parser.readCommunicationConnectorEcuCommPortInstances(element, conn)
+        ports = conn.getEcuCommPortInstances()
+        assert len(ports) == 1
+        assert isinstance(ports[0], FramePort)
+        assert ports[0].getShortName() == "fp"
+        assert ports[0].getCommunicationDirection().getValue() == "out"
 
     def test_readCommunicationConnectorEcuCommPortInstances_ipduPort(self, parser):
         from armodel.models import EcuInstance, EthernetCommunicationConnector

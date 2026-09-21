@@ -374,13 +374,11 @@ No deviations — the single Table 5.7 attribute `execInUserMode` (Boolean, 0..1
 | `functionalrequestrefs` | `—` | `functionalRequest` | ``TpConnectionIdent`` | ref | type (spec many vs py single) |
 
 ## `EthernetPhysicalChannel`
-- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 105  | **table:** Table 3.49
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `networkEndpoint` | ``NetworkEndpoint`` | aggr | missing |
+No deviations — all three Table 3.49 attributes (`networkEndpoint` NetworkEndpoint `*` aggr, `soAdConfig` SoAdConfig 0..1 aggr, `vlan` VlanConfig 0..1 aggr) are modeled with typed fields + accessor pairs (aggregated mutator-first per Rule 0001.11); Base most-derived = `PhysicalChannel` (stamped); reader `readEthernetPhysicalChannel`/writer `writeEthernetPhysicalChannel` cover all three in XSD order (NETWORK-ENDPOINTS→SO-AD-CONFIG→VLAN, AUTOSAR_00052.xsd group line 56571) with dispatch in read/writeCommunicationClusterPhysicalChannels. In-pass fixes (not deviations): `createNetworkEndPoint`→`createNetworkEndpoint` rename (Rule 0001.5), `soAdConfig`/`vlan` retyped `Optional[...]` PEP 526 (Rule 0001.4), None no-op added to `setSoAdConfig`. Member types all exist in src (NetworkEndpoint, VlanConfig same file — unstamped, stamps deferred to their own passes per batch constraint; SoAdConfig stamped). Stale tracker row removed 2026-09-20 (claimed `networkEndpoint` missing / wrong package CoreTopology — pre-dates this sync).
 
 ## `DataInterface`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —
@@ -437,13 +435,11 @@ No deviations — the single Table 5.7 attribute `execInUserMode` (Boolean, 0..1
 | — *(missing)* | `—` | `serviceInstance` | ``DiagnosticService Instance`` | ref | missing |
 
 ## `FrameTriggering`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 418
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `pdutriggeringrefs` | `—` | `pduTriggering` | ``PduTriggering`` | ref | type (spec many vs py single) |
+No deviations — all 3 spec attributes modeled (frame/framePort/pduTriggering refs; Rule 0001.5 Ref/Refs suffixes), most-derived base Identifiable + VariationPointCapable per Rule 0020 XSD anchor, full reader/writer coverage via readFrameTriggering/writeFrameTriggering (shared helper reused by Can/Lin/Flexray subclasses). Stale to-fix row `pdutriggeringrefs type (spec many vs py single)` removed 2026-09-20 — member is now `List[RefType]` with addPduTriggeringRef/getPduTriggeringRefs.
 
 ## `HwAttributeValue`
 - **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** 16
@@ -634,40 +630,32 @@ No deviations — the single Table 5.7 attribute `execInUserMode` (Boolean, 0..1
 | `swRecordLayoutGroupFrom` | `ARLiteral` | `swRecordLayoutGroupFrom` | ``RecordLayoutIterator Point`` | attr | type (PDF RecordLayoutIterator Point vs py ARLiteral) |
 
 ## `QueuedSenderComSpec`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 4.68
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 179  | **table:** Table 4.68
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Communication`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
+No deviations — the Table 4.68 attribute column is `-` (zero own attributes; concrete Class, XSD complexType `QUEUED-SENDER-COM-SPEC` `abstract="false"`, AUTOSAR_00052.xsd line 95021, group line 95012 `<xsd:sequence/>` empty); most-derived base `SenderComSpec` (Table 4.67) per the Base row — all seven inherited attributes (`compositeNetworkRepresentation`, `dataElement`, `handleOutOfRange`, `networkRepresentation`, `transmissionAcknowledge`, `transmissionProps`, `usesEndToEndProtection`) and their reader/writer coverage live on the stamped base; full reader/writer coverage via the polymorphic dispatch (`getQueuedSenderComSpec`/`writeQueuedSenderComSpec` + QUEUED-SENDER-COM-SPEC elif branches in `readProvidedComSpec`/`writePPortComSpec`, tested at dispatch level); former `missing` row built on the table's `-` placeholder resolved as stale in the 2026-09 sync.
 
 ## `UserDefinedTransformationComSpecProps`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 200  | **table:** Table 4.91
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Communication`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
+No deviations — the Table 4.91 attribute column is `-` (zero own attributes; concrete Class, XSD complexType `USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS` `abstract="false"`, AUTOSAR_00052.xsd line 129080, group line 129071 `<xsd:sequence/>` empty); most-derived base `TransformationComSpecProps` (Table 4.86) per the Base row (`ARObject, Describable, TransformationComSpecProps`); full reader/writer coverage via the polymorphic dispatch (`readUserDefinedTransformationComSpecProps`/`writeUserDefinedTransformationComSpecProps` + USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS branches in `getTransformationComSpecProps`/`readTransformationComSpecPropss`/`writeTransformationComSpecPropss`/the RECEIVER-COM-SPEC inline site, tested at dispatch level); the readReceiverComSpec transformation-props loop was fixed this pass to the XSD shape (subtype elements directly under the TRANSFORMATION-COM-SPEC-PROPSS wrapper — l.16771/96109/105153); former `missing` row built on the table's `-` placeholder resolved as stale in the 2026-09 sync.
 
 ## `EndToEndProtectionVariablePrototype`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 216  | **table:** Table 4.98
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::EndToEndProtection`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/EndToEndProtection.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `sender` | ``VariableDataPrototype`` | iref | missing |
+No deviations — all three Table 4.98 attributes modeled with full reader/writer coverage (`receiver` iref `*` → `receiverIRefs` + `addReceiverIref`/`getReceiverIrefs` via the RECEIVER-IREFS wrapper; `sender` iref 0..1 → `senderIRef` + `getSenderIref`/`setSenderIref`; `shortLabel` attr 0..1 → `Optional[Identifier]` + `getShortLabel`/`setShortLabel`); concrete Class (XSD complexType `END-TO-END-PROTECTION-VARIABLE-PROTOTYPE` `abstract="false"`, AUTOSAR_00052.xsd line 54457, group line 54411); most-derived base `ARObject` per the Base row, VP-capable per the XSD (VARIATION-POINT element in the group, sequenceOffset 10000) via the VariationPointCapable mixin; XML element order RECEIVER-IREFS→SENDER-IREF→SHORT-LABEL→VARIATION-POINT; this pass also fixed the writer's SENDER-IREF-inside-RECEIVER-IREFS mis-nesting (the wrapper loop reassigned `child_element`) and added the missing SHORT-LABEL/VARIATION-POINT reader/writer coverage; former `missing` row for `sender` built on the pre-sync stub (no accessor pair) resolved in the 2026-09 sync.
 
 ## `EndToEndProtectionSet`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 4.96
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 214  | **table:** Table 4.96
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::EndToEndProtection`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/EndToEndProtection.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `endToEndProtection` | ``EndToEndProtection`` | aggr | missing |
+No deviations — the single Table 4.96 attribute modeled with full reader/writer coverage (`endToEndProtection` aggr `*` → dedicated typed list field `endToEndProtections` + `createEndToEndProtection`/`getEndToEndProtections` via the END-TO-END-PROTECTIONS wrapper element, emitted only when non-empty per the XSD group); concrete Class (XSD complexType `END-TO-END-PROTECTION-SET` `abstract="false"`, AUTOSAR_00052.xsd line 54391, group line 54369); most-derived base `ARElement` per the Base row; class itself not VP-capable (no VARIATION-POINT element in its group — the child row's atpVariation tag lands on PartClass `EndToEndProtection`, which carries the VariationPointCapable mixin); this pass replaced the registry filter+sort getter with the dedicated field (Rule 0004) so the writer preserves document order; former `missing` row for `endToEndProtection` built on the pre-sync stub (no dedicated field, fabricated docstrings) resolved in the 2026-09 sync.
 
 ## `ParameterInterface`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —
@@ -1396,59 +1384,46 @@ No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 6.324 (p.694, R2
 | — *(missing)* | `—` | `defaultValueElement` | ``DefaultValueElement`` | aggr | missing |
 
 ## `StaticPart`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.74
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 410  | **table:** Table 6.73
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `iPduRef` | `RefType` | `iPdu` | ``ISignalIPdu`` | ref | type (PDF ISignalIPdu vs py RefType) |
+No deviations — the single Table 6.73 attribute `iPdu` (ISignalIPdu, Mult `0..1`, Kind `ref`) modeled as `iPduRef: Optional[RefType]` with `getIPduRef`/`setIPduRef` per the Kind `ref`→`Ref` suffix (the PDF Type column names the ref *target* — for a `ref` attribute the model type is `RefType`; the target type constrains the DEST enum only); most-derived base MultiplexedPart + VariationPointCapable mixin (VP-capable per the STATIC-PART XSD group); full reader/writer coverage via `readStaticPart`/`writeStaticPart` incl. VARIATION-POINT; former `type (PDF ISignalIPdu vs py RefType)` row resolved as stale in the 2026-09 sync.
 
 ## `DynamicPartAlternative`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 411  | **table:** Table 6.75
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `iPduRef` | `RefType` | `iPdu` | ``ISignalIPdu`` | ref | type (PDF ISignalIPdu vs py RefType) |
+No deviations — the three Table 6.75 attributes modeled in displayed order: `initialDynamicPart` (Boolean, Mult `0..1`, Kind `attr`) as `initialDynamicPart: Optional[Boolean]`, `iPdu` (ISignalIPdu, Mult `0..1`, Kind `ref`) as `iPduRef: Optional[RefType]` with `getIPduRef`/`setIPduRef` per the Kind `ref`→`Ref` suffix (the PDF Type column names the ref *target* — for a `ref` attribute the model type is `RefType`; the target type constrains the DEST enum only), `selectorFieldCode` (Integer, Mult `0..1`, Kind `attr`) as `selectorFieldCode: Optional[Integer]`; base `ARObject` per the Base row; full reader/writer coverage via `readDynamicPartAlternative`/`writeDynamicPartAlternative` in XSD group order I-PDU-REF → INITIAL-DYNAMIC-PART → SELECTOR-FIELD-CODE with spec-typed helpers; former `type (PDF ISignalIPdu vs py RefType)` row resolved as stale in the 2026-09 sync.
 
 ## `GeneralPurposePdu`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 344  | **table:** Table 6.25
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
+No deviations — the Table 6.25 attribute column is `-` (zero own attributes; XSD group `GENERAL-PURPOSE-PDU` `<xsd:sequence/>` empty); concrete class on the most-derived base `Pdu` per the Base row (the chain has NO `IPdu` — unlike sibling NPdu/DcmIPdu/GeneralPurposeIPdu); full reader/writer coverage via the pre-existing 5-place dispatch (`ARPackage.createGeneralPurposePdu` factory + parser `GENERAL-PURPOSE-PDU` branch + `readGeneralPurposePdu`/`writeGeneralPurposePdu` delegating to `readPdu`/`writePdu` for the inherited HAS-DYNAMIC-LENGTH/LENGTH elements); former `missing` row built on the table's `-` placeholder resolved as stale in the 2026-09 sync.
 
 ## `GeneralPurposeIPdu`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 345  | **table:** Table 6.26
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
+No deviations — the Table 6.26 attribute column is `-` (zero own attributes; XSD group `GENERAL-PURPOSE-I-PDU` `<xsd:sequence/>` empty); concrete class on the most-derived base `IPdu` per the Base row (the chain INCLUDES `IPdu` — unlike sibling GeneralPurposePdu, DcmIPdu/NPdu precedent); full reader/writer coverage via the pre-existing 5-place dispatch (`ARPackage.createGeneralPurposeIPdu` factory + parser `GENERAL-PURPOSE-I-PDU` branch + `readGeneralPurposeIPdu`/`writeGeneralPurposeIPdu` delegating to `readIPdu`/`writeIPdu` for the inherited I-PDU group elements); former `missing` row built on the table's `-` placeholder resolved as stale in the 2026-09 sync.
 
 ## `CommunicationCycle`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.84
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 424  | **table:** Table 6.83
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
+No deviations — the Table 6.83 attribute column is `-` (zero own attributes; abstract Class, XSD has no complexType named `COMMUNICATION-CYCLE` — only group line 20494 `<xsd:sequence/>` empty); abstract base on `ARObject` per the Base row (concrete, instantiable only via subclasses `CycleCounter` Table 6.84 / `CycleRepetition` Table 6.85, both synced this pass); full reader/writer coverage via the polymorphic dispatch (`readCommunicationCycle`/`writeCommunicationCycle` called by both subtype helpers; CYCLE-COUNTER + CYCLE-REPETITION elif branches in all four aggregator dispatch helpers `readFlexrayAbsolutelyScheduledTimingCommunicationCycle` / `readTtcanAbsolutelyScheduledTimingCommunicationCycle` / writer counterparts, tested at dispatch level); former `missing` row built on the table's `-` placeholder resolved as stale in the 2026-09 sync.
 
 ## `FramePort`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.3
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 304  | **table:** Table 6.2
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
-- **Note:** the earlier `Package: …::FibexCore::CoreTopology` row was stale — the spec `Package` row of Table 6.3 is `…::CoreCommunication`; the class is a direct member of `CoreCommunication.py` together with its `CommConnectorPort` base (Rule 0007).
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
+No deviations — the Table 6.2 attribute column is `-` (zero own attributes; concrete Class, XSD complexType `FRAME-PORT` `abstract="false"`, AUTOSAR_00052.xsd line 63127, group line 63118 `<xsd:sequence/>` empty); most-derived base `CommConnectorPort` (Table 6.1) per the Base row — the inherited `communicationDirection` attribute and its reader/writer coverage live on the stamped base; full reader/writer coverage via the polymorphic dispatch (`readFramePort`/`writeFramePort` + FRAME-PORT elif branches in `readCommunicationConnectorEcuCommPortInstances`/`writeCommunicationConnectorEcuCommPortInstances` + `createFramePort` factory, tested at dispatch level); former `missing` row built on the table's `-` placeholder resolved as stale in the 2026-09 sync (it also cited Table 6.3 — IPduPort's table — and a `CoreCommunication.py` path; both corrected here).
 
 ## `AbstractEthernetFrame`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.229

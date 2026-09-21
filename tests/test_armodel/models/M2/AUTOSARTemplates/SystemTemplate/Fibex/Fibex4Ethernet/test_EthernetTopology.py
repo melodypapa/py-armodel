@@ -7,6 +7,8 @@ Each test validates the functionality, inheritance, and setter/getter methods
 of the respective classes.
 """
 
+import inspect
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
@@ -33,6 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetCommunicationController,
     EthernetConnectionNegotiationEnum,
     EthernetMacLayerTypeEnum,
+    EthernetPhysicalChannel,
     EthernetPhysicalLayerTypeEnum,
     EthernetPriorityRegeneration,
     EthernetSwitchVlanIngressTagEnum,
@@ -56,7 +59,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     TimeSyncTechnologyEnum,
     VlanMembership,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay, SoAdConfig
 
 
 class MockParent(ARObject):
@@ -1492,3 +1495,78 @@ class TestGlobalTimeCouplingPortProps:
         result = props.setPropagationDelay(None)
         assert props.getPropagationDelay() == value
         assert result == props
+
+
+class TestEthernetPhysicalChannel:
+    """Test cases for EthernetPhysicalChannel (Table 3.49, p.105)."""
+
+    def test_initialization(self):
+        channel = EthernetPhysicalChannel(MockParent(), "TestChannel")
+
+        assert channel.getShortName() == "TestChannel"
+        assert channel.getNetworkEndpoints() == []
+        assert channel.getSoAdConfig() is None
+        assert channel.getVlan() is None
+
+    def test_class_docstring_matches_spec_note(self):
+        """
+        Test that the class docstring is the verbatim Table 3.49 Note plus the class-level constr rows.
+        """
+        expected = (
+            "The EthernetPhysicalChannel represents a VLAN or an untagged channel. An untagged channel "
+            "is modeled as an EthernetPhysicalChannel without an aggregated VLAN.\n"
+            "\n"
+            "[constr_3333] Standardized values for the attribute category of meta-class EthernetPhysicalChannel: "
+            "The following values of the attribute category of metaclass EthernetPhysicalChannel are reserved by the AUTOSAR standard:\n"
+            "- WIRED: This represents the usage of the EthernetPhysicalChannel in case of a wired ethernet connection\n"
+            "- WIRELESS: This represents the usage of the EthernetPhysicalChannel in case of a wireless ethernet connection\n"
+            "\n"
+            "[constr_3334] Allowed references between EthernetPhysicalChannel and EthernetCommunicationConnector: "
+            "An EthernetPhysicalChannel is only allowed to reference EthernetCommunicationConnectors in the role commConnector "
+            "that have the same category value as the referencing EthernetPhysicalChannel.\n"
+            "\n"
+            "[constr_3365] EthernetPhysicalChannels with different category values are not allowed within an EthernetCluster: "
+            "A mix of EthernetPhysicalChannels with different category values within an EthernetCluster is currently not supported by AUTOSAR.\n"
+            "\n"
+            "[constr_3336] EthernetPhysicalChannel.soAdConfig in case of WIRELESS EthernetPhysicalChannel: "
+            "If EthernetPhysicalChannel has the category WIRELESS then the EthernetPhysicalChannel shall not aggregate the SoAdConfig."
+        )
+        assert inspect.cleandoc(EthernetPhysicalChannel.__doc__) == expected
+
+    def test_create_network_endpoint(self):
+        channel = EthernetPhysicalChannel(MockParent(), "TestChannel")
+
+        end_point = channel.createNetworkEndpoint("nep1")
+        assert end_point.getShortName() == "nep1"
+        assert channel.getNetworkEndpoints() == [end_point]
+
+        duplicate = channel.createNetworkEndpoint("nep1")
+        assert duplicate is end_point
+        assert len(channel.getNetworkEndpoints()) == 1
+
+    def test_get_set_so_ad_config(self):
+        channel = EthernetPhysicalChannel(MockParent(), "TestChannel")
+        config = SoAdConfig()
+
+        result = channel.setSoAdConfig(config)
+        assert channel.getSoAdConfig() is config
+        assert result == channel
+
+        result = channel.setSoAdConfig(None)
+        assert channel.getSoAdConfig() is config
+        assert result == channel
+
+    def test_create_vlan_config(self):
+        channel = EthernetPhysicalChannel(MockParent(), "TestChannel")
+
+        vlan = channel.createVlanConfig("Vlan")
+        assert vlan.getShortName() == "Vlan"
+        assert channel.getVlan() is vlan
+
+        identifier = PositiveInteger().setValue("5")
+        vlan.setVlanIdentifier(identifier)
+        assert channel.getVlan().getVlanIdentifier() == identifier
+
+        duplicate = channel.createVlanConfig("Vlan")
+        assert duplicate is vlan
+        assert channel.getVlan() is vlan

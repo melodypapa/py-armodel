@@ -153,6 +153,7 @@ __all__ = [
     "KeywordSet",
     "LifeCycleInfoSet",
     "LinCluster",
+    "PdurIPduGroup",
     "LinTpConfig",
     "LinUnconditionalFrame",
     "McFunction",
@@ -1035,6 +1036,27 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(element)
         return self.getElement(short_name, EcuInstance)
 
+    def createConsumedProvidedServiceInstanceGroup(self, short_name: str) -> ConsumedProvidedServiceInstanceGroup:
+        """
+        Creates a new ConsumedProvidedServiceInstanceGroup with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        A ConsumedProvidedServiceInstanceGroup encloses ConsumedServiceInstances and
+        ProvidedServiceInstances that the AUTOSAR ServiceDiscovery starts and stops
+        together at runtime.
+
+        Args:
+            short_name: The short name for the new ConsumedProvidedServiceInstanceGroup
+
+        Returns:
+            The newly created or existing ConsumedProvidedServiceInstanceGroup instance
+        """
+
+        if not self.IsElementExists(short_name, ConsumedProvidedServiceInstanceGroup):
+            element = ConsumedProvidedServiceInstanceGroup(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, ConsumedProvidedServiceInstanceGroup)
+
     def createGateway(self, short_name: str) -> Gateway:
 
         if not self.IsElementExists(short_name, Gateway):
@@ -1203,6 +1225,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(element)
         return self.getElement(short_name, ISignalIPduGroup)
 
+    def createPdurIPduGroup(self, short_name: str) -> PdurIPduGroup:
+
+        if not self.IsElementExists(short_name, PdurIPduGroup):
+            element = PdurIPduGroup(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, PdurIPduGroup)
+
     def createClientIdDefinitionSet(self, short_name: str) -> ClientIdDefinitionSet:
 
         if not self.IsElementExists(short_name, ClientIdDefinitionSet):
@@ -1285,6 +1314,20 @@ class ARPackage(CollectableElement, VariationPointCapable):
             table = DiagnosticServiceTable(self, short_name)
             self.addElement(table)
         return self.getElement(short_name, DiagnosticServiceTable)
+
+    def createDltContext(self, short_name: str) -> DltContext:
+
+        if not self.IsElementExists(short_name, DltContext):
+            context = DltContext(self, short_name)
+            self.addElement(context)
+        return self.getElement(short_name, DltContext)
+
+    def createDltEcu(self, short_name: str) -> DltEcu:
+
+        if not self.IsElementExists(short_name, DltEcu):
+            ecu = DltEcu(self, short_name)
+            self.addElement(ecu)
+        return self.getElement(short_name, DltEcu)
 
     def createMultiplexedIPdu(self, short_name: str) -> MultiplexedIPdu:
 
@@ -1842,6 +1885,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     SenderReceiverInterface,
     TriggerInterface,
 )
+from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltContext, DltEcu  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutineMappingSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet, CpSoftwareCluster, System  # noqa: E402
@@ -1853,6 +1897,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthTcpIpIcmpProps, EthernetCluster, EthTcpIpProps  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SoAdRoutingGroup  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (  # noqa: E402
+    ConsumedProvidedServiceInstanceGroup,
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,
@@ -1874,6 +1919,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     MultiplexedIPdu,
     NPdu,
     NmPdu,
+    PdurIPduGroup,
     SecureCommunicationPropsSet,
     SecuredIPdu,
     SystemSignal,

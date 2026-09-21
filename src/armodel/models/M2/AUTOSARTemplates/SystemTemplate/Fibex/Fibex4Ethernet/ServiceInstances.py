@@ -22,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import ApplicationEndpoint, SdClientConfig
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SocketConnection
@@ -400,6 +401,27 @@ class TcpRoleEnum(AREnum):
                 TcpRoleEnum.LISTEN,
             ]
         )
+
+
+class PduCollectionTriggerEnum(AREnum):
+    """
+    Defines whether a Pdu contributes to the triggering of the data transmission if Pdu collection is enabled.
+    """
+
+    # PduCollectionTriggerEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.41, p.357 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ContainedIPduProps.trigger
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Pdu will trigger the transmission of the data. Tags: atp.EnumerationLiteralIndex=0
+    ALWAYS = "always"
+
+    # Pdu will be buffered and will not trigger the transmission of the data. Tags: atp.EnumerationLiteralIndex=1
+    NEVER = "never"
+
+    def __init__(self):
+        super().__init__([PduCollectionTriggerEnum.ALWAYS, PduCollectionTriggerEnum.NEVER])
 
 
 class PduActivationRoutingGroup(Identifiable, VariationPointCapable):
@@ -2010,3 +2032,59 @@ class RequestResponseDelay(ARObject):
         if value is not None:
             self.minValue = value
         return self
+
+
+class ConsumedProvidedServiceInstanceGroup(FibexElement):
+    """
+    The AUTOSAR ServiceDiscovery is able to start and to stop ClientServices and Server Services,respectively, at runtime. A SdServiceGroup contains several ClientServices and Server Services, respectively. Tags: atp.recommendedPackage=ConsumedProvidedServiceInstanceGroups
+    """
+
+    # ConsumedProvidedServiceInstanceGroup method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.174, p.523
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addConsumedServiceInstanceRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConsumedServiceInstanceRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addProvidedServiceInstanceRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProvidedServiceInstanceRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # This reference assigns a set of ProvidedServiceInstances to the ConsumedProvidedServiceInstanceGroup.
+        self.consumedServiceInstanceRefs: List[RefType] = []
+
+        # This reference assigns a set of ConsumedServiceInstances to the ConsumedProvidedServiceInstanceGroup.
+        self.providedServiceInstanceRefs: List[RefType] = []
+
+    def addConsumedServiceInstanceRef(self, value: Optional[RefType]) -> "ConsumedProvidedServiceInstanceGroup":
+        """
+        This reference assigns a set of ProvidedServiceInstances to the ConsumedProvidedServiceInstanceGroup.
+
+        A None value is a no-op and does not add to consumedServiceInstanceRefs.
+        """
+        if value is not None:
+            self.consumedServiceInstanceRefs.append(value)
+        return self
+
+    def getConsumedServiceInstanceRefs(self) -> List[RefType]:
+        """
+        This reference assigns a set of ProvidedServiceInstances to the ConsumedProvidedServiceInstanceGroup.
+        """
+        return self.consumedServiceInstanceRefs
+
+    def addProvidedServiceInstanceRef(self, value: Optional[RefType]) -> "ConsumedProvidedServiceInstanceGroup":
+        """
+        This reference assigns a set of ConsumedServiceInstances to the ConsumedProvidedServiceInstanceGroup.
+
+        A None value is a no-op and does not add to providedServiceInstanceRefs.
+        """
+        if value is not None:
+            self.providedServiceInstanceRefs.append(value)
+        return self
+
+    def getProvidedServiceInstanceRefs(self) -> List[RefType]:
+        """
+        This reference assigns a set of ConsumedServiceInstances to the ConsumedProvidedServiceInstanceGroup.
+        """
+        return self.providedServiceInstanceRefs

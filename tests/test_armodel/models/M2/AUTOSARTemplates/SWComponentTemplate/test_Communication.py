@@ -3,10 +3,13 @@ This module contains comprehensive tests for the Communication module in SWCompo
 Tests cover all classes and methods in the Communication.py file to achieve 100% test coverage.
 """
 
+import inspect
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
@@ -232,6 +235,25 @@ class TestQueuedSenderComSpec:
         sender.setHandleOutOfRange(handle_out_of_range)
         assert sender.getHandleOutOfRange() == handle_out_of_range
         assert sender == sender.setHandleOutOfRange(handle_out_of_range)  # Test method chaining
+
+    def test_queued_sender_com_spec_spec_base(self):
+        """QueuedSenderComSpec is a concrete subclass of SenderComSpec (Table 4.68 Base row)."""
+        assert issubclass(QueuedSenderComSpec, SenderComSpec)
+        assert issubclass(QueuedSenderComSpec, PPortComSpec)
+        assert issubclass(QueuedSenderComSpec, ARObject)
+
+        com_spec = QueuedSenderComSpec()
+        assert isinstance(com_spec, QueuedSenderComSpec)
+        assert isinstance(com_spec, SenderComSpec)
+
+    def test_queued_sender_com_spec_class_docstring_note(self):
+        """Class docstring is the spec Note verbatim (Table 4.68, p.179)."""
+        note = 'Communication attributes specific to distribution of events (PPortPrototype, SenderReceiverInterface and dataElement carries an "event").'
+        assert inspect.cleandoc(QueuedSenderComSpec.__doc__) == note
+
+    def test_queued_sender_com_spec_init_docless(self):
+        """__init__ carries no docstring (Rule 0012.2.4)."""
+        assert QueuedSenderComSpec.__init__.__doc__ is None
 
 
 class TestNonqueuedSenderComSpec:
@@ -748,6 +770,24 @@ class TestUserDefinedTransformationComSpecProps:
         """Test UserDefinedTransformationComSpecProps initialization."""
         _user_def = UserDefinedTransformationComSpecProps()
         # Just verify it can be initialized
+
+    def test_user_defined_transformation_com_spec_props_spec_base(self):
+        """UserDefinedTransformationComSpecProps is a concrete subclass of TransformationComSpecProps (Table 4.91 Base row)."""
+        assert issubclass(UserDefinedTransformationComSpecProps, TransformationComSpecProps)
+        assert issubclass(UserDefinedTransformationComSpecProps, ARObject)
+
+        props = UserDefinedTransformationComSpecProps()
+        assert isinstance(props, UserDefinedTransformationComSpecProps)
+        assert isinstance(props, TransformationComSpecProps)
+
+    def test_user_defined_transformation_com_spec_props_class_docstring_note(self):
+        """Class docstring is the spec Note verbatim (Table 4.91, p.200)."""
+        note = "The UserDefinedTransformationComSpecProps is used to specify port specific configuration properties for custom transformers."
+        assert inspect.cleandoc(UserDefinedTransformationComSpecProps.__doc__) == note
+
+    def test_user_defined_transformation_com_spec_props_init_docless(self):
+        """__init__ carries no docstring (Rule 0012.2.4)."""
+        assert UserDefinedTransformationComSpecProps.__init__.__doc__ is None
 
 
 class TestServerComSpec:

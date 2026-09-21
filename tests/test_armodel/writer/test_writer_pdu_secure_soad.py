@@ -10,10 +10,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARLiteral,
     ARNumerical,
     Boolean,
+    Identifier,
     Integer,
     PositiveInteger,
     RefType,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SoAdRoutingGroup
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     DynamicPart,
@@ -33,6 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     DoIpTpConfig,
     DoIpTpConnection,
 )
+from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -214,6 +217,63 @@ class TestWriteDynamicPartAlternative:
         assert child.find("INITIAL-DYNAMIC-PART").text == "true"
         assert child.find("SELECTOR-FIELD-CODE").text == "1"
 
+    def test_full(self, writer):
+        alternative = DynamicPartAlternative()
+        alternative.setIPduRef(_ref("I-SIGNAL-I-PDU", "/pdus/DynamicAlt"))
+        alternative.setInitialDynamicPart(_bool("true"))
+        alternative.setSelectorFieldCode(_int("1023"))
+        parent = _parent()
+        writer.writeDynamicPartAlternative(parent, alternative)
+        child = parent.find("DYNAMIC-PART-ALTERNATIVE")
+        assert child is not None
+        ref_element = child.find("I-PDU-REF")
+        assert ref_element is not None
+        assert ref_element.text == "/pdus/DynamicAlt"
+        assert ref_element.get("DEST") == "I-SIGNAL-I-PDU"
+        initial_element = child.find("INITIAL-DYNAMIC-PART")
+        assert initial_element is not None
+        assert initial_element.text == "true"
+        code_element = child.find("SELECTOR-FIELD-CODE")
+        assert code_element is not None
+        assert code_element.text == "1023"
+        children = [c.tag for c in child]
+        assert children.index("I-PDU-REF") < children.index("INITIAL-DYNAMIC-PART")
+        assert children.index("INITIAL-DYNAMIC-PART") < children.index("SELECTOR-FIELD-CODE")
+
+    def test_empty(self, writer):
+        alternative = DynamicPartAlternative()
+        parent = _parent()
+        writer.writeDynamicPartAlternative(parent, alternative)
+        child = parent.find("DYNAMIC-PART-ALTERNATIVE")
+        assert child is not None
+        assert child.find("I-PDU-REF") is None
+        assert child.find("INITIAL-DYNAMIC-PART") is None
+        assert child.find("SELECTOR-FIELD-CODE") is None
+
+    def test_write_reparse_round_trip(self, writer):
+        alternative = DynamicPartAlternative()
+        alternative.setIPduRef(_ref("I-SIGNAL-I-PDU", "/pdus/DynamicAlt"))
+        alternative.setInitialDynamicPart(_bool("true"))
+        alternative.setSelectorFieldCode(_int("1023"))
+        parent = _parent()
+        writer.writeDynamicPartAlternative(parent, alternative)
+        child = parent.find("DYNAMIC-PART-ALTERNATIVE")
+
+        xml_str = ET.tostring(child).decode()
+        idx = xml_str.find(">")
+        xml_str = xml_str[:idx] + ' xmlns="http://autosar.org/schema/r4.0"' + xml_str[idx:]
+        reloaded = DynamicPartAlternative()
+        ARXMLParser().readDynamicPartAlternative(ET.fromstring(xml_str), reloaded)
+        assert reloaded.getIPduRef() is not None
+        assert reloaded.getIPduRef().getValue() == "/pdus/DynamicAlt"
+        assert reloaded.getIPduRef().getDest() == "I-SIGNAL-I-PDU"
+        assert reloaded.getInitialDynamicPart() is not None
+        assert isinstance(reloaded.getInitialDynamicPart(), Boolean)
+        assert reloaded.getInitialDynamicPart().getValue() is True
+        assert reloaded.getSelectorFieldCode() is not None
+        assert isinstance(reloaded.getSelectorFieldCode(), Integer)
+        assert reloaded.getSelectorFieldCode().getValue() == 1023
+
 
 class TestWriteDynamicPartDynamicPartAlternatives:
     def test_empty(self, writer):
@@ -291,6 +351,56 @@ class TestWriteStaticPart:
         assert child is not None
         assert child.find("SEGMENT-POSITIONS") is not None
         assert child.find("I-PDU-REF") is not None
+
+    def test_with_variation_point(self, writer):
+        part = StaticPart()
+        part.setIPduRef(_ref("I-SIGNAL-I-PDU", "/pdus/Static"))
+        vp = VariationPoint()
+        vp.setShortLabel(Identifier().setValue("staticVp"))
+        part.setVariationPoint(vp)
+        parent = _parent()
+        writer.writeStaticPart(parent, part)
+        child = parent.find("STATIC-PART")
+        assert child is not None
+        ref_element = child.find("I-PDU-REF")
+        assert ref_element is not None
+        assert ref_element.text == "/pdus/Static"
+        assert ref_element.get("DEST") == "I-SIGNAL-I-PDU"
+        vp_element = child.find("VARIATION-POINT")
+        assert vp_element is not None
+        assert vp_element.find("SHORT-LABEL").text == "staticVp"
+        children = [c.tag for c in child]
+        assert children.index("I-PDU-REF") < children.index("VARIATION-POINT")
+
+    def test_empty(self, writer):
+        part = StaticPart()
+        parent = _parent()
+        writer.writeStaticPart(parent, part)
+        child = parent.find("STATIC-PART")
+        assert child is not None
+        assert child.find("I-PDU-REF") is None
+        assert child.find("VARIATION-POINT") is None
+
+    def test_write_reparse_round_trip(self, writer):
+        part = StaticPart()
+        part.setIPduRef(_ref("I-SIGNAL-I-PDU", "/pdus/Static"))
+        vp = VariationPoint()
+        vp.setShortLabel(Identifier().setValue("staticVp"))
+        part.setVariationPoint(vp)
+        parent = _parent()
+        writer.writeStaticPart(parent, part)
+        child = parent.find("STATIC-PART")
+
+        xml_str = ET.tostring(child).decode()
+        idx = xml_str.find(">")
+        xml_str = xml_str[:idx] + ' xmlns="http://autosar.org/schema/r4.0"' + xml_str[idx:]
+        reloaded = StaticPart()
+        ARXMLParser().readStaticPart(ET.fromstring(xml_str), reloaded)
+        assert reloaded.getIPduRef() is not None
+        assert reloaded.getIPduRef().getValue() == "/pdus/Static"
+        assert reloaded.getIPduRef().getDest() == "I-SIGNAL-I-PDU"
+        assert reloaded.getVariationPoint() is not None
+        assert reloaded.getVariationPoint().getShortLabel().getValue() == "staticVp"
 
 
 class TestWriteMultiplexedIPduStaticParts:
@@ -389,6 +499,34 @@ class TestWriteGeneralPurposePdu:
         assert child.find("SHORT-NAME").text == "gpPdu"
         assert child.find("LENGTH").text == "64"
 
+    def test_empty(self, writer):
+        pkg = _pkg()
+        pdu = GeneralPurposePdu(pkg, "gpPdu")
+        parent = _parent()
+        writer.writeGeneralPurposePdu(parent, pdu)
+        child = parent.find("GENERAL-PURPOSE-PDU")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "gpPdu"
+        assert child.find("LENGTH") is None
+        assert child.find("HAS-DYNAMIC-LENGTH") is None
+
+    def test_write_reparse_round_trip(self, writer):
+        pkg = _pkg()
+        pdu = GeneralPurposePdu(pkg, "gpPdu")
+        pdu.setLength(_int("64"))
+        parent = _parent()
+        writer.writeGeneralPurposePdu(parent, pdu)
+        child = parent.find("GENERAL-PURPOSE-PDU")
+        xml_str = ET.tostring(child).decode()
+        idx = xml_str.find(">")
+        xml_str = xml_str[:idx] + ' xmlns="http://autosar.org/schema/r4.0"' + xml_str[idx:]
+        reloaded = GeneralPurposePdu(parent=_pkg(), short_name="gpPdu")
+        ARXMLParser().readGeneralPurposePdu(ET.fromstring(xml_str), reloaded)
+        assert reloaded.getShortName() == "gpPdu"
+        assert reloaded.getLength() is not None
+        assert reloaded.getLength().getValue() == 64
+        assert reloaded.getHasDynamicLength() is None
+
 
 class TestWriteGeneralPurposeIPdu:
     def test_full(self, writer):
@@ -401,6 +539,36 @@ class TestWriteGeneralPurposeIPdu:
         assert child is not None
         assert child.find("SHORT-NAME").text == "gpIpdu"
         assert child.find("LENGTH").text == "128"
+
+    def test_empty(self, writer):
+        pkg = _pkg()
+        ipdu = GeneralPurposeIPdu(pkg, "gpIpdu")
+        parent = _parent()
+        writer.writeGeneralPurposeIPdu(parent, ipdu)
+        child = parent.find("GENERAL-PURPOSE-I-PDU")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "gpIpdu"
+        assert child.find("LENGTH") is None
+        assert child.find("HAS-DYNAMIC-LENGTH") is None
+        assert child.find("CONTAINED-I-PDU-PROPS") is None
+
+    def test_write_reparse_round_trip(self, writer):
+        pkg = _pkg()
+        ipdu = GeneralPurposeIPdu(pkg, "gpIpdu")
+        ipdu.setLength(_int("128"))
+        parent = _parent()
+        writer.writeGeneralPurposeIPdu(parent, ipdu)
+        child = parent.find("GENERAL-PURPOSE-I-PDU")
+        xml_str = ET.tostring(child).decode()
+        idx = xml_str.find(">")
+        xml_str = xml_str[:idx] + ' xmlns="http://autosar.org/schema/r4.0"' + xml_str[idx:]
+        reloaded = GeneralPurposeIPdu(parent=_pkg(), short_name="gpIpdu")
+        ARXMLParser().readGeneralPurposeIPdu(ET.fromstring(xml_str), reloaded)
+        assert reloaded.getShortName() == "gpIpdu"
+        assert reloaded.getLength() is not None
+        assert reloaded.getLength().getValue() == 128
+        assert reloaded.getHasDynamicLength() is None
+        assert reloaded.getContainedIPduProps() is None
 
 
 class TestWriteSecureCommunicationAuthenticationProps:

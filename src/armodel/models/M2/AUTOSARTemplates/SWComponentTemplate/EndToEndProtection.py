@@ -9,9 +9,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, NameToken, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
-from typing import List, TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.EndToEndProtection import EndToEndProtectionISignalIPdu
@@ -284,40 +284,73 @@ class EndToEndDescription(ARObject):
 
 class EndToEndProtectionVariablePrototype(ARObject, VariationPointCapable):
     """
-    Associates a VariableDataPrototype with sender and receiver roles
-    for end-to-end data protection.
+    It is possible to protect the data exchanged between software components. For this purpose, for each communication to be protected, the user defines a separate EndToEndProtection (specifying a set of protection settings) and refers to a variableDataPrototype in the role of sender and to one or many variableDataPrototypes in the role of receiver. For details, see EndToEnd Library. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach.
     """
 
     # EndToEndProtectionVariablePrototype method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addReceiverIref              [x] impl  [x] docstring  [ ] test
-    # [ ] getReceiverIrefs             [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.98, p.216 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addReceiverIref   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReceiverIrefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSenderIref     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSenderIref     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShortLabel     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShortLabel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self._receiverIRefs: List[VariableDataPrototypeInSystemInstanceRef] = []
-        self.senderIRef: VariableDataPrototypeInSystemInstanceRef = None
-        self.shortLabel: str = None
+        # This represents the receiver. Note that 1:n communication is supported for this use case. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
+        self.receiverIRefs: List[VariableDataPrototypeInSystemInstanceRef] = []
 
-    def addReceiverIref(self, iref: VariableDataPrototypeInSystemInstanceRef):
-        """
-        Adds a receiver instance reference.
+        # This represents the sender. Can be optional if an ecu extract is provided and the sender is part of the extract. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
+        self.senderIRef: Optional[VariableDataPrototypeInSystemInstanceRef] = None
 
-        Args:
-            iref: The receiver instance reference to add
+        # This serves as part of the split key in case of more than one EndToEndProtectionVariablePrototype is aggregated in the bound model. Stereotypes: atpIdentityContributor
+        self.shortLabel: Optional[Identifier] = None
+
+    def addReceiverIref(self, iref: Optional[VariableDataPrototypeInSystemInstanceRef]) -> "EndToEndProtectionVariablePrototype":
         """
-        self._receiverIRefs.append(iref)
+        This represents the receiver. Note that 1:n communication is supported for this use case. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef A None value is a no-op and does not append to the receiverIRefs.
+        """
+        if iref is not None:
+            self.receiverIRefs.append(iref)
+        return self
 
     def getReceiverIrefs(self) -> List[VariableDataPrototypeInSystemInstanceRef]:
         """
-        Gets the list of receiver instance references.
-
-        Returns:
-            List[VariableDataPrototypeInSystemInstanceRef]: The receiver
-                references
+        This represents the receiver. Note that 1:n communication is supported for this use case. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
         """
-        return self._receiverIRefs
+        return self.receiverIRefs
+
+    def getSenderIref(self) -> Optional[VariableDataPrototypeInSystemInstanceRef]:
+        """
+        This represents the sender. Can be optional if an ecu extract is provided and the sender is part of the extract. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
+        """
+        return self.senderIRef
+
+    def setSenderIref(self, value: Optional[VariableDataPrototypeInSystemInstanceRef]) -> "EndToEndProtectionVariablePrototype":
+        """
+        This represents the sender. Can be optional if an ecu extract is provided and the sender is part of the extract. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef A None value is a no-op and does not overwrite an existing senderIRef.
+        """
+        if value is not None:
+            self.senderIRef = value
+        return self
+
+    def getShortLabel(self) -> Optional[Identifier]:
+        """
+        This serves as part of the split key in case of more than one EndToEndProtectionVariablePrototype is aggregated in the bound model. Stereotypes: atpIdentityContributor
+        """
+        return self.shortLabel
+
+    def setShortLabel(self, value: Optional[Identifier]) -> "EndToEndProtectionVariablePrototype":
+        """
+        This serves as part of the split key in case of more than one EndToEndProtectionVariablePrototype is aggregated in the bound model. Stereotypes: atpIdentityContributor A None value is a no-op and does not overwrite an existing shortLabel.
+        """
+        if value is not None:
+            self.shortLabel = value
+        return self
 
 
 class EndToEndProtection(Identifiable, VariationPointCapable):
@@ -414,38 +447,34 @@ class EndToEndProtection(Identifiable, VariationPointCapable):
 
 class EndToEndProtectionSet(ARElement):
     """
-    This represents a container for the collection of EndToEndProtection
-    information.
+    This represents a container for collection EndToEndProtectionInformation.
     """
 
     # EndToEndProtectionSet method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] createEndToEndProtection     [x] impl  [x] docstring  [ ] test
-    # [ ] getEndToEndProtections       [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.96, p.214 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createEndToEndProtection     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEndToEndProtections       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # This is one particular EndToEndProtection.
+        self.endToEndProtections: List[EndToEndProtection] = []
+
     def createEndToEndProtection(self, short_name: str) -> EndToEndProtection:
         """
-        Creates or retrieves an EndToEndProtection element.
-
-        Args:
-            short_name: The short name for the protection element
-
-        Returns:
-            EndToEndProtection: The created or existing element
+        This is one particular EndToEndProtection.
         """
         if not self.IsElementExists(short_name, EndToEndProtection):
             protection = EndToEndProtection(self, short_name)
             self.addElement(protection)
+            self.endToEndProtections.append(protection)
         return self.getElement(short_name, EndToEndProtection)
 
     def getEndToEndProtections(self) -> List[EndToEndProtection]:
         """
-        Gets sorted EndToEndProtection elements.
-
-        Returns:
-            List[EndToEndProtection]: Sorted list of EndToEndProtection
+        This is one particular EndToEndProtection.
         """
-        return sorted(filter(lambda c: isinstance(c, EndToEndProtection), self.elements), key=lambda e: e.short_name)
+        return self.endToEndProtections

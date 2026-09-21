@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, TimeValue
@@ -7,25 +7,37 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 
 class ModeDrivenTransmissionModeCondition(ARObject):
     """
-    The condition defined by this class evaluates to true if one of the
-    referenced modeDeclarations (OR associated) is active.
+    The condition defined by this class evaluates to true if one of the referenced modeDeclarations (OR associated) is active. All referenced modeDeclarations shall be from the same ModeDeclarationGroup. The condition is used to define which TransmissionMode shall be activated using Com_SwitchIpduTxMode.
+
+    [constr_9187] Existence of ModeDrivenTransmissionModeCondition.modeDeclaration: For each ModeDrivenTransmissionModeCondition, the reference to ModeDeclaration in the role modeDeclaration shall exist at the time when the System Description is complete.
     """
 
     # ModeDrivenTransmissionModeCondition method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getModeDeclarationRef        [x] impl  [ ] docstring  [ ] test
-    # [ ] setModeDeclarationRef        [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.61, p.393 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getModeDeclarationRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addModeDeclarationRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.modeDeclarationRef: RefType = None
+        # Reference to one modeDeclaration which is OR associated in the context of the ModeDrivenTransmissionModeCondition.
+        self.modeDeclarationRefs: List[RefType] = []
 
-    def getModeDeclarationRef(self):
-        return self.modeDeclarationRef
+    def getModeDeclarationRefs(self) -> List[RefType]:
+        """
+        Reference to one modeDeclaration which is OR associated in the context of the ModeDrivenTransmissionModeCondition.
+        """
+        return self.modeDeclarationRefs
 
-    def setModeDeclarationRef(self, value):
-        self.modeDeclarationRef = value
+    def addModeDeclarationRef(self, value: Optional[RefType]) -> "ModeDrivenTransmissionModeCondition":
+        """
+        Reference to one modeDeclaration which is OR associated in the context of the ModeDrivenTransmissionModeCondition.
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.modeDeclarationRefs.append(value)
         return self
 
 

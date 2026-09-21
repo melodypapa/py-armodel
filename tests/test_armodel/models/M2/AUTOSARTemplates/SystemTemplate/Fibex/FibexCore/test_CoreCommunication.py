@@ -1,9 +1,15 @@
+import inspect
+import sys
+import typing
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ByteOrderEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, ByteOrderEnum, Integer, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     ContainedIPduProps,
     DcmIPdu,
@@ -43,6 +49,16 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     UserDefinedPdu,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import TriggerIPduSendCondition
+
+
+def _get_type_hints(obj):
+    """typing.get_type_hints leaves PEP 563 self-references as ForwardRef on Python 3.8; resolve against the defining module."""
+    hints = typing.get_type_hints(obj)
+    module_vars = vars(sys.modules[obj.__module__])
+    for name, hint in hints.items():
+        if isinstance(hint, typing.ForwardRef):
+            hints[name] = module_vars.get(hint.__forward_arg__, hint)
+    return hints
 
 
 class MockParent(ARObject):
@@ -1039,20 +1055,6 @@ class Test_FibexCoreCommunication:
         assert ipdu.getUnusedBitPattern() == 255
         assert ipdu == ipdu.setUnusedBitPattern(255)  # Test method chaining
 
-    def test_GeneralPurposePdu(self):
-        """Test GeneralPurposePdu class functionality."""
-        parent = MockParent()
-        pdu = GeneralPurposePdu(parent, "test_general_purpose_pdu")
-
-        assert isinstance(pdu, Pdu)
-
-    def test_GeneralPurposeIPdu(self):
-        """Test GeneralPurposeIPdu class functionality."""
-        parent = MockParent()
-        ipdu = GeneralPurposeIPdu(parent, "test_general_purpose_ipdu")
-
-        assert isinstance(ipdu, IPdu)
-
     def test_SecureCommunicationPropsSet_initialization(self):
         parent = MockParent()
         props_set = SecureCommunicationPropsSet(parent, "test_secure_com_props_set")
@@ -1169,3 +1171,266 @@ class Test_FibexCoreCommunication:
         assert freshness_props.getUseFreshnessTimestamp() is True
         assert freshness_props == freshness_props.setUseFreshnessTimestamp(None)
         assert freshness_props.getUseFreshnessTimestamp() is True
+
+
+STATIC_PART_CLASS_NOTE = (
+    "Some parts/signals of the I-PDU may be the same regardless of the selector field. "
+    "Such a part is called static part. The static part is optional.\n"
+    "\n"
+    "[constr_9176] Existence of StaticPart.iPdu: For each StaticPart, "
+    "the reference to ISignalIPdu in role iPdu shall exist at the time when the System Description is complete."
+)
+
+IPDU_REF_NOTE = "Reference to a Com IPdu which is routed to the IPduM module and is combined to a multiplexedPdu."
+
+
+class TestStaticPart:
+    """Test cases for StaticPart (Table 6.73, p.410)."""
+
+    OWN_MEMBERS = ["iPduRef"]
+
+    def test_inheritance(self):
+        assert issubclass(StaticPart, MultiplexedPart)
+        assert issubclass(StaticPart, VariationPointCapable)
+        assert issubclass(StaticPart, ARObject)
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(StaticPart.__doc__) == STATIC_PART_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert StaticPart.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        part = StaticPart()
+        assert part.getIPduRef() is None
+        assert part.getVariationPoint() is None
+        assert part.getSegmentPositions() == []
+
+    def test_member_order(self):
+        part = StaticPart()
+        members = [k for k in vars(part) if k in set(self.OWN_MEMBERS)]
+        assert members == self.OWN_MEMBERS
+
+    def test_get_set_i_pdu_ref(self):
+        part = StaticPart()
+        ref = RefType()
+        ref.setDest("I-SIGNAL-I-PDU")
+        ref.setValue("/pdus/StaticIpdu")
+
+        assert part == part.setIPduRef(ref)
+        assert part.getIPduRef() == ref
+        assert part.getIPduRef().getValue() == "/pdus/StaticIpdu"
+        assert part.getIPduRef().getDest() == "I-SIGNAL-I-PDU"
+
+        assert part == part.setIPduRef(None)
+        assert part.getIPduRef() == ref
+
+        getter_hints = _get_type_hints(StaticPart.getIPduRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = _get_type_hints(StaticPart.setIPduRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is StaticPart
+
+    def test_get_set_variation_point(self):
+        part = StaticPart()
+        vp = VariationPoint()
+
+        assert part == part.setVariationPoint(vp)
+        assert part.getVariationPoint() == vp
+
+        assert part == part.setVariationPoint(None)
+        assert part.getVariationPoint() == vp
+
+    def test_docstrings_are_spec_notes(self):
+        """Test that the accessor docstrings carry the attribute Note verbatim (Table 6.73)."""
+        assert StaticPart.getIPduRef.__doc__.strip() == IPDU_REF_NOTE
+        assert inspect.cleandoc(StaticPart.setIPduRef.__doc__).strip() == IPDU_REF_NOTE + "\nA None value is a no-op and does not overwrite an existing iPduRef."
+
+
+DYNAMIC_PART_ALTERNATIVE_CLASS_NOTE = (
+    "One of the Com IPdu alternatives that are transmitted in the Dynamic Part of the MultiplexedIPdu. "
+    "The selectorFieldCode specifies which Com IPdu is contained in the DynamicPart within a certain "
+    "transmission of a multiplexed PDU.\n"
+    "\n"
+    "[constr_9178] Existence of DynamicPartAlternative.initialDynamicPart: For each DynamicPartAlternative "
+    "the attribute initialDynamicPart shall exist at the time when the System Description is complete.\n"
+    "\n"
+    "[constr_9179] Existence of DynamicPartAlternative.iPdu: For each DynamicPartAlternative, the reference "
+    "to ISignalIPdu in role iPdu shall exist at the time when the System Description is complete.\n"
+    "\n"
+    "[constr_9180] Existence of DynamicPartAlternative.selectorFieldCode: For each DynamicPartAlternative, "
+    "the attribute selectorFieldCode shall exist at the time when the System Description is complete."
+)
+
+INITIAL_DYNAMIC_PART_NOTE = "Dynamic part that shall be used to initialize this multiplexed IPdu. " 'Constraint: Only one "DynamicPartAlternative" in a "DynamicPart" shall be the initialDynamicPart.'
+
+SELECTOR_FIELD_CODE_NOTE = (
+    "The selector field is part of a multiplexed IPdu. It consists of contiguous bits. " "The value of the selector field selects the layout of the multiplexed part of the IPdu."
+)
+
+
+class TestDynamicPartAlternative:
+    """Test cases for DynamicPartAlternative (Table 6.75, p.411)."""
+
+    OWN_MEMBERS = ["initialDynamicPart", "iPduRef", "selectorFieldCode"]
+
+    def test_inheritance(self):
+        assert issubclass(DynamicPartAlternative, ARObject)
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(DynamicPartAlternative.__doc__) == DYNAMIC_PART_ALTERNATIVE_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert DynamicPartAlternative.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        alternative = DynamicPartAlternative()
+        assert alternative.getInitialDynamicPart() is None
+        assert alternative.getIPduRef() is None
+        assert alternative.getSelectorFieldCode() is None
+
+    def test_member_order(self):
+        alternative = DynamicPartAlternative()
+        members = [k for k in vars(alternative) if k in set(self.OWN_MEMBERS)]
+        assert members == self.OWN_MEMBERS
+
+    def test_get_set_initial_dynamic_part(self):
+        alternative = DynamicPartAlternative()
+        value = Boolean()
+        value.setValue(True)
+
+        assert alternative == alternative.setInitialDynamicPart(value)
+        assert alternative.getInitialDynamicPart() == value
+        assert alternative.getInitialDynamicPart().getValue() is True
+
+        assert alternative == alternative.setInitialDynamicPart(None)
+        assert alternative.getInitialDynamicPart() == value
+
+        getter_hints = _get_type_hints(DynamicPartAlternative.getInitialDynamicPart)
+        assert getter_hints.get("return") == typing.Optional[Boolean]
+
+        setter_hints = _get_type_hints(DynamicPartAlternative.setInitialDynamicPart)
+        assert setter_hints.get("value") == typing.Optional[Boolean]
+        assert setter_hints.get("return") is DynamicPartAlternative
+
+    def test_get_set_i_pdu_ref(self):
+        alternative = DynamicPartAlternative()
+        ref = RefType()
+        ref.setDest("I-SIGNAL-I-PDU")
+        ref.setValue("/pdus/DynamicIpdu")
+
+        assert alternative == alternative.setIPduRef(ref)
+        assert alternative.getIPduRef() == ref
+        assert alternative.getIPduRef().getValue() == "/pdus/DynamicIpdu"
+        assert alternative.getIPduRef().getDest() == "I-SIGNAL-I-PDU"
+
+        assert alternative == alternative.setIPduRef(None)
+        assert alternative.getIPduRef() == ref
+
+        getter_hints = _get_type_hints(DynamicPartAlternative.getIPduRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = _get_type_hints(DynamicPartAlternative.setIPduRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is DynamicPartAlternative
+
+    def test_get_set_selector_field_code(self):
+        alternative = DynamicPartAlternative()
+        value = Integer()
+        value.setValue("1023")
+
+        assert alternative == alternative.setSelectorFieldCode(value)
+        assert alternative.getSelectorFieldCode() == value
+        assert alternative.getSelectorFieldCode().getValue() == 1023
+
+        assert alternative == alternative.setSelectorFieldCode(None)
+        assert alternative.getSelectorFieldCode() == value
+
+        getter_hints = _get_type_hints(DynamicPartAlternative.getSelectorFieldCode)
+        assert getter_hints.get("return") == typing.Optional[Integer]
+
+        setter_hints = _get_type_hints(DynamicPartAlternative.setSelectorFieldCode)
+        assert setter_hints.get("value") == typing.Optional[Integer]
+        assert setter_hints.get("return") is DynamicPartAlternative
+
+    def test_docstrings_are_spec_notes(self):
+        """Test that the accessor docstrings carry the attribute Notes verbatim (Table 6.75)."""
+        assert DynamicPartAlternative.getInitialDynamicPart.__doc__.strip() == INITIAL_DYNAMIC_PART_NOTE
+        assert (
+            inspect.cleandoc(DynamicPartAlternative.setInitialDynamicPart.__doc__).strip()
+            == INITIAL_DYNAMIC_PART_NOTE + "\nA None value is a no-op and does not overwrite an existing initialDynamicPart."
+        )
+        assert DynamicPartAlternative.getIPduRef.__doc__.strip() == IPDU_REF_NOTE
+        assert inspect.cleandoc(DynamicPartAlternative.setIPduRef.__doc__).strip() == IPDU_REF_NOTE + "\nA None value is a no-op and does not overwrite an existing iPduRef."
+        assert DynamicPartAlternative.getSelectorFieldCode.__doc__.strip() == SELECTOR_FIELD_CODE_NOTE
+        assert (
+            inspect.cleandoc(DynamicPartAlternative.setSelectorFieldCode.__doc__).strip()
+            == SELECTOR_FIELD_CODE_NOTE + "\nA None value is a no-op and does not overwrite an existing selectorFieldCode."
+        )
+
+
+GENERAL_PURPOSE_PDU_CLASS_NOTE = (
+    "This element is used for AUTOSAR Pdus without additional attributes that are routed by a bus interface. "
+    "Please note that the category name of such Pdus is standardized in the AUTOSAR System Template. "
+    "Tags: atp.recommendedPackage=Pdus\n"
+    "\n"
+    "[constr_3081] Value of category in GeneralPurposePdu: The attribute category of GeneralPurposePdu "
+    "can have the following values: SD (Service Discovery), GLOBAL_TIME, DoIP"
+)
+
+
+class TestGeneralPurposePdu:
+    """Test cases for GeneralPurposePdu (Table 6.25, p.344)."""
+
+    def test_inheritance(self):
+        assert issubclass(GeneralPurposePdu, Pdu)
+        assert issubclass(GeneralPurposePdu, FibexElement)
+        assert issubclass(GeneralPurposePdu, Identifiable)
+        assert issubclass(GeneralPurposePdu, ARObject)
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(GeneralPurposePdu.__doc__) == GENERAL_PURPOSE_PDU_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert GeneralPurposePdu.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        pdu = GeneralPurposePdu(MockParent(), "gpPdu")
+        assert pdu.getShortName() == "gpPdu"
+        assert pdu.getHasDynamicLength() is None
+        assert pdu.getLength() is None
+
+
+GENERAL_PURPOSE_IPDU_CLASS_NOTE = (
+    "This element is used for AUTOSAR Pdus without attributes that are routed by the PduR. "
+    "Please note that the category name of such Pdus is standardized in the AUTOSAR System Template. "
+    "Tags: atp.recommendedPackage=Pdus\n"
+    "\n"
+    "[constr_3082] Value of category in GeneralPurposeIPdu: The attribute category of GeneralPurposeIPdu "
+    "can have the following values: XCP, SOMEIP_SEGMENTED_IPDU, DLT, IDS"
+)
+
+
+class TestGeneralPurposeIPdu:
+    """Test cases for GeneralPurposeIPdu (Table 6.26, p.345)."""
+
+    def test_inheritance(self):
+        assert issubclass(GeneralPurposeIPdu, IPdu)
+        assert issubclass(GeneralPurposeIPdu, Pdu)
+        assert issubclass(GeneralPurposeIPdu, FibexElement)
+        assert issubclass(GeneralPurposeIPdu, Identifiable)
+        assert issubclass(GeneralPurposeIPdu, ARObject)
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(GeneralPurposeIPdu.__doc__) == GENERAL_PURPOSE_IPDU_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert GeneralPurposeIPdu.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        ipdu = GeneralPurposeIPdu(MockParent(), "gpIpdu")
+        assert ipdu.getShortName() == "gpIpdu"
+        assert ipdu.getContainedIPduProps() is None
+        assert ipdu.getHasDynamicLength() is None
+        assert ipdu.getLength() is None

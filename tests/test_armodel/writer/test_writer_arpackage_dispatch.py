@@ -109,6 +109,7 @@ ELEMENT_TYPES_AND_TAGS = [
     ("PortInterfaceMappingSet", "PORT-INTERFACE-MAPPING-SET"),
     ("EthernetCluster", "ETHERNET-CLUSTER"),
     ("ISignalIPduGroup", "I-SIGNAL-I-PDU-GROUP"),
+    ("PdurIPduGroup", "PDUR-I-PDU-GROUP"),
     ("DiagnosticConnection", "DIAGNOSTIC-CONNECTION"),
     ("DiagnosticServiceTable", "DIAGNOSTIC-SERVICE-TABLE"),
     ("MultiplexedIPdu", "MULTIPLEXED-I-PDU"),
