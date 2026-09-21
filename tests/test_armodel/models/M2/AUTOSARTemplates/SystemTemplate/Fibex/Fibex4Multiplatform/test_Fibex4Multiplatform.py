@@ -1,4 +1,5 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import DefaultValueElement, FrameMapping, Gateway, IPduMapping, ISignalMapping, PduMappingDefaultValue, TargetIPduRef
 
 
@@ -226,36 +227,51 @@ class TestFibex4Multiplatform:
         """
         ipdu_mapping = IPduMapping()
 
-        # Test constructor
-        assert ipdu_mapping is not None
+        # Verbatim spec Note (AUTOSAR_CP_TPS_SystemTemplate Table 8.3)
+        assert IPduMapping.__doc__ == ("Arranges those IPdus that are transferred by the gateway from one channel to the other in pairs and defines the mapping between them.")
+        assert IPduMapping.__init__.__doc__ is None
 
         # Test default values
         assert ipdu_mapping.getIntroduction() is None
+        assert ipdu_mapping.getPduMaxLength() is None
         assert ipdu_mapping.getPdurTpChunkSize() is None
-        assert ipdu_mapping.getSourceIpduRef() is None
+        assert ipdu_mapping.getSourceIPduRef() is None
         assert ipdu_mapping.getTargetIPdu() is None
 
         # Test setter/getter methods with method chaining - with None values
         assert ipdu_mapping == ipdu_mapping.setIntroduction(None)
         assert ipdu_mapping.getIntroduction() is None
 
+        assert ipdu_mapping == ipdu_mapping.setPduMaxLength(None)
+        assert ipdu_mapping.getPduMaxLength() is None
+
         assert ipdu_mapping == ipdu_mapping.setPdurTpChunkSize(None)
         assert ipdu_mapping.getPdurTpChunkSize() is None
 
-        assert ipdu_mapping == ipdu_mapping.setSourceIpduRef(None)
-        assert ipdu_mapping.getSourceIpduRef() is None
+        assert ipdu_mapping == ipdu_mapping.setSourceIPduRef(None)
+        assert ipdu_mapping.getSourceIPduRef() is None
 
         assert ipdu_mapping == ipdu_mapping.setTargetIPdu(None)
         assert ipdu_mapping.getTargetIPdu() is None
 
         # Test setter/getter methods with method chaining - with actual values
-        ipdu_mapping.setPdurTpChunkSize(64)
-        assert ipdu_mapping.getPdurTpChunkSize() == 64
-        assert ipdu_mapping == ipdu_mapping.setPdurTpChunkSize(64)
+        max_length = PositiveInteger()
+        max_length.setValue(1500)
+        ipdu_mapping.setPduMaxLength(max_length)
+        assert ipdu_mapping.getPduMaxLength() == max_length
+        assert ipdu_mapping == ipdu_mapping.setPduMaxLength(max_length)
 
-        ipdu_mapping.setSourceIpduRef("source_ipdu_ref")
-        assert ipdu_mapping.getSourceIpduRef() == "source_ipdu_ref"
-        assert ipdu_mapping == ipdu_mapping.setSourceIpduRef("source_ipdu_ref")
+        chunk_size = PositiveInteger()
+        chunk_size.setValue(64)
+        ipdu_mapping.setPdurTpChunkSize(chunk_size)
+        assert ipdu_mapping.getPdurTpChunkSize() == chunk_size
+        assert ipdu_mapping == ipdu_mapping.setPdurTpChunkSize(chunk_size)
+
+        source_ref = RefType()
+        source_ref.setValue("/Cluster/Triggering")
+        ipdu_mapping.setSourceIPduRef(source_ref)
+        assert ipdu_mapping.getSourceIPduRef() == source_ref
+        assert ipdu_mapping == ipdu_mapping.setSourceIPduRef(source_ref)
 
         target_ipdu = TargetIPduRef()
         ipdu_mapping.setTargetIPdu(target_ipdu)
@@ -328,24 +344,26 @@ class TestFibex4Multiplatform:
 
     def test_ipdu_mapping_source_ipdu_ref_none_handling(self):
         """
-        Test IPduMapping setSourceIpduRef None value handling to achieve 100% coverage.
+        Test IPduMapping setSourceIPduRef None value handling to achieve 100% coverage.
         """
         ipdu_mapping = IPduMapping()
 
         # Test that setting None keeps the original value (which is None) - tests the if value is not None logic
-        assert ipdu_mapping.getSourceIpduRef() is None
-        result = ipdu_mapping.setSourceIpduRef(None)
+        assert ipdu_mapping.getSourceIPduRef() is None
+        result = ipdu_mapping.setSourceIPduRef(None)
         assert result == ipdu_mapping
-        # Since value is None, sourceIpduRef should remain None
-        assert ipdu_mapping.getSourceIpduRef() is None
+        # Since value is None, sourceIPduRef should remain None
+        assert ipdu_mapping.getSourceIPduRef() is None
 
         # Test setting actual value then trying to set to None (should not change the value)
-        ipdu_mapping.setSourceIpduRef("some_ref")
-        assert ipdu_mapping.getSourceIpduRef() == "some_ref"
-        result = ipdu_mapping.setSourceIpduRef(None)
+        source_ref = RefType()
+        source_ref.setValue("/Cluster/Triggering")
+        ipdu_mapping.setSourceIPduRef(source_ref)
+        assert ipdu_mapping.getSourceIPduRef() == source_ref
+        result = ipdu_mapping.setSourceIPduRef(None)
         assert result == ipdu_mapping
-        # Since value is None, sourceIpduRef should remain as before (not set)
-        assert ipdu_mapping.getSourceIpduRef() == "some_ref"
+        # Since value is None, sourceIPduRef should remain as before (not set)
+        assert ipdu_mapping.getSourceIPduRef() == source_ref
 
     def test_gateway(self):
         """

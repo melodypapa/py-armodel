@@ -11749,7 +11749,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             mappings_tag = ET.SubElement(element, "I-PDU-MAPPINGS")
             for mapping in mappings:
                 child_element = ET.SubElement(mappings_tag, "I-PDU-MAPPING")
-                self.setChildElementOptionalRefType(child_element, "SOURCE-I-PDU-REF", mapping.getSourceIpduRef())
+                self.writeDocumentationBlock(child_element, "INTRODUCTION", mapping.getIntroduction())
+                self.setChildElementOptionalPositiveInteger(child_element, "PDU-MAX-LENGTH", mapping.getPduMaxLength())
+                self.setChildElementOptionalPositiveInteger(child_element, "PDUR-TP-CHUNK-SIZE", mapping.getPdurTpChunkSize())
+                self.setChildElementOptionalRefType(child_element, "SOURCE-I-PDU-REF", mapping.getSourceIPduRef())
                 self.setTargetIPduRef(child_element, "TARGET-I-PDU", mapping.getTargetIPdu())
 
     def writeGateway(self, element: ET.Element, gateway: Gateway):

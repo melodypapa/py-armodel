@@ -268,15 +268,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 8 — Deviations  [in-pass: createFlexrayNmCluster/createJ1939NmCluster + list appends recorded under their own rows; FLEXRAY-NM-CLUSTER-COUPLING in NM-CLUSTER-COUPLINGS wrapper still notImplemented — belongs to FlexrayNmClusterCoupling (recorded under Pending 16.4); LIN-NM-CLUSTER choice member is atp.Status=removed XSD-only — recorded under Pending 16.4, not modeled]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `IPduMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 8.3)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 8.3, p.840; concrete, Base = ARObject (VariationPointCapable mixin kept: XSD group I-PDU-MAPPING carries VARIATION-POINT, CryptoServiceMapping precedent); attrs in displayed order: introduction (DocumentationBlock 0..1 aggr), pduMaxLength (PositiveInteger 0..1 attr — MISSING in src), pdurTpChunkSize (PositiveInteger 0..1 attr), sourceIPdu (PduTriggering 0..1 ref, accessor sourceIPduRef), targetIPdu (TargetIPduRef 0..1 aggr); XML order per XSD group I-PDU-MAPPING: INTRODUCTION → PDU-MAX-LENGTH → PDUR-TP-CHUNK-SIZE → SOURCE-I-PDU-REF → TARGET-I-PDU (→ VARIATION-POINT); aggregated by Gateway.iPduMapping
+  - [x] Step 2 — Write model class unit test (Red) — 3 Red: fabricated docstring (was ISignalToIPduMapping's Note!), missing pduMaxLength accessors, sourceIpduRef → sourceIPduRef rename; typed PositiveInteger/RefType/TargetIPduRef round-trips + None no-ops
+  - [x] Step 3 — Implement model class (Green) — pduMaxLength member + accessors added; sourceIpduRef renamed sourceIPduRef with getSourceIPduRef/setSourceIPduRef (Kind-suffix naming, Rule 0001.5); PEP 526 Optional annotations; member order = displayed order
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class Note replaced with verbatim Table 8.3 Note; all five attr Notes verbatim on inline comments + getters + setters (None no-op sentences appended)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer test files: all five elements with values (INTRODUCTION P/L-1 paragraph, PDU-MAX-LENGTH, PDUR-TP-CHUNK-SIZE, SOURCE-I-PDU-REF DEST, TARGET-I-PDU/TARGET-I-PDU-REF), exact XSD element-order assertion, minimal/empty cases, write→re-parse round-trip; 4 Red (INTRODUCTION/PDU-MAX-LENGTH/PDUR-TP-CHUNK-SIZE dropped on both sides)
+  - [x] Step 6 — Update parser & writer (Green) — getIPduMappings/setIPduMappings extended with INTRODUCTION (getDocumentationBlock/writeDocumentationBlock), PDU-MAX-LENGTH, PDUR-TP-CHUNK-SIZE in XSD order; sourceIpduRef→sourceIPduRef renames at parser/writer/test call sites
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 8.3 p.840 citation, release column; marker deferred to 9b
+  - [x] Step 8 — Deviations  [resolved in-step (Rule 0014): reader/writer silent drop of INTRODUCTION/PDU-MAX-LENGTH/PDUR-TP-CHUNK-SIZE fixed; naming sourceIpduRef → sourceIPduRef fixed; observation: VARIATION-POINT (XSD-only, not a Table 8.3 attribute row) not read/written — consistent with sibling ISignalMapping/FrameMapping, mixin kept]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `PduMappingDefaultValue` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 8.5)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

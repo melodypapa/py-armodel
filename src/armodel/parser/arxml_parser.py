@@ -12173,7 +12173,10 @@ class ARXMLParser(AbstractARXMLParser):
         mappings = []
         for child_element in self.findall(element, "I-PDU-MAPPINGS/I-PDU-MAPPING"):
             mapping = IPduMapping()
-            mapping.setSourceIpduRef(self.getChildElementOptionalRefType(child_element, "SOURCE-I-PDU-REF"))
+            mapping.setIntroduction(self.getDocumentationBlock(child_element, "INTRODUCTION"))
+            mapping.setPduMaxLength(self.getChildElementOptionalPositiveInteger(child_element, "PDU-MAX-LENGTH"))
+            mapping.setPdurTpChunkSize(self.getChildElementOptionalPositiveInteger(child_element, "PDUR-TP-CHUNK-SIZE"))
+            mapping.setSourceIPduRef(self.getChildElementOptionalRefType(child_element, "SOURCE-I-PDU-REF"))
             mapping.setTargetIPdu(self.getTargetIPduRef(child_element, "TARGET-I-PDU"))
             mappings.append(mapping)
         return mappings

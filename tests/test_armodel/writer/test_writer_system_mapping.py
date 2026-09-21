@@ -1192,12 +1192,12 @@ class TestWriterSetIPduMappings:
 
     def test_with_mappings(self, writer):
         m1 = IPduMapping()
-        m1.setSourceIpduRef(_ref("/s1", "I-SIGNAL-I-PDU"))
+        m1.setSourceIPduRef(_ref("/s1", "I-SIGNAL-I-PDU"))
         target1 = TargetIPduRef()
         target1.setTargetIPduRef(_ref("/t1", "I-SIGNAL-I-PDU"))
         m1.setTargetIPdu(target1)
         m2 = IPduMapping()
-        m2.setSourceIpduRef(_ref("/s2", "I-SIGNAL-I-PDU"))
+        m2.setSourceIPduRef(_ref("/s2", "I-SIGNAL-I-PDU"))
         parent = _parent()
         writer.setIPduMappings(parent, [m1, m2])
         assert parent[0].tag == "I-PDU-MAPPINGS"
@@ -1213,7 +1213,7 @@ class TestWriterGateway:
         gw = _make_gateway()
         gw.setEcuRef(_ref("/e", "ECU-INSTANCE"))
         pdu = IPduMapping()
-        pdu.setSourceIpduRef(_ref("/s", "I-SIGNAL-I-PDU"))
+        pdu.setSourceIPduRef(_ref("/s", "I-SIGNAL-I-PDU"))
         gw.addIPduMapping(pdu)
         sig = ISignalMapping()
         sig.setSourceSignalRef(_ref("/ss", "I-SIGNAL"))
