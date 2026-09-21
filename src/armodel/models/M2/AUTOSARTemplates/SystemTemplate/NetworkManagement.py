@@ -821,25 +821,34 @@ class J1939NmEcu(BusspecificNmEcu):
 
 class UdpNmEcu(BusspecificNmEcu):
     """
-    Defines UDP-specific network management ECU properties,
-    implementing bus-specific NM features for UDP communication
-    including synchronization point capabilities.
+    Udp NM specific ECU attributes.
     """
 
     # UdpNmEcu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmSynchronizationPointEnabled [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmSynchronizationPointEnabled [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.316, p.688 (R23-11)
+    # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.238, p.431 (R4.3.1)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNmSynchronizationPointEnabled [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1 (legacy)
+    # [x] setNmSynchronizationPointEnabled [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1 (legacy)
 
     def __init__(self):
         super().__init__()
 
-        self.nmSynchronizationPointEnabled: Boolean = None
+        # Enable/disable the NM Coordination algorithm to being able to initiate the synchronization algorithm.
+        self.nmSynchronizationPointEnabled: Optional[Boolean] = None
 
-    def getNmSynchronizationPointEnabled(self):
+    def getNmSynchronizationPointEnabled(self) -> Optional[Boolean]:
+        """
+        Enable/disable the NM Coordination algorithm to being able to initiate the synchronization algorithm.
+        """
         return self.nmSynchronizationPointEnabled
 
-    def setNmSynchronizationPointEnabled(self, value):
+    def setNmSynchronizationPointEnabled(self, value: Optional[Boolean]) -> "UdpNmEcu":
+        """
+        Enable/disable the NM Coordination algorithm to being able to initiate the synchronization algorithm.
+        A None value is a no-op and does not overwrite an existing nmSynchronizationPointEnabled.
+        """
         if value is not None:
             self.nmSynchronizationPointEnabled = value
         return self

@@ -305,6 +305,38 @@ class TestFlexrayNmNode:
         assert node.getNmNodeId() is None
 
 
+class TestUdpNmEcu:
+    """UdpNmEcu (Table 6.316, p.688; legacy attr from R4.3.1 Table 6.238, p.431) — spec sync tests."""
+
+    def test_concrete_instantiation_and_heritage(self):
+        ecu = UdpNmEcu()
+        assert isinstance(ecu, BusspecificNmEcu)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert UdpNmEcu.__doc__.strip() == "Udp NM specific ECU attributes."
+
+    def test_init_has_no_docstring(self):
+        assert UdpNmEcu.__init__.__doc__ is None
+
+    def test_legacy_attribute_get_set_round_trip_and_none_no_op(self):
+        ecu = UdpNmEcu()
+        assert ecu.getNmSynchronizationPointEnabled() is None
+
+        enabled = Boolean()
+        enabled.setValue(True)
+        ecu.setNmSynchronizationPointEnabled(enabled)
+        assert ecu.getNmSynchronizationPointEnabled() is enabled
+        ecu.setNmSynchronizationPointEnabled(None)
+        assert ecu.getNmSynchronizationPointEnabled() is enabled
+
+    def test_legacy_attribute_docstring_is_r431_note_verbatim(self):
+        note = "Enable/disable the NM Coordination algorithm to being able to initiate the synchronization algorithm."
+        assert (UdpNmEcu.getNmSynchronizationPointEnabled.__doc__ or "").strip() == note
+        setter_doc = (UdpNmEcu.setNmSynchronizationPointEnabled.__doc__ or "").strip()
+        assert setter_doc.startswith(note)
+        assert "A None value is a no-op" in setter_doc
+
+
 class MockParent(ARObject):
     def __init__(self):
         super().__init__()

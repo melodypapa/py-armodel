@@ -228,15 +228,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 8 — Deviations  [in-pass (Rule 0016.4/0001.10): NmCluster.createFlexrayNmNode factory created (needed by FLEXRAY-NM-NODE reader dispatch); removed-status NM-INSTANCE-ID not modeled (absent from R23-11 table)]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `UdpNmEcu` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.316)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 6.316, p.688; concrete, Base → `BusspecificNmEcu`; R23-11 table has ZERO attribute rows; XSD group UDP-NM-ECU carries NM-REPEAT-MSG-INDICATION-ENABLED (removed 4.3.0, never modeled, not in R4.3.1 table) + NM-SYNCHRONIZATION-POINT-ENABLED (removed) — combine case
+  - [x] Step 2 — Write model class unit test (Red) — 2 Red: fabricated class docstring + legacy attr docstring not the R4.3.1 Note; get/set/None-no-op and heritage already covered
+  - [x] Step 3 — Implement model class (Green) — legacy member kept per Rule 0019 combine case: nmSynchronizationPointEnabled documented in R4.3.1 Table 6.238 p.431, reader/writer coverage pre-exists; PEP 526 annotation `Optional[Boolean]` (was bare `Boolean`), typed accessor signatures
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note "Udp NM specific ECU attributes." verbatim; legacy attr docstring = R4.3.1 Note verbatim on inline comment + getter + setter (None no-op sentence appended)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer test files: legacy element value, XSD order pin, empty-element case, BUS-DEPENDENT-NM-ECUS dispatch, write→re-parse round-trip; all pass immediately — reader/writer coverage pre-exists, honestly noted
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed: readUdpNmEcu/writeUdpNmEcu already cover NM-SYNCHRONIZATION-POINT-ENABLED via BUS-DEPENDENT-NM-ECUS dispatch
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist with DUAL `# Spec:` lines (R23-11 Table 6.316 p.688 + R4.3.1 Table 6.238 p.431), legacy rows carry release R4.3.1; marker deferred to 9b
+  - [x] Step 8 — Deviations  [accepted legacy (R4.3.1 Table 6.238, p.431); removed in R23-11 — nmSynchronizationPointEnabled kept per Rule 0019 (older verified corpus documents it, XSD element still present with atp.Status=removed, reader/writer coverage pre-exists); NM-REPEAT-MSG-INDICATION-ENABLED (removed 4.3.0, absent from R4.3.1 table too) not modeled — observation only]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `J1939NmCluster` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.319)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
