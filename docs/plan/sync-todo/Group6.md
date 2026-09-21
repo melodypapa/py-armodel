@@ -76,15 +76,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 8 — Deviations  [resolved in-step (Rule 0014): reader/writer coverage gap — IPV-4-CONFIGURATION dispatch missing both sides, IPv4 endpoint addresses were silently dropped; fixed. Missing subclass MacMulticastConfiguration (Table 6.136) recorded under Pending 16.4 resolution — sibling class, not a member type of this row; Ipv4AddressSourceEnum missing noted]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [x] `OrderedMaster` — already verified (# Spec verified: R23-11, `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`)
-- [ ] `TimeSyncClientConfiguration` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.146 · after `OrderedMaster` (aggr `orderedMaster`))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [x] `TimeSyncClientConfiguration` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.146 · after `OrderedMaster` (aggr `orderedMaster`)) — **finished, stamped `# Spec verified: R23-11`, commit 101b0f3b (stale 6.147 checklist citation corrected; writer ORDERED-MASTER-LIST/TIME-SYNC-TECHNOLOGY order fixed to XSD)**
+  - [x] Step 1 — Sync members & description from spec — Table 6.146, p.470; Base = ARObject; attrs in displayed order: orderedMaster (OrderedMaster *, ordered aggr, xml.namePlural=ORDERED-MASTER-LIST), timeSyncTechnology (TimeSyncTechnologyEnum 0..1); XML order per XSD group: ORDERED-MASTER-LIST → TIME-SYNC-TECHNOLOGY; **old checklist cited the WRONG table (6.147 = TimeSyncServerConfiguration) and had no marker ⇒ full re-sync**; member types OrderedMaster (stamped) + TimeSyncTechnologyEnum exist
+  - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring (Red: fabricated), no-`__init__`-docstring, defaults, typed enum setter + None no-op, typed OrderedMaster list + None no-op (replaced string-based test)
+  - [x] Step 3 — Implement model class (Green) — PEP 526 annotation for timeSyncTechnology (Rule 0003 fix), typed accessor signatures; orderedMasters dedicated typed list kept
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note verbatim; both attr Notes verbatim on inline comments + getters + setters (None no-op sentences appended)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new writer test file: child-order assertion ORDERED-MASTER-LIST before TIME-SYNC-TECHNOLOGY (Red: writer emitted reverse), master INDEX/TIME-SYNC-SERVER-REF values + DEST, empty case, full round-trip via getTimeSynchronization
+  - [x] Step 6 — Update parser & writer (Green) — setTimeSynchronization emission order corrected to XSD sequence; reader (getTimeSynchronization) already covered both attrs incl. enum construction — unchanged
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.146 p.470 citation (replacing wrong 6.147 citation), release column added; marker deferred to 9b
+  - [x] Step 8 — Deviations  [resolved in-step (Rule 0014): stale checklist citation Table 6.147/p.469 → corrected to Table 6.146/p.470; writer element-order violation fixed; no open deviations]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `TransportProtocolConfiguration` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.125)
   - [ ] Step 1 — Sync members & description from spec

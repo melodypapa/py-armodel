@@ -2354,38 +2354,54 @@ class OrderedMaster(ARObject):
 
 class TimeSyncClientConfiguration(ARObject):
     """
-    Configures time synchronization client properties, defining
-    ordered master relationships and time synchronization
-    technology settings for network time coordination.
+    Defines the configuration of the time synchronisation client.
     """
 
     # TimeSyncClientConfiguration method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.147, p.469
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getOrderedMasters            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addOrderedMaster             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeSyncTechnology        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] setTimeSyncTechnology        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.146, p.470
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOrderedMasters       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addOrderedMaster        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSyncTechnology   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSyncTechnology   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
+        # Defines a list of ordered NetworkEndpoints. Tags: xml.namePlural=ORDERED-MASTER-LIST
         self.orderedMasters: List[OrderedMaster] = []
-        self.timeSyncTechnology = None  # type: TimeSyncTechnologyEnum
 
-    def getOrderedMasters(self):
+        # Defines the time synchronisation technology used.
+        self.timeSyncTechnology: Optional[TimeSyncTechnologyEnum] = None
+
+    def getOrderedMasters(self) -> List[OrderedMaster]:
+        """
+        Defines a list of ordered NetworkEndpoints. Tags: xml.namePlural=ORDERED-MASTER-LIST
+        """
         return self.orderedMasters
 
-    def addOrderedMaster(self, value):
+    def addOrderedMaster(self, value: Optional[OrderedMaster]) -> "TimeSyncClientConfiguration":
+        """
+        Defines a list of ordered NetworkEndpoints. Tags: xml.namePlural=ORDERED-MASTER-LIST
+        A None value is a no-op and does not extend the orderedMaster list.
+        """
         if value is not None:
             self.orderedMasters.append(value)
         return self
 
-    def getTimeSyncTechnology(self):
+    def getTimeSyncTechnology(self) -> Optional[TimeSyncTechnologyEnum]:
+        """
+        Defines the time synchronisation technology used.
+        """
         return self.timeSyncTechnology
 
-    def setTimeSyncTechnology(self, value):
+    def setTimeSyncTechnology(self, value: Optional[TimeSyncTechnologyEnum]) -> "TimeSyncClientConfiguration":
+        """
+        Defines the time synchronisation technology used.
+        A None value is a no-op and does not overwrite an existing timeSyncTechnology.
+        """
         if value is not None:
             self.timeSyncTechnology = value
         return self

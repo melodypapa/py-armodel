@@ -51,6 +51,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     MacMulticastGroup,
     NetworkEndpoint,
     NetworkEndpointAddress,
+    OrderedMaster,
     PlcaProps,
     SdClientConfig,
     TimeSyncClientConfiguration,
@@ -60,6 +61,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     VlanMembership,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay, SoAdConfig
+
+
+def _pos_int(text):
+    value = PositiveInteger()
+    value.setValue(text)
+    return value
 
 
 class MockParent(ARObject):
@@ -1156,7 +1163,7 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert result == entity  # Test method chaining
 
     def test_TimeSyncClientConfiguration(self):
-        """Test TimeSyncClientConfiguration class functionality."""
+        """Test TimeSyncClientConfiguration class functionality (Table 6.146, p.470)."""
         config = TimeSyncClientConfiguration()
 
         assert isinstance(config, ARObject)
@@ -1165,19 +1172,40 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert config.getOrderedMasters() == []
         assert config.getTimeSyncTechnology() is None
 
-        # Test setter/getter methods with method chaining
-        result = config.setTimeSyncTechnology("IEEE_1588")
-        assert config.getTimeSyncTechnology() == "IEEE_1588"
-        assert result == config  # Test method chaining
+    def test_TimeSyncClientConfiguration_docstring_is_spec_note(self):
+        """Class docstring carries the spec Note verbatim (Table 6.146, p.470)."""
+        assert TimeSyncClientConfiguration.__doc__.strip() == "Defines the configuration of the time synchronisation client."
 
-        # Test adding ordered masters with method chaining
-        result = config.addOrderedMaster("master1")
-        assert config.getOrderedMasters() == ["master1"]
-        assert result == config  # Test method chaining
+    def test_TimeSyncClientConfiguration_init_has_no_docstring(self):
+        assert TimeSyncClientConfiguration.__init__.__doc__ is None
 
-        result = config.addOrderedMaster("master2")
-        assert config.getOrderedMasters() == ["master1", "master2"]
-        assert result == config  # Test method chaining
+    def test_TimeSyncClientConfiguration_set_time_sync_technology(self):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import TimeSyncTechnologyEnum
+
+        config = TimeSyncClientConfiguration()
+        value = TimeSyncTechnologyEnum()
+        value.setValue("IEEE_802.1AS")
+        assert config.setTimeSyncTechnology(value) is config
+        assert config.getTimeSyncTechnology() is value
+        config.setTimeSyncTechnology(None)
+        assert config.getTimeSyncTechnology() is value
+
+    def test_TimeSyncClientConfiguration_add_ordered_masters(self):
+        config = TimeSyncClientConfiguration()
+        master1 = OrderedMaster()
+        master1.setIndex(_pos_int("1"))
+        master2 = OrderedMaster()
+        master2.setIndex(_pos_int("2"))
+
+        result = config.addOrderedMaster(master1)
+        assert result is config
+        config.addOrderedMaster(master2)
+
+        masters = config.getOrderedMasters()
+        assert masters == [master1, master2]
+
+        config.addOrderedMaster(None)
+        assert len(config.getOrderedMasters()) == 2
 
     def test_TimeSyncServerConfiguration(self):
         """Test TimeSyncServerConfiguration class functionality."""
