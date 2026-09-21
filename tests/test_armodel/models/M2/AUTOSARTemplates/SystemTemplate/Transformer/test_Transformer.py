@@ -150,18 +150,27 @@ class TestTransformer:
         data_set = DataTransformationSet(parent, "test_data_set")
 
         assert isinstance(data_set, ARElement)
+        assert issubclass(DataTransformationSet, ARElement)
+
+        # Verbatim spec Note (AUTOSAR_CP_TPS_SystemTemplate Table 7.1)
+        assert DataTransformationSet.__doc__ == (
+            "This element is the system wide container of DataTransformations which represent transformer chains. " "Tags: atp.recommendedPackage=DataTransformationSets"
+        )
+        assert DataTransformationSet.__init__.__doc__ is None
 
         # Test default values
         assert data_set.getDataTransformations() == []
         assert data_set.getTransformationTechnologies() == []
 
-        # Test create methods
+        # Test create methods (duplicate short name returns the existing element)
         trans = data_set.createDataTransformation("test_transformation")
         assert isinstance(trans, DataTransformation)
+        assert data_set.createDataTransformation("test_transformation") is trans
         assert len(data_set.getDataTransformations()) == 1
 
         tech = data_set.createTransformationTechnology("test_technology")
         assert isinstance(tech, TransformationTechnology)
+        assert data_set.createTransformationTechnology("test_technology") is tech
         assert len(data_set.getTransformationTechnologies()) == 1
 
     def test_end_to_end_profile_behavior_enum(self):

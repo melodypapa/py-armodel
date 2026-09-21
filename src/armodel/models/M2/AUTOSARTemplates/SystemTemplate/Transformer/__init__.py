@@ -946,26 +946,30 @@ class TransformationTechnology(Identifiable, VariationPointCapable):
 
 
 class DataTransformationSet(ARElement):
-    """
-    Represents a set of data transformations in the system,
-    organizing multiple data transformations and transformation
-    technologies for comprehensive data processing configurations.
-    """
+    """This element is the system wide container of DataTransformations which represent transformer chains. Tags: atp.recommendedPackage=DataTransformationSets"""
 
     # DataTransformationSet method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataTransformations       [x] impl  [ ] docstring  [ ] test
-    # [ ] createDataTransformation     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTransformationTechnologies [x] impl  [ ] docstring  [ ] test
-    # [ ] createTransformationTechnology [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.1, p.763
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataTransformations         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createDataTransformation       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformationTechnologies  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createTransformationTechnology [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # This container consists of all transformer chains which can be used for transformation of data communication. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataTransformation.shortName, dataTransformation.variationPoint.shortLabel vh.latestBindingTime=codeGenerationTime
         self.dataTransformations: List[DataTransformation] = []
+
+        # Transformer that is used in a transformer chain for transformation of data communication. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=transformationTechnology.shortName, transformationTechnology.variationPoint.shortLabel vh.latestBindingTime=codeGenerationTime
         self.transformationTechnologies: List[TransformationTechnology] = []
 
-    def getDataTransformations(self):
+    def getDataTransformations(self) -> List[DataTransformation]:
+        """
+        This container consists of all transformer chains which can be used for transformation of data communication. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataTransformation.shortName, dataTransformation.variationPoint.shortLabel vh.latestBindingTime=codeGenerationTime
+        """
         return self.dataTransformations
 
     def createDataTransformation(self, short_name: str) -> DataTransformation:
@@ -975,7 +979,10 @@ class DataTransformationSet(ARElement):
             self.dataTransformations.append(dfs)
         return self.getElement(short_name, DataTransformation)
 
-    def getTransformationTechnologies(self):
+    def getTransformationTechnologies(self) -> List[TransformationTechnology]:
+        """
+        Transformer that is used in a transformer chain for transformation of data communication. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=transformationTechnology.shortName, transformationTechnology.variationPoint.shortLabel vh.latestBindingTime=codeGenerationTime
+        """
         return self.transformationTechnologies
 
     def createTransformationTechnology(self, short_name: str) -> TransformationTechnology:

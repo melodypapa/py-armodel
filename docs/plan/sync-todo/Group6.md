@@ -137,15 +137,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 8 — Deviations  [member type TlsCryptoCipherSuite (Table 6.212, p.561 + TlsVersionEnum/TlsPskIdentity closure) absent from src ⇒ tlsCipherSuites kept as dedicated generic list, TLS-CIPHER-SUITES reader/writer notImplemented — recorded under Pending 16.4; rest exact]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `DataTransformationSet` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 7.1 · after `DataTransformation`/`TransformationTechnology`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 7.1, p.763; concrete, Base chain → most-existing `ARElement`; attrs in displayed order: dataTransformation (DataTransformation *, aggr), transformationTechnology (TransformationTechnology *, aggr); XML order per XSD group: DATA-TRANSFORMATIONS → TRANSFORMATION-TECHNOLOGYS; aggregated by ARPackage.element; Note + "Tags: atp.recommendedPackage=DataTransformationSets" verbatim; both member types exist (stamped)
+  - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring assertion (Red: fabricated docstring), no-`__init__`-docstring, ARElement heritage, create* duplicate-returns-existing pin
+  - [x] Step 3 — Implement model class (Green) — shape already spec-correct: base ARElement, dedicated typed lists in displayed order, create* factories with IsElementExists guard; typed accessor signatures added
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstring replaced with verbatim Note+Tags; both attr Notes verbatim on inline comments + getters; create* carry no docstring (NmConfig precedent)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer test files: wrapper order DATA-TRANSFORMATIONS → TRANSFORMATION-TECHNOLOGYS pin, EXECUTE-DESPITE-DATA-UNAVAILABILITY/TRANSFORMER-CHAIN-REF-DEST/PROTOCOL/VERSION values, ARPackage dispatch isinstance pins, empty-omits case, write→re-parse round-trip
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed: readDataTransformationSet/writeDataTransformationSet + ARPackage DATA-TRANSFORMATION-SET dispatch pre-exist in XSD order
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 7.1 p.763 citation, release column added; marker deferred to 9b
+  - [x] Step 8 — Deviations  [none: both aggrs modeled exactly as dedicated typed lists; Base → ARElement; docstrings verbatim; reader/writer coverage pre-exists]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [x] `DataPrototypeTransformationProps` — already verified (# Spec verified: R23-11, `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py`)
 - [ ] `TransformationISignalProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 7.8 · after `DataPrototypeTransformationProps` (aggr))
   - [ ] Step 1 — Sync members & description from spec
