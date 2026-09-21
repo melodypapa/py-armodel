@@ -1,4 +1,5 @@
 import inspect
+import typing
 
 import pytest
 
@@ -1865,6 +1866,12 @@ class Test_ConsumedProvidedServiceInstanceGroup:
 
         assert isinstance(group, FibexElement)
         assert isinstance(group, ConsumedProvidedServiceInstanceGroup)
+
+    def test_init_parameter_annotations(self):
+        annotations = typing.get_type_hints(ConsumedProvidedServiceInstanceGroup.__init__)
+
+        assert annotations["parent"] is ARObject
+        assert annotations["short_name"] is str
 
     def test_class_docstring_note(self):
         expected = (
