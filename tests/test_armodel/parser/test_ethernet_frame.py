@@ -32,7 +32,7 @@ def _snip(inner: str) -> ET.Element:
 
 def test_read_generic_ethernet_frame_fields(parser):
     xml = """
-      <ETHERNET-FRAME>
+      <GENERIC-ETHERNET-FRAME>
         <SHORT-NAME>GenFrame</SHORT-NAME>
         <FRAME-LENGTH>16</FRAME-LENGTH>
         <PDU-TO-FRAME-MAPPINGS>
@@ -42,10 +42,10 @@ def test_read_generic_ethernet_frame_fields(parser):
             <START-POSITION>0</START-POSITION>
           </PDU-TO-FRAME-MAPPING>
         </PDU-TO-FRAME-MAPPINGS>
-      </ETHERNET-FRAME>
+      </GENERIC-ETHERNET-FRAME>
     """
     root = _snip(xml)
-    element = parser.find(root, "ETHERNET-FRAME")
+    element = parser.find(root, "GENERIC-ETHERNET-FRAME")
     frame = GenericEthernetFrame(parent=AUTOSAR.getInstance(), short_name="GenFrame")
     parser.readGenericEthernetFrame(element, frame)
 
@@ -65,8 +65,8 @@ def test_read_generic_ethernet_frame_fields(parser):
 
 
 def test_read_generic_ethernet_frame_empty(parser):
-    root = _snip("<ETHERNET-FRAME><SHORT-NAME>EmptyFrame</SHORT-NAME></ETHERNET-FRAME>")
-    element = parser.find(root, "ETHERNET-FRAME")
+    root = _snip("<GENERIC-ETHERNET-FRAME><SHORT-NAME>EmptyFrame</SHORT-NAME></GENERIC-ETHERNET-FRAME>")
+    element = parser.find(root, "GENERIC-ETHERNET-FRAME")
     frame = GenericEthernetFrame(parent=AUTOSAR.getInstance(), short_name="EmptyFrame")
     parser.readGenericEthernetFrame(element, frame)
 

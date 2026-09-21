@@ -25,15 +25,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.229 p.578 citation, `__init__` row with `[—]` reader/writer (no own XML element); marker deferred to 9b
   - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; Base chain → stamped Frame; docstring verbatim; reader/writer via base helpers; no referenced missing classes — subclass GenericEthernetFrame already queued as next row]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `GenericEthernetFrame` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.231)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [x] `GenericEthernetFrame` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.231) — **finished, stamped `# Spec verified: R23-11`, commit b29e5072 (element renamed to GENERIC-ETHERNET-FRAME per XSD)**
+  - [x] Step 1 — Sync members & description from spec — Table 6.231, p.579; concrete, Base chain → most-derived `AbstractEthernetFrame`; zero attribute rows; Note + "Tags: atp.recommendedPackage=Frames" verbatim; **XSD element is GENERIC-ETHERNET-FRAME (ETHER-FRAME element belongs to the removed legacy EthernetFrame class) — code currently dispatches/writes ETHERNET-FRAME ⇒ naming deviation, to-fix in Step 6; no fixtures/examples carry either element**
+  - [x] Step 2 — Write model class unit test (Red) — defaults, verbatim Note+Tags docstring assertion (Red: Tags line missing), no-`__init__`-docstring, heritage
+  - [x] Step 3 — Implement model class (Green) — shape already spec-correct: most-derived base AbstractEthernetFrame, zero attribute rows ⇒ no members/accessors, concrete class
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — appended "Tags: atp.recommendedPackage=Frames" to the class Note verbatim (convention per E2EProfileCompatibilityProps); `__init__` carries no docstring
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 4 tests Red on the XSD-correct element name GENERIC-ETHERNET-FRAME (round-trip + 3 pre-existing dispatch pins updated)
+  - [x] Step 6 — Update parser & writer (Green) — renamed dispatch tag and written element ETHERNET-FRAME → GENERIC-ETHERNET-FRAME (parser ARPackage dispatch, writeGenericEthernetFrame); 253 affected tests pass
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.231 p.579 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
+  - [x] Step 8 — Deviations  [resolved in-step (Rule 0014): naming deviation — element name was ETHERNET-FRAME (belongs to the removed legacy EthernetFrame class) instead of GENERIC-ETHERNET-FRAME per R23-11/R4.3.1 XSD; renamed in parser+writer and tests; no fixtures/examples carried either element, so no fixture edits]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `CouplingPortStructuralElement` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.64)
   - [ ] Step 1 — Sync members & description from spec

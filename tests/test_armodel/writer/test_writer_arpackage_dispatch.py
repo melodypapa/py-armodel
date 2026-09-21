@@ -102,7 +102,7 @@ ELEMENT_TYPES_AND_TAGS = [
     ("SystemSignal", "SYSTEM-SIGNAL"),
     ("ParameterInterface", "PARAMETER-INTERFACE"),
     ("NvDataInterface", "NV-DATA-INTERFACE"),
-    ("GenericEthernetFrame", "ETHERNET-FRAME"),
+    ("GenericEthernetFrame", "GENERIC-ETHERNET-FRAME"),
     ("LifeCycleInfoSet", "LIFE-CYCLE-INFO-SET"),
     ("PhysicalDimension", "PHYSICAL-DIMENSION"),
     ("FlatMap", "FLAT-MAP"),

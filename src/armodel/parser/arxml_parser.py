@@ -13354,7 +13354,7 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "PARAMETER-INTERFACE":
                 param_interface = parent.createParameterInterface(self.getShortName(child_element))
                 self.readParameterInterface(child_element, param_interface)
-            elif tag_name == "ETHERNET-FRAME":
+            elif tag_name == "GENERIC-ETHERNET-FRAME":
                 frame = parent.createGenericEthernetFrame(self.getShortName(child_element))
                 self.readGenericEthernetFrame(child_element, frame)
             elif tag_name == "LIFE-CYCLE-INFO-SET":

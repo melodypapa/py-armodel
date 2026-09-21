@@ -48,7 +48,7 @@ def test_write_generic_ethernet_frame_xml():
     parent = ET.Element("ROOT")
     ARXMLWriter().writeGenericEthernetFrame(parent, frame)
 
-    elem = parent.find("ETHERNET-FRAME")
+    elem = parent.find("GENERIC-ETHERNET-FRAME")
     assert elem is not None
     assert elem.find("SHORT-NAME").text == "GenFrame"
     assert elem.find("FRAME-LENGTH") is not None

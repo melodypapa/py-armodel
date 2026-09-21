@@ -7,6 +7,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame
 
 SPEC_NOTE = "Ethernet specific attributes to the Frame."
+GENERIC_SPEC_NOTE = "This element is used for EthernetFrames without additional attributes that are routed by the EthIf. Tags: atp.recommendedPackage=Frames"
 
 
 class MockParent(ARObject):
@@ -39,3 +40,12 @@ class TestGenericEthernetFrame:
         assert isinstance(frame, AbstractEthernetFrame)
         assert frame.getFrameLength() is None
         assert frame.getPduToFrameMappings() == []
+
+    def test_class_docstring_is_spec_note(self):
+        assert GenericEthernetFrame.__doc__.strip() == GENERIC_SPEC_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert GenericEthernetFrame.__init__.__doc__ is None
+
+    def test_inherits_abstract_ethernet_frame(self):
+        assert issubclass(GenericEthernetFrame, AbstractEthernetFrame)

@@ -12215,7 +12215,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeGenericEthernetFrame(self, element: ET.Element, frame: GenericEthernetFrame):
         self.logger.debug("Write GenericEthernetFrame %s" % frame.getShortName())
-        child_element = ET.SubElement(element, "ETHERNET-FRAME")
+        child_element = ET.SubElement(element, "GENERIC-ETHERNET-FRAME")
         self.writeFrame(child_element, frame)
 
     def setLifeCyclePeriod(self, element: ET.Element, key: str, period: LifeCyclePeriod):

@@ -26,11 +26,14 @@ class AbstractEthernetFrame(Frame, ABC):
 
 class GenericEthernetFrame(AbstractEthernetFrame):
     """
-    This element is used for EthernetFrames without additional attributes that are routed by the EthIf.
+    This element is used for EthernetFrames without additional attributes that are routed by the EthIf. Tags: atp.recommendedPackage=Frames
     """
 
     # GenericEthernetFrame method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.231, p.579
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
