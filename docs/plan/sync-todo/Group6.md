@@ -15,86 +15,86 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
 
 ## Queue (dependency-first)
 
-- [ ] `AbstractEthernetFrame` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.229)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [x] `AbstractEthernetFrame` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.229) — **finished, stamped `# Spec verified: R23-11`, commit ef0708e2**
+  - [x] Step 1 — Sync members & description from spec — Table 6.229, p.578; abstract, Base chain → most-derived `Frame` (stamped); zero attribute rows (XSD group ABSTRACT-ETHERNET-FRAME is an empty sequence); Note "Ethernet specific attributes to the Frame."
+  - [x] Step 2 — Write model class unit test (Red) — abstract instantiation raises, verbatim class-Note docstring assertion, heritage, no-`__init__`-docstring; concrete-subclass defaults
+  - [x] Step 3 — Implement model class (Green) — shape already spec-correct: most-derived base Frame, zero attribute rows ⇒ no members/accessors; abstract guard present
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring replaced with the verbatim Note; `__init__` carries no docstring; (also aligned GenericEthernetFrame's docstring to its Table 6.231 Note — its own row re-verifies)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — parser + writer tests via concrete subclass GenericEthernetFrame (field values + empty-wrapper case); initial Red traced to test-harness factory misuse, product coverage already present
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed: readGenericEthernetFrame→readFrame / writeGenericEthernetFrame→writeFrame + ARPackage dispatch pre-exist; XSD group ABSTRACT-ETHERNET-FRAME is empty so XML element order untouched
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.229 p.578 citation, `__init__` row with `[—]` reader/writer (no own XML element); marker deferred to 9b
+  - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; Base chain → stamped Frame; docstring verbatim; reader/writer via base helpers; no referenced missing classes — subclass GenericEthernetFrame already queued as next row]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `GenericEthernetFrame` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.231)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [x] `GenericEthernetFrame` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.231) — **finished, stamped `# Spec verified: R23-11`, commit b29e5072 (element renamed to GENERIC-ETHERNET-FRAME per XSD)**
+  - [x] Step 1 — Sync members & description from spec — Table 6.231, p.579; concrete, Base chain → most-derived `AbstractEthernetFrame`; zero attribute rows; Note + "Tags: atp.recommendedPackage=Frames" verbatim; **XSD element is GENERIC-ETHERNET-FRAME (ETHER-FRAME element belongs to the removed legacy EthernetFrame class) — code currently dispatches/writes ETHERNET-FRAME ⇒ naming deviation, to-fix in Step 6; no fixtures/examples carry either element**
+  - [x] Step 2 — Write model class unit test (Red) — defaults, verbatim Note+Tags docstring assertion (Red: Tags line missing), no-`__init__`-docstring, heritage
+  - [x] Step 3 — Implement model class (Green) — shape already spec-correct: most-derived base AbstractEthernetFrame, zero attribute rows ⇒ no members/accessors, concrete class
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — appended "Tags: atp.recommendedPackage=Frames" to the class Note verbatim (convention per E2EProfileCompatibilityProps); `__init__` carries no docstring
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 4 tests Red on the XSD-correct element name GENERIC-ETHERNET-FRAME (round-trip + 3 pre-existing dispatch pins updated)
+  - [x] Step 6 — Update parser & writer (Green) — renamed dispatch tag and written element ETHERNET-FRAME → GENERIC-ETHERNET-FRAME (parser ARPackage dispatch, writeGenericEthernetFrame); 253 affected tests pass
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.231 p.579 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
+  - [x] Step 8 — Deviations  [resolved in-step (Rule 0014): naming deviation — element name was ETHERNET-FRAME (belongs to the removed legacy EthernetFrame class) instead of GENERIC-ETHERNET-FRAME per R23-11/R4.3.1 XSD; renamed in parser+writer and tests; no fixtures/examples carried either element, so no fixture edits]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CouplingPortStructuralElement` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.64)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [x] `CouplingPortStructuralElement` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.64) — **finished, stamped `# Spec verified: R23-11`, commit be625387**
+  - [x] Step 1 — Sync members & description from spec — Table 3.64, p.122; abstract, Base → `Identifiable`; zero attribute rows (XSD group COUPLING-PORT-STRUCTURAL-ELEMENT empty sequence); Note "General class to define structural elements a CouplingPort may consist of."; spec subclass CouplingPortShaper absent from src (observation — separate table, not in queue)
+  - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring assertion (Red: fabricated docstring), no-`__init__`-docstring, abstract raise, subclass heritage (Fifo + Scheduler)
+  - [x] Step 3 — Implement model class (Green) — shape already spec-correct: base Identifiable, zero attribute rows ⇒ no members; abstract guard present
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstring replaced with verbatim Note; `__init__` carries no docstring
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — coverage pre-exists via stamped CouplingPortFifo (field values + round-trip class + wrapper dispatch tests); added abstract-type pin (parsed Fifo isinstance CouplingPortStructuralElement) — passes immediately, honestly noted
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed: class contributes no XML content; concrete-subclass read/write helpers + COUPLING-PORT-STRUCTURAL-ELEMENTS wrapper dispatch pre-exist
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 3.64 p.122 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
+  - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; Base → Identifiable; docstring verbatim (matches XSD documentation); reader/writer via concrete-subclass helpers; CouplingPortShaper subclass absent from src noted as observation, not a deviation of this class]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CouplingPortScheduler` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.65)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [x] `CouplingPortScheduler` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.65) — **finished, stamped `# Spec verified: R23-11`, commit 7617e250 (in-pass: EthernetCouplingPortSchedulerEnum Table 3.66 created; PREDECESSOR-REFS reader/writer coverage added)**
+  - [x] Step 1 — Sync members & description from spec — Table 3.65, p.123; concrete, Base → stamped `CouplingPortStructuralElement`; attrs in displayed order: portScheduler (EthernetCouplingPortSchedulerEnum, 0..1, attr), predecessor (CouplingPortStructuralElement, *, ordered ref); XML order per XSD group: PORT-SCHEDULER → PREDECESSOR-REFS; enum Table 3.66 (p.123) NOT in src ⇒ synced in-pass (Rule 0016.4); XSD wire values DEFICIT-ROUND-ROBIN / STRICT-PRIORITY / WEIGHTED-ROUND-ROBIN; CouplingPortShaper (Table 3.67) is atp.Status=obsolete — explains its absence
+  - [x] Step 2 — Write model class unit test (Red) — defaults, verbatim class-Note docstring (Red), None no-ops on both setters, typed enum + RefType refs, enum wire-value test (Red: ImportError)
+  - [x] Step 3 — Implement model class (Green) — EthernetCouplingPortSchedulerEnum AREnum created (XSD wire values, literal docstrings from Table 3.66); CouplingPortScheduler rewritten: PEP 526 annotations replace trailing `# type:` comments (Rule 0003 fix), typed accessor signatures
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note verbatim; member Notes verbatim on inline comments + getters + setters (setter/adder None no-op sentence appended)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new writer test file: field values, DEST attrs, element order, empty-omits case, full round-trip; 2 Red on missing PREDECESSOR-REFS
+  - [x] Step 6 — Update parser & writer (Green) — readCouplingPortScheduler: PREDECESSOR-REFS/PREDECESSOR-REF via getChildElementRefTypeList → addPredecessorRef; writeCouplingPortScheduler: PREDECESSOR-REFS wrapper via setChildElementOptionalRefType; 35 affected tests pass
+  - [x] Step 7 — Update checklist comment — 6-column parity checklists for CouplingPortScheduler (Table 3.65) and EthernetCouplingPortSchedulerEnum (Table 3.66, "(no methods)" form); markers deferred to 9b
+  - [x] Step 8 — Deviations  [resolved in-pass: missing member type EthernetCouplingPortSchedulerEnum implemented (Rule 0016.4/0001.10); reader previously stored bare ARLiteral for portScheduler — kept per macLayerType precedent, enum available for typed construction. Observation: stamped CouplingPortRoleEnum uses camelCase wire values ("hostPort") vs XSD "HOST-PORT" — pre-existing drift in a stamped class, not this row]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `VlanMembership` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.59)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [x] `VlanMembership` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.59) — **finished, stamped `# Spec verified: R23-11`, commit 2aa74da9 (in-pass: EthernetSwitchVlanEgressTaggingEnum Table 3.78 created; DEFAULT-PRIORITY reader/writer drop fixed; XML order corrected to XSD)**
+  - [x] Step 1 — Sync members & description from spec — Table 3.59, p.112; Base = ARObject only; attrs in displayed order: defaultPriority (PositiveInteger 0..1), dhcpAddressAssignment (DhcpServerConfiguration 0..1 aggr, stamped Table 3.79), sendActivity (EthernetSwitchVlanEgressTaggingEnum 0..1), vlan (ref → EthernetPhysicalChannel, accessor vlanRef); XSD element order DEFAULT-PRIORITY → DHCP-ADDRESS-ASSIGNMENT → SEND-ACTIVITY → VLAN-REF; enum Table 3.78 (p.130) NOT in src ⇒ in-pass (Rule 0016.4); **reader/writer dropped DEFAULT-PRIORITY entirely + wrote wrong element order ⇒ to-fix in Step 6**
+  - [x] Step 2 — Write model class unit test (Red) — defaults, verbatim class-Note docstring (Red), None no-ops, typed PositiveInteger/enum/RefType/DhcpServerConfiguration round-trips, enum wire-value test (Red: ImportError)
+  - [x] Step 3 — Implement model class (Green) — EthernetSwitchVlanEgressTaggingEnum AREnum created (XSD wire values NOT-SENT/SENT-TAGGED/SENT-UNTAGGED, literal docstrings from Table 3.78); VlanMembership rewritten: PEP 526 annotations replace `# type:` comments (Rule 0003), typed accessor signatures
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note (2 sentences) + all four attr Notes verbatim on inline comments + getters + setters (None no-op sentences appended)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer test files: all 4 fields incl. nested IPV-4 DHCP gateway, exact XSD element-order assertion, empty-omits case, write→read round-trip; 3 Red on missing DEFAULT-PRIORITY
+  - [x] Step 6 — Update parser & writer (Green) — readVlanMembership/writeVlanMembership rewritten in XSD order with setDefaultPriority/getDefaultPriority added (getChildElementOptionalPositiveInteger / setChildElementOptionalPositiveInteger); 5 affected tests pass
+  - [x] Step 7 — Update checklist comment — 6-column parity checklists for VlanMembership (Table 3.59) and EthernetSwitchVlanEgressTaggingEnum (Table 3.78, "(no methods)" form); markers deferred to 9b
+  - [x] Step 8 — Deviations  [resolved in-step: reader/writer omission of DEFAULT-PRIORITY (silent round-trip drop) fixed; element order corrected to XSD sequence; missing member type EthernetSwitchVlanEgressTaggingEnum implemented in-pass (Rule 0016.4/0001.10)]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `NetworkEndpointAddress` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.135)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [x] `NetworkEndpointAddress` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.135) — **finished, stamped `# Spec verified: R23-11`, commit 17f23e9c (IPV-4-CONFIGURATION reader/writer dispatch gap fixed)**
+  - [x] Step 1 — Sync members & description from spec — Table 6.135, p.464; abstract, Base = ARObject; zero attribute rows (XSD group NETWORK-ENDPOINT-ADDRESS empty sequence); Note re valid endpoint addresses; subclasses Ipv4Configuration/Ipv6Configuration/MacMulticastConfiguration aggregated by NetworkEndpoint.networkEndpointAddress (XSD choice); **reader/writer dispatch only handled IPV-6-CONFIGURATION ⇒ IPV-4-CONFIGURATION silently dropped (notImplemented) — to-fix in Step 6; MAC-MULTICAST-CONFIGURATION class absent from src ⇒ recorded under Pending 16.4**
+  - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring (Red: fabricated), no-`__init__`-docstring, abstract raise, subclass heritage (Ipv4/Ipv6)
+  - [x] Step 3 — Implement model class (Green) — shape already spec-correct: base ARObject, zero attrs, abstract guard
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstring replaced with verbatim Note (matches XSD documentation); `__init__` carries no docstring
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer dispatch tests: IPV-4-CONFIGURATION with field values (assignmentPriority/defaultGateway/dns list/ipv4Address/networkMask/ttl), abstract-type pin isinstance NetworkEndpointAddress, XSD-order assertion, round-trip; 3 Red on missing dispatch
+  - [x] Step 6 — Update parser & writer (Green) — getIpv4Configuration/setIpv4Configuration helpers added (XSD element order, IPv6-helper template); IPV-4-CONFIGURATION branches added to readNetworkEndPointNetworkEndPointAddress / writeNetworkEndPointNetworkEndPointAddresses; Ipv4AddressSourceEnum absent from src ⇒ reader stores literal (precedent) — noted
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.135 p.464 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
+  - [x] Step 8 — Deviations  [resolved in-step (Rule 0014): reader/writer coverage gap — IPV-4-CONFIGURATION dispatch missing both sides, IPv4 endpoint addresses were silently dropped; fixed. Missing subclass MacMulticastConfiguration (Table 6.136) recorded under Pending 16.4 resolution — sibling class, not a member type of this row; Ipv4AddressSourceEnum missing noted]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [x] `OrderedMaster` — already verified (# Spec verified: R23-11, `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`)
-- [ ] `TimeSyncClientConfiguration` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.146 · after `OrderedMaster` (aggr `orderedMaster`))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [x] `TimeSyncClientConfiguration` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.146 · after `OrderedMaster` (aggr `orderedMaster`)) — **finished, stamped `# Spec verified: R23-11`, commit 101b0f3b (stale 6.147 checklist citation corrected; writer ORDERED-MASTER-LIST/TIME-SYNC-TECHNOLOGY order fixed to XSD)**
+  - [x] Step 1 — Sync members & description from spec — Table 6.146, p.470; Base = ARObject; attrs in displayed order: orderedMaster (OrderedMaster *, ordered aggr, xml.namePlural=ORDERED-MASTER-LIST), timeSyncTechnology (TimeSyncTechnologyEnum 0..1); XML order per XSD group: ORDERED-MASTER-LIST → TIME-SYNC-TECHNOLOGY; **old checklist cited the WRONG table (6.147 = TimeSyncServerConfiguration) and had no marker ⇒ full re-sync**; member types OrderedMaster (stamped) + TimeSyncTechnologyEnum exist
+  - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring (Red: fabricated), no-`__init__`-docstring, defaults, typed enum setter + None no-op, typed OrderedMaster list + None no-op (replaced string-based test)
+  - [x] Step 3 — Implement model class (Green) — PEP 526 annotation for timeSyncTechnology (Rule 0003 fix), typed accessor signatures; orderedMasters dedicated typed list kept
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note verbatim; both attr Notes verbatim on inline comments + getters + setters (None no-op sentences appended)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new writer test file: child-order assertion ORDERED-MASTER-LIST before TIME-SYNC-TECHNOLOGY (Red: writer emitted reverse), master INDEX/TIME-SYNC-SERVER-REF values + DEST, empty case, full round-trip via getTimeSynchronization
+  - [x] Step 6 — Update parser & writer (Green) — setTimeSynchronization emission order corrected to XSD sequence; reader (getTimeSynchronization) already covered both attrs incl. enum construction — unchanged
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.146 p.470 citation (replacing wrong 6.147 citation), release column added; marker deferred to 9b
+  - [x] Step 8 — Deviations  [resolved in-step (Rule 0014): stale checklist citation Table 6.147/p.469 → corrected to Table 6.146/p.470; writer element-order violation fixed; no open deviations]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `TransportProtocolConfiguration` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.125)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [x] `TransportProtocolConfiguration` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.125) — **finished, stamped `# Spec verified: R23-11`, commit 0d39cd16**
+  - [x] Step 1 — Sync members & description from spec — Table 6.125, p.459; abstract, Base = ARObject; zero attribute rows (XSD group TRANSPORT-PROTOCOL-CONFIGURATION empty sequence); Note "Transport Protocol configuration."; subclasses GenericTp/HttpTp/Ieee1722Tp/RtpTp/TcpUdpConfig, aggregated by ApplicationEndpoint.tpConfiguration (XSD choice: GENERIC/HTTP/IEEE-1722/RTP/TCP/UDP-TP — no TCP-UDP-CONFIG there); HttpTp/Ieee1722Tp/RtpTp absent from src ⇒ recorded under Pending 16.4
+  - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring (Red: fabricated), no-`__init__`-docstring, abstract raise, subclass heritage (GenericTp, TcpUdpConfig)
+  - [x] Step 3 — Implement model class (Green) — shape already spec-correct: base ARObject, zero attrs, abstract guard
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstring replaced with verbatim Note (matches XSD documentation); old checklist upgraded to 6-column with p.NN
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer dispatch tests: TP-CONFIGURATION/GENERIC-TP field values (TP-ADDRESS/TP-TECHNOLOGY), abstract-type pin isinstance, empty/None cases, round-trip; coverage pre-exists (UDP/TCP/GENERIC dispatch), tests pass immediately — honestly noted
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed: getTransportProtocolConfiguration/writeTransportProtocolConfiguration dispatch covers all modeled subclasses
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.125 p.459 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
+  - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; docstring verbatim; dispatch coverage pre-exists for modeled subclasses; missing sibling subclasses HttpTp (Table 6.126), Ieee1722Tp, RtpTp + TCP-UDP-CONFIG aggregation noted — TcpUdpConfig is the next queue row]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `TcpUdpConfig` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.127)
   - [ ] Step 1 — Sync members & description from spec
@@ -299,7 +299,11 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 9 — Verify (9a) + confirm (9b) — focused model/parser/writer tests pass; 9b confirmed by user in this session; stamp written
 ## Pending 16.4 resolution (NEW — not in src)
 
-_(none)_
+- `MacMulticastConfiguration` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.136) — concrete subclass of NetworkEndpointAddress, aggregated by NetworkEndpoint.networkEndpointAddress (XSD choice member MAC-MULTICAST-CONFIGURATION); discovered 2026-09-21 during `NetworkEndpointAddress` sync; not yet in src
+- `Ipv4AddressSourceEnum` (R23-11 · own enumeration table) — member type of Ipv4Configuration.ipv4AddressSource; not yet in src (reader currently stores a literal)
+- `HttpTp` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.124) — concrete subclass of TransportProtocolConfiguration (XSD choice member HTTP-TP); discovered 2026-09-21 during `TransportProtocolConfiguration` sync; not yet in src
+- `Ieee1722Tp` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · own table) — concrete subclass of TransportProtocolConfiguration (XSD choice member IEEE-1722-TP); not yet in src
+- `RtpTp` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · own table) — concrete subclass of TransportProtocolConfiguration (XSD choice member RTP-TP); not yet in src
 
 ## Not queued
 

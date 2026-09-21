@@ -301,6 +301,9 @@ class TestCouplingPortDetailsCouplingPortStructuralElements:
         from armodel.models import CouplingPortFifo
 
         assert isinstance(elements[0], CouplingPortFifo)
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import CouplingPortStructuralElement
+
+        assert isinstance(elements[0], CouplingPortStructuralElement)
         assert elements[0].getShortName() == "fifo1"
 
     def test_creates_scheduler(self, parser):

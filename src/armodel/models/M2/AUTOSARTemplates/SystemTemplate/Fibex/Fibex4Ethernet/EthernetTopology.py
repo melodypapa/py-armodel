@@ -148,13 +148,14 @@ class EthernetCluster(CommunicationCluster):
 
 class CouplingPortStructuralElement(Identifiable, ABC):
     """
-    Abstract base class for coupling port structural elements in Ethernet
-    switches and bridges, defining common properties and behavior for
-    various types of coupling port components.
+    General class to define structural elements a CouplingPort may consist of.
     """
 
     # CouplingPortStructuralElement method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.64, p.122
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CouplingPortStructuralElement:
@@ -264,36 +265,54 @@ class CouplingPortFifo(CouplingPortStructuralElement):
 
 class CouplingPortScheduler(CouplingPortStructuralElement):
     """
-    Defines a scheduler for coupling ports in Ethernet switches,
-    specifying scheduling algorithms and predecessor relationships
-    for managing traffic flow through the coupling ports.
+    Defines a scheduler for the CouplingPort egress structure.
     """
 
     # CouplingPortScheduler method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getPortScheduler             [x] impl  [ ] docstring  [ ] test
-    # [ ] setPortScheduler             [x] impl  [ ] docstring  [ ] test
-    # [ ] getPredecessorRefs           [x] impl  [ ] docstring  [ ] test
-    # [ ] addPredecessorRef            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.65, p.123
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPortScheduler        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPortScheduler        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPredecessorRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addPredecessorRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.portScheduler = None  # type: EthernetCouplingPortSchedulerEnum
-        self.predecessorRefs = []  # type: List[RefType]
+        # Defines the schedule algorithm to be used.
+        self.portScheduler: Optional[EthernetCouplingPortSchedulerEnum] = None
 
-    def getPortScheduler(self):
+        # Ordered List of predecessor inputs. The first element has the highest priority. The following elements have decreasing priorities.
+        self.predecessorRefs: List[RefType] = []
+
+    def getPortScheduler(self) -> Optional[EthernetCouplingPortSchedulerEnum]:
+        """
+        Defines the schedule algorithm to be used.
+        """
         return self.portScheduler
 
-    def setPortScheduler(self, value):
+    def setPortScheduler(self, value: Optional[EthernetCouplingPortSchedulerEnum]) -> "CouplingPortScheduler":
+        """
+        Defines the schedule algorithm to be used.
+        A None value is a no-op and does not overwrite an existing portScheduler.
+        """
         if value is not None:
             self.portScheduler = value
         return self
 
-    def getPredecessorRefs(self):
+    def getPredecessorRefs(self) -> List[RefType]:
+        """
+        Ordered List of predecessor inputs. The first element has the highest priority. The following elements have decreasing priorities.
+        """
         return self.predecessorRefs
 
-    def addPredecessorRef(self, value):
+    def addPredecessorRef(self, value: RefType) -> "CouplingPortScheduler":
+        """
+        Ordered List of predecessor inputs. The first element has the highest priority. The following elements have decreasing priorities.
+        A None value is a no-op and does not extend the predecessor list.
+        """
         if value is not None:
             self.predecessorRefs.append(value)
         return self
@@ -462,58 +481,94 @@ class CouplingPortDetails(ARObject):
 
 class VlanMembership(ARObject):
     """
-    Defines VLAN membership properties for network interfaces,
-    specifying default priorities, DHCP configurations, and VLAN
-    tagging behaviors for Ethernet communication.
+    Static logical channel or VLAN binding to a switch-port. The reference to an EthernetPhysicalChannel without a VLAN defined represents the handling of untagged frames.
     """
 
     # VlanMembership method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDefaultPriority           [x] impl  [ ] docstring  [ ] test
-    # [ ] setDefaultPriority           [x] impl  [ ] docstring  [ ] test
-    # [ ] getDhcpAddressAssignment     [x] impl  [ ] docstring  [ ] test
-    # [ ] setDhcpAddressAssignment     [x] impl  [ ] docstring  [ ] test
-    # [ ] getSendActivity              [x] impl  [ ] docstring  [ ] test
-    # [ ] setSendActivity              [x] impl  [ ] docstring  [ ] test
-    # [ ] getVlanRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setVlanRef                   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.59, p.112
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultPriority        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultPriority        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDhcpAddressAssignment  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDhcpAddressAssignment  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSendActivity           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSendActivity           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVlanRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVlanRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.defaultPriority = None  # type: PositiveInteger
-        self.dhcpAddressAssignment = None  # type: DhcpServerConfiguration
-        self.sendActivity = None  # type: EthernetSwitchVlanEgressTaggingEnum
-        self.vlanRef = None  # type: RefType
+        # Standard output-priority outgoing Frames will be tagged with. Defines the priority that received frames are assigned together with the VLAN Id (defaultVlan). The values from 0 (best effort) to 7 (highest) are allowed. In case modifyVlan and an already tagged received frame, the actual priority of the received frame is not modified.
+        self.defaultPriority: Optional[PositiveInteger] = None
 
-    def getDefaultPriority(self):
+        # Specifies the IP Address which will be assigned to a DHCP Client at this SwitchPort. If no dhcpAddressAssignment is provided all DHCP-Discover messages received at this Port will be discarded by the DHCP Server.
+        self.dhcpAddressAssignment: Optional[DhcpServerConfiguration] = None
+
+        # Attribute denotes whether a VLAN tagged ethernet frame will be 1. sent with its VLAN tag (sentTagged) 2. sent without a VLAN tag (sentUntagged) 3. will be dropped at this port (notSent or VLAN not member of this list)
+        self.sendActivity: Optional[EthernetSwitchVlanEgressTaggingEnum] = None
+
+        # References a channel that represents a VLAN or an untagged channel.
+        self.vlanRef: Optional[RefType] = None
+
+    def getDefaultPriority(self) -> Optional[PositiveInteger]:
+        """
+        Standard output-priority outgoing Frames will be tagged with. Defines the priority that received frames are assigned together with the VLAN Id (defaultVlan). The values from 0 (best effort) to 7 (highest) are allowed. In case modifyVlan and an already tagged received frame, the actual priority of the received frame is not modified.
+        """
         return self.defaultPriority
 
-    def setDefaultPriority(self, value):
+    def setDefaultPriority(self, value: Optional[PositiveInteger]) -> "VlanMembership":
+        """
+        Standard output-priority outgoing Frames will be tagged with. Defines the priority that received frames are assigned together with the VLAN Id (defaultVlan). The values from 0 (best effort) to 7 (highest) are allowed. In case modifyVlan and an already tagged received frame, the actual priority of the received frame is not modified.
+        A None value is a no-op and does not overwrite an existing defaultPriority.
+        """
         if value is not None:
             self.defaultPriority = value
         return self
 
-    def getDhcpAddressAssignment(self):
+    def getDhcpAddressAssignment(self) -> Optional[DhcpServerConfiguration]:
+        """
+        Specifies the IP Address which will be assigned to a DHCP Client at this SwitchPort. If no dhcpAddressAssignment is provided all DHCP-Discover messages received at this Port will be discarded by the DHCP Server.
+        """
         return self.dhcpAddressAssignment
 
-    def setDhcpAddressAssignment(self, value):
+    def setDhcpAddressAssignment(self, value: Optional[DhcpServerConfiguration]) -> "VlanMembership":
+        """
+        Specifies the IP Address which will be assigned to a DHCP Client at this SwitchPort. If no dhcpAddressAssignment is provided all DHCP-Discover messages received at this Port will be discarded by the DHCP Server.
+        A None value is a no-op and does not overwrite an existing dhcpAddressAssignment.
+        """
         if value is not None:
             self.dhcpAddressAssignment = value
         return self
 
-    def getSendActivity(self):
+    def getSendActivity(self) -> Optional[EthernetSwitchVlanEgressTaggingEnum]:
+        """
+        Attribute denotes whether a VLAN tagged ethernet frame will be 1. sent with its VLAN tag (sentTagged) 2. sent without a VLAN tag (sentUntagged) 3. will be dropped at this port (notSent or VLAN not member of this list)
+        """
         return self.sendActivity
 
-    def setSendActivity(self, value):
+    def setSendActivity(self, value: Optional[EthernetSwitchVlanEgressTaggingEnum]) -> "VlanMembership":
+        """
+        Attribute denotes whether a VLAN tagged ethernet frame will be 1. sent with its VLAN tag (sentTagged) 2. sent without a VLAN tag (sentUntagged) 3. will be dropped at this port (notSent or VLAN not member of this list)
+        A None value is a no-op and does not overwrite an existing sendActivity.
+        """
         if value is not None:
             self.sendActivity = value
         return self
 
-    def getVlanRef(self):
+    def getVlanRef(self) -> Optional[RefType]:
+        """
+        References a channel that represents a VLAN or an untagged channel.
+        """
         return self.vlanRef
 
-    def setVlanRef(self, value):
+    def setVlanRef(self, value: Optional[RefType]) -> "VlanMembership":
+        """
+        References a channel that represents a VLAN or an untagged channel.
+        A None value is a no-op and does not overwrite an existing vlanRef.
+        """
         if value is not None:
             self.vlanRef = value
         return self
@@ -1722,13 +1777,14 @@ class ApplicationEndpoint(Identifiable):
 
 class NetworkEndpointAddress(ARObject, ABC):
     """
-    Abstract base class for network endpoint addresses, defining the
-    common properties and behavior for different types of network
-    addresses (IPv4, IPv6, etc.) used in AUTOSAR communication.
+    To build a valid network endpoint address there has to be either one MAC multicast group reference or an ipv4 configuration or an ipv6 configuration.
     """
 
     # NetworkEndpointAddress method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.135, p.464
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is NetworkEndpointAddress:
@@ -1980,6 +2036,66 @@ class EthernetMacLayerTypeEnum(AREnum):
                 EthernetMacLayerTypeEnum.XMII,
                 EthernetMacLayerTypeEnum.XGMII,
                 EthernetMacLayerTypeEnum.XXGMII,
+            ]
+        )
+
+
+class EthernetCouplingPortSchedulerEnum(AREnum):
+    """
+    Defines the schedule algorithm to be used.
+    """
+
+    # EthernetCouplingPortSchedulerEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.66, p.123
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on CouplingPortScheduler.portScheduler
+
+    # Schedule algorithm "deficit round robin" Tags: atp.EnumerationLiteralIndex=0
+    DEFICIT_ROUND_ROBIN = "DEFICIT-ROUND-ROBIN"
+
+    # Schedule algorithm "strict priority" Tags: atp.EnumerationLiteralIndex=1
+    STRICT_PRIORITY = "STRICT-PRIORITY"
+
+    # Schedule algorithm "weighted round robin" Tags: atp.EnumerationLiteralIndex=2
+    WEIGHTED_ROUND_ROBIN = "WEIGHTED-ROUND-ROBIN"
+
+    def __init__(self):
+        super().__init__(
+            [
+                EthernetCouplingPortSchedulerEnum.DEFICIT_ROUND_ROBIN,
+                EthernetCouplingPortSchedulerEnum.STRICT_PRIORITY,
+                EthernetCouplingPortSchedulerEnum.WEIGHTED_ROUND_ROBIN,
+            ]
+        )
+
+
+class EthernetSwitchVlanEgressTaggingEnum(AREnum):
+    """
+    Defines the VLAN tag sending behavior.
+    """
+
+    # EthernetSwitchVlanEgressTaggingEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.78, p.130
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on VlanMembership.sendActivity
+
+    # will not be sent Tags: atp.EnumerationLiteralIndex=0
+    NOT_SENT = "NOT-SENT"
+
+    # sent with its VLAN tag Tags: atp.EnumerationLiteralIndex=1
+    SENT_TAGGED = "SENT-TAGGED"
+
+    # sent without a VLAN tag Tags: atp.EnumerationLiteralIndex=2
+    SENT_UNTAGGED = "SENT-UNTAGGED"
+
+    def __init__(self):
+        super().__init__(
+            [
+                EthernetSwitchVlanEgressTaggingEnum.NOT_SENT,
+                EthernetSwitchVlanEgressTaggingEnum.SENT_TAGGED,
+                EthernetSwitchVlanEgressTaggingEnum.SENT_UNTAGGED,
             ]
         )
 
@@ -2238,38 +2354,54 @@ class OrderedMaster(ARObject):
 
 class TimeSyncClientConfiguration(ARObject):
     """
-    Configures time synchronization client properties, defining
-    ordered master relationships and time synchronization
-    technology settings for network time coordination.
+    Defines the configuration of the time synchronisation client.
     """
 
     # TimeSyncClientConfiguration method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.147, p.469
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getOrderedMasters            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addOrderedMaster             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeSyncTechnology        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] setTimeSyncTechnology        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.146, p.470
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOrderedMasters       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addOrderedMaster        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSyncTechnology   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSyncTechnology   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
+        # Defines a list of ordered NetworkEndpoints. Tags: xml.namePlural=ORDERED-MASTER-LIST
         self.orderedMasters: List[OrderedMaster] = []
-        self.timeSyncTechnology = None  # type: TimeSyncTechnologyEnum
 
-    def getOrderedMasters(self):
+        # Defines the time synchronisation technology used.
+        self.timeSyncTechnology: Optional[TimeSyncTechnologyEnum] = None
+
+    def getOrderedMasters(self) -> List[OrderedMaster]:
+        """
+        Defines a list of ordered NetworkEndpoints. Tags: xml.namePlural=ORDERED-MASTER-LIST
+        """
         return self.orderedMasters
 
-    def addOrderedMaster(self, value):
+    def addOrderedMaster(self, value: Optional[OrderedMaster]) -> "TimeSyncClientConfiguration":
+        """
+        Defines a list of ordered NetworkEndpoints. Tags: xml.namePlural=ORDERED-MASTER-LIST
+        A None value is a no-op and does not extend the orderedMaster list.
+        """
         if value is not None:
             self.orderedMasters.append(value)
         return self
 
-    def getTimeSyncTechnology(self):
+    def getTimeSyncTechnology(self) -> Optional[TimeSyncTechnologyEnum]:
+        """
+        Defines the time synchronisation technology used.
+        """
         return self.timeSyncTechnology
 
-    def setTimeSyncTechnology(self, value):
+    def setTimeSyncTechnology(self, value: Optional[TimeSyncTechnologyEnum]) -> "TimeSyncClientConfiguration":
+        """
+        Defines the time synchronisation technology used.
+        A None value is a no-op and does not overwrite an existing timeSyncTechnology.
+        """
         if value is not None:
             self.timeSyncTechnology = value
         return self
@@ -2957,15 +3089,14 @@ class CouplingPortRatePolicy(ARObject):
 
 class TransportProtocolConfiguration(ARObject, ABC):
     """
-    Abstract base class for transport protocol configurations,
-    defining the common properties and behavior for different
-    transport protocols (TCP, UDP, etc.) used in service-oriented
-    communication.
+    Transport Protocol configuration.
     """
 
     # TransportProtocolConfiguration method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf (R23-11), Table 6.125
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.125, p.459
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is TransportProtocolConfiguration:

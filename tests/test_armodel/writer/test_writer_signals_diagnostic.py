@@ -308,7 +308,7 @@ class TestWriterGenericEthernetFrame:
         frame = _make_ethernet_frame()
         parent = _parent()
         writer.writeGenericEthernetFrame(parent, frame)
-        elem = parent.find("ETHERNET-FRAME")
+        elem = parent.find("GENERIC-ETHERNET-FRAME")
         assert elem is not None
         assert elem.find("SHORT-NAME") is not None
 

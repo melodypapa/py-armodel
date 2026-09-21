@@ -8,14 +8,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 
 class AbstractEthernetFrame(Frame, ABC):
     """
-    Abstract base class for Ethernet frames in the AUTOSAR system,
-    extending the generic Frame class with Ethernet-specific properties
-    and behavior. This class serves as the foundation for concrete
-    Ethernet frame implementations.
+    Ethernet specific attributes to the Frame.
     """
 
     # AbstractEthernetFrame method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.229, p.578
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractEthernetFrame:
@@ -26,13 +26,14 @@ class AbstractEthernetFrame(Frame, ABC):
 
 class GenericEthernetFrame(AbstractEthernetFrame):
     """
-    Represents a generic Ethernet frame in the AUTOSAR system,
-    implementing the basic structure and properties for standard
-    Ethernet communication frames.
+    This element is used for EthernetFrames without additional attributes that are routed by the EthIf. Tags: atp.recommendedPackage=Frames
     """
 
     # GenericEthernetFrame method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.231, p.579
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

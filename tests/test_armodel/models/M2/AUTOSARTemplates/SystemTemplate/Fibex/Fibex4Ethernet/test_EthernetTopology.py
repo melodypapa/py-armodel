@@ -51,6 +51,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     MacMulticastGroup,
     NetworkEndpoint,
     NetworkEndpointAddress,
+    OrderedMaster,
     PlcaProps,
     SdClientConfig,
     TimeSyncClientConfiguration,
@@ -60,6 +61,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     VlanMembership,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay, SoAdConfig
+
+
+def _pos_int(text):
+    value = PositiveInteger()
+    value.setValue(text)
+    return value
 
 
 class MockParent(ARObject):
@@ -142,13 +149,24 @@ class TestEthernetTopology:
 
     def test_coupling_port_structural_element(self):
         """
-        Test the CouplingPortStructuralElement abstract class.
+        Test the CouplingPortStructuralElement abstract class (Table 3.64, p.122).
         """
         parent = MockParent()
 
         # Test that abstract class cannot be instantiated directly
         with pytest.raises(TypeError):
             CouplingPortStructuralElement(parent, "TestElement")
+
+    def test_coupling_port_structural_element_docstring_is_spec_note(self):
+        """Class docstring carries the spec Note verbatim (Table 3.64, p.122)."""
+        assert CouplingPortStructuralElement.__doc__.strip() == "General class to define structural elements a CouplingPort may consist of."
+
+    def test_coupling_port_structural_element_init_has_no_docstring(self):
+        assert CouplingPortStructuralElement.__init__.__doc__ is None
+
+    def test_coupling_port_structural_element_subclasses(self):
+        assert issubclass(CouplingPortFifo, CouplingPortStructuralElement)
+        assert issubclass(CouplingPortScheduler, CouplingPortStructuralElement)
 
     def test_coupling_port_fifo(self):
         """
@@ -198,7 +216,7 @@ class TestEthernetTopology:
 
     def test_coupling_port_scheduler(self):
         """
-        Test the CouplingPortScheduler class initialization and methods.
+        Test the CouplingPortScheduler class initialization and methods (Table 3.65, p.123).
         """
         parent = MockParent()
         scheduler = CouplingPortScheduler(parent, "TestScheduler")
@@ -207,15 +225,69 @@ class TestEthernetTopology:
         assert scheduler.getPredecessorRefs() == []
         assert scheduler.getPortScheduler() is None
 
-        # Test adding predecessor reference with method chaining
-        result = scheduler.addPredecessorRef("TestRef")
-        assert scheduler.getPredecessorRefs() == ["TestRef"]
-        assert result == scheduler  # Test method chaining
+    def test_coupling_port_scheduler_docstring_is_spec_note(self):
+        """Class docstring carries the spec Note verbatim (Table 3.65, p.123)."""
+        assert CouplingPortScheduler.__doc__.strip() == "Defines a scheduler for the CouplingPort egress structure."
 
-        # Test setting port scheduler with method chaining
-        result = scheduler.setPortScheduler("RoundRobin")
-        assert scheduler.getPortScheduler() == "RoundRobin"
-        assert result == scheduler  # Test method chaining
+    def test_coupling_port_scheduler_init_has_no_docstring(self):
+        assert CouplingPortScheduler.__init__.__doc__ is None
+
+    def test_coupling_port_scheduler_get_set_port_scheduler(self):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCouplingPortSchedulerEnum
+
+        scheduler = CouplingPortScheduler(MockParent(), "S1")
+        value = EthernetCouplingPortSchedulerEnum()
+        value.setValue("WEIGHTED-ROUND-ROBIN")
+        assert scheduler.setPortScheduler(value) is scheduler
+        assert scheduler.getPortScheduler() is value
+        assert scheduler.getPortScheduler().getValue() == "WEIGHTED-ROUND-ROBIN"
+
+    def test_coupling_port_scheduler_set_port_scheduler_none_no_op(self):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCouplingPortSchedulerEnum
+
+        scheduler = CouplingPortScheduler(MockParent(), "S1")
+        value = EthernetCouplingPortSchedulerEnum()
+        value.setValue("STRICT-PRIORITY")
+        scheduler.setPortScheduler(value)
+        scheduler.setPortScheduler(None)
+        assert scheduler.getPortScheduler().getValue() == "STRICT-PRIORITY"
+
+    def test_coupling_port_scheduler_add_predecessor_refs(self):
+        scheduler = CouplingPortScheduler(MockParent(), "S1")
+        ref1 = RefType()
+        ref1.setDest("COUPLING-PORT-FIFO")
+        ref1.setValue("/Fifos/Fifo1")
+        ref2 = RefType()
+        ref2.setDest("COUPLING-PORT-SCHEDULER")
+        ref2.setValue("/Schedulers/Sched1")
+
+        result = scheduler.addPredecessorRef(ref1)
+        assert result is scheduler
+        scheduler.addPredecessorRef(ref2)
+
+        refs = scheduler.getPredecessorRefs()
+        assert len(refs) == 2
+        assert refs[0].getValue() == "/Fifos/Fifo1"
+        assert refs[0].getDest() == "COUPLING-PORT-FIFO"
+        assert refs[1].getValue() == "/Schedulers/Sched1"
+
+    def test_coupling_port_scheduler_add_predecessor_ref_none_no_op(self):
+        scheduler = CouplingPortScheduler(MockParent(), "S1")
+        ref1 = RefType()
+        ref1.setValue("/Fifos/Fifo1")
+        scheduler.addPredecessorRef(ref1)
+        scheduler.addPredecessorRef(None)
+        assert len(scheduler.getPredecessorRefs()) == 1
+
+    def test_ethernet_coupling_port_scheduler_enum(self):
+        """EthernetCouplingPortSchedulerEnum members and wire values (Table 3.66, p.123)."""
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCouplingPortSchedulerEnum
+
+        value = EthernetCouplingPortSchedulerEnum()
+        value.setValue(EthernetCouplingPortSchedulerEnum.DEFICIT_ROUND_ROBIN)
+        assert value.getValue() == "DEFICIT-ROUND-ROBIN"
+        assert EthernetCouplingPortSchedulerEnum.STRICT_PRIORITY == "STRICT-PRIORITY"
+        assert EthernetCouplingPortSchedulerEnum.WEIGHTED_ROUND_ROBIN == "WEIGHTED-ROUND-ROBIN"
 
     def test_ethernet_priority_regeneration(self):
         """
@@ -306,7 +378,7 @@ class TestEthernetTopology:
 
     def test_vlan_membership(self):
         """
-        Test the VlanMembership class initialization and methods.
+        Test the VlanMembership class initialization and methods (Table 3.59, p.112).
         """
         membership = VlanMembership()
 
@@ -315,22 +387,64 @@ class TestEthernetTopology:
         assert membership.getSendActivity() is None
         assert membership.getVlanRef() is None
 
-        # Test setting values with method chaining
-        result = membership.setDefaultPriority(3)
-        assert membership.getDefaultPriority() == 3
-        assert result == membership  # Test method chaining
+    def test_vlan_membership_docstring_is_spec_note(self):
+        """Class docstring carries the spec Note verbatim (Table 3.59, p.112)."""
+        assert VlanMembership.__doc__.strip() == (
+            "Static logical channel or VLAN binding to a switch-port. " "The reference to an EthernetPhysicalChannel without a VLAN defined represents the handling of untagged frames."
+        )
 
-        result = membership.setSendActivity("Tagged")
-        assert membership.getSendActivity() == "Tagged"
-        assert result == membership  # Test method chaining
+    def test_vlan_membership_init_has_no_docstring(self):
+        assert VlanMembership.__init__.__doc__ is None
 
-        result = membership.setVlanRef("Vlan100")
-        assert membership.getVlanRef() == "Vlan100"
-        assert result == membership  # Test method chaining
+    def test_vlan_membership_get_set_default_priority(self):
+        membership = VlanMembership()
+        priority = PositiveInteger()
+        priority.setValue(5)
+        assert membership.setDefaultPriority(priority) is membership
+        assert membership.getDefaultPriority() is priority
+        assert membership.getDefaultPriority().getValue() == 5
+        membership.setDefaultPriority(None)
+        assert membership.getDefaultPriority() is priority
 
-        result = membership.setDhcpAddressAssignment("dhcp_config")
-        assert membership.getDhcpAddressAssignment() == "dhcp_config"
-        assert result == membership  # Test method chaining
+    def test_vlan_membership_get_set_send_activity(self):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetSwitchVlanEgressTaggingEnum
+
+        membership = VlanMembership()
+        value = EthernetSwitchVlanEgressTaggingEnum()
+        value.setValue("SENT-TAGGED")
+        assert membership.setSendActivity(value) is membership
+        assert membership.getSendActivity() is value
+        membership.setSendActivity(None)
+        assert membership.getSendActivity() is value
+
+    def test_vlan_membership_get_set_vlan_ref(self):
+        membership = VlanMembership()
+        ref = RefType()
+        ref.setDest("ETHERNET-PHYSICAL-CHANNEL")
+        ref.setValue("/Clusters/Ch1")
+        assert membership.setVlanRef(ref) is membership
+        assert membership.getVlanRef() is ref
+        assert membership.getVlanRef().getDest() == "ETHERNET-PHYSICAL-CHANNEL"
+        membership.setVlanRef(None)
+        assert membership.getVlanRef() is ref
+
+    def test_vlan_membership_get_set_dhcp_address_assignment(self):
+        membership = VlanMembership()
+        config = DhcpServerConfiguration()
+        assert membership.setDhcpAddressAssignment(config) is membership
+        assert membership.getDhcpAddressAssignment() is config
+        membership.setDhcpAddressAssignment(None)
+        assert membership.getDhcpAddressAssignment() is config
+
+    def test_ethernet_switch_vlan_egress_tagging_enum(self):
+        """EthernetSwitchVlanEgressTaggingEnum members and wire values (Table 3.78, p.130)."""
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetSwitchVlanEgressTaggingEnum
+
+        value = EthernetSwitchVlanEgressTaggingEnum()
+        value.setValue(EthernetSwitchVlanEgressTaggingEnum.NOT_SENT)
+        assert value.getValue() == "NOT-SENT"
+        assert EthernetSwitchVlanEgressTaggingEnum.SENT_TAGGED == "SENT-TAGGED"
+        assert EthernetSwitchVlanEgressTaggingEnum.SENT_UNTAGGED == "SENT-UNTAGGED"
 
     def test_coupling_port(self):
         """
@@ -891,9 +1005,23 @@ class Test_Fibex4EthernetNetworkEndpoint:
     """Test cases for the NetworkEndpoint classes relocated to Fibex4Ethernet.EthernetTopology."""
 
     def test_NetworkEndpointAddress(self):
-        """Test NetworkEndpointAddress abstract class instantiation."""
+        """Test NetworkEndpointAddress abstract class instantiation (Table 6.135, p.464)."""
         with pytest.raises(TypeError):
             NetworkEndpointAddress()
+
+    def test_NetworkEndpointAddress_docstring_is_spec_note(self):
+        """Class docstring carries the spec Note verbatim (Table 6.135, p.464)."""
+        assert (
+            NetworkEndpointAddress.__doc__.strip()
+            == "To build a valid network endpoint address there has to be either one MAC multicast group reference or an ipv4 configuration or an ipv6 configuration."
+        )
+
+    def test_NetworkEndpointAddress_init_has_no_docstring(self):
+        assert NetworkEndpointAddress.__init__.__doc__ is None
+
+    def test_NetworkEndpointAddress_subclasses(self):
+        assert issubclass(Ipv4Configuration, NetworkEndpointAddress)
+        assert issubclass(Ipv6Configuration, NetworkEndpointAddress)
 
     def test_Ipv4Configuration(self):
         """Test Ipv4Configuration class functionality."""
@@ -1035,7 +1163,7 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert result == entity  # Test method chaining
 
     def test_TimeSyncClientConfiguration(self):
-        """Test TimeSyncClientConfiguration class functionality."""
+        """Test TimeSyncClientConfiguration class functionality (Table 6.146, p.470)."""
         config = TimeSyncClientConfiguration()
 
         assert isinstance(config, ARObject)
@@ -1044,19 +1172,40 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert config.getOrderedMasters() == []
         assert config.getTimeSyncTechnology() is None
 
-        # Test setter/getter methods with method chaining
-        result = config.setTimeSyncTechnology("IEEE_1588")
-        assert config.getTimeSyncTechnology() == "IEEE_1588"
-        assert result == config  # Test method chaining
+    def test_TimeSyncClientConfiguration_docstring_is_spec_note(self):
+        """Class docstring carries the spec Note verbatim (Table 6.146, p.470)."""
+        assert TimeSyncClientConfiguration.__doc__.strip() == "Defines the configuration of the time synchronisation client."
 
-        # Test adding ordered masters with method chaining
-        result = config.addOrderedMaster("master1")
-        assert config.getOrderedMasters() == ["master1"]
-        assert result == config  # Test method chaining
+    def test_TimeSyncClientConfiguration_init_has_no_docstring(self):
+        assert TimeSyncClientConfiguration.__init__.__doc__ is None
 
-        result = config.addOrderedMaster("master2")
-        assert config.getOrderedMasters() == ["master1", "master2"]
-        assert result == config  # Test method chaining
+    def test_TimeSyncClientConfiguration_set_time_sync_technology(self):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import TimeSyncTechnologyEnum
+
+        config = TimeSyncClientConfiguration()
+        value = TimeSyncTechnologyEnum()
+        value.setValue("IEEE_802.1AS")
+        assert config.setTimeSyncTechnology(value) is config
+        assert config.getTimeSyncTechnology() is value
+        config.setTimeSyncTechnology(None)
+        assert config.getTimeSyncTechnology() is value
+
+    def test_TimeSyncClientConfiguration_add_ordered_masters(self):
+        config = TimeSyncClientConfiguration()
+        master1 = OrderedMaster()
+        master1.setIndex(_pos_int("1"))
+        master2 = OrderedMaster()
+        master2.setIndex(_pos_int("2"))
+
+        result = config.addOrderedMaster(master1)
+        assert result is config
+        config.addOrderedMaster(master2)
+
+        masters = config.getOrderedMasters()
+        assert masters == [master1, master2]
+
+        config.addOrderedMaster(None)
+        assert len(config.getOrderedMasters()) == 2
 
     def test_TimeSyncServerConfiguration(self):
         """Test TimeSyncServerConfiguration class functionality."""

@@ -811,6 +811,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetSwitchVlanIngressTagEnum,
     InfrastructureServices,
     IpAddressKeepEnum,
+    Ipv4Configuration,
     Ipv6AddressSourceEnum,
     Ipv6Configuration,
     NetworkEndpoint,
@@ -8755,6 +8756,28 @@ class ARXMLParser(AbstractARXMLParser):
         self.readPhysicalChannel(element, channel)
         self.readLinPhysicalChannelScheduleTables(element, channel)
 
+    def getIpv4Configuration(self, element: ET.Element) -> Ipv4Configuration:
+        configuration = None
+        if element is not None:
+            configuration = Ipv4Configuration()
+            configuration.setAssignmentPriority(self.getChildElementOptionalPositiveInteger(element, "ASSIGNMENT-PRIORITY"))
+            configuration.setDefaultGateway(self.getChildElementOptionalLiteral(element, "DEFAULT-GATEWAY"))
+            for address in self.findall(element, "DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS"):
+                literal = ARLiteral()
+                self.readARType(address, literal)
+                literal.setValue(address.text)
+                configuration.addDnsServerAddress(literal)
+            keep_literal = self.getChildElementOptionalLiteral(element, "IP-ADDRESS-KEEP-BEHAVIOR")
+            if keep_literal is not None:
+                keep = IpAddressKeepEnum()
+                keep.setValue(keep_literal.getValue())
+                configuration.setIpAddressKeepBehavior(keep)
+            configuration.setIpv4Address(self.getChildElementOptionalLiteral(element, "IPV-4-ADDRESS"))
+            configuration.setIpv4AddressSource(self.getChildElementOptionalLiteral(element, "IPV-4-ADDRESS-SOURCE"))
+            configuration.setNetworkMask(self.getChildElementOptionalLiteral(element, "NETWORK-MASK"))
+            configuration.setTtl(self.getChildElementOptionalPositiveInteger(element, "TTL"))
+        return configuration
+
     def getIpv6Configuration(self, element: ET.Element) -> Ipv6Configuration:
         configuration = None
         if element is not None:
@@ -8785,7 +8808,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readNetworkEndPointNetworkEndPointAddress(self, element: ET.Element, end_point: NetworkEndpoint):
         for child_element in self.findall(element, "NETWORK-ENDPOINT-ADDRESSES/*"):
             tag_name = self.getTagName(child_element)
-            if tag_name == "IPV-6-CONFIGURATION":
+            if tag_name == "IPV-4-CONFIGURATION":
+                end_point.addNetworkEndpointAddress(self.getIpv4Configuration(child_element))
+            elif tag_name == "IPV-6-CONFIGURATION":
                 end_point.addNetworkEndpointAddress(self.getIpv6Configuration(child_element))
             else:
                 self.notImplemented("Unsupported Network EndPoint Address <%s>" % tag_name)
@@ -11297,6 +11322,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readCouplingPortScheduler(self, element: ET.Element, scheduler: CouplingPortScheduler):
         self.readCouplingPortSchedulerCouplingPortStructuralElement(element, scheduler)
         scheduler.setPortScheduler(self.getChildElementOptionalLiteral(element, "PORT-SCHEDULER"))
+        for ref in self.getChildElementRefTypeList(element, "PREDECESSOR-REFS/PREDECESSOR-REF"):
+            scheduler.addPredecessorRef(ref)
 
     def readCouplingPortDetailsCouplingPortStructuralElements(self, item: ET.Element, details: CouplingPortDetails):
         for child_element in self.findall(item, "COUPLING-PORT-STRUCTURAL-ELEMENTS/*"):
@@ -11566,9 +11593,10 @@ class ARXMLParser(AbstractARXMLParser):
         return config
 
     def readVlanMembership(self, element: ET.Element, membership: VlanMembership):
+        membership.setDefaultPriority(self.getChildElementOptionalPositiveInteger(element, "DEFAULT-PRIORITY"))
+        membership.setDhcpAddressAssignment(self.getDhcpServerConfiguration(element, "DHCP-ADDRESS-ASSIGNMENT"))
         membership.setSendActivity(self.getChildElementOptionalLiteral(element, "SEND-ACTIVITY"))
         membership.setVlanRef(self.getChildElementOptionalRefType(element, "VLAN-REF"))
-        membership.setDhcpAddressAssignment(self.getDhcpServerConfiguration(element, "DHCP-ADDRESS-ASSIGNMENT"))
 
     def readCouplingPortVlanMemberships(self, element: ET.Element, port: CouplingPort):
         for child_element in self.findall(element, "VLAN-MEMBERSHIPS/*"):
@@ -13354,7 +13382,7 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "PARAMETER-INTERFACE":
                 param_interface = parent.createParameterInterface(self.getShortName(child_element))
                 self.readParameterInterface(child_element, param_interface)
-            elif tag_name == "ETHERNET-FRAME":
+            elif tag_name == "GENERIC-ETHERNET-FRAME":
                 frame = parent.createGenericEthernetFrame(self.getShortName(child_element))
                 self.readGenericEthernetFrame(child_element, frame)
             elif tag_name == "LIFE-CYCLE-INFO-SET":

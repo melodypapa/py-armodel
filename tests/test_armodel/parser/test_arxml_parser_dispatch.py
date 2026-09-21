@@ -303,9 +303,9 @@ class TestNetworkDispatch:
         _dispatch(parser, parent, _snip("FLEXRAY-FRAME", "FF1"))
         assert len(parent.getFlexrayFrames()) == 1
 
-    def test_ethernet_frame(self, parser):
+    def test_generic_ethernet_frame(self, parser):
         parent = _make_parent()
-        _dispatch(parser, parent, _snip("ETHERNET-FRAME", "EF1"))
+        _dispatch(parser, parent, _snip("GENERIC-ETHERNET-FRAME", "EF1"))
         assert parent.getElement("EF1") is not None
 
     def test_nm_pdu(self, parser):

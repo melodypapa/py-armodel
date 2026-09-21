@@ -715,6 +715,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     ApplicationEndpoint,
     DoIpEntity,
     InfrastructureServices,
+    Ipv4Configuration,
     Ipv6Configuration,
     NetworkEndpoint,
     NetworkEndpointAddress,
@@ -8877,6 +8878,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writePhysicalChannel(child_element, channel)
         self.writeLinPhysicalChannelScheduleTables(child_element, channel)
 
+    def setIpv4Configuration(self, element: ET.Element, configuration: Ipv4Configuration):
+        if configuration is not None:
+            child_element = ET.SubElement(element, "IPV-4-CONFIGURATION")
+            self.setChildElementOptionalPositiveInteger(child_element, "ASSIGNMENT-PRIORITY", configuration.getAssignmentPriority())
+            self.setChildElementOptionalLiteral(child_element, "DEFAULT-GATEWAY", configuration.getDefaultGateway())
+            addresses = configuration.getDnsServerAddresses()
+            if len(addresses) > 0:
+                dns_element = ET.SubElement(child_element, "DNS-SERVER-ADDRESSES")
+                for address in addresses:
+                    self.setChildElementOptionalLiteral(dns_element, "DNS-SERVER-ADDRESS", address)
+            self.setChildElementOptionalLiteral(child_element, "IP-ADDRESS-KEEP-BEHAVIOR", configuration.getIpAddressKeepBehavior())
+            self.setChildElementOptionalLiteral(child_element, "IPV-4-ADDRESS", configuration.getIpv4Address())
+            self.setChildElementOptionalLiteral(child_element, "IPV-4-ADDRESS-SOURCE", configuration.getIpv4AddressSource())
+            self.setChildElementOptionalLiteral(child_element, "NETWORK-MASK", configuration.getNetworkMask())
+            self.setChildElementOptionalPositiveInteger(child_element, "TTL", configuration.getTtl())
+
     def setIpv6Configuration(self, element: ET.Element, configuration: Ipv6Configuration):
         if configuration is not None:
             child_element = ET.SubElement(element, "IPV-6-CONFIGURATION")
@@ -8898,7 +8915,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(addresses) > 0:
             child_element = ET.SubElement(element, "NETWORK-ENDPOINT-ADDRESSES")
             for address in addresses:
-                if isinstance(address, Ipv6Configuration):
+                if isinstance(address, Ipv4Configuration):
+                    self.setIpv4Configuration(child_element, address)
+                elif isinstance(address, Ipv6Configuration):
                     self.setIpv6Configuration(child_element, address)
                 else:
                     self.notImplemented("Unsupported Network EndPoint Address <%s>" % type(address))
@@ -8914,8 +8933,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             client = sync.getTimeSyncClient()
             if client is not None:
                 client_element = ET.SubElement(child_element, "TIME-SYNC-CLIENT")
-                self.setChildElementOptionalLiteral(client_element, "TIME-SYNC-TECHNOLOGY", client.getTimeSyncTechnology())
                 self.writeTimeSyncClientConfigurationOrderedMasters(client_element, client)
+                self.setChildElementOptionalLiteral(client_element, "TIME-SYNC-TECHNOLOGY", client.getTimeSyncTechnology())
             server = sync.getTimeSyncServer()
             if server is not None:
                 server_element = ET.SubElement(child_element, "TIME-SYNC-SERVER")
@@ -10462,6 +10481,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "COUPLING-PORT-SCHEDULER")
             self.writeCouplingPortSchedulerCouplingPortStructuralElement(child_element, scheduler)
             self.setChildElementOptionalLiteral(child_element, "PORT-SCHEDULER", scheduler.getPortScheduler())
+            refs = scheduler.getPredecessorRefs()
+            if len(refs) > 0:
+                refs_element = ET.SubElement(child_element, "PREDECESSOR-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_element, "PREDECESSOR-REF", ref)
 
     def writeCouplingPortDetailsCouplingPortStructuralElements(self, element: ET.Element, details: CouplingPortDetails):
         items = details.getCouplingPortStructuralElements()
@@ -10695,9 +10719,10 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeVlanMembership(self, element: ET.Element, membership: VlanMembership):
         if membership is not None:
             child_element = ET.SubElement(element, "VLAN-MEMBERSHIP")
+            self.setChildElementOptionalPositiveInteger(child_element, "DEFAULT-PRIORITY", membership.getDefaultPriority())
+            self.setDhcpServerConfiguration(child_element, "DHCP-ADDRESS-ASSIGNMENT", membership.getDhcpAddressAssignment())
             self.setChildElementOptionalLiteral(child_element, "SEND-ACTIVITY", membership.getSendActivity())
             self.setChildElementOptionalRefType(child_element, "VLAN-REF", membership.getVlanRef())
-            self.setDhcpServerConfiguration(child_element, "DHCP-ADDRESS-ASSIGNMENT", membership.getDhcpAddressAssignment())
 
     def writeCouplingPortVlanMemberships(self, element: ET.Element, port: CouplingPort):
         memberships = port.getVlanMemberships()
@@ -12215,7 +12240,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeGenericEthernetFrame(self, element: ET.Element, frame: GenericEthernetFrame):
         self.logger.debug("Write GenericEthernetFrame %s" % frame.getShortName())
-        child_element = ET.SubElement(element, "ETHERNET-FRAME")
+        child_element = ET.SubElement(element, "GENERIC-ETHERNET-FRAME")
         self.writeFrame(child_element, frame)
 
     def setLifeCyclePeriod(self, element: ET.Element, key: str, period: LifeCyclePeriod):
