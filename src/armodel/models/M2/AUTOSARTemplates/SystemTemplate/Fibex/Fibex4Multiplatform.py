@@ -132,27 +132,34 @@ class DefaultValueElement(ARObject):
 
 
 class PduMappingDefaultValue(ARObject):
-    """
-    Default value which will be distributed if no I-Pdu has been received
-    since last sending.
-    """
+    """Default Value which will be distributed if no I-Pdu has been received since last sending."""
 
     # PduMappingDefaultValue method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDefaultValueElements      [x] impl  [ ] docstring  [ ] test
-    # [ ] addDefaultValueElements      [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 8.5, p.841
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultValueElements     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDefaultValueElement      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
+        # The default value consists of a number of elements. Each default value element is represented by the element and the position in an array.
         self.defaultValueElements: List[DefaultValueElement] = []
 
-    def getDefaultValueElements(self):
+    def getDefaultValueElements(self) -> List[DefaultValueElement]:
+        """
+        The default value consists of a number of elements. Each default value element is represented by the element and the position in an array.
+        """
         return self.defaultValueElements
 
-    def addDefaultValueElements(self, value):
+    def addDefaultValueElement(self, value: Optional[DefaultValueElement]) -> "PduMappingDefaultValue":
+        """
+        The default value consists of a number of elements. Each default value element is represented by the element and the position in an array.
+        A None value is a no-op and does not extend the defaultValueElements list.
+        """
         if value is not None:
-            self.defaultValueElements = value
+            self.defaultValueElements.append(value)
         return self
 
 

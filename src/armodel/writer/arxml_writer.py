@@ -788,7 +788,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
     LinOrderedConfigurableFrame,
     LinSlaveConfig,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import DefaultValueElement, Gateway, IPduMapping, ISignalMapping, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     CommConnectorPort,
     ContainedIPduProps,
@@ -11743,6 +11743,19 @@ class ARXMLWriter(AbstractARXMLWriter):
         if i_pdu_ref is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalRefType(child_element, "TARGET-I-PDU-REF", i_pdu_ref.getTargetIPduRef())
+            default_value = i_pdu_ref.getDefaultValue()
+            if default_value is not None:
+                elements_tag = ET.SubElement(child_element, "DEFAULT-VALUE-ELEMENTS")
+                for default_value_element in default_value.getDefaultValueElements():
+                    if isinstance(default_value_element, DefaultValueElement):
+                        self.setDefaultValueElement(elements_tag, default_value_element)
+                    else:
+                        self.notImplemented("Unsupported DefaultValueElement %s" % type(default_value_element))
+
+    def setDefaultValueElement(self, element: ET.Element, default_value: DefaultValueElement):
+        child_element = ET.SubElement(element, "DEFAULT-VALUE-ELEMENT")
+        self.setChildElementOptionalIntegerValue(child_element, "ELEMENT-BYTE-VALUE", default_value.getElementByteValue())
+        self.setChildElementOptionalIntegerValue(child_element, "ELEMENT-POSITION", default_value.getElementPosition())
 
     def setIPduMappings(self, element: ET.Element, mappings: List[IPduMapping]):
         if len(mappings) > 0:

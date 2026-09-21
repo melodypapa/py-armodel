@@ -890,7 +890,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
     LinSlaveConfig,
     LinSlaveConfigIdent,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import DefaultValueElement, Gateway, IPduMapping, ISignalMapping, PduMappingDefaultValue, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     CommConnectorPort,
     ContainedIPduProps,
@@ -12167,7 +12167,18 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             i_pdu_ref = TargetIPduRef()
             i_pdu_ref.setTargetIPduRef(self.getChildElementOptionalRefType(child_element, "TARGET-I-PDU-REF"))
+            for element_element in self.findall(child_element, "DEFAULT-VALUE-ELEMENTS/DEFAULT-VALUE-ELEMENT"):
+                if i_pdu_ref.getDefaultValue() is None:
+                    i_pdu_ref.setDefaultValue(PduMappingDefaultValue())
+                default_value = DefaultValueElement()
+                self.readDefaultValueElement(element_element, default_value)
+                i_pdu_ref.getDefaultValue().addDefaultValueElement(default_value)
         return i_pdu_ref
+
+    def readDefaultValueElement(self, element: ET.Element, default_value: DefaultValueElement):
+        self.readARObject(element, default_value)
+        default_value.setElementByteValue(self.getChildElementOptionalIntegerValue(element, "ELEMENT-BYTE-VALUE"))
+        default_value.setElementPosition(self.getChildElementOptionalIntegerValue(element, "ELEMENT-POSITION"))
 
     def getIPduMappings(self, element: ET.Element) -> List[IPduMapping]:
         mappings = []

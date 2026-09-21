@@ -75,7 +75,7 @@ class Test_Fibex4Multiplatform:
         # Test default values
         assert mapping.getIntroduction() is None
         assert mapping.getPdurTpChunkSize() is None
-        assert mapping.getSourceIpduRef() is None
+        assert mapping.getSourceIPduRef() is None
         assert mapping.getTargetIPdu() is None
 
     def test_Gateway(self):

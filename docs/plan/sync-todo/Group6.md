@@ -278,15 +278,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 8 — Deviations  [resolved in-step (Rule 0014): reader/writer silent drop of INTRODUCTION/PDU-MAX-LENGTH/PDUR-TP-CHUNK-SIZE fixed; naming sourceIpduRef → sourceIPduRef fixed; observation: VARIATION-POINT (XSD-only, not a Table 8.3 attribute row) not read/written — consistent with sibling ISignalMapping/FrameMapping, mixin kept]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `PduMappingDefaultValue` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 8.5)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 8.5, p.841; concrete, Base = ARObject; attrs in displayed order: defaultValueElement (DefaultValueElement * aggr); XML order per XSD group PDU-MAPPING-DEFAULT-VALUE: DEFAULT-VALUE-ELEMENTS (choice of DEFAULT-VALUE-ELEMENT with ELEMENT-BYTE-VALUE → ELEMENT-POSITION); aggregated by TargetIPduRef.defaultValue; member class DefaultValueElement exists (own table 8.6)
+  - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring assertion (Red: "Default value" vs spec "Default Value"), addDefaultValueElement append + None no-op pins (Red: addDefaultValueElements assigned the whole list instead of appending — wrong semantics under an add name); stale none-handling test (wrong semantics) removed with the rewrite
+  - [x] Step 3 — Implement model class (Green) — addDefaultValueElements (list-assign) replaced by addDefaultValueElement (append + None no-op + chaining); typed accessor signatures; PEP 526 list annotation kept
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note verbatim; attr Note verbatim on inline comment + getter + adder ("...does not extend the defaultValueElements list.")
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer test files via the TARGET-I-PDU path: DEFAULT-VALUE-ELEMENTS with two DEFAULT-VALUE-ELEMENT (ELEMENT-BYTE-VALUE/ELEMENT-POSITION values), XSD order assertion (TARGET-I-PDU-REF → DEFAULT-VALUE-ELEMENTS), without-default-value case, write→re-parse round-trip; 4 Red (DEFAULT-VALUE-ELEMENTS dropped on both sides)
+  - [x] Step 6 — Update parser & writer (Green) — getTargetIPduRef now reads DEFAULT-VALUE-ELEMENTS into PduMappingDefaultValue via new readDefaultValueElement helper; setTargetIPduRef writes DEFAULT-VALUE-ELEMENTS wrapper via new setDefaultValueElement helper (XSD order)
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 8.5 p.841 citation, release column; marker deferred to 9b
+  - [x] Step 8 — Deviations  [resolved in-step (Rule 0014): add* semantics violation fixed (list-assign → append); reader/writer silent drop of DEFAULT-VALUE-ELEMENTS fixed; housekeeping: leftover sourceIpduRef→sourceIPduRef rename in tests/.../Fibex/test_Fibex4Multiplatform.py (missed by the IPduMapping row) folded into this commit]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [x] `RtePluginProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 14.5) — **finished, stamped `# Spec verified: R23-11`**
   - [x] Step 1 — Sync members & description from spec — Table 14.5, p.971; Base=ARObject; two optional ref attributes in displayed order: associatedCrossSwClusterComRtePlugin and associatedRtePlugin
   - [x] Step 2 — Write model class unit test (Red) — model defaults, heritage, verbatim class Note, None-guarded getter/setter round-trips

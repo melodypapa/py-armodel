@@ -134,40 +134,17 @@ class TestFibex4Multiplatform:
         """
         pdu_default = PduMappingDefaultValue()
 
-        # Test constructor
-        assert pdu_default is not None
+        # Verbatim spec Note (AUTOSAR_CP_TPS_SystemTemplate Table 8.5)
+        assert PduMappingDefaultValue.__doc__ == ("Default Value which will be distributed if no I-Pdu has been received since last sending.")
+        assert PduMappingDefaultValue.__init__.__doc__ is None
 
-        # Test default values
         assert pdu_default.getDefaultValueElements() == []
 
-        # Test setter/getter methods with method chaining - with actual values
         elem = DefaultValueElement()
-        pdu_default.addDefaultValueElements([elem])
-        assert elem in pdu_default.getDefaultValueElements()
-        assert pdu_default == pdu_default.addDefaultValueElements([elem])
-
-    def test_pdu_mapping_default_value_none_handling(self):
-        """
-        Test PduMappingDefaultValue addDefaultValueElements None value handling specifically to achieve 100% coverage.
-        """
-        pdu_default = PduMappingDefaultValue()
-
-        # Test that setting None keeps the original value (which is []) - tests the if value is not None logic
-        original_list = pdu_default.getDefaultValueElements()
-        assert original_list == []
-        result = pdu_default.addDefaultValueElements(None)
-        assert result == pdu_default
-        # Since value is None, defaultValueElements should remain as the original empty list
-        assert pdu_default.getDefaultValueElements() == []
-
-        # Test with non-empty list, then try to set to None
-        elem = DefaultValueElement()
-        pdu_default.addDefaultValueElements([elem])
-        assert elem in pdu_default.getDefaultValueElements()
-        result = pdu_default.addDefaultValueElements(None)
-        assert result == pdu_default
-        # Since value is None, defaultValueElements should remain as it was
-        assert elem in pdu_default.getDefaultValueElements()
+        assert pdu_default == pdu_default.addDefaultValueElement(elem)
+        assert pdu_default.getDefaultValueElements() == [elem]
+        assert pdu_default == pdu_default.addDefaultValueElement(None)
+        assert pdu_default.getDefaultValueElements() == [elem]
 
     def test_target_ipdu_ref(self):
         """
