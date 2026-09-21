@@ -968,6 +968,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     FlexrayNmCluster,
     FlexrayNmEcu,
     J1939NmCluster,
+    J1939NmEcu,
     J1939NmNode,
     J1939NodeName,
     NmCluster,
@@ -10217,6 +10218,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readCanNmEcu(self, element: ET.Element, ecu: CanNmEcu):
         pass
 
+    def readJ1939NmEcu(self, element: ET.Element, ecu: J1939NmEcu):
+        pass
+
     def readBusDependentNmEcus(self, element: ET.Element, nm_ecu: NmEcu):
         for child_element in self.findall(element, "BUS-DEPENDENT-NM-ECUS/*"):
             tag_name = self.getTagName(child_element)
@@ -10232,6 +10236,10 @@ class ARXMLParser(AbstractARXMLParser):
                 flexray_nm_ecu = FlexrayNmEcu()
                 self.readFlexrayNmEcu(child_element, flexray_nm_ecu)
                 nm_ecu.addBusDependentNmEcu(flexray_nm_ecu)
+            elif tag_name == "J-1939-NM-ECU":
+                j1939_nm_ecu = J1939NmEcu()
+                self.readJ1939NmEcu(child_element, j1939_nm_ecu)
+                nm_ecu.addBusDependentNmEcu(j1939_nm_ecu)
             else:
                 self.notImplemented("Unsupported BusDependentNmEcu <%s>" % tag_name)
 

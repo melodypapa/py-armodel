@@ -373,6 +373,20 @@ class TestJ1939NmCluster:
         assert cluster.getUsesDynamicAddressing() is dynamic
 
 
+class TestJ1939NmEcu:
+    """J1939NmEcu (Table 6.323, p.694) — spec sync tests."""
+
+    def test_concrete_instantiation_and_heritage(self):
+        ecu = J1939NmEcu()
+        assert isinstance(ecu, BusspecificNmEcu)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert J1939NmEcu.__doc__.strip() == "J1939 NmEcu specific attributes."
+
+    def test_init_has_no_docstring(self):
+        assert J1939NmEcu.__init__.__doc__ is None
+
+
 class MockParent(ARObject):
     def __init__(self):
         super().__init__()

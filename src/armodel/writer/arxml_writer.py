@@ -868,6 +868,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     FlexrayNmEcu,
     FlexrayNmNode,
     J1939NmCluster,
+    J1939NmEcu,
     J1939NmNode,
     J1939NodeName,
     NmCluster,
@@ -8229,6 +8230,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         if ecu is not None:
             ET.SubElement(element, "CAN-NM-ECU")
 
+    def writeJ1939NmEcu(self, element: ET.Element, ecu: J1939NmEcu):
+        if ecu is not None:
+            ET.SubElement(element, "J-1939-NM-ECU")
+
     def writeBusDependentNmEcus(self, element: ET.Element, nm_ecu: NmEcu):
         dependent_nm_ecus = nm_ecu.getBusDependentNmEcus()
         if len(dependent_nm_ecus) > 0:
@@ -8240,6 +8245,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeCanNmEcu(child_element, dependent_nm_ecu)
                 elif isinstance(dependent_nm_ecu, FlexrayNmEcu):
                     self.writeFlexrayNmEcu(child_element, dependent_nm_ecu)
+                elif isinstance(dependent_nm_ecu, J1939NmEcu):
+                    self.writeJ1939NmEcu(child_element, dependent_nm_ecu)
                 else:
                     self.notImplemented("Unsupported BusDependentNmEcu <%s>" % type(dependent_nm_ecu))
 

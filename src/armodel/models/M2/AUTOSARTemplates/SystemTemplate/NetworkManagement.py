@@ -808,12 +808,14 @@ class FlexrayNmEcu(BusspecificNmEcu):
 
 class J1939NmEcu(BusspecificNmEcu):
     """
-    Defines J1939-specific network management ECU properties,
-    implementing bus-specific NM features for J1939 communication.
+    J1939 NmEcu specific attributes.
     """
 
     # J1939NmEcu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.323, p.694
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; reader/writer coverage via BUS-DEPENDENT-NM-ECUS dispatch)
 
     def __init__(self):
         super().__init__()

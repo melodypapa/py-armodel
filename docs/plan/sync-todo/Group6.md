@@ -248,15 +248,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 8 — Deviations  [in-pass (Rule 0016.4/0001.10): NmConfig.createJ1939NmCluster factory created (needed by J-1939-NM-CLUSTER reader dispatch)]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `J1939NmEcu` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.323)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 6.323, p.694; concrete, Base → `BusspecificNmEcu`; zero attribute rows (XSD group J-1939-NM-ECU empty sequence); aggregated by NmEcu.busDependentNmEcu (XSD choice member J-1939-NM-ECU)
+  - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring assertion (Red: fabricated), no-`__init__`-docstring, heritage (BusspecificNmEcu)
+  - [x] Step 3 — Implement model class (Green) — shape already spec-correct: base BusspecificNmEcu, zero attrs
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstring replaced with verbatim Note "J1939 NmEcu specific attributes."
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer test files: empty J-1939-NM-ECU element, BUS-DEPENDENT-NM-ECUS wrapper dispatch, write→re-parse round-trip type pin; 4 Red (no dispatch)
+  - [x] Step 6 — Update parser & writer (Green) — readJ1939NmEcu (no-op, zero attrs) + writeJ1939NmEcu (empty element) added; J-1939-NM-ECU branches in readBusDependentNmEcus/writeBusDependentNmEcus
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.323 p.694 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
+  - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; docstring verbatim]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `NmConfig` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.298 · after all NM classes above (aggrs `nmCluster`, `nmClusterCoupling`, `nmIfEcu`))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
