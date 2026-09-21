@@ -966,6 +966,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     CanNmNode,
     CanNmEcu,
     FlexrayNmCluster,
+    FlexrayNmEcu,
     J1939NmNode,
     J1939NodeName,
     NmCluster,
@@ -10196,6 +10197,10 @@ class ARXMLParser(AbstractARXMLParser):
     def readUdpNmEcu(self, element: ET.Element, ecu: UdpNmEcu):
         ecu.setNmSynchronizationPointEnabled(self.getChildElementOptionalBooleanValue(element, "NM-SYNCHRONIZATION-POINT-ENABLED"))
 
+    def readFlexrayNmEcu(self, element: ET.Element, ecu: FlexrayNmEcu):
+        ecu.setNmHwVoteEnabled(self.getChildElementOptionalBooleanValue(element, "NM-HW-VOTE-ENABLED"))
+        ecu.setNmMainFunctionAcrossFrCycle(self.getChildElementOptionalBooleanValue(element, "NM-MAIN-FUNCTION-ACROSS-FR-CYCLE"))
+
     def readCanNmEcu(self, element: ET.Element, ecu: CanNmEcu):
         pass
 
@@ -10210,6 +10215,10 @@ class ARXMLParser(AbstractARXMLParser):
                 can_nm_ecu = CanNmEcu()
                 self.readCanNmEcu(child_element, can_nm_ecu)
                 nm_ecu.addBusDependentNmEcu(can_nm_ecu)
+            elif tag_name == "FLEXRAY-NM-ECU":
+                flexray_nm_ecu = FlexrayNmEcu()
+                self.readFlexrayNmEcu(child_element, flexray_nm_ecu)
+                nm_ecu.addBusDependentNmEcu(flexray_nm_ecu)
             else:
                 self.notImplemented("Unsupported BusDependentNmEcu <%s>" % tag_name)
 

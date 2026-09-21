@@ -250,6 +250,42 @@ class TestFlexrayNmCluster:
         assert cluster.getNmVotingCycle() is voting_cycle
 
 
+class TestFlexrayNmEcu:
+    """FlexrayNmEcu (Table 6.307, p.679) — spec sync tests."""
+
+    def test_concrete_instantiation_and_heritage(self):
+        ecu = FlexrayNmEcu()
+        assert isinstance(ecu, BusspecificNmEcu)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert FlexrayNmEcu.__doc__.strip() == "FlexRay specific attributes."
+
+    def test_init_has_no_docstring(self):
+        assert FlexrayNmEcu.__init__.__doc__ is None
+
+    def test_defaults(self):
+        ecu = FlexrayNmEcu()
+        assert ecu.getNmHwVoteEnabled() is None
+        assert ecu.getNmMainFunctionAcrossFrCycle() is None
+
+    def test_get_set_round_trip_and_none_no_op(self):
+        ecu = FlexrayNmEcu()
+
+        hw_vote = Boolean()
+        hw_vote.setValue(True)
+        ecu.setNmHwVoteEnabled(hw_vote)
+        assert ecu.getNmHwVoteEnabled() is hw_vote
+        ecu.setNmHwVoteEnabled(None)
+        assert ecu.getNmHwVoteEnabled() is hw_vote
+
+        across_fr = Boolean()
+        across_fr.setValue(False)
+        ecu.setNmMainFunctionAcrossFrCycle(across_fr)
+        assert ecu.getNmMainFunctionAcrossFrCycle() is across_fr
+        ecu.setNmMainFunctionAcrossFrCycle(None)
+        assert ecu.getNmMainFunctionAcrossFrCycle() is across_fr
+
+
 class MockParent(ARObject):
     def __init__(self):
         super().__init__()

@@ -865,6 +865,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     CanNmClusterCoupling,
     CanNmNode,
     FlexrayNmCluster,
+    FlexrayNmEcu,
     J1939NmNode,
     J1939NodeName,
     NmCluster,
@@ -8200,6 +8201,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "UDP-NM-ECU")
             self.setChildElementOptionalBooleanValue(child_element, "NM-SYNCHRONIZATION-POINT-ENABLED", ecu.getNmSynchronizationPointEnabled())
 
+    def writeFlexrayNmEcu(self, element: ET.Element, ecu: FlexrayNmEcu):
+        if ecu is not None:
+            child_element = ET.SubElement(element, "FLEXRAY-NM-ECU")
+            self.setChildElementOptionalBooleanValue(child_element, "NM-HW-VOTE-ENABLED", ecu.getNmHwVoteEnabled())
+            self.setChildElementOptionalBooleanValue(child_element, "NM-MAIN-FUNCTION-ACROSS-FR-CYCLE", ecu.getNmMainFunctionAcrossFrCycle())
+
     def writeCanNmEcu(self, element: ET.Element, ecu: CanNmEcu):
         if ecu is not None:
             ET.SubElement(element, "CAN-NM-ECU")
@@ -8213,6 +8220,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeUdpNmEcu(child_element, dependent_nm_ecu)
                 elif isinstance(dependent_nm_ecu, CanNmEcu):
                     self.writeCanNmEcu(child_element, dependent_nm_ecu)
+                elif isinstance(dependent_nm_ecu, FlexrayNmEcu):
+                    self.writeFlexrayNmEcu(child_element, dependent_nm_ecu)
                 else:
                     self.notImplemented("Unsupported BusDependentNmEcu <%s>" % type(dependent_nm_ecu))
 

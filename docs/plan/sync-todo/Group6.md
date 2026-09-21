@@ -208,15 +208,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 8 — Deviations  [in-pass (Rule 0016.4/0001.10): NmConfig.createFlexrayNmCluster factory created (needed by FLEXRAY-NM-CLUSTER reader dispatch); six removed-status sibling attributes of the XSD group not modeled (absent from R23-11 table, no fixture usage)]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `FlexrayNmEcu` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.307)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 6.307, p.679; concrete, Base → `BusspecificNmEcu`; 2 attrs all 0..1 attr in displayed order: nmHwVoteEnabled (Boolean), nmMainFunctionAcrossFrCycle (Boolean); XML order per XSD group FLEXRAY-NM-ECU: NM-HW-VOTE-ENABLED → NM-MAIN-FUNCTION-ACROSS-FR-CYCLE (removed NM-REPEAT-MESSAGE-BIT-ENABLE not modeled); Note "crosses theFlexRay" typo verified against XSD — kept verbatim
+  - [x] Step 2 — Write model class unit test (Red) — 3 Red: fabricated docstring, both accessors missing (defaults + get/set/None-no-op)
+  - [x] Step 3 — Implement model class (Green) — 2 PEP 526 members + typed chaining accessors, None no-op setters
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note + both attr Notes verbatim on inline comments + getters + setters
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer test files: field values, XSD element-order assertion, BUS-DEPENDENT-NM-ECUS wrapper dispatch, empty-element case, write→re-parse round-trip; 6 Red (no reader/writer/dispatch)
+  - [x] Step 6 — Update parser & writer (Green) — readFlexrayNmEcu + writeFlexrayNmEcu added; FLEXRAY-NM-ECU branches in readBusDependentNmEcus/writeBusDependentNmEcus
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.307 p.679 citation, release column; marker deferred to 9b
+  - [x] Step 8 — Deviations  [none: both attrs modeled exactly; docstrings verbatim; removed-status sibling NM-REPEAT-MESSAGE-BIT-ENABLE not modeled (absent from R23-11 table)]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `FlexrayNmNode` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.309)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

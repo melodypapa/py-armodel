@@ -754,15 +754,56 @@ class CanNmEcu(BusspecificNmEcu):
 
 class FlexrayNmEcu(BusspecificNmEcu):
     """
-    Defines FlexRay-specific network management ECU properties,
-    implementing bus-specific NM features for FlexRay communication.
+    FlexRay specific attributes.
     """
 
     # FlexrayNmEcu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.307, p.679
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNmHwVoteEnabled              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmHwVoteEnabled              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmMainFunctionAcrossFrCycle  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmMainFunctionAcrossFrCycle  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
+
+        # Switch for enabling the processing of FlexRay Hardware aggregated NM-Votes.
+        self.nmHwVoteEnabled: Optional[Boolean] = None
+
+        # Parameter describing if the execution of the FrNm_Main function crosses theFlexRay cycle boundary or not.
+        self.nmMainFunctionAcrossFrCycle: Optional[Boolean] = None
+
+    def getNmHwVoteEnabled(self) -> Optional[Boolean]:
+        """
+        Switch for enabling the processing of FlexRay Hardware aggregated NM-Votes.
+        """
+        return self.nmHwVoteEnabled
+
+    def setNmHwVoteEnabled(self, value: Optional[Boolean]) -> "FlexrayNmEcu":
+        """
+        Switch for enabling the processing of FlexRay Hardware aggregated NM-Votes.
+        A None value is a no-op and does not overwrite an existing nmHwVoteEnabled.
+        """
+        if value is not None:
+            self.nmHwVoteEnabled = value
+        return self
+
+    def getNmMainFunctionAcrossFrCycle(self) -> Optional[Boolean]:
+        """
+        Parameter describing if the execution of the FrNm_Main function crosses theFlexRay cycle boundary or not.
+        """
+        return self.nmMainFunctionAcrossFrCycle
+
+    def setNmMainFunctionAcrossFrCycle(self, value: Optional[Boolean]) -> "FlexrayNmEcu":
+        """
+        Parameter describing if the execution of the FrNm_Main function crosses theFlexRay cycle boundary or not.
+        A None value is a no-op and does not overwrite an existing nmMainFunctionAcrossFrCycle.
+        """
+        if value is not None:
+            self.nmMainFunctionAcrossFrCycle = value
+        return self
 
 
 class J1939NmEcu(BusspecificNmEcu):
