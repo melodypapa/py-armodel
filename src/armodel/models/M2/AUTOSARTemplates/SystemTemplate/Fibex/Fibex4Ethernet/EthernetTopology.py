@@ -265,36 +265,54 @@ class CouplingPortFifo(CouplingPortStructuralElement):
 
 class CouplingPortScheduler(CouplingPortStructuralElement):
     """
-    Defines a scheduler for coupling ports in Ethernet switches,
-    specifying scheduling algorithms and predecessor relationships
-    for managing traffic flow through the coupling ports.
+    Defines a scheduler for the CouplingPort egress structure.
     """
 
     # CouplingPortScheduler method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getPortScheduler             [x] impl  [ ] docstring  [ ] test
-    # [ ] setPortScheduler             [x] impl  [ ] docstring  [ ] test
-    # [ ] getPredecessorRefs           [x] impl  [ ] docstring  [ ] test
-    # [ ] addPredecessorRef            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.65, p.123
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPortScheduler        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPortScheduler        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPredecessorRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addPredecessorRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.portScheduler = None  # type: EthernetCouplingPortSchedulerEnum
-        self.predecessorRefs = []  # type: List[RefType]
+        # Defines the schedule algorithm to be used.
+        self.portScheduler: Optional[EthernetCouplingPortSchedulerEnum] = None
 
-    def getPortScheduler(self):
+        # Ordered List of predecessor inputs. The first element has the highest priority. The following elements have decreasing priorities.
+        self.predecessorRefs: List[RefType] = []
+
+    def getPortScheduler(self) -> Optional[EthernetCouplingPortSchedulerEnum]:
+        """
+        Defines the schedule algorithm to be used.
+        """
         return self.portScheduler
 
-    def setPortScheduler(self, value):
+    def setPortScheduler(self, value: Optional[EthernetCouplingPortSchedulerEnum]) -> "CouplingPortScheduler":
+        """
+        Defines the schedule algorithm to be used.
+        A None value is a no-op and does not overwrite an existing portScheduler.
+        """
         if value is not None:
             self.portScheduler = value
         return self
 
-    def getPredecessorRefs(self):
+    def getPredecessorRefs(self) -> List[RefType]:
+        """
+        Ordered List of predecessor inputs. The first element has the highest priority. The following elements have decreasing priorities.
+        """
         return self.predecessorRefs
 
-    def addPredecessorRef(self, value):
+    def addPredecessorRef(self, value: RefType) -> "CouplingPortScheduler":
+        """
+        Ordered List of predecessor inputs. The first element has the highest priority. The following elements have decreasing priorities.
+        A None value is a no-op and does not extend the predecessor list.
+        """
         if value is not None:
             self.predecessorRefs.append(value)
         return self
@@ -1981,6 +1999,36 @@ class EthernetMacLayerTypeEnum(AREnum):
                 EthernetMacLayerTypeEnum.XMII,
                 EthernetMacLayerTypeEnum.XGMII,
                 EthernetMacLayerTypeEnum.XXGMII,
+            ]
+        )
+
+
+class EthernetCouplingPortSchedulerEnum(AREnum):
+    """
+    Defines the schedule algorithm to be used.
+    """
+
+    # EthernetCouplingPortSchedulerEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.66, p.123
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on CouplingPortScheduler.portScheduler
+
+    # Schedule algorithm "deficit round robin" Tags: atp.EnumerationLiteralIndex=0
+    DEFICIT_ROUND_ROBIN = "DEFICIT-ROUND-ROBIN"
+
+    # Schedule algorithm "strict priority" Tags: atp.EnumerationLiteralIndex=1
+    STRICT_PRIORITY = "STRICT-PRIORITY"
+
+    # Schedule algorithm "weighted round robin" Tags: atp.EnumerationLiteralIndex=2
+    WEIGHTED_ROUND_ROBIN = "WEIGHTED-ROUND-ROBIN"
+
+    def __init__(self):
+        super().__init__(
+            [
+                EthernetCouplingPortSchedulerEnum.DEFICIT_ROUND_ROBIN,
+                EthernetCouplingPortSchedulerEnum.STRICT_PRIORITY,
+                EthernetCouplingPortSchedulerEnum.WEIGHTED_ROUND_ROBIN,
             ]
         )
 

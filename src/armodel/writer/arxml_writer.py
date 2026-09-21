@@ -10462,6 +10462,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "COUPLING-PORT-SCHEDULER")
             self.writeCouplingPortSchedulerCouplingPortStructuralElement(child_element, scheduler)
             self.setChildElementOptionalLiteral(child_element, "PORT-SCHEDULER", scheduler.getPortScheduler())
+            refs = scheduler.getPredecessorRefs()
+            if len(refs) > 0:
+                refs_element = ET.SubElement(child_element, "PREDECESSOR-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_element, "PREDECESSOR-REF", ref)
 
     def writeCouplingPortDetailsCouplingPortStructuralElements(self, element: ET.Element, details: CouplingPortDetails):
         items = details.getCouplingPortStructuralElements()

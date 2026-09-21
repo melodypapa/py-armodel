@@ -45,15 +45,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 3.64 p.122 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
   - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; Base → Identifiable; docstring verbatim (matches XSD documentation); reader/writer via concrete-subclass helpers; CouplingPortShaper subclass absent from src noted as observation, not a deviation of this class]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CouplingPortScheduler` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.65)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [x] `CouplingPortScheduler` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.65) — **finished, stamped `# Spec verified: R23-11`, commit 7617e250 (in-pass: EthernetCouplingPortSchedulerEnum Table 3.66 created; PREDECESSOR-REFS reader/writer coverage added)**
+  - [x] Step 1 — Sync members & description from spec — Table 3.65, p.123; concrete, Base → stamped `CouplingPortStructuralElement`; attrs in displayed order: portScheduler (EthernetCouplingPortSchedulerEnum, 0..1, attr), predecessor (CouplingPortStructuralElement, *, ordered ref); XML order per XSD group: PORT-SCHEDULER → PREDECESSOR-REFS; enum Table 3.66 (p.123) NOT in src ⇒ synced in-pass (Rule 0016.4); XSD wire values DEFICIT-ROUND-ROBIN / STRICT-PRIORITY / WEIGHTED-ROUND-ROBIN; CouplingPortShaper (Table 3.67) is atp.Status=obsolete — explains its absence
+  - [x] Step 2 — Write model class unit test (Red) — defaults, verbatim class-Note docstring (Red), None no-ops on both setters, typed enum + RefType refs, enum wire-value test (Red: ImportError)
+  - [x] Step 3 — Implement model class (Green) — EthernetCouplingPortSchedulerEnum AREnum created (XSD wire values, literal docstrings from Table 3.66); CouplingPortScheduler rewritten: PEP 526 annotations replace trailing `# type:` comments (Rule 0003 fix), typed accessor signatures
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note verbatim; member Notes verbatim on inline comments + getters + setters (setter/adder None no-op sentence appended)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new writer test file: field values, DEST attrs, element order, empty-omits case, full round-trip; 2 Red on missing PREDECESSOR-REFS
+  - [x] Step 6 — Update parser & writer (Green) — readCouplingPortScheduler: PREDECESSOR-REFS/PREDECESSOR-REF via getChildElementRefTypeList → addPredecessorRef; writeCouplingPortScheduler: PREDECESSOR-REFS wrapper via setChildElementOptionalRefType; 35 affected tests pass
+  - [x] Step 7 — Update checklist comment — 6-column parity checklists for CouplingPortScheduler (Table 3.65) and EthernetCouplingPortSchedulerEnum (Table 3.66, "(no methods)" form); markers deferred to 9b
+  - [x] Step 8 — Deviations  [resolved in-pass: missing member type EthernetCouplingPortSchedulerEnum implemented (Rule 0016.4/0001.10); reader previously stored bare ARLiteral for portScheduler — kept per macLayerType precedent, enum available for typed construction. Observation: stamped CouplingPortRoleEnum uses camelCase wire values ("hostPort") vs XSD "HOST-PORT" — pre-existing drift in a stamped class, not this row]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `VlanMembership` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.59)
   - [ ] Step 1 — Sync members & description from spec

@@ -11297,6 +11297,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readCouplingPortScheduler(self, element: ET.Element, scheduler: CouplingPortScheduler):
         self.readCouplingPortSchedulerCouplingPortStructuralElement(element, scheduler)
         scheduler.setPortScheduler(self.getChildElementOptionalLiteral(element, "PORT-SCHEDULER"))
+        for ref in self.getChildElementRefTypeList(element, "PREDECESSOR-REFS/PREDECESSOR-REF"):
+            scheduler.addPredecessorRef(ref)
 
     def readCouplingPortDetailsCouplingPortStructuralElements(self, item: ET.Element, details: CouplingPortDetails):
         for child_element in self.findall(item, "COUPLING-PORT-STRUCTURAL-ELEMENTS/*"):

@@ -209,7 +209,7 @@ class TestEthernetTopology:
 
     def test_coupling_port_scheduler(self):
         """
-        Test the CouplingPortScheduler class initialization and methods.
+        Test the CouplingPortScheduler class initialization and methods (Table 3.65, p.123).
         """
         parent = MockParent()
         scheduler = CouplingPortScheduler(parent, "TestScheduler")
@@ -218,15 +218,69 @@ class TestEthernetTopology:
         assert scheduler.getPredecessorRefs() == []
         assert scheduler.getPortScheduler() is None
 
-        # Test adding predecessor reference with method chaining
-        result = scheduler.addPredecessorRef("TestRef")
-        assert scheduler.getPredecessorRefs() == ["TestRef"]
-        assert result == scheduler  # Test method chaining
+    def test_coupling_port_scheduler_docstring_is_spec_note(self):
+        """Class docstring carries the spec Note verbatim (Table 3.65, p.123)."""
+        assert CouplingPortScheduler.__doc__.strip() == "Defines a scheduler for the CouplingPort egress structure."
 
-        # Test setting port scheduler with method chaining
-        result = scheduler.setPortScheduler("RoundRobin")
-        assert scheduler.getPortScheduler() == "RoundRobin"
-        assert result == scheduler  # Test method chaining
+    def test_coupling_port_scheduler_init_has_no_docstring(self):
+        assert CouplingPortScheduler.__init__.__doc__ is None
+
+    def test_coupling_port_scheduler_get_set_port_scheduler(self):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCouplingPortSchedulerEnum
+
+        scheduler = CouplingPortScheduler(MockParent(), "S1")
+        value = EthernetCouplingPortSchedulerEnum()
+        value.setValue("WEIGHTED-ROUND-ROBIN")
+        assert scheduler.setPortScheduler(value) is scheduler
+        assert scheduler.getPortScheduler() is value
+        assert scheduler.getPortScheduler().getValue() == "WEIGHTED-ROUND-ROBIN"
+
+    def test_coupling_port_scheduler_set_port_scheduler_none_no_op(self):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCouplingPortSchedulerEnum
+
+        scheduler = CouplingPortScheduler(MockParent(), "S1")
+        value = EthernetCouplingPortSchedulerEnum()
+        value.setValue("STRICT-PRIORITY")
+        scheduler.setPortScheduler(value)
+        scheduler.setPortScheduler(None)
+        assert scheduler.getPortScheduler().getValue() == "STRICT-PRIORITY"
+
+    def test_coupling_port_scheduler_add_predecessor_refs(self):
+        scheduler = CouplingPortScheduler(MockParent(), "S1")
+        ref1 = RefType()
+        ref1.setDest("COUPLING-PORT-FIFO")
+        ref1.setValue("/Fifos/Fifo1")
+        ref2 = RefType()
+        ref2.setDest("COUPLING-PORT-SCHEDULER")
+        ref2.setValue("/Schedulers/Sched1")
+
+        result = scheduler.addPredecessorRef(ref1)
+        assert result is scheduler
+        scheduler.addPredecessorRef(ref2)
+
+        refs = scheduler.getPredecessorRefs()
+        assert len(refs) == 2
+        assert refs[0].getValue() == "/Fifos/Fifo1"
+        assert refs[0].getDest() == "COUPLING-PORT-FIFO"
+        assert refs[1].getValue() == "/Schedulers/Sched1"
+
+    def test_coupling_port_scheduler_add_predecessor_ref_none_no_op(self):
+        scheduler = CouplingPortScheduler(MockParent(), "S1")
+        ref1 = RefType()
+        ref1.setValue("/Fifos/Fifo1")
+        scheduler.addPredecessorRef(ref1)
+        scheduler.addPredecessorRef(None)
+        assert len(scheduler.getPredecessorRefs()) == 1
+
+    def test_ethernet_coupling_port_scheduler_enum(self):
+        """EthernetCouplingPortSchedulerEnum members and wire values (Table 3.66, p.123)."""
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCouplingPortSchedulerEnum
+
+        value = EthernetCouplingPortSchedulerEnum()
+        value.setValue(EthernetCouplingPortSchedulerEnum.DEFICIT_ROUND_ROBIN)
+        assert value.getValue() == "DEFICIT-ROUND-ROBIN"
+        assert EthernetCouplingPortSchedulerEnum.STRICT_PRIORITY == "STRICT-PRIORITY"
+        assert EthernetCouplingPortSchedulerEnum.WEIGHTED_ROUND_ROBIN == "WEIGHTED-ROUND-ROBIN"
 
     def test_ethernet_priority_regeneration(self):
         """
