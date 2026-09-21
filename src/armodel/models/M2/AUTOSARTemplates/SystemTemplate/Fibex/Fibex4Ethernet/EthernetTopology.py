@@ -148,13 +148,14 @@ class EthernetCluster(CommunicationCluster):
 
 class CouplingPortStructuralElement(Identifiable, ABC):
     """
-    Abstract base class for coupling port structural elements in Ethernet
-    switches and bridges, defining common properties and behavior for
-    various types of coupling port components.
+    General class to define structural elements a CouplingPort may consist of.
     """
 
     # CouplingPortStructuralElement method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.64, p.122
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CouplingPortStructuralElement:

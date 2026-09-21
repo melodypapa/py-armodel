@@ -35,15 +35,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.231 p.579 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
   - [x] Step 8 — Deviations  [resolved in-step (Rule 0014): naming deviation — element name was ETHERNET-FRAME (belongs to the removed legacy EthernetFrame class) instead of GENERIC-ETHERNET-FRAME per R23-11/R4.3.1 XSD; renamed in parser+writer and tests; no fixtures/examples carried either element, so no fixture edits]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CouplingPortStructuralElement` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.64)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [x] `CouplingPortStructuralElement` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.64) — **finished, stamped `# Spec verified: R23-11`, commit be625387**
+  - [x] Step 1 — Sync members & description from spec — Table 3.64, p.122; abstract, Base → `Identifiable`; zero attribute rows (XSD group COUPLING-PORT-STRUCTURAL-ELEMENT empty sequence); Note "General class to define structural elements a CouplingPort may consist of."; spec subclass CouplingPortShaper absent from src (observation — separate table, not in queue)
+  - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring assertion (Red: fabricated docstring), no-`__init__`-docstring, abstract raise, subclass heritage (Fifo + Scheduler)
+  - [x] Step 3 — Implement model class (Green) — shape already spec-correct: base Identifiable, zero attribute rows ⇒ no members; abstract guard present
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstring replaced with verbatim Note; `__init__` carries no docstring
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — coverage pre-exists via stamped CouplingPortFifo (field values + round-trip class + wrapper dispatch tests); added abstract-type pin (parsed Fifo isinstance CouplingPortStructuralElement) — passes immediately, honestly noted
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed: class contributes no XML content; concrete-subclass read/write helpers + COUPLING-PORT-STRUCTURAL-ELEMENTS wrapper dispatch pre-exist
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 3.64 p.122 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
+  - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; Base → Identifiable; docstring verbatim (matches XSD documentation); reader/writer via concrete-subclass helpers; CouplingPortShaper subclass absent from src noted as observation, not a deviation of this class]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `CouplingPortScheduler` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.65)
   - [ ] Step 1 — Sync members & description from spec

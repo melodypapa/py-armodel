@@ -142,13 +142,24 @@ class TestEthernetTopology:
 
     def test_coupling_port_structural_element(self):
         """
-        Test the CouplingPortStructuralElement abstract class.
+        Test the CouplingPortStructuralElement abstract class (Table 3.64, p.122).
         """
         parent = MockParent()
 
         # Test that abstract class cannot be instantiated directly
         with pytest.raises(TypeError):
             CouplingPortStructuralElement(parent, "TestElement")
+
+    def test_coupling_port_structural_element_docstring_is_spec_note(self):
+        """Class docstring carries the spec Note verbatim (Table 3.64, p.122)."""
+        assert CouplingPortStructuralElement.__doc__.strip() == "General class to define structural elements a CouplingPort may consist of."
+
+    def test_coupling_port_structural_element_init_has_no_docstring(self):
+        assert CouplingPortStructuralElement.__init__.__doc__ is None
+
+    def test_coupling_port_structural_element_subclasses(self):
+        assert issubclass(CouplingPortFifo, CouplingPortStructuralElement)
+        assert issubclass(CouplingPortScheduler, CouplingPortStructuralElement)
 
     def test_coupling_port_fifo(self):
         """
