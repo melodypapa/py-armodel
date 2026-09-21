@@ -1016,70 +1016,96 @@ class NmEcu(Identifiable, VariationPointCapable):
 
 class NmConfig(FibexElement):
     """
-    Represents network management configuration in the system,
-    defining cluster couplings and ECU configurations for
-    comprehensive network management setup.
+    Contains the all configuration elements for AUTOSAR Nm. Tags: atp.recommendedPackage=NmConfigs
     """
 
     # NmConfig method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] createCanNmCluster           [x] impl  [ ] docstring  [ ] test
-    # [ ] createUdpNmCluster           [x] impl  [ ] docstring  [ ] test
-    # [ ] getCanNmClusters             [x] impl  [ ] docstring  [ ] test
-    # [ ] getUdpNmClusters             [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmClusters                [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmClusterCouplings        [x] impl  [ ] docstring  [ ] test
-    # [ ] addNmClusterCouplings        [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmIfEcus                  [x] impl  [ ] docstring  [ ] test
-    # [ ] createNmEcu                  [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.298, p.672
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNmClusters           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createCanNmCluster      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createUdpNmCluster      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createFlexrayNmCluster  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createJ1939NmCluster    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanNmClusters        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getUdpNmClusters        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNmClusterCouplings   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addNmClusterCouplings   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmIfEcus             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createNmEcu             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # Collection of NM Clusters atpVariation: Derived, because cluster can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmCluster.shortName, nmCluster.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.nmClusters: List[NmCluster] = []
+
+        # Collection of NmClusterCouplings atpVariation: Derived, because NmCluster can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmClusterCoupling, nmClusterCoupling.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.nmClusterCouplings: List[NmClusterCoupling] = []
+
+        # Collection of NM ECUs atpVariation: Derived, because EcuInstance can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmIfEcu.shortName, nmIfEcu.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.nmIfEcus: List[NmEcu] = []
 
-    def createCanNmCluster(self, short_name: str):  # type: (str) -> CanNmCluster
+    def getNmClusters(self) -> List["NmCluster"]:
+        """
+        Collection of NM Clusters atpVariation: Derived, because cluster can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmCluster.shortName, nmCluster.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.nmClusters
+
+    def createCanNmCluster(self, short_name: str) -> "CanNmCluster":
         if not self.IsElementExists(short_name, CanNmCluster):
             cluster = CanNmCluster(self, short_name)
             self.addElement(cluster)
+            self.nmClusters.append(cluster)
         return self.getElement(short_name, CanNmCluster)
 
-    def createUdpNmCluster(self, short_name: str):  # type: (str) -> UdpNmCluster
+    def createUdpNmCluster(self, short_name: str) -> "UdpNmCluster":
         if not self.IsElementExists(short_name, UdpNmCluster):
             cluster = UdpNmCluster(self, short_name)
             self.addElement(cluster)
+            self.nmClusters.append(cluster)
         return self.getElement(short_name, UdpNmCluster)
 
     def createFlexrayNmCluster(self, short_name: str) -> "FlexrayNmCluster":
         if not self.IsElementExists(short_name, FlexrayNmCluster):
             cluster = FlexrayNmCluster(self, short_name)
             self.addElement(cluster)
+            self.nmClusters.append(cluster)
         return self.getElement(short_name, FlexrayNmCluster)
 
     def createJ1939NmCluster(self, short_name: str) -> "J1939NmCluster":
         if not self.IsElementExists(short_name, J1939NmCluster):
             cluster = J1939NmCluster(self, short_name)
             self.addElement(cluster)
+            self.nmClusters.append(cluster)
         return self.getElement(short_name, J1939NmCluster)
 
-    def getCanNmClusters(self):  # type: () -> List[CanNmCluster]
-        return list(sorted(filter(lambda a: isinstance(a, CanNmCluster), self.elements), key=lambda o: o.short_name))
+    def getCanNmClusters(self) -> List["CanNmCluster"]:
+        return [cluster for cluster in self.nmClusters if isinstance(cluster, CanNmCluster)]
 
-    def getUdpNmClusters(self):  # type: () -> List[UdpNmCluster]
-        return list(sorted(filter(lambda a: isinstance(a, UdpNmCluster), self.elements), key=lambda o: o.short_name))
+    def getUdpNmClusters(self) -> List["UdpNmCluster"]:
+        return [cluster for cluster in self.nmClusters if isinstance(cluster, UdpNmCluster)]
 
-    def getNmClusters(self):  # type: () -> List[NmCluster]
-        return list(sorted(filter(lambda a: isinstance(a, NmCluster), self.elements), key=lambda o: o.short_name))
-
-    def getNmClusterCouplings(self):
+    def getNmClusterCouplings(self) -> List[NmClusterCoupling]:
+        """
+        Collection of NmClusterCouplings atpVariation: Derived, because NmCluster can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmClusterCoupling, nmClusterCoupling.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.nmClusterCouplings
 
-    def addNmClusterCouplings(self, value):
-        self.nmClusterCouplings.append(value)
+    def addNmClusterCouplings(self, value: Optional[NmClusterCoupling]) -> "NmConfig":
+        """
+        Collection of NmClusterCouplings atpVariation: Derived, because NmCluster can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmClusterCoupling, nmClusterCoupling.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and does not extend the nmClusterCoupling list.
+        """
+        if value is not None:
+            self.nmClusterCouplings.append(value)
         return self
 
-    def getNmIfEcus(self):
+    def getNmIfEcus(self) -> List[NmEcu]:
+        """
+        Collection of NM ECUs atpVariation: Derived, because EcuInstance can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmIfEcu.shortName, nmIfEcu.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
         return self.nmIfEcus
 
     def createNmEcu(self, short_name: str) -> NmEcu:

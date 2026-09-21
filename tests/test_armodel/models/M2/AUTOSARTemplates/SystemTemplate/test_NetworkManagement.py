@@ -387,6 +387,58 @@ class TestJ1939NmEcu:
         assert J1939NmEcu.__init__.__doc__ is None
 
 
+class TestNmConfig:
+    """NmConfig (Table 6.298, p.672) — spec sync tests."""
+
+    def test_concrete_instantiation_and_heritage(self):
+        config = NmConfig(MockParent(), "config")
+        assert isinstance(config, FibexElement)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert NmConfig.__doc__.strip() == "Contains the all configuration elements for AUTOSAR Nm. Tags: atp.recommendedPackage=NmConfigs"
+
+    def test_init_has_no_docstring(self):
+        assert NmConfig.__init__.__doc__ is None
+
+    def test_defaults(self):
+        config = NmConfig(MockParent(), "config")
+        assert config.getNmClusters() == []
+        assert config.getNmClusterCouplings() == []
+        assert config.getNmIfEcus() == []
+
+    def test_cluster_dedicated_list_preserves_insertion_order(self):
+        config = NmConfig(MockParent(), "config")
+        udp_cluster = config.createUdpNmCluster("Zeta")
+        can_cluster = config.createCanNmCluster("Alpha")
+        flexray_cluster = config.createFlexrayNmCluster("Mid")
+        j1939_cluster = config.createJ1939NmCluster("Beta")
+
+        assert config.getNmClusters() == [udp_cluster, can_cluster, flexray_cluster, j1939_cluster]
+        assert config.getCanNmClusters() == [can_cluster]
+        assert config.getUdpNmClusters() == [udp_cluster]
+
+    def test_create_returns_same_instance(self):
+        config = NmConfig(MockParent(), "config")
+        cluster = config.createCanNmCluster("Cluster1")
+        assert config.createCanNmCluster("Cluster1") is cluster
+
+    def test_add_nm_cluster_couplings_appends_and_none_no_op(self):
+        config = NmConfig(MockParent(), "config")
+        coupling = CanNmClusterCoupling()
+        assert config.addNmClusterCouplings(coupling) is config
+        assert config.getNmClusterCouplings() == [coupling]
+
+        config.addNmClusterCouplings(None)
+        assert config.getNmClusterCouplings() == [coupling]
+
+    def test_create_nm_ecu_appends_to_nm_if_ecus(self):
+        config = NmConfig(MockParent(), "config")
+        ecu = config.createNmEcu("NmEcu1")
+        assert ecu.short_name == "NmEcu1"
+        assert config.getNmIfEcus() == [ecu]
+        assert config.createNmEcu("NmEcu1") is ecu
+
+
 class MockParent(ARObject):
     def __init__(self):
         super().__init__()

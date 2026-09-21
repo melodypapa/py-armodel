@@ -258,15 +258,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; docstring verbatim]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `NmConfig` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.298 · after all NM classes above (aggrs `nmCluster`, `nmClusterCoupling`, `nmIfEcu`))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 6.298, p.672; concrete, Base → `FibexElement`; 3 aggrs all * in displayed order: nmCluster (NmCluster), nmClusterCoupling (NmClusterCoupling), nmIfEcu (NmEcu); XML order per XSD group NM-CONFIG: NM-CLUSTERS → NM-CLUSTER-COUPLINGS → NM-IF-ECUS; aggregated by ARPackage.element; Note + "Tags: atp.recommendedPackage=NmConfigs" verbatim
+  - [x] Step 2 — Write model class unit test (Red) — 3 Red: fabricated docstring (Note+Tags), registry-filter getNmClusters returned short-name-sorted instead of insertion order (dedicated-list pin), addNmClusterCouplings had no None no-op
+  - [x] Step 3 — Implement model class (Green) — dedicated typed lists nmClusters/nmClusterCouplings/nmIfEcus replace registry-filter getters (Rule 0004); create* factories (Can/Udp/Flexray/J1939 cluster + NmEcu) append to lists with IsElementExists guard; `# type:` comment signatures replaced with typed ones; addNmClusterCouplings None no-op + chaining
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note + Tags verbatim; all 3 aggr Notes verbatim (atpVariation/Stereotypes/Tags text kept per stamped TimeSyncClientConfiguration precedent) on inline comments + getters + adder
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer test files: all 3 wrappers with field values, wrapper-order XSD pin, all 4 modeled cluster subtypes round-trip, empty-omits case; 2 initial failures were test-harness element-level mistakes, product coverage already correct — honestly noted
+  - [x] Step 6 — Update parser & writer (Green) — no further changes needed: readNmConfig/writeNmConfig + ARPackage NM-CONFIG dispatch + FLEXRAY/J-1939 cluster branches added in earlier rows of this batch
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.298 p.672 citation, release column; marker deferred to 9b
+  - [x] Step 8 — Deviations  [in-pass: createFlexrayNmCluster/createJ1939NmCluster + list appends recorded under their own rows; FLEXRAY-NM-CLUSTER-COUPLING in NM-CLUSTER-COUPLINGS wrapper still notImplemented — belongs to FlexrayNmClusterCoupling (recorded under Pending 16.4); LIN-NM-CLUSTER (XSD choice member, no table sync queued) noted]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `IPduMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 8.3)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
