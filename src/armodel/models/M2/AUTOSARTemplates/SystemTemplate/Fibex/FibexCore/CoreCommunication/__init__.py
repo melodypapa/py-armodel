@@ -1809,6 +1809,7 @@ class PdurIPduGroup(FibexElement):
 
     # PdurIPduGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.34, p.352
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCommunicationMode    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

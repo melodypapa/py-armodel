@@ -64,6 +64,7 @@ class OsTaskPreemptabilityEnum(AREnum):
 
     # OsTaskPreemptabilityEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.16, p.209
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on OsTaskProxy.preemptability (Steps 5/6 N/A: standalone AREnum)
 
@@ -87,6 +88,7 @@ class OsTaskProxy(ARElement):
 
     # OsTaskProxy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.15, p.208 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getPeriod          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

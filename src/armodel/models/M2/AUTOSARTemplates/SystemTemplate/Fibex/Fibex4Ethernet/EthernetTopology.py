@@ -3759,6 +3759,7 @@ class TcpIpIcmpv6Props(ARObject):
 
     # TcpIpIcmpv6Props method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.114, p.157 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getTcpIpIcmpV6EchoReplyAvoidFragmentation      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -3856,6 +3857,7 @@ class EthTcpIpIcmpProps(ARElement):
 
     # EthTcpIpIcmpProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.112, p.156 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getIcmpV4Props  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
