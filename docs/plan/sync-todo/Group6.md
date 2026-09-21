@@ -148,15 +148,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [x] `DataPrototypeTransformationProps` — already verified (# Spec verified: R23-11, `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py`)
 - [ ] `TransformationISignalProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 7.8 · after `DataPrototypeTransformationProps` (aggr))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 7.8, p.772; `<<atpVariation>>` abstract, Base → `Describable`; attrs in displayed order: csErrorReaction (CSTransformerErrorReactionEnum 0..1 attr), dataPrototypeTransformationProps (DataPrototypeTransformationProps * aggr), transformer (TransformationTechnology 0..1 ref, accessor transformerRef); XML order per XSD group TRANSFORMATION-I-SIGNAL-PROPS-CONTENT: CS-ERROR-REACTION → DATA-PROTOTYPE-TRANSFORMATION-PROPSS → TRANSFORMER-REF; subclasses EndToEnd/SOMEIP/UserDefinedTransformationISignalProps; class + member docstrings already verbatim from a prior pass; member type CSTransformerErrorReactionEnum (Table 7.9, p.773) exists but is **drifted**: wire values camelCase ("applicationOnly"/"autonomous") vs R23-11 XSD APPLICATION-ONLY/AUTONOMOUS ⇒ to-fix in Step 3
+  - [x] Step 2 — Write model class unit test (Red) — 2 Red: enum wire-value pin (XSD UPPER-SNAKE), verbatim class-Note docstring (multi-line → single-line form) + abstract raise + Describable heritage + typed adder (append + None no-op + chaining) pins
+  - [x] Step 3 — Implement model class (Green) — CSTransformerErrorReactionEnum wire values fixed to APPLICATION-ONLY/AUTONOMOUS (XSD; Rule 0012.3 drift); class docstring to single-line verbatim form; accessor signatures typed `List[DataPrototypeTransformationProps]`; member order already = displayed order
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class + all three attr docstrings already verbatim (verified against markdown lines 19930-19937 incl. "TransfromationProps" typo kept); checklist upgraded with release column + adder row
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer test files: typed-enum CS-ERROR-REACTION "AUTONOMOUS", DATA-PROTOTYPE-TRANSFORMATION-PROPSS wrapper with nested TRANSFORMATION-PROPS-REF, TRANSFORMER-REF DEST, XSD content-order pin, empty-omits case, write→re-parse round-trip via E2E concrete class
+  - [x] Step 6 — Update parser & writer (Green) — readTransformationISignalProps now constructs CSTransformerErrorReactionEnum from the literal value (getTimeSynchronization pattern, replaces bare ARLiteral); writer unchanged (already writes CS-ERROR-REACTION → DATA-PROTOTYPE-TRANSFORMATION-PROPSS in XSD order; TRANSFORMER-REF via E2E helper)
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist with release column R23-11 on all rows; marker deferred to 9b
+  - [x] Step 8 — Deviations  [resolved in-pass (Rule 0014): CSTransformerErrorReactionEnum wire-value drift fixed — two unit tests updated (raw-literal fixtures unaffected); reader enum construction upgraded; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `SenderRecCompositeTypeMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 5.27)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

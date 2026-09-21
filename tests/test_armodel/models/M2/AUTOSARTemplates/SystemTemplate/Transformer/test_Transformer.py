@@ -546,21 +546,37 @@ class TestTransformer:
         assert CSTransformerErrorReactionEnum.APPLICATION_ONLY in enum.getEnumValues()
         assert CSTransformerErrorReactionEnum.AUTONOMOUS in enum.getEnumValues()
 
-        # Test instantiation with a value
+        # Test instantiation with a value (XSD wire values)
         enum.setValue(CSTransformerErrorReactionEnum.AUTONOMOUS)
-        assert enum.getValue() == "autonomous"
+        assert enum.getValue() == "AUTONOMOUS"
+
+        enum.setValue(CSTransformerErrorReactionEnum.APPLICATION_ONLY)
+        assert enum.getValue() == "APPLICATION-ONLY"
 
     def test_transformation_isignal_props_abstract(self):
         """
         Test TransformationISignalProps abstract class functionality.
         """
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import DataPrototypeTransformationProps
+
+        with pytest.raises(TypeError):
+            TransformationISignalProps()
 
         class ConcreteTransformationISignalProps(TransformationISignalProps):
             def __init__(self):
                 super().__init__()
 
         props = ConcreteTransformationISignalProps()
+
+        # Verbatim spec Note (AUTOSAR_CP_TPS_SystemTemplate Table 7.8)
+        assert TransformationISignalProps.__doc__ == (
+            "TransformationISignalProps holds all the attributes for the different TransformationTechnologies that are ISignal specific. " "Tags: vh.latestBindingTime=postBuild"
+        )
+        assert TransformationISignalProps.__init__.__doc__ is None
+        assert issubclass(ConcreteTransformationISignalProps, Describable)
+        assert issubclass(ConcreteTransformationISignalProps, TransformationISignalProps)
 
         # Test default values
         assert props.getCsErrorReaction() is None
@@ -577,6 +593,9 @@ class TestTransformer:
         assert props == props.setDataPrototypeTransformationProps(None)
         assert props.getDataPrototypeTransformationProps() == []  # Should remain empty list
 
+        assert props == props.addDataPrototypeTransformationProps(None)
+        assert props.getDataPrototypeTransformationProps() == []  # Should remain empty list
+
         assert props == props.setTransformerRef(None)
         assert props.getTransformerRef() is None
 
@@ -585,9 +604,11 @@ class TestTransformer:
         assert props.getCsErrorReaction() == CSTransformerErrorReactionEnum.APPLICATION_ONLY
         assert props == props.setCsErrorReaction(CSTransformerErrorReactionEnum.APPLICATION_ONLY)
 
-        props.setDataPrototypeTransformationProps(["prop1", "prop2"])
-        assert "prop1" in props.getDataPrototypeTransformationProps()
-        assert props == props.setDataPrototypeTransformationProps(["prop1", "prop2"])
+        dp_props = DataPrototypeTransformationProps()
+        assert props == props.addDataPrototypeTransformationProps(dp_props)
+        assert props.getDataPrototypeTransformationProps() == [dp_props]
+        assert props == props.setDataPrototypeTransformationProps([dp_props])
+        assert props.getDataPrototypeTransformationProps() == [dp_props]
 
         transformer_ref = RefType()
         transformer_ref.setValue("/Pkg/Transformer")

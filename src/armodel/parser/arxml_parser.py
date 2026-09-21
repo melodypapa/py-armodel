@@ -992,6 +992,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
+    CSTransformerErrorReactionEnum,
     DataPrototypeInPortInterfaceRef,
     DataPrototypeInClientServerInterfaceInstanceRef,
     DataPrototypeInSenderReceiverInterfaceInstanceRef,
@@ -12507,7 +12508,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTransformationISignalProps(self, element: ET.Element, props: TransformationISignalProps):
         self.readDescribable(element, props)
-        props.setCsErrorReaction(self.getChildElementOptionalLiteral(element, "CS-ERROR-REACTION"))
+        cs_error_reaction = self.getChildElementOptionalLiteral(element, "CS-ERROR-REACTION")
+        if cs_error_reaction is not None:
+            e = CSTransformerErrorReactionEnum()
+            e.setValue(cs_error_reaction.getValue())
+            props.setCsErrorReaction(e)
         for child_element in self.findall(element, "DATA-PROTOTYPE-TRANSFORMATION-PROPSS/*"):
             if self.getTagName(child_element) == "DATA-PROTOTYPE-TRANSFORMATION-PROPS":
                 dp_props = DataPrototypeTransformationProps()

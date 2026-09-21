@@ -1004,30 +1004,29 @@ class CSTransformerErrorReactionEnum(AREnum):
     # (no methods)
 
     # The application is responsible for any error reaction. No autonomous error reaction of RTE and transformer. Tags: atp.EnumerationLiteralIndex=0
-    APPLICATION_ONLY = "applicationOnly"
+    APPLICATION_ONLY = "APPLICATION-ONLY"
 
     # RTE and Transformer coordinate an autonomous error reaction on their own. Tags: atp.EnumerationLiteralIndex=1
-    AUTONOMOUS = "autonomous"
+    AUTONOMOUS = "AUTONOMOUS"
 
     def __init__(self):
         super().__init__([CSTransformerErrorReactionEnum.APPLICATION_ONLY, CSTransformerErrorReactionEnum.AUTONOMOUS])
 
 
 class TransformationISignalProps(Describable, ABC):
-    """
-    TransformationISignalProps holds all the attributes for the different TransformationTechnologies that are ISignal specific. Tags: vh.latestBindingTime=postBuild
-    """
+    """TransformationISignalProps holds all the attributes for the different TransformationTechnologies that are ISignal specific. Tags: vh.latestBindingTime=postBuild"""
 
     # TransformationISignalProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.8, p.772
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCsErrorReaction           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCsErrorReaction           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformerRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransformerRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCsErrorReaction           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCsErrorReaction           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformerRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransformerRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is TransformationISignalProps:
@@ -1058,13 +1057,13 @@ class TransformationISignalProps(Describable, ABC):
             self.csErrorReaction = value
         return self
 
-    def getDataPrototypeTransformationProps(self) -> List:
+    def getDataPrototypeTransformationProps(self) -> List["DataPrototypeTransformationProps"]:
         """
         Fine granular modeling of TransfromationProps on the level of DataPrototypes. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable
         """
         return self.dataPrototypeTransformationProps
 
-    def setDataPrototypeTransformationProps(self, value: Optional[List]) -> "TransformationISignalProps":
+    def setDataPrototypeTransformationProps(self, value: Optional[List["DataPrototypeTransformationProps"]]) -> "TransformationISignalProps":
         """
         Fine granular modeling of TransfromationProps on the level of DataPrototypes. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable
         A None value is a no-op and does not overwrite an existing dataPrototypeTransformationProps.
