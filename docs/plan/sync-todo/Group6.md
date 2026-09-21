@@ -15,15 +15,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
 
 ## Queue (dependency-first)
 
-- [ ] `AbstractEthernetFrame` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.229)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [x] `AbstractEthernetFrame` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.229) — **finished, stamped `# Spec verified: R23-11`, commit ef0708e2**
+  - [x] Step 1 — Sync members & description from spec — Table 6.229, p.578; abstract, Base chain → most-derived `Frame` (stamped); zero attribute rows (XSD group ABSTRACT-ETHERNET-FRAME is an empty sequence); Note "Ethernet specific attributes to the Frame."
+  - [x] Step 2 — Write model class unit test (Red) — abstract instantiation raises, verbatim class-Note docstring assertion, heritage, no-`__init__`-docstring; concrete-subclass defaults
+  - [x] Step 3 — Implement model class (Green) — shape already spec-correct: most-derived base Frame, zero attribute rows ⇒ no members/accessors; abstract guard present
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring replaced with the verbatim Note; `__init__` carries no docstring; (also aligned GenericEthernetFrame's docstring to its Table 6.231 Note — its own row re-verifies)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — parser + writer tests via concrete subclass GenericEthernetFrame (field values + empty-wrapper case); initial Red traced to test-harness factory misuse, product coverage already present
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed: readGenericEthernetFrame→readFrame / writeGenericEthernetFrame→writeFrame + ARPackage dispatch pre-exist; XSD group ABSTRACT-ETHERNET-FRAME is empty so XML element order untouched
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.229 p.578 citation, `__init__` row with `[—]` reader/writer (no own XML element); marker deferred to 9b
+  - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; Base chain → stamped Frame; docstring verbatim; reader/writer via base helpers; no referenced missing classes — subclass GenericEthernetFrame already queued as next row]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `GenericEthernetFrame` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.231)
   - [ ] Step 1 — Sync members & description from spec
