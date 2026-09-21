@@ -158,15 +158,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 8 — Deviations  [resolved in-pass (Rule 0014): CSTransformerErrorReactionEnum wire-value drift fixed — two unit tests updated (raw-literal fixtures unaffected); reader enum construction upgraded; no open deviations]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `SenderRecCompositeTypeMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 5.27)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 5.27, p.235; abstract, Base = ARObject; ZERO attribute rows (XSD group SENDER-REC-COMPOSITE-TYPE-MAPPING empty sequence, verified AUTOSAR_00052.xsd line 104451); Subclasses SenderRecArrayTypeMapping/SenderRecRecordTypeMapping; Note verbatim (markdown "CompositeType Mapping" wrap resolved to "CompositeTypeMapping" per XSD documentation)
+  - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring assertion (Red: fabricated docstring), no-`__init__`-docstring, abstract raise (pre-existing), subclass heritage pins
+  - [x] Step 3 — Implement model class (Green) — shape already spec-correct: base ARObject, zero attribute rows ⇒ no members/accessors, abstract guard present
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstring replaced with verbatim Note; `__init__` carries no docstring
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer tests via concrete SenderRecRecordTypeMapping through the TYPE-MAPPING dispatch (isinstance SenderRecCompositeTypeMapping pin, SYSTEM-SIGNAL-REF value+DEST, write→re-parse round-trip); all pass immediately — dispatch coverage pre-exists, honestly noted
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed: class contributes no XML content; readSenderRecCompositeTypeMapping/writeSenderRecCompositeTypeMapping + SENDER-REC-RECORD-TYPE-MAPPING dispatch pre-exist
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 5.27 p.235 citation, `__init__` row with `[—]` reader/writer (empty XSD group); marker deferred to 9b
+  - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; Base ARObject; docstring verbatim; SENDER-REC-ARRAY-TYPE-MAPPING dispatch gap belongs to SenderRecArrayTypeMapping (queued next row)]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `SenderRecArrayTypeMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 5.28 · after `SenderRecArrayElementMapping`/`TextTableMapping`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

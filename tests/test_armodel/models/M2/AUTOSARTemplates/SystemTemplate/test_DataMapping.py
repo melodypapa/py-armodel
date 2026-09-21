@@ -74,6 +74,20 @@ class Test_DataMapping:
         with pytest.raises(TypeError):
             SenderRecCompositeTypeMapping()
 
+        # Verbatim spec Note (AUTOSAR_CP_TPS_SystemTemplate Table 5.27)
+        assert SenderRecCompositeTypeMapping.__doc__ == (
+            'Two mappings exist for the composite data types: "ArrayTypeMapping" and "RecordTypeMapping". '
+            "In both, a primitive datatype will be mapped to a system signal. "
+            'But it is also possible to combine the arrays and the records, so that an "array" could be an element of a "record" '
+            'and in the same manner a "record" could be an element of an "array". '
+            "Nesting these data types is also possible. "
+            'If an element of a composite data type is again a composite one, the "CompositeTypeMapping" element will be used one more time '
+            "(aggregation between the ArrayElementMapping and CompositeTypeMapping or aggregation between the RecordElementMapping and CompositeTypeMapping)."
+        )
+        assert SenderRecCompositeTypeMapping.__init__.__doc__ is None
+        assert issubclass(SenderRecArrayTypeMapping, SenderRecCompositeTypeMapping)
+        assert issubclass(SenderRecRecordTypeMapping, SenderRecCompositeTypeMapping)
+
     def test_SenderRecRecordElementMapping(self):
         """Test SenderRecRecordElementMapping class functionality."""
         mapping = SenderRecRecordElementMapping()

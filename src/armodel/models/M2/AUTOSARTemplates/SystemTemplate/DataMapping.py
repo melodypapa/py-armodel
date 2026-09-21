@@ -108,14 +108,12 @@ class SenderReceiverToSignalMapping(DataMapping):
 
 
 class SenderRecCompositeTypeMapping(ARObject, ABC):
-    """
-    Abstract base class for composite type mappings between sender/receiver
-    interfaces and system-level signals. This class handles complex data
-    structures such as records and arrays in data mapping scenarios.
-    """
+    """Two mappings exist for the composite data types: "ArrayTypeMapping" and "RecordTypeMapping". In both, a primitive datatype will be mapped to a system signal. But it is also possible to combine the arrays and the records, so that an "array" could be an element of a "record" and in the same manner a "record" could be an element of an "array". Nesting these data types is also possible. If an element of a composite data type is again a composite one, the "CompositeTypeMapping" element will be used one more time (aggregation between the ArrayElementMapping and CompositeTypeMapping or aggregation between the RecordElementMapping and CompositeTypeMapping)."""
 
     # SenderRecCompositeTypeMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.27, p.235
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is SenderRecCompositeTypeMapping:
