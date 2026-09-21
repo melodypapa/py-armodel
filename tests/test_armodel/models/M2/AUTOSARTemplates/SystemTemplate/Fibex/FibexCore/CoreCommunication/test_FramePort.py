@@ -1,4 +1,5 @@
 import inspect
+import sys
 import typing
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
@@ -9,6 +10,19 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     FramePort,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommConnectorPort
+
+
+def _get_type_hints(obj, localns=None):
+    """typing.get_type_hints leaves PEP 563 self-references as ForwardRef on Python 3.8; resolve against the defining module."""
+    hints = typing.get_type_hints(obj, localns=localns)
+    lookup = dict(vars(sys.modules[obj.__module__]))
+    if localns:
+        lookup.update(localns)
+    for name, hint in hints.items():
+        if isinstance(hint, typing.ForwardRef):
+            hints[name] = lookup.get(hint.__forward_arg__, hint)
+    return hints
+
 
 CLASS_NOTE = "Connectors reception or send port on the referenced channel referenced by a FrameTriggering."
 
@@ -51,9 +65,9 @@ class TestFramePort:
         assert port.getCommunicationDirection() == direction
 
         localns = {"CommunicationDirectionType": CommunicationDirectionType}
-        getter_hints = typing.get_type_hints(FramePort.getCommunicationDirection, localns=localns)
+        getter_hints = _get_type_hints(FramePort.getCommunicationDirection, localns=localns)
         assert getter_hints.get("return") == typing.Optional[CommunicationDirectionType]
 
-        setter_hints = typing.get_type_hints(FramePort.setCommunicationDirection, localns=localns)
+        setter_hints = _get_type_hints(FramePort.setCommunicationDirection, localns=localns)
         assert setter_hints.get("value") == typing.Optional[CommunicationDirectionType]
         assert setter_hints.get("return") is CommConnectorPort

@@ -1,4 +1,5 @@
 import inspect
+import sys
 import typing
 
 import pytest
@@ -48,6 +49,16 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     UserDefinedPdu,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import TriggerIPduSendCondition
+
+
+def _get_type_hints(obj):
+    """typing.get_type_hints leaves PEP 563 self-references as ForwardRef on Python 3.8; resolve against the defining module."""
+    hints = typing.get_type_hints(obj)
+    module_vars = vars(sys.modules[obj.__module__])
+    for name, hint in hints.items():
+        if isinstance(hint, typing.ForwardRef):
+            hints[name] = module_vars.get(hint.__forward_arg__, hint)
+    return hints
 
 
 class MockParent(ARObject):
@@ -1214,10 +1225,10 @@ class TestStaticPart:
         assert part == part.setIPduRef(None)
         assert part.getIPduRef() == ref
 
-        getter_hints = typing.get_type_hints(StaticPart.getIPduRef)
+        getter_hints = _get_type_hints(StaticPart.getIPduRef)
         assert getter_hints.get("return") == typing.Optional[RefType]
 
-        setter_hints = typing.get_type_hints(StaticPart.setIPduRef)
+        setter_hints = _get_type_hints(StaticPart.setIPduRef)
         assert setter_hints.get("value") == typing.Optional[RefType]
         assert setter_hints.get("return") is StaticPart
 
@@ -1296,10 +1307,10 @@ class TestDynamicPartAlternative:
         assert alternative == alternative.setInitialDynamicPart(None)
         assert alternative.getInitialDynamicPart() == value
 
-        getter_hints = typing.get_type_hints(DynamicPartAlternative.getInitialDynamicPart)
+        getter_hints = _get_type_hints(DynamicPartAlternative.getInitialDynamicPart)
         assert getter_hints.get("return") == typing.Optional[Boolean]
 
-        setter_hints = typing.get_type_hints(DynamicPartAlternative.setInitialDynamicPart)
+        setter_hints = _get_type_hints(DynamicPartAlternative.setInitialDynamicPart)
         assert setter_hints.get("value") == typing.Optional[Boolean]
         assert setter_hints.get("return") is DynamicPartAlternative
 
@@ -1317,10 +1328,10 @@ class TestDynamicPartAlternative:
         assert alternative == alternative.setIPduRef(None)
         assert alternative.getIPduRef() == ref
 
-        getter_hints = typing.get_type_hints(DynamicPartAlternative.getIPduRef)
+        getter_hints = _get_type_hints(DynamicPartAlternative.getIPduRef)
         assert getter_hints.get("return") == typing.Optional[RefType]
 
-        setter_hints = typing.get_type_hints(DynamicPartAlternative.setIPduRef)
+        setter_hints = _get_type_hints(DynamicPartAlternative.setIPduRef)
         assert setter_hints.get("value") == typing.Optional[RefType]
         assert setter_hints.get("return") is DynamicPartAlternative
 
@@ -1336,10 +1347,10 @@ class TestDynamicPartAlternative:
         assert alternative == alternative.setSelectorFieldCode(None)
         assert alternative.getSelectorFieldCode() == value
 
-        getter_hints = typing.get_type_hints(DynamicPartAlternative.getSelectorFieldCode)
+        getter_hints = _get_type_hints(DynamicPartAlternative.getSelectorFieldCode)
         assert getter_hints.get("return") == typing.Optional[Integer]
 
-        setter_hints = typing.get_type_hints(DynamicPartAlternative.setSelectorFieldCode)
+        setter_hints = _get_type_hints(DynamicPartAlternative.setSelectorFieldCode)
         assert setter_hints.get("value") == typing.Optional[Integer]
         assert setter_hints.get("return") is DynamicPartAlternative
 

@@ -1,4 +1,5 @@
 import inspect
+import sys
 import typing
 
 import pytest
@@ -10,6 +11,17 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FrameTriggering
+
+
+def _get_type_hints(obj):
+    """typing.get_type_hints leaves PEP 563 self-references as ForwardRef on Python 3.8; resolve against the defining module."""
+    hints = typing.get_type_hints(obj)
+    module_vars = vars(sys.modules[obj.__module__])
+    for name, hint in hints.items():
+        if isinstance(hint, typing.ForwardRef):
+            hints[name] = module_vars.get(hint.__forward_arg__, hint)
+    return hints
+
 
 CLASS_NOTE = (
     "The FrameTriggering describes the instance of a frame sent on a channel and defines the manner of "
@@ -94,10 +106,10 @@ class TestFrameTriggering:
         assert triggering == triggering.setFrameRef(None)
         assert triggering.getFrameRef() == ref
 
-        getter_hints = typing.get_type_hints(FrameTriggering.getFrameRef)
+        getter_hints = _get_type_hints(FrameTriggering.getFrameRef)
         assert getter_hints.get("return") == typing.Optional[RefType]
 
-        setter_hints = typing.get_type_hints(FrameTriggering.setFrameRef)
+        setter_hints = _get_type_hints(FrameTriggering.setFrameRef)
         assert setter_hints.get("value") == typing.Optional[RefType]
         assert setter_hints.get("return") is FrameTriggering
 
@@ -117,10 +129,10 @@ class TestFrameTriggering:
         assert triggering == triggering.addFramePortRef(None)
         assert triggering.getFramePortRefs() == [ref1, ref2]
 
-        getter_hints = typing.get_type_hints(FrameTriggering.getFramePortRefs)
+        getter_hints = _get_type_hints(FrameTriggering.getFramePortRefs)
         assert getter_hints.get("return") == typing.List[RefType]
 
-        adder_hints = typing.get_type_hints(FrameTriggering.addFramePortRef)
+        adder_hints = _get_type_hints(FrameTriggering.addFramePortRef)
         assert adder_hints.get("value") == typing.Optional[RefType]
         assert adder_hints.get("return") is FrameTriggering
 
@@ -140,10 +152,10 @@ class TestFrameTriggering:
         assert triggering == triggering.addPduTriggeringRef(None)
         assert triggering.getPduTriggeringRefs() == [ref1, ref2]
 
-        getter_hints = typing.get_type_hints(FrameTriggering.getPduTriggeringRefs)
+        getter_hints = _get_type_hints(FrameTriggering.getPduTriggeringRefs)
         assert getter_hints.get("return") == typing.List[RefType]
 
-        adder_hints = typing.get_type_hints(FrameTriggering.addPduTriggeringRef)
+        adder_hints = _get_type_hints(FrameTriggering.addPduTriggeringRef)
         assert adder_hints.get("value") == typing.Optional[RefType]
         assert adder_hints.get("return") is FrameTriggering
 

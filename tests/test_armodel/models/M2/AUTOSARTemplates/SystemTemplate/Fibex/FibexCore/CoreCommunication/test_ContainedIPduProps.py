@@ -1,4 +1,5 @@
 import inspect
+import sys
 import typing
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -14,6 +15,17 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     ContainedIPduCollectionSemanticsEnum,
     ContainedIPduProps,
 )
+
+
+def _get_type_hints(obj):
+    """typing.get_type_hints leaves PEP 563 self-references as ForwardRef on Python 3.8; resolve against the defining module."""
+    hints = typing.get_type_hints(obj)
+    module_vars = vars(sys.modules[obj.__module__])
+    for name, hint in hints.items():
+        if isinstance(hint, typing.ForwardRef):
+            hints[name] = module_vars.get(hint.__forward_arg__, hint)
+    return hints
+
 
 CLASS_NOTE = (
     "Defines the aspects of an IPdu which can be collected inside a ContainerIPdu.\n"
@@ -100,10 +112,10 @@ class TestContainedIPduProps:
         assert props == props.setCollectionSemantics(None)
         assert props.getCollectionSemantics() == value
 
-        getter_hints = typing.get_type_hints(ContainedIPduProps.getCollectionSemantics)
+        getter_hints = _get_type_hints(ContainedIPduProps.getCollectionSemantics)
         assert getter_hints.get("return") == typing.Optional[ContainedIPduCollectionSemanticsEnum]
 
-        setter_hints = typing.get_type_hints(ContainedIPduProps.setCollectionSemantics)
+        setter_hints = _get_type_hints(ContainedIPduProps.setCollectionSemantics)
         assert setter_hints.get("value") == typing.Optional[ContainedIPduCollectionSemanticsEnum]
         assert setter_hints.get("return") is ContainedIPduProps
 
@@ -118,10 +130,10 @@ class TestContainedIPduProps:
         assert props == props.setContainedPduTriggeringRef(None)
         assert props.getContainedPduTriggeringRef() == ref
 
-        getter_hints = typing.get_type_hints(ContainedIPduProps.getContainedPduTriggeringRef)
+        getter_hints = _get_type_hints(ContainedIPduProps.getContainedPduTriggeringRef)
         assert getter_hints.get("return") == typing.Optional[RefType]
 
-        setter_hints = typing.get_type_hints(ContainedIPduProps.setContainedPduTriggeringRef)
+        setter_hints = _get_type_hints(ContainedIPduProps.setContainedPduTriggeringRef)
         assert setter_hints.get("value") == typing.Optional[RefType]
         assert setter_hints.get("return") is ContainedIPduProps
 
@@ -135,10 +147,10 @@ class TestContainedIPduProps:
         assert props == props.setHeaderIdLongHeader(None)
         assert props.getHeaderIdLongHeader() == value
 
-        getter_hints = typing.get_type_hints(ContainedIPduProps.getHeaderIdLongHeader)
+        getter_hints = _get_type_hints(ContainedIPduProps.getHeaderIdLongHeader)
         assert getter_hints.get("return") == typing.Optional[PositiveInteger]
 
-        setter_hints = typing.get_type_hints(ContainedIPduProps.setHeaderIdLongHeader)
+        setter_hints = _get_type_hints(ContainedIPduProps.setHeaderIdLongHeader)
         assert setter_hints.get("value") == typing.Optional[PositiveInteger]
         assert setter_hints.get("return") is ContainedIPduProps
 
@@ -152,10 +164,10 @@ class TestContainedIPduProps:
         assert props == props.setHeaderIdShortHeader(None)
         assert props.getHeaderIdShortHeader() == value
 
-        getter_hints = typing.get_type_hints(ContainedIPduProps.getHeaderIdShortHeader)
+        getter_hints = _get_type_hints(ContainedIPduProps.getHeaderIdShortHeader)
         assert getter_hints.get("return") == typing.Optional[PositiveInteger]
 
-        setter_hints = typing.get_type_hints(ContainedIPduProps.setHeaderIdShortHeader)
+        setter_hints = _get_type_hints(ContainedIPduProps.setHeaderIdShortHeader)
         assert setter_hints.get("value") == typing.Optional[PositiveInteger]
         assert setter_hints.get("return") is ContainedIPduProps
 
@@ -169,10 +181,10 @@ class TestContainedIPduProps:
         assert props == props.setOffset(None)
         assert props.getOffset() == value
 
-        getter_hints = typing.get_type_hints(ContainedIPduProps.getOffset)
+        getter_hints = _get_type_hints(ContainedIPduProps.getOffset)
         assert getter_hints.get("return") == typing.Optional[PositiveInteger]
 
-        setter_hints = typing.get_type_hints(ContainedIPduProps.setOffset)
+        setter_hints = _get_type_hints(ContainedIPduProps.setOffset)
         assert setter_hints.get("value") == typing.Optional[PositiveInteger]
         assert setter_hints.get("return") is ContainedIPduProps
 
@@ -186,10 +198,10 @@ class TestContainedIPduProps:
         assert props == props.setPriority(None)
         assert props.getPriority() == value
 
-        getter_hints = typing.get_type_hints(ContainedIPduProps.getPriority)
+        getter_hints = _get_type_hints(ContainedIPduProps.getPriority)
         assert getter_hints.get("return") == typing.Optional[PositiveInteger]
 
-        setter_hints = typing.get_type_hints(ContainedIPduProps.setPriority)
+        setter_hints = _get_type_hints(ContainedIPduProps.setPriority)
         assert setter_hints.get("value") == typing.Optional[PositiveInteger]
         assert setter_hints.get("return") is ContainedIPduProps
 
@@ -203,10 +215,10 @@ class TestContainedIPduProps:
         assert props == props.setTimeout(None)
         assert props.getTimeout() == value
 
-        getter_hints = typing.get_type_hints(ContainedIPduProps.getTimeout)
+        getter_hints = _get_type_hints(ContainedIPduProps.getTimeout)
         assert getter_hints.get("return") == typing.Optional[TimeValue]
 
-        setter_hints = typing.get_type_hints(ContainedIPduProps.setTimeout)
+        setter_hints = _get_type_hints(ContainedIPduProps.setTimeout)
         assert setter_hints.get("value") == typing.Optional[TimeValue]
         assert setter_hints.get("return") is ContainedIPduProps
 
@@ -220,10 +232,10 @@ class TestContainedIPduProps:
         assert props == props.setTrigger(None)
         assert props.getTrigger() == value
 
-        getter_hints = typing.get_type_hints(ContainedIPduProps.getTrigger)
+        getter_hints = _get_type_hints(ContainedIPduProps.getTrigger)
         assert getter_hints.get("return") == typing.Optional[PduCollectionTriggerEnum]
 
-        setter_hints = typing.get_type_hints(ContainedIPduProps.setTrigger)
+        setter_hints = _get_type_hints(ContainedIPduProps.setTrigger)
         assert setter_hints.get("value") == typing.Optional[PduCollectionTriggerEnum]
         assert setter_hints.get("return") is ContainedIPduProps
 
@@ -237,10 +249,10 @@ class TestContainedIPduProps:
         assert props == props.setUpdateIndicationBitPosition(None)
         assert props.getUpdateIndicationBitPosition() == value
 
-        getter_hints = typing.get_type_hints(ContainedIPduProps.getUpdateIndicationBitPosition)
+        getter_hints = _get_type_hints(ContainedIPduProps.getUpdateIndicationBitPosition)
         assert getter_hints.get("return") == typing.Optional[PositiveInteger]
 
-        setter_hints = typing.get_type_hints(ContainedIPduProps.setUpdateIndicationBitPosition)
+        setter_hints = _get_type_hints(ContainedIPduProps.setUpdateIndicationBitPosition)
         assert setter_hints.get("value") == typing.Optional[PositiveInteger]
         assert setter_hints.get("return") is ContainedIPduProps
 
