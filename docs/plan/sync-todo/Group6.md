@@ -238,15 +238,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 8 — Deviations  [accepted legacy (R4.3.1 Table 6.238, p.431); removed in R23-11 — nmSynchronizationPointEnabled kept per Rule 0019 (older verified corpus documents it, XSD element still present with atp.Status=removed, reader/writer coverage pre-exists); NM-REPEAT-MSG-INDICATION-ENABLED (removed 4.3.0, absent from R4.3.1 table too) not modeled — observation only]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `J1939NmCluster` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.319)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 6.319, p.691; concrete, Base → `NmCluster`; 2 attrs all 0..1 attr in displayed order: addressClaimEnabled, usesDynamicAddressing (both Boolean); XML order per XSD group J-1939-NM-CLUSTER: ADDRESS-CLAIM-ENABLED → USES-DYNAMIC-ADDRESSING; class Note has no trailing period (verified against XSD) — kept verbatim
+  - [x] Step 2 — Write model class unit test (Red) — 3 Red: fabricated docstring, both accessors missing (defaults + get/set/None-no-op)
+  - [x] Step 3 — Implement model class (Green) — 2 PEP 526 members + typed chaining accessors, None no-op setters
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note + both attr Notes verbatim (incl. the "• True: … • False: …" bullets) on inline comments + getters + setters
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer test files: field values, XSD element-order assertion, empty-omits case, NM-CLUSTERS wrapper dispatch, write→re-parse round-trip; 7 Red (no reader/writer/dispatch/createJ1939NmCluster)
+  - [x] Step 6 — Update parser & writer (Green) — readJ1939NmCluster + writeJ1939NmCluster added (XSD order); J-1939-NM-CLUSTER branches in readNmConfigNmClusters/writeNmConfigNmClusters; NmConfig.createJ1939NmCluster factory added
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.319 p.691 citation, release column; marker deferred to 9b
+  - [x] Step 8 — Deviations  [in-pass (Rule 0016.4/0001.10): NmConfig.createJ1939NmCluster factory created (needed by J-1939-NM-CLUSTER reader dispatch)]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `J1939NmEcu` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.323)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

@@ -867,6 +867,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     FlexrayNmCluster,
     FlexrayNmEcu,
     FlexrayNmNode,
+    J1939NmCluster,
     J1939NmNode,
     J1939NodeName,
     NmCluster,
@@ -8190,6 +8191,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalIntegerValue(child_element, "NM-REPETITION-CYCLE", cluster.getNmRepetitionCycle())
         self.setChildElementOptionalIntegerValue(child_element, "NM-VOTING-CYCLE", cluster.getNmVotingCycle())
 
+    def writeJ1939NmCluster(self, element: ET.Element, cluster: J1939NmCluster):
+        self.logger.debug("Write J1939NmCluster <%s>" % cluster.getShortName())
+        child_element = ET.SubElement(element, "J-1939-NM-CLUSTER")
+        self.writeNmCluster(child_element, cluster)
+        self.setChildElementOptionalBooleanValue(child_element, "ADDRESS-CLAIM-ENABLED", cluster.getAddressClaimEnabled())
+        self.setChildElementOptionalBooleanValue(child_element, "USES-DYNAMIC-ADDRESSING", cluster.getUsesDynamicAddressing())
+
     def writeNmConfigNmClusters(self, element: ET.Element, parent: NmConfig):
         clusters = parent.getNmClusters()
         if len(clusters) > 0:
@@ -8201,6 +8209,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeUdpNmCluster(child_element, cluster)
                 elif isinstance(cluster, FlexrayNmCluster):
                     self.writeFlexrayNmCluster(child_element, cluster)
+                elif isinstance(cluster, J1939NmCluster):
+                    self.writeJ1939NmCluster(child_element, cluster)
                 else:
                     self.notImplemented("Unsupported Nm Cluster <%s>" % type(cluster))
 

@@ -337,6 +337,42 @@ class TestUdpNmEcu:
         assert "A None value is a no-op" in setter_doc
 
 
+class TestJ1939NmCluster:
+    """J1939NmCluster (Table 6.319, p.691) — spec sync tests."""
+
+    def test_concrete_instantiation_and_heritage(self):
+        cluster = J1939NmCluster(MockParent(), "j1939_cluster")
+        assert isinstance(cluster, NmCluster)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert J1939NmCluster.__doc__.strip() == "J1939 specific NmCluster attributes"
+
+    def test_init_has_no_docstring(self):
+        assert J1939NmCluster.__init__.__doc__ is None
+
+    def test_defaults(self):
+        cluster = J1939NmCluster(MockParent(), "j1939_cluster")
+        assert cluster.getAddressClaimEnabled() is None
+        assert cluster.getUsesDynamicAddressing() is None
+
+    def test_get_set_round_trip_and_none_no_op(self):
+        cluster = J1939NmCluster(MockParent(), "j1939_cluster")
+
+        address_claim = Boolean()
+        address_claim.setValue(True)
+        cluster.setAddressClaimEnabled(address_claim)
+        assert cluster.getAddressClaimEnabled() is address_claim
+        cluster.setAddressClaimEnabled(None)
+        assert cluster.getAddressClaimEnabled() is address_claim
+
+        dynamic = Boolean()
+        dynamic.setValue(False)
+        cluster.setUsesDynamicAddressing(dynamic)
+        assert cluster.getUsesDynamicAddressing() is dynamic
+        cluster.setUsesDynamicAddressing(None)
+        assert cluster.getUsesDynamicAddressing() is dynamic
+
+
 class MockParent(ARObject):
     def __init__(self):
         super().__init__()

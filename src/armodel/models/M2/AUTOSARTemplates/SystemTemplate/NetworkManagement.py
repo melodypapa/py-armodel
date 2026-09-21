@@ -1055,6 +1055,12 @@ class NmConfig(FibexElement):
             self.addElement(cluster)
         return self.getElement(short_name, FlexrayNmCluster)
 
+    def createJ1939NmCluster(self, short_name: str) -> "J1939NmCluster":
+        if not self.IsElementExists(short_name, J1939NmCluster):
+            cluster = J1939NmCluster(self, short_name)
+            self.addElement(cluster)
+        return self.getElement(short_name, J1939NmCluster)
+
     def getCanNmClusters(self):  # type: () -> List[CanNmCluster]
         return list(sorted(filter(lambda a: isinstance(a, CanNmCluster), self.elements), key=lambda o: o.short_name))
 
@@ -1719,16 +1725,56 @@ class FlexrayNmCluster(NmCluster):
 
 class J1939NmCluster(NmCluster):
     """
-    Represents a J1939 network management cluster in the system,
-    defining J1939-specific NM properties for heavy-duty vehicle
-    network management communication.
+    J1939 specific NmCluster attributes
     """
 
     # J1939NmCluster method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.319, p.691
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAddressClaimEnabled      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAddressClaimEnabled      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUsesDynamicAddressing    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUsesDynamicAddressing    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+        # This attribute specifies whether the J1939Nm Bsw module is used or not. If this attribute is set to false then the J1939Nm configuration shall not be derived from the system description. But even in this case the nmNodeId might still be necessary for the J1939Rm and J1939Tp.
+        self.addressClaimEnabled: Optional[Boolean] = None
+
+        # Defines whether fully dynamic address resolution according to SAE J1939-81 shall be supported on this J1939NmCluster. • True: The dynamically allocated addresses on the bus are matched at runtime to the configured addresses. • False: The addresses on the bus resemble the configured addresses.
+        self.usesDynamicAddressing: Optional[Boolean] = None
+
+    def getAddressClaimEnabled(self) -> Optional[Boolean]:
+        """
+        This attribute specifies whether the J1939Nm Bsw module is used or not. If this attribute is set to false then the J1939Nm configuration shall not be derived from the system description. But even in this case the nmNodeId might still be necessary for the J1939Rm and J1939Tp.
+        """
+        return self.addressClaimEnabled
+
+    def setAddressClaimEnabled(self, value: Optional[Boolean]) -> "J1939NmCluster":
+        """
+        This attribute specifies whether the J1939Nm Bsw module is used or not. If this attribute is set to false then the J1939Nm configuration shall not be derived from the system description. But even in this case the nmNodeId might still be necessary for the J1939Rm and J1939Tp.
+        A None value is a no-op and does not overwrite an existing addressClaimEnabled.
+        """
+        if value is not None:
+            self.addressClaimEnabled = value
+        return self
+
+    def getUsesDynamicAddressing(self) -> Optional[Boolean]:
+        """
+        Defines whether fully dynamic address resolution according to SAE J1939-81 shall be supported on this J1939NmCluster. • True: The dynamically allocated addresses on the bus are matched at runtime to the configured addresses. • False: The addresses on the bus resemble the configured addresses.
+        """
+        return self.usesDynamicAddressing
+
+    def setUsesDynamicAddressing(self, value: Optional[Boolean]) -> "J1939NmCluster":
+        """
+        Defines whether fully dynamic address resolution according to SAE J1939-81 shall be supported on this J1939NmCluster. • True: The dynamically allocated addresses on the bus are matched at runtime to the configured addresses. • False: The addresses on the bus resemble the configured addresses.
+        A None value is a no-op and does not overwrite an existing usesDynamicAddressing.
+        """
+        if value is not None:
+            self.usesDynamicAddressing = value
+        return self
 
 
 class UdpNmClusterCoupling(NmClusterCoupling):

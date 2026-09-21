@@ -967,6 +967,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     CanNmEcu,
     FlexrayNmCluster,
     FlexrayNmEcu,
+    J1939NmCluster,
     J1939NmNode,
     J1939NodeName,
     NmCluster,
@@ -10182,6 +10183,12 @@ class ARXMLParser(AbstractARXMLParser):
         cluster.setNmRepetitionCycle(self.getChildElementOptionalIntegerValue(element, "NM-REPETITION-CYCLE"))
         cluster.setNmVotingCycle(self.getChildElementOptionalIntegerValue(element, "NM-VOTING-CYCLE"))
 
+    def readJ1939NmCluster(self, element: ET.Element, cluster: J1939NmCluster):
+        self.logger.debug("Read J1939NmCluster <%s>" % cluster.getShortName())
+        self.readNmCluster(element, cluster)
+        cluster.setAddressClaimEnabled(self.getChildElementOptionalBooleanValue(element, "ADDRESS-CLAIM-ENABLED"))
+        cluster.setUsesDynamicAddressing(self.getChildElementOptionalBooleanValue(element, "USES-DYNAMIC-ADDRESSING"))
+
     def readNmConfigNmClusters(self, element: ET.Element, nm_config: NmConfig):
         for child_element in self.findall(element, "NM-CLUSTERS/*"):
             tag_name = self.getTagName(child_element)
@@ -10194,6 +10201,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "FLEXRAY-NM-CLUSTER":
                 cluster = nm_config.createFlexrayNmCluster(self.getShortName(child_element))
                 self.readFlexrayNmCluster(child_element, cluster)
+            elif tag_name == "J-1939-NM-CLUSTER":
+                cluster = nm_config.createJ1939NmCluster(self.getShortName(child_element))
+                self.readJ1939NmCluster(child_element, cluster)
             else:
                 self.raiseError("Unsupported Nm Cluster <%s>" % tag_name)
 
