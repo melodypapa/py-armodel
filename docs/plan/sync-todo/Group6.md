@@ -107,15 +107,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; docstring verbatim; dispatch coverage pre-exists for TcpTp/UdpTp]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `FlexrayFrame` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.80)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 6.80, p.422; concrete, Base chain → most-existing `Frame`; ZERO attribute rows (XSD group FLEXRAY-FRAME empty sequence); Note "FlexRay specific Frame element. Tags: atp.recommendedPackage=Frames"; aggregated by ARPackage.element
+  - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring assertion (Red: fabricated docstring), no-`__init__`-docstring, heritage (Frame), concrete instantiation
+  - [x] Step 3 — Implement model class (Green) — shape already spec-correct: base Frame, zero attribute rows ⇒ no members/accessors
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstring replaced with verbatim Note (matches XSD documentation); `__init__` carries no docstring
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer tests: ARPackage FLEXRAY-FRAME dispatch isinstance pin, SHORT-NAME value, write→re-parse round-trip; all pass immediately — reader/writer coverage pre-exists (readFlexrayFrame/writeFlexrayFrame + dispatch), honestly noted
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed: readFlexrayFrame→readFrame / writeFlexrayFrame→writeFrame + ARPackage FLEXRAY-FRAME dispatch pre-exist
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.80 p.422 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
+  - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; Base chain → Frame; docstring verbatim; reader/writer via inherited Frame helpers]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `CryptoServiceMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.48)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -265,7 +265,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer test files: all 3 wrappers with field values, wrapper-order XSD pin, all 4 modeled cluster subtypes round-trip, empty-omits case; 2 initial failures were test-harness element-level mistakes, product coverage already correct — honestly noted
   - [x] Step 6 — Update parser & writer (Green) — no further changes needed: readNmConfig/writeNmConfig + ARPackage NM-CONFIG dispatch + FLEXRAY/J-1939 cluster branches added in earlier rows of this batch
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.298 p.672 citation, release column; marker deferred to 9b
-  - [x] Step 8 — Deviations  [in-pass: createFlexrayNmCluster/createJ1939NmCluster + list appends recorded under their own rows; FLEXRAY-NM-CLUSTER-COUPLING in NM-CLUSTER-COUPLINGS wrapper still notImplemented — belongs to FlexrayNmClusterCoupling (recorded under Pending 16.4); LIN-NM-CLUSTER (XSD choice member, no table sync queued) noted]
+  - [x] Step 8 — Deviations  [in-pass: createFlexrayNmCluster/createJ1939NmCluster + list appends recorded under their own rows; FLEXRAY-NM-CLUSTER-COUPLING in NM-CLUSTER-COUPLINGS wrapper still notImplemented — belongs to FlexrayNmClusterCoupling (recorded under Pending 16.4); LIN-NM-CLUSTER choice member is atp.Status=removed XSD-only — recorded under Pending 16.4, not modeled]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `IPduMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 8.3)
   - [ ] Step 1 — Sync members & description from spec
@@ -305,6 +305,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
 - `Ieee1722Tp` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · own table) — concrete subclass of TransportProtocolConfiguration (XSD choice member IEEE-1722-TP); not yet in src
 - `RtpTp` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · own table) — concrete subclass of TransportProtocolConfiguration (XSD choice member RTP-TP); not yet in src
 - `FlexrayNmScheduleVariant` (R23-11 · AUTOSAR_CP_TPS_SystemTemplate · Table 6.310, p.680) — member type of FlexrayNmClusterCoupling.nmScheduleVariant; not yet in src; FLEXRAY-NM-CLUSTER-COUPLING reader/writer dispatch also missing (FlexrayNmClusterCoupling class itself exists in src but is not queued in this group); discovered 2026-09-21 during `NmClusterCoupling` sync
+- `LinNmCluster` (R23-11 · XSD-only · AUTOSAR_00052.xsd group LIN-NM-CLUSTER, line 77474) — concrete subclass of NmCluster (XSD choice member LIN-NM-CLUSTER in NM-CLUSTERS), but carries atp.Status="removed" in R23-11 and has no own table; NOT created — queued here only for the record; discovered 2026-09-21 during `NmConfig` sync
 
 ## Not queued
 

@@ -7,14 +7,13 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 
 class FlexrayFrame(Frame):
     """
-    Represents a FlexRay frame in the AUTOSAR system, extending the generic
-    Frame class with FlexRay-specific properties and behavior. This class
-    defines the structure and characteristics of FlexRay messages in the
-    communication system.
+    FlexRay specific Frame element. Tags: atp.recommendedPackage=Frames
     """
 
     # FlexrayFrame method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.80, p.422
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

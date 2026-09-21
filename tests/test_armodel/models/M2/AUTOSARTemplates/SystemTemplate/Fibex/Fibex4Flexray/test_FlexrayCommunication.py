@@ -144,6 +144,27 @@ class Test_Fibex4FlexrayCommunication:
         assert triggering.getAbsolutelyScheduledTimings() == original_timings
 
 
+class Test_FlexrayFrameSpec:
+    """Spec contract of FlexrayFrame (AUTOSAR_CP_TPS_SystemTemplate, Table 6.80, p.422)."""
+
+    def test_docstring_is_spec_note_verbatim(self):
+        note = "FlexRay specific Frame element. Tags: atp.recommendedPackage=Frames"
+        assert FlexrayFrame.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert FlexrayFrame.__init__.__doc__ is None
+
+    def test_heritage(self):
+        assert issubclass(FlexrayFrame, Frame)
+        assert issubclass(FlexrayFrame, ARObject)
+
+    def test_concrete_instantiation(self):
+        parent = MockParent()
+        frame = FlexrayFrame(parent, "fr_frame")
+        assert frame.short_name == "fr_frame"
+        assert FlexrayFrame.__abstractmethods__ == frozenset() if hasattr(FlexrayFrame, "__abstractmethods__") else True
+
+
 class Test_Fibex4FlexrayTopology:
     """Test cases for Fibex4Flexray Topology classes."""
 
