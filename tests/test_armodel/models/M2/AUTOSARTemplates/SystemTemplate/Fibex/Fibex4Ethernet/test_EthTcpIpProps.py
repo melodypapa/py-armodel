@@ -52,6 +52,12 @@ class TestTcpProps:
             "[constr_5120] Value range of TcpProps.tcpDelayedAckTimeout: If defined, the value of TcpProps.tcpDelayedAckTimeout shall be in the range of 0..0.5."
             "\n\n"
             "[constr_5121] Value range of TcpProps.tcpSynMaxRtx: If defined, the value of TcpProps.tcpSynMaxRtx shall be in the range of 0..255."
+            "\n\n"
+            "[constr_5122] Value range of TcpProps.tcpMaxRtx: If defined, the value of TcpProps.tcpMaxRtx shall be in the range of 0..255."
+            "\n\n"
+            "[constr_5123] Value range of TcpProps.tcpKeepAliveProbesMax: If defined, the value of TcpProps.tcpKeepAliveProbesMax shall be in the range of 0..65535."
+            "\n\n"
+            "[constr_5124] Value range of TcpProps.tcpReceiveWindowMax: If defined, the value of TcpProps.tcpReceiveWindowMax shall be in the range of 0..65535."
         )
         assert inspect.cleandoc(TcpProps.__doc__) == expected
 

@@ -3375,10 +3375,17 @@ class TcpProps(ARObject):
     [constr_5120] Value range of TcpProps.tcpDelayedAckTimeout: If defined, the value of TcpProps.tcpDelayedAckTimeout shall be in the range of 0..0.5.
 
     [constr_5121] Value range of TcpProps.tcpSynMaxRtx: If defined, the value of TcpProps.tcpSynMaxRtx shall be in the range of 0..255.
+
+    [constr_5122] Value range of TcpProps.tcpMaxRtx: If defined, the value of TcpProps.tcpMaxRtx shall be in the range of 0..255.
+
+    [constr_5123] Value range of TcpProps.tcpKeepAliveProbesMax: If defined, the value of TcpProps.tcpKeepAliveProbesMax shall be in the range of 0..65535.
+
+    [constr_5124] Value range of TcpProps.tcpReceiveWindowMax: If defined, the value of TcpProps.tcpReceiveWindowMax shall be in the range of 0..65535.
     """
 
     # TcpProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.111, p.155 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getTcpCongestionAvoidanceEnabled     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
