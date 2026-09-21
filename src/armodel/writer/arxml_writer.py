@@ -709,6 +709,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecKayParticipant,
     MacSecLocalKayProps,
     MacSecProps,
+    SecOcCryptoServiceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -11277,11 +11278,29 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element = ET.SubElement(mappings_tag, "COM-MANAGEMENT-MAPPING")
                 self.writeComManagementMapping(child_element, com_mapping)
 
+    def writeSystemMappingCryptoServiceMappings(self, element: ET.Element, mapping: SystemMapping):
+        crypto_mappings = mapping.getCryptoServiceMappings()
+        if len(crypto_mappings) > 0:
+            mappings_tag = ET.SubElement(element, "CRYPTO-SERVICE-MAPPINGS")
+            for crypto_mapping in crypto_mappings:
+                if isinstance(crypto_mapping, SecOcCryptoServiceMapping):
+                    child_element = ET.SubElement(mappings_tag, "SEC-OC-CRYPTO-SERVICE-MAPPING")
+                    self.writeSecOcCryptoServiceMapping(child_element, crypto_mapping)
+                else:
+                    self.notImplemented("Unsupported CryptoServiceMapping %s" % type(crypto_mapping))
+
+    def writeSecOcCryptoServiceMapping(self, element: ET.Element, mapping: SecOcCryptoServiceMapping):
+        self.writeIdentifiable(element, mapping)
+        self.setChildElementOptionalRefType(element, "AUTHENTICATION-REF", mapping.getAuthenticationRef())
+        self.setChildElementOptionalRefType(element, "CRYPTO-SERVICE-KEY-REF", mapping.getCryptoServiceKeyRef())
+        self.setChildElementOptionalRefType(element, "CRYPTO-SERVICE-QUEUE-REF", mapping.getCryptoServiceQueueRef())
+
     def writeSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         self.logger.debug("Write SystemMapping <%s>" % mapping.getShortName())
         child_element = ET.SubElement(element, "SYSTEM-MAPPING")
         self.writeIdentifiable(child_element, mapping)
         self.writeSystemMappingComManagementMappings(child_element, mapping)
+        self.writeSystemMappingCryptoServiceMappings(child_element, mapping)
         self.writeSystemMappingDataMappings(child_element, mapping)
         self.writeSystemMappingEcuResourceMappings(child_element, mapping)
         self.writeSystemMappingSwImplMappings(child_element, mapping)

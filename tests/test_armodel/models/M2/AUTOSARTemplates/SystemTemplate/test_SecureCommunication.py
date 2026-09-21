@@ -134,6 +134,27 @@ def _ref(value):
     return ref
 
 
+class Test_CryptoServiceMappingSpec:
+    """Spec contract of CryptoServiceMapping (AUTOSAR_CP_TPS_SystemTemplate, Table 6.48, p.375)."""
+
+    def test_docstring_is_spec_note_verbatim(self):
+        note = "This meta-class represents an abstract base class for specializations of crypto service mappings."
+        assert CryptoServiceMapping.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert CryptoServiceMapping.__init__.__doc__ is None
+
+    def test_abstract_raise(self):
+        parent = MockParent()
+        with pytest.raises(TypeError, match="CryptoServiceMapping is an abstract class"):
+            CryptoServiceMapping(parent, "abstract_mapping")
+
+    def test_subclass_heritage(self):
+        assert issubclass(SecOcCryptoServiceMapping, CryptoServiceMapping)
+        assert issubclass(TlsCryptoServiceMapping, CryptoServiceMapping)
+        assert issubclass(CryptoServiceMapping, Identifiable)
+
+
 class Test_MacSecEnums:
     def test_MacSecRoleEnum(self):
         # spec literal names are camelCase per Table 3.127 (peer idx0, keyServer idx1)

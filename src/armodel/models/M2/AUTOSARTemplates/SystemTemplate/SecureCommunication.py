@@ -20,13 +20,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class CryptoServiceMapping(Identifiable, VariationPointCapable, ABC):
     """
-    Abstract base class for crypto service mappings, defining
-    common properties for different types of cryptographic
-    service mappings in the AUTOSAR system.
+    This meta-class represents an abstract base class for specializations of crypto service mappings.
     """
 
     # CryptoServiceMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.48, p.375
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name):
         if type(self) is CryptoServiceMapping:

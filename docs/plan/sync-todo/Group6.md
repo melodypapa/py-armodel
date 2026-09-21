@@ -117,15 +117,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; Base chain → Frame; docstring verbatim; reader/writer via inherited Frame helpers]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `CryptoServiceMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.48)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 6.48, p.375; abstract, Base chain → most-existing `Identifiable` (+ VariationPointCapable mixin kept: XSD group CRYPTO-SERVICE-MAPPING carries VARIATION-POINT); ZERO attribute rows; Note verbatim; Subclasses SecOcCryptoServiceMapping/TlsCryptoServiceMapping; aggregated by SystemMapping.cryptoServiceMapping
+  - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring assertion (Red: fabricated docstring), no-`__init__`-docstring, abstract raise, subclass heritage
+  - [x] Step 3 — Implement model class (Green) — shape already spec-correct: base Identifiable + VariationPointCapable mixin, zero attribute rows ⇒ no members/accessors, abstract guard present
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstring replaced with verbatim Note (matches XSD documentation); `__init__` carries no docstring
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer tests via concrete SecOcCryptoServiceMapping through the CRYPTO-SERVICE-MAPPINGS wrapper dispatch: ref values + DEST, SHORT-NAME, isinstance CryptoServiceMapping pin, wrapper position (XSD group order COM-MANAGEMENT-MAPPINGS → CRYPTO-SERVICE-MAPPINGS → DATA-MAPPINGS), empty-omits case, ns-injected write→re-parse round-trip; 4 Red (no dispatch)
+  - [x] Step 6 — Update parser & writer (Green) — readSystemMappingCryptoServiceMappings/writeSystemMappingCryptoServiceMappings added (wrapper dispatch in XSD order); readSecOcCryptoServiceMapping/writeSecOcCryptoServiceMapping helpers added; SystemMapping.createSecOcCryptoServiceMapping factory added (in-pass, Rule 0016.4/0001.10); TLS branch dispatched to notImplemented until the TlsCryptoServiceMapping row (queued next)
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.48 p.375 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
+  - [x] Step 8 — Deviations  [none for this class: zero attribute rows modeled exactly; Base → Identifiable + VariationPointCapable mixin per XSD VARIATION-POINT; docstring verbatim; TLS-CRYPTO-SERVICE-MAPPING wrapper branch (and SecOcCryptoServiceMapping's own Table 6.49 full sync) belong to the queued TlsCryptoServiceMapping row / separate tables]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `TlsCryptoServiceMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.211)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

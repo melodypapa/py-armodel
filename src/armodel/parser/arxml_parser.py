@@ -797,6 +797,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecLocalKayProps,
     MacSecProps,
     MacSecRoleEnum,
+    SecOcCryptoServiceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -12869,10 +12870,32 @@ class ARXMLParser(AbstractARXMLParser):
             com_mapping = mapping.createComManagementMapping(self.getShortName(child_element))
             self.readComManagementMapping(child_element, com_mapping)
 
+    def readSystemMappingCryptoServiceMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "CRYPTO-SERVICE-MAPPINGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SEC-OC-CRYPTO-SERVICE-MAPPING":
+                crypto_mapping = mapping.createSecOcCryptoServiceMapping(self.getShortName(child_element))
+                self.readSecOcCryptoServiceMapping(child_element, crypto_mapping)
+            else:
+                self.notImplemented("Unsupported CryptoServiceMapping %s" % tag_name)
+
+    def readSecOcCryptoServiceMapping(self, element: ET.Element, mapping: SecOcCryptoServiceMapping):
+        self.readIdentifiable(element, mapping)
+        ref = self.getChildElementOptionalRefType(element, "AUTHENTICATION-REF")
+        if ref is not None:
+            mapping.setAuthenticationRef(ref)
+        ref = self.getChildElementOptionalRefType(element, "CRYPTO-SERVICE-KEY-REF")
+        if ref is not None:
+            mapping.setCryptoServiceKeyRef(ref)
+        ref = self.getChildElementOptionalRefType(element, "CRYPTO-SERVICE-QUEUE-REF")
+        if ref is not None:
+            mapping.setCryptoServiceQueueRef(ref)
+
     def readSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         # self.logger.debug("Read SystemMapping <%s>" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
         self.readSystemMappingComManagementMappings(element, mapping)
+        self.readSystemMappingCryptoServiceMappings(element, mapping)
         self.readSystemMappingDataMappings(element, mapping)
         self.readSystemMappingEcuResourceMappings(element, mapping)
         self.readSystemMappingSwImplMappings(element, mapping)
