@@ -97,15 +97,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; docstring verbatim; dispatch coverage pre-exists for modeled subclasses; missing sibling subclasses HttpTp (Table 6.126), Ieee1722Tp, RtpTp + TCP-UDP-CONFIG aggregation noted — TcpUdpConfig is the next queue row]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `TcpUdpConfig` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.127)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 6.127, p.459; abstract, Base → stamped `TransportProtocolConfiguration`; zero attribute rows (XSD group TCP-UDP-CONFIG empty sequence); Note "Tcp or Udp Transport Protocol Configuration."; subclasses TcpTp/UdpTp exist; aggregated by ApApplicationEndpoint/ApplicationEndpoint.tpConfiguration + RtpTp.tcpUdpConfig
+  - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring (Red: fabricated), no-`__init__`-docstring, abstract raise, subclass heritage (TcpTp, UdpTp)
+  - [x] Step 3 — Implement model class (Green) — shape already spec-correct: base TransportProtocolConfiguration, zero attrs, abstract guard
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstring replaced with verbatim Note (matches XSD documentation); checklist upgraded to 6-column
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new writer dispatch test: TP-CONFIGURATION/UDP-TP with UDP-TP-PORT/PORT-NUMBER round-trip, isinstance TcpUdpConfig; TCP-TP/UDP-TP dispatch pre-exists
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.127 p.459 citation, `__init__` row with `[—]` reader/writer
+  - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; docstring verbatim; dispatch coverage pre-exists for TcpTp/UdpTp]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `FlexrayFrame` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.80)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
