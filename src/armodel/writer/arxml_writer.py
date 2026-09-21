@@ -866,6 +866,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     CanNmNode,
     FlexrayNmCluster,
     FlexrayNmEcu,
+    FlexrayNmNode,
     J1939NmNode,
     J1939NodeName,
     NmCluster,
@@ -8070,6 +8071,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "ADDRESS-CONFIGURATION-CAPABILITY", nm_node.getAddressConfigurationCapability())
         self.setJ1939NodeName(child_element, "NODE-NAME", nm_node.getNodeName())
 
+    def writeFlexrayNmNode(self, element: ET.Element, nm_node: FlexrayNmNode):
+        self.logger.debug("write FlexrayNmNode %s" % nm_node.getShortName())
+        child_element = ET.SubElement(element, "FLEXRAY-NM-NODE")
+        self.writeNmNode(child_element, nm_node)
+
     def writeNmClusterNmNodes(self, element: ET.Element, parent: NmCluster):
         nodes = parent.getNmNodes()
         if len(nodes) > 0:
@@ -8081,6 +8087,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeUdpNmNode(child_element, node)
                 elif isinstance(node, J1939NmNode):
                     self.writeJ1939NmNode(child_element, node)
+                elif isinstance(node, FlexrayNmNode):
+                    self.writeFlexrayNmNode(child_element, node)
                 else:
                     self.notImplemented("Unsupported Nm Node <%s>" % type(node))
 

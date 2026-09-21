@@ -383,13 +383,13 @@ class CanNmNode(NmNode):
 
 class FlexrayNmNode(NmNode):
     """
-    Represents a FlexRay network management node in the system,
-    defining FlexRay-specific NM properties for time-triggered
-    network management communication.
+    FlexRay specific NM Node attributes.
     """
 
     # FlexrayNmNode method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.309, p.679
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1186,6 +1186,13 @@ class NmCluster(Identifiable, VariationPointCapable, ABC):
             self.addElement(node)
             self.nmNodes.append(node)
         return self.getElement(short_name, UdpNmNode)
+
+    def createFlexrayNmNode(self, short_name: str) -> "FlexrayNmNode":
+        if not self.IsElementExists(short_name, FlexrayNmNode):
+            node = FlexrayNmNode(self, short_name)
+            self.addElement(node)
+            self.nmNodes.append(node)
+        return self.getElement(short_name, FlexrayNmNode)
 
     def createJ1939NmNode(self, short_name: str) -> J1939NmNode:
         if not self.IsElementExists(short_name, J1939NmNode):

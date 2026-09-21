@@ -218,15 +218,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 8 — Deviations  [none: both attrs modeled exactly; docstrings verbatim; removed-status sibling NM-REPEAT-MESSAGE-BIT-ENABLE not modeled (absent from R23-11 table)]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `FlexrayNmNode` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.309)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 6.309, p.679; concrete, Base → `NmNode`; zero attribute rows (XSD group FLEXRAY-NM-NODE carries only removed NM-INSTANCE-ID); aggregated by NmCluster.nmNode (XSD choice member FLEXRAY-NM-NODE)
+  - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring assertion (Red: fabricated), no-`__init__`-docstring, heritage (NmNode), zero own attribute rows
+  - [x] Step 3 — Implement model class (Green) — shape already spec-correct: base NmNode, zero attrs
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstring replaced with verbatim Note
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer test files via the NM-NODES wrapper dispatch (inherited NmNode content: CONTROLLER-REF/NM-NODE-ID values, empty-wrapper case, write→re-parse round-trip); 4 Red (no FLEXRAY-NM-NODE dispatch)
+  - [x] Step 6 — Update parser & writer (Green) — FLEXRAY-NM-NODE branches in readNmClusterNmNodes/writeNmClusterNmNodes; writeFlexrayNmNode helper; NmCluster.createFlexrayNmNode factory
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.309 p.679 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
+  - [x] Step 8 — Deviations  [in-pass (Rule 0016.4/0001.10): NmCluster.createFlexrayNmNode factory created (needed by FLEXRAY-NM-NODE reader dispatch); removed-status NM-INSTANCE-ID not modeled (absent from R23-11 table)]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `UdpNmEcu` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.316)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

@@ -10086,6 +10086,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "UDP-NM-NODE":
                 nm_node = cluster.createUdpNmNode(self.getShortName(child_element))
                 self.readUdpNmNode(child_element, nm_node)
+            elif tag_name == "FLEXRAY-NM-NODE":
+                nm_node = cluster.createFlexrayNmNode(self.getShortName(child_element))
+                self.readNmNode(child_element, nm_node)
             elif tag_name == "J-1939-NM-NODE":
                 nm_node = cluster.createJ1939NmNode(self.getShortName(child_element))
                 self.readJ1939NmNode(child_element, nm_node)

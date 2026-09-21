@@ -286,6 +286,25 @@ class TestFlexrayNmEcu:
         assert ecu.getNmMainFunctionAcrossFrCycle() is across_fr
 
 
+class TestFlexrayNmNode:
+    """FlexrayNmNode (Table 6.309, p.679) — spec sync tests."""
+
+    def test_concrete_instantiation_and_heritage(self):
+        node = FlexrayNmNode(MockParent(), "fr_node")
+        assert isinstance(node, NmNode)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert FlexrayNmNode.__doc__.strip() == "FlexRay specific NM Node attributes."
+
+    def test_init_has_no_docstring(self):
+        assert FlexrayNmNode.__init__.__doc__ is None
+
+    def test_zero_own_attribute_rows(self):
+        node = FlexrayNmNode(MockParent(), "fr_node")
+        assert node.getControllerRef() is None
+        assert node.getNmNodeId() is None
+
+
 class MockParent(ARObject):
     def __init__(self):
         super().__init__()
