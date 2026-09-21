@@ -19,6 +19,7 @@ class PrivacyLevel(ARObject):
 
     # PrivacyLevel method parity checklist:
     # Spec: AUTOSAR_FO_TPS_LogAndTraceExtract.pdf, Table 3.4, p.18
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCompuMethodRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -88,7 +89,7 @@ class DltArgument(Identifiable):
     """
 
     # DltArgument method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table E.20, p.13 (R23-11)
+    # Spec: AUTOSAR_FO_TPS_LogAndTraceExtract.pdf, Table 3.3, p.13 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] createDltArgumentEntry    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
