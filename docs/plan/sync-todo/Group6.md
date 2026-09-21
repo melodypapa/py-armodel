@@ -188,15 +188,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; Base ARObject + VariationPointCapable mixin per XSD VARIATION-POINT; docstring verbatim; FLEXRAY-NM-CLUSTER-COUPLING dispatch gap belongs to FlexrayNmClusterCoupling (own table, separate row — recorded under Pending 16.4)]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `NmCluster` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.299)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 6.299, p.673; abstract, Base → `Identifiable`; attrs in displayed order: communicationCluster (ref 0..1), nmChannelSleepMaster (Boolean), nmNode (NmNode *, aggr), nmNodeDetectionEnabled, nmNodeIdEnabled, nmPncParticipation, nmRepeatMsgIndEnabled, nmSynchronizingNetwork (all Boolean 0..1), pncClusterVectorLength (PositiveInteger 0..1, MISSING in src ⇒ added); XML order per XSD group NM-CLUSTER: COMMUNICATION-CLUSTER-REF → NM-CHANNEL-ID → NM-CHANNEL-SLEEP-MASTER → NM-NODES → NM-NODE-DETECTION-ENABLED → NM-NODE-ID-ENABLED → NM-PNC-PARTICIPATION → NM-REPEAT-MSG-IND-ENABLED → NM-SYNCHRONIZING-NETWORK → PNC-CLUSTER-VECTOR-LENGTH
+  - [x] Step 2 — Write model class unit test (Red) — 5 Red: fabricated docstring, missing pncClusterVectorLength accessors, missing createUdpNmNode, registry-filter getters returned short-name-sorted instead of insertion order (dedicated-list pin)
+  - [x] Step 3 — Implement model class (Green) — PEP 526 annotations replace `# type:` comments; typed accessor signatures + None no-op guards; dedicated `nmNodes` typed list replaces registry-filter getters (Rule 0004); readUdpNmNode renamed createUdpNmNode (naming fix); `_nmSynchronizingNetwork` renamed nmSynchronizingNetwork
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note + all attr Notes verbatim (inline comments + getters + setters, None no-op sentences appended); legacy nmChannelId docstring from XSD atp.Status=removed old description
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer test files: field values, exact XSD element-order assertion, empty-omits case, write→re-parse round-trip; 4 Red on the 5 unimplemented elements
+  - [x] Step 6 — Update parser & writer (Green) — readNmCluster/writeNmCluster extended with NM-NODE-DETECTION-ENABLED/NM-NODE-ID-ENABLED/NM-PNC-PARTICIPATION/NM-REPEAT-MSG-IND-ENABLED/PNC-CLUSTER-VECTOR-LENGTH in XSD order; writer switched to getters (was direct field access); parser UDP node branch switched to createUdpNmNode
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.299 p.673 citation, release column; marker deferred to 9b
+  - [x] Step 8 — Deviations  [accepted legacy: nmChannelId absent from R23-11 AND R4.3.1 tables (atp.Status=removed, pre-R4.3.1) but element still in R23-11 XSD and reader/writer coverage pre-exists — kept as optional legacy member per Rule 0019 spirit, docstring = XSD old description; naming fixes recorded: readUdpNmNode→createUdpNmNode, _nmSynchronizingNetwork→nmSynchronizingNetwork; createFlexrayNmNode deferred to FlexrayNmNode row (needs FLEXRAY-NM-NODE reader coverage)]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `FlexrayNmCluster` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.306)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

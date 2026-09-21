@@ -1028,72 +1028,102 @@ class NmConfig(FibexElement):
 
 class NmCluster(Identifiable, VariationPointCapable, ABC):
     """
-    Abstract base class for network management clusters,
-    defining common properties for different types of
-    NM clusters including communication cluster references
-    and node management capabilities.
+    Set of NM nodes coordinated with use of the NM algorithm.
     """
 
     # NmCluster method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCommunicationClusterRef   [x] impl  [ ] docstring  [ ] test
-    # [ ] setCommunicationClusterRef   [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmChannelId               [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmChannelId               [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmChannelSleepMaster      [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmChannelSleepMaster      [x] impl  [ ] docstring  [ ] test
-    # [ ] createCanNmNode              [x] impl  [ ] docstring  [ ] test
-    # [ ] readUdpNmNode                [x] impl  [ ] docstring  [ ] test
-    # [ ] createJ1939NmNode            [x] impl  [ ] docstring  [ ] test
-    # [ ] getCanNmNodes                [x] impl  [ ] docstring  [ ] test
-    # [ ] getUdpNmNodes                [x] impl  [ ] docstring  [ ] test
-    # [ ] getJ1939NmNodes              [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmNodes                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmNodeDetectionEnabled    [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmNodeDetectionEnabled    [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmNodeIdEnabled           [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmNodeIdEnabled           [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmPncParticipation        [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmPncParticipation        [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmRepeatMsgIndEnabled     [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmRepeatMsgIndEnabled     [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmSynchronizingNetwork    [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmSynchronizingNetwork    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.299, p.673
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationClusterRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationClusterRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmChannelSleepMaster     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmChannelSleepMaster     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createCanNmNode             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createUdpNmNode             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createJ1939NmNode           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanNmNodes               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getUdpNmNodes               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getJ1939NmNodes             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getNmNodes                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getNmNodeDetectionEnabled   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmNodeDetectionEnabled   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmNodeIdEnabled          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmNodeIdEnabled          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmPncParticipation       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmPncParticipation       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmRepeatMsgIndEnabled    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmRepeatMsgIndEnabled    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmSynchronizingNetwork   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmSynchronizingNetwork   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPncClusterVectorLength   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPncClusterVectorLength   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmChannelId              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11 (legacy: removed, XSD-only; see deviation note)
+    # [x] setNmChannelId              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11 (legacy: removed, XSD-only; see deviation note)
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is NmCluster:
             raise TypeError("NmCluster is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.communicationClusterRef = None  # type: RefType
-        self.nmChannelId = None
-        self.nmChannelSleepMaster = None
-        self.nmNodes = []  # type: List[NmNode]
-        self.nmNodeDetectionEnabled = None
-        self.nmNodeIdEnabled = None
-        self.nmPncParticipation = None
-        self.nmRepeatMsgIndEnabled = None
-        self._nmSynchronizingNetwork = None
+        # Association to a CommunicationCluster in the topology description.
+        self.communicationClusterRef: Optional[RefType] = None
 
-    def getCommunicationClusterRef(self):
+        # This parameter shall be set to indicate if the sleep of this network can be absolutely decided by the local node only and that no other nodes can oppose that decision.
+        self.nmChannelSleepMaster: Optional[Boolean] = None
+
+        # Collection of NmNodes of the NmCluster. atpVariation: Derived, because NmNode can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmNode.shortName, nmNode.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.nmNodes: List[NmNode] = []
+
+        # Enables the Request Repeat Message Request support. Only valid if nmNodeIdEnabled is set to true.
+        self.nmNodeDetectionEnabled: Optional[Boolean] = None
+
+        # Enables the source node identifier.
+        self.nmNodeIdEnabled: Optional[Boolean] = None
+
+        # Defines whether this NmCluster contributes to the partial network mechanism.
+        self.nmPncParticipation: Optional[Boolean] = None
+
+        # Switch for enabling the Repeat Message Bit Indication.
+        self.nmRepeatMsgIndEnabled: Optional[Boolean] = None
+
+        # If this parameter is true, then this network is a synchronizing network for the NM coordination cluster which it belongs to. The network is expected to call Nm_SynchronizationPoint() at regular intervals.
+        self.nmSynchronizingNetwork: Optional[Boolean] = None
+
+        # Optionally defines the length of the PNC Vector per CommunicationCluster (and VLAN in case of UdpNm). If not defined then System.pncVectorLength applies. Should only make the PNC Vector shorter (or same length as defined in System.pncVectorLength).
+        self.pncClusterVectorLength: Optional[PositiveInteger] = None
+
+        # This attribute has the status "removed" and shall not be used any longer. Old description: Channel identification number of the corresponding channel. Must be unique over all NmClusters.
+        self.nmChannelId: Optional[Integer] = None
+
+    def getCommunicationClusterRef(self) -> Optional[RefType]:
+        """
+        Association to a CommunicationCluster in the topology description.
+        """
         return self.communicationClusterRef
 
-    def setCommunicationClusterRef(self, value):
-        self.communicationClusterRef = value
+    def setCommunicationClusterRef(self, value: Optional[RefType]) -> "NmCluster":
+        """
+        Association to a CommunicationCluster in the topology description.
+        A None value is a no-op and does not overwrite an existing communicationClusterRef.
+        """
+        if value is not None:
+            self.communicationClusterRef = value
         return self
 
-    def getNmChannelId(self):
-        return self.nmChannelId
-
-    def setNmChannelId(self, value):
-        self.nmChannelId = value
-        return self
-
-    def getNmChannelSleepMaster(self):
+    def getNmChannelSleepMaster(self) -> Optional[Boolean]:
+        """
+        This parameter shall be set to indicate if the sleep of this network can be absolutely decided by the local node only and that no other nodes can oppose that decision.
+        """
         return self.nmChannelSleepMaster
 
-    def setNmChannelSleepMaster(self, value):
-        self.nmChannelSleepMaster = value
+    def setNmChannelSleepMaster(self, value: Optional[Boolean]) -> "NmCluster":
+        """
+        This parameter shall be set to indicate if the sleep of this network can be absolutely decided by the local node only and that no other nodes can oppose that decision.
+        A None value is a no-op and does not overwrite an existing nmChannelSleepMaster.
+        """
+        if value is not None:
+            self.nmChannelSleepMaster = value
         return self
 
     def createCanNmNode(self, short_name: str) -> CanNmNode:
@@ -1103,7 +1133,7 @@ class NmCluster(Identifiable, VariationPointCapable, ABC):
             self.nmNodes.append(node)
         return self.getElement(short_name, CanNmNode)
 
-    def readUdpNmNode(self, short_name: str) -> UdpNmNode:
+    def createUdpNmNode(self, short_name: str) -> UdpNmNode:
         if not self.IsElementExists(short_name, UdpNmNode):
             node = UdpNmNode(self, short_name)
             self.addElement(node)
@@ -1118,50 +1148,120 @@ class NmCluster(Identifiable, VariationPointCapable, ABC):
         return self.getElement(short_name, J1939NmNode)
 
     def getCanNmNodes(self) -> List[CanNmNode]:
-        return list(sorted(filter(lambda a: isinstance(a, CanNmNode), self.elements), key=lambda o: o.short_name))
+        return [node for node in self.nmNodes if isinstance(node, CanNmNode)]
 
     def getUdpNmNodes(self) -> List[UdpNmNode]:
-        return list(sorted(filter(lambda a: isinstance(a, UdpNmNode), self.elements), key=lambda o: o.short_name))
+        return [node for node in self.nmNodes if isinstance(node, UdpNmNode)]
 
     def getJ1939NmNodes(self) -> List[J1939NmNode]:
-        return list(sorted(filter(lambda a: isinstance(a, J1939NmNode), self.elements), key=lambda o: o.short_name))
+        return [node for node in self.nmNodes if isinstance(node, J1939NmNode)]
 
     def getNmNodes(self) -> List[NmNode]:
-        return list(sorted(filter(lambda a: isinstance(a, NmNode), self.elements), key=lambda o: o.short_name))
+        return self.nmNodes
 
-    def getNmNodeDetectionEnabled(self):
+    def getNmNodeDetectionEnabled(self) -> Optional[Boolean]:
+        """
+        Enables the Request Repeat Message Request support. Only valid if nmNodeIdEnabled is set to true.
+        """
         return self.nmNodeDetectionEnabled
 
-    def setNmNodeDetectionEnabled(self, value):
-        self.nmNodeDetectionEnabled = value
+    def setNmNodeDetectionEnabled(self, value: Optional[Boolean]) -> "NmCluster":
+        """
+        Enables the Request Repeat Message Request support. Only valid if nmNodeIdEnabled is set to true.
+        A None value is a no-op and does not overwrite an existing nmNodeDetectionEnabled.
+        """
+        if value is not None:
+            self.nmNodeDetectionEnabled = value
         return self
 
-    def getNmNodeIdEnabled(self):
+    def getNmNodeIdEnabled(self) -> Optional[Boolean]:
+        """
+        Enables the source node identifier.
+        """
         return self.nmNodeIdEnabled
 
-    def setNmNodeIdEnabled(self, value):
-        self.nmNodeIdEnabled = value
+    def setNmNodeIdEnabled(self, value: Optional[Boolean]) -> "NmCluster":
+        """
+        Enables the source node identifier.
+        A None value is a no-op and does not overwrite an existing nmNodeIdEnabled.
+        """
+        if value is not None:
+            self.nmNodeIdEnabled = value
         return self
 
-    def getNmPncParticipation(self):
+    def getNmPncParticipation(self) -> Optional[Boolean]:
+        """
+        Defines whether this NmCluster contributes to the partial network mechanism.
+        """
         return self.nmPncParticipation
 
-    def setNmPncParticipation(self, value):
-        self.nmPncParticipation = value
+    def setNmPncParticipation(self, value: Optional[Boolean]) -> "NmCluster":
+        """
+        Defines whether this NmCluster contributes to the partial network mechanism.
+        A None value is a no-op and does not overwrite an existing nmPncParticipation.
+        """
+        if value is not None:
+            self.nmPncParticipation = value
         return self
 
-    def getNmRepeatMsgIndEnabled(self):
+    def getNmRepeatMsgIndEnabled(self) -> Optional[Boolean]:
+        """
+        Switch for enabling the Repeat Message Bit Indication.
+        """
         return self.nmRepeatMsgIndEnabled
 
-    def setNmRepeatMsgIndEnabled(self, value):
-        self.nmRepeatMsgIndEnabled = value
+    def setNmRepeatMsgIndEnabled(self, value: Optional[Boolean]) -> "NmCluster":
+        """
+        Switch for enabling the Repeat Message Bit Indication.
+        A None value is a no-op and does not overwrite an existing nmRepeatMsgIndEnabled.
+        """
+        if value is not None:
+            self.nmRepeatMsgIndEnabled = value
         return self
 
-    def getNmSynchronizingNetwork(self):
-        return self._nmSynchronizingNetwork
+    def getNmSynchronizingNetwork(self) -> Optional[Boolean]:
+        """
+        If this parameter is true, then this network is a synchronizing network for the NM coordination cluster which it belongs to. The network is expected to call Nm_SynchronizationPoint() at regular intervals.
+        """
+        return self.nmSynchronizingNetwork
 
-    def setNmSynchronizingNetwork(self, value):
-        self._nmSynchronizingNetwork = value
+    def setNmSynchronizingNetwork(self, value: Optional[Boolean]) -> "NmCluster":
+        """
+        If this parameter is true, then this network is a synchronizing network for the NM coordination cluster which it belongs to. The network is expected to call Nm_SynchronizationPoint() at regular intervals.
+        A None value is a no-op and does not overwrite an existing nmSynchronizingNetwork.
+        """
+        if value is not None:
+            self.nmSynchronizingNetwork = value
+        return self
+
+    def getPncClusterVectorLength(self) -> Optional[PositiveInteger]:
+        """
+        Optionally defines the length of the PNC Vector per CommunicationCluster (and VLAN in case of UdpNm). If not defined then System.pncVectorLength applies. Should only make the PNC Vector shorter (or same length as defined in System.pncVectorLength).
+        """
+        return self.pncClusterVectorLength
+
+    def setPncClusterVectorLength(self, value: Optional[PositiveInteger]) -> "NmCluster":
+        """
+        Optionally defines the length of the PNC Vector per CommunicationCluster (and VLAN in case of UdpNm). If not defined then System.pncVectorLength applies. Should only make the PNC Vector shorter (or same length as defined in System.pncVectorLength).
+        A None value is a no-op and does not overwrite an existing pncClusterVectorLength.
+        """
+        if value is not None:
+            self.pncClusterVectorLength = value
+        return self
+
+    def getNmChannelId(self) -> Optional[Integer]:
+        """
+        This attribute has the status "removed" and shall not be used any longer. Old description: Channel identification number of the corresponding channel. Must be unique over all NmClusters.
+        """
+        return self.nmChannelId
+
+    def setNmChannelId(self, value: Optional[Integer]) -> "NmCluster":
+        """
+        This attribute has the status "removed" and shall not be used any longer. Old description: Channel identification number of the corresponding channel. Must be unique over all NmClusters.
+        A None value is a no-op and does not overwrite an existing nmChannelId.
+        """
+        if value is not None:
+            self.nmChannelId = value
         return self
 
 

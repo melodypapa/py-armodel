@@ -10082,7 +10082,7 @@ class ARXMLParser(AbstractARXMLParser):
                 nm_node = cluster.createCanNmNode(self.getShortName(child_element))
                 self.readCanNmNode(child_element, nm_node)
             elif tag_name == "UDP-NM-NODE":
-                nm_node = cluster.readUdpNmNode(self.getShortName(child_element))
+                nm_node = cluster.createUdpNmNode(self.getShortName(child_element))
                 self.readUdpNmNode(child_element, nm_node)
             elif tag_name == "J-1939-NM-NODE":
                 nm_node = cluster.createJ1939NmNode(self.getShortName(child_element))
@@ -10122,7 +10122,12 @@ class ARXMLParser(AbstractARXMLParser):
         cluster.setNmChannelId(self.getChildElementOptionalNumericalValue(element, "NM-CHANNEL-ID"))
         cluster.setNmChannelSleepMaster(self.getChildElementOptionalBooleanValue(element, "NM-CHANNEL-SLEEP-MASTER"))
         self.readNmClusterNmNodes(element, cluster)
+        cluster.setNmNodeDetectionEnabled(self.getChildElementOptionalBooleanValue(element, "NM-NODE-DETECTION-ENABLED"))
+        cluster.setNmNodeIdEnabled(self.getChildElementOptionalBooleanValue(element, "NM-NODE-ID-ENABLED"))
+        cluster.setNmPncParticipation(self.getChildElementOptionalBooleanValue(element, "NM-PNC-PARTICIPATION"))
+        cluster.setNmRepeatMsgIndEnabled(self.getChildElementOptionalBooleanValue(element, "NM-REPEAT-MSG-IND-ENABLED"))
         cluster.setNmSynchronizingNetwork(self.getChildElementOptionalBooleanValue(element, "NM-SYNCHRONIZING-NETWORK"))
+        cluster.setPncClusterVectorLength(self.getChildElementOptionalPositiveInteger(element, "PNC-CLUSTER-VECTOR-LENGTH"))
 
     def readCanNmCluster(self, element: ET.Element, cluster: CanNmCluster):
         self.logger.debug("Read CanNmCluster <%s>" % cluster.getShortName())

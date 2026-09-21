@@ -334,7 +334,7 @@ class TestWriteNmClusterNmNodes:
     def test_with_can_and_udp_nodes(self, writer):
         cluster = CanNmCluster(MockParent(), "cluster")
         cluster.createCanNmNode("can_node")
-        cluster.readUdpNmNode("udp_node")
+        cluster.createUdpNmNode("udp_node")
         parent = _parent()
         writer.writeNmClusterNmNodes(parent, cluster)
         nodes_tag = parent.find("NM-NODES")

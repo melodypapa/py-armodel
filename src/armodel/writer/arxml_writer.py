@@ -8117,11 +8117,16 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeNmCluster(self, element: ET.Element, cluster: NmCluster):
         self.logger.debug("Write NmCluster <%s>" % cluster.getShortName())
         self.writeIdentifiable(element, cluster)
-        self.setChildElementOptionalRefType(element, "COMMUNICATION-CLUSTER-REF", cluster.communicationClusterRef)
-        self.setChildElementOptionalNumericalValue(element, "NM-CHANNEL-ID", cluster.nmChannelId)
-        self.setChildElementOptionalBooleanValue(element, "NM-CHANNEL-SLEEP-MASTER", cluster.nmChannelSleepMaster)
+        self.setChildElementOptionalRefType(element, "COMMUNICATION-CLUSTER-REF", cluster.getCommunicationClusterRef())
+        self.setChildElementOptionalNumericalValue(element, "NM-CHANNEL-ID", cluster.getNmChannelId())
+        self.setChildElementOptionalBooleanValue(element, "NM-CHANNEL-SLEEP-MASTER", cluster.getNmChannelSleepMaster())
         self.writeNmClusterNmNodes(element, cluster)
+        self.setChildElementOptionalBooleanValue(element, "NM-NODE-DETECTION-ENABLED", cluster.getNmNodeDetectionEnabled())
+        self.setChildElementOptionalBooleanValue(element, "NM-NODE-ID-ENABLED", cluster.getNmNodeIdEnabled())
+        self.setChildElementOptionalBooleanValue(element, "NM-PNC-PARTICIPATION", cluster.getNmPncParticipation())
+        self.setChildElementOptionalBooleanValue(element, "NM-REPEAT-MSG-IND-ENABLED", cluster.getNmRepeatMsgIndEnabled())
         self.setChildElementOptionalBooleanValue(element, "NM-SYNCHRONIZING-NETWORK", cluster.getNmSynchronizingNetwork())
+        self.setChildElementOptionalPositiveInteger(element, "PNC-CLUSTER-VECTOR-LENGTH", cluster.getPncClusterVectorLength())
 
     def writeCanNmCluster(self, element: ET.Element, cluster: CanNmCluster):
         self.logger.debug("Write CanNmCluster <%s>" % cluster.getShortName())
