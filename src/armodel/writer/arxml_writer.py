@@ -635,6 +635,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     SystemMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+    IndexedArrayElement,
+    SenderRecArrayElementMapping,
+    SenderRecArrayTypeMapping,
     SenderRecCompositeTypeMapping,
     SenderReceiverToSignalGroupMapping,
     SenderReceiverToSignalMapping,
@@ -11155,6 +11158,46 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "IMPLEMENTATION-RECORD-ELEMENT-REF", mapping.getImplementationRecordElementRef())
             self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
 
+    def setIndexedArrayElement(self, element: ET.Element, key: str, indexed: IndexedArrayElement):
+        if indexed is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalRefType(child_element, "APPLICATION-ARRAY-ELEMENT-REF", indexed.getApplicationArrayElementRef())
+            self.setChildElementOptionalRefType(child_element, "IMPLEMENTATION-ARRAY-ELEMENT-REF", indexed.getImplementationArrayElementRef())
+            self.setChildElementOptionalIntegerValue(child_element, "INDEX", indexed.getIndex())
+
+    def writeSenderRecArrayElementMapping(self, element: ET.Element, mapping: SenderRecArrayElementMapping):
+        if mapping is not None:
+            child_element = ET.SubElement(element, "SENDER-REC-ARRAY-ELEMENT-MAPPING")
+            self.writeARObject(child_element, mapping)
+            complex_type_mapping = mapping.getComplexTypeMapping()
+            if complex_type_mapping is not None:
+                complex_element = ET.SubElement(child_element, "COMPLEX-TYPE-MAPPING")
+                if isinstance(complex_type_mapping, SenderRecArrayTypeMapping):
+                    self.writeSenderRecArrayTypeMapping(complex_element, complex_type_mapping)
+                elif isinstance(complex_type_mapping, SenderRecRecordTypeMapping):
+                    self.writeSenderRecRecordTypeMapping(complex_element, complex_type_mapping)
+                else:
+                    self.notImplemented("Unsupported ComplexTypeMapping %s" % type(complex_type_mapping))
+            self.setIndexedArrayElement(child_element, "INDEXED-ARRAY-ELEMENT", mapping.getIndexedArrayElement())
+            self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
+
+    def writeSenderRecArrayTypeMapping(self, element: ET.Element, mapping: SenderRecArrayTypeMapping):
+        if mapping is not None:
+            child_element = ET.SubElement(element, "SENDER-REC-ARRAY-TYPE-MAPPING")
+            self.writeSenderRecCompositeTypeMapping(child_element, mapping)
+            array_element_mappings = mapping.getArrayElementMappings()
+            if len(array_element_mappings) > 0:
+                mappings_tag = ET.SubElement(child_element, "ARRAY-ELEMENT-MAPPINGS")
+                for array_element_mapping in array_element_mappings:
+                    if isinstance(array_element_mapping, SenderRecArrayElementMapping):
+                        self.writeSenderRecArrayElementMapping(mappings_tag, array_element_mapping)
+                    else:
+                        self.notImplemented("Unsupported ArrayElementMapping %s" % type(array_element_mapping))
+            if mapping.getSenderToSignalTextTableMapping() is not None:
+                self.setTextTableMapping(child_element, mapping.getSenderToSignalTextTableMapping(), "SENDER-TO-SIGNAL-TEXT-TABLE-MAPPING")
+            if mapping.getSignalToReceiverTextTableMapping() is not None:
+                self.setTextTableMapping(child_element, mapping.getSignalToReceiverTextTableMapping(), "SIGNAL-TO-RECEIVER-TEXT-TABLE-MAPPING")
+
     def writeSenderRecArrayTypeMappingRecordElementMapping(self, element: ET.Element, mapping: SenderRecRecordTypeMapping):
         record_element_mappings = mapping.getRecordElementMappings()
         if len(record_element_mappings) > 0:
@@ -11177,6 +11220,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "TYPE-MAPPING")
             if isinstance(type_mapping, SenderRecRecordTypeMapping):
                 self.writeSenderRecRecordTypeMapping(child_element, type_mapping)
+            elif isinstance(type_mapping, SenderRecArrayTypeMapping):
+                self.writeSenderRecArrayTypeMapping(child_element, type_mapping)
             else:
                 self.notImplemented("Unsupported Type Mapping %s" % type(type_mapping))
 
@@ -11579,8 +11624,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         else:
             self.notImplemented("Unsupported SubElementRef <%s>" % type(sub_element_ref).__name__)
 
-    def setTextTableMapping(self, element: ET.Element, mapping: TextTableMapping):
-        child_element = ET.SubElement(element, "TEXT-TABLE-MAPPING")
+    def setTextTableMapping(self, element: ET.Element, mapping: TextTableMapping, key: str = "TEXT-TABLE-MAPPING"):
+        child_element = ET.SubElement(element, key)
         self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-FIRST", mapping.getBitfieldTextTableMaskFirst())
         self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-SECOND", mapping.getBitfieldTextTableMaskSecond())
         self.setChildElementOptionalBooleanValue(child_element, "IDENTICAL-MAPPING", mapping.getIdenticalMapping())

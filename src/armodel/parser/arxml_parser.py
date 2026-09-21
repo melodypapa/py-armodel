@@ -712,6 +712,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     SystemMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+    IndexedArrayElement,
+    SenderRecArrayElementMapping,
+    SenderRecArrayTypeMapping,
     SenderRecCompositeTypeMapping,
     SenderReceiverToSignalGroupMapping,
     SenderReceiverToSignalMapping,
@@ -12817,6 +12820,53 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setImplementationRecordElementRef(self.getChildElementOptionalRefType(element, "IMPLEMENTATION-RECORD-ELEMENT-REF"))
         mapping.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
 
+    def readIndexedArrayElement(self, element: ET.Element, indexed: IndexedArrayElement):
+        self.readARObject(element, indexed)
+        indexed.setApplicationArrayElementRef(self.getChildElementOptionalRefType(element, "APPLICATION-ARRAY-ELEMENT-REF"))
+        indexed.setImplementationArrayElementRef(self.getChildElementOptionalRefType(element, "IMPLEMENTATION-ARRAY-ELEMENT-REF"))
+        indexed.setIndex(self.getChildElementOptionalIntegerValue(element, "INDEX"))
+
+    def readSenderRecArrayElementMapping(self, element: ET.Element, mapping: SenderRecArrayElementMapping):
+        self.readARObject(element, mapping)
+        complex_element = self.find(element, "COMPLEX-TYPE-MAPPING")
+        if complex_element is not None:
+            type_mapping_element = self.find(complex_element, "*")
+            if type_mapping_element is not None:
+                tag_name = self.getTagName(type_mapping_element)
+                if tag_name == "SENDER-REC-ARRAY-TYPE-MAPPING":
+                    type_mapping = SenderRecArrayTypeMapping()
+                    self.readSenderRecArrayTypeMapping(type_mapping_element, type_mapping)
+                    mapping.setComplexTypeMapping(type_mapping)
+                elif tag_name == "SENDER-REC-RECORD-TYPE-MAPPING":
+                    type_mapping = SenderRecRecordTypeMapping()
+                    self.readSenderRecRecordTypeMapping(type_mapping_element, type_mapping)
+                    mapping.setComplexTypeMapping(type_mapping)
+                else:
+                    self.notImplemented("Unsupported ComplexTypeMapping %s" % tag_name)
+        indexed_element = self.find(element, "INDEXED-ARRAY-ELEMENT")
+        if indexed_element is not None:
+            indexed = IndexedArrayElement()
+            self.readIndexedArrayElement(indexed_element, indexed)
+            mapping.setIndexedArrayElement(indexed)
+        mapping.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
+
+    def readSenderRecArrayTypeMapping(self, element: ET.Element, mapping: SenderRecArrayTypeMapping):
+        self.readSenderRecCompositeTypeMapping(element, mapping)
+        for child_element in self.findall(element, "ARRAY-ELEMENT-MAPPINGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SENDER-REC-ARRAY-ELEMENT-MAPPING":
+                array_element_mapping = SenderRecArrayElementMapping()
+                self.readSenderRecArrayElementMapping(child_element, array_element_mapping)
+                mapping.addArrayElementMapping(array_element_mapping)
+            else:
+                self.notImplemented("Unsupported ArrayElementMapping %s" % tag_name)
+        sender_to_signal_element = self.find(element, "SENDER-TO-SIGNAL-TEXT-TABLE-MAPPING")
+        if sender_to_signal_element is not None:
+            mapping.setSenderToSignalTextTableMapping(self.getTextTableMapping(sender_to_signal_element))
+        signal_to_receiver_element = self.find(element, "SIGNAL-TO-RECEIVER-TEXT-TABLE-MAPPING")
+        if signal_to_receiver_element is not None:
+            mapping.setSignalToReceiverTextTableMapping(self.getTextTableMapping(signal_to_receiver_element))
+
     def readSenderRecArrayTypeMappingRecordElementMapping(self, element: ET.Element, mapping: SenderRecRecordTypeMapping):
         for child_element in self.findall(element, "RECORD-ELEMENT-MAPPINGS/*"):
             tag_name = self.getTagName(child_element)
@@ -12838,6 +12888,10 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "SENDER-REC-RECORD-TYPE-MAPPING":
                 type_mapping = SenderRecRecordTypeMapping()
                 self.readSenderRecRecordTypeMapping(child_element, type_mapping)
+                mapping.setTypeMapping(type_mapping)
+            elif tag_name == "SENDER-REC-ARRAY-TYPE-MAPPING":
+                type_mapping = SenderRecArrayTypeMapping()
+                self.readSenderRecArrayTypeMapping(child_element, type_mapping)
                 mapping.setTypeMapping(type_mapping)
             else:
                 self.notImplemented("Unsupported Type Mapping %s" % tag_name)

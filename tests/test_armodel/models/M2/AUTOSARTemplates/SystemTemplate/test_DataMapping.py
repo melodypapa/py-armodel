@@ -1,6 +1,7 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TextTableMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     DataMapping,
     IndexedArrayElement,
@@ -243,37 +244,39 @@ class Test_DataMapping:
         """Test SenderRecArrayTypeMapping class functionality."""
         mapping = SenderRecArrayTypeMapping()
 
+        # Verbatim spec Note (AUTOSAR_CP_TPS_SystemTemplate Table 5.28)
+        assert SenderRecArrayTypeMapping.__doc__ == ('If the ApplicationCompositeDataType is an Array, the "ArrayTypeMapping" will be used.')
+        assert SenderRecArrayTypeMapping.__init__.__doc__ is None
+
         assert isinstance(mapping, ARObject)
         assert isinstance(mapping, SenderRecCompositeTypeMapping)
 
         # Test default values
         assert mapping.getArrayElementMappings() == []
-        assert mapping.getSenderToSignal() is None
+        assert mapping.getSenderToSignalTextTableMapping() is None
         assert mapping.getSignalToReceiverTextTableMapping() is None
 
-        # Test setter methods
-        mock_mappings = [SenderRecArrayElementMapping()]
-        result = mapping.setArrayElementMappings(mock_mappings)
-        assert mapping.getArrayElementMappings() == mock_mappings
+        # Test array element mapping adder: appends, None no-op, method chaining
+        mock_mapping = SenderRecArrayElementMapping()
+        assert mapping == mapping.addArrayElementMapping(mock_mapping)
+        assert mapping.getArrayElementMappings() == [mock_mapping]
+        assert mapping == mapping.addArrayElementMapping(None)
+        assert mapping.getArrayElementMappings() == [mock_mapping]
+
+        text_mapping = TextTableMapping()
+        result = mapping.setSenderToSignalTextTableMapping(text_mapping)
+        assert mapping.getSenderToSignalTextTableMapping() == text_mapping
         assert result is mapping  # Test method chaining
 
-        mapping.setArrayElementMappings(None)
-        assert mapping.getArrayElementMappings() == mock_mappings  # Should remain unchanged
+        mapping.setSenderToSignalTextTableMapping(None)
+        assert mapping.getSenderToSignalTextTableMapping() == text_mapping  # Should remain unchanged
 
-        mock_text_mapping = "TextMapping"
-        result = mapping.setSenderToSignal(mock_text_mapping)
-        assert mapping.getSenderToSignal() == mock_text_mapping
-        assert result is mapping  # Test method chaining
-
-        mapping.setSenderToSignal(None)
-        assert mapping.getSenderToSignal() == mock_text_mapping  # Should remain unchanged
-
-        result = mapping.setSignalToReceiverTextTableMapping(mock_text_mapping)
-        assert mapping.getSignalToReceiverTextTableMapping() == mock_text_mapping
+        result = mapping.setSignalToReceiverTextTableMapping(text_mapping)
+        assert mapping.getSignalToReceiverTextTableMapping() == text_mapping
         assert result is mapping  # Test method chaining
 
         mapping.setSignalToReceiverTextTableMapping(None)
-        assert mapping.getSignalToReceiverTextTableMapping() == mock_text_mapping  # Should remain unchanged
+        assert mapping.getSignalToReceiverTextTableMapping() == text_mapping  # Should remain unchanged
 
     def test_SenderReceiverToSignalGroupMapping(self):
         """Test SenderReceiverToSignalGroupMapping class functionality."""

@@ -168,15 +168,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; Base ARObject; docstring verbatim; SENDER-REC-ARRAY-TYPE-MAPPING dispatch gap belongs to SenderRecArrayTypeMapping (queued next row)]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `SenderRecArrayTypeMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 5.28 · after `SenderRecArrayElementMapping`/`TextTableMapping`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 5.28, p.235; concrete, Base → `SenderRecCompositeTypeMapping`; attrs in displayed order: arrayElementMapping (SenderRecArrayElementMapping * aggr), senderToSignalTextTableMapping (TextTableMapping 0..1 aggr), signalToReceiverTextTableMapping (TextTableMapping 0..1 aggr); XML order per XSD group SENDER-REC-ARRAY-TYPE-MAPPING: ARRAY-ELEMENT-MAPPINGS → SENDER-TO-SIGNAL-TEXT-TABLE-MAPPING → SIGNAL-TO-RECEIVER-TEXT-TABLE-MAPPING; member classes SenderRecArrayElementMapping/TextTableMapping exist
+  - [x] Step 2 — Write model class unit test (Red) — 2 Red: verbatim class-Note docstring (fabricated), renamed accessors getSenderToSignalTextTableMapping/setSenderToSignalTextTableMapping (was getSenderToSignal/setSenderToSignal) + addArrayElementMapping missing; None no-ops, chaining, typed TextTableMapping
+  - [x] Step 3 — Implement model class (Green) — senderToSignal renamed senderToSignalTextTableMapping (naming fix, Rule 0014), dedicated typed list kept + addArrayElementMapping adder added (append + None no-op + chaining), PEP 526 Optional[TextTableMapping] annotations, member order = displayed order
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note + all three attr Notes verbatim (markdown "Port Prototype"/"System Signal" wraps resolved to PortPrototype/SystemSignal per XSD documentation)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer test files: TYPE-MAPPING dispatch isinstance pins, ARRAY-ELEMENT-MAPPINGS with primitive (SYSTEM-SIGNAL-REF + INDEXED-ARRAY-ELEMENT APPLICATION-ref/INDEX) and composite (nested COMPLEX-TYPE-MAPPING/SENDER-REC-RECORD-TYPE-MAPPING) elements, both text-table mappings with IDENTICAL-MAPPING, XSD element-order assertion, empty-omits case, write→re-parse round-trip; 5 Red (no dispatch/helpers)
+  - [x] Step 6 — Update parser & writer (Green) — readSenderRecArrayTypeMapping/writeSenderRecArrayTypeMapping helpers added; readSenderRecArrayElementMapping + readIndexedArrayElement/setIndexedArrayElement + writeSenderRecArrayElementMapping added (in-pass, Rule 0016.4/0001.10 — required by ARRAY-ELEMENT-MAPPINGS content); SENDER-REC-ARRAY-TYPE-MAPPING branches in TYPE-MAPPING dispatch both sides; setTextTableMapping gained key param (default TEXT-TABLE-MAPPING, existing call sites unchanged)
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 5.28 p.235 citation, release column; marker deferred to 9b
+  - [x] Step 8 — Deviations  [resolved in-step (Rule 0014): naming deviation senderToSignal → senderToSignalTextTableMapping fixed (only model + own test referenced it); missing reader/writer coverage added; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `NmClusterCoupling` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.305)
   - [x] Step 1 — Sync members & description from spec — Table 6.305, p.676; abstract, Base = ARObject (VariationPointCapable mixin kept: XSD group NM-CLUSTER-COUPLING carries VARIATION-POINT); zero attribute rows (XSD group only VARIATION-POINT); subclasses CanNmClusterCoupling/FlexrayNmClusterCoupling/UdpNmClusterCoupling; aggregated by NmConfig.nmClusterCoupling
   - [x] Step 2 — Write model class unit test (Red) — abstract raise, verbatim class-Note docstring assertion (Red: fabricated docstring), no-`__init__`-docstring, subclass heritage
