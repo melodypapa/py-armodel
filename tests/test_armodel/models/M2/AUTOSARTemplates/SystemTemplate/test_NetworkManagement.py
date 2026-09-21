@@ -2,7 +2,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import RxIdentifierRange
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
@@ -143,6 +143,111 @@ class TestNmCluster:
         assert node is not None
         assert node.short_name == "UdpNode"
         assert cluster.createUdpNmNode("UdpNode") is node
+
+
+class TestFlexrayNmCluster:
+    """FlexrayNmCluster (Table 6.306, p.678) — spec sync tests."""
+
+    _NOTE = "FlexRay specific NM cluster attributes."
+
+    def _cluster(self):
+        return FlexrayNmCluster(MockParent(), "fr_cluster")
+
+    def test_concrete_instantiation_and_heritage(self):
+        cluster = self._cluster()
+        assert isinstance(cluster, NmCluster)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert FlexrayNmCluster.__doc__.strip() == self._NOTE
+
+    def test_init_has_no_docstring(self):
+        assert FlexrayNmCluster.__init__.__doc__ is None
+
+    def test_defaults(self):
+        cluster = self._cluster()
+        assert cluster.getNmCarWakeUpBitPosition() is None
+        assert cluster.getNmCarWakeUpFilterEnabled() is None
+        assert cluster.getNmCarWakeUpFilterNodeId() is None
+        assert cluster.getNmCarWakeUpRxEnabled() is None
+        assert cluster.getNmDataCycle() is None
+        assert cluster.getNmMainFunctionPeriod() is None
+        assert cluster.getNmRemoteSleepIndicationTime() is None
+        assert cluster.getNmRepeatMessageTime() is None
+        assert cluster.getNmRepetitionCycle() is None
+        assert cluster.getNmVotingCycle() is None
+
+    def test_get_set_round_trip_and_none_no_op(self):
+        cluster = self._cluster()
+
+        bit_position = PositiveInteger()
+        bit_position.setValue(5)
+        cluster.setNmCarWakeUpBitPosition(bit_position)
+        assert cluster.getNmCarWakeUpBitPosition() is bit_position
+        cluster.setNmCarWakeUpBitPosition(None)
+        assert cluster.getNmCarWakeUpBitPosition() is bit_position
+
+        filter_enabled = Boolean()
+        filter_enabled.setValue(True)
+        cluster.setNmCarWakeUpFilterEnabled(filter_enabled)
+        assert cluster.getNmCarWakeUpFilterEnabled() is filter_enabled
+        cluster.setNmCarWakeUpFilterEnabled(None)
+        assert cluster.getNmCarWakeUpFilterEnabled() is filter_enabled
+
+        filter_node_id = PositiveInteger()
+        filter_node_id.setValue(120)
+        cluster.setNmCarWakeUpFilterNodeId(filter_node_id)
+        assert cluster.getNmCarWakeUpFilterNodeId() is filter_node_id
+        cluster.setNmCarWakeUpFilterNodeId(None)
+        assert cluster.getNmCarWakeUpFilterNodeId() is filter_node_id
+
+        rx_enabled = Boolean()
+        rx_enabled.setValue(True)
+        cluster.setNmCarWakeUpRxEnabled(rx_enabled)
+        assert cluster.getNmCarWakeUpRxEnabled() is rx_enabled
+        cluster.setNmCarWakeUpRxEnabled(None)
+        assert cluster.getNmCarWakeUpRxEnabled() is rx_enabled
+
+        data_cycle = Integer()
+        data_cycle.setValue(4)
+        cluster.setNmDataCycle(data_cycle)
+        assert cluster.getNmDataCycle() is data_cycle
+        cluster.setNmDataCycle(None)
+        assert cluster.getNmDataCycle() is data_cycle
+
+        main_period = TimeValue()
+        main_period.setValue(0.02)
+        cluster.setNmMainFunctionPeriod(main_period)
+        assert cluster.getNmMainFunctionPeriod() is main_period
+        cluster.setNmMainFunctionPeriod(None)
+        assert cluster.getNmMainFunctionPeriod() is main_period
+
+        remote_sleep = TimeValue()
+        remote_sleep.setValue(1.0)
+        cluster.setNmRemoteSleepIndicationTime(remote_sleep)
+        assert cluster.getNmRemoteSleepIndicationTime() is remote_sleep
+        cluster.setNmRemoteSleepIndicationTime(None)
+        assert cluster.getNmRemoteSleepIndicationTime() is remote_sleep
+
+        repeat_message = TimeValue()
+        repeat_message.setValue(0.5)
+        cluster.setNmRepeatMessageTime(repeat_message)
+        assert cluster.getNmRepeatMessageTime() is repeat_message
+        cluster.setNmRepeatMessageTime(None)
+        assert cluster.getNmRepeatMessageTime() is repeat_message
+
+        repetition_cycle = Integer()
+        repetition_cycle.setValue(2)
+        cluster.setNmRepetitionCycle(repetition_cycle)
+        assert cluster.getNmRepetitionCycle() is repetition_cycle
+        cluster.setNmRepetitionCycle(None)
+        assert cluster.getNmRepetitionCycle() is repetition_cycle
+
+        voting_cycle = Integer()
+        voting_cycle.setValue(1)
+        cluster.setNmVotingCycle(voting_cycle)
+        assert cluster.getNmVotingCycle() is voting_cycle
+        cluster.setNmVotingCycle(None)
+        assert cluster.getNmVotingCycle() is voting_cycle
 
 
 class MockParent(ARObject):

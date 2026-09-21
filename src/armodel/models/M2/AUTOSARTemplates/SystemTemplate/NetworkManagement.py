@@ -999,6 +999,12 @@ class NmConfig(FibexElement):
             self.addElement(cluster)
         return self.getElement(short_name, UdpNmCluster)
 
+    def createFlexrayNmCluster(self, short_name: str) -> "FlexrayNmCluster":
+        if not self.IsElementExists(short_name, FlexrayNmCluster):
+            cluster = FlexrayNmCluster(self, short_name)
+            self.addElement(cluster)
+        return self.getElement(short_name, FlexrayNmCluster)
+
     def getCanNmClusters(self):  # type: () -> List[CanNmCluster]
         return list(sorted(filter(lambda a: isinstance(a, CanNmCluster), self.elements), key=lambda o: o.short_name))
 
@@ -1442,16 +1448,216 @@ class CanNmCluster(NmCluster):
 
 class FlexrayNmCluster(NmCluster):
     """
-    Represents a FlexRay network management cluster in the system,
-    defining FlexRay-specific NM properties for time-triggered
-    network management in FlexRay communication networks.
+    FlexRay specific NM cluster attributes.
     """
 
     # FlexrayNmCluster method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.306, p.678
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNmCarWakeUpBitPosition       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmCarWakeUpBitPosition       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmCarWakeUpFilterEnabled     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmCarWakeUpFilterEnabled     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmCarWakeUpFilterNodeId      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmCarWakeUpFilterNodeId      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmCarWakeUpRxEnabled         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmCarWakeUpRxEnabled         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmDataCycle                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmDataCycle                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmMainFunctionPeriod         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmMainFunctionPeriod         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmRemoteSleepIndicationTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmRemoteSleepIndicationTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmRepeatMessageTime          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmRepeatMessageTime          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmRepetitionCycle            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmRepetitionCycle            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmVotingCycle                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmVotingCycle                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+        # Specifies the bit position of the CarWakeUp within the NmPdu.
+        self.nmCarWakeUpBitPosition: Optional[PositiveInteger] = None
+
+        # If this attribute is set to true the CareWakeUp filtering is supported. In this case only the CarWakeUp bit within the NmPdu with source node identifier nmCarWakeUpFilterNodeId is considered as CarWakeUp request.
+        self.nmCarWakeUpFilterEnabled: Optional[Boolean] = None
+
+        # Source node identifier for CarWakeUp filtering. If CarWakeUp filtering is supported (nmCarWakeUpFilterEnabled), only the CarWakeUp bit within the NmPdu with source node identifier nmCarWakeUpFilterNodeId is considered as CarWakeUp request.
+        self.nmCarWakeUpFilterNodeId: Optional[PositiveInteger] = None
+
+        # If set to true this attribute enables the support of CarWakeUp bit evaluation in received NmPdus.
+        self.nmCarWakeUpRxEnabled: Optional[Boolean] = None
+
+        # Number of FlexRay Communication Cycles needed to transmit the Nm Data PDUs of all FlexRay Nm Ecus of this FlexRayNmCluster.
+        self.nmDataCycle: Optional[Integer] = None
+
+        # Defines the processing cycle of the main function of FrNm module.
+        self.nmMainFunctionPeriod: Optional[TimeValue] = None
+
+        # Timeout for Remote Sleep Indication in seconds. It defines the time how long it shall take to recognize that all other nodes are ready to sleep.
+        self.nmRemoteSleepIndicationTime: Optional[TimeValue] = None
+
+        # Timeout for Repeat Message State in seconds. Defines the time how long the NM shall stay in the Repeat Message State.
+        self.nmRepeatMessageTime: Optional[TimeValue] = None
+
+        # Number of FlexRay Communication Cycles used to repeat the transmission of the Nm vote Pdus of all FlexRay NmEcus of this FlexRayNmCluster. This value shall be an integral multiple of nmVotingCycle.
+        self.nmRepetitionCycle: Optional[Integer] = None
+
+        # Number of FlexRay CommunicationCycles needed to transmit the Nm vote of Pdus of all FlexRay NmEcus of this FlexRayNmCluster.
+        self.nmVotingCycle: Optional[Integer] = None
+
+    def getNmCarWakeUpBitPosition(self) -> Optional[PositiveInteger]:
+        """
+        Specifies the bit position of the CarWakeUp within the NmPdu.
+        """
+        return self.nmCarWakeUpBitPosition
+
+    def setNmCarWakeUpBitPosition(self, value: Optional[PositiveInteger]) -> "FlexrayNmCluster":
+        """
+        Specifies the bit position of the CarWakeUp within the NmPdu.
+        A None value is a no-op and does not overwrite an existing nmCarWakeUpBitPosition.
+        """
+        if value is not None:
+            self.nmCarWakeUpBitPosition = value
+        return self
+
+    def getNmCarWakeUpFilterEnabled(self) -> Optional[Boolean]:
+        """
+        If this attribute is set to true the CareWakeUp filtering is supported. In this case only the CarWakeUp bit within the NmPdu with source node identifier nmCarWakeUpFilterNodeId is considered as CarWakeUp request.
+        """
+        return self.nmCarWakeUpFilterEnabled
+
+    def setNmCarWakeUpFilterEnabled(self, value: Optional[Boolean]) -> "FlexrayNmCluster":
+        """
+        If this attribute is set to true the CareWakeUp filtering is supported. In this case only the CarWakeUp bit within the NmPdu with source node identifier nmCarWakeUpFilterNodeId is considered as CarWakeUp request.
+        A None value is a no-op and does not overwrite an existing nmCarWakeUpFilterEnabled.
+        """
+        if value is not None:
+            self.nmCarWakeUpFilterEnabled = value
+        return self
+
+    def getNmCarWakeUpFilterNodeId(self) -> Optional[PositiveInteger]:
+        """
+        Source node identifier for CarWakeUp filtering. If CarWakeUp filtering is supported (nmCarWakeUpFilterEnabled), only the CarWakeUp bit within the NmPdu with source node identifier nmCarWakeUpFilterNodeId is considered as CarWakeUp request.
+        """
+        return self.nmCarWakeUpFilterNodeId
+
+    def setNmCarWakeUpFilterNodeId(self, value: Optional[PositiveInteger]) -> "FlexrayNmCluster":
+        """
+        Source node identifier for CarWakeUp filtering. If CarWakeUp filtering is supported (nmCarWakeUpFilterEnabled), only the CarWakeUp bit within the NmPdu with source node identifier nmCarWakeUpFilterNodeId is considered as CarWakeUp request.
+        A None value is a no-op and does not overwrite an existing nmCarWakeUpFilterNodeId.
+        """
+        if value is not None:
+            self.nmCarWakeUpFilterNodeId = value
+        return self
+
+    def getNmCarWakeUpRxEnabled(self) -> Optional[Boolean]:
+        """
+        If set to true this attribute enables the support of CarWakeUp bit evaluation in received NmPdus.
+        """
+        return self.nmCarWakeUpRxEnabled
+
+    def setNmCarWakeUpRxEnabled(self, value: Optional[Boolean]) -> "FlexrayNmCluster":
+        """
+        If set to true this attribute enables the support of CarWakeUp bit evaluation in received NmPdus.
+        A None value is a no-op and does not overwrite an existing nmCarWakeUpRxEnabled.
+        """
+        if value is not None:
+            self.nmCarWakeUpRxEnabled = value
+        return self
+
+    def getNmDataCycle(self) -> Optional[Integer]:
+        """
+        Number of FlexRay Communication Cycles needed to transmit the Nm Data PDUs of all FlexRay Nm Ecus of this FlexRayNmCluster.
+        """
+        return self.nmDataCycle
+
+    def setNmDataCycle(self, value: Optional[Integer]) -> "FlexrayNmCluster":
+        """
+        Number of FlexRay Communication Cycles needed to transmit the Nm Data PDUs of all FlexRay Nm Ecus of this FlexRayNmCluster.
+        A None value is a no-op and does not overwrite an existing nmDataCycle.
+        """
+        if value is not None:
+            self.nmDataCycle = value
+        return self
+
+    def getNmMainFunctionPeriod(self) -> Optional[TimeValue]:
+        """
+        Defines the processing cycle of the main function of FrNm module.
+        """
+        return self.nmMainFunctionPeriod
+
+    def setNmMainFunctionPeriod(self, value: Optional[TimeValue]) -> "FlexrayNmCluster":
+        """
+        Defines the processing cycle of the main function of FrNm module.
+        A None value is a no-op and does not overwrite an existing nmMainFunctionPeriod.
+        """
+        if value is not None:
+            self.nmMainFunctionPeriod = value
+        return self
+
+    def getNmRemoteSleepIndicationTime(self) -> Optional[TimeValue]:
+        """
+        Timeout for Remote Sleep Indication in seconds. It defines the time how long it shall take to recognize that all other nodes are ready to sleep.
+        """
+        return self.nmRemoteSleepIndicationTime
+
+    def setNmRemoteSleepIndicationTime(self, value: Optional[TimeValue]) -> "FlexrayNmCluster":
+        """
+        Timeout for Remote Sleep Indication in seconds. It defines the time how long it shall take to recognize that all other nodes are ready to sleep.
+        A None value is a no-op and does not overwrite an existing nmRemoteSleepIndicationTime.
+        """
+        if value is not None:
+            self.nmRemoteSleepIndicationTime = value
+        return self
+
+    def getNmRepeatMessageTime(self) -> Optional[TimeValue]:
+        """
+        Timeout for Repeat Message State in seconds. Defines the time how long the NM shall stay in the Repeat Message State.
+        """
+        return self.nmRepeatMessageTime
+
+    def setNmRepeatMessageTime(self, value: Optional[TimeValue]) -> "FlexrayNmCluster":
+        """
+        Timeout for Repeat Message State in seconds. Defines the time how long the NM shall stay in the Repeat Message State.
+        A None value is a no-op and does not overwrite an existing nmRepeatMessageTime.
+        """
+        if value is not None:
+            self.nmRepeatMessageTime = value
+        return self
+
+    def getNmRepetitionCycle(self) -> Optional[Integer]:
+        """
+        Number of FlexRay Communication Cycles used to repeat the transmission of the Nm vote Pdus of all FlexRay NmEcus of this FlexRayNmCluster. This value shall be an integral multiple of nmVotingCycle.
+        """
+        return self.nmRepetitionCycle
+
+    def setNmRepetitionCycle(self, value: Optional[Integer]) -> "FlexrayNmCluster":
+        """
+        Number of FlexRay Communication Cycles used to repeat the transmission of the Nm vote Pdus of all FlexRay NmEcus of this FlexRayNmCluster. This value shall be an integral multiple of nmVotingCycle.
+        A None value is a no-op and does not overwrite an existing nmRepetitionCycle.
+        """
+        if value is not None:
+            self.nmRepetitionCycle = value
+        return self
+
+    def getNmVotingCycle(self) -> Optional[Integer]:
+        """
+        Number of FlexRay CommunicationCycles needed to transmit the Nm vote of Pdus of all FlexRay NmEcus of this FlexRayNmCluster.
+        """
+        return self.nmVotingCycle
+
+    def setNmVotingCycle(self, value: Optional[Integer]) -> "FlexrayNmCluster":
+        """
+        Number of FlexRay CommunicationCycles needed to transmit the Nm vote of Pdus of all FlexRay NmEcus of this FlexRayNmCluster.
+        A None value is a no-op and does not overwrite an existing nmVotingCycle.
+        """
+        if value is not None:
+            self.nmVotingCycle = value
+        return self
 
 
 class J1939NmCluster(NmCluster):

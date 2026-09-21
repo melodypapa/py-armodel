@@ -965,6 +965,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     CanNmClusterCoupling,
     CanNmNode,
     CanNmEcu,
+    FlexrayNmCluster,
     J1939NmNode,
     J1939NodeName,
     NmCluster,
@@ -10163,6 +10164,20 @@ class ARXMLParser(AbstractARXMLParser):
         cluster.setNmWaitBusSleepTime(self.getChildElementOptionalTimeValue(element, "NM-WAIT-BUS-SLEEP-TIME"))
         cluster.setVlanRef(self.getChildElementOptionalRefType(element, "VLAN-REF"))
 
+    def readFlexrayNmCluster(self, element: ET.Element, cluster: FlexrayNmCluster):
+        self.logger.debug("Read FlexrayNmCluster <%s>" % cluster.getShortName())
+        self.readNmCluster(element, cluster)
+        cluster.setNmCarWakeUpBitPosition(self.getChildElementOptionalPositiveInteger(element, "NM-CAR-WAKE-UP-BIT-POSITION"))
+        cluster.setNmCarWakeUpFilterEnabled(self.getChildElementOptionalBooleanValue(element, "NM-CAR-WAKE-UP-FILTER-ENABLED"))
+        cluster.setNmCarWakeUpFilterNodeId(self.getChildElementOptionalPositiveInteger(element, "NM-CAR-WAKE-UP-FILTER-NODE-ID"))
+        cluster.setNmCarWakeUpRxEnabled(self.getChildElementOptionalBooleanValue(element, "NM-CAR-WAKE-UP-RX-ENABLED"))
+        cluster.setNmDataCycle(self.getChildElementOptionalIntegerValue(element, "NM-DATA-CYCLE"))
+        cluster.setNmMainFunctionPeriod(self.getChildElementOptionalTimeValue(element, "NM-MAIN-FUNCTION-PERIOD"))
+        cluster.setNmRemoteSleepIndicationTime(self.getChildElementOptionalTimeValue(element, "NM-REMOTE-SLEEP-INDICATION-TIME"))
+        cluster.setNmRepeatMessageTime(self.getChildElementOptionalTimeValue(element, "NM-REPEAT-MESSAGE-TIME"))
+        cluster.setNmRepetitionCycle(self.getChildElementOptionalIntegerValue(element, "NM-REPETITION-CYCLE"))
+        cluster.setNmVotingCycle(self.getChildElementOptionalIntegerValue(element, "NM-VOTING-CYCLE"))
+
     def readNmConfigNmClusters(self, element: ET.Element, nm_config: NmConfig):
         for child_element in self.findall(element, "NM-CLUSTERS/*"):
             tag_name = self.getTagName(child_element)
@@ -10172,6 +10187,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "UDP-NM-CLUSTER":
                 cluster = nm_config.createUdpNmCluster(self.getShortName(child_element))
                 self.readUdpNmCluster(child_element, cluster)
+            elif tag_name == "FLEXRAY-NM-CLUSTER":
+                cluster = nm_config.createFlexrayNmCluster(self.getShortName(child_element))
+                self.readFlexrayNmCluster(child_element, cluster)
             else:
                 self.raiseError("Unsupported Nm Cluster <%s>" % tag_name)
 

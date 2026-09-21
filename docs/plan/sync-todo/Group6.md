@@ -198,15 +198,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 8 — Deviations  [accepted legacy: nmChannelId absent from R23-11 AND R4.3.1 tables (atp.Status=removed, pre-R4.3.1) but element still in R23-11 XSD and reader/writer coverage pre-exists — kept as optional legacy member per Rule 0019 spirit, docstring = XSD old description; naming fixes recorded: readUdpNmNode→createUdpNmNode, _nmSynchronizingNetwork→nmSynchronizingNetwork; createFlexrayNmNode deferred to FlexrayNmNode row (needs FLEXRAY-NM-NODE reader coverage)]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `FlexrayNmCluster` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.306)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 6.306, p.678; concrete, Base → `NmCluster`; 10 attrs all 0..1 attr in displayed order: nmCarWakeUpBitPosition/nmCarWakeUpFilterNodeId (PositiveInteger), nmCarWakeUpFilterEnabled/nmCarWakeUpRxEnabled (Boolean), nmDataCycle/nmRepetitionCycle/nmVotingCycle (Integer), nmMainFunctionPeriod/nmRemoteSleepIndicationTime/nmRepeatMessageTime (TimeValue); XML order per XSD group FLEXRAY-NM-CLUSTER = displayed order (removed siblings NM-CONTROL-BIT-VECTOR-ACTIVE/NM-DATA-ENABLED/NM-DETECTION-LOCK/NM-MESSAGE-TIMEOUT-TIME/NM-READY-SLEEP-COUNT/NM-REPEAT-MESSAGE-BIT-ACTIVE not modeled); Note per XSD "NmPdu" (markdown wrap "Nm Pdu"), "CareWakeUp" typo kept verbatim
+  - [x] Step 2 — Write model class unit test (Red) — 3 Red: fabricated docstring, all 10 accessors missing (defaults + get/set/None-no-op)
+  - [x] Step 3 — Implement model class (Green) — class extended with 10 PEP 526 members in displayed order + typed chaining accessors, None no-op setters
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note + all 10 attr Notes verbatim on inline comments + getters + setters (None no-op sentences appended)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer test files: field values, exact XSD element-order assertion, empty-omits case, NM-CLUSTERS wrapper dispatch, write→re-parse round-trip; 7 Red (no reader/writer/dispatch/createFlexrayNmCluster)
+  - [x] Step 6 — Update parser & writer (Green) — readFlexrayNmCluster + writeFlexrayNmCluster added (XSD order); FLEXRAY-NM-CLUSTER branches in readNmConfigNmClusters/writeNmConfigNmClusters; NmConfig.createFlexrayNmCluster factory added
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.306 p.678 citation, release column; marker deferred to 9b
+  - [x] Step 8 — Deviations  [in-pass (Rule 0016.4/0001.10): NmConfig.createFlexrayNmCluster factory created (needed by FLEXRAY-NM-CLUSTER reader dispatch); six removed-status sibling attributes of the XSD group not modeled (absent from R23-11 table, no fixture usage)]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `FlexrayNmEcu` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.307)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

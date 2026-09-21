@@ -864,6 +864,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     CanNmEcu,
     CanNmClusterCoupling,
     CanNmNode,
+    FlexrayNmCluster,
     J1939NmNode,
     J1939NodeName,
     NmCluster,
@@ -8165,6 +8166,21 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(child_element, "NM-WAIT-BUS-SLEEP-TIME", cluster.getNmWaitBusSleepTime())
         self.setChildElementOptionalRefType(child_element, "VLAN-REF", cluster.getVlanRef())
 
+    def writeFlexrayNmCluster(self, element: ET.Element, cluster: FlexrayNmCluster):
+        self.logger.debug("Write FlexrayNmCluster <%s>" % cluster.getShortName())
+        child_element = ET.SubElement(element, "FLEXRAY-NM-CLUSTER")
+        self.writeNmCluster(child_element, cluster)
+        self.setChildElementOptionalPositiveInteger(child_element, "NM-CAR-WAKE-UP-BIT-POSITION", cluster.getNmCarWakeUpBitPosition())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-CAR-WAKE-UP-FILTER-ENABLED", cluster.getNmCarWakeUpFilterEnabled())
+        self.setChildElementOptionalPositiveInteger(child_element, "NM-CAR-WAKE-UP-FILTER-NODE-ID", cluster.getNmCarWakeUpFilterNodeId())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-CAR-WAKE-UP-RX-ENABLED", cluster.getNmCarWakeUpRxEnabled())
+        self.setChildElementOptionalIntegerValue(child_element, "NM-DATA-CYCLE", cluster.getNmDataCycle())
+        self.setChildElementOptionalTimeValue(child_element, "NM-MAIN-FUNCTION-PERIOD", cluster.getNmMainFunctionPeriod())
+        self.setChildElementOptionalTimeValue(child_element, "NM-REMOTE-SLEEP-INDICATION-TIME", cluster.getNmRemoteSleepIndicationTime())
+        self.setChildElementOptionalTimeValue(child_element, "NM-REPEAT-MESSAGE-TIME", cluster.getNmRepeatMessageTime())
+        self.setChildElementOptionalIntegerValue(child_element, "NM-REPETITION-CYCLE", cluster.getNmRepetitionCycle())
+        self.setChildElementOptionalIntegerValue(child_element, "NM-VOTING-CYCLE", cluster.getNmVotingCycle())
+
     def writeNmConfigNmClusters(self, element: ET.Element, parent: NmConfig):
         clusters = parent.getNmClusters()
         if len(clusters) > 0:
@@ -8174,6 +8190,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeCanNmCluster(child_element, cluster)
                 elif isinstance(cluster, UdpNmCluster):
                     self.writeUdpNmCluster(child_element, cluster)
+                elif isinstance(cluster, FlexrayNmCluster):
+                    self.writeFlexrayNmCluster(child_element, cluster)
                 else:
                     self.notImplemented("Unsupported Nm Cluster <%s>" % type(cluster))
 
