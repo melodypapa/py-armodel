@@ -678,6 +678,42 @@ class TestWriteEndToEndProtectionSet:
         assert set_tag.find("SHORT-NAME").text == "MySet"
         assert set_tag.find("END-TO-END-PROTECTIONS") is not None
 
+    def test_write_set_empty_emits_no_wrapper(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        protection_set = pkg.createEndToEndProtectionSet("EmptySet")
+        parent = _parent()
+        writer.writeEndToEndProtectionSet(parent, protection_set)
+        assert len(parent) == 1
+        set_tag = parent[0]
+        assert set_tag.tag == "END-TO-END-PROTECTION-SET"
+        assert set_tag.find("END-TO-END-PROTECTIONS") is None
+
+    def test_write_set_round_trip_preserves_order(self, writer):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        protection_set = pkg.createEndToEndProtectionSet("OrderedSet")
+        protection_set.createEndToEndProtection("Zeta")
+        protection_set.createEndToEndProtection("Alpha")
+
+        parent = _parent()
+        writer.writeEndToEndProtectionSet(parent, protection_set)
+        set_tag = parent[0]
+        assert set_tag.tag == "END-TO-END-PROTECTION-SET"
+        wrapper = set_tag.find("END-TO-END-PROTECTIONS")
+        assert wrapper is not None
+        items = wrapper.findall("END-TO-END-PROTECTION")
+        assert len(items) == 2
+        assert [item.find("SHORT-NAME").text for item in items] == ["Zeta", "Alpha"]
+
+        xml_text = ET.tostring(set_tag, encoding="unicode")
+        reloaded_element = ET.fromstring(xml_text.replace("END-TO-END-PROTECTION-SET", "END-TO-END-PROTECTION-SET xmlns='http://autosar.org/schema/r4.0'", 1))
+        reloaded_set = pkg.createARPackage("Pkg2").createEndToEndProtectionSet("OrderedSet")
+        ARXMLParser().readEndToEndProtectionSet(reloaded_element, reloaded_set)
+        reloaded = reloaded_set.getEndToEndProtections()
+        assert [p.getShortName() for p in reloaded] == ["Zeta", "Alpha"]
+
 
 class TestWriteAutosarDataPrototype:
     def test_write_autosar_data_prototype(self, writer):

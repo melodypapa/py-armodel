@@ -651,13 +651,11 @@ No deviations — the Table 4.91 attribute column is `-` (zero own attributes; c
 No deviations — all three Table 4.98 attributes modeled with full reader/writer coverage (`receiver` iref `*` → `receiverIRefs` + `addReceiverIref`/`getReceiverIrefs` via the RECEIVER-IREFS wrapper; `sender` iref 0..1 → `senderIRef` + `getSenderIref`/`setSenderIref`; `shortLabel` attr 0..1 → `Optional[Identifier]` + `getShortLabel`/`setShortLabel`); concrete Class (XSD complexType `END-TO-END-PROTECTION-VARIABLE-PROTOTYPE` `abstract="false"`, AUTOSAR_00052.xsd line 54457, group line 54411); most-derived base `ARObject` per the Base row, VP-capable per the XSD (VARIATION-POINT element in the group, sequenceOffset 10000) via the VariationPointCapable mixin; XML element order RECEIVER-IREFS→SENDER-IREF→SHORT-LABEL→VARIATION-POINT; this pass also fixed the writer's SENDER-IREF-inside-RECEIVER-IREFS mis-nesting (the wrapper loop reassigned `child_element`) and added the missing SHORT-LABEL/VARIATION-POINT reader/writer coverage; former `missing` row for `sender` built on the pre-sync stub (no accessor pair) resolved in the 2026-09 sync.
 
 ## `EndToEndProtectionSet`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 4.96
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 214  | **table:** Table 4.96
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::EndToEndProtection`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/EndToEndProtection.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `endToEndProtection` | ``EndToEndProtection`` | aggr | missing |
+No deviations — the single Table 4.96 attribute modeled with full reader/writer coverage (`endToEndProtection` aggr `*` → dedicated typed list field `endToEndProtections` + `createEndToEndProtection`/`getEndToEndProtections` via the END-TO-END-PROTECTIONS wrapper element, emitted only when non-empty per the XSD group); concrete Class (XSD complexType `END-TO-END-PROTECTION-SET` `abstract="false"`, AUTOSAR_00052.xsd line 54391, group line 54369); most-derived base `ARElement` per the Base row; class itself not VP-capable (no VARIATION-POINT element in its group — the child row's atpVariation tag lands on PartClass `EndToEndProtection`, which carries the VariationPointCapable mixin); this pass replaced the registry filter+sort getter with the dedicated field (Rule 0004) so the writer preserves document order; former `missing` row for `endToEndProtection` built on the pre-sync stub (no dedicated field, fabricated docstrings) resolved in the 2026-09 sync.
 
 ## `ParameterInterface`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —

@@ -191,23 +191,57 @@ class TestEndToEndProtection:
 
 
 class TestEndToEndProtectionSet:
-    """Test class for EndToEndProtectionSet class."""
+    """Test class for EndToEndProtectionSet class (Swc TPS Table 4.96)."""
 
-    def test_end_to_end_protection_set_initialization(self):
-        """Test EndToEndProtectionSet initialization and methods."""
+    def test_spec_base(self):
+        """Test the most-derived spec base and instantiation (Table 4.96 Base = ARElement)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        protection_set = EndToEndProtectionSet(ar_root, "TestProtectionSet")
-
+        assert issubclass(EndToEndProtectionSet, ARElement)
+        protection_set = EndToEndProtectionSet(ar_root, "SpecProtectionSet")
         assert protection_set.parent == ar_root
-        assert protection_set.short_name == "TestProtectionSet"
+        assert protection_set.short_name == "SpecProtectionSet"
 
-        # Test create and get methods
+    def test_initialization(self):
+        """Test all __init__ field defaults per Table 4.96."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        protection_set = EndToEndProtectionSet(ar_root, "DefaultsProtectionSet")
+        assert protection_set.endToEndProtections == []
+
+    def test_class_docstring_note_verbatim(self):
+        """Test the class docstring is the spec Note verbatim (Table 4.96)."""
+        expected = "This represents a container for collection EndToEndProtectionInformation."
+        assert inspect.cleandoc(EndToEndProtectionSet.__doc__) == expected
+
+    def test_init_docless(self):
+        """Test __init__ has no docstring (Rule 0012.2.4)."""
+        assert EndToEndProtectionSet.__init__.__doc__ is None
+
+    def test_create_end_to_end_protection(self):
+        """Test createEndToEndProtection appends, wires the parent, and returns the existing element on duplicate."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        protection_set = EndToEndProtectionSet(ar_root, "CreateProtectionSet")
+
         protection = protection_set.createEndToEndProtection("TestProtection")
         assert protection is not None
         assert protection.short_name == "TestProtection"
         assert protection.parent == protection_set
+        assert protection_set.getEndToEndProtections() == [protection]
 
-        protections = protection_set.getEndToEndProtections()
-        assert len(protections) == 1
-        assert protections[0] == protection
+        duplicate = protection_set.createEndToEndProtection("TestProtection")
+        assert duplicate is protection
+        assert protection_set.getEndToEndProtections() == [protection]
+
+    def test_get_end_to_end_protections_insertion_order(self):
+        """Test getEndToEndProtections returns the field in insertion order (no registry re-sorting)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        protection_set = EndToEndProtectionSet(ar_root, "OrderProtectionSet")
+
+        zeta = protection_set.createEndToEndProtection("Zeta")
+        alpha = protection_set.createEndToEndProtection("Alpha")
+        assert protection_set.getEndToEndProtections() == [zeta, alpha]

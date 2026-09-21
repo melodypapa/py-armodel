@@ -447,38 +447,34 @@ class EndToEndProtection(Identifiable, VariationPointCapable):
 
 class EndToEndProtectionSet(ARElement):
     """
-    This represents a container for the collection of EndToEndProtection
-    information.
+    This represents a container for collection EndToEndProtectionInformation.
     """
 
     # EndToEndProtectionSet method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] createEndToEndProtection     [x] impl  [x] docstring  [ ] test
-    # [ ] getEndToEndProtections       [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.96, p.214 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createEndToEndProtection     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEndToEndProtections       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # This is one particular EndToEndProtection.
+        self.endToEndProtections: List[EndToEndProtection] = []
+
     def createEndToEndProtection(self, short_name: str) -> EndToEndProtection:
         """
-        Creates or retrieves an EndToEndProtection element.
-
-        Args:
-            short_name: The short name for the protection element
-
-        Returns:
-            EndToEndProtection: The created or existing element
+        This is one particular EndToEndProtection.
         """
         if not self.IsElementExists(short_name, EndToEndProtection):
             protection = EndToEndProtection(self, short_name)
             self.addElement(protection)
+            self.endToEndProtections.append(protection)
         return self.getElement(short_name, EndToEndProtection)
 
     def getEndToEndProtections(self) -> List[EndToEndProtection]:
         """
-        Gets sorted EndToEndProtection elements.
-
-        Returns:
-            List[EndToEndProtection]: Sorted list of EndToEndProtection
+        This is one particular EndToEndProtection.
         """
-        return sorted(filter(lambda c: isinstance(c, EndToEndProtection), self.elements), key=lambda e: e.short_name)
+        return self.endToEndProtections
