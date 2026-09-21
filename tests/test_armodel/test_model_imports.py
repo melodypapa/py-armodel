@@ -32,7 +32,6 @@ INTENTIONALLY_UNEXPORTED_MODULES = {
     "ApplicationDeferredDataType",
     "ApplicationInterface",
     "CryptoKeySlot",
-    "CryptoKeySlotContent",
     "Field",
     "FirewallRule",
     "FirewallRuleProps",

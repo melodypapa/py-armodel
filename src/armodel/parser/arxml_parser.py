@@ -3,6 +3,13 @@ import xml.etree.ElementTree as ET
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, FileInfoComment
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment import (
+    CryptoKeySlot,
+    CryptoKeySlotAllowedModification,
+    CryptoKeySlotContentAllowedUsage,
+    CryptoKeySlotTypeEnum,
+    CryptoObjectTypeEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import (
     DataLinkLayerRule,
     DdsRule,
@@ -10457,6 +10464,43 @@ class ARXMLParser(AbstractARXMLParser):
     def readFlexrayFrame(self, element: ET.Element, frame: FlexrayFrame):
         self.logger.debug("Read FlexrayFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
+
+    def readCryptoKeySlot(self, element: ET.Element, key_slot: CryptoKeySlot):
+        self.logger.debug("Read CryptoKeySlot <%s>" % key_slot.getShortName())
+        self.readIdentifiable(element, key_slot)
+        key_slot.setAllocateShadowCopy(self.getChildElementOptionalBooleanValue(element, "ALLOCATE-SHADOW-COPY"))
+        key_slot.setCryptoAlgId(self.getChildElementOptionalString(element, "CRYPTO-ALG-ID"))
+        literal = self.getChildElementOptionalLiteral(element, "CRYPTO-OBJECT-TYPE")
+        if literal is not None:
+            object_type = CryptoObjectTypeEnum()
+            object_type.setValue(literal.getValue())
+            key_slot.setCryptoObjectType(object_type)
+        modification_element = self.find(element, "KEY-SLOT-ALLOWED-MODIFICATION")
+        if modification_element is not None:
+            modification = CryptoKeySlotAllowedModification()
+            self.readCryptoKeySlotAllowedModification(modification_element, modification)
+            key_slot.setKeySlotAllowedModification(modification)
+        for usage_element in self.findall(element, "KEY-SLOT-CONTENT-ALLOWED-USAGES/CRYPTO-KEY-SLOT-CONTENT-ALLOWED-USAGE"):
+            usage = CryptoKeySlotContentAllowedUsage()
+            self.readCryptoKeySlotContentAllowedUsage(usage_element, usage)
+            key_slot.addKeySlotContentAllowedUsage(usage)
+        key_slot.setSlotCapacity(self.getChildElementOptionalPositiveInteger(element, "SLOT-CAPACITY"))
+        literal = self.getChildElementOptionalLiteral(element, "SLOT-TYPE")
+        if literal is not None:
+            slot_type = CryptoKeySlotTypeEnum()
+            slot_type.setValue(literal.getValue())
+            key_slot.setSlotType(slot_type)
+
+    def readCryptoKeySlotAllowedModification(self, element: ET.Element, modification: CryptoKeySlotAllowedModification):
+        self.readARObject(element, modification)
+        modification.setAllowContentTypeChange(self.getChildElementOptionalBooleanValue(element, "ALLOW-CONTENT-TYPE-CHANGE"))
+        modification.setExportability(self.getChildElementOptionalBooleanValue(element, "EXPORTABILITY"))
+        modification.setMaxNumberOfAllowedUpdates(self.getChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-ALLOWED-UPDATES"))
+        modification.setRestrictUpdate(self.getChildElementOptionalBooleanValue(element, "RESTRICT-UPDATE"))
+
+    def readCryptoKeySlotContentAllowedUsage(self, element: ET.Element, usage: CryptoKeySlotContentAllowedUsage):
+        self.readARObject(element, usage)
+        usage.setAllowedKeyslotUsage(self.getChildElementOptionalString(element, "ALLOWED-KEYSLOT-USAGE"))
 
     def readFlexrayCommunicationController(self, element: ET.Element, controller: FlexrayCommunicationController):
         self.logger.debug("Read CommunicationController <%s>" % controller.getShortName())

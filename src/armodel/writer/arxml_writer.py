@@ -2,6 +2,11 @@ import xml.etree.cElementTree as ET
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, FileInfoComment
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment import (
+    CryptoKeySlot,
+    CryptoKeySlotAllowedModification,
+    CryptoKeySlotContentAllowedUsage,
+)
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import FirewallRule, FirewallRuleProps, StateDependentFirewall
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprintMapping,
@@ -12949,6 +12954,38 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.logger.debug("Write FlexrayFrame <%s>" % frame.getShortName())
             child_element = ET.SubElement(element, "FLEXRAY-FRAME")
             self.writeFrame(child_element, frame)
+
+    def writeCryptoKeySlot(self, element: ET.Element, key_slot: CryptoKeySlot):
+        if key_slot is not None:
+            self.logger.debug("Write CryptoKeySlot <%s>" % key_slot.getShortName())
+            child_element = ET.SubElement(element, "CRYPTO-KEY-SLOT")
+            self.writeIdentifiable(child_element, key_slot)
+            self.setChildElementOptionalBooleanValue(child_element, "ALLOCATE-SHADOW-COPY", key_slot.getAllocateShadowCopy())
+            self.setChildElementOptionalString(child_element, "CRYPTO-ALG-ID", key_slot.getCryptoAlgId())
+            self.setChildElementOptionalLiteral(child_element, "CRYPTO-OBJECT-TYPE", key_slot.getCryptoObjectType())
+            modification = key_slot.getKeySlotAllowedModification()
+            if modification is not None:
+                modification_element = ET.SubElement(child_element, "KEY-SLOT-ALLOWED-MODIFICATION")
+                self.writeCryptoKeySlotAllowedModification(modification_element, modification)
+            usages = key_slot.getKeySlotContentAllowedUsages()
+            if len(usages) > 0:
+                usages_tag = ET.SubElement(child_element, "KEY-SLOT-CONTENT-ALLOWED-USAGES")
+                for usage in usages:
+                    usage_element = ET.SubElement(usages_tag, "CRYPTO-KEY-SLOT-CONTENT-ALLOWED-USAGE")
+                    self.writeCryptoKeySlotContentAllowedUsage(usage_element, usage)
+            self.setChildElementOptionalPositiveInteger(child_element, "SLOT-CAPACITY", key_slot.getSlotCapacity())
+            self.setChildElementOptionalLiteral(child_element, "SLOT-TYPE", key_slot.getSlotType())
+
+    def writeCryptoKeySlotAllowedModification(self, element: ET.Element, modification: CryptoKeySlotAllowedModification):
+        self.writeARObject(element, modification)
+        self.setChildElementOptionalBooleanValue(element, "ALLOW-CONTENT-TYPE-CHANGE", modification.getAllowContentTypeChange())
+        self.setChildElementOptionalBooleanValue(element, "EXPORTABILITY", modification.getExportability())
+        self.setChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-ALLOWED-UPDATES", modification.getMaxNumberOfAllowedUpdates())
+        self.setChildElementOptionalBooleanValue(element, "RESTRICT-UPDATE", modification.getRestrictUpdate())
+
+    def writeCryptoKeySlotContentAllowedUsage(self, element: ET.Element, usage: CryptoKeySlotContentAllowedUsage):
+        self.writeARObject(element, usage)
+        self.setChildElementOptionalString(element, "ALLOWED-KEYSLOT-USAGE", usage.getAllowedKeyslotUsage())
 
     def writeFlexrayCommunicationController(self, element: ET.Element, controller: FlexrayCommunicationController):
         if controller is not None:

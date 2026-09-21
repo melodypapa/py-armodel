@@ -59,15 +59,15 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `CryptoKeySlot` (tracker input · no R23-11/R4.3.1 table found → XSD-only candidate (confirm in per-class Phase 0))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — **Phase 0 correction: NOT XSD-only** — corpus search found `Table B.5: CryptoKeySlot` in R23-11 `AUTOSAR_FO_TPS_SecurityExtractTemplate.md` (p.58, page-split table; no numbered caption in the PDF for pdf_page.py — page via pypdf). Concrete, Base chain → most-existing `Identifiable`; 7 attrs in displayed order: allocateShadowCopy (Boolean 0..1), cryptoAlgId (String 0..1), cryptoObjectType (CryptoObjectTypeEnum 0..1), keySlotAllowedModification (CryptoKeySlotAllowedModification 0..1 aggr), keySlotContentAllowedUsage (CryptoKeySlotContentAllowedUsage * aggr), slotCapacity (PositiveInteger 0..1), slotType (CryptoKeySlotTypeEnum 0..1); XML order per XSD group CRYPTO-KEY-SLOT (AUTOSAR_00052.xsd line 25661): ALLOCATE-SHADOW-COPY → CRYPTO-ALG-ID → CRYPTO-OBJECT-TYPE → KEY-SLOT-ALLOWED-MODIFICATION → KEY-SLOT-CONTENT-ALLOWED-USAGES → SLOT-CAPACITY → SLOT-TYPE; aggregated by CryptoProvider.keySlot (CryptoProvider NOT in src)
+  - [x] Step 2 — Write model class unit test (Red) — full rewrite of test___init__.py: verbatim Note+Tags docstring (Red: fabricated), no-`__init__`-docstring, defaults in displayed order, all get/set round-trips + None no-ops + chaining, enum wire-value tests (Red: ImportError — spec member types absent)
+  - [x] Step 3 — Implement model class (Green) — in-pass member types created from XSD (Rule 0016.4/0001.10; all XSD-only, no own tables): CryptoObjectTypeEnum (6 literals, EnumerationLiteralIndex order) + CryptoKeySlotTypeEnum (MACHINE/APPLICATION) AREnums with XSD wire values; CryptoKeySlotAllowedModification (4 attrs) + CryptoKeySlotContentAllowedUsage (1 attr) as ARObject-derived aggr classes; CryptoKeySlot rewritten with 7 PEP 526 members in displayed order, typed chaining accessors, None no-op guards, dedicated typed list for the * aggr
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note "This meta-class represents the ability to define a concrete key to be used for a crypto operation. Tags: atp.ManifestKind=MachineManifest" + all 7 attr Notes verbatim (Table B.5 text, word-splits like "kAlgId Any"/"cryptoObject Type" resolved to XSD authoritative forms) on inline comments + getters + setters (None no-op sentences appended); fabricated "Sources: Page 57" note removed
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer tests: all 7 members' values, exact XSD element-order assertion, empty-omits case, ns-injected write→re-parse round-trip via readCryptoKeySlot/writeCryptoKeySlot; 5 Red (no reader/writer coverage existed)
+  - [x] Step 6 — Update parser & writer (Green) — readCryptoKeySlot/writeCryptoKeySlot + readCryptoKeySlotAllowedModification/readCryptoKeySlotContentAllowedUsage pairs added (XSD order; enums via getChildElementOptionalLiteral + enum construction); writeCryptoKeySlotAllowedModification/writeCryptoKeySlotContentAllowedUsage added
+  - [x] Step 7 — Update checklist comment — 6-column parity checklists for CryptoKeySlot (Table B.5 p.58 citation) and the four XSD-only member types (AUTOSAR_00052.xsd line citations); marker deferred to 9b
+  - [x] Step 8 — Deviations  [fabricated CryptoKeySlotContent (Identifiable-based, no XSD element, no reader/writer coverage) replaced by XSD-correct CryptoKeySlotContentAllowedUsage — CryptoKeySlotContent.py + test deleted, stale INTENTIONALLY_UNEXPORTED_MODULES entry removed; no ARPackage/CryptoProvider dispatch: parent aggregator CryptoProvider absent from src — helpers exercised directly, recorded under Pending 16.4; member types carry atp.Status=candidate tags verbatim]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `AbstractDoIpLogicAddressProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.208)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
