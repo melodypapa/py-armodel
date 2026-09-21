@@ -34,6 +34,26 @@ class MockParent(ARObject):
         super().__init__()
 
 
+class TestNmClusterCoupling:
+    """NmClusterCoupling (Table 6.305, p.676) — spec sync tests."""
+
+    def test_abstract_instantiation_raises(self):
+        with pytest.raises(TypeError):
+            NmClusterCoupling()
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert NmClusterCoupling.__doc__.strip() == "Attributes that are valid for each of the referenced (coupled) clusters."
+
+    def test_init_has_no_docstring(self):
+        assert NmClusterCoupling.__init__.__doc__ is None
+
+    def test_base_and_subclass_heritage(self):
+        assert issubclass(NmClusterCoupling, ARObject)
+        assert issubclass(CanNmClusterCoupling, NmClusterCoupling)
+        assert issubclass(FlexrayNmClusterCoupling, NmClusterCoupling)
+        assert issubclass(UdpNmClusterCoupling, NmClusterCoupling)
+
+
 class Test_NetworkManagement:
     """Test cases for NetworkManagement-related classes."""
 

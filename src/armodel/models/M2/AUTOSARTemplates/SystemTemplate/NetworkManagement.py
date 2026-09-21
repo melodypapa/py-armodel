@@ -13,13 +13,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class NmClusterCoupling(ARObject, VariationPointCapable, ABC):
     """
-    Abstract base class for network management cluster coupling,
-    defining common properties for connecting different types of
-    network management clusters for coordinated network management.
+    Attributes that are valid for each of the referenced (coupled) clusters.
     """
 
     # NmClusterCoupling method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.305, p.676
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is NmClusterCoupling:

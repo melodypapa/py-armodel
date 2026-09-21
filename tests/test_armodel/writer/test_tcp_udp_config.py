@@ -27,7 +27,7 @@ def _new_udp_tp():
 
     tp = UdpTp()
     port = TpPort()
-    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, Boolean
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger
 
     dynamic = Boolean()
     dynamic.setValue(False)
