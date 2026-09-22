@@ -270,15 +270,15 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 8 — Deviations — none (attribute Notes follow XSD documentation verbatim where the markdown wraps words; markdown word-split "classificati on" is a table-render artifact of "classification")
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `KeywordSet` (tracker input · R4.3.1 markdown · AUTOSAR_TPS_StandardizationTemplate · Table 6.1 · after `Keyword` (aggr `keyword`))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 6.1 p.90 (R4.3.1): concrete, Base closure → deepest existing branch = `AtpBlueprintable` (unchanged; repo AtpBlueprintable derives Identifiable — ARElement/CollectableElement in the Base list are on a separate branch; reader/writer treat it via readARElement/writeARElement); aggregated by ARPackage.element (createKeywordSet dispatch exists both ends); 1 attr: keyword (Keyword, * , aggr → dedicated list `keywords`); XSD group KEYWORD-SET (AUTOSAR_00044.xsd l.52295) = KEYWORDS wrapper only; Note verbatim — the XSD itself carries "meta--class" (l.52300); Tags tail from the table cell
+  - [x] Step 2 — Write model class unit test (Red) — TestKeywordSet rewritten (6 tests): verbatim Note docstring, no `__init__` docstring, issubclass AtpBlueprintable/Identifiable, defaults, createKeyword creates + appends + duplicate returns same instance, accessor docstring verbatim checks; 1 Red (fabricated docstrings + `__init__` docstring)
+  - [x] Step 3 — Implement model class (Green) — no shape change needed: dedicated typed list field, createKeyword with IsElementExists guard (Identifiable child mutator), typed accessor annotations added
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — Table 6.1 Note verbatim ("meta--class" + Tags) on class; keyword Note verbatim on inline comment + getKeywords/createKeyword docstrings; old fabricated docstrings wiped
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/test_keyword_set.py (3: full read incl. 2 keywords, empty, ns-injected write→re-parse round-trip) + tests/test_armodel/writer/test_keyword_set.py (2: child order [SHORT-NAME, KEYWORDS] per XSD group l.52295, empty omits); **Red unreachable** — readKeywordSet/writeKeywordSet already existed and matched the XSD order (passed on first run)
+  - [x] Step 6 — Update parser & writer (Green) — none needed: readKeywordSet (readARElement + readKeywordSetKeywords → createKeyword) / writeKeywordSet (writeARElement + KEYWORDS wrapper via writeKeyword) already present and XSD-ordered; ARPackage KEYWORD-SET dispatch (parser l.13801, writer isinstance l.13517) unchanged
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist with release column R4.3.1, no marker
+  - [x] Step 8 — Deviations — none (no addKeyword accessor: createKeyword is the reader mutator for the short-name-bearing Keyword child; "meta--class" double dash is verbatim in both the R4.3.1 markdown table and the XSD documentation)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `DiagnosticServiceInstance` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 4.26 · ref target of `DiagnosticServiceTable.serviceInstance` · **NOT in src** — class must be created when this row is synced)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

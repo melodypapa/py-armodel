@@ -75,46 +75,31 @@ class Keyword(Identifiable):
 
 class KeywordSet(AtpBlueprintable):
     """
-    Represents a set of keywords in AUTOSAR models for standardization and classification purposes.
-    This class contains multiple keywords that are grouped together for organizational purposes.
+    This meta--class represents the ability to collect a set of predefined keywords. Tags: atp.recommendedPackage=KeywordSets
     """
 
     # KeywordSet method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getKeywords                  [x] impl  [x] docstring  [x] test
-    # [x] createKeyword                [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_TPS_StandardizationTemplate.pdf (R4.3.1), Table 6.1, p.90
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+    # [x] getKeywords       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] createKeyword     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
 
     def __init__(self, parent, short_name):
-        """
-        Initializes the KeywordSet with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this keyword set
-            short_name: The unique short name of this keyword set
-        """
         super().__init__(parent, short_name)
 
-        # List of keywords in this keyword set
+        # This is one particular keyword in the keyword set.
         self.keywords: List[Keyword] = []
 
-    def getKeywords(self):
+    def getKeywords(self) -> List[Keyword]:
         """
-        Gets the list of keywords in this keyword set.
-
-        Returns:
-            List of Keyword instances
+        This is one particular keyword in the keyword set.
         """
         return self.keywords
 
     def createKeyword(self, short_name: str) -> Keyword:
         """
-        Creates and adds a Keyword to this keyword set.
-
-        Args:
-            short_name: The short name for the new keyword
-
-        Returns:
-            The created Keyword instance
+        This is one particular keyword in the keyword set.
         """
         if not self.IsElementExists(short_name, Keyword):
             keyword = Keyword(self, short_name)

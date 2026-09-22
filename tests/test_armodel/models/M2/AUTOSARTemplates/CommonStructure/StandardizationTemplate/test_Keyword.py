@@ -1,4 +1,5 @@
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken
@@ -24,6 +25,14 @@ ABBR_NAME_NOTE = (
 
 # Keyword.classification Note, verbatim per the XSD documentation (l.52267).
 CLASSIFICATION_NOTE = "This attribute allows to attach classification to the Keyword such as MEAN, ACTION, CONDITION, INDEX, PREPOSITION"
+
+# Table 6.1 Note (AUTOSAR_TPS_StandardizationTemplate (R4.3.1), p.90), verbatim per the
+# XSD documentation (AUTOSAR_00044.xsd l.52300 — the XSD itself carries "meta--class");
+# Tags tail from the table Note cell.
+KEYWORD_SET_NOTE = "This meta--class represents the ability to collect a set of predefined keywords. Tags: atp.recommendedPackage=KeywordSets"
+
+# KeywordSet.keyword Note, verbatim per the XSD documentation (l.52306).
+KEYWORD_NOTE_ATTR = "This is one particular keyword in the keyword set."
 
 
 def _doc(doc):
@@ -91,21 +100,27 @@ class TestKeyword:
 
 class TestKeywordSet:
     def test_initialization(self):
-        """Test KeywordSet initialization"""
+        """Test KeywordSet default values (Table 6.1)."""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         keyword_set = KeywordSet(ar_root, "TestKeywordSet")
 
-        assert keyword_set is not None
+        assert isinstance(keyword_set, AtpBlueprintable)
         assert keyword_set.getShortName() == "TestKeywordSet"
-        assert keyword_set.keywords == []
-
-    def test_get_keywords(self):
-        """Test getKeywords method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        keyword_set = KeywordSet(ar_root, "TestKeywordSet")
         assert keyword_set.getKeywords() == []
+
+    def test_issubclass(self):
+        """Base per Table 6.1 is AtpBlueprintable (deepest of the Base closure in the model)."""
+        assert issubclass(KeywordSet, AtpBlueprintable)
+        assert issubclass(KeywordSet, Identifiable)
+
+    def test_docstring(self):
+        """Class docstring is the Table 6.1 Note verbatim; member Notes on accessors."""
+        assert KeywordSet.__doc__.strip() == KEYWORD_SET_NOTE
+        assert KeywordSet.__init__.__doc__ is None
+
+        assert KeywordSet.getKeywords.__doc__.strip() == KEYWORD_NOTE_ATTR
+        assert KeywordSet.createKeyword.__doc__.strip() == KEYWORD_NOTE_ATTR
 
     def test_create_keyword(self):
         """Test createKeyword method"""
@@ -139,7 +154,6 @@ class TestKeywordSet:
 
         keyword = keyword_set.createKeyword("TestKeyword")
 
-        # Test keyword properties
         abbr_value = NameToken().setValue("TEST")
         keyword.setAbbrName(abbr_value)
 
