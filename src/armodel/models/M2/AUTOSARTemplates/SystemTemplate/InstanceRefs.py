@@ -8,65 +8,81 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure impor
 
 class VariableDataPrototypeInSystemInstanceRef(AtpInstanceRef):
     """
-    Instance reference to a VariableDataPrototype in the context of a
-    system model.
+    If the referenced VariableDataPrototype is part of a PortInterface of a SwComponentPrototype that is located within the RootSwCompositionPrototype then the contextComposition reference to the RootSwCompositionPrototype shall be provided. In this scenario we have a System Extract where the RootSwComposition may contain other compositions. If the referenced VariableDataPrototype is part of a PortInterface of the RootSwCompositionPrototype itself then the contextComposition reference to the RootSwCompositionPrototype shall be skipped and the RootSwCompositionPrototype shall be referenced as contextComponent. In this scenario we have an Ecu Extract where the RootSwComposition contains PortPrototypes that describe the external communication.
+
+    Please note that the xml.sequenceOffset is not set for this InstanceRef and therefore the properties are serialized in an alphabetical order.
     """
 
     # VariableDataPrototypeInSystemInstanceRef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getBaseRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setBaseRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getContextComponentRefs      [x] impl  [ ] docstring  [ ] test
-    # [ ] addContextComponentRef       [x] impl  [ ] docstring  [ ] test
-    # [ ] getContextCompositionRef     [x] impl  [ ] docstring  [ ] test
-    # [ ] setContextCompositionRef     [x] impl  [ ] docstring  [ ] test
-    # [ ] getContextPortRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setContextPortRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] getTargetDataPrototypeRef    [x] impl  [ ] docstring  [ ] test
-    # [ ] setTargetDataPrototypeRef    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table B.3, p.1004 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextComponentRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContextComponentRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextCompositionRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextCompositionRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextPortRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextPortRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetDataPrototypeRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetDataPrototypeRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.baseRef: RefType = None
-        self.contextComponentRefs: List[RefType] = []
-        self.contextCompositionRef: RefType = None
-        self.contextPortRef: RefType = None
-        self.targetDataPrototypeRef: RefType = None
+        # Stereotypes: atpDerived
+        self.baseRef: Optional[RefType] = None
 
-    def getBaseRef(self):
+        self.contextComponentRefs: List[RefType] = []
+
+        self.contextCompositionRef: Optional[RefType] = None
+
+        self.contextPortRef: Optional[RefType] = None
+
+        self.targetDataPrototypeRef: Optional[RefType] = None
+
+    def getBaseRef(self) -> Optional[RefType]:
+        """Stereotypes: atpDerived"""
         return self.baseRef
 
-    def setBaseRef(self, value):
-        self.baseRef = value
+    def setBaseRef(self, value: Optional[RefType]) -> "VariableDataPrototypeInSystemInstanceRef":
+        """Stereotypes: atpDerived
+        A None value is a no-op and does not overwrite an existing baseRef."""
+        if value is not None:
+            self.baseRef = value
         return self
 
-    def getContextComponentRefs(self):
+    def getContextComponentRefs(self) -> List[RefType]:
         return self.contextComponentRefs
 
-    def addContextComponentRef(self, value):
-        self.contextComponentRefs.append(value)
+    def addContextComponentRef(self, value: Optional[RefType]) -> "VariableDataPrototypeInSystemInstanceRef":
+        if value is not None:
+            self.contextComponentRefs.append(value)
         return self
 
-    def getContextCompositionRef(self):
+    def getContextCompositionRef(self) -> Optional[RefType]:
         return self.contextCompositionRef
 
-    def setContextCompositionRef(self, value):
-        self.contextCompositionRef = value
+    def setContextCompositionRef(self, value: Optional[RefType]) -> "VariableDataPrototypeInSystemInstanceRef":
+        if value is not None:
+            self.contextCompositionRef = value
         return self
 
-    def getContextPortRef(self):
+    def getContextPortRef(self) -> Optional[RefType]:
         return self.contextPortRef
 
-    def setContextPortRef(self, value):
-        self.contextPortRef = value
+    def setContextPortRef(self, value: Optional[RefType]) -> "VariableDataPrototypeInSystemInstanceRef":
+        if value is not None:
+            self.contextPortRef = value
         return self
 
-    def getTargetDataPrototypeRef(self):
+    def getTargetDataPrototypeRef(self) -> Optional[RefType]:
         return self.targetDataPrototypeRef
 
-    def setTargetDataPrototypeRef(self, value):
-        self.targetDataPrototypeRef = value
+    def setTargetDataPrototypeRef(self, value: Optional[RefType]) -> "VariableDataPrototypeInSystemInstanceRef":
+        if value is not None:
+            self.targetDataPrototypeRef = value
         return self
 
 

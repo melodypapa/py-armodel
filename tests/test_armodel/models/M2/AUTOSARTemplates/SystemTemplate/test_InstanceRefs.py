@@ -6,46 +6,98 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     VariableDataPrototypeInSystemInstanceRef,
 )
 
+# Post-table paragraph of Table B.3 (AUTOSAR_CP_TPS_SystemTemplate, p.1004), verbatim;
+# markdown word-splits ("PortPrototype s", "contextComponent .") corrected against the
+# sibling Table B.2 wording.
+VDPIR_NOTE = (
+    "If the referenced VariableDataPrototype is part of a PortInterface of a SwComponentPrototype that is located "
+    "within the RootSwCompositionPrototype then the contextComposition reference to the RootSwCompositionPrototype "
+    "shall be provided. In this scenario we have a System Extract where the RootSwComposition may contain other "
+    "compositions. If the referenced VariableDataPrototype is part of a PortInterface of the RootSwCompositionPrototype "
+    "itself then the contextComposition reference to the RootSwCompositionPrototype shall be skipped and the "
+    "RootSwCompositionPrototype shall be referenced as contextComponent. In this scenario we have an Ecu Extract where "
+    "the RootSwComposition contains PortPrototypes that describe the external communication.\n"
+    "\n"
+    "Please note that the xml.sequenceOffset is not set for this InstanceRef and therefore the properties are "
+    "serialized in an alphabetical order."
+)
+
+
+def _norm(doc):
+    return " ".join(doc.split())
+
 
 class Test_InstanceRefs:
     """Test cases for InstanceRefs-related classes."""
 
-    def test_VariableDataPrototypeInSystemInstanceRef(self):
-        """Test VariableDataPrototypeInSystemInstanceRef class functionality."""
+    def test_VariableDataPrototypeInSystemInstanceRef_initialization(self):
+        """Test VariableDataPrototypeInSystemInstanceRef default values (Table B.3)."""
         ref = VariableDataPrototypeInSystemInstanceRef()
 
         assert isinstance(ref, AtpInstanceRef)
 
-        # Test default values
         assert ref.getBaseRef() is None
         assert ref.getContextComponentRefs() == []
         assert ref.getContextCompositionRef() is None
         assert ref.getContextPortRef() is None
         assert ref.getTargetDataPrototypeRef() is None
 
-        # Test setter/getter methods
-        mock_base_ref = "mock_base_ref"
-        ref.setBaseRef(mock_base_ref)
-        assert ref.getBaseRef() == mock_base_ref
+    def test_VariableDataPrototypeInSystemInstanceRef_get_set(self):
+        """Test VariableDataPrototypeInSystemInstanceRef setter/getter round-trips and chaining."""
+        ref = VariableDataPrototypeInSystemInstanceRef()
 
-        mock_context_comp_ref = "mock_context_comp_ref"
-        ref.setContextCompositionRef(mock_context_comp_ref)
-        assert ref.getContextCompositionRef() == mock_context_comp_ref
+        assert ref.setBaseRef("mock_base_ref") is ref
+        assert ref.getBaseRef() == "mock_base_ref"
 
-        mock_context_port_ref = "mock_context_port_ref"
-        ref.setContextPortRef(mock_context_port_ref)
-        assert ref.getContextPortRef() == mock_context_port_ref
+        assert ref.setContextCompositionRef("mock_context_comp_ref") is ref
+        assert ref.getContextCompositionRef() == "mock_context_comp_ref"
 
-        mock_target_ref = "mock_target_ref"
-        ref.setTargetDataPrototypeRef(mock_target_ref)
-        assert ref.getTargetDataPrototypeRef() == mock_target_ref
+        assert ref.setContextPortRef("mock_context_port_ref") is ref
+        assert ref.getContextPortRef() == "mock_context_port_ref"
 
-        # Test adding context component refs
-        mock_comp_ref1 = "comp1"
-        mock_comp_ref2 = "comp2"
-        ref.addContextComponentRef(mock_comp_ref1)
-        ref.addContextComponentRef(mock_comp_ref2)
-        assert ref.getContextComponentRefs() == [mock_comp_ref1, mock_comp_ref2]
+        assert ref.setTargetDataPrototypeRef("mock_target_ref") is ref
+        assert ref.getTargetDataPrototypeRef() == "mock_target_ref"
+
+    def test_VariableDataPrototypeInSystemInstanceRef_add_context_component_refs(self):
+        """Test VariableDataPrototypeInSystemInstanceRef context component ref aggregation."""
+        ref = VariableDataPrototypeInSystemInstanceRef()
+
+        assert ref.addContextComponentRef("comp1") is ref
+        assert ref.addContextComponentRef("comp2") is ref
+        assert ref.getContextComponentRefs() == ["comp1", "comp2"]
+
+    def test_VariableDataPrototypeInSystemInstanceRef_none_noop(self):
+        """None is a no-op for all mutators of VariableDataPrototypeInSystemInstanceRef."""
+        ref = VariableDataPrototypeInSystemInstanceRef()
+        ref.setBaseRef("keep")
+        ref.setContextCompositionRef("keep")
+        ref.setContextPortRef("keep")
+        ref.setTargetDataPrototypeRef("keep")
+
+        ref.setBaseRef(None)
+        ref.setContextCompositionRef(None)
+        ref.setContextPortRef(None)
+        ref.setTargetDataPrototypeRef(None)
+        ref.addContextComponentRef(None)
+
+        assert ref.getBaseRef() == "keep"
+        assert ref.getContextCompositionRef() == "keep"
+        assert ref.getContextPortRef() == "keep"
+        assert ref.getTargetDataPrototypeRef() == "keep"
+        assert ref.getContextComponentRefs() == []
+
+    def test_VariableDataPrototypeInSystemInstanceRef_docstring(self):
+        """Class docstring is the Table B.3 post-table text verbatim; base Note on accessors."""
+        doc_lines = [line.strip() for line in VariableDataPrototypeInSystemInstanceRef.__doc__.strip().splitlines()]
+        assert "\n".join(doc_lines) == VDPIR_NOTE
+        assert VariableDataPrototypeInSystemInstanceRef.__init__.__doc__ is None
+
+        assert _norm(VariableDataPrototypeInSystemInstanceRef.getBaseRef.__doc__) == "Stereotypes: atpDerived"
+        assert _norm(VariableDataPrototypeInSystemInstanceRef.setBaseRef.__doc__) == ("Stereotypes: atpDerived A None value is a no-op and does not overwrite an existing baseRef.")
+        # Table B.3 leaves the contextComponent/contextComposition/contextPort/targetDataPrototype
+        # Note cells empty - the accessors stay docstring-free.
+        assert VariableDataPrototypeInSystemInstanceRef.getContextPortRef.__doc__ is None
+        assert VariableDataPrototypeInSystemInstanceRef.setTargetDataPrototypeRef.__doc__ is None
 
     def test_ComponentInSystemInstanceRef(self):
         """Test ComponentInSystemInstanceRef class functionality."""

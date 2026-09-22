@@ -6455,6 +6455,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setVariableDataPrototypeInSystemInstanceRef(self, element: ET.Element, key: str, instance_ref: VariableDataPrototypeInSystemInstanceRef):
         if instance_ref is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, instance_ref)
+            self.setChildElementOptionalRefType(child_element, "BASE-REF", instance_ref.getBaseRef())
             for ref in instance_ref.getContextComponentRefs():
                 self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", ref)
             self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPOSITION-REF", instance_ref.getContextCompositionRef())
