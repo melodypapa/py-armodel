@@ -640,7 +640,29 @@ class TestRuleBasedValueSpecification:
         assert spec.getRule() == rule
 
 
+FIELD_NOTE = (
+    "The value for a single record field. This could also be mapped explicitly to a record element of the data type "
+    "using the shortName of the ValueSpecification. But this would introduce a relationship to the data type that is too strong. "
+    "As of now, it is only important that the structure of the data type matches the structure of the ValueSpecification "
+    "independently of the shortNames. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=field, "
+    "field.variationPoint.shortLabel vh.latestBindingTime=preCompileTime"
+)
+
+
 class TestRecordValueSpecification:
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """The class docstring must reproduce the Table 5.112 Note verbatim."""
+        assert RecordValueSpecification.__doc__ == "Specifies the values for a record."
+
+    def test_init_has_no_docstring(self):
+        """__init__ must not carry a docstring."""
+        assert RecordValueSpecification.__init__.__doc__ is None
+
+    def test_base_chain(self):
+        """RecordValueSpecification derives from CompositeValueSpecification."""
+        assert issubclass(RecordValueSpecification, CompositeValueSpecification)
+        assert not issubclass(RecordValueSpecification, ArrayValueSpecification)
+
     def test_initialization(self):
         """Test RecordValueSpecification initialization"""
         spec = RecordValueSpecification()
@@ -672,6 +694,22 @@ class TestRecordValueSpecification:
         spec.addField(field)
         assert spec.addField(None) is spec
         assert spec.getFields() == [field]
+
+    def test_get_fields_round_trip_same_instance(self):
+        """getFields returns the backing list holding the very instances added."""
+        spec = RecordValueSpecification()
+        first = ValueSpecification.__new__(ValueSpecification)
+        second = ValueSpecification.__new__(ValueSpecification)
+        assert spec.addField(first).addField(second) is spec
+        fields = spec.getFields()
+        assert fields[0] is first
+        assert fields[1] is second
+
+    def test_field_docstrings_are_spec_note_verbatim(self):
+        """addField and getFields docstrings must reproduce the field Note verbatim."""
+        assert cleandoc(RecordValueSpecification.addField.__doc__).startswith(FIELD_NOTE)
+        assert "A None value is a no-op and does not extend the fields list." in cleandoc(RecordValueSpecification.addField.__doc__)
+        assert cleandoc(RecordValueSpecification.getFields.__doc__).startswith(FIELD_NOTE)
 
     def test_get_fields(self):
         """Test getFields method"""
