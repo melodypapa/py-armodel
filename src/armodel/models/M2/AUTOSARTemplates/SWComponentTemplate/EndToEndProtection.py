@@ -289,6 +289,7 @@ class EndToEndProtectionVariablePrototype(ARObject, VariationPointCapable):
 
     # EndToEndProtectionVariablePrototype method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.98, p.216 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addReceiverIref   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -452,6 +453,7 @@ class EndToEndProtectionSet(ARElement):
 
     # EndToEndProtectionSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.96, p.214 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] createEndToEndProtection     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11

@@ -76,6 +76,7 @@ class DoIpRoutingActivation(Identifiable):
 
     # DoIpRoutingActivation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.204, p.553
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addDoIpTargetAddressRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -110,6 +111,7 @@ class DoIpInterface(Identifiable):
 
     # DoIpInterface method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.203, p.552
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAliveCheckResponseTimeout         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -405,6 +407,8 @@ class DoIpConfig(ARObject):
 
     # DoIpConfig method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.202, p.551
+    # Spec verified: R23-11
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] createDoIpInterface  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11

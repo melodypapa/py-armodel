@@ -3359,6 +3359,7 @@ class EthernetPhysicalChannel(PhysicalChannel):
 
     # EthernetPhysicalChannel method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.49, p.105 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] createNetworkEndpoint  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -3423,6 +3424,7 @@ class EthTcpIpProps(ARElement):
 
     # EthTcpIpProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.109, p.153 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getTcpProps     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -3473,6 +3475,7 @@ class UdpProps(ARObject):
 
     # UdpProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.110, p.154 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getUdpTtl     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -3505,10 +3508,17 @@ class TcpProps(ARObject):
     [constr_5120] Value range of TcpProps.tcpDelayedAckTimeout: If defined, the value of TcpProps.tcpDelayedAckTimeout shall be in the range of 0..0.5.
 
     [constr_5121] Value range of TcpProps.tcpSynMaxRtx: If defined, the value of TcpProps.tcpSynMaxRtx shall be in the range of 0..255.
+
+    [constr_5122] Value range of TcpProps.tcpMaxRtx: If defined, the value of TcpProps.tcpMaxRtx shall be in the range of 0..255.
+
+    [constr_5123] Value range of TcpProps.tcpKeepAliveProbesMax: If defined, the value of TcpProps.tcpKeepAliveProbesMax shall be in the range of 0..65535.
+
+    [constr_5124] Value range of TcpProps.tcpReceiveWindowMax: If defined, the value of TcpProps.tcpReceiveWindowMax shall be in the range of 0..65535.
     """
 
     # TcpProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.111, p.155 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getTcpCongestionAvoidanceEnabled     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -3830,6 +3840,7 @@ class TcpIpIcmpv4Props(ARObject):
 
     # TcpIpIcmpv4Props method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.113, p.156 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getTcpIpIcmpV4EchoReplyEnabled [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -3879,6 +3890,7 @@ class TcpIpIcmpv6Props(ARObject):
 
     # TcpIpIcmpv6Props method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.114, p.157 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getTcpIpIcmpV6EchoReplyAvoidFragmentation      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -3976,6 +3988,7 @@ class EthTcpIpIcmpProps(ARElement):
 
     # EthTcpIpIcmpProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.112, p.156 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getIcmpV4Props  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

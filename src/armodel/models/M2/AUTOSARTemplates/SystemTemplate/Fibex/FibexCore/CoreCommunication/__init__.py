@@ -204,6 +204,7 @@ class ContainedIPduProps(ARObject):
 
     # ContainedIPduProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.39, p.356 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCollectionSemantics               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1809,6 +1810,7 @@ class PdurIPduGroup(FibexElement):
 
     # PdurIPduGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.34, p.352
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCommunicationMode    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1865,6 +1867,7 @@ class FrameTriggering(Identifiable, VariationPointCapable, ABC):
 
     # FrameTriggering method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.79, p.418 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getFrameRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2181,6 +2184,7 @@ class StaticPart(MultiplexedPart, VariationPointCapable):
 
     # StaticPart method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.73, p.410 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getIPduRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2221,6 +2225,7 @@ class DynamicPartAlternative(ARObject):
 
     # DynamicPartAlternative method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.75, p.411 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getInitialDynamicPart   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2415,6 +2420,7 @@ class GeneralPurposePdu(Pdu):
 
     # GeneralPurposePdu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.25, p.344 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -2431,6 +2437,7 @@ class GeneralPurposeIPdu(IPdu):
 
     # GeneralPurposeIPdu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.26, p.345 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -2733,6 +2740,7 @@ class FramePort(CommConnectorPort):
 
     # FramePort method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.2, p.304 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 

@@ -1349,7 +1349,7 @@ CYCLE_REPETITION_TYPE_CLASS_NOTE = "The number of communication cycles (after th
 
 
 class Test_CycleRepetitionType:
-    """Test cases for CycleRepetitionType (Table 6.86, p.426)."""
+    """Test cases for CycleRepetitionType (Table 6.86, pp.425-426, 12 literals)."""
 
     def test_class_docstring_note(self):
         assert inspect.cleandoc(CycleRepetitionType.__doc__) == CYCLE_REPETITION_TYPE_CLASS_NOTE
@@ -1372,11 +1372,15 @@ class Test_CycleRepetitionType:
         assert CycleRepetitionType.ENUM_CYCLE_REPETITION_32 == "cycleRepetition32"
         assert CycleRepetitionType.ENUM_CYCLE_REPETITION_4 == "cycleRepetition4"
         assert CycleRepetitionType.ENUM_CYCLE_REPETITION_40 == "cycleRepetition40"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_5 == "cycleRepetition5"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_50 == "cycleRepetition50"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_64 == "cycleRepetition64"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_8 == "cycleRepetition8"
 
         enum = CycleRepetitionType()
         assert CycleRepetitionType.ENUM_CYCLE_REPETITION_1 in enum.getEnumValues()
         assert CycleRepetitionType.ENUM_CYCLE_REPETITION_40 in enum.getEnumValues()
-        assert len(enum.getEnumValues()) == 8
+        assert len(enum.getEnumValues()) == 12
 
 
 class Test_CycleRepetition:
