@@ -59,6 +59,7 @@ class CommunicationCycle(ARObject, ABC):
 
     # CommunicationCycle method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.83, p.424 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -77,6 +78,7 @@ class CycleCounter(CommunicationCycle):
 
     # CycleCounter method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.84, p.424 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCycleCounter     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -177,6 +179,7 @@ class CycleRepetition(CommunicationCycle):
 
     # CycleRepetition method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.85, p.425 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBaseCycle           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
