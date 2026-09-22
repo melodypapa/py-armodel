@@ -249,7 +249,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming, TimingExtension
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAuthRoleProxy, DiagnosticSession
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAuthRoleProxy, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
@@ -12575,6 +12575,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(child_element, "P-2-SERVER-MAX", session.getP2ServerMax())
         self.setChildElementOptionalTimeValue(child_element, "P-2-STAR-SERVER-MAX", session.getP2StarServerMax())
 
+    def writeDiagnosticSecurityLevel(self, element: ET.Element, security_level: DiagnosticSecurityLevel):
+        self.logger.debug("Write DiagnosticSecurityLevel %s" % security_level.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-SECURITY-LEVEL")
+        self.writeIdentifiable(child_element, security_level)
+        self.setChildElementOptionalPositiveInteger(child_element, "ACCESS-DATA-RECORD-SIZE", security_level.getAccessDataRecordSize())
+        self.setChildElementOptionalPositiveInteger(child_element, "KEY-SIZE", security_level.getKeySize())
+        self.setChildElementOptionalPositiveInteger(child_element, "NUM-FAILED-SECURITY-ACCESS", security_level.getNumFailedSecurityAccess())
+        self.setChildElementOptionalTimeValue(child_element, "SECURITY-DELAY-TIME", security_level.getSecurityDelayTime())
+        self.setChildElementOptionalPositiveInteger(child_element, "SEED-SIZE", security_level.getSeedSize())
+
     def writeDiagnosticServiceTableDiagnosticConnectionRefs(self, element: ET.Element, table: DiagnosticServiceTable):
         refs = table.getDiagnosticConnectionRefs()
         if len(refs) > 0:
@@ -13495,6 +13505,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticServiceTable(element, ar_element)
         elif isinstance(ar_element, DiagnosticSession):
             self.writeDiagnosticSession(element, ar_element)
+        elif isinstance(ar_element, DiagnosticSecurityLevel):
+            self.writeDiagnosticSecurityLevel(element, ar_element)
         elif isinstance(ar_element, DltContext):
             self.writeDltContext(element, ar_element)
         elif isinstance(ar_element, DltEcu):

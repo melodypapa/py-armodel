@@ -168,3 +168,120 @@ class DiagnosticSession(DiagnosticCommonElement):
         if value is not None:
             self.p2StarServerMax = value
         return self
+
+
+class DiagnosticSecurityLevel(DiagnosticCommonElement):
+    """This meta-class represents the ability to define a security level considered for diagnostic purposes. Tags: atp.recommendedPackage=DiagnosticSecurityLevels"""
+
+    # DiagnosticSecurityLevel method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.32, p.75
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAccessDataRecordSize       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAccessDataRecordSize       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeySize                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKeySize                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNumFailedSecurityAccess    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNumFailedSecurityAccess    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecurityDelayTime          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecurityDelayTime          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSeedSize                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSeedSize                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the size of the AccessDataRecord used in GetSeed. Unit:byte.
+        self.accessDataRecordSize: Optional[PositiveInteger] = None
+
+        # This represents the size of the security key. Unit: byte.
+        self.keySize: Optional[PositiveInteger] = None
+
+        # This represents the number of failed security accesses after which the delay time is activated.
+        self.numFailedSecurityAccess: Optional[PositiveInteger] = None
+
+        # This represents the delay time after a failed security access. Unit: second.
+        self.securityDelayTime: Optional[TimeValue] = None
+
+        # This represents the size of the security seed. Unit: byte.
+        self.seedSize: Optional[PositiveInteger] = None
+
+    def getAccessDataRecordSize(self) -> Optional[PositiveInteger]:
+        """
+        This represents the size of the AccessDataRecord used in GetSeed. Unit:byte.
+        """
+        return self.accessDataRecordSize
+
+    def setAccessDataRecordSize(self, value: Optional[PositiveInteger]):
+        """
+        This represents the size of the AccessDataRecord used in GetSeed. Unit:byte.
+
+        A None value is a no-op and does not overwrite an existing accessDataRecordSize.
+        """
+        if value is not None:
+            self.accessDataRecordSize = value
+        return self
+
+    def getKeySize(self) -> Optional[PositiveInteger]:
+        """
+        This represents the size of the security key. Unit: byte.
+        """
+        return self.keySize
+
+    def setKeySize(self, value: Optional[PositiveInteger]):
+        """
+        This represents the size of the security key. Unit: byte.
+
+        A None value is a no-op and does not overwrite an existing keySize.
+        """
+        if value is not None:
+            self.keySize = value
+        return self
+
+    def getNumFailedSecurityAccess(self) -> Optional[PositiveInteger]:
+        """
+        This represents the number of failed security accesses after which the delay time is activated.
+        """
+        return self.numFailedSecurityAccess
+
+    def setNumFailedSecurityAccess(self, value: Optional[PositiveInteger]):
+        """
+        This represents the number of failed security accesses after which the delay time is activated.
+
+        A None value is a no-op and does not overwrite an existing numFailedSecurityAccess.
+        """
+        if value is not None:
+            self.numFailedSecurityAccess = value
+        return self
+
+    def getSecurityDelayTime(self) -> Optional[TimeValue]:
+        """
+        This represents the delay time after a failed security access. Unit: second.
+        """
+        return self.securityDelayTime
+
+    def setSecurityDelayTime(self, value: Optional[TimeValue]):
+        """
+        This represents the delay time after a failed security access. Unit: second.
+
+        A None value is a no-op and does not overwrite an existing securityDelayTime.
+        """
+        if value is not None:
+            self.securityDelayTime = value
+        return self
+
+    def getSeedSize(self) -> Optional[PositiveInteger]:
+        """
+        This represents the size of the security seed. Unit: byte.
+        """
+        return self.seedSize
+
+    def setSeedSize(self, value: Optional[PositiveInteger]):
+        """
+        This represents the size of the security seed. Unit: byte.
+
+        A None value is a no-op and does not overwrite an existing seedSize.
+        """
+        if value is not None:
+            self.seedSize = value
+        return self

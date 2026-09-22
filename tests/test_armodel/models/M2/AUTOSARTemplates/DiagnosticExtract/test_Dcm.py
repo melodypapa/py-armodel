@@ -6,7 +6,12 @@ p.74) and DiagnosticJumpToBootLoaderEnum (Table 4.31, p.75).
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAuthRoleProxy, DiagnosticJumpToBootLoaderEnum, DiagnosticSession
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import (
+    DiagnosticAuthRoleProxy,
+    DiagnosticJumpToBootLoaderEnum,
+    DiagnosticSecurityLevel,
+    DiagnosticSession,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, TimeValue
@@ -193,3 +198,101 @@ class Test_DiagnosticJumpToBootLoaderEnum:
         assert values.index(DiagnosticJumpToBootLoaderEnum.OEM_BOOT_RESP_APP) == 2
         assert values.index(DiagnosticJumpToBootLoaderEnum.SYSTEM_SUPPLIER_BOOT) == 3
         assert values.index(DiagnosticJumpToBootLoaderEnum.SYSTEM_SUPPLIER_BOOT_RESP_APP) == 4
+
+
+SECURITY_LEVEL_NOTE = "This meta-class represents the ability to define a security level considered for diagnostic purposes. Tags: atp.recommendedPackage=DiagnosticSecurityLevels"
+ACCESS_DATA_RECORD_SIZE_NOTE = "This represents the size of the AccessDataRecord used in GetSeed. Unit:byte."
+KEY_SIZE_NOTE = "This represents the size of the security key. Unit: byte."
+NUM_FAILED_SECURITY_ACCESS_NOTE = "This represents the number of failed security accesses after which the delay time is activated."
+SECURITY_DELAY_TIME_NOTE = "This represents the delay time after a failed security access. Unit: second."
+SEED_SIZE_NOTE = "This represents the size of the security seed. Unit: byte."
+
+
+class Test_DiagnosticSecurityLevel:
+    """Test cases for DiagnosticSecurityLevel class (Table 4.32, p.75)."""
+
+    def test_instantiation(self):
+        level = DiagnosticSecurityLevel(_pkg(), "SecLevel1")
+        assert level.getShortName() == "SecLevel1"
+
+    def test_is_diagnostic_common_element_subclass(self):
+        assert issubclass(DiagnosticSecurityLevel, DiagnosticCommonElement)
+        assert issubclass(DiagnosticSecurityLevel, ARObject)
+        assert issubclass(DiagnosticSecurityLevel, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert DiagnosticSecurityLevel.__doc__ == SECURITY_LEVEL_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticSecurityLevel.__init__.__doc__ is None
+
+    def test_defaults_in_displayed_order(self):
+        level = DiagnosticSecurityLevel(_pkg(), "SecLevel1")
+        assert list(level.__dict__.keys())[-5:] == ["accessDataRecordSize", "keySize", "numFailedSecurityAccess", "securityDelayTime", "seedSize"]
+        assert level.getAccessDataRecordSize() is None
+        assert level.getKeySize() is None
+        assert level.getNumFailedSecurityAccess() is None
+        assert level.getSecurityDelayTime() is None
+        assert level.getSeedSize() is None
+
+    def test_access_data_record_size_round_trip(self):
+        level = DiagnosticSecurityLevel(_pkg(), "SecLevel1")
+        value = PositiveInteger().setValue(32)
+        assert level.setAccessDataRecordSize(value) is level
+        assert level.getAccessDataRecordSize() is value
+
+    def test_key_size_round_trip(self):
+        level = DiagnosticSecurityLevel(_pkg(), "SecLevel1")
+        value = PositiveInteger().setValue(4)
+        assert level.setKeySize(value) is level
+        assert level.getKeySize() is value
+
+    def test_num_failed_security_access_round_trip(self):
+        level = DiagnosticSecurityLevel(_pkg(), "SecLevel1")
+        value = PositiveInteger().setValue(3)
+        assert level.setNumFailedSecurityAccess(value) is level
+        assert level.getNumFailedSecurityAccess() is value
+
+    def test_security_delay_time_round_trip(self):
+        level = DiagnosticSecurityLevel(_pkg(), "SecLevel1")
+        value = TimeValue().setValue(1.0)
+        assert level.setSecurityDelayTime(value) is level
+        assert level.getSecurityDelayTime() is value
+
+    def test_seed_size_round_trip(self):
+        level = DiagnosticSecurityLevel(_pkg(), "SecLevel1")
+        value = PositiveInteger().setValue(8)
+        assert level.setSeedSize(value) is level
+        assert level.getSeedSize() is value
+
+    def test_setter_none_is_no_op(self):
+        level = DiagnosticSecurityLevel(_pkg(), "SecLevel1")
+        level.setAccessDataRecordSize(PositiveInteger().setValue(32))
+        level.setKeySize(PositiveInteger().setValue(4))
+        level.setNumFailedSecurityAccess(PositiveInteger().setValue(3))
+        level.setSecurityDelayTime(TimeValue().setValue(1.0))
+        level.setSeedSize(PositiveInteger().setValue(8))
+        assert level.setAccessDataRecordSize(None) is level
+        assert level.setKeySize(None) is level
+        assert level.setNumFailedSecurityAccess(None) is level
+        assert level.setSecurityDelayTime(None) is level
+        assert level.setSeedSize(None) is level
+        assert level.getAccessDataRecordSize().getValue() == 32
+        assert level.getKeySize().getValue() == 4
+        assert level.getNumFailedSecurityAccess().getValue() == 3
+        assert level.getSecurityDelayTime().getValue() == 1.0
+        assert level.getSeedSize().getValue() == 8
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        assert _norm(DiagnosticSecurityLevel.getAccessDataRecordSize.__doc__) == ACCESS_DATA_RECORD_SIZE_NOTE
+        assert _norm(DiagnosticSecurityLevel.setAccessDataRecordSize.__doc__) == (ACCESS_DATA_RECORD_SIZE_NOTE + " A None value is a no-op and does not overwrite an existing accessDataRecordSize.")
+        assert _norm(DiagnosticSecurityLevel.getKeySize.__doc__) == KEY_SIZE_NOTE
+        assert _norm(DiagnosticSecurityLevel.setKeySize.__doc__) == (KEY_SIZE_NOTE + " A None value is a no-op and does not overwrite an existing keySize.")
+        assert _norm(DiagnosticSecurityLevel.getNumFailedSecurityAccess.__doc__) == NUM_FAILED_SECURITY_ACCESS_NOTE
+        assert _norm(DiagnosticSecurityLevel.setNumFailedSecurityAccess.__doc__) == (
+            NUM_FAILED_SECURITY_ACCESS_NOTE + " A None value is a no-op and does not overwrite an existing numFailedSecurityAccess."
+        )
+        assert _norm(DiagnosticSecurityLevel.getSecurityDelayTime.__doc__) == SECURITY_DELAY_TIME_NOTE
+        assert _norm(DiagnosticSecurityLevel.setSecurityDelayTime.__doc__) == (SECURITY_DELAY_TIME_NOTE + " A None value is a no-op and does not overwrite an existing securityDelayTime.")
+        assert _norm(DiagnosticSecurityLevel.getSeedSize.__doc__) == SEED_SIZE_NOTE
+        assert _norm(DiagnosticSecurityLevel.setSeedSize.__doc__) == (SEED_SIZE_NOTE + " A None value is a no-op and does not overwrite an existing seedSize.")

@@ -120,6 +120,7 @@ __all__ = [
     "DataTypeMappingSet",
     "DcmIPdu",
     "DiagnosticConnection",
+    "DiagnosticSecurityLevel",
     "DiagnosticServiceTable",
     "DiagnosticSession",
     "DoIpTpConfig",
@@ -1376,6 +1377,26 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(session)
         return self.getElement(short_name, DiagnosticSession)
 
+    def createDiagnosticSecurityLevel(self, short_name: str) -> DiagnosticSecurityLevel:
+        """
+        Creates a new DiagnosticSecurityLevel with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticSecurityLevel represents the ability to define a security
+        level considered for diagnostic purposes in the diagnostic extract
+        template of AUTOSAR.
+
+        Args:
+            short_name: The short name for the new DiagnosticSecurityLevel
+
+        Returns:
+            The newly created or existing DiagnosticSecurityLevel instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticSecurityLevel):
+            security_level = DiagnosticSecurityLevel(self, short_name)
+            self.addElement(security_level)
+        return self.getElement(short_name, DiagnosticSecurityLevel)
+
     def createDltContext(self, short_name: str) -> DltContext:
 
         if not self.IsElementExists(short_name, DltContext):
@@ -1948,7 +1969,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     TriggerInterface,
 )
 from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltContext, DltEcu  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticSession  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticSecurityLevel, DiagnosticSession  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutineMappingSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet, CpSoftwareCluster, System  # noqa: E402

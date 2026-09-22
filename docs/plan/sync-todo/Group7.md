@@ -330,15 +330,15 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 8 — Deviations — (1) enum literal descriptions are inline comments not docstrings (class attributes cannot carry __doc__; FirewallActionEnum precedent) — declaration order asserted instead; (2) SYSTEM-SUPPLIER-BOOT literal comment keeps the XSD's double space ("Bootloader.  In this case") verbatim, markdown single-spaces it; (3) jumpToBootLoader XSD tags carry mmt.RestrictToStandards="CP" (informational only, not modeled)
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `DiagnosticSecurityLevel` (dependency · discovered 2026-09-23 from DiagnosticAccessPermission closure · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 4.32)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 4.32 p.75 (pdf_page.py verified): concrete, Base closure → most-derived existing = `DiagnosticCommonElement`; aggregated by ARPackage.element; 5 attrs displayed order: accessDataRecordSize (PositiveInteger 0..1), keySize (PositiveInteger 0..1), numFailedSecurityAccess (PositiveInteger 0..1), securityDelayTime (TimeValue 0..1), seedSize (PositiveInteger 0..1); XSD group (AUTOSAR_00052.xsd l.43427) order = display order; Notes verbatim from XSD (word-splits "accessData RecordSize"/"numFailed SecurityAccess"/"securityDelay Time" corrected)
+  - [x] Step 2 — Write model class unit test (Red) — test_Dcm.py extended (12 more tests): instantiation/issubclass/verbatim Note/no-`__init__`-docstring/defaults-in-displayed-order/5 round-trips + chaining + None no-ops/accessor docstring verbatim checks; Red = ImportError on the missing class (collection-level)
+  - [x] Step 3 — Implement model class (Green) — DiagnosticSecurityLevel(DiagnosticCommonElement) appended to Dcm.py; PEP 526 members in displayed order; typed chaining setters with None no-op guards
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — new class written verbatim from the start (class docstring = Table 4.32 Note incl Tags tail; attr Notes on inline comments + getter/setter docstrings with None-no-op sentences); no wipe needed
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/test_diagnostic_security_level.py (3: full read, empty, ARPackage ELEMENTS dispatch via createDiagnosticSecurityLevel) + tests/test_armodel/writer/test_diagnostic_security_level.py (3: child order [SHORT-NAME, ACCESS-DATA-RECORD-SIZE, KEY-SIZE, NUM-FAILED-SECURITY-ACCESS, SECURITY-DELAY-TIME, SEED-SIZE], empty omits, ns-injected round-trip); 6 Red (helpers + factory missing)
+  - [x] Step 6 — Update parser & writer (Green) — readDiagnosticSecurityLevel / writeDiagnosticSecurityLevel (readIdentifiable/writeIdentifiable + 4× positive-integer + 1× time-value helpers); ARPackage.createDiagnosticSecurityLevel (IsElementExists guard) + parser "DIAGNOSTIC-SECURITY-LEVEL" dispatch branch + writer isinstance branch; Dcm import extended
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist with release column R23-11, no marker
+  - [x] Step 8 — Deviations — none (accessDataRecordSize Note keeps XSD "Unit:byte." without space before "byte" — markdown matches)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `DiagnosticEnvironmentalCondition` (dependency · discovered 2026-09-23 from DiagnosticAccessPermission closure · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 4.35 · closure members DiagnosticEnvConditionFormula Table 4.36 / DiagnosticLogicalOperatorEnum Table 4.37 — create small ones in-pass if needed)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
