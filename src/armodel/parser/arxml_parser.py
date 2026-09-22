@@ -732,7 +732,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps, DoIpRoutingActivation
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskPreemptabilityEnum, OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanAddressingModeType,
@@ -12986,6 +12986,12 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readSwcToEcuMapping(child_element, swc_to_ecu_mapping)
             else:
                 self.notImplemented("Unsupported Sw Mapping %s" % tag_name)
+
+    def readCommunicationControllerMapping(self, element: ET.Element) -> CommunicationControllerMapping:
+        mapping = CommunicationControllerMapping()
+        mapping.setCommunicationControllerRef(self.getChildElementOptionalRefType(element, "COMMUNICATION-CONTROLLER-REF"))
+        mapping.setHwCommunicationControllerRef(self.getChildElementOptionalRefType(element, "HW-COMMUNICATION-CONTROLLER-REF"))
+        return mapping
 
     def readEcuMapping(self, element: ET.Element, mapping: ECUMapping):
         self.readIdentifiable(element, mapping)

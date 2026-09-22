@@ -190,15 +190,15 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 8 — Deviations — (1) XSD group carries SECURE-COM-PROPS-FOR-TCP-REF / SECURE-COM-PROPS-FOR-UDP-REF / TCP-PORT-REF / UDP-PORT-REF (mmt.RestrictToStandards=AP) absent from Table B.19 → per Rule 0015 the table wins; not modeled; no fixture carries the element; (2) PlatformModuleEndpointConfiguration created in-pass as XSD-only (`# Spec:` cites AUTOSAR_00052.xsd line 91412), added to PlatformModuleDeployment/__init__.py exports and test_model_imports INTENTIONALLY_UNEXPORTED_MODULES; (3) old fabricated member names replaced (Rule 0014 to-fix, done)
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `CommunicationControllerMapping` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.134 · aggregated by `ECUMapping` · **NOT in src** — class must be created when this row is synced)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 3.134 p.183: concrete, Base = ARObject (no Identifiable — atpObject, no SHORT-NAME), aggregated by ECUMapping.commControllerMapping; 2 attrs displayed order: communicationController (0..1 ref), hwCommunicationController (HwElement 0..1 ref); XSD group COMMUNICATION-CONTROLLER-MAPPING (AUTOSAR_00052.xsd l.20443) order COMMUNICATION-CONTROLLER-REF → HW-COMMUNICATION-CONTROLLER-REF; Notes verbatim (markdown word-splits "Communication Controller" corrected to XSD "CommunicationController")
+  - [x] Step 2 — Write model class unit test (Red) — test_ECUResourceMapping.py Test_CommunicationControllerMapping: concrete ARObject subclass (not Identifiable), verbatim Note docstring, no `__init__` docstring, defaults, both refs get/set round-trip + chaining + None no-ops, normalized accessor docstring checks; Red = ImportError on the missing class
+  - [x] Step 3 — Implement model class (Green) — created `CommunicationControllerMapping(ARObject)` in ECUResourceMapping.py; PEP 526 members `communicationControllerRef`/`hwCommunicationControllerRef: Optional[RefType]`, typed chaining setters with None no-op guards
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — new class written verbatim from the start: single-line class docstring (Table 3.134 Note), attr Notes on inline comments + getter/setter docstrings with "A None value is a no-op..." sentences; no marker (stamp deferred to batch confirmation)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/test_communication_controller_mapping.py (2: full DEST+value read, empty) + tests/test_armodel/writer/test_communication_controller_mapping.py (3: exact child order [COMMUNICATION-CONTROLLER-REF, HW-COMMUNICATION-CONTROLLER-REF] per XSD group l.20443, empty omits, ns-injected write→re-parse round-trip); 5 Red (helpers missing)
+  - [x] Step 6 — Update parser & writer (Green) — readCommunicationControllerMapping (constructs + 2× getChildElementOptionalRefType, returns mapping) / writeCommunicationControllerMapping (SubElement COMMUNICATION-CONTROLLER-MAPPING + 2× setChildElementOptionalRefType); fragment+helper pattern — no ARPackage dispatch (ARObject-level class nests only in ECU-MAPPING/COMM-CONTROLLER-MAPPINGS; wiring into read/writeEcuMapping lands with the ECUMapping row)
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist with release column R23-11, no marker
+  - [x] Step 8 — Deviations — none
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `HwPortMapping` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.135 · aggregated by `ECUMapping` · **NOT in src** — class must be created when this row is synced)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

@@ -653,7 +653,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps, DoIpRoutingActivation
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanFrame,
@@ -11274,6 +11274,11 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.setSwcToEcuMapping(child_element, sw_mapping)
                 else:
                     self.notImplemented("Unsupported Sw Mapping %s" % type(sw_mapping))
+
+    def writeCommunicationControllerMapping(self, element: ET.Element, mapping: CommunicationControllerMapping):
+        child_element = ET.SubElement(element, "COMMUNICATION-CONTROLLER-MAPPING")
+        self.setChildElementOptionalRefType(child_element, "COMMUNICATION-CONTROLLER-REF", mapping.getCommunicationControllerRef())
+        self.setChildElementOptionalRefType(child_element, "HW-COMMUNICATION-CONTROLLER-REF", mapping.getHwCommunicationControllerRef())
 
     def writeEcuMapping(self, element: ET.Element, mapping: ECUMapping):
         self.logger.debug("Write ECUMapping <%s>" % mapping.getShortName())

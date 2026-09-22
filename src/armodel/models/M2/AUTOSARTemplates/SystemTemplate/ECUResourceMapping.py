@@ -1,4 +1,8 @@
+from typing import Optional
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 
@@ -58,4 +62,58 @@ class ECUMapping(Identifiable, VariationPointCapable):
     def setHwPortMappings(self, value):
         if value is not None:
             self.hwPortMappings = value
+        return self
+
+
+class CommunicationControllerMapping(ARObject):
+    """CommunicationControllerMapping specifies the CommunicationPeripheral hardware (defined in the ECU Resource Template) to realize the specified CommunicationController in a physical topology."""
+
+    # CommunicationControllerMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.134, p.183
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getCommunicationControllerRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setCommunicationControllerRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getHwCommunicationControllerRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setHwCommunicationControllerRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to the CommunicationController in the System Template
+        self.communicationControllerRef: Optional[RefType] = None
+
+        # Reference to a HwElement of category CommunicationController in the ECU Resource Template.
+        self.hwCommunicationControllerRef: Optional[RefType] = None
+
+    def getCommunicationControllerRef(self) -> Optional[RefType]:
+        """
+        Reference to the CommunicationController in the System Template
+        """
+        return self.communicationControllerRef
+
+    def setCommunicationControllerRef(self, value: Optional[RefType]):
+        """
+        Reference to the CommunicationController in the System Template
+
+        A None value is a no-op and does not overwrite an existing communicationControllerRef.
+        """
+        if value is not None:
+            self.communicationControllerRef = value
+        return self
+
+    def getHwCommunicationControllerRef(self) -> Optional[RefType]:
+        """
+        Reference to a HwElement of category CommunicationController in the ECU Resource Template.
+        """
+        return self.hwCommunicationControllerRef
+
+    def setHwCommunicationControllerRef(self, value: Optional[RefType]):
+        """
+        Reference to a HwElement of category CommunicationController in the ECU Resource Template.
+
+        A None value is a no-op and does not overwrite an existing hwCommunicationControllerRef.
+        """
+        if value is not None:
+            self.hwCommunicationControllerRef = value
         return self
