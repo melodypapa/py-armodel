@@ -719,6 +719,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecLocalKayProps,
     MacSecProps,
     SecOcCryptoServiceMapping,
+    TlsCryptoCipherSuiteProps,
     TlsCryptoServiceMapping,
     TlsPskIdentity,
 )
@@ -11376,6 +11377,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(element, "PRE-SHARED-KEY-REF", psk_identity.getPreSharedKeyRef())
         self.setChildElementOptionalString(element, "PSK-IDENTITY", psk_identity.getPskIdentity())
         self.setChildElementOptionalString(element, "PSK-IDENTITY-HINT", psk_identity.getPskIdentityHint())
+
+    def writeTlsCryptoCipherSuiteProps(self, parent: ET.Element, cipher_suite_props: TlsCryptoCipherSuiteProps):
+        element = ET.SubElement(parent, "TLS-CRYPTO-CIPHER-SUITE-PROPS")
+        self.writeIdentifiable(element, cipher_suite_props)
+        self.setChildElementOptionalBooleanValue(element, "TCP-IP-TLS-USE-SECURITY-EXTENSION-FORCE-ENCRYPT-THEN-MAC", cipher_suite_props.getTcpIpTlsUseSecurityExtensionForceEncryptThenMac())
 
     def writeSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         self.logger.debug("Write SystemMapping <%s>" % mapping.getShortName())

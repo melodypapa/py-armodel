@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecProps,
     MacSecRoleEnum,
     SecOcCryptoServiceMapping,
+    TlsCryptoCipherSuiteProps,
     TlsCryptoServiceMapping,
     TlsPskIdentity,
     TlsVersionEnum,
@@ -529,3 +530,36 @@ class Test_CryptoServicePrimitiveSpec:
         assert primitive.getAlgorithmSecondaryFamily() is secondary
         primitive.setAlgorithmSecondaryFamily(None)
         assert primitive.getAlgorithmSecondaryFamily() is secondary
+
+
+class Test_TlsCryptoCipherSuitePropsSpec:
+    """Spec contract of TlsCryptoCipherSuiteProps (AUTOSAR_CP_TPS_SystemTemplate, Table 6.215, p.563)."""
+
+    def test_docstring_is_spec_note_verbatim(self):
+        note = "This meta-class provides attributes to specify details of TLS Cipher Suites."
+        assert TlsCryptoCipherSuiteProps.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert TlsCryptoCipherSuiteProps.__init__.__doc__ is None
+
+    def test_heritage(self):
+        # Base chain ARObject, Identifiable, MultilanguageReferrable, Referrable — most-derived is Identifiable
+        parent = MockParent()
+        props = TlsCryptoCipherSuiteProps(parent, "props")
+        assert isinstance(props, Identifiable)
+        assert not isinstance(props, ARElement)
+
+    def test_initialization(self):
+        # Table 6.215 — the single attribute is optional (Mult 0..1, XSD minOccurs=0)
+        parent = MockParent()
+        props = TlsCryptoCipherSuiteProps(parent, "props")
+        assert props.getTcpIpTlsUseSecurityExtensionForceEncryptThenMac() is None
+
+    def test_get_set_tcp_ip_tls_use_security_extension_force_encrypt_then_mac(self):
+        parent = MockParent()
+        props = TlsCryptoCipherSuiteProps(parent, "props")
+        flag = _bool(True)
+        assert props.setTcpIpTlsUseSecurityExtensionForceEncryptThenMac(flag) is props
+        assert props.getTcpIpTlsUseSecurityExtensionForceEncryptThenMac() is flag
+        props.setTcpIpTlsUseSecurityExtensionForceEncryptThenMac(None)
+        assert props.getTcpIpTlsUseSecurityExtensionForceEncryptThenMac() is flag

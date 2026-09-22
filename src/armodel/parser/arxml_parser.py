@@ -809,6 +809,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecProps,
     MacSecRoleEnum,
     SecOcCryptoServiceMapping,
+    TlsCryptoCipherSuiteProps,
     TlsCryptoServiceMapping,
     TlsPskIdentity,
 )
@@ -13047,6 +13048,10 @@ class ARXMLParser(AbstractARXMLParser):
             psk_identity.setPreSharedKeyRef(ref)
         psk_identity.setPskIdentity(self.getChildElementOptionalString(element, "PSK-IDENTITY"))
         psk_identity.setPskIdentityHint(self.getChildElementOptionalString(element, "PSK-IDENTITY-HINT"))
+
+    def readTlsCryptoCipherSuiteProps(self, element: ET.Element, cipher_suite_props: TlsCryptoCipherSuiteProps):
+        self.readIdentifiable(element, cipher_suite_props)
+        cipher_suite_props.setTcpIpTlsUseSecurityExtensionForceEncryptThenMac(self.getChildElementOptionalBooleanValue(element, "TCP-IP-TLS-USE-SECURITY-EXTENSION-FORCE-ENCRYPT-THEN-MAC"))
 
     def readSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         # self.logger.debug("Read SystemMapping <%s>" % mapping.getShortName())

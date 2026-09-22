@@ -263,6 +263,39 @@ class TlsPskIdentity(ARObject):
         return self.pskIdentityHint
 
 
+class TlsCryptoCipherSuiteProps(Identifiable):
+    """
+    This meta-class provides attributes to specify details of TLS Cipher Suites.
+    """
+
+    # TlsCryptoCipherSuiteProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.215, p.563
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTcpIpTlsUseSecurityExtensionForceEncryptThenMac  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpTlsUseSecurityExtensionForceEncryptThenMac  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # Defines if the security extension according to IETF RFC 7366 shall be supported. This is useful for cipher suites using CBC mode.
+        self.tcpIpTlsUseSecurityExtensionForceEncryptThenMac: Optional[Boolean] = None
+
+    def getTcpIpTlsUseSecurityExtensionForceEncryptThenMac(self) -> Optional[Boolean]:
+        """Defines if the security extension according to IETF RFC 7366 shall be supported. This is useful for cipher suites using CBC mode."""
+        return self.tcpIpTlsUseSecurityExtensionForceEncryptThenMac
+
+    def setTcpIpTlsUseSecurityExtensionForceEncryptThenMac(self, value: Optional[Boolean]) -> "TlsCryptoCipherSuiteProps":
+        """
+        Defines if the security extension according to IETF RFC 7366 shall be supported. This is useful for cipher suites using CBC mode.
+        A None value is a no-op and does not overwrite an existing tcpIpTlsUseSecurityExtensionForceEncryptThenMac.
+        """
+        if value is not None:
+            self.tcpIpTlsUseSecurityExtensionForceEncryptThenMac = value
+        return self
+
+
 class CryptoServicePrimitive(ARElement):
     """
     This meta-class has the ability to represent a crypto primitive. Tags: atp.recommendedPackage=CryptoPrimitives
