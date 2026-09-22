@@ -13,6 +13,27 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
 > for the deviation only, and record it in Step 8 (Rule 0012.3: an existing marker is not
 > proof).
 
+> **XSD-only re-verification 2026-09-22** (all 25 XSD-only classes src-wide re-checked against every R23-11 + R4.3.1
+> markdown table caption/class-header cell and `pdf_page.py` — Rule 0002: `# XSD verified:` only when no table exists):
+> - **6 queued candidate rows corrected above** (header citations replaced): `CryptoKeySlot` (SecurityExtract Table B.5),
+>   `IdsPlatformInstantiation` (B.13), `IdsmModuleInstantiation` (B.14), `PlatformModuleEthernetEndpointConfiguration`
+>   (B.19), `VariableDataPrototypeInSystemInstanceRef` (SystemTemplate Table B.3), `ComponentInSystemInstanceRef`
+>   (SystemTemplate Table B.1). All six were appendix letter-numbered tables missed by numeric-regex searches
+>   (Group3 E.81/D.17/D.4 class of miss); `pdf_page.py` does not index appendix tables, so page numbers need direct
+>   PDF search at Step 1. Sync them from the tables → `# Spec verified: R23-11`, NOT `# XSD verified:`.
+> - **2 stamped src classes are MISCLASSIFIED** (`# XSD verified:` but a table exists) — need a Rule 0012.3 drift
+>   re-sync before re-stamping:
+>   `ComponentInCompositionInstanceRef` (SWComponentTemplate/Composition/InstanceRefs.py — R23-11 swc TPS **Table D.13**
+>   + TimingExtensions **Table D.19**; R4.3.1 swc D.14 / TimingExtensions B.14) and
+>   `SdClientConfig` (SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py — no R23-11 table; **R4.3.1**
+>   AUTOSAR_TPS_SystemTemplate **Table 6.172**, PDF p.356 → sync from R4.3.1 per Rule 0016.3, marker
+>   `# Spec verified: R4.3.1`).
+> - **Confirmed genuinely XSD-only (17)**: BswClientPolicy, BswDataSendPolicy, BswInternalTriggeringPointPolicy,
+>   BswParameterPolicy, BswPerInstanceMemoryPolicy, BswReleasedTriggerPolicy, CanXlProps, DdsRule,
+>   ModeInSwcBswInstanceRef, OperationArgumentInComponentInstanceRef, OrientEnum, PortInterfaceBlueprintMapping,
+>   PortPrototypeBlueprintMapping, TraceableTable, Url, V2xSupportEnum, VariableInComponentInstanceRef — no own
+>   table in either corpus and no PDF caption (appendix limitation noted; their XSD basis stands).
+
 ## Queue (dependency-first)
 
 > **Moved:** `HwPin`, `HwPinGroup`, `HwType`, `HwElement`, `FirewallRule`, `StateDependentFirewall` — wrong-heritage uuid-move blockers — moved into `Group1.md` ahead of the `Identifiable` row
@@ -58,7 +79,7 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 7 — Update checklist comment — 6-column parity checklist with release column R23-11, `__init__` row only, no marker
   - [x] Step 8 — Deviations — fabricated `value` member + reader/writer VALUE handling removed (Rule 0001.3 shape-3); no combine case: R4.3.1 XSD group is equally empty (AUTOSAR_00044.xsd l.45188 `<xsd:sequence/>`) and no fixture carries VALUE inside HW-ATTRIBUTE-LITERAL-DEF
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
-- [ ] `CryptoKeySlot` (tracker input · no R23-11/R4.3.1 table found → XSD-only candidate (confirm in per-class Phase 0))
+- [ ] `CryptoKeySlot` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_SecurityExtractTemplate · **Table B.5** (**spec table found 2026-09-22 re-verification — NOT XSD-only**; appendix letter-numbered table, missed by earlier numeric-regex search; Step 1 Phase 0 correction below))
   - [x] Step 1 — Sync members & description from spec — **Phase 0 correction: NOT XSD-only** — corpus search found `Table B.5: CryptoKeySlot` in R23-11 `AUTOSAR_FO_TPS_SecurityExtractTemplate.md` (p.58, page-split table; no numbered caption in the PDF for pdf_page.py — page via pypdf). Concrete, Base chain → most-existing `Identifiable`; 7 attrs in displayed order: allocateShadowCopy (Boolean 0..1), cryptoAlgId (String 0..1), cryptoObjectType (CryptoObjectTypeEnum 0..1), keySlotAllowedModification (CryptoKeySlotAllowedModification 0..1 aggr), keySlotContentAllowedUsage (CryptoKeySlotContentAllowedUsage * aggr), slotCapacity (PositiveInteger 0..1), slotType (CryptoKeySlotTypeEnum 0..1); XML order per XSD group CRYPTO-KEY-SLOT (AUTOSAR_00052.xsd line 25661): ALLOCATE-SHADOW-COPY → CRYPTO-ALG-ID → CRYPTO-OBJECT-TYPE → KEY-SLOT-ALLOWED-MODIFICATION → KEY-SLOT-CONTENT-ALLOWED-USAGES → SLOT-CAPACITY → SLOT-TYPE; aggregated by CryptoProvider.keySlot (CryptoProvider NOT in src)
   - [x] Step 2 — Write model class unit test (Red) — full rewrite of test___init__.py: verbatim Note+Tags docstring (Red: fabricated), no-`__init__`-docstring, defaults in displayed order, all get/set round-trips + None no-ops + chaining, enum wire-value tests (Red: ImportError — spec member types absent)
   - [x] Step 3 — Implement model class (Green) — in-pass member types created from XSD (Rule 0016.4/0001.10; all XSD-only, no own tables): CryptoObjectTypeEnum (6 literals, EnumerationLiteralIndex order) + CryptoKeySlotTypeEnum (MACHINE/APPLICATION) AREnums with XSD wire values; CryptoKeySlotAllowedModification (4 attrs) + CryptoKeySlotContentAllowedUsage (1 attr) as ARObject-derived aggr classes; CryptoKeySlot rewritten with 7 PEP 526 members in displayed order, typed chaining accessors, None no-op guards, dedicated typed list for the * aggr
@@ -118,7 +139,7 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 7 — Update checklist comment — 6-col parity checklist all [x]
   - [x] Step 8 — Deviations — none beyond FirewallActionEnum derivation (see below)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8307 tests pass, ruff/flake8 clean, black clean; **unstamped** per user decision 2026-08-31 (batch confirmation deferred)
-- [ ] `IdsPlatformInstantiation` (tracker input · no R23-11/R4.3.1 table found → XSD-only candidate (confirm in per-class Phase 0))
+- [ ] `IdsPlatformInstantiation` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_SecurityExtractTemplate · **Table B.13** (**spec table found 2026-09-22 re-verification — NOT XSD-only**; appendix letter-numbered table, missed by earlier numeric-regex search — resolve in per-class Phase 0))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -128,7 +149,7 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `IdsmModuleInstantiation` (tracker input · no R23-11/R4.3.1 table found → XSD-only candidate (confirm in per-class Phase 0))
+- [ ] `IdsmModuleInstantiation` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_SecurityExtractTemplate · **Table B.14** (**spec table found 2026-09-22 re-verification — NOT XSD-only**; appendix letter-numbered table — resolve in per-class Phase 0))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -138,7 +159,7 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `PlatformModuleEthernetEndpointConfiguration` (tracker input · no R23-11/R4.3.1 table found → XSD-only candidate (confirm in per-class Phase 0))
+- [ ] `PlatformModuleEthernetEndpointConfiguration` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_SecurityExtractTemplate · **Table B.19** (**spec table found 2026-09-22 re-verification — NOT XSD-only**; appendix letter-numbered table — resolve in per-class Phase 0))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -178,7 +199,7 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `VariableDataPrototypeInSystemInstanceRef` (tracker input · no R23-11/R4.3.1 table found → XSD-only candidate (confirm in per-class Phase 0))
+- [ ] `VariableDataPrototypeInSystemInstanceRef` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · **Table B.3** (**spec table found 2026-09-22 re-verification — NOT XSD-only**; appendix letter-numbered table, same class of miss as Group2 D.17/D.4 — resolve in per-class Phase 0))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -188,7 +209,7 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `ComponentInSystemInstanceRef` (tracker input · no R23-11/R4.3.1 table found → XSD-only candidate (confirm in per-class Phase 0))
+- [ ] `ComponentInSystemInstanceRef` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · **Table B.1** (**spec table found 2026-09-22 re-verification — NOT XSD-only**; appendix letter-numbered table — resolve in per-class Phase 0))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
