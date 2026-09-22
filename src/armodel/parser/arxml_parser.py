@@ -10734,7 +10734,20 @@ class ARXMLParser(AbstractARXMLParser):
     def readPortPrototypeBlueprint(self, element: ET.Element, blueprint: PortPrototypeBlueprint):
         self.logger.debug("Read PortPrototypeBlueprint <%s>" % blueprint.getShortName())
         self.readARElement(element, blueprint)
+        self.readPortPrototypeBlueprintInitValues(element, blueprint)
         blueprint.setInterfaceRef(self.getChildElementOptionalRefType(element, "INTERFACE-REF"))
+        self.readProvidedComSpec(element, blueprint)
+        self.readRequiredComSpec(element, blueprint)
+
+    def readPortPrototypeBlueprintInitValues(self, element: ET.Element, blueprint: PortPrototypeBlueprint):
+        for child_element in self.findall(element, "INIT-VALUES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "PORT-PROTOTYPE-BLUEPRINT-INIT-VALUE":
+                init_value = PortPrototypeBlueprintInitValue()
+                self.readPortPrototypeBlueprintInitValue(child_element, init_value)
+                blueprint.addInitValue(init_value)
+            else:
+                self.notImplemented("Unsupported PortPrototypeBlueprintInitValue <%s>" % tag_name)
 
     def readPortPrototypeBlueprintInitValue(self, element: ET.Element, init_value: PortPrototypeBlueprintInitValue):
         self.readARObject(element, init_value)

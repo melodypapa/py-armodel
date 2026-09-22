@@ -79,71 +79,74 @@ class PortPrototypeBlueprintInitValue(ARObject):
 
 class PortPrototypeBlueprint(AtpStructureElement):
     """
-    Defines a blueprint for port prototypes in AUTOSAR standardization templates.
-    This class provides a template for defining port prototypes that can be reused
-    across different software components, helping to standardize port configurations.
+    This meta-class represents the ability to express a blueprint of a PortPrototype by referring to a particular PortInterface. This blueprint can then be used as a guidance to create particular PortPrototypes which are defined according to this blueprint. By this it is possible to standardize application interfaces without the need to also standardize software-components with PortPrototypes typed by the standardized PortInterfaces. Tags: atp.recommendedPackage=PortPrototypeBlueprints
     """
 
     # PortPrototypeBlueprint method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [x] getInitValues                [x] impl  [x] docstring  [x] test
-    # [x] setInitValues                [x] impl  [x] docstring  [x] test
-    # [x] getInterfaceRef              [x] impl  [x] docstring  [x] test
-    # [x] setInterfaceRef              [x] impl  [x] docstring  [x] test
-    # [x] getProvidedComSpecs          [x] impl  [x] docstring  [x] test
-    # [x] setProvidedComSpecs          [x] impl  [x] docstring  [x] test
-    # [x] getRequiredComSpecs          [x] impl  [x] docstring  [x] test
-    # [x] setRequiredComSpecs          [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 4.9, p.60
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInitValues              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitValues              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addInitValue               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInterfaceRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInterfaceRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProvidedComSpecs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProvidedComSpecs        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addProvidedComSpec         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequiredComSpecs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequiredComSpecs        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addRequiredComSpec         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
+        # This specifies the init values for the dataElements in the particular PortPrototypeBlueprint.
         self.initValues: List[PortPrototypeBlueprintInitValue] = []
-        self.interfaceRef: RefType = None
+
+        # This is the interface for which the blueprint is defined. It may be a blueprint itself  or a standardized PortInterface
+        self.interfaceRef: Optional[RefType] = None
+
+        # Provided communication attributes per interface element (data element or operation).
         self.providedComSpecs: List[PPortComSpec] = []
+
+        # Required communication attributes, one for each interface element.
         self.requiredComSpecs: List[RPortComSpec] = []
 
     def getInitValues(self) -> List[PortPrototypeBlueprintInitValue]:
         """
-        Gets the list of initial value specifications for this port prototype blueprint.
-
-        Returns:
-            List of initial value specifications
+        This specifies the init values for the dataElements in the particular PortPrototypeBlueprint.
         """
         return self.initValues
 
-    def setInitValues(self, value: List[PortPrototypeBlueprintInitValue]):
+    def setInitValues(self, value: Optional[List[PortPrototypeBlueprintInitValue]]) -> "PortPrototypeBlueprint":
         """
-        Sets the list of initial value specifications for this port prototype blueprint.
-
-        Args:
-            value: List of initial value specifications
-
-        Returns:
-            Self instance for method chaining
+        This specifies the init values for the dataElements in the particular PortPrototypeBlueprint.
+        A None value is a no-op and does not overwrite the existing initValues list.
         """
         if value is not None:
             self.initValues = value
         return self
 
-    def getInterfaceRef(self) -> RefType:
+    def addInitValue(self, value: Optional[PortPrototypeBlueprintInitValue]) -> "PortPrototypeBlueprint":
         """
-        Gets the interface reference for this port prototype blueprint.
+        This specifies the init values for the dataElements in the particular PortPrototypeBlueprint.
+        A None value is a no-op and does not extend the initValue list.
+        """
+        if value is not None:
+            self.initValues.append(value)
+        return self
 
-        Returns:
-            Reference to the interface
+    def getInterfaceRef(self) -> Optional[RefType]:
+        """
+        This is the interface for which the blueprint is defined. It may be a blueprint itself  or a standardized PortInterface
         """
         return self.interfaceRef
 
-    def setInterfaceRef(self, value: RefType):
+    def setInterfaceRef(self, value: Optional[RefType]) -> "PortPrototypeBlueprint":
         """
-        Sets the interface reference for this port prototype blueprint.
-
-        Args:
-            value: Reference to the interface
-
-        Returns:
-            Self instance for method chaining
+        This is the interface for which the blueprint is defined. It may be a blueprint itself  or a standardized PortInterface
+        A None value is a no-op and does not overwrite an existing interfaceRef.
         """
         if value is not None:
             self.interfaceRef = value
@@ -151,48 +154,50 @@ class PortPrototypeBlueprint(AtpStructureElement):
 
     def getProvidedComSpecs(self) -> List[PPortComSpec]:
         """
-        Gets the list of provided communication specifications for this port prototype blueprint.
-
-        Returns:
-            List of provided communication specifications
+        Provided communication attributes per interface element (data element or operation).
         """
         return self.providedComSpecs
 
-    def setProvidedComSpecs(self, value: List[PPortComSpec]):
+    def setProvidedComSpecs(self, value: Optional[List[PPortComSpec]]) -> "PortPrototypeBlueprint":
         """
-        Sets the list of provided communication specifications for this port prototype blueprint.
-
-        Args:
-            value: List of provided communication specifications
-
-        Returns:
-            Self instance for method chaining
+        Provided communication attributes per interface element (data element or operation).
+        A None value is a no-op and does not overwrite the existing providedComSpecs list.
         """
         if value is not None:
             self.providedComSpecs = value
         return self
 
+    def addProvidedComSpec(self, value: Optional[PPortComSpec]) -> "PortPrototypeBlueprint":
+        """
+        Provided communication attributes per interface element (data element or operation).
+        A None value is a no-op and does not extend the providedComSpec list.
+        """
+        if value is not None:
+            self.providedComSpecs.append(value)
+        return self
+
     def getRequiredComSpecs(self) -> List[RPortComSpec]:
         """
-        Gets the list of required communication specifications for this port prototype blueprint.
-
-        Returns:
-            List of required communication specifications
+        Required communication attributes, one for each interface element.
         """
         return self.requiredComSpecs
 
-    def setRequiredComSpecs(self, value: List[RPortComSpec]):
+    def setRequiredComSpecs(self, value: Optional[List[RPortComSpec]]) -> "PortPrototypeBlueprint":
         """
-        Sets the list of required communication specifications for this port prototype blueprint.
-
-        Args:
-            value: List of required communication specifications
-
-        Returns:
-            Self instance for method chaining
+        Required communication attributes, one for each interface element.
+        A None value is a no-op and does not overwrite the existing requiredComSpecs list.
         """
         if value is not None:
             self.requiredComSpecs = value
+        return self
+
+    def addRequiredComSpec(self, value: Optional[RPortComSpec]) -> "PortPrototypeBlueprint":
+        """
+        Required communication attributes, one for each interface element.
+        A None value is a no-op and does not extend the requiredComSpec list.
+        """
+        if value is not None:
+            self.requiredComSpecs.append(value)
         return self
 
 

@@ -9820,7 +9820,17 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.logger.debug("Write PortPrototypeBlueprint <%s>" % blueprint.getShortName())
             child_element = ET.SubElement(element, "PORT-PROTOTYPE-BLUEPRINT")
             self.writeARElement(child_element, blueprint)
+            self.writePortPrototypeBlueprintInitValues(child_element, blueprint)
             self.setChildElementOptionalRefType(child_element, "INTERFACE-REF", blueprint.getInterfaceRef())
+            self.setAbstractProvidedPortPrototype(child_element, blueprint)
+            self.setAbstractRequiredPortPrototype(child_element, blueprint)
+
+    def writePortPrototypeBlueprintInitValues(self, element: ET.Element, blueprint: PortPrototypeBlueprint):
+        init_values = blueprint.getInitValues()
+        if len(init_values) > 0:
+            values_tag = ET.SubElement(element, "INIT-VALUES")
+            for init_value in init_values:
+                self.writePortPrototypeBlueprintInitValue(values_tag, init_value)
 
     def writePortPrototypeBlueprintInitValue(self, element: ET.Element, init_value: PortPrototypeBlueprintInitValue):
         if init_value is not None:
