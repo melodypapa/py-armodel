@@ -126,6 +126,46 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.48 p.375 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
   - [x] Step 8 — Deviations  [none for this class: zero attribute rows modeled exactly; Base → Identifiable + VariationPointCapable mixin per XSD VARIATION-POINT; docstring verbatim; TLS-CRYPTO-SERVICE-MAPPING wrapper branch (and SecOcCryptoServiceMapping's own Table 6.49 full sync) belong to the queued TlsCryptoServiceMapping row / separate tables]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
+- [ ] `TlsVersionEnum` (dependency of TlsCryptoCipherSuite, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · enumeration table id TBC at Step 1 (closure of TlsCryptoServiceMapping.tlsCipherSuite, Table 6.212) · added by 2026-09-22 Group6 member-type audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `TlsPskIdentity` (dependency of TlsCryptoCipherSuite, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · table id TBC at Step 1 (closure of TlsCryptoServiceMapping.tlsCipherSuite, Table 6.212) · added by 2026-09-22 Group6 member-type audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `TlsCryptoCipherSuite` (dependency of TlsCryptoServiceMapping, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.212, p.561 · member type of TlsCryptoServiceMapping.tlsCipherSuite (XSD wrapper TLS-CIPHER-SUITES) · added by 2026-09-22 Group6 member-type audit; remaining closure members (TlsCryptoCipherSuiteProps, CryptoEllipticCurveProps, TlsSignatureScheme, CryptoServiceCertificate) to be confirmed/queued at Step 1; after sync, TlsCryptoServiceMapping needs an extend pass — typed tlsCipherSuites list + reader/writer replace notImplemented)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `CryptoServicePrimitive` (dependency of TlsCryptoServiceMapping, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · table id TBC at Step 1 · member type of TlsCryptoServiceMapping.keyExchange (KEY-EXCHANGE-REFS, ref *) · added by 2026-09-22 Group6 member-type audit — was untracked, discovered by audit)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `TlsCryptoServiceMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.211)
   - [x] Step 1 — Sync members & description from spec — Table 6.211, p.560; concrete, Base → stamped `CryptoServiceMapping`; attrs in displayed order: keyExchange (CryptoServicePrimitive *, ref, accessor keyExchangeRefs), tlsCipherSuite (TlsCryptoCipherSuite *, aggr), useClientAuthenticationRequest (Boolean 0..1), useSecurityExtensionRecordSizeLimit (Boolean 0..1); XML order per XSD group: KEY-EXCHANGE-REFS → TLS-CIPHER-SUITES → USE-CLIENT-AUTHENTICATION-REQUEST → USE-SECURITY-EXTENSION-RECORD-SIZE-LIMIT; markdown splits "useClient Authentication Request" = useClientAuthenticationRequest
   - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring (Red: fabricated), no-`__init__`-docstring, defaults, keyExchangeRefs * ref list (add/None no-op/chaining — Red: old single keyExchangeRef accessor), both Boolean round-trips + None no-ops, heritage
@@ -157,6 +197,26 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 7 — Update checklist comment — 6-column parity checklist with release column R23-11 on all rows; marker deferred to 9b
   - [x] Step 8 — Deviations  [resolved in-pass (Rule 0014): CSTransformerErrorReactionEnum wire-value drift fixed — two unit tests updated (raw-literal fixtures unaffected); reader enum construction upgraded; no open deviations]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
+- [ ] `SomeipTransformationISignalProps` (dependency of TransformationISignalProps, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · table id TBC at Step 1 · concrete subclass of TransformationISignalProps (XSD SOME-IP-TRANSFORMATION-I-SIGNAL-PROPS) · added by 2026-09-22 Group6 member-type audit — was untracked)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `UserDefinedTransformationISignalProps` (dependency of TransformationISignalProps, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · table id TBC at Step 1 · concrete subclass of TransformationISignalProps (XSD USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS) · added by 2026-09-22 Group6 member-type audit — was untracked)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `SenderRecCompositeTypeMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 5.27)
   - [x] Step 1 — Sync members & description from spec — Table 5.27, p.235; abstract, Base = ARObject; ZERO attribute rows (XSD group SENDER-REC-COMPOSITE-TYPE-MAPPING empty sequence, verified AUTOSAR_00052.xsd line 104451); Subclasses SenderRecArrayTypeMapping/SenderRecRecordTypeMapping; Note verbatim (markdown "CompositeType Mapping" wrap resolved to "CompositeTypeMapping" per XSD documentation)
   - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring assertion (Red: fabricated docstring), no-`__init__`-docstring, abstract raise (pre-existing), subclass heritage pins
@@ -306,7 +366,8 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
 - `RtpTp` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · own table) — concrete subclass of TransportProtocolConfiguration (XSD choice member RTP-TP); not yet in src
 - `FlexrayNmScheduleVariant` (R23-11 · AUTOSAR_CP_TPS_SystemTemplate · Table 6.310, p.680) — member type of FlexrayNmClusterCoupling.nmScheduleVariant; not yet in src; FLEXRAY-NM-CLUSTER-COUPLING reader/writer dispatch also missing (FlexrayNmClusterCoupling class itself exists in src but is not queued in this group); discovered 2026-09-21 during `NmClusterCoupling` sync
 - `LinNmCluster` (R23-11 · XSD-only · AUTOSAR_00052.xsd group LIN-NM-CLUSTER, line 77474) — concrete subclass of NmCluster (XSD choice member LIN-NM-CLUSTER in NM-CLUSTERS), but carries atp.Status="removed" in R23-11 and has no own table; NOT created — queued here only for the record; discovered 2026-09-21 during `NmConfig` sync
-- `TlsCryptoCipherSuite` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.212, p.561) — member type of TlsCryptoServiceMapping.tlsCipherSuite (XSD wrapper TLS-CIPHER-SUITES, choice member TLS-CRYPTO-CIPHER-SUITE); closure includes TlsVersionEnum (Table 6.212 Enumeration), TlsPskIdentity, TlsCryptoCipherSuiteProps, CryptoEllipticCurveProps, TlsSignatureScheme, CryptoServiceCertificate; TLS-CIPHER-SUITES reader/writer currently notImplemented; discovered 2026-09-22 during `TlsCryptoServiceMapping` sync; not yet in src
+- `TlsCryptoCipherSuite` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.212, p.561) — member type of TlsCryptoServiceMapping.tlsCipherSuite (XSD wrapper TLS-CIPHER-SUITES, choice member TLS-CRYPTO-CIPHER-SUITE); TLS-CIPHER-SUITES reader/writer currently notImplemented; discovered 2026-09-22 during `TlsCryptoServiceMapping` sync; **partially queued 2026-09-22** — TlsVersionEnum, TlsPskIdentity, TlsCryptoCipherSuite, CryptoServicePrimitive now have queue rows (see above, dependency-first before TlsCryptoServiceMapping); remaining closure members (TlsCryptoCipherSuiteProps, CryptoEllipticCurveProps, TlsSignatureScheme, CryptoServiceCertificate) still tracked here only, to be confirmed/queued at the TlsCryptoCipherSuite row's Step 1
+- `SomeipTransformationISignalProps` / `UserDefinedTransformationISignalProps` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · table ids TBC at Step 1) — concrete subclasses of TransformationISignalProps (XSD SOME-IP-/USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS); discovered 2026-09-22 by Group6 member-type audit (were untracked); **queued 2026-09-22** — see rows above
 
 ## Not queued
 
