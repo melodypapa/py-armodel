@@ -126,16 +126,16 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.48 p.375 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
   - [x] Step 8 — Deviations  [none for this class: zero attribute rows modeled exactly; Base → Identifiable + VariationPointCapable mixin per XSD VARIATION-POINT; docstring verbatim; TLS-CRYPTO-SERVICE-MAPPING wrapper branch (and SecOcCryptoServiceMapping's own Table 6.49 full sync) belong to the queued TlsCryptoServiceMapping row / separate tables]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
-- [ ] `TlsVersionEnum` (dependency of TlsCryptoCipherSuite, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · enumeration table id TBC at Step 1 (closure of TlsCryptoServiceMapping.tlsCipherSuite, Table 6.212) · added by 2026-09-22 Group6 member-type audit)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `TlsVersionEnum` (dependency of TlsCryptoCipherSuite, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.213, p.563 · member type of TlsCryptoCipherSuite.version (closure of TlsCryptoServiceMapping.tlsCipherSuite) · added by 2026-09-22 Group6 member-type audit)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone AREnum, no own XML element (serialized as TlsCryptoCipherSuite.version value; round-tripped there)
+  - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum (same reason)
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.213 p.563 citation, `# (no methods)` enum-value form
+  - [x] Step 8 — Deviations  [accepted: XSD TLS-VERSION-ENUM--SIMPLE carries literal LTS-13 (lts13, idx1) flagged `atp.Status="removed"` — not modeled, markdown Table 6.213 lists only tls12/tls13 (Rule 0015)]
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-22; feat commit d969a0dd
 - [ ] `TlsPskIdentity` (dependency of TlsCryptoCipherSuite, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · table id TBC at Step 1 (closure of TlsCryptoServiceMapping.tlsCipherSuite, Table 6.212) · added by 2026-09-22 Group6 member-type audit)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
