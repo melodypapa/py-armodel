@@ -210,7 +210,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation
     SignalServiceTranslationProps,
     SignalServiceTranslationPropsSet,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint, PortPrototypeBlueprintInitValue
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator import BlueprintGenerator
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
@@ -9821,6 +9821,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "PORT-PROTOTYPE-BLUEPRINT")
             self.writeARElement(child_element, blueprint)
             self.setChildElementOptionalRefType(child_element, "INTERFACE-REF", blueprint.getInterfaceRef())
+
+    def writePortPrototypeBlueprintInitValue(self, element: ET.Element, init_value: PortPrototypeBlueprintInitValue):
+        if init_value is not None:
+            child_element = ET.SubElement(element, "PORT-PROTOTYPE-BLUEPRINT-INIT-VALUE")
+            self.writeARObject(child_element, init_value)
+            self.setChildElementOptionalRefType(child_element, "DATA-PROTOTYPE-REF", init_value.getDataPrototypeRef())
+            self.setChildValueSpecification(child_element, "VALUE", init_value.getValue())
 
     def writeModeDeclarationMappingFirstModeRefs(self, element: ET.Element, mapping: ModeDeclarationMapping):
         ref_links = mapping.getFirstModeRefs()

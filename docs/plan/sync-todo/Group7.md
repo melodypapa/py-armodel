@@ -240,15 +240,15 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 8 — Deviations — (1) BASE-REF read/written although the XSD group skips the atpDerived base association (Table B.1 row + OperationInSystemInstanceRef family precedent, unchanged from prior behavior); (2) pre-existing reader/writer gap fixed: contextComponentRefs existed in the model but the helpers dropped the list entirely (Silent data loss on round-trip) — now read/written; (3) targetComponent table mult "1" vs XSD minOccurs=0 → field stays Optional (OperationInSystemInstanceRef contextPort precedent, no code impact)
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `PortPrototypeBlueprintInitValue` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_StandardizationTemplate · Table 4.10 · *(existing member)*)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 4.10 p.60: concrete, Base = ARObject (unchanged); aggregated by PortPrototypeBlueprint.initValue; 2 attrs displayed order: dataPrototype (AutosarDataPrototype, 1, ref → dataPrototypeRef), value (ValueSpecification, 1, aggr); XSD group PORT-PROTOTYPE-BLUEPRINT-INIT-VALUE (AUTOSAR_00052.xsd l.92938) order DATA-PROTOTYPE-REF(30) → VALUE(40); Notes verbatim with Tags tails
+  - [x] Step 2 — Write model class unit test (Red) — TestPortPrototypeBlueprintInitValue rewritten (7 tests): verbatim Note docstring, no `__init__` docstring, issubclass ARObject, defaults, get/set round-trips + chaining + None no-ops, accessor docstring verbatim checks; 1 Red (fabricated docstring; None no-op/chaining already correct)
+  - [x] Step 3 — Implement model class (Green) — PEP 526 `Optional[...]` members in displayed order; typed chaining accessors returning the class; no create/add accessors (ARObject-level class, both attrs single-valued)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — Table 4.10 Note verbatim on class; attr Notes verbatim (Tags tails kept) on inline comments + getter/setter docstrings with "A None value is a no-op..." sentences
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/test_port_prototype_blueprint_init_value.py (3: full read, empty, ns-injected write→re-parse round-trip) + tests/test_armodel/writer/test_port_prototype_blueprint_init_value.py (2: child order [DATA-PROTOTYPE-REF, VALUE] per XSD group l.92938, empty omits); 5 Red (helpers missing)
+  - [x] Step 6 — Update parser & writer (Green) — readPortPrototypeBlueprintInitValue (readARObject + DATA-PROTOTYPE-REF + VALUE via shared getChildValueSpecification) / writePortPrototypeBlueprintInitValue (tag + writeARObject + setChildElementOptionalRefType + setChildValueSpecification); fragment+helper pattern — no ARPackage dispatch (nests in PortPrototypeBlueprint INIT-VALUES)
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist with release column R23-11, no marker
+  - [x] Step 8 — Deviations — (1) XSD VALUE documentation carries two extra sentences ("This aggregation contains a variation point although it is not variant. …") absent from the Table 4.10 Note cell → per Rule 0015 the table wins, docstring = table text; (2) mult 1 in the table vs XSD minOccurs=0 → members stay Optional (repo convention); (3) the 12-subtype VALUE choice round-trips through the shared getValueSpecification/setChildValueSpecification dispatches
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `PortPrototypeBlueprint` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_StandardizationTemplate · Table 4.9 · after `PortPrototypeBlueprintInitValue` (aggr `initValue`))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

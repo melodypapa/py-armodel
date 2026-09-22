@@ -25,65 +25,52 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
 
 class PortPrototypeBlueprintInitValue(ARObject):
     """
-    Represents an initial value specification for a port prototype blueprint.
-    This class defines the initial value and associated data prototype reference
-    for a specific port prototype blueprint element.
+    This meta-class represents the ability to express init values in PortPrototypeBlueprints. These init values act as a kind of blueprint from which for example proper ComSpecs can be derived.
     """
 
     # PortPrototypeBlueprintInitValue method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [x] getDataPrototypeRef          [x] impl  [x] docstring  [x] test
-    # [x] setDataPrototypeRef          [x] impl  [x] docstring  [x] test
-    # [x] getValue                     [x] impl  [x] docstring  [x] test
-    # [x] setValue                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 4.10, p.60
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataPrototypeRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataPrototypeRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getValue                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.dataPrototypeRef: RefType = None
-        self.value: ValueSpecification = None
+        # This is the data prototype for which the init value applies Tags: xml.sequenceOffset=30
+        self.dataPrototypeRef: Optional[RefType] = None
 
-    def getDataPrototypeRef(self) -> RefType:
+        # This is the init value for the particular data prototype. Tags: xml.sequenceOffset=40
+        self.value: Optional[ValueSpecification] = None
+
+    def getDataPrototypeRef(self) -> Optional[RefType]:
         """
-        Gets the data prototype reference for this initial value specification.
-
-        Returns:
-            Reference to the data prototype
+        This is the data prototype for which the init value applies Tags: xml.sequenceOffset=30
         """
         return self.dataPrototypeRef
 
-    def setDataPrototypeRef(self, value: RefType):
+    def setDataPrototypeRef(self, value: Optional[RefType]) -> "PortPrototypeBlueprintInitValue":
         """
-        Sets the data prototype reference for this initial value specification.
-
-        Args:
-            value: Reference to the data prototype
-
-        Returns:
-            Self instance for method chaining
+        This is the data prototype for which the init value applies Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing dataPrototypeRef.
         """
         if value is not None:
             self.dataPrototypeRef = value
         return self
 
-    def getValue(self) -> ValueSpecification:
+    def getValue(self) -> Optional[ValueSpecification]:
         """
-        Gets the value specification for this initial value.
-
-        Returns:
-            The value specification
+        This is the init value for the particular data prototype. Tags: xml.sequenceOffset=40
         """
         return self.value
 
-    def setValue(self, value: ValueSpecification):
+    def setValue(self, value: Optional[ValueSpecification]) -> "PortPrototypeBlueprintInitValue":
         """
-        Sets the value specification for this initial value.
-
-        Args:
-            value: The value specification
-
-        Returns:
-            Self instance for method chaining
+        This is the init value for the particular data prototype. Tags: xml.sequenceOffset=40
+        A None value is a no-op and does not overwrite an existing value.
         """
         if value is not None:
             self.value = value
