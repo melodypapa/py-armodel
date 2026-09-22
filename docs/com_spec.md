@@ -1,3 +1,5 @@
+# Com Spec Compatibility
+
 Allowed combinations of a specific Type of PortInterface, a specific Type of PortPrototype, and a specific Type of ComSpec
 
 | Type of PortPrototype | Type of ComSpec           | Role of Element | Type of PortInterface   | Role of Type-Ref          |

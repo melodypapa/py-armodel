@@ -244,8 +244,7 @@ class SwSystemconstValue(ARObject):
             the internal value of the SwSystemconst as processed in the
             Formula Language.
             Stereotype: atpVariation
-            Tags: vh.latestBindingTime=preCompileTime,
-                xml.sequenceOffset=20
+            Tags: vh.latestBindingTime=preCompileTime, xml.sequenceOffset=20
     """
 
     # SwSystemconstValue method parity checklist:
