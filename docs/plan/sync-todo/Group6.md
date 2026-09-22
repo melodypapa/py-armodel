@@ -136,16 +136,16 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.213 p.563 citation, `# (no methods)` enum-value form
   - [x] Step 8 — Deviations  [accepted: XSD TLS-VERSION-ENUM--SIMPLE carries literal LTS-13 (lts13, idx1) flagged `atp.Status="removed"` — not modeled, markdown Table 6.213 lists only tls12/tls13 (Rule 0015)]
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-22; feat commit d969a0dd
-- [ ] `TlsPskIdentity` (dependency of TlsCryptoCipherSuite, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · table id TBC at Step 1 (closure of TlsCryptoServiceMapping.tlsCipherSuite, Table 6.212) · added by 2026-09-22 Group6 member-type audit)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `TlsPskIdentity` (dependency of TlsCryptoCipherSuite, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.214, p.563 · member type of TlsCryptoCipherSuite.pskIdentity (closure of TlsCryptoServiceMapping.tlsCipherSuite) · added by 2026-09-22 Group6 member-type audit)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations  [none: preSharedKey→preSharedKeyRef is the Rule 0001.5 ref-suffix naming, not a deviation; spec Mul 0..1 matches XSD minOccurs=0; member order = displayed/XSD group order]
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-22; feat commit 16c2791a
 - [ ] `TlsCryptoCipherSuite` (dependency of TlsCryptoServiceMapping, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.212, p.561 · member type of TlsCryptoServiceMapping.tlsCipherSuite (XSD wrapper TLS-CIPHER-SUITES) · added by 2026-09-22 Group6 member-type audit; remaining closure members (TlsCryptoCipherSuiteProps, CryptoEllipticCurveProps, TlsSignatureScheme, CryptoServiceCertificate) to be confirmed/queued at Step 1; after sync, TlsCryptoServiceMapping needs an extend pass — typed tlsCipherSuites list + reader/writer replace notImplemented)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
