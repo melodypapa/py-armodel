@@ -5,6 +5,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, MacAddressString, PositiveInteger, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
+    CryptoEllipticCurveProps,
     CryptoServiceMapping,
     CryptoServicePrimitive,
     MacSecCapabilityEnum,
@@ -563,3 +564,36 @@ class Test_TlsCryptoCipherSuitePropsSpec:
         assert props.getTcpIpTlsUseSecurityExtensionForceEncryptThenMac() is flag
         props.setTcpIpTlsUseSecurityExtensionForceEncryptThenMac(None)
         assert props.getTcpIpTlsUseSecurityExtensionForceEncryptThenMac() is flag
+
+
+class Test_CryptoEllipticCurvePropsSpec:
+    """Spec contract of CryptoEllipticCurveProps (AUTOSAR_CP_TPS_SystemTemplate, Table 6.216, p.564)."""
+
+    def test_docstring_is_spec_note_verbatim(self):
+        note = "This meta-class provides attributes to specify the properties of elliptic curves. Tags: atp.recommendedPackage=CryptoEllipticCurveProps"
+        assert CryptoEllipticCurveProps.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert CryptoEllipticCurveProps.__init__.__doc__ is None
+
+    def test_heritage(self):
+        # Base chain ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable, ARElement — most-derived is ARElement
+        parent = MockParent()
+        props = CryptoEllipticCurveProps(parent, "curve")
+        assert isinstance(props, ARElement)
+        assert isinstance(props, Identifiable)
+
+    def test_initialization(self):
+        # Table 6.216 — the single attribute is optional (Mult 0..1, XSD minOccurs=0)
+        parent = MockParent()
+        props = CryptoEllipticCurveProps(parent, "curve")
+        assert props.getNamedCurveId() is None
+
+    def test_get_set_named_curve_id(self):
+        parent = MockParent()
+        props = CryptoEllipticCurveProps(parent, "curve")
+        curve_id = _pos_int("23")
+        assert props.setNamedCurveId(curve_id) is props
+        assert props.getNamedCurveId() is curve_id
+        props.setNamedCurveId(None)
+        assert props.getNamedCurveId() is curve_id

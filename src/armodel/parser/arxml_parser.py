@@ -797,6 +797,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
+    CryptoEllipticCurveProps,
     CryptoServicePrimitive,
     MacSecCapabilityEnum,
     MacSecCipherSuiteConfig,
@@ -13014,6 +13015,11 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported CryptoServiceMapping %s" % tag_name)
 
+    def readCryptoEllipticCurveProps(self, element: ET.Element, props: CryptoEllipticCurveProps):
+        self.logger.debug("Read CryptoEllipticCurveProps <%s>" % props.getShortName())
+        self.readIdentifiable(element, props)
+        props.setNamedCurveId(self.getChildElementOptionalPositiveInteger(element, "NAMED-CURVE-ID"))
+
     def readCryptoServicePrimitive(self, element: ET.Element, primitive: CryptoServicePrimitive):
         self.logger.debug("Read CryptoServicePrimitive <%s>" % primitive.getShortName())
         self.readIdentifiable(element, primitive)
@@ -13671,6 +13677,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "SECURE-COMMUNICATION-PROPS-SET":
                 prop_set = parent.createSecureCommunicationPropsSet(self.getShortName(child_element))
                 self.readSecureCommunicationPropsSet(child_element, prop_set)
+            elif tag_name == "CRYPTO-ELLIPTIC-CURVE-PROPS":
+                props = parent.createCryptoEllipticCurveProps(self.getShortName(child_element))
+                self.readCryptoEllipticCurveProps(child_element, props)
             elif tag_name == "CRYPTO-SERVICE-PRIMITIVE":
                 primitive = parent.createCryptoServicePrimitive(self.getShortName(child_element))
                 self.readCryptoServicePrimitive(child_element, primitive)

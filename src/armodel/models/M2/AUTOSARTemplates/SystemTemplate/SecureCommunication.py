@@ -365,6 +365,39 @@ class CryptoServicePrimitive(ARElement):
         return self
 
 
+class CryptoEllipticCurveProps(ARElement):
+    """
+    This meta-class provides attributes to specify the properties of elliptic curves. Tags: atp.recommendedPackage=CryptoEllipticCurveProps
+    """
+
+    # CryptoEllipticCurveProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.216, p.564
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNamedCurveId    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNamedCurveId    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # Defines the value of one specific NamedCurve Id.
+        self.namedCurveId: Optional[PositiveInteger] = None
+
+    def getNamedCurveId(self) -> Optional[PositiveInteger]:
+        """Defines the value of one specific NamedCurve Id."""
+        return self.namedCurveId
+
+    def setNamedCurveId(self, value: Optional[PositiveInteger]) -> "CryptoEllipticCurveProps":
+        """
+        Defines the value of one specific NamedCurve Id.
+        A None value is a no-op and does not overwrite an existing namedCurveId.
+        """
+        if value is not None:
+            self.namedCurveId = value
+        return self
+
+
 class MacSecConfidentialityOffsetEnum(AREnum):
     """
     This enum defines the MACsec capability options.
