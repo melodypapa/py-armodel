@@ -111,6 +111,7 @@ __all__ = [
     "ConsistencyNeeds",
     "ConstantSpecification",
     "ConstantSpecificationMappingSet",
+    "CryptoServicePrimitive",
     "DataConstr",
     "DataPrototypeGroup",
     "DataTransformationSet",
@@ -826,6 +827,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             spec = ConstantSpecification(self, short_name)
             self.addElement(spec)
         return self.getElement(short_name, ConstantSpecification)
+
+    def createCryptoServicePrimitive(self, short_name: str) -> CryptoServicePrimitive:
+
+        if not self.IsElementExists(short_name, CryptoServicePrimitive):
+            primitive = CryptoServicePrimitive(self, short_name)
+            self.addElement(primitive)
+        return self.getElement(short_name, CryptoServicePrimitive)
 
     def createDataConstr(self, short_name: str) -> DataConstr:
 
@@ -1932,6 +1940,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     EcuInstance,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import CryptoServicePrimitive  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (  # noqa: E402
     DataTransformationSet,
     E2EProfileCompatibilityProps,

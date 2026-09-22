@@ -6,6 +6,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, MacAddressString, PositiveInteger, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
     CryptoServiceMapping,
+    CryptoServicePrimitive,
     MacSecCapabilityEnum,
     MacSecCipherSuiteConfig,
     MacSecConfidentialityOffsetEnum,
@@ -476,3 +477,55 @@ class Test_TlsPskIdentity:
         assert p.setPskIdentity(None) is p
         assert p.setPskIdentityHint(None) is p
         assert p.getPskIdentity() == "keep"
+
+
+class Test_CryptoServicePrimitiveSpec:
+    """Spec contract of CryptoServicePrimitive (AUTOSAR_CP_TPS_SystemTemplate, Table 6.50, p.376)."""
+
+    def test_docstring_is_spec_note_verbatim(self):
+        note = "This meta-class has the ability to represent a crypto primitive. Tags: atp.recommendedPackage=CryptoPrimitives"
+        assert CryptoServicePrimitive.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert CryptoServicePrimitive.__init__.__doc__ is None
+
+    def test_heritage(self):
+        parent = MockParent()
+        primitive = CryptoServicePrimitive(parent, "prim")
+        assert isinstance(primitive, ARElement)
+        assert isinstance(primitive, Identifiable)
+
+    def test_initialization(self):
+        # Table 6.50 — all three attributes optional (Mult 0..1, XSD minOccurs=0)
+        parent = MockParent()
+        primitive = CryptoServicePrimitive(parent, "prim")
+        assert primitive.getAlgorithmFamily() is None
+        assert primitive.getAlgorithmMode() is None
+        assert primitive.getAlgorithmSecondaryFamily() is None
+
+    def test_get_set_algorithm_family(self):
+        parent = MockParent()
+        primitive = CryptoServicePrimitive(parent, "prim")
+        family = _string("AES")
+        assert primitive.setAlgorithmFamily(family) is primitive
+        assert primitive.getAlgorithmFamily() is family
+        primitive.setAlgorithmFamily(None)
+        assert primitive.getAlgorithmFamily() is family
+
+    def test_get_set_algorithm_mode(self):
+        parent = MockParent()
+        primitive = CryptoServicePrimitive(parent, "prim")
+        mode = _string("CMAC")
+        assert primitive.setAlgorithmMode(mode) is primitive
+        assert primitive.getAlgorithmMode() is mode
+        primitive.setAlgorithmMode(None)
+        assert primitive.getAlgorithmMode() is mode
+
+    def test_get_set_algorithm_secondary_family(self):
+        parent = MockParent()
+        primitive = CryptoServicePrimitive(parent, "prim")
+        secondary = _string("SHA2")
+        assert primitive.setAlgorithmSecondaryFamily(secondary) is primitive
+        assert primitive.getAlgorithmSecondaryFamily() is secondary
+        primitive.setAlgorithmSecondaryFamily(None)
+        assert primitive.getAlgorithmSecondaryFamily() is secondary

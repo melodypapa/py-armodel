@@ -146,16 +146,16 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations  [none: preSharedKey→preSharedKeyRef is the Rule 0001.5 ref-suffix naming, not a deviation; spec Mul 0..1 matches XSD minOccurs=0; member order = displayed/XSD group order]
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-22; feat commit 16c2791a
-- [ ] `CryptoServicePrimitive` (dependency of TlsCryptoCipherSuite/TlsCryptoServiceMapping, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.50, p.376 · member type of TlsCryptoCipherSuite.authentication/encryption/keyExchange/keyExchangeAuthentication and ref target of TlsCryptoServiceMapping.keyExchangeRefs · added by 2026-09-22 Group6 member-type audit — was untracked, discovered by audit; re-ordered before TlsCryptoCipherSuite per full-closure confirmation 2026-09-22)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `CryptoServicePrimitive` (dependency of TlsCryptoCipherSuite/TlsCryptoServiceMapping, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.50, p.376 · member type of TlsCryptoCipherSuite.authentication/encryption/keyExchange/keyExchangeAuthentication and ref target of TlsCryptoServiceMapping.keyExchangeRefs · added by 2026-09-22 Group6 member-type audit — was untracked, discovered by audit; re-ordered before TlsCryptoCipherSuite per full-closure confirmation 2026-09-22)
+  - [x] Step 1 — Sync members & description from spec — Table 6.50 p.376 (pdf_page.py confirmed): Class note "This meta-class has the ability to represent a crypto primitive. Tags: atp.recommendedPackage=CryptoPrimitives"; Base chain → most-derived ARElement; Aggregated by ARPackage.element; 3 attrs all String 0..1 attr (algorithmFamily, algorithmMode, algorithmSecondaryFamily — markdown renders 3rd as "algorithm Secondary Family", a PDF column-wrap artifact; XSD mmt.qualifiedName=CryptoServicePrimitive.algorithmSecondaryFamily + ALGORITHM-SECONDARY-FAMILY confirms); XSD group order = displayed order; no constr_* rows
+  - [x] Step 2 — Write model class unit test (Red) — Test_CryptoServicePrimitiveSpec in test_SecureCommunication.py: verbatim class-Note docstring assertion, no-`__init__`-docstring, ARElement/Identifiable heritage, defaults, 3× get/set round-trip + chaining + None no-op (Red: ImportError — class did not exist)
+  - [x] Step 3 — Implement model class (Green) — CryptoServicePrimitive(ARElement) in SecureCommunication.py: 3 String 0..1 fields (PEP 526, blank-line separated), getter-first accessor pairs per spec row order, None-no-op chaining setters; 50 passed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — new class: no pre-existing docstrings; all written fresh and diff-verified against markdown L9985 (class Note incl. Tags tail) / L9989 / L9990 / L9991; __init__ carries no docstring
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser test (dispatch via readARPackageElements, field values, optional-absent, parse→write→reparse) + new writer test (writeARPackageElement dispatch tag, XSD element order, empty-omits, create-duplicate-returns-existing, write→reparse); 9 Red (4 parser NotImplementedError unsupported element, 5 writer AttributeError no createCryptoServicePrimitive)
+  - [x] Step 6 — Update parser & writer (Green) — readCryptoServicePrimitive/writeCryptoServicePrimitive helpers; parser dispatch CRYPTO-SERVICE-PRIMITIVE in readARPackageElements (after SECURE-COMMUNICATION-PROPS-SET); writer isinstance branch in writeARPackageElement; ARPackage.createCryptoServicePrimitive factory (IsElementExists-protected) + __all__ + late import; 9 passed
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist with release column, Table 6.50 p.376 citation; __init__ row [—] reader/writer; reader on setter rows / writer on getter rows; marker deferred to 9b
+  - [x] Step 8 — Deviations  [none for this class: 3 String 0..1 attrs modeled exactly; markdown "algorithm Secondary Family" is a PDF column-wrap artifact joined per XSD mmt.qualifiedName=algorithmSecondaryFamily (Rule 0001.5 naming, not a deviation); Base ARElement per most-derived rule; no missing referenced classes; no placeholders]
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-22: full suite 10536 passed / 0 failed (--no-coverage), npm run lint clean (flake8 + ruff), black-check 1078 files unchanged, Rule 0006 set-based checklist-vs-methods AST check OK; 9b confirmed 2026-09-22
 - [ ] `TlsCryptoCipherSuiteProps` (dependency of TlsCryptoCipherSuite, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.215, p.563 · member type of TlsCryptoCipherSuite.props · queued 2026-09-22 per full-closure confirmation)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

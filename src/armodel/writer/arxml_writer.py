@@ -711,6 +711,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
+    CryptoServicePrimitive,
     MacSecCipherSuiteConfig,
     MacSecCryptoAlgoConfig,
     MacSecGlobalKayProps,
@@ -11344,6 +11345,14 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported CryptoServiceMapping %s" % type(crypto_mapping))
 
+    def writeCryptoServicePrimitive(self, element: ET.Element, primitive: CryptoServicePrimitive):
+        self.logger.debug("Write CryptoServicePrimitive <%s>" % primitive.getShortName())
+        child_element = ET.SubElement(element, "CRYPTO-SERVICE-PRIMITIVE")
+        self.writeIdentifiable(child_element, primitive)
+        self.setChildElementOptionalString(child_element, "ALGORITHM-FAMILY", primitive.getAlgorithmFamily())
+        self.setChildElementOptionalString(child_element, "ALGORITHM-MODE", primitive.getAlgorithmMode())
+        self.setChildElementOptionalString(child_element, "ALGORITHM-SECONDARY-FAMILY", primitive.getAlgorithmSecondaryFamily())
+
     def writeSecOcCryptoServiceMapping(self, element: ET.Element, mapping: SecOcCryptoServiceMapping):
         self.writeIdentifiable(element, mapping)
         self.setChildElementOptionalRefType(element, "AUTHENTICATION-REF", mapping.getAuthenticationRef())
@@ -13381,6 +13390,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeGeneralPurposeIPdu(element, ar_element)
         elif isinstance(ar_element, SecureCommunicationPropsSet):
             self.writeSecureCommunicationPropsSet(element, ar_element)
+        elif isinstance(ar_element, CryptoServicePrimitive):
+            self.writeCryptoServicePrimitive(element, ar_element)
         elif isinstance(ar_element, SoAdRoutingGroup):
             self.writeSoAdRoutingGroup(element, ar_element)
         elif isinstance(ar_element, CanXlProps):

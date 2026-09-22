@@ -263,6 +263,75 @@ class TlsPskIdentity(ARObject):
         return self.pskIdentityHint
 
 
+class CryptoServicePrimitive(ARElement):
+    """
+    This meta-class has the ability to represent a crypto primitive. Tags: atp.recommendedPackage=CryptoPrimitives
+    """
+
+    # CryptoServicePrimitive method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.50, p.376
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAlgorithmFamily           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAlgorithmFamily           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAlgorithmMode             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAlgorithmMode             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAlgorithmSecondaryFamily  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAlgorithmSecondaryFamily  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # This attribute represents a description of the family (e.g. AES) of crypto algorithm implemented by the crypto primitive.
+        self.algorithmFamily: Optional[String] = None
+
+        # This attribute represents a description of the mode of the crypto algorithm implemented by the crypto primitive.
+        self.algorithmMode: Optional[String] = None
+
+        # This attribute represents a further description of the secondary family of crypto algorithm implemented by the crypto primitive. The secondary family is needed for the specification of the hash algorithm for a signature check, e.g. using RSA.
+        self.algorithmSecondaryFamily: Optional[String] = None
+
+    def getAlgorithmFamily(self) -> Optional[String]:
+        """This attribute represents a description of the family (e.g. AES) of crypto algorithm implemented by the crypto primitive."""
+        return self.algorithmFamily
+
+    def setAlgorithmFamily(self, value: Optional[String]) -> "CryptoServicePrimitive":
+        """
+        This attribute represents a description of the family (e.g. AES) of crypto algorithm implemented by the crypto primitive.
+        A None value is a no-op and does not overwrite an existing algorithmFamily.
+        """
+        if value is not None:
+            self.algorithmFamily = value
+        return self
+
+    def getAlgorithmMode(self) -> Optional[String]:
+        """This attribute represents a description of the mode of the crypto algorithm implemented by the crypto primitive."""
+        return self.algorithmMode
+
+    def setAlgorithmMode(self, value: Optional[String]) -> "CryptoServicePrimitive":
+        """
+        This attribute represents a description of the mode of the crypto algorithm implemented by the crypto primitive.
+        A None value is a no-op and does not overwrite an existing algorithmMode.
+        """
+        if value is not None:
+            self.algorithmMode = value
+        return self
+
+    def getAlgorithmSecondaryFamily(self) -> Optional[String]:
+        """This attribute represents a further description of the secondary family of crypto algorithm implemented by the crypto primitive. The secondary family is needed for the specification of the hash algorithm for a signature check, e.g. using RSA."""
+        return self.algorithmSecondaryFamily
+
+    def setAlgorithmSecondaryFamily(self, value: Optional[String]) -> "CryptoServicePrimitive":
+        """
+        This attribute represents a further description of the secondary family of crypto algorithm implemented by the crypto primitive. The secondary family is needed for the specification of the hash algorithm for a signature check, e.g. using RSA.
+        A None value is a no-op and does not overwrite an existing algorithmSecondaryFamily.
+        """
+        if value is not None:
+            self.algorithmSecondaryFamily = value
+        return self
+
+
 class MacSecConfidentialityOffsetEnum(AREnum):
     """
     This enum defines the MACsec capability options.
