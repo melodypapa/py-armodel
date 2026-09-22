@@ -194,6 +194,75 @@ class TlsVersionEnum(AREnum):
         )
 
 
+class TlsPskIdentity(ARObject):
+    """
+    This element is used to describe the pre-shared key shared during the handshake among the communication parties, to establish a TLS connection if the handshake is based on the existence of a pre-shared key.
+    """
+
+    # TlsPskIdentity method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.214, p.563
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__            [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setPreSharedKeyRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPreSharedKeyRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPskIdentity      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPskIdentity      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPskIdentityHint  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPskIdentityHint  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This reference identifies the applicable cryptographic key.
+        self.preSharedKeyRef: Optional[RefType] = None
+
+        # This attribute provides the key identification.
+        self.pskIdentity: Optional[String] = None
+
+        # This attribute provides the identity hint for a pre-shared key.
+        self.pskIdentityHint: Optional[String] = None
+
+    def setPreSharedKeyRef(self, value: Optional[RefType]) -> "TlsPskIdentity":
+        """
+        This reference identifies the applicable cryptographic key.
+        A None value is a no-op and does not overwrite an existing preSharedKeyRef.
+        """
+        if value is not None:
+            self.preSharedKeyRef = value
+        return self
+
+    def getPreSharedKeyRef(self) -> Optional[RefType]:
+        """This reference identifies the applicable cryptographic key."""
+        return self.preSharedKeyRef
+
+    def setPskIdentity(self, value: Optional[String]) -> "TlsPskIdentity":
+        """
+        This attribute provides the key identification.
+        A None value is a no-op and does not overwrite an existing pskIdentity.
+        """
+        if value is not None:
+            self.pskIdentity = value
+        return self
+
+    def getPskIdentity(self) -> Optional[String]:
+        """This attribute provides the key identification."""
+        return self.pskIdentity
+
+    def setPskIdentityHint(self, value: Optional[String]) -> "TlsPskIdentity":
+        """
+        This attribute provides the identity hint for a pre-shared key.
+        A None value is a no-op and does not overwrite an existing pskIdentityHint.
+        """
+        if value is not None:
+            self.pskIdentityHint = value
+        return self
+
+    def getPskIdentityHint(self) -> Optional[String]:
+        """This attribute provides the identity hint for a pre-shared key."""
+        return self.pskIdentityHint
+
+
 class MacSecConfidentialityOffsetEnum(AREnum):
     """
     This enum defines the MACsec capability options.

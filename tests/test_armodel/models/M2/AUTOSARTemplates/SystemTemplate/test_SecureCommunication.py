@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecRoleEnum,
     SecOcCryptoServiceMapping,
     TlsCryptoServiceMapping,
+    TlsPskIdentity,
     TlsVersionEnum,
 )
 
@@ -449,3 +450,29 @@ class Test_TlsVersionEnum:
         e.setValue("TLS-13")
         assert e.getValue() == "TLS-13"
         assert e.getText() == "TLS-13"
+
+
+class Test_TlsPskIdentity:
+    def test_initialization(self):
+        # Table 6.214, p.563 — all three members optional (XSD minOccurs=0)
+        p = TlsPskIdentity()
+        assert p.getPreSharedKeyRef() is None
+        assert p.getPskIdentity() is None
+        assert p.getPskIdentityHint() is None
+
+    def test_get_set_round_trip(self):
+        p = TlsPskIdentity()
+        p.setPreSharedKeyRef("/CryptoServiceKeys/CryptoServiceKey_Master")
+        assert p.getPreSharedKeyRef() == "/CryptoServiceKeys/CryptoServiceKey_Master"
+        p.setPskIdentity("psk_id_1")
+        assert p.getPskIdentity() == "psk_id_1"
+        p.setPskIdentityHint("hint_1")
+        assert p.getPskIdentityHint() == "hint_1"
+
+    def test_setter_none_no_op_and_chaining(self):
+        p = TlsPskIdentity()
+        p.setPskIdentity("keep")
+        assert p.setPreSharedKeyRef(None) is p
+        assert p.setPskIdentity(None) is p
+        assert p.setPskIdentityHint(None) is p
+        assert p.getPskIdentity() == "keep"

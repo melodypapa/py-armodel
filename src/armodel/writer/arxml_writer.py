@@ -719,6 +719,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecProps,
     SecOcCryptoServiceMapping,
     TlsCryptoServiceMapping,
+    TlsPskIdentity,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -11360,6 +11361,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.notImplemented("TLS-CIPHER-SUITES aggregation is not implemented (missing member class TlsCryptoCipherSuite)")
         self.setChildElementOptionalBooleanValue(element, "USE-CLIENT-AUTHENTICATION-REQUEST", mapping.getUseClientAuthenticationRequest())
         self.setChildElementOptionalBooleanValue(element, "USE-SECURITY-EXTENSION-RECORD-SIZE-LIMIT", mapping.getUseSecurityExtensionRecordSizeLimit())
+
+    def writeTlsPskIdentity(self, parent: ET.Element, psk_identity: TlsPskIdentity):
+        element = ET.SubElement(parent, "TLS-PSK-IDENTITY")
+        self.setChildElementOptionalRefType(element, "PRE-SHARED-KEY-REF", psk_identity.getPreSharedKeyRef())
+        self.setChildElementOptionalString(element, "PSK-IDENTITY", psk_identity.getPskIdentity())
+        self.setChildElementOptionalString(element, "PSK-IDENTITY-HINT", psk_identity.getPskIdentityHint())
 
     def writeSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         self.logger.debug("Write SystemMapping <%s>" % mapping.getShortName())
