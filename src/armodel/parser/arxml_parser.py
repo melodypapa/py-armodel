@@ -9817,8 +9817,20 @@ class ARXMLParser(AbstractARXMLParser):
             entity.addHwCategoryRef(ref)
 
     def readHwAttributeValue(self, element: ET.Element, attribute_value: HwAttributeValue):
+        # XSD group HW-ATTRIBUTE-VALUE (AUTOSAR_00052.xsd l.65663):
+        # ANNOTATION, HW-ATTRIBUTE-DEF-REF, V, VT, VARIATION-POINT.
         self.readARObject(element, attribute_value)
+        annotation_element = self.find(element, "ANNOTATION")
+        if annotation_element is not None:
+            annotation = Annotation()
+            self.readGeneralAnnotation(annotation_element, annotation)
+            attribute_value.setAnnotation(annotation)
         attribute_value.setHwAttributeDefRef(self.getChildElementOptionalRefType(element, "HW-ATTRIBUTE-DEF-REF"))
+        attribute_value.setV(self.getChildElementOptionalNumerical(element, "V"))
+        attribute_value.setVt(self.getChildElementOptionalVerbatimString(element, "VT"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            attribute_value.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
 
     def readHwDescriptionEntityHwAttributeValues(self, element: ET.Element, entity: HwDescriptionEntity):
         for child_element in self.findall(element, "HW-ATTRIBUTE-VALUES/HW-ATTRIBUTE-VALUE"):
@@ -9929,7 +9941,6 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readHwAttributeLiteralDef(self, element: ET.Element, literal_def):
         self.readIdentifiable(element, literal_def)
-        literal_def.setValue(self.getChildElementOptionalString(element, "VALUE"))
 
     def readHwCategoryHwAttributeDef(self, element: ET.Element, hw_category: HwCategory):
         for child_element in self.findall(element, "HW-ATTRIBUTE-DEFS/*"):

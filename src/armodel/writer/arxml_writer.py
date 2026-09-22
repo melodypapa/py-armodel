@@ -12699,9 +12699,18 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(child_element, "HW-CATEGORY-REF", ref)
 
     def writeHwAttributeValue(self, element: ET.Element, attribute_value: HwAttributeValue):
+        # XSD group HW-ATTRIBUTE-VALUE (AUTOSAR_00052.xsd l.65663):
+        # ANNOTATION, HW-ATTRIBUTE-DEF-REF, V, VT, VARIATION-POINT.
         child_element = ET.SubElement(element, "HW-ATTRIBUTE-VALUE")
         self.writeARObject(child_element, attribute_value)
+        annotation = attribute_value.getAnnotation()
+        if annotation is not None:
+            annotation_element = ET.SubElement(child_element, "ANNOTATION")
+            self.writeGeneralAnnotation(annotation_element, annotation)
         self.setChildElementOptionalRefType(child_element, "HW-ATTRIBUTE-DEF-REF", attribute_value.getHwAttributeDefRef())
+        self.setChildElementOptionalNumerical(child_element, "V", attribute_value.getV())
+        self.setChildElementOptionalLiteral(child_element, "VT", attribute_value.getVt())
+        self.writeVariationPoint(child_element, attribute_value.getVariationPoint())
 
     def writeHwDescriptionEntityHwAttributeValues(self, element: ET.Element, entity: HwDescriptionEntity):
         attribute_values = entity.getHwAttributeValues()
@@ -12832,7 +12841,6 @@ class ARXMLWriter(AbstractARXMLWriter):
         if literal_def is not None:
             child_element = ET.SubElement(element, "HW-ATTRIBUTE-LITERAL-DEF")
             self.writeIdentifiable(child_element, literal_def)
-            self.setChildElementOptionalString(child_element, "VALUE", literal_def.getValue())
 
     def writeHwCategoryHwAttributeDef(self, element: ET.Element, hw_category: HwCategory):
         attribute_defs = hw_category.getHwAttributeDefs()

@@ -9,7 +9,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
+    Numerical,
     RefType,
+    VerbatimString,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -18,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARElement,
 )
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity
+from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
 
 class HwType(ARElement, HwDescriptionEntity):
@@ -37,121 +40,116 @@ class HwType(ARElement, HwDescriptionEntity):
 
 class HwAttributeValue(ARObject, VariationPointCapable):
     """
-    Represents a hardware attribute value in AUTOSAR hardware descriptions.
-    This class defines the actual values assigned to hardware attributes in the model.
+    This metaclass represents the ability to assign a hardware attribute value. Note that v and vt are mutually exclusive.
     """
 
     # HwAttributeValue method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getHwAttributeDefRef         [x] impl  [x] docstring  [ ] test
-    # [ ] setHwAttributeDefRef         [x] impl  [x] docstring  [ ] test
-    # [ ] getValue                     [x] impl  [x] docstring  [ ] test
-    # [ ] setValue                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.2, p.16
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAnnotation         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAnnotation         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwAttributeDefRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHwAttributeDefRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getV                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setV                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVt                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVt                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariationPoint     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariationPoint     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the HwAttributeValue.
-        """
         super().__init__()
 
+        # Optional annotation that can be added to each HwAttributeValue.
+        self.annotation: Optional[Annotation] = None
+
+        # This association represents the definition of the particular hardware attribute value.
         self.hwAttributeDefRef: Optional[RefType] = None
-        self.value: Optional[str] = None
+
+        # This represents a numerical hardware attribute value. Stereotypes: atpVariation Tags: vh.latestBindingTime=systemDesignTime
+        self.v: Optional[Numerical] = None
+
+        # This represents a textual hardware attribute value.
+        self.vt: Optional[VerbatimString] = None
+
+    def getAnnotation(self) -> Optional[Annotation]:
+        """
+        Optional annotation that can be added to each HwAttributeValue.
+        """
+        return self.annotation
+
+    def setAnnotation(self, value: Annotation) -> "HwAttributeValue":
+        """
+        Optional annotation that can be added to each HwAttributeValue.
+
+        A None value is a no-op and does not overwrite an existing annotation.
+        """
+        if value is not None:
+            self.annotation = value
+        return self
 
     def getHwAttributeDefRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the hardware attribute definition for this value.
-
-        Returns:
-            RefType representing the attribute definition reference, or None if not set
+        This association represents the definition of the particular hardware attribute value.
         """
         return self.hwAttributeDefRef
 
-    def setHwAttributeDefRef(self, value: RefType):
+    def setHwAttributeDefRef(self, value: RefType) -> "HwAttributeValue":
         """
-        Sets the reference to the hardware attribute definition for this value.
-        Only sets the value if it is not None.
+        This association represents the definition of the particular hardware attribute value.
 
-        Args:
-            value: The attribute definition reference to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing hwAttributeDefRef.
         """
         if value is not None:
             self.hwAttributeDefRef = value
         return self
 
-    def getValue(self) -> Optional[str]:
+    def getV(self) -> Optional[Numerical]:
         """
-        Gets the actual value for this hardware attribute.
-
-        Returns:
-            String representing the attribute value, or None if not set
+        This represents a numerical hardware attribute value. Stereotypes: atpVariation Tags: vh.latestBindingTime=systemDesignTime
         """
-        return self.value
+        return self.v
 
-    def setValue(self, value: str):
+    def setV(self, value: Numerical) -> "HwAttributeValue":
         """
-        Sets the actual value for this hardware attribute.
-        Only sets the value if it is not None.
+        This represents a numerical hardware attribute value. Stereotypes: atpVariation Tags: vh.latestBindingTime=systemDesignTime
 
-        Args:
-            value: The attribute value to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing v.
         """
         if value is not None:
-            self.value = value
+            self.v = value
+        return self
+
+    def getVt(self) -> Optional[VerbatimString]:
+        """
+        This represents a textual hardware attribute value.
+        """
+        return self.vt
+
+    def setVt(self, value: VerbatimString) -> "HwAttributeValue":
+        """
+        This represents a textual hardware attribute value.
+
+        A None value is a no-op and does not overwrite an existing vt.
+        """
+        if value is not None:
+            self.vt = value
         return self
 
 
 class HwAttributeLiteralDef(Identifiable):
     """
-    Represents a hardware attribute literal definition in AUTOSAR hardware descriptions.
-    This class defines the possible literal values for an enumerated hardware attribute.
+    One available EnumerationLiteral of the Enumeration definition. Only applicable if the category of the HwAttributeDef equals Enumeration.
     """
 
     # HwAttributeLiteralDef method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getValue                     [x] impl  [x] docstring  [ ] test
-    # [ ] setValue                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.14, p.26
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name: str):
-        """
-        Initializes the HwAttributeLiteralDef with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this hardware attribute literal definition
-            short_name: The unique short name of this hardware attribute literal definition
-        """
         super().__init__(parent, short_name)
-
-        self.value: Optional[str] = None
-
-    def getValue(self) -> Optional[str]:
-        """
-        Gets the literal value for this attribute literal definition.
-
-        Returns:
-            String representing the literal value, or None if not set
-        """
-        return self.value
-
-    def setValue(self, value: str):
-        """
-        Sets the literal value for this attribute literal definition.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The literal value to set
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.value = value
-        return self
 
 
 class HwAttributeDef(Identifiable):
