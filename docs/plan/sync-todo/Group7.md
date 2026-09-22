@@ -170,15 +170,15 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 8 — Deviations — (1) TIME-BASES atpSplitable wrapper modeled as single 0..1 ref per Table B.13; the conditional's optional VARIATION-POINT not modeled (TimingClock precedent, no fixture carries it); (2) old `networks`/`timeBases`/`getNetworks`... accessor names replaced (Rule 0014 to-fix, done); (3) base re-parented to AtpStructureElement per spec closure
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `IdsmModuleInstantiation` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_SecurityExtractTemplate · **Table B.14** (**spec table found 2026-09-22 re-verification — NOT XSD-only**; appendix letter-numbered table — resolve in per-class Phase 0))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table B.14 p.63 (PDF verified p.63): concrete; Base closure → deepest existing = `IdsPlatformInstantiation` (Table B.13, synced first — dependency order); **attribute table row is '-' — no own attributes**; XSD group IDSM-MODULE-INSTANTIATION (l.69885) carries REPORTABLE-SECURITY-EVENT-REFS but per Rule 0015 the table wins (see Step 8); aggregated by AtpClassifier.atpFeature, Machine.moduleInstantiation
+  - [x] Step 2 — Write model class unit test (Red) — test___init__.py TestIdsmModuleInstantiation rewritten: concrete instantiation, issubclass → IdsPlatformInstantiation, verbatim Note docstring, no `__init__` docstring, inherited defaults, no-spec-attributes guard (hasattr reportableSecurityEventRefs is False); 8 Red across the shared file before implementation
+  - [x] Step 3 — Implement model class (Green) — class body reduced to `__init__` forwarding to IdsPlatformInstantiation (Table B.14 has no Attribute rows); landed with the IdsPlatformInstantiation source edit (same file, IntrusionDetectionSystem/__init__.py)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — Table B.14 Note verbatim on class docstring; fabricated "Sources:" block wiped; no marker (stamp deferred to batch confirmation)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/test_idsm_module_instantiation.py (2: inherited NETWORK-INTERFACE-REFS + TIME-BASES through readIdsmModuleInstantiation, empty) + tests/test_armodel/writer/test_idsm_module_instantiation.py (2: IDSM-MODULE-INSTANTIATION child order [SHORT-NAME, NETWORK-INTERFACE-REFS, TIME-BASES] per XSD complexType l.69915, ns-injected round-trip)
+  - [x] Step 6 — Update parser & writer (Green) — readIdsmModuleInstantiation forwards to readIdsPlatformInstantiation; writeIdsmModuleInstantiation creates the IDSM-MODULE-INSTANTIATION tag and delegates content to writeIdsPlatformInstantiation; no ARPackage dispatch (element lives under MACHINE/MODULE-INSTANTIATIONS, XSD l.79388-79401 — Machine not in src; fragment+helper pattern)
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, `__init__` row only with reader/writer [—] + note (content is inherited IdsPlatformInstantiation coverage), no marker
+  - [x] Step 8 — Deviations — (1) XSD group carries REPORTABLE-SECURITY-EVENT-REFS ("Collection of reportable instances of security events", mmt.RestrictToStandards=AP) but Table B.14 attribute section is '-' → per Rule 0015 the table wins; not modeled; no fixture carries IDSM-MODULE-INSTANTIATION (round-trip unaffected); (2) shared-file rider: class body landed in the IdsPlatformInstantiation commit (5d4cc1c4)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `PlatformModuleEthernetEndpointConfiguration` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_SecurityExtractTemplate · **Table B.19** (**spec table found 2026-09-22 re-verification — NOT XSD-only**; appendix letter-numbered table — resolve in per-class Phase 0))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
