@@ -10,81 +10,89 @@ arxml-dump CLI
 ~~~~~~~~~~~~~~
 
 .. automodule:: armodel.cli.arxml_dump_cli
+   :no-index:
    :members:
    :undoc-members:
-   :show-inheritance:
 
 arxml-format CLI
 ~~~~~~~~~~~~~~~~
 
 .. automodule:: armodel.cli.arxml_format_cli
+   :no-index:
    :members:
    :undoc-members:
-   :show-inheritance:
 
 connector2xlsx CLI
 ~~~~~~~~~~~~~~~~~~
 
 .. automodule:: armodel.cli.connector2xlsx_cli
+   :no-index:
    :members:
    :undoc-members:
-   :show-inheritance:
 
 connector-update CLI
 ~~~~~~~~~~~~~~~~~~~~
 
 .. automodule:: armodel.cli.connector_update_cli
+   :no-index:
    :members:
    :undoc-members:
-   :show-inheritance:
 
-swc-list CLI
-~~~~~~~~~~~~
+swc-list CLI (armodel-component)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. automodule:: armodel.cli.swc_list_cli
+   :no-index:
    :members:
    :undoc-members:
-   :show-inheritance:
 
 system-signal CLI
 ~~~~~~~~~~~~~~~~~
 
 .. automodule:: armodel.cli.system_signal_cli
+   :no-index:
    :members:
    :undoc-members:
-   :show-inheritance:
 
 memory-section CLI
 ~~~~~~~~~~~~~~~~~~
 
 .. automodule:: armodel.cli.memory_section_cli
+   :no-index:
    :members:
    :undoc-members:
-   :show-inheritance:
 
 file-list CLI
 ~~~~~~~~~~~~~
 
 .. automodule:: armodel.cli.file_list_cli
+   :no-index:
    :members:
    :undoc-members:
-   :show-inheritance:
 
 uuid-checker CLI
 ~~~~~~~~~~~~~~~~
 
 .. automodule:: armodel.cli.uuid_checker_cli
+   :no-index:
    :members:
    :undoc-members:
-   :show-inheritance:
+
+os-ecuc-export CLI
+~~~~~~~~~~~~~~~~~~
+
+.. automodule:: armodel.cli.os_config_export_cli
+   :no-index:
+   :members:
+   :undoc-members:
 
 format-xml CLI
 ~~~~~~~~~~~~~~
 
 .. automodule:: armodel.cli.format_xml_cli
+   :no-index:
    :members:
    :undoc-members:
-   :show-inheritance:
 
 Library Functions
 -----------------
@@ -93,25 +101,25 @@ CLI Arguments Parser
 ~~~~~~~~~~~~~~~~~~~~
 
 .. automodule:: armodel.lib.cli_args_parser
+   :no-index:
    :members:
    :undoc-members:
-   :show-inheritance:
 
 Software Component Library
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. automodule:: armodel.lib.sw_component
+   :no-index:
    :members:
    :undoc-members:
-   :show-inheritance:
 
 System Signal Library
 ~~~~~~~~~~~~~~~~~~~~~~
 
 .. automodule:: armodel.lib.system_signal
+   :no-index:
    :members:
    :undoc-members:
-   :show-inheritance:
 
 Usage Examples
 --------------
@@ -135,29 +143,32 @@ Creating Custom CLI Tools
 
 .. code-block:: python
 
-   from armodel.parser.arxml_parser import ARXMLParser
-   from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+   from armodel import AUTOSAR
+   from armodel.parser import ARXMLParser
+   from armodel.writer import ARXMLWriter
    import argparse
 
    def custom_cli():
-       parser = argparse.ArgumentParser(description='Custom ARXML tool')
-       parser.add_argument('input', help='Input ARXML file')
-       parser.add_argument('--output', help='Output file')
+       ap = argparse.ArgumentParser(description='Custom ARXML tool')
+       ap.add_argument('INPUT', help='Input ARXML file')
+       ap.add_argument('OUTPUT', help='Output file')
 
-       args = parser.parse_args()
+       args = ap.parse_args()
 
        # Parse ARXML
+       document = AUTOSAR.getInstance()
+       document.clear()
+       document.setARRelease('R23-11')
+
        arxml_parser = ARXMLParser()
-       model = arxml_parser.parse_from_file(args.input)
+       arxml_parser.load(args.INPUT, document)
 
        # Process model
        # ... custom processing ...
 
        # Write output
-       if args.output:
-           from armodel.writer.arxml_writer import ARXMLWriter
-           writer = ARXMLWriter()
-           writer.write_to_file(model, args.output)
+       writer = ARXMLWriter()
+       writer.save(args.OUTPUT, document)
 
    if __name__ == '__main__':
        custom_cli()

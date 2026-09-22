@@ -8,44 +8,35 @@ Example 1: Create Sender-Receiver Interface
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.PortInterface import SenderReceiverInterface, DataPrototype
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.DataTypeImplementation import ImplementationDataType
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.ARObj import ARRef
-   from armodel.writer.arxml_writer import ARXMLWriter
+   from armodel import AUTOSAR
+   from armodel.writer import ARXMLWriter
+   from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
 
    # Initialize AUTOSAR
-   autosar = AUTOSAR.getInstance()
-   autosar.new()
-   autosar.setARRelease('R24-11')
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    # Create package
-   package = autosar.createARPackage('MyPackage')
+   package = document.createARPackage('MyPackage')
 
    # Create data type
-   data_type = ImplementationDataType()
-   data_type.short_name = 'MyDataType'
-   data_type.category = 'TYPE_REFERENCE'
-   package.addImplementationDataType(data_type)
+   data_type = package.createImplementationDataType('MyDataType')
+   data_type.setCategory('TYPE_REFERENCE')
 
    # Create sender-receiver interface
-   interface = SenderReceiverInterface()
-   interface.short_name = 'MySenderReceiverInterface'
+   interface = package.createSenderReceiverInterface('MySenderReceiverInterface')
 
-   # Create data element
-   data_element = DataPrototype()
-   data_element.short_name = 'MyDataElement'
-   data_element.type_ref = ARRef(data_type)
-
-   # Add data element to interface
-   interface.data_elements.append(data_element)
-
-   # Add to package
-   package.addSenderReceiverInterface(interface)
+   # Create data element with a type reference
+   data_element = interface.createDataElement('MyDataElement')
+   type_ref = TRefType()
+   type_ref.setDest('IMPLEMENTATION-DATA-TYPE')
+   type_ref.setValue('/MyPackage/MyDataType')
+   data_element.setTypeTRef(type_ref)
 
    # Write to file
    writer = ARXMLWriter()
-   writer.write_to_file(autosar, 'sender_receiver_interface.arxml')
+   writer.save('sender_receiver_interface.arxml', document)
 
    print("Created sender-receiver interface")
 
@@ -54,65 +45,32 @@ Example 2: Create Client-Server Interface
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.PortInterface import ClientServerInterface, Operation, Argument
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.DataTypeImplementation import ImplementationDataType
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.ARObj import ARRef
-   from armodel.writer.arxml_writer import ARXMLWriter
+   from armodel import AUTOSAR
+   from armodel.writer import ARXMLWriter
+   from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean
 
    # Initialize AUTOSAR
-   autosar = AUTOSAR.getInstance()
-   autosar.new()
-   autosar.setARRelease('R24-11')
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    # Create package
-   package = autosar.createARPackage('MyPackage')
-
-   # Create data types
-   input_type = ImplementationDataType()
-   input_type.short_name = 'InputType'
-   input_type.category = 'TYPE_REFERENCE'
-   package.addImplementationDataType(input_type)
-
-   output_type = ImplementationDataType()
-   output_type.short_name = 'OutputType'
-   output_type.category = 'TYPE_REFERENCE'
-   package.addImplementationDataType(output_type)
+   package = document.createARPackage('MyPackage')
 
    # Create client-server interface
-   interface = ClientServerInterface()
-   interface.short_name = 'MyClientServerInterface'
-   interface.is_service = True
+   interface = package.createClientServerInterface('MyClientServerInterface')
+
+   # Mark the interface as service interface
+   is_service = Boolean()
+   is_service.value = True
+   interface.setIsService(is_service)
 
    # Create operation
-   operation = Operation()
-   operation.short_name = 'MyOperation'
-
-   # Create input argument
-   input_arg = Argument()
-   input_arg.short_name = 'InputArg'
-   input_arg.type_ref = ARRef(input_type)
-   input_arg.direction = 'IN'
-
-   # Create output argument
-   output_arg = Argument()
-   output_arg.short_name = 'OutputArg'
-   output_arg.type_ref = ARRef(output_type)
-   output_arg.direction = 'OUT'
-
-   # Add arguments to operation
-   operation.arguments.append(input_arg)
-   operation.arguments.append(output_arg)
-
-   # Add operation to interface
-   interface.operations.append(operation)
-
-   # Add to package
-   package.addClientServerInterface(interface)
+   operation = interface.createOperation('MyOperation')
 
    # Write to file
    writer = ARXMLWriter()
-   writer.write_to_file(autosar, 'client_server_interface.arxml')
+   writer.save('client_server_interface.arxml', document)
 
    print("Created client-server interface")
 
@@ -121,28 +79,26 @@ Example 3: Create System Signal
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SystemTemplate.System import SystemSignal
-   from armodel.writer.arxml_writer import ARXMLWriter
+   from armodel import AUTOSAR
+   from armodel.writer import ARXMLWriter
 
    # Initialize AUTOSAR
-   autosar = AUTOSAR.getInstance()
-   autosar.new()
-   autosar.setARRelease('R24-11')
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    # Create package
-   package = autosar.createARPackage('MyPackage')
+   package = document.createARPackage('MyPackage')
 
    # Create system signal
-   signal = SystemSignal()
-   signal.short_name = 'MySystemSignal'
+   package.createSystemSignal('MySystemSignal')
 
-   # Add to package
-   package.addSystemSignal(signal)
+   # Create a system signal group
+   group = package.createSystemSignalGroup('MySystemSignalGroup')
 
    # Write to file
    writer = ARXMLWriter()
-   writer.write_to_file(autosar, 'system_signal.arxml')
+   writer.save('system_signal.arxml', document)
 
    print("Created system signal")
 
@@ -151,94 +107,61 @@ Example 4: Create Assembly Connector
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.ApplicationSwComponentType import ApplicationSwComponentType
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.CompositionSwComponentType import CompositionSwComponentType
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.SwConnector import AssemblySwConnector, SwComponentPrototype
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.PortPrototype import PPortPrototype, RPortPrototype, PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.PortInterface import SenderReceiverInterface
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.ARObj import ARRef
-   from armodel.writer.arxml_writer import ARXMLWriter
+   from armodel import AUTOSAR
+   from armodel.writer import ARXMLWriter
+   from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+   from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (
+       PPortInCompositionInstanceRef,
+       RPortInCompositionInstanceRef,
+   )
 
    # Initialize AUTOSAR
-   autosar = AUTOSAR.getInstance()
-   autosar.new()
-   autosar.setARRelease('R24-11')
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
-   # Create package
-   package = autosar.createARPackage('MyPackage')
+   # Create package, interface and two components with ports
+   package = document.createARPackage('MyPackage')
+   interface = package.createSenderReceiverInterface('MyInterface')
 
-   # Create interface
-   interface = SenderReceiverInterface()
-   interface.short_name = 'MyInterface'
-   package.addSenderReceiverInterface(interface)
+   comp1 = package.createApplicationSwComponentType('Provider')
+   port1 = comp1.createPPortPrototype('DataOut')
+   comp2 = package.createApplicationSwComponentType('Consumer')
+   port2 = comp2.createRPortPrototype('DataIn')
 
-   # Create two components
-   comp1 = ApplicationSwComponentType()
-   comp1.short_name = 'Provider'
-   comp1.category = 'APPLICATION'
+   # Create composition with two component prototypes
+   composition = package.createCompositionSwComponentType('MyComposition')
+   proto1 = composition.createSwComponentPrototype('ProviderProto')
+   proto2 = composition.createSwComponentPrototype('ConsumerProto')
 
-   comp2 = ApplicationSwComponentType()
-   comp2.short_name = 'Consumer'
-   comp2.category = 'APPLICATION'
+   # Create connector and wire provider and requester
+   connector = composition.createAssemblySwConnector('MyConnector')
 
-   # Add ports
-   port1 = PPortPrototype()
-   port1.short_name = 'DataOut'
-   port1.provided_interface_ref = ARRef(interface)
-   comp1.addProvidedPort(port1)
-
-   port2 = RPortPrototype()
-   port2.short_name = 'DataIn'
-   port2.required_interface_ref = ARRef(interface)
-   comp2.addRequiredPort(port2)
-
-   # Add components to package
-   package.addApplicationSwComponentType(comp1)
-   package.addApplicationSwComponentType(comp2)
-
-   # Create composition
-   composition = CompositionSwComponentType()
-   composition.short_name = 'MyComposition'
-
-   # Add prototypes
-   proto1 = SwComponentPrototype()
-   proto1.short_name = 'ProviderProto'
-   proto1.type_ref = ARRef(comp1)
-
-   proto2 = SwComponentPrototype()
-   proto2.short_name = 'ConsumerProto'
-   proto2.type_ref = ARRef(comp2)
-
-   composition.sw_component_prototypes.append(proto1)
-   composition.sw_component_prototypes.append(proto2)
-
-   # Create connector
-   connector = AssemblySwConnector()
-   connector.short_name = 'MyConnector'
-
-   # Set provider reference
    provider_ref = PPortInCompositionInstanceRef()
-   provider_ref.context_component_ref = ARRef(proto1)
-   provider_ref.port_ref = ARRef(port1)
+   context_ref = RefType()
+   context_ref.setDest('SW-COMPONENT-PROTOTYPE')
+   context_ref.setValue('/MyPackage/MyComposition/ProviderProto')
+   provider_ref.setContextComponentRef(context_ref)
+   target_ref = RefType()
+   target_ref.setDest('P-PORT-PROTOTYPE')
+   target_ref.setValue('/MyPackage/Provider/DataOut')
+   provider_ref.setTargetPPortRef(target_ref)
+   connector.setProviderIRef(provider_ref)
 
-   # Set requester reference
    requester_ref = RPortInCompositionInstanceRef()
-   requester_ref.context_component_ref = ARRef(proto2)
-   requester_ref.port_ref = ARRef(port2)
-
-   connector.provider_ref = provider_ref
-   connector.requester_ref = requester_ref
-
-   # Add connector to composition
-   composition.connectors.append(connector)
-
-   # Add composition to package
-   package.addCompositionSwComponentType(composition)
+   context_ref = RefType()
+   context_ref.setDest('SW-COMPONENT-PROTOTYPE')
+   context_ref.setValue('/MyPackage/MyComposition/ConsumerProto')
+   requester_ref.setContextComponentRef(context_ref)
+   target_ref = RefType()
+   target_ref.setDest('R-PORT-PROTOTYPE')
+   target_ref.setValue('/MyPackage/Consumer/DataIn')
+   requester_ref.setTargetRPortRef(target_ref)
+   connector.setRequesterIRef(requester_ref)
 
    # Write to file
    writer = ARXMLWriter()
-   writer.write_to_file(autosar, 'assembly_connector.arxml')
+   writer.save('assembly_connector.arxml', document)
 
    print("Created assembly connector")
 
@@ -247,125 +170,117 @@ Example 5: List All Interfaces
 
 .. code-block:: python
 
-   from armodel.parser.arxml_parser import ARXMLParser
+   from armodel import AUTOSAR
+   from armodel.parser import ARXMLParser
+
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    # Parse ARXML
    parser = ARXMLParser()
-   model = parser.parse_from_file('example.arxml')
+   parser.load('example.arxml', document)
 
    # List sender-receiver interfaces
    print("Sender-Receiver Interfaces:")
-   for interface in model.getSenderReceiverInterfaces():
-       print(f"  - {interface.short_name}")
-       print(f"    Data elements: {len(interface.data_elements)}")
+   for package in document.getARPackages():
+       for interface in package.getSenderReceiverInterfaces():
+           print(f"  - {interface.short_name}")
+           print(f"    Data elements: {len(interface.getDataElements())}")
 
    # List client-server interfaces
    print("\nClient-Server Interfaces:")
-   for interface in model.getClientServerInterfaces():
-       print(f"  - {interface.short_name}")
-       print(f"    Operations: {len(interface.operations)}")
+   for package in document.getARPackages():
+       for interface in package.getClientServerInterfaces():
+           print(f"  - {interface.short_name}")
 
    # List mode-switch interfaces
    print("\nMode-Switch Interfaces:")
-   for interface in model.getModeSwitchInterfaces():
-       print(f"  - {interface.short_name}")
+   for package in document.getARPackages():
+       for interface in package.getModeSwitchInterfaces():
+           print(f"  - {interface.short_name}")
 
 Example 6: List All System Signals
 -----------------------------------
 
 .. code-block:: python
 
-   from armodel.parser.arxml_parser import ARXMLParser
+   from armodel import AUTOSAR
+   from armodel.parser import ARXMLParser
+
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    # Parse ARXML
    parser = ARXMLParser()
-   model = parser.parse_from_file('example.arxml')
+   parser.load('example.arxml', document)
 
    # List system signals
    print("System Signals:")
-   for signal in model.getSystemSignals():
-       print(f"  - {signal.short_name}")
+   for package in document.getARPackages():
+       for signal in package.getSystemSignals():
+           print(f"  - {signal.short_name}")
 
    # List system signal groups
    print("\nSystem Signal Groups:")
-   for group in model.getSystemSignalGroups():
-       print(f"  - {group.short_name}")
-       print(f"    Signals: {len(group.system_signal_refs)}")
+   for package in document.getARPackages():
+       for group in package.getSystemSignalGroups():
+           print(f"  - {group.short_name}")
 
 Example 7: List All Connectors
 -------------------------------
 
 .. code-block:: python
 
-   from armodel.parser.arxml_parser import ARXMLParser
+   from armodel import AUTOSAR
+   from armodel.parser import ARXMLParser
+
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    # Parse ARXML
    parser = ARXMLParser()
-   model = parser.parse_from_file('example.arxml')
+   parser.load('example.arxml', document)
 
-   # List assembly connectors
-   print("Assembly Connectors:")
-   connectors = model.getAssemblySwConnectors()
-   for connector in connectors:
-       print(f"  - {connector.short_name}")
-       print(f"    Provider: {connector.provider_ref.dest}")
-       print(f"    Requester: {connector.requester_ref.dest}")
+   # List assembly connectors of all compositions
+   for package in document.getARPackages():
+       for composition in package.getCompositionSwComponentTypes():
+           for connector in composition.getAssemblySwConnectors():
+               print(f"Assembly Connector: {connector.short_name}")
+           for connector in composition.getDelegationSwConnectors():
+               print(f"Delegation Connector: {connector.short_name}")
 
-   # List delegation connectors
-   print("\nDelegation Connectors:")
-   for connector in model.getDelegationSwConnectors():
-       print(f"  - {connector.short_name}")
-
-Example 8: Create Communication Specification
----------------------------------------------
+Example 8: Reference an Interface from a Port
+----------------------------------------------
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.ApplicationSwComponentType import ApplicationSwComponentType
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.PortPrototype import PPortPrototype, RPortPrototype
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.PortInterface import SenderReceiverInterface, ServerComSpec
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.ARObj import ARRef
-   from armodel.writer.arxml_writer import ARXMLWriter
+   from armodel import AUTOSAR
+   from armodel.writer import ARXMLWriter
+   from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
 
    # Initialize AUTOSAR
-   autosar = AUTOSAR.getInstance()
-   autosar.new()
-   autosar.setARRelease('R24-11')
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
-   # Create package
-   package = autosar.createARPackage('MyPackage')
+   # Create package and interface
+   package = document.createARPackage('MyPackage')
+   interface = package.createSenderReceiverInterface('MyInterface')
 
-   # Create interface
-   interface = SenderReceiverInterface()
-   interface.short_name = 'MyInterface'
-   package.addSenderReceiverInterface(interface)
+   # Create component with a provided port
+   component = package.createApplicationSwComponentType('MyComponent')
 
-   # Create component
-   component = ApplicationSwComponentType()
-   component.short_name = 'MyComponent'
-   component.category = 'APPLICATION'
-
-   # Add port with communication specification
-   port = PPortPrototype()
-   port.short_name = 'MyPort'
-   port.provided_interface_ref = ARRef(interface)
-
-   # Create server communication specification
-   com_spec = ServerComSpec()
-   com_spec.short_name = 'MyComSpec'
-
-   # Add com spec to port
-   port.server_com_spec = com_spec
-
-   # Add port to component
-   component.addProvidedPort(port)
-
-   # Add to package
-   package.addApplicationSwComponentType(component)
+   port = component.createPPortPrototype('MyPort')
+   interface_ref = TRefType()
+   interface_ref.setDest('SENDER-RECEIVER-INTERFACE')
+   interface_ref.setValue('/MyPackage/MyInterface')
+   port.setProvidedInterfaceTRef(interface_ref)
 
    # Write to file
    writer = ARXMLWriter()
-   writer.write_to_file(autosar, 'communication_spec.arxml')
+   writer.save('communication_spec.arxml', document)
 
    print("Created communication specification")

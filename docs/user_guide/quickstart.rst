@@ -3,6 +3,20 @@ Quick Start Guide
 
 This guide will help you get started with py-armodel quickly by walking through common tasks.
 
+The AUTOSAR Singleton
+---------------------
+
+py-armodel keeps the whole AUTOSAR model in a singleton ``AUTOSAR`` object.
+Every parse or write operation works on this document:
+
+.. code-block:: python
+
+   from armodel import AUTOSAR
+
+   document = AUTOSAR.getInstance()
+   document.clear()                # start with an empty model (or call document.new())
+   document.setARRelease('R23-11') # REQUIRED before parsing or writing
+
 Parsing an ARXML File
 ---------------------
 
@@ -10,75 +24,79 @@ The most common operation is parsing an existing ARXML file:
 
 .. code-block:: python
 
-   from armodel.parser.arxml_parser import ARXMLParser
+   from armodel import AUTOSAR
+   from armodel.parser import ARXMLParser
 
-   # Create a parser instance
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
+
    parser = ARXMLParser()
 
-   # Parse an ARXML file
-   autosar_model = parser.parse_from_file('example.arxml')
+   # Load an ARXML file into the document
+   parser.load('example.arxml', document)
 
-   # The autosar_model is now an AUTOSAR object containing all elements
-   print(f"Loaded ARXML with {len(autosar_model.getARPackages())} packages")
+   # The document now contains all elements
+   print(f"Loaded ARXML with {len(document.getARPackages())} packages")
 
 Accessing AUTOSAR Elements
 ---------------------------
 
-Once you have parsed an ARXML file, you can access various AUTOSAR elements:
+Once you have parsed an ARXML file, you can access various AUTOSAR elements.
+Most elements live inside AR packages.
 
 Getting Software Components
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   # Get all atomic software component types
-   atomic_swcs = autosar_model.getAtomicSwComponentTypes()
-   for swc in atomic_swcs:
-       print(f"Component: {swc.short_name}")
+   # Get all atomic software component types of a package
+   for package in document.getARPackages():
+       for swc in package.getAtomicSwComponentTypes():
+           print(f"Component: {swc.short_name}")
 
-   # Get all composition software component types
-   composition_swcs = autosar_model.getCompositionSwComponentTypes()
-   for comp in composition_swcs:
-       print(f"Composition: {comp.short_name}")
+   # Get all composition software component types of a package
+   for package in document.getARPackages():
+       for comp in package.getCompositionSwComponentTypes():
+           print(f"Composition: {comp.short_name}")
 
 Finding Specific Elements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+The ``find`` methods take the **full path** of the element
+(package path separated by ``/``):
+
 .. code-block:: python
 
-   # Find a specific component by short name
-   component = autosar_model.findAtomicSwComponentType('MyComponent')
+   # Find a specific component by its full path
+   component = document.findAtomicSwComponentType('/MyPackage/MyComponent')
 
    if component:
        print(f"Found component: {component.short_name}")
 
        # Access ports
-       for port in component.provided_ports:
-           print(f"  Provided port: {port.short_name}")
-
-       for port in component.required_ports:
-           print(f"  Required port: {port.short_name}")
+       for port in component.getPorts():
+           print(f"  Port: {port.short_name}")
 
    # Find a data type
-   data_type = autosar_model.findImplementationDataType('MyDataType')
+   data_type = document.findImplementationDataType('/MyPackage/MyDataType')
 
    # Find a system signal
-   signal = autosar_model.findSystemSignal('MySignal')
+   signal = document.findSystemSignal('/MyPackage/MySignal')
 
 Getting System Signals
 ~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   # Get all system signals
-   signals = autosar_model.getSystemSignals()
-   for signal in signals:
-       print(f"Signal: {signal.short_name}")
+   for package in document.getARPackages():
+       # Get all system signals of the package
+       for signal in package.getSystemSignals():
+           print(f"Signal: {signal.short_name}")
 
-   # Get all system signal groups
-   signal_groups = autosar_model.getSystemSignalGroups()
-   for group in signal_groups:
-       print(f"Signal Group: {group.short_name}")
+       # Get all system signal groups
+       for group in package.getSystemSignalGroups():
+           print(f"Signal Group: {group.short_name}")
 
 Creating a New AUTOSAR Model
 -----------------------------
@@ -87,19 +105,19 @@ You can create a new AUTOSAR model from scratch:
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+   from armodel import AUTOSAR
 
    # Get the AUTOSAR singleton instance
-   autosar = AUTOSAR.getInstance()
+   document = AUTOSAR.getInstance()
 
    # Clear any existing data
-   autosar.new()
+   document.clear()
 
    # Set the AUTOSAR schema version
-   autosar.setARRelease('R24-11')
+   document.setARRelease('R23-11')
 
    # Create an AR package
-   package = autosar.createARPackage('MyPackage')
+   package = document.createARPackage('MyPackage')
 
    print(f"Created AUTOSAR model with package: {package.short_name}")
 
@@ -108,14 +126,8 @@ Creating Software Components
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.ApplicationSwComponentType import ApplicationSwComponentType
-
-   # Create a new application software component
-   component = ApplicationSwComponentType()
-   component.short_name = 'MyComponent'
-
-   # Add the component to a package
-   package.addApplicationSwComponentType(component)
+   # Create a new application software component inside the package
+   component = package.createApplicationSwComponentType('MyComponent')
 
    print(f"Created component: {component.short_name}")
 
@@ -126,13 +138,14 @@ After creating or modifying a model, you can write it to an ARXML file:
 
 .. code-block:: python
 
-   from armodel.writer.arxml_writer import ARXMLWriter
+   from armodel import AUTOSAR
+   from armodel.writer import ARXMLWriter
 
-   # Create a writer instance
+   document = AUTOSAR.getInstance()
+
+   # Save the document to a file
    writer = ARXMLWriter()
-
-   # Write the model to a file
-   writer.write_to_file(autosar, 'output.arxml')
+   writer.save('output.arxml', document)
 
    print("ARXML file written successfully")
 
@@ -144,17 +157,20 @@ Adding Ports to a Component
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.PortPrototype import PPortPrototype, RPortPrototype
+   from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
 
-   # Add a provided port
-   provided_port = PPortPrototype()
-   provided_port.short_name = 'MyProvidedPort'
-   component.addProvidedPort(provided_port)
+   # Create a provided port on the component
+   provided_port = component.createPPortPrototype('MyProvidedPort')
 
-   # Add a required port
-   required_port = RPortPrototype()
-   required_port.short_name = 'MyRequiredPort'
-   component.addRequiredPort(required_port)
+   # Reference the interface the port provides
+   interface_ref = TRefType()
+   interface_ref.setDest('SENDER-RECEIVER-INTERFACE')
+   interface_ref.setValue('/MyPackage/MyInterface')
+   provided_port.setProvidedInterfaceTRef(interface_ref)
+
+   # Create a required port
+   required_port = component.createRPortPrototype('MyRequiredPort')
+   required_port.setRequiredInterfaceTRef(interface_ref)
 
 Working with Data Types
 ------------------------
@@ -164,14 +180,9 @@ Creating a Data Type
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.DataTypeImplementation import ImplementationDataType
-
    # Create an implementation data type
-   data_type = ImplementationDataType()
-   data_type.short_name = 'MyDataType'
-
-   # Add to package
-   package.addImplementationDataType(data_type)
+   data_type = package.createImplementationDataType('MyDataType')
+   data_type.setCategory('TYPE_REFERENCE')
 
 Working with Connectors
 ------------------------
@@ -209,7 +220,7 @@ View all content of an ARXML file:
 List Software Components
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-List all software components in a directory:
+List all software components in ARXML files:
 
 .. code-block:: bash
 
@@ -237,7 +248,7 @@ Validate UUID uniqueness:
 
 .. code-block:: bash
 
-   armodel-uuid-checker /path/to/arxml/files
+   armodel-uuid-checker input.arxml output.arxml
 
 Format ARXML Files
 ~~~~~~~~~~~~~~~~~~
@@ -257,11 +268,11 @@ Iterating Through All Elements
 .. code-block:: python
 
    # Get all AR packages
-   for package in autosar_model.getARPackages():
+   for package in document.getARPackages():
        print(f"Package: {package.short_name}")
 
        # Get all elements in the package
-       for element in package.elements:
+       for element in package.getElements():
            print(f"  Element: {element.short_name} ({element.__class__.__name__})")
 
 Error Handling
@@ -269,37 +280,43 @@ Error Handling
 
 .. code-block:: python
 
-   from armodel.parser.arxml_parser import ARXMLParser
-   import logging
+   from armodel import AUTOSAR
+   from armodel.parser import ARXMLParser
 
-   # Enable logging
-   logging.basicConfig(level=logging.INFO)
+   # Warnings instead of exceptions for recoverable issues
+   parser = ARXMLParser(options={"warning": True})
+
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    try:
-       parser = ARXMLParser()
-       autosar_model = parser.parse_from_file('example.arxml')
+       parser.load('example.arxml', document)
+   except FileNotFoundError:
+       print("ARXML file not found")
    except Exception as e:
        print(f"Error parsing ARXML: {e}")
 
 Working with UUIDs
 ------------------
 
-py-armodel includes UUID management:
+py-armodel includes duplicate UUID checking:
 
 .. code-block:: python
 
-   from armodel.models.utils.uuid_mgr import UUIDManager
+   from armodel import AUTOSAR
 
-   # Get the UUID manager
-   uuid_mgr = UUIDManager()
+   document = AUTOSAR.getInstance()
 
-   # Check for duplicate UUIDs
-   duplicates = uuid_mgr.check_duplicates()
+   # Get all duplicate UUIDs after loading a document
+   duplicates = document.getDuplicateUUIDs()
 
    if duplicates:
        print(f"Found {len(duplicates)} duplicate UUIDs")
-       for uuid, elements in duplicates.items():
-           print(f"  UUID {uuid} used by: {[e.short_name for e in elements]}")
+       for uuid in duplicates:
+           print(f"  UUID {uuid}")
+   else:
+       print("No duplicate UUIDs found")
 
 Next Steps
 ----------
@@ -307,4 +324,4 @@ Next Steps
 * Read the :doc:`arxml_parsing` guide for detailed parsing information
 * Read the :doc:`arxml_writing` guide for detailed writing information
 * Check the :doc:`../api/parser` and :doc:`../api/writer` API references
-* Explore the :doc:`../examples` directory for more examples
+* Explore the :doc:`../examples/basic_usage` examples for more use cases

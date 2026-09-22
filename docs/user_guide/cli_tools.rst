@@ -122,7 +122,7 @@ Export software connectors to an Excel file.
    connector2xlsx SoftwareComponents.arxml connectors.xlsx
 
 connector-update
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 Update software connectors from an Excel file.
 
@@ -181,13 +181,18 @@ List file information for ARXML files.
 
 .. code-block:: bash
 
-   armodel-file-list <arxml_folder>
+   armodel-file-list [OPTIONS] <input_path> [<input_path> ...] <output.txt>
+
+**Options:**
+
+* ``--absolute`` - Print absolute paths instead of relative paths
+* ``-h, --help`` - Show help message
 
 **Example:**
 
 .. code-block:: bash
 
-   armodel-file-list /path/to/arxml/files
+   armodel-file-list /path/to/arxml/files files.txt
 
 armodel-uuid-checker
 ~~~~~~~~~~~~~~~~~~~~
@@ -198,17 +203,51 @@ Check for duplicate UUIDs in ARXML files.
 
 .. code-block:: bash
 
-   armodel-uuid-checker <arxml_folder>
+   armodel-uuid-checker [OPTIONS] <input.arxml> <output.txt>
+
+**Options:**
+
+* ``-v, --verbose`` - Print debug information
+* ``-w, --warning`` - Skip the error and report it as warning message
+* ``--log LOG`` - Log all information to file
+* ``-h, --help`` - Show help message
 
 **Output:**
 
-The tool will report any duplicate UUIDs found in the ARXML files.
+The tool writes a report of all duplicate UUIDs found in the input ARXML
+(including the full name of every element using them) to the output file.
 
 **Example:**
 
 .. code-block:: bash
 
-   armodel-uuid-checker /path/to/arxml/files
+   armodel-uuid-checker input.arxml duplicates.txt
+
+os-ecuc-export
+~~~~~~~~~~~~~~
+
+Export an AUTOSAR OS ECUC configuration to YAML or Excel.
+
+**Usage:**
+
+.. code-block:: bash
+
+   os-ecuc-export [OPTIONS] <input.arxml> [<input.arxml> ...] <output.(yaml|yml|xlsx)>
+
+**Options:**
+
+* ``-v, --verbose`` - Print debug information
+* ``-w, --warning`` - Log unresolved standard references as warnings instead of failing
+* ``-h, --help`` - Show help message
+
+The output format is selected by the output file extension (``.yaml``, ``.yml``
+or ``.xlsx``). See :doc:`os_ecuc_export_cli` for details.
+
+**Example:**
+
+.. code-block:: bash
+
+   os-ecuc-export Os_ECUC.arxml os_config.yaml
 
 format-xml
 ~~~~~~~~~~
@@ -240,8 +279,8 @@ Process multiple ARXML files:
    # List components in multiple files
    armodel-component file1.arxml file2.arxml file3.arxml
 
-   # Check UUIDs in multiple directories
-   armodel-uuid-checker dir1 dir2 dir3
+   # Check UUIDs and write the report
+   armodel-uuid-checker input.arxml duplicates.txt
 
 Piping Output
 ~~~~~~~~~~~~~
@@ -264,7 +303,7 @@ Use multiple tools together:
 .. code-block:: bash
 
    # 1. Export connectors to Excel
-   connector2xyzl SoftwareComponents.arxml connectors.xlsx
+   connector2xlsx SoftwareComponents.arxml connectors.xlsx
 
    # 2. Edit the Excel file
    # (use your spreadsheet editor)
@@ -319,7 +358,7 @@ File Not Found
 
 .. code-block:: bash
 
-   armodel-dump --arxml nonexistent.arxml
+   arxml-dump --arxml nonexistent.arxml
    # Error: File not found: nonexistent.arxml
 
 Invalid ARXML
@@ -446,7 +485,7 @@ For very large ARXML files:
 
    # Process files individually
    for file in *.arxml; do
-       armodel-dump --arxml "$file" > "$file.dump"
+       arxml-dump --arxml "$file" > "$file.dump"
    done
 
 Getting Help
@@ -465,4 +504,4 @@ Next Steps
 
 * Read the :doc:`quickstart` guide for basic usage
 * Explore :doc:`arxml_parsing` and :doc:`arxml_writing` for programmatic access
-* Check :doc:`../examples` for more examples
+* Check :doc:`../examples/basic_usage` for more examples

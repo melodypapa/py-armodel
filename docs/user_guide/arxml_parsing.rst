@@ -6,11 +6,11 @@ This guide provides detailed information about parsing ARXML files with py-armod
 Parser Overview
 ---------------
 
-py-armodel provides a comprehensive ARXML parser that can read and validate AUTOSAR XML files according to the AUTOSAR standard.
+py-armodel provides a comprehensive ARXML parser that can read AUTOSAR XML files according to the AUTOSAR standard.
 
 .. code-block:: python
 
-   from armodel.parser.arxml_parser import ARXMLParser
+   from armodel.parser import ARXMLParser
 
 Basic Parsing
 -------------
@@ -20,27 +20,35 @@ Parsing a Single File
 
 .. code-block:: python
 
-   from armodel.parser.arxml_parser import ARXMLParser
+   from armodel import AUTOSAR
+   from armodel.parser import ARXMLParser
+
+   # Get the AUTOSAR document singleton
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')  # REQUIRED before parsing
 
    # Create parser instance
    parser = ARXMLParser()
 
-   # Parse a single ARXML file
-   autosar_model = parser.parse_from_file('example.arxml')
+   # Parse a single ARXML file into the document
+   parser.load('example.arxml', document)
 
    # Access the model
-   print(f"Loaded model with {len(autosar_model.getARPackages())} packages")
+   print(f"Loaded model with {len(document.getARPackages())} packages")
 
 Parsing Multiple Files
 ~~~~~~~~~~~~~~~~~~~~~~
 
+Multiple files can be loaded into the same document, for example when a
+model is split over several ARXML files:
+
 .. code-block:: python
 
-   # Parse multiple files
    files = ['file1.arxml', 'file2.arxml', 'file3.arxml']
 
    for file_path in files:
-       model = parser.parse_from_file(file_path)
+       parser.load(file_path, document)
        print(f"Parsed {file_path}")
 
 Parser Options
@@ -55,11 +63,7 @@ The parser can be configured to suppress exceptions and issue warnings instead:
 
    parser = ARXMLParser(options={"warning": True})
 
-   with warnings.catch_warnings(record=True) as w:
-       warnings.simplefilter("always")
-       model = parser.parse_from_file('example.arxml')
-       for warning in w:
-           print(f"Warning: {warning.message}")
+   parser.load('example.arxml', document)
 
 Logging
 ~~~~~~~
@@ -78,12 +82,13 @@ Enable logging to see detailed parsing information:
 
    # Parse with logging enabled
    parser = ARXMLParser()
-   model = parser.parse_from_file('example.arxml')
+   parser.load('example.arxml', document)
 
 Accessing Parsed Elements
 --------------------------
 
 The parsed model is an ``AUTOSAR`` object that provides various methods to access elements.
+Top-level elements live in AR packages; use the package getters to iterate over them.
 
 AR Packages
 ~~~~~~~~~~~
@@ -91,185 +96,143 @@ AR Packages
 .. code-block:: python
 
    # Get all AR packages
-   packages = autosar_model.getARPackages()
+   packages = document.getARPackages()
 
    for package in packages:
        print(f"Package: {package.short_name}")
 
-   # Find a specific package
-   package = autosar_model.findARPackage('MyPackage')
+   # Find an element by its full path (including the package path)
+   package = document.getElement('MyPackage')          # top-level package
+   sub_package = document.getElement('MyPackage/SubPackage')  # nested package
 
 Software Components
 ~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   # Get all atomic software component types
-   atomic_swcs = autosar_model.getAtomicSwComponentTypes()
+   for package in document.getARPackages():
+       # Get all atomic software component types
+       atomic_swcs = package.getAtomicSwComponentTypes()
 
-   # Get all composition software component types
-   composition_swcs = autosar_model.getCompositionSwComponentTypes()
+       # Get all composition software component types
+       composition_swcs = package.getCompositionSwComponentTypes()
 
-   # Get all service software component types
-   service_swcs = autosar_model.getServiceSwComponentTypes()
+       # Get all software component types (atomic and composition)
+       all_swcs = package.getSwComponentTypes()
 
-   # Find a specific component
-   component = autosar_model.findAtomicSwComponentType('MyComponent')
+   # Find a specific component by its full path
+   component = document.findAtomicSwComponentType('/MyPackage/MyComponent')
 
    if component:
        print(f"Component: {component.short_name}")
-       print(f"Category: {component.category}")
+       print(f"Category: {component.getCategory()}")
 
 Data Types
 ~~~~~~~~~~
 
 .. code-block:: python
 
-   # Get all application data types
-   app_data_types = autosar_model.getApplicationDataTypes()
+   for package in document.getARPackages():
+       # Get all implementation data types
+       impl_data_types = package.getImplementationDataTypes()
 
-   # Get all implementation data types
-   impl_data_types = autosar_model.getImplementationDataTypes()
-
-   # Find a specific data type
-   data_type = autosar_model.findImplementationDataType('MyDataType')
+   # Find a specific data type by its full path
+   data_type = document.findImplementationDataType('/MyPackage/MyDataType')
 
    if data_type:
        print(f"Data Type: {data_type.short_name}")
-       print(f"Category: {data_type.category}")
+       print(f"Category: {data_type.getCategory()}")
 
 Port Interfaces
 ~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   # Get all sender-receiver interfaces
-   sr_interfaces = autosar_model.getSenderReceiverInterfaces()
+   for package in document.getARPackages():
+       # Get all sender-receiver interfaces
+       sr_interfaces = package.getSenderReceiverInterfaces()
 
-   # Get all client-server interfaces
-   cs_interfaces = autosar_model.getClientServerInterfaces()
+       # Get all client-server interfaces
+       cs_interfaces = package.getClientServerInterfaces()
 
-   # Get all mode-switch interfaces
-   mode_interfaces = autosar_model.getModeSwitchInterfaces()
+       # Get all mode-switch interfaces
+       mode_interfaces = package.getModeSwitchInterfaces()
 
-   # Find a specific interface
-   interface = autosar_model.findSenderReceiverInterface('MyInterface')
-
-   if interface:
+   for interface in sr_interfaces:
        print(f"Interface: {interface.short_name}")
-       print(f"Data elements: {[de.short_name for de in interface.data_elements]}")
+       print(f"Data elements: {[de.short_name for de in interface.getDataElements()]}")
 
 System Elements
 ~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   # Get all system signals
-   signals = autosar_model.getSystemSignals()
+   for package in document.getARPackages():
+       # Get all system signals
+       for signal in package.getSystemSignals():
+           print(f"Signal: {signal.short_name}")
 
-   for signal in signals:
-       print(f"Signal: {signal.short_name}")
+       # Get all system signal groups
+       signal_groups = package.getSystemSignalGroups()
 
-   # Get all system signal groups
-   signal_groups = autosar_model.getSystemSignalGroups()
-
-   # Find a specific signal
-   signal = autosar_model.findSystemSignal('MySignal')
+   # Find a specific signal by its full path
+   signal = document.findSystemSignal('/MyPackage/MySignal')
 
    if signal:
        print(f"Signal: {signal.short_name}")
-       print(f"Type: {signal.type_ref.dest}")
 
-ECU and Mappings
-~~~~~~~~~~~~~~~~
+ECU Instances
+~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   # Get all ECU instances
-   ecus = autosar_model.getECUInstances()
-
-   for ecu in ecus:
-       print(f"ECU: {ecu.short_name}")
-
-   # Get software-to-ECU mappings
-   mappings = autosar_model.getSwToEcuMappings()
-
-   for mapping in mappings:
-       print(f"Mapping: {mapping.short_name}")
+   for package in document.getARPackages():
+       # Get all ECU instances
+       for ecu in package.getEcuInstances():
+           print(f"ECU: {ecu.short_name}")
 
 Ports and Connectors
 ~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   # Access component ports
-   component = autosar_model.findAtomicSwComponentType('MyComponent')
+   component = document.findAtomicSwComponentType('/MyPackage/MyComponent')
 
    if component:
        # Get provided ports
-       for port in component.provided_ports:
+       for port in component.getPPortPrototypes():
            print(f"Provided port: {port.short_name}")
-           print(f"Interface: {port.provided_interface_ref.dest}")
+           print(f"Interface: {port.getProvidedInterfaceTRef().getValue()}")
 
        # Get required ports
-       for port in component.required_ports:
+       for port in component.getRPortPrototypes():
            print(f"Required port: {port.short_name}")
-           print(f"Interface: {port.required_interface_ref.dest}")
+           print(f"Interface: {port.getRequiredInterfaceTRef().getValue()}")
 
-   # Get assembly connectors
-   connectors = autosar_model.getAssemblySwConnectors()
-
-   for connector in connectors:
+   # Get assembly connectors of a composition
+   composition = document.find('/MyPackage/MyComposition')
+   for connector in composition.getAssemblySwConnectors():
        print(f"Connector: {connector.short_name}")
-       print(f"Provider: {connector.provider_ref.dest}")
-       print(f"Requester: {connector.requester_ref.dest}")
 
 Behaviors and Implementations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   # Get behavior for a component
-   component = autosar_model.findAtomicSwComponentType('MyComponent')
+   component = document.findAtomicSwComponentType('/MyPackage/MyComponent')
 
    if component:
-       behavior = autosar_model.getBehavior(component)
+       behavior = component.getInternalBehavior()
 
        if behavior:
            print(f"Behavior: {behavior.short_name}")
 
            # Get runnable entities
-           for runnable in behavior.runnables:
+           for runnable in behavior.getRunnableEntities():
                print(f"  Runnable: {runnable.short_name}")
-
-           # Get events
-           for event in behavior.events:
-               print(f"  Event: {event.short_name} ({event.__class__.__name__})")
-
-   # Get implementation for a component
-   implementation = autosar_model.getImplementation(component)
-
-   if implementation:
-       print(f"Implementation: {implementation.short_name}")
 
 Advanced Parsing
 ----------------
-
-Handling Large Files
-~~~~~~~~~~~~~~~~~~~~
-
-For large ARXML files, consider using memory-efficient parsing:
-
-.. code-block:: python
-
-   # Process large files with careful memory management
-   parser = ARXMLParser()
-
-   try:
-       model = parser.parse_from_file('large_file.arxml')
-       # Process the model
-   except MemoryError:
-       print("File too large - consider splitting or processing in chunks")
 
 Validation
 ~~~~~~~~~~
@@ -281,25 +244,20 @@ The parser validates the ARXML structure according to AUTOSAR standards:
    parser = ARXMLParser()
 
    try:
-       model = parser.parse_from_file('example.arxml')
-       print("File parsed and validated successfully")
+       parser.load('example.arxml', document)
+       print("File parsed successfully")
    except Exception as e:
-       print(f"Validation error: {e}")
+       print(f"Parsing error: {e}")
 
 Error Handling
 ~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   from armodel.parser.arxml_parser import ARXMLParser
-   import logging
-
-   logging.basicConfig(level=logging.ERROR)
-
    parser = ARXMLParser()
 
    try:
-       model = parser.parse_from_file('example.arxml')
+       parser.load('example.arxml', document)
    except FileNotFoundError:
        print("ARXML file not found")
    except Exception as e:
@@ -312,141 +270,117 @@ Working with References
 Understanding AR References
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-AUTOSAR uses references to link elements together:
+AUTOSAR uses references to link elements together. References are
+modeled with ``RefType`` objects that carry a destination type
+(``dest``) and a path (``value``):
 
 .. code-block:: python
 
-   # Access a reference
-   interface = autosar_model.findSenderReceiverInterface('MyInterface')
+   for package in document.getARPackages():
+       for interface in package.getSenderReceiverInterfaces():
+           for data_element in interface.getDataElements():
+               type_ref = data_element.getTypeTRef()
+               if type_ref is not None:
+                   print(f"Data element: {data_element.short_name}")
+                   print(f"  Dest:  {type_ref.getDest()}")
+                   print(f"  Value: {type_ref.getValue()}")
 
-   if interface and interface.data_elements:
-       data_element = interface.data_elements[0]
-
-       # Access the data type reference
-       if hasattr(data_element, 'type_ref'):
-           print(f"Data element: {data_element.short_name}")
-           print(f"Type reference: {data_element.type_ref.dest}")
-
-           # Resolve the reference
-           data_type = data_element.type_ref.resolve(autosar_model)
-           if data_type:
-               print(f"Resolved type: {data_type.short_name}")
-
-Navigating References
-~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: python
-
-   component = autosar_model.findAtomicSwComponentType('MyComponent')
-
-   if component:
-       for port in component.provided_ports:
-           # Navigate to interface
-           interface_ref = port.provided_interface_ref
-           interface = interface_ref.resolve(autosar_model)
-
-           if interface:
-               print(f"Port: {port.short_name} -> Interface: {interface.short_name}")
-
-Special Parsing Scenarios
---------------------------
-
-Parsing with Different AUTOSAR Versions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: python
-
-   parser = ARXMLParser()
-   model = parser.parse_from_file('example.arxml')
-
-   # Check the AUTOSAR version
-   print(f"Schema version: {model.schema_version}")
+                   # Resolve the reference to the referenced element
+                   data_type = document.find(type_ref)
+                   if data_type:
+                       print(f"  -> Type: {data_type.short_name}")
 
 Parsing ECUC Values
 ~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   # Get ECUC value collections
-   ecuc_collections = autosar_model.getEcucValueCollections()
-
-   for collection in ecuc_collections:
-       print(f"ECUC Collection: {collection.short_name}")
+   for package in document.getARPackages():
+       # Get ECUC value collections
+       for collection in package.getEcucValueCollections():
+           print(f"ECUC Collection: {collection.short_name}")
 
        # Get module configurations
-       for module_config in collection.module_configs:
+       for module_config in package.getEcucModuleConfigurationValues():
            print(f"  Module: {module_config.short_name}")
+
+           # Containers of a module configuration
+           for container in module_config.getContainers():
+               print(f"    Container: {container.short_name}")
 
 Parsing BSW Modules
 ~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   # Get BSW module descriptions
-   bsw_modules = autosar_model.getBswModuleDescriptions()
-
-   for module in bsw_modules:
-       print(f"BSW Module: {module.short_name}")
-
-       # Get behaviors
-       if hasattr(module, 'behaviors'):
-           for behavior in module.behaviors:
-               print(f"  Behavior: {behavior.short_name}")
+   for package in document.getARPackages():
+       # Get BSW module descriptions
+       for module in package.getBswModuleDescriptions():
+           print(f"BSW Module: {module.short_name}")
 
 Best Practices
 --------------
 
-1. **Always validate**: Check if elements exist before accessing them
-2. **Use try-except**: Handle parsing errors gracefully
-3. **Enable logging**: Use logging for debugging parsing issues
-4. **Check references**: Validate that references can be resolved
-5. **Memory management**: Be careful with large files
+1. **Set the AUTOSAR release**: Always call ``setARRelease()`` before parsing
+2. **Use warning mode**: Pass ``options={"warning": True}`` to tolerate recoverable issues
+3. **Check for None**: ``find()`` and ``getElement()`` return ``None`` if not found
+4. **Use full paths**: The ``find`` methods expect the full element path (e.g. ``/Pkg/Name``)
+5. **Iterate packages**: Most elements are accessed through their AR package
 
 Example: Complete Parsing Workflow
 ----------------------------------
 
 .. code-block:: python
 
-   from armodel.parser.arxml_parser import ARXMLParser
-   import logging
-
-   # Configure logging
-   logging.basicConfig(level=logging.INFO)
+   from armodel import AUTOSAR
+   from armodel.parser import ARXMLParser
 
    def parse_and_analyze(arxml_file):
        """Parse and analyze an ARXML file."""
-       parser = ARXMLParser()
+       document = AUTOSAR.getInstance()
+       document.clear()
+       document.setARRelease('R23-11')
+
+       parser = ARXMLParser(options={"warning": True})
 
        try:
            # Parse the file
-           model = parser.parse_from_file(arxml_file)
+           parser.load(arxml_file, document)
 
            # Print summary
-           print(f"\n=== ARXML Analysis ===")
-           print(f"Packages: {len(model.getARPackages())}")
-           print(f"Atomic SWCs: {len(model.getAtomicSwComponentTypes())}")
-           print(f"Composition SWCs: {len(model.getCompositionSwComponentTypes())}")
-           print(f"System Signals: {len(model.getSystemSignals())}")
-           print(f"ECU Instances: {len(model.getECUInstances())}")
+           print("\n=== ARXML Analysis ===")
+           print(f"Packages: {len(document.getARPackages())}")
+
+           atomic_swcs = []
+           signals = []
+           ecus = []
+           for package in document.getARPackages():
+               atomic_swcs.extend(package.getAtomicSwComponentTypes())
+               signals.extend(package.getSystemSignals())
+               ecus.extend(package.getEcuInstances())
+
+           print(f"Atomic SWCs: {len(atomic_swcs)}")
+           print(f"System Signals: {len(signals)}")
+           print(f"ECU Instances: {len(ecus)}")
 
            # Analyze components
-           print(f"\n=== Software Components ===")
-           for swc in model.getAtomicSwComponentTypes():
-               print(f"{swc.short_name}: {len(swc.provided_ports)} provided ports, "
-                     f"{len(swc.required_ports)} required ports")
+           print("\n=== Software Components ===")
+           for swc in atomic_swcs:
+               print(f"{swc.short_name}: {len(swc.getPPortPrototypes())} provided ports, "
+                     f"{len(swc.getRPortPrototypes())} required ports")
 
-           return model
+           return document
 
        except Exception as e:
            print(f"Error parsing file: {e}")
            return None
 
    # Usage
-   model = parse_and_analyze('example.arxml')
+   document = parse_and_analyze('example.arxml')
 
 Next Steps
 ----------
 
 * Learn about :doc:`arxml_writing` to generate ARXML files
 * Explore the :doc:`../api/parser` API reference
-* Check :doc:`../examples` for more parsing examples
+* Check :doc:`../examples/basic_usage` for more parsing examples

@@ -8,57 +8,63 @@ Example 1: Parse and Inspect ARXML
 
 .. code-block:: python
 
-   from armodel.parser.arxml_parser import ARXMLParser
+   from armodel import AUTOSAR
+   from armodel.parser import ARXMLParser
 
-   # Create parser
-   parser = ARXMLParser()
+   # Prepare the document
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    # Parse ARXML file
-   model = parser.parse_from_file('example.arxml')
+   parser = ARXMLParser()
+   parser.load('example.arxml', document)
+
+   # Collect elements from all packages
+   atomic_swcs = []
+   composition_swcs = []
+   for package in document.getARPackages():
+       atomic_swcs.extend(package.getAtomicSwComponentTypes())
+       composition_swcs.extend(package.getCompositionSwComponentTypes())
 
    # Print basic information
-   print(f"Number of packages: {len(model.getARPackages())}")
-   print(f"Number of atomic SWCs: {len(model.getAtomicSwComponentTypes())}")
-   print(f"Number of composition SWCs: {len(model.getCompositionSwComponentTypes())}")
+   print(f"Number of packages: {len(document.getARPackages())}")
+   print(f"Number of atomic SWCs: {len(atomic_swcs)}")
+   print(f"Number of composition SWCs: {len(composition_swcs)}")
 
    # List all packages
    print("\nPackages:")
-   for package in model.getARPackages():
+   for package in document.getARPackages():
        print(f"  - {package.short_name}")
 
    # List all components
    print("\nComponents:")
-   for swc in model.getAtomicSwComponentTypes():
-       print(f"  - {swc.short_name} ({swc.category})")
+   for swc in atomic_swcs:
+       print(f"  - {swc.short_name} ({swc.getCategory()})")
 
 Example 2: Create Simple Component
 -----------------------------------
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.ApplicationSwComponentType import ApplicationSwComponentType
-   from armodel.writer.arxml_writer import ARXMLWriter
+   from armodel import AUTOSAR
+   from armodel.writer import ARXMLWriter
 
    # Initialize AUTOSAR
-   autosar = AUTOSAR.getInstance()
-   autosar.new()
-   autosar.setARRelease('R24-11')
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    # Create package
-   package = autosar.createARPackage('MyPackage')
+   package = document.createARPackage('MyPackage')
 
    # Create component
-   component = ApplicationSwComponentType()
-   component.short_name = 'MyComponent'
-   component.category = 'APPLICATION'
-
-   # Add to package
-   package.addApplicationSwComponentType(component)
+   component = package.createApplicationSwComponentType('MyComponent')
+   component.setCategory('APPLICATION')
 
    # Write to file
    writer = ARXMLWriter()
-   writer.write_to_file(autosar, 'simple_component.arxml')
+   writer.save('simple_component.arxml', document)
 
    print("Created simple_component.arxml")
 
@@ -67,62 +73,48 @@ Example 3: Add Ports to Component
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.ApplicationSwComponentType import ApplicationSwComponentType
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.PortPrototype import PPortPrototype, RPortPrototype
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.PortInterface import SenderReceiverInterface, DataPrototype
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.DataTypeImplementation import ImplementationDataType
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.ARObj import ARRef
-   from armodel.writer.arxml_writer import ARXMLWriter
+   from armodel import AUTOSAR
+   from armodel.writer import ARXMLWriter
+   from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
 
    # Initialize AUTOSAR
-   autosar = AUTOSAR.getInstance()
-   autosar.new()
-   autosar.setARRelease('R24-11')
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    # Create package
-   package = autosar.createARPackage('MyPackage')
+   package = document.createARPackage('MyPackage')
 
    # Create data type
-   data_type = ImplementationDataType()
-   data_type.short_name = 'MyDataType'
-   data_type.category = 'TYPE_REFERENCE'
-   package.addImplementationDataType(data_type)
+   data_type = package.createImplementationDataType('MyDataType')
+   data_type.setCategory('TYPE_REFERENCE')
 
-   # Create interface
-   interface = SenderReceiverInterface()
-   interface.short_name = 'MyInterface'
-
-   data_element = DataPrototype()
-   data_element.short_name = 'MyDataElement'
-   data_element.type_ref = ARRef(data_type)
-
-   interface.data_elements.append(data_element)
-   package.addSenderReceiverInterface(interface)
+   # Create interface with a data element
+   interface = package.createSenderReceiverInterface('MyInterface')
+   data_element = interface.createDataElement('MyDataElement')
+   type_ref = TRefType()
+   type_ref.setDest('IMPLEMENTATION-DATA-TYPE')
+   type_ref.setValue('/MyPackage/MyDataType')
+   data_element.setTypeTRef(type_ref)
 
    # Create component
-   component = ApplicationSwComponentType()
-   component.short_name = 'MyComponent'
-   component.category = 'APPLICATION'
+   component = package.createApplicationSwComponentType('MyComponent')
+   component.setCategory('APPLICATION')
 
    # Add provided port
-   provided_port = PPortPrototype()
-   provided_port.short_name = 'MyProvidedPort'
-   provided_port.provided_interface_ref = ARRef(interface)
-   component.addProvidedPort(provided_port)
+   provided_port = component.createPPortPrototype('MyProvidedPort')
+   interface_ref = TRefType()
+   interface_ref.setDest('SENDER-RECEIVER-INTERFACE')
+   interface_ref.setValue('/MyPackage/MyInterface')
+   provided_port.setProvidedInterfaceTRef(interface_ref)
 
    # Add required port
-   required_port = RPortPrototype()
-   required_port.short_name = 'MyRequiredPort'
-   required_port.required_interface_ref = ARRef(interface)
-   component.addRequiredPort(required_port)
-
-   # Add to package
-   package.addApplicationSwComponentType(component)
+   required_port = component.createRPortPrototype('MyRequiredPort')
+   required_port.setRequiredInterfaceTRef(interface_ref)
 
    # Write to file
    writer = ARXMLWriter()
-   writer.write_to_file(autosar, 'component_with_ports.arxml')
+   writer.save('component_with_ports.arxml', document)
 
    print("Created component_with_ports.arxml")
 
@@ -131,36 +123,41 @@ Example 4: Find and Access Elements
 
 .. code-block:: python
 
-   from armodel.parser.arxml_parser import ARXMLParser
+   from armodel import AUTOSAR
+   from armodel.parser import ARXMLParser
+
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    # Parse ARXML
    parser = ARXMLParser()
-   model = parser.parse_from_file('example.arxml')
+   parser.load('example.arxml', document)
 
-   # Find specific component
-   component = model.findAtomicSwComponentType('MyComponent')
+   # Find specific component by full path
+   component = document.findAtomicSwComponentType('/MyPackage/MyComponent')
 
    if component:
        print(f"Found component: {component.short_name}")
 
        # Access ports
        print("\nProvided ports:")
-       for port in component.provided_ports:
+       for port in component.getPPortPrototypes():
            print(f"  - {port.short_name}")
 
        print("\nRequired ports:")
-       for port in component.required_ports:
+       for port in component.getRPortPrototypes():
            print(f"  - {port.short_name}")
 
    # Find specific data type
-   data_type = model.findImplementationDataType('MyDataType')
+   data_type = document.findImplementationDataType('/MyPackage/MyDataType')
 
    if data_type:
        print(f"\nFound data type: {data_type.short_name}")
-       print(f"Category: {data_type.category}")
+       print(f"Category: {data_type.getCategory()}")
 
    # Find specific system signal
-   signal = model.findSystemSignal('MySignal')
+   signal = document.findSystemSignal('/MyPackage/MySignal')
 
    if signal:
        print(f"\nFound system signal: {signal.short_name}")
@@ -170,49 +167,60 @@ Example 5: Iterate Through All Elements
 
 .. code-block:: python
 
-   from armodel.parser.arxml_parser import ARXMLParser
+   from armodel import AUTOSAR
+   from armodel.parser import ARXMLParser
+
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    # Parse ARXML
    parser = ARXMLParser()
-   model = parser.parse_from_file('example.arxml')
+   parser.load('example.arxml', document)
 
    # Iterate through packages
-   for package in model.getARPackages():
+   for package in document.getARPackages():
        print(f"\nPackage: {package.short_name}")
 
        # Iterate through elements in package
-       if hasattr(package, 'elements'):
-           for element in package.elements:
-               print(f"  Element: {element.short_name} ({element.__class__.__name__})")
+       for element in package.getElements():
+           print(f"  Element: {element.short_name} ({element.__class__.__name__})")
 
    # Iterate through all components
    print("\n\nAll Atomic SWCs:")
-   for swc in model.getAtomicSwComponentTypes():
-       print(f"  - {swc.short_name}")
+   for package in document.getARPackages():
+       for swc in package.getAtomicSwComponentTypes():
+           print(f"  - {swc.short_name}")
 
    # Iterate through all interfaces
    print("\nAll Sender-Receiver Interfaces:")
-   for interface in model.getSenderReceiverInterfaces():
-       print(f"  - {interface.short_name}")
+   for package in document.getARPackages():
+       for interface in package.getSenderReceiverInterfaces():
+           print(f"  - {interface.short_name}")
 
 Example 6: Read and Write ARXML
 --------------------------------
 
 .. code-block:: python
 
-   from armodel.parser.arxml_parser import ARXMLParser
-   from armodel.writer.arxml_writer import ARXMLWriter
+   from armodel import AUTOSAR
+   from armodel.parser import ARXMLParser
+   from armodel.writer import ARXMLWriter
+
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    # Read ARXML
    parser = ARXMLParser()
-   model = parser.parse_from_file('input.arxml')
+   parser.load('input.arxml', document)
 
    # Modify model (optional)
    # ... modifications ...
 
    # Write ARXML
    writer = ARXMLWriter()
-   writer.write_to_file(model, 'output.arxml')
+   writer.save('output.arxml', document)
 
    print("Read from input.arxml and wrote to output.arxml")
 
@@ -221,20 +229,21 @@ Example 7: Error Handling
 
 .. code-block:: python
 
-   from armodel.parser.arxml_parser import ARXMLParser
-   import logging
-
-   # Configure logging
-   logging.basicConfig(level=logging.INFO)
+   from armodel import AUTOSAR
+   from armodel.parser import ARXMLParser
 
    def parse_with_error_handling(file_path):
        """Parse ARXML with error handling."""
+       document = AUTOSAR.getInstance()
+       document.clear()
+       document.setARRelease('R23-11')
+
        parser = ARXMLParser()
 
        try:
-           model = parser.parse_from_file(file_path)
+           parser.load(file_path, document)
            print(f"Successfully parsed {file_path}")
-           return model
+           return document
 
        except FileNotFoundError:
            print(f"Error: File not found: {file_path}")
@@ -246,9 +255,9 @@ Example 7: Error Handling
            return None
 
    # Usage
-   model = parse_with_error_handling('example.arxml')
+   document = parse_with_error_handling('example.arxml')
 
-   if model:
+   if document:
        print("Model loaded successfully")
    else:
        print("Failed to load model")
@@ -258,24 +267,25 @@ Example 8: Working with UUIDs
 
 .. code-block:: python
 
-   from armodel.parser.arxml_parser import ARXMLParser
-   from armodel.models.utils.uuid_mgr import UUIDManager
+   from armodel import AUTOSAR
+   from armodel.parser import ARXMLParser
+
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    # Parse ARXML
    parser = ARXMLParser()
-   model = parser.parse_from_file('example.arxml')
-
-   # Get UUID manager
-   uuid_mgr = UUIDManager()
+   parser.load('example.arxml', document)
 
    # Check for duplicate UUIDs
-   duplicates = uuid_mgr.check_duplicates()
+   duplicates = document.getDuplicateUUIDs()
 
    if duplicates:
        print(f"Found {len(duplicates)} duplicate UUIDs:")
-       for uuid, elements in duplicates.items():
+       for uuid in duplicates:
            print(f"\nUUID: {uuid}")
-           for element in elements:
+           for element in document.getARObjectByUUID(uuid):
                print(f"  - {element.short_name} ({element.__class__.__name__})")
    else:
        print("No duplicate UUIDs found")
@@ -283,18 +293,25 @@ Example 8: Working with UUIDs
 Example 9: Format ARXML File
 -----------------------------
 
+Reading a file and writing it back with py-armodel normalizes the XML layout:
+
 .. code-block:: python
 
-   from armodel.parser.arxml_parser import ARXMLParser
-   from armodel.writer.arxml_writer import ARXMLWriter
+   from armodel import AUTOSAR
+   from armodel.parser import ARXMLParser
+   from armodel.writer import ARXMLWriter
+
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    # Read ARXML
    parser = ARXMLParser()
-   model = parser.parse_from_file('input.arxml')
+   parser.load('input.arxml', document)
 
-   # Write with formatting
+   # Write it back (the ``arxml-format`` CLI tool does the same)
    writer = ARXMLWriter()
-   writer.write_to_file(model, 'formatted.arxml', pretty_print=True)
+   writer.save('formatted.arxml', document)
 
    print("Formatted ARXML written to formatted.arxml")
 
@@ -303,23 +320,34 @@ Example 10: Multiple File Processing
 
 .. code-block:: python
 
-   from armodel.parser.arxml_parser import ARXMLParser
+   from armodel import AUTOSAR
+   from armodel.parser import ARXMLParser
 
    # List of ARXML files
    files = ['file1.arxml', 'file2.arxml', 'file3.arxml']
+
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    parser = ARXMLParser()
 
    # Process each file
    for file_path in files:
        try:
-           model = parser.parse_from_file(file_path)
+           parser.load(file_path, document)
 
            # Print summary
+           atomic_swcs = []
+           signals = []
+           for package in document.getARPackages():
+               atomic_swcs.extend(package.getAtomicSwComponentTypes())
+               signals.extend(package.getSystemSignals())
+
            print(f"\n{file_path}:")
-           print(f"  Packages: {len(model.getARPackages())}")
-           print(f"  Components: {len(model.getAtomicSwComponentTypes())}")
-           print(f"  Signals: {len(model.getSystemSignals())}")
+           print(f"  Packages: {len(document.getARPackages())}")
+           print(f"  Components: {len(atomic_swcs)}")
+           print(f"  Signals: {len(signals)}")
 
        except Exception as e:
            print(f"Error processing {file_path}: {e}")
