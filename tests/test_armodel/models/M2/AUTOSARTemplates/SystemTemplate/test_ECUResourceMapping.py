@@ -1,6 +1,7 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping, HwPortMapping
 
 
@@ -23,6 +24,7 @@ CCM_NOTE = (
 )
 CCM_CONTROLLER_NOTE = "Reference to the CommunicationController in the System Template"
 CCM_HW_NOTE = "Reference to a HwElement of category CommunicationController in the ECU Resource Template."
+ECU_NOTE = "ECUMapping allows to assign an ECU hardware type (defined in the ECU Resource " "Template) to an ECUInstance used in a physical topology."
 
 
 class Test_CommunicationControllerMapping:
@@ -83,37 +85,99 @@ class Test_CommunicationControllerMapping:
 
 
 class Test_ECUMapping:
-    """Test cases for ECUMapping class."""
+    """Test cases for ECUMapping class (Table 3.133, p.182)."""
 
-    def test_ECUMapping(self):
-        """Test ECUMapping class functionality."""
-        parent = MockParent()
-        mapping = ECUMapping(parent, "test_ecu_mapping")
+    def _mapping(self):
+        return ECUMapping(MockParent(), "test_ecu_mapping")
 
-        assert isinstance(mapping, Identifiable)
+    def test_is_identifiable_variation_point_capable_subclass(self):
+        assert issubclass(ECUMapping, Identifiable)
+        assert issubclass(ECUMapping, VariationPointCapable)
 
-        # Test default values
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert ECUMapping.__doc__ == ECU_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert ECUMapping.__init__.__doc__ is None
+
+    def test_defaults_in_spec_displayed_order(self):
+        mapping = self._mapping()
+        assert list(mapping.__dict__)[-4:] == ["commControllerMappings", "ecuRef", "ecuInstanceRef", "hwPortMappings"]
         assert mapping.getCommControllerMappings() == []
         assert mapping.getEcuRef() is None
         assert mapping.getEcuInstanceRef() is None
         assert mapping.getHwPortMappings() == []
 
-        # Test setter/getter methods
-        mock_comm_controller = "mock_comm_controller"
-        mapping.setCommControllerMappings([mock_comm_controller])
-        assert mapping.getCommControllerMappings() == [mock_comm_controller]
+    def test_ecu_ref_round_trip(self):
+        mapping = self._mapping()
+        ref = _ref("HW-ELEMENT", "/EcuResource/HwElements/Ecu1")
+        assert mapping.setEcuRef(ref) is mapping
+        assert mapping.getEcuRef() is ref
 
-        mock_ecu_ref = "mock_ecu_ref"
-        mapping.setEcuRef(mock_ecu_ref)
-        assert mapping.getEcuRef() == mock_ecu_ref
+    def test_ecu_instance_ref_round_trip(self):
+        mapping = self._mapping()
+        ref = _ref("ECU-INSTANCE", "/System/EcuInstances/EcuInst1")
+        assert mapping.setEcuInstanceRef(ref) is mapping
+        assert mapping.getEcuInstanceRef() is ref
 
-        mock_ecu_instance_ref = "mock_ecu_instance_ref"
-        mapping.setEcuInstanceRef(mock_ecu_instance_ref)
-        assert mapping.getEcuInstanceRef() == mock_ecu_instance_ref
+    def test_ref_setter_none_is_no_op(self):
+        mapping = self._mapping()
+        ecu_ref = _ref("HW-ELEMENT", "/EcuResource/HwElements/Ecu1")
+        ecu_instance_ref = _ref("ECU-INSTANCE", "/System/EcuInstances/EcuInst1")
+        mapping.setEcuRef(ecu_ref)
+        mapping.setEcuInstanceRef(ecu_instance_ref)
+        assert mapping.setEcuRef(None) is mapping
+        assert mapping.setEcuInstanceRef(None) is mapping
+        assert mapping.getEcuRef() is ecu_ref
+        assert mapping.getEcuInstanceRef() is ecu_instance_ref
 
-        mock_hw_port = "mock_hw_port"
-        mapping.setHwPortMappings([mock_hw_port])
-        assert mapping.getHwPortMappings() == [mock_hw_port]
+    def test_aggregation_list_setters_round_trip(self):
+        mapping = self._mapping()
+        ccm = CommunicationControllerMapping()
+        hpm = HwPortMapping()
+        assert mapping.setCommControllerMappings([ccm]) is mapping
+        assert mapping.getCommControllerMappings() == [ccm]
+        assert mapping.setHwPortMappings([hpm]) is mapping
+        assert mapping.getHwPortMappings() == [hpm]
+
+    def test_add_comm_controller_mapping_appends_none_no_op_returns_self(self):
+        mapping = self._mapping()
+        ccm1 = CommunicationControllerMapping()
+        ccm2 = CommunicationControllerMapping()
+        assert mapping.addCommControllerMapping(ccm1) is mapping
+        assert mapping.addCommControllerMapping(ccm2) is mapping
+        assert mapping.getCommControllerMappings() == [ccm1, ccm2]
+        assert mapping.addCommControllerMapping(None) is mapping
+        assert mapping.getCommControllerMappings() == [ccm1, ccm2]
+
+    def test_add_hw_port_mapping_appends_none_no_op_returns_self(self):
+        mapping = self._mapping()
+        hpm1 = HwPortMapping()
+        hpm2 = HwPortMapping()
+        assert mapping.addHwPortMapping(hpm1) is mapping
+        assert mapping.addHwPortMapping(hpm2) is mapping
+        assert mapping.getHwPortMappings() == [hpm1, hpm2]
+        assert mapping.addHwPortMapping(None) is mapping
+        assert mapping.getHwPortMappings() == [hpm1, hpm2]
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        def norm(doc):
+            return " ".join(doc.split())
+
+        comm_note = "The ECUMapping contains the mapping of all CommunicationControllers of the ECU."
+        port_note = "The ECUMapping contains the mapping of all HW Communication Ports of the ECU."
+        ecu_note = "Reference to a HwElement of category ECU in the ECU Resource Template."
+        ecu_instance_note = "Reference to the EcuInstance in the System Template"
+        assert norm(ECUMapping.getEcuRef.__doc__) == ecu_note
+        assert norm(ECUMapping.setEcuRef.__doc__) == (ecu_note + " A None value is a no-op and does not overwrite an existing ecuRef.")
+        assert norm(ECUMapping.getEcuInstanceRef.__doc__) == ecu_instance_note
+        assert norm(ECUMapping.setEcuInstanceRef.__doc__) == (ecu_instance_note + " A None value is a no-op and does not overwrite an existing ecuInstanceRef.")
+        assert norm(ECUMapping.getCommControllerMappings.__doc__) == comm_note
+        assert norm(ECUMapping.setCommControllerMappings.__doc__) == (comm_note + " A None value is a no-op and does not overwrite an existing commControllerMappings list.")
+        assert norm(ECUMapping.addCommControllerMapping.__doc__) == (comm_note + " A None value does not extend the commControllerMappings list.")
+        assert norm(ECUMapping.getHwPortMappings.__doc__) == port_note
+        assert norm(ECUMapping.setHwPortMappings.__doc__) == (port_note + " A None value is a no-op and does not overwrite an existing hwPortMappings list.")
+        assert norm(ECUMapping.addHwPortMapping.__doc__) == (port_note + " A None value does not extend the hwPortMappings list.")
 
 
 HPM_NOTE = "HWPortMapping specifies the hwCommunicationPort (defined in the ECU Resource " "Template) to realize the specified CommunicationConnector in a physical topology."

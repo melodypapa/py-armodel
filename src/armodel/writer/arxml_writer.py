@@ -11289,9 +11289,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write ECUMapping <%s>" % mapping.getShortName())
         if mapping is not None:
             child_element = ET.SubElement(element, "ECU-MAPPING")
-            self.writeIdentifiable(child_element, mapping)
+            self.writeIdentifiable(child_element, mapping, write_variation_point=False)
+            comm_controller_mappings = mapping.getCommControllerMappings()
+            if len(comm_controller_mappings) > 0:
+                mappings_tag = ET.SubElement(child_element, "COMM-CONTROLLER-MAPPINGS")
+                for comm_controller_mapping in comm_controller_mappings:
+                    self.writeCommunicationControllerMapping(mappings_tag, comm_controller_mapping)
             self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", mapping.getEcuInstanceRef())
             self.setChildElementOptionalRefType(child_element, "ECU-REF", mapping.getEcuRef())
+            hw_port_mappings = mapping.getHwPortMappings()
+            if len(hw_port_mappings) > 0:
+                mappings_tag = ET.SubElement(child_element, "HW-PORT-MAPPINGS")
+                for hw_port_mapping in hw_port_mappings:
+                    self.writeHwPortMapping(mappings_tag, hw_port_mapping)
+            self.writeVariationPoint(child_element, mapping.getVariationPoint())
 
     def writeSystemMappingEcuResourceMappings(self, element: ET.Element, mapping: SystemMapping):
         ecu_resource_mappings = mapping.getEcuResourceMappings()

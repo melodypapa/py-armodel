@@ -13001,8 +13001,12 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcuMapping(self, element: ET.Element, mapping: ECUMapping):
         self.readIdentifiable(element, mapping)
+        for child_element in self.findall(element, "COMM-CONTROLLER-MAPPINGS/COMMUNICATION-CONTROLLER-MAPPING"):
+            mapping.addCommControllerMapping(self.readCommunicationControllerMapping(child_element))
         mapping.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
         mapping.setEcuRef(self.getChildElementOptionalRefType(element, "ECU-REF"))
+        for child_element in self.findall(element, "HW-PORT-MAPPINGS/HW-PORT-MAPPING"):
+            mapping.addHwPortMapping(self.readHwPortMapping(child_element))
 
     def readSystemMappingEcuResourceMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "ECU-RESOURCE-MAPPINGS/*"):
