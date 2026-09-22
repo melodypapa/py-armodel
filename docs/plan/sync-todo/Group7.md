@@ -320,15 +320,15 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 8 — Deviations — none (ref target DiagnosticAuthRole Table 4.34 not in src — refs are untyped RefType, no fixture impact)
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `DiagnosticSession` (dependency · discovered 2026-09-23 from DiagnosticAccessPermission closure · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 4.30 · incl. DiagnosticJumpToBootLoaderEnum Table 4.31 if absent)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 4.30 p.74 (pdf_page.py verified): concrete, Base closure → most-derived existing = `DiagnosticCommonElement`; aggregated by ARPackage.element; 4 attrs displayed order: id (PositiveInteger 0..1), jumpToBootLoader (DiagnosticJumpToBootLoaderEnum 0..1), p2ServerMax (TimeValue 0..1), p2StarServerMax (TimeValue 0..1); XSD group (AUTOSAR_00052.xsd l.44315) order ID → JUMP-TO-BOOT-LOADER → P-2-SERVER-MAX → P-2-STAR-SERVER-MAX (= display order); Notes verbatim from XSD (jumpToBootLoader Note is two paragraphs in XSD, word-split "jumpToBoot Loader" corrected); Table 4.31 enum absent from src → created in-pass
+  - [x] Step 2 — Write model class unit test (Red) — test_Dcm.py extended (16 more tests): session instantiation/issubclass/verbatim Note/no-`__init__`-docstring/defaults-in-displayed-order/4 round-trips + chaining + None no-ops/accessor docstring checks; enum member presence + XSD wire values + instantiability + declaration order; Red = ImportError on the missing names (collection-level)
+  - [x] Step 3 — Implement model class (Green) — DiagnosticJumpToBootLoaderEnum(AREnum) + DiagnosticSession(DiagnosticCommonElement) appended to Dcm.py; PEP 526 members in displayed order; typed chaining setters with None no-op guards; enum literals UPPER-SNAKE wire values with verbatim literal inline comments + EnumerationLiteralIndex tags
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — new classes written verbatim from the start (class Notes = Table 4.30/4.31 Notes; attr Notes on inline comments + getter/setter docstrings with None-no-op sentences); no wipe needed
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/test_diagnostic_session.py (3: full read, empty, ARPackage ELEMENTS dispatch via createDiagnosticSession) + tests/test_armodel/writer/test_diagnostic_session.py (3: child order [SHORT-NAME, ID, JUMP-TO-BOOT-LOADER, P-2-SERVER-MAX, P-2-STAR-SERVER-MAX], empty omits, ns-injected round-trip); 6 Red (helpers + factory missing)
+  - [x] Step 6 — Update parser & writer (Green) — readDiagnosticSession (readIdentifiable + ID positive-integer + enum via getChildElementOptionalLiteral+construct + 2× TimeValue) / writeDiagnosticSession (writeIdentifiable + setChildElementOptional*); ARPackage.createDiagnosticSession (IsElementExists guard) + parser "DIAGNOSTIC-SESSION" dispatch branch + writer isinstance branch; Dcm import extended alphabetically
+  - [x] Step 7 — Update checklist comment — 6-column parity checklists (DiagnosticSession + enum) with release column R23-11, no marker
+  - [x] Step 8 — Deviations — (1) enum literal descriptions are inline comments not docstrings (class attributes cannot carry __doc__; FirewallActionEnum precedent) — declaration order asserted instead; (2) SYSTEM-SUPPLIER-BOOT literal comment keeps the XSD's double space ("Bootloader.  In this case") verbatim, markdown single-spaces it; (3) jumpToBootLoader XSD tags carry mmt.RestrictToStandards="CP" (informational only, not modeled)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `DiagnosticSecurityLevel` (dependency · discovered 2026-09-23 from DiagnosticAccessPermission closure · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 4.32)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

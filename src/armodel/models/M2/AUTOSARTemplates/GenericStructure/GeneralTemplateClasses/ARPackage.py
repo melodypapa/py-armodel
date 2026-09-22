@@ -121,6 +121,7 @@ __all__ = [
     "DcmIPdu",
     "DiagnosticConnection",
     "DiagnosticServiceTable",
+    "DiagnosticSession",
     "DoIpTpConfig",
     "Documentation",
     "DocumentationBlock",
@@ -1356,6 +1357,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(table)
         return self.getElement(short_name, DiagnosticServiceTable)
 
+    def createDiagnosticSession(self, short_name: str) -> DiagnosticSession:
+        """
+        Creates a new DiagnosticSession with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticSession represents the ability to define a diagnostic
+        session in the diagnostic extract template of AUTOSAR.
+
+        Args:
+            short_name: The short name for the new DiagnosticSession
+
+        Returns:
+            The newly created or existing DiagnosticSession instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticSession):
+            session = DiagnosticSession(self, short_name)
+            self.addElement(session)
+        return self.getElement(short_name, DiagnosticSession)
+
     def createDltContext(self, short_name: str) -> DltContext:
 
         if not self.IsElementExists(short_name, DltContext):
@@ -1928,6 +1948,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     TriggerInterface,
 )
 from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltContext, DltEcu  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticSession  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutineMappingSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet, CpSoftwareCluster, System  # noqa: E402

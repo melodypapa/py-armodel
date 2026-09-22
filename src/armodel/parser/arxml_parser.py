@@ -355,7 +355,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAuthRoleProxy
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAuthRoleProxy, DiagnosticJumpToBootLoaderEnum, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
@@ -9655,6 +9655,18 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "AUTHENTICATION-ROLE-REFS/AUTHENTICATION-ROLE-REF"):
             proxy.addAuthenticationRoleRef(ref)
 
+    def readDiagnosticSession(self, element: ET.Element, session: DiagnosticSession):
+        self.logger.debug("Read DiagnosticSession <%s>" % session.getShortName())
+        self.readIdentifiable(element, session)
+        session.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
+        jump_to_boot_loader = self.getChildElementOptionalLiteral(element, "JUMP-TO-BOOT-LOADER")
+        if jump_to_boot_loader is not None:
+            e = DiagnosticJumpToBootLoaderEnum()
+            e.setValue(jump_to_boot_loader.getValue())
+            session.setJumpToBootLoader(e)
+        session.setP2ServerMax(self.getChildElementOptionalTimeValue(element, "P-2-SERVER-MAX"))
+        session.setP2StarServerMax(self.getChildElementOptionalTimeValue(element, "P-2-STAR-SERVER-MAX"))
+
     def readDiagnosticServiceTableDiagnosticConnectionRefs(self, element: ET.Element, table: DiagnosticServiceTable):
         for ref in self.getChildElementRefTypeList(element, "DIAGNOSTIC-CONNECTIONS/DIAGNOSTIC-CONNECTION-REF-CONDITIONAL/DIAGNOSTIC-CONNECTION-REF"):
             table.addDiagnosticConnectionRef(ref)
@@ -13734,6 +13746,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-SERVICE-TABLE":
                 table = parent.createDiagnosticServiceTable(self.getShortName(child_element))
                 self.readDiagnosticServiceTable(child_element, table)
+            elif tag_name == "DIAGNOSTIC-SESSION":
+                session = parent.createDiagnosticSession(self.getShortName(child_element))
+                self.readDiagnosticSession(child_element, session)
             elif tag_name == "DLT-CONTEXT":
                 context = parent.createDltContext(self.getShortName(child_element))
                 self.readDltContext(child_element, context)
