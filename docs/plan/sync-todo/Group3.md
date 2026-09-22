@@ -94,6 +94,32 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
 >   enums), Base `ARObject`, Package M2::MSR::Documentation::BlockElements::Figure → `Figure.py`.
 > - Dependency closure of the enums otherwise clear (AREnum → ARObject base); primitives not queued.
 
+> **Dependency audit 2026-09-22 (`SwRecordLayoutGroup` closure)** (run ahead of the four remaining `[ ]` rows —
+> `SwRecordLayoutV`/`SwRecordLayout`/`SwRecordLayoutGroup`/`GeneralAnnotation`; every earlier restructure/audit missed these):
+> - **Added 2 missing dependency rows** immediately before `SwRecordLayoutGroup` (Rule 0016.5 dependency-first; both verified
+>   NOT in src by grep of src/ and tests/, and NOT queued in any Group file): `RecordLayoutIteratorPoint` (**Table 5.102**,
+>   `Primitive`) and `AsamRecordLayoutSemantics` (**Table 5.103**, `Primitive`) — member types of
+>   `SwRecordLayoutGroup.swRecordLayoutGroupFrom`/`swRecordLayoutGroupTo` and `SwRecordLayoutGroup.category` respectively.
+>   src placeholders today: `SwRecordLayoutGroup.category`/`swRecordLayoutGroupFrom`/`swRecordLayoutGroupTo` are typed
+>   `ARLiteral` via trailing `# type:` comments (RecordLayout.py) — those rows will retype them to the spec primitives.
+> - XSD cross-check (`AUTOSAR_00052.xsd`): `RECORD-LAYOUT-ITERATOR-POINT` complexType line 141529 (+ `--SIMPLE` line 141541;
+>   pattern `-?([0-9]+|MAX-TEXT-SIZE|ARRAY-SIZE)`), consumers SW-RECORD-LAYOUT-GROUP-FROM (L116044) / -TO (L116052);
+>   `ASAM-RECORD-LAYOUT-SEMANTICS` complexType line 131645 (+ `--SIMPLE` line 131661; `xml.xsd.type=NMTOKEN`), consumer
+>   SW-RECORD-LAYOUT-GROUP CATEGORY (L116003).
+> - Already stamped, no row needed (markers verified in source): `AxisIndexType` (`# Spec verified: R23-11`, GST Table 4.43 —
+>   SWCT Table 5.101 is the same Primitive, identical Note), `SwBaseType` ✓, `MultiLanguageOverviewParagraph` ✓,
+>   `SwGenericAxisParamType` ✓, `SwRecordLayoutGroupContent` ✓, `NameTokens` ✓, `DocumentationBlock` ✓, `MultilanguageLongName` ✓.
+>   Existing leaf primitives not queued (String/NameToken precedent): `Identifier` ✓, `Integer`, `NameToken`, `String`.
+> - XSD-only `SwRecordLayoutV.category` (group SW-RECORD-LAYOUT-V, L116160) carries `atp.Status="removed"` and is absent from
+>   Table 5.98 → not modeled, Rule 0015 (Entry BGCOLOR precedent) — `AsamRecordLayoutSemantics`'s only live consumer is
+>   `SwRecordLayoutGroup.category`.
+> - Closures of `SwRecordLayoutV` (Table 5.98, 8 attrs), `SwRecordLayout` (Table 5.97, 1 attr `swRecordLayoutGroup` aggr —
+>   cyclic, queued below) and `GeneralAnnotation` (CP_TPS Table 4.56 = FO_TPS Table 4.71, identical content; 3 attrs —
+>   `annotationOrigin` String, `annotationText` DocumentationBlock ✓, `label` MultilanguageLongName ✓) are otherwise clear.
+> - Markdown render note: Tables 5.97–5.99 render **trailing-caption** (each class's rows appear BEFORE its caption — same
+>   page-split family as Map/LGraphic); `SwRecordLayoutGroup`'s last 3 attrs (`swRecordLayoutGroupIndex`/`Step`/`To`) are the
+>   fragment AFTER the `Table 5.99` caption.
+
 - [x] `ChapterEnumBreak` (dependency · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.61 · enum member type of `Paginateable.chapterBreak`) — verified R23-11 (commit 20e6ee88)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -999,7 +1025,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SwRecordLayoutV` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.98 · deps stamped: `baseType` SwBaseType ✓ / `desc` MultiLanguageOverviewParagraph ✓ · ref target `swGenericAxisParamType` SwGenericAxisParamType NOT in src — pending 16.4 below)
+- [ ] `SwRecordLayoutV` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.98 · deps stamped: `baseType` SwBaseType ✓ / `desc` MultiLanguageOverviewParagraph ✓ / `swGenericAxisParamType` SwGenericAxisParamType ✓ (commit 1eacd1a7) / `swRecordLayoutVAxis` AxisIndexType ✓ (GST Table 4.43) / `swRecordLayoutVIndex` NameTokens ✓ · 2026-09-22 closure audit: clear — no missing member types; XSD-only `category` carries `atp.Status="removed"` → not modeled (Rule 0015))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -1019,7 +1045,27 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SwRecordLayoutGroup` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.99 · **moved 2026-09-03 restructure after `SwRecordLayoutV` (aggr `swRecordLayoutV`) + `SwRecordLayoutGroupContent` (aggr `swRecordLayoutGroupContentType`) + `SwRecordLayout` (ref `swRecordLayout`)** · self-recursive `swRecordLayoutGroup` · `swGenericAxisParamType` NOT in src — pending 16.4 below · `desc` stamped ✓)
+- [ ] `RecordLayoutIteratorPoint` (dependency · **added 2026-09-22 SwRecordLayoutGroup closure audit** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · **Table 5.102** (`Primitive`) · **NOT in src — created** · Package M2::MSR::DataDictionary::RecordLayout → `RecordLayout.py` (same file as AxisIndexType) · **primitive** → `ARLiteral` subclass (Rule 0001.10) · Tags `xml.xsd.customType=RECORD-LAYOUT-ITERATOR-POINT` `xml.xsd.pattern=-?([0-9]+|MAX-TEXT-SIZE|ARRAY-SIZE)` `xml.xsd.type=string` · member type of `SwRecordLayoutGroup.swRecordLayoutGroupFrom` + `swRecordLayoutGroupTo` · queued immediately before `SwRecordLayoutGroup` (Rule 0016.5))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `AsamRecordLayoutSemantics` (dependency · **added 2026-09-22 SwRecordLayoutGroup closure audit** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · **Table 5.103** (`Primitive`) · **NOT in src — created** · Package M2::MSR::DataDictionary::RecordLayout → `RecordLayout.py` · **primitive** → `ARLiteral` subclass (Rule 0001.10) · Tags `xml.xsd.customType=ASAM-RECORD-LAYOUT-SEMANTICS` `xml.xsd.type=NMTOKEN` · member type of `SwRecordLayoutGroup.category` (XSD-only `SwRecordLayoutV.category` carries `atp.Status="removed"` → not modeled, Rule 0015) · queued immediately before `SwRecordLayoutGroup` (Rule 0016.5))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SwRecordLayoutGroup` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.99 · **moved 2026-09-03 restructure after `SwRecordLayoutV` (aggr `swRecordLayoutV`) + `SwRecordLayoutGroupContent` (aggr `swRecordLayoutGroupContentType`) + `SwRecordLayout` (ref `swRecordLayout`)** · self-recursive `swRecordLayoutGroup` · `swGenericAxisParamType` SwGenericAxisParamType stamped ✓ · `desc` stamped ✓ · deps `category` AsamRecordLayoutSemantics + `swRecordLayoutGroupFrom`/`To` RecordLayoutIteratorPoint queued immediately above (**added 2026-09-22 closure audit**))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
