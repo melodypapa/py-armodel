@@ -707,13 +707,13 @@ markers were STRIPPED here; all stamps are deferred to one batch confirmation (u
     N/A (round-trip via consuming class CycleRepetition).
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — new Test_CycleRepetitionType in mirrored test_CoreTopology.py (4 tests: class-docstring Note verbatim, init-docless, instantiability + setValue, 8 literals exact values + getEnumValues len); old isinstance-only test_CycleRepetitionType method removed from Test_FibexCoreTopology; 3 failed / 1 passed on first run (fabricated docstring; ZERO literal members)
-  - [x] Step 3 — Implement model class (Green) — 8 literals added per Table 6.86 displayed order (1/10/16/2/20/32/4/40), member names ENUM_<UPPER> per stamped sibling TtcanTriggerType convention, member values = exact spec camelCase literals; member comments = Description verbatim + atp.EnumerationLiteralIndex tails; 4 passed
-  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstring replaced with Note verbatim (Table 6.86 p.426); zero `# type:` comments
+  - [x] Step 3 — Implement model class (Green) — 12 literals added per Table 6.86 displayed order (1/10/16/2/20/32/4/40 on p.425; 5/50/64/8 on p.426), member names ENUM_<UPPER> per stamped sibling TtcanTriggerType convention, member values = exact spec camelCase literals; member comments = Description verbatim + atp.EnumerationLiteralIndex tails; 4 passed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstring replaced with Note verbatim (Table 6.86 pp.425-426); all 12 literal comments verbatim; zero `# type:` comments
   - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone enum, no own XML element (round-trip via consuming class CycleRepetition, Rules 0010-0011)
   - [x] Step 6 — Update parser & writer (Green) — N/A: standalone enum (reader/writer coverage is the enum value form on CycleRepetition.CYCLE-REPETITION)
-  - [x] Step 7 — Update checklist comment — 6-column format with release column R23-11; `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.86, p.426 (R23-11)`; `# (no methods)` per AREnum convention; NO `# Spec verified:` marker (deferred to batch confirmation)
-  - [x] Step 8 — Deviations — **none** (8 literals 1:1 with Table 6.86 Literal rows, no extra/missing; values = exact spec literals; XSD cross-check: CYCLE-REPETITION-TYPE--SIMPLE enumeration values 1:1 uppercase forms line 132855+; no tracker entry exists)
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (54 mirrored tests pass; armodel.CycleRepetitionType export resolves; Rule 0008 spacing — literal blocks one blank line apart); 9b DEFERRED to batch stamp confirmation (user-instructed)
+  - [x] Step 7 — Update checklist comment — 6-column format with release column R23-11; `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.86, pp.425-426 (R23-11)`; `# (no methods)` per AREnum convention; 12 literal values covered across the page split; NO `# Spec verified:` marker (deferred to batch confirmation)
+  - [x] Step 8 — Deviations — **none** (12 literals 1:1 with Table 6.86 Literal rows across pp.425-426, no extra/missing; values = exact spec literals; XSD cross-check: CYCLE-REPETITION-TYPE--SIMPLE enumeration values 1:1 uppercase forms line 132855+; no tracker entry exists)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — continuation-page literals restored; focused enum tests, lint, and Black verification pending; 9b pending user confirmation
 - [ ] `CycleRepetition` (member · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.85)
   - Note: queued 2026-09-20 — stub detector (Rule 0016.5): subclass of input CommunicationCycle
     named in Table 6.83 Subclasses row; exists in CoreTopology.py with fabricated docstring,

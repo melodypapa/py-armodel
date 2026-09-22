@@ -110,7 +110,7 @@ class CycleRepetitionType(AREnum):
     """
 
     # CycleRepetitionType method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.86, p.426 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.86, pp.425-426 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods)
 
@@ -138,6 +138,18 @@ class CycleRepetitionType(AREnum):
     # Attribute cycleRepetition value="40" to support FlexRay 3.0 Tags: atp.EnumerationLiteralIndex=7
     ENUM_CYCLE_REPETITION_40 = "cycleRepetition40"
 
+    # Attribute cycleRepetition value="5" to support FlexRay 3.0 Tags: atp.EnumerationLiteralIndex=8
+    ENUM_CYCLE_REPETITION_5 = "cycleRepetition5"
+
+    # Attribute cycleRepetition value="50" to support FlexRay 3.0 Tags: atp.EnumerationLiteralIndex=9
+    ENUM_CYCLE_REPETITION_50 = "cycleRepetition50"
+
+    # Attribute cycleRepetition value="64" valid only for FlexRay Protocol 2.1 Rev A Tags: atp.EnumerationLiteralIndex=10
+    ENUM_CYCLE_REPETITION_64 = "cycleRepetition64"
+
+    # Attribute cycleRepetition value="8" valid only for FlexRay Protocol 2.1 Rev A Tags: atp.EnumerationLiteralIndex=11
+    ENUM_CYCLE_REPETITION_8 = "cycleRepetition8"
+
     def __init__(self):
         super().__init__(
             [
@@ -149,6 +161,10 @@ class CycleRepetitionType(AREnum):
                 CycleRepetitionType.ENUM_CYCLE_REPETITION_32,
                 CycleRepetitionType.ENUM_CYCLE_REPETITION_4,
                 CycleRepetitionType.ENUM_CYCLE_REPETITION_40,
+                CycleRepetitionType.ENUM_CYCLE_REPETITION_5,
+                CycleRepetitionType.ENUM_CYCLE_REPETITION_50,
+                CycleRepetitionType.ENUM_CYCLE_REPETITION_64,
+                CycleRepetitionType.ENUM_CYCLE_REPETITION_8,
             ]
         )
 
