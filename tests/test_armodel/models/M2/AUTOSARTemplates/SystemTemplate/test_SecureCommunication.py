@@ -5,6 +5,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, MacAddressString, PositiveInteger, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
+    CryptoCertificateAlgorithmFamilyEnum,
     CryptoEllipticCurveProps,
     CryptoServiceMapping,
     CryptoServicePrimitive,
@@ -631,3 +632,32 @@ class Test_CryptoSignatureSchemeSpec:
         assert scheme.getSignatureSchemeId() is scheme_id
         scheme.setSignatureSchemeId(None)
         assert scheme.getSignatureSchemeId() is scheme_id
+
+
+class Test_CryptoCertificateAlgorithmFamilyEnum:
+    def test_docstring_is_spec_note_verbatim(self):
+        # Table 6.219, p.565 — class Note verbatim from the markdown
+        note = "This meta-class defies possible cryptographic algorithm families used to create public keys and signatures within the certificate."
+        assert CryptoCertificateAlgorithmFamilyEnum.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert CryptoCertificateAlgorithmFamilyEnum.__init__.__doc__ is None
+
+    def test_literal_values_and_indexes(self):
+        # spec literals per Table 6.219 (ecc idx2, rsa idx1, displayed order ecc→rsa); xml values ECC/RSA per XSD
+        assert CryptoCertificateAlgorithmFamilyEnum.ECC == "ECC"
+        assert CryptoCertificateAlgorithmFamilyEnum.RSA == "RSA"
+        e = CryptoCertificateAlgorithmFamilyEnum()
+        assert e.getEnumValues() == ["ECC", "RSA"]
+        assert e.validateEnumValue("ECC") is True
+        assert e.validateEnumValue("RSA") is True
+        assert e.validateEnumValue("DSA") is False
+
+    def test_instantiation(self):
+        e = CryptoCertificateAlgorithmFamilyEnum()
+        e.setValue(CryptoCertificateAlgorithmFamilyEnum.RSA)
+        assert e.getValue() == "RSA"
+        assert e.getText() == "RSA"
+        e.setValue(CryptoCertificateAlgorithmFamilyEnum.ECC)
+        assert e.getValue() == "ECC"
+        assert e.getText() == "ECC"

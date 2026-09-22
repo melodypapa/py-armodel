@@ -431,6 +431,32 @@ class CryptoSignatureScheme(ARElement):
         return self
 
 
+class CryptoCertificateAlgorithmFamilyEnum(AREnum):
+    """
+    This meta-class defies possible cryptographic algorithm families used to create public keys and signatures within the certificate.
+    """
+
+    # CryptoCertificateAlgorithmFamilyEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.219, p.565
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on CryptoServiceCertificate.algorithmFamily
+
+    # The cryptographic operations in the certificate are executed using elliptic curves (ecc) Tags: atp.EnumerationLiteralIndex=2 xml.name=ECC
+    ECC = "ECC"
+
+    # The cryptographic operations in the certificate are executed using the RSA approach. Tags: atp.EnumerationLiteralIndex=1 xml.name=RSA
+    RSA = "RSA"
+
+    def __init__(self):
+        super().__init__(
+            [
+                CryptoCertificateAlgorithmFamilyEnum.ECC,
+                CryptoCertificateAlgorithmFamilyEnum.RSA,
+            ]
+        )
+
+
 class MacSecConfidentialityOffsetEnum(AREnum):
     """
     This enum defines the MACsec capability options.

@@ -186,16 +186,16 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 7 — Update checklist comment — 6-column parity checklist with release column, Table 6.217 p.564 citation; __init__ row [—] reader/writer; reader on setter row / writer on getter row; marker deferred to 9b
   - [x] Step 8 — Deviations  [none for this class: 1 PositiveInteger 0..1 attr modeled exactly, markdown "signature SchemeId" is a PDF column-wrap artifact joined per XSD mmt.qualifiedName=CryptoSignatureScheme.signatureSchemeId verbatim (Rule 0001.5 naming, not a deviation); Base ARElement per most-derived rule; no XSD-only attrs (XSD group holds exactly the one PDF attr); no missing referenced classes (PositiveInteger primitive exists); no placeholders]
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-22: full suite 10574 passed / 0 failed (--no-coverage), npm run lint clean (flake8 + ruff), black-check 1084 files unchanged, set-based checklist-vs-methods AST check OK, verbatim docstring diffs OK (class Note / getter / setter), no # type: comments, top-level export resolves; 9b confirmed 2026-09-22
-- [ ] `CryptoCertificateAlgorithmFamilyEnum` (dependency of CryptoServiceCertificate, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.219, p.565 · member type of CryptoServiceCertificate.algorithmFamily · queued 2026-09-22 per full-closure confirmation)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A if standalone AREnum (no own XML element)
-  - [ ] Step 6 — Update parser & writer (Green) — N/A if standalone AREnum (same reason)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `CryptoCertificateAlgorithmFamilyEnum` (dependency of CryptoServiceCertificate, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.219, p.565 · member type of CryptoServiceCertificate.algorithmFamily · queued 2026-09-22 per full-closure confirmation)
+  - [x] Step 1 — Sync members & description from spec — Enumeration table confirmed (markdown L14814-14823, p.565): literals ecc (atp.EnumerationLiteralIndex=2) then rsa (idx=1) in displayed order; XSD SIMPLE type (AUTOSAR_00052.xsd L132616-132631) gives xml values ECC/RSA, no atp.Status=removed literals; Aggregated by CryptoServiceCertificate.algorithmFamily; header Enumeration with Literal rows → AREnum
+  - [x] Step 2 — Write model class unit test (Red) — Test_CryptoCertificateAlgorithmFamilyEnum in test_SecureCommunication.py: verbatim class-Note docstring assertion, no-`__init__`-docstring, literal values ECC/RSA, getEnumValues displayed order, validateEnumValue, instantiability + setValue/getValue/getText (Red: ImportError — class did not exist)
+  - [x] Step 3 — Implement model class (Green) — CryptoCertificateAlgorithmFamilyEnum(AREnum) in SecureCommunication.py after CryptoSignatureScheme (spec table order 6.217→6.219, before MacSecConfidentialityOffsetEnum): literals ECC="ECC"/RSA="RSA" in markdown displayed order (ecc→rsa), super() list same order; TlsVersionEnum AREnum pattern; 69 passed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — new class: no pre-existing docstrings; all written fresh and diff-verified against markdown L14819 (class Note verbatim, incl. spec's "defies" wording) / L14822-14823 (literal Descriptions + EnumerationLiteralIndex Tags tails, xml.name=ECC/RSA from XSD); __init__ carries no docstring
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone AREnum has no own XML element; enum value form will be round-tripped on CryptoServiceCertificate.algorithmFamily (consumer class queued next), same as TlsVersionEnum
+  - [x] Step 6 — Update parser & writer (Green) — N/A: same reason — no reader/writer code for a standalone enum; serialization lands with the consuming class
+  - [x] Step 7 — Update checklist comment — enum parity block (no method rows): Spec line Table 6.219 p.565 citation + `(no methods) — enum value form serialized on CryptoServiceCertificate.algorithmFamily`; `# Spec verified:` marker deferred to 9b
+  - [x] Step 8 — Deviations  [none for this class: Enumeration table → AREnum with literals ecc(idx2)/rsa(idx1), xml values ECC/RSA per XSD SIMPLE type (no atp.Status=removed literals — no TlsVersionEnum-style removed-literal deviation needed); no Base/Attribute rows so no fields/accessors; no fabricated members; no missing referenced classes; no placeholders]
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-22: full suite 10578 passed / 0 failed (--no-coverage), npm run lint clean (flake8 + ruff), black-check 1084 files unchanged, verbatim class-Note docstring assertion green, no # type: comments, top-level export resolves via test import, no parser/writer edits (Steps 5/6 N/A); 9b confirmed 2026-09-22
 - [ ] `CryptoCertificateFormatEnum` (dependency of CryptoServiceCertificate, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.220, p.565 · member type of CryptoServiceCertificate.format · queued 2026-09-22 per full-closure confirmation)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
