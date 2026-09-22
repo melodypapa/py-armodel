@@ -6,6 +6,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, MacAddressString, PositiveInteger, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
     CryptoCertificateAlgorithmFamilyEnum,
+    CryptoCertificateFormatEnum,
     CryptoEllipticCurveProps,
     CryptoServiceMapping,
     CryptoServicePrimitive,
@@ -661,3 +662,32 @@ class Test_CryptoCertificateAlgorithmFamilyEnum:
         e.setValue(CryptoCertificateAlgorithmFamilyEnum.ECC)
         assert e.getValue() == "ECC"
         assert e.getText() == "ECC"
+
+
+class Test_CryptoCertificateFormatEnum:
+    def test_docstring_is_spec_note_verbatim(self):
+        # Table 6.220, p.565 — class Note verbatim from the markdown
+        note = "This meta-class defines possible formats of cryptographic certificates."
+        assert CryptoCertificateFormatEnum.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert CryptoCertificateFormatEnum.__init__.__doc__ is None
+
+    def test_literal_values_and_indexes(self):
+        # spec literals per Table 6.220 (cvc idx2, x509 idx1, displayed order cvc→x509); xml values CVC/X-509 per XSD
+        assert CryptoCertificateFormatEnum.CVC == "CVC"
+        assert CryptoCertificateFormatEnum.X_509 == "X-509"
+        e = CryptoCertificateFormatEnum()
+        assert e.getEnumValues() == ["CVC", "X-509"]
+        assert e.validateEnumValue("CVC") is True
+        assert e.validateEnumValue("X-509") is True
+        assert e.validateEnumValue("PEM") is False
+
+    def test_instantiation(self):
+        e = CryptoCertificateFormatEnum()
+        e.setValue(CryptoCertificateFormatEnum.X_509)
+        assert e.getValue() == "X-509"
+        assert e.getText() == "X-509"
+        e.setValue(CryptoCertificateFormatEnum.CVC)
+        assert e.getValue() == "CVC"
+        assert e.getText() == "CVC"

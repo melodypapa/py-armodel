@@ -457,6 +457,32 @@ class CryptoCertificateAlgorithmFamilyEnum(AREnum):
         )
 
 
+class CryptoCertificateFormatEnum(AREnum):
+    """
+    This meta-class defines possible formats of cryptographic certificates.
+    """
+
+    # CryptoCertificateFormatEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.220, p.565
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on CryptoServiceCertificate.format
+
+    # The certificate has been created in Card Verifiable Certificate (CVC) format Tags: atp.EnumerationLiteralIndex=2 xml.name=CVC
+    CVC = "CVC"
+
+    # The certificate is created in X.509 format. Tags: atp.EnumerationLiteralIndex=1 xml.name=X-509
+    X_509 = "X-509"
+
+    def __init__(self):
+        super().__init__(
+            [
+                CryptoCertificateFormatEnum.CVC,
+                CryptoCertificateFormatEnum.X_509,
+            ]
+        )
+
+
 class MacSecConfidentialityOffsetEnum(AREnum):
     """
     This enum defines the MACsec capability options.
