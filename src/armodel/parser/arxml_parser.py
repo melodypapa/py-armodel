@@ -8181,9 +8181,12 @@ class ARXMLParser(AbstractARXMLParser):
             layout_v = SwRecordLayoutV()
             layout_v.setShortLabel(self.getChildElementOptionalLiteral(child_element, "SHORT-LABEL"))
             layout_v.setBaseTypeRef(self.getChildElementOptionalRefType(child_element, "BASE-TYPE-REF"))
+            layout_v.setDesc(self.getMultiLanguageOverviewParagraph(child_element, "DESC"))
+            layout_v.setSwGenericAxisParamTypeRef(self.getChildElementOptionalRefType(child_element, "SW-GENERIC-AXIS-PARAM-TYPE-REF"))
             layout_v.setSwRecordLayoutVAxis(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-AXIS"))
             layout_v.setSwRecordLayoutVProp(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-PROP"))
             layout_v.setSwRecordLayoutVIndex(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-INDEX"))
+            layout_v.setSwRecordLayoutVFixValue(self.getChildElementOptionalNumericalValue(child_element, "SW-RECORD-LAYOUT-V-FIX-VALUE"))
         return layout_v
 
     def readSwRecordLayoutGroupSwRecordLayoutGroupContentType(self, element: ET.Element, group: SwRecordLayoutGroup):

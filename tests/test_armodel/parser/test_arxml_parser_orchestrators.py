@@ -1991,6 +1991,32 @@ class TestDataTypeAndCompuHandlers:
 
         assert group.getSwRecordLayoutGroupContentType().getSwRecordLayoutRef().getValue() == "/layouts/base"
 
+    def test_getSwRecordLayoutV_reads_all_spec_attributes(self, parser):
+        element = _snip(
+            "<SW-RECORD-LAYOUT-V>"
+            "<SHORT-LABEL>value</SHORT-LABEL>"
+            "<BASE-TYPE-REF DEST='SW-BASE-TYPE'>/base</BASE-TYPE-REF>"
+            "<DESC><L-2 L='EN'>description</L-2></DESC>"
+            "<SW-GENERIC-AXIS-PARAM-TYPE-REF DEST='SW-GENERIC-AXIS-PARAM-TYPE'>/axis</SW-GENERIC-AXIS-PARAM-TYPE-REF>"
+            "<SW-RECORD-LAYOUT-V-AXIS>1</SW-RECORD-LAYOUT-V-AXIS>"
+            "<SW-RECORD-LAYOUT-V-FIX-VALUE>255</SW-RECORD-LAYOUT-V-FIX-VALUE>"
+            "<SW-RECORD-LAYOUT-V-INDEX>idx</SW-RECORD-LAYOUT-V-INDEX>"
+            "<SW-RECORD-LAYOUT-V-PROP>VALUE</SW-RECORD-LAYOUT-V-PROP>"
+            "</SW-RECORD-LAYOUT-V>",
+            root_tag="ROOT",
+        )
+
+        layout_v = parser.getSwRecordLayoutV(element, "SW-RECORD-LAYOUT-V")
+
+        assert layout_v.getShortLabel().getValue() == "value"
+        assert layout_v.getBaseTypeRef().getValue() == "/base"
+        assert layout_v.getDesc().getL2s()[0].getValue() == "description"
+        assert layout_v.getSwGenericAxisParamTypeRef().getValue() == "/axis"
+        assert layout_v.getSwRecordLayoutVAxis().getValue() == "1"
+        assert layout_v.getSwRecordLayoutVFixValue().getValue() == 255
+        assert layout_v.getSwRecordLayoutVIndex().getValue() == "idx"
+        assert layout_v.getSwRecordLayoutVProp().getValue() == "VALUE"
+
     def test_getSwGenericAxisParamType_reads_data_constraint(self, parser):
         element = _snip(
             "<DATA-CONSTR-REF DEST='DATA-CONSTR'>/constraints/axis</DATA-CONSTR-REF>",

@@ -1074,6 +1074,7 @@ class TestSwRecordLayoutWriter:
         layout_v.setShortLabel(_make_literal("lbl"))
         layout_v.setBaseTypeRef(_make_ref("/BT", "SW-BASE-TYPE"))
         layout_v.swRecordLayoutVAxis = _make_float(1, "1")
+        layout_v.swRecordLayoutVFixValue = _make_float(255, "255")
         layout_v.swRecordLayoutVProp = _make_literal("prop")
         layout_v.swRecordLayoutVIndex = _make_literal("idx")
 
@@ -1086,6 +1087,7 @@ class TestSwRecordLayoutWriter:
         assert child.find("SHORT-LABEL").text == "lbl"
         assert child.find("BASE-TYPE-REF").text == "/BT"
         assert child.find("SW-RECORD-LAYOUT-V-AXIS").text == "1"
+        assert child.find("SW-RECORD-LAYOUT-V-FIX-VALUE").text == "255"
         assert child.find("SW-RECORD-LAYOUT-V-PROP").text == "prop"
         assert child.find("SW-RECORD-LAYOUT-V-INDEX").text == "idx"
 

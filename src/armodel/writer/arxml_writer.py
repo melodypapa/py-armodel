@@ -7692,9 +7692,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", layout_v.getShortLabel())
             self.setChildElementOptionalRefType(child_element, "BASE-TYPE-REF", layout_v.getBaseTypeRef())
+            self.setMultiLanguageOverviewParagraph(child_element, "DESC", layout_v.getDesc())
+            self.setChildElementOptionalRefType(child_element, "SW-GENERIC-AXIS-PARAM-TYPE-REF", layout_v.getSwGenericAxisParamTypeRef())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-AXIS", layout_v.getSwRecordLayoutVAxis())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-PROP", layout_v.getSwRecordLayoutVProp())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-INDEX", layout_v.getSwRecordLayoutVIndex())
+            self.setChildElementOptionalNumericalValue(child_element, "SW-RECORD-LAYOUT-V-FIX-VALUE", layout_v.getSwRecordLayoutVFixValue())
 
     def writeSwRecordLayoutGroupSwRecordLayoutGroupContentType(self, element: ET.Element, group: SwRecordLayoutGroup):
         content = group.getSwRecordLayoutGroupContentType()

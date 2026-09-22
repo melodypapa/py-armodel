@@ -124,6 +124,32 @@ class TestSwRecordLayoutV:
         assert sw_record_layout_v.getSwRecordLayoutVProp() == prop
         assert result == sw_record_layout_v
 
+    def test_sw_record_layout_v_setters_are_none_safe(self):
+        sw_record_layout_v = SwRecordLayoutV()
+        values = {
+            "setBaseTypeRef": RefType().setValue("/base"),
+            "setDesc": MultiLanguageOverviewParagraph(),
+            "setShortLabel": ARLiteral().setValue("label"),
+            "setSwGenericAxisParamTypeRef": RefType().setValue("/axis"),
+            "setSwRecordLayoutVAxis": ARNumerical().setValue(1),
+            "setSwRecordLayoutVFixValue": ARNumerical().setValue(255),
+            "setSwRecordLayoutVIndex": ARLiteral().setValue("idx"),
+            "setSwRecordLayoutVProp": ARLiteral().setValue("VALUE"),
+        }
+
+        for setter, value in values.items():
+            getattr(sw_record_layout_v, setter)(value)
+            getattr(sw_record_layout_v, setter)(None)
+
+        assert sw_record_layout_v.getBaseTypeRef() is values["setBaseTypeRef"]
+        assert sw_record_layout_v.getDesc() is values["setDesc"]
+        assert sw_record_layout_v.getShortLabel() is values["setShortLabel"]
+        assert sw_record_layout_v.getSwGenericAxisParamTypeRef() is values["setSwGenericAxisParamTypeRef"]
+        assert sw_record_layout_v.getSwRecordLayoutVAxis() is values["setSwRecordLayoutVAxis"]
+        assert sw_record_layout_v.getSwRecordLayoutVFixValue() is values["setSwRecordLayoutVFixValue"]
+        assert sw_record_layout_v.getSwRecordLayoutVIndex() is values["setSwRecordLayoutVIndex"]
+        assert sw_record_layout_v.getSwRecordLayoutVProp() is values["setSwRecordLayoutVProp"]
+
 
 class TestSwRecordLayoutGroupContent:
     """Test class for SwRecordLayoutGroupContent class."""

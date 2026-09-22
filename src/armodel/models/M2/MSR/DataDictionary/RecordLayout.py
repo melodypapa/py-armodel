@@ -1,7 +1,8 @@
 from typing import Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Identifier, Integer, NameToken, NameTokens, RefType
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 
 
 class AxisIndexType(ARLiteral):
@@ -23,95 +24,136 @@ class AxisIndexType(ARLiteral):
 
 class SwRecordLayoutV(ARObject):
     """
-    Variable definition within a record layout including base type, axis,
-    and value properties.
+    This element specifies which values are stored for the current SwRecordLayoutGroup. If no baseType is present, the SwBaseType referenced initially in the parent SwRecordLayoutGroup is valid. The specification of swRecordLayoutVAxis gives the axis of the values which shall be stored in accordance with the current record layout SwRecordLayoutGroup. In swRecordLayoutVProp one can specify the information which shall be stored.
     """
 
     # SwRecordLayoutV method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getBaseTypeRef               [x] impl  [ ] docstring  [ ] test
-    # [ ] setBaseTypeRef               [x] impl  [ ] docstring  [ ] test
-    # [ ] getDesc                      [x] impl  [ ] docstring  [ ] test
-    # [ ] setDesc                      [x] impl  [ ] docstring  [ ] test
-    # [ ] getShortLabel                [x] impl  [ ] docstring  [ ] test
-    # [ ] setShortLabel                [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwGenericAxisParamTypeRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwGenericAxisParamTypeRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwRecordLayoutVAxis       [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwRecordLayoutVAxis       [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwRecordLayoutVFixValue   [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwRecordLayoutVFixValue   [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwRecordLayoutVIndex      [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwRecordLayoutVIndex      [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwRecordLayoutVProp       [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwRecordLayoutVProp       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.98, p.422
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseTypeRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseTypeRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDesc                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDesc                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShortLabel                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShortLabel                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwGenericAxisParamTypeRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwGenericAxisParamTypeRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwRecordLayoutVAxis            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwRecordLayoutVAxis            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwRecordLayoutVFixValue        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwRecordLayoutVFixValue        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwRecordLayoutVIndex           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwRecordLayoutVIndex           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwRecordLayoutVProp            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwRecordLayoutVProp            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.baseTypeRef = None  # type: RefType
-        self.desc = None  # type: MultiLanguageOverviewParagraph
-        self.shortLabel = None  # type: ARLiteral
-        self.swGenericAxisParamTypeRef = None  # type: RefType
-        self.swRecordLayoutVAxis = None  # type: ARNumerical
-        self.swRecordLayoutVFixValue = None  # type: ARNumerical
-        self.swRecordLayoutVIndex = None  # type: ARLiteral
-        self.swRecordLayoutVProp = None  # type: ARLiteral
+        # This association allows to refer to a base type in case a specific encoding is intended. If no base type is referred, the base type referenced initially in the corresponding DataPrototype is to be used. Tags: xml.sequenceOffset=30
+        self.baseTypeRef: Optional[RefType] = None
 
-    def getBaseTypeRef(self):
+        # This aggregation allows for a brief description about the particular record layout value which can help to identify the entry. In-depth documentation should be added to the introduction of the surrounding record layout. Tags: xml.sequenceOffset=20
+        self.desc: Optional[MultiLanguageOverviewParagraph] = None
+
+        # This attribute specifies a name which can be used e.g. when ECU code is generated from the record layout value. Tags: xml.sequenceOffset=3
+        self.shortLabel: Optional[Identifier] = None
+
+        # This association supports the case that a value from a generic axis definition shall be stored. This value is denoted by a particular generic axis parameter type. Tags: xml.sequenceOffset=70
+        self.swGenericAxisParamTypeRef: Optional[RefType] = None
+
+        # This attribute gives the index of the axis of which values that are stored in the record. swRecordVIndex refers to the symbolic names of the iterators for which the axis value shall be stored in the record. In case of nested iterators (mainly for multidimensional objects) the iterator names are specified as whitespace-separated names. These symbolic names relate to swRecordLayoutGroup Index. The iterators are processed from left to right in such a manner that they symbolize the loop index from the outside to the inside. It is considered an error if more components are specified than axes exist in the related ApplicationDataType. Tags: xml.sequenceOffset=40
+        self.swRecordLayoutVAxis: Optional[AxisIndexType] = None
+
+        # This attribute specifies the filler character for the current record layout, in the form of hex digits. It is also used to specify the fix value for e.g. FIXRIGHTDIFF. Tags: xml.sequenceOffset=80
+        self.swRecordLayoutVFixValue: Optional[Integer] = None
+
+        # The symbolic value for iteration, or the symbolic values separated by whitespaces, refer to the symbolic values given in swRecordLayoutGroupIndex . The iterators are processed from left to right, in such a manner that they symbolize the loop index from the outside to the inside. It is considered an error if the record layout is referenced by an entity which has less number of axes than index names referenced here. Tags: xml.sequenceOffset=60
+        self.swRecordLayoutVIndex: Optional[NameTokens] = None
+
+        # This attribute describes the kind of values to be stored. More details see below. The standardized values foreseen for this attribute are defined in [TPS_SWCT_01489]. Tags: xml.sequenceOffset=50
+        self.swRecordLayoutVProp: Optional[NameToken] = None
+
+    def getBaseTypeRef(self) -> Optional[RefType]:
+        """This association allows to refer to a base type in case a specific encoding is intended. If no base type is referred, the base type referenced initially in the corresponding DataPrototype is to be used. Tags: xml.sequenceOffset=30"""
         return self.baseTypeRef
 
-    def setBaseTypeRef(self, value):
-        self.baseTypeRef = value
+    def setBaseTypeRef(self, value: Optional[RefType]) -> "SwRecordLayoutV":
+        """This association allows to refer to a base type in case a specific encoding is intended. If no base type is referred, the base type referenced initially in the corresponding DataPrototype is to be used. Tags: xml.sequenceOffset=30. A None value is a no-op and does not overwrite an existing baseTypeRef."""
+        if value is not None:
+            self.baseTypeRef = value
         return self
 
     def getDesc(self):
+        """This aggregation allows for a brief description about the particular record layout value which can help to identify the entry. In-depth documentation should be added to the introduction of the surrounding record layout. Tags: xml.sequenceOffset=20"""
         return self.desc
 
     def setDesc(self, value):
-        self.desc = value
+        """This aggregation allows for a brief description about the particular record layout value which can help to identify the entry. In-depth documentation should be added to the introduction of the surrounding record layout. Tags: xml.sequenceOffset=20. A None value is a no-op and does not overwrite an existing desc."""
+        if value is not None:
+            self.desc = value
         return self
 
     def getShortLabel(self):
+        """This attribute specifies a name which can be used e.g. when ECU code is generated from the record layout value. Tags: xml.sequenceOffset=3"""
         return self.shortLabel
 
     def setShortLabel(self, value):
-        self.shortLabel = value
+        """This attribute specifies a name which can be used e.g. when ECU code is generated from the record layout value. Tags: xml.sequenceOffset=3. A None value is a no-op and does not overwrite an existing shortLabel."""
+        if value is not None:
+            self.shortLabel = value
         return self
 
     def getSwGenericAxisParamTypeRef(self):
+        """This association supports the case that a value from a generic axis definition shall be stored. This value is denoted by a particular generic axis parameter type. Tags: xml.sequenceOffset=70"""
         return self.swGenericAxisParamTypeRef
 
     def setSwGenericAxisParamTypeRef(self, value):
-        self.swGenericAxisParamTypeRef = value
+        """This association supports the case that a value from a generic axis definition shall be stored. This value is denoted by a particular generic axis parameter type. Tags: xml.sequenceOffset=70. A None value is a no-op and does not overwrite an existing swGenericAxisParamTypeRef."""
+        if value is not None:
+            self.swGenericAxisParamTypeRef = value
         return self
 
     def getSwRecordLayoutVAxis(self):
+        """This attribute gives the index of the axis of which values that are stored in the record. swRecordVIndex refers to the symbolic names of the iterators for which the axis value shall be stored in the record. In case of nested iterators (mainly for multidimensional objects) the iterator names are specified as whitespace-separated names. These symbolic names relate to swRecordLayoutGroup Index. The iterators are processed from left to right in such a manner that they symbolize the loop index from the outside to the inside. It is considered an error if more components are specified than axes exist in the related ApplicationDataType. Tags: xml.sequenceOffset=40"""
         return self.swRecordLayoutVAxis
 
     def setSwRecordLayoutVAxis(self, value):
-        self.swRecordLayoutVAxis = value
+        """This attribute gives the index of the axis of which values that are stored in the record. swRecordVIndex refers to the symbolic names of the iterators for which the axis value shall be stored in the record. In case of nested iterators (mainly for multidimensional objects) the iterator names are specified as whitespace-separated names. These symbolic names relate to swRecordLayoutGroup Index. The iterators are processed from left to right in such a manner that they symbolize the loop index from the outside to the inside. It is considered an error if more components are specified than axes exist in the related ApplicationDataType. Tags: xml.sequenceOffset=40. A None value is a no-op and does not overwrite an existing swRecordLayoutVAxis."""
+        if value is not None:
+            self.swRecordLayoutVAxis = value
         return self
 
     def getSwRecordLayoutVFixValue(self):
+        """This attribute specifies the filler character for the current record layout, in the form of hex digits. It is also used to specify the fix value for e.g. FIXRIGHTDIFF. Tags: xml.sequenceOffset=80"""
         return self.swRecordLayoutVFixValue
 
     def setSwRecordLayoutVFixValue(self, value):
-        self.swRecordLayoutVFixValue = value
+        """This attribute specifies the filler character for the current record layout, in the form of hex digits. It is also used to specify the fix value for e.g. FIXRIGHTDIFF. Tags: xml.sequenceOffset=80. A None value is a no-op and does not overwrite an existing swRecordLayoutVFixValue."""
+        if value is not None:
+            self.swRecordLayoutVFixValue = value
         return self
 
     def getSwRecordLayoutVIndex(self):
+        """The symbolic value for iteration, or the symbolic values separated by whitespaces, refer to the symbolic values given in swRecordLayoutGroupIndex . The iterators are processed from left to right, in such a manner that they symbolize the loop index from the outside to the inside. It is considered an error if the record layout is referenced by an entity which has less number of axes than index names referenced here. Tags: xml.sequenceOffset=60"""
         return self.swRecordLayoutVIndex
 
     def setSwRecordLayoutVIndex(self, value):
-        self.swRecordLayoutVIndex = value
+        """The symbolic value for iteration, or the symbolic values separated by whitespaces, refer to the symbolic values given in swRecordLayoutGroupIndex . The iterators are processed from left to right, in such a manner that they symbolize the loop index from the outside to the inside. It is considered an error if the record layout is referenced by an entity which has less number of axes than index names referenced here. Tags: xml.sequenceOffset=60. A None value is a no-op and does not overwrite an existing swRecordLayoutVIndex."""
+        if value is not None:
+            self.swRecordLayoutVIndex = value
         return self
 
     def getSwRecordLayoutVProp(self):
+        """This attribute describes the kind of values to be stored. More details see below. The standardized values foreseen for this attribute are defined in [TPS_SWCT_01489]. Tags: xml.sequenceOffset=50"""
         return self.swRecordLayoutVProp
 
     def setSwRecordLayoutVProp(self, value):
-        self.swRecordLayoutVProp = value
+        """This attribute describes the kind of values to be stored. More details see below. The standardized values foreseen for this attribute are defined in [TPS_SWCT_01489]. Tags: xml.sequenceOffset=50. A None value is a no-op and does not overwrite an existing swRecordLayoutVProp."""
+        if value is not None:
+            self.swRecordLayoutVProp = value
         return self
 
 
