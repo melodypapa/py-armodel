@@ -110,15 +110,15 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `AbstractDoIpLogicAddressProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.208)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 6.208 p.556: abstract, Package DoIP, no attributes, Base ARObject/Identifiable/MultilanguageReferrable/Referrable, Aggregated by DoIpLogicAddress.doIpLogicAddressProps
+  - [x] Step 2 — Write model class unit test (Red) — test_DoIP.py Test_AbstractDoIpLogicAddressProps: abstract raise, verbatim docstring, init doc None, base accessors via concrete subclass (docstring check failed as expected)
+  - [x] Step 3 — Implement model class (Green) — class shape already correct (Identifiable + ABC, abstract guard); no members per table
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstring replaced with verbatim Table 6.208 Note
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: no own XML element (XSD group ABSTRACT-DO-IP-LOGIC-ADDRESS-PROPS has empty sequence, no attributes)
+  - [x] Step 6 — Update parser & writer (Green) — N/A: no own XML element; concrete subclasses serialize inside read/writeDoIpLogicAddress
+  - [x] Step 7 — Update checklist comment — 6-col parity checklist, reader/writer [—]
+  - [x] Step 8 — Deviations — none
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `DoIpLogicTargetAddressProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.209)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

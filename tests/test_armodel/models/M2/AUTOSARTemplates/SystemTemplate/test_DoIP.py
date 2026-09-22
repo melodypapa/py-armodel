@@ -60,6 +60,39 @@ class Test_DoIp:
 
 
 @pytest.fixture(autouse=True)
+def reset_autosar_for_abstract_doip_logic_address_props():
+    AUTOSAR.getInstance().new()
+    AUTOSAR.getInstance().setARRelease("R23-11")
+    yield
+    AUTOSAR.getInstance().new()
+
+
+class Test_AbstractDoIpLogicAddressProps:
+    """Test cases for AbstractDoIpLogicAddressProps (Table 6.208, p.556)."""
+
+    def test_inheritance(self):
+        assert issubclass(AbstractDoIpLogicAddressProps, Identifiable)
+
+    def test_class_docstring_note(self):
+        expected = "Abstract meta-class that collects common properties for all specialized DoIpLogicAddressProps."
+        assert inspect.cleandoc(AbstractDoIpLogicAddressProps.__doc__) == expected
+
+    def test_abstract_instantiation_raises(self):
+        parent = MockParent()
+        with pytest.raises(TypeError):
+            AbstractDoIpLogicAddressProps(parent, "test_abstract")
+
+    def test_init_docstring_is_none(self):
+        assert AbstractDoIpLogicAddressProps.__init__.__doc__ is None
+
+    def test_base_accessors_via_concrete_subclass(self):
+        parent = MockParent()
+        props = DoIpLogicTargetAddressProps(parent, "props1")
+        assert isinstance(props, AbstractDoIpLogicAddressProps)
+        assert props.getShortName() == "props1"
+
+
+@pytest.fixture(autouse=True)
 def reset_autosar_for_doip_routing_activation():
     AUTOSAR.getInstance().new()
     AUTOSAR.getInstance().setARRelease("R23-11")

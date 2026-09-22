@@ -14,13 +14,13 @@ if TYPE_CHECKING:
 
 class AbstractDoIpLogicAddressProps(Identifiable, ABC):
     """
-    Abstract base class for DoIP (Diagnostics over IP) logic address properties.
-    This class defines the common properties for DoIP address configurations,
-    serving as the foundation for specific DoIP address types in the system.
+    Abstract meta-class that collects common properties for all specialized DoIpLogicAddressProps.
     """
 
     # AbstractDoIpLogicAddressProps method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.208, p.556
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractDoIpLogicAddressProps:
