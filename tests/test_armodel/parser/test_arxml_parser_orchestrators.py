@@ -1992,6 +1992,31 @@ class TestDataTypeAndCompuHandlers:
         assert layout.getSwRecordLayoutGroup().getShortLabel().getValue() == "group"
         assert layout.getSwRecordLayoutGroup().getCategory().getValue() == "cat"
 
+    def test_readSwRecordLayoutGroup_reads_all_spec_attributes(self, parser):
+        from armodel.models import SwRecordLayout
+
+        layout = SwRecordLayout(parent=_autosar_root(), short_name="srl")
+        element = _snip(
+            "<SHORT-NAME>srl</SHORT-NAME><SW-RECORD-LAYOUT-GROUP>"
+            "<SHORT-LABEL>group</SHORT-LABEL><CATEGORY>cat</CATEGORY>"
+            "<DESC><L-2 L='EN'>description</L-2></DESC>"
+            "<SW-RECORD-LAYOUT-GROUP-AXIS>1</SW-RECORD-LAYOUT-GROUP-AXIS>"
+            "<SW-RECORD-LAYOUT-GROUP-INDEX>idx</SW-RECORD-LAYOUT-GROUP-INDEX>"
+            "<SW-GENERIC-AXIS-PARAM-TYPE-REF DEST='SW-GENERIC-AXIS-PARAM-TYPE'>/axis</SW-GENERIC-AXIS-PARAM-TYPE-REF>"
+            "<SW-RECORD-LAYOUT-GROUP-FROM>from</SW-RECORD-LAYOUT-GROUP-FROM>"
+            "<SW-RECORD-LAYOUT-GROUP-TO>to</SW-RECORD-LAYOUT-GROUP-TO>"
+            "<SW-RECORD-LAYOUT-GROUP-STEP>2</SW-RECORD-LAYOUT-GROUP-STEP>"
+            "<SW-RECORD-LAYOUT-COMPONENT>component</SW-RECORD-LAYOUT-COMPONENT>"
+            "</SW-RECORD-LAYOUT-GROUP>",
+            root_tag="SW-RECORD-LAYOUT",
+        )
+
+        parser.readSwRecordLayout(element, layout)
+        group = layout.getSwRecordLayoutGroup()
+        assert group.getDesc().getL2s()[0].getValue() == "description"
+        assert group.getSwGenericAxisParamTypeRef().getValue() == "/axis"
+        assert group.getSwRecordLayoutComponent().getValue() == "component"
+
     def test_readSwRecordLayoutGroupContentType_reads_record_layout_ref(self, parser):
         from armodel.models import SwRecordLayoutGroup
 

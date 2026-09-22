@@ -7710,11 +7710,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", group.getShortLabel())
             self.setChildElementOptionalLiteral(child_element, "CATEGORY", group.getCategory())
+            self.setMultiLanguageOverviewParagraph(child_element, "DESC", group.getDesc())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-AXIS", group.getSwRecordLayoutGroupAxis())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-INDEX", group.getSwRecordLayoutGroupIndex())
+            self.setChildElementOptionalRefType(child_element, "SW-GENERIC-AXIS-PARAM-TYPE-REF", group.getSwGenericAxisParamTypeRef())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-FROM", group.getSwRecordLayoutGroupFrom())
-            self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-TO", group.getSwRecordLayoutGroupTo())
             self.setChildElementOptionalIntegerValue(child_element, "SW-RECORD-LAYOUT-GROUP-STEP", group.getSwRecordLayoutGroupStep())
+            self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-TO", group.getSwRecordLayoutGroupTo())
+            self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-COMPONENT", group.getSwRecordLayoutComponent())
             self.writeSwRecordLayoutGroupSwRecordLayoutGroupContentType(child_element, group)
 
     def writeSwRecordLayout(self, element: ET.Element, layout: SwRecordLayout):

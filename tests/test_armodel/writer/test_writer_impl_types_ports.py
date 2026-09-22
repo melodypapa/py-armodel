@@ -1102,11 +1102,13 @@ class TestSwRecordLayoutWriter:
         group = SwRecordLayoutGroup()
         group.setShortLabel(_make_literal("lbl"))
         group.setCategory(_make_literal("cat"))
+        group.setSwGenericAxisParamTypeRef(_make_ref("/axis", "SW-GENERIC-AXIS-PARAM-TYPE"))
         group.swRecordLayoutGroupAxis = _make_float(2, "2")
         group.swRecordLayoutGroupIndex = _make_literal("idx")
         group.swRecordLayoutGroupFrom = _make_literal("from")
         group.swRecordLayoutGroupTo = _make_literal("to")
         group.swRecordLayoutGroupStep = _make_float(3, "3")
+        group.setSwRecordLayoutComponent(_make_literal("component"))
         group.swRecordLayoutGroupContentType = SwRecordLayoutGroupContent()
 
         parent = _parent()
@@ -1117,11 +1119,13 @@ class TestSwRecordLayoutWriter:
         assert child.tag == "SW-RECORD-LAYOUT-GROUP"
         assert child.find("SHORT-LABEL").text == "lbl"
         assert child.find("CATEGORY").text == "cat"
+        assert child.find("SW-GENERIC-AXIS-PARAM-TYPE-REF").text == "/axis"
         assert child.find("SW-RECORD-LAYOUT-GROUP-AXIS").text == "2"
         assert child.find("SW-RECORD-LAYOUT-GROUP-INDEX").text == "idx"
         assert child.find("SW-RECORD-LAYOUT-GROUP-FROM").text == "from"
         assert child.find("SW-RECORD-LAYOUT-GROUP-TO").text == "to"
         assert child.find("SW-RECORD-LAYOUT-GROUP-STEP").text == "3"
+        assert child.find("SW-RECORD-LAYOUT-COMPONENT").text == "component"
 
     def test_set_sw_record_layout_group_none(self, writer):
         parent = _parent()

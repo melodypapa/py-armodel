@@ -8203,11 +8203,14 @@ class ARXMLParser(AbstractARXMLParser):
             group = SwRecordLayoutGroup()
             group.setShortLabel(self.getChildElementOptionalLiteral(child_element, "SHORT-LABEL"))
             group.setCategory(self.getChildElementOptionalLiteral(child_element, "CATEGORY"))
+            group.setDesc(self.getMultiLanguageOverviewParagraph(child_element, "DESC"))
             group.setSwRecordLayoutGroupAxis(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-AXIS"))
             group.setSwRecordLayoutGroupIndex(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-INDEX"))
+            group.setSwGenericAxisParamTypeRef(self.getChildElementOptionalRefType(child_element, "SW-GENERIC-AXIS-PARAM-TYPE-REF"))
             group.setSwRecordLayoutGroupFrom(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-FROM"))
             group.setSwRecordLayoutGroupStep(self.getChildElementOptionalIntegerValue(child_element, "SW-RECORD-LAYOUT-GROUP-STEP"))
             group.setSwRecordLayoutGroupTo(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-TO"))
+            group.setSwRecordLayoutComponent(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-COMPONENT"))
             self.readSwRecordLayoutGroupSwRecordLayoutGroupContentType(child_element, group)
 
         return group
