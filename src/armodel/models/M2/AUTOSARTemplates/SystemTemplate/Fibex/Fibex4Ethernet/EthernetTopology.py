@@ -3229,6 +3229,7 @@ class EthernetPhysicalChannel(PhysicalChannel):
 
     # EthernetPhysicalChannel method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.49, p.105 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] createNetworkEndpoint  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11

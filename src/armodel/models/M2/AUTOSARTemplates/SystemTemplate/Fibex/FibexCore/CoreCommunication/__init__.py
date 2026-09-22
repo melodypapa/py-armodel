@@ -204,6 +204,7 @@ class ContainedIPduProps(ARObject):
 
     # ContainedIPduProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.39, p.356 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCollectionSemantics               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1866,6 +1867,7 @@ class FrameTriggering(Identifiable, VariationPointCapable, ABC):
 
     # FrameTriggering method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.79, p.418 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getFrameRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2182,6 +2184,7 @@ class StaticPart(MultiplexedPart, VariationPointCapable):
 
     # StaticPart method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.73, p.410 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getIPduRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2222,6 +2225,7 @@ class DynamicPartAlternative(ARObject):
 
     # DynamicPartAlternative method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.75, p.411 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getInitialDynamicPart   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

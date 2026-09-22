@@ -68,6 +68,7 @@ class DiagnosticConnection(ARElement):
 
     # DiagnosticConnection method parity checklist:
     # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.17, p.61 (sibling copy AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.271, p.633)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getFunctionalRequestRefs          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -86,12 +87,16 @@ class DiagnosticConnection(ARElement):
 
         # Reference to functional request messages.
         self.functionalRequestRefs: List[RefType] = []
+
         # Reference to UUDT responses.
         self.periodicResponseUudtRefs: List[RefType] = []
+
         # Reference to a physical request message.
         self.physicalRequestRef: RefType = None
+
         # In the vast majority of cases a response is required. However, there are also cases where providing the response is not possible and/or not allowed.
         self.responseRef: RefType = None
+
         # Reference to a ROE message.
         self.responseOnEventRef: RefType = None
 
