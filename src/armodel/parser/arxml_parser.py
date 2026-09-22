@@ -24,6 +24,13 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     StateDependentFirewall,
     TransportLayerRule,
 )
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.AdaptiveModuleImplementation import (
+    PlatformModuleEthernetEndpointConfiguration,
+)
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.IntrusionDetectionSystem import (
+    IdsPlatformInstantiation,
+    IdsmModuleInstantiation,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprintMapping,
 )
@@ -231,7 +238,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation
     SignalServiceTranslationProps,
     SignalServiceTranslationPropsSet,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint, PortPrototypeBlueprintInitValue
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator import BlueprintGenerator
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
@@ -347,7 +354,10 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     VariableInComponentInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticJumpToBootLoaderEnum, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import DiagnosticEnvConditionFormula, DiagnosticEnvironmentalCondition, DiagnosticLogicalOperatorEnum
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
     ConfigReferenceValue,
@@ -455,6 +465,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     Integer,
     IntervalTypeEnum,
+    Ip4AddressString,
+    Ip6AddressString,
     MacAddressString,
     MimeTypeString,
     NameToken,
@@ -722,8 +734,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordTypeMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpRoutingActivation
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps, DoIpRoutingActivation
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping, HwPortMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskPreemptabilityEnum, OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanAddressingModeType,
@@ -797,6 +809,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
+    CryptoEllipticCurveProps,
+    CryptoServicePrimitive,
+    CryptoSignatureScheme,
     MacSecCapabilityEnum,
     MacSecCipherSuiteConfig,
     MacSecConfidentialityOffsetEnum,
@@ -808,7 +823,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecProps,
     MacSecRoleEnum,
     SecOcCryptoServiceMapping,
+    TlsCryptoCipherSuiteProps,
     TlsCryptoServiceMapping,
+    TlsPskIdentity,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -1686,6 +1703,8 @@ class ARXMLParser(AbstractARXMLParser):
             self.readARObject(element, instance_ref)
             instance_ref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF"))
             instance_ref.setContextCompositionRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPOSITION-REF"))
+            for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
+                instance_ref.addContextComponentRef(ref)
             instance_ref.setTargetComponentRef(self.getChildElementOptionalRefType(element, "TARGET-COMPONENT-REF"))
         return instance_ref
 
@@ -3359,6 +3378,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readComponentInCompositionInstanceRef(self, element: ET.Element) -> ComponentInCompositionInstanceRef:
         iref = ComponentInCompositionInstanceRef()
+        self.readARObject(element, iref)
+        iref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF"))
         for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
             iref.addContextComponentRef(ref)
         iref.setTargetComponentRef(self.getChildElementOptionalRefType(element, "TARGET-COMPONENT-REF"))
@@ -8061,6 +8082,8 @@ class ARXMLParser(AbstractARXMLParser):
         instance_ref = None
         if element is not None:
             instance_ref = VariableDataPrototypeInSystemInstanceRef()
+            self.readARObject(element, instance_ref)
+            instance_ref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF"))
             for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
                 instance_ref.addContextComponentRef(ref)
             instance_ref.setContextCompositionRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPOSITION-REF"))
@@ -9632,6 +9655,82 @@ class ARXMLParser(AbstractARXMLParser):
         connection.setResponseRef(self.getChildElementOptionalRefType(element, "RESPONSE-REF"))
         connection.setResponseOnEventRef(self.getChildElementOptionalRefType(element, "RESPONSE-ON-EVENT-REF"))
 
+    def readDiagnosticServiceInstance(self, element: ET.Element, instance: DiagnosticServiceInstance):
+        instance.setAccessPermissionRef(self.getChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF"))
+        instance.setServiceClassRef(self.getChildElementOptionalRefType(element, "SERVICE-CLASS-REF"))
+
+    def readDiagnosticAuthRoleProxy(self, element: ET.Element, proxy: DiagnosticAuthRoleProxy):
+        self.readARObject(element, proxy)
+        for ref in self.getChildElementRefTypeList(element, "AUTHENTICATION-ROLE-REFS/AUTHENTICATION-ROLE-REF"):
+            proxy.addAuthenticationRoleRef(ref)
+
+    def readDiagnosticSession(self, element: ET.Element, session: DiagnosticSession):
+        self.logger.debug("Read DiagnosticSession <%s>" % session.getShortName())
+        self.readIdentifiable(element, session)
+        session.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
+        jump_to_boot_loader = self.getChildElementOptionalLiteral(element, "JUMP-TO-BOOT-LOADER")
+        if jump_to_boot_loader is not None:
+            e = DiagnosticJumpToBootLoaderEnum()
+            e.setValue(jump_to_boot_loader.getValue())
+            session.setJumpToBootLoader(e)
+        session.setP2ServerMax(self.getChildElementOptionalTimeValue(element, "P-2-SERVER-MAX"))
+        session.setP2StarServerMax(self.getChildElementOptionalTimeValue(element, "P-2-STAR-SERVER-MAX"))
+
+    def readDiagnosticSecurityLevel(self, element: ET.Element, security_level: DiagnosticSecurityLevel):
+        self.logger.debug("Read DiagnosticSecurityLevel <%s>" % security_level.getShortName())
+        self.readIdentifiable(element, security_level)
+        security_level.setAccessDataRecordSize(self.getChildElementOptionalPositiveInteger(element, "ACCESS-DATA-RECORD-SIZE"))
+        security_level.setKeySize(self.getChildElementOptionalPositiveInteger(element, "KEY-SIZE"))
+        security_level.setNumFailedSecurityAccess(self.getChildElementOptionalPositiveInteger(element, "NUM-FAILED-SECURITY-ACCESS"))
+        security_level.setSecurityDelayTime(self.getChildElementOptionalTimeValue(element, "SECURITY-DELAY-TIME"))
+        security_level.setSeedSize(self.getChildElementOptionalPositiveInteger(element, "SEED-SIZE"))
+
+    def readDiagnosticEnvConditionFormula(self, element: ET.Element, formula: DiagnosticEnvConditionFormula):
+        self.readARObject(element, formula)
+        formula.setNrcValue(self.getChildElementOptionalPositiveInteger(element, "NRC-VALUE"))
+        op = self.getChildElementOptionalLiteral(element, "OP")
+        if op is not None:
+            e = DiagnosticLogicalOperatorEnum()
+            e.setValue(op.getValue())
+            formula.setOp(e)
+        parts_element = self.find(element, "PARTS")
+        if parts_element is not None:
+            for child_element in parts_element:
+                tag_name = self.getTagName(child_element)
+                if tag_name == "DIAGNOSTIC-ENV-CONDITION-FORMULA":
+                    part = DiagnosticEnvConditionFormula()
+                    self.readDiagnosticEnvConditionFormula(child_element, part)
+                    formula.addPart(part)
+                else:
+                    self.notImplemented("Unsupported DiagnosticEnvConditionFormulaPart <%s>" % tag_name)
+
+    def getDiagnosticEnvConditionFormula(self, element: ET.Element, key: str) -> Optional[DiagnosticEnvConditionFormula]:
+        formula = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            formula = DiagnosticEnvConditionFormula()
+            self.readDiagnosticEnvConditionFormula(child_element, formula)
+        return formula
+
+    def readDiagnosticEnvironmentalCondition(self, element: ET.Element, condition: DiagnosticEnvironmentalCondition):
+        self.logger.debug("Read DiagnosticEnvironmentalCondition <%s>" % condition.getShortName())
+        self.readIdentifiable(element, condition)
+        condition.setFormula(self.getDiagnosticEnvConditionFormula(element, "FORMULA"))
+
+    def readDiagnosticAccessPermission(self, element: ET.Element, permission: DiagnosticAccessPermission):
+        self.logger.debug("Read DiagnosticAccessPermission <%s>" % permission.getShortName())
+        self.readIdentifiable(element, permission)
+        authentication_enabled = self.find(element, "AUTHENTICATION-ENABLED")
+        if authentication_enabled is not None:
+            proxy = DiagnosticAuthRoleProxy()
+            self.readDiagnosticAuthRoleProxy(authentication_enabled, proxy)
+            permission.setAuthenticationEnabled(proxy)
+        for ref in self.getChildElementRefTypeList(element, "DIAGNOSTIC-SESSION-REFS/DIAGNOSTIC-SESSION-REF"):
+            permission.addDiagnosticSessionRef(ref)
+        permission.setEnvironmentalConditionRef(self.getChildElementOptionalRefType(element, "ENVIRONMENTAL-CONDITION-REF"))
+        for ref in self.getChildElementRefTypeList(element, "SECURITY-LEVEL-REFS/SECURITY-LEVEL-REF"):
+            permission.addSecurityLevelRef(ref)
+
     def readDiagnosticServiceTableDiagnosticConnectionRefs(self, element: ET.Element, table: DiagnosticServiceTable):
         for ref in self.getChildElementRefTypeList(element, "DIAGNOSTIC-CONNECTIONS/DIAGNOSTIC-CONNECTION-REF-CONDITIONAL/DIAGNOSTIC-CONNECTION-REF"):
             table.addDiagnosticConnectionRef(ref)
@@ -9641,6 +9740,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, table)
         self.readDiagnosticServiceTableDiagnosticConnectionRefs(element, table)
         table.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
+        table.setProtocolKind(self.getChildElementOptionalLiteral(element, "PROTOCOL-KIND"))
+        for ref in self.getChildElementRefTypeList(element, "SERVICE-INSTANCE-REFS/SERVICE-INSTANCE-REF"):
+            table.addServiceInstanceRef(ref)
 
     def readSegmentPosition(self, element: ET.Element, position: SegmentPosition):
         position.setSegmentByteOrder(self.getChildElementOptionalLiteral(element, "SEGMENT-BYTE-ORDER"))
@@ -9786,6 +9888,23 @@ class ARXMLParser(AbstractARXMLParser):
     def readDoIpLogicAddress(self, element: ET.Element, address: DoIpLogicAddress):
         self.readIdentifiable(element, address)
         address.setAddress(self.getChildElementOptionalIntegerValue(element, "ADDRESS"))
+        self.readDoIpLogicAddressProps(element, address)
+
+    def readDoIpLogicAddressProps(self, element: ET.Element, address: DoIpLogicAddress):
+        for child_element in self.findall(element, "DO-IP-LOGIC-ADDRESS-PROPS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "DO-IP-LOGIC-TARGET-ADDRESS-PROPS":
+                props = DoIpLogicTargetAddressProps(address, self.getShortName(child_element))
+                self.readIdentifiable(child_element, props)
+                address.setDoIpLogicAddressProps(props)
+            elif tag_name == "DO-IP-LOGIC-TESTER-ADDRESS-PROPS":
+                props = DoIpLogicTesterAddressProps(address, self.getShortName(child_element))
+                self.readIdentifiable(child_element, props)
+                for ref in self.getChildElementRefTypeList(child_element, "DO-IP-TESTER-ROUTING-ACTIVATION-REFS/DO-IP-TESTER-ROUTING-ACTIVATION-REF"):
+                    props.addDoIpTesterRoutingActivationRef(ref)
+                address.setDoIpLogicAddressProps(props)
+            else:
+                self.notImplemented("Unsupported DoIpLogicAddressProps <%s>" % tag_name)
 
     def readDoIpTpConfigDoIpLogicAddresses(self, element: ET.Element, config: DoIpTpConfig):
         for child_element in self.findall(element, "DO-IP-LOGIC-ADDRESSS/*"):
@@ -9823,8 +9942,20 @@ class ARXMLParser(AbstractARXMLParser):
             entity.addHwCategoryRef(ref)
 
     def readHwAttributeValue(self, element: ET.Element, attribute_value: HwAttributeValue):
+        # XSD group HW-ATTRIBUTE-VALUE (AUTOSAR_00052.xsd l.65663):
+        # ANNOTATION, HW-ATTRIBUTE-DEF-REF, V, VT, VARIATION-POINT.
         self.readARObject(element, attribute_value)
+        annotation_element = self.find(element, "ANNOTATION")
+        if annotation_element is not None:
+            annotation = Annotation()
+            self.readGeneralAnnotation(annotation_element, annotation)
+            attribute_value.setAnnotation(annotation)
         attribute_value.setHwAttributeDefRef(self.getChildElementOptionalRefType(element, "HW-ATTRIBUTE-DEF-REF"))
+        attribute_value.setV(self.getChildElementOptionalNumerical(element, "V"))
+        attribute_value.setVt(self.getChildElementOptionalVerbatimString(element, "VT"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            attribute_value.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
 
     def readHwDescriptionEntityHwAttributeValues(self, element: ET.Element, entity: HwDescriptionEntity):
         for child_element in self.findall(element, "HW-ATTRIBUTE-VALUES/HW-ATTRIBUTE-VALUE"):
@@ -9935,7 +10066,6 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readHwAttributeLiteralDef(self, element: ET.Element, literal_def):
         self.readIdentifiable(element, literal_def)
-        literal_def.setValue(self.getChildElementOptionalString(element, "VALUE"))
 
     def readHwCategoryHwAttributeDef(self, element: ET.Element, hw_category: HwCategory):
         for child_element in self.findall(element, "HW-ATTRIBUTE-DEFS/*"):
@@ -10694,7 +10824,25 @@ class ARXMLParser(AbstractARXMLParser):
     def readPortPrototypeBlueprint(self, element: ET.Element, blueprint: PortPrototypeBlueprint):
         self.logger.debug("Read PortPrototypeBlueprint <%s>" % blueprint.getShortName())
         self.readARElement(element, blueprint)
+        self.readPortPrototypeBlueprintInitValues(element, blueprint)
         blueprint.setInterfaceRef(self.getChildElementOptionalRefType(element, "INTERFACE-REF"))
+        self.readProvidedComSpec(element, blueprint)
+        self.readRequiredComSpec(element, blueprint)
+
+    def readPortPrototypeBlueprintInitValues(self, element: ET.Element, blueprint: PortPrototypeBlueprint):
+        for child_element in self.findall(element, "INIT-VALUES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "PORT-PROTOTYPE-BLUEPRINT-INIT-VALUE":
+                init_value = PortPrototypeBlueprintInitValue()
+                self.readPortPrototypeBlueprintInitValue(child_element, init_value)
+                blueprint.addInitValue(init_value)
+            else:
+                self.notImplemented("Unsupported PortPrototypeBlueprintInitValue <%s>" % tag_name)
+
+    def readPortPrototypeBlueprintInitValue(self, element: ET.Element, init_value: PortPrototypeBlueprintInitValue):
+        self.readARObject(element, init_value)
+        init_value.setDataPrototypeRef(self.getChildElementOptionalRefType(element, "DATA-PROTOTYPE-REF"))
+        init_value.setValue(self.getChildValueSpecification(element, "VALUE"))
 
     def readModeDeclarationMappingFirstModeRefs(self, element: ET.Element, mapping: ModeDeclarationMapping):
         for ref_link in self.getChildElementRefTypeList(element, "FIRST-MODE-REFS/FIRST-MODE-REF"):
@@ -12951,10 +13099,26 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Sw Mapping %s" % tag_name)
 
+    def readCommunicationControllerMapping(self, element: ET.Element) -> CommunicationControllerMapping:
+        mapping = CommunicationControllerMapping()
+        mapping.setCommunicationControllerRef(self.getChildElementOptionalRefType(element, "COMMUNICATION-CONTROLLER-REF"))
+        mapping.setHwCommunicationControllerRef(self.getChildElementOptionalRefType(element, "HW-COMMUNICATION-CONTROLLER-REF"))
+        return mapping
+
+    def readHwPortMapping(self, element: ET.Element) -> HwPortMapping:
+        mapping = HwPortMapping()
+        mapping.setCommunicationConnectorRef(self.getChildElementOptionalRefType(element, "COMMUNICATION-CONNECTOR-REF"))
+        mapping.setHwCommunicationPortRef(self.getChildElementOptionalRefType(element, "HW-COMMUNICATION-PORT-REF"))
+        return mapping
+
     def readEcuMapping(self, element: ET.Element, mapping: ECUMapping):
         self.readIdentifiable(element, mapping)
+        for child_element in self.findall(element, "COMM-CONTROLLER-MAPPINGS/COMMUNICATION-CONTROLLER-MAPPING"):
+            mapping.addCommControllerMapping(self.readCommunicationControllerMapping(child_element))
         mapping.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
         mapping.setEcuRef(self.getChildElementOptionalRefType(element, "ECU-REF"))
+        for child_element in self.findall(element, "HW-PORT-MAPPINGS/HW-PORT-MAPPING"):
+            mapping.addHwPortMapping(self.readHwPortMapping(child_element))
 
     def readSystemMappingEcuResourceMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "ECU-RESOURCE-MAPPINGS/*"):
@@ -13006,6 +13170,23 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported CryptoServiceMapping %s" % tag_name)
 
+    def readCryptoEllipticCurveProps(self, element: ET.Element, props: CryptoEllipticCurveProps):
+        self.logger.debug("Read CryptoEllipticCurveProps <%s>" % props.getShortName())
+        self.readIdentifiable(element, props)
+        props.setNamedCurveId(self.getChildElementOptionalPositiveInteger(element, "NAMED-CURVE-ID"))
+
+    def readCryptoSignatureScheme(self, element: ET.Element, scheme: CryptoSignatureScheme):
+        self.logger.debug("Read CryptoSignatureScheme <%s>" % scheme.getShortName())
+        self.readIdentifiable(element, scheme)
+        scheme.setSignatureSchemeId(self.getChildElementOptionalPositiveInteger(element, "SIGNATURE-SCHEME-ID"))
+
+    def readCryptoServicePrimitive(self, element: ET.Element, primitive: CryptoServicePrimitive):
+        self.logger.debug("Read CryptoServicePrimitive <%s>" % primitive.getShortName())
+        self.readIdentifiable(element, primitive)
+        primitive.setAlgorithmFamily(self.getChildElementOptionalString(element, "ALGORITHM-FAMILY"))
+        primitive.setAlgorithmMode(self.getChildElementOptionalString(element, "ALGORITHM-MODE"))
+        primitive.setAlgorithmSecondaryFamily(self.getChildElementOptionalString(element, "ALGORITHM-SECONDARY-FAMILY"))
+
     def readSecOcCryptoServiceMapping(self, element: ET.Element, mapping: SecOcCryptoServiceMapping):
         self.readIdentifiable(element, mapping)
         ref = self.getChildElementOptionalRefType(element, "AUTHENTICATION-REF")
@@ -13026,6 +13207,17 @@ class ARXMLParser(AbstractARXMLParser):
             self.notImplemented("TLS-CIPHER-SUITES aggregation is not implemented (missing member class TlsCryptoCipherSuite)")
         mapping.setUseClientAuthenticationRequest(self.getChildElementOptionalBooleanValue(element, "USE-CLIENT-AUTHENTICATION-REQUEST"))
         mapping.setUseSecurityExtensionRecordSizeLimit(self.getChildElementOptionalBooleanValue(element, "USE-SECURITY-EXTENSION-RECORD-SIZE-LIMIT"))
+
+    def readTlsPskIdentity(self, element: ET.Element, psk_identity: TlsPskIdentity):
+        ref = self.getChildElementOptionalRefType(element, "PRE-SHARED-KEY-REF")
+        if ref is not None:
+            psk_identity.setPreSharedKeyRef(ref)
+        psk_identity.setPskIdentity(self.getChildElementOptionalString(element, "PSK-IDENTITY"))
+        psk_identity.setPskIdentityHint(self.getChildElementOptionalString(element, "PSK-IDENTITY-HINT"))
+
+    def readTlsCryptoCipherSuiteProps(self, element: ET.Element, cipher_suite_props: TlsCryptoCipherSuiteProps):
+        self.readIdentifiable(element, cipher_suite_props)
+        cipher_suite_props.setTcpIpTlsUseSecurityExtensionForceEncryptThenMac(self.getChildElementOptionalBooleanValue(element, "TCP-IP-TLS-USE-SECURITY-EXTENSION-FORCE-ENCRYPT-THEN-MAC"))
 
     def readSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         # self.logger.debug("Read SystemMapping <%s>" % mapping.getShortName())
@@ -13618,6 +13810,18 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-SERVICE-TABLE":
                 table = parent.createDiagnosticServiceTable(self.getShortName(child_element))
                 self.readDiagnosticServiceTable(child_element, table)
+            elif tag_name == "DIAGNOSTIC-SESSION":
+                session = parent.createDiagnosticSession(self.getShortName(child_element))
+                self.readDiagnosticSession(child_element, session)
+            elif tag_name == "DIAGNOSTIC-SECURITY-LEVEL":
+                security_level = parent.createDiagnosticSecurityLevel(self.getShortName(child_element))
+                self.readDiagnosticSecurityLevel(child_element, security_level)
+            elif tag_name == "DIAGNOSTIC-ENVIRONMENTAL-CONDITION":
+                condition = parent.createDiagnosticEnvironmentalCondition(self.getShortName(child_element))
+                self.readDiagnosticEnvironmentalCondition(child_element, condition)
+            elif tag_name == "DIAGNOSTIC-ACCESS-PERMISSION":
+                permission = parent.createDiagnosticAccessPermission(self.getShortName(child_element))
+                self.readDiagnosticAccessPermission(child_element, permission)
             elif tag_name == "DLT-CONTEXT":
                 context = parent.createDltContext(self.getShortName(child_element))
                 self.readDltContext(child_element, context)
@@ -13645,6 +13849,15 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "SECURE-COMMUNICATION-PROPS-SET":
                 prop_set = parent.createSecureCommunicationPropsSet(self.getShortName(child_element))
                 self.readSecureCommunicationPropsSet(child_element, prop_set)
+            elif tag_name == "CRYPTO-ELLIPTIC-CURVE-PROPS":
+                props = parent.createCryptoEllipticCurveProps(self.getShortName(child_element))
+                self.readCryptoEllipticCurveProps(child_element, props)
+            elif tag_name == "CRYPTO-SIGNATURE-SCHEME":
+                scheme = parent.createCryptoSignatureScheme(self.getShortName(child_element))
+                self.readCryptoSignatureScheme(child_element, scheme)
+            elif tag_name == "CRYPTO-SERVICE-PRIMITIVE":
+                primitive = parent.createCryptoServicePrimitive(self.getShortName(child_element))
+                self.readCryptoServicePrimitive(child_element, primitive)
             elif tag_name == "SO-AD-ROUTING-GROUP":
                 group = parent.createSoAdRoutingGroup(self.getShortName(child_element))
                 self.readSoAdRoutingGroup(child_element, group)
@@ -13732,6 +13945,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "STATE-DEPENDENT-FIREWALL":
                 firewall = parent.createStateDependentFirewall(self.getShortName(child_element))
                 self.readStateDependentFirewall(child_element, firewall)
+            elif tag_name == "PLATFORM-MODULE-ETHERNET-ENDPOINT-CONFIGURATION":
+                configuration = parent.createPlatformModuleEthernetEndpointConfiguration(self.getShortName(child_element))
+                self.readPlatformModuleEthernetEndpointConfiguration(child_element, configuration)
             elif tag_name == "MC-FUNCTION":
                 func = parent.createMcFunction(self.getShortName(child_element))
                 self.readMcFunction(child_element, func)
@@ -13837,6 +14053,31 @@ class ARXMLParser(AbstractARXMLParser):
         if ingress_refs_parent is not None:
             for ref in self.getChildElementRefTypeList(ingress_refs_parent, "MATCHING-INGRESS-RULE-REF"):
                 props.addMatchingIngressRuleRef(ref)
+
+    def readIdsPlatformInstantiation(self, element: ET.Element, ar_element: IdsPlatformInstantiation):
+        self.readIdentifiable(element, ar_element)
+        refs_parent = self.find(element, "NETWORK-INTERFACE-REFS")
+        if refs_parent is not None:
+            for ref in self.getChildElementRefTypeList(refs_parent, "NETWORK-INTERFACE-REF"):
+                ar_element.addNetworkInterfaceRef(ref)
+        time_bases_element = self.find(element, "TIME-BASES")
+        if time_bases_element is not None:
+            conditional_element = self.find(time_bases_element, "TIME-BASE-RESOURCE-REF-CONDITIONAL")
+            if conditional_element is not None:
+                ar_element.setTimeBaseRef(self.getChildElementOptionalRefType(conditional_element, "TIME-BASE-RESOURCE-REF"))
+
+    def readIdsmModuleInstantiation(self, element: ET.Element, instantiation: IdsmModuleInstantiation):
+        self.readIdsPlatformInstantiation(element, instantiation)
+
+    def readPlatformModuleEthernetEndpointConfiguration(self, element: ET.Element, configuration: PlatformModuleEthernetEndpointConfiguration):
+        self.readIdentifiable(element, configuration)
+        configuration.setCommunicationConnectorRef(self.getChildElementOptionalRefType(element, "COMMUNICATION-CONNECTOR-REF"))
+        ipv4_address = self.getChildElementOptionalLiteral(element, "IPV-4-MULTICAST-IP-ADDRESS")
+        if ipv4_address is not None:
+            configuration.setIpv4MulticastIpAddress(Ip4AddressString().setValue(ipv4_address.getValue()))
+        ipv6_address = self.getChildElementOptionalLiteral(element, "IPV-6-MULTICAST-IP-ADDRESS")
+        if ipv6_address is not None:
+            configuration.setIpv6MulticastIpAddress(Ip6AddressString().setValue(ipv6_address.getValue()))
 
     def readMcFunction(self, element: ET.Element, func: McFunction):
         self.readIdentifiable(element, func)

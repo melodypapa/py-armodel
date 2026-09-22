@@ -247,38 +247,57 @@ class ComponentInCompositionInstanceRef(AtpInstanceRef):
     """
 
     # ComponentInCompositionInstanceRef method parity checklist:
-    # Spec: (XSD-only - AUTOSAR_00052.xsd COMPONENT-IN-COMPOSITION-INSTANCE-REF group; no own AUTOSAR table)
-    # XSD verified: AUTOSAR_00052.xsd
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getContextComponentRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addContextComponentRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTargetComponentRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTargetComponentRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.13, p.950 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextComponentRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContextComponentRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetComponentRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetComponentRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # The context for the scope of this timing event.
+        # Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        self.baseRef: Optional[RefType] = None
+
+        # The context for the scope of this timing event. Tags: xml.sequenceOffset=20
         self.contextComponentRefs: List[RefType] = []
 
+        # Tags: xml.sequenceOffset=30
         self.targetComponentRef: Optional[RefType] = None
 
+    def getBaseRef(self) -> Optional[RefType]:
+        """Stereotypes: atpDerived Tags: xml.sequenceOffset=10"""
+        return self.baseRef
+
+    def setBaseRef(self, value: Optional[RefType]) -> "ComponentInCompositionInstanceRef":
+        """Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        A None value is a no-op and does not overwrite an existing baseRef."""
+        if value is not None:
+            self.baseRef = value
+        return self
+
     def getContextComponentRefs(self) -> List[RefType]:
-        """The context for the scope of this timing event."""
+        """The context for the scope of this timing event. Tags: xml.sequenceOffset=20"""
         return self.contextComponentRefs
 
     def addContextComponentRef(self, value: Optional[RefType]) -> "ComponentInCompositionInstanceRef":
-        """The context for the scope of this timing event. A None value is a no-op and does not append anything."""
+        """The context for the scope of this timing event. Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not append anything."""
         if value is not None:
             self.contextComponentRefs.append(value)
         return self
 
     def getTargetComponentRef(self) -> Optional[RefType]:
+        """Tags: xml.sequenceOffset=30"""
         return self.targetComponentRef
 
     def setTargetComponentRef(self, value: Optional[RefType]) -> "ComponentInCompositionInstanceRef":
-        """A None value is a no-op and does not overwrite an existing targetComponentRef."""
+        """Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing targetComponentRef."""
         if value is not None:
             self.targetComponentRef = value
         return self

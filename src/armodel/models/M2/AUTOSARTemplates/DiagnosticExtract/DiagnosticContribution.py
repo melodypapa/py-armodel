@@ -1,8 +1,3 @@
-"""
-This module contains classes for representing AUTOSAR diagnostic service contributions
-in the DiagnosticExtract module.
-"""
-
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -16,105 +11,59 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics impo
 
 
 class DiagnosticServiceTable(DiagnosticCommonElement):
-    """
-    Represents a diagnostic service table in AUTOSAR diagnostic extract.
-    This class defines the relationship between diagnostic connections,
-    service instances, and ECU instances for specific protocols.
-    """
+    """This meta-class represents a model of a diagnostic service table, i.e. the UDS services applicable for a given ECU. Tags: atp.recommendedPackage=DiagnosticServiceTables"""
 
     # DiagnosticServiceTable method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getDiagnosticConnectionRefs  [x] impl  [x] docstring  [x] test
-    # [x] addDiagnosticConnectionRef   [x] impl  [x] docstring  [x] test
-    # [x] getDiagnosticServiceInstanceRefs [x] impl  [x] docstring  [x] test
-    # [x] addDiagnosticServiceInstanceRef [x] impl  [x] docstring  [x] test
-    # [x] getEcuInstanceRef            [x] impl  [x] docstring  [x] test
-    # [x] setEcuInstanceRef            [x] impl  [x] docstring  [x] test
-    # [x] getProtocolKind              [x] impl  [x] docstring  [x] test
-    # [x] setProtocolKind              [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.16, p.59
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticConnectionRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDiagnosticConnectionRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcuInstanceRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuInstanceRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProtocolKind                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProtocolKind                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceInstanceRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addServiceInstanceRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticServiceTable with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic service table
-            short_name: The unique short name of this diagnostic service table
-        """
         super().__init__(parent, short_name)
 
         self.diagnosticConnectionRefs: List[RefType] = []
-        self.diagnosticServiceInstanceRefs: List[RefType] = []
+
         self.ecuInstanceRef: Optional[RefType] = None
+
         self.protocolKind: Optional[NameToken] = None
+
+        self.serviceInstanceRefs: List[RefType] = []
 
     def getDiagnosticConnectionRefs(self) -> List[RefType]:
         """
-        Gets the list of diagnostic connection references for this service table.
-
-        Returns:
-            List of RefType instances representing diagnostic connection references
+        This represents the DiagnosticConnection that is taken for handling the data transmission for the enclosing DiagnosticServiceTable. It is possible to refer to more than one diagnosticConnections in order to support more than one diagnostic tester. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=diagnosticConnection.diagnosticConnection, diagnosticConnection.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
         return self.diagnosticConnectionRefs
 
-    def addDiagnosticConnectionRef(self, value: RefType):
+    def addDiagnosticConnectionRef(self, value: Optional[RefType]):
         """
-        Adds a diagnostic connection reference to this service table.
-        Only adds the value if it is not None.
+        This represents the DiagnosticConnection that is taken for handling the data transmission for the enclosing DiagnosticServiceTable. It is possible to refer to more than one diagnosticConnections in order to support more than one diagnostic tester. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=diagnosticConnection.diagnosticConnection, diagnosticConnection.variationPoint.shortLabel vh.latestBindingTime=postBuild
 
-        Args:
-            value: The diagnostic connection reference to add
-
-        Returns:
-            self for method chaining
+        A None value does not extend the diagnosticConnectionRefs list.
         """
         if value is not None:
             self.diagnosticConnectionRefs.append(value)
         return self
 
-    def getDiagnosticServiceInstanceRefs(self) -> List[RefType]:
-        """
-        Gets the list of diagnostic service instance references for this service table.
-
-        Returns:
-            List of RefType instances representing diagnostic service instance references
-        """
-        return self.diagnosticServiceInstanceRefs
-
-    def addDiagnosticServiceInstanceRef(self, value: RefType):
-        """
-        Adds a diagnostic service instance reference to this service table.
-        Only adds the value if it is not None.
-
-        Args:
-            value: The diagnostic service instance reference to add
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.diagnosticServiceInstanceRefs.append(value)
-        return self
-
     def getEcuInstanceRef(self) -> Optional[RefType]:
         """
-        Gets the ECU instance reference for this service table.
-
-        Returns:
-            RefType representing the ECU instance reference, or None if not set
+        This represents the applicable EcuInstance for this DiagnosticServiceTable. Stereotypes: atpSplitable Tags: atp.Splitkey=ecuInstance
         """
         return self.ecuInstanceRef
 
-    def setEcuInstanceRef(self, value: RefType):
+    def setEcuInstanceRef(self, value: Optional[RefType]):
         """
-        Sets the ECU instance reference for this service table.
-        Only sets the value if it is not None.
+        This represents the applicable EcuInstance for this DiagnosticServiceTable. Stereotypes: atpSplitable Tags: atp.Splitkey=ecuInstance
 
-        Args:
-            value: The ECU instance reference to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing ecuInstanceRef.
         """
         if value is not None:
             self.ecuInstanceRef = value
@@ -122,24 +71,32 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
 
     def getProtocolKind(self) -> Optional[NameToken]:
         """
-        Gets the protocol kind for this service table.
-
-        Returns:
-            NameToken representing the protocol kind, or None if not set
+        This identifies the applicable protocol.
         """
         return self.protocolKind
 
-    def setProtocolKind(self, value: NameToken):
+    def setProtocolKind(self, value: Optional[NameToken]):
         """
-        Sets the protocol kind for this service table.
-        Only sets the value if it is not None.
+        This identifies the applicable protocol.
 
-        Args:
-            value: The protocol kind to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing protocolKind.
         """
         if value is not None:
             self.protocolKind = value
+        return self
+
+    def getServiceInstanceRefs(self) -> List[RefType]:
+        """
+        This represents the collection of DiagnosticServiceInstances to be considered in the scope of this DiagnosticServiceTable, Stereotypes: atpSplitable Tags: atp.Splitkey=serviceInstance
+        """
+        return self.serviceInstanceRefs
+
+    def addServiceInstanceRef(self, value: Optional[RefType]):
+        """
+        This represents the collection of DiagnosticServiceInstances to be considered in the scope of this DiagnosticServiceTable, Stereotypes: atpSplitable Tags: atp.Splitkey=serviceInstance
+
+        A None value does not extend the serviceInstanceRefs list.
+        """
+        if value is not None:
+            self.serviceInstanceRefs.append(value)
         return self

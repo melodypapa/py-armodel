@@ -111,13 +111,20 @@ __all__ = [
     "ConsistencyNeeds",
     "ConstantSpecification",
     "ConstantSpecificationMappingSet",
+    "CryptoEllipticCurveProps",
+    "CryptoServicePrimitive",
+    "CryptoSignatureScheme",
     "DataConstr",
     "DataPrototypeGroup",
     "DataTransformationSet",
     "DataTypeMappingSet",
     "DcmIPdu",
+    "DiagnosticAccessPermission",
     "DiagnosticConnection",
+    "DiagnosticEnvironmentalCondition",
+    "DiagnosticSecurityLevel",
     "DiagnosticServiceTable",
+    "DiagnosticSession",
     "DoIpTpConfig",
     "Documentation",
     "DocumentationBlock",
@@ -786,6 +793,23 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(firewall)
         return self.getElement(short_name, StateDependentFirewall)
 
+    def createPlatformModuleEthernetEndpointConfiguration(self, short_name: str) -> PlatformModuleEthernetEndpointConfiguration:
+        """
+        Creates a PlatformModuleEthernetEndpointConfiguration element in this package.
+        If a configuration with the given short name already exists, it is returned instead.
+
+        Args:
+            short_name: The unique short name of the configuration
+
+        Returns:
+            The created (or existing) PlatformModuleEthernetEndpointConfiguration
+        """
+
+        if not self.IsElementExists(short_name, PlatformModuleEthernetEndpointConfiguration):
+            configuration = PlatformModuleEthernetEndpointConfiguration(self, short_name)
+            self.addElement(configuration)
+        return self.getElement(short_name, PlatformModuleEthernetEndpointConfiguration)
+
     def createMcFunction(self, short_name: str) -> McFunction:
         """
         Creates an McFunction element in this package.
@@ -826,6 +850,27 @@ class ARPackage(CollectableElement, VariationPointCapable):
             spec = ConstantSpecification(self, short_name)
             self.addElement(spec)
         return self.getElement(short_name, ConstantSpecification)
+
+    def createCryptoEllipticCurveProps(self, short_name: str) -> CryptoEllipticCurveProps:
+
+        if not self.IsElementExists(short_name, CryptoEllipticCurveProps):
+            props = CryptoEllipticCurveProps(self, short_name)
+            self.addElement(props)
+        return self.getElement(short_name, CryptoEllipticCurveProps)
+
+    def createCryptoSignatureScheme(self, short_name: str) -> CryptoSignatureScheme:
+
+        if not self.IsElementExists(short_name, CryptoSignatureScheme):
+            scheme = CryptoSignatureScheme(self, short_name)
+            self.addElement(scheme)
+        return self.getElement(short_name, CryptoSignatureScheme)
+
+    def createCryptoServicePrimitive(self, short_name: str) -> CryptoServicePrimitive:
+
+        if not self.IsElementExists(short_name, CryptoServicePrimitive):
+            primitive = CryptoServicePrimitive(self, short_name)
+            self.addElement(primitive)
+        return self.getElement(short_name, CryptoServicePrimitive)
 
     def createDataConstr(self, short_name: str) -> DataConstr:
 
@@ -1314,6 +1359,85 @@ class ARPackage(CollectableElement, VariationPointCapable):
             table = DiagnosticServiceTable(self, short_name)
             self.addElement(table)
         return self.getElement(short_name, DiagnosticServiceTable)
+
+    def createDiagnosticSession(self, short_name: str) -> DiagnosticSession:
+        """
+        Creates a new DiagnosticSession with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticSession represents the ability to define a diagnostic
+        session in the diagnostic extract template of AUTOSAR.
+
+        Args:
+            short_name: The short name for the new DiagnosticSession
+
+        Returns:
+            The newly created or existing DiagnosticSession instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticSession):
+            session = DiagnosticSession(self, short_name)
+            self.addElement(session)
+        return self.getElement(short_name, DiagnosticSession)
+
+    def createDiagnosticSecurityLevel(self, short_name: str) -> DiagnosticSecurityLevel:
+        """
+        Creates a new DiagnosticSecurityLevel with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticSecurityLevel represents the ability to define a security
+        level considered for diagnostic purposes in the diagnostic extract
+        template of AUTOSAR.
+
+        Args:
+            short_name: The short name for the new DiagnosticSecurityLevel
+
+        Returns:
+            The newly created or existing DiagnosticSecurityLevel instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticSecurityLevel):
+            security_level = DiagnosticSecurityLevel(self, short_name)
+            self.addElement(security_level)
+        return self.getElement(short_name, DiagnosticSecurityLevel)
+
+    def createDiagnosticEnvironmentalCondition(self, short_name: str) -> DiagnosticEnvironmentalCondition:
+        """
+        Creates a new DiagnosticEnvironmentalCondition with the given short
+        name, or returns an existing one if it already exists in this package.
+
+        DiagnosticEnvironmentalCondition represents a condition which is
+        evaluated during runtime of the ECU in the diagnostic extract
+        template of AUTOSAR.
+
+        Args:
+            short_name: The short name for the new DiagnosticEnvironmentalCondition
+
+        Returns:
+            The newly created or existing DiagnosticEnvironmentalCondition instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEnvironmentalCondition):
+            condition = DiagnosticEnvironmentalCondition(self, short_name)
+            self.addElement(condition)
+        return self.getElement(short_name, DiagnosticEnvironmentalCondition)
+
+    def createDiagnosticAccessPermission(self, short_name: str) -> DiagnosticAccessPermission:
+        """
+        Creates a new DiagnosticAccessPermission with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticAccessPermission represents the specification of whether a
+        given service can be accessed in the diagnostic extract template of
+        AUTOSAR.
+
+        Args:
+            short_name: The short name for the new DiagnosticAccessPermission
+
+        Returns:
+            The newly created or existing DiagnosticAccessPermission instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticAccessPermission):
+            permission = DiagnosticAccessPermission(self, short_name)
+            self.addElement(permission)
+        return self.getElement(short_name, DiagnosticAccessPermission)
 
     def createDltContext(self, short_name: str) -> DltContext:
 
@@ -1807,6 +1931,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
 # Element-class names are re-exported eagerly. Every models/ module that imports
 # from this module only needs ARElement/PackageableElement, which are defined above,
 # so partial-module initialization resolves the cycle without lazy machinery.
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.AdaptiveModuleImplementation import PlatformModuleEthernetEndpointConfiguration  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import FirewallRule, StateDependentFirewall  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry  # noqa: E402
@@ -1886,6 +2011,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     TriggerInterface,
 )
 from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltContext, DltEcu  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticSecurityLevel, DiagnosticSession  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import DiagnosticEnvironmentalCondition  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutineMappingSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet, CpSoftwareCluster, System  # noqa: E402
@@ -1932,6 +2059,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     EcuInstance,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (  # noqa: E402
+    CryptoEllipticCurveProps,
+    CryptoServicePrimitive,
+    CryptoSignatureScheme,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (  # noqa: E402
     DataTransformationSet,
     E2EProfileCompatibilityProps,

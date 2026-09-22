@@ -925,8 +925,8 @@ class TestEthernetTopology:
 
     def test_sd_client_config(self):
         """
-        Test the SdClientConfig class initialization and methods (XSD SD-CLIENT-CONFIG group;
-        obsolete class, no R23-11 table).
+        Test the SdClientConfig class initialization and methods
+        (R4.3.1 AUTOSAR_TPS_SystemTemplate, Table 6.172, p.356).
         """
         config = SdClientConfig()
 
@@ -969,6 +969,77 @@ class TestEthernetTopology:
         result = config.setRequestResponseDelay(delay)
         assert config.getRequestResponseDelay() == delay
         assert result == config  # Test method chaining
+
+
+class TestSdClientConfigSpecSync:
+    """Spec-sync checks for SdClientConfig (R4.3.1 AUTOSAR_TPS_SystemTemplate, Table 6.172, p.356)."""
+
+    def test_docstring_is_spec_note_verbatim(self):
+        assert SdClientConfig.__doc__.strip() == "Client configuration for Service-Discovery."
+
+    def test_init_has_no_docstring(self):
+        assert SdClientConfig.__init__.__doc__ is None
+
+    def test_defaults_in_spec_displayed_order(self):
+        config = SdClientConfig()
+        assert config.getCapabilityRecords() == []
+        assert config.getClientServiceMajorVersion() is None
+        assert config.getClientServiceMinorVersion() is None
+        assert config.getInitialFindBehavior() is None
+        assert config.getRequestResponseDelay() is None
+        assert config.getTtl() is None
+        assert list(config.__dict__.keys())[-6:] == ["capabilityRecords", "clientServiceMajorVersion", "clientServiceMinorVersion", "initialFindBehavior", "requestResponseDelay", "ttl"]
+
+    def test_get_set_round_trip_same_instance_and_none_noop(self):
+        config = SdClientConfig()
+        major = PositiveInteger()
+        major.setValue(15)
+        minor = PositiveInteger()
+        minor.setValue(3)
+        ttl = PositiveInteger()
+        ttl.setValue(255)
+        initial = InitialSdDelayConfig()
+        delay = RequestResponseDelay()
+        assert config.setClientServiceMajorVersion(major) is config
+        assert config.setClientServiceMinorVersion(minor) is config
+        assert config.setInitialFindBehavior(initial) is config
+        assert config.setRequestResponseDelay(delay) is config
+        assert config.setTtl(ttl) is config
+        assert config.getClientServiceMajorVersion() is major
+        assert config.getClientServiceMinorVersion() is minor
+        assert config.getInitialFindBehavior() is initial
+        assert config.getRequestResponseDelay() is delay
+        assert config.getTtl() is ttl
+        config.setClientServiceMajorVersion(None)
+        config.setClientServiceMinorVersion(None)
+        config.setInitialFindBehavior(None)
+        config.setRequestResponseDelay(None)
+        config.setTtl(None)
+        config.addCapabilityRecord(None)
+        assert config.getClientServiceMajorVersion() is major
+        assert config.getClientServiceMinorVersion() is minor
+        assert config.getInitialFindBehavior() is initial
+        assert config.getRequestResponseDelay() is delay
+        assert config.getTtl() is ttl
+        assert config.getCapabilityRecords() == []
+
+    def test_capability_record_adder(self):
+        config = SdClientConfig()
+        record = TagWithOptionalValue()
+        assert config.addCapabilityRecord(record) is config
+        assert config.getCapabilityRecords() == [record]
+
+    def test_accessor_docstrings_verbatim(self):
+        note = (
+            "A sequence of records to store arbitrary name/value pairs conveying additional information about the named service. "
+            "Capability records shall only be existing if the respective SdClientConfig is composed by a ConsumedServiceInstance (see constr_3260)."
+        )
+        assert SdClientConfig.getCapabilityRecords.__doc__.strip() == note
+        assert SdClientConfig.getClientServiceMajorVersion.__doc__.strip() == "Major version number of the Service."
+        assert SdClientConfig.getClientServiceMinorVersion.__doc__.strip() == "Minor version number of the Service."
+        assert SdClientConfig.getInitialFindBehavior.__doc__.strip() == "Controls initial find behavior of clients."
+        assert SdClientConfig.getRequestResponseDelay.__doc__.strip() == "Maximum/Minimum allowable response delay to entries received by multicast in seconds."
+        assert SdClientConfig.getTtl.__doc__.strip() == "TTL for Request and Subscribe messages."
 
 
 class TestEthernetConnectionNegotiationEnum:

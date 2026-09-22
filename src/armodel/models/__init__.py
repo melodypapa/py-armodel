@@ -52,6 +52,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortInterfaceBlueprint import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import *  # noqa: F403
@@ -182,7 +183,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition i
 # Additional DiagnosticExtract imports
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import *  # noqa: F403
 
 # ECUCParameterDefTemplate
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import *  # noqa: F403

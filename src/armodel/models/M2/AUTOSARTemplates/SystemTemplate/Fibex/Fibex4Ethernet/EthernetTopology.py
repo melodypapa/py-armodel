@@ -1168,28 +1168,27 @@ class SdClientConfig(ARObject):
     Client configuration for Service-Discovery.
     """
 
-    # SdClientConfig method parity checklist (XSD-only class — obsolete, no R23-11 PDF table; Rule 0002:
-    # attributes derived from the AUTOSAR_00052.xsd SD-CLIENT-CONFIG group; no # Spec line, no marker):
-    # XSD verified: AUTOSAR_00052.xsd
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addCapabilityRecord           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCapabilityRecords          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getClientServiceMajorVersion  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setClientServiceMajorVersion  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getClientServiceMinorVersion  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setClientServiceMinorVersion  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getInitialFindBehavior        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInitialFindBehavior        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRequestResponseDelay       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRequestResponseDelay       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTtl                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTtl                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # SdClientConfig method parity checklist:
+    # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.172, p.356
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+    # [x] addCapabilityRecord           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getCapabilityRecords          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] getClientServiceMajorVersion  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setClientServiceMajorVersion  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getClientServiceMinorVersion  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setClientServiceMinorVersion  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getInitialFindBehavior        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setInitialFindBehavior        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getRequestResponseDelay       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setRequestResponseDelay       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getTtl                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setTtl                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
 
     def __init__(self):
         super().__init__()
 
-        # A sequence of records to store arbitrary name/value pairs conveying additional information about the named service.
+        # A sequence of records to store arbitrary name/value pairs conveying additional information about the named service. Capability records shall only be existing if the respective SdClientConfig is composed by a ConsumedServiceInstance (see constr_3260).
         self.capabilityRecords: List[TagWithOptionalValue] = []
 
         # Major version number of the Service.
@@ -1209,7 +1208,7 @@ class SdClientConfig(ARObject):
 
     def addCapabilityRecord(self, value: Optional[TagWithOptionalValue]) -> "SdClientConfig":
         """
-        A sequence of records to store arbitrary name/value pairs conveying additional information about the named service.
+        A sequence of records to store arbitrary name/value pairs conveying additional information about the named service. Capability records shall only be existing if the respective SdClientConfig is composed by a ConsumedServiceInstance (see constr_3260).
         A None value is a no-op and does not append to capabilityRecords.
         """
         if value is not None:
@@ -1217,7 +1216,7 @@ class SdClientConfig(ARObject):
         return self
 
     def getCapabilityRecords(self) -> List[TagWithOptionalValue]:
-        """A sequence of records to store arbitrary name/value pairs conveying additional information about the named service."""
+        """A sequence of records to store arbitrary name/value pairs conveying additional information about the named service. Capability records shall only be existing if the respective SdClientConfig is composed by a ConsumedServiceInstance (see constr_3260)."""
         return self.capabilityRecords
 
     def getClientServiceMajorVersion(self) -> Optional[PositiveInteger]:

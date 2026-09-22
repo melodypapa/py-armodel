@@ -863,38 +863,54 @@ class DoIpTpConnection(TpConnection):
 
 class DoIpTpConfig(TpConfig):
     """
-    Represents DoIP transport protocol configuration in the system,
-    organizing logic addresses and connections for comprehensive
-    DoIP communication setup.
+    This element defines exactly one DoIpTp Configuration that is used to configure all DoIPChannels available in a DoIpInterface. Each DoIPChannel describes a connection between a doIpSourceAddress and a doIpTargetAddress and the exchange of DcmIPdus between the PduR and DoIP.
     """
 
     # DoIpTpConfig method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDoIpLogicAddresses        [x] impl  [ ] docstring  [ ] test
-    # [ ] createDoIpLogicAddress       [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpConnections             [x] impl  [ ] docstring  [ ] test
-    # [ ] addTpConnection              [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.205, p.555
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createDoIpLogicAddress   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDoIpLogicAddresses    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTpConnection          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpConnections         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # Collection of logical DoIP Addresses.
         self.doIpLogicAddresses: List[DoIpLogicAddress] = []
+
+        # Collection of unidirectional connections between a source address and a target address.
         self.tpConnections: List[DoIpTpConnection] = []
 
-    def getDoIpLogicAddresses(self):
+    def getDoIpLogicAddresses(self) -> List[DoIpLogicAddress]:
+        """
+        Collection of logical DoIP Addresses.
+        """
         return self.doIpLogicAddresses
 
-    def createDoIpLogicAddress(self, short_name: str):
+    def createDoIpLogicAddress(self, short_name: str) -> DoIpLogicAddress:
+        """
+        Collection of logical DoIP Addresses.
+        """
         if not self.IsElementExists(short_name, DoIpLogicAddress):
             address = DoIpLogicAddress(self, short_name)
             self.addElement(address)
             self.doIpLogicAddresses.append(address)
         return self.getElement(short_name, DoIpLogicAddress)
 
-    def getTpConnections(self):
+    def getTpConnections(self) -> List[DoIpTpConnection]:
+        """
+        Collection of unidirectional connections between a source address and a target address.
+        """
         return self.tpConnections
 
-    def addTpConnection(self, value):
+    def addTpConnection(self, value: Optional[DoIpTpConnection]) -> "DoIpTpConfig":
+        """
+        Collection of unidirectional connections between a source address and a target address.
+        A None value is a no-op and does not extend the tpConnections list.
+        """
         if value is not None:
             self.tpConnections.append(value)
         return self

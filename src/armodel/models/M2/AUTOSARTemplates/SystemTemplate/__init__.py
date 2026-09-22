@@ -7,7 +7,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataMa
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import CryptoServiceMapping, SecOcCryptoServiceMapping, TlsCryptoServiceMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping, OsTaskPreemptabilityEnum, OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, OperationInSystemInstanceRef, PortGroupInSystemInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
+    ComponentInSystemInstanceRef,
+    OperationInSystemInstanceRef,
+    PortGroupInSystemInstanceRef,
+    VariableDataPrototypeInSystemInstanceRef,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToImplMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareCluster, SwComponentPrototypeAssignment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -985,5 +990,6 @@ __all__ = [
     "System",
     "SystemMapping",
     "TRefType",
+    "VariableDataPrototypeInSystemInstanceRef",
     "VariationPointCapable",
 ]

@@ -1,7 +1,9 @@
-"""Writer/reader round-trip tests for SdClientConfig (XSD SD-CLIENT-CONFIG group).
+"""Writer/reader round-trip tests for SdClientConfig (R4.3.1 AUTOSAR_TPS_SystemTemplate, Table 6.172, p.356).
 
-SdClientConfig is an obsolete XSD-only class (no R23-11 PDF table) aggregated by
-ConsumedServiceInstance.sdClientConfig and EventHandler.sdServerConfig... (client side).
+Aggregated by ConsumedServiceInstance.sdClientConfig (client side); child order per
+XSD group SD-CLIENT-CONFIG (AUTOSAR_00044.xsd l.72926): CAPABILITY-RECORDS,
+CLIENT-SERVICE-MAJOR-VERSION, CLIENT-SERVICE-MINOR-VERSION, INITIAL-FIND-BEHAVIOR,
+REQUEST-RESPONSE-DELAY, TTL.
 """
 
 import xml.etree.cElementTree as ET
@@ -78,6 +80,14 @@ class TestWriteSdClientConfig:
         assert node.find("INITIAL-FIND-BEHAVIOR") is not None
         assert node.find("REQUEST-RESPONSE-DELAY") is not None
         assert node.find("TTL").text == "255"
+        assert [child.tag for child in node] == [
+            "CAPABILITY-RECORDS",
+            "CLIENT-SERVICE-MAJOR-VERSION",
+            "CLIENT-SERVICE-MINOR-VERSION",
+            "INITIAL-FIND-BEHAVIOR",
+            "REQUEST-RESPONSE-DELAY",
+            "TTL",
+        ]
 
     def test_write_empty_fields_omits_optional_tags(self, writer):
         parent = ET.Element("PARENT")

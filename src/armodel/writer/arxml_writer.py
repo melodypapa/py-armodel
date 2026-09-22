@@ -8,6 +8,13 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     CryptoKeySlotContentAllowedUsage,
 )
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import FirewallRule, FirewallRuleProps, StateDependentFirewall
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.AdaptiveModuleImplementation import (
+    PlatformModuleEthernetEndpointConfiguration,
+)
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.IntrusionDetectionSystem import (
+    IdsPlatformInstantiation,
+    IdsmModuleInstantiation,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprintMapping,
 )
@@ -203,7 +210,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation
     SignalServiceTranslationProps,
     SignalServiceTranslationPropsSet,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint, PortPrototypeBlueprintInitValue
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator import BlueprintGenerator
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
@@ -241,7 +248,10 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming, TimingExtension
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import DiagnosticEnvConditionFormula, DiagnosticEnvironmentalCondition
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
     ConfigReferenceValue,
@@ -645,8 +655,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordTypeMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpRoutingActivation
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps, DoIpRoutingActivation
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping, HwPortMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanFrame,
@@ -711,6 +721,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
+    CryptoEllipticCurveProps,
+    CryptoServicePrimitive,
+    CryptoSignatureScheme,
     MacSecCipherSuiteConfig,
     MacSecCryptoAlgoConfig,
     MacSecGlobalKayProps,
@@ -718,7 +731,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecLocalKayProps,
     MacSecProps,
     SecOcCryptoServiceMapping,
+    TlsCryptoCipherSuiteProps,
     TlsCryptoServiceMapping,
+    TlsPskIdentity,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -3755,6 +3770,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(child_element, ref)
             self.setChildElementOptionalRefType(child_element, "BASE-REF", ref.getBaseRef())
             self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPOSITION-REF", ref.getContextCompositionRef())
+            for component_ref in ref.getContextComponentRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", component_ref)
             self.setChildElementOptionalRefType(child_element, "TARGET-COMPONENT-REF", ref.getTargetComponentRef())
 
     def setOperationInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: OperationInSystemInstanceRef):
@@ -4559,6 +4576,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeOperationArgumentInComponentInstanceRef(iref_tag, iref)
 
     def writeComponentInCompositionInstanceRef(self, element: ET.Element, iref: ComponentInCompositionInstanceRef):
+        self.writeARObject(element, iref)
+        self.setChildElementOptionalRefType(element, "BASE-REF", iref.getBaseRef())
         for context_component_ref in iref.getContextComponentRefs():
             self.setChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF", context_component_ref)
         self.setChildElementOptionalRefType(element, "TARGET-COMPONENT-REF", iref.getTargetComponentRef())
@@ -6443,6 +6462,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setVariableDataPrototypeInSystemInstanceRef(self, element: ET.Element, key: str, instance_ref: VariableDataPrototypeInSystemInstanceRef):
         if instance_ref is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, instance_ref)
+            self.setChildElementOptionalRefType(child_element, "BASE-REF", instance_ref.getBaseRef())
             for ref in instance_ref.getContextComponentRefs():
                 self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", ref)
             self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPOSITION-REF", instance_ref.getContextCompositionRef())
@@ -9810,7 +9831,24 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.logger.debug("Write PortPrototypeBlueprint <%s>" % blueprint.getShortName())
             child_element = ET.SubElement(element, "PORT-PROTOTYPE-BLUEPRINT")
             self.writeARElement(child_element, blueprint)
+            self.writePortPrototypeBlueprintInitValues(child_element, blueprint)
             self.setChildElementOptionalRefType(child_element, "INTERFACE-REF", blueprint.getInterfaceRef())
+            self.setAbstractProvidedPortPrototype(child_element, blueprint)
+            self.setAbstractRequiredPortPrototype(child_element, blueprint)
+
+    def writePortPrototypeBlueprintInitValues(self, element: ET.Element, blueprint: PortPrototypeBlueprint):
+        init_values = blueprint.getInitValues()
+        if len(init_values) > 0:
+            values_tag = ET.SubElement(element, "INIT-VALUES")
+            for init_value in init_values:
+                self.writePortPrototypeBlueprintInitValue(values_tag, init_value)
+
+    def writePortPrototypeBlueprintInitValue(self, element: ET.Element, init_value: PortPrototypeBlueprintInitValue):
+        if init_value is not None:
+            child_element = ET.SubElement(element, "PORT-PROTOTYPE-BLUEPRINT-INIT-VALUE")
+            self.writeARObject(child_element, init_value)
+            self.setChildElementOptionalRefType(child_element, "DATA-PROTOTYPE-REF", init_value.getDataPrototypeRef())
+            self.setChildValueSpecification(child_element, "VALUE", init_value.getValue())
 
     def writeModeDeclarationMappingFirstModeRefs(self, element: ET.Element, mapping: ModeDeclarationMapping):
         ref_links = mapping.getFirstModeRefs()
@@ -11269,13 +11307,34 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Sw Mapping %s" % type(sw_mapping))
 
+    def writeCommunicationControllerMapping(self, element: ET.Element, mapping: CommunicationControllerMapping):
+        child_element = ET.SubElement(element, "COMMUNICATION-CONTROLLER-MAPPING")
+        self.setChildElementOptionalRefType(child_element, "COMMUNICATION-CONTROLLER-REF", mapping.getCommunicationControllerRef())
+        self.setChildElementOptionalRefType(child_element, "HW-COMMUNICATION-CONTROLLER-REF", mapping.getHwCommunicationControllerRef())
+
+    def writeHwPortMapping(self, element: ET.Element, mapping: HwPortMapping):
+        child_element = ET.SubElement(element, "HW-PORT-MAPPING")
+        self.setChildElementOptionalRefType(child_element, "COMMUNICATION-CONNECTOR-REF", mapping.getCommunicationConnectorRef())
+        self.setChildElementOptionalRefType(child_element, "HW-COMMUNICATION-PORT-REF", mapping.getHwCommunicationPortRef())
+
     def writeEcuMapping(self, element: ET.Element, mapping: ECUMapping):
         self.logger.debug("Write ECUMapping <%s>" % mapping.getShortName())
         if mapping is not None:
             child_element = ET.SubElement(element, "ECU-MAPPING")
-            self.writeIdentifiable(child_element, mapping)
+            self.writeIdentifiable(child_element, mapping, write_variation_point=False)
+            comm_controller_mappings = mapping.getCommControllerMappings()
+            if len(comm_controller_mappings) > 0:
+                mappings_tag = ET.SubElement(child_element, "COMM-CONTROLLER-MAPPINGS")
+                for comm_controller_mapping in comm_controller_mappings:
+                    self.writeCommunicationControllerMapping(mappings_tag, comm_controller_mapping)
             self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", mapping.getEcuInstanceRef())
             self.setChildElementOptionalRefType(child_element, "ECU-REF", mapping.getEcuRef())
+            hw_port_mappings = mapping.getHwPortMappings()
+            if len(hw_port_mappings) > 0:
+                mappings_tag = ET.SubElement(child_element, "HW-PORT-MAPPINGS")
+                for hw_port_mapping in hw_port_mappings:
+                    self.writeHwPortMapping(mappings_tag, hw_port_mapping)
+            self.writeVariationPoint(child_element, mapping.getVariationPoint())
 
     def writeSystemMappingEcuResourceMappings(self, element: ET.Element, mapping: SystemMapping):
         ecu_resource_mappings = mapping.getEcuResourceMappings()
@@ -11349,6 +11408,26 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported CryptoServiceMapping %s" % type(crypto_mapping))
 
+    def writeCryptoEllipticCurveProps(self, element: ET.Element, props: CryptoEllipticCurveProps):
+        self.logger.debug("Write CryptoEllipticCurveProps <%s>" % props.getShortName())
+        child_element = ET.SubElement(element, "CRYPTO-ELLIPTIC-CURVE-PROPS")
+        self.writeIdentifiable(child_element, props)
+        self.setChildElementOptionalPositiveInteger(child_element, "NAMED-CURVE-ID", props.getNamedCurveId())
+
+    def writeCryptoSignatureScheme(self, element: ET.Element, scheme: CryptoSignatureScheme):
+        self.logger.debug("Write CryptoSignatureScheme <%s>" % scheme.getShortName())
+        child_element = ET.SubElement(element, "CRYPTO-SIGNATURE-SCHEME")
+        self.writeIdentifiable(child_element, scheme)
+        self.setChildElementOptionalPositiveInteger(child_element, "SIGNATURE-SCHEME-ID", scheme.getSignatureSchemeId())
+
+    def writeCryptoServicePrimitive(self, element: ET.Element, primitive: CryptoServicePrimitive):
+        self.logger.debug("Write CryptoServicePrimitive <%s>" % primitive.getShortName())
+        child_element = ET.SubElement(element, "CRYPTO-SERVICE-PRIMITIVE")
+        self.writeIdentifiable(child_element, primitive)
+        self.setChildElementOptionalString(child_element, "ALGORITHM-FAMILY", primitive.getAlgorithmFamily())
+        self.setChildElementOptionalString(child_element, "ALGORITHM-MODE", primitive.getAlgorithmMode())
+        self.setChildElementOptionalString(child_element, "ALGORITHM-SECONDARY-FAMILY", primitive.getAlgorithmSecondaryFamily())
+
     def writeSecOcCryptoServiceMapping(self, element: ET.Element, mapping: SecOcCryptoServiceMapping):
         self.writeIdentifiable(element, mapping)
         self.setChildElementOptionalRefType(element, "AUTHENTICATION-REF", mapping.getAuthenticationRef())
@@ -11366,6 +11445,17 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.notImplemented("TLS-CIPHER-SUITES aggregation is not implemented (missing member class TlsCryptoCipherSuite)")
         self.setChildElementOptionalBooleanValue(element, "USE-CLIENT-AUTHENTICATION-REQUEST", mapping.getUseClientAuthenticationRequest())
         self.setChildElementOptionalBooleanValue(element, "USE-SECURITY-EXTENSION-RECORD-SIZE-LIMIT", mapping.getUseSecurityExtensionRecordSizeLimit())
+
+    def writeTlsPskIdentity(self, parent: ET.Element, psk_identity: TlsPskIdentity):
+        element = ET.SubElement(parent, "TLS-PSK-IDENTITY")
+        self.setChildElementOptionalRefType(element, "PRE-SHARED-KEY-REF", psk_identity.getPreSharedKeyRef())
+        self.setChildElementOptionalString(element, "PSK-IDENTITY", psk_identity.getPskIdentity())
+        self.setChildElementOptionalString(element, "PSK-IDENTITY-HINT", psk_identity.getPskIdentityHint())
+
+    def writeTlsCryptoCipherSuiteProps(self, parent: ET.Element, cipher_suite_props: TlsCryptoCipherSuiteProps):
+        element = ET.SubElement(parent, "TLS-CRYPTO-CIPHER-SUITE-PROPS")
+        self.writeIdentifiable(element, cipher_suite_props)
+        self.setChildElementOptionalBooleanValue(element, "TCP-IP-TLS-USE-SECURITY-EXTENSION-FORCE-ENCRYPT-THEN-MAC", cipher_suite_props.getTcpIpTlsUseSecurityExtensionForceEncryptThenMac())
 
     def writeSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         self.logger.debug("Write SystemMapping <%s>" % mapping.getShortName())
@@ -12472,6 +12562,78 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "RESPONSE-REF", connection.getResponseRef())
         self.setChildElementOptionalRefType(child_element, "RESPONSE-ON-EVENT-REF", connection.getResponseOnEventRef())
 
+    def writeDiagnosticServiceInstance(self, element: ET.Element, instance: DiagnosticServiceInstance):
+        self.setChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF", instance.getAccessPermissionRef())
+        self.setChildElementOptionalRefType(element, "SERVICE-CLASS-REF", instance.getServiceClassRef())
+
+    def writeDiagnosticAuthRoleProxy(self, element: ET.Element, proxy: DiagnosticAuthRoleProxy):
+        self.writeARObject(element, proxy)
+        refs = proxy.getAuthenticationRoleRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "AUTHENTICATION-ROLE-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "AUTHENTICATION-ROLE-REF", ref)
+
+    def writeDiagnosticSession(self, element: ET.Element, session: DiagnosticSession):
+        self.logger.debug("Write DiagnosticSession %s" % session.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-SESSION")
+        self.writeIdentifiable(child_element, session)
+        self.setChildElementOptionalPositiveInteger(child_element, "ID", session.getId())
+        self.setChildElementOptionalLiteral(child_element, "JUMP-TO-BOOT-LOADER", session.getJumpToBootLoader())
+        self.setChildElementOptionalTimeValue(child_element, "P-2-SERVER-MAX", session.getP2ServerMax())
+        self.setChildElementOptionalTimeValue(child_element, "P-2-STAR-SERVER-MAX", session.getP2StarServerMax())
+
+    def writeDiagnosticSecurityLevel(self, element: ET.Element, security_level: DiagnosticSecurityLevel):
+        self.logger.debug("Write DiagnosticSecurityLevel %s" % security_level.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-SECURITY-LEVEL")
+        self.writeIdentifiable(child_element, security_level)
+        self.setChildElementOptionalPositiveInteger(child_element, "ACCESS-DATA-RECORD-SIZE", security_level.getAccessDataRecordSize())
+        self.setChildElementOptionalPositiveInteger(child_element, "KEY-SIZE", security_level.getKeySize())
+        self.setChildElementOptionalPositiveInteger(child_element, "NUM-FAILED-SECURITY-ACCESS", security_level.getNumFailedSecurityAccess())
+        self.setChildElementOptionalTimeValue(child_element, "SECURITY-DELAY-TIME", security_level.getSecurityDelayTime())
+        self.setChildElementOptionalPositiveInteger(child_element, "SEED-SIZE", security_level.getSeedSize())
+
+    def writeDiagnosticEnvConditionFormula(self, element: ET.Element, formula: DiagnosticEnvConditionFormula):
+        self.writeARObject(element, formula)
+        self.setChildElementOptionalPositiveInteger(element, "NRC-VALUE", formula.getNrcValue())
+        self.setChildElementOptionalLiteral(element, "OP", formula.getOp())
+        parts = formula.getParts()
+        if len(parts) > 0:
+            parts_tag = ET.SubElement(element, "PARTS")
+            for part in parts:
+                if isinstance(part, DiagnosticEnvConditionFormula):
+                    child_element = ET.SubElement(parts_tag, "DIAGNOSTIC-ENV-CONDITION-FORMULA")
+                    self.writeDiagnosticEnvConditionFormula(child_element, part)
+                else:
+                    self.notImplemented("Unsupported DiagnosticEnvConditionFormulaPart <%s>" % type(part).__name__)
+
+    def writeDiagnosticEnvironmentalCondition(self, element: ET.Element, condition: DiagnosticEnvironmentalCondition):
+        self.logger.debug("Write DiagnosticEnvironmentalCondition %s" % condition.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-ENVIRONMENTAL-CONDITION")
+        self.writeIdentifiable(child_element, condition)
+        if condition.getFormula() is not None:
+            formula_element = ET.SubElement(child_element, "FORMULA")
+            self.writeDiagnosticEnvConditionFormula(formula_element, condition.getFormula())
+
+    def writeDiagnosticAccessPermission(self, element: ET.Element, permission: DiagnosticAccessPermission):
+        self.logger.debug("Write DiagnosticAccessPermission %s" % permission.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-ACCESS-PERMISSION")
+        self.writeIdentifiable(child_element, permission)
+        if permission.getAuthenticationEnabled() is not None:
+            enabled_element = ET.SubElement(child_element, "AUTHENTICATION-ENABLED")
+            self.writeDiagnosticAuthRoleProxy(enabled_element, permission.getAuthenticationEnabled())
+        session_refs = permission.getDiagnosticSessionRefs()
+        if len(session_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "DIAGNOSTIC-SESSION-REFS")
+            for ref in session_refs:
+                self.setChildElementOptionalRefType(refs_tag, "DIAGNOSTIC-SESSION-REF", ref)
+        self.setChildElementOptionalRefType(child_element, "ENVIRONMENTAL-CONDITION-REF", permission.getEnvironmentalConditionRef())
+        level_refs = permission.getSecurityLevelRefs()
+        if len(level_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "SECURITY-LEVEL-REFS")
+            for ref in level_refs:
+                self.setChildElementOptionalRefType(refs_tag, "SECURITY-LEVEL-REF", ref)
+
     def writeDiagnosticServiceTableDiagnosticConnectionRefs(self, element: ET.Element, table: DiagnosticServiceTable):
         refs = table.getDiagnosticConnectionRefs()
         if len(refs) > 0:
@@ -12480,12 +12642,21 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element = ET.SubElement(refs_tag, "DIAGNOSTIC-CONNECTION-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-CONNECTION-REF", ref)
 
+    def writeDiagnosticServiceTableServiceInstanceRefs(self, element: ET.Element, table: DiagnosticServiceTable):
+        refs = table.getServiceInstanceRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "SERVICE-INSTANCE-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "SERVICE-INSTANCE-REF", ref)
+
     def writeDiagnosticServiceTable(self, element: ET.Element, table: DiagnosticServiceTable):
         self.logger.debug("Write DiagnosticServiceTable %s" % table.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-SERVICE-TABLE")
         self.writeIdentifiable(child_element, table)
         self.writeDiagnosticServiceTableDiagnosticConnectionRefs(child_element, table)
         self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", table.getEcuInstanceRef())
+        self.setChildElementOptionalLiteral(child_element, "PROTOCOL-KIND", table.getProtocolKind())
+        self.writeDiagnosticServiceTableServiceInstanceRefs(child_element, table)
 
     def writePdu(self, element: ET.Element, pdu: Pdu):
         self.writeIdentifiable(element, pdu)
@@ -12661,6 +12832,25 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "DO-IP-LOGIC-ADDRESS")
             self.writeIdentifiable(child_element, address)
             self.setChildElementOptionalIntegerValue(child_element, "ADDRESS", address.getAddress())
+            self.writeDoIpLogicAddressProps(child_element, address)
+
+    def writeDoIpLogicAddressProps(self, element: ET.Element, address: DoIpLogicAddress):
+        props = address.getDoIpLogicAddressProps()
+        if props is not None:
+            props_tag = ET.SubElement(element, "DO-IP-LOGIC-ADDRESS-PROPS")
+            if isinstance(props, DoIpLogicTargetAddressProps):
+                props_element = ET.SubElement(props_tag, "DO-IP-LOGIC-TARGET-ADDRESS-PROPS")
+                self.writeIdentifiable(props_element, props)
+            elif isinstance(props, DoIpLogicTesterAddressProps):
+                props_element = ET.SubElement(props_tag, "DO-IP-LOGIC-TESTER-ADDRESS-PROPS")
+                self.writeIdentifiable(props_element, props)
+                refs = props.getDoIpTesterRoutingActivationRefs()
+                if len(refs) > 0:
+                    refs_tag = ET.SubElement(props_element, "DO-IP-TESTER-ROUTING-ACTIVATION-REFS")
+                    for ref in refs:
+                        self.setChildElementOptionalRefType(refs_tag, "DO-IP-TESTER-ROUTING-ACTIVATION-REF", ref)
+            else:
+                self.notImplemented("Unsupported DoIpLogicAddressProps <%s>" % type(props))
 
     def writeDoIpTpConfigDoIpLogicAddresses(self, element: ET.Element, config: DoIpTpConfig):
         addresses = config.getDoIpLogicAddresses()
@@ -12705,9 +12895,18 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(child_element, "HW-CATEGORY-REF", ref)
 
     def writeHwAttributeValue(self, element: ET.Element, attribute_value: HwAttributeValue):
+        # XSD group HW-ATTRIBUTE-VALUE (AUTOSAR_00052.xsd l.65663):
+        # ANNOTATION, HW-ATTRIBUTE-DEF-REF, V, VT, VARIATION-POINT.
         child_element = ET.SubElement(element, "HW-ATTRIBUTE-VALUE")
         self.writeARObject(child_element, attribute_value)
+        annotation = attribute_value.getAnnotation()
+        if annotation is not None:
+            annotation_element = ET.SubElement(child_element, "ANNOTATION")
+            self.writeGeneralAnnotation(annotation_element, annotation)
         self.setChildElementOptionalRefType(child_element, "HW-ATTRIBUTE-DEF-REF", attribute_value.getHwAttributeDefRef())
+        self.setChildElementOptionalNumerical(child_element, "V", attribute_value.getV())
+        self.setChildElementOptionalLiteral(child_element, "VT", attribute_value.getVt())
+        self.writeVariationPoint(child_element, attribute_value.getVariationPoint())
 
     def writeHwDescriptionEntityHwAttributeValues(self, element: ET.Element, entity: HwDescriptionEntity):
         attribute_values = entity.getHwAttributeValues()
@@ -12838,7 +13037,6 @@ class ARXMLWriter(AbstractARXMLWriter):
         if literal_def is not None:
             child_element = ET.SubElement(element, "HW-ATTRIBUTE-LITERAL-DEF")
             self.writeIdentifiable(child_element, literal_def)
-            self.setChildElementOptionalString(child_element, "VALUE", literal_def.getValue())
 
     def writeHwCategoryHwAttributeDef(self, element: ET.Element, hw_category: HwCategory):
         attribute_defs = hw_category.getHwAttributeDefs()
@@ -13354,6 +13552,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticConnection(element, ar_element)
         elif isinstance(ar_element, DiagnosticServiceTable):
             self.writeDiagnosticServiceTable(element, ar_element)
+        elif isinstance(ar_element, DiagnosticSession):
+            self.writeDiagnosticSession(element, ar_element)
+        elif isinstance(ar_element, DiagnosticSecurityLevel):
+            self.writeDiagnosticSecurityLevel(element, ar_element)
+        elif isinstance(ar_element, DiagnosticEnvironmentalCondition):
+            self.writeDiagnosticEnvironmentalCondition(element, ar_element)
+        elif isinstance(ar_element, DiagnosticAccessPermission):
+            self.writeDiagnosticAccessPermission(element, ar_element)
         elif isinstance(ar_element, DltContext):
             self.writeDltContext(element, ar_element)
         elif isinstance(ar_element, DltEcu):
@@ -13372,6 +13578,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeGeneralPurposeIPdu(element, ar_element)
         elif isinstance(ar_element, SecureCommunicationPropsSet):
             self.writeSecureCommunicationPropsSet(element, ar_element)
+        elif isinstance(ar_element, CryptoEllipticCurveProps):
+            self.writeCryptoEllipticCurveProps(element, ar_element)
+        elif isinstance(ar_element, CryptoSignatureScheme):
+            self.writeCryptoSignatureScheme(element, ar_element)
+        elif isinstance(ar_element, CryptoServicePrimitive):
+            self.writeCryptoServicePrimitive(element, ar_element)
         elif isinstance(ar_element, SoAdRoutingGroup):
             self.writeSoAdRoutingGroup(element, ar_element)
         elif isinstance(ar_element, CanXlProps):
@@ -13448,6 +13660,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeConstantSpecificationMappingSet(element, ar_element)
         elif isinstance(ar_element, StateDependentFirewall):
             self.writeStateDependentFirewall(element, ar_element)
+        elif isinstance(ar_element, PlatformModuleEthernetEndpointConfiguration):
+            self.writePlatformModuleEthernetEndpointConfiguration(element, ar_element)
         elif isinstance(ar_element, ConsistencyNeeds):
             self.writeConsistencyNeeds(element, ar_element)
         else:
@@ -13549,6 +13763,32 @@ class ARXMLWriter(AbstractARXMLWriter):
             refs_tag = ET.SubElement(props_element, "MATCHING-INGRESS-RULE-REFS")
             for ref in ingress_refs:
                 self.setChildElementOptionalRefType(refs_tag, "MATCHING-INGRESS-RULE-REF", ref)
+
+    def writeIdsPlatformInstantiation(self, element: ET.Element, ar_element: IdsPlatformInstantiation):
+        self.writeIdentifiable(element, ar_element)
+        refs = ar_element.getNetworkInterfaceRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "NETWORK-INTERFACE-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "NETWORK-INTERFACE-REF", ref)
+        time_base_ref = ar_element.getTimeBaseRef()
+        if time_base_ref is not None:
+            time_bases_tag = ET.SubElement(element, "TIME-BASES")
+            conditional_tag = ET.SubElement(time_bases_tag, "TIME-BASE-RESOURCE-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(conditional_tag, "TIME-BASE-RESOURCE-REF", time_base_ref)
+
+    def writeIdsmModuleInstantiation(self, element: ET.Element, instantiation: IdsmModuleInstantiation):
+        self.logger.debug("Write IdsmModuleInstantiation %s" % instantiation.getShortName())
+        instantiation_tag = ET.SubElement(element, "IDSM-MODULE-INSTANTIATION")
+        self.writeIdsPlatformInstantiation(instantiation_tag, instantiation)
+
+    def writePlatformModuleEthernetEndpointConfiguration(self, element: ET.Element, configuration: PlatformModuleEthernetEndpointConfiguration):
+        self.logger.debug("Write PlatformModuleEthernetEndpointConfiguration %s" % configuration.getShortName())
+        configuration_tag = ET.SubElement(element, "PLATFORM-MODULE-ETHERNET-ENDPOINT-CONFIGURATION")
+        self.writeIdentifiable(configuration_tag, configuration)
+        self.setChildElementOptionalRefType(configuration_tag, "COMMUNICATION-CONNECTOR-REF", configuration.getCommunicationConnectorRef())
+        self.setChildElementOptionalLiteral(configuration_tag, "IPV-4-MULTICAST-IP-ADDRESS", configuration.getIpv4MulticastIpAddress())
+        self.setChildElementOptionalLiteral(configuration_tag, "IPV-6-MULTICAST-IP-ADDRESS", configuration.getIpv6MulticastIpAddress())
 
     def writeReferenceBases(self, element: ET.Element, bases: List[ReferenceBase]):
         self.logger.debug("Write ReferenceBases")

@@ -5,7 +5,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, MacAddressString, PositiveInteger, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
+    CryptoCertificateAlgorithmFamilyEnum,
+    CryptoCertificateFormatEnum,
+    CryptoEllipticCurveProps,
     CryptoServiceMapping,
+    CryptoServicePrimitive,
+    CryptoSignatureScheme,
     MacSecCapabilityEnum,
     MacSecCipherSuiteConfig,
     MacSecConfidentialityOffsetEnum,
@@ -17,7 +22,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecProps,
     MacSecRoleEnum,
     SecOcCryptoServiceMapping,
+    TlsCryptoCipherSuiteProps,
     TlsCryptoServiceMapping,
+    TlsPskIdentity,
+    TlsVersionEnum,
 )
 
 
@@ -437,3 +445,249 @@ class Test_MacSecKayParticipant:
         assert participant.getCknRef() is None
         assert participant.getCryptoAlgoConfig() is None
         assert participant.getSakRef() is None
+
+
+class Test_TlsVersionEnum:
+    def test_TlsVersionEnum(self):
+        # spec literals per Table 6.213 (tls12 idx0, tls13 idx2); xml values TLS-12/TLS-13 per XSD
+        assert TlsVersionEnum.TLS_12 == "TLS-12"
+        assert TlsVersionEnum.TLS_13 == "TLS-13"
+        e = TlsVersionEnum()
+        e.setValue("TLS-13")
+        assert e.getValue() == "TLS-13"
+        assert e.getText() == "TLS-13"
+
+
+class Test_TlsPskIdentity:
+    def test_initialization(self):
+        # Table 6.214, p.563 — all three members optional (XSD minOccurs=0)
+        p = TlsPskIdentity()
+        assert p.getPreSharedKeyRef() is None
+        assert p.getPskIdentity() is None
+        assert p.getPskIdentityHint() is None
+
+    def test_get_set_round_trip(self):
+        p = TlsPskIdentity()
+        p.setPreSharedKeyRef("/CryptoServiceKeys/CryptoServiceKey_Master")
+        assert p.getPreSharedKeyRef() == "/CryptoServiceKeys/CryptoServiceKey_Master"
+        p.setPskIdentity("psk_id_1")
+        assert p.getPskIdentity() == "psk_id_1"
+        p.setPskIdentityHint("hint_1")
+        assert p.getPskIdentityHint() == "hint_1"
+
+    def test_setter_none_no_op_and_chaining(self):
+        p = TlsPskIdentity()
+        p.setPskIdentity("keep")
+        assert p.setPreSharedKeyRef(None) is p
+        assert p.setPskIdentity(None) is p
+        assert p.setPskIdentityHint(None) is p
+        assert p.getPskIdentity() == "keep"
+
+
+class Test_CryptoServicePrimitiveSpec:
+    """Spec contract of CryptoServicePrimitive (AUTOSAR_CP_TPS_SystemTemplate, Table 6.50, p.376)."""
+
+    def test_docstring_is_spec_note_verbatim(self):
+        note = "This meta-class has the ability to represent a crypto primitive. Tags: atp.recommendedPackage=CryptoPrimitives"
+        assert CryptoServicePrimitive.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert CryptoServicePrimitive.__init__.__doc__ is None
+
+    def test_heritage(self):
+        parent = MockParent()
+        primitive = CryptoServicePrimitive(parent, "prim")
+        assert isinstance(primitive, ARElement)
+        assert isinstance(primitive, Identifiable)
+
+    def test_initialization(self):
+        # Table 6.50 — all three attributes optional (Mult 0..1, XSD minOccurs=0)
+        parent = MockParent()
+        primitive = CryptoServicePrimitive(parent, "prim")
+        assert primitive.getAlgorithmFamily() is None
+        assert primitive.getAlgorithmMode() is None
+        assert primitive.getAlgorithmSecondaryFamily() is None
+
+    def test_get_set_algorithm_family(self):
+        parent = MockParent()
+        primitive = CryptoServicePrimitive(parent, "prim")
+        family = _string("AES")
+        assert primitive.setAlgorithmFamily(family) is primitive
+        assert primitive.getAlgorithmFamily() is family
+        primitive.setAlgorithmFamily(None)
+        assert primitive.getAlgorithmFamily() is family
+
+    def test_get_set_algorithm_mode(self):
+        parent = MockParent()
+        primitive = CryptoServicePrimitive(parent, "prim")
+        mode = _string("CMAC")
+        assert primitive.setAlgorithmMode(mode) is primitive
+        assert primitive.getAlgorithmMode() is mode
+        primitive.setAlgorithmMode(None)
+        assert primitive.getAlgorithmMode() is mode
+
+    def test_get_set_algorithm_secondary_family(self):
+        parent = MockParent()
+        primitive = CryptoServicePrimitive(parent, "prim")
+        secondary = _string("SHA2")
+        assert primitive.setAlgorithmSecondaryFamily(secondary) is primitive
+        assert primitive.getAlgorithmSecondaryFamily() is secondary
+        primitive.setAlgorithmSecondaryFamily(None)
+        assert primitive.getAlgorithmSecondaryFamily() is secondary
+
+
+class Test_TlsCryptoCipherSuitePropsSpec:
+    """Spec contract of TlsCryptoCipherSuiteProps (AUTOSAR_CP_TPS_SystemTemplate, Table 6.215, p.563)."""
+
+    def test_docstring_is_spec_note_verbatim(self):
+        note = "This meta-class provides attributes to specify details of TLS Cipher Suites."
+        assert TlsCryptoCipherSuiteProps.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert TlsCryptoCipherSuiteProps.__init__.__doc__ is None
+
+    def test_heritage(self):
+        # Base chain ARObject, Identifiable, MultilanguageReferrable, Referrable — most-derived is Identifiable
+        parent = MockParent()
+        props = TlsCryptoCipherSuiteProps(parent, "props")
+        assert isinstance(props, Identifiable)
+        assert not isinstance(props, ARElement)
+
+    def test_initialization(self):
+        # Table 6.215 — the single attribute is optional (Mult 0..1, XSD minOccurs=0)
+        parent = MockParent()
+        props = TlsCryptoCipherSuiteProps(parent, "props")
+        assert props.getTcpIpTlsUseSecurityExtensionForceEncryptThenMac() is None
+
+    def test_get_set_tcp_ip_tls_use_security_extension_force_encrypt_then_mac(self):
+        parent = MockParent()
+        props = TlsCryptoCipherSuiteProps(parent, "props")
+        flag = _bool(True)
+        assert props.setTcpIpTlsUseSecurityExtensionForceEncryptThenMac(flag) is props
+        assert props.getTcpIpTlsUseSecurityExtensionForceEncryptThenMac() is flag
+        props.setTcpIpTlsUseSecurityExtensionForceEncryptThenMac(None)
+        assert props.getTcpIpTlsUseSecurityExtensionForceEncryptThenMac() is flag
+
+
+class Test_CryptoEllipticCurvePropsSpec:
+    """Spec contract of CryptoEllipticCurveProps (AUTOSAR_CP_TPS_SystemTemplate, Table 6.216, p.564)."""
+
+    def test_docstring_is_spec_note_verbatim(self):
+        note = "This meta-class provides attributes to specify the properties of elliptic curves. Tags: atp.recommendedPackage=CryptoEllipticCurveProps"
+        assert CryptoEllipticCurveProps.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert CryptoEllipticCurveProps.__init__.__doc__ is None
+
+    def test_heritage(self):
+        # Base chain ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable, ARElement — most-derived is ARElement
+        parent = MockParent()
+        props = CryptoEllipticCurveProps(parent, "curve")
+        assert isinstance(props, ARElement)
+        assert isinstance(props, Identifiable)
+
+    def test_initialization(self):
+        # Table 6.216 — the single attribute is optional (Mult 0..1, XSD minOccurs=0)
+        parent = MockParent()
+        props = CryptoEllipticCurveProps(parent, "curve")
+        assert props.getNamedCurveId() is None
+
+    def test_get_set_named_curve_id(self):
+        parent = MockParent()
+        props = CryptoEllipticCurveProps(parent, "curve")
+        curve_id = _pos_int("23")
+        assert props.setNamedCurveId(curve_id) is props
+        assert props.getNamedCurveId() is curve_id
+        props.setNamedCurveId(None)
+        assert props.getNamedCurveId() is curve_id
+
+
+class Test_CryptoSignatureSchemeSpec:
+    """Spec contract of CryptoSignatureScheme (AUTOSAR_CP_TPS_SystemTemplate, Table 6.217, p.564)."""
+
+    def test_docstring_is_spec_note_verbatim(self):
+        note = "This meta-class provides attributes to specify the TLS Signature Scheme. Tags: atp.recommendedPackage=CryptoSignatureSchemas"
+        assert CryptoSignatureScheme.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert CryptoSignatureScheme.__init__.__doc__ is None
+
+    def test_heritage(self):
+        # Base chain ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable, ARElement — most-derived is ARElement
+        parent = MockParent()
+        scheme = CryptoSignatureScheme(parent, "scheme")
+        assert isinstance(scheme, ARElement)
+        assert isinstance(scheme, Identifiable)
+
+    def test_initialization(self):
+        # Table 6.217 — the single attribute is optional (Mult 0..1, XSD minOccurs=0)
+        parent = MockParent()
+        scheme = CryptoSignatureScheme(parent, "scheme")
+        assert scheme.getSignatureSchemeId() is None
+
+    def test_get_set_signature_scheme_id(self):
+        parent = MockParent()
+        scheme = CryptoSignatureScheme(parent, "scheme")
+        scheme_id = _pos_int("7")
+        assert scheme.setSignatureSchemeId(scheme_id) is scheme
+        assert scheme.getSignatureSchemeId() is scheme_id
+        scheme.setSignatureSchemeId(None)
+        assert scheme.getSignatureSchemeId() is scheme_id
+
+
+class Test_CryptoCertificateAlgorithmFamilyEnum:
+    def test_docstring_is_spec_note_verbatim(self):
+        # Table 6.219, p.565 — class Note verbatim from the markdown
+        note = "This meta-class defies possible cryptographic algorithm families used to create public keys and signatures within the certificate."
+        assert CryptoCertificateAlgorithmFamilyEnum.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert CryptoCertificateAlgorithmFamilyEnum.__init__.__doc__ is None
+
+    def test_literal_values_and_indexes(self):
+        # spec literals per Table 6.219 (ecc idx2, rsa idx1, displayed order ecc→rsa); xml values ECC/RSA per XSD
+        assert CryptoCertificateAlgorithmFamilyEnum.ECC == "ECC"
+        assert CryptoCertificateAlgorithmFamilyEnum.RSA == "RSA"
+        e = CryptoCertificateAlgorithmFamilyEnum()
+        assert e.getEnumValues() == ["ECC", "RSA"]
+        assert e.validateEnumValue("ECC") is True
+        assert e.validateEnumValue("RSA") is True
+        assert e.validateEnumValue("DSA") is False
+
+    def test_instantiation(self):
+        e = CryptoCertificateAlgorithmFamilyEnum()
+        e.setValue(CryptoCertificateAlgorithmFamilyEnum.RSA)
+        assert e.getValue() == "RSA"
+        assert e.getText() == "RSA"
+        e.setValue(CryptoCertificateAlgorithmFamilyEnum.ECC)
+        assert e.getValue() == "ECC"
+        assert e.getText() == "ECC"
+
+
+class Test_CryptoCertificateFormatEnum:
+    def test_docstring_is_spec_note_verbatim(self):
+        # Table 6.220, p.565 — class Note verbatim from the markdown
+        note = "This meta-class defines possible formats of cryptographic certificates."
+        assert CryptoCertificateFormatEnum.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert CryptoCertificateFormatEnum.__init__.__doc__ is None
+
+    def test_literal_values_and_indexes(self):
+        # spec literals per Table 6.220 (cvc idx2, x509 idx1, displayed order cvc→x509); xml values CVC/X-509 per XSD
+        assert CryptoCertificateFormatEnum.CVC == "CVC"
+        assert CryptoCertificateFormatEnum.X_509 == "X-509"
+        e = CryptoCertificateFormatEnum()
+        assert e.getEnumValues() == ["CVC", "X-509"]
+        assert e.validateEnumValue("CVC") is True
+        assert e.validateEnumValue("X-509") is True
+        assert e.validateEnumValue("PEM") is False
+
+    def test_instantiation(self):
+        e = CryptoCertificateFormatEnum()
+        e.setValue(CryptoCertificateFormatEnum.X_509)
+        assert e.getValue() == "X-509"
+        assert e.getText() == "X-509"
+        e.setValue(CryptoCertificateFormatEnum.CVC)
+        assert e.getValue() == "CVC"
+        assert e.getText() == "CVC"

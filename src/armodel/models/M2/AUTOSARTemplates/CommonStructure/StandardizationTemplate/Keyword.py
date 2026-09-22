@@ -4,7 +4,7 @@ in the StandardizationTemplate module. Keywords are used for standardization
 and classification purposes in AUTOSAR models.
 """
 
-from typing import List
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -13,75 +13,60 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 
 class Keyword(Identifiable):
     """
-    Represents a keyword in AUTOSAR models for standardization and classification purposes.
-    Keywords can have abbreviated names and classifications for organizing and categorizing elements.
+    This meta-class represents the ability to predefine keywords which may subsequently be used to construct names following a given naming convention, e.g. the AUTOSAR naming conventions.
+
+    Note that such names is not only shortName. It could be symbol, or even longName. Application of keywords is not limited to particular names.
     """
 
     # Keyword method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getAbbrName                  [x] impl  [x] docstring  [x] test
-    # [x] setAbbrName                  [x] impl  [x] docstring  [x] test
-    # [x] getClassifications           [x] impl  [x] docstring  [x] test
-    # [x] addClassification            [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_TPS_StandardizationTemplate.pdf (R4.3.1), Table 6.2, p.91
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+    # [x] getAbbrName              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setAbbrName              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getClassifications       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] addClassification        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
 
     def __init__(self, parent, short_name):
-        """
-        Initializes the Keyword with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this keyword
-            short_name: The unique short name of this keyword
-        """
         super().__init__(parent, short_name)
 
-        # Abbreviated name for this keyword
-        self.abbrName: NameToken = None
-        # List of classifications for this keyword
+        # This attribute specifies an abbreviated name of a keyword. This abbreviation may e.g. be used for constructing valid shortNames according to  the AUTOSAR naming conventions.
+        #
+        # Unlike shortName, it may contain any name token. E.g. it may consist of digits only.
+        self.abbrName: Optional[NameToken] = None
+
+        # This attribute allows to attach classification to the Keyword such as MEAN, ACTION, CONDITION, INDEX, PREPOSITION
         self.classifications: List[NameToken] = []
 
-    def getAbbrName(self):
+    def getAbbrName(self) -> Optional[NameToken]:
         """
-        Gets the abbreviated name for this keyword.
+        This attribute specifies an abbreviated name of a keyword. This abbreviation may e.g. be used for constructing valid shortNames according to  the AUTOSAR naming conventions.
 
-        Returns:
-            NameToken: The abbreviated name
+        Unlike shortName, it may contain any name token. E.g. it may consist of digits only.
         """
         return self.abbrName
 
-    def setAbbrName(self, value):
+    def setAbbrName(self, value: Optional[NameToken]) -> "Keyword":
         """
-        Sets the abbreviated name for this keyword.
-        Only sets the value if it is not None.
+        This attribute specifies an abbreviated name of a keyword. This abbreviation may e.g. be used for constructing valid shortNames according to  the AUTOSAR naming conventions.
 
-        Args:
-            value: The abbreviated name to set
-
-        Returns:
-            self for method chaining
+        Unlike shortName, it may contain any name token. E.g. it may consist of digits only.
+        A None value is a no-op and does not overwrite an existing abbrName.
         """
         if value is not None:
             self.abbrName = value
         return self
 
-    def getClassifications(self):
+    def getClassifications(self) -> List[NameToken]:
         """
-        Gets the list of classifications for this keyword.
-
-        Returns:
-            List of NameToken instances
+        This attribute allows to attach classification to the Keyword such as MEAN, ACTION, CONDITION, INDEX, PREPOSITION
         """
         return self.classifications
 
-    def addClassification(self, value):
+    def addClassification(self, value: Optional[NameToken]) -> "Keyword":
         """
-        Adds a classification to this keyword.
-        Only adds the value if it is not None.
-
-        Args:
-            value: The classification to add
-
-        Returns:
-            self for method chaining
+        This attribute allows to attach classification to the Keyword such as MEAN, ACTION, CONDITION, INDEX, PREPOSITION
+        A None value is a no-op and does not extend the classification list.
         """
         if value is not None:
             self.classifications.append(value)
@@ -90,46 +75,31 @@ class Keyword(Identifiable):
 
 class KeywordSet(AtpBlueprintable):
     """
-    Represents a set of keywords in AUTOSAR models for standardization and classification purposes.
-    This class contains multiple keywords that are grouped together for organizational purposes.
+    This meta--class represents the ability to collect a set of predefined keywords. Tags: atp.recommendedPackage=KeywordSets
     """
 
     # KeywordSet method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getKeywords                  [x] impl  [x] docstring  [x] test
-    # [x] createKeyword                [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_TPS_StandardizationTemplate.pdf (R4.3.1), Table 6.1, p.90
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+    # [x] getKeywords       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] createKeyword     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
 
     def __init__(self, parent, short_name):
-        """
-        Initializes the KeywordSet with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this keyword set
-            short_name: The unique short name of this keyword set
-        """
         super().__init__(parent, short_name)
 
-        # List of keywords in this keyword set
+        # This is one particular keyword in the keyword set.
         self.keywords: List[Keyword] = []
 
-    def getKeywords(self):
+    def getKeywords(self) -> List[Keyword]:
         """
-        Gets the list of keywords in this keyword set.
-
-        Returns:
-            List of Keyword instances
+        This is one particular keyword in the keyword set.
         """
         return self.keywords
 
     def createKeyword(self, short_name: str) -> Keyword:
         """
-        Creates and adds a Keyword to this keyword set.
-
-        Args:
-            short_name: The short name for the new keyword
-
-        Returns:
-            The created Keyword instance
+        This is one particular keyword in the keyword set.
         """
         if not self.IsElementExists(short_name, Keyword):
             keyword = Keyword(self, short_name)

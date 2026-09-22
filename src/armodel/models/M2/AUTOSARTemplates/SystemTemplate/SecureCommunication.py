@@ -168,6 +168,321 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
         return self
 
 
+class TlsVersionEnum(AREnum):
+    """
+    This meta-class has the ability to identify a specific version of the transport-layer security (TLS) protocol.
+    """
+
+    # TlsVersionEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.213, p.563
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on TlsCryptoCipherSuite.version
+
+    # TLS version 1.2 Tags: atp.EnumerationLiteralIndex=0 xml.name=TLS-12
+    TLS_12 = "TLS-12"
+
+    # TLS version 1.3 Tags: atp.EnumerationLiteralIndex=2 xml.name=TLS-13
+    TLS_13 = "TLS-13"
+
+    def __init__(self):
+        super().__init__(
+            [
+                TlsVersionEnum.TLS_12,
+                TlsVersionEnum.TLS_13,
+            ]
+        )
+
+
+class TlsPskIdentity(ARObject):
+    """
+    This element is used to describe the pre-shared key shared during the handshake among the communication parties, to establish a TLS connection if the handshake is based on the existence of a pre-shared key.
+    """
+
+    # TlsPskIdentity method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.214, p.563
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__            [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setPreSharedKeyRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPreSharedKeyRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPskIdentity      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPskIdentity      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPskIdentityHint  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPskIdentityHint  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This reference identifies the applicable cryptographic key.
+        self.preSharedKeyRef: Optional[RefType] = None
+
+        # This attribute provides the key identification.
+        self.pskIdentity: Optional[String] = None
+
+        # This attribute provides the identity hint for a pre-shared key.
+        self.pskIdentityHint: Optional[String] = None
+
+    def setPreSharedKeyRef(self, value: Optional[RefType]) -> "TlsPskIdentity":
+        """
+        This reference identifies the applicable cryptographic key.
+        A None value is a no-op and does not overwrite an existing preSharedKeyRef.
+        """
+        if value is not None:
+            self.preSharedKeyRef = value
+        return self
+
+    def getPreSharedKeyRef(self) -> Optional[RefType]:
+        """This reference identifies the applicable cryptographic key."""
+        return self.preSharedKeyRef
+
+    def setPskIdentity(self, value: Optional[String]) -> "TlsPskIdentity":
+        """
+        This attribute provides the key identification.
+        A None value is a no-op and does not overwrite an existing pskIdentity.
+        """
+        if value is not None:
+            self.pskIdentity = value
+        return self
+
+    def getPskIdentity(self) -> Optional[String]:
+        """This attribute provides the key identification."""
+        return self.pskIdentity
+
+    def setPskIdentityHint(self, value: Optional[String]) -> "TlsPskIdentity":
+        """
+        This attribute provides the identity hint for a pre-shared key.
+        A None value is a no-op and does not overwrite an existing pskIdentityHint.
+        """
+        if value is not None:
+            self.pskIdentityHint = value
+        return self
+
+    def getPskIdentityHint(self) -> Optional[String]:
+        """This attribute provides the identity hint for a pre-shared key."""
+        return self.pskIdentityHint
+
+
+class TlsCryptoCipherSuiteProps(Identifiable):
+    """
+    This meta-class provides attributes to specify details of TLS Cipher Suites.
+    """
+
+    # TlsCryptoCipherSuiteProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.215, p.563
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTcpIpTlsUseSecurityExtensionForceEncryptThenMac  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpTlsUseSecurityExtensionForceEncryptThenMac  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # Defines if the security extension according to IETF RFC 7366 shall be supported. This is useful for cipher suites using CBC mode.
+        self.tcpIpTlsUseSecurityExtensionForceEncryptThenMac: Optional[Boolean] = None
+
+    def getTcpIpTlsUseSecurityExtensionForceEncryptThenMac(self) -> Optional[Boolean]:
+        """Defines if the security extension according to IETF RFC 7366 shall be supported. This is useful for cipher suites using CBC mode."""
+        return self.tcpIpTlsUseSecurityExtensionForceEncryptThenMac
+
+    def setTcpIpTlsUseSecurityExtensionForceEncryptThenMac(self, value: Optional[Boolean]) -> "TlsCryptoCipherSuiteProps":
+        """
+        Defines if the security extension according to IETF RFC 7366 shall be supported. This is useful for cipher suites using CBC mode.
+        A None value is a no-op and does not overwrite an existing tcpIpTlsUseSecurityExtensionForceEncryptThenMac.
+        """
+        if value is not None:
+            self.tcpIpTlsUseSecurityExtensionForceEncryptThenMac = value
+        return self
+
+
+class CryptoServicePrimitive(ARElement):
+    """
+    This meta-class has the ability to represent a crypto primitive. Tags: atp.recommendedPackage=CryptoPrimitives
+    """
+
+    # CryptoServicePrimitive method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.50, p.376
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAlgorithmFamily           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAlgorithmFamily           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAlgorithmMode             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAlgorithmMode             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAlgorithmSecondaryFamily  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAlgorithmSecondaryFamily  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # This attribute represents a description of the family (e.g. AES) of crypto algorithm implemented by the crypto primitive.
+        self.algorithmFamily: Optional[String] = None
+
+        # This attribute represents a description of the mode of the crypto algorithm implemented by the crypto primitive.
+        self.algorithmMode: Optional[String] = None
+
+        # This attribute represents a further description of the secondary family of crypto algorithm implemented by the crypto primitive. The secondary family is needed for the specification of the hash algorithm for a signature check, e.g. using RSA.
+        self.algorithmSecondaryFamily: Optional[String] = None
+
+    def getAlgorithmFamily(self) -> Optional[String]:
+        """This attribute represents a description of the family (e.g. AES) of crypto algorithm implemented by the crypto primitive."""
+        return self.algorithmFamily
+
+    def setAlgorithmFamily(self, value: Optional[String]) -> "CryptoServicePrimitive":
+        """
+        This attribute represents a description of the family (e.g. AES) of crypto algorithm implemented by the crypto primitive.
+        A None value is a no-op and does not overwrite an existing algorithmFamily.
+        """
+        if value is not None:
+            self.algorithmFamily = value
+        return self
+
+    def getAlgorithmMode(self) -> Optional[String]:
+        """This attribute represents a description of the mode of the crypto algorithm implemented by the crypto primitive."""
+        return self.algorithmMode
+
+    def setAlgorithmMode(self, value: Optional[String]) -> "CryptoServicePrimitive":
+        """
+        This attribute represents a description of the mode of the crypto algorithm implemented by the crypto primitive.
+        A None value is a no-op and does not overwrite an existing algorithmMode.
+        """
+        if value is not None:
+            self.algorithmMode = value
+        return self
+
+    def getAlgorithmSecondaryFamily(self) -> Optional[String]:
+        """This attribute represents a further description of the secondary family of crypto algorithm implemented by the crypto primitive. The secondary family is needed for the specification of the hash algorithm for a signature check, e.g. using RSA."""
+        return self.algorithmSecondaryFamily
+
+    def setAlgorithmSecondaryFamily(self, value: Optional[String]) -> "CryptoServicePrimitive":
+        """
+        This attribute represents a further description of the secondary family of crypto algorithm implemented by the crypto primitive. The secondary family is needed for the specification of the hash algorithm for a signature check, e.g. using RSA.
+        A None value is a no-op and does not overwrite an existing algorithmSecondaryFamily.
+        """
+        if value is not None:
+            self.algorithmSecondaryFamily = value
+        return self
+
+
+class CryptoEllipticCurveProps(ARElement):
+    """
+    This meta-class provides attributes to specify the properties of elliptic curves. Tags: atp.recommendedPackage=CryptoEllipticCurveProps
+    """
+
+    # CryptoEllipticCurveProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.216, p.564
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNamedCurveId    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNamedCurveId    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # Defines the value of one specific NamedCurve Id.
+        self.namedCurveId: Optional[PositiveInteger] = None
+
+    def getNamedCurveId(self) -> Optional[PositiveInteger]:
+        """Defines the value of one specific NamedCurve Id."""
+        return self.namedCurveId
+
+    def setNamedCurveId(self, value: Optional[PositiveInteger]) -> "CryptoEllipticCurveProps":
+        """
+        Defines the value of one specific NamedCurve Id.
+        A None value is a no-op and does not overwrite an existing namedCurveId.
+        """
+        if value is not None:
+            self.namedCurveId = value
+        return self
+
+
+class CryptoSignatureScheme(ARElement):
+    """
+    This meta-class provides attributes to specify the TLS Signature Scheme. Tags: atp.recommendedPackage=CryptoSignatureSchemas
+    """
+
+    # CryptoSignatureScheme method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.217, p.564
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSignatureSchemeId      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSignatureSchemeId      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # Defines the value of one specific TLS Signature Scheme.
+        self.signatureSchemeId: Optional[PositiveInteger] = None
+
+    def getSignatureSchemeId(self) -> Optional[PositiveInteger]:
+        """Defines the value of one specific TLS Signature Scheme."""
+        return self.signatureSchemeId
+
+    def setSignatureSchemeId(self, value: Optional[PositiveInteger]) -> "CryptoSignatureScheme":
+        """
+        Defines the value of one specific TLS Signature Scheme.
+        A None value is a no-op and does not overwrite an existing signatureSchemeId.
+        """
+        if value is not None:
+            self.signatureSchemeId = value
+        return self
+
+
+class CryptoCertificateAlgorithmFamilyEnum(AREnum):
+    """
+    This meta-class defies possible cryptographic algorithm families used to create public keys and signatures within the certificate.
+    """
+
+    # CryptoCertificateAlgorithmFamilyEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.219, p.565
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on CryptoServiceCertificate.algorithmFamily
+
+    # The cryptographic operations in the certificate are executed using elliptic curves (ecc) Tags: atp.EnumerationLiteralIndex=2 xml.name=ECC
+    ECC = "ECC"
+
+    # The cryptographic operations in the certificate are executed using the RSA approach. Tags: atp.EnumerationLiteralIndex=1 xml.name=RSA
+    RSA = "RSA"
+
+    def __init__(self):
+        super().__init__(
+            [
+                CryptoCertificateAlgorithmFamilyEnum.ECC,
+                CryptoCertificateAlgorithmFamilyEnum.RSA,
+            ]
+        )
+
+
+class CryptoCertificateFormatEnum(AREnum):
+    """
+    This meta-class defines possible formats of cryptographic certificates.
+    """
+
+    # CryptoCertificateFormatEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.220, p.565
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on CryptoServiceCertificate.format
+
+    # The certificate has been created in Card Verifiable Certificate (CVC) format Tags: atp.EnumerationLiteralIndex=2 xml.name=CVC
+    CVC = "CVC"
+
+    # The certificate is created in X.509 format. Tags: atp.EnumerationLiteralIndex=1 xml.name=X-509
+    X_509 = "X-509"
+
+    def __init__(self):
+        super().__init__(
+            [
+                CryptoCertificateFormatEnum.CVC,
+                CryptoCertificateFormatEnum.X_509,
+            ]
+        )
+
+
 class MacSecConfidentialityOffsetEnum(AREnum):
     """
     This enum defines the MACsec capability options.

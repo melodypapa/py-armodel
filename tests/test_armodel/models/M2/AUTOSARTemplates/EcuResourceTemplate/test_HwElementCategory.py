@@ -5,10 +5,18 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory im
     HwCategory,
     HwType,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    Numerical,
+    RefType,
+    VerbatimString,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
 
 def make_ref(value: str, dest: str) -> RefType:
@@ -58,7 +66,7 @@ def test_hw_type_inherited_members_round_trip():
     hw_type = HwType(None, "typed")
 
     attr_value = HwAttributeValue()
-    attr_value.setHwAttributeDefRef("def_ref").setValue("v")
+    attr_value.setHwAttributeDefRef(make_ref("/Hw/Cat/AttrDef", "HW-ATTRIBUTE-DEF")).setVt("v")
     hw_type.addHwAttributeValue(attr_value)
     assert hw_type.getHwAttributeValues() == [attr_value]
 
@@ -249,108 +257,114 @@ def test_hw_category_create_hw_attribute_def():
 
 
 """
-Test cases for the HwAttributeValue module.
-These tests ensure 100% code coverage for the HwAttributeValue and HwAttributeLiteralDef classes.
+Test cases for the HwAttributeValue and HwAttributeLiteralDef classes
+(AUTOSAR_CP_TPS_ECUResourceTemplate Table 2.2 p.16 and Table 2.14 p.26).
 """
 
+HW_ATTRIBUTE_VALUE_NOTE = "This metaclass represents the ability to assign a hardware attribute value. " "Note that v and vt are mutually exclusive."
 
-def test_hw_attribute_value_init():
-    """
-    Test initialization of HwAttributeValue class.
+HW_ATTRIBUTE_LITERAL_DEF_NOTE = "One available EnumerationLiteral of the Enumeration definition. " "Only applicable if the category of the HwAttributeDef equals Enumeration."
 
-    Test Steps:
-    1. Create a HwAttributeValue instance
-    2. Verify default attributes are set correctly
+
+def test_hw_attribute_value_docstring_verbatim():
+    """Class docstring must equal the Table 2.2 Note verbatim (XSD authoritative)."""
+    assert HwAttributeValue.__doc__.strip() == HW_ATTRIBUTE_VALUE_NOTE
+
+
+def test_hw_attribute_value_init_doc_is_none():
+    assert HwAttributeValue.__init__.__doc__ is None
+
+
+def test_hw_attribute_value_is_concrete_arobject_subclass():
+    """Base per Table 2.2 is ARObject; VariationPointCapable carries the XSD VARIATION-POINT element."""
+    hw_attr_value = HwAttributeValue()
+    assert isinstance(hw_attr_value, HwAttributeValue)
+    assert issubclass(HwAttributeValue, ARObject)
+    assert issubclass(HwAttributeValue, VariationPointCapable)
+
+
+def test_hw_attribute_value_defaults():
     """
-    # Initialize HwAttributeValue
+    Test initialization of HwAttributeValue class (Table 2.2 displayed order:
+    annotation (0..1 aggr), hwAttributeDef (0..1 ref), v (0..1 attr), vt (0..1 attr)).
+    """
     hw_attr_value = HwAttributeValue()
 
-    # Verify initial values
-    assert hw_attr_value.parent is None
+    assert hw_attr_value.annotation is None
     assert hw_attr_value.hwAttributeDefRef is None
-    assert hw_attr_value.value is None
+    assert hw_attr_value.v is None
+    assert hw_attr_value.vt is None
 
 
-def test_hw_attribute_value_getters_and_setters():
-    """
-    Test all getter and setter methods of HwAttributeValue class.
-
-    Test Steps:
-    1. Create a HwAttributeValue instance
-    2. Test setting and getting the hwAttributeDefRef
-    3. Test setting and getting the value
-    4. Verify method chaining (return self)
-    """
+def test_hw_attribute_value_setters_round_trip():
+    """Get/set round-trips must return the same instance and support chaining."""
     hw_attr_value = HwAttributeValue()
 
-    # Test hwAttributeDefRef setter and getter
-    test_ref = "test_ref"
-    return_value = hw_attr_value.setHwAttributeDefRef(test_ref)
-    assert return_value == hw_attr_value  # Verify method chaining
-    assert hw_attr_value.getHwAttributeDefRef() == test_ref
+    annotation = Annotation()
+    assert hw_attr_value.setAnnotation(annotation) is hw_attr_value
+    assert hw_attr_value.getAnnotation() is annotation
 
-    # Test value setter and getter
-    test_value = "test_value"
-    return_value = hw_attr_value.setValue(test_value)
-    assert return_value == hw_attr_value  # Verify method chaining
-    assert hw_attr_value.getValue() == test_value
+    def_ref = make_ref("/Hw/Cat/AttrDef", "HW-ATTRIBUTE-DEF")
+    assert hw_attr_value.setHwAttributeDefRef(def_ref) is hw_attr_value
+    assert hw_attr_value.getHwAttributeDefRef() is def_ref
 
-    # Test with None values (should not set)
-    original_ref = hw_attr_value.getHwAttributeDefRef()
+    v = Numerical()
+    v.setValue("4.2")
+    assert hw_attr_value.setV(v) is hw_attr_value
+    assert hw_attr_value.getV() is v
+
+    vt = VerbatimString()
+    vt.setValue("some textual value")
+    assert hw_attr_value.setVt(vt) is hw_attr_value
+    assert hw_attr_value.getVt() is vt
+
+
+def test_hw_attribute_value_setters_none_noop():
+    """A None value is a no-op and does not overwrite an existing value."""
+    hw_attr_value = HwAttributeValue()
+
+    annotation = Annotation()
+    hw_attr_value.setAnnotation(annotation)
+    hw_attr_value.setAnnotation(None)
+    assert hw_attr_value.getAnnotation() is annotation
+
+    def_ref = make_ref("/Hw/Cat/AttrDef", "HW-ATTRIBUTE-DEF")
+    hw_attr_value.setHwAttributeDefRef(def_ref)
     hw_attr_value.setHwAttributeDefRef(None)
-    assert hw_attr_value.getHwAttributeDefRef() == original_ref  # Should remain unchanged
+    assert hw_attr_value.getHwAttributeDefRef() is def_ref
 
-    original_value = hw_attr_value.getValue()
-    hw_attr_value.setValue(None)
-    assert hw_attr_value.getValue() == original_value  # Should remain unchanged
+    v = Numerical()
+    v.setValue("4.2")
+    hw_attr_value.setV(v)
+    hw_attr_value.setV(None)
+    assert hw_attr_value.getV() is v
 
-
-def test_hw_attribute_literal_def_init():
-    """
-    Test initialization of HwAttributeLiteralDef class.
-
-    Test Steps:
-    1. Create a HwAttributeLiteralDef instance with parent and short_name
-    2. Verify default attributes are set correctly
-    """
-    # Create a mock parent object
-    parent = object()
-
-    # Initialize HwAttributeLiteralDef
-    hw_attr_literal = HwAttributeLiteralDef(parent, "test_hw_attr_literal")
-
-    # Verify initial values
-    assert hw_attr_literal.parent == parent
-    assert hw_attr_literal.short_name == "test_hw_attr_literal"
-    assert hw_attr_literal.value is None
+    vt = VerbatimString()
+    vt.setValue("some textual value")
+    hw_attr_value.setVt(vt)
+    hw_attr_value.setVt(None)
+    assert hw_attr_value.getVt() is vt
 
 
-def test_hw_attribute_literal_def_getters_and_setters():
-    """
-    Test all getter and setter methods of HwAttributeLiteralDef class.
-
-    Test Steps:
-    1. Create a HwAttributeLiteralDef instance
-    2. Test setting and getting the value
-    3. Verify method chaining (return self)
-    """
-    hw_attr_literal = HwAttributeLiteralDef(None, "test_hw_attr_literal")
-
-    # Test value setter and getter
-    test_value = "test_literal_value"
-    return_value = hw_attr_literal.setValue(test_value)
-    assert return_value == hw_attr_literal  # Verify method chaining
-    assert hw_attr_literal.getValue() == test_value
-
-    # Test with None values (should not set)
-    original_value = hw_attr_literal.getValue()
-    hw_attr_literal.setValue(None)
-    assert hw_attr_literal.getValue() == original_value  # Should remain unchanged
+def test_hw_attribute_literal_def_docstring_verbatim():
+    """Class docstring must equal the Table 2.14 Note verbatim (XSD authoritative)."""
+    assert HwAttributeLiteralDef.__doc__.strip() == HW_ATTRIBUTE_LITERAL_DEF_NOTE
 
 
-if __name__ == "__main__":
-    test_hw_attribute_value_init()
-    test_hw_attribute_value_getters_and_setters()
-    test_hw_attribute_literal_def_init()
-    test_hw_attribute_literal_def_getters_and_setters()
-    print("All HwAttributeValue tests passed!")
+def test_hw_attribute_literal_def_init_doc_is_none():
+    assert HwAttributeLiteralDef.__init__.__doc__ is None
+
+
+def test_hw_attribute_literal_def_is_concrete_identifiable_subclass():
+    hw_attr_literal = HwAttributeLiteralDef(None, "literal1")
+    assert isinstance(hw_attr_literal, HwAttributeLiteralDef)
+    assert issubclass(HwAttributeLiteralDef, Identifiable)
+
+
+def test_hw_attribute_literal_def_no_spec_attributes():
+    """Table 2.14 defines no attributes (row '-') — the fabricated value/getValue/setValue must not exist."""
+    hw_attr_literal = HwAttributeLiteralDef(None, "literal1")
+
+    assert not hasattr(hw_attr_literal, "value")
+    assert not hasattr(HwAttributeLiteralDef, "getValue")
+    assert not hasattr(HwAttributeLiteralDef, "setValue")

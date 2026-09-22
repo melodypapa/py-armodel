@@ -38,6 +38,7 @@ INTENTIONALLY_UNEXPORTED_MODULES = {
     "IdsPlatformInstantiation",
     "IdsmModuleInstantiation",
     "ModeTransition",
+    "PlatformModuleEndpointConfiguration",
     "PlatformModuleEthernetEndpointConfiguration",
 }
 

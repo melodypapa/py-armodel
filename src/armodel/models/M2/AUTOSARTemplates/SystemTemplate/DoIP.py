@@ -14,13 +14,13 @@ if TYPE_CHECKING:
 
 class AbstractDoIpLogicAddressProps(Identifiable, ABC):
     """
-    Abstract base class for DoIP (Diagnostics over IP) logic address properties.
-    This class defines the common properties for DoIP address configurations,
-    serving as the foundation for specific DoIP address types in the system.
+    Abstract meta-class that collects common properties for all specialized DoIpLogicAddressProps.
     """
 
     # AbstractDoIpLogicAddressProps method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.208, p.556
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractDoIpLogicAddressProps:
@@ -31,13 +31,13 @@ class AbstractDoIpLogicAddressProps(Identifiable, ABC):
 
 class DoIpLogicTargetAddressProps(AbstractDoIpLogicAddressProps):
     """
-    Defines properties for DoIP (Diagnostics over IP) logic target addresses,
-    specifying how diagnostic messages should be addressed to target ECUs
-    in the IP-based diagnostic communication system.
+    This meta-class acts as a target for references to the DoIpLogicTargetAddress and collects DoIpLogicTargetAddress specific settings.
     """
 
     # DoIpLogicTargetAddressProps method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.209, p.556
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
@@ -45,28 +45,36 @@ class DoIpLogicTargetAddressProps(AbstractDoIpLogicAddressProps):
 
 class DoIpLogicTesterAddressProps(AbstractDoIpLogicAddressProps):
     """
-    Defines properties for DoIP (Diagnostics over IP) logic tester addresses,
-    specifying how diagnostic tools and testers are addressed in the IP-based
-    diagnostic communication system, including routing activation references.
+    This meta-class acts as a target for references to the DoIpLogicTesterAddress and collects DoIpLogicTesterAddress specific settings.
     """
 
     # DoIpLogicTesterAddressProps method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDoIpTesterRoutingActivationRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setDoIpTesterRoutingActivationRef [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.210, p.557
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addDoIpTesterRoutingActivationRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDoIpTesterRoutingActivationRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.doIpTesterRoutingActivationRef: RefType = None
+        # Reference to a DoIPRoutingActivation describing the possible routing activations of the DoIPTester.
+        self.doIpTesterRoutingActivationRefs: List[RefType] = []
 
-    def getDoIpTesterRoutingActivationRef(self):
-        return self.doIpTesterRoutingActivationRef
-
-    def setDoIpTesterRoutingActivationRef(self, value):
+    def addDoIpTesterRoutingActivationRef(self, value: Optional[RefType]) -> "DoIpLogicTesterAddressProps":
+        """
+        Reference to a DoIPRoutingActivation describing the possible routing activations of the DoIPTester.
+        A None value is a no-op and does not extend the doIpTesterRoutingActivationRefs list.
+        """
         if value is not None:
-            self.doIpTesterRoutingActivationRef = value
+            self.doIpTesterRoutingActivationRefs.append(value)
         return self
+
+    def getDoIpTesterRoutingActivationRefs(self) -> List[RefType]:
+        """
+        Reference to a DoIPRoutingActivation describing the possible routing activations of the DoIPTester.
+        """
+        return self.doIpTesterRoutingActivationRefs
 
 
 class DoIpRoutingActivation(Identifiable):
