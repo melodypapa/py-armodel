@@ -3378,6 +3378,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readComponentInCompositionInstanceRef(self, element: ET.Element) -> ComponentInCompositionInstanceRef:
         iref = ComponentInCompositionInstanceRef()
+        self.readARObject(element, iref)
+        iref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF"))
         for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
             iref.addContextComponentRef(ref)
         iref.setTargetComponentRef(self.getChildElementOptionalRefType(element, "TARGET-COMPONENT-REF"))

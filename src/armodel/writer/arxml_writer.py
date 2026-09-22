@@ -4576,6 +4576,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeOperationArgumentInComponentInstanceRef(iref_tag, iref)
 
     def writeComponentInCompositionInstanceRef(self, element: ET.Element, iref: ComponentInCompositionInstanceRef):
+        self.writeARObject(element, iref)
+        self.setChildElementOptionalRefType(element, "BASE-REF", iref.getBaseRef())
         for context_component_ref in iref.getContextComponentRefs():
             self.setChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF", context_component_ref)
         self.setChildElementOptionalRefType(element, "TARGET-COMPONENT-REF", iref.getTargetComponentRef())

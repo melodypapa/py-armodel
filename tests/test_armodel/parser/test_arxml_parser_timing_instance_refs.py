@@ -248,6 +248,9 @@ class TestReadTimingExtensionResource:
 class TestReadComponentInCompositionInstanceRef:
     def test_read_all_members(self):
         element = ET.Element("COMPONENT-IN-COMPOSITION-INSTANCE-REF")
+        base = ET.SubElement(element, "BASE-REF")
+        base.attrib["DEST"] = "COMPOSITION-SW-COMPONENT-TYPE"
+        base.text = "/Pkg/Comp"
         comp1 = ET.SubElement(element, "CONTEXT-COMPONENT-REF")
         comp1.attrib["DEST"] = "SW-COMPONENT-PROTOTYPE"
         comp1.text = "/Pkg/Comp/SwcProto1"
@@ -260,6 +263,8 @@ class TestReadComponentInCompositionInstanceRef:
 
         iref = ARXMLParser().readComponentInCompositionInstanceRef(_round_trip(element))
         assert isinstance(iref, ComponentInCompositionInstanceRef)
+        assert iref.getBaseRef().getValue() == "/Pkg/Comp"
+        assert iref.getBaseRef().getDest() == "COMPOSITION-SW-COMPONENT-TYPE"
         component_refs = iref.getContextComponentRefs()
         assert len(component_refs) == 2
         assert component_refs[0].getValue() == "/Pkg/Comp/SwcProto1"
@@ -273,6 +278,7 @@ class TestReadComponentInCompositionInstanceRef:
 
         iref = ARXMLParser().readComponentInCompositionInstanceRef(_round_trip(element))
         assert isinstance(iref, ComponentInCompositionInstanceRef)
+        assert iref.getBaseRef() is None
         assert iref.getContextComponentRefs() == []
         assert iref.getTargetComponentRef() is None
 

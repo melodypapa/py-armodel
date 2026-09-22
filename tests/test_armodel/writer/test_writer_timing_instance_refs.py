@@ -309,12 +309,18 @@ class TestWriteAutosarVariableInstance:
 class TestWriteComponentInCompositionInstanceRef:
     def test_round_trip_component_in_composition_instance_ref(self):
         iref = ComponentInCompositionInstanceRef()
+        iref.setBaseRef(RefType().setValue("/Pkg/Comp").setDest("COMPOSITION-SW-COMPONENT-TYPE"))
         iref.addContextComponentRef(RefType().setValue("/Pkg/Comp/SwcProto1").setDest("SW-COMPONENT-PROTOTYPE"))
         iref.addContextComponentRef(RefType().setValue("/Pkg/Comp/SwcProto2").setDest("SW-COMPONENT-PROTOTYPE"))
         iref.setTargetComponentRef(RefType().setValue("/Pkg/Comp/SwcProtoTarget").setDest("SW-COMPONENT-PROTOTYPE"))
 
         element = ET.Element("COMPONENT-IN-COMPOSITION-INSTANCE-REF")
         ARXMLWriter().writeComponentInCompositionInstanceRef(element, iref)
+        assert [child.tag for child in element] == ["BASE-REF", "CONTEXT-COMPONENT-REF", "CONTEXT-COMPONENT-REF", "TARGET-COMPONENT-REF"]
+        base = element.find("BASE-REF")
+        assert base is not None
+        assert base.text == "/Pkg/Comp"
+        assert base.attrib["DEST"] == "COMPOSITION-SW-COMPONENT-TYPE"
         component_refs = element.findall("CONTEXT-COMPONENT-REF")
         assert len(component_refs) == 2
         assert component_refs[0].text == "/Pkg/Comp/SwcProto1"
@@ -326,6 +332,7 @@ class TestWriteComponentInCompositionInstanceRef:
 
         reloaded = ARXMLParser().readComponentInCompositionInstanceRef(_round_trip(element))
         assert isinstance(reloaded, ComponentInCompositionInstanceRef)
+        assert reloaded.getBaseRef().getValue() == "/Pkg/Comp"
         reloaded_refs = reloaded.getContextComponentRefs()
         assert len(reloaded_refs) == 2
         assert reloaded_refs[0].getValue() == "/Pkg/Comp/SwcProto1"
@@ -337,6 +344,7 @@ class TestWriteComponentInCompositionInstanceRef:
 
         element = ET.Element("COMPONENT-IN-COMPOSITION-INSTANCE-REF")
         ARXMLWriter().writeComponentInCompositionInstanceRef(element, iref)
+        assert element.find("BASE-REF") is None
         assert element.find("TARGET-COMPONENT-REF") is None
         assert len(element.findall("*")) == 0
 
