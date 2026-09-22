@@ -700,7 +700,7 @@ markers were STRIPPED here; all stamps are deferred to one batch confirmation (u
   - [x] Step 7 — Update checklist comment — 6-column format with release column R23-11; `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.84, p.424 (R23-11)`; 3 rows all [x] in source order (__init__ [—]/[—]; getter-first scalar pair; reader [x] on setter row, writer [x] on getter row); NO `# Spec verified:` marker (deferred to batch confirmation); set-based checklist==methods parity 3==3 in source order
   - [x] Step 8 — Deviations — **none** (1 attr modeled per PDF Table 6.84 verbatim name `CycleCounter` — capital-C verbatim per Attribute column; base CommunicationCycle already correct; not VP-capable per XSD complexType CYCLE-COUNTER line 26696; no placeholders; no new dependency rows — Integer exists; no tracker entry exists for CycleCounter)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (477 touched tests incl. mirrored + parser + writer files; set-based parity 3==3 in source order; armodel.CycleCounter export resolves; no `# type:` comments; Rule 0008 spacing — single attribute block; docstrings verbatim from markdown Notes); 9b DEFERRED to batch stamp confirmation (user-instructed)
-- [x] `CycleRepetitionType` (member enum · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.86 · review commit pending)
+- [x] `CycleRepetitionType` (member enum · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.86 · review commit bf6cb0f0)
   - Note: queued 2026-09-20 — stub detector (Rule 0016.5): enum needed by CycleRepetition
     (Table 6.85 attr CycleRepetition); exists in CoreTopology.py with fabricated docstring and
     ZERO literal members (spec has 8: cycleRepetition1/10/16/2/20/32/4/40). enum → Steps 5/6
