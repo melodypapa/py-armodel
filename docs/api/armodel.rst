@@ -23,3 +23,4 @@ Module contents
    :members:
    :show-inheritance:
    :undoc-members:
+   :ignore-module-all:

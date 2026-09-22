@@ -6,7 +6,7 @@ build:
     python: "3.11"
   jobs:
     pre_build:
-      - sphinx-apidoc -o docs/api src/armodel --force --separate
+      - sphinx-apidoc -o docs/api src/armodel --force --separate -t docs/_templates/apidoc
 
 sphinx:
   configuration: docs/conf.py

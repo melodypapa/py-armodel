@@ -25,7 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     ServerCallPoint,
     SynchronousServerCallPoint,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RunnableEntity import RunnableEntityArgument
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RunnableEntityArgument import RunnableEntityArgument
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import (
     IncludedModeDeclarationGroupSet as IncludedModeDeclarationGroupSet,
     ModeAccessPoint,

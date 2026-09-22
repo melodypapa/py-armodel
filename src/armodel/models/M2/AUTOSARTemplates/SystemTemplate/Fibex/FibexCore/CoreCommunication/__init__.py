@@ -2516,9 +2516,11 @@ class UserDefinedPdu(Pdu):
         atp.recommendedPackage=Pdus
 
     Attributes:
-        cddType: Optional attribute that defines the CDD (Complex Device Driver)
-            that transmits or receives the UserDefinedPdu. If several CDDs are
-            defined this attribute is used to distinguish between them.
+
+    * cddType (String): Optional attribute that defines the CDD (Complex
+      Device Driver) that transmits or receives the UserDefinedPdu. If
+      several CDDs are defined this attribute is used to distinguish
+      between them.
     """
 
     # UserDefinedPdu method parity checklist:
