@@ -338,3 +338,5 @@ class TestSwRecordLayout:
         result = sw_record_layout.setSwRecordLayoutGroup(group)
         assert sw_record_layout.getSwRecordLayoutGroup() == group
         assert result == sw_record_layout
+        assert sw_record_layout.setSwRecordLayoutGroup(None) is sw_record_layout
+        assert sw_record_layout.getSwRecordLayoutGroup() == group

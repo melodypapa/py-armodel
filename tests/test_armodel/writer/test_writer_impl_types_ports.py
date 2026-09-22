@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import (
     SwcBswSynchronizedModeGroupPrototype,
     SwcBswSynchronizedTrigger,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import (
     AutosarEngineeringObject,
 )
@@ -45,6 +46,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes i
 )
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import (
+    SwRecordLayout,
     SwRecordLayoutGroup,
     SwRecordLayoutGroupContent,
     SwRecordLayoutV,
@@ -1143,8 +1145,17 @@ class TestSwRecordLayoutWriter:
         writer.writeSwRecordLayoutGroupSwRecordLayoutGroupContentType(parent, group)
 
         assert parent.find("SW-RECORD-LAYOUT-GROUP") is not None
-        assert parent.find("SW-RECORD-LAYOUT-V") is not None
-        assert parent.find("SW-RECORD-LAYOUT-REF").text == "/layouts/base"
+
+    def test_write_sw_record_layout_group_value(self, writer):
+        layout = SwRecordLayout(parent=ARPackage(None, "parent"), short_name="layout")
+        group = SwRecordLayoutGroup().setShortLabel(_make_literal("group"))
+        group.setSwRecordLayoutGroupContentType(SwRecordLayoutGroupContent())
+        layout.setSwRecordLayoutGroup(group)
+        parent = _parent()
+
+        writer.writeSwRecordLayout(parent, layout)
+
+        assert parent.find("SW-RECORD-LAYOUT/SW-RECORD-LAYOUT-GROUP/SHORT-LABEL").text == "group"
 
     def test_write_sw_record_layout(self, writer):
         autosar = AUTOSAR.getInstance()

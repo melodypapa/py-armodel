@@ -1009,16 +1009,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment [6-column R23-11 checklist, all own methods covered]
   - [x] Step 8 — Deviations [none outstanding]
   - [x] Step 9 — Verify (9a) + confirm (9b) [focused tests, lint, Black check pass; user confirmed spec compliance]
-- [ ] `SwRecordLayout` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.97 · ref target of `SwRecordLayoutGroup.swRecordLayout` below · NOTE cyclic aggregation: `swRecordLayoutGroup` → SwRecordLayoutGroup below (record layout family is mutually recursive; sync order resolves the ref direction)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `SwRecordLayout` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.97 · ref target of `SwRecordLayoutGroup.swRecordLayout` below · cyclic record-layout family) — verified R23-11 (commit pending)
+  - [x] Step 1 — Sync members & description from spec [one aggregation `swRecordLayoutGroup`; Base ARElement; p.421 via pdf_page.py; XSD sequence cross-checked]
+  - [x] Step 2 — Write model class unit test (Red) [initialization, typed group accessor, chaining, and None-safe setter]
+  - [x] Step 3 — Implement model class (Green) [typed Optional member and None-safe setter]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) [class/member notes copied from Table 5.97]
+  - [x] Step 5 — Write reader/writer round-trip test (Red) [parser and writer value assertions for SW-RECORD-LAYOUT-GROUP]
+  - [x] Step 6 — Update parser & writer (Green) [existing helpers verified; XML values asserted]
+  - [x] Step 7 — Update checklist comment [6-column R23-11 checklist, all own methods covered]
+  - [x] Step 8 — Deviations [none outstanding]
+  - [x] Step 9 — Verify (9a) + confirm (9b) [423 focused tests; lint/Ruff/Black/diff checks pass; user confirmed Step 9b]
 - [ ] `SwRecordLayoutGroup` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.99 · **moved 2026-09-03 restructure after `SwRecordLayoutV` (aggr `swRecordLayoutV`) + `SwRecordLayoutGroupContent` (aggr `swRecordLayoutGroupContentType`) + `SwRecordLayout` (ref `swRecordLayout`)** · self-recursive `swRecordLayoutGroup` · `swGenericAxisParamType` NOT in src — pending 16.4 below · `desc` stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

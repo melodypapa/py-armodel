@@ -1978,6 +1978,20 @@ class TestDataTypeAndCompuHandlers:
         parser.readSwRecordLayout(element, layout)
         assert layout.getSwRecordLayoutGroup() is not None
 
+    def test_readSwRecordLayout_reads_group_values(self, parser):
+        from armodel.models import SwRecordLayout
+
+        layout = SwRecordLayout(parent=_autosar_root(), short_name="srl")
+        element = _snip(
+            "<SHORT-NAME>srl</SHORT-NAME><SW-RECORD-LAYOUT-GROUP><SHORT-LABEL>group</SHORT-LABEL><CATEGORY>cat</CATEGORY></SW-RECORD-LAYOUT-GROUP>",
+            root_tag="SW-RECORD-LAYOUT",
+        )
+
+        parser.readSwRecordLayout(element, layout)
+
+        assert layout.getSwRecordLayoutGroup().getShortLabel().getValue() == "group"
+        assert layout.getSwRecordLayoutGroup().getCategory().getValue() == "cat"
+
     def test_readSwRecordLayoutGroupContentType_reads_record_layout_ref(self, parser):
         from armodel.models import SwRecordLayoutGroup
 

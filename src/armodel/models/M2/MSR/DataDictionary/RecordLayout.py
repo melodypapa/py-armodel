@@ -343,23 +343,29 @@ class SwRecordLayoutGroup(ARObject):
 
 class SwRecordLayout(ARElement):
     """
-    Record layout element defining the structure of calibration data in
-    memory.
+    Defines how the data objects (variables, calibration parameters etc.) are to be stored in the ECU memory. As an example, this definition specifies the sequence of axis points in the ECU memory. Iterations through axis values are stored within the sub-elements swRecordLayoutGroup. Tags: atp.recommendedPackage=SwRecordLayouts
     """
 
     # SwRecordLayout method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwRecordLayoutGroup       [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwRecordLayoutGroup       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.97, p.421
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwRecordLayoutGroup [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwRecordLayoutGroup [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # This is the top level record layout group. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         self.swRecordLayoutGroup: Optional[SwRecordLayoutGroup] = None
 
-    def getSwRecordLayoutGroup(self):
+    def getSwRecordLayoutGroup(self) -> Optional[SwRecordLayoutGroup]:
+        """This is the top level record layout group. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false"""
         return self.swRecordLayoutGroup
 
-    def setSwRecordLayoutGroup(self, value):
-        self.swRecordLayoutGroup = value
+    def setSwRecordLayoutGroup(self, value: Optional[SwRecordLayoutGroup]) -> "SwRecordLayout":
+        """This is the top level record layout group. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and does not overwrite an existing swRecordLayoutGroup."""
+        if value is not None:
+            self.swRecordLayoutGroup = value
         return self
