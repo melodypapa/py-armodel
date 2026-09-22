@@ -111,6 +111,7 @@ class CycleRepetitionType(AREnum):
 
     # CycleRepetitionType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.86, pp.425-426 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods)
 
