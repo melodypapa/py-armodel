@@ -39,6 +39,26 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
 > **Moved:** `HwPin`, `HwPinGroup`, `HwType`, `HwElement`, `FirewallRule`, `StateDependentFirewall` — wrong-heritage uuid-move blockers — moved into `Group1.md` ahead of the `Identifiable` row
 > (dependency-first: the uuid move cannot run until they derive from `Identifiable`).
 
+- [ ] `ComponentInCompositionInstanceRef` (re-sync · **Rule 0012.3 drift — stamped `# XSD verified:` misclassified, spec table found 2026-09-22** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · **Table D.13** (identical sibling copies: TimingExtensions Table D.19; R4.3.1 swc D.14 / TimingExtensions B.14) · in src (SWComponentTemplate/Composition/InstanceRefs.py) — re-run the full 9-step against the table, then re-issue the marker as `# Spec verified: R23-11` · 5 members per Table D.13: contextPPort (AbstractProvidedPortPrototype ref), targetModeGroup (ModeDeclarationGroupPrototype ref), base (CompositionSwComponentType ref), contextComponent (SwComponentPrototype, ordered), targetComponent (SwComponentPrototype) — all member-type classes stamped
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SdClientConfig` (re-sync · **Rule 0012.3 drift — stamped `# XSD verified:` misclassified, spec table found 2026-09-22** · **R4.3.1 fallback** (no R23-11 table) · autosar/R4.3.1/markdown/AUTOSAR_TPS_SystemTemplate.md · **Table 6.172**, PDF p.356 · in src (SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py) — re-run the full 9-step against the R4.3.1 table and re-issue the marker as `# Spec verified: R4.3.1` with release column R4.3.1 (Rule 0016.3) · Step 1 must diff every existing XSD-based member against the R4.3.1 text — drift expected both ways
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `HwAttributeDef` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.13 · *(existing member)*)
   - [x] Step 1 — Sync members & description from spec — Table 2.13 p.26: concrete, Base closure → most-existing `Identifiable` (unchanged); 3 attrs displayed order: hwAttributeLiteral (HwAttributeLiteralDef * aggr), isRequired (Boolean 0..1 attr), unit (Unit 0..1 ref → `unitRef`); XSD group HW-ATTRIBUTE-DEF (AUTOSAR_00052.xsd l.65571) order HW-ATTRIBUTE-LITERALS → IS-REQUIRED → UNIT-REF; Note per XSD ("hwAttributeEnumerationLiterals" — markdown word-split "hw AttributeEnumerationLiterals" corrected)
   - [x] Step 2 — Write model class unit test (Red) — test_HwElementCategory.py HwAttributeDef section rewritten: verbatim Note docstring, no-`__init__`-docstring, concrete/Identifiable subclass, defaults, typed get/set round-trips + chaining, None no-ops, addHwAttributeLiteral append/None-noop/self, createHwAttributeLiteral IsElementExists guard; 2 Red (docstring word-split, adder appended None)
@@ -79,16 +99,16 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 7 — Update checklist comment — 6-column parity checklist with release column R23-11, `__init__` row only, no marker
   - [x] Step 8 — Deviations — fabricated `value` member + reader/writer VALUE handling removed (Rule 0001.3 shape-3); no combine case: R4.3.1 XSD group is equally empty (AUTOSAR_00044.xsd l.45188 `<xsd:sequence/>`) and no fixture carries VALUE inside HW-ATTRIBUTE-LITERAL-DEF
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
-- [ ] `CryptoKeySlot` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_SecurityExtractTemplate · **Table B.5** (**spec table found 2026-09-22 re-verification — NOT XSD-only**; appendix letter-numbered table, missed by earlier numeric-regex search; Step 1 Phase 0 correction below))
-  - [x] Step 1 — Sync members & description from spec — **Phase 0 correction: NOT XSD-only** — corpus search found `Table B.5: CryptoKeySlot` in R23-11 `AUTOSAR_FO_TPS_SecurityExtractTemplate.md` (p.58, page-split table; no numbered caption in the PDF for pdf_page.py — page via pypdf). Concrete, Base chain → most-existing `Identifiable`; 7 attrs in displayed order: allocateShadowCopy (Boolean 0..1), cryptoAlgId (String 0..1), cryptoObjectType (CryptoObjectTypeEnum 0..1), keySlotAllowedModification (CryptoKeySlotAllowedModification 0..1 aggr), keySlotContentAllowedUsage (CryptoKeySlotContentAllowedUsage * aggr), slotCapacity (PositiveInteger 0..1), slotType (CryptoKeySlotTypeEnum 0..1); XML order per XSD group CRYPTO-KEY-SLOT (AUTOSAR_00052.xsd line 25661): ALLOCATE-SHADOW-COPY → CRYPTO-ALG-ID → CRYPTO-OBJECT-TYPE → KEY-SLOT-ALLOWED-MODIFICATION → KEY-SLOT-CONTENT-ALLOWED-USAGES → SLOT-CAPACITY → SLOT-TYPE; aggregated by CryptoProvider.keySlot (CryptoProvider NOT in src)
-  - [x] Step 2 — Write model class unit test (Red) — full rewrite of test___init__.py: verbatim Note+Tags docstring (Red: fabricated), no-`__init__`-docstring, defaults in displayed order, all get/set round-trips + None no-ops + chaining, enum wire-value tests (Red: ImportError — spec member types absent)
-  - [x] Step 3 — Implement model class (Green) — in-pass member types created from XSD (Rule 0016.4/0001.10; all XSD-only, no own tables): CryptoObjectTypeEnum (6 literals, EnumerationLiteralIndex order) + CryptoKeySlotTypeEnum (MACHINE/APPLICATION) AREnums with XSD wire values; CryptoKeySlotAllowedModification (4 attrs) + CryptoKeySlotContentAllowedUsage (1 attr) as ARObject-derived aggr classes; CryptoKeySlot rewritten with 7 PEP 526 members in displayed order, typed chaining accessors, None no-op guards, dedicated typed list for the * aggr
-  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note "This meta-class represents the ability to define a concrete key to be used for a crypto operation. Tags: atp.ManifestKind=MachineManifest" + all 7 attr Notes verbatim (Table B.5 text, word-splits like "kAlgId Any"/"cryptoObject Type" resolved to XSD authoritative forms) on inline comments + getters + setters (None no-op sentences appended); fabricated "Sources: Page 57" note removed
-  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser+writer tests: all 7 members' values, exact XSD element-order assertion, empty-omits case, ns-injected write→re-parse round-trip via readCryptoKeySlot/writeCryptoKeySlot; 5 Red (no reader/writer coverage existed)
-  - [x] Step 6 — Update parser & writer (Green) — readCryptoKeySlot/writeCryptoKeySlot + readCryptoKeySlotAllowedModification/readCryptoKeySlotContentAllowedUsage pairs added (XSD order; enums via getChildElementOptionalLiteral + enum construction); writeCryptoKeySlotAllowedModification/writeCryptoKeySlotContentAllowedUsage added
-  - [x] Step 7 — Update checklist comment — 6-column parity checklists for CryptoKeySlot (Table B.5 p.58 citation) and the four XSD-only member types (AUTOSAR_00052.xsd line citations); marker deferred to 9b
-  - [x] Step 8 — Deviations  [fabricated CryptoKeySlotContent (Identifiable-based, no XSD element, no reader/writer coverage) replaced by XSD-correct CryptoKeySlotContentAllowedUsage — CryptoKeySlotContent.py + test deleted, stale INTENTIONALLY_UNEXPORTED_MODULES entry removed; no ARPackage/CryptoProvider dispatch: parent aggregator CryptoProvider absent from src — helpers exercised directly, recorded under Pending 16.4; member types carry atp.Status=candidate tags verbatim]
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
+- [ ] `CryptoKeySlot` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_SecurityExtractTemplate · **Table B.5** (**spec table found 2026-09-22 re-verification — NOT XSD-only**; appendix letter-numbered table, missed by earlier numeric-regex search; Step 1 Phase 0 correction below)) · **9-step reset 2026-09-22** — the earlier partial pass (Steps 1-8) ran against Table B.5 but created the four member types from XSD; those types are verified genuinely XSD-only (no tables in either corpus) and stand — the CLASS re-sync starts fresh from Step 1 for a clean table-based pass before batch 9b
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `AbstractDoIpLogicAddressProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.208)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
