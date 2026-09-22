@@ -1,12 +1,15 @@
 """Model tests for DiagnosticExtract Dcm classes.
 
 DiagnosticAuthRoleProxy (Table 4.33, p.76), DiagnosticSession (Table 4.30,
-p.74) and DiagnosticJumpToBootLoaderEnum (Table 4.31, p.75).
+p.74), DiagnosticJumpToBootLoaderEnum (Table 4.31, p.75),
+DiagnosticSecurityLevel (Table 4.32, p.75) and DiagnosticAccessPermission
+(Table 4.29, p.73).
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import (
+    DiagnosticAccessPermission,
     DiagnosticAuthRoleProxy,
     DiagnosticJumpToBootLoaderEnum,
     DiagnosticSecurityLevel,
@@ -296,3 +299,108 @@ class Test_DiagnosticSecurityLevel:
         assert _norm(DiagnosticSecurityLevel.setSecurityDelayTime.__doc__) == (SECURITY_DELAY_TIME_NOTE + " A None value is a no-op and does not overwrite an existing securityDelayTime.")
         assert _norm(DiagnosticSecurityLevel.getSeedSize.__doc__) == SEED_SIZE_NOTE
         assert _norm(DiagnosticSecurityLevel.setSeedSize.__doc__) == (SEED_SIZE_NOTE + " A None value is a no-op and does not overwrite an existing seedSize.")
+
+
+ACCESS_PERMISSION_NOTE = (
+    "This represents the specification of whether a given service can be accessed according to the existence of meta-classes referenced by a particular "
+    "DiagnosticAccessPermission. In other words, this meta-class acts as a mapping element between several (otherwise unrelated) pieces of information that are "
+    "put into context for the purpose of checking for access rights. Tags: atp.recommendedPackage=DiagnosticAccessPermissions"
+)
+AUTH_ENABLED_NOTE = (
+    "The existence of this aggregation indicates that an authentication is foreseen. The details are clarified by the aggregated class. Stereotypes: atpSplitable "
+    "Tags: atp.Splitkey=authenticationEnabled"
+)
+DIAG_SESSION_NOTE = "This represents the associated DiagnosticSessions Stereotypes: atpSplitable Tags: atp.Splitkey=diagnosticSession"
+ENV_CONDITION_REF_NOTE = "This represents the environmental conditions associated with the access permission. Stereotypes: atpSplitable Tags: atp.Splitkey=environmentalCondition"
+SEC_LEVEL_NOTE = "This represents the associated DiagnosticSecurityLevels Stereotypes: atpSplitable Tags: atp.Splitkey=securityLevel"
+
+
+class Test_DiagnosticAccessPermission:
+    """Test cases for DiagnosticAccessPermission class (Table 4.29, p.73)."""
+
+    def test_instantiation(self):
+        permission = DiagnosticAccessPermission(_pkg(), "Ap1")
+        assert permission.getShortName() == "Ap1"
+
+    def test_is_diagnostic_common_element_subclass(self):
+        assert issubclass(DiagnosticAccessPermission, DiagnosticCommonElement)
+        assert issubclass(DiagnosticAccessPermission, ARObject)
+        assert issubclass(DiagnosticAccessPermission, Identifiable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert DiagnosticAccessPermission.__doc__ == ACCESS_PERMISSION_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert DiagnosticAccessPermission.__init__.__doc__ is None
+
+    def test_defaults_in_displayed_order(self):
+        permission = DiagnosticAccessPermission(_pkg(), "Ap1")
+        assert list(permission.__dict__.keys())[-4:] == ["authenticationEnabled", "diagnosticSessionRefs", "environmentalConditionRef", "securityLevelRefs"]
+        assert permission.getAuthenticationEnabled() is None
+        assert permission.getDiagnosticSessionRefs() == []
+        assert permission.getEnvironmentalConditionRef() is None
+        assert permission.getSecurityLevelRefs() == []
+
+    def test_authentication_enabled_round_trip(self):
+        permission = DiagnosticAccessPermission(_pkg(), "Ap1")
+        proxy = DiagnosticAuthRoleProxy()
+        assert permission.setAuthenticationEnabled(proxy) is permission
+        assert permission.getAuthenticationEnabled() is proxy
+
+    def test_authentication_enabled_setter_none_is_no_op(self):
+        permission = DiagnosticAccessPermission(_pkg(), "Ap1")
+        proxy = DiagnosticAuthRoleProxy()
+        permission.setAuthenticationEnabled(proxy)
+        assert permission.setAuthenticationEnabled(None) is permission
+        assert permission.getAuthenticationEnabled() is proxy
+
+    def test_add_diagnostic_session_ref_appends_and_returns_self(self):
+        permission = DiagnosticAccessPermission(_pkg(), "Ap1")
+        ref = _ref("DIAGNOSTIC-SESSION", "/Diag/Sessions/S1")
+        assert permission.addDiagnosticSessionRef(ref) is permission
+        assert permission.getDiagnosticSessionRefs() == [ref]
+
+    def test_add_diagnostic_session_ref_none_is_no_op(self):
+        permission = DiagnosticAccessPermission(_pkg(), "Ap1")
+        ref = _ref("DIAGNOSTIC-SESSION", "/Diag/Sessions/S1")
+        permission.addDiagnosticSessionRef(ref)
+        assert permission.addDiagnosticSessionRef(None) is permission
+        assert permission.getDiagnosticSessionRefs() == [ref]
+
+    def test_environmental_condition_ref_round_trip(self):
+        permission = DiagnosticAccessPermission(_pkg(), "Ap1")
+        ref = _ref("DIAGNOSTIC-ENVIRONMENTAL-CONDITION", "/Diag/EnvConds/C1")
+        assert permission.setEnvironmentalConditionRef(ref) is permission
+        assert permission.getEnvironmentalConditionRef() is ref
+
+    def test_environmental_condition_ref_setter_none_is_no_op(self):
+        permission = DiagnosticAccessPermission(_pkg(), "Ap1")
+        ref = _ref("DIAGNOSTIC-ENVIRONMENTAL-CONDITION", "/Diag/EnvConds/C1")
+        permission.setEnvironmentalConditionRef(ref)
+        assert permission.setEnvironmentalConditionRef(None) is permission
+        assert permission.getEnvironmentalConditionRef() is ref
+
+    def test_add_security_level_ref_appends_and_returns_self(self):
+        permission = DiagnosticAccessPermission(_pkg(), "Ap1")
+        ref = _ref("DIAGNOSTIC-SECURITY-LEVEL", "/Diag/SecLevels/L1")
+        assert permission.addSecurityLevelRef(ref) is permission
+        assert permission.getSecurityLevelRefs() == [ref]
+
+    def test_add_security_level_ref_none_is_no_op(self):
+        permission = DiagnosticAccessPermission(_pkg(), "Ap1")
+        ref = _ref("DIAGNOSTIC-SECURITY-LEVEL", "/Diag/SecLevels/L1")
+        permission.addSecurityLevelRef(ref)
+        assert permission.addSecurityLevelRef(None) is permission
+        assert permission.getSecurityLevelRefs() == [ref]
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        assert _norm(DiagnosticAccessPermission.getAuthenticationEnabled.__doc__) == AUTH_ENABLED_NOTE
+        assert _norm(DiagnosticAccessPermission.setAuthenticationEnabled.__doc__) == (AUTH_ENABLED_NOTE + " A None value is a no-op and does not overwrite an existing authenticationEnabled.")
+        assert _norm(DiagnosticAccessPermission.getDiagnosticSessionRefs.__doc__) == DIAG_SESSION_NOTE
+        assert _norm(DiagnosticAccessPermission.addDiagnosticSessionRef.__doc__) == (DIAG_SESSION_NOTE + " A None value is a no-op and does not extend the diagnosticSessionRefs list.")
+        assert _norm(DiagnosticAccessPermission.getEnvironmentalConditionRef.__doc__) == ENV_CONDITION_REF_NOTE
+        assert _norm(DiagnosticAccessPermission.setEnvironmentalConditionRef.__doc__) == (
+            ENV_CONDITION_REF_NOTE + " A None value is a no-op and does not overwrite an existing environmentalConditionRef."
+        )
+        assert _norm(DiagnosticAccessPermission.getSecurityLevelRefs.__doc__) == SEC_LEVEL_NOTE
+        assert _norm(DiagnosticAccessPermission.addSecurityLevelRef.__doc__) == (SEC_LEVEL_NOTE + " A None value is a no-op and does not extend the securityLevelRefs list.")

@@ -249,7 +249,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming, TimingExtension
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAuthRoleProxy, DiagnosticSecurityLevel, DiagnosticSession
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import DiagnosticEnvConditionFormula, DiagnosticEnvironmentalCondition
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
@@ -12559,11 +12559,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(element, "SERVICE-CLASS-REF", instance.getServiceClassRef())
 
     def writeDiagnosticAuthRoleProxy(self, element: ET.Element, proxy: DiagnosticAuthRoleProxy):
-        child_element = ET.SubElement(element, "DIAGNOSTIC-AUTH-ROLE-PROXY")
-        self.writeARObject(child_element, proxy)
+        self.writeARObject(element, proxy)
         refs = proxy.getAuthenticationRoleRefs()
         if len(refs) > 0:
-            refs_tag = ET.SubElement(child_element, "AUTHENTICATION-ROLE-REFS")
+            refs_tag = ET.SubElement(element, "AUTHENTICATION-ROLE-REFS")
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_tag, "AUTHENTICATION-ROLE-REF", ref)
 
@@ -12607,6 +12606,25 @@ class ARXMLWriter(AbstractARXMLWriter):
         if condition.getFormula() is not None:
             formula_element = ET.SubElement(child_element, "FORMULA")
             self.writeDiagnosticEnvConditionFormula(formula_element, condition.getFormula())
+
+    def writeDiagnosticAccessPermission(self, element: ET.Element, permission: DiagnosticAccessPermission):
+        self.logger.debug("Write DiagnosticAccessPermission %s" % permission.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-ACCESS-PERMISSION")
+        self.writeIdentifiable(child_element, permission)
+        if permission.getAuthenticationEnabled() is not None:
+            enabled_element = ET.SubElement(child_element, "AUTHENTICATION-ENABLED")
+            self.writeDiagnosticAuthRoleProxy(enabled_element, permission.getAuthenticationEnabled())
+        session_refs = permission.getDiagnosticSessionRefs()
+        if len(session_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "DIAGNOSTIC-SESSION-REFS")
+            for ref in session_refs:
+                self.setChildElementOptionalRefType(refs_tag, "DIAGNOSTIC-SESSION-REF", ref)
+        self.setChildElementOptionalRefType(child_element, "ENVIRONMENTAL-CONDITION-REF", permission.getEnvironmentalConditionRef())
+        level_refs = permission.getSecurityLevelRefs()
+        if len(level_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "SECURITY-LEVEL-REFS")
+            for ref in level_refs:
+                self.setChildElementOptionalRefType(refs_tag, "SECURITY-LEVEL-REF", ref)
 
     def writeDiagnosticServiceTableDiagnosticConnectionRefs(self, element: ET.Element, table: DiagnosticServiceTable):
         refs = table.getDiagnosticConnectionRefs()
@@ -13532,6 +13550,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticSecurityLevel(element, ar_element)
         elif isinstance(ar_element, DiagnosticEnvironmentalCondition):
             self.writeDiagnosticEnvironmentalCondition(element, ar_element)
+        elif isinstance(ar_element, DiagnosticAccessPermission):
+            self.writeDiagnosticAccessPermission(element, ar_element)
         elif isinstance(ar_element, DltContext):
             self.writeDltContext(element, ar_element)
         elif isinstance(ar_element, DltEcu):

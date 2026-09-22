@@ -11,7 +11,7 @@ class DiagnosticAuthRoleProxy(ARObject):
     # DiagnosticAuthRoleProxy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.33, p.76
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (writer emits the DIAGNOSTIC-AUTH-ROLE-PROXY tag; reader construction via DiagnosticAccessPermission)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (writer helper is content-only; AUTHENTICATION-ENABLED tag emitted by the DiagnosticAccessPermission writer)
     # [x] getAuthenticationRoleRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addAuthenticationRoleRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
@@ -284,4 +284,100 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
         """
         if value is not None:
             self.seedSize = value
+        return self
+
+
+class DiagnosticAccessPermission(DiagnosticCommonElement):
+    """This represents the specification of whether a given service can be accessed according to the existence of meta-classes referenced by a particular DiagnosticAccessPermission. In other words, this meta-class acts as a mapping element between several (otherwise unrelated) pieces of information that are put into context for the purpose of checking for access rights. Tags: atp.recommendedPackage=DiagnosticAccessPermissions"""
+
+    # DiagnosticAccessPermission method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.29, p.73
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAuthenticationEnabled          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthenticationEnabled          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDiagnosticSessionRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDiagnosticSessionRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEnvironmentalConditionRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnvironmentalConditionRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecurityLevelRefs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSecurityLevelRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The existence of this aggregation indicates that an authentication is foreseen. The details are clarified by the aggregated class. Stereotypes: atpSplitable Tags: atp.Splitkey=authenticationEnabled
+        self.authenticationEnabled: Optional[DiagnosticAuthRoleProxy] = None
+
+        # This represents the associated DiagnosticSessions Stereotypes: atpSplitable Tags: atp.Splitkey=diagnosticSession
+        self.diagnosticSessionRefs: List[RefType] = []
+
+        # This represents the environmental conditions associated with the access permission. Stereotypes: atpSplitable Tags: atp.Splitkey=environmentalCondition
+        self.environmentalConditionRef: Optional[RefType] = None
+
+        # This represents the associated DiagnosticSecurityLevels Stereotypes: atpSplitable Tags: atp.Splitkey=securityLevel
+        self.securityLevelRefs: List[RefType] = []
+
+    def getAuthenticationEnabled(self) -> Optional[DiagnosticAuthRoleProxy]:
+        """
+        The existence of this aggregation indicates that an authentication is foreseen. The details are clarified by the aggregated class. Stereotypes: atpSplitable Tags: atp.Splitkey=authenticationEnabled
+        """
+        return self.authenticationEnabled
+
+    def setAuthenticationEnabled(self, value: Optional[DiagnosticAuthRoleProxy]):
+        """
+        The existence of this aggregation indicates that an authentication is foreseen. The details are clarified by the aggregated class. Stereotypes: atpSplitable Tags: atp.Splitkey=authenticationEnabled
+
+        A None value is a no-op and does not overwrite an existing authenticationEnabled.
+        """
+        if value is not None:
+            self.authenticationEnabled = value
+        return self
+
+    def getDiagnosticSessionRefs(self) -> List[RefType]:
+        """
+        This represents the associated DiagnosticSessions Stereotypes: atpSplitable Tags: atp.Splitkey=diagnosticSession
+        """
+        return self.diagnosticSessionRefs
+
+    def addDiagnosticSessionRef(self, ref: Optional[RefType]):
+        """
+        This represents the associated DiagnosticSessions Stereotypes: atpSplitable Tags: atp.Splitkey=diagnosticSession
+
+        A None value is a no-op and does not extend the diagnosticSessionRefs list.
+        """
+        if ref is not None:
+            self.diagnosticSessionRefs.append(ref)
+        return self
+
+    def getEnvironmentalConditionRef(self) -> Optional[RefType]:
+        """
+        This represents the environmental conditions associated with the access permission. Stereotypes: atpSplitable Tags: atp.Splitkey=environmentalCondition
+        """
+        return self.environmentalConditionRef
+
+    def setEnvironmentalConditionRef(self, value: Optional[RefType]):
+        """
+        This represents the environmental conditions associated with the access permission. Stereotypes: atpSplitable Tags: atp.Splitkey=environmentalCondition
+
+        A None value is a no-op and does not overwrite an existing environmentalConditionRef.
+        """
+        if value is not None:
+            self.environmentalConditionRef = value
+        return self
+
+    def getSecurityLevelRefs(self) -> List[RefType]:
+        """
+        This represents the associated DiagnosticSecurityLevels Stereotypes: atpSplitable Tags: atp.Splitkey=securityLevel
+        """
+        return self.securityLevelRefs
+
+    def addSecurityLevelRef(self, ref: Optional[RefType]):
+        """
+        This represents the associated DiagnosticSecurityLevels Stereotypes: atpSplitable Tags: atp.Splitkey=securityLevel
+
+        A None value is a no-op and does not extend the securityLevelRefs list.
+        """
+        if ref is not None:
+            self.securityLevelRefs.append(ref)
         return self

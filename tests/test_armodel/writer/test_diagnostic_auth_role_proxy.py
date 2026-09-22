@@ -41,27 +41,26 @@ def _new_proxy():
 
 class TestWriteDiagnosticAuthRoleProxy:
     def test_write_refs_in_xsd_order(self):
-        parent = ET.Element("PARENT")
+        # Content-only helper: the element tag is created by the calling
+        # context (AUTHENTICATION-ENABLED in DiagnosticAccessPermission).
+        parent = ET.Element("DIAGNOSTIC-AUTH-ROLE-PROXY")
         ARXMLWriter().writeDiagnosticAuthRoleProxy(parent, _new_proxy())
-        node = parent.find("DIAGNOSTIC-AUTH-ROLE-PROXY")
-        assert node is not None
-        assert [child.tag for child in node] == ["AUTHENTICATION-ROLE-REFS"]
-        refs = node.findall("AUTHENTICATION-ROLE-REFS/AUTHENTICATION-ROLE-REF")
+        assert [child.tag for child in parent] == ["AUTHENTICATION-ROLE-REFS"]
+        refs = parent.findall("AUTHENTICATION-ROLE-REFS/AUTHENTICATION-ROLE-REF")
         assert len(refs) == 2
         assert refs[0].text == "/Diag/AuthRoles/Role1"
         assert refs[0].attrib["DEST"] == "DIAGNOSTIC-AUTH-ROLE"
         assert refs[1].text == "/Diag/AuthRoles/Role2"
 
     def test_write_empty_omits_refs(self):
-        parent = ET.Element("PARENT")
+        parent = ET.Element("DIAGNOSTIC-AUTH-ROLE-PROXY")
         ARXMLWriter().writeDiagnosticAuthRoleProxy(parent, DiagnosticAuthRoleProxy())
-        node = parent.find("DIAGNOSTIC-AUTH-ROLE-PROXY")
-        assert node is not None
-        assert len(list(node)) == 0
+        assert len(list(parent)) == 0
 
     def test_round_trip_preserves_all_values(self):
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeDiagnosticAuthRoleProxy(parent, _new_proxy())
+        proxy_element = ET.SubElement(parent, "DIAGNOSTIC-AUTH-ROLE-PROXY")
+        ARXMLWriter().writeDiagnosticAuthRoleProxy(proxy_element, _new_proxy())
         root = ET.fromstring(ET.tostring(parent).decode("utf-8").replace("<PARENT>", "<PARENT xmlns='%s'>" % NS, 1))
         parsed = DiagnosticAuthRoleProxy()
         ARXMLParser().readDiagnosticAuthRoleProxy(root[0], parsed)

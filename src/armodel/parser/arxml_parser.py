@@ -355,7 +355,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAuthRoleProxy, DiagnosticJumpToBootLoaderEnum, DiagnosticSecurityLevel, DiagnosticSession
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticJumpToBootLoaderEnum, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import DiagnosticEnvConditionFormula, DiagnosticEnvironmentalCondition, DiagnosticLogicalOperatorEnum
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
@@ -9709,6 +9709,20 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, condition)
         condition.setFormula(self.getDiagnosticEnvConditionFormula(element, "FORMULA"))
 
+    def readDiagnosticAccessPermission(self, element: ET.Element, permission: DiagnosticAccessPermission):
+        self.logger.debug("Read DiagnosticAccessPermission <%s>" % permission.getShortName())
+        self.readIdentifiable(element, permission)
+        authentication_enabled = self.find(element, "AUTHENTICATION-ENABLED")
+        if authentication_enabled is not None:
+            proxy = DiagnosticAuthRoleProxy()
+            self.readDiagnosticAuthRoleProxy(authentication_enabled, proxy)
+            permission.setAuthenticationEnabled(proxy)
+        for ref in self.getChildElementRefTypeList(element, "DIAGNOSTIC-SESSION-REFS/DIAGNOSTIC-SESSION-REF"):
+            permission.addDiagnosticSessionRef(ref)
+        permission.setEnvironmentalConditionRef(self.getChildElementOptionalRefType(element, "ENVIRONMENTAL-CONDITION-REF"))
+        for ref in self.getChildElementRefTypeList(element, "SECURITY-LEVEL-REFS/SECURITY-LEVEL-REF"):
+            permission.addSecurityLevelRef(ref)
+
     def readDiagnosticServiceTableDiagnosticConnectionRefs(self, element: ET.Element, table: DiagnosticServiceTable):
         for ref in self.getChildElementRefTypeList(element, "DIAGNOSTIC-CONNECTIONS/DIAGNOSTIC-CONNECTION-REF-CONDITIONAL/DIAGNOSTIC-CONNECTION-REF"):
             table.addDiagnosticConnectionRef(ref)
@@ -13797,6 +13811,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-ENVIRONMENTAL-CONDITION":
                 condition = parent.createDiagnosticEnvironmentalCondition(self.getShortName(child_element))
                 self.readDiagnosticEnvironmentalCondition(child_element, condition)
+            elif tag_name == "DIAGNOSTIC-ACCESS-PERMISSION":
+                permission = parent.createDiagnosticAccessPermission(self.getShortName(child_element))
+                self.readDiagnosticAccessPermission(child_element, permission)
             elif tag_name == "DLT-CONTEXT":
                 context = parent.createDltContext(self.getShortName(child_element))
                 self.readDltContext(child_element, context)
