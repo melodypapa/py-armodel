@@ -168,6 +168,32 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
         return self
 
 
+class TlsVersionEnum(AREnum):
+    """
+    This meta-class has the ability to identify a specific version of the transport-layer security (TLS) protocol.
+    """
+
+    # TlsVersionEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.213, p.563
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on TlsCryptoCipherSuite.version
+
+    # TLS version 1.2 Tags: atp.EnumerationLiteralIndex=0 xml.name=TLS-12
+    TLS_12 = "TLS-12"
+
+    # TLS version 1.3 Tags: atp.EnumerationLiteralIndex=2 xml.name=TLS-13
+    TLS_13 = "TLS-13"
+
+    def __init__(self):
+        super().__init__(
+            [
+                TlsVersionEnum.TLS_12,
+                TlsVersionEnum.TLS_13,
+            ]
+        )
+
+
 class MacSecConfidentialityOffsetEnum(AREnum):
     """
     This enum defines the MACsec capability options.

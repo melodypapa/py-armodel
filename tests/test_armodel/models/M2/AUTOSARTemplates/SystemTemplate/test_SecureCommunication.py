@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecRoleEnum,
     SecOcCryptoServiceMapping,
     TlsCryptoServiceMapping,
+    TlsVersionEnum,
 )
 
 
@@ -437,3 +438,14 @@ class Test_MacSecKayParticipant:
         assert participant.getCknRef() is None
         assert participant.getCryptoAlgoConfig() is None
         assert participant.getSakRef() is None
+
+
+class Test_TlsVersionEnum:
+    def test_TlsVersionEnum(self):
+        # spec literals per Table 6.213 (tls12 idx0, tls13 idx2); xml values TLS-12/TLS-13 per XSD
+        assert TlsVersionEnum.TLS_12 == "TLS-12"
+        assert TlsVersionEnum.TLS_13 == "TLS-13"
+        e = TlsVersionEnum()
+        e.setValue("TLS-13")
+        assert e.getValue() == "TLS-13"
+        assert e.getText() == "TLS-13"
