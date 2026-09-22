@@ -3,7 +3,7 @@
 
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
-from typing import List
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TextTableMapping
@@ -108,14 +108,12 @@ class SenderReceiverToSignalMapping(DataMapping):
 
 
 class SenderRecCompositeTypeMapping(ARObject, ABC):
-    """
-    Abstract base class for composite type mappings between sender/receiver
-    interfaces and system-level signals. This class handles complex data
-    structures such as records and arrays in data mapping scenarios.
-    """
+    """Two mappings exist for the composite data types: "ArrayTypeMapping" and "RecordTypeMapping". In both, a primitive datatype will be mapped to a system signal. But it is also possible to combine the arrays and the records, so that an "array" could be an element of a "record" and in the same manner a "record" could be an element of an "array". Nesting these data types is also possible. If an element of a composite data type is again a composite one, the "CompositeTypeMapping" element will be used one more time (aggregation between the ArrayElementMapping and CompositeTypeMapping or aggregation between the RecordElementMapping and CompositeTypeMapping)."""
 
     # SenderRecCompositeTypeMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.27, p.235
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is SenderRecCompositeTypeMapping:
@@ -329,48 +327,72 @@ class SenderRecArrayElementMapping(ARObject):
 
 
 class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
-    """
-    Maps array data types between sender/receiver interfaces and system signals,
-    containing multiple array element mappings and text table mappings for
-    transforming array data during communication.
-    """
+    """If the ApplicationCompositeDataType is an Array, the "ArrayTypeMapping" will be used."""
 
     # SenderRecArrayTypeMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getArrayElementMappings      [x] impl  [ ] docstring  [ ] test
-    # [ ] setArrayElementMappings      [x] impl  [ ] docstring  [ ] test
-    # [ ] getSenderToSignal            [x] impl  [ ] docstring  [ ] test
-    # [ ] setSenderToSignal            [x] impl  [ ] docstring  [ ] test
-    # [ ] getSignalToReceiverTextTableMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] setSignalToReceiverTextTableMapping [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.28, p.235
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArrayElementMappings              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addArrayElementMapping               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSenderToSignalTextTableMapping    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSenderToSignalTextTableMapping    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSignalToReceiverTextTableMapping  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSignalToReceiverTextTableMapping  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
+        # Each ApplicationArrayElement shall be mapped on a SystemSignal.
         self.arrayElementMappings: List[SenderRecArrayElementMapping] = []
-        self.senderToSignal: TextTableMapping = None
-        self.signalToReceiverTextTableMapping: TextTableMapping = None
 
-    def getArrayElementMappings(self):
+        # This mapping allows for the text-table translation between the sending DataPrototype that is defined in the PortPrototype and the physicalProps defined for the SystemSignal.
+        self.senderToSignalTextTableMapping: Optional[TextTableMapping] = None
+
+        # This mapping allows for the text-table translation between the physicalProps defined for the SystemSignal and a receiving DataPrototype that is defined in the PortPrototype.
+        self.signalToReceiverTextTableMapping: Optional[TextTableMapping] = None
+
+    def getArrayElementMappings(self) -> List[SenderRecArrayElementMapping]:
+        """
+        Each ApplicationArrayElement shall be mapped on a SystemSignal.
+        """
         return self.arrayElementMappings
 
-    def setArrayElementMappings(self, value):
+    def addArrayElementMapping(self, value: Optional[SenderRecArrayElementMapping]) -> "SenderRecArrayTypeMapping":
+        """
+        Each ApplicationArrayElement shall be mapped on a SystemSignal.
+        A None value is a no-op and does not extend the arrayElementMappings list.
+        """
         if value is not None:
-            self.arrayElementMappings = value
+            self.arrayElementMappings.append(value)
         return self
 
-    def getSenderToSignal(self):
-        return self.senderToSignal
+    def getSenderToSignalTextTableMapping(self) -> Optional[TextTableMapping]:
+        """
+        This mapping allows for the text-table translation between the sending DataPrototype that is defined in the PortPrototype and the physicalProps defined for the SystemSignal.
+        """
+        return self.senderToSignalTextTableMapping
 
-    def setSenderToSignal(self, value):
+    def setSenderToSignalTextTableMapping(self, value: Optional[TextTableMapping]) -> "SenderRecArrayTypeMapping":
+        """
+        This mapping allows for the text-table translation between the sending DataPrototype that is defined in the PortPrototype and the physicalProps defined for the SystemSignal.
+        A None value is a no-op and does not overwrite an existing senderToSignalTextTableMapping.
+        """
         if value is not None:
-            self.senderToSignal = value
+            self.senderToSignalTextTableMapping = value
         return self
 
-    def getSignalToReceiverTextTableMapping(self):
+    def getSignalToReceiverTextTableMapping(self) -> Optional[TextTableMapping]:
+        """
+        This mapping allows for the text-table translation between the physicalProps defined for the SystemSignal and a receiving DataPrototype that is defined in the PortPrototype.
+        """
         return self.signalToReceiverTextTableMapping
 
-    def setSignalToReceiverTextTableMapping(self, value):
+    def setSignalToReceiverTextTableMapping(self, value: Optional[TextTableMapping]) -> "SenderRecArrayTypeMapping":
+        """
+        This mapping allows for the text-table translation between the physicalProps defined for the SystemSignal and a receiving DataPrototype that is defined in the PortPrototype.
+        A None value is a no-op and does not overwrite an existing signalToReceiverTextTableMapping.
+        """
         if value is not None:
             self.signalToReceiverTextTableMapping = value
         return self

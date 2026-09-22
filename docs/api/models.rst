@@ -7,11 +7,13 @@ AUTOSAR Root Classes
 --------------------
 
 .. autoclass:: armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure.AUTOSAR
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
 
 .. autoclass:: armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure.AbstractAUTOSAR
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -19,7 +21,8 @@ AUTOSAR Root Classes
 AR Package
 ----------
 
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.ARObj.ARPackage
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage.ARPackage
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -30,7 +33,8 @@ Software Components
 Application Software Component
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.ApplicationSwComponentType
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.ApplicationSwComponentType
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -38,15 +42,8 @@ Application Software Component
 Composition Software Component
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.CompositionSwComponentType
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Service Software Component
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.ServiceSwComponentType
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.CompositionSwComponentType
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -57,7 +54,8 @@ Port Prototypes
 Provided Port
 ~~~~~~~~~~~~~
 
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.PortPrototype.PPortPrototype
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.PPortPrototype
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -65,7 +63,8 @@ Provided Port
 Required Port
 ~~~~~~~~~~~~~
 
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.PortPrototype.RPortPrototype
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.RPortPrototype
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -76,7 +75,8 @@ Port Interfaces
 Sender-Receiver Interface
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.PortInterface.SenderReceiverInterface
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.SenderReceiverInterface
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -84,7 +84,8 @@ Sender-Receiver Interface
 Client-Server Interface
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.PortInterface.ClientServerInterface
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.ClientServerInterface
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -92,7 +93,8 @@ Client-Server Interface
 Mode-Switch Interface
 ~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.PortInterface.ModeSwitchInterface
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.ModeSwitchInterface
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -100,18 +102,11 @@ Mode-Switch Interface
 Data Types
 ----------
 
-Application Data Type
-~~~~~~~~~~~~~~~~~~~~~
-
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.DataTypeApplication.ApplicationDataType
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Implementation Data Type
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.DataTypeImplementation.ImplementationDataType
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes.ImplementationDataType
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -119,7 +114,8 @@ Implementation Data Type
 Data Prototypes
 ---------------
 
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.PortInterface.DataPrototype
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes.VariableDataPrototype
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -130,7 +126,8 @@ Behavior
 Internal Behavior
 ~~~~~~~~~~~~~~~~~
 
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.Behavior.SwcInternalBehavior
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.SwcInternalBehavior
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -138,7 +135,8 @@ Internal Behavior
 Runnable Entity
 ~~~~~~~~~~~~~~~
 
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.Behavior.RunnableEntity
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RunnableEntity
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -149,23 +147,8 @@ Events
 Init Event
 ~~~~~~~~~~
 
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.Behavior.InitEvent
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Data Receive Event
-~~~~~~~~~~~~~~~~~~
-
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.Behavior.DataReceiveEvent
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Mode Switch Event
-~~~~~~~~~~~~~~~~~
-
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.Behavior.SwcModeSwitchEvent
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents.InitEvent
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -176,7 +159,8 @@ Connectors
 Assembly Connector
 ~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.SwConnector.AssemblySwConnector
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.AssemblySwConnector
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -184,7 +168,8 @@ Assembly Connector
 Delegation Connector
 ~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.SwConnector.DelegationSwConnector
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.DelegationSwConnector
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -195,7 +180,8 @@ System Elements
 System Signal
 ~~~~~~~~~~~~~
 
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.SystemTemplate.System.SystemSignal
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.SystemSignal
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -203,7 +189,8 @@ System Signal
 ECU Instance
 ~~~~~~~~~~~~
 
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.SystemTemplate.System.ECUInstance
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology.EcuInstance
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -214,15 +201,8 @@ BSW Modules
 BSW Module Description
 ~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswModuleDescription
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-BSW Behavior
-~~~~~~~~~~~~
-
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.BswModuleDescription
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -234,6 +214,7 @@ ECUC Value Collection
 ~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate.EcucValueCollection
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -242,6 +223,7 @@ ECUC Module Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate.EcucModuleConfigurationValues
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -249,10 +231,20 @@ ECUC Module Configuration
 References
 ----------
 
-AR Reference
-~~~~~~~~~~~
+Reference Type
+~~~~~~~~~~~~~~
 
-.. autoclass:: armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.ARObj.ARRef
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.RefType
+   :no-index:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Typed Reference
+~~~~~~~~~~~~~~~
+
+.. autoclass:: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.TRefType
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -263,7 +255,8 @@ UUID Management
 UUID Manager
 ~~~~~~~~~~~~
 
-.. autoclass:: armodel.models.utils.uuid_mgr.UUIDManager
+.. autoclass:: armodel.models.utils.uuid_mgr.UUIDMgr
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -272,52 +265,50 @@ Usage Examples
 --------------
 
 Creating Components
-~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.ApplicationSwComponentType import ApplicationSwComponentType
+   from armodel import AUTOSAR
 
    # Get AUTOSAR instance
-   autosar = AUTOSAR.getInstance()
-   autosar.new()
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
-   # Create component
-   component = ApplicationSwComponentType()
-   component.short_name = 'MyComponent'
-   component.category = 'APPLICATION'
-
-   # Add to package
-   package = autosar.createARPackage('MyPackage')
-   package.addApplicationSwComponentType(component)
+   # Create package and component
+   package = document.createARPackage('MyPackage')
+   component = package.createApplicationSwComponentType('MyComponent')
+   component.setCategory('APPLICATION')
 
 Finding Elements
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   # Find component
-   component = autosar.findAtomicSwComponentType('MyComponent')
+   # Find component by full path
+   component = document.findAtomicSwComponentType('/MyPackage/MyComponent')
 
-   # Find data type
-   data_type = autosar.findImplementationDataType('MyDataType')
+   # Find data type by full path
+   data_type = document.findImplementationDataType('/MyPackage/MyDataType')
 
-   # Find system signal
-   signal = autosar.findSystemSignal('MySignal')
+   # Find system signal by full path
+   signal = document.findSystemSignal('/MyPackage/MySignal')
 
 Working with References
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.ARObj import ARRef
+   from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
 
-   # Create reference
-   ref = ARRef(target_element)
+   # Create a typed reference to an interface
+   ref = TRefType()
+   ref.setDest('SENDER-RECEIVER-INTERFACE')
+   ref.setValue('/MyPackage/MyInterface')
 
-   # Resolve reference
-   resolved = ref.resolve(autosar_model)
+   # Resolve a reference to the referenced element
+   resolved = document.find(ref)
 
    if resolved:
        print(f"Resolved to: {resolved.short_name}")

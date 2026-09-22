@@ -946,26 +946,30 @@ class TransformationTechnology(Identifiable, VariationPointCapable):
 
 
 class DataTransformationSet(ARElement):
-    """
-    Represents a set of data transformations in the system,
-    organizing multiple data transformations and transformation
-    technologies for comprehensive data processing configurations.
-    """
+    """This element is the system wide container of DataTransformations which represent transformer chains. Tags: atp.recommendedPackage=DataTransformationSets"""
 
     # DataTransformationSet method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataTransformations       [x] impl  [ ] docstring  [ ] test
-    # [ ] createDataTransformation     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTransformationTechnologies [x] impl  [ ] docstring  [ ] test
-    # [ ] createTransformationTechnology [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.1, p.763
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataTransformations         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createDataTransformation       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformationTechnologies  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createTransformationTechnology [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # This container consists of all transformer chains which can be used for transformation of data communication. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataTransformation.shortName, dataTransformation.variationPoint.shortLabel vh.latestBindingTime=codeGenerationTime
         self.dataTransformations: List[DataTransformation] = []
+
+        # Transformer that is used in a transformer chain for transformation of data communication. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=transformationTechnology.shortName, transformationTechnology.variationPoint.shortLabel vh.latestBindingTime=codeGenerationTime
         self.transformationTechnologies: List[TransformationTechnology] = []
 
-    def getDataTransformations(self):
+    def getDataTransformations(self) -> List[DataTransformation]:
+        """
+        This container consists of all transformer chains which can be used for transformation of data communication. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataTransformation.shortName, dataTransformation.variationPoint.shortLabel vh.latestBindingTime=codeGenerationTime
+        """
         return self.dataTransformations
 
     def createDataTransformation(self, short_name: str) -> DataTransformation:
@@ -975,7 +979,10 @@ class DataTransformationSet(ARElement):
             self.dataTransformations.append(dfs)
         return self.getElement(short_name, DataTransformation)
 
-    def getTransformationTechnologies(self):
+    def getTransformationTechnologies(self) -> List[TransformationTechnology]:
+        """
+        Transformer that is used in a transformer chain for transformation of data communication. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=transformationTechnology.shortName, transformationTechnology.variationPoint.shortLabel vh.latestBindingTime=codeGenerationTime
+        """
         return self.transformationTechnologies
 
     def createTransformationTechnology(self, short_name: str) -> TransformationTechnology:
@@ -997,30 +1004,29 @@ class CSTransformerErrorReactionEnum(AREnum):
     # (no methods)
 
     # The application is responsible for any error reaction. No autonomous error reaction of RTE and transformer. Tags: atp.EnumerationLiteralIndex=0
-    APPLICATION_ONLY = "applicationOnly"
+    APPLICATION_ONLY = "APPLICATION-ONLY"
 
     # RTE and Transformer coordinate an autonomous error reaction on their own. Tags: atp.EnumerationLiteralIndex=1
-    AUTONOMOUS = "autonomous"
+    AUTONOMOUS = "AUTONOMOUS"
 
     def __init__(self):
         super().__init__([CSTransformerErrorReactionEnum.APPLICATION_ONLY, CSTransformerErrorReactionEnum.AUTONOMOUS])
 
 
 class TransformationISignalProps(Describable, ABC):
-    """
-    TransformationISignalProps holds all the attributes for the different TransformationTechnologies that are ISignal specific. Tags: vh.latestBindingTime=postBuild
-    """
+    """TransformationISignalProps holds all the attributes for the different TransformationTechnologies that are ISignal specific. Tags: vh.latestBindingTime=postBuild"""
 
     # TransformationISignalProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.8, p.772
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCsErrorReaction           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCsErrorReaction           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformerRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransformerRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCsErrorReaction           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCsErrorReaction           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformerRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransformerRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is TransformationISignalProps:
@@ -1051,13 +1057,13 @@ class TransformationISignalProps(Describable, ABC):
             self.csErrorReaction = value
         return self
 
-    def getDataPrototypeTransformationProps(self) -> List:
+    def getDataPrototypeTransformationProps(self) -> List["DataPrototypeTransformationProps"]:
         """
         Fine granular modeling of TransfromationProps on the level of DataPrototypes. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable
         """
         return self.dataPrototypeTransformationProps
 
-    def setDataPrototypeTransformationProps(self, value: Optional[List]) -> "TransformationISignalProps":
+    def setDataPrototypeTransformationProps(self, value: Optional[List["DataPrototypeTransformationProps"]]) -> "TransformationISignalProps":
         """
         Fine granular modeling of TransfromationProps on the level of DataPrototypes. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable
         A None value is a no-op and does not overwrite an existing dataPrototypeTransformationProps.

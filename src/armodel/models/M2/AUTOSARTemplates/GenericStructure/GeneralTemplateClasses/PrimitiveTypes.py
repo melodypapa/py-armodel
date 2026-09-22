@@ -226,9 +226,11 @@ class TimeValue(Float):
     """
     This primitive type is taken for expressing time values. The numerical value is supposed to be interpreted
     in the physical unit second.
+
     Tags:
-        * xml.xsd.customType=TIME-VALUE
-        * xml.xsd.type=double
+
+    * xml.xsd.customType=TIME-VALUE
+    * xml.xsd.type=double
     """
 
     # TimeValue method parity checklist:
@@ -502,7 +504,7 @@ class PrimitiveIdentifier(ARLiteral):
     Tags:
         * xml.xsd.customType=PRIMITIVE-IDENTIFIER
         * xml.xsd.maxLength=128
-        * xml.xsd.pattern=[a-zA-Z]([a-zA-Z0-9]|_[a-zA-Z0-9])*_?
+        * xml.xsd.pattern= ``[a-zA-Z][a-zA-Z0-9]([a-zA-Z0-9]|_[a-zA-Z0-9])*_?``
         * xml.xsd.type=string
     """
 
@@ -798,9 +800,10 @@ class CIdentifier(ARLiteral):
     This datatype represents a string, that follows the rules of C-identifiers.
 
     Tags:
-        * xml.xsd.customType=C-IDENTIFIER
-        * xml.xsd.pattern=[a-zA-Z_][a-zA-Z0-9_]*
-        * xml.xsd.type=string
+
+    * xml.xsd.customType=C-IDENTIFIER
+    * xml.xsd.pattern= ``[a-zA-Z_][a-zA-Z0-9_]*``
+    * xml.xsd.type=string
     """
 
     # CIdentifier method parity checklist:
@@ -864,14 +867,17 @@ class CIdentifier(ARLiteral):
 class RevisionLabelString(ARLiteral):
     """
     This primitive represents an internal AUTOSAR revision label which identifies an engineering object. It
-    represents a pattern which
-        * supports three integers representing from left to right MajorVersion, MinorVersion, PatchVersion.
-        * may add an application specific suffix separated by one of ".", "_", ";".
+    represents a pattern which:
+
+    * supports three integers representing from left to right MajorVersion, MinorVersion, PatchVersion.
+    * may add an application specific suffix separated by one of ".", "_", ";".
+
     Legal patterns are for example:
-        * 4.0.0
-        * 4.0.0.1234565
-        * 4.0.0_vendor specific;13
-        * 4.0.0;12
+
+    * 4.0.0
+    * 4.0.0.1234565
+    * 4.0.0_vendor specific;13
+    * 4.0.0;12
     """
 
     # RevisionLabelString method parity checklist:
@@ -1104,9 +1110,10 @@ class DiagRequirementIdString(ARLiteral):
     This string denotes an Identifier for a requirement.
 
     Tags:
-        * xml.xsd.customType=DIAG-REQUIREMENT-ID-STRING
-        * xml.xsd.pattern=[0-9a-zA-Z_\-]+                           # noqa W605
-        * xml.xsd.type=string
+
+    * xml.xsd.customType=DIAG-REQUIREMENT-ID-STRING
+    * xml.xsd.pattern= ``[0-9a-zA-Z_\-]+``                       # noqa W605
+    * xml.xsd.type=string
     """
 
     # DiagRequirementIdString method parity checklist:
@@ -1209,7 +1216,7 @@ class CategoryString(ARLiteral):
 
     Tags:
         * xml.xsd.customType=CATEGORY-STRING
-        * xml.xsd.pattern=[a-zA-Z][a-zA-Z0-9_]*
+        * xml.xsd.pattern= ``[a-zA-Z][a-zA-Z0-9_]*``
         * xml.xsd.type=string
     """
 
@@ -1436,7 +1443,7 @@ class McdIdentifier(ARLiteral):
 
     Tags:
         * xml.xsd.customType=MCD-IDENTIFIER
-        * xml.xsd.pattern=[a-zA-Z_][a-zA-Z0-9_]*(\\[([a-zA-Z_][a-zA-Z0-9_]*|[0-9]+)\\])*(\\.[a-zA-Z_][a-zA-Z0-9_]*(\\[([a-zA-Z_][a-zA-Z0-9_]*|[0-9]+)\\])*)*
+        * xml.xsd.pattern= ``[a-zA-Z_][a-zA-Z0-9_]*(\\[([a-zA-Z_][a-zA-Z0-9_]*|[0-9]+)\\])*(\\.[a-zA-Z_][a-zA-Z0-9_]*(\\[([a-zA-Z_][a-zA-Z0-9_]*|[0-9]+)\\])*)*``
         * xml.xsd.type=string
     """
 
@@ -1491,7 +1498,7 @@ class ViewTokens(ARLiteral):
 
     Tags:
         * xml.xsd.customType=VIEW-TOKENS
-        * xml.xsd.pattern=(-?[a-zA-Z_]+)(( )+-?[a-zA-Z_]+)*
+        * xml.xsd.pattern= ``(-?[a-zA-Z_]+)(( )+-?[a-zA-Z_]+)*``
         * xml.xsd.type=string
     """
 

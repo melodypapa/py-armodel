@@ -2,6 +2,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import RxIdentifierRange
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
@@ -29,9 +30,438 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
 )
 
 
+class TestNmCluster:
+    """NmCluster (Table 6.299, p.673) — spec sync tests (concrete stand-in: CanNmCluster)."""
+
+    def test_abstract_instantiation_raises(self):
+        parent = MockParent()
+        with pytest.raises(TypeError):
+            NmCluster(parent, "test_nm_cluster")
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert NmCluster.__doc__.strip() == "Set of NM nodes coordinated with use of the NM algorithm."
+
+    def test_init_has_no_docstring(self):
+        assert NmCluster.__init__.__doc__ is None
+
+    def test_heritage(self):
+        assert issubclass(NmCluster, Identifiable)
+        for subclass in (CanNmCluster, FlexrayNmCluster, J1939NmCluster, UdpNmCluster):
+            assert issubclass(subclass, NmCluster)
+
+    def test_defaults(self):
+        cluster = CanNmCluster(MockParent(), "cluster")
+        assert cluster.getCommunicationClusterRef() is None
+        assert cluster.getNmChannelSleepMaster() is None
+        assert cluster.getNmNodes() == []
+        assert cluster.getNmNodeDetectionEnabled() is None
+        assert cluster.getNmNodeIdEnabled() is None
+        assert cluster.getNmPncParticipation() is None
+        assert cluster.getNmRepeatMsgIndEnabled() is None
+        assert cluster.getNmSynchronizingNetwork() is None
+        assert cluster.getPncClusterVectorLength() is None
+        assert cluster.getNmChannelId() is None
+
+    def test_get_set_round_trip_and_none_no_op(self):
+        cluster = CanNmCluster(MockParent(), "cluster")
+
+        ref = RefType()
+        cluster.setCommunicationClusterRef(ref)
+        assert cluster.getCommunicationClusterRef() is ref
+        cluster.setCommunicationClusterRef(None)
+        assert cluster.getCommunicationClusterRef() is ref
+
+        enabled = Boolean()
+        enabled.setValue(True)
+        cluster.setNmChannelSleepMaster(enabled)
+        assert cluster.getNmChannelSleepMaster() is enabled
+        cluster.setNmChannelSleepMaster(None)
+        assert cluster.getNmChannelSleepMaster() is enabled
+
+        detection = Boolean()
+        detection.setValue(True)
+        cluster.setNmNodeDetectionEnabled(detection)
+        assert cluster.getNmNodeDetectionEnabled() is detection
+        cluster.setNmNodeDetectionEnabled(None)
+        assert cluster.getNmNodeDetectionEnabled() is detection
+
+        node_id_enabled = Boolean()
+        node_id_enabled.setValue(True)
+        cluster.setNmNodeIdEnabled(node_id_enabled)
+        assert cluster.getNmNodeIdEnabled() is node_id_enabled
+        cluster.setNmNodeIdEnabled(None)
+        assert cluster.getNmNodeIdEnabled() is node_id_enabled
+
+        pnc = Boolean()
+        pnc.setValue(False)
+        cluster.setNmPncParticipation(pnc)
+        assert cluster.getNmPncParticipation() is pnc
+        cluster.setNmPncParticipation(None)
+        assert cluster.getNmPncParticipation() is pnc
+
+        repeat_msg = Boolean()
+        repeat_msg.setValue(True)
+        cluster.setNmRepeatMsgIndEnabled(repeat_msg)
+        assert cluster.getNmRepeatMsgIndEnabled() is repeat_msg
+        cluster.setNmRepeatMsgIndEnabled(None)
+        assert cluster.getNmRepeatMsgIndEnabled() is repeat_msg
+
+        sync_network = Boolean()
+        sync_network.setValue(True)
+        cluster.setNmSynchronizingNetwork(sync_network)
+        assert cluster.getNmSynchronizingNetwork() is sync_network
+        cluster.setNmSynchronizingNetwork(None)
+        assert cluster.getNmSynchronizingNetwork() is sync_network
+
+        vector_length = PositiveInteger()
+        vector_length.setValue(16)
+        cluster.setPncClusterVectorLength(vector_length)
+        assert cluster.getPncClusterVectorLength() is vector_length
+        cluster.setPncClusterVectorLength(None)
+        assert cluster.getPncClusterVectorLength() is vector_length
+
+        channel_id = Integer()
+        channel_id.setValue(3)
+        cluster.setNmChannelId(channel_id)
+        assert cluster.getNmChannelId() is channel_id
+        cluster.setNmChannelId(None)
+        assert cluster.getNmChannelId() is channel_id
+
+    def test_nm_node_dedicated_list_preserves_insertion_order(self):
+        cluster = CanNmCluster(MockParent(), "cluster")
+        node_b = cluster.createCanNmNode("NodeB")
+        node_a = cluster.createCanNmNode("NodeA")
+
+        assert cluster.getNmNodes() == [node_b, node_a]
+        assert cluster.getCanNmNodes() == [node_b, node_a]
+        assert cluster.getUdpNmNodes() == []
+        assert cluster.getJ1939NmNodes() == []
+
+    def test_create_udp_nm_node_returns_same_instance(self):
+        cluster = UdpNmCluster(MockParent(), "cluster")
+        node = cluster.createUdpNmNode("UdpNode")
+        assert node is not None
+        assert node.short_name == "UdpNode"
+        assert cluster.createUdpNmNode("UdpNode") is node
+
+
+class TestFlexrayNmCluster:
+    """FlexrayNmCluster (Table 6.306, p.678) — spec sync tests."""
+
+    _NOTE = "FlexRay specific NM cluster attributes."
+
+    def _cluster(self):
+        return FlexrayNmCluster(MockParent(), "fr_cluster")
+
+    def test_concrete_instantiation_and_heritage(self):
+        cluster = self._cluster()
+        assert isinstance(cluster, NmCluster)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert FlexrayNmCluster.__doc__.strip() == self._NOTE
+
+    def test_init_has_no_docstring(self):
+        assert FlexrayNmCluster.__init__.__doc__ is None
+
+    def test_defaults(self):
+        cluster = self._cluster()
+        assert cluster.getNmCarWakeUpBitPosition() is None
+        assert cluster.getNmCarWakeUpFilterEnabled() is None
+        assert cluster.getNmCarWakeUpFilterNodeId() is None
+        assert cluster.getNmCarWakeUpRxEnabled() is None
+        assert cluster.getNmDataCycle() is None
+        assert cluster.getNmMainFunctionPeriod() is None
+        assert cluster.getNmRemoteSleepIndicationTime() is None
+        assert cluster.getNmRepeatMessageTime() is None
+        assert cluster.getNmRepetitionCycle() is None
+        assert cluster.getNmVotingCycle() is None
+
+    def test_get_set_round_trip_and_none_no_op(self):
+        cluster = self._cluster()
+
+        bit_position = PositiveInteger()
+        bit_position.setValue(5)
+        cluster.setNmCarWakeUpBitPosition(bit_position)
+        assert cluster.getNmCarWakeUpBitPosition() is bit_position
+        cluster.setNmCarWakeUpBitPosition(None)
+        assert cluster.getNmCarWakeUpBitPosition() is bit_position
+
+        filter_enabled = Boolean()
+        filter_enabled.setValue(True)
+        cluster.setNmCarWakeUpFilterEnabled(filter_enabled)
+        assert cluster.getNmCarWakeUpFilterEnabled() is filter_enabled
+        cluster.setNmCarWakeUpFilterEnabled(None)
+        assert cluster.getNmCarWakeUpFilterEnabled() is filter_enabled
+
+        filter_node_id = PositiveInteger()
+        filter_node_id.setValue(120)
+        cluster.setNmCarWakeUpFilterNodeId(filter_node_id)
+        assert cluster.getNmCarWakeUpFilterNodeId() is filter_node_id
+        cluster.setNmCarWakeUpFilterNodeId(None)
+        assert cluster.getNmCarWakeUpFilterNodeId() is filter_node_id
+
+        rx_enabled = Boolean()
+        rx_enabled.setValue(True)
+        cluster.setNmCarWakeUpRxEnabled(rx_enabled)
+        assert cluster.getNmCarWakeUpRxEnabled() is rx_enabled
+        cluster.setNmCarWakeUpRxEnabled(None)
+        assert cluster.getNmCarWakeUpRxEnabled() is rx_enabled
+
+        data_cycle = Integer()
+        data_cycle.setValue(4)
+        cluster.setNmDataCycle(data_cycle)
+        assert cluster.getNmDataCycle() is data_cycle
+        cluster.setNmDataCycle(None)
+        assert cluster.getNmDataCycle() is data_cycle
+
+        main_period = TimeValue()
+        main_period.setValue(0.02)
+        cluster.setNmMainFunctionPeriod(main_period)
+        assert cluster.getNmMainFunctionPeriod() is main_period
+        cluster.setNmMainFunctionPeriod(None)
+        assert cluster.getNmMainFunctionPeriod() is main_period
+
+        remote_sleep = TimeValue()
+        remote_sleep.setValue(1.0)
+        cluster.setNmRemoteSleepIndicationTime(remote_sleep)
+        assert cluster.getNmRemoteSleepIndicationTime() is remote_sleep
+        cluster.setNmRemoteSleepIndicationTime(None)
+        assert cluster.getNmRemoteSleepIndicationTime() is remote_sleep
+
+        repeat_message = TimeValue()
+        repeat_message.setValue(0.5)
+        cluster.setNmRepeatMessageTime(repeat_message)
+        assert cluster.getNmRepeatMessageTime() is repeat_message
+        cluster.setNmRepeatMessageTime(None)
+        assert cluster.getNmRepeatMessageTime() is repeat_message
+
+        repetition_cycle = Integer()
+        repetition_cycle.setValue(2)
+        cluster.setNmRepetitionCycle(repetition_cycle)
+        assert cluster.getNmRepetitionCycle() is repetition_cycle
+        cluster.setNmRepetitionCycle(None)
+        assert cluster.getNmRepetitionCycle() is repetition_cycle
+
+        voting_cycle = Integer()
+        voting_cycle.setValue(1)
+        cluster.setNmVotingCycle(voting_cycle)
+        assert cluster.getNmVotingCycle() is voting_cycle
+        cluster.setNmVotingCycle(None)
+        assert cluster.getNmVotingCycle() is voting_cycle
+
+
+class TestFlexrayNmEcu:
+    """FlexrayNmEcu (Table 6.307, p.679) — spec sync tests."""
+
+    def test_concrete_instantiation_and_heritage(self):
+        ecu = FlexrayNmEcu()
+        assert isinstance(ecu, BusspecificNmEcu)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert FlexrayNmEcu.__doc__.strip() == "FlexRay specific attributes."
+
+    def test_init_has_no_docstring(self):
+        assert FlexrayNmEcu.__init__.__doc__ is None
+
+    def test_defaults(self):
+        ecu = FlexrayNmEcu()
+        assert ecu.getNmHwVoteEnabled() is None
+        assert ecu.getNmMainFunctionAcrossFrCycle() is None
+
+    def test_get_set_round_trip_and_none_no_op(self):
+        ecu = FlexrayNmEcu()
+
+        hw_vote = Boolean()
+        hw_vote.setValue(True)
+        ecu.setNmHwVoteEnabled(hw_vote)
+        assert ecu.getNmHwVoteEnabled() is hw_vote
+        ecu.setNmHwVoteEnabled(None)
+        assert ecu.getNmHwVoteEnabled() is hw_vote
+
+        across_fr = Boolean()
+        across_fr.setValue(False)
+        ecu.setNmMainFunctionAcrossFrCycle(across_fr)
+        assert ecu.getNmMainFunctionAcrossFrCycle() is across_fr
+        ecu.setNmMainFunctionAcrossFrCycle(None)
+        assert ecu.getNmMainFunctionAcrossFrCycle() is across_fr
+
+
+class TestFlexrayNmNode:
+    """FlexrayNmNode (Table 6.309, p.679) — spec sync tests."""
+
+    def test_concrete_instantiation_and_heritage(self):
+        node = FlexrayNmNode(MockParent(), "fr_node")
+        assert isinstance(node, NmNode)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert FlexrayNmNode.__doc__.strip() == "FlexRay specific NM Node attributes."
+
+    def test_init_has_no_docstring(self):
+        assert FlexrayNmNode.__init__.__doc__ is None
+
+    def test_zero_own_attribute_rows(self):
+        node = FlexrayNmNode(MockParent(), "fr_node")
+        assert node.getControllerRef() is None
+        assert node.getNmNodeId() is None
+
+
+class TestUdpNmEcu:
+    """UdpNmEcu (Table 6.316, p.688; legacy attr from R4.3.1 Table 6.238, p.431) — spec sync tests."""
+
+    def test_concrete_instantiation_and_heritage(self):
+        ecu = UdpNmEcu()
+        assert isinstance(ecu, BusspecificNmEcu)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert UdpNmEcu.__doc__.strip() == "Udp NM specific ECU attributes."
+
+    def test_init_has_no_docstring(self):
+        assert UdpNmEcu.__init__.__doc__ is None
+
+    def test_legacy_attribute_get_set_round_trip_and_none_no_op(self):
+        ecu = UdpNmEcu()
+        assert ecu.getNmSynchronizationPointEnabled() is None
+
+        enabled = Boolean()
+        enabled.setValue(True)
+        ecu.setNmSynchronizationPointEnabled(enabled)
+        assert ecu.getNmSynchronizationPointEnabled() is enabled
+        ecu.setNmSynchronizationPointEnabled(None)
+        assert ecu.getNmSynchronizationPointEnabled() is enabled
+
+    def test_legacy_attribute_docstring_is_r431_note_verbatim(self):
+        note = "Enable/disable the NM Coordination algorithm to being able to initiate the synchronization algorithm."
+        assert (UdpNmEcu.getNmSynchronizationPointEnabled.__doc__ or "").strip() == note
+        setter_doc = (UdpNmEcu.setNmSynchronizationPointEnabled.__doc__ or "").strip()
+        assert setter_doc.startswith(note)
+        assert "A None value is a no-op" in setter_doc
+
+
+class TestJ1939NmCluster:
+    """J1939NmCluster (Table 6.319, p.691) — spec sync tests."""
+
+    def test_concrete_instantiation_and_heritage(self):
+        cluster = J1939NmCluster(MockParent(), "j1939_cluster")
+        assert isinstance(cluster, NmCluster)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert J1939NmCluster.__doc__.strip() == "J1939 specific NmCluster attributes"
+
+    def test_init_has_no_docstring(self):
+        assert J1939NmCluster.__init__.__doc__ is None
+
+    def test_defaults(self):
+        cluster = J1939NmCluster(MockParent(), "j1939_cluster")
+        assert cluster.getAddressClaimEnabled() is None
+        assert cluster.getUsesDynamicAddressing() is None
+
+    def test_get_set_round_trip_and_none_no_op(self):
+        cluster = J1939NmCluster(MockParent(), "j1939_cluster")
+
+        address_claim = Boolean()
+        address_claim.setValue(True)
+        cluster.setAddressClaimEnabled(address_claim)
+        assert cluster.getAddressClaimEnabled() is address_claim
+        cluster.setAddressClaimEnabled(None)
+        assert cluster.getAddressClaimEnabled() is address_claim
+
+        dynamic = Boolean()
+        dynamic.setValue(False)
+        cluster.setUsesDynamicAddressing(dynamic)
+        assert cluster.getUsesDynamicAddressing() is dynamic
+        cluster.setUsesDynamicAddressing(None)
+        assert cluster.getUsesDynamicAddressing() is dynamic
+
+
+class TestJ1939NmEcu:
+    """J1939NmEcu (Table 6.323, p.694) — spec sync tests."""
+
+    def test_concrete_instantiation_and_heritage(self):
+        ecu = J1939NmEcu()
+        assert isinstance(ecu, BusspecificNmEcu)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert J1939NmEcu.__doc__.strip() == "J1939 NmEcu specific attributes."
+
+    def test_init_has_no_docstring(self):
+        assert J1939NmEcu.__init__.__doc__ is None
+
+
+class TestNmConfig:
+    """NmConfig (Table 6.298, p.672) — spec sync tests."""
+
+    def test_concrete_instantiation_and_heritage(self):
+        config = NmConfig(MockParent(), "config")
+        assert isinstance(config, FibexElement)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert NmConfig.__doc__.strip() == "Contains the all configuration elements for AUTOSAR Nm. Tags: atp.recommendedPackage=NmConfigs"
+
+    def test_init_has_no_docstring(self):
+        assert NmConfig.__init__.__doc__ is None
+
+    def test_defaults(self):
+        config = NmConfig(MockParent(), "config")
+        assert config.getNmClusters() == []
+        assert config.getNmClusterCouplings() == []
+        assert config.getNmIfEcus() == []
+
+    def test_cluster_dedicated_list_preserves_insertion_order(self):
+        config = NmConfig(MockParent(), "config")
+        udp_cluster = config.createUdpNmCluster("Zeta")
+        can_cluster = config.createCanNmCluster("Alpha")
+        flexray_cluster = config.createFlexrayNmCluster("Mid")
+        j1939_cluster = config.createJ1939NmCluster("Beta")
+
+        assert config.getNmClusters() == [udp_cluster, can_cluster, flexray_cluster, j1939_cluster]
+        assert config.getCanNmClusters() == [can_cluster]
+        assert config.getUdpNmClusters() == [udp_cluster]
+
+    def test_create_returns_same_instance(self):
+        config = NmConfig(MockParent(), "config")
+        cluster = config.createCanNmCluster("Cluster1")
+        assert config.createCanNmCluster("Cluster1") is cluster
+
+    def test_add_nm_cluster_couplings_appends_and_none_no_op(self):
+        config = NmConfig(MockParent(), "config")
+        coupling = CanNmClusterCoupling()
+        assert config.addNmClusterCouplings(coupling) is config
+        assert config.getNmClusterCouplings() == [coupling]
+
+        config.addNmClusterCouplings(None)
+        assert config.getNmClusterCouplings() == [coupling]
+
+    def test_create_nm_ecu_appends_to_nm_if_ecus(self):
+        config = NmConfig(MockParent(), "config")
+        ecu = config.createNmEcu("NmEcu1")
+        assert ecu.short_name == "NmEcu1"
+        assert config.getNmIfEcus() == [ecu]
+        assert config.createNmEcu("NmEcu1") is ecu
+
+
 class MockParent(ARObject):
     def __init__(self):
         super().__init__()
+
+
+class TestNmClusterCoupling:
+    """NmClusterCoupling (Table 6.305, p.676) — spec sync tests."""
+
+    def test_abstract_instantiation_raises(self):
+        with pytest.raises(TypeError):
+            NmClusterCoupling()
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert NmClusterCoupling.__doc__.strip() == "Attributes that are valid for each of the referenced (coupled) clusters."
+
+    def test_init_has_no_docstring(self):
+        assert NmClusterCoupling.__init__.__doc__ is None
+
+    def test_base_and_subclass_heritage(self):
+        assert issubclass(NmClusterCoupling, ARObject)
+        assert issubclass(CanNmClusterCoupling, NmClusterCoupling)
+        assert issubclass(FlexrayNmClusterCoupling, NmClusterCoupling)
+        assert issubclass(UdpNmClusterCoupling, NmClusterCoupling)
 
 
 class Test_NetworkManagement:
@@ -439,19 +869,19 @@ class Test_NetworkManagement:
         node2 = cluster.createCanNmNode("TestCanNode")
         assert node2 == node
 
-    def test_NmCluster_read_udp_nm_node(self):
-        """Test NmCluster.readUdpNmNode method (lines 545-550)."""
+    def test_NmCluster_create_udp_nm_node(self):
+        """Test NmCluster.createUdpNmNode method (renamed from readUdpNmNode, Table 6.299)."""
         parent = MockParent()
         cluster = UdpNmCluster(parent, "test_cluster")
 
-        node = cluster.readUdpNmNode("TestUdpNode")
+        node = cluster.createUdpNmNode("TestUdpNode")
         assert node is not None
         assert node.short_name == "TestUdpNode"
         assert node in cluster.elements
         assert node in cluster.getNmNodes()
 
         # Test that reading the same node again returns the existing one
-        node2 = cluster.readUdpNmNode("TestUdpNode")
+        node2 = cluster.createUdpNmNode("TestUdpNode")
         assert node2 == node
 
     def test_NmCluster_get_can_nm_nodes(self):
@@ -472,8 +902,8 @@ class Test_NetworkManagement:
         parent = MockParent()
         cluster = UdpNmCluster(parent, "test_cluster")
 
-        node1 = cluster.readUdpNmNode("Node1")
-        node2 = cluster.readUdpNmNode("Node2")
+        node1 = cluster.createUdpNmNode("Node1")
+        node2 = cluster.createUdpNmNode("Node2")
 
         udp_nodes = cluster.getUdpNmNodes()
         assert len(udp_nodes) == 2

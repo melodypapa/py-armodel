@@ -68,32 +68,37 @@ class Test_SecureCommunication:
         assert mapping.getCryptoServiceQueueRef() == mock_queue_ref
 
     def test_TlsCryptoServiceMapping(self):
-        """Test TlsCryptoServiceMapping class functionality."""
+        """Test TlsCryptoServiceMapping class functionality (Table 6.211, p.560)."""
         parent = MockParent()
         mapping = TlsCryptoServiceMapping(parent, "test_tls_mapping")
 
         assert isinstance(mapping, CryptoServiceMapping)
 
-        # Test default values
-        assert mapping.getKeyExchangeRef() is None
+        # Test default values (spec displayed order: keyExchange, tlsCipherSuite,
+        # useClientAuthenticationRequest, useSecurityExtensionRecordSizeLimit)
+        assert mapping.getKeyExchangeRefs() == []
         assert mapping.getTlsCipherSuites() == []
         assert mapping.getUseClientAuthenticationRequest() is None
         assert mapping.getUseSecurityExtensionRecordSizeLimit() is None
 
-        # Test setter/getter methods
-        mock_key_ref = "mock_key_ref"
-        mapping.setKeyExchangeRef(mock_key_ref)
-        assert mapping.getKeyExchangeRef() == mock_key_ref
+        # Test keyExchange * ref list accessor (add + None no-op + chaining)
+        assert mapping.addKeyExchangeRef(_ref("/Crypto/Primitives/Ke1")) is mapping
+        mapping.addKeyExchangeRef(_ref("/Crypto/Primitives/Ke2"))
+        assert [r.getValue() for r in mapping.getKeyExchangeRefs()] == ["/Crypto/Primitives/Ke1", "/Crypto/Primitives/Ke2"]
+        mapping.addKeyExchangeRef(None)
+        assert len(mapping.getKeyExchangeRefs()) == 2
 
-        mock_cipher_suite = "AES_128_GCM"
-        mapping.addTlsCipherSuite(mock_cipher_suite)
-        assert mapping.getTlsCipherSuites() == [mock_cipher_suite]
-
-        mapping.setUseClientAuthenticationRequest(True)
-        assert mapping.getUseClientAuthenticationRequest() is True
-
-        mapping.setUseSecurityExtensionRecordSizeLimit(False)
-        assert mapping.getUseSecurityExtensionRecordSizeLimit() is False
+        # Test boolean attribute round-trips + None no-ops
+        client_auth = _bool("true")
+        assert mapping.setUseClientAuthenticationRequest(client_auth) is mapping
+        assert mapping.getUseClientAuthenticationRequest() is client_auth
+        record_limit = _bool("false")
+        assert mapping.setUseSecurityExtensionRecordSizeLimit(record_limit) is mapping
+        assert mapping.getUseSecurityExtensionRecordSizeLimit() is record_limit
+        mapping.setUseClientAuthenticationRequest(None)
+        mapping.setUseSecurityExtensionRecordSizeLimit(None)
+        assert mapping.getUseClientAuthenticationRequest() is client_auth
+        assert mapping.getUseSecurityExtensionRecordSizeLimit() is record_limit
 
 
 def _mac(value):
@@ -132,6 +137,44 @@ def _ref(value):
     ref = RefType()
     ref.setValue(value)
     return ref
+
+
+class Test_CryptoServiceMappingSpec:
+    """Spec contract of CryptoServiceMapping (AUTOSAR_CP_TPS_SystemTemplate, Table 6.48, p.375)."""
+
+    def test_docstring_is_spec_note_verbatim(self):
+        note = "This meta-class represents an abstract base class for specializations of crypto service mappings."
+        assert CryptoServiceMapping.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert CryptoServiceMapping.__init__.__doc__ is None
+
+    def test_abstract_raise(self):
+        parent = MockParent()
+        with pytest.raises(TypeError, match="CryptoServiceMapping is an abstract class"):
+            CryptoServiceMapping(parent, "abstract_mapping")
+
+    def test_subclass_heritage(self):
+        assert issubclass(SecOcCryptoServiceMapping, CryptoServiceMapping)
+        assert issubclass(TlsCryptoServiceMapping, CryptoServiceMapping)
+        assert issubclass(CryptoServiceMapping, Identifiable)
+
+
+class Test_TlsCryptoServiceMappingSpec:
+    """Spec contract of TlsCryptoServiceMapping (AUTOSAR_CP_TPS_SystemTemplate, Table 6.211, p.560)."""
+
+    def test_docstring_is_spec_note_verbatim(self):
+        note = "This meta-class has the ability to represent a crypto service mapping for the socket-based configuration of Transport Layer Security (TLS)."
+        assert TlsCryptoServiceMapping.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert TlsCryptoServiceMapping.__init__.__doc__ is None
+
+    def test_heritage(self):
+        parent = MockParent()
+        mapping = TlsCryptoServiceMapping(parent, "tls_map")
+        assert isinstance(mapping, CryptoServiceMapping)
+        assert isinstance(mapping, Identifiable)
 
 
 class Test_MacSecEnums:

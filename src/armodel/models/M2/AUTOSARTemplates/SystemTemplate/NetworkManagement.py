@@ -13,13 +13,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class NmClusterCoupling(ARObject, VariationPointCapable, ABC):
     """
-    Abstract base class for network management cluster coupling,
-    defining common properties for connecting different types of
-    network management clusters for coordinated network management.
+    Attributes that are valid for each of the referenced (coupled) clusters.
     """
 
     # NmClusterCoupling method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.305, p.676
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is NmClusterCoupling:
@@ -383,13 +383,13 @@ class CanNmNode(NmNode):
 
 class FlexrayNmNode(NmNode):
     """
-    Represents a FlexRay network management node in the system,
-    defining FlexRay-specific NM properties for time-triggered
-    network management communication.
+    FlexRay specific NM Node attributes.
     """
 
     # FlexrayNmNode method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.309, p.679
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -754,25 +754,68 @@ class CanNmEcu(BusspecificNmEcu):
 
 class FlexrayNmEcu(BusspecificNmEcu):
     """
-    Defines FlexRay-specific network management ECU properties,
-    implementing bus-specific NM features for FlexRay communication.
+    FlexRay specific attributes.
     """
 
     # FlexrayNmEcu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.307, p.679
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNmHwVoteEnabled              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmHwVoteEnabled              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmMainFunctionAcrossFrCycle  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmMainFunctionAcrossFrCycle  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
+        # Switch for enabling the processing of FlexRay Hardware aggregated NM-Votes.
+        self.nmHwVoteEnabled: Optional[Boolean] = None
+
+        # Parameter describing if the execution of the FrNm_Main function crosses theFlexRay cycle boundary or not.
+        self.nmMainFunctionAcrossFrCycle: Optional[Boolean] = None
+
+    def getNmHwVoteEnabled(self) -> Optional[Boolean]:
+        """
+        Switch for enabling the processing of FlexRay Hardware aggregated NM-Votes.
+        """
+        return self.nmHwVoteEnabled
+
+    def setNmHwVoteEnabled(self, value: Optional[Boolean]) -> "FlexrayNmEcu":
+        """
+        Switch for enabling the processing of FlexRay Hardware aggregated NM-Votes.
+        A None value is a no-op and does not overwrite an existing nmHwVoteEnabled.
+        """
+        if value is not None:
+            self.nmHwVoteEnabled = value
+        return self
+
+    def getNmMainFunctionAcrossFrCycle(self) -> Optional[Boolean]:
+        """
+        Parameter describing if the execution of the FrNm_Main function crosses theFlexRay cycle boundary or not.
+        """
+        return self.nmMainFunctionAcrossFrCycle
+
+    def setNmMainFunctionAcrossFrCycle(self, value: Optional[Boolean]) -> "FlexrayNmEcu":
+        """
+        Parameter describing if the execution of the FrNm_Main function crosses theFlexRay cycle boundary or not.
+        A None value is a no-op and does not overwrite an existing nmMainFunctionAcrossFrCycle.
+        """
+        if value is not None:
+            self.nmMainFunctionAcrossFrCycle = value
+        return self
+
 
 class J1939NmEcu(BusspecificNmEcu):
     """
-    Defines J1939-specific network management ECU properties,
-    implementing bus-specific NM features for J1939 communication.
+    J1939 NmEcu specific attributes.
     """
 
     # J1939NmEcu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.323, p.694
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; reader/writer coverage via BUS-DEPENDENT-NM-ECUS dispatch)
 
     def __init__(self):
         super().__init__()
@@ -780,25 +823,34 @@ class J1939NmEcu(BusspecificNmEcu):
 
 class UdpNmEcu(BusspecificNmEcu):
     """
-    Defines UDP-specific network management ECU properties,
-    implementing bus-specific NM features for UDP communication
-    including synchronization point capabilities.
+    Udp NM specific ECU attributes.
     """
 
     # UdpNmEcu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmSynchronizationPointEnabled [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmSynchronizationPointEnabled [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.316, p.688 (R23-11)
+    # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.238, p.431 (R4.3.1)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNmSynchronizationPointEnabled [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1 (legacy)
+    # [x] setNmSynchronizationPointEnabled [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1 (legacy)
 
     def __init__(self):
         super().__init__()
 
-        self.nmSynchronizationPointEnabled: Boolean = None
+        # Enable/disable the NM Coordination algorithm to being able to initiate the synchronization algorithm.
+        self.nmSynchronizationPointEnabled: Optional[Boolean] = None
 
-    def getNmSynchronizationPointEnabled(self):
+    def getNmSynchronizationPointEnabled(self) -> Optional[Boolean]:
+        """
+        Enable/disable the NM Coordination algorithm to being able to initiate the synchronization algorithm.
+        """
         return self.nmSynchronizationPointEnabled
 
-    def setNmSynchronizationPointEnabled(self, value):
+    def setNmSynchronizationPointEnabled(self, value: Optional[Boolean]) -> "UdpNmEcu":
+        """
+        Enable/disable the NM Coordination algorithm to being able to initiate the synchronization algorithm.
+        A None value is a no-op and does not overwrite an existing nmSynchronizationPointEnabled.
+        """
         if value is not None:
             self.nmSynchronizationPointEnabled = value
         return self
@@ -964,58 +1016,96 @@ class NmEcu(Identifiable, VariationPointCapable):
 
 class NmConfig(FibexElement):
     """
-    Represents network management configuration in the system,
-    defining cluster couplings and ECU configurations for
-    comprehensive network management setup.
+    Contains the all configuration elements for AUTOSAR Nm. Tags: atp.recommendedPackage=NmConfigs
     """
 
     # NmConfig method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] createCanNmCluster           [x] impl  [ ] docstring  [ ] test
-    # [ ] createUdpNmCluster           [x] impl  [ ] docstring  [ ] test
-    # [ ] getCanNmClusters             [x] impl  [ ] docstring  [ ] test
-    # [ ] getUdpNmClusters             [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmClusters                [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmClusterCouplings        [x] impl  [ ] docstring  [ ] test
-    # [ ] addNmClusterCouplings        [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmIfEcus                  [x] impl  [ ] docstring  [ ] test
-    # [ ] createNmEcu                  [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.298, p.672
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNmClusters           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createCanNmCluster      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createUdpNmCluster      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createFlexrayNmCluster  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createJ1939NmCluster    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanNmClusters        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getUdpNmClusters        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNmClusterCouplings   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addNmClusterCouplings   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmIfEcus             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createNmEcu             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # Collection of NM Clusters atpVariation: Derived, because cluster can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmCluster.shortName, nmCluster.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.nmClusters: List[NmCluster] = []
+
+        # Collection of NmClusterCouplings atpVariation: Derived, because NmCluster can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmClusterCoupling, nmClusterCoupling.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.nmClusterCouplings: List[NmClusterCoupling] = []
+
+        # Collection of NM ECUs atpVariation: Derived, because EcuInstance can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmIfEcu.shortName, nmIfEcu.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.nmIfEcus: List[NmEcu] = []
 
-    def createCanNmCluster(self, short_name: str):  # type: (str) -> CanNmCluster
+    def getNmClusters(self) -> List["NmCluster"]:
+        """
+        Collection of NM Clusters atpVariation: Derived, because cluster can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmCluster.shortName, nmCluster.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.nmClusters
+
+    def createCanNmCluster(self, short_name: str) -> "CanNmCluster":
         if not self.IsElementExists(short_name, CanNmCluster):
             cluster = CanNmCluster(self, short_name)
             self.addElement(cluster)
+            self.nmClusters.append(cluster)
         return self.getElement(short_name, CanNmCluster)
 
-    def createUdpNmCluster(self, short_name: str):  # type: (str) -> UdpNmCluster
+    def createUdpNmCluster(self, short_name: str) -> "UdpNmCluster":
         if not self.IsElementExists(short_name, UdpNmCluster):
             cluster = UdpNmCluster(self, short_name)
             self.addElement(cluster)
+            self.nmClusters.append(cluster)
         return self.getElement(short_name, UdpNmCluster)
 
-    def getCanNmClusters(self):  # type: () -> List[CanNmCluster]
-        return list(sorted(filter(lambda a: isinstance(a, CanNmCluster), self.elements), key=lambda o: o.short_name))
+    def createFlexrayNmCluster(self, short_name: str) -> "FlexrayNmCluster":
+        if not self.IsElementExists(short_name, FlexrayNmCluster):
+            cluster = FlexrayNmCluster(self, short_name)
+            self.addElement(cluster)
+            self.nmClusters.append(cluster)
+        return self.getElement(short_name, FlexrayNmCluster)
 
-    def getUdpNmClusters(self):  # type: () -> List[UdpNmCluster]
-        return list(sorted(filter(lambda a: isinstance(a, UdpNmCluster), self.elements), key=lambda o: o.short_name))
+    def createJ1939NmCluster(self, short_name: str) -> "J1939NmCluster":
+        if not self.IsElementExists(short_name, J1939NmCluster):
+            cluster = J1939NmCluster(self, short_name)
+            self.addElement(cluster)
+            self.nmClusters.append(cluster)
+        return self.getElement(short_name, J1939NmCluster)
 
-    def getNmClusters(self):  # type: () -> List[NmCluster]
-        return list(sorted(filter(lambda a: isinstance(a, NmCluster), self.elements), key=lambda o: o.short_name))
+    def getCanNmClusters(self) -> List["CanNmCluster"]:
+        return [cluster for cluster in self.nmClusters if isinstance(cluster, CanNmCluster)]
 
-    def getNmClusterCouplings(self):
+    def getUdpNmClusters(self) -> List["UdpNmCluster"]:
+        return [cluster for cluster in self.nmClusters if isinstance(cluster, UdpNmCluster)]
+
+    def getNmClusterCouplings(self) -> List[NmClusterCoupling]:
+        """
+        Collection of NmClusterCouplings atpVariation: Derived, because NmCluster can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmClusterCoupling, nmClusterCoupling.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.nmClusterCouplings
 
-    def addNmClusterCouplings(self, value):
-        self.nmClusterCouplings.append(value)
+    def addNmClusterCouplings(self, value: Optional[NmClusterCoupling]) -> "NmConfig":
+        """
+        Collection of NmClusterCouplings atpVariation: Derived, because NmCluster can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmClusterCoupling, nmClusterCoupling.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and does not extend the nmClusterCoupling list.
+        """
+        if value is not None:
+            self.nmClusterCouplings.append(value)
         return self
 
-    def getNmIfEcus(self):
+    def getNmIfEcus(self) -> List[NmEcu]:
+        """
+        Collection of NM ECUs atpVariation: Derived, because EcuInstance can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmIfEcu.shortName, nmIfEcu.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
         return self.nmIfEcus
 
     def createNmEcu(self, short_name: str) -> NmEcu:
@@ -1028,72 +1118,102 @@ class NmConfig(FibexElement):
 
 class NmCluster(Identifiable, VariationPointCapable, ABC):
     """
-    Abstract base class for network management clusters,
-    defining common properties for different types of
-    NM clusters including communication cluster references
-    and node management capabilities.
+    Set of NM nodes coordinated with use of the NM algorithm.
     """
 
     # NmCluster method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCommunicationClusterRef   [x] impl  [ ] docstring  [ ] test
-    # [ ] setCommunicationClusterRef   [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmChannelId               [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmChannelId               [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmChannelSleepMaster      [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmChannelSleepMaster      [x] impl  [ ] docstring  [ ] test
-    # [ ] createCanNmNode              [x] impl  [ ] docstring  [ ] test
-    # [ ] readUdpNmNode                [x] impl  [ ] docstring  [ ] test
-    # [ ] createJ1939NmNode            [x] impl  [ ] docstring  [ ] test
-    # [ ] getCanNmNodes                [x] impl  [ ] docstring  [ ] test
-    # [ ] getUdpNmNodes                [x] impl  [ ] docstring  [ ] test
-    # [ ] getJ1939NmNodes              [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmNodes                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmNodeDetectionEnabled    [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmNodeDetectionEnabled    [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmNodeIdEnabled           [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmNodeIdEnabled           [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmPncParticipation        [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmPncParticipation        [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmRepeatMsgIndEnabled     [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmRepeatMsgIndEnabled     [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmSynchronizingNetwork    [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmSynchronizingNetwork    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.299, p.673
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationClusterRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationClusterRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmChannelSleepMaster     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmChannelSleepMaster     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createCanNmNode             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createUdpNmNode             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createJ1939NmNode           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanNmNodes               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getUdpNmNodes               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getJ1939NmNodes             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getNmNodes                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getNmNodeDetectionEnabled   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmNodeDetectionEnabled   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmNodeIdEnabled          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmNodeIdEnabled          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmPncParticipation       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmPncParticipation       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmRepeatMsgIndEnabled    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmRepeatMsgIndEnabled    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmSynchronizingNetwork   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmSynchronizingNetwork   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPncClusterVectorLength   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPncClusterVectorLength   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmChannelId              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11 (legacy: removed, XSD-only; see deviation note)
+    # [x] setNmChannelId              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11 (legacy: removed, XSD-only; see deviation note)
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is NmCluster:
             raise TypeError("NmCluster is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.communicationClusterRef = None  # type: RefType
-        self.nmChannelId = None
-        self.nmChannelSleepMaster = None
-        self.nmNodes = []  # type: List[NmNode]
-        self.nmNodeDetectionEnabled = None
-        self.nmNodeIdEnabled = None
-        self.nmPncParticipation = None
-        self.nmRepeatMsgIndEnabled = None
-        self._nmSynchronizingNetwork = None
+        # Association to a CommunicationCluster in the topology description.
+        self.communicationClusterRef: Optional[RefType] = None
 
-    def getCommunicationClusterRef(self):
+        # This parameter shall be set to indicate if the sleep of this network can be absolutely decided by the local node only and that no other nodes can oppose that decision.
+        self.nmChannelSleepMaster: Optional[Boolean] = None
+
+        # Collection of NmNodes of the NmCluster. atpVariation: Derived, because NmNode can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmNode.shortName, nmNode.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.nmNodes: List[NmNode] = []
+
+        # Enables the Request Repeat Message Request support. Only valid if nmNodeIdEnabled is set to true.
+        self.nmNodeDetectionEnabled: Optional[Boolean] = None
+
+        # Enables the source node identifier.
+        self.nmNodeIdEnabled: Optional[Boolean] = None
+
+        # Defines whether this NmCluster contributes to the partial network mechanism.
+        self.nmPncParticipation: Optional[Boolean] = None
+
+        # Switch for enabling the Repeat Message Bit Indication.
+        self.nmRepeatMsgIndEnabled: Optional[Boolean] = None
+
+        # If this parameter is true, then this network is a synchronizing network for the NM coordination cluster which it belongs to. The network is expected to call Nm_SynchronizationPoint() at regular intervals.
+        self.nmSynchronizingNetwork: Optional[Boolean] = None
+
+        # Optionally defines the length of the PNC Vector per CommunicationCluster (and VLAN in case of UdpNm). If not defined then System.pncVectorLength applies. Should only make the PNC Vector shorter (or same length as defined in System.pncVectorLength).
+        self.pncClusterVectorLength: Optional[PositiveInteger] = None
+
+        # This attribute has the status "removed" and shall not be used any longer. Old description: Channel identification number of the corresponding channel. Must be unique over all NmClusters.
+        self.nmChannelId: Optional[Integer] = None
+
+    def getCommunicationClusterRef(self) -> Optional[RefType]:
+        """
+        Association to a CommunicationCluster in the topology description.
+        """
         return self.communicationClusterRef
 
-    def setCommunicationClusterRef(self, value):
-        self.communicationClusterRef = value
+    def setCommunicationClusterRef(self, value: Optional[RefType]) -> "NmCluster":
+        """
+        Association to a CommunicationCluster in the topology description.
+        A None value is a no-op and does not overwrite an existing communicationClusterRef.
+        """
+        if value is not None:
+            self.communicationClusterRef = value
         return self
 
-    def getNmChannelId(self):
-        return self.nmChannelId
-
-    def setNmChannelId(self, value):
-        self.nmChannelId = value
-        return self
-
-    def getNmChannelSleepMaster(self):
+    def getNmChannelSleepMaster(self) -> Optional[Boolean]:
+        """
+        This parameter shall be set to indicate if the sleep of this network can be absolutely decided by the local node only and that no other nodes can oppose that decision.
+        """
         return self.nmChannelSleepMaster
 
-    def setNmChannelSleepMaster(self, value):
-        self.nmChannelSleepMaster = value
+    def setNmChannelSleepMaster(self, value: Optional[Boolean]) -> "NmCluster":
+        """
+        This parameter shall be set to indicate if the sleep of this network can be absolutely decided by the local node only and that no other nodes can oppose that decision.
+        A None value is a no-op and does not overwrite an existing nmChannelSleepMaster.
+        """
+        if value is not None:
+            self.nmChannelSleepMaster = value
         return self
 
     def createCanNmNode(self, short_name: str) -> CanNmNode:
@@ -1103,12 +1223,19 @@ class NmCluster(Identifiable, VariationPointCapable, ABC):
             self.nmNodes.append(node)
         return self.getElement(short_name, CanNmNode)
 
-    def readUdpNmNode(self, short_name: str) -> UdpNmNode:
+    def createUdpNmNode(self, short_name: str) -> UdpNmNode:
         if not self.IsElementExists(short_name, UdpNmNode):
             node = UdpNmNode(self, short_name)
             self.addElement(node)
             self.nmNodes.append(node)
         return self.getElement(short_name, UdpNmNode)
+
+    def createFlexrayNmNode(self, short_name: str) -> "FlexrayNmNode":
+        if not self.IsElementExists(short_name, FlexrayNmNode):
+            node = FlexrayNmNode(self, short_name)
+            self.addElement(node)
+            self.nmNodes.append(node)
+        return self.getElement(short_name, FlexrayNmNode)
 
     def createJ1939NmNode(self, short_name: str) -> J1939NmNode:
         if not self.IsElementExists(short_name, J1939NmNode):
@@ -1118,50 +1245,120 @@ class NmCluster(Identifiable, VariationPointCapable, ABC):
         return self.getElement(short_name, J1939NmNode)
 
     def getCanNmNodes(self) -> List[CanNmNode]:
-        return list(sorted(filter(lambda a: isinstance(a, CanNmNode), self.elements), key=lambda o: o.short_name))
+        return [node for node in self.nmNodes if isinstance(node, CanNmNode)]
 
     def getUdpNmNodes(self) -> List[UdpNmNode]:
-        return list(sorted(filter(lambda a: isinstance(a, UdpNmNode), self.elements), key=lambda o: o.short_name))
+        return [node for node in self.nmNodes if isinstance(node, UdpNmNode)]
 
     def getJ1939NmNodes(self) -> List[J1939NmNode]:
-        return list(sorted(filter(lambda a: isinstance(a, J1939NmNode), self.elements), key=lambda o: o.short_name))
+        return [node for node in self.nmNodes if isinstance(node, J1939NmNode)]
 
     def getNmNodes(self) -> List[NmNode]:
-        return list(sorted(filter(lambda a: isinstance(a, NmNode), self.elements), key=lambda o: o.short_name))
+        return self.nmNodes
 
-    def getNmNodeDetectionEnabled(self):
+    def getNmNodeDetectionEnabled(self) -> Optional[Boolean]:
+        """
+        Enables the Request Repeat Message Request support. Only valid if nmNodeIdEnabled is set to true.
+        """
         return self.nmNodeDetectionEnabled
 
-    def setNmNodeDetectionEnabled(self, value):
-        self.nmNodeDetectionEnabled = value
+    def setNmNodeDetectionEnabled(self, value: Optional[Boolean]) -> "NmCluster":
+        """
+        Enables the Request Repeat Message Request support. Only valid if nmNodeIdEnabled is set to true.
+        A None value is a no-op and does not overwrite an existing nmNodeDetectionEnabled.
+        """
+        if value is not None:
+            self.nmNodeDetectionEnabled = value
         return self
 
-    def getNmNodeIdEnabled(self):
+    def getNmNodeIdEnabled(self) -> Optional[Boolean]:
+        """
+        Enables the source node identifier.
+        """
         return self.nmNodeIdEnabled
 
-    def setNmNodeIdEnabled(self, value):
-        self.nmNodeIdEnabled = value
+    def setNmNodeIdEnabled(self, value: Optional[Boolean]) -> "NmCluster":
+        """
+        Enables the source node identifier.
+        A None value is a no-op and does not overwrite an existing nmNodeIdEnabled.
+        """
+        if value is not None:
+            self.nmNodeIdEnabled = value
         return self
 
-    def getNmPncParticipation(self):
+    def getNmPncParticipation(self) -> Optional[Boolean]:
+        """
+        Defines whether this NmCluster contributes to the partial network mechanism.
+        """
         return self.nmPncParticipation
 
-    def setNmPncParticipation(self, value):
-        self.nmPncParticipation = value
+    def setNmPncParticipation(self, value: Optional[Boolean]) -> "NmCluster":
+        """
+        Defines whether this NmCluster contributes to the partial network mechanism.
+        A None value is a no-op and does not overwrite an existing nmPncParticipation.
+        """
+        if value is not None:
+            self.nmPncParticipation = value
         return self
 
-    def getNmRepeatMsgIndEnabled(self):
+    def getNmRepeatMsgIndEnabled(self) -> Optional[Boolean]:
+        """
+        Switch for enabling the Repeat Message Bit Indication.
+        """
         return self.nmRepeatMsgIndEnabled
 
-    def setNmRepeatMsgIndEnabled(self, value):
-        self.nmRepeatMsgIndEnabled = value
+    def setNmRepeatMsgIndEnabled(self, value: Optional[Boolean]) -> "NmCluster":
+        """
+        Switch for enabling the Repeat Message Bit Indication.
+        A None value is a no-op and does not overwrite an existing nmRepeatMsgIndEnabled.
+        """
+        if value is not None:
+            self.nmRepeatMsgIndEnabled = value
         return self
 
-    def getNmSynchronizingNetwork(self):
-        return self._nmSynchronizingNetwork
+    def getNmSynchronizingNetwork(self) -> Optional[Boolean]:
+        """
+        If this parameter is true, then this network is a synchronizing network for the NM coordination cluster which it belongs to. The network is expected to call Nm_SynchronizationPoint() at regular intervals.
+        """
+        return self.nmSynchronizingNetwork
 
-    def setNmSynchronizingNetwork(self, value):
-        self._nmSynchronizingNetwork = value
+    def setNmSynchronizingNetwork(self, value: Optional[Boolean]) -> "NmCluster":
+        """
+        If this parameter is true, then this network is a synchronizing network for the NM coordination cluster which it belongs to. The network is expected to call Nm_SynchronizationPoint() at regular intervals.
+        A None value is a no-op and does not overwrite an existing nmSynchronizingNetwork.
+        """
+        if value is not None:
+            self.nmSynchronizingNetwork = value
+        return self
+
+    def getPncClusterVectorLength(self) -> Optional[PositiveInteger]:
+        """
+        Optionally defines the length of the PNC Vector per CommunicationCluster (and VLAN in case of UdpNm). If not defined then System.pncVectorLength applies. Should only make the PNC Vector shorter (or same length as defined in System.pncVectorLength).
+        """
+        return self.pncClusterVectorLength
+
+    def setPncClusterVectorLength(self, value: Optional[PositiveInteger]) -> "NmCluster":
+        """
+        Optionally defines the length of the PNC Vector per CommunicationCluster (and VLAN in case of UdpNm). If not defined then System.pncVectorLength applies. Should only make the PNC Vector shorter (or same length as defined in System.pncVectorLength).
+        A None value is a no-op and does not overwrite an existing pncClusterVectorLength.
+        """
+        if value is not None:
+            self.pncClusterVectorLength = value
+        return self
+
+    def getNmChannelId(self) -> Optional[Integer]:
+        """
+        This attribute has the status "removed" and shall not be used any longer. Old description: Channel identification number of the corresponding channel. Must be unique over all NmClusters.
+        """
+        return self.nmChannelId
+
+    def setNmChannelId(self, value: Optional[Integer]) -> "NmCluster":
+        """
+        This attribute has the status "removed" and shall not be used any longer. Old description: Channel identification number of the corresponding channel. Must be unique over all NmClusters.
+        A None value is a no-op and does not overwrite an existing nmChannelId.
+        """
+        if value is not None:
+            self.nmChannelId = value
         return self
 
 
@@ -1342,30 +1539,270 @@ class CanNmCluster(NmCluster):
 
 class FlexrayNmCluster(NmCluster):
     """
-    Represents a FlexRay network management cluster in the system,
-    defining FlexRay-specific NM properties for time-triggered
-    network management in FlexRay communication networks.
+    FlexRay specific NM cluster attributes.
     """
 
     # FlexrayNmCluster method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.306, p.678
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNmCarWakeUpBitPosition       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmCarWakeUpBitPosition       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmCarWakeUpFilterEnabled     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmCarWakeUpFilterEnabled     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmCarWakeUpFilterNodeId      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmCarWakeUpFilterNodeId      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmCarWakeUpRxEnabled         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmCarWakeUpRxEnabled         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmDataCycle                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmDataCycle                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmMainFunctionPeriod         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmMainFunctionPeriod         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmRemoteSleepIndicationTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmRemoteSleepIndicationTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmRepeatMessageTime          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmRepeatMessageTime          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmRepetitionCycle            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmRepetitionCycle            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmVotingCycle                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmVotingCycle                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+        # Specifies the bit position of the CarWakeUp within the NmPdu.
+        self.nmCarWakeUpBitPosition: Optional[PositiveInteger] = None
+
+        # If this attribute is set to true the CareWakeUp filtering is supported. In this case only the CarWakeUp bit within the NmPdu with source node identifier nmCarWakeUpFilterNodeId is considered as CarWakeUp request.
+        self.nmCarWakeUpFilterEnabled: Optional[Boolean] = None
+
+        # Source node identifier for CarWakeUp filtering. If CarWakeUp filtering is supported (nmCarWakeUpFilterEnabled), only the CarWakeUp bit within the NmPdu with source node identifier nmCarWakeUpFilterNodeId is considered as CarWakeUp request.
+        self.nmCarWakeUpFilterNodeId: Optional[PositiveInteger] = None
+
+        # If set to true this attribute enables the support of CarWakeUp bit evaluation in received NmPdus.
+        self.nmCarWakeUpRxEnabled: Optional[Boolean] = None
+
+        # Number of FlexRay Communication Cycles needed to transmit the Nm Data PDUs of all FlexRay Nm Ecus of this FlexRayNmCluster.
+        self.nmDataCycle: Optional[Integer] = None
+
+        # Defines the processing cycle of the main function of FrNm module.
+        self.nmMainFunctionPeriod: Optional[TimeValue] = None
+
+        # Timeout for Remote Sleep Indication in seconds. It defines the time how long it shall take to recognize that all other nodes are ready to sleep.
+        self.nmRemoteSleepIndicationTime: Optional[TimeValue] = None
+
+        # Timeout for Repeat Message State in seconds. Defines the time how long the NM shall stay in the Repeat Message State.
+        self.nmRepeatMessageTime: Optional[TimeValue] = None
+
+        # Number of FlexRay Communication Cycles used to repeat the transmission of the Nm vote Pdus of all FlexRay NmEcus of this FlexRayNmCluster. This value shall be an integral multiple of nmVotingCycle.
+        self.nmRepetitionCycle: Optional[Integer] = None
+
+        # Number of FlexRay CommunicationCycles needed to transmit the Nm vote of Pdus of all FlexRay NmEcus of this FlexRayNmCluster.
+        self.nmVotingCycle: Optional[Integer] = None
+
+    def getNmCarWakeUpBitPosition(self) -> Optional[PositiveInteger]:
+        """
+        Specifies the bit position of the CarWakeUp within the NmPdu.
+        """
+        return self.nmCarWakeUpBitPosition
+
+    def setNmCarWakeUpBitPosition(self, value: Optional[PositiveInteger]) -> "FlexrayNmCluster":
+        """
+        Specifies the bit position of the CarWakeUp within the NmPdu.
+        A None value is a no-op and does not overwrite an existing nmCarWakeUpBitPosition.
+        """
+        if value is not None:
+            self.nmCarWakeUpBitPosition = value
+        return self
+
+    def getNmCarWakeUpFilterEnabled(self) -> Optional[Boolean]:
+        """
+        If this attribute is set to true the CareWakeUp filtering is supported. In this case only the CarWakeUp bit within the NmPdu with source node identifier nmCarWakeUpFilterNodeId is considered as CarWakeUp request.
+        """
+        return self.nmCarWakeUpFilterEnabled
+
+    def setNmCarWakeUpFilterEnabled(self, value: Optional[Boolean]) -> "FlexrayNmCluster":
+        """
+        If this attribute is set to true the CareWakeUp filtering is supported. In this case only the CarWakeUp bit within the NmPdu with source node identifier nmCarWakeUpFilterNodeId is considered as CarWakeUp request.
+        A None value is a no-op and does not overwrite an existing nmCarWakeUpFilterEnabled.
+        """
+        if value is not None:
+            self.nmCarWakeUpFilterEnabled = value
+        return self
+
+    def getNmCarWakeUpFilterNodeId(self) -> Optional[PositiveInteger]:
+        """
+        Source node identifier for CarWakeUp filtering. If CarWakeUp filtering is supported (nmCarWakeUpFilterEnabled), only the CarWakeUp bit within the NmPdu with source node identifier nmCarWakeUpFilterNodeId is considered as CarWakeUp request.
+        """
+        return self.nmCarWakeUpFilterNodeId
+
+    def setNmCarWakeUpFilterNodeId(self, value: Optional[PositiveInteger]) -> "FlexrayNmCluster":
+        """
+        Source node identifier for CarWakeUp filtering. If CarWakeUp filtering is supported (nmCarWakeUpFilterEnabled), only the CarWakeUp bit within the NmPdu with source node identifier nmCarWakeUpFilterNodeId is considered as CarWakeUp request.
+        A None value is a no-op and does not overwrite an existing nmCarWakeUpFilterNodeId.
+        """
+        if value is not None:
+            self.nmCarWakeUpFilterNodeId = value
+        return self
+
+    def getNmCarWakeUpRxEnabled(self) -> Optional[Boolean]:
+        """
+        If set to true this attribute enables the support of CarWakeUp bit evaluation in received NmPdus.
+        """
+        return self.nmCarWakeUpRxEnabled
+
+    def setNmCarWakeUpRxEnabled(self, value: Optional[Boolean]) -> "FlexrayNmCluster":
+        """
+        If set to true this attribute enables the support of CarWakeUp bit evaluation in received NmPdus.
+        A None value is a no-op and does not overwrite an existing nmCarWakeUpRxEnabled.
+        """
+        if value is not None:
+            self.nmCarWakeUpRxEnabled = value
+        return self
+
+    def getNmDataCycle(self) -> Optional[Integer]:
+        """
+        Number of FlexRay Communication Cycles needed to transmit the Nm Data PDUs of all FlexRay Nm Ecus of this FlexRayNmCluster.
+        """
+        return self.nmDataCycle
+
+    def setNmDataCycle(self, value: Optional[Integer]) -> "FlexrayNmCluster":
+        """
+        Number of FlexRay Communication Cycles needed to transmit the Nm Data PDUs of all FlexRay Nm Ecus of this FlexRayNmCluster.
+        A None value is a no-op and does not overwrite an existing nmDataCycle.
+        """
+        if value is not None:
+            self.nmDataCycle = value
+        return self
+
+    def getNmMainFunctionPeriod(self) -> Optional[TimeValue]:
+        """
+        Defines the processing cycle of the main function of FrNm module.
+        """
+        return self.nmMainFunctionPeriod
+
+    def setNmMainFunctionPeriod(self, value: Optional[TimeValue]) -> "FlexrayNmCluster":
+        """
+        Defines the processing cycle of the main function of FrNm module.
+        A None value is a no-op and does not overwrite an existing nmMainFunctionPeriod.
+        """
+        if value is not None:
+            self.nmMainFunctionPeriod = value
+        return self
+
+    def getNmRemoteSleepIndicationTime(self) -> Optional[TimeValue]:
+        """
+        Timeout for Remote Sleep Indication in seconds. It defines the time how long it shall take to recognize that all other nodes are ready to sleep.
+        """
+        return self.nmRemoteSleepIndicationTime
+
+    def setNmRemoteSleepIndicationTime(self, value: Optional[TimeValue]) -> "FlexrayNmCluster":
+        """
+        Timeout for Remote Sleep Indication in seconds. It defines the time how long it shall take to recognize that all other nodes are ready to sleep.
+        A None value is a no-op and does not overwrite an existing nmRemoteSleepIndicationTime.
+        """
+        if value is not None:
+            self.nmRemoteSleepIndicationTime = value
+        return self
+
+    def getNmRepeatMessageTime(self) -> Optional[TimeValue]:
+        """
+        Timeout for Repeat Message State in seconds. Defines the time how long the NM shall stay in the Repeat Message State.
+        """
+        return self.nmRepeatMessageTime
+
+    def setNmRepeatMessageTime(self, value: Optional[TimeValue]) -> "FlexrayNmCluster":
+        """
+        Timeout for Repeat Message State in seconds. Defines the time how long the NM shall stay in the Repeat Message State.
+        A None value is a no-op and does not overwrite an existing nmRepeatMessageTime.
+        """
+        if value is not None:
+            self.nmRepeatMessageTime = value
+        return self
+
+    def getNmRepetitionCycle(self) -> Optional[Integer]:
+        """
+        Number of FlexRay Communication Cycles used to repeat the transmission of the Nm vote Pdus of all FlexRay NmEcus of this FlexRayNmCluster. This value shall be an integral multiple of nmVotingCycle.
+        """
+        return self.nmRepetitionCycle
+
+    def setNmRepetitionCycle(self, value: Optional[Integer]) -> "FlexrayNmCluster":
+        """
+        Number of FlexRay Communication Cycles used to repeat the transmission of the Nm vote Pdus of all FlexRay NmEcus of this FlexRayNmCluster. This value shall be an integral multiple of nmVotingCycle.
+        A None value is a no-op and does not overwrite an existing nmRepetitionCycle.
+        """
+        if value is not None:
+            self.nmRepetitionCycle = value
+        return self
+
+    def getNmVotingCycle(self) -> Optional[Integer]:
+        """
+        Number of FlexRay CommunicationCycles needed to transmit the Nm vote of Pdus of all FlexRay NmEcus of this FlexRayNmCluster.
+        """
+        return self.nmVotingCycle
+
+    def setNmVotingCycle(self, value: Optional[Integer]) -> "FlexrayNmCluster":
+        """
+        Number of FlexRay CommunicationCycles needed to transmit the Nm vote of Pdus of all FlexRay NmEcus of this FlexRayNmCluster.
+        A None value is a no-op and does not overwrite an existing nmVotingCycle.
+        """
+        if value is not None:
+            self.nmVotingCycle = value
+        return self
 
 
 class J1939NmCluster(NmCluster):
     """
-    Represents a J1939 network management cluster in the system,
-    defining J1939-specific NM properties for heavy-duty vehicle
-    network management communication.
+    J1939 specific NmCluster attributes
     """
 
     # J1939NmCluster method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.319, p.691
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAddressClaimEnabled      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAddressClaimEnabled      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUsesDynamicAddressing    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUsesDynamicAddressing    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+        # This attribute specifies whether the J1939Nm Bsw module is used or not. If this attribute is set to false then the J1939Nm configuration shall not be derived from the system description. But even in this case the nmNodeId might still be necessary for the J1939Rm and J1939Tp.
+        self.addressClaimEnabled: Optional[Boolean] = None
+
+        # Defines whether fully dynamic address resolution according to SAE J1939-81 shall be supported on this J1939NmCluster. • True: The dynamically allocated addresses on the bus are matched at runtime to the configured addresses. • False: The addresses on the bus resemble the configured addresses.
+        self.usesDynamicAddressing: Optional[Boolean] = None
+
+    def getAddressClaimEnabled(self) -> Optional[Boolean]:
+        """
+        This attribute specifies whether the J1939Nm Bsw module is used or not. If this attribute is set to false then the J1939Nm configuration shall not be derived from the system description. But even in this case the nmNodeId might still be necessary for the J1939Rm and J1939Tp.
+        """
+        return self.addressClaimEnabled
+
+    def setAddressClaimEnabled(self, value: Optional[Boolean]) -> "J1939NmCluster":
+        """
+        This attribute specifies whether the J1939Nm Bsw module is used or not. If this attribute is set to false then the J1939Nm configuration shall not be derived from the system description. But even in this case the nmNodeId might still be necessary for the J1939Rm and J1939Tp.
+        A None value is a no-op and does not overwrite an existing addressClaimEnabled.
+        """
+        if value is not None:
+            self.addressClaimEnabled = value
+        return self
+
+    def getUsesDynamicAddressing(self) -> Optional[Boolean]:
+        """
+        Defines whether fully dynamic address resolution according to SAE J1939-81 shall be supported on this J1939NmCluster. • True: The dynamically allocated addresses on the bus are matched at runtime to the configured addresses. • False: The addresses on the bus resemble the configured addresses.
+        """
+        return self.usesDynamicAddressing
+
+    def setUsesDynamicAddressing(self, value: Optional[Boolean]) -> "J1939NmCluster":
+        """
+        Defines whether fully dynamic address resolution according to SAE J1939-81 shall be supported on this J1939NmCluster. • True: The dynamically allocated addresses on the bus are matched at runtime to the configured addresses. • False: The addresses on the bus resemble the configured addresses.
+        A None value is a no-op and does not overwrite an existing usesDynamicAddressing.
+        """
+        if value is not None:
+            self.usesDynamicAddressing = value
+        return self
 
 
 class UdpNmClusterCoupling(NmClusterCoupling):

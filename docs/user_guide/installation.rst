@@ -4,7 +4,7 @@ Installation
 Requirements
 ------------
 
-* Python >= 3.5
+* Python >= 3.8
 * pip (Python package installer)
 
 Installing from PyPI
@@ -45,6 +45,14 @@ For development, install the package in editable mode with test dependencies:
    pip install -e ".[pytest]"
 
 This allows you to modify the code without reinstalling.
+
+The repository is also `uv <https://docs.astral.sh/uv/>`_-managed. With uv installed,
+you can set up the environment with:
+
+.. code-block:: bash
+
+   uv sync --extra pytest
+   uv run pytest
 
 Verifying Installation
 ----------------------

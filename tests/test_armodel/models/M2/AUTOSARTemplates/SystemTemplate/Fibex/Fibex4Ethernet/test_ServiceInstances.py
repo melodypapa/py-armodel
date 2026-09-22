@@ -95,9 +95,20 @@ class Test_Fibex4EthernetServiceInstances:
         assert tp == tp.setTpTechnology("TCP")  # Test method chaining
 
     def test_TcpUdpConfig(self):
-        """Test TcpUdpConfig abstract class instantiation."""
+        """Test TcpUdpConfig abstract class instantiation (Table 6.127, p.459)."""
         with pytest.raises(TypeError):
             TcpUdpConfig()
+
+    def test_TcpUdpConfig_docstring_is_spec_note(self):
+        """Class docstring carries the spec Note verbatim (Table 6.127, p.459)."""
+        assert TcpUdpConfig.__doc__.strip() == "Tcp or Udp Transport Protocol Configuration."
+
+    def test_TcpUdpConfig_init_has_no_docstring(self):
+        assert TcpUdpConfig.__init__.__doc__ is None
+
+    def test_TcpUdpConfig_subclasses(self):
+        assert issubclass(TcpTp, TcpUdpConfig)
+        assert issubclass(UdpTp, TcpUdpConfig)
 
     def test_TpPort(self):
         """Test TpPort class functionality."""

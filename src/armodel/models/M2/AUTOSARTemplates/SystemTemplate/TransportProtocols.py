@@ -422,12 +422,12 @@ class CanTpConnection(TpConnection, VariationPointCapable):
         return self
 
     def getTimeoutBr(self) -> Optional[TimeValue]:
-        """Value in seconds of the performance requirement for (N_ Br + N_Ar). N_Br is the elapsed time between the receiving indication of a FF or CF or the transmit confirmation of a FC, until the transmit request of the next FC."""
+        """Value in seconds of the performance requirement for (``N_ Br`` + ``N_Ar``). N_Br is the elapsed time between the receiving indication of a FF or CF or the transmit confirmation of a FC, until the transmit request of the next FC."""
         return self.timeoutBr
 
     def setTimeoutBr(self, value: Optional[TimeValue]) -> "CanTpConnection":
         """
-        Value in seconds of the performance requirement for (N_ Br + N_Ar). N_Br is the elapsed time between the receiving indication of a FF or CF or the transmit confirmation of a FC, until the transmit request of the next FC.
+        Value in seconds of the performance requirement for (``N_ Br`` + ``N_Ar``). N_Br is the elapsed time between the receiving indication of a FF or CF or the transmit confirmation of a FC, until the transmit request of the next FC.
         A None value is a no-op and does not overwrite an existing timeoutBr.
         """
         if value is not None:

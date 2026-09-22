@@ -63,32 +63,39 @@ Parse an ARXML file:
 
 .. code-block:: python
 
-   from armodel.parser.arxml_parser import ARXMLParser
+   from armodel import AUTOSAR
+   from armodel.parser import ARXMLParser
+
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')  # REQUIRED before parsing or writing
 
    parser = ARXMLParser()
-   autosar_model = parser.parse_from_file('example.arxml')
+   parser.load('example.arxml', document)
 
 Access AUTOSAR elements:
 
 .. code-block:: python
 
-   # Get all atomic software component types
-   swcs = autosar_model.getAtomicSwComponentTypes()
+   # Iterate over packages and their atomic software component types
+   for package in document.getARPackages():
+       for swc in package.getAtomicSwComponentTypes():
+           print(swc.short_name)
 
-   # Find a specific component
-   component = autosar_model.findAtomicSwComponentType('MyComponent')
+   # Find a specific component by its full path
+   component = document.findAtomicSwComponentType('/MyPackage/MyComponent')
 
-   # Get system signals
-   signals = autosar_model.getSystemSignals()
+   # Get system signals of a package
+   signals = package.getSystemSignals()
 
 Write an ARXML file:
 
 .. code-block:: python
 
-   from armodel.writer.arxml_writer import ARXMLWriter
+   from armodel.writer import ARXMLWriter
 
    writer = ARXMLWriter()
-   writer.write_to_file(autosar_model, 'output.arxml')
+   writer.save('output.arxml', document)
 
 Documentation Structure
 -----------------------
@@ -100,9 +107,9 @@ Documentation Structure
    user_guide/installation
    user_guide/quickstart
    user_guide/arxml_parsing
-    user_guide/arxml_writing
-    user_guide/cli_tools
-    user_guide/os_ecuc_export_cli
+   user_guide/arxml_writing
+   user_guide/cli_tools
+   user_guide/os_ecuc_export_cli
 
 .. toctree::
    :maxdepth: 2
@@ -117,7 +124,6 @@ Documentation Structure
    :maxdepth: 2
    :caption: Full API (by package):
 
-   api/armodel.models
    api/armodel.parser
    api/armodel.writer
    api/armodel.cli
@@ -213,7 +219,7 @@ Supported AUTOSAR Elements
 **Events**
 
 * InitEvent
-* DataReceiveEvent
+* DataReceivedEvent
 * SwcModeSwitchEvent
 * BswBackgroundEvent
 * BswDataReceivedEvent
@@ -259,6 +265,7 @@ py-armodel provides several CLI tools for common operations:
 * ``armodel-memory-section`` - Manage memory sections
 * ``armodel-file-list`` - List file information
 * ``armodel-uuid-checker`` - Check for duplicate UUIDs
+* ``os-ecuc-export`` - Export OS ECUC configuration to YAML or Excel
 * ``format-xml`` - Format XML files
 
 See :doc:`user_guide/cli_tools` for detailed usage information.

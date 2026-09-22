@@ -20,13 +20,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class CryptoServiceMapping(Identifiable, VariationPointCapable, ABC):
     """
-    Abstract base class for crypto service mappings, defining
-    common properties for different types of cryptographic
-    service mappings in the AUTOSAR system.
+    This meta-class represents an abstract base class for specializations of crypto service mappings.
     """
 
     # CryptoServiceMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.48, p.375
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name):
         if type(self) is CryptoServiceMapping:
@@ -84,58 +84,85 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
 
 class TlsCryptoServiceMapping(CryptoServiceMapping):
     """
-    Represents a TLS (Transport Layer Security) crypto service mapping,
-    defining key exchange references, cipher suites, and authentication
-    settings for TLS-secured communication.
+    This meta-class has the ability to represent a crypto service mapping for the socket-based configuration of Transport Layer Security (TLS).
     """
 
     # TlsCryptoServiceMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getKeyExchangeRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setKeyExchangeRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] getTlsCipherSuites           [x] impl  [ ] docstring  [ ] test
-    # [ ] addTlsCipherSuite            [x] impl  [ ] docstring  [ ] test
-    # [ ] getUseClientAuthenticationRequest [x] impl  [ ] docstring  [ ] test
-    # [ ] setUseClientAuthenticationRequest [x] impl  [ ] docstring  [ ] test
-    # [ ] getUseSecurityExtensionRecordSizeLimit [x] impl  [ ] docstring  [ ] test
-    # [ ] setUseSecurityExtensionRecordSizeLimit [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.211, p.560
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addKeyExchangeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeyExchangeRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTlsCipherSuite    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getTlsCipherSuites    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getUseClientAuthenticationRequest    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUseClientAuthenticationRequest    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUseSecurityExtensionRecordSizeLimit    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUseSecurityExtensionRecordSizeLimit    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.keyExchangeRef: RefType = None
+        # This reference identifies the shared(i.e. applicable for each of the aggregated cipher suites) crypto service primitive for the execution of key exchange during the handshake phase.
+        self.keyExchangeRefs: List[RefType] = []
+
+        # This aggregation represents the collection of supported cipher suites.
         self.tlsCipherSuites: List = []
-        self.useClientAuthenticationRequest: Boolean = None
-        self.useSecurityExtensionRecordSizeLimit: Boolean = None
 
-    def getKeyExchangeRef(self):
-        return self.keyExchangeRef
+        # Defines if client authentication shall be applied for this TLS connection.
+        self.useClientAuthenticationRequest: Optional[Boolean] = None
 
-    def setKeyExchangeRef(self, value):
-        if value is not None:
-            self.keyExchangeRef = value
+        # Defines if the security extension for max_fragment_length shall be supported as defined in IETF RFC 8449, chapter 4.1.
+        self.useSecurityExtensionRecordSizeLimit: Optional[Boolean] = None
+
+    def addKeyExchangeRef(self, ref: Optional[RefType]) -> "TlsCryptoServiceMapping":
+        """
+        This reference identifies the shared(i.e. applicable for each of the aggregated cipher suites) crypto service primitive for the execution of key exchange during the handshake phase.
+        A None value is a no-op and does not extend the keyExchangeRefs list.
+        """
+        if ref is not None:
+            self.keyExchangeRefs.append(ref)
         return self
 
-    def getTlsCipherSuites(self):
-        return self.tlsCipherSuites
+    def getKeyExchangeRefs(self) -> List[RefType]:
+        """This reference identifies the shared(i.e. applicable for each of the aggregated cipher suites) crypto service primitive for the execution of key exchange during the handshake phase."""
+        return self.keyExchangeRefs
 
-    def addTlsCipherSuite(self, value):
+    def addTlsCipherSuite(self, value) -> "TlsCryptoServiceMapping":
+        """
+        This aggregation represents the collection of supported cipher suites.
+        A None value is a no-op and does not extend the tlsCipherSuites list.
+        """
         if value is not None:
             self.tlsCipherSuites.append(value)
         return self
 
-    def getUseClientAuthenticationRequest(self):
+    def getTlsCipherSuites(self) -> List:
+        """This aggregation represents the collection of supported cipher suites."""
+        return self.tlsCipherSuites
+
+    def getUseClientAuthenticationRequest(self) -> Optional[Boolean]:
+        """Defines if client authentication shall be applied for this TLS connection."""
         return self.useClientAuthenticationRequest
 
-    def setUseClientAuthenticationRequest(self, value):
+    def setUseClientAuthenticationRequest(self, value: Optional[Boolean]) -> "TlsCryptoServiceMapping":
+        """
+        Defines if client authentication shall be applied for this TLS connection.
+        A None value is a no-op and does not overwrite an existing useClientAuthenticationRequest.
+        """
         if value is not None:
             self.useClientAuthenticationRequest = value
         return self
 
-    def getUseSecurityExtensionRecordSizeLimit(self):
+    def getUseSecurityExtensionRecordSizeLimit(self) -> Optional[Boolean]:
+        """Defines if the security extension for max_fragment_length shall be supported as defined in IETF RFC 8449, chapter 4.1."""
         return self.useSecurityExtensionRecordSizeLimit
 
-    def setUseSecurityExtensionRecordSizeLimit(self, value):
+    def setUseSecurityExtensionRecordSizeLimit(self, value: Optional[Boolean]) -> "TlsCryptoServiceMapping":
+        """
+        Defines if the security extension for max_fragment_length shall be supported as defined in IETF RFC 8449, chapter 4.1.
+        A None value is a no-op and does not overwrite an existing useSecurityExtensionRecordSizeLimit.
+        """
         if value is not None:
             self.useSecurityExtensionRecordSizeLimit = value
         return self

@@ -21,5 +21,5 @@ Module contents
 
 .. automodule:: armodel
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

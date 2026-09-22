@@ -6,11 +6,11 @@ This guide provides detailed information about writing ARXML files with py-armod
 Writer Overview
 ---------------
 
-py-armodel provides a comprehensive ARXML writer that can generate AUTOSAR XML files according to the AUTOSAR standard.
+py-armodel provides a comprehensive ARXML writer that generates AUTOSAR XML files according to the AUTOSAR standard.
 
 .. code-block:: python
 
-   from armodel.writer.arxml_writer import ARXMLWriter
+   from armodel.writer import ARXMLWriter
 
 Basic Writing
 -------------
@@ -20,13 +20,14 @@ Writing a Model to File
 
 .. code-block:: python
 
-   from armodel.writer.arxml_writer import ARXMLWriter
+   from armodel import AUTOSAR
+   from armodel.writer import ARXMLWriter
 
-   # Create writer instance
+   document = AUTOSAR.getInstance()
+
+   # Save the document to a file
    writer = ARXMLWriter()
-
-   # Write model to file
-   writer.write_to_file(autosar_model, 'output.arxml')
+   writer.save('output.arxml', document)
 
    print("ARXML file written successfully")
 
@@ -38,18 +39,16 @@ Initialize AUTOSAR Model
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+   from armodel import AUTOSAR
 
    # Get the AUTOSAR singleton instance
-   autosar = AUTOSAR.getInstance()
+   document = AUTOSAR.getInstance()
 
    # Clear any existing data
-   autosar.new()
+   document.clear()
 
-   # Set the AUTOSAR schema version
-   autosar.setARRelease('R24-11')
-
-   print(f"Created AUTOSAR model with schema version: {autosar.schema_version}")
+   # Set the AUTOSAR schema version (REQUIRED before writing)
+   document.setARRelease('R23-11')
 
 Creating AR Packages
 ~~~~~~~~~~~~~~~~~~~~
@@ -57,7 +56,7 @@ Creating AR Packages
 .. code-block:: python
 
    # Create top-level package
-   main_package = autosar.createARPackage('MyPackage')
+   main_package = document.createARPackage('MyPackage')
 
    # Create nested package
    sub_package = main_package.createARPackage('SubPackage')
@@ -72,17 +71,11 @@ Application Software Component
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.ApplicationSwComponentType import ApplicationSwComponentType
-
    # Create application software component
-   component = ApplicationSwComponentType()
-   component.short_name = 'MyApplicationComponent'
+   component = main_package.createApplicationSwComponentType('MyApplicationComponent')
 
    # Set category
-   component.category = 'APPLICATION'
-
-   # Add to package
-   main_package.addApplicationSwComponentType(component)
+   component.setCategory('APPLICATION')
 
    print(f"Created component: {component.short_name}")
 
@@ -91,14 +84,8 @@ Composition Software Component
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.CompositionSwComponentType import CompositionSwComponentType
-
    # Create composition software component
-   composition = CompositionSwComponentType()
-   composition.short_name = 'MyComposition'
-
-   # Add to package
-   main_package.addCompositionSwComponentType(composition)
+   composition = main_package.createCompositionSwComponentType('MyComposition')
 
    print(f"Created composition: {composition.short_name}")
 
@@ -107,14 +94,10 @@ Service Software Component
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.ServiceSwComponentType import ServiceSwComponentType
-
    # Create service software component
-   service = ServiceSwComponentType()
-   service.short_name = 'MyService'
+   service = main_package.createServiceSwComponentType('MyService')
 
-   # Add to package
-   main_package.addServiceSwComponentType(service)
+   service.setCategory('SERVICE')
 
    print(f"Created service: {service.short_name}")
 
@@ -126,45 +109,25 @@ Provided Ports
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.PortPrototype import PPortPrototype
+   from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
 
-   # Create provided port
-   provided_port = PPortPrototype()
-   provided_port.short_name = 'MyProvidedPort'
+   # Create a provided port on the component
+   provided_port = component.createPPortPrototype('MyProvidedPort')
 
-   # Set interface reference (assuming interface exists)
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.PortInterface import SenderReceiverInterface
-
-   interface = SenderReceiverInterface()
-   interface.short_name = 'MyInterface'
-   main_package.addSenderReceiverInterface(interface)
-
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.ARObj import ARRef
-   provided_port.provided_interface_ref = ARRef(interface)
-
-   # Add to component
-   component.addProvidedPort(provided_port)
-
-   print(f"Created provided port: {provided_port.short_name}")
+   # Reference the interface the port provides
+   interface_ref = TRefType()
+   interface_ref.setDest('SENDER-RECEIVER-INTERFACE')
+   interface_ref.setValue('/MyPackage/MyInterface')
+   provided_port.setProvidedInterfaceTRef(interface_ref)
 
 Required Ports
 ~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.PortPrototype import RPortPrototype
-
-   # Create required port
-   required_port = RPortPrototype()
-   required_port.short_name = 'MyRequiredPort'
-
-   # Set interface reference
-   required_port.required_interface_ref = ARRef(interface)
-
-   # Add to component
-   component.addRequiredPort(required_port)
-
-   print(f"Created required port: {required_port.short_name}")
+   # Create a required port on the component
+   required_port = component.createRPortPrototype('MyRequiredPort')
+   required_port.setRequiredInterfaceTRef(interface_ref)
 
 Creating Data Types
 -------------------
@@ -174,33 +137,17 @@ Implementation Data Type
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.DataTypeImplementation import ImplementationDataType
-
    # Create implementation data type
-   data_type = ImplementationDataType()
-   data_type.short_name = 'MyDataType'
-   data_type.category = 'TYPE_REFERENCE'
-
-   # Add to package
-   main_package.addImplementationDataType(data_type)
-
-   print(f"Created data type: {data_type.short_name}")
+   data_type = main_package.createImplementationDataType('MyDataType')
+   data_type.setCategory('TYPE_REFERENCE')
 
 Application Data Type
 ~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.DataTypeApplication import ApplicationDataType
-
-   # Create application data type
-   app_data_type = ApplicationDataType()
-   app_data_type.short_name = 'MyAppDataType'
-
-   # Add to package
-   main_package.addApplicationDataType(app_data_type)
-
-   print(f"Created application data type: {app_data_type.short_name}")
+   # Create an application primitive data type
+   app_data_type = main_package.createApplicationPrimitiveDataType('MyAppDataType')
 
 Creating Port Interfaces
 -------------------------
@@ -210,51 +157,28 @@ Sender-Receiver Interface
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.PortInterface import SenderReceiverInterface
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.PortInterface import DataPrototype
+   from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
 
    # Create sender-receiver interface
-   sr_interface = SenderReceiverInterface()
-   sr_interface.short_name = 'MySenderReceiverInterface'
+   sr_interface = main_package.createSenderReceiverInterface('MyInterface')
 
-   # Create data element
-   data_element = DataPrototype()
-   data_element.short_name = 'MyDataElement'
-
-   # Set type reference
-   data_element.type_ref = ARRef(data_type)
-
-   # Add data element to interface
-   sr_interface.data_elements.append(data_element)
-
-   # Add to package
-   main_package.addSenderReceiverInterface(sr_interface)
-
-   print(f"Created sender-receiver interface: {sr_interface.short_name}")
+   # Create data element with a type reference
+   data_element = sr_interface.createDataElement('MyDataElement')
+   type_ref = TRefType()
+   type_ref.setDest('IMPLEMENTATION-DATA-TYPE')
+   type_ref.setValue('/MyPackage/MyDataType')
+   data_element.setTypeTRef(type_ref)
 
 Client-Server Interface
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.PortInterface import ClientServerInterface
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.PortInterface import Operation
-
    # Create client-server interface
-   cs_interface = ClientServerInterface()
-   cs_interface.short_name = 'MyClientServerInterface'
+   cs_interface = main_package.createClientServerInterface('MyClientServerInterface')
 
    # Create operation
-   operation = Operation()
-   operation.short_name = 'MyOperation'
-
-   # Add operation to interface
-   cs_interface.operations.append(operation)
-
-   # Add to package
-   main_package.addClientServerInterface(cs_interface)
-
-   print(f"Created client-server interface: {cs_interface.short_name}")
+   operation = cs_interface.createOperation('MyOperation')
 
 Creating Behavior
 -----------------
@@ -264,85 +188,46 @@ Internal Behavior
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.Behavior import SwcInternalBehavior
-
-   # Create internal behavior
-   behavior = SwcInternalBehavior()
-   behavior.short_name = 'MyBehavior'
-
-   # Set component reference
-   behavior.component_ref = ARRef(component)
-
-   # Add to package
-   main_package.addSwcInternalBehavior(behavior)
-
-   print(f"Created internal behavior: {behavior.short_name}")
+   # Create the internal behavior of a component
+   behavior = component.createSwcInternalBehavior('MyBehavior')
 
 Runnable Entity
 ~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.Behavior import RunnableEntity
-
    # Create runnable entity
-   runnable = RunnableEntity()
-   runnable.short_name = 'MyRunnable'
-
-   # Add to behavior
-   behavior.runnables.append(runnable)
-
-   print(f"Created runnable entity: {runnable.short_name}")
+   runnable = behavior.createRunnableEntity('MyRunnable')
 
 Events
 ~~~~~~
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.Behavior import InitEvent
+   from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
 
    # Create init event
-   init_event = InitEvent()
-   init_event.short_name = 'MyInitEvent'
+   init_event = behavior.createInitEvent('MyInitEvent')
 
-   # Set runnable reference
-   init_event.start_on_event_ref = ARRef(runnable)
-
-   # Add to behavior
-   behavior.events.append(init_event)
-
-   print(f"Created init event: {init_event.short_name}")
+   # Reference the runnable to start on
+   start_ref = TRefType()
+   start_ref.setDest('RUNNABLE-ENTITY')
+   start_ref.setValue('/MyPackage/MyBehavior/MyRunnable')
+   init_event.setStartOnEventRef(start_ref)
 
 Creating Connectors
 -------------------
 
-Assembly Connector
-~~~~~~~~~~~~~~~~~~
+Composition components provide factory methods for their connectors and
+component prototypes:
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.SwConnector import AssemblySwConnector
+   # Create a component prototype inside the composition
+   prototype = composition.createSwComponentPrototype('Provider')
 
-   # Create assembly connector
-   connector = AssemblySwConnector()
-   connector.short_name = 'MyConnector'
-
-   # Set provider and requester references
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.PortPrototype import PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
-
-   provider_ref = PPortInCompositionInstanceRef()
-   provider_ref.port_ref = ARRef(provided_port)
-
-   requester_ref = RPortInCompositionInstanceRef()
-   requester_ref.port_ref = ARRef(required_port)
-
-   connector.provider_ref = provider_ref
-   connector.requester_ref = requester_ref
-
-   # Add to composition
-   composition.connectors.append(connector)
-
-   print(f"Created assembly connector: {connector.short_name}")
+   # Create an assembly connector
+   connector = composition.createAssemblySwConnector('MyConnector')
 
 System Elements
 ---------------
@@ -352,14 +237,8 @@ System Signal
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SystemTemplate.System import SystemSignal
-
    # Create system signal
-   signal = SystemSignal()
-   signal.short_name = 'MySystemSignal'
-
-   # Add to package
-   main_package.addSystemSignal(signal)
+   signal = main_package.createSystemSignal('MySystemSignal')
 
    print(f"Created system signal: {signal.short_name}")
 
@@ -368,161 +247,82 @@ ECU Instance
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SystemTemplate.System import ECUInstance
-
    # Create ECU instance
-   ecu = ECUInstance()
-   ecu.short_name = 'MyECU'
-
-   # Add to package
-   main_package.addECUInstance(ecu)
+   ecu = main_package.createEcuInstance('MyECU')
 
    print(f"Created ECU instance: {ecu.short_name}")
-
-Advanced Writing
-----------------
-
-Setting Attributes
-~~~~~~~~~~~~~~~~~~
-
-.. code-block:: python
-
-   # Set various attributes on elements
-   component.category = 'APPLICATION'
-   data_type.category = 'TYPE_REFERENCE'
-   sr_interface.is_service = False
-   cs_interface.is_service = True
 
 Adding Documentation
 ~~~~~~~~~~~~~~~~~~~~
 
-.. code-block:: python
-
-   # Add description to elements
-   from armodel.models.M2.MSR.Documentation import Documentation
-
-   doc = Documentation()
-   doc.short_name = 'MyDocumentation'
-   doc.content = 'This is a description of the element'
-
-   component.documentation = doc
-
-Adding Annotations
-~~~~~~~~~~~~~~~~~~
+Elements derived from ``Identifiable`` accept an introduction block:
 
 .. code-block:: python
 
-   from armodel.models.M2.MSR.Annotation import Annotation
+   from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
-   # Create annotation
-   annotation = Annotation()
-   annotation.short_name = 'MyAnnotation'
-   annotation.content = 'Additional information'
-
-   # Add to element
-   if not hasattr(component, 'annotations'):
-       component.annotations = []
-   component.annotations.append(annotation)
-
-Writer Options
---------------
-
-Formatting Options
-~~~~~~~~~~~~~~~~~~
-
-.. code-block:: python
-
-   writer = ARXMLWriter()
-
-   # Write with formatting
-   writer.write_to_file(autosar_model, 'output.arxml', pretty_print=True)
-
-Validation
-~~~~~~~~~~
-
-The writer validates the model before writing:
-
-.. code-block:: python
-
-   try:
-       writer.write_to_file(autosar_model, 'output.arxml')
-       print("File written successfully")
-   except Exception as e:
-       print(f"Validation error: {e}")
+   # Add an introduction documentation block to an element
+   doc = DocumentationBlock()
+   doc.addP('This is a description of the element')
+   component.setIntroduction(doc)
 
 Best Practices
 --------------
 
 1. **Set schema version**: Always call ``setARRelease()`` before writing
-2. **Use proper references**: Ensure all references point to valid elements
-3. **Add descriptions**: Include documentation for better readability
-4. **Validate before writing**: Check the model structure
-5. **Use consistent naming**: Follow AUTOSAR naming conventions
+2. **Use factory methods**: Create elements with ``createXXX()`` methods so parent
+   links are maintained automatically
+3. **Use proper references**: Set ``TRefType``/``RefType`` destination and value
+4. **Use consistent naming**: Follow AUTOSAR naming conventions
 
 Example: Complete Creation Workflow
 ------------------------------------
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.ApplicationSwComponentType import ApplicationSwComponentType
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.PortPrototype import PPortPrototype, RPortPrototype
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.PortInterface import SenderReceiverInterface, DataPrototype
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.DataTypeImplementation import ImplementationDataType
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.ARObj import ARRef
-   from armodel.writer.arxml_writer import ARXMLWriter
+   from armodel import AUTOSAR
+   from armodel.writer import ARXMLWriter
+   from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
 
    def create_sample_model():
        """Create a sample AUTOSAR model."""
        # Initialize AUTOSAR
-       autosar = AUTOSAR.getInstance()
-       autosar.new()
-       autosar.setARRelease('R24-11')
+       document = AUTOSAR.getInstance()
+       document.clear()
+       document.setARRelease('R23-11')
 
        # Create package
-       package = autosar.createARPackage('MyPackage')
+       package = document.createARPackage('MyPackage')
 
        # Create data type
-       data_type = ImplementationDataType()
-       data_type.short_name = 'MyDataType'
-       data_type.category = 'TYPE_REFERENCE'
-       package.addImplementationDataType(data_type)
+       data_type = package.createImplementationDataType('MyDataType')
+       data_type.setCategory('TYPE_REFERENCE')
 
-       # Create interface
-       interface = SenderReceiverInterface()
-       interface.short_name = 'MyInterface'
-
-       data_element = DataPrototype()
-       data_element.short_name = 'MyDataElement'
-       data_element.type_ref = ARRef(data_type)
-
-       interface.data_elements.append(data_element)
-       package.addSenderReceiverInterface(interface)
+       # Create interface with a data element
+       interface = package.createSenderReceiverInterface('MyInterface')
+       data_element = interface.createDataElement('MyDataElement')
+       type_ref = TRefType()
+       type_ref.setDest('IMPLEMENTATION-DATA-TYPE')
+       type_ref.setValue('/MyPackage/MyDataType')
+       data_element.setTypeTRef(type_ref)
 
        # Create component
-       component = ApplicationSwComponentType()
-       component.short_name = 'MyComponent'
-       component.category = 'APPLICATION'
+       component = package.createApplicationSwComponentType('MyComponent')
+       component.setCategory('APPLICATION')
 
-       # Add ports
-       provided_port = PPortPrototype()
-       provided_port.short_name = 'MyProvidedPort'
-       provided_port.provided_interface_ref = ARRef(interface)
-       component.addProvidedPort(provided_port)
+       # Add a provided port
+       provided_port = component.createPPortPrototype('MyProvidedPort')
+       interface_ref = TRefType()
+       interface_ref.setDest('SENDER-RECEIVER-INTERFACE')
+       interface_ref.setValue('/MyPackage/MyInterface')
+       provided_port.setProvidedInterfaceTRef(interface_ref)
 
-       required_port = RPortPrototype()
-       required_port.short_name = 'MyRequiredPort'
-       required_port.required_interface_ref = ARRef(interface)
-       component.addRequiredPort(required_port)
-
-       package.addApplicationSwComponentType(component)
-
-       return autosar
+       return document
 
    # Create and write model
-   model = create_sample_model()
+   document = create_sample_model()
    writer = ARXMLWriter()
-   writer.write_to_file(model, 'sample.arxml')
+   writer.save('sample.arxml', document)
 
    print("Sample ARXML file created successfully")
 
@@ -531,4 +331,4 @@ Next Steps
 
 * Learn about :doc:`arxml_parsing` to read ARXML files
 * Explore the :doc:`../api/writer` API reference
-* Check :doc:`../examples` for more writing examples
+* Check :doc:`../examples/basic_usage` for more writing examples

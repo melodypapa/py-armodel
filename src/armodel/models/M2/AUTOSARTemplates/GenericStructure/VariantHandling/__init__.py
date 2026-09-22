@@ -21,13 +21,14 @@ class PostBuildVariantCriterion(ARElement):
 
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
     Base: ARElement, ARObject, AtpDefinition, CollectableElement, Identifiable,
-        MultilanguageReferrable, PackageableElement, Referrable
+    MultilanguageReferrable, PackageableElement, Referrable
     Tags: atp.recommendedPackage=PostBuildVariantCriterions
 
     Attributes:
-        compuMethodRef (CompuMethod): The compuMethod specifies the
-            possible values for the variant criterion serving as an
-            enumerator. (Multiplicity: 1)
+
+    * compuMethodRef (CompuMethod): The compuMethod specifies the
+      possible values for the variant criterion serving as an
+      enumerator. (Multiplicity: 1)
     """
 
     # PostBuildVariantCriterion method parity checklist:
@@ -73,7 +74,7 @@ class PostBuildVariantCriterionValue(ARObject):
 
     Attributes:
         annotations (List[Annotation]): This provides the ability to add
-            information why the value is set like it is. (Multiplicity: *)
+            information why the value is set like it is. (Multiplicity: ``*``)
         value (Integer): This is the particular value of the post-build
             variant criterion. (Multiplicity: 1)
         variantCriterionRef (PostBuildVariantCriterion): This association
@@ -466,7 +467,7 @@ class VariationPoint(ARObject):
             not allowed within a formal BlueprintGenerator. (Multiplicity: 0..1)
         postBuildVariantConditions (List[PostBuildVariantCondition]): This is the
             set of post build variant conditions which all shall be fulfilled in
-            order to (postbuild) bind the variation point. (Multiplicity: *)
+            order to (postbuild) bind the variation point. (Multiplicity: ``*``)
         sdg (Sdg): An optional special data group is attached to every variation
             point. These data can be used by external software systems to attach
             application specific data. For example, a variant management system

@@ -8,39 +8,23 @@ Example 1: Create Diagnostic Connection
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.ApplicationSwComponentType import ApplicationSwComponentType
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.DiagnosticExtract import DiagnosticConnection
-   from armodel.writer.arxml_writer import ARXMLWriter
+   from armodel import AUTOSAR
+   from armodel.writer import ARXMLWriter
 
    # Initialize AUTOSAR
-   autosar = AUTOSAR.getInstance()
-   autosar.new()
-   autosar.setARRelease('R24-11')
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    # Create package
-   package = autosar.createARPackage('MyPackage')
-
-   # Create component
-   component = ApplicationSwComponentType()
-   component.short_name = 'MyComponent'
-   component.category = 'APPLICATION'
+   package = document.createARPackage('MyPackage')
 
    # Create diagnostic connection
-   diag_connection = DiagnosticConnection()
-   diag_connection.short_name = 'MyDiagConnection'
-
-   # Add to component
-   if not hasattr(component, 'diagnostic_connections'):
-       component.diagnostic_connections = []
-   component.diagnostic_connections.append(diag_connection)
-
-   # Add to package
-   package.addApplicationSwComponentType(component)
+   diag_connection = package.createDiagnosticConnection('MyDiagConnection')
 
    # Write to file
    writer = ARXMLWriter()
-   writer.write_to_file(autosar, 'diagnostic_connection.arxml')
+   writer.save('diagnostic_connection.arxml', document)
 
    print("Created diagnostic connection")
 
@@ -49,248 +33,110 @@ Example 2: Create Diagnostic Service Table
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.DiagnosticExtract import DiagnosticServiceTable
-   from armodel.writer.arxml_writer import ARXMLWriter
+   from armodel import AUTOSAR
+   from armodel.writer import ARXMLWriter
 
    # Initialize AUTOSAR
-   autosar = AUTOSAR.getInstance()
-   autosar.new()
-   autosar.setARRelease('R24-11')
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    # Create package
-   package = autosar.createARPackage('MyPackage')
+   package = document.createARPackage('MyPackage')
 
    # Create diagnostic service table
-   service_table = DiagnosticServiceTable()
-   service_table.short_name = 'MyServiceTable'
-
-   # Add to package
-   package.addDiagnosticServiceTable(service_table)
+   service_table = package.createDiagnosticServiceTable('MyServiceTable')
 
    # Write to file
    writer = ARXMLWriter()
-   writer.write_to_file(autosar, 'diagnostic_service_table.arxml')
+   writer.save('diagnostic_service_table.arxml', document)
 
    print("Created diagnostic service table")
 
-Example 3: Create Diagnostic Event Needs
------------------------------------------
+Example 3: List Diagnostic Elements
+------------------------------------
+
+Diagnostic elements are regular AR package elements. Filter the package
+elements by their class to list them:
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.DiagnosticExtract import DiagnosticEventNeeds
-   from armodel.writer.arxml_writer import ARXMLWriter
+   from armodel import AUTOSAR
+   from armodel.parser import ARXMLParser
+   from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
+   from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 
-   # Initialize AUTOSAR
-   autosar = AUTOSAR.getInstance()
-   autosar.new()
-   autosar.setARRelease('R24-11')
-
-   # Create package
-   package = autosar.createARPackage('MyPackage')
-
-   # Create diagnostic event needs
-   event_needs = DiagnosticEventNeeds()
-   event_needs.short_name = 'MyEventNeeds'
-
-   # Add to package
-   package.addDiagnosticEventNeeds(event_needs)
-
-   # Write to file
-   writer = ARXMLWriter()
-   writer.write_to_file(autosar, 'diagnostic_event_needs.arxml')
-
-   print("Created diagnostic event needs")
-
-Example 4: Create Diagnostic Communication Manager Needs
---------------------------------------------------------
-
-.. code-block:: python
-
-   from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.DiagnosticExtract import DiagnosticCommunicationManagerNeeds
-   from armodel.writer.arxml_writer import ARXMLWriter
-
-   # Initialize AUTOSAR
-   autosar = AUTOSAR.getInstance()
-   autosar.new()
-   autosar.setARRelease('R24-11')
-
-   # Create package
-   package = autosar.createARPackage('MyPackage')
-
-   # Create diagnostic communication manager needs
-   dcm_needs = DiagnosticCommunicationManagerNeeds()
-   dcm_needs.short_name = 'MyDCMNeeds'
-
-   # Add to package
-   package.addDiagnosticCommunicationManagerNeeds(dcm_needs)
-
-   # Write to file
-   writer = ARXMLWriter()
-   writer.write_to_file(autosar, 'dcm_needs.arxml')
-
-   print("Created diagnostic communication manager needs")
-
-Example 5: Create Diagnostic Routine Needs
--------------------------------------------
-
-.. code-block:: python
-
-   from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.DiagnosticExtract import DiagnosticRoutineNeeds
-   from armodel.writer.arxml_writer import ARXMLWriter
-
-   # Initialize AUTOSAR
-   autosar = AUTOSAR.getInstance()
-   autosar.new()
-   autosar.setARRelease('R24-11')
-
-   # Create package
-   package = autosar.createARPackage('MyPackage')
-
-   # Create diagnostic routine needs
-   routine_needs = DiagnosticRoutineNeeds()
-   routine_needs.short_name = 'MyRoutineNeeds'
-
-   # Add to package
-   package.addDiagnosticRoutineNeeds(routine_needs)
-
-   # Write to file
-   writer = ARXMLWriter()
-   writer.write_to_file(autosar, 'diagnostic_routine_needs.arxml')
-
-   print("Created diagnostic routine needs")
-
-Example 6: List All Diagnostic Elements
-----------------------------------------
-
-.. code-block:: python
-
-   from armodel.parser.arxml_parser import ARXMLParser
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    # Parse ARXML
    parser = ARXMLParser()
-   model = parser.parse_from_file('example.arxml')
+   parser.load('example.arxml', document)
 
    # List diagnostic connections
    print("Diagnostic Connections:")
-   for component in model.getAtomicSwComponentTypes():
-       if hasattr(component, 'diagnostic_connections'):
-           for conn in component.diagnostic_connections:
-               print(f"  - {conn.short_name} (in {component.short_name})")
+   for package in document.getARPackages():
+       for element in package.getElements():
+           if isinstance(element, DiagnosticConnection):
+               print(f"  - {element.short_name} (in {package.short_name})")
 
    # List diagnostic service tables
    print("\nDiagnostic Service Tables:")
-   for table in model.getDiagnosticServiceTables():
-       print(f"  - {table.short_name}")
+   for package in document.getARPackages():
+       for element in package.getElements():
+           if isinstance(element, DiagnosticServiceTable):
+               print(f"  - {element.short_name}")
 
-   # List diagnostic event needs
-   print("\nDiagnostic Event Needs:")
-   for needs in model.getDiagnosticEventNeeds():
-       print(f"  - {needs.short_name}")
-
-   # List diagnostic routine needs
-   print("\nDiagnostic Routine Needs:")
-   for needs in model.getDiagnosticRoutineNeeds():
-       print(f"  - {needs.short_name}")
-
-Example 7: Find Diagnostic Elements
+Example 4: Find Diagnostic Elements
 ------------------------------------
+
+Elements are found by their full path:
 
 .. code-block:: python
 
-   from armodel.parser.arxml_parser import ARXMLParser
+   from armodel import AUTOSAR
+   from armodel.parser import ARXMLParser
+
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    # Parse ARXML
    parser = ARXMLParser()
-   model = parser.parse_from_file('example.arxml')
+   parser.load('example.arxml', document)
 
-   # Find specific diagnostic service table
-   service_table = model.findDiagnosticServiceTable('MyServiceTable')
+   # Find a diagnostic connection by its full path
+   diag_connection = document.find('/MyPackage/MyDiagConnection')
 
-   if service_table:
-       print(f"Found service table: {service_table.short_name}")
+   if diag_connection:
+       print(f"Found: {diag_connection.short_name} "
+             f"({diag_connection.__class__.__name__})")
 
-   # Find specific diagnostic event needs
-   event_needs = model.findDiagnosticEventNeeds('MyEventNeeds')
-
-   if event_needs:
-       print(f"Found event needs: {event_needs.short_name}")
-
-   # Find component with diagnostic connections
-   component = model.findAtomicSwComponentType('MyComponent')
-
-   if component and hasattr(component, 'diagnostic_connections'):
-       print(f"\nDiagnostic connections in {component.short_name}:")
-       for conn in component.diagnostic_connections:
-           print(f"  - {conn.short_name}")
-
-Example 8: Complete Diagnostic Setup
+Example 5: Complete Diagnostic Setup
 -------------------------------------
 
 .. code-block:: python
 
-   from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.SWComponentTemplate.ApplicationSwComponentType import ApplicationSwComponentType
-   from armodel.models.M2.AUTOSARTemplates.CommonStructure.GenericStructure.DiagnosticExtract import (
-       DiagnosticConnection,
-       DiagnosticServiceTable,
-       DiagnosticEventNeeds,
-       DiagnosticCommunicationManagerNeeds,
-       DiagnosticRoutineNeeds
-   )
-   from armodel.writer.arxml_writer import ARXMLWriter
+   from armodel import AUTOSAR
+   from armodel.writer import ARXMLWriter
 
    # Initialize AUTOSAR
-   autosar = AUTOSAR.getInstance()
-   autosar.new()
-   autosar.setARRelease('R24-11')
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
 
    # Create package
-   package = autosar.createARPackage('MyPackage')
-
-   # Create component
-   component = ApplicationSwComponentType()
-   component.short_name = 'MyComponent'
-   component.category = 'APPLICATION'
+   package = document.createARPackage('MyPackage')
 
    # Create diagnostic connection
-   diag_connection = DiagnosticConnection()
-   diag_connection.short_name = 'MyDiagConnection'
-
-   # Add diagnostic connection to component
-   if not hasattr(component, 'diagnostic_connections'):
-       component.diagnostic_connections = []
-   component.diagnostic_connections.append(diag_connection)
-
-   # Add component to package
-   package.addApplicationSwComponentType(component)
+   package.createDiagnosticConnection('MyDiagConnection')
 
    # Create diagnostic service table
-   service_table = DiagnosticServiceTable()
-   service_table.short_name = 'MyServiceTable'
-   package.addDiagnosticServiceTable(service_table)
-
-   # Create diagnostic event needs
-   event_needs = DiagnosticEventNeeds()
-   event_needs.short_name = 'MyEventNeeds'
-   package.addDiagnosticEventNeeds(event_needs)
-
-   # Create diagnostic communication manager needs
-   dcm_needs = DiagnosticCommunicationManagerNeeds()
-   dcm_needs.short_name = 'MyDCMNeeds'
-   package.addDiagnosticCommunicationManagerNeeds(dcm_needs)
-
-   # Create diagnostic routine needs
-   routine_needs = DiagnosticRoutineNeeds()
-   routine_needs.short_name = 'MyRoutineNeeds'
-   package.addDiagnosticRoutineNeeds(routine_needs)
+   package.createDiagnosticServiceTable('MyServiceTable')
 
    # Write to file
    writer = ARXMLWriter()
-   writer.write_to_file(autosar, 'complete_diagnostics.arxml')
+   writer.save('complete_diagnostics.arxml', document)
 
    print("Created complete diagnostic setup")

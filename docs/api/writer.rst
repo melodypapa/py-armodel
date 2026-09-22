@@ -7,6 +7,7 @@ Main Writer Class
 -----------------
 
 .. autoclass:: armodel.writer.arxml_writer.ARXMLWriter
+   :no-index:
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,24 +16,9 @@ Abstract Writer
 ---------------
 
 .. autoclass:: armodel.writer.abstract_arxml_writer.AbstractARXMLWriter
+   :no-index:
    :members:
    :undoc-members:
-   :show-inheritance:
-
-Writer Exceptions
------------------
-
-Exception Classes
-~~~~~~~~~~~~~~~~~
-
-The writer may raise the following exceptions:
-
-.. autoexception:: armodel.writer.arxml_writer.ARXMLWriterError
-   :members:
-   :show-inheritance:
-
-.. autoexception:: armodel.writer.arxml_writer.ValidationError
-   :members:
    :show-inheritance:
 
 Usage Examples
@@ -43,96 +29,53 @@ Basic Writing
 
 .. code-block:: python
 
-   from armodel.writer.arxml_writer import ARXMLWriter
+   from armodel import AUTOSAR
+   from armodel.writer import ARXMLWriter
 
-   # Create writer
+   document = AUTOSAR.getInstance()
+
+   # Save the document to a file
    writer = ARXMLWriter()
-
-   # Write model to file
-   writer.write_to_file(autosar_model, 'output.arxml')
-
-Writing with Formatting
-~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: python
-
-   writer = ARXMLWriter()
-
-   # Write with pretty printing
-   writer.write_to_file(
-       autosar_model,
-       'output.arxml',
-       pretty_print=True
-   )
-
-Writing to String
-~~~~~~~~~~~~~~~~~
-
-.. code-block:: python
-
-   # Write to string instead of file
-   xml_string = writer.write_to_string(autosar_model)
-
-   print(xml_string)
+   writer.save('output.arxml', document)
 
 Error Handling
 ~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   from armodel.writer.arxml_writer import ARXMLWriter, ARXMLWriterError
+   from armodel import AUTOSAR
+   from armodel.writer import ARXMLWriter
 
    writer = ARXMLWriter()
 
    try:
-       writer.write_to_file(autosar_model, 'output.arxml')
-   except ARXMLWriterError as e:
-       print(f"Writer error: {e}")
+       writer.save('output.arxml', document)
    except Exception as e:
-       print(f"Unexpected error: {e}")
-
-Advanced Usage
---------------
-
-Custom Formatting
-~~~~~~~~~~~~~~~~~
-
-.. code-block:: python
-
-   writer = ARXMLWriter()
-
-   # Write with custom indentation
-   writer.write_to_file(
-       autosar_model,
-       'output.arxml',
-       indent='  ',
-       encoding='utf-8'
-   )
-
-Writing Specific Elements
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: python
-
-   # Write only specific packages
-   from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-
-   autosar = AUTOSAR.getInstance()
-   package = autosar.findARPackage('MyPackage')
-
-   if package:
-       writer.write_element_to_file(package, 'package.arxml')
+       print(f"Writer error: {e}")
 
 Batch Writing
 ~~~~~~~~~~~~~
 
+Multiple ARXML files can be written from one document by saving the
+document after each processing step:
+
 .. code-block:: python
 
-   # Write multiple models
-   models = [model1, model2, model3]
+   from armodel import AUTOSAR
+   from armodel.parser import ARXMLParser
+   from armodel.writer import ARXMLWriter
+
+   document = AUTOSAR.getInstance()
+   document.clear()
+   document.setARRelease('R23-11')
+
+   parser = ARXMLParser()
    writer = ARXMLWriter()
 
-   for i, model in enumerate(models):
-       output_file = f'output_{i}.arxml'
-       writer.write_to_file(model, output_file)
+   for input_file in ['file1.arxml', 'file2.arxml', 'file3.arxml']:
+       document.clear()
+       parser.load(input_file, document)
+
+       output_file = input_file.replace('.arxml', '_converted.arxml')
+       writer.save(output_file, document)
        print(f"Wrote {output_file}")

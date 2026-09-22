@@ -3,6 +3,13 @@ import xml.etree.ElementTree as ET
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, FileInfoComment
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment import (
+    CryptoKeySlot,
+    CryptoKeySlotAllowedModification,
+    CryptoKeySlotContentAllowedUsage,
+    CryptoKeySlotTypeEnum,
+    CryptoObjectTypeEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import (
     DataLinkLayerRule,
     DdsRule,
@@ -705,6 +712,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     SystemMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+    IndexedArrayElement,
+    SenderRecArrayElementMapping,
+    SenderRecArrayTypeMapping,
     SenderRecCompositeTypeMapping,
     SenderReceiverToSignalGroupMapping,
     SenderReceiverToSignalMapping,
@@ -797,6 +807,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecLocalKayProps,
     MacSecProps,
     MacSecRoleEnum,
+    SecOcCryptoServiceMapping,
+    TlsCryptoServiceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -878,7 +890,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
     LinSlaveConfig,
     LinSlaveConfigIdent,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import DefaultValueElement, Gateway, IPduMapping, ISignalMapping, PduMappingDefaultValue, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     CommConnectorPort,
     ContainedIPduProps,
@@ -965,6 +977,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     CanNmClusterCoupling,
     CanNmNode,
     CanNmEcu,
+    FlexrayNmCluster,
+    FlexrayNmEcu,
+    J1939NmCluster,
+    J1939NmEcu,
     J1939NmNode,
     J1939NodeName,
     NmCluster,
@@ -979,6 +995,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
+    CSTransformerErrorReactionEnum,
     DataPrototypeInPortInterfaceRef,
     DataPrototypeInClientServerInterfaceInstanceRef,
     DataPrototypeInSenderReceiverInterfaceInstanceRef,
@@ -9904,11 +9921,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readHwAttributeDef(self, element: ET.Element, attribute_def: HwAttributeDef):
         self.readIdentifiable(element, attribute_def)
-        attribute_def.setIsRequired(self.getChildElementOptionalBooleanValue(element, "IS-REQUIRED"))
-        attribute_def.setUnitRef(self.getChildElementOptionalRefType(element, "UNIT-REF"))
         for child_element in self.findall(element, "HW-ATTRIBUTE-LITERALS/HW-ATTRIBUTE-LITERAL-DEF"):
             literal_def = attribute_def.createHwAttributeLiteral(self.getShortName(child_element))
             self.readHwAttributeLiteralDef(child_element, literal_def)
+        attribute_def.setIsRequired(self.getChildElementOptionalBooleanValue(element, "IS-REQUIRED"))
+        attribute_def.setUnitRef(self.getChildElementOptionalRefType(element, "UNIT-REF"))
 
     def readHwAttributeLiteralDef(self, element: ET.Element, literal_def):
         self.readIdentifiable(element, literal_def)
@@ -10082,8 +10099,11 @@ class ARXMLParser(AbstractARXMLParser):
                 nm_node = cluster.createCanNmNode(self.getShortName(child_element))
                 self.readCanNmNode(child_element, nm_node)
             elif tag_name == "UDP-NM-NODE":
-                nm_node = cluster.readUdpNmNode(self.getShortName(child_element))
+                nm_node = cluster.createUdpNmNode(self.getShortName(child_element))
                 self.readUdpNmNode(child_element, nm_node)
+            elif tag_name == "FLEXRAY-NM-NODE":
+                nm_node = cluster.createFlexrayNmNode(self.getShortName(child_element))
+                self.readNmNode(child_element, nm_node)
             elif tag_name == "J-1939-NM-NODE":
                 nm_node = cluster.createJ1939NmNode(self.getShortName(child_element))
                 self.readJ1939NmNode(child_element, nm_node)
@@ -10122,7 +10142,12 @@ class ARXMLParser(AbstractARXMLParser):
         cluster.setNmChannelId(self.getChildElementOptionalNumericalValue(element, "NM-CHANNEL-ID"))
         cluster.setNmChannelSleepMaster(self.getChildElementOptionalBooleanValue(element, "NM-CHANNEL-SLEEP-MASTER"))
         self.readNmClusterNmNodes(element, cluster)
+        cluster.setNmNodeDetectionEnabled(self.getChildElementOptionalBooleanValue(element, "NM-NODE-DETECTION-ENABLED"))
+        cluster.setNmNodeIdEnabled(self.getChildElementOptionalBooleanValue(element, "NM-NODE-ID-ENABLED"))
+        cluster.setNmPncParticipation(self.getChildElementOptionalBooleanValue(element, "NM-PNC-PARTICIPATION"))
+        cluster.setNmRepeatMsgIndEnabled(self.getChildElementOptionalBooleanValue(element, "NM-REPEAT-MSG-IND-ENABLED"))
         cluster.setNmSynchronizingNetwork(self.getChildElementOptionalBooleanValue(element, "NM-SYNCHRONIZING-NETWORK"))
+        cluster.setPncClusterVectorLength(self.getChildElementOptionalPositiveInteger(element, "PNC-CLUSTER-VECTOR-LENGTH"))
 
     def readCanNmCluster(self, element: ET.Element, cluster: CanNmCluster):
         self.logger.debug("Read CanNmCluster <%s>" % cluster.getShortName())
@@ -10158,6 +10183,26 @@ class ARXMLParser(AbstractARXMLParser):
         cluster.setNmWaitBusSleepTime(self.getChildElementOptionalTimeValue(element, "NM-WAIT-BUS-SLEEP-TIME"))
         cluster.setVlanRef(self.getChildElementOptionalRefType(element, "VLAN-REF"))
 
+    def readFlexrayNmCluster(self, element: ET.Element, cluster: FlexrayNmCluster):
+        self.logger.debug("Read FlexrayNmCluster <%s>" % cluster.getShortName())
+        self.readNmCluster(element, cluster)
+        cluster.setNmCarWakeUpBitPosition(self.getChildElementOptionalPositiveInteger(element, "NM-CAR-WAKE-UP-BIT-POSITION"))
+        cluster.setNmCarWakeUpFilterEnabled(self.getChildElementOptionalBooleanValue(element, "NM-CAR-WAKE-UP-FILTER-ENABLED"))
+        cluster.setNmCarWakeUpFilterNodeId(self.getChildElementOptionalPositiveInteger(element, "NM-CAR-WAKE-UP-FILTER-NODE-ID"))
+        cluster.setNmCarWakeUpRxEnabled(self.getChildElementOptionalBooleanValue(element, "NM-CAR-WAKE-UP-RX-ENABLED"))
+        cluster.setNmDataCycle(self.getChildElementOptionalIntegerValue(element, "NM-DATA-CYCLE"))
+        cluster.setNmMainFunctionPeriod(self.getChildElementOptionalTimeValue(element, "NM-MAIN-FUNCTION-PERIOD"))
+        cluster.setNmRemoteSleepIndicationTime(self.getChildElementOptionalTimeValue(element, "NM-REMOTE-SLEEP-INDICATION-TIME"))
+        cluster.setNmRepeatMessageTime(self.getChildElementOptionalTimeValue(element, "NM-REPEAT-MESSAGE-TIME"))
+        cluster.setNmRepetitionCycle(self.getChildElementOptionalIntegerValue(element, "NM-REPETITION-CYCLE"))
+        cluster.setNmVotingCycle(self.getChildElementOptionalIntegerValue(element, "NM-VOTING-CYCLE"))
+
+    def readJ1939NmCluster(self, element: ET.Element, cluster: J1939NmCluster):
+        self.logger.debug("Read J1939NmCluster <%s>" % cluster.getShortName())
+        self.readNmCluster(element, cluster)
+        cluster.setAddressClaimEnabled(self.getChildElementOptionalBooleanValue(element, "ADDRESS-CLAIM-ENABLED"))
+        cluster.setUsesDynamicAddressing(self.getChildElementOptionalBooleanValue(element, "USES-DYNAMIC-ADDRESSING"))
+
     def readNmConfigNmClusters(self, element: ET.Element, nm_config: NmConfig):
         for child_element in self.findall(element, "NM-CLUSTERS/*"):
             tag_name = self.getTagName(child_element)
@@ -10167,13 +10212,26 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "UDP-NM-CLUSTER":
                 cluster = nm_config.createUdpNmCluster(self.getShortName(child_element))
                 self.readUdpNmCluster(child_element, cluster)
+            elif tag_name == "FLEXRAY-NM-CLUSTER":
+                cluster = nm_config.createFlexrayNmCluster(self.getShortName(child_element))
+                self.readFlexrayNmCluster(child_element, cluster)
+            elif tag_name == "J-1939-NM-CLUSTER":
+                cluster = nm_config.createJ1939NmCluster(self.getShortName(child_element))
+                self.readJ1939NmCluster(child_element, cluster)
             else:
                 self.raiseError("Unsupported Nm Cluster <%s>" % tag_name)
 
     def readUdpNmEcu(self, element: ET.Element, ecu: UdpNmEcu):
         ecu.setNmSynchronizationPointEnabled(self.getChildElementOptionalBooleanValue(element, "NM-SYNCHRONIZATION-POINT-ENABLED"))
 
+    def readFlexrayNmEcu(self, element: ET.Element, ecu: FlexrayNmEcu):
+        ecu.setNmHwVoteEnabled(self.getChildElementOptionalBooleanValue(element, "NM-HW-VOTE-ENABLED"))
+        ecu.setNmMainFunctionAcrossFrCycle(self.getChildElementOptionalBooleanValue(element, "NM-MAIN-FUNCTION-ACROSS-FR-CYCLE"))
+
     def readCanNmEcu(self, element: ET.Element, ecu: CanNmEcu):
+        pass
+
+    def readJ1939NmEcu(self, element: ET.Element, ecu: J1939NmEcu):
         pass
 
     def readBusDependentNmEcus(self, element: ET.Element, nm_ecu: NmEcu):
@@ -10187,6 +10245,14 @@ class ARXMLParser(AbstractARXMLParser):
                 can_nm_ecu = CanNmEcu()
                 self.readCanNmEcu(child_element, can_nm_ecu)
                 nm_ecu.addBusDependentNmEcu(can_nm_ecu)
+            elif tag_name == "FLEXRAY-NM-ECU":
+                flexray_nm_ecu = FlexrayNmEcu()
+                self.readFlexrayNmEcu(child_element, flexray_nm_ecu)
+                nm_ecu.addBusDependentNmEcu(flexray_nm_ecu)
+            elif tag_name == "J-1939-NM-ECU":
+                j1939_nm_ecu = J1939NmEcu()
+                self.readJ1939NmEcu(child_element, j1939_nm_ecu)
+                nm_ecu.addBusDependentNmEcu(j1939_nm_ecu)
             else:
                 self.notImplemented("Unsupported BusDependentNmEcu <%s>" % tag_name)
 
@@ -10402,6 +10468,43 @@ class ARXMLParser(AbstractARXMLParser):
     def readFlexrayFrame(self, element: ET.Element, frame: FlexrayFrame):
         self.logger.debug("Read FlexrayFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
+
+    def readCryptoKeySlot(self, element: ET.Element, key_slot: CryptoKeySlot):
+        self.logger.debug("Read CryptoKeySlot <%s>" % key_slot.getShortName())
+        self.readIdentifiable(element, key_slot)
+        key_slot.setAllocateShadowCopy(self.getChildElementOptionalBooleanValue(element, "ALLOCATE-SHADOW-COPY"))
+        key_slot.setCryptoAlgId(self.getChildElementOptionalString(element, "CRYPTO-ALG-ID"))
+        literal = self.getChildElementOptionalLiteral(element, "CRYPTO-OBJECT-TYPE")
+        if literal is not None:
+            object_type = CryptoObjectTypeEnum()
+            object_type.setValue(literal.getValue())
+            key_slot.setCryptoObjectType(object_type)
+        modification_element = self.find(element, "KEY-SLOT-ALLOWED-MODIFICATION")
+        if modification_element is not None:
+            modification = CryptoKeySlotAllowedModification()
+            self.readCryptoKeySlotAllowedModification(modification_element, modification)
+            key_slot.setKeySlotAllowedModification(modification)
+        for usage_element in self.findall(element, "KEY-SLOT-CONTENT-ALLOWED-USAGES/CRYPTO-KEY-SLOT-CONTENT-ALLOWED-USAGE"):
+            usage = CryptoKeySlotContentAllowedUsage()
+            self.readCryptoKeySlotContentAllowedUsage(usage_element, usage)
+            key_slot.addKeySlotContentAllowedUsage(usage)
+        key_slot.setSlotCapacity(self.getChildElementOptionalPositiveInteger(element, "SLOT-CAPACITY"))
+        literal = self.getChildElementOptionalLiteral(element, "SLOT-TYPE")
+        if literal is not None:
+            slot_type = CryptoKeySlotTypeEnum()
+            slot_type.setValue(literal.getValue())
+            key_slot.setSlotType(slot_type)
+
+    def readCryptoKeySlotAllowedModification(self, element: ET.Element, modification: CryptoKeySlotAllowedModification):
+        self.readARObject(element, modification)
+        modification.setAllowContentTypeChange(self.getChildElementOptionalBooleanValue(element, "ALLOW-CONTENT-TYPE-CHANGE"))
+        modification.setExportability(self.getChildElementOptionalBooleanValue(element, "EXPORTABILITY"))
+        modification.setMaxNumberOfAllowedUpdates(self.getChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-ALLOWED-UPDATES"))
+        modification.setRestrictUpdate(self.getChildElementOptionalBooleanValue(element, "RESTRICT-UPDATE"))
+
+    def readCryptoKeySlotContentAllowedUsage(self, element: ET.Element, usage: CryptoKeySlotContentAllowedUsage):
+        self.readARObject(element, usage)
+        usage.setAllowedKeyslotUsage(self.getChildElementOptionalString(element, "ALLOWED-KEYSLOT-USAGE"))
 
     def readFlexrayCommunicationController(self, element: ET.Element, controller: FlexrayCommunicationController):
         self.logger.debug("Read CommunicationController <%s>" % controller.getShortName())
@@ -12064,13 +12167,27 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             i_pdu_ref = TargetIPduRef()
             i_pdu_ref.setTargetIPduRef(self.getChildElementOptionalRefType(child_element, "TARGET-I-PDU-REF"))
+            for element_element in self.findall(child_element, "DEFAULT-VALUE-ELEMENTS/DEFAULT-VALUE-ELEMENT"):
+                if i_pdu_ref.getDefaultValue() is None:
+                    i_pdu_ref.setDefaultValue(PduMappingDefaultValue())
+                default_value = DefaultValueElement()
+                self.readDefaultValueElement(element_element, default_value)
+                i_pdu_ref.getDefaultValue().addDefaultValueElement(default_value)
         return i_pdu_ref
+
+    def readDefaultValueElement(self, element: ET.Element, default_value: DefaultValueElement):
+        self.readARObject(element, default_value)
+        default_value.setElementByteValue(self.getChildElementOptionalIntegerValue(element, "ELEMENT-BYTE-VALUE"))
+        default_value.setElementPosition(self.getChildElementOptionalIntegerValue(element, "ELEMENT-POSITION"))
 
     def getIPduMappings(self, element: ET.Element) -> List[IPduMapping]:
         mappings = []
         for child_element in self.findall(element, "I-PDU-MAPPINGS/I-PDU-MAPPING"):
             mapping = IPduMapping()
-            mapping.setSourceIpduRef(self.getChildElementOptionalRefType(child_element, "SOURCE-I-PDU-REF"))
+            mapping.setIntroduction(self.getDocumentationBlock(child_element, "INTRODUCTION"))
+            mapping.setPduMaxLength(self.getChildElementOptionalPositiveInteger(child_element, "PDU-MAX-LENGTH"))
+            mapping.setPdurTpChunkSize(self.getChildElementOptionalPositiveInteger(child_element, "PDUR-TP-CHUNK-SIZE"))
+            mapping.setSourceIPduRef(self.getChildElementOptionalRefType(child_element, "SOURCE-I-PDU-REF"))
             mapping.setTargetIPdu(self.getTargetIPduRef(child_element, "TARGET-I-PDU"))
             mappings.append(mapping)
         return mappings
@@ -12408,7 +12525,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTransformationISignalProps(self, element: ET.Element, props: TransformationISignalProps):
         self.readDescribable(element, props)
-        props.setCsErrorReaction(self.getChildElementOptionalLiteral(element, "CS-ERROR-REACTION"))
+        cs_error_reaction = self.getChildElementOptionalLiteral(element, "CS-ERROR-REACTION")
+        if cs_error_reaction is not None:
+            e = CSTransformerErrorReactionEnum()
+            e.setValue(cs_error_reaction.getValue())
+            props.setCsErrorReaction(e)
         for child_element in self.findall(element, "DATA-PROTOTYPE-TRANSFORMATION-PROPSS/*"):
             if self.getTagName(child_element) == "DATA-PROTOTYPE-TRANSFORMATION-PROPS":
                 dp_props = DataPrototypeTransformationProps()
@@ -12713,6 +12834,53 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setImplementationRecordElementRef(self.getChildElementOptionalRefType(element, "IMPLEMENTATION-RECORD-ELEMENT-REF"))
         mapping.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
 
+    def readIndexedArrayElement(self, element: ET.Element, indexed: IndexedArrayElement):
+        self.readARObject(element, indexed)
+        indexed.setApplicationArrayElementRef(self.getChildElementOptionalRefType(element, "APPLICATION-ARRAY-ELEMENT-REF"))
+        indexed.setImplementationArrayElementRef(self.getChildElementOptionalRefType(element, "IMPLEMENTATION-ARRAY-ELEMENT-REF"))
+        indexed.setIndex(self.getChildElementOptionalIntegerValue(element, "INDEX"))
+
+    def readSenderRecArrayElementMapping(self, element: ET.Element, mapping: SenderRecArrayElementMapping):
+        self.readARObject(element, mapping)
+        complex_element = self.find(element, "COMPLEX-TYPE-MAPPING")
+        if complex_element is not None:
+            type_mapping_element = self.find(complex_element, "*")
+            if type_mapping_element is not None:
+                tag_name = self.getTagName(type_mapping_element)
+                if tag_name == "SENDER-REC-ARRAY-TYPE-MAPPING":
+                    type_mapping = SenderRecArrayTypeMapping()
+                    self.readSenderRecArrayTypeMapping(type_mapping_element, type_mapping)
+                    mapping.setComplexTypeMapping(type_mapping)
+                elif tag_name == "SENDER-REC-RECORD-TYPE-MAPPING":
+                    type_mapping = SenderRecRecordTypeMapping()
+                    self.readSenderRecRecordTypeMapping(type_mapping_element, type_mapping)
+                    mapping.setComplexTypeMapping(type_mapping)
+                else:
+                    self.notImplemented("Unsupported ComplexTypeMapping %s" % tag_name)
+        indexed_element = self.find(element, "INDEXED-ARRAY-ELEMENT")
+        if indexed_element is not None:
+            indexed = IndexedArrayElement()
+            self.readIndexedArrayElement(indexed_element, indexed)
+            mapping.setIndexedArrayElement(indexed)
+        mapping.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
+
+    def readSenderRecArrayTypeMapping(self, element: ET.Element, mapping: SenderRecArrayTypeMapping):
+        self.readSenderRecCompositeTypeMapping(element, mapping)
+        for child_element in self.findall(element, "ARRAY-ELEMENT-MAPPINGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SENDER-REC-ARRAY-ELEMENT-MAPPING":
+                array_element_mapping = SenderRecArrayElementMapping()
+                self.readSenderRecArrayElementMapping(child_element, array_element_mapping)
+                mapping.addArrayElementMapping(array_element_mapping)
+            else:
+                self.notImplemented("Unsupported ArrayElementMapping %s" % tag_name)
+        sender_to_signal_element = self.find(element, "SENDER-TO-SIGNAL-TEXT-TABLE-MAPPING")
+        if sender_to_signal_element is not None:
+            mapping.setSenderToSignalTextTableMapping(self.getTextTableMapping(sender_to_signal_element))
+        signal_to_receiver_element = self.find(element, "SIGNAL-TO-RECEIVER-TEXT-TABLE-MAPPING")
+        if signal_to_receiver_element is not None:
+            mapping.setSignalToReceiverTextTableMapping(self.getTextTableMapping(signal_to_receiver_element))
+
     def readSenderRecArrayTypeMappingRecordElementMapping(self, element: ET.Element, mapping: SenderRecRecordTypeMapping):
         for child_element in self.findall(element, "RECORD-ELEMENT-MAPPINGS/*"):
             tag_name = self.getTagName(child_element)
@@ -12734,6 +12902,10 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "SENDER-REC-RECORD-TYPE-MAPPING":
                 type_mapping = SenderRecRecordTypeMapping()
                 self.readSenderRecRecordTypeMapping(child_element, type_mapping)
+                mapping.setTypeMapping(type_mapping)
+            elif tag_name == "SENDER-REC-ARRAY-TYPE-MAPPING":
+                type_mapping = SenderRecArrayTypeMapping()
+                self.readSenderRecArrayTypeMapping(child_element, type_mapping)
                 mapping.setTypeMapping(type_mapping)
             else:
                 self.notImplemented("Unsupported Type Mapping %s" % tag_name)
@@ -12816,10 +12988,44 @@ class ARXMLParser(AbstractARXMLParser):
             com_mapping = mapping.createComManagementMapping(self.getShortName(child_element))
             self.readComManagementMapping(child_element, com_mapping)
 
+    def readSystemMappingCryptoServiceMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "CRYPTO-SERVICE-MAPPINGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SEC-OC-CRYPTO-SERVICE-MAPPING":
+                crypto_mapping = mapping.createSecOcCryptoServiceMapping(self.getShortName(child_element))
+                self.readSecOcCryptoServiceMapping(child_element, crypto_mapping)
+            elif tag_name == "TLS-CRYPTO-SERVICE-MAPPING":
+                crypto_mapping = mapping.createTlsCryptoServiceMapping(self.getShortName(child_element))
+                self.readTlsCryptoServiceMapping(child_element, crypto_mapping)
+            else:
+                self.notImplemented("Unsupported CryptoServiceMapping %s" % tag_name)
+
+    def readSecOcCryptoServiceMapping(self, element: ET.Element, mapping: SecOcCryptoServiceMapping):
+        self.readIdentifiable(element, mapping)
+        ref = self.getChildElementOptionalRefType(element, "AUTHENTICATION-REF")
+        if ref is not None:
+            mapping.setAuthenticationRef(ref)
+        ref = self.getChildElementOptionalRefType(element, "CRYPTO-SERVICE-KEY-REF")
+        if ref is not None:
+            mapping.setCryptoServiceKeyRef(ref)
+        ref = self.getChildElementOptionalRefType(element, "CRYPTO-SERVICE-QUEUE-REF")
+        if ref is not None:
+            mapping.setCryptoServiceQueueRef(ref)
+
+    def readTlsCryptoServiceMapping(self, element: ET.Element, mapping: TlsCryptoServiceMapping):
+        self.readIdentifiable(element, mapping)
+        for ref in self.getChildElementRefTypeList(element, "KEY-EXCHANGE-REFS/KEY-EXCHANGE-REF"):
+            mapping.addKeyExchangeRef(ref)
+        if self.find(element, "TLS-CIPHER-SUITES") is not None:
+            self.notImplemented("TLS-CIPHER-SUITES aggregation is not implemented (missing member class TlsCryptoCipherSuite)")
+        mapping.setUseClientAuthenticationRequest(self.getChildElementOptionalBooleanValue(element, "USE-CLIENT-AUTHENTICATION-REQUEST"))
+        mapping.setUseSecurityExtensionRecordSizeLimit(self.getChildElementOptionalBooleanValue(element, "USE-SECURITY-EXTENSION-RECORD-SIZE-LIMIT"))
+
     def readSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         # self.logger.debug("Read SystemMapping <%s>" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
         self.readSystemMappingComManagementMappings(element, mapping)
+        self.readSystemMappingCryptoServiceMappings(element, mapping)
         self.readSystemMappingDataMappings(element, mapping)
         self.readSystemMappingEcuResourceMappings(element, mapping)
         self.readSystemMappingSwImplMappings(element, mapping)

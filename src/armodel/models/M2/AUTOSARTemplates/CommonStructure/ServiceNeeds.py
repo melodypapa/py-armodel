@@ -2768,7 +2768,7 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
 
     def getRoutingActivationType(self) -> Optional[NameToken]:
         """
-        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain RA_ + hex value representation of the integer value shall be used (i.e: RA_0xE1).
+        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain ``RA_`` + hex value representation of the integer value shall be used (i.e: ``RA_0xE1``).
 
         Returns:
             NameToken instance, or None if not set
@@ -2777,7 +2777,7 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
 
     def setRoutingActivationType(self, value: Optional[NameToken]) -> "DoIpRoutingActivationAuthenticationNeeds":
         """
-        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain RA_ + hex value representation of the integer value shall be used (i.e: RA_0xE1).
+        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain ``RA_`` + hex value representation of the integer value shall be used (i.e: ``RA_0xE1``).
         A None value is a no-op and does not overwrite an existing routingActivationType.
 
         Args:
@@ -2869,7 +2869,7 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
 
     def getRoutingActivationType(self) -> Optional[NameToken]:
         """
-        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain RA_ + hex value representation of the integer value shall be used (i.e: RA_0xE1).
+        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain ``RA_`` + hex value representation of the integer value shall be used (i.e: ``RA_0xE1``).
 
         Returns:
             NameToken instance, or None if not set
@@ -2878,7 +2878,7 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
 
     def setRoutingActivationType(self, value: Optional[NameToken]) -> "DoIpRoutingActivationConfirmationNeeds":
         """
-        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain RA_ + hex value representation of the integer value shall be used (i.e: RA_0xE1).
+        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain ``RA_`` + hex value representation of the integer value shall be used (i.e: ``RA_0xE1``).
         A None value is a no-op and does not overwrite an existing routingActivationType.
 
         Args:

@@ -3143,14 +3143,13 @@ class GenericTp(TransportProtocolConfiguration):
 
 class TcpUdpConfig(TransportProtocolConfiguration, ABC):
     """
-    Abstract base class for TCP and UDP transport protocol configurations,
-    defining common properties for both connection-oriented and
-    connectionless transport protocols.
+    Tcp or Udp Transport Protocol Configuration.
     """
 
     # TcpUdpConfig method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf (R23-11), Table 6.127
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.127, p.459
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is TcpUdpConfig:

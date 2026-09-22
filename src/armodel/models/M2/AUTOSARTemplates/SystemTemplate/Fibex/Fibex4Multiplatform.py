@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -132,27 +132,34 @@ class DefaultValueElement(ARObject):
 
 
 class PduMappingDefaultValue(ARObject):
-    """
-    Default value which will be distributed if no I-Pdu has been received
-    since last sending.
-    """
+    """Default Value which will be distributed if no I-Pdu has been received since last sending."""
 
     # PduMappingDefaultValue method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDefaultValueElements      [x] impl  [ ] docstring  [ ] test
-    # [ ] addDefaultValueElements      [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 8.5, p.841
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultValueElements     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDefaultValueElement      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
+        # The default value consists of a number of elements. Each default value element is represented by the element and the position in an array.
         self.defaultValueElements: List[DefaultValueElement] = []
 
-    def getDefaultValueElements(self):
+    def getDefaultValueElements(self) -> List[DefaultValueElement]:
+        """
+        The default value consists of a number of elements. Each default value element is represented by the element and the position in an array.
+        """
         return self.defaultValueElements
 
-    def addDefaultValueElements(self, value):
+    def addDefaultValueElement(self, value: Optional[DefaultValueElement]) -> "PduMappingDefaultValue":
+        """
+        The default value consists of a number of elements. Each default value element is represented by the element and the position in an array.
+        A None value is a no-op and does not extend the defaultValueElements list.
+        """
         if value is not None:
-            self.defaultValueElements = value
+            self.defaultValueElements.append(value)
         return self
 
 
@@ -192,58 +199,112 @@ class TargetIPduRef(ARObject):
 
 
 class IPduMapping(ARObject, VariationPointCapable):
-    """
-    An ISignalToIPduMapping describes the mapping of ISignals to ISignalIPdus
-    and defines the position of the ISignal within an ISignalIPdu.
-    """
+    """Arranges those IPdus that are transferred by the gateway from one channel to the other in pairs and defines the mapping between them."""
 
     # IPduMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIntroduction              [x] impl  [ ] docstring  [ ] test
-    # [ ] setIntroduction              [x] impl  [ ] docstring  [ ] test
-    # [ ] getPdurTpChunkSize           [x] impl  [ ] docstring  [ ] test
-    # [ ] setPdurTpChunkSize           [x] impl  [ ] docstring  [ ] test
-    # [ ] getSourceIpduRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] setSourceIpduRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] getTargetIPdu                [x] impl  [ ] docstring  [ ] test
-    # [ ] setTargetIPdu                [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 8.3, p.840
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIntroduction          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIntroduction          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPduMaxLength          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPduMaxLength          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPdurTpChunkSize       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPdurTpChunkSize       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceIPduRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceIPduRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetIPdu            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetIPdu            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.introduction: DocumentationBlock = None
-        self.pdurTpChunkSize: PositiveInteger = None
-        self.sourceIpduRef: RefType = None
-        self.targetIPdu: TargetIPduRef = None
+        # This represents introductory documentation about the IPdu mapping.
+        self.introduction: Optional[DocumentationBlock] = None
 
-    def getIntroduction(self):
+        # Define the maximum length in bytes which limits the length of the Pdu during gateway operation if the runtime length of the received Pdu exceeds this limit.
+        self.pduMaxLength: Optional[PositiveInteger] = None
+
+        # Optionally defines the to be configured Pdu Router Tp ChunkSize for this routing relation.
+        self.pdurTpChunkSize: Optional[PositiveInteger] = None
+
+        # Source destination of the referencing mapping.
+        self.sourceIPduRef: Optional[RefType] = None
+
+        # Target destination of the referencing mapping.
+        self.targetIPdu: Optional[TargetIPduRef] = None
+
+    def getIntroduction(self) -> Optional[DocumentationBlock]:
+        """
+        This represents introductory documentation about the IPdu mapping.
+        """
         return self.introduction
 
-    def setIntroduction(self, value):
+    def setIntroduction(self, value: Optional[DocumentationBlock]) -> "IPduMapping":
+        """
+        This represents introductory documentation about the IPdu mapping.
+        A None value is a no-op and does not overwrite an existing introduction.
+        """
         if value is not None:
             self.introduction = value
         return self
 
-    def getPdurTpChunkSize(self):
+    def getPduMaxLength(self) -> Optional[PositiveInteger]:
+        """
+        Define the maximum length in bytes which limits the length of the Pdu during gateway operation if the runtime length of the received Pdu exceeds this limit.
+        """
+        return self.pduMaxLength
+
+    def setPduMaxLength(self, value: Optional[PositiveInteger]) -> "IPduMapping":
+        """
+        Define the maximum length in bytes which limits the length of the Pdu during gateway operation if the runtime length of the received Pdu exceeds this limit.
+        A None value is a no-op and does not overwrite an existing pduMaxLength.
+        """
+        if value is not None:
+            self.pduMaxLength = value
+        return self
+
+    def getPdurTpChunkSize(self) -> Optional[PositiveInteger]:
+        """
+        Optionally defines the to be configured Pdu Router Tp ChunkSize for this routing relation.
+        """
         return self.pdurTpChunkSize
 
-    def setPdurTpChunkSize(self, value):
+    def setPdurTpChunkSize(self, value: Optional[PositiveInteger]) -> "IPduMapping":
+        """
+        Optionally defines the to be configured Pdu Router Tp ChunkSize for this routing relation.
+        A None value is a no-op and does not overwrite an existing pdurTpChunkSize.
+        """
         if value is not None:
             self.pdurTpChunkSize = value
         return self
 
-    def getSourceIpduRef(self):
-        return self.sourceIpduRef
+    def getSourceIPduRef(self) -> Optional[RefType]:
+        """
+        Source destination of the referencing mapping.
+        """
+        return self.sourceIPduRef
 
-    def setSourceIpduRef(self, value):
+    def setSourceIPduRef(self, value: Optional[RefType]) -> "IPduMapping":
+        """
+        Source destination of the referencing mapping.
+        A None value is a no-op and does not overwrite an existing sourceIPduRef.
+        """
         if value is not None:
-            self.sourceIpduRef = value
+            self.sourceIPduRef = value
         return self
 
-    def getTargetIPdu(self):
+    def getTargetIPdu(self) -> Optional[TargetIPduRef]:
+        """
+        Target destination of the referencing mapping.
+        """
         return self.targetIPdu
 
-    def setTargetIPdu(self, value):
+    def setTargetIPdu(self, value: Optional[TargetIPduRef]) -> "IPduMapping":
+        """
+        Target destination of the referencing mapping.
+        A None value is a no-op and does not overwrite an existing targetIPdu.
+        """
         if value is not None:
             self.targetIPdu = value
         return self

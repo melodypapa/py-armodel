@@ -2,6 +2,11 @@ import xml.etree.cElementTree as ET
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, FileInfoComment
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment import (
+    CryptoKeySlot,
+    CryptoKeySlotAllowedModification,
+    CryptoKeySlotContentAllowedUsage,
+)
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import FirewallRule, FirewallRuleProps, StateDependentFirewall
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprintMapping,
@@ -630,6 +635,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     SystemMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+    IndexedArrayElement,
+    SenderRecArrayElementMapping,
+    SenderRecArrayTypeMapping,
     SenderRecCompositeTypeMapping,
     SenderReceiverToSignalGroupMapping,
     SenderReceiverToSignalMapping,
@@ -709,6 +717,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecKayParticipant,
     MacSecLocalKayProps,
     MacSecProps,
+    SecOcCryptoServiceMapping,
+    TlsCryptoServiceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -778,7 +788,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
     LinOrderedConfigurableFrame,
     LinSlaveConfig,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import DefaultValueElement, Gateway, IPduMapping, ISignalMapping, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     CommConnectorPort,
     ContainedIPduProps,
@@ -864,6 +874,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     CanNmEcu,
     CanNmClusterCoupling,
     CanNmNode,
+    FlexrayNmCluster,
+    FlexrayNmEcu,
+    FlexrayNmNode,
+    J1939NmCluster,
+    J1939NmEcu,
     J1939NmNode,
     J1939NodeName,
     NmCluster,
@@ -8068,6 +8083,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "ADDRESS-CONFIGURATION-CAPABILITY", nm_node.getAddressConfigurationCapability())
         self.setJ1939NodeName(child_element, "NODE-NAME", nm_node.getNodeName())
 
+    def writeFlexrayNmNode(self, element: ET.Element, nm_node: FlexrayNmNode):
+        self.logger.debug("write FlexrayNmNode %s" % nm_node.getShortName())
+        child_element = ET.SubElement(element, "FLEXRAY-NM-NODE")
+        self.writeNmNode(child_element, nm_node)
+
     def writeNmClusterNmNodes(self, element: ET.Element, parent: NmCluster):
         nodes = parent.getNmNodes()
         if len(nodes) > 0:
@@ -8079,6 +8099,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeUdpNmNode(child_element, node)
                 elif isinstance(node, J1939NmNode):
                     self.writeJ1939NmNode(child_element, node)
+                elif isinstance(node, FlexrayNmNode):
+                    self.writeFlexrayNmNode(child_element, node)
                 else:
                     self.notImplemented("Unsupported Nm Node <%s>" % type(node))
 
@@ -8117,11 +8139,16 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeNmCluster(self, element: ET.Element, cluster: NmCluster):
         self.logger.debug("Write NmCluster <%s>" % cluster.getShortName())
         self.writeIdentifiable(element, cluster)
-        self.setChildElementOptionalRefType(element, "COMMUNICATION-CLUSTER-REF", cluster.communicationClusterRef)
-        self.setChildElementOptionalNumericalValue(element, "NM-CHANNEL-ID", cluster.nmChannelId)
-        self.setChildElementOptionalBooleanValue(element, "NM-CHANNEL-SLEEP-MASTER", cluster.nmChannelSleepMaster)
+        self.setChildElementOptionalRefType(element, "COMMUNICATION-CLUSTER-REF", cluster.getCommunicationClusterRef())
+        self.setChildElementOptionalNumericalValue(element, "NM-CHANNEL-ID", cluster.getNmChannelId())
+        self.setChildElementOptionalBooleanValue(element, "NM-CHANNEL-SLEEP-MASTER", cluster.getNmChannelSleepMaster())
         self.writeNmClusterNmNodes(element, cluster)
+        self.setChildElementOptionalBooleanValue(element, "NM-NODE-DETECTION-ENABLED", cluster.getNmNodeDetectionEnabled())
+        self.setChildElementOptionalBooleanValue(element, "NM-NODE-ID-ENABLED", cluster.getNmNodeIdEnabled())
+        self.setChildElementOptionalBooleanValue(element, "NM-PNC-PARTICIPATION", cluster.getNmPncParticipation())
+        self.setChildElementOptionalBooleanValue(element, "NM-REPEAT-MSG-IND-ENABLED", cluster.getNmRepeatMsgIndEnabled())
         self.setChildElementOptionalBooleanValue(element, "NM-SYNCHRONIZING-NETWORK", cluster.getNmSynchronizingNetwork())
+        self.setChildElementOptionalPositiveInteger(element, "PNC-CLUSTER-VECTOR-LENGTH", cluster.getPncClusterVectorLength())
 
     def writeCanNmCluster(self, element: ET.Element, cluster: CanNmCluster):
         self.logger.debug("Write CanNmCluster <%s>" % cluster.getShortName())
@@ -8160,6 +8187,28 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(child_element, "NM-WAIT-BUS-SLEEP-TIME", cluster.getNmWaitBusSleepTime())
         self.setChildElementOptionalRefType(child_element, "VLAN-REF", cluster.getVlanRef())
 
+    def writeFlexrayNmCluster(self, element: ET.Element, cluster: FlexrayNmCluster):
+        self.logger.debug("Write FlexrayNmCluster <%s>" % cluster.getShortName())
+        child_element = ET.SubElement(element, "FLEXRAY-NM-CLUSTER")
+        self.writeNmCluster(child_element, cluster)
+        self.setChildElementOptionalPositiveInteger(child_element, "NM-CAR-WAKE-UP-BIT-POSITION", cluster.getNmCarWakeUpBitPosition())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-CAR-WAKE-UP-FILTER-ENABLED", cluster.getNmCarWakeUpFilterEnabled())
+        self.setChildElementOptionalPositiveInteger(child_element, "NM-CAR-WAKE-UP-FILTER-NODE-ID", cluster.getNmCarWakeUpFilterNodeId())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-CAR-WAKE-UP-RX-ENABLED", cluster.getNmCarWakeUpRxEnabled())
+        self.setChildElementOptionalIntegerValue(child_element, "NM-DATA-CYCLE", cluster.getNmDataCycle())
+        self.setChildElementOptionalTimeValue(child_element, "NM-MAIN-FUNCTION-PERIOD", cluster.getNmMainFunctionPeriod())
+        self.setChildElementOptionalTimeValue(child_element, "NM-REMOTE-SLEEP-INDICATION-TIME", cluster.getNmRemoteSleepIndicationTime())
+        self.setChildElementOptionalTimeValue(child_element, "NM-REPEAT-MESSAGE-TIME", cluster.getNmRepeatMessageTime())
+        self.setChildElementOptionalIntegerValue(child_element, "NM-REPETITION-CYCLE", cluster.getNmRepetitionCycle())
+        self.setChildElementOptionalIntegerValue(child_element, "NM-VOTING-CYCLE", cluster.getNmVotingCycle())
+
+    def writeJ1939NmCluster(self, element: ET.Element, cluster: J1939NmCluster):
+        self.logger.debug("Write J1939NmCluster <%s>" % cluster.getShortName())
+        child_element = ET.SubElement(element, "J-1939-NM-CLUSTER")
+        self.writeNmCluster(child_element, cluster)
+        self.setChildElementOptionalBooleanValue(child_element, "ADDRESS-CLAIM-ENABLED", cluster.getAddressClaimEnabled())
+        self.setChildElementOptionalBooleanValue(child_element, "USES-DYNAMIC-ADDRESSING", cluster.getUsesDynamicAddressing())
+
     def writeNmConfigNmClusters(self, element: ET.Element, parent: NmConfig):
         clusters = parent.getNmClusters()
         if len(clusters) > 0:
@@ -8169,6 +8218,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeCanNmCluster(child_element, cluster)
                 elif isinstance(cluster, UdpNmCluster):
                     self.writeUdpNmCluster(child_element, cluster)
+                elif isinstance(cluster, FlexrayNmCluster):
+                    self.writeFlexrayNmCluster(child_element, cluster)
+                elif isinstance(cluster, J1939NmCluster):
+                    self.writeJ1939NmCluster(child_element, cluster)
                 else:
                     self.notImplemented("Unsupported Nm Cluster <%s>" % type(cluster))
 
@@ -8177,9 +8230,19 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "UDP-NM-ECU")
             self.setChildElementOptionalBooleanValue(child_element, "NM-SYNCHRONIZATION-POINT-ENABLED", ecu.getNmSynchronizationPointEnabled())
 
+    def writeFlexrayNmEcu(self, element: ET.Element, ecu: FlexrayNmEcu):
+        if ecu is not None:
+            child_element = ET.SubElement(element, "FLEXRAY-NM-ECU")
+            self.setChildElementOptionalBooleanValue(child_element, "NM-HW-VOTE-ENABLED", ecu.getNmHwVoteEnabled())
+            self.setChildElementOptionalBooleanValue(child_element, "NM-MAIN-FUNCTION-ACROSS-FR-CYCLE", ecu.getNmMainFunctionAcrossFrCycle())
+
     def writeCanNmEcu(self, element: ET.Element, ecu: CanNmEcu):
         if ecu is not None:
             ET.SubElement(element, "CAN-NM-ECU")
+
+    def writeJ1939NmEcu(self, element: ET.Element, ecu: J1939NmEcu):
+        if ecu is not None:
+            ET.SubElement(element, "J-1939-NM-ECU")
 
     def writeBusDependentNmEcus(self, element: ET.Element, nm_ecu: NmEcu):
         dependent_nm_ecus = nm_ecu.getBusDependentNmEcus()
@@ -8190,6 +8253,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeUdpNmEcu(child_element, dependent_nm_ecu)
                 elif isinstance(dependent_nm_ecu, CanNmEcu):
                     self.writeCanNmEcu(child_element, dependent_nm_ecu)
+                elif isinstance(dependent_nm_ecu, FlexrayNmEcu):
+                    self.writeFlexrayNmEcu(child_element, dependent_nm_ecu)
+                elif isinstance(dependent_nm_ecu, J1939NmEcu):
+                    self.writeJ1939NmEcu(child_element, dependent_nm_ecu)
                 else:
                     self.notImplemented("Unsupported BusDependentNmEcu <%s>" % type(dependent_nm_ecu))
 
@@ -11091,6 +11158,46 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "IMPLEMENTATION-RECORD-ELEMENT-REF", mapping.getImplementationRecordElementRef())
             self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
 
+    def setIndexedArrayElement(self, element: ET.Element, key: str, indexed: IndexedArrayElement):
+        if indexed is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalRefType(child_element, "APPLICATION-ARRAY-ELEMENT-REF", indexed.getApplicationArrayElementRef())
+            self.setChildElementOptionalRefType(child_element, "IMPLEMENTATION-ARRAY-ELEMENT-REF", indexed.getImplementationArrayElementRef())
+            self.setChildElementOptionalIntegerValue(child_element, "INDEX", indexed.getIndex())
+
+    def writeSenderRecArrayElementMapping(self, element: ET.Element, mapping: SenderRecArrayElementMapping):
+        if mapping is not None:
+            child_element = ET.SubElement(element, "SENDER-REC-ARRAY-ELEMENT-MAPPING")
+            self.writeARObject(child_element, mapping)
+            complex_type_mapping = mapping.getComplexTypeMapping()
+            if complex_type_mapping is not None:
+                complex_element = ET.SubElement(child_element, "COMPLEX-TYPE-MAPPING")
+                if isinstance(complex_type_mapping, SenderRecArrayTypeMapping):
+                    self.writeSenderRecArrayTypeMapping(complex_element, complex_type_mapping)
+                elif isinstance(complex_type_mapping, SenderRecRecordTypeMapping):
+                    self.writeSenderRecRecordTypeMapping(complex_element, complex_type_mapping)
+                else:
+                    self.notImplemented("Unsupported ComplexTypeMapping %s" % type(complex_type_mapping))
+            self.setIndexedArrayElement(child_element, "INDEXED-ARRAY-ELEMENT", mapping.getIndexedArrayElement())
+            self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
+
+    def writeSenderRecArrayTypeMapping(self, element: ET.Element, mapping: SenderRecArrayTypeMapping):
+        if mapping is not None:
+            child_element = ET.SubElement(element, "SENDER-REC-ARRAY-TYPE-MAPPING")
+            self.writeSenderRecCompositeTypeMapping(child_element, mapping)
+            array_element_mappings = mapping.getArrayElementMappings()
+            if len(array_element_mappings) > 0:
+                mappings_tag = ET.SubElement(child_element, "ARRAY-ELEMENT-MAPPINGS")
+                for array_element_mapping in array_element_mappings:
+                    if isinstance(array_element_mapping, SenderRecArrayElementMapping):
+                        self.writeSenderRecArrayElementMapping(mappings_tag, array_element_mapping)
+                    else:
+                        self.notImplemented("Unsupported ArrayElementMapping %s" % type(array_element_mapping))
+            if mapping.getSenderToSignalTextTableMapping() is not None:
+                self.setTextTableMapping(child_element, mapping.getSenderToSignalTextTableMapping(), "SENDER-TO-SIGNAL-TEXT-TABLE-MAPPING")
+            if mapping.getSignalToReceiverTextTableMapping() is not None:
+                self.setTextTableMapping(child_element, mapping.getSignalToReceiverTextTableMapping(), "SIGNAL-TO-RECEIVER-TEXT-TABLE-MAPPING")
+
     def writeSenderRecArrayTypeMappingRecordElementMapping(self, element: ET.Element, mapping: SenderRecRecordTypeMapping):
         record_element_mappings = mapping.getRecordElementMappings()
         if len(record_element_mappings) > 0:
@@ -11113,6 +11220,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "TYPE-MAPPING")
             if isinstance(type_mapping, SenderRecRecordTypeMapping):
                 self.writeSenderRecRecordTypeMapping(child_element, type_mapping)
+            elif isinstance(type_mapping, SenderRecArrayTypeMapping):
+                self.writeSenderRecArrayTypeMapping(child_element, type_mapping)
             else:
                 self.notImplemented("Unsupported Type Mapping %s" % type(type_mapping))
 
@@ -11220,11 +11329,44 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element = ET.SubElement(mappings_tag, "COM-MANAGEMENT-MAPPING")
                 self.writeComManagementMapping(child_element, com_mapping)
 
+    def writeSystemMappingCryptoServiceMappings(self, element: ET.Element, mapping: SystemMapping):
+        crypto_mappings = mapping.getCryptoServiceMappings()
+        if len(crypto_mappings) > 0:
+            mappings_tag = ET.SubElement(element, "CRYPTO-SERVICE-MAPPINGS")
+            for crypto_mapping in crypto_mappings:
+                if isinstance(crypto_mapping, SecOcCryptoServiceMapping):
+                    child_element = ET.SubElement(mappings_tag, "SEC-OC-CRYPTO-SERVICE-MAPPING")
+                    self.writeSecOcCryptoServiceMapping(child_element, crypto_mapping)
+                elif isinstance(crypto_mapping, TlsCryptoServiceMapping):
+                    child_element = ET.SubElement(mappings_tag, "TLS-CRYPTO-SERVICE-MAPPING")
+                    self.writeTlsCryptoServiceMapping(child_element, crypto_mapping)
+                else:
+                    self.notImplemented("Unsupported CryptoServiceMapping %s" % type(crypto_mapping))
+
+    def writeSecOcCryptoServiceMapping(self, element: ET.Element, mapping: SecOcCryptoServiceMapping):
+        self.writeIdentifiable(element, mapping)
+        self.setChildElementOptionalRefType(element, "AUTHENTICATION-REF", mapping.getAuthenticationRef())
+        self.setChildElementOptionalRefType(element, "CRYPTO-SERVICE-KEY-REF", mapping.getCryptoServiceKeyRef())
+        self.setChildElementOptionalRefType(element, "CRYPTO-SERVICE-QUEUE-REF", mapping.getCryptoServiceQueueRef())
+
+    def writeTlsCryptoServiceMapping(self, element: ET.Element, mapping: TlsCryptoServiceMapping):
+        self.writeIdentifiable(element, mapping)
+        refs = mapping.getKeyExchangeRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "KEY-EXCHANGE-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "KEY-EXCHANGE-REF", ref)
+        if len(mapping.getTlsCipherSuites()) > 0:
+            self.notImplemented("TLS-CIPHER-SUITES aggregation is not implemented (missing member class TlsCryptoCipherSuite)")
+        self.setChildElementOptionalBooleanValue(element, "USE-CLIENT-AUTHENTICATION-REQUEST", mapping.getUseClientAuthenticationRequest())
+        self.setChildElementOptionalBooleanValue(element, "USE-SECURITY-EXTENSION-RECORD-SIZE-LIMIT", mapping.getUseSecurityExtensionRecordSizeLimit())
+
     def writeSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         self.logger.debug("Write SystemMapping <%s>" % mapping.getShortName())
         child_element = ET.SubElement(element, "SYSTEM-MAPPING")
         self.writeIdentifiable(child_element, mapping)
         self.writeSystemMappingComManagementMappings(child_element, mapping)
+        self.writeSystemMappingCryptoServiceMappings(child_element, mapping)
         self.writeSystemMappingDataMappings(child_element, mapping)
         self.writeSystemMappingEcuResourceMappings(child_element, mapping)
         self.writeSystemMappingSwImplMappings(child_element, mapping)
@@ -11482,8 +11624,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         else:
             self.notImplemented("Unsupported SubElementRef <%s>" % type(sub_element_ref).__name__)
 
-    def setTextTableMapping(self, element: ET.Element, mapping: TextTableMapping):
-        child_element = ET.SubElement(element, "TEXT-TABLE-MAPPING")
+    def setTextTableMapping(self, element: ET.Element, mapping: TextTableMapping, key: str = "TEXT-TABLE-MAPPING"):
+        child_element = ET.SubElement(element, key)
         self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-FIRST", mapping.getBitfieldTextTableMaskFirst())
         self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-SECOND", mapping.getBitfieldTextTableMaskSecond())
         self.setChildElementOptionalBooleanValue(child_element, "IDENTICAL-MAPPING", mapping.getIdenticalMapping())
@@ -11601,13 +11743,29 @@ class ARXMLWriter(AbstractARXMLWriter):
         if i_pdu_ref is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalRefType(child_element, "TARGET-I-PDU-REF", i_pdu_ref.getTargetIPduRef())
+            default_value = i_pdu_ref.getDefaultValue()
+            if default_value is not None:
+                elements_tag = ET.SubElement(child_element, "DEFAULT-VALUE-ELEMENTS")
+                for default_value_element in default_value.getDefaultValueElements():
+                    if isinstance(default_value_element, DefaultValueElement):
+                        self.setDefaultValueElement(elements_tag, default_value_element)
+                    else:
+                        self.notImplemented("Unsupported DefaultValueElement %s" % type(default_value_element))
+
+    def setDefaultValueElement(self, element: ET.Element, default_value: DefaultValueElement):
+        child_element = ET.SubElement(element, "DEFAULT-VALUE-ELEMENT")
+        self.setChildElementOptionalIntegerValue(child_element, "ELEMENT-BYTE-VALUE", default_value.getElementByteValue())
+        self.setChildElementOptionalIntegerValue(child_element, "ELEMENT-POSITION", default_value.getElementPosition())
 
     def setIPduMappings(self, element: ET.Element, mappings: List[IPduMapping]):
         if len(mappings) > 0:
             mappings_tag = ET.SubElement(element, "I-PDU-MAPPINGS")
             for mapping in mappings:
                 child_element = ET.SubElement(mappings_tag, "I-PDU-MAPPING")
-                self.setChildElementOptionalRefType(child_element, "SOURCE-I-PDU-REF", mapping.getSourceIpduRef())
+                self.writeDocumentationBlock(child_element, "INTRODUCTION", mapping.getIntroduction())
+                self.setChildElementOptionalPositiveInteger(child_element, "PDU-MAX-LENGTH", mapping.getPduMaxLength())
+                self.setChildElementOptionalPositiveInteger(child_element, "PDUR-TP-CHUNK-SIZE", mapping.getPdurTpChunkSize())
+                self.setChildElementOptionalRefType(child_element, "SOURCE-I-PDU-REF", mapping.getSourceIPduRef())
                 self.setTargetIPduRef(child_element, "TARGET-I-PDU", mapping.getTargetIPdu())
 
     def writeGateway(self, element: ET.Element, gateway: Gateway):
@@ -12659,9 +12817,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         if attribute_def is not None:
             child_element = ET.SubElement(element, "HW-ATTRIBUTE-DEF")
             self.writeIdentifiable(child_element, attribute_def)
+            self.writeHwAttributeDefHwAttributeLiterals(child_element, attribute_def)
             self.setChildElementOptionalBooleanValue(child_element, "IS-REQUIRED", attribute_def.getIsRequired())
             self.setChildElementOptionalRefType(child_element, "UNIT-REF", attribute_def.getUnitRef())
-            self.writeHwAttributeDefHwAttributeLiterals(child_element, attribute_def)
 
     def writeHwAttributeDefHwAttributeLiterals(self, element: ET.Element, attribute_def: HwAttributeDef):
         literals = attribute_def.getHwAttributeLiterals()
@@ -12857,6 +13015,38 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.logger.debug("Write FlexrayFrame <%s>" % frame.getShortName())
             child_element = ET.SubElement(element, "FLEXRAY-FRAME")
             self.writeFrame(child_element, frame)
+
+    def writeCryptoKeySlot(self, element: ET.Element, key_slot: CryptoKeySlot):
+        if key_slot is not None:
+            self.logger.debug("Write CryptoKeySlot <%s>" % key_slot.getShortName())
+            child_element = ET.SubElement(element, "CRYPTO-KEY-SLOT")
+            self.writeIdentifiable(child_element, key_slot)
+            self.setChildElementOptionalBooleanValue(child_element, "ALLOCATE-SHADOW-COPY", key_slot.getAllocateShadowCopy())
+            self.setChildElementOptionalString(child_element, "CRYPTO-ALG-ID", key_slot.getCryptoAlgId())
+            self.setChildElementOptionalLiteral(child_element, "CRYPTO-OBJECT-TYPE", key_slot.getCryptoObjectType())
+            modification = key_slot.getKeySlotAllowedModification()
+            if modification is not None:
+                modification_element = ET.SubElement(child_element, "KEY-SLOT-ALLOWED-MODIFICATION")
+                self.writeCryptoKeySlotAllowedModification(modification_element, modification)
+            usages = key_slot.getKeySlotContentAllowedUsages()
+            if len(usages) > 0:
+                usages_tag = ET.SubElement(child_element, "KEY-SLOT-CONTENT-ALLOWED-USAGES")
+                for usage in usages:
+                    usage_element = ET.SubElement(usages_tag, "CRYPTO-KEY-SLOT-CONTENT-ALLOWED-USAGE")
+                    self.writeCryptoKeySlotContentAllowedUsage(usage_element, usage)
+            self.setChildElementOptionalPositiveInteger(child_element, "SLOT-CAPACITY", key_slot.getSlotCapacity())
+            self.setChildElementOptionalLiteral(child_element, "SLOT-TYPE", key_slot.getSlotType())
+
+    def writeCryptoKeySlotAllowedModification(self, element: ET.Element, modification: CryptoKeySlotAllowedModification):
+        self.writeARObject(element, modification)
+        self.setChildElementOptionalBooleanValue(element, "ALLOW-CONTENT-TYPE-CHANGE", modification.getAllowContentTypeChange())
+        self.setChildElementOptionalBooleanValue(element, "EXPORTABILITY", modification.getExportability())
+        self.setChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-ALLOWED-UPDATES", modification.getMaxNumberOfAllowedUpdates())
+        self.setChildElementOptionalBooleanValue(element, "RESTRICT-UPDATE", modification.getRestrictUpdate())
+
+    def writeCryptoKeySlotContentAllowedUsage(self, element: ET.Element, usage: CryptoKeySlotContentAllowedUsage):
+        self.writeARObject(element, usage)
+        self.setChildElementOptionalString(element, "ALLOWED-KEYSLOT-USAGE", usage.getAllowedKeyslotUsage())
 
     def writeFlexrayCommunicationController(self, element: ET.Element, controller: FlexrayCommunicationController):
         if controller is not None:

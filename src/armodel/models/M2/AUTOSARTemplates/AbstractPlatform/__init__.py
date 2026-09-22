@@ -24,10 +24,11 @@ class ApplicationInterface(PortInterface):
     """
     This represents the ability to define a PortInterface that consists of a
     composition of commands (method calls), indications (events) and attributes
-    (fields) Tags: atp.Status=draft atp.recommendedPackage=Interfaces
+    (fields). Tags: atp.Status=draft atp.recommendedPackage=Interfaces
 
     Sources:
-      - AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf (Page 28, Foundation
+
+    - AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf (Page 28, Foundation
       R23-11)
     """
 

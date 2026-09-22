@@ -4,7 +4,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpStructureElement
 from armodel.models.M2.MSR.Documentation.Chapters import Chapter
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import CryptoServiceMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import CryptoServiceMapping, SecOcCryptoServiceMapping, TlsCryptoServiceMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping, OsTaskPreemptabilityEnum, OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, OperationInSystemInstanceRef, PortGroupInSystemInstanceRef
@@ -280,6 +280,20 @@ class SystemMapping(Identifiable, VariationPointCapable):
     def addCryptoServiceMapping(self, value):
         self.cryptoServiceMappings.append(value)
         return self
+
+    def createSecOcCryptoServiceMapping(self, short_name: str) -> SecOcCryptoServiceMapping:
+        if not self.IsElementExists(short_name, SecOcCryptoServiceMapping):
+            mapping = SecOcCryptoServiceMapping(self, short_name)
+            self.addElement(mapping)
+            self.cryptoServiceMappings.append(mapping)
+        return self.getElement(short_name, SecOcCryptoServiceMapping)
+
+    def createTlsCryptoServiceMapping(self, short_name: str) -> TlsCryptoServiceMapping:
+        if not self.IsElementExists(short_name, TlsCryptoServiceMapping):
+            mapping = TlsCryptoServiceMapping(self, short_name)
+            self.addElement(mapping)
+            self.cryptoServiceMappings.append(mapping)
+        return self.getElement(short_name, TlsCryptoServiceMapping)
 
     def getDataMappings(self):
         return self.dataMappings
