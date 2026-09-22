@@ -312,7 +312,7 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
 
 ## Pending 16.4 resolution (NEW — not in src)
 
-- [x] `FirewallActionEnum` — not in `src` (NEW) → **Derive-from-XSD DONE 2026-08-31** (XSD FIREWALL-ACTION-ENUM complexType: literals BLOCK index 0 "Firewall blocks the communication" / ALLOW index 1 "Firewall allows the communication"; AREnum subclass in Firewall/__init__.py, `# XSD` spec line in checklist; unstamped per user decision 2026-08-31)
+- [x] `FirewallActionEnum` — not in `src` (NEW) → **Derive-from-XSD DONE 2026-08-31** (XSD FIREWALL-ACTION-ENUM complexType: literals BLOCK index 0 "Firewall blocks the communication" / ALLOW index 1 "Firewall allows the communication"; AREnum subclass in Firewall/__init__.py, `# XSD` spec line in checklist; unstamped per user decision 2026-08-31) · **SUPERSEDED 2026-09-22 — re-queued as a full 9-step row at the end of Group3.md's queue** (the 2026-08-31 record is stale: the class IS in src, and its BLOCK=index-0 order contradicts the XSD `--SIMPLE` order and both ECUC mapping tables, which list ALLOW first — the Group3 row arbitrates and fixes that before the `# XSD verified:` marker)
 
 ## Not queued
 
