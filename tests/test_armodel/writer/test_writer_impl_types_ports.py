@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import (
     SwcBswSynchronizedModeGroupPrototype,
     SwcBswSynchronizedTrigger,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import (
     AutosarEngineeringObject,
 )
@@ -45,6 +46,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes i
 )
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import (
+    SwRecordLayout,
     SwRecordLayoutGroup,
     SwRecordLayoutGroupContent,
     SwRecordLayoutV,
@@ -1074,6 +1076,7 @@ class TestSwRecordLayoutWriter:
         layout_v.setShortLabel(_make_literal("lbl"))
         layout_v.setBaseTypeRef(_make_ref("/BT", "SW-BASE-TYPE"))
         layout_v.swRecordLayoutVAxis = _make_float(1, "1")
+        layout_v.swRecordLayoutVFixValue = _make_float(255, "255")
         layout_v.swRecordLayoutVProp = _make_literal("prop")
         layout_v.swRecordLayoutVIndex = _make_literal("idx")
 
@@ -1086,6 +1089,7 @@ class TestSwRecordLayoutWriter:
         assert child.find("SHORT-LABEL").text == "lbl"
         assert child.find("BASE-TYPE-REF").text == "/BT"
         assert child.find("SW-RECORD-LAYOUT-V-AXIS").text == "1"
+        assert child.find("SW-RECORD-LAYOUT-V-FIX-VALUE").text == "255"
         assert child.find("SW-RECORD-LAYOUT-V-PROP").text == "prop"
         assert child.find("SW-RECORD-LAYOUT-V-INDEX").text == "idx"
 
@@ -1098,11 +1102,13 @@ class TestSwRecordLayoutWriter:
         group = SwRecordLayoutGroup()
         group.setShortLabel(_make_literal("lbl"))
         group.setCategory(_make_literal("cat"))
+        group.setSwGenericAxisParamTypeRef(_make_ref("/axis", "SW-GENERIC-AXIS-PARAM-TYPE"))
         group.swRecordLayoutGroupAxis = _make_float(2, "2")
         group.swRecordLayoutGroupIndex = _make_literal("idx")
         group.swRecordLayoutGroupFrom = _make_literal("from")
         group.swRecordLayoutGroupTo = _make_literal("to")
         group.swRecordLayoutGroupStep = _make_float(3, "3")
+        group.setSwRecordLayoutComponent(_make_literal("component"))
         group.swRecordLayoutGroupContentType = SwRecordLayoutGroupContent()
 
         parent = _parent()
@@ -1113,11 +1119,13 @@ class TestSwRecordLayoutWriter:
         assert child.tag == "SW-RECORD-LAYOUT-GROUP"
         assert child.find("SHORT-LABEL").text == "lbl"
         assert child.find("CATEGORY").text == "cat"
+        assert child.find("SW-GENERIC-AXIS-PARAM-TYPE-REF").text == "/axis"
         assert child.find("SW-RECORD-LAYOUT-GROUP-AXIS").text == "2"
         assert child.find("SW-RECORD-LAYOUT-GROUP-INDEX").text == "idx"
         assert child.find("SW-RECORD-LAYOUT-GROUP-FROM").text == "from"
         assert child.find("SW-RECORD-LAYOUT-GROUP-TO").text == "to"
         assert child.find("SW-RECORD-LAYOUT-GROUP-STEP").text == "3"
+        assert child.find("SW-RECORD-LAYOUT-COMPONENT").text == "component"
 
     def test_set_sw_record_layout_group_none(self, writer):
         parent = _parent()
@@ -1141,8 +1149,17 @@ class TestSwRecordLayoutWriter:
         writer.writeSwRecordLayoutGroupSwRecordLayoutGroupContentType(parent, group)
 
         assert parent.find("SW-RECORD-LAYOUT-GROUP") is not None
-        assert parent.find("SW-RECORD-LAYOUT-V") is not None
-        assert parent.find("SW-RECORD-LAYOUT-REF").text == "/layouts/base"
+
+    def test_write_sw_record_layout_group_value(self, writer):
+        layout = SwRecordLayout(parent=ARPackage(None, "parent"), short_name="layout")
+        group = SwRecordLayoutGroup().setShortLabel(_make_literal("group"))
+        group.setSwRecordLayoutGroupContentType(SwRecordLayoutGroupContent())
+        layout.setSwRecordLayoutGroup(group)
+        parent = _parent()
+
+        writer.writeSwRecordLayout(parent, layout)
+
+        assert parent.find("SW-RECORD-LAYOUT/SW-RECORD-LAYOUT-GROUP/SHORT-LABEL").text == "group"
 
     def test_write_sw_record_layout(self, writer):
         autosar = AUTOSAR.getInstance()

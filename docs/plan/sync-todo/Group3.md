@@ -999,35 +999,55 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SwRecordLayoutV` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.98 · deps stamped: `baseType` SwBaseType ✓ / `desc` MultiLanguageOverviewParagraph ✓ · ref target `swGenericAxisParamType` SwGenericAxisParamType NOT in src — pending 16.4 below)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SwRecordLayout` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.97 · ref target of `SwRecordLayoutGroup.swRecordLayout` below · NOTE cyclic aggregation: `swRecordLayoutGroup` → SwRecordLayoutGroup below (record layout family is mutually recursive; sync order resolves the ref direction)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SwRecordLayoutGroup` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.99 · **moved 2026-09-03 restructure after `SwRecordLayoutV` (aggr `swRecordLayoutV`) + `SwRecordLayoutGroupContent` (aggr `swRecordLayoutGroupContentType`) + `SwRecordLayout` (ref `swRecordLayout`)** · self-recursive `swRecordLayoutGroup` · `swGenericAxisParamType` NOT in src — pending 16.4 below · `desc` stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [x] `SwRecordLayoutV` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.98 · deps stamped: `baseType` SwBaseType ✓ / `desc` MultiLanguageOverviewParagraph ✓ / `swGenericAxisParamType` SwGenericAxisParamType ✓) — verified R23-11 (commit pending)
+  - [x] Step 1 — Sync members & description from spec [8 attrs; Base ARObject; p.422 via pdf_page.py; XSD order cross-checked]
+  - [x] Step 2 — Write model class unit test (Red) [typed defaults, chaining, None-safe setters; failed before implementation]
+  - [x] Step 3 — Implement model class (Green) [PEP 526 fields, typed spec members, None-safe setters]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) [class/member notes copied from Table 5.98]
+  - [x] Step 5 — Write reader/writer round-trip test (Red) [parser/writer assertions for all 8 members; failed before implementation]
+  - [x] Step 6 — Update parser & writer (Green) [DESC, generic-axis ref, all attributes, and FIX-VALUE covered in XSD sequence order]
+  - [x] Step 7 — Update checklist comment [6-column R23-11 checklist, all own methods covered]
+  - [x] Step 8 — Deviations [none outstanding]
+  - [x] Step 9 — Verify (9a) + confirm (9b) [focused tests, lint, Black check pass; user confirmed spec compliance]
+- [x] `SwRecordLayout` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.97 · ref target of `SwRecordLayoutGroup.swRecordLayout` below · cyclic record-layout family) — verified R23-11 (commit pending)
+  - [x] Step 1 — Sync members & description from spec [one aggregation `swRecordLayoutGroup`; Base ARElement; p.421 via pdf_page.py; XSD sequence cross-checked]
+  - [x] Step 2 — Write model class unit test (Red) [initialization, typed group accessor, chaining, and None-safe setter]
+  - [x] Step 3 — Implement model class (Green) [typed Optional member and None-safe setter]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) [class/member notes copied from Table 5.97]
+  - [x] Step 5 — Write reader/writer round-trip test (Red) [parser and writer value assertions for SW-RECORD-LAYOUT-GROUP]
+  - [x] Step 6 — Update parser & writer (Green) [existing helpers verified; XML values asserted]
+  - [x] Step 7 — Update checklist comment [6-column R23-11 checklist, all own methods covered]
+  - [x] Step 8 — Deviations [none outstanding]
+  - [x] Step 9 — Verify (9a) + confirm (9b) [423 focused tests; lint/Ruff/Black/diff checks pass; user confirmed Step 9b]
+ - [ ] `AsamRecordLayoutSemantics` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · primitive type of `SwRecordLayoutGroup.category` · **NOT in src — class must be created when this row is synced**)
+   - [ ] Step 1 — Sync members & description from spec
+   - [ ] Step 2 — Write model class unit test (Red)
+   - [ ] Step 3 — Implement model class (Green)
+   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+   - [ ] Step 5 — Write reader/writer round-trip test (Red)
+   - [ ] Step 6 — Update parser & writer (Green)
+   - [ ] Step 7 — Update checklist comment
+   - [ ] Step 8 — Deviations
+   - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [ ] `RecordLayoutIteratorPoint` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.102 · primitive type of `SwRecordLayoutGroup.swRecordLayoutGroupFrom` and `swRecordLayoutGroupTo` · **NOT in src — class must be created when this row is synced**)
+   - [ ] Step 1 — Sync members & description from spec
+   - [ ] Step 2 — Write model class unit test (Red)
+   - [ ] Step 3 — Implement model class (Green)
+   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+   - [ ] Step 5 — Write reader/writer round-trip test (Red)
+   - [ ] Step 6 — Update parser & writer (Green)
+   - [ ] Step 7 — Update checklist comment
+   - [ ] Step 8 — Deviations
+   - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [ ] `SwRecordLayoutGroup` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.99 · **moved 2026-09-03 restructure after `SwRecordLayoutV` (aggr `swRecordLayoutV`) + `SwRecordLayoutGroupContent` (aggr `swRecordLayoutGroupContentType`) + `SwRecordLayout` (ref `swRecordLayout`)** · self-recursive `swRecordLayoutGroup` · `swGenericAxisParamType` NOT in src — pending 16.4 below · `desc` stamped ✓)
+   - [x] Step 1 — Sync members & description from spec [Table 5.99, p.424; ARObject base; 11 members and XSD sequence order confirmed]
+   - [x] Step 2 — Write model class unit test (Red) [class Note/base shape and None-safe optional setters; failed before implementation]
+   - [x] Step 3 — Implement model class (Green) [typed PEP 526 members in spec order and None-safe setters]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) [class/member/accessor docs copied from Table 5.99]
+   - [x] Step 5 — Write reader/writer round-trip test (Red) [parser/writer assertions added for DESC, generic-axis reference, component, all members, and XML ordering]
+   - [x] Step 6 — Update parser & writer (Green) [DESC, SW-GENERIC-AXIS-PARAM-TYPE-REF, and SW-RECORD-LAYOUT-COMPONENT added; sequence order corrected]
+   - [x] Step 7 — Update checklist comment [Table 5.99, p.424; init + 11 getter/setter pairs with six columns and R23-11 release]
+   - [x] Step 8 — Deviations [none outstanding]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `GeneralAnnotation` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.56 (multiple tables — resolve in per-class Phase 0) · after `MultilanguageLongName` (aggr `label`) · `annotationText` DocumentationBlock stamped ✓)
   - [ ] Step 1 — Sync members & description from spec

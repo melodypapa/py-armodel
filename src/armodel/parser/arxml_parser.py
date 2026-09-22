@@ -8181,9 +8181,12 @@ class ARXMLParser(AbstractARXMLParser):
             layout_v = SwRecordLayoutV()
             layout_v.setShortLabel(self.getChildElementOptionalLiteral(child_element, "SHORT-LABEL"))
             layout_v.setBaseTypeRef(self.getChildElementOptionalRefType(child_element, "BASE-TYPE-REF"))
+            layout_v.setDesc(self.getMultiLanguageOverviewParagraph(child_element, "DESC"))
+            layout_v.setSwGenericAxisParamTypeRef(self.getChildElementOptionalRefType(child_element, "SW-GENERIC-AXIS-PARAM-TYPE-REF"))
             layout_v.setSwRecordLayoutVAxis(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-AXIS"))
             layout_v.setSwRecordLayoutVProp(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-PROP"))
             layout_v.setSwRecordLayoutVIndex(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-INDEX"))
+            layout_v.setSwRecordLayoutVFixValue(self.getChildElementOptionalNumericalValue(child_element, "SW-RECORD-LAYOUT-V-FIX-VALUE"))
         return layout_v
 
     def readSwRecordLayoutGroupSwRecordLayoutGroupContentType(self, element: ET.Element, group: SwRecordLayoutGroup):
@@ -8200,11 +8203,14 @@ class ARXMLParser(AbstractARXMLParser):
             group = SwRecordLayoutGroup()
             group.setShortLabel(self.getChildElementOptionalLiteral(child_element, "SHORT-LABEL"))
             group.setCategory(self.getChildElementOptionalLiteral(child_element, "CATEGORY"))
+            group.setDesc(self.getMultiLanguageOverviewParagraph(child_element, "DESC"))
             group.setSwRecordLayoutGroupAxis(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-AXIS"))
             group.setSwRecordLayoutGroupIndex(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-INDEX"))
+            group.setSwGenericAxisParamTypeRef(self.getChildElementOptionalRefType(child_element, "SW-GENERIC-AXIS-PARAM-TYPE-REF"))
             group.setSwRecordLayoutGroupFrom(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-FROM"))
             group.setSwRecordLayoutGroupStep(self.getChildElementOptionalIntegerValue(child_element, "SW-RECORD-LAYOUT-GROUP-STEP"))
             group.setSwRecordLayoutGroupTo(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-TO"))
+            group.setSwRecordLayoutComponent(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-COMPONENT"))
             self.readSwRecordLayoutGroupSwRecordLayoutGroupContentType(child_element, group)
 
         return group

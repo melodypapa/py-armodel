@@ -1978,6 +1978,45 @@ class TestDataTypeAndCompuHandlers:
         parser.readSwRecordLayout(element, layout)
         assert layout.getSwRecordLayoutGroup() is not None
 
+    def test_readSwRecordLayout_reads_group_values(self, parser):
+        from armodel.models import SwRecordLayout
+
+        layout = SwRecordLayout(parent=_autosar_root(), short_name="srl")
+        element = _snip(
+            "<SHORT-NAME>srl</SHORT-NAME><SW-RECORD-LAYOUT-GROUP><SHORT-LABEL>group</SHORT-LABEL><CATEGORY>cat</CATEGORY></SW-RECORD-LAYOUT-GROUP>",
+            root_tag="SW-RECORD-LAYOUT",
+        )
+
+        parser.readSwRecordLayout(element, layout)
+
+        assert layout.getSwRecordLayoutGroup().getShortLabel().getValue() == "group"
+        assert layout.getSwRecordLayoutGroup().getCategory().getValue() == "cat"
+
+    def test_readSwRecordLayoutGroup_reads_all_spec_attributes(self, parser):
+        from armodel.models import SwRecordLayout
+
+        layout = SwRecordLayout(parent=_autosar_root(), short_name="srl")
+        element = _snip(
+            "<SHORT-NAME>srl</SHORT-NAME><SW-RECORD-LAYOUT-GROUP>"
+            "<SHORT-LABEL>group</SHORT-LABEL><CATEGORY>cat</CATEGORY>"
+            "<DESC><L-2 L='EN'>description</L-2></DESC>"
+            "<SW-RECORD-LAYOUT-GROUP-AXIS>1</SW-RECORD-LAYOUT-GROUP-AXIS>"
+            "<SW-RECORD-LAYOUT-GROUP-INDEX>idx</SW-RECORD-LAYOUT-GROUP-INDEX>"
+            "<SW-GENERIC-AXIS-PARAM-TYPE-REF DEST='SW-GENERIC-AXIS-PARAM-TYPE'>/axis</SW-GENERIC-AXIS-PARAM-TYPE-REF>"
+            "<SW-RECORD-LAYOUT-GROUP-FROM>from</SW-RECORD-LAYOUT-GROUP-FROM>"
+            "<SW-RECORD-LAYOUT-GROUP-TO>to</SW-RECORD-LAYOUT-GROUP-TO>"
+            "<SW-RECORD-LAYOUT-GROUP-STEP>2</SW-RECORD-LAYOUT-GROUP-STEP>"
+            "<SW-RECORD-LAYOUT-COMPONENT>component</SW-RECORD-LAYOUT-COMPONENT>"
+            "</SW-RECORD-LAYOUT-GROUP>",
+            root_tag="SW-RECORD-LAYOUT",
+        )
+
+        parser.readSwRecordLayout(element, layout)
+        group = layout.getSwRecordLayoutGroup()
+        assert group.getDesc().getL2s()[0].getValue() == "description"
+        assert group.getSwGenericAxisParamTypeRef().getValue() == "/axis"
+        assert group.getSwRecordLayoutComponent().getValue() == "component"
+
     def test_readSwRecordLayoutGroupContentType_reads_record_layout_ref(self, parser):
         from armodel.models import SwRecordLayoutGroup
 
@@ -1990,6 +2029,32 @@ class TestDataTypeAndCompuHandlers:
         parser.readSwRecordLayoutGroupSwRecordLayoutGroupContentType(element, group)
 
         assert group.getSwRecordLayoutGroupContentType().getSwRecordLayoutRef().getValue() == "/layouts/base"
+
+    def test_getSwRecordLayoutV_reads_all_spec_attributes(self, parser):
+        element = _snip(
+            "<SW-RECORD-LAYOUT-V>"
+            "<SHORT-LABEL>value</SHORT-LABEL>"
+            "<BASE-TYPE-REF DEST='SW-BASE-TYPE'>/base</BASE-TYPE-REF>"
+            "<DESC><L-2 L='EN'>description</L-2></DESC>"
+            "<SW-GENERIC-AXIS-PARAM-TYPE-REF DEST='SW-GENERIC-AXIS-PARAM-TYPE'>/axis</SW-GENERIC-AXIS-PARAM-TYPE-REF>"
+            "<SW-RECORD-LAYOUT-V-AXIS>1</SW-RECORD-LAYOUT-V-AXIS>"
+            "<SW-RECORD-LAYOUT-V-FIX-VALUE>255</SW-RECORD-LAYOUT-V-FIX-VALUE>"
+            "<SW-RECORD-LAYOUT-V-INDEX>idx</SW-RECORD-LAYOUT-V-INDEX>"
+            "<SW-RECORD-LAYOUT-V-PROP>VALUE</SW-RECORD-LAYOUT-V-PROP>"
+            "</SW-RECORD-LAYOUT-V>",
+            root_tag="ROOT",
+        )
+
+        layout_v = parser.getSwRecordLayoutV(element, "SW-RECORD-LAYOUT-V")
+
+        assert layout_v.getShortLabel().getValue() == "value"
+        assert layout_v.getBaseTypeRef().getValue() == "/base"
+        assert layout_v.getDesc().getL2s()[0].getValue() == "description"
+        assert layout_v.getSwGenericAxisParamTypeRef().getValue() == "/axis"
+        assert layout_v.getSwRecordLayoutVAxis().getValue() == "1"
+        assert layout_v.getSwRecordLayoutVFixValue().getValue() == 255
+        assert layout_v.getSwRecordLayoutVIndex().getValue() == "idx"
+        assert layout_v.getSwRecordLayoutVProp().getValue() == "VALUE"
 
     def test_getSwGenericAxisParamType_reads_data_constraint(self, parser):
         element = _snip(

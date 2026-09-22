@@ -7692,9 +7692,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", layout_v.getShortLabel())
             self.setChildElementOptionalRefType(child_element, "BASE-TYPE-REF", layout_v.getBaseTypeRef())
+            self.setMultiLanguageOverviewParagraph(child_element, "DESC", layout_v.getDesc())
+            self.setChildElementOptionalRefType(child_element, "SW-GENERIC-AXIS-PARAM-TYPE-REF", layout_v.getSwGenericAxisParamTypeRef())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-AXIS", layout_v.getSwRecordLayoutVAxis())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-PROP", layout_v.getSwRecordLayoutVProp())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-INDEX", layout_v.getSwRecordLayoutVIndex())
+            self.setChildElementOptionalNumericalValue(child_element, "SW-RECORD-LAYOUT-V-FIX-VALUE", layout_v.getSwRecordLayoutVFixValue())
 
     def writeSwRecordLayoutGroupSwRecordLayoutGroupContentType(self, element: ET.Element, group: SwRecordLayoutGroup):
         content = group.getSwRecordLayoutGroupContentType()
@@ -7707,11 +7710,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", group.getShortLabel())
             self.setChildElementOptionalLiteral(child_element, "CATEGORY", group.getCategory())
+            self.setMultiLanguageOverviewParagraph(child_element, "DESC", group.getDesc())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-AXIS", group.getSwRecordLayoutGroupAxis())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-INDEX", group.getSwRecordLayoutGroupIndex())
+            self.setChildElementOptionalRefType(child_element, "SW-GENERIC-AXIS-PARAM-TYPE-REF", group.getSwGenericAxisParamTypeRef())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-FROM", group.getSwRecordLayoutGroupFrom())
-            self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-TO", group.getSwRecordLayoutGroupTo())
             self.setChildElementOptionalIntegerValue(child_element, "SW-RECORD-LAYOUT-GROUP-STEP", group.getSwRecordLayoutGroupStep())
+            self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-TO", group.getSwRecordLayoutGroupTo())
+            self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-COMPONENT", group.getSwRecordLayoutComponent())
             self.writeSwRecordLayoutGroupSwRecordLayoutGroupContentType(child_element, group)
 
     def writeSwRecordLayout(self, element: ET.Element, layout: SwRecordLayout):
