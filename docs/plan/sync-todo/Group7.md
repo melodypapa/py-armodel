@@ -309,11 +309,61 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, `__init__` row only with reader/writer [—], release column R23-11, no marker
   - [x] Step 8 — Deviations — none (base, guard, and memberless shape already matched the table; the fabricated docstring was the only drift)
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green (10744 unit tests, lint, black-check); stamp deferred to batch confirmation (user instruction 2026-09-22)
+- [ ] `DiagnosticAuthRoleProxy` (dependency · discovered 2026-09-23 from DiagnosticAccessPermission closure · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 4.33)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DiagnosticSession` (dependency · discovered 2026-09-23 from DiagnosticAccessPermission closure · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 4.30 · incl. DiagnosticJumpToBootLoaderEnum Table 4.31 if absent)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DiagnosticSecurityLevel` (dependency · discovered 2026-09-23 from DiagnosticAccessPermission closure · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 4.32)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DiagnosticEnvironmentalCondition` (dependency · discovered 2026-09-23 from DiagnosticAccessPermission closure · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 4.35 · closure members DiagnosticEnvConditionFormula Table 4.36 / DiagnosticLogicalOperatorEnum Table 4.37 — create small ones in-pass if needed)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DiagnosticAccessPermission` (tracker input · missing member class of DiagnosticServiceInstance.accessPermission · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 4.29 · after all 4 dependencies above)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 ## Pending 16.4 resolution (NEW — not in src)
 
 - [x] `FirewallActionEnum` — not in `src` (NEW) → **Derive-from-XSD DONE 2026-08-31** (XSD FIREWALL-ACTION-ENUM complexType: literals BLOCK index 0 "Firewall blocks the communication" / ALLOW index 1 "Firewall allows the communication"; AREnum subclass in Firewall/__init__.py, `# XSD` spec line in checklist; unstamped per user decision 2026-08-31) · **SUPERSEDED 2026-09-22 — re-queued as a full 9-step row at the end of Group3.md's queue** (the 2026-08-31 record is stale: the class IS in src, and its BLOCK=index-0 order contradicts the XSD `--SIMPLE` order and both ECUC mapping tables, which list ALLOW first — the Group3 row arbitrates and fixes that before the `# XSD verified:` marker)
-- [ ] `DiagnosticAccessPermission` — not in `src` (NEW) → **queued 2026-09-22 from the DiagnosticServiceInstance pass** (Table 4.29, p.71 — complexity decision: NOT created in-pass; 4 attrs incl. the authenticationEnabled aggr of missing DiagnosticAuthRoleProxy, itself requiring further Dcm classes). Ref target of `DiagnosticServiceInstance.accessPermission` (ACCESS-PERMISSION-REF DEST enum DIAGNOSTIC-ACCESS-PERMISSION--SUBTYPES-ENUM). Create under DiagnosticExtract (Dcm package) with its table when synced.
+- [ ] `DiagnosticAccessPermission` — not in `src` (NEW) → **queued 2026-09-22 from the DiagnosticServiceInstance pass** · **SUPERSEDED 2026-09-23 — now a full 9-step queue row above (with its closure: DiagnosticAuthRoleProxy Table 4.33, DiagnosticSession Table 4.30, DiagnosticSecurityLevel Table 4.32, DiagnosticEnvironmentalCondition Table 4.35)**; original note: Table 4.29, p.71-73 — ref target of `DiagnosticServiceInstance.accessPermission` (ACCESS-PERMISSION-REF DEST enum DIAGNOSTIC-ACCESS-PERMISSION--SUBTYPES-ENUM). Create under DiagnosticExtract (Dcm package).
 
 ## Not queued
 
