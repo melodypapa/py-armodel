@@ -1,7 +1,7 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping, HwPortMapping
 
 
 class MockParent(ARObject):
@@ -114,3 +114,61 @@ class Test_ECUMapping:
         mock_hw_port = "mock_hw_port"
         mapping.setHwPortMappings([mock_hw_port])
         assert mapping.getHwPortMappings() == [mock_hw_port]
+
+
+HPM_NOTE = "HWPortMapping specifies the hwCommunicationPort (defined in the ECU Resource " "Template) to realize the specified CommunicationConnector in a physical topology."
+HPM_CONNECTOR_NOTE = "Reference to the CommunicationConnector in the System Template"
+HPM_PORT_NOTE = "Reference to the HwPinPortGroup of category CommunicationPort. " "The connection to the HwCommunicationController is described in the Ecu Resource Description."
+
+
+class Test_HwPortMapping:
+    """Test cases for HwPortMapping class (Table 3.135, p.183)."""
+
+    def test_is_concrete_ar_object_subclass(self):
+        assert issubclass(HwPortMapping, ARObject)
+        assert not issubclass(HwPortMapping, Identifiable)
+        mapping = HwPortMapping()
+        assert isinstance(mapping, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert HwPortMapping.__doc__ == HPM_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert HwPortMapping.__init__.__doc__ is None
+
+    def test_defaults(self):
+        mapping = HwPortMapping()
+        assert mapping.getCommunicationConnectorRef() is None
+        assert mapping.getHwCommunicationPortRef() is None
+
+    def test_communication_connector_ref_round_trip(self):
+        mapping = HwPortMapping()
+        ref = _ref("COMMUNICATION-CONNECTOR", "/System/Connectors/Conn1")
+        assert mapping.setCommunicationConnectorRef(ref) is mapping
+        assert mapping.getCommunicationConnectorRef() is ref
+
+    def test_hw_communication_port_ref_round_trip(self):
+        mapping = HwPortMapping()
+        ref = _ref("HW-PIN-GROUP", "/EcuResource/HwPinGroups/Port1")
+        assert mapping.setHwCommunicationPortRef(ref) is mapping
+        assert mapping.getHwCommunicationPortRef() is ref
+
+    def test_setter_none_is_no_op(self):
+        mapping = HwPortMapping()
+        connector_ref = _ref("COMMUNICATION-CONNECTOR", "/System/Connectors/Conn1")
+        port_ref = _ref("HW-PIN-GROUP", "/EcuResource/HwPinGroups/Port1")
+        mapping.setCommunicationConnectorRef(connector_ref)
+        mapping.setHwCommunicationPortRef(port_ref)
+        assert mapping.setCommunicationConnectorRef(None) is mapping
+        assert mapping.setHwCommunicationPortRef(None) is mapping
+        assert mapping.getCommunicationConnectorRef() is connector_ref
+        assert mapping.getHwCommunicationPortRef() is port_ref
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        def norm(doc):
+            return " ".join(doc.split())
+
+        assert norm(HwPortMapping.getCommunicationConnectorRef.__doc__) == HPM_CONNECTOR_NOTE
+        assert norm(HwPortMapping.setCommunicationConnectorRef.__doc__) == (HPM_CONNECTOR_NOTE + " A None value is a no-op and does not overwrite an existing communicationConnectorRef.")
+        assert norm(HwPortMapping.getHwCommunicationPortRef.__doc__) == HPM_PORT_NOTE
+        assert norm(HwPortMapping.setHwCommunicationPortRef.__doc__) == (HPM_PORT_NOTE + " A None value is a no-op and does not overwrite an existing hwCommunicationPortRef.")

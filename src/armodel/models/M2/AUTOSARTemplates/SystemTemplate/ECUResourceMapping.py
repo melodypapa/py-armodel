@@ -117,3 +117,57 @@ class CommunicationControllerMapping(ARObject):
         if value is not None:
             self.hwCommunicationControllerRef = value
         return self
+
+
+class HwPortMapping(ARObject):
+    """HWPortMapping specifies the hwCommunicationPort (defined in the ECU Resource Template) to realize the specified CommunicationConnector in a physical topology."""
+
+    # HwPortMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.135, p.183
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getCommunicationConnectorRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setCommunicationConnectorRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getHwCommunicationPortRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setHwCommunicationPortRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to the CommunicationConnector in the System Template
+        self.communicationConnectorRef: Optional[RefType] = None
+
+        # Reference to the HwPinPortGroup of category CommunicationPort. The connection to the HwCommunicationController is described in the Ecu Resource Description.
+        self.hwCommunicationPortRef: Optional[RefType] = None
+
+    def getCommunicationConnectorRef(self) -> Optional[RefType]:
+        """
+        Reference to the CommunicationConnector in the System Template
+        """
+        return self.communicationConnectorRef
+
+    def setCommunicationConnectorRef(self, value: Optional[RefType]):
+        """
+        Reference to the CommunicationConnector in the System Template
+
+        A None value is a no-op and does not overwrite an existing communicationConnectorRef.
+        """
+        if value is not None:
+            self.communicationConnectorRef = value
+        return self
+
+    def getHwCommunicationPortRef(self) -> Optional[RefType]:
+        """
+        Reference to the HwPinPortGroup of category CommunicationPort. The connection to the HwCommunicationController is described in the Ecu Resource Description.
+        """
+        return self.hwCommunicationPortRef
+
+    def setHwCommunicationPortRef(self, value: Optional[RefType]):
+        """
+        Reference to the HwPinPortGroup of category CommunicationPort. The connection to the HwCommunicationController is described in the Ecu Resource Description.
+
+        A None value is a no-op and does not overwrite an existing hwCommunicationPortRef.
+        """
+        if value is not None:
+            self.hwCommunicationPortRef = value
+        return self

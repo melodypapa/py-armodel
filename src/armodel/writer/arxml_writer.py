@@ -653,7 +653,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps, DoIpRoutingActivation
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping, HwPortMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanFrame,
@@ -11279,6 +11279,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "COMMUNICATION-CONTROLLER-MAPPING")
         self.setChildElementOptionalRefType(child_element, "COMMUNICATION-CONTROLLER-REF", mapping.getCommunicationControllerRef())
         self.setChildElementOptionalRefType(child_element, "HW-COMMUNICATION-CONTROLLER-REF", mapping.getHwCommunicationControllerRef())
+
+    def writeHwPortMapping(self, element: ET.Element, mapping: HwPortMapping):
+        child_element = ET.SubElement(element, "HW-PORT-MAPPING")
+        self.setChildElementOptionalRefType(child_element, "COMMUNICATION-CONNECTOR-REF", mapping.getCommunicationConnectorRef())
+        self.setChildElementOptionalRefType(child_element, "HW-COMMUNICATION-PORT-REF", mapping.getHwCommunicationPortRef())
 
     def writeEcuMapping(self, element: ET.Element, mapping: ECUMapping):
         self.logger.debug("Write ECUMapping <%s>" % mapping.getShortName())
