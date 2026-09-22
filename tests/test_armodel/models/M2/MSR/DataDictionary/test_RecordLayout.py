@@ -2,6 +2,7 @@
 This module contains tests for the RecordLayout module in MSR.DataDictionary.
 """
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Integer, RefType
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import (
@@ -124,6 +125,32 @@ class TestSwRecordLayoutV:
         assert sw_record_layout_v.getSwRecordLayoutVProp() == prop
         assert result == sw_record_layout_v
 
+    def test_sw_record_layout_v_setters_are_none_safe(self):
+        sw_record_layout_v = SwRecordLayoutV()
+        values = {
+            "setBaseTypeRef": RefType().setValue("/base"),
+            "setDesc": MultiLanguageOverviewParagraph(),
+            "setShortLabel": ARLiteral().setValue("label"),
+            "setSwGenericAxisParamTypeRef": RefType().setValue("/axis"),
+            "setSwRecordLayoutVAxis": ARNumerical().setValue(1),
+            "setSwRecordLayoutVFixValue": ARNumerical().setValue(255),
+            "setSwRecordLayoutVIndex": ARLiteral().setValue("idx"),
+            "setSwRecordLayoutVProp": ARLiteral().setValue("VALUE"),
+        }
+
+        for setter, value in values.items():
+            getattr(sw_record_layout_v, setter)(value)
+            getattr(sw_record_layout_v, setter)(None)
+
+        assert sw_record_layout_v.getBaseTypeRef() is values["setBaseTypeRef"]
+        assert sw_record_layout_v.getDesc() is values["setDesc"]
+        assert sw_record_layout_v.getShortLabel() is values["setShortLabel"]
+        assert sw_record_layout_v.getSwGenericAxisParamTypeRef() is values["setSwGenericAxisParamTypeRef"]
+        assert sw_record_layout_v.getSwRecordLayoutVAxis() is values["setSwRecordLayoutVAxis"]
+        assert sw_record_layout_v.getSwRecordLayoutVFixValue() is values["setSwRecordLayoutVFixValue"]
+        assert sw_record_layout_v.getSwRecordLayoutVIndex() is values["setSwRecordLayoutVIndex"]
+        assert sw_record_layout_v.getSwRecordLayoutVProp() is values["setSwRecordLayoutVProp"]
+
 
 class TestSwRecordLayoutGroupContent:
     """Test class for SwRecordLayoutGroupContent class."""
@@ -178,6 +205,38 @@ class TestSwRecordLayoutGroupContent:
 
 class TestSwRecordLayoutGroup:
     """Test class for SwRecordLayoutGroup class."""
+
+    def test_sw_record_layout_group_spec_shape(self):
+        """Test the Table 5.99 class note and ARObject base shape."""
+        assert SwRecordLayoutGroup.__doc__.strip() == (
+            "Specifies how a record layout is set up. Using SwRecordLayoutGroup it recursively models iterations through axis values. "
+            "The subelement swRecordLayoutGroupContentType may reference other Sw RecordLayouts, SwRecordLayoutVs and SwRecordLayoutGroups "
+            "for the modeled record layout."
+        )
+        assert isinstance(SwRecordLayoutGroup(), ARObject)
+
+    def test_sw_record_layout_group_setters_ignore_none(self):
+        """Test that optional Table 5.99 members retain values when set to None."""
+        group = SwRecordLayoutGroup()
+        values = {
+            "Category": ARLiteral(),
+            "Desc": MultiLanguageOverviewParagraph(),
+            "ShortLabel": ARLiteral(),
+            "SwGenericAxisParamTypeRef": RefType(),
+            "SwRecordLayoutComponent": ARLiteral(),
+            "SwRecordLayoutGroupAxis": Integer(),
+            "SwRecordLayoutGroupContentType": SwRecordLayoutGroupContent(),
+            "SwRecordLayoutGroupFrom": ARLiteral(),
+            "SwRecordLayoutGroupIndex": ARLiteral(),
+            "SwRecordLayoutGroupStep": Integer(),
+            "SwRecordLayoutGroupTo": ARLiteral(),
+        }
+        for name, value in values.items():
+            setter = getattr(group, "set" + name)
+            getter = getattr(group, "get" + name)
+            setter(value)
+            assert setter(None) is group
+            assert getter() is value
 
     def test_sw_record_layout_group_initialization(self):
         """Test that a SwRecordLayoutGroup object can be initialized with default values."""
@@ -312,3 +371,5 @@ class TestSwRecordLayout:
         result = sw_record_layout.setSwRecordLayoutGroup(group)
         assert sw_record_layout.getSwRecordLayoutGroup() == group
         assert result == sw_record_layout
+        assert sw_record_layout.setSwRecordLayoutGroup(None) is sw_record_layout
+        assert sw_record_layout.getSwRecordLayoutGroup() == group

@@ -19,6 +19,7 @@ class PrivacyLevel(ARObject):
 
     # PrivacyLevel method parity checklist:
     # Spec: AUTOSAR_FO_TPS_LogAndTraceExtract.pdf, Table 3.4, p.18
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCompuMethodRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -88,7 +89,7 @@ class DltArgument(Identifiable):
     """
 
     # DltArgument method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table E.20, p.13 (R23-11)
+    # Spec: AUTOSAR_FO_TPS_LogAndTraceExtract.pdf, Table 3.3, p.13 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] createDltArgumentEntry    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -230,7 +231,8 @@ class DltMessage(Identifiable, VariationPointCapable):
     """
 
     # DltMessage method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.50, p.12 (R23-11)
+    # Spec: AUTOSAR_FO_TPS_LogAndTraceExtract.pdf, Table 3.2, p.12 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] createDltArgument      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -376,7 +378,8 @@ class DltContext(ARElement):
     """
 
     # DltContext method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.48, p.9 (R23-11)
+    # Spec: AUTOSAR_FO_TPS_LogAndTraceExtract.pdf, Table 2.3, p.9 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getContextDescription  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -459,7 +462,8 @@ class DltApplication(Identifiable, VariationPointCapable):
     """
 
     # DltApplication method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.47, p.9 (R23-11)
+    # Spec: AUTOSAR_FO_TPS_LogAndTraceExtract.pdf, Table 2.2, p.9 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getApplicationDescription      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -538,7 +542,8 @@ class DltEcu(ARElement):
     """
 
     # DltEcu method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.49, p.8 (R23-11)
+    # Spec: AUTOSAR_FO_TPS_LogAndTraceExtract.pdf, Table 2.1, p.8 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] createApplication  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11

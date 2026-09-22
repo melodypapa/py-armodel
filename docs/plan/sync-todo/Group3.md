@@ -94,32 +94,6 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
 >   enums), Base `ARObject`, Package M2::MSR::Documentation::BlockElements::Figure → `Figure.py`.
 > - Dependency closure of the enums otherwise clear (AREnum → ARObject base); primitives not queued.
 
-> **Dependency audit 2026-09-22 (`SwRecordLayoutGroup` closure)** (run ahead of the four remaining `[ ]` rows —
-> `SwRecordLayoutV`/`SwRecordLayout`/`SwRecordLayoutGroup`/`GeneralAnnotation`; every earlier restructure/audit missed these):
-> - **Added 2 missing dependency rows** immediately before `SwRecordLayoutGroup` (Rule 0016.5 dependency-first; both verified
->   NOT in src by grep of src/ and tests/, and NOT queued in any Group file): `RecordLayoutIteratorPoint` (**Table 5.102**,
->   `Primitive`) and `AsamRecordLayoutSemantics` (**Table 5.103**, `Primitive`) — member types of
->   `SwRecordLayoutGroup.swRecordLayoutGroupFrom`/`swRecordLayoutGroupTo` and `SwRecordLayoutGroup.category` respectively.
->   src placeholders today: `SwRecordLayoutGroup.category`/`swRecordLayoutGroupFrom`/`swRecordLayoutGroupTo` are typed
->   `ARLiteral` via trailing `# type:` comments (RecordLayout.py) — those rows will retype them to the spec primitives.
-> - XSD cross-check (`AUTOSAR_00052.xsd`): `RECORD-LAYOUT-ITERATOR-POINT` complexType line 141529 (+ `--SIMPLE` line 141541;
->   pattern `-?([0-9]+|MAX-TEXT-SIZE|ARRAY-SIZE)`), consumers SW-RECORD-LAYOUT-GROUP-FROM (L116044) / -TO (L116052);
->   `ASAM-RECORD-LAYOUT-SEMANTICS` complexType line 131645 (+ `--SIMPLE` line 131661; `xml.xsd.type=NMTOKEN`), consumer
->   SW-RECORD-LAYOUT-GROUP CATEGORY (L116003).
-> - Already stamped, no row needed (markers verified in source): `AxisIndexType` (`# Spec verified: R23-11`, GST Table 4.43 —
->   SWCT Table 5.101 is the same Primitive, identical Note), `SwBaseType` ✓, `MultiLanguageOverviewParagraph` ✓,
->   `SwGenericAxisParamType` ✓, `SwRecordLayoutGroupContent` ✓, `NameTokens` ✓, `DocumentationBlock` ✓, `MultilanguageLongName` ✓.
->   Existing leaf primitives not queued (String/NameToken precedent): `Identifier` ✓, `Integer`, `NameToken`, `String`.
-> - XSD-only `SwRecordLayoutV.category` (group SW-RECORD-LAYOUT-V, L116160) carries `atp.Status="removed"` and is absent from
->   Table 5.98 → not modeled, Rule 0015 (Entry BGCOLOR precedent) — `AsamRecordLayoutSemantics`'s only live consumer is
->   `SwRecordLayoutGroup.category`.
-> - Closures of `SwRecordLayoutV` (Table 5.98, 8 attrs), `SwRecordLayout` (Table 5.97, 1 attr `swRecordLayoutGroup` aggr —
->   cyclic, queued below) and `GeneralAnnotation` (CP_TPS Table 4.56 = FO_TPS Table 4.71, identical content; 3 attrs —
->   `annotationOrigin` String, `annotationText` DocumentationBlock ✓, `label` MultilanguageLongName ✓) are otherwise clear.
-> - Markdown render note: Tables 5.97–5.99 render **trailing-caption** (each class's rows appear BEFORE its caption — same
->   page-split family as Map/LGraphic); `SwRecordLayoutGroup`'s last 3 attrs (`swRecordLayoutGroupIndex`/`Step`/`To`) are the
->   fragment AFTER the `Table 5.99` caption.
-
 - [x] `ChapterEnumBreak` (dependency · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.61 · enum member type of `Paginateable.chapterBreak`) — verified R23-11 (commit 20e6ee88)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -202,6 +176,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 9 — Verify (9a) + confirm (9b)  [marker `# Spec verified: R23-11` written; commit 8aaa2657]
 - [x] `SingleLanguageReferrable` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.12 (abstract) · **NOT in src** · Package M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable · Base `ARObject , Referrable` (Referrable stamped ✓) · attr `longName1` SingleLanguageLongName 0..1 aggr · base of `Std`, `Xdoc`, `Xfile`, `XrefTarget`) — verified R23-11 (commit a5910c1b)
   - [x] Step 1 — Sync members & description from spec  [Class `SingleLanguageReferrable (abstract)`; Package M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable → Identifiable.py; Base `ARObject , Referrable` → most-derived `Referrable`; one attr `longName1` SingleLanguageLongName 0..1 aggr (child Base ARObject+MixedContentForLongName → non-Referrable → set/get, no create); Subclasses Std/Xdoc/Xfile/XrefTarget; p.64 via pdf_page.py; Note verified against PDF p.64 (markdown joins the XSD paragraph breaks); element LONG-NAME-1 per XSD SINGLE-LANGUAGE-REFERRABLE group; abstract → owns reusable read/writeSingleLanguageReferrable helpers (Rule 0001.7)]
+  - [ ] Step 2 — Write model class unit test (Red)
   - [x] Step 2 — Write model class unit test (Red)  [TestSingleLanguageReferrable in test_Identifiable.py: abstract-guard TypeError, defaults (longName1 None + inherited shortName/parent), get/set longName1 chaining, None no-op — via a local concrete subclass; ImportError = Red]
   - [x] Step 3 — Implement model class (Green)  [SingleLanguageReferrable(Referrable, ABC) added to Identifiable.py after MultilanguageReferrable; abstract guard; `longName1: Optional[SingleLanguageLongName]`; TYPE_CHECKING import of SingleLanguageLongName; exported via Identifiable wildcard; 4 passed; `armodel.SingleLanguageReferrable` resolves]
   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [new code — class docstring = spec Note verbatim (markdown; PDF p.64 confirms the paragraph-joined text, includes the spec's own "Therefore they aggregate But they are not…" join); longName1 comment/getter/setter = attr Note verbatim incl. the spec typo "compatibiilty"; setter appends the None-no-op line]
@@ -212,6 +187,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 4437 tests + 3 integration round-trips pass; flake8/ruff/black-check clean (ruff I001 + black reflow applied to the widened import); checklist == methods; 9b: 14-item pre-stamp checklist user-confirmed; marker `# Spec verified: R23-11` written; commit a5910c1b]
 - [x] `MimeTypeString` (dependency · **added 2026-09-12 Url closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · **Table 4.55** (`Primitive`, p.111) · **NOT in src** · **NOT queued anywhere before this audit** — missed by all earlier closure passes · Package `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes` → `PrimitiveTypes.py` (same file as `UriString`) · missing **primitive** → implement as an `ARLiteral` subclass (Rule 0001.10) · member type of `Url.mimeType` below → queued immediately before `Url` (dependency-first, Rule 0016.5)) — verified R23-11 (commit 01cc23df)
   - [x] Step 1 — Sync members & description from spec  [`Primitive MimeTypeString`; Package M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes → PrimitiveTypes.py; Note = "This primitive denotes the an Internet media type, originally called a MIME type after MIME and sometimes a Content-type after the name of a header in several protocols whose value is such a type, is a two-part identifier for file formats on the Internet." (verbatim, incl. the spec's "denotes the an" grammar slip) + Tags xml.xsd.customType=MIME-TYPE-STRING / xml.xsd.type=string; p.111 via pdf_page.py, confirmed against PDF p.111; no Attribute rows (Primitive table) → ARLiteral subclass, no fields beyond ARType's timestamp]
+  - [ ] Step 2 — Write model class unit test (Red)
   - [x] Step 2 — Write model class unit test (Red)  [TestMimeTypeString in test_PrimitiveTypes.py: initialization (ARLiteral instance, _value None) + setValue round-trip/chaining/str(); ImportError = Red]
   - [x] Step 3 — Implement model class (Green)  [MimeTypeString(ARLiteral) added to PrimitiveTypes.py immediately after McdIdentifier (Table 4.54 → 4.55 spec order); exported via the module wildcard; 2 passed; `armodel.MimeTypeString` resolves]
   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class docstring = spec Note verbatim + the Tags block as an indented bullet list, per the stamped AnyServiceInstanceId precedent; diffed byte-equal against the markdown cell; PDF p.111 confirms the "denotes the an Internet media type" grammar slip is the spec's own]
@@ -957,6 +933,15 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment [6-column R23-11 checklist, all own methods covered]
    - [x] Step 8 — Deviations [none outstanding]
    - [x] Step 9 — Verify (9a) + confirm (9b) [9a: 208 focused tests, lint, Black check, diff check pass; 9b: user-confirmed member spacing, types, naming, order, docstrings, reader/writer coverage, and no deviations; marker # Spec verified: R23-11 written]
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
  - [x] `SwAxisGrouped` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.55 · deps stamped: `swCalprmRef` SwCalprmRefProxy ✓ / `sharedAxisType` ApplicationPrimitiveDataType queued in Group2 ✓ / parent SwCalprmAxisTypeProps ✓) — verified R23-11 (commit 12a2e017)
    - [x] Step 1 — Sync members & description from spec [3 own attrs; Base ARObject + SwCalprmAxisTypeProps; p.357 via pdf_page.py; XSD order cross-checked]
    - [x] Step 2 — Write model class unit test (Red) [typed defaults, None-safe setters; failed before implementation]
@@ -967,6 +952,15 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment [6-column R23-11 checklist, all own methods covered]
    - [x] Step 8 — Deviations [none outstanding]
    - [x] Step 9 — Verify (9a) + confirm (9b) [9a: 209 focused tests, lint, Black check, diff check pass; 9b: user-confirmed member spacing, types, naming, order, docstrings, reader/writer coverage, and no deviations; marker # Spec verified: R23-11 written]
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [x] `SwRecordLayoutGroupContent` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.100 · member type of `SwRecordLayoutGroup.swRecordLayoutGroupContentType` below) — verified R23-11 (commit 0f19d490)
   - [x] Step 1 — Sync members & description from spec [<<atpMixed>> class; Base ARObject; 3 own attrs; p.424 via pdf_page.py; XSD order cross-checked]
   - [x] Step 2 — Write model class unit test (Red) [typed defaults and None-safe setters; failed before implementation]
@@ -977,6 +971,15 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment [6-column R23-11 checklist, all own methods covered]
   - [x] Step 8 — Deviations [none outstanding]
   - [x] Step 9 — Verify (9a) + confirm (9b) [9a: 407 focused tests, lint, Black check, diff check pass; 9b: user-confirmed member spacing, types, naming, order, docstrings, reader/writer coverage, and no deviations; marker # Spec verified: R23-11 written]
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [x] `SwGenericAxisParamType` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · ref target of `SwRecordLayoutGroup.swGenericAxisParamType` + `SwRecordLayoutV.swGenericAxisParamType` · **NOT in src** — class must be created when this row is synced) — verified R23-11 (commit 1eacd1a7)
   - [x] Step 1 — Sync members & description from spec [concrete Identifiable class; one dataConstr ref; p.356 via pdf_page.py; XSD inheritance/order cross-checked]
   - [x] Step 2 — Write model class unit test (Red) [missing class/import before implementation]
@@ -987,7 +990,6 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment [6-column R23-11 checklist, all own methods covered]
   - [x] Step 8 — Deviations [none outstanding]
   - [x] Step 9 — Verify (9a) + confirm (9b) [9a: 392 focused tests, lint, Black check, diff check pass; 9b: user-confirmed inheritance, member spacing, type, naming, order, docstrings, reader/writer coverage, and no deviations; marker # Spec verified: R23-11 written]
-- [ ] `SwRecordLayoutV` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.98 · deps stamped: `baseType` SwBaseType ✓ / `desc` MultiLanguageOverviewParagraph ✓ / `swGenericAxisParamType` SwGenericAxisParamType ✓ (commit 1eacd1a7) / `swRecordLayoutVAxis` AxisIndexType ✓ (GST Table 4.43) / `swRecordLayoutVIndex` NameTokens ✓ · 2026-09-22 closure audit: clear — no missing member types; XSD-only `category` carries `atp.Status="removed"` → not modeled (Rule 0015))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -997,45 +999,55 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SwRecordLayout` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.97 · ref target of `SwRecordLayoutGroup.swRecordLayout` below · NOTE cyclic aggregation: `swRecordLayoutGroup` → SwRecordLayoutGroup below (record layout family is mutually recursive; sync order resolves the ref direction)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `RecordLayoutIteratorPoint` (dependency · **added 2026-09-22 SwRecordLayoutGroup closure audit** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · **Table 5.102** (`Primitive`) · **NOT in src — created** · Package M2::MSR::DataDictionary::RecordLayout → `RecordLayout.py` (same file as AxisIndexType) · **primitive** → `ARLiteral` subclass (Rule 0001.10) · Tags `xml.xsd.customType=RECORD-LAYOUT-ITERATOR-POINT` `xml.xsd.pattern=-?([0-9]+|MAX-TEXT-SIZE|ARRAY-SIZE)` `xml.xsd.type=string` · member type of `SwRecordLayoutGroup.swRecordLayoutGroupFrom` + `swRecordLayoutGroupTo` · queued immediately before `SwRecordLayoutGroup` (Rule 0016.5))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `AsamRecordLayoutSemantics` (dependency · **added 2026-09-22 SwRecordLayoutGroup closure audit** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · **Table 5.103** (`Primitive`) · **NOT in src — created** · Package M2::MSR::DataDictionary::RecordLayout → `RecordLayout.py` · **primitive** → `ARLiteral` subclass (Rule 0001.10) · Tags `xml.xsd.customType=ASAM-RECORD-LAYOUT-SEMANTICS` `xml.xsd.type=NMTOKEN` · member type of `SwRecordLayoutGroup.category` (XSD-only `SwRecordLayoutV.category` carries `atp.Status="removed"` → not modeled, Rule 0015) · queued immediately before `SwRecordLayoutGroup` (Rule 0016.5))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SwRecordLayoutGroup` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.99 · **moved 2026-09-03 restructure after `SwRecordLayoutV` (aggr `swRecordLayoutV`) + `SwRecordLayoutGroupContent` (aggr `swRecordLayoutGroupContentType`) + `SwRecordLayout` (ref `swRecordLayout`)** · self-recursive `swRecordLayoutGroup` · `swGenericAxisParamType` SwGenericAxisParamType stamped ✓ · `desc` stamped ✓ · deps `category` AsamRecordLayoutSemantics + `swRecordLayoutGroupFrom`/`To` RecordLayoutIteratorPoint queued immediately above (**added 2026-09-22 closure audit**))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [x] `SwRecordLayoutV` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.98 · deps stamped: `baseType` SwBaseType ✓ / `desc` MultiLanguageOverviewParagraph ✓ / `swGenericAxisParamType` SwGenericAxisParamType ✓) — verified R23-11 (commit pending)
+  - [x] Step 1 — Sync members & description from spec [8 attrs; Base ARObject; p.422 via pdf_page.py; XSD order cross-checked]
+  - [x] Step 2 — Write model class unit test (Red) [typed defaults, chaining, None-safe setters; failed before implementation]
+  - [x] Step 3 — Implement model class (Green) [PEP 526 fields, typed spec members, None-safe setters]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) [class/member notes copied from Table 5.98]
+  - [x] Step 5 — Write reader/writer round-trip test (Red) [parser/writer assertions for all 8 members; failed before implementation]
+  - [x] Step 6 — Update parser & writer (Green) [DESC, generic-axis ref, all attributes, and FIX-VALUE covered in XSD sequence order]
+  - [x] Step 7 — Update checklist comment [6-column R23-11 checklist, all own methods covered]
+  - [x] Step 8 — Deviations [none outstanding]
+  - [x] Step 9 — Verify (9a) + confirm (9b) [focused tests, lint, Black check pass; user confirmed spec compliance]
+- [x] `SwRecordLayout` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.97 · ref target of `SwRecordLayoutGroup.swRecordLayout` below · cyclic record-layout family) — verified R23-11 (commit pending)
+  - [x] Step 1 — Sync members & description from spec [one aggregation `swRecordLayoutGroup`; Base ARElement; p.421 via pdf_page.py; XSD sequence cross-checked]
+  - [x] Step 2 — Write model class unit test (Red) [initialization, typed group accessor, chaining, and None-safe setter]
+  - [x] Step 3 — Implement model class (Green) [typed Optional member and None-safe setter]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) [class/member notes copied from Table 5.97]
+  - [x] Step 5 — Write reader/writer round-trip test (Red) [parser and writer value assertions for SW-RECORD-LAYOUT-GROUP]
+  - [x] Step 6 — Update parser & writer (Green) [existing helpers verified; XML values asserted]
+  - [x] Step 7 — Update checklist comment [6-column R23-11 checklist, all own methods covered]
+  - [x] Step 8 — Deviations [none outstanding]
+  - [x] Step 9 — Verify (9a) + confirm (9b) [423 focused tests; lint/Ruff/Black/diff checks pass; user confirmed Step 9b]
+ - [ ] `AsamRecordLayoutSemantics` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · primitive type of `SwRecordLayoutGroup.category` · **NOT in src — class must be created when this row is synced**)
+   - [ ] Step 1 — Sync members & description from spec
+   - [ ] Step 2 — Write model class unit test (Red)
+   - [ ] Step 3 — Implement model class (Green)
+   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+   - [ ] Step 5 — Write reader/writer round-trip test (Red)
+   - [ ] Step 6 — Update parser & writer (Green)
+   - [ ] Step 7 — Update checklist comment
+   - [ ] Step 8 — Deviations
+   - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [ ] `RecordLayoutIteratorPoint` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.102 · primitive type of `SwRecordLayoutGroup.swRecordLayoutGroupFrom` and `swRecordLayoutGroupTo` · **NOT in src — class must be created when this row is synced**)
+   - [ ] Step 1 — Sync members & description from spec
+   - [ ] Step 2 — Write model class unit test (Red)
+   - [ ] Step 3 — Implement model class (Green)
+   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+   - [ ] Step 5 — Write reader/writer round-trip test (Red)
+   - [ ] Step 6 — Update parser & writer (Green)
+   - [ ] Step 7 — Update checklist comment
+   - [ ] Step 8 — Deviations
+   - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [ ] `SwRecordLayoutGroup` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.99 · **moved 2026-09-03 restructure after `SwRecordLayoutV` (aggr `swRecordLayoutV`) + `SwRecordLayoutGroupContent` (aggr `swRecordLayoutGroupContentType`) + `SwRecordLayout` (ref `swRecordLayout`)** · self-recursive `swRecordLayoutGroup` · `swGenericAxisParamType` NOT in src — pending 16.4 below · `desc` stamped ✓)
+   - [x] Step 1 — Sync members & description from spec [Table 5.99, p.424; ARObject base; 11 members and XSD sequence order confirmed]
+   - [x] Step 2 — Write model class unit test (Red) [class Note/base shape and None-safe optional setters; failed before implementation]
+   - [x] Step 3 — Implement model class (Green) [typed PEP 526 members in spec order and None-safe setters]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) [class/member/accessor docs copied from Table 5.99]
+   - [x] Step 5 — Write reader/writer round-trip test (Red) [parser/writer assertions added for DESC, generic-axis reference, component, all members, and XML ordering]
+   - [x] Step 6 — Update parser & writer (Green) [DESC, SW-GENERIC-AXIS-PARAM-TYPE-REF, and SW-RECORD-LAYOUT-COMPONENT added; sequence order corrected]
+   - [x] Step 7 — Update checklist comment [Table 5.99, p.424; init + 11 getter/setter pairs with six columns and R23-11 release]
+   - [x] Step 8 — Deviations [none outstanding]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `GeneralAnnotation` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.56 (multiple tables — resolve in per-class Phase 0) · after `MultilanguageLongName` (aggr `label`) · `annotationText` DocumentationBlock stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
@@ -1047,7 +1059,6 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-
 - [ ] `FirewallActionEnum` (dependency · **re-queued 2026-09-22 — supersedes Group7's stale single-line 16.4 record** · **XSD-only re-confirmed** (no R23-11/R4.3.1 markdown Enumeration table, no PDF caption; the sys L49490+ Firewall rows are ECUC literal-mapping tables, not a class table; consumers `StateDependentFirewall.defaultAction` Table 6.234 + `FirewallRuleProps.action` Table 6.235) · AUTOSAR_00052.xsd complexType `FIREWALL-ACTION-ENUM` line 136671 ("List of actions that the Firewall is able to perform.") + `--SIMPLE` line 136683 · **in src** (AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py, AREnum, checklist present, NO marker) · **known deviation to arbitrate in Step 1: src literal order BLOCK=index 0 / ALLOW=index 1 contradicts the XSD `--SIMPLE` order and both ECUC mapping tables, which list ALLOW first → fix to allow=ALLOW index 0, block=BLOCK index 1 (wire values uppercase per XSD)** · marker `# XSD verified: AUTOSAR_00052.xsd` at 9b · AREnum — Steps 5/6 N/A (value form on consuming classes)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -1058,6 +1069,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
+
 
 ## Pending 16.4 resolution (NEW — not in src)
 

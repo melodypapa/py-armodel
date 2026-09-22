@@ -17,6 +17,7 @@ class DltDefaultTraceStateEnum(AREnum):
 
     # DltDefaultTraceStateEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.337, p.723 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on DltLogChannel.defaultTraceState (Steps 5/6 N/A: standalone AREnum)
 
@@ -42,6 +43,7 @@ class LogTraceDefaultLogLevelEnum(AREnum):
 
     # LogTraceDefaultLogLevelEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.338, p.724 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on DltLogChannel.logTraceDefaultLogThreshold (Steps 5/6 N/A: standalone AREnum)
 
@@ -103,6 +105,7 @@ class DltLogChannel(Identifiable):
 
     # DltLogChannel method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.336, p.723 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addApplicationContextRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -310,6 +313,7 @@ class DltConfig(ARObject):
 
     # DltConfig method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.335, p.722 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDltEcuRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
