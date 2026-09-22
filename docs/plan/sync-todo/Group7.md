@@ -310,15 +310,15 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 8 — Deviations — none (base, guard, and memberless shape already matched the table; the fabricated docstring was the only drift)
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green (10744 unit tests, lint, black-check); stamp deferred to batch confirmation (user instruction 2026-09-22)
 - [ ] `DiagnosticAuthRoleProxy` (dependency · discovered 2026-09-23 from DiagnosticAccessPermission closure · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 4.33)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 4.33 p.76 (pdf_page.py verified): concrete, Base = ARObject (XSD complexType l.31747 = AR-OBJECT group only, atpObject — no SHORT-NAME); Aggregated by DiagnosticAccessPermission.authenticationEnabled; 1 attr: authenticationRole (DiagnosticAuthRole * ref → `authenticationRoleRefs`); XSD group (l.31718) = AUTHENTICATION-ROLE-REFS wrapper only; Notes verbatim
+  - [x] Step 2 — Write model class unit test (Red) — new tests/test_armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/test_Dcm.py (8 tests): instantiation (concrete, not Identifiable), verbatim Note docstring, no `__init__` docstring, defaults, addAuthenticationRoleRef append/None-noop/self, accessor docstring verbatim checks; Red = ModuleNotFoundError on the missing module (honest note: collection-level)
+  - [x] Step 3 — Implement model class (Green) — created DiagnosticExtract/Dcm.py (spec package Dcm): DiagnosticAuthRoleProxy(ARObject); PEP 526 member `authenticationRoleRefs: List[RefType]`; typed chaining adder with None no-op guard
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — new class written verbatim from the start (class docstring = Table 4.33 Note; attr Note on inline comment + getter/adder docstrings with None-no-op sentence); no wipe needed (fresh file)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/test_diagnostic_auth_role_proxy.py (2) + tests/test_armodel/writer/test_diagnostic_auth_role_proxy.py (3: child order [AUTHENTICATION-ROLE-REFS] per XSD complexType l.31747, empty omits, ns-injected round-trip); 5 Red (helpers missing)
+  - [x] Step 6 — Update parser & writer (Green) — readDiagnosticAuthRoleProxy (readARObject + AUTHENTICATION-ROLE-REFS list) / writeDiagnosticAuthRoleProxy (SubElement + writeARObject + refs wrapper); fragment+helper pattern — no ARPackage dispatch (aggregated only via DiagnosticAccessPermission.authenticationEnabled, wired in that row); Dcm import added alphabetically into the existing parser/writer import blocks
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist with release column R23-11, no marker
+  - [x] Step 8 — Deviations — none (ref target DiagnosticAuthRole Table 4.34 not in src — refs are untyped RefType, no fixture impact)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `DiagnosticSession` (dependency · discovered 2026-09-23 from DiagnosticAccessPermission closure · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 4.30 · incl. DiagnosticJumpToBootLoaderEnum Table 4.31 if absent)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

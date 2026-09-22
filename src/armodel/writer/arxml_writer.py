@@ -249,6 +249,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming, TimingExtension
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAuthRoleProxy
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
@@ -12555,6 +12556,15 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDiagnosticServiceInstance(self, element: ET.Element, instance: DiagnosticServiceInstance):
         self.setChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF", instance.getAccessPermissionRef())
         self.setChildElementOptionalRefType(element, "SERVICE-CLASS-REF", instance.getServiceClassRef())
+
+    def writeDiagnosticAuthRoleProxy(self, element: ET.Element, proxy: DiagnosticAuthRoleProxy):
+        child_element = ET.SubElement(element, "DIAGNOSTIC-AUTH-ROLE-PROXY")
+        self.writeARObject(child_element, proxy)
+        refs = proxy.getAuthenticationRoleRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "AUTHENTICATION-ROLE-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "AUTHENTICATION-ROLE-REF", ref)
 
     def writeDiagnosticServiceTableDiagnosticConnectionRefs(self, element: ET.Element, table: DiagnosticServiceTable):
         refs = table.getDiagnosticConnectionRefs()

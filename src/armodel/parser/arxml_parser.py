@@ -355,6 +355,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAuthRoleProxy
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
@@ -9648,6 +9649,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticServiceInstance(self, element: ET.Element, instance: DiagnosticServiceInstance):
         instance.setAccessPermissionRef(self.getChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF"))
         instance.setServiceClassRef(self.getChildElementOptionalRefType(element, "SERVICE-CLASS-REF"))
+
+    def readDiagnosticAuthRoleProxy(self, element: ET.Element, proxy: DiagnosticAuthRoleProxy):
+        self.readARObject(element, proxy)
+        for ref in self.getChildElementRefTypeList(element, "AUTHENTICATION-ROLE-REFS/AUTHENTICATION-ROLE-REF"):
+            proxy.addAuthenticationRoleRef(ref)
 
     def readDiagnosticServiceTableDiagnosticConnectionRefs(self, element: ET.Element, table: DiagnosticServiceTable):
         for ref in self.getChildElementRefTypeList(element, "DIAGNOSTIC-CONNECTIONS/DIAGNOSTIC-CONNECTION-REF-CONDITIONAL/DIAGNOSTIC-CONNECTION-REF"):

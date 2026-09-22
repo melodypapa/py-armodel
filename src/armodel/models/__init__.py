@@ -183,6 +183,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition i
 # Additional DiagnosticExtract imports
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import *  # noqa: F403
 
 # ECUCParameterDefTemplate
