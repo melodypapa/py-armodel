@@ -1032,15 +1032,15 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 8 — Deviations [none outstanding]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `GeneralAnnotation` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.56 (multiple tables — resolve in per-class Phase 0) · after `MultilanguageLongName` (aggr `label`) · `annotationText` DocumentationBlock stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec  [Phase 0 resolved: CP Table 4.56, p.163 (FO Table 4.71 is the twin; 4.4.10 class-overview table carries the full Note); abstract Class, Package GenericStructure::GeneralTemplateClasses::GeneralAnnotation, Base ARObject; displayed order annotationOrigin String 1 / annotationText DocumentationBlock 1 / label MultilanguageLongName 0..1; XSD group GENERAL-ANNOTATION l.63742 fixes XML order LABEL(20) → ANNOTATION-ORIGIN(30) → ANNOTATION-TEXT(40)]
+  - [x] Step 2 — Write model class unit test (Red)  [test_Annotation.py: verbatim-Note docstring assertion, `__init__.__doc__ is None`, base chain, abstract guard, defaults, round-trip + None no-op for all three setters (origin fixture String); Red confirmed honestly — 4 failed before implementation]
+  - [x] Step 3 — Implement model class (Green)  [annotationOrigin re-typed ARLiteral → Optional[String] per spec; PEP 526 members replace `# type:` comments; None no-op + return self on all setters; abstract guard retained]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note verbatim (single-line, XSD paragraph breaks flattened per table cell); attribute Notes = inline comment + getter/setter docstrings + None no-op sentence; no `__init__` docstring]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [new parser/test_general_annotation.py + writer/test_general_annotation.py: LABEL/ANNOTATION-ORIGIN/ANNOTATION-TEXT values, exact XSD child order, empty case, writer→reader round-trip]
+  - [x] Step 6 — Update parser & writer (Green)  [ANNOTATION-ORIGIN switched to getChildElementOptionalString/setChildElementOptionalString to match the String spec type (identical XML); existing LABEL/TEXT coverage and XSD order retained]
+  - [x] Step 7 — Update checklist comment  [Table 4.56, p.163; init + 3 getter/setter pairs with six columns and R23-11 release]
+  - [x] Step 8 — Deviations  [resolved deviation: annotationOrigin was ARLiteral (spec String); consumers all use getValue(), no fallout. XSD preserves the class Note's paragraph breaks — flattened to the PDF-table single-cell form for the docstring]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `FirewallActionEnum` (dependency · **re-queued 2026-09-22 — supersedes Group7's stale single-line 16.4 record** · **XSD-only re-confirmed** (no R23-11/R4.3.1 markdown Enumeration table, no PDF caption; the sys L49490+ Firewall rows are ECUC literal-mapping tables, not a class table; consumers `StateDependentFirewall.defaultAction` Table 6.234 + `FirewallRuleProps.action` Table 6.235) · AUTOSAR_00052.xsd complexType `FIREWALL-ACTION-ENUM` line 136671 ("List of actions that the Firewall is able to perform.") + `--SIMPLE` line 136683 · **in src** (AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py, AREnum, checklist present, NO marker) · **known deviation to arbitrate in Step 1: src literal order BLOCK=index 0 / ALLOW=index 1 contradicts the XSD `--SIMPLE` order and both ECUC mapping tables, which list ALLOW first → fix to allow=ALLOW index 0, block=BLOCK index 1 (wire values uppercase per XSD)** · marker `# XSD verified: AUTOSAR_00052.xsd` at 9b · AREnum — Steps 5/6 N/A (value form on consuming classes)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

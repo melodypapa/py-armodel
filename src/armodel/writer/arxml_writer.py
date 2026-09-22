@@ -2910,7 +2910,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeGeneralAnnotation(self, element: ET.Element, annotation: Annotation):
         self.setMultiLongName(element, "LABEL", annotation.getLabel())
-        self.setChildElementOptionalLiteral(element, "ANNOTATION-ORIGIN", annotation.getAnnotationOrigin())
+        self.setChildElementOptionalString(element, "ANNOTATION-ORIGIN", annotation.getAnnotationOrigin())
         self.writeDocumentationBlock(element, "ANNOTATION-TEXT", annotation.getAnnotationText())
 
     def setAnnotations(self, element: ET.Element, annotations: List[Annotation]):
