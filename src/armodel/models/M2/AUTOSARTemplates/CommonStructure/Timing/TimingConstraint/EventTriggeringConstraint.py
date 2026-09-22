@@ -157,11 +157,11 @@ class SporadicEventTriggering(EventTriggeringConstraint):
         self.period: Optional[MultidimensionalTime] = None
 
     def getJitter(self) -> Optional[MultidimensionalTime]:
-        """The maximum deviation of the sporadic event occurrence. Jitter=max |nthPeriod - standardPeriod|"""
+        r"""The maximum deviation of the sporadic event occurrence. Jitter=max \|nthPeriod - standardPeriod\|"""
         return self.jitter
 
     def setJitter(self, value: Optional[MultidimensionalTime]) -> "SporadicEventTriggering":
-        """The maximum deviation of the sporadic event occurrence. Jitter=max |nthPeriod - standardPeriod| A None value is a no-op and does not overwrite an existing jitter."""
+        r"""The maximum deviation of the sporadic event occurrence. Jitter=max \|nthPeriod - standardPeriod\| A None value is a no-op and does not overwrite an existing jitter."""
         if value is not None:
             self.jitter = value
         return self
