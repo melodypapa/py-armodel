@@ -12564,12 +12564,21 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element = ET.SubElement(refs_tag, "DIAGNOSTIC-CONNECTION-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-CONNECTION-REF", ref)
 
+    def writeDiagnosticServiceTableServiceInstanceRefs(self, element: ET.Element, table: DiagnosticServiceTable):
+        refs = table.getServiceInstanceRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "SERVICE-INSTANCE-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "SERVICE-INSTANCE-REF", ref)
+
     def writeDiagnosticServiceTable(self, element: ET.Element, table: DiagnosticServiceTable):
         self.logger.debug("Write DiagnosticServiceTable %s" % table.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-SERVICE-TABLE")
         self.writeIdentifiable(child_element, table)
         self.writeDiagnosticServiceTableDiagnosticConnectionRefs(child_element, table)
         self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", table.getEcuInstanceRef())
+        self.setChildElementOptionalLiteral(child_element, "PROTOCOL-KIND", table.getProtocolKind())
+        self.writeDiagnosticServiceTableServiceInstanceRefs(child_element, table)
 
     def writePdu(self, element: ET.Element, pdu: Pdu):
         self.writeIdentifiable(element, pdu)

@@ -9658,6 +9658,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, table)
         self.readDiagnosticServiceTableDiagnosticConnectionRefs(element, table)
         table.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
+        table.setProtocolKind(self.getChildElementOptionalLiteral(element, "PROTOCOL-KIND"))
+        for ref in self.getChildElementRefTypeList(element, "SERVICE-INSTANCE-REFS/SERVICE-INSTANCE-REF"):
+            table.addServiceInstanceRef(ref)
 
     def readSegmentPosition(self, element: ET.Element, position: SegmentPosition):
         position.setSegmentByteOrder(self.getChildElementOptionalLiteral(element, "SEGMENT-BYTE-ORDER"))
