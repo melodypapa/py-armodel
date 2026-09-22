@@ -185,6 +185,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import *  # noqa: F403
 
 # ECUCParameterDefTemplate
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import *  # noqa: F403

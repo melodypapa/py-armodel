@@ -120,6 +120,7 @@ __all__ = [
     "DataTypeMappingSet",
     "DcmIPdu",
     "DiagnosticConnection",
+    "DiagnosticEnvironmentalCondition",
     "DiagnosticSecurityLevel",
     "DiagnosticServiceTable",
     "DiagnosticSession",
@@ -1397,6 +1398,26 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(security_level)
         return self.getElement(short_name, DiagnosticSecurityLevel)
 
+    def createDiagnosticEnvironmentalCondition(self, short_name: str) -> DiagnosticEnvironmentalCondition:
+        """
+        Creates a new DiagnosticEnvironmentalCondition with the given short
+        name, or returns an existing one if it already exists in this package.
+
+        DiagnosticEnvironmentalCondition represents a condition which is
+        evaluated during runtime of the ECU in the diagnostic extract
+        template of AUTOSAR.
+
+        Args:
+            short_name: The short name for the new DiagnosticEnvironmentalCondition
+
+        Returns:
+            The newly created or existing DiagnosticEnvironmentalCondition instance
+        """
+        if not self.IsElementExists(short_name, DiagnosticEnvironmentalCondition):
+            condition = DiagnosticEnvironmentalCondition(self, short_name)
+            self.addElement(condition)
+        return self.getElement(short_name, DiagnosticEnvironmentalCondition)
+
     def createDltContext(self, short_name: str) -> DltContext:
 
         if not self.IsElementExists(short_name, DltContext):
@@ -1970,6 +1991,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
 )
 from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltContext, DltEcu  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticSecurityLevel, DiagnosticSession  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import DiagnosticEnvironmentalCondition  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration import InterpolationRoutineMappingSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet, CpSoftwareCluster, System  # noqa: E402

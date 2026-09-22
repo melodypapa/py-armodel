@@ -251,6 +251,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration impor
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAuthRoleProxy, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import DiagnosticEnvConditionFormula, DiagnosticEnvironmentalCondition
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
     ConfigReferenceValue,
@@ -12585,6 +12586,28 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(child_element, "SECURITY-DELAY-TIME", security_level.getSecurityDelayTime())
         self.setChildElementOptionalPositiveInteger(child_element, "SEED-SIZE", security_level.getSeedSize())
 
+    def writeDiagnosticEnvConditionFormula(self, element: ET.Element, formula: DiagnosticEnvConditionFormula):
+        self.writeARObject(element, formula)
+        self.setChildElementOptionalPositiveInteger(element, "NRC-VALUE", formula.getNrcValue())
+        self.setChildElementOptionalLiteral(element, "OP", formula.getOp())
+        parts = formula.getParts()
+        if len(parts) > 0:
+            parts_tag = ET.SubElement(element, "PARTS")
+            for part in parts:
+                if isinstance(part, DiagnosticEnvConditionFormula):
+                    child_element = ET.SubElement(parts_tag, "DIAGNOSTIC-ENV-CONDITION-FORMULA")
+                    self.writeDiagnosticEnvConditionFormula(child_element, part)
+                else:
+                    self.notImplemented("Unsupported DiagnosticEnvConditionFormulaPart <%s>" % type(part).__name__)
+
+    def writeDiagnosticEnvironmentalCondition(self, element: ET.Element, condition: DiagnosticEnvironmentalCondition):
+        self.logger.debug("Write DiagnosticEnvironmentalCondition %s" % condition.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-ENVIRONMENTAL-CONDITION")
+        self.writeIdentifiable(child_element, condition)
+        if condition.getFormula() is not None:
+            formula_element = ET.SubElement(child_element, "FORMULA")
+            self.writeDiagnosticEnvConditionFormula(formula_element, condition.getFormula())
+
     def writeDiagnosticServiceTableDiagnosticConnectionRefs(self, element: ET.Element, table: DiagnosticServiceTable):
         refs = table.getDiagnosticConnectionRefs()
         if len(refs) > 0:
@@ -13507,6 +13530,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticSession(element, ar_element)
         elif isinstance(ar_element, DiagnosticSecurityLevel):
             self.writeDiagnosticSecurityLevel(element, ar_element)
+        elif isinstance(ar_element, DiagnosticEnvironmentalCondition):
+            self.writeDiagnosticEnvironmentalCondition(element, ar_element)
         elif isinstance(ar_element, DltContext):
             self.writeDltContext(element, ar_element)
         elif isinstance(ar_element, DltEcu):

@@ -357,6 +357,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration impor
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAuthRoleProxy, DiagnosticJumpToBootLoaderEnum, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import DiagnosticEnvConditionFormula, DiagnosticEnvironmentalCondition, DiagnosticLogicalOperatorEnum
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
     ConfigReferenceValue,
@@ -9676,6 +9677,38 @@ class ARXMLParser(AbstractARXMLParser):
         security_level.setSecurityDelayTime(self.getChildElementOptionalTimeValue(element, "SECURITY-DELAY-TIME"))
         security_level.setSeedSize(self.getChildElementOptionalPositiveInteger(element, "SEED-SIZE"))
 
+    def readDiagnosticEnvConditionFormula(self, element: ET.Element, formula: DiagnosticEnvConditionFormula):
+        self.readARObject(element, formula)
+        formula.setNrcValue(self.getChildElementOptionalPositiveInteger(element, "NRC-VALUE"))
+        op = self.getChildElementOptionalLiteral(element, "OP")
+        if op is not None:
+            e = DiagnosticLogicalOperatorEnum()
+            e.setValue(op.getValue())
+            formula.setOp(e)
+        parts_element = self.find(element, "PARTS")
+        if parts_element is not None:
+            for child_element in parts_element:
+                tag_name = self.getTagName(child_element)
+                if tag_name == "DIAGNOSTIC-ENV-CONDITION-FORMULA":
+                    part = DiagnosticEnvConditionFormula()
+                    self.readDiagnosticEnvConditionFormula(child_element, part)
+                    formula.addPart(part)
+                else:
+                    self.notImplemented("Unsupported DiagnosticEnvConditionFormulaPart <%s>" % tag_name)
+
+    def getDiagnosticEnvConditionFormula(self, element: ET.Element, key: str) -> Optional[DiagnosticEnvConditionFormula]:
+        formula = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            formula = DiagnosticEnvConditionFormula()
+            self.readDiagnosticEnvConditionFormula(child_element, formula)
+        return formula
+
+    def readDiagnosticEnvironmentalCondition(self, element: ET.Element, condition: DiagnosticEnvironmentalCondition):
+        self.logger.debug("Read DiagnosticEnvironmentalCondition <%s>" % condition.getShortName())
+        self.readIdentifiable(element, condition)
+        condition.setFormula(self.getDiagnosticEnvConditionFormula(element, "FORMULA"))
+
     def readDiagnosticServiceTableDiagnosticConnectionRefs(self, element: ET.Element, table: DiagnosticServiceTable):
         for ref in self.getChildElementRefTypeList(element, "DIAGNOSTIC-CONNECTIONS/DIAGNOSTIC-CONNECTION-REF-CONDITIONAL/DIAGNOSTIC-CONNECTION-REF"):
             table.addDiagnosticConnectionRef(ref)
@@ -13761,6 +13794,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-SECURITY-LEVEL":
                 security_level = parent.createDiagnosticSecurityLevel(self.getShortName(child_element))
                 self.readDiagnosticSecurityLevel(child_element, security_level)
+            elif tag_name == "DIAGNOSTIC-ENVIRONMENTAL-CONDITION":
+                condition = parent.createDiagnosticEnvironmentalCondition(self.getShortName(child_element))
+                self.readDiagnosticEnvironmentalCondition(child_element, condition)
             elif tag_name == "DLT-CONTEXT":
                 context = parent.createDltContext(self.getShortName(child_element))
                 self.readDltContext(child_element, context)
