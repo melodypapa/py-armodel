@@ -1,5 +1,8 @@
+import inspect
+
 import pytest
 
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, Integer, PositiveInteger, RefType, TimeValue
@@ -561,3 +564,64 @@ class Test_TransportProtocols:
         assert config.createLinTpNode("tpNode1") is tp_node
         assert len(config.getTpNodes()) == 1
         assert isinstance(config.getTpNodes()[0], LinTpNode)
+
+
+@pytest.fixture(autouse=True)
+def reset_autosar_for_doip_tp_config():
+    AUTOSAR.getInstance().new()
+    AUTOSAR.getInstance().setARRelease("R23-11")
+    yield
+    AUTOSAR.getInstance().new()
+
+
+class Test_DoIpTpConfig:
+    """Test cases for DoIpTpConfig (Table 6.205, p.555)."""
+
+    MEMBERS = [
+        "doIpLogicAddresses",
+        "tpConnections",
+    ]
+
+    def _create(self, short_name: str) -> DoIpTpConfig:
+        parent = AUTOSAR.getInstance().createARPackage("TpConfigs")
+        return DoIpTpConfig(parent, short_name)
+
+    def test_inheritance(self):
+        assert issubclass(DoIpTpConfig, TpConfig)
+        assert issubclass(DoIpTpConfig, FibexElement)
+
+    def test_class_docstring_note(self):
+        expected = "This element defines exactly one DoIpTp Configuration that is used to configure all DoIPChannels available in a DoIpInterface. Each DoIPChannel describes a connection between a doIpSourceAddress and a doIpTargetAddress and the exchange of DcmIPdus between the PduR and DoIP."
+        assert inspect.cleandoc(DoIpTpConfig.__doc__) == expected
+
+    def test_initialization_defaults(self):
+        config = self._create("DoIpTpConfig1")
+        assert config.getShortName() == "DoIpTpConfig1"
+        assert config.getDoIpLogicAddresses() == []
+        assert config.getTpConnections() == []
+
+    def test_member_order(self):
+        config = self._create("DoIpTpConfig1")
+        members = [k for k in vars(config) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_init_docstring_is_none(self):
+        assert DoIpTpConfig.__init__.__doc__ is None
+
+    def test_create_do_ip_logic_address(self):
+        config = self._create("DoIpTpConfig1")
+        address = config.createDoIpLogicAddress("LogicAddress1")
+        assert address.getShortName() == "LogicAddress1"
+        assert isinstance(address, DoIpLogicAddress)
+        assert config.getDoIpLogicAddresses() == [address]
+        assert config.createDoIpLogicAddress("LogicAddress1") is address
+        assert config.getDoIpLogicAddresses() == [address]
+
+    def test_add_tp_connection(self):
+        config = self._create("DoIpTpConfig1")
+        connection = DoIpTpConnection()
+        result = config.addTpConnection(connection)
+        assert result is config
+        assert config.getTpConnections() == [connection]
+        config.addTpConnection(None)
+        assert config.getTpConnections() == [connection]

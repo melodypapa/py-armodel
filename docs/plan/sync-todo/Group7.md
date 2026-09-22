@@ -140,15 +140,15 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 8 — Deviations — none remaining (old singular accessor rename was to-fix, fixed in Step 3)
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `DoIpTpConfig` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.205 · after the DoIp props classes)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 6.205 p.555: Base chain to TpConfig; attributes doIpLogicAddress (DoIpLogicAddress, *, aggr) + tpConnection (DoIpTpConnection, *, aggr); Note text from XSD documentation ("Tags: atp.recommendedPackage=TpConfigs" is appinfo metadata, dropped from docstring per repo precedent)
+  - [x] Step 2 — Write model class unit test (Red) — test_TransportProtocols.py Test_DoIpTpConfig: inheritance, verbatim docstring, defaults, member order, createDoIpLogicAddress duplicate-returns-existing, addTpConnection None no-op (docstring check failed as expected)
+  - [x] Step 3 — Implement model class (Green) — members/accessors already matched table shape; added typed accessor signatures
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstring replaced with verbatim Table 6.205 Note; attribute Notes verbatim on inline comments + accessor docstrings
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — test_arxml_parser_doip_tp_config.py + test_writer_doip_tp_config.py: field-value asserts, XSD child order (DO-IP-LOGIC-ADDRESSS, TP-CONNECTIONS), empty omission, write→re-parse round-trip; **Red unreachable** — reader/writer coverage already existed and matched the XSD, so tests passed on first run
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed: read/writeDoIpTpConfig + ARPackage dispatch (DO-IP-TP-CONFIG) already present and XSD-ordered (parser l.13710, writer l.13429); verified by the new tests
+  - [x] Step 7 — Update checklist comment — 6-col parity checklist, reader [x] on create/add rows, writer [x] on get rows
+  - [x] Step 8 — Deviations — none
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [x] `FirewallRuleProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.235, p.584 (pdf_page.py verified) · after `FirewallRule` (ref target of its `matchingEgressRule`/`matchingIngressRule`) · spec facts (extracted 2026-08-31 from markdown l.15333-15342): Note = "Firewall rule that is defined by an action that is performed if the referenced pattern matches."; Base = ARObject; Aggregated by = StateDependentFirewall.firewallRuleProps (* aggr); 3 attributes: `action` (FirewallActionEnum, 0..1, attr — "Action that is performed by the firewall if the matching Rule is fulfilled."), `matchingEgressRule` (ordered) (FirewallRule, *, ref — "This element defines an egress rule expression against which the network traffic is matched."), `matchingIngressRule` (ordered) (FirewallRule, *, ref — "This element defines an ingress rule expression against which the network traffic is matched."))
   - [x] Step 1 — Sync members & description from spec — DONE with StateDependentFirewall batch 2026-08-31 (dependency-first: StateDependentFirewall.firewallRuleProps requires this class)
   - [x] Step 2 — Write model class unit test (Red) — test___init__.py TestFirewallRuleProps: defaults, action get/set, matchingEgressRuleRef/IngressRuleRef add/get, verbatim docstring
