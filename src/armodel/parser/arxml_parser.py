@@ -9921,11 +9921,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readHwAttributeDef(self, element: ET.Element, attribute_def: HwAttributeDef):
         self.readIdentifiable(element, attribute_def)
-        attribute_def.setIsRequired(self.getChildElementOptionalBooleanValue(element, "IS-REQUIRED"))
-        attribute_def.setUnitRef(self.getChildElementOptionalRefType(element, "UNIT-REF"))
         for child_element in self.findall(element, "HW-ATTRIBUTE-LITERALS/HW-ATTRIBUTE-LITERAL-DEF"):
             literal_def = attribute_def.createHwAttributeLiteral(self.getShortName(child_element))
             self.readHwAttributeLiteralDef(child_element, literal_def)
+        attribute_def.setIsRequired(self.getChildElementOptionalBooleanValue(element, "IS-REQUIRED"))
+        attribute_def.setUnitRef(self.getChildElementOptionalRefType(element, "UNIT-REF"))
 
     def readHwAttributeLiteralDef(self, element: ET.Element, literal_def):
         self.readIdentifiable(element, literal_def)

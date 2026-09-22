@@ -12817,9 +12817,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         if attribute_def is not None:
             child_element = ET.SubElement(element, "HW-ATTRIBUTE-DEF")
             self.writeIdentifiable(child_element, attribute_def)
+            self.writeHwAttributeDefHwAttributeLiterals(child_element, attribute_def)
             self.setChildElementOptionalBooleanValue(child_element, "IS-REQUIRED", attribute_def.getIsRequired())
             self.setChildElementOptionalRefType(child_element, "UNIT-REF", attribute_def.getUnitRef())
-            self.writeHwAttributeDefHwAttributeLiterals(child_element, attribute_def)
 
     def writeHwAttributeDefHwAttributeLiterals(self, element: ET.Element, attribute_def: HwAttributeDef):
         literals = attribute_def.getHwAttributeLiterals()

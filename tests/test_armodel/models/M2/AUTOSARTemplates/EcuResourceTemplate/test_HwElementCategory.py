@@ -5,6 +5,16 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory im
     HwCategory,
     HwType,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
+
+
+def make_ref(value: str, dest: str) -> RefType:
+    ref = RefType()
+    ref.setValue(value)
+    ref.setDest(dest)
+    return ref
+
 
 """
 Test cases for the HwElementCategory module.
@@ -73,21 +83,36 @@ def test_hw_type_inherited_members_none_noop():
     assert hw_type.getHwTypeRef() == original_type_ref
 
 
-def test_hw_attribute_def_init():
-    """
-    Test initialization of HwAttributeDef class.
+HW_ATTRIBUTE_DEF_NOTE = (
+    "This metaclass represents the ability to define a particular hardware attribute. "
+    "The category of this element defines the type of the attributeValue. "
+    "If the category is Enumeration the hwAttributeEnumerationLiterals specify the available literals."
+)
 
-    Test Steps:
-    1. Create a HwAttributeDef instance with parent and short_name
-    2. Verify default attributes are set correctly
+
+def test_hw_attribute_def_docstring_verbatim():
+    """Class docstring must equal the Table 2.13 Note verbatim (XSD authoritative)."""
+    assert HwAttributeDef.__doc__.strip() == HW_ATTRIBUTE_DEF_NOTE
+
+
+def test_hw_attribute_def_init_doc_is_none():
+    assert HwAttributeDef.__init__.__doc__ is None
+
+
+def test_hw_attribute_def_is_concrete_identifiable_subclass():
+    hw_attr_def = HwAttributeDef(None, "attr_def")
+    assert isinstance(hw_attr_def, HwAttributeDef)
+    assert issubclass(HwAttributeDef, Identifiable)
+
+
+def test_hw_attribute_def_defaults():
     """
-    # Create a mock parent object
+    Test initialization of HwAttributeDef class (Table 2.13 displayed order:
+    hwAttributeLiteral (* aggr), isRequired (0..1 attr), unit (0..1 ref)).
+    """
     parent = object()
-
-    # Initialize HwAttributeDef
     hw_attr_def = HwAttributeDef(parent, "test_hw_attr_def")
 
-    # Verify initial values
     assert hw_attr_def.parent == parent
     assert hw_attr_def.short_name == "test_hw_attr_def"
     assert hw_attr_def.hwAttributeLiterals == []
@@ -95,49 +120,71 @@ def test_hw_attribute_def_init():
     assert hw_attr_def.unitRef is None
 
 
-def test_hw_attribute_def_getters_and_setters():
-    """
-    Test all getter and setter methods of HwAttributeDef class.
-
-    Test Steps:
-    1. Create a HwAttributeDef instance
-    2. Test setting and getting hwAttributeLiterals
-    3. Test setting and getting isRequired
-    4. Test setting and getting unitRef
-    5. Verify method chaining (return self)
-    """
+def test_hw_attribute_def_setters_round_trip():
+    """Get/set round-trips must return the same instance and support chaining."""
     hw_attr_def = HwAttributeDef(None, "test_hw_attr_def")
 
-    # Test hwAttributeLiterals setter and getter
-    test_literals = [HwAttributeLiteralDef(None, "literal1"), HwAttributeLiteralDef(None, "literal2")]
-    return_value = hw_attr_def.setHwAttributeLiterals(test_literals)
-    assert return_value == hw_attr_def  # Verify method chaining
-    assert hw_attr_def.getHwAttributeLiterals() == test_literals
+    required = Boolean()
+    required.setValue(True)
+    assert hw_attr_def.setIsRequired(required) is hw_attr_def
+    assert hw_attr_def.getIsRequired() is required
 
-    # Test isRequired setter and getter
-    test_required = True
-    return_value = hw_attr_def.setIsRequired(test_required)
-    assert return_value == hw_attr_def  # Verify method chaining
-    assert hw_attr_def.getIsRequired() == test_required
+    unit_ref = make_ref("/Units/Length", "UNIT")
+    assert hw_attr_def.setUnitRef(unit_ref) is hw_attr_def
+    assert hw_attr_def.getUnitRef() is unit_ref
 
-    # Test unitRef setter and getter
-    test_unit_ref = "test_unit_ref"
-    return_value = hw_attr_def.setUnitRef(test_unit_ref)
-    assert return_value == hw_attr_def  # Verify method chaining
-    assert hw_attr_def.getUnitRef() == test_unit_ref
+    literals = [HwAttributeLiteralDef(None, "literal1"), HwAttributeLiteralDef(None, "literal2")]
+    assert hw_attr_def.setHwAttributeLiterals(literals) is hw_attr_def
+    assert hw_attr_def.getHwAttributeLiterals() is literals
 
-    # Test with None values (should not set)
-    original_literals = hw_attr_def.getHwAttributeLiterals()
-    hw_attr_def.setHwAttributeLiterals(None)
-    assert hw_attr_def.getHwAttributeLiterals() == original_literals  # Should remain unchanged
 
-    original_required = hw_attr_def.getIsRequired()
+def test_hw_attribute_def_setters_none_noop():
+    """A None value is a no-op and does not overwrite an existing value."""
+    hw_attr_def = HwAttributeDef(None, "test_hw_attr_def")
+
+    required = Boolean()
+    required.setValue(True)
+    hw_attr_def.setIsRequired(required)
     hw_attr_def.setIsRequired(None)
-    assert hw_attr_def.getIsRequired() == original_required  # Should remain unchanged
+    assert hw_attr_def.getIsRequired() is required
 
-    original_unit_ref = hw_attr_def.getUnitRef()
+    unit_ref = make_ref("/Units/Length", "UNIT")
+    hw_attr_def.setUnitRef(unit_ref)
     hw_attr_def.setUnitRef(None)
-    assert hw_attr_def.getUnitRef() == original_unit_ref  # Should remain unchanged
+    assert hw_attr_def.getUnitRef() is unit_ref
+
+    literals = [HwAttributeLiteralDef(None, "literal1")]
+    hw_attr_def.setHwAttributeLiterals(literals)
+    hw_attr_def.setHwAttributeLiterals(None)
+    assert hw_attr_def.getHwAttributeLiterals() is literals
+
+
+def test_hw_attribute_def_add_hw_attribute_literal():
+    """The * add accessor must append, ignore None and return self."""
+    hw_attr_def = HwAttributeDef(None, "test_hw_attr_def")
+
+    literal1 = HwAttributeLiteralDef(None, "literal1")
+    assert hw_attr_def.addHwAttributeLiteral(literal1) is hw_attr_def
+    assert hw_attr_def.getHwAttributeLiterals() == [literal1]
+
+    literal2 = HwAttributeLiteralDef(None, "literal2")
+    hw_attr_def.addHwAttributeLiteral(literal2)
+    assert hw_attr_def.getHwAttributeLiterals() == [literal1, literal2]
+
+    hw_attr_def.addHwAttributeLiteral(None)
+    assert hw_attr_def.getHwAttributeLiterals() == [literal1, literal2]
+
+
+def test_hw_attribute_def_create_hw_attribute_literal():
+    """createHwAttributeLiteral must guard duplicates via IsElementExists."""
+    hw_attr_def = HwAttributeDef(None, "test_hw_attr_def")
+
+    literal = hw_attr_def.createHwAttributeLiteral("literal1")
+    assert literal.short_name == "literal1"
+    assert literal in hw_attr_def.getHwAttributeLiterals()
+
+    assert hw_attr_def.createHwAttributeLiteral("literal1") is literal
+    assert len(hw_attr_def.getHwAttributeLiterals()) == 1
 
 
 def test_hw_category_init():
@@ -184,15 +231,6 @@ def test_hw_category_getters_and_create_hw_attribute_def():
     # Test creating another one with the same name (should return existing)
     same_attr_def = hw_category.createHwAttributeDef("new_attr_def")
     assert same_attr_def == new_attr_def  # Should return the same instance
-
-
-if __name__ == "__main__":
-    test_hw_type_init()
-    test_hw_attribute_def_init()
-    test_hw_attribute_def_getters_and_setters()
-    test_hw_category_init()
-    test_hw_category_getters_and_create_hw_attribute_def()
-    print("All HwElementCategory tests passed!")
 
 
 """

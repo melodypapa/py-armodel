@@ -160,27 +160,26 @@ class HwAttributeLiteralDef(Identifiable):
 
 class HwAttributeDef(Identifiable):
     """
-    This metaclass represents the ability to define a particular hardware attribute. The category of this element defines the type of the attributeValue. If the category is Enumeration the hw AttributeEnumerationLiterals specify the available literals.
+    This metaclass represents the ability to define a particular hardware attribute. The category of this element defines the type of the attributeValue. If the category is Enumeration the hwAttributeEnumerationLiterals specify the available literals.
     """
 
     # HwAttributeDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.13, p.26
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createHwAttributeLiteral     [x] impl  [x] docstring  [ ] test  [x] reader  [x] writer
-    # [x] addHwAttributeLiteral        [x] impl  [x] docstring  [ ] test  [ ] reader  [ ] writer
-    # [x] getHwAttributeLiterals       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setHwAttributeLiterals       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getIsRequired                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setIsRequired                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getUnitRef                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setUnitRef                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] createHwAttributeLiteral  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addHwAttributeLiteral     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHwAttributeLiterals    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHwAttributeLiterals    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIsRequired             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setIsRequired             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getUnitRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setUnitRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
-        # The available EnumerationLiterals of the Enumeration definition. Only applicable if the category of the Hw AttributeDef equals Enumeration.
+        # The available EnumerationLiterals of the Enumeration definition. Only applicable if the category of the HwAttributeDef equals Enumeration.
         self.hwAttributeLiterals: List[HwAttributeLiteralDef] = []
 
         # This attribute specifies if the defined attribute value is required to be provided.
@@ -190,17 +189,25 @@ class HwAttributeDef(Identifiable):
         self.unitRef: Optional[RefType] = None
 
     def getHwAttributeLiterals(self) -> List[HwAttributeLiteralDef]:
-        """The available EnumerationLiterals of the Enumeration definition. Only applicable if the category of the Hw AttributeDef equals Enumeration."""
+        """
+        The available EnumerationLiterals of the Enumeration definition. Only applicable if the category of the HwAttributeDef equals Enumeration.
+        """
         return self.hwAttributeLiterals
 
-    def setHwAttributeLiterals(self, value: List[HwAttributeLiteralDef]):
-        """The available EnumerationLiterals of the Enumeration definition. Only applicable if the category of the Hw AttributeDef equals Enumeration. Only sets the value if it is not None."""
+    def setHwAttributeLiterals(self, value: List[HwAttributeLiteralDef]) -> "HwAttributeDef":
+        """
+        The available EnumerationLiterals of the Enumeration definition. Only applicable if the category of the HwAttributeDef equals Enumeration.
+
+        A None value is a no-op and does not overwrite an existing hwAttributeLiterals list.
+        """
         if value is not None:
             self.hwAttributeLiterals = value
         return self
 
     def createHwAttributeLiteral(self, short_name: str) -> HwAttributeLiteralDef:
-        """The available EnumerationLiterals of the Enumeration definition. Only applicable if the category of the Hw AttributeDef equals Enumeration."""
+        """
+        The available EnumerationLiterals of the Enumeration definition. Only applicable if the category of the HwAttributeDef equals Enumeration.
+        """
         if not self.IsElementExists(short_name, HwAttributeLiteralDef):
             literal_def = HwAttributeLiteralDef(self, short_name)
             self.addElement(literal_def)
@@ -208,27 +215,43 @@ class HwAttributeDef(Identifiable):
         return self.getElement(short_name, HwAttributeLiteralDef)
 
     def addHwAttributeLiteral(self, literal_def: HwAttributeLiteralDef) -> "HwAttributeDef":
-        """The available EnumerationLiterals of the Enumeration definition. Only applicable if the category of the Hw AttributeDef equals Enumeration."""
-        if literal_def not in self.hwAttributeLiterals:
+        """
+        The available EnumerationLiterals of the Enumeration definition. Only applicable if the category of the HwAttributeDef equals Enumeration.
+
+        A None value is a no-op and does not extend the hwAttributeLiterals list.
+        """
+        if literal_def is not None and literal_def not in self.hwAttributeLiterals:
             self.hwAttributeLiterals.append(literal_def)
         return self
 
     def getIsRequired(self) -> Optional[Boolean]:
-        """This attribute specifies if the defined attribute value is required to be provided."""
+        """
+        This attribute specifies if the defined attribute value is required to be provided.
+        """
         return self.isRequired
 
-    def setIsRequired(self, value: Boolean):
-        """This attribute specifies if the defined attribute value is required to be provided. Only sets the value if it is not None."""
+    def setIsRequired(self, value: Boolean) -> "HwAttributeDef":
+        """
+        This attribute specifies if the defined attribute value is required to be provided.
+
+        A None value is a no-op and does not overwrite an existing isRequired.
+        """
         if value is not None:
             self.isRequired = value
         return self
 
     def getUnitRef(self) -> Optional[RefType]:
-        """This association specifies the physical unit of the defined hardware attribute. This is optional due to the fact that there are textual attributes."""
+        """
+        This association specifies the physical unit of the defined hardware attribute. This is optional due to the fact that there are textual attributes.
+        """
         return self.unitRef
 
-    def setUnitRef(self, value: RefType):
-        """This association specifies the physical unit of the defined hardware attribute. This is optional due to the fact that there are textual attributes. Only sets the value if it is not None."""
+    def setUnitRef(self, value: RefType) -> "HwAttributeDef":
+        """
+        This association specifies the physical unit of the defined hardware attribute. This is optional due to the fact that there are textual attributes.
+
+        A None value is a no-op and does not overwrite an existing unitRef.
+        """
         if value is not None:
             self.unitRef = value
         return self

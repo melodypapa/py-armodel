@@ -19,15 +19,15 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
 > (dependency-first: the uuid move cannot run until they derive from `Identifiable`).
 
 - [ ] `HwAttributeDef` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.13 · *(existing member)*)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 2.13 p.26: concrete, Base closure → most-existing `Identifiable` (unchanged); 3 attrs displayed order: hwAttributeLiteral (HwAttributeLiteralDef * aggr), isRequired (Boolean 0..1 attr), unit (Unit 0..1 ref → `unitRef`); XSD group HW-ATTRIBUTE-DEF (AUTOSAR_00052.xsd l.65571) order HW-ATTRIBUTE-LITERALS → IS-REQUIRED → UNIT-REF; Note per XSD ("hwAttributeEnumerationLiterals" — markdown word-split "hw AttributeEnumerationLiterals" corrected)
+  - [x] Step 2 — Write model class unit test (Red) — test_HwElementCategory.py HwAttributeDef section rewritten: verbatim Note docstring, no-`__init__`-docstring, concrete/Identifiable subclass, defaults, typed get/set round-trips + chaining, None no-ops, addHwAttributeLiteral append/None-noop/self, createHwAttributeLiteral IsElementExists guard; 2 Red (docstring word-split, adder appended None)
+  - [x] Step 3 — Implement model class (Green) — deviation-only fixes (class carried a stale `# Spec verified: R23-11` marker whose quick check found drift): adder None no-op guard, setter return-type annotations, PEP 526 members already clean
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — Note verbatim (XSD form "hwAttributeEnumerationLiterals"/"HwAttributeDef"), inline comments + getter/setter docstrings verbatim, "A None value is a no-op..." sentences; stale marker removed (stamp deferred to batch confirmation)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/test_hw_attribute_def.py (2 tests, passed immediately — reader order-insensitive) + tests/test_armodel/writer/test_hw_attribute_def.py (3 tests; order assertion Red: writer emitted IS-REQUIRED/UNIT-REF before HW-ATTRIBUTE-LITERALS)
+  - [x] Step 6 — Update parser & writer (Green) — readHwAttributeDef/writeHwAttributeDef reordered to XSD group sequence (LITERALS → IS-REQUIRED → UNIT-REF); no dispatch changes (existing createHwAttributeLiteral-based reader and ARPackage HW-CATEGORY dispatch kept)
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist with release column R23-11, no marker
+  - [x] Step 8 — Deviations — pre-existing drift fixed: (1) markdown word-splits in docstrings corrected to XSD text; (2) addHwAttributeLiteral accepted None (appended None) → guarded; (3) writer child order violated XSD → reordered; setHwAttributeLiterals kept (used by tests, harmless superset of spec)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `HwCategory` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.11 · after `HwAttributeDef` (aggr `hwAttributeDef`))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
