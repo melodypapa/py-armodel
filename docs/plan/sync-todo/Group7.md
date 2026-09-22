@@ -280,15 +280,15 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 8 — Deviations — none (no addKeyword accessor: createKeyword is the reader mutator for the short-name-bearing Keyword child; "meta--class" double dash is verbatim in both the R4.3.1 markdown table and the XSD documentation)
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `DiagnosticServiceInstance` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 4.26 · ref target of `DiagnosticServiceTable.serviceInstance` · **NOT in src** — class must be created when this row is synced)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 4.26 p.70: abstract, Package Dcm::DiagnosticService::CommonService; Base closure → most-derived existing = `DiagnosticCommonElement` (created CommonService.py next to it); aggregated by ARPackage.element (abstract — no concrete subclass in src → fragment+helper reader/writer, no ARPackage dispatch); 2 attrs displayed order: accessPermission (DiagnosticAccessPermission 0..1 ref), serviceClass (DiagnosticServiceClass 0..1 ref); XSD group DIAGNOSTIC-SERVICE-INSTANCE (AUTOSAR_00052.xsd l.43803) = ACCESS-PERMISSION-REF only (serviceClass association comment-skipped); Notes verbatim (word-splits "DiagnosticAccess Permissions"/"DiagnosticService Instance" corrected to XSD/mmt form; "DiagnosticServiceInstance.." double period verbatim)
+  - [x] Step 2 — Write model class unit test (Red) — new test_CommonService.py (16 tests): abstract raise, issubclass DiagnosticCommonElement/Identifiable/ARObject, verbatim Note docstrings, no `__init__` docstring, defaults, both refs get/set round-trip + chaining + None no-ops, accessor docstring verbatim checks; Red = ModuleNotFoundError on the missing module (honest note: collection-level)
+  - [x] Step 3 — Implement model class (Green) — created DiagnosticExtract/CommonService.py: DiagnosticServiceInstance(DiagnosticCommonElement, ABC) abstract guard; PEP 526 members accessPermissionRef/serviceClassRef in displayed order; typed chaining setters with None no-op guards; DiagnosticServiceClass created in-pass from Table 4.25 (abstract, no attributes, Note verbatim)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — new class written verbatim from the start (single-line class docstrings = Table 4.26/4.25 Notes; attr Notes verbatim on getter/setter docstrings with None-no-op sentences); no wipe needed (fresh file)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/test_diagnostic_service_instance.py (2: full DEST+value read, empty) + tests/test_armodel/writer/test_diagnostic_service_instance.py (3: exact child order [ACCESS-PERMISSION-REF, SERVICE-CLASS-REF], empty omits, ns-injected write→re-parse round-trip); 5 Red (helpers missing)
+  - [x] Step 6 — Update parser & writer (Green) — readDiagnosticServiceInstance / writeDiagnosticServiceInstance content-only helpers (ACCESS-PERMISSION-REF + SERVICE-CLASS-REF via getChild/setChildElementOptionalRefType); no ARPackage dispatch (abstract class — concrete subclasses own their tags, none in src); CommonService import added alphabetically into the existing parser/writer import blocks
+  - [x] Step 7 — Update checklist comment — 6-column parity checklists (DiagnosticServiceInstance 5 rows + DiagnosticServiceClass `__init__`-only) with release column R23-11, no marker
+  - [x] Step 8 — Deviations — (1) SERVICE-CLASS-REF read/written although the XSD group comments out the atpDerived serviceClass association (Table 4.26 row + ComponentInSystemInstanceRef Table B.1 / OperationInSystemInstanceRef family precedent); (2) DiagnosticServiceClass created in-pass from Table 4.25 (small, no attributes); (3) DiagnosticAccessPermission (accessPermission ref target) NOT created — queued under Pending 16.4 (complex: 4 attrs incl. aggr of missing DiagnosticAuthRoleProxy); no create/add accessors (abstract class, both attrs single-valued refs)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green (38 focused tests + model-imports, lint, black-check); stamp deferred to batch confirmation (user instruction 2026-09-22)
 - [ ] `DiagnosticServiceTable` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 4.16 · after `DiagnosticServiceInstance` (ref `serviceInstance`))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -313,6 +313,7 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
 ## Pending 16.4 resolution (NEW — not in src)
 
 - [x] `FirewallActionEnum` — not in `src` (NEW) → **Derive-from-XSD DONE 2026-08-31** (XSD FIREWALL-ACTION-ENUM complexType: literals BLOCK index 0 "Firewall blocks the communication" / ALLOW index 1 "Firewall allows the communication"; AREnum subclass in Firewall/__init__.py, `# XSD` spec line in checklist; unstamped per user decision 2026-08-31) · **SUPERSEDED 2026-09-22 — re-queued as a full 9-step row at the end of Group3.md's queue** (the 2026-08-31 record is stale: the class IS in src, and its BLOCK=index-0 order contradicts the XSD `--SIMPLE` order and both ECUC mapping tables, which list ALLOW first — the Group3 row arbitrates and fixes that before the `# XSD verified:` marker)
+- [ ] `DiagnosticAccessPermission` — not in `src` (NEW) → **queued 2026-09-22 from the DiagnosticServiceInstance pass** (Table 4.29, p.71 — complexity decision: NOT created in-pass; 4 attrs incl. the authenticationEnabled aggr of missing DiagnosticAuthRoleProxy, itself requiring further Dcm classes). Ref target of `DiagnosticServiceInstance.accessPermission` (ACCESS-PERMISSION-REF DEST enum DIAGNOSTIC-ACCESS-PERMISSION--SUBTYPES-ENUM). Create under DiagnosticExtract (Dcm package) with its table when synced.
 
 ## Not queued
 

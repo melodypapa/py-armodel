@@ -354,6 +354,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     VariableInComponentInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
@@ -9643,6 +9644,10 @@ class ARXMLParser(AbstractARXMLParser):
         connection.setPhysicalRequestRef(self.getChildElementOptionalRefType(element, "PHYSICAL-REQUEST-REF"))
         connection.setResponseRef(self.getChildElementOptionalRefType(element, "RESPONSE-REF"))
         connection.setResponseOnEventRef(self.getChildElementOptionalRefType(element, "RESPONSE-ON-EVENT-REF"))
+
+    def readDiagnosticServiceInstance(self, element: ET.Element, instance: DiagnosticServiceInstance):
+        instance.setAccessPermissionRef(self.getChildElementOptionalRefType(element, "ACCESS-PERMISSION-REF"))
+        instance.setServiceClassRef(self.getChildElementOptionalRefType(element, "SERVICE-CLASS-REF"))
 
     def readDiagnosticServiceTableDiagnosticConnectionRefs(self, element: ET.Element, table: DiagnosticServiceTable):
         for ref in self.getChildElementRefTypeList(element, "DIAGNOSTIC-CONNECTIONS/DIAGNOSTIC-CONNECTION-REF-CONDITIONAL/DIAGNOSTIC-CONNECTION-REF"):
