@@ -7,6 +7,7 @@
 # -- Path setup --------------------------------------------------------------
 
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.abspath('../src'))
@@ -24,6 +25,20 @@ release = __version__
 
 # The short X.Y version
 version = __version__
+
+# Minimum Python version, read from pyproject.toml so it cannot drift from
+# the packaging metadata.
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "pyproject.toml")) as _pyproject:
+    _match = re.search(r'requires-python\s*=\s*">=([0-9.]+)"', _pyproject.read())
+python_min = _match.group(1) if _match else "3.8"
+
+# RST substitutions available to every document (|armodel_version|,
+# |min_python|), so index.rst renders the real values instead of hardcoding
+# them and going stale.
+rst_prolog = (
+    f".. |armodel_version| replace:: {release}\n"
+    f".. |min_python| replace:: {python_min}\n"
+)
 
 
 # -- General configuration ---------------------------------------------------

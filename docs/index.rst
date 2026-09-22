@@ -5,8 +5,8 @@ Welcome to py-armodel's Documentation
 
 py-armodel is a Python library for parsing and generating AUTOSAR ARXML files. It provides comprehensive support for AUTOSAR models including software components, data types, communication patterns, and system configurations.
 
-**Current Version**: 1.9.7
-**Python Requirements**: >= 3.8
+**Current Version**: |armodel_version|
+**Python Requirements**: >= |min_python|
 **License**: MIT
 
 .. image:: https://badge.fury.io/py/armodel.svg
