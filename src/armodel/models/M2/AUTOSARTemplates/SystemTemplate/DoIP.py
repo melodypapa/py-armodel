@@ -31,13 +31,13 @@ class AbstractDoIpLogicAddressProps(Identifiable, ABC):
 
 class DoIpLogicTargetAddressProps(AbstractDoIpLogicAddressProps):
     """
-    Defines properties for DoIP (Diagnostics over IP) logic target addresses,
-    specifying how diagnostic messages should be addressed to target ECUs
-    in the IP-based diagnostic communication system.
+    This meta-class acts as a target for references to the DoIpLogicTargetAddress and collects DoIpLogicTargetAddress specific settings.
     """
 
     # DoIpLogicTargetAddressProps method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.209, p.556
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)

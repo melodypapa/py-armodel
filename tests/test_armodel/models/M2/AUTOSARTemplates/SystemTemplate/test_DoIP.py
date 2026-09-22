@@ -93,6 +93,34 @@ class Test_AbstractDoIpLogicAddressProps:
 
 
 @pytest.fixture(autouse=True)
+def reset_autosar_for_doip_logic_target_address_props():
+    AUTOSAR.getInstance().new()
+    AUTOSAR.getInstance().setARRelease("R23-11")
+    yield
+    AUTOSAR.getInstance().new()
+
+
+class Test_DoIpLogicTargetAddressProps:
+    """Test cases for DoIpLogicTargetAddressProps (Table 6.209, p.556)."""
+
+    def test_inheritance(self):
+        assert issubclass(DoIpLogicTargetAddressProps, AbstractDoIpLogicAddressProps)
+        assert issubclass(DoIpLogicTargetAddressProps, Identifiable)
+
+    def test_class_docstring_note(self):
+        expected = "This meta-class acts as a target for references to the DoIpLogicTargetAddress and collects DoIpLogicTargetAddress specific settings."
+        assert inspect.cleandoc(DoIpLogicTargetAddressProps.__doc__) == expected
+
+    def test_initialization_defaults(self):
+        parent = MockParent()
+        props = DoIpLogicTargetAddressProps(parent, "props1")
+        assert props.getShortName() == "props1"
+
+    def test_init_docstring_is_none(self):
+        assert DoIpLogicTargetAddressProps.__init__.__doc__ is None
+
+
+@pytest.fixture(autouse=True)
 def reset_autosar_for_doip_routing_activation():
     AUTOSAR.getInstance().new()
     AUTOSAR.getInstance().setARRelease("R23-11")

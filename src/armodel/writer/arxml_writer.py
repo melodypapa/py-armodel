@@ -645,7 +645,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordTypeMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpRoutingActivation
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpLogicTargetAddressProps, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
@@ -12691,6 +12691,17 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "DO-IP-LOGIC-ADDRESS")
             self.writeIdentifiable(child_element, address)
             self.setChildElementOptionalIntegerValue(child_element, "ADDRESS", address.getAddress())
+            self.writeDoIpLogicAddressProps(child_element, address)
+
+    def writeDoIpLogicAddressProps(self, element: ET.Element, address: DoIpLogicAddress):
+        props = address.getDoIpLogicAddressProps()
+        if props is not None:
+            props_tag = ET.SubElement(element, "DO-IP-LOGIC-ADDRESS-PROPS")
+            if isinstance(props, DoIpLogicTargetAddressProps):
+                props_element = ET.SubElement(props_tag, "DO-IP-LOGIC-TARGET-ADDRESS-PROPS")
+                self.writeIdentifiable(props_element, props)
+            else:
+                self.notImplemented("Unsupported DoIpLogicAddressProps <%s>" % type(props))
 
     def writeDoIpTpConfigDoIpLogicAddresses(self, element: ET.Element, config: DoIpTpConfig):
         addresses = config.getDoIpLogicAddresses()

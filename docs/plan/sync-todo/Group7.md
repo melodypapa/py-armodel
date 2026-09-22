@@ -120,15 +120,15 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 8 — Deviations — none
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `DoIpLogicTargetAddressProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.209)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 6.209 p.556: concrete, Base AbstractDoIpLogicAddressProps, no attributes, Note text taken from XSD documentation (markdown splits "DoIpLogic TargetAddress" at line wrap)
+  - [x] Step 2 — Write model class unit test (Red) — test_DoIP.py Test_DoIpLogicTargetAddressProps: inheritance, verbatim docstring, defaults, init doc None (docstring check failed as expected)
+  - [x] Step 3 — Implement model class (Green) — no own members per table; base class already correct
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstring replaced with verbatim Table 6.209 Note
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — test_arxml_parser_doip_logic_address_props.py + test_writer_doip_logic_address_props.py: DO-IP-LOGIC-ADDRESS-PROPS dispatch, XSD order, write→re-parse round-trip (3 failed as expected)
+  - [x] Step 6 — Update parser & writer (Green) — readDoIpLogicAddressProps/writeDoIpLogicAddressProps (DO-IP-LOGIC-TARGET-ADDRESS-PROPS branch) called from read/writeDoIpLogicAddress
+  - [x] Step 7 — Update checklist comment — 6-col parity checklist, reader/writer [—] on __init__ row (element content is inherited Identifiable only; dispatch covered in parser/writer tests)
+  - [x] Step 8 — Deviations — none
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `DoIpLogicTesterAddressProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.210)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
