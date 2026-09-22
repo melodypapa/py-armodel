@@ -8,6 +8,13 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     CryptoKeySlotContentAllowedUsage,
 )
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import FirewallRule, FirewallRuleProps, StateDependentFirewall
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.AdaptiveModuleImplementation import (
+    PlatformModuleEthernetEndpointConfiguration,
+)
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.IntrusionDetectionSystem import (
+    IdsPlatformInstantiation,
+    IdsmModuleInstantiation,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprintMapping,
 )
@@ -13511,6 +13518,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeConstantSpecificationMappingSet(element, ar_element)
         elif isinstance(ar_element, StateDependentFirewall):
             self.writeStateDependentFirewall(element, ar_element)
+        elif isinstance(ar_element, PlatformModuleEthernetEndpointConfiguration):
+            self.writePlatformModuleEthernetEndpointConfiguration(element, ar_element)
         elif isinstance(ar_element, ConsistencyNeeds):
             self.writeConsistencyNeeds(element, ar_element)
         else:
@@ -13612,6 +13621,32 @@ class ARXMLWriter(AbstractARXMLWriter):
             refs_tag = ET.SubElement(props_element, "MATCHING-INGRESS-RULE-REFS")
             for ref in ingress_refs:
                 self.setChildElementOptionalRefType(refs_tag, "MATCHING-INGRESS-RULE-REF", ref)
+
+    def writeIdsPlatformInstantiation(self, element: ET.Element, ar_element: IdsPlatformInstantiation):
+        self.writeIdentifiable(element, ar_element)
+        refs = ar_element.getNetworkInterfaceRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "NETWORK-INTERFACE-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "NETWORK-INTERFACE-REF", ref)
+        time_base_ref = ar_element.getTimeBaseRef()
+        if time_base_ref is not None:
+            time_bases_tag = ET.SubElement(element, "TIME-BASES")
+            conditional_tag = ET.SubElement(time_bases_tag, "TIME-BASE-RESOURCE-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(conditional_tag, "TIME-BASE-RESOURCE-REF", time_base_ref)
+
+    def writeIdsmModuleInstantiation(self, element: ET.Element, instantiation: IdsmModuleInstantiation):
+        self.logger.debug("Write IdsmModuleInstantiation %s" % instantiation.getShortName())
+        instantiation_tag = ET.SubElement(element, "IDSM-MODULE-INSTANTIATION")
+        self.writeIdsPlatformInstantiation(instantiation_tag, instantiation)
+
+    def writePlatformModuleEthernetEndpointConfiguration(self, element: ET.Element, configuration: PlatformModuleEthernetEndpointConfiguration):
+        self.logger.debug("Write PlatformModuleEthernetEndpointConfiguration %s" % configuration.getShortName())
+        configuration_tag = ET.SubElement(element, "PLATFORM-MODULE-ETHERNET-ENDPOINT-CONFIGURATION")
+        self.writeIdentifiable(configuration_tag, configuration)
+        self.setChildElementOptionalRefType(configuration_tag, "COMMUNICATION-CONNECTOR-REF", configuration.getCommunicationConnectorRef())
+        self.setChildElementOptionalLiteral(configuration_tag, "IPV-4-MULTICAST-IP-ADDRESS", configuration.getIpv4MulticastIpAddress())
+        self.setChildElementOptionalLiteral(configuration_tag, "IPV-6-MULTICAST-IP-ADDRESS", configuration.getIpv6MulticastIpAddress())
 
     def writeReferenceBases(self, element: ET.Element, bases: List[ReferenceBase]):
         self.logger.debug("Write ReferenceBases")

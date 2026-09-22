@@ -789,6 +789,23 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(firewall)
         return self.getElement(short_name, StateDependentFirewall)
 
+    def createPlatformModuleEthernetEndpointConfiguration(self, short_name: str) -> PlatformModuleEthernetEndpointConfiguration:
+        """
+        Creates a PlatformModuleEthernetEndpointConfiguration element in this package.
+        If a configuration with the given short name already exists, it is returned instead.
+
+        Args:
+            short_name: The unique short name of the configuration
+
+        Returns:
+            The created (or existing) PlatformModuleEthernetEndpointConfiguration
+        """
+
+        if not self.IsElementExists(short_name, PlatformModuleEthernetEndpointConfiguration):
+            configuration = PlatformModuleEthernetEndpointConfiguration(self, short_name)
+            self.addElement(configuration)
+        return self.getElement(short_name, PlatformModuleEthernetEndpointConfiguration)
+
     def createMcFunction(self, short_name: str) -> McFunction:
         """
         Creates an McFunction element in this package.
@@ -1831,6 +1848,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
 # Element-class names are re-exported eagerly. Every models/ module that imports
 # from this module only needs ARElement/PackageableElement, which are defined above,
 # so partial-module initialization resolves the cycle without lazy machinery.
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.AdaptiveModuleImplementation import PlatformModuleEthernetEndpointConfiguration  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import FirewallRule, StateDependentFirewall  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry  # noqa: E402

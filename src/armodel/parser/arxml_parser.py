@@ -24,6 +24,13 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     StateDependentFirewall,
     TransportLayerRule,
 )
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.AdaptiveModuleImplementation import (
+    PlatformModuleEthernetEndpointConfiguration,
+)
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.IntrusionDetectionSystem import (
+    IdsPlatformInstantiation,
+    IdsmModuleInstantiation,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprintMapping,
 )
@@ -455,6 +462,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     Integer,
     IntervalTypeEnum,
+    Ip4AddressString,
+    Ip6AddressString,
     MacAddressString,
     MimeTypeString,
     NameToken,
@@ -13796,6 +13805,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "STATE-DEPENDENT-FIREWALL":
                 firewall = parent.createStateDependentFirewall(self.getShortName(child_element))
                 self.readStateDependentFirewall(child_element, firewall)
+            elif tag_name == "PLATFORM-MODULE-ETHERNET-ENDPOINT-CONFIGURATION":
+                configuration = parent.createPlatformModuleEthernetEndpointConfiguration(self.getShortName(child_element))
+                self.readPlatformModuleEthernetEndpointConfiguration(child_element, configuration)
             elif tag_name == "MC-FUNCTION":
                 func = parent.createMcFunction(self.getShortName(child_element))
                 self.readMcFunction(child_element, func)
@@ -13901,6 +13913,31 @@ class ARXMLParser(AbstractARXMLParser):
         if ingress_refs_parent is not None:
             for ref in self.getChildElementRefTypeList(ingress_refs_parent, "MATCHING-INGRESS-RULE-REF"):
                 props.addMatchingIngressRuleRef(ref)
+
+    def readIdsPlatformInstantiation(self, element: ET.Element, ar_element: IdsPlatformInstantiation):
+        self.readIdentifiable(element, ar_element)
+        refs_parent = self.find(element, "NETWORK-INTERFACE-REFS")
+        if refs_parent is not None:
+            for ref in self.getChildElementRefTypeList(refs_parent, "NETWORK-INTERFACE-REF"):
+                ar_element.addNetworkInterfaceRef(ref)
+        time_bases_element = self.find(element, "TIME-BASES")
+        if time_bases_element is not None:
+            conditional_element = self.find(time_bases_element, "TIME-BASE-RESOURCE-REF-CONDITIONAL")
+            if conditional_element is not None:
+                ar_element.setTimeBaseRef(self.getChildElementOptionalRefType(conditional_element, "TIME-BASE-RESOURCE-REF"))
+
+    def readIdsmModuleInstantiation(self, element: ET.Element, instantiation: IdsmModuleInstantiation):
+        self.readIdsPlatformInstantiation(element, instantiation)
+
+    def readPlatformModuleEthernetEndpointConfiguration(self, element: ET.Element, configuration: PlatformModuleEthernetEndpointConfiguration):
+        self.readIdentifiable(element, configuration)
+        configuration.setCommunicationConnectorRef(self.getChildElementOptionalRefType(element, "COMMUNICATION-CONNECTOR-REF"))
+        ipv4_address = self.getChildElementOptionalLiteral(element, "IPV-4-MULTICAST-IP-ADDRESS")
+        if ipv4_address is not None:
+            configuration.setIpv4MulticastIpAddress(Ip4AddressString().setValue(ipv4_address.getValue()))
+        ipv6_address = self.getChildElementOptionalLiteral(element, "IPV-6-MULTICAST-IP-ADDRESS")
+        if ipv6_address is not None:
+            configuration.setIpv6MulticastIpAddress(Ip6AddressString().setValue(ipv6_address.getValue()))
 
     def readMcFunction(self, element: ET.Element, func: McFunction):
         self.readIdentifiable(element, func)

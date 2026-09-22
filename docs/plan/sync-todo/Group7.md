@@ -160,15 +160,15 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 8 — Deviations — none beyond FirewallActionEnum derivation (see below)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8307 tests pass, ruff/flake8 clean, black clean; **unstamped** per user decision 2026-08-31 (batch confirmation deferred)
 - [ ] `IdsPlatformInstantiation` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_SecurityExtractTemplate · **Table B.13** (**spec table found 2026-09-22 re-verification — NOT XSD-only**; appendix letter-numbered table, missed by earlier numeric-regex search — resolve in per-class Phase 0))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table B.13 p.63 (PDF verified p.63 by direct pypdf search; appendix tables unindexed by pdf_page.py): abstract; Base closure → deepest existing = `AtpStructureElement` (chain IdsPlatformInstantiation → NonOsModuleInstantiation → AdaptiveModuleInstantiation → AtpStructureElement; first two not in src); 2 attrs displayed order: networkInterface (PlatformModuleEthernetEndpointConfiguration * ref → field `networkInterfaceRefs`), timeBase (TimeBaseResource 0..1 ref → `timeBaseRef`); XSD group IDS-PLATFORM-INSTANTIATION (l.69551) order NETWORK-INTERFACE-REFS → TIME-BASES; Notes verbatim incl Tags suffix (word-splits corrected against XSD)
+  - [x] Step 2 — Write model class unit test (Red) — test___init__.py rewritten: abstract raise, issubclass IdsPlatformInstantiation→AtpStructureElement, verbatim Note docstring, no `__init__` docstring, defaults, addNetworkInterfaceRef append/None-noop/self, timeBaseRef get/set round-trip + None no-op, accessor docstring first-line verbatim checks; 8 Red before implementation
+  - [x] Step 3 — Implement model class (Green) — base (Identifiable, ABC) → `AtpStructureElement` (spec Base closure); members `networkInterfaceRefs: List[RefType]` + `timeBaseRef: Optional[RefType]` replace fabricated `networks`/`timeBases: Optional[Any]` (naming deviation fixed per Rule 0001.5); typed chaining accessors with None no-op guards; PEP 526 members
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — Table B.13 Note verbatim on class (Tags kept, HwCategory precedent); attr Notes verbatim on inline comments + getter/setter docstrings with None-no-op sentences; all fabricated docstrings ("Type: PlatformModule." block, "atp. Status=candidate." garble) wiped; no marker (stamp deferred to batch confirmation)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/test_ids_platform_instantiation.py (2: full NETWORK-INTERFACE-REFS×2 + TIME-BASES conditional, empty) + tests/test_armodel/writer/test_ids_platform_instantiation.py (3: content order [SHORT-NAME, NETWORK-INTERFACE-REFS, TIME-BASES] per XSD group l.69551, empty omits, ns-injected write→re-parse round-trip); 15 Red across the IDS+PMEEC test files before parser/writer work
+  - [x] Step 6 — Update parser & writer (Green) — readIdsPlatformInstantiation (readIdentifiable + wrapper list read + TIME-BASES/…-REF-CONDITIONAL descent, TimingClock PLATFORM-TIME-BASES precedent) / writeIdsPlatformInstantiation (content-only helper, setChildElementOptionalRefType); no ARPackage dispatch (abstract class aggregated only via Machine.moduleInstantiation / AtpClassifier.atpFeature, neither in src — fragment+helper pattern)
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist with release column R23-11, no marker
+  - [x] Step 8 — Deviations — (1) TIME-BASES atpSplitable wrapper modeled as single 0..1 ref per Table B.13; the conditional's optional VARIATION-POINT not modeled (TimingClock precedent, no fixture carries it); (2) old `networks`/`timeBases`/`getNetworks`... accessor names replaced (Rule 0014 to-fix, done); (3) base re-parented to AtpStructureElement per spec closure
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `IdsmModuleInstantiation` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_SecurityExtractTemplate · **Table B.14** (**spec table found 2026-09-22 re-verification — NOT XSD-only**; appendix letter-numbered table — resolve in per-class Phase 0))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
