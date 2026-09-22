@@ -53,12 +53,7 @@ class TestParseFlexrayNmEcu:
         assert ecu.getNmMainFunctionAcrossFrCycle().getValue() is False
 
     def test_parse_empty_flexray_nm_ecu(self):
-        xml = (
-            "<NM-ECU xmlns='%s'>"
-            "<SHORT-NAME>NmEcu1</SHORT-NAME>"
-            "<BUS-DEPENDENT-NM-ECUS><FLEXRAY-NM-ECU></FLEXRAY-NM-ECU></BUS-DEPENDENT-NM-ECUS>"
-            "</NM-ECU>" % NS
-        )
+        xml = "<NM-ECU xmlns='%s'>" "<SHORT-NAME>NmEcu1</SHORT-NAME>" "<BUS-DEPENDENT-NM-ECUS><FLEXRAY-NM-ECU></FLEXRAY-NM-ECU></BUS-DEPENDENT-NM-ECUS>" "</NM-ECU>" % NS
         dependent = self._parse_ecus(xml)
         assert len(dependent) == 1
         assert isinstance(dependent[0], FlexrayNmEcu)
