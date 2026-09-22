@@ -146,7 +146,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations  [none: preSharedKey→preSharedKeyRef is the Rule 0001.5 ref-suffix naming, not a deviation; spec Mul 0..1 matches XSD minOccurs=0; member order = displayed/XSD group order]
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-22; feat commit 16c2791a
-- [ ] `TlsCryptoCipherSuite` (dependency of TlsCryptoServiceMapping, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.212, p.561 · member type of TlsCryptoServiceMapping.tlsCipherSuite (XSD wrapper TLS-CIPHER-SUITES) · added by 2026-09-22 Group6 member-type audit; remaining closure members (TlsCryptoCipherSuiteProps, CryptoEllipticCurveProps, TlsSignatureScheme, CryptoServiceCertificate) to be confirmed/queued at Step 1; after sync, TlsCryptoServiceMapping needs an extend pass — typed tlsCipherSuites list + reader/writer replace notImplemented)
+- [ ] `CryptoServicePrimitive` (dependency of TlsCryptoCipherSuite/TlsCryptoServiceMapping, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.50, p.376 · member type of TlsCryptoCipherSuite.authentication/encryption/keyExchange/keyExchangeAuthentication and ref target of TlsCryptoServiceMapping.keyExchangeRefs · added by 2026-09-22 Group6 member-type audit — was untracked, discovered by audit; re-ordered before TlsCryptoCipherSuite per full-closure confirmation 2026-09-22)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -156,7 +156,67 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CryptoServicePrimitive` (dependency of TlsCryptoServiceMapping, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · table id TBC at Step 1 · member type of TlsCryptoServiceMapping.keyExchange (KEY-EXCHANGE-REFS, ref *) · added by 2026-09-22 Group6 member-type audit — was untracked, discovered by audit)
+- [ ] `TlsCryptoCipherSuiteProps` (dependency of TlsCryptoCipherSuite, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.215, p.563 · member type of TlsCryptoCipherSuite.props · queued 2026-09-22 per full-closure confirmation)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `CryptoEllipticCurveProps` (dependency of TlsCryptoCipherSuite, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.216, p.564 · member type of TlsCryptoCipherSuite.ellipticCurve · queued 2026-09-22 per full-closure confirmation)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `CryptoSignatureScheme` (dependency of TlsCryptoCipherSuite, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.217, p.564 · member type of TlsCryptoCipherSuite.signatureScheme · queued 2026-09-22 per full-closure confirmation; memo previously mislabeled this class as TlsSignatureScheme — corrected here)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `CryptoCertificateAlgorithmFamilyEnum` (dependency of CryptoServiceCertificate, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.219, p.565 · member type of CryptoServiceCertificate.algorithmFamily · queued 2026-09-22 per full-closure confirmation)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A if standalone AREnum (no own XML element)
+  - [ ] Step 6 — Update parser & writer (Green) — N/A if standalone AREnum (same reason)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `CryptoCertificateFormatEnum` (dependency of CryptoServiceCertificate, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.220, p.565 · member type of CryptoServiceCertificate.format · queued 2026-09-22 per full-closure confirmation)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A if standalone AREnum (no own XML element)
+  - [ ] Step 6 — Update parser & writer (Green) — N/A if standalone AREnum (same reason)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `CryptoServiceCertificate` (dependency of TlsCryptoCipherSuite, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.218, p.565 · member type of TlsCryptoCipherSuite.certificate/remoteCertificate · queued 2026-09-22 per full-closure confirmation)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `TlsCryptoCipherSuite` (dependency of TlsCryptoServiceMapping, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.212, p.561 · member type of TlsCryptoServiceMapping.tlsCipherSuite (XSD wrapper TLS-CIPHER-SUITES) · added by 2026-09-22 Group6 member-type audit; full closure confirmed 2026-09-22 — all member-type rows queued above; after sync, TlsCryptoServiceMapping needs an extend pass — typed tlsCipherSuites list + reader/writer replace notImplemented)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -366,7 +426,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
 - `RtpTp` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · own table) — concrete subclass of TransportProtocolConfiguration (XSD choice member RTP-TP); not yet in src
 - `FlexrayNmScheduleVariant` (R23-11 · AUTOSAR_CP_TPS_SystemTemplate · Table 6.310, p.680) — member type of FlexrayNmClusterCoupling.nmScheduleVariant; not yet in src; FLEXRAY-NM-CLUSTER-COUPLING reader/writer dispatch also missing (FlexrayNmClusterCoupling class itself exists in src but is not queued in this group); discovered 2026-09-21 during `NmClusterCoupling` sync
 - `LinNmCluster` (R23-11 · XSD-only · AUTOSAR_00052.xsd group LIN-NM-CLUSTER, line 77474) — concrete subclass of NmCluster (XSD choice member LIN-NM-CLUSTER in NM-CLUSTERS), but carries atp.Status="removed" in R23-11 and has no own table; NOT created — queued here only for the record; discovered 2026-09-21 during `NmConfig` sync
-- `TlsCryptoCipherSuite` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.212, p.561) — member type of TlsCryptoServiceMapping.tlsCipherSuite (XSD wrapper TLS-CIPHER-SUITES, choice member TLS-CRYPTO-CIPHER-SUITE); TLS-CIPHER-SUITES reader/writer currently notImplemented; discovered 2026-09-22 during `TlsCryptoServiceMapping` sync; **partially queued 2026-09-22** — TlsVersionEnum, TlsPskIdentity, TlsCryptoCipherSuite, CryptoServicePrimitive now have queue rows (see above, dependency-first before TlsCryptoServiceMapping); remaining closure members (TlsCryptoCipherSuiteProps, CryptoEllipticCurveProps, TlsSignatureScheme, CryptoServiceCertificate) still tracked here only, to be confirmed/queued at the TlsCryptoCipherSuite row's Step 1
+- `TlsCryptoCipherSuite` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.212, p.561) — member type of TlsCryptoServiceMapping.tlsCipherSuite (XSD wrapper TLS-CIPHER-SUITES, choice member TLS-CRYPTO-CIPHER-SUITE); TLS-CIPHER-SUITES reader/writer currently notImplemented; discovered 2026-09-22 during `TlsCryptoServiceMapping` sync; **partially queued 2026-09-22** — TlsVersionEnum, TlsPskIdentity, TlsCryptoCipherSuite, CryptoServicePrimitive now have queue rows (see above, dependency-first before TlsCryptoServiceMapping); remaining closure members — full closure confirmed & queued 2026-09-22 (CryptoServicePrimitive, TlsCryptoCipherSuiteProps, CryptoEllipticCurveProps, CryptoSignatureScheme — memo previously mislabeled TlsSignatureScheme, CryptoCertificateAlgorithmFamilyEnum, CryptoCertificateFormatEnum, CryptoServiceCertificate; all rows above, dependency-first before TlsCryptoCipherSuite); this Pending-16.4 entry is resolved — see queue rows
 - `SomeipTransformationISignalProps` / `UserDefinedTransformationISignalProps` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · table ids TBC at Step 1) — concrete subclasses of TransformationISignalProps (XSD SOME-IP-/USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS); discovered 2026-09-22 by Group6 member-type audit (were untracked); **queued 2026-09-22** — see rows above
 
 ## Not queued
