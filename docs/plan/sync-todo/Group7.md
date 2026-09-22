@@ -260,15 +260,15 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 8 — Deviations — (1) setX list setters kept as harmless superset of the spec; (2) XSD PROVIDED-/REQUIRED-COM-SPECS choices include FIELD-SENDER-COM-SPEC / PERSISTENCY-DATA-REQUIRED-COM-SPEC (no model classes; subclass NonqueuedSender/ReceiverComSpec covers their content) — dispatch covers the same 6+6 alternatives as the PPortPrototype/RPortPrototype helpers, unsupported tags raise; (3) interface mult 1 vs XSD minOccurs=0 → Optional (repo convention)
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `Keyword` (tracker input · R4.3.1 markdown · AUTOSAR_TPS_StandardizationTemplate · Table 6.2 · *(existing member)*)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 6.2 p.91 (R4.3.1): concrete, Base closure (ARObject, Identifiable, MultilanguageReferrable, Referrable) → most-derived existing = `Identifiable` (unchanged); no ARPackage-level aggregation (aggregated only by KeywordSet.keyword); 2 attrs displayed order: abbrName (NameToken, 1, attr), classification (NameToken, * , attr); XSD group KEYWORD (AUTOSAR_00044.xsd l.52244) order ABBR-NAME → CLASSIFICATIONS; Notes verbatim per XSD documentation incl. its two-paragraph structure and the "to  the" double space
+  - [x] Step 2 — Write model class unit test (Red) — TestKeyword rewritten (6 tests): verbatim Note docstring (line-normalized), no `__init__` docstring, issubclass Identifiable, defaults, get/set round-trip + chaining + None no-ops, addClassification append, accessor docstring verbatim checks; 1 Red (fabricated docstrings + `__init__` docstring; behavior already correct)
+  - [x] Step 3 — Implement model class (Green) — PEP 526 `Optional[NameToken]`/`List[NameToken]` members in displayed order; typed chaining accessors with None no-op guards (already guarded); release = R4.3.1 per Rule 0016.3
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — Table 6.2 Note verbatim (two paragraphs per XSD) on class; attr Notes verbatim on inline comments + getter/setter/adder docstrings with "A None value is a no-op.../does not extend..." sentences; all old fabricated docstrings wiped
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/test_keyword.py (3: full read, empty, ns-injected write→re-parse round-trip) + tests/test_armodel/writer/test_keyword.py (2: child order [SHORT-NAME, ABBR-NAME, CLASSIFICATIONS] per XSD group l.52244, empty omits); **Red unreachable** — readKeyword/writeKeyword already existed and matched the XSD order (passed on first run)
+  - [x] Step 6 — Update parser & writer (Green) — none needed: readKeyword (readIdentifiable + ABBR-NAME + readKeywordClassifications) / writeKeyword (writeIdentifiable + ABBR-NAME + CLASSIFICATIONS) already present and XSD-ordered; KeywordSet KEYWORDS dispatch unchanged
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist with release column R4.3.1, no marker
+  - [x] Step 8 — Deviations — none (attribute Notes follow XSD documentation verbatim where the markdown wraps words; markdown word-split "classificati on" is a table-render artifact of "classification")
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `KeywordSet` (tracker input · R4.3.1 markdown · AUTOSAR_TPS_StandardizationTemplate · Table 6.1 · after `Keyword` (aggr `keyword`))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
