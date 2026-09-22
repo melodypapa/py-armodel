@@ -300,15 +300,15 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 8 — Deviations — (1) naming deviation fixed: diagnosticServiceInstanceRefs → serviceInstanceRefs (Rule 0014 to-fix, done); (2) DIAGNOSTIC-CONNECTION-REF-CONDITIONAL's optional VARIATION-POINT (atpVariation) not modeled — TimingClock/IdsPlatformInstantiation precedent, no fixture carries it; (3) no createServiceInstanceRef accessor (ref target is the abstract DiagnosticServiceInstance — refs only)
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green (10740 unit tests, lint, black); stamp deferred to batch confirmation (user instruction 2026-09-22)
 - [ ] `DiagnosticCommonElement` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 4.1)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 4.1 p.33: abstract, Package CommonDiagnostics; Base closure (ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable) → most-derived existing = `ARElement` (unchanged); aggregated by ARPackage.element (abstract — no direct dispatch); **attribute row is '-' — no own attributes**; XSD group DIAGNOSTIC-COMMON-ELEMENT (AUTOSAR_00052.xsd l.32814) has an empty `<xsd:sequence/>`; Note verbatim matches the XSD documentation exactly
+  - [x] Step 2 — Write model class unit test (Red) — test_CommonDiagnostics.py rewritten: abstract raise, issubclass ARElement/Identifiable, verbatim Note docstring, no `__init__` docstring, concrete-subclass instantiation, no-spec-attributes guard; 1 Red (fabricated "Abstract base class…" docstring)
+  - [x] Step 3 — Implement model class (Green) — no shape change: base `(ARElement, ABC)` + abstract guard already match Table 4.1; class body stays `__init__` only
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstring replaced with the Table 4.1 Note verbatim (single line, == XSD group documentation)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: no own XML element (XSD group has an empty sequence and the table's attribute row is '-') — AbstractDoIpLogicAddressProps precedent; concrete subclasses serialize via readARElement/writeARElement + their own group helpers
+  - [x] Step 6 — Update parser & writer (Green) — N/A: no own XML element; no helpers owned (empty group contributes nothing for subclasses to reuse)
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, `__init__` row only with reader/writer [—], release column R23-11, no marker
+  - [x] Step 8 — Deviations — none (base, guard, and memberless shape already matched the table; the fabricated docstring was the only drift)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green (10744 unit tests, lint, black-check); stamp deferred to batch confirmation (user instruction 2026-09-22)
 
 ## Pending 16.4 resolution (NEW — not in src)
 
