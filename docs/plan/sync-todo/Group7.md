@@ -272,9 +272,6 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
 ## Pending 16.4 resolution (NEW — not in src)
 
 - [x] `FirewallActionEnum` — not in `src` (NEW) → **Derive-from-XSD DONE 2026-08-31** (XSD FIREWALL-ACTION-ENUM complexType: literals BLOCK index 0 "Firewall blocks the communication" / ALLOW index 1 "Firewall allows the communication"; AREnum subclass in Firewall/__init__.py, `# XSD` spec line in checklist; unstamped per user decision 2026-08-31)
-- `CommunicationControllerMapping` — not in `src` (NEW) · R23-11 markdown · Table 3.134 · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist) → **QUEUED 2026-09-11** as a 9-step row before `ECUMapping`
-- `HwPortMapping` — not in `src` (NEW) · R23-11 markdown · Table 3.135 · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist) → **QUEUED 2026-09-11** as a 9-step row before `ECUMapping`
-- `DiagnosticServiceInstance` — not in `src` (NEW) · R23-11 markdown · Table 4.26 · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist) → **QUEUED 2026-09-11** as a 9-step row before `DiagnosticServiceTable`
 
 ## Not queued
 
