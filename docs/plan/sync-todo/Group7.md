@@ -130,15 +130,15 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 8 — Deviations — none
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `DoIpLogicTesterAddressProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.210)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 6.210 p.557: concrete, Base AbstractDoIpLogicAddressProps, 1 attribute doIpTesterRoutingActivation (DoIpRoutingActivation, *, ref); Note text from XSD documentation
+  - [x] Step 2 — Write model class unit test (Red) — test_DoIP.py Test_DoIpLogicTesterAddressProps: inheritance, verbatim docstring, defaults, member order, add accessor None no-op + returns self (4 failed as expected)
+  - [x] Step 3 — Implement model class (Green) — singular doIpTesterRoutingActivationRef get/set (naming deviation vs Rule 0001.5) replaced with doIpTesterRoutingActivationRefs list + addDoIpTesterRoutingActivationRef/getDoIpTesterRoutingActivationRefs
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — verbatim Table 6.210 Note on class + attribute inline comment + accessor docstrings with None-no-op sentence
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — tester cases in test_arxml_parser_doip_logic_address_props.py + test_writer_doip_logic_address_props.py: DO-IP-TESTER-ROUTING-ACTIVATION-REFS read/write, XSD order, round-trip (5 failed as expected)
+  - [x] Step 6 — Update parser & writer (Green) — DO-IP-LOGIC-TESTER-ADDRESS-PROPS branch in read/writeDoIpLogicAddressProps (getChildElementRefTypeList / setChildElementOptionalRefType)
+  - [x] Step 7 — Update checklist comment — 6-col parity checklist, reader [x] on add row, writer [x] on get row
+  - [x] Step 8 — Deviations — none remaining (old singular accessor rename was to-fix, fixed in Step 3)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `DoIpTpConfig` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.205 · after the DoIp props classes)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

@@ -51,12 +51,12 @@ class Test_DoIp:
         assert isinstance(props, AbstractDoIpLogicAddressProps)
 
         # Test default values
-        assert props.getDoIpTesterRoutingActivationRef() is None
+        assert props.getDoIpTesterRoutingActivationRefs() == []
 
-        # Test setter/getter
+        # Test add/get accessors
         mock_ref = "mock_ref"
-        props.setDoIpTesterRoutingActivationRef(mock_ref)
-        assert props.getDoIpTesterRoutingActivationRef() == mock_ref
+        props.addDoIpTesterRoutingActivationRef(mock_ref)
+        assert props.getDoIpTesterRoutingActivationRefs() == [mock_ref]
 
 
 @pytest.fixture(autouse=True)
@@ -118,6 +118,58 @@ class Test_DoIpLogicTargetAddressProps:
 
     def test_init_docstring_is_none(self):
         assert DoIpLogicTargetAddressProps.__init__.__doc__ is None
+
+
+@pytest.fixture(autouse=True)
+def reset_autosar_for_doip_logic_tester_address_props():
+    AUTOSAR.getInstance().new()
+    AUTOSAR.getInstance().setARRelease("R23-11")
+    yield
+    AUTOSAR.getInstance().new()
+
+
+class Test_DoIpLogicTesterAddressProps:
+    """Test cases for DoIpLogicTesterAddressProps (Table 6.210, p.557)."""
+
+    MEMBERS = [
+        "doIpTesterRoutingActivationRefs",
+    ]
+
+    def _create(self, short_name: str) -> DoIpLogicTesterAddressProps:
+        parent = MockParent()
+        return DoIpLogicTesterAddressProps(parent, short_name)
+
+    def test_inheritance(self):
+        assert issubclass(DoIpLogicTesterAddressProps, AbstractDoIpLogicAddressProps)
+        assert issubclass(DoIpLogicTesterAddressProps, Identifiable)
+
+    def test_class_docstring_note(self):
+        expected = "This meta-class acts as a target for references to the DoIpLogicTesterAddress and collects DoIpLogicTesterAddress specific settings."
+        assert inspect.cleandoc(DoIpLogicTesterAddressProps.__doc__) == expected
+
+    def test_initialization_defaults(self):
+        props = self._create("props1")
+        assert props.getShortName() == "props1"
+        assert props.getDoIpTesterRoutingActivationRefs() == []
+
+    def test_member_order(self):
+        props = self._create("props1")
+        members = [k for k in vars(props) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_init_docstring_is_none(self):
+        assert DoIpLogicTesterAddressProps.__init__.__doc__ is None
+
+    def test_add_do_ip_tester_routing_activation_ref(self):
+        props = self._create("props1")
+        ref = RefType()
+        ref.setValue("/DoIp/DoIpRoutingActivation1")
+        ref.setDest("DO-IP-ROUTING-ACTIVATION")
+        result = props.addDoIpTesterRoutingActivationRef(ref)
+        assert result is props
+        assert props.getDoIpTesterRoutingActivationRefs() == [ref]
+        props.addDoIpTesterRoutingActivationRef(None)
+        assert props.getDoIpTesterRoutingActivationRefs() == [ref]
 
 
 @pytest.fixture(autouse=True)

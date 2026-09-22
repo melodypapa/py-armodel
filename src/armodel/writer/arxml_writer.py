@@ -645,7 +645,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordTypeMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpLogicTargetAddressProps, DoIpRoutingActivation
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
@@ -12700,6 +12700,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             if isinstance(props, DoIpLogicTargetAddressProps):
                 props_element = ET.SubElement(props_tag, "DO-IP-LOGIC-TARGET-ADDRESS-PROPS")
                 self.writeIdentifiable(props_element, props)
+            elif isinstance(props, DoIpLogicTesterAddressProps):
+                props_element = ET.SubElement(props_tag, "DO-IP-LOGIC-TESTER-ADDRESS-PROPS")
+                self.writeIdentifiable(props_element, props)
+                refs = props.getDoIpTesterRoutingActivationRefs()
+                if len(refs) > 0:
+                    refs_tag = ET.SubElement(props_element, "DO-IP-TESTER-ROUTING-ACTIVATION-REFS")
+                    for ref in refs:
+                        self.setChildElementOptionalRefType(refs_tag, "DO-IP-TESTER-ROUTING-ACTIVATION-REF", ref)
             else:
                 self.notImplemented("Unsupported DoIpLogicAddressProps <%s>" % type(props))
 

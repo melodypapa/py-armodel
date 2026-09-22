@@ -1,11 +1,14 @@
-"""Tests for the readDoIpLogicAddressProps handler (R23-11 DoIpLogicTargetAddressProps, Table 6.209, p.556)."""
+"""Tests for the readDoIpLogicAddressProps handler (R23-11 DoIpLogicTargetAddressProps Table 6.209 p.556, DoIpLogicTesterAddressProps Table 6.210 p.557)."""
 
 import xml.etree.ElementTree as ET
 
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpLogicTargetAddressProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import (
+    DoIpLogicTargetAddressProps,
+    DoIpLogicTesterAddressProps,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import DoIpLogicAddress
 from armodel.parser.arxml_parser import ARXMLParser
 
@@ -73,3 +76,48 @@ class TestReadDoIpLogicAddressProps:
         address = _address()
         parser.readDoIpLogicAddress(element, address)
         assert address.getDoIpLogicAddressProps() is None
+
+    def test_read_tester_address_props(self, parser):
+        element = _snip(
+            """
+                <SHORT-NAME>LogicAddress1</SHORT-NAME>
+                <ADDRESS>2048</ADDRESS>
+                <DO-IP-LOGIC-ADDRESS-PROPS>
+                    <DO-IP-LOGIC-TESTER-ADDRESS-PROPS>
+                        <SHORT-NAME>TesterProps1</SHORT-NAME>
+                        <DO-IP-TESTER-ROUTING-ACTIVATION-REFS>
+                            <DO-IP-TESTER-ROUTING-ACTIVATION-REF DEST="DO-IP-ROUTING-ACTIVATION">/DoIp/DoIpRoutingActivation1</DO-IP-TESTER-ROUTING-ACTIVATION-REF>
+                            <DO-IP-TESTER-ROUTING-ACTIVATION-REF DEST="DO-IP-ROUTING-ACTIVATION">/DoIp/DoIpRoutingActivation2</DO-IP-TESTER-ROUTING-ACTIVATION-REF>
+                        </DO-IP-TESTER-ROUTING-ACTIVATION-REFS>
+                    </DO-IP-LOGIC-TESTER-ADDRESS-PROPS>
+                </DO-IP-LOGIC-ADDRESS-PROPS>
+            """,
+            root_tag="DO-IP-LOGIC-ADDRESS",
+        )
+        address = _address()
+        parser.readDoIpLogicAddress(element, address)
+        props = address.getDoIpLogicAddressProps()
+        assert isinstance(props, DoIpLogicTesterAddressProps)
+        assert props.getShortName() == "TesterProps1"
+        refs = props.getDoIpTesterRoutingActivationRefs()
+        assert len(refs) == 2
+        assert refs[0].getValue() == "/DoIp/DoIpRoutingActivation1"
+        assert refs[0].getDest() == "DO-IP-ROUTING-ACTIVATION"
+        assert refs[1].getValue() == "/DoIp/DoIpRoutingActivation2"
+
+    def test_read_tester_address_props_without_refs(self, parser):
+        element = _snip(
+            """
+                <DO-IP-LOGIC-ADDRESS-PROPS>
+                    <DO-IP-LOGIC-TESTER-ADDRESS-PROPS>
+                        <SHORT-NAME>TesterProps1</SHORT-NAME>
+                    </DO-IP-LOGIC-TESTER-ADDRESS-PROPS>
+                </DO-IP-LOGIC-ADDRESS-PROPS>
+            """,
+            root_tag="DO-IP-LOGIC-ADDRESS",
+        )
+        address = _address()
+        parser.readDoIpLogicAddress(element, address)
+        props = address.getDoIpLogicAddressProps()
+        assert isinstance(props, DoIpLogicTesterAddressProps)
+        assert props.getDoIpTesterRoutingActivationRefs() == []

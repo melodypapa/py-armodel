@@ -45,28 +45,36 @@ class DoIpLogicTargetAddressProps(AbstractDoIpLogicAddressProps):
 
 class DoIpLogicTesterAddressProps(AbstractDoIpLogicAddressProps):
     """
-    Defines properties for DoIP (Diagnostics over IP) logic tester addresses,
-    specifying how diagnostic tools and testers are addressed in the IP-based
-    diagnostic communication system, including routing activation references.
+    This meta-class acts as a target for references to the DoIpLogicTesterAddress and collects DoIpLogicTesterAddress specific settings.
     """
 
     # DoIpLogicTesterAddressProps method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDoIpTesterRoutingActivationRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setDoIpTesterRoutingActivationRef [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.210, p.557
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addDoIpTesterRoutingActivationRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDoIpTesterRoutingActivationRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.doIpTesterRoutingActivationRef: RefType = None
+        # Reference to a DoIPRoutingActivation describing the possible routing activations of the DoIPTester.
+        self.doIpTesterRoutingActivationRefs: List[RefType] = []
 
-    def getDoIpTesterRoutingActivationRef(self):
-        return self.doIpTesterRoutingActivationRef
-
-    def setDoIpTesterRoutingActivationRef(self, value):
+    def addDoIpTesterRoutingActivationRef(self, value: Optional[RefType]) -> "DoIpLogicTesterAddressProps":
+        """
+        Reference to a DoIPRoutingActivation describing the possible routing activations of the DoIPTester.
+        A None value is a no-op and does not extend the doIpTesterRoutingActivationRefs list.
+        """
         if value is not None:
-            self.doIpTesterRoutingActivationRef = value
+            self.doIpTesterRoutingActivationRefs.append(value)
         return self
+
+    def getDoIpTesterRoutingActivationRefs(self) -> List[RefType]:
+        """
+        Reference to a DoIPRoutingActivation describing the possible routing activations of the DoIPTester.
+        """
+        return self.doIpTesterRoutingActivationRefs
 
 
 class DoIpRoutingActivation(Identifiable):
