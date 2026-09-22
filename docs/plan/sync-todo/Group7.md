@@ -29,15 +29,15 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 8 — Deviations — pre-existing drift fixed: (1) markdown word-splits in docstrings corrected to XSD text; (2) addHwAttributeLiteral accepted None (appended None) → guarded; (3) writer child order violated XSD → reordered; setHwAttributeLiterals kept (used by tests, harmless superset of spec)
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `HwCategory` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.11 · after `HwAttributeDef` (aggr `hwAttributeDef`))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 2.11 p.24: concrete, Base closure (ARElement, ARObject, AtpDefinition, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable) → most-derived existing = `ARElement` (PostBuildVariantCriterion precedent; repo AtpDefinition derives Referrable-only); aggregated by ARPackage.element (createHwCategory dispatch exists both ends); 1 attr: hwAttributeDef (HwAttributeDef * aggr → field `hwAttributeDefs`); XSD group HW-CATEGORY (AUTOSAR_00052.xsd l.65725) = HW-ATTRIBUTE-DEFS wrapper only; Note verbatim incl "Tags: atp.recommendedPackage=HwCategorys"
+  - [x] Step 2 — Write model class unit test (Red) — HwCategory section rewritten: verbatim Note docstring, no-`__init__`-docstring, concrete ARElement/Identifiable/CollectableElement subclass checks, defaults, addHwAttributeDef (append/None-noop/self), createHwAttributeDef guard; 4 Red (fabricated docstring, `__init__` docstring, base not ARElement, adder missing)
+  - [x] Step 3 — Implement model class (Green) — base `(PackageableElement, AtpDefinition)` double-init → `ARElement` single super() chain (reader/writer already treated it as ARElement via readARElement/writeARElement); addHwAttributeDef added; createHwAttributeDef kept (guard) with `pin_group` local renamed `attribute_def`; unused PackageableElement/AtpDefinition imports removed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — Note verbatim with Tags suffix on class; attr Note "This aggregation describes particular hardware attribute definition." on inline comment + all three accessors, None-no-op sentence on the adder
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/test_hw_category.py + tests/test_armodel/writer/test_hw_category.py (populated + empty + ns-injected round-trip; asserts HW-ATTRIBUTE-DEFS is last child per XSD complexType order) — passed immediately (no Red): reader/writer coverage and element order already existed correct from the HwCategory batch of the HwDescriptionEntity work
+  - [x] Step 6 — Update parser & writer (Green) — none needed: readHwCategory/writeHwCategory + ARPackage HW-CATEGORY dispatch (parser l.13664/writer l.13383) already present and XSD-ordered
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist with release column R23-11, no marker
+  - [x] Step 8 — Deviations — base-class correction (see Step 3): the old double-inheritance base double-ran Referrable init and contradicted the ARElement read/write chain; semantics preserved (field name `hwAttributeDefs` kept, tests updated)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `HwAttributeValue` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.2)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

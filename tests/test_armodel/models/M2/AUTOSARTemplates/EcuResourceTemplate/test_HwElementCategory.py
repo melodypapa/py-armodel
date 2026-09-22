@@ -5,6 +5,8 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory im
     HwCategory,
     HwType,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
 
@@ -187,50 +189,63 @@ def test_hw_attribute_def_create_hw_attribute_literal():
     assert len(hw_attr_def.getHwAttributeLiterals()) == 1
 
 
-def test_hw_category_init():
-    """
-    Test initialization of HwCategory class.
+HW_CATEGORY_NOTE = "This metaclass represents the ability to declare hardware categories and its particular attributes. " "Tags: atp.recommendedPackage=HwCategorys"
 
-    Test Steps:
-    1. Create a HwCategory instance with parent and short_name
-    2. Verify default attributes are set correctly
-    """
-    # Create a mock parent object
+
+def test_hw_category_docstring_verbatim():
+    """Class docstring must equal the Table 2.11 Note verbatim."""
+    assert HwCategory.__doc__.strip() == HW_CATEGORY_NOTE
+
+
+def test_hw_category_init_doc_is_none():
+    assert HwCategory.__init__.__doc__ is None
+
+
+def test_hw_category_is_concrete_arelement_subclass():
+    """Base closure (ARElement, AtpDefinition, CollectableElement, ...) collapses to ARElement."""
+    hw_category = HwCategory(None, "cat")
+    assert isinstance(hw_category, HwCategory)
+    assert issubclass(HwCategory, ARElement)
+    assert issubclass(HwCategory, Identifiable)
+    assert issubclass(HwCategory, CollectableElement)
+
+
+def test_hw_category_defaults():
+    """Table 2.11 single attribute: hwAttributeDef (HwAttributeDef, * aggr)."""
     parent = object()
-
-    # Initialize HwCategory
     hw_category = HwCategory(parent, "test_hw_category")
 
-    # Verify initial values
     assert hw_category.parent == parent
     assert hw_category.short_name == "test_hw_category"
     assert hw_category.hwAttributeDefs == []
 
 
-def test_hw_category_getters_and_create_hw_attribute_def():
-    """
-    Test getter and createHwAttributeDef method of HwCategory class.
-
-    Test Steps:
-    1. Create a HwCategory instance
-    2. Test getting hwAttributeDefs
-    3. Test creating a new HwAttributeDef
-    4. Verify the created HwAttributeDef is added to the category
-    """
+def test_hw_category_add_hw_attribute_def():
+    """The * add accessor must append, ignore None and return self."""
     hw_category = HwCategory(None, "test_hw_category")
 
-    # Test getHwAttributeDefs
-    assert hw_category.getHwAttributeDefs() == []
+    attr_def1 = HwAttributeDef(None, "attr_def1")
+    assert hw_category.addHwAttributeDef(attr_def1) is hw_category
+    assert hw_category.getHwAttributeDefs() == [attr_def1]
 
-    # Test createHwAttributeDef
-    new_attr_def = hw_category.createHwAttributeDef("new_attr_def")
-    assert new_attr_def is not None
-    assert new_attr_def.short_name == "new_attr_def"
-    assert new_attr_def in hw_category.getHwAttributeDefs()
+    attr_def2 = HwAttributeDef(None, "attr_def2")
+    hw_category.addHwAttributeDef(attr_def2)
+    assert hw_category.getHwAttributeDefs() == [attr_def1, attr_def2]
 
-    # Test creating another one with the same name (should return existing)
-    same_attr_def = hw_category.createHwAttributeDef("new_attr_def")
-    assert same_attr_def == new_attr_def  # Should return the same instance
+    hw_category.addHwAttributeDef(None)
+    assert hw_category.getHwAttributeDefs() == [attr_def1, attr_def2]
+
+
+def test_hw_category_create_hw_attribute_def():
+    """createHwAttributeDef must guard duplicates via IsElementExists."""
+    hw_category = HwCategory(None, "test_hw_category")
+
+    attr_def = hw_category.createHwAttributeDef("attr_def1")
+    assert attr_def.short_name == "attr_def1"
+    assert attr_def in hw_category.getHwAttributeDefs()
+
+    assert hw_category.createHwAttributeDef("attr_def1") is attr_def
+    assert len(hw_category.getHwAttributeDefs()) == 1
 
 
 """
