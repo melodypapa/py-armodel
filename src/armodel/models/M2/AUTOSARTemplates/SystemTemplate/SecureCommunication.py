@@ -398,6 +398,39 @@ class CryptoEllipticCurveProps(ARElement):
         return self
 
 
+class CryptoSignatureScheme(ARElement):
+    """
+    This meta-class provides attributes to specify the TLS Signature Scheme. Tags: atp.recommendedPackage=CryptoSignatureSchemas
+    """
+
+    # CryptoSignatureScheme method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.217, p.564
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSignatureSchemeId      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSignatureSchemeId      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # Defines the value of one specific TLS Signature Scheme.
+        self.signatureSchemeId: Optional[PositiveInteger] = None
+
+    def getSignatureSchemeId(self) -> Optional[PositiveInteger]:
+        """Defines the value of one specific TLS Signature Scheme."""
+        return self.signatureSchemeId
+
+    def setSignatureSchemeId(self, value: Optional[PositiveInteger]) -> "CryptoSignatureScheme":
+        """
+        Defines the value of one specific TLS Signature Scheme.
+        A None value is a no-op and does not overwrite an existing signatureSchemeId.
+        """
+        if value is not None:
+            self.signatureSchemeId = value
+        return self
+
+
 class MacSecConfidentialityOffsetEnum(AREnum):
     """
     This enum defines the MACsec capability options.

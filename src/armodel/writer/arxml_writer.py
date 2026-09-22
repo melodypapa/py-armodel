@@ -713,6 +713,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
     CryptoEllipticCurveProps,
     CryptoServicePrimitive,
+    CryptoSignatureScheme,
     MacSecCipherSuiteConfig,
     MacSecCryptoAlgoConfig,
     MacSecGlobalKayProps,
@@ -11353,6 +11354,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, props)
         self.setChildElementOptionalPositiveInteger(child_element, "NAMED-CURVE-ID", props.getNamedCurveId())
 
+    def writeCryptoSignatureScheme(self, element: ET.Element, scheme: CryptoSignatureScheme):
+        self.logger.debug("Write CryptoSignatureScheme <%s>" % scheme.getShortName())
+        child_element = ET.SubElement(element, "CRYPTO-SIGNATURE-SCHEME")
+        self.writeIdentifiable(child_element, scheme)
+        self.setChildElementOptionalPositiveInteger(child_element, "SIGNATURE-SCHEME-ID", scheme.getSignatureSchemeId())
+
     def writeCryptoServicePrimitive(self, element: ET.Element, primitive: CryptoServicePrimitive):
         self.logger.debug("Write CryptoServicePrimitive <%s>" % primitive.getShortName())
         child_element = ET.SubElement(element, "CRYPTO-SERVICE-PRIMITIVE")
@@ -13405,6 +13412,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSecureCommunicationPropsSet(element, ar_element)
         elif isinstance(ar_element, CryptoEllipticCurveProps):
             self.writeCryptoEllipticCurveProps(element, ar_element)
+        elif isinstance(ar_element, CryptoSignatureScheme):
+            self.writeCryptoSignatureScheme(element, ar_element)
         elif isinstance(ar_element, CryptoServicePrimitive):
             self.writeCryptoServicePrimitive(element, ar_element)
         elif isinstance(ar_element, SoAdRoutingGroup):

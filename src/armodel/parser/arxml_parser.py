@@ -799,6 +799,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
     CryptoEllipticCurveProps,
     CryptoServicePrimitive,
+    CryptoSignatureScheme,
     MacSecCapabilityEnum,
     MacSecCipherSuiteConfig,
     MacSecConfidentialityOffsetEnum,
@@ -13020,6 +13021,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, props)
         props.setNamedCurveId(self.getChildElementOptionalPositiveInteger(element, "NAMED-CURVE-ID"))
 
+    def readCryptoSignatureScheme(self, element: ET.Element, scheme: CryptoSignatureScheme):
+        self.logger.debug("Read CryptoSignatureScheme <%s>" % scheme.getShortName())
+        self.readIdentifiable(element, scheme)
+        scheme.setSignatureSchemeId(self.getChildElementOptionalPositiveInteger(element, "SIGNATURE-SCHEME-ID"))
+
     def readCryptoServicePrimitive(self, element: ET.Element, primitive: CryptoServicePrimitive):
         self.logger.debug("Read CryptoServicePrimitive <%s>" % primitive.getShortName())
         self.readIdentifiable(element, primitive)
@@ -13680,6 +13686,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "CRYPTO-ELLIPTIC-CURVE-PROPS":
                 props = parent.createCryptoEllipticCurveProps(self.getShortName(child_element))
                 self.readCryptoEllipticCurveProps(child_element, props)
+            elif tag_name == "CRYPTO-SIGNATURE-SCHEME":
+                scheme = parent.createCryptoSignatureScheme(self.getShortName(child_element))
+                self.readCryptoSignatureScheme(child_element, scheme)
             elif tag_name == "CRYPTO-SERVICE-PRIMITIVE":
                 primitive = parent.createCryptoServicePrimitive(self.getShortName(child_element))
                 self.readCryptoServicePrimitive(child_element, primitive)

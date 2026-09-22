@@ -8,6 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     CryptoEllipticCurveProps,
     CryptoServiceMapping,
     CryptoServicePrimitive,
+    CryptoSignatureScheme,
     MacSecCapabilityEnum,
     MacSecCipherSuiteConfig,
     MacSecConfidentialityOffsetEnum,
@@ -597,3 +598,36 @@ class Test_CryptoEllipticCurvePropsSpec:
         assert props.getNamedCurveId() is curve_id
         props.setNamedCurveId(None)
         assert props.getNamedCurveId() is curve_id
+
+
+class Test_CryptoSignatureSchemeSpec:
+    """Spec contract of CryptoSignatureScheme (AUTOSAR_CP_TPS_SystemTemplate, Table 6.217, p.564)."""
+
+    def test_docstring_is_spec_note_verbatim(self):
+        note = "This meta-class provides attributes to specify the TLS Signature Scheme. Tags: atp.recommendedPackage=CryptoSignatureSchemas"
+        assert CryptoSignatureScheme.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert CryptoSignatureScheme.__init__.__doc__ is None
+
+    def test_heritage(self):
+        # Base chain ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable, ARElement — most-derived is ARElement
+        parent = MockParent()
+        scheme = CryptoSignatureScheme(parent, "scheme")
+        assert isinstance(scheme, ARElement)
+        assert isinstance(scheme, Identifiable)
+
+    def test_initialization(self):
+        # Table 6.217 — the single attribute is optional (Mult 0..1, XSD minOccurs=0)
+        parent = MockParent()
+        scheme = CryptoSignatureScheme(parent, "scheme")
+        assert scheme.getSignatureSchemeId() is None
+
+    def test_get_set_signature_scheme_id(self):
+        parent = MockParent()
+        scheme = CryptoSignatureScheme(parent, "scheme")
+        scheme_id = _pos_int("7")
+        assert scheme.setSignatureSchemeId(scheme_id) is scheme
+        assert scheme.getSignatureSchemeId() is scheme_id
+        scheme.setSignatureSchemeId(None)
+        assert scheme.getSignatureSchemeId() is scheme_id

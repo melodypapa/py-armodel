@@ -113,6 +113,7 @@ __all__ = [
     "ConstantSpecificationMappingSet",
     "CryptoEllipticCurveProps",
     "CryptoServicePrimitive",
+    "CryptoSignatureScheme",
     "DataConstr",
     "DataPrototypeGroup",
     "DataTransformationSet",
@@ -835,6 +836,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             props = CryptoEllipticCurveProps(self, short_name)
             self.addElement(props)
         return self.getElement(short_name, CryptoEllipticCurveProps)
+
+    def createCryptoSignatureScheme(self, short_name: str) -> CryptoSignatureScheme:
+
+        if not self.IsElementExists(short_name, CryptoSignatureScheme):
+            scheme = CryptoSignatureScheme(self, short_name)
+            self.addElement(scheme)
+        return self.getElement(short_name, CryptoSignatureScheme)
 
     def createCryptoServicePrimitive(self, short_name: str) -> CryptoServicePrimitive:
 
@@ -1951,6 +1959,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (  # noqa: E402
     CryptoEllipticCurveProps,
     CryptoServicePrimitive,
+    CryptoSignatureScheme,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (  # noqa: E402
     DataTransformationSet,
