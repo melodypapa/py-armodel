@@ -6,6 +6,17 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     VariableDataPrototypeInSystemInstanceRef,
 )
 
+# Post-table paragraph of Table B.1 (AUTOSAR_CP_TPS_SystemTemplate, p.1000), verbatim;
+# markdown word-split "PortPrototype s" corrected against the sibling Table B.2 wording.
+CISIR_NOTE = (
+    "If the referenced SwComponentPrototype is located within the RootSwCompositionPrototype of a System then the "
+    "contextComposition to the RootSwCompositionPrototype shall be provided. In this scenario we have a System "
+    "Extract where the RootSwComposition may contain other compositions. If the referenced SwComponentPrototype is "
+    "the RootSwCompositionPrototype itself then contextComposition reference to the RootSwCompositionPrototype shall "
+    "be skipped and only the targetComponent to the RootSwCompositionPrototype shall be used. In this scenario we "
+    "have an Ecu Extract where the RootSwComposition contains PortPrototypes that describe the external communication."
+)
+
 # Post-table paragraph of Table B.3 (AUTOSAR_CP_TPS_SystemTemplate, p.1004), verbatim;
 # markdown word-splits ("PortPrototype s", "contextComponent .") corrected against the
 # sibling Table B.2 wording.
@@ -99,37 +110,68 @@ class Test_InstanceRefs:
         assert VariableDataPrototypeInSystemInstanceRef.getContextPortRef.__doc__ is None
         assert VariableDataPrototypeInSystemInstanceRef.setTargetDataPrototypeRef.__doc__ is None
 
-    def test_ComponentInSystemInstanceRef(self):
-        """Test ComponentInSystemInstanceRef class functionality."""
+    def test_ComponentInSystemInstanceRef_initialization(self):
+        """Test ComponentInSystemInstanceRef default values (Table B.1)."""
         ref = ComponentInSystemInstanceRef()
 
         assert isinstance(ref, AtpInstanceRef)
 
-        # Test default values
         assert ref.getBaseRef() is None
         assert ref.getContextComponentRefs() == []
         assert ref.getContextCompositionRef() is None
         assert ref.getTargetComponentRef() is None
 
-        # Test setter/getter methods
-        mock_base_ref = "mock_base_ref"
-        ref.setBaseRef(mock_base_ref)
-        assert ref.getBaseRef() == mock_base_ref
+    def test_ComponentInSystemInstanceRef_get_set(self):
+        """Test ComponentInSystemInstanceRef setter/getter round-trips and chaining."""
+        ref = ComponentInSystemInstanceRef()
 
-        mock_context_comp_ref = "mock_context_comp_ref"
-        ref.setContextCompositionRef(mock_context_comp_ref)
-        assert ref.getContextCompositionRef() == mock_context_comp_ref
+        assert ref.setBaseRef("mock_base_ref") is ref
+        assert ref.getBaseRef() == "mock_base_ref"
 
-        mock_target_comp_ref = "mock_target_comp_ref"
-        ref.setTargetComponentRef(mock_target_comp_ref)
-        assert ref.getTargetComponentRef() == mock_target_comp_ref
+        assert ref.setContextCompositionRef("mock_context_comp_ref") is ref
+        assert ref.getContextCompositionRef() == "mock_context_comp_ref"
 
-        # Test adding context component refs
-        mock_comp_ref1 = "comp1"
-        mock_comp_ref2 = "comp2"
-        ref.addContextComponentRef(mock_comp_ref1)
-        ref.addContextComponentRef(mock_comp_ref2)
-        assert ref.getContextComponentRefs() == [mock_comp_ref1, mock_comp_ref2]
+        assert ref.setTargetComponentRef("mock_target_comp_ref") is ref
+        assert ref.getTargetComponentRef() == "mock_target_comp_ref"
+
+    def test_ComponentInSystemInstanceRef_add_context_component_refs(self):
+        """Test ComponentInSystemInstanceRef context component ref aggregation."""
+        ref = ComponentInSystemInstanceRef()
+
+        assert ref.addContextComponentRef("comp1") is ref
+        assert ref.addContextComponentRef("comp2") is ref
+        assert ref.getContextComponentRefs() == ["comp1", "comp2"]
+
+    def test_ComponentInSystemInstanceRef_none_noop(self):
+        """None is a no-op for all mutators of ComponentInSystemInstanceRef."""
+        ref = ComponentInSystemInstanceRef()
+        ref.setBaseRef("keep")
+        ref.setContextCompositionRef("keep")
+        ref.setTargetComponentRef("keep")
+
+        ref.setBaseRef(None)
+        ref.setContextCompositionRef(None)
+        ref.setTargetComponentRef(None)
+        ref.addContextComponentRef(None)
+
+        assert ref.getBaseRef() == "keep"
+        assert ref.getContextCompositionRef() == "keep"
+        assert ref.getTargetComponentRef() == "keep"
+        assert ref.getContextComponentRefs() == []
+
+    def test_ComponentInSystemInstanceRef_docstring(self):
+        """Class docstring is the Table B.1 post-table paragraph verbatim; member Notes on accessors."""
+        assert ComponentInSystemInstanceRef.__doc__.strip() == CISIR_NOTE
+        assert ComponentInSystemInstanceRef.__init__.__doc__ is None
+
+        assert _norm(ComponentInSystemInstanceRef.getBaseRef.__doc__) == "Stereotypes: atpDerived Tags: xml.sequenceOffset=10"
+        assert _norm(ComponentInSystemInstanceRef.setBaseRef.__doc__) == ("Stereotypes: atpDerived Tags: xml.sequenceOffset=10 A None value is a no-op and does not overwrite an existing baseRef.")
+        assert _norm(ComponentInSystemInstanceRef.getContextComponentRefs.__doc__) == "Tags: xml.sequenceOffset=30"
+        assert _norm(ComponentInSystemInstanceRef.addContextComponentRef.__doc__) == ("Tags: xml.sequenceOffset=30 A None value is a no-op and does not append anything.")
+        assert _norm(ComponentInSystemInstanceRef.getContextCompositionRef.__doc__) == "Tags: xml.sequenceOffset=20"
+        assert _norm(ComponentInSystemInstanceRef.setContextCompositionRef.__doc__) == ("Tags: xml.sequenceOffset=20 A None value is a no-op and does not overwrite an existing contextCompositionRef.")
+        assert _norm(ComponentInSystemInstanceRef.getTargetComponentRef.__doc__) == "Tags: xml.sequenceOffset=40"
+        assert _norm(ComponentInSystemInstanceRef.setTargetComponentRef.__doc__) == ("Tags: xml.sequenceOffset=40 A None value is a no-op and does not overwrite an existing targetComponentRef.")
 
     def test_OperationInSystemInstanceRef_initialization(self):
         """Test OperationInSystemInstanceRef default values."""

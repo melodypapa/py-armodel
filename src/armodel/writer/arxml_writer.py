@@ -3767,6 +3767,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(child_element, ref)
             self.setChildElementOptionalRefType(child_element, "BASE-REF", ref.getBaseRef())
             self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPOSITION-REF", ref.getContextCompositionRef())
+            for component_ref in ref.getContextComponentRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", component_ref)
             self.setChildElementOptionalRefType(child_element, "TARGET-COMPONENT-REF", ref.getTargetComponentRef())
 
     def setOperationInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: OperationInSystemInstanceRef):

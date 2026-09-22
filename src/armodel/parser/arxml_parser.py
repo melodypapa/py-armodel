@@ -1700,6 +1700,8 @@ class ARXMLParser(AbstractARXMLParser):
             self.readARObject(element, instance_ref)
             instance_ref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF"))
             instance_ref.setContextCompositionRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPOSITION-REF"))
+            for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
+                instance_ref.addContextComponentRef(ref)
             instance_ref.setTargetComponentRef(self.getChildElementOptionalRefType(element, "TARGET-COMPONENT-REF"))
         return instance_ref
 
