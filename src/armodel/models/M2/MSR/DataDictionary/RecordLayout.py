@@ -22,6 +22,21 @@ class AxisIndexType(ARLiteral):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
 
+class AsamRecordLayoutSemantics(ARLiteral):
+    """
+    This meta-class is used to denote the semantics in particular in terms of the corresponding A2L-Keyword. This is to support the mapping of the more general record layouts in AUTOSAR/MSR to the specific A2L keywords. It is possible to express the specific semantics of A2l RecordLayout keywords in SwRecordlayoutGroup but not always vice versa. Therefore the mapping is provided in this optional attribute. It is specified as NMTOKEN to reduce the direct dependency of ASAM an AUTOSAR standards.
+
+    Tags:
+        * xml.xsd.customType=ASAM-RECORD-LAYOUT-SEMANTICS
+        * xml.xsd.type=NMTOKEN
+    """
+
+    # AsamRecordLayoutSemantics method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.103, p.427
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+
 class SwRecordLayoutV(ARObject):
     """
     This element specifies which values are stored for the current SwRecordLayoutGroup. If no baseType is present, the SwBaseType referenced initially in the parent SwRecordLayoutGroup is valid. The specification of swRecordLayoutVAxis gives the axis of the values which shall be stored in accordance with the current record layout SwRecordLayoutGroup. In swRecordLayoutVProp one can specify the information which shall be stored.
@@ -261,7 +276,7 @@ class SwRecordLayoutGroup(ARObject):
         super().__init__()
 
         # This attribute denotes the semantics in particular in terms of the corresponding A2L-Keyword. This is to support the mapping of the more general record layouts in AUTOSAR/ MSR to the specific A2l keywords. It is possible to express the specific semantics of A2l recordlayout keywords in swRecordlayoutGroup but not always vice versa. Therefore the mapping is provided in this optional attribute. Tags: xml.sequenceOffset=5
-        self.category: Optional[ARLiteral] = None
+        self.category: Optional[AsamRecordLayoutSemantics] = None
 
         # This aggregation allows a brief description about the particular record layout group which can help to identify the entry. In-depth documentation should be added to the introduction of the surrounding record layout. Tags: xml.sequenceOffset=20
         self.desc: Optional[MultiLanguageOverviewParagraph] = None

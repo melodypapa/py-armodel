@@ -1001,16 +1001,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment [6-column R23-11 checklist, all own methods covered]
   - [x] Step 8 — Deviations [none outstanding]
   - [x] Step 9 — Verify (9a) + confirm (9b) [423 focused tests; lint/Ruff/Black/diff checks pass; user confirmed Step 9b]
- - [ ] `AsamRecordLayoutSemantics` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · primitive type of `SwRecordLayoutGroup.category` · **NOT in src — class must be created when this row is synced**)
-   - [ ] Step 1 — Sync members & description from spec
-   - [ ] Step 2 — Write model class unit test (Red)
-   - [ ] Step 3 — Implement model class (Green)
-   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-   - [ ] Step 5 — Write reader/writer round-trip test (Red)
-   - [ ] Step 6 — Update parser & writer (Green)
-   - [ ] Step 7 — Update checklist comment
-   - [ ] Step 8 — Deviations
-   - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [ ] `AsamRecordLayoutSemantics` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.103 · primitive type of `SwRecordLayoutGroup.category` · **NOT in src — class must be created when this row is synced**)
+   - [x] Step 1 — Sync members & description from spec  [Primitive, p.427 via pdf_page.py; Package M2::MSR::DataDictionary::RecordLayout → RecordLayout.py; Note verbatim (NMTOKEN A2L-keyword mapping rationale) + Tags xml.xsd.customType=ASAM-RECORD-LAYOUT-SEMANTICS / xml.xsd.type=NMTOKEN; XSD complexType l.131645 + --SIMPLE l.131661 (restriction of xsd:NMTOKEN, simpleContent + AR-OBJECT attrs — same shape as AxisIndexType); Base ARLiteral (primitive path, Rule 0001.10); consumer SwRecordLayoutGroup.category Table 5.99 (0..1 attr, CATEGORY element, generic literal helpers)]
+   - [x] Step 2 — Write model class unit test (Red)  [TestAsamRecordLayoutSemantics in test_RecordLayout.py: ARLiteral instance + empty default, A2L keyword round-trip + chaining, 5 spec example values INDEX_INCR/INDEX_DECR/COLUMN_DIR/ROW_DIR/ALTERNATE_WITH_X, None no-op; ImportError = Red]
+   - [x] Step 3 — Implement model class (Green)  [AsamRecordLayoutSemantics(ARLiteral) added to RecordLayout.py immediately after AxisIndexType (spec order 5.101 → 5.103; RecordLayoutIteratorPoint 5.102 slots between in its own row); inherits ARLiteral.__init__ like AxisIndexType; category field retyped Optional[ARLiteral] → Optional[AsamRecordLayoutSemantics] per the Table 5.99 PDF type; consumer test updated to construct the typed class; 38 passed]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [brand-new class — docstring = Table 5.103 Note verbatim + Tags bullet block (AxisIndexType/MimeTypeString convention); no own members, no __init__ docstring]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: standalone ARLiteral primitive with no own XML element — the wire element is the consumer's CATEGORY, already covered by SwRecordLayoutGroup's reader/writer via generic getChildElementOptionalLiteral/setChildElementOptionalLiteral (same treatment as AxisIndexType, reader [—] / writer [—])]
+   - [x] Step 6 — Update parser & writer (Green)  [N/A: see Step 5 — no production change; XML identical before/after the category retype]
+   - [x] Step 7 — Update checklist comment  [# Spec: CP_TPS Table 5.103, p.427; 1 row (__init__) with 6 columns + release R23-11; marker deferred to batch confirmation]
+   - [x] Step 8 — Deviations  [none: Primitive table → ARLiteral subclass (Rule 0001.10 primitive path); no attributes to type; Steps 5/6 N/A (element belongs to the consumer); the category retype to the precise PDF type was this dependency row's purpose, recorded on the SwRecordLayoutGroup row; no missing referenced classes (ARLiteral/ARType in src)]
+   - [ ] Step 9 — Verify (9a) + confirm (9b)  [9a: 10924 unit tests + flake8 + ruff + black-check green; 9a run at batch level for integration; **stamp deferred to batch confirmation (user instruction 2026-09-24)**]
  - [ ] `RecordLayoutIteratorPoint` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.102 · primitive type of `SwRecordLayoutGroup.swRecordLayoutGroupFrom` and `swRecordLayoutGroupTo` · **NOT in src — class must be created when this row is synced**)
    - [ ] Step 1 — Sync members & description from spec
    - [ ] Step 2 — Write model class unit test (Red)

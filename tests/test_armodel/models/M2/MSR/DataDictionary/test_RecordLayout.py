@@ -6,6 +6,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Integer, RefType
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import (
+    AsamRecordLayoutSemantics,
     AxisIndexType,
     SwRecordLayout,
     SwRecordLayoutGroup,
@@ -36,6 +37,37 @@ class TestAxisIndexType:
         assert axis_index_type.getValue() == "STRING"
         axis_index_type.setValue("ARRAY")
         assert axis_index_type.getValue() == "ARRAY"
+
+
+class TestAsamRecordLayoutSemantics:
+    """Test class for AsamRecordLayoutSemantics primitive (spec CP SWCT Table 5.103, p.427: NMTOKEN A2L-keyword semantics for SwRecordLayoutGroup.category)."""
+
+    def test_asam_record_layout_semantics_initialization(self):
+        """Test that an AsamRecordLayoutSemantics object can be instantiated as an ARLiteral and defaults to an empty value."""
+        semantics = AsamRecordLayoutSemantics()
+        assert isinstance(semantics, ARLiteral)
+        assert semantics.getValue() == ""
+
+    def test_asam_record_layout_semantics_a2l_keyword_value(self):
+        """Test that an AsamRecordLayoutSemantics carries an A2L keyword value and setValue returns self for chaining."""
+        semantics = AsamRecordLayoutSemantics()
+        result = semantics.setValue("INDEX_INCR")
+        assert result is semantics
+        assert semantics.getValue() == "INDEX_INCR"
+
+    def test_asam_record_layout_semantics_example_values(self):
+        """Test the example A2L keyword values listed in the spec (INDEX_INCR, INDEX_DECR, COLUMN_DIR, ROW_DIR, ALTERNATE_WITH_X)."""
+        for keyword in ("INDEX_INCR", "INDEX_DECR", "COLUMN_DIR", "ROW_DIR", "ALTERNATE_WITH_X"):
+            semantics = AsamRecordLayoutSemantics()
+            semantics.setValue(keyword)
+            assert semantics.getValue() == keyword
+
+    def test_asam_record_layout_semantics_none_no_op(self):
+        """Test that setValue(None) is a no-op and does not overwrite an existing value."""
+        semantics = AsamRecordLayoutSemantics()
+        semantics.setValue("ROW_DIR")
+        semantics.setValue(None)
+        assert semantics.getValue() == "ROW_DIR"
 
 
 class TestSwRecordLayoutV:
@@ -254,9 +286,9 @@ class TestSwRecordLayoutGroup:
         assert sw_record_layout_group.swRecordLayoutGroupTo is None
 
     def test_sw_record_layout_group_category_methods(self):
-        """Test the category getter and setter."""
+        """Test the category getter and setter (spec type AsamRecordLayoutSemantics, CP SWCT Table 5.99)."""
         sw_record_layout_group = SwRecordLayoutGroup()
-        category = ARLiteral()
+        category = AsamRecordLayoutSemantics()
 
         result = sw_record_layout_group.setCategory(category)
         assert sw_record_layout_group.getCategory() == category
