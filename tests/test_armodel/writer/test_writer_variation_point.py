@@ -168,6 +168,81 @@ class TestWriteAttributeValueVariationPoint:
         assert element.text is None
 
 
+class TestWriteAttributeValueVariationPointRoundTrip:
+    """Table 7.2 round-trip: parse -> write -> re-parse preserves every
+    AttributeValueVariationPoint attribute value through the VALUE-ACCESS dispatch."""
+
+    def _build_document(self):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+
+        pkg = document.createARPackage("Demo")
+        component = pkg.createApplicationSwComponentType("MyComponent")
+        behavior = component.createSwcInternalBehavior("Behavior")
+
+        proxy = VariationPointProxy(behavior, "vpp1")
+        avp = NumericalValueVariationPoint()
+        avp.setBindingTime(BindingTimeEnum().setValue("preCompileTime"))
+        avp.setSd(String().setValue("sd-rt"))
+        avp.setShortLabel(PrimitiveIdentifier().setValue("vp_rt"))
+        avp.setBlueprintValue(String().setValue("bp-rt"))
+        avp.setText("1234")
+        proxy.setValueAccess(avp)
+        behavior.addVariationPointProxy(proxy)
+        return document
+
+    def test_round_trip_value_access_fields_preserved(self, tmp_path):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = self._build_document()
+        output = str(tmp_path / "value_access_roundtrip.arxml")
+        ARXMLWriter().save(output, document)
+
+        document_2 = AUTOSAR.getInstance()
+        document_2.clear()
+        ARXMLParser().load(output, document_2)
+
+        behavior_2 = document_2.getARPackages()[0].getAtomicSwComponentTypes()[0].getInternalBehavior()
+        proxy_2 = behavior_2.getVariationPointProxies()[0]
+        value_access = proxy_2.getValueAccess()
+        assert isinstance(value_access, NumericalValueVariationPoint)
+        assert value_access.getBindingTime().getValue() == "preCompileTime"
+        assert value_access.getSd().getValue() == "sd-rt"
+        assert value_access.getShortLabel().getValue() == "vp_rt"
+        assert value_access.getBlueprintValue().getValue() == "bp-rt"
+        assert value_access.getText() == "1234"
+
+    def test_no_value_access_writes_no_wrapper(self):
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+
+        pkg = document.createARPackage("Demo")
+        component = pkg.createApplicationSwComponentType("MyComponent")
+        behavior = component.createSwcInternalBehavior("Behavior")
+        behavior.addVariationPointProxy(VariationPointProxy(behavior, "vpp_empty"))
+
+        output = tempfile.mktemp(suffix=".arxml")
+        ARXMLWriter().save(output, document)
+        try:
+            tree = ET.parse(output)
+            ns = {"ar": "http://autosar.org/schema/r4.0"}
+            proxy_element = tree.getroot().find(".//ar:VARIATION-POINT-PROXY", ns)
+            assert proxy_element is not None
+            assert proxy_element.find("ar:VALUE-ACCESS", ns) is None
+        finally:
+            if os.path.exists(output):
+                os.remove(output)
+
+
 class TestVariationPointProxyRoundTrip:
     def _build(self, document):
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy

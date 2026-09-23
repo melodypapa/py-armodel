@@ -155,6 +155,20 @@ class TestReadVariationPointProxy:
         assert value_access.getBlueprintValue().getValue() == "bp"
         assert value_access.getText() == "123"
 
+    def test_read_value_access_empty_wrapper(self, parser):
+        """An empty VALUE-ACCESS wrapper leaves valueAccess unset (None)."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import (
+            VariationPointProxy,
+        )
+
+        inner = "<VARIATION-POINT-PROXY>" "<SHORT-NAME>vpp3</SHORT-NAME>" "<VALUE-ACCESS/>" "</VARIATION-POINT-PROXY>"
+        element = _snip(inner).find("{%s}VARIATION-POINT-PROXY" % NS)
+
+        proxy = VariationPointProxy(None, "vpp3")
+        parser.readVariationPointProxy(element, proxy)
+
+        assert proxy.getValueAccess() is None
+
     def test_read_limit_value_access_with_interval_type(self, parser):
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
             LimitValueVariationPoint,
