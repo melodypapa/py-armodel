@@ -299,15 +299,15 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 8 — Deviations  [resolved in-pass (Rule 0014): CSTransformerErrorReactionEnum wire-value drift fixed — two unit tests updated (raw-literal fixtures unaffected); reader enum construction upgraded; no open deviations]
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 757aea1d
 - [ ] `SOMEIPMessageTypeEnum` (dependency of SomeipTransformationISignalProps, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 7.13, p.779 · member type of SomeipTransformationISignalProps.messageType · added by 2026-09-23 dependency audit — was untracked)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 7.13, p.779 confirmed via pdf_page.py; Enumeration header → AREnum; Note "Depending on the style of the communication different message types shall be set in the header of a SOME/IP message."; Aggregated by SOMEIPTransformationISignalProps.messageType; literals displayed order notification(idx1)/request(idx2)/requestNoReturn(idx3)/response(idx4); XSD SIMPLE type wire values NOTIFICATION/REQUEST/REQUEST-NO-RETURN/RESPONSE + ERROR idx0 atp.Status="removed" (not modeled, Rule 0015 — TlsVersionEnum LTS-13 precedent)
+  - [x] Step 2 — Write model class unit test (Red) — Test_SOMEIPMessageTypeEnum in test_Transformer.py: verbatim class-Note docstring assertion, no-`__init__`-docstring, literal wire values NOTIFICATION/REQUEST/REQUEST-NO-RETURN/RESPONSE, getEnumValues displayed order, validateEnumValue true/false (ERROR=false, removed literal), instantiability + setValue/getValue/getText (Red: ImportError — class did not exist)
+  - [x] Step 3 — Implement model class (Green) — SOMEIPMessageTypeEnum(AREnum) in Transformer/__init__.py after CSTransformerErrorReactionEnum (spec table order 7.9→7.13): 4 literals in markdown displayed order with XSD wire values, super() list same order; TlsVersionEnum/CSTransformerErrorReactionEnum AREnum pattern; no top-level export (sibling enums not exported either); 39 passed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — new class: no pre-existing docstrings; all written fresh and programmatically diff-verified against markdown L20099 (class Note verbatim) / L20102-20105 (literal Descriptions + EnumerationLiteralIndex Tags tails verbatim, xml.name= from XSD); __init__ carries no docstring (test-asserted)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone AREnum has no own XML element; enum value form will be round-tripped on SomeipTransformationISignalProps.messageType (consumer class queued later in this batch), same as TlsVersionEnum
+  - [x] Step 6 — Update parser & writer (Green) — N/A: same reason — no reader/writer code for a standalone enum; serialization lands with the consuming class
+  - [x] Step 7 — Update checklist comment — enum parity block (no method rows): Spec line Table 7.13 p.779 citation + `(no methods) — enum value form serialized on SomeipTransformationISignalProps.messageType`; `# Spec verified:` marker deferred to 9b (batch confirmation)
+  - [x] Step 8 — Deviations  [accepted: XSD SOMEIP-MESSAGE-TYPE-ENUM--SIMPLE carries literal ERROR (error, atp.EnumerationLiteralIndex=0) flagged `atp.Status="removed"` — not modeled, markdown Table 7.13 lists only notification/request/requestNoReturn/response (Rule 0015; TlsVersionEnum LTS-13 precedent); otherwise none: 4 literals modeled exactly in displayed order with XSD wire values, no Base/Attribute rows so no fields/accessors, no fabricated members, no missing referenced classes, no placeholders]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-23: full suite 10961 passed / 0 failed (--no-coverage), npm run lint clean (flake8 + ruff), black-check 1138 files unchanged, verbatim class-Note + literal-docstring diffs OK, no # type: comments, no parser/writer edits (Steps 5/6 N/A); 9b deferred to batch confirmation (user instruction 2026-09-23)
 - [ ] `TlvDataIdDefinition` (dependency of TlvDataIdDefinitionSet, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 7.31, p.831 · member type of TlvDataIdDefinitionSet.tlvDataIdDefinition · added by 2026-09-23 dependency audit — was untracked)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

@@ -16,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
+    SOMEIPMessageTypeEnum,
     TransformationDescription,
     TransformationISignalProps,
     TransformationTechnology,
@@ -828,3 +829,42 @@ class TestEndToEndTransformationComSpecProps:
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransformationComSpecProps
 
         assert issubclass(EndToEndTransformationComSpecProps, TransformationComSpecProps)
+
+
+class Test_SOMEIPMessageTypeEnum:
+    def test_docstring_is_spec_note_verbatim(self):
+        # Table 7.13, p.779 — class Note verbatim from the markdown
+        note = "Depending on the style of the communication different message types shall be set in the header of a SOME/IP message."
+        assert SOMEIPMessageTypeEnum.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert SOMEIPMessageTypeEnum.__init__.__doc__ is None
+
+    def test_literal_values_and_indexes(self):
+        # spec literals per Table 7.13 (notification idx1, request idx2, requestNoReturn idx3, response idx4, displayed order); xml values per XSD SIMPLE type
+        assert SOMEIPMessageTypeEnum.NOTIFICATION == "NOTIFICATION"
+        assert SOMEIPMessageTypeEnum.REQUEST == "REQUEST"
+        assert SOMEIPMessageTypeEnum.REQUEST_NO_RETURN == "REQUEST-NO-RETURN"
+        assert SOMEIPMessageTypeEnum.RESPONSE == "RESPONSE"
+        e = SOMEIPMessageTypeEnum()
+        assert e.getEnumValues() == ["NOTIFICATION", "REQUEST", "REQUEST-NO-RETURN", "RESPONSE"]
+        assert e.validateEnumValue("NOTIFICATION") is True
+        assert e.validateEnumValue("REQUEST") is True
+        assert e.validateEnumValue("REQUEST-NO-RETURN") is True
+        assert e.validateEnumValue("RESPONSE") is True
+        assert e.validateEnumValue("ERROR") is False
+
+    def test_instantiation(self):
+        e = SOMEIPMessageTypeEnum()
+        e.setValue(SOMEIPMessageTypeEnum.NOTIFICATION)
+        assert e.getValue() == "NOTIFICATION"
+        assert e.getText() == "NOTIFICATION"
+        e.setValue(SOMEIPMessageTypeEnum.REQUEST)
+        assert e.getValue() == "REQUEST"
+        assert e.getText() == "REQUEST"
+        e.setValue(SOMEIPMessageTypeEnum.REQUEST_NO_RETURN)
+        assert e.getValue() == "REQUEST-NO-RETURN"
+        assert e.getText() == "REQUEST-NO-RETURN"
+        e.setValue(SOMEIPMessageTypeEnum.RESPONSE)
+        assert e.getValue() == "RESPONSE"
+        assert e.getText() == "RESPONSE"

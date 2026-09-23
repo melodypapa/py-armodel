@@ -1014,6 +1014,38 @@ class CSTransformerErrorReactionEnum(AREnum):
         super().__init__([CSTransformerErrorReactionEnum.APPLICATION_ONLY, CSTransformerErrorReactionEnum.AUTONOMOUS])
 
 
+class SOMEIPMessageTypeEnum(AREnum):
+    """
+    Depending on the style of the communication different message types shall be set in the header of a SOME/IP message.
+    """
+
+    # SOMEIPMessageTypeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.13, p.779
+    # (no methods) — enum value form serialized on SomeipTransformationISignalProps.messageType
+
+    # A request of a notification expecting no response. Tags: atp.EnumerationLiteralIndex=1 xml.name=NOTIFICATION
+    NOTIFICATION = "NOTIFICATION"
+
+    # A request expecting a response. Tags: atp.EnumerationLiteralIndex=2 xml.name=REQUEST
+    REQUEST = "REQUEST"
+
+    # A fire&forget request. Tags: atp.EnumerationLiteralIndex=3 xml.name=REQUEST-NO-RETURN
+    REQUEST_NO_RETURN = "REQUEST-NO-RETURN"
+
+    # The response message. Tags: atp.EnumerationLiteralIndex=4 xml.name=RESPONSE
+    RESPONSE = "RESPONSE"
+
+    def __init__(self):
+        super().__init__(
+            [
+                SOMEIPMessageTypeEnum.NOTIFICATION,
+                SOMEIPMessageTypeEnum.REQUEST,
+                SOMEIPMessageTypeEnum.REQUEST_NO_RETURN,
+                SOMEIPMessageTypeEnum.RESPONSE,
+            ]
+        )
+
+
 class TransformationISignalProps(Describable, ABC):
     """TransformationISignalProps holds all the attributes for the different TransformationTechnologies that are ISignal specific. Tags: vh.latestBindingTime=postBuild"""
 
