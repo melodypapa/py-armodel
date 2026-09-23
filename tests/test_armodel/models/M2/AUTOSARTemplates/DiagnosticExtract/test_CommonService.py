@@ -4,6 +4,8 @@ DiagnosticServiceInstance (Table 4.26, p.70) and the in-pass created ref
 target DiagnosticServiceClass (Table 4.25, p.69).
 """
 
+import inspect
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
@@ -18,7 +20,7 @@ DSC_NOTE = "This meta-class provides the ability to define common properties tha
 ACCESS_PERMISSION_NOTE = "This represents the collection of DiagnosticAccessPermissions that allow for the execution of the referencing DiagnosticServiceInstance.."
 SERVICE_CLASS_NOTE = (
     'This represents the corresponding "class", i.e. this meta-class provides properties that are shared among all instances of applicable sub-classes of '
-    'DiagnosticServiceInstance. The subclasses that affected by this pattern implement references to the applicable "class"-role that substantiate this abstract reference.'
+    'DiagnosticServiceInstance. The subclasses that affected by this pattern implement references to the applicable "class"-role that substantiate this abstract reference. Stereotypes: atpAbstract'
 )
 
 
@@ -94,13 +96,12 @@ class Test_DiagnosticServiceInstance:
         assert instance.getServiceClassRef() is class_ref
 
     def test_accessor_docstrings_are_spec_notes_verbatim(self):
-        def norm(doc):
-            return " ".join(doc.split())
-
-        assert norm(DiagnosticServiceInstance.getAccessPermissionRef.__doc__) == ACCESS_PERMISSION_NOTE
-        assert norm(DiagnosticServiceInstance.setAccessPermissionRef.__doc__) == (ACCESS_PERMISSION_NOTE + " A None value is a no-op and does not overwrite an existing accessPermissionRef.")
-        assert norm(DiagnosticServiceInstance.getServiceClassRef.__doc__) == SERVICE_CLASS_NOTE
-        assert norm(DiagnosticServiceInstance.setServiceClassRef.__doc__) == (SERVICE_CLASS_NOTE + " A None value is a no-op and does not overwrite an existing serviceClassRef.")
+        assert inspect.cleandoc(DiagnosticServiceInstance.getAccessPermissionRef.__doc__) == ACCESS_PERMISSION_NOTE
+        assert inspect.cleandoc(DiagnosticServiceInstance.setAccessPermissionRef.__doc__) == (
+            ACCESS_PERMISSION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing accessPermissionRef."
+        )
+        assert inspect.cleandoc(DiagnosticServiceInstance.getServiceClassRef.__doc__) == SERVICE_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticServiceInstance.setServiceClassRef.__doc__) == (SERVICE_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing serviceClassRef.")
 
 
 class Test_DiagnosticServiceClass:
