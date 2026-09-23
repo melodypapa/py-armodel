@@ -6285,7 +6285,7 @@ class ARXMLParser(AbstractARXMLParser):
         return blocks
 
     def readGeneralAnnotation(self, element: ET.Element, annotation: GeneralAnnotation):
-        annotation.setAnnotationOrigin(self.getChildElementOptionalLiteral(element, "ANNOTATION-ORIGIN"))
+        annotation.setAnnotationOrigin(self.getChildElementOptionalString(element, "ANNOTATION-ORIGIN"))
         annotation.setAnnotationText(self.getDocumentationBlock(element, "ANNOTATION-TEXT"))
         annotation.setLabel(self.getMultilanguageLongName(element, "LABEL"))
 

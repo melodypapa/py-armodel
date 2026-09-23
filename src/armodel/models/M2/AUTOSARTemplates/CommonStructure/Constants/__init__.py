@@ -229,13 +229,17 @@ class RecordValueSpecification(CompositeValueSpecification):
     def __init__(self):
         super().__init__()
 
-        # Value specifications that constitute the fields of the record.
+        # The value for a single record field. This could also be mapped explicitly to a record element of the data type using the shortName of the ValueSpecification. But this would introduce a relationship to the data type that is too strong. As of now, it is only important that the structure of the data type matches the structure of the ValueSpecification independently of the shortNames. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=field, field.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.fields: List[ValueSpecification] = []
 
     def addField(self, field: Optional[ValueSpecification]) -> "RecordValueSpecification":
         """
-        Value specifications that constitute the fields of the record.
-        A None value is a no-op and does not add a field.
+        The value for a single record field. This could also be mapped explicitly to a record element of the data type using the shortName of the ValueSpecification. But this would introduce a relationship to the data type that is too strong. As of now, it is only important that the structure of the data type matches the structure of the ValueSpecification independently of the shortNames. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=field, field.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not extend the fields list.
+
+        Returns:
+            self for method chaining
         """
         if field is not None:
             self.fields.append(field)
@@ -243,7 +247,10 @@ class RecordValueSpecification(CompositeValueSpecification):
 
     def getFields(self) -> List[ValueSpecification]:
         """
-        Value specifications that constitute the fields of the record.
+        The value for a single record field. This could also be mapped explicitly to a record element of the data type using the shortName of the ValueSpecification. But this would introduce a relationship to the data type that is too strong. As of now, it is only important that the structure of the data type matches the structure of the ValueSpecification independently of the shortNames. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=field, field.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+
+        Returns:
+            The value specifications that constitute the fields of the record
         """
         return self.fields
 

@@ -196,7 +196,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [# Spec: FO_TPS Table 4.55, p.111; 1 row (__init__) with 6 columns + release R23-11; marker deferred to 9b]
   - [x] Step 8 — Deviations  [none: spec table is a `Primitive` (not `Class`/`Enumeration`) → modeled as an `ARLiteral` subclass with no own fields (Rule 0001.10 primitive path); no attributes to type; reader/writer N/A (attribute-only usage — the URL attribute belongs to the `Url` row); no missing referenced classes (Base `ARLiteral`/`ARType` in src); no fabricated/naming/type rows. Note the dependency itself was the deviation being fixed: `MimeTypeString` had been missing from src and from every queue since the 2026-09-11 audits — now queued before `Url` (Rule 0016.5)]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 8800 models/parser/writer tests + 3 integration round-trips pass; flake8/ruff/black-check clean; checklist == methods; 9b: 12-item pre-stamp checklist user-confirmed; marker `# Spec verified: R23-11` written; commit 01cc23df]
-- [x] `Url` (dependency · **added 2026-09-11 LParagraph closure audit** · **XSD-only** (no markdown/PDF table) · AUTOSAR_00052.xsd `complexType name="URL"` line 128502 (+ `attributeGroup URL` line 128494; attr `MIME-TYPE`) · **NOT in src** · member type of `Std.url` / `Xdoc.url` / `Xfile.url` (0..1 aggr) · 16.4 decision: **Derive-from-XSD** → carries `# XSD verified: AUTOSAR_00052.xsd` · deps: `mimeType` MimeTypeString queued immediately above (added 2026-09-12) / value type `UriString` stamped ✓) — verified XSD (commit 4b96ab8d)
+- [x] `Url` (dependency · **added 2026-09-11 LParagraph closure audit** · **XSD-only** (no markdown/PDF table) · AUTOSAR_00052.xsd `complexType name="URL"` line 128502 (+ `attributeGroup URL` line 128494; attr `MIME-TYPE`) · **NOT in src** · member type of `Std.url` / `Xdoc.url` / `Xfile.url` (0..1 aggr) · 16.4 decision: **Derive-from-XSD** → carries `# XSD verified: AUTOSAR_00052.xsd` · deps: `mimeType` MimeTypeString queued immediately above (added 2026-09-12) / value type `UriString` stamped ✓) — already verified (# XSD verified: AUTOSAR_00052.xsd, `src/armodel/models/M2/MSR/Documentation/BlockElements/__init__.py`; commit 4b96ab8d; deviation check re-run 2026-09-22: docstring==XSD Note, mimeType/value members, reader getUrl l.5843 / writer setUrl l.2570, tests green — clean)
   - [x] Step 1 — Sync members & description from spec  [XSD-only (no R23-11/R4.3.1 table — verified both corpora); Package `M2::MSR::Documentation::BlockElements` (XSD comment line 128493) → non-leaf `BlockElements/__init__.py` (Caption precedent, same package); Base `ARObject` (XSD `attributeGroup AR-OBJECT` ref line 128510 + stereotype atpObject); 2 own members alphabetical (markdown-render convention, cf. Sd/TagWithOptionalValue): `mimeType` MimeTypeString 0..1 attr (MIME-TYPE, documentation "this denotes the mime type of the resource located by the url."), `value` UriString 0..1 text (simpleContent base `URI-STRING--SIMPLE`); class doc "This meta-class specifies an Uniform Resource Locator (URL)."; element `<URL>` (XSD usages lines 113342 Std.url / 131021 Xdoc.url / 131058 Xfile.url); not VP-capable (simpleContent, no VARIATION-POINT)]
    - [x] Step 2 — Write model class unit test (Red)  [test_Url.py: defaults and typed get/set with None no-op; ImportError = Red]
    - [x] Step 3 — Implement model class (Green)  [Url(ARObject) with mimeType: Optional[MimeTypeString] and value: Optional[UriString], typed accessors; 3 passed]
@@ -873,16 +873,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [Table 5.111, p.434; init/add/get/count accessor rows with six columns and R23-11 release]
    - [x] Step 8 — Deviations  [OPEN: Rule 0001.5 naming deviation — the `*` aggregation role `element` is backed by singular `self.element`; required plural backing field is `self.elements`. Per user instruction, leave unresolved and do not stamp `# Spec verified: R23-11`.]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, lint, Black check, and diff check passed; 9b: user confirmed marking complete with the unresolved `self.element` naming deviation; no `# Spec verified: R23-11` marker]
-- [x] `RecordValueSpecification` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.112 · after `CompositeValueSpecification` (parent, Table 5.110) · `field` ValueSpecification stamped ✓) — verified R23-11 (commit pending)
+- [x] `RecordValueSpecification` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.112 · after `CompositeValueSpecification` (parent, Table 5.110) · `field` ValueSpecification stamped ✓) — verified R23-11 (initial sync commit b1c7030b; Steps 2-3 follow-up synced this batch)
   - [x] Step 1 — Sync members & description from spec  [Table 5.112, p.435; Base ARObject + CompositeValueSpecification + ValueSpecification; one ordered `field` ValueSpecification aggregation with multiplicity *; Note "Specifies the values for a record." copied verbatim]
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note, field inline comment, addField, and getFields docs use the Table 5.112 Note verbatim; addField appends only the required None-no-op sentence]
-  - [x] Step 5 — Write reader/writer round-trip test (Red)  [existing parser/writer coverage extended with field-value assertions and empty FIELDS wrapper case]
-  - [x] Step 6 — Update parser & writer (Green)  [existing getRecordValueSpecification/writeRecordValueSpecification helpers already cover SHORT-LABEL and polymorphic FIELDS dispatch; no production parser/writer change required]
+  - [x] Step 2 — Write model class unit test (Red)  [completed this batch in test_CommonStructure_init.py: verbatim class/field Note assertions (cleandoc), `__init__.__doc__ is None`, base chain, same-instance round-trip, chaining, None no-op; the pre-existing init/add/no-op/get tests were already green, new assertions pass against the corrected docstrings]
+  - [x] Step 3 — Implement model class (Green)  [implementation verified complete from b1c7030b (PEP 526 `fields`, None no-op addField, typed list, checklist); deviation fixed this batch: fabricated field member doc "Value specifications that constitute the fields of the record." replaced with the Table 5.112 field Note verbatim]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note verbatim; field inline comment, addField, and getFields docs re-synced this batch to the Table 5.112 field Note verbatim (XSD l.96176); addField carries the None-no-op + chaining sentences]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [verified: test_arxml_parser_orchestrators getRecordValueSpecification full/empty-FIELDS cases, test_writer_data_types + test_arxml_writer round-trips — all green]
+  - [x] Step 6 — Update parser & writer (Green)  [verified: getRecordValueSpecification/writeRecordValueSpecification cover SHORT-LABEL and polymorphic FIELDS dispatch; no production parser/writer change required]
   - [x] Step 7 — Update checklist comment  [Table 5.112, p.435; init/add/get rows with six columns and R23-11 release]
-  - [x] Step 8 — Deviations  [none: field aggregation uses dedicated typed plural list `fields`; all spec members have reader/writer coverage]
-  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, lint, Black check, and diff check passed; 9b: user-confirmed matched base, member type/order, verbatim Note, reader/writer coverage, and no deviations; marker `# Spec verified: R23-11` written]
+  - [x] Step 8 — Deviations  [fixed this batch: field member Note had been paraphrased, now verbatim; none remaining: field aggregation uses dedicated typed plural list `fields`; all spec members have reader/writer coverage]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a re-run this batch: 588 focused tests, lint, Black pass; 9b: user-confirmed matched base, member type/order, verbatim Note, reader/writer coverage; marker `# Spec verified: R23-11` present — batch stamp confirmation deferred (user instruction 2026-09-22)]
 - [x] `CompositeRuleBasedValueArgument` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.136 · member type of `CompositeRuleBasedValueSpecification.compoundPrimitiveArgument` below · base ARObject, no complex members) — verified R23-11 (commit pending)
   - [x] Step 1 — Sync members & description from spec  [Table 5.136, p.473; abstract Class; Base ARObject; no own Attribute rows; Note copied verbatim: "This meta-class has the ability to serve as the abstract base class for ValueSpecifications that can be used for compound primitive data types."]
   - [x] Step 2 — Write model class unit test (Red)  [abstract guard, exact Note/base assertions, and concrete-subclass initialization; stale Note failed before implementation]
@@ -913,7 +913,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [Table 5.121, p.450; init + four getter/setter pairs with six columns and R23-11 release]
   - [x] Step 8 — Deviations  [none: all four PDF members modeled with PDF types, Kind=ref represented as unitRef, member order and XML sequence offsets preserved, reader/writer coverage complete]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused model/parser/writer tests, lint, Black check, and diff check passed; 9b: user-confirmed cross-page class Note, blank lines between members, base, member types/order, complete XML coverage, and no deviations; marker `# Spec verified: R23-11` written]
-- [x] `SwCalprmAxisSet` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.46 · deps stamped: `swCalprmAxis` SwCalprmAxis ✓) — verified R23-11 (commit pending)
+- [x] `SwCalprmAxisSet` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.46 · deps stamped: `swCalprmAxis` SwCalprmAxis ✓) — already verified (# Spec verified: R23-11, `src/armodel/models/M2/MSR/DataDictionary/CalibrationParameter.py`; commit 9209b83e)
   - [x] Step 1 — Sync members & description from spec  [Table 5.46, p.352; Base ARObject; ordered member swCalprmAxis SwCalprmAxis aggr *; member Note and Tags copied from the SwCalprmAxisSet table block preceding the cross-page Table 5.46 title]
   - [x] Step 2 — Write model class unit test (Red)  [existing tests extended with exact ARObject base/class Note, typed aggregation defaults, chaining, and None no-op assertions; stale Note and non-chaining mutator failed before implementation]
   - [x] Step 3 — Implement model class (Green)  [typed `swCalprmAxis: List[SwCalprmAxis]` replaces private type-comment field; guarded `addSwCalprmAxis` returns self]
@@ -922,7 +922,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 6 — Update parser & writer (Green)  [existing getSwCalprmAxisSet/setSwCalprmAxisSet XML dispatch already covers the aggregation; no production XML change required]
   - [x] Step 7 — Update checklist comment  [Table 5.46, p.352; init/add/get rows with six columns and R23-11 release]
   - [x] Step 8 — Deviations  [none: one PDF aggregation modeled with dedicated typed plural list, XML order and concrete helpers preserved]
-  - [ ] Step 9 — Verify (9a) + confirm (9b)  [9a rerun after correcting the cross-page class Note; awaiting 9b confirmation]
+  - [ ] Step 9 — Verify (9a) + confirm (9b)  [9a rerun after correcting the cross-page class Note: 601 focused tests + lint + black green (batch4 2026-09-21); 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)** — marker `# Spec verified: R23-11` already present in src]
  - [x] `SwAxisIndividual` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.50 · after `CompuMethod` (ref `compuMethod`) + `DataConstr` (ref `dataConstr`) · `inputVariableType` ApplicationPrimitiveDataType queued in Group2 ✓ · deps stamped: `swAxisGeneric` SwAxisGeneric ✓ / `swVariableRef` SwVariableRefProxy ✓ / `unit` Unit ✓ / parent SwCalprmAxisTypeProps ✓) — verified R23-11 (commit 842e1e42)
    - [x] Step 1 — Sync members & description from spec [8 own attrs; Base ARObject + SwCalprmAxisTypeProps; p.355 via pdf_page.py; XSD order cross-checked]
    - [x] Step 2 — Write model class unit test (Red) [typed defaults, None-safe setters, ordered variable proxy aggregation; failed before implementation]
@@ -961,7 +961,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [x] `SwRecordLayoutGroupContent` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.100 · member type of `SwRecordLayoutGroup.swRecordLayoutGroupContentType` below) — verified R23-11 (commit 0f19d490)
+- [x] `SwRecordLayoutGroupContent` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.100 · member type of `SwRecordLayoutGroup.swRecordLayoutGroupContentType` below) — already verified (# Spec verified: R23-11, `src/armodel/models/M2/MSR/DataDictionary/RecordLayout.py`; commit 0f19d490)
   - [x] Step 1 — Sync members & description from spec [<<atpMixed>> class; Base ARObject; 3 own attrs; p.424 via pdf_page.py; XSD order cross-checked]
   - [x] Step 2 — Write model class unit test (Red) [typed defaults and None-safe setters; failed before implementation]
   - [x] Step 3 — Implement model class (Green) [typed PEP 526 members and None-safe setters]
@@ -971,16 +971,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment [6-column R23-11 checklist, all own methods covered]
   - [x] Step 8 — Deviations [none outstanding]
   - [x] Step 9 — Verify (9a) + confirm (9b) [9a: 407 focused tests, lint, Black check, diff check pass; 9b: user-confirmed member spacing, types, naming, order, docstrings, reader/writer coverage, and no deviations; marker # Spec verified: R23-11 written]
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [x] `SwGenericAxisParamType` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · ref target of `SwRecordLayoutGroup.swGenericAxisParamType` + `SwRecordLayoutV.swGenericAxisParamType` · **NOT in src** — class must be created when this row is synced) — verified R23-11 (commit 1eacd1a7)
+- [x] `SwGenericAxisParamType` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · ref target of `SwRecordLayoutGroup.swGenericAxisParamType` + `SwRecordLayoutV.swGenericAxisParamType` · **NOT in src** — class must be created when this row is synced) — already verified (# Spec verified: R23-11, `src/armodel/models/M2/MSR/DataDictionary/Axis.py`; commit 1eacd1a7)
   - [x] Step 1 — Sync members & description from spec [concrete Identifiable class; one dataConstr ref; p.356 via pdf_page.py; XSD inheritance/order cross-checked]
   - [x] Step 2 — Write model class unit test (Red) [missing class/import before implementation]
   - [x] Step 3 — Implement model class (Green) [created typed Identifiable class with None-safe dataConstr accessor; fixed class boundary after initial insertion-point regression]
@@ -990,15 +981,6 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment [6-column R23-11 checklist, all own methods covered]
   - [x] Step 8 — Deviations [none outstanding]
   - [x] Step 9 — Verify (9a) + confirm (9b) [9a: 392 focused tests, lint, Black check, diff check pass; 9b: user-confirmed inheritance, member spacing, type, naming, order, docstrings, reader/writer coverage, and no deviations; marker # Spec verified: R23-11 written]
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [x] `SwRecordLayoutV` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.98 · deps stamped: `baseType` SwBaseType ✓ / `desc` MultiLanguageOverviewParagraph ✓ / `swGenericAxisParamType` SwGenericAxisParamType ✓) — verified R23-11 (commit pending)
   - [x] Step 1 — Sync members & description from spec [8 attrs; Base ARObject; p.422 via pdf_page.py; XSD order cross-checked]
   - [x] Step 2 — Write model class unit test (Red) [typed defaults, chaining, None-safe setters; failed before implementation]
@@ -1050,25 +1032,25 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 8 — Deviations [none outstanding]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `GeneralAnnotation` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.56 (multiple tables — resolve in per-class Phase 0) · after `MultilanguageLongName` (aggr `label`) · `annotationText` DocumentationBlock stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec  [Phase 0 resolved: CP Table 4.56, p.163 (FO Table 4.71 is the twin; 4.4.10 class-overview table carries the full Note); abstract Class, Package GenericStructure::GeneralTemplateClasses::GeneralAnnotation, Base ARObject; displayed order annotationOrigin String 1 / annotationText DocumentationBlock 1 / label MultilanguageLongName 0..1; XSD group GENERAL-ANNOTATION l.63742 fixes XML order LABEL(20) → ANNOTATION-ORIGIN(30) → ANNOTATION-TEXT(40)]
+  - [x] Step 2 — Write model class unit test (Red)  [test_Annotation.py: verbatim-Note docstring assertion, `__init__.__doc__ is None`, base chain, abstract guard, defaults, round-trip + None no-op for all three setters (origin fixture String); Red confirmed honestly — 4 failed before implementation]
+  - [x] Step 3 — Implement model class (Green)  [annotationOrigin re-typed ARLiteral → Optional[String] per spec; PEP 526 members replace `# type:` comments; None no-op + return self on all setters; abstract guard retained]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note verbatim (single-line, XSD paragraph breaks flattened per table cell); attribute Notes = inline comment + getter/setter docstrings + None no-op sentence; no `__init__` docstring]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [new parser/test_general_annotation.py + writer/test_general_annotation.py: LABEL/ANNOTATION-ORIGIN/ANNOTATION-TEXT values, exact XSD child order, empty case, writer→reader round-trip]
+  - [x] Step 6 — Update parser & writer (Green)  [ANNOTATION-ORIGIN switched to getChildElementOptionalString/setChildElementOptionalString to match the String spec type (identical XML); existing LABEL/TEXT coverage and XSD order retained]
+  - [x] Step 7 — Update checklist comment  [Table 4.56, p.163; init + 3 getter/setter pairs with six columns and R23-11 release]
+  - [x] Step 8 — Deviations  [resolved deviation: annotationOrigin was ARLiteral (spec String); consumers all use getValue(), no fallout. XSD preserves the class Note's paragraph breaks — flattened to the PDF-table single-cell form for the docstring]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `FirewallActionEnum` (dependency · **re-queued 2026-09-22 — supersedes Group7's stale single-line 16.4 record** · **XSD-only re-confirmed** (no R23-11/R4.3.1 markdown Enumeration table, no PDF caption; the sys L49490+ Firewall rows are ECUC literal-mapping tables, not a class table; consumers `StateDependentFirewall.defaultAction` Table 6.234 + `FirewallRuleProps.action` Table 6.235) · AUTOSAR_00052.xsd complexType `FIREWALL-ACTION-ENUM` line 136671 ("List of actions that the Firewall is able to perform.") + `--SIMPLE` line 136683 · **in src** (AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py, AREnum, checklist present, NO marker) · **known deviation to arbitrate in Step 1: src literal order BLOCK=index 0 / ALLOW=index 1 contradicts the XSD `--SIMPLE` order and both ECUC mapping tables, which list ALLOW first → fix to allow=ALLOW index 0, block=BLOCK index 1 (wire values uppercase per XSD)** · marker `# XSD verified: AUTOSAR_00052.xsd` at 9b · AREnum — Steps 5/6 N/A (value form on consuming classes)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec  [XSD-only confirmed: complexType l.136671 Note verbatim "List of actions that the Firewall is able to perform."; --SIMPLE l.136683 literals ALLOW/BLOCK uppercase; **arbitration RESOLVED 2026-09-22 (user-confirmed): the row's reorder premise is refuted — the XSD's own atp.EnumerationLiteralIndex tags (l.136688 ALLOW="1", l.136694 BLOCK="0") are the authoritative index metadata and match the existing src BLOCK=0/ALLOW=1; the --SIMPLE document order and the ECUC mapping-table row order are alphabetical, not index metadata; reorder NOT applied**]
+  - [x] Step 2 — Write model class unit test (Red)  [existing TestFirewallActionEnum extended: ALLOW round-trip added, getEnumValues() == ("BLOCK", "ALLOW") pins the arbitrated order with the XSD line refs in the docstring; member presence/wire values/instantiability/docstring already covered]
+  - [x] Step 3 — Implement model class (Green)  [verified already spec-compliant — no code change: member comments carry the verbatim XSD literal Notes + EnumerationLiteralIndex tags, wire values uppercase, tuple (BLOCK, ALLOW), AREnum base]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class docstring == XSD Note verbatim (tested); literal comments verbatim ("Firewall blocks/allows the communication") with Tags; no __init__ docstring]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: AREnum has no own XML element — value form serialized on consuming classes; consumer coverage verified: readStateDependentFirewall DEFAULT-ACTION l.14030, writeFirewallRuleProps l.13753, readFirewallRuleProps l.14044]
+  - [x] Step 6 — Update parser & writer (Green)  [N/A: no production change — enum value form rides on StateDependentFirewall/FirewallRuleProps attr serialization, already covered]
+  - [x] Step 7 — Update checklist comment  [Spec line now cites XSD l.136671/136683 + consumer Tables 6.234/6.235; arbitration note recorded in the class checklist; six columns + R23-11 retained]
+  - [x] Step 8 — Deviations  [arbitrated: row's stated deviation (BLOCK/ALLOW order) does not exist against the authoritative tags; keeping BLOCK=0/ALLOW=1 means the literal Tags comments stay verbatim — reordering would have forced fabricating non-verbatim tag values; wire values unchanged in XML either way]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 
 
 ## Pending 16.4 resolution (NEW — not in src)
