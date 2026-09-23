@@ -1050,7 +1050,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 6 — Update parser & writer (Green)  [N/A: no production change — enum value form rides on StateDependentFirewall/FirewallRuleProps attr serialization, already covered]
   - [x] Step 7 — Update checklist comment  [Spec line now cites XSD l.136671/136683 + consumer Tables 6.234/6.235; arbitration note recorded in the class checklist; six columns + R23-11 retained]
   - [x] Step 8 — Deviations  [arbitrated: row's stated deviation (BLOCK/ALLOW order) does not exist against the authoritative tags; keeping BLOCK=0/ALLOW=1 means the literal Tags comments stay verbatim — reordering would have forced fabricating non-verbatim tag values; wire values unchanged in XML either way]
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
+  - [ ] Step 9 — Verify (9a) + confirm (9b)  [9a rerun 2026-09-24: 41 focused Firewall tests + 10929 unit tests + flake8 + ruff + black-check green; checklist == class body (XSD citation + arbitration note + __init__ row); docstring==XSD Note verbatim (tested); BLOCK=0/ALLOW=1 order pinned by test; marker will be `# XSD verified: AUTOSAR_00052.xsd`; **stamp deferred to batch confirmation (user instruction 2026-09-24)**]
 
 
 ## Pending 16.4 resolution (NEW — not in src)
