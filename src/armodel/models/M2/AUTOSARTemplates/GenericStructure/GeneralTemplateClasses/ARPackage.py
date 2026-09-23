@@ -112,6 +112,7 @@ __all__ = [
     "ConstantSpecification",
     "ConstantSpecificationMappingSet",
     "CryptoEllipticCurveProps",
+    "CryptoServiceCertificate",
     "CryptoServicePrimitive",
     "CryptoSignatureScheme",
     "DataConstr",
@@ -864,6 +865,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             scheme = CryptoSignatureScheme(self, short_name)
             self.addElement(scheme)
         return self.getElement(short_name, CryptoSignatureScheme)
+
+    def createCryptoServiceCertificate(self, short_name: str) -> CryptoServiceCertificate:
+
+        if not self.IsElementExists(short_name, CryptoServiceCertificate):
+            certificate = CryptoServiceCertificate(self, short_name)
+            self.addElement(certificate)
+        return self.getElement(short_name, CryptoServiceCertificate)
 
     def createCryptoServicePrimitive(self, short_name: str) -> CryptoServicePrimitive:
 
@@ -2061,6 +2069,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (  # noqa: E402
     CryptoEllipticCurveProps,
+    CryptoServiceCertificate,
     CryptoServicePrimitive,
     CryptoSignatureScheme,
 )

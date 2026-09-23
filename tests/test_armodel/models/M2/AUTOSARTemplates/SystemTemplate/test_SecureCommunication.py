@@ -8,6 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     CryptoCertificateAlgorithmFamilyEnum,
     CryptoCertificateFormatEnum,
     CryptoEllipticCurveProps,
+    CryptoServiceCertificate,
     CryptoServiceMapping,
     CryptoServicePrimitive,
     CryptoSignatureScheme,
@@ -633,6 +634,79 @@ class Test_CryptoSignatureSchemeSpec:
         assert scheme.getSignatureSchemeId() is scheme_id
         scheme.setSignatureSchemeId(None)
         assert scheme.getSignatureSchemeId() is scheme_id
+
+
+class Test_CryptoServiceCertificateSpec:
+    """Spec contract of CryptoServiceCertificate (AUTOSAR_CP_TPS_SystemTemplate, Table 6.218, p.565)."""
+
+    def test_docstring_is_spec_note_verbatim(self):
+        note = "This meta-class represents the ability to model a cryptographic certificate. Tags: atp.recommendedPackage=CryptoServiceCertificates"
+        assert CryptoServiceCertificate.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert CryptoServiceCertificate.__init__.__doc__ is None
+
+    def test_heritage(self):
+        # Base chain ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable, ARElement — most-derived is ARElement
+        parent = MockParent()
+        certificate = CryptoServiceCertificate(parent, "certificate")
+        assert isinstance(certificate, ARElement)
+        assert isinstance(certificate, Identifiable)
+
+    def test_initialization(self):
+        # Table 6.218 — all five attributes are optional (Mult 0..1, XSD minOccurs=0)
+        parent = MockParent()
+        certificate = CryptoServiceCertificate(parent, "certificate")
+        assert certificate.getAlgorithmFamily() is None
+        assert certificate.getFormat() is None
+        assert certificate.getMaximumLength() is None
+        assert certificate.getNextHigherCertificateRef() is None
+        assert certificate.getServerNameIdentification() is None
+
+    def test_get_set_algorithm_family(self):
+        parent = MockParent()
+        certificate = CryptoServiceCertificate(parent, "certificate")
+        family = CryptoCertificateAlgorithmFamilyEnum().setValue(CryptoCertificateAlgorithmFamilyEnum.RSA)
+        assert certificate.setAlgorithmFamily(family) is certificate
+        assert certificate.getAlgorithmFamily() is family
+        certificate.setAlgorithmFamily(None)
+        assert certificate.getAlgorithmFamily() is family
+
+    def test_get_set_format(self):
+        parent = MockParent()
+        certificate = CryptoServiceCertificate(parent, "certificate")
+        fmt = CryptoCertificateFormatEnum().setValue(CryptoCertificateFormatEnum.X_509)
+        assert certificate.setFormat(fmt) is certificate
+        assert certificate.getFormat() is fmt
+        certificate.setFormat(None)
+        assert certificate.getFormat() is fmt
+
+    def test_get_set_maximum_length(self):
+        parent = MockParent()
+        certificate = CryptoServiceCertificate(parent, "certificate")
+        length = _pos_int("4096")
+        assert certificate.setMaximumLength(length) is certificate
+        assert certificate.getMaximumLength() is length
+        certificate.setMaximumLength(None)
+        assert certificate.getMaximumLength() is length
+
+    def test_get_set_next_higher_certificate_ref(self):
+        parent = MockParent()
+        certificate = CryptoServiceCertificate(parent, "certificate")
+        ref = _ref("/Package/HigherCertificate")
+        assert certificate.setNextHigherCertificateRef(ref) is certificate
+        assert certificate.getNextHigherCertificateRef() is ref
+        certificate.setNextHigherCertificateRef(None)
+        assert certificate.getNextHigherCertificateRef() is ref
+
+    def test_get_set_server_name_identification(self):
+        parent = MockParent()
+        certificate = CryptoServiceCertificate(parent, "certificate")
+        sni = _string("example.com")
+        assert certificate.setServerNameIdentification(sni) is certificate
+        assert certificate.getServerNameIdentification() is sni
+        certificate.setServerNameIdentification(None)
+        assert certificate.getServerNameIdentification() is sni
 
 
 class Test_CryptoCertificateAlgorithmFamilyEnum:
