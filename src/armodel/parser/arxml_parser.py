@@ -13495,7 +13495,9 @@ class ARXMLParser(AbstractARXMLParser):
         period = None
         if child_element is not None:
             period = LifeCyclePeriod()
+            period.setDate(self.getChildElementOptionalDateTime(child_element, "DATE"))
             period.setArReleaseVersion(self.getChildElementOptionalRevisionLabelString(child_element, "AR-RELEASE-VERSION"))
+            period.setProductRelease(self.getChildElementOptionalRevisionLabelString(child_element, "PRODUCT-RELEASE"))
         return period
 
     def readLifeCycleInfoUseInsteadRefs(self, element: ET.Element, info: LifeCycleInfo):

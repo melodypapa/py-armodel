@@ -182,7 +182,16 @@ class AbstractARXMLParser(ABC):
         return literal
 
     def getChildElementOptionalDateTime(self, element: ET.Element, key: str) -> DateTime:
-        return self.getChildElementOptionalLiteral(element, key)
+        child_element = self.find(element, key)
+        literal = None
+        if child_element is not None:
+            literal = DateTime()
+            self.readARType(child_element, literal)
+            if child_element.text is None:
+                literal.setValue("")
+            else:
+                literal.setValue(child_element.text)
+        return literal
 
     def getChildElementOptionalString(self, element: ET.Element, key: str) -> String:
         child_element = self.find(element, key)

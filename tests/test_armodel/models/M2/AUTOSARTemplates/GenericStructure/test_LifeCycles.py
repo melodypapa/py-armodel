@@ -3,10 +3,10 @@ This module contains comprehensive tests for the LifeCycles.py file
 in the AUTOSAR GenericStructure module.
 """
 
-from datetime import datetime
+import typing
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, RevisionLabelString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, RefType, RevisionLabelString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
@@ -15,6 +15,54 @@ class TestLifeCyclePeriod:
     """
     Test class for LifeCyclePeriod functionality.
     """
+
+    def test_class_docstring_verbatim(self):
+        """
+        Test that the class docstring is the Table 12.4 Note verbatim.
+        """
+        assert (
+            LifeCyclePeriod.__doc__.strip()
+            == "This meta class represents the ability to specify a point of time within a specified period, e.g. the starting or end point, in which a specific life cycle state is valid/applies to."
+        )
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ has no docstring (spec Notes live in inline member comments).
+        """
+        assert LifeCyclePeriod.__init__.__doc__ is None
+
+    def test_ar_release_version_typed_revision_label_string(self):
+        """
+        Test that arReleaseVersion is typed RevisionLabelString per Table 12.4 (getter/setter annotations).
+        """
+        getter_hints = typing.get_type_hints(LifeCyclePeriod.getArReleaseVersion)
+        assert getter_hints.get("return") == typing.Optional[RevisionLabelString]
+
+        setter_hints = typing.get_type_hints(LifeCyclePeriod.setArReleaseVersion)
+        assert setter_hints.get("value") == typing.Optional[RevisionLabelString]
+        assert setter_hints.get("return") is LifeCyclePeriod
+
+    def test_date_typed_date_time(self):
+        """
+        Test that date is typed DateTime per Table 12.4 (getter/setter annotations).
+        """
+        getter_hints = typing.get_type_hints(LifeCyclePeriod.getDate)
+        assert getter_hints.get("return") == typing.Optional[DateTime]
+
+        setter_hints = typing.get_type_hints(LifeCyclePeriod.setDate)
+        assert setter_hints.get("value") == typing.Optional[DateTime]
+        assert setter_hints.get("return") is LifeCyclePeriod
+
+    def test_product_release_typed_revision_label_string(self):
+        """
+        Test that productRelease is typed RevisionLabelString per Table 12.4 (getter/setter annotations).
+        """
+        getter_hints = typing.get_type_hints(LifeCyclePeriod.getProductRelease)
+        assert getter_hints.get("return") == typing.Optional[RevisionLabelString]
+
+        setter_hints = typing.get_type_hints(LifeCyclePeriod.setProductRelease)
+        assert setter_hints.get("value") == typing.Optional[RevisionLabelString]
+        assert setter_hints.get("return") is LifeCyclePeriod
 
     def test_initialization(self):
         """
@@ -87,8 +135,8 @@ class TestLifeCyclePeriod:
         """
         period = LifeCyclePeriod()
 
-        # Create mock datetime instance
-        test_date = datetime.now()
+        # Create DateTime instance per Table 12.4
+        test_date = DateTime().setValue("2023-06-15T12:00:00+01:00")
 
         # Set the date
         result = period.setDate(test_date)
@@ -102,7 +150,7 @@ class TestLifeCyclePeriod:
         period = LifeCyclePeriod()
 
         # Set initial value
-        initial_date = datetime.now()
+        initial_date = DateTime().setValue("2023-06-15T12:00:00+01:00")
         period.setDate(initial_date)
         assert period.getDate() == initial_date
 

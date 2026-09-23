@@ -12614,7 +12614,9 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setLifeCyclePeriod(self, element: ET.Element, key: str, period: LifeCyclePeriod):
         if period is not None:
             child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalDateTime(child_element, "DATE", period.getDate())
             self.setChildElementOptionalRevisionLabelString(child_element, "AR-RELEASE-VERSION", period.getArReleaseVersion())
+            self.setChildElementOptionalRevisionLabelString(child_element, "PRODUCT-RELEASE", period.getProductRelease())
 
     def writeLifeCycleInfoUseInsteadRefs(self, element: ET.Element, info: LifeCycleInfo):
         refs = info.getUseInsteadRefs()

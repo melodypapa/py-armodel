@@ -435,6 +435,17 @@ No deviations.
 
 > Resolution Note (sync 2026-09-24): resynced against the home document `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`, Table 4.74, p.165 — the BSWModuleDescriptionTemplate Table 8.22 row above is a byte-equivalent reproduction, and its p.164 page reference was off by one (actual p.165). Fields/accessors match the spec exactly (cseCode CseCodeType 0..1, cseCodeFactor Integer 0..1, displayed order cseCode→cseCodeFactor); no naming/type/missing deviations. Sync fixes: the old 4-column checklist and the pre-existing `# Spec verified: R23-11` stamp were replaced with the 6-column format (marker withheld pending batch confirmation); fabricated class-docstring paragraphs and "Gets/Sets the…" paraphrase docstrings wiped and rewritten verbatim from the spec Notes; reader type gap fixed — parser/writer now use the matched `getChildElementOptionalCseCodeType`/`setChildElementOptionalCseCodeType` leaf pair (cseCode round-trips as CseCodeType, not plain ARLiteral). Tests: test_MultidimensionalTime.py (model), test_multidimensional_time.py (parser + writer).
 
+## `LifeCyclePeriod`
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 392 (Table 12.4)
+- **Package:** `M2::AUTOSARTemplates::GenericStructure::LifeCycles`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/LifeCycles.py`
+
+**Note:** Synced 2026-09-24 against R23-11 Table 12.4 (R4.3.1 Table 11.4 reproduction byte-identical, same displayed order). Deviations found and fixed during the sync — no open rows remain: `date` retyped `Optional[datetime]` → `Optional[DateTime]` per the spec DateTime type (reader now uses the matched `getChildElementOptionalDateTime` helper, whose ARLiteral-delegating body was fixed to instantiate `DateTime` — the same reader type gap previously fixed for CseCodeType); reader/writer coverage extended from AR-RELEASE-VERSION-only to all three attributes with XSD sequenceOffset emission order DATE → AR-RELEASE-VERSION → PRODUCT-RELEASE (consumer wiring of PERIOD-END / DEFAULT-PERIOD-BEGIN / DEFAULT-PERIOD-END belongs to the LifeCycleInfo / LifeCycleInfoSet syncs). Stamp (`# Spec verified: R23-11`) deferred to batch confirmation.
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | All Table 12.4 attributes implemented: `arReleaseVersion` (`Optional[RevisionLabelString]`, 0..1, attr, xml.sequenceOffset=20), `date` (`Optional[DateTime]`, 0..1, attr, xml.sequenceOffset=10), `productRelease` (`Optional[RevisionLabelString]`, 0..1, attr, xml.sequenceOffset=30); setters None-no-op + chaining; docstrings verbatim from the table Notes. |
+
 ## `AnalyzedExecutionTime`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 164
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime`

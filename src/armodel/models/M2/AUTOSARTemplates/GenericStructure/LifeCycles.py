@@ -4,79 +4,64 @@ in the GenericStructure module.
 """
 
 from typing import List, Optional
-from datetime import datetime
 
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, RevisionLabelString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, RefType, RevisionLabelString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 
 
 class LifeCyclePeriod(ARObject):
     """
-    This meta class represents the ability to specify a point of time within a specified period, e.g. the starting
-    or end point, in which a specific life cycle state is valid/applies to.
+    This meta class represents the ability to specify a point of time within a specified period, e.g. the starting or end point, in which a specific life cycle state is valid/applies to.
     """
 
     # LifeCyclePeriod method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [x] getArReleaseVersion          [x] impl  [x] docstring  [x] test
-    # [x] setArReleaseVersion          [x] impl  [x] docstring  [x] test
-    # [x] getDate                      [x] impl  [x] docstring  [x] test
-    # [x] setDate                      [x] impl  [x] docstring  [x] test
-    # [x] getProductRelease            [x] impl  [x] docstring  [x] test
-    # [x] setProductRelease            [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 12.4, p.392
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArReleaseVersion   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArReleaseVersion   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDate               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDate               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProductRelease     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProductRelease     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
+        # Version of the AUTOSAR Release the element referred to is part of. The numbering contains three levels (major, minor, revision) which are defined by AUTOSAR. Tags: xml.sequenceOffset=20
         self.arReleaseVersion: Optional[RevisionLabelString] = None
-        self.date: Optional[datetime] = None
+
+        # Date within period. Tags: xml.sequenceOffset=10
+        self.date: Optional[DateTime] = None
+
+        # Version of the product within the period. Tags: xml.sequenceOffset=30
         self.productRelease: Optional[RevisionLabelString] = None
 
     def getArReleaseVersion(self) -> Optional[RevisionLabelString]:
         """
-        Gets the AUTOSAR release version for this life cycle period.
-
-        Returns:
-            RevisionLabelString representing the AUTOSAR release version, or None if not set
+        Version of the AUTOSAR Release the element referred to is part of. The numbering contains three levels (major, minor, revision) which are defined by AUTOSAR.
         """
         return self.arReleaseVersion
 
-    def setArReleaseVersion(self, value: RevisionLabelString):
+    def setArReleaseVersion(self, value: Optional[RevisionLabelString]) -> "LifeCyclePeriod":
         """
-        Sets the AUTOSAR release version for this life cycle period.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The AUTOSAR release version to set
-
-        Returns:
-            self for method chaining
+        Version of the AUTOSAR Release the element referred to is part of. The numbering contains three levels (major, minor, revision) which are defined by AUTOSAR. A None value is a no-op and does not overwrite an existing AUTOSAR release version.
         """
         if value is not None:
             self.arReleaseVersion = value
         return self
 
-    def getDate(self) -> Optional[datetime]:
+    def getDate(self) -> Optional[DateTime]:
         """
-        Gets the date for this life cycle period.
-
-        Returns:
-            datetime object representing the date, or None if not set
+        Date within period.
         """
         return self.date
 
-    def setDate(self, value: datetime):
+    def setDate(self, value: Optional[DateTime]) -> "LifeCyclePeriod":
         """
-        Sets the date for this life cycle period.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The date to set
-
-        Returns:
-            self for method chaining
+        Date within period. A None value is a no-op and does not overwrite an existing date.
         """
         if value is not None:
             self.date = value
@@ -84,23 +69,13 @@ class LifeCyclePeriod(ARObject):
 
     def getProductRelease(self) -> Optional[RevisionLabelString]:
         """
-        Gets the product release for this life cycle period.
-
-        Returns:
-            RevisionLabelString representing the product release, or None if not set
+        Version of the product within the period.
         """
         return self.productRelease
 
-    def setProductRelease(self, value: RevisionLabelString):
+    def setProductRelease(self, value: Optional[RevisionLabelString]) -> "LifeCyclePeriod":
         """
-        Sets the product release for this life cycle period.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The product release to set
-
-        Returns:
-            self for method chaining
+        Version of the product within the period. A None value is a no-op and does not overwrite an existing product release.
         """
         if value is not None:
             self.productRelease = value
