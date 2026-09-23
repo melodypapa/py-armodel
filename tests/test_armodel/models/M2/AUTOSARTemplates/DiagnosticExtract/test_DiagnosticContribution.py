@@ -1,5 +1,7 @@
 """Model tests for DiagnosticServiceTable (Table 4.16, p.59)."""
 
+import inspect
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
@@ -9,13 +11,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 NOTE = "This meta-class represents a model of a diagnostic service table, i.e. the UDS services applicable for a given ECU. Tags: atp.recommendedPackage=DiagnosticServiceTables"
 DIAGNOSTIC_CONNECTION_NOTE = (
     "This represents the DiagnosticConnection that is taken for handling the data transmission for the enclosing DiagnosticServiceTable. "
-    "It is possible to refer to more than one diagnosticConnections in order to support more than one diagnostic tester. "
+    "It is possible to refer to more than one diagnostic Connections in order to support more than one diagnostic tester. "
     "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=diagnosticConnection.diagnosticConnection, diagnosticConnection.variationPoint.shortLabel vh.latestBindingTime=postBuild"
 )
 ECU_INSTANCE_NOTE = "This represents the applicable EcuInstance for this DiagnosticServiceTable. Stereotypes: atpSplitable Tags: atp.Splitkey=ecuInstance"
 PROTOCOL_KIND_NOTE = "This identifies the applicable protocol."
 SERVICE_INSTANCE_NOTE = (
-    "This represents the collection of DiagnosticServiceInstances to be considered in the scope of this DiagnosticServiceTable, " "Stereotypes: atpSplitable Tags: atp.Splitkey=serviceInstance"
+    "This represents the collection of DiagnosticService Instances to be considered in the scope of this Diagnostic ServiceTable, " "Stereotypes: atpSplitable Tags: atp.Splitkey=serviceInstance"
 )
 
 
@@ -52,6 +54,13 @@ class TestDiagnosticServiceTable:
         assert table.getEcuInstanceRef() is None
         assert table.getProtocolKind() is None
         assert table.getServiceInstanceRefs() == []
+
+    def test_member_comments_are_spec_notes_verbatim(self):
+        source = inspect.getsource(DiagnosticServiceTable.__init__)
+        assert "# " + DIAGNOSTIC_CONNECTION_NOTE in source
+        assert "# " + ECU_INSTANCE_NOTE in source
+        assert "# " + PROTOCOL_KIND_NOTE in source
+        assert "# " + SERVICE_INSTANCE_NOTE in source
 
     def test_add_diagnostic_connection_ref_appends_none_no_op_returns_self(self):
         table = _table()
@@ -100,14 +109,13 @@ class TestDiagnosticServiceTable:
         assert table.getServiceInstanceRefs() == [ref1, ref2]
 
     def test_accessor_docstrings_are_spec_notes_verbatim(self):
-        def norm(doc):
-            return " ".join(doc.split())
+        import inspect
 
-        assert norm(DiagnosticServiceTable.getDiagnosticConnectionRefs.__doc__) == DIAGNOSTIC_CONNECTION_NOTE
-        assert norm(DiagnosticServiceTable.addDiagnosticConnectionRef.__doc__) == (DIAGNOSTIC_CONNECTION_NOTE + " A None value does not extend the diagnosticConnectionRefs list.")
-        assert norm(DiagnosticServiceTable.getEcuInstanceRef.__doc__) == ECU_INSTANCE_NOTE
-        assert norm(DiagnosticServiceTable.setEcuInstanceRef.__doc__) == (ECU_INSTANCE_NOTE + " A None value is a no-op and does not overwrite an existing ecuInstanceRef.")
-        assert norm(DiagnosticServiceTable.getProtocolKind.__doc__) == PROTOCOL_KIND_NOTE
-        assert norm(DiagnosticServiceTable.setProtocolKind.__doc__) == (PROTOCOL_KIND_NOTE + " A None value is a no-op and does not overwrite an existing protocolKind.")
-        assert norm(DiagnosticServiceTable.getServiceInstanceRefs.__doc__) == SERVICE_INSTANCE_NOTE
-        assert norm(DiagnosticServiceTable.addServiceInstanceRef.__doc__) == (SERVICE_INSTANCE_NOTE + " A None value does not extend the serviceInstanceRefs list.")
+        assert inspect.cleandoc(DiagnosticServiceTable.getDiagnosticConnectionRefs.__doc__) == DIAGNOSTIC_CONNECTION_NOTE
+        assert inspect.cleandoc(DiagnosticServiceTable.addDiagnosticConnectionRef.__doc__) == (DIAGNOSTIC_CONNECTION_NOTE + "\n\nA None value does not extend the diagnosticConnectionRefs list.")
+        assert inspect.cleandoc(DiagnosticServiceTable.getEcuInstanceRef.__doc__) == ECU_INSTANCE_NOTE
+        assert inspect.cleandoc(DiagnosticServiceTable.setEcuInstanceRef.__doc__) == (ECU_INSTANCE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ecuInstanceRef.")
+        assert inspect.cleandoc(DiagnosticServiceTable.getProtocolKind.__doc__) == PROTOCOL_KIND_NOTE
+        assert inspect.cleandoc(DiagnosticServiceTable.setProtocolKind.__doc__) == (PROTOCOL_KIND_NOTE + "\n\nA None value is a no-op and does not overwrite an existing protocolKind.")
+        assert inspect.cleandoc(DiagnosticServiceTable.getServiceInstanceRefs.__doc__) == SERVICE_INSTANCE_NOTE
+        assert inspect.cleandoc(DiagnosticServiceTable.addServiceInstanceRef.__doc__) == (SERVICE_INSTANCE_NOTE + "\n\nA None value does not extend the serviceInstanceRefs list.")
