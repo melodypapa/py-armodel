@@ -21,13 +21,19 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     ConditionByFormula,
     PostBuildVariantCondition,
+    PostBuildVariantCriterionValue,
     VariationPoint,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
     LimitValueVariationPoint,
     NumericalValueVariationPoint,
 )
+from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 from armodel.writer.arxml_writer import ARXMLWriter
+
+NS = "http://autosar.org/schema/r4.0"
 
 
 def _write_vp_to_element(vp: VariationPoint) -> ET.Element:
@@ -221,6 +227,61 @@ class TestWritePostBuildVariantCriterion:
         criterion_element = element.find("POST-BUILD-VARIANT-CRITERION")
         assert criterion_element is not None
         assert criterion_element.find("COMPU-METHOD-REF") is None
+
+
+class TestWritePostBuildVariantCriterionValue:
+    """Table 7.27 (AUTOSAR_FO_TPS_GenericStructureTemplate, p.259): the class's own
+    writePostBuildVariantCriterionValue helper (XSD 00052 group POST-BUILD-VARIANT-CRITERION-VALUE,
+    line 93322: VARIANT-CRITERION-REF, VALUE, ANNOTATIONS per xml.sequenceOffset 10/20/30)."""
+
+    def test_write_post_build_variant_criterion_value_element_order(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        writer = ARXMLWriter()
+
+        value = PostBuildVariantCriterionValue()
+        value.setVariantCriterionRef(RefType().setValue("/Demo/Criterions/Country").setDest("POST-BUILD-VARIANT-CRITERION"))
+        value.setValue(Integer().setValue("42"))
+        annotation = Annotation()
+        label = MultilanguageLongName()
+        l4 = LLongName()
+        l4.setL("EN")
+        l4.setValue("Country is Germany")
+        label.addL4(l4)
+        annotation.setLabel(label)
+        value.addAnnotation(annotation)
+
+        element = ET.Element("PARENT")
+        writer.writePostBuildVariantCriterionValue(element, value)
+
+        value_element = element.find("POST-BUILD-VARIANT-CRITERION-VALUE")
+        assert value_element is not None
+        child_tags = [child.tag for child in value_element]
+        assert child_tags == ["VARIANT-CRITERION-REF", "VALUE", "ANNOTATIONS"]
+        ref_element = value_element.find("VARIANT-CRITERION-REF")
+        assert ref_element.text == "/Demo/Criterions/Country"
+        assert ref_element.attrib["DEST"] == "POST-BUILD-VARIANT-CRITERION"
+        assert value_element.find("VALUE").text == "42"
+        annotations_element = value_element.find("ANNOTATIONS")
+        assert len(annotations_element) == 1
+        assert annotations_element.find("ANNOTATION/LABEL/L-4").text == "Country is Germany"
+        assert annotations_element.find("ANNOTATION/LABEL/L-4").attrib["L"] == "EN"
+
+    def test_write_empty_post_build_variant_criterion_value_emits_bare_element(self):
+        """A criterion value with no fields set writes a bare POST-BUILD-VARIANT-CRITERION-VALUE
+        without children (writer tolerates the empty form its reader must accept)."""
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        writer = ARXMLWriter()
+
+        element = ET.Element("PARENT")
+        writer.writePostBuildVariantCriterionValue(element, PostBuildVariantCriterionValue())
+
+        value_element = element.find("POST-BUILD-VARIANT-CRITERION-VALUE")
+        assert value_element is not None
+        assert len(value_element) == 0
 
 
 class TestWriteConditionByFormula:
@@ -602,3 +663,48 @@ class TestPostBuildVariantCriterionRoundTrip:
         ref_2 = criterion_2.getCompuMethodRef()
         assert ref_2.getValue() == "/Demo/CompuMethods/CountryEnum"
         assert ref_2.getDest() == "COMPU-METHOD"
+
+
+class TestPostBuildVariantCriterionValueRoundTrip:
+    """Table 7.27 round-trip: write -> re-read preserves every
+    PostBuildVariantCriterionValue field. The element-level carrier stands in for
+    the document-level dispatch: the aggregating PostBuildVariantCriterionValueSet
+    class does not exist in armodel yet, so no ARPackage.element dispatch reaches
+    this element and the pair is exercised through its own helpers."""
+
+    def test_round_trip_fields_preserved(self):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        writer = ARXMLWriter()
+
+        value = PostBuildVariantCriterionValue()
+        value.setVariantCriterionRef(RefType().setValue("/Demo/Criterions/Country").setDest("POST-BUILD-VARIANT-CRITERION"))
+        value.setValue(Integer().setValue("42"))
+        annotation = Annotation()
+        label = MultilanguageLongName()
+        l4 = LLongName()
+        l4.setL("EN")
+        l4.setValue("Country is Germany")
+        label.addL4(l4)
+        annotation.setLabel(label)
+        value.addAnnotation(annotation)
+
+        element = ET.Element("PARENT")
+        writer.writePostBuildVariantCriterionValue(element, value)
+        xml_text = ET.tostring(element.find("POST-BUILD-VARIANT-CRITERION-VALUE"), encoding="unicode")
+
+        element_2 = ET.fromstring("<ROOT xmlns='%s'>%s</ROOT>" % (NS, xml_text))
+        value_element = element_2.find("{%s}POST-BUILD-VARIANT-CRITERION-VALUE" % NS)
+        value_2 = ARXMLParser().readPostBuildVariantCriterionValue(value_element, PostBuildVariantCriterionValue())
+
+        ref_2 = value_2.getVariantCriterionRef()
+        assert ref_2.getValue() == "/Demo/Criterions/Country"
+        assert ref_2.getDest() == "POST-BUILD-VARIANT-CRITERION"
+        assert value_2.getValue().getValue() == 42
+        annotations_2 = value_2.getAnnotations()
+        assert len(annotations_2) == 1
+        assert isinstance(annotations_2[0], Annotation)
+        assert annotations_2[0].getLabel().getL4s()[0].getValue() == "Country is Germany"

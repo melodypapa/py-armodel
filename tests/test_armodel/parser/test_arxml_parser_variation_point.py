@@ -9,8 +9,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
     ConditionByFormula,
     PostBuildVariantCondition,
     PostBuildVariantCriterion,
+    PostBuildVariantCriterionValue,
     VariationPoint,
 )
+from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 from tests.test_armodel.parser._helpers import _snip
@@ -257,6 +259,63 @@ class TestReadPostBuildVariantCriterion:
         assert criterions[0].getShortName() == "Country"
         assert criterions[0].getCompuMethodRef().getValue() == "/Demo/CompuMethods/CountryEnum"
         assert criterions[0].getCompuMethodRef().getDest() == "COMPU-METHOD"
+
+
+class TestReadPostBuildVariantCriterionValue:
+    """Table 7.27 (AUTOSAR_FO_TPS_GenericStructureTemplate, p.259): the class's own
+    readPostBuildVariantCriterionValue helper (XSD 00052 group POST-BUILD-VARIANT-CRITERION-VALUE,
+    line 93322: VARIANT-CRITERION-REF, VALUE, ANNOTATIONS)."""
+
+    def test_read_post_build_variant_criterion_value_reads_fields(self, parser):
+        inner = (
+            "<POST-BUILD-VARIANT-CRITERION-VALUE>"
+            '<VARIANT-CRITERION-REF DEST="POST-BUILD-VARIANT-CRITERION">/Demo/Criterions/Country</VARIANT-CRITERION-REF>'
+            "<VALUE>42</VALUE>"
+            "<ANNOTATIONS>"
+            "<ANNOTATION>"
+            "<LABEL>"
+            '<L-4 L="EN">Country is Germany</L-4>'
+            "</LABEL>"
+            "</ANNOTATION>"
+            "</ANNOTATIONS>"
+            "</POST-BUILD-VARIANT-CRITERION-VALUE>"
+        )
+        element = _snip(inner).find("{%s}POST-BUILD-VARIANT-CRITERION-VALUE" % NS)
+
+        value = parser.readPostBuildVariantCriterionValue(element, PostBuildVariantCriterionValue())
+
+        ref = value.getVariantCriterionRef()
+        assert ref.getValue() == "/Demo/Criterions/Country"
+        assert ref.getDest() == "POST-BUILD-VARIANT-CRITERION"
+        assert value.getValue().getValue() == 42
+        annotations = value.getAnnotations()
+        assert len(annotations) == 1
+        assert isinstance(annotations[0], Annotation)
+        assert annotations[0].getLabel().getL4s()[0].getValue() == "Country is Germany"
+
+    def test_read_empty_post_build_variant_criterion_value_leaves_fields_empty(self, parser):
+        """An empty POST-BUILD-VARIANT-CRITERION-VALUE (XSD minOccurs="0" for all three
+        children) parses to a value object with all fields left empty."""
+        inner = "<POST-BUILD-VARIANT-CRITERION-VALUE/>"
+        element = _snip(inner).find("{%s}POST-BUILD-VARIANT-CRITERION-VALUE" % NS)
+
+        value = parser.readPostBuildVariantCriterionValue(element, PostBuildVariantCriterionValue())
+
+        assert value.getVariantCriterionRef() is None
+        assert value.getValue() is None
+        assert value.getAnnotations() == []
+
+    def test_read_post_build_variant_criterion_value_value_only(self, parser):
+        """A criterion value carrying only VALUE (ref and annotations absent) keeps all
+        fields faithful: ref None, value read, no annotations."""
+        inner = "<POST-BUILD-VARIANT-CRITERION-VALUE>" "<VALUE>7</VALUE>" "</POST-BUILD-VARIANT-CRITERION-VALUE>"
+        element = _snip(inner).find("{%s}POST-BUILD-VARIANT-CRITERION-VALUE" % NS)
+
+        value = parser.readPostBuildVariantCriterionValue(element, PostBuildVariantCriterionValue())
+
+        assert value.getVariantCriterionRef() is None
+        assert value.getValue().getValue() == 7
+        assert value.getAnnotations() == []
 
 
 class TestReadVariationPointProxy:

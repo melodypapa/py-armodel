@@ -489,6 +489,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
     ConditionByFormula,
     PostBuildVariantCondition,
     PostBuildVariantCriterion,
+    PostBuildVariantCriterionValue,
     PredefinedVariant,
     SwSystemconstantValueSet,
     SwSystemconstValue,
@@ -1292,6 +1293,17 @@ class ARXMLParser(AbstractARXMLParser):
         condition.setMatchingCriterionRef(self.getChildElementOptionalRefType(element, "MATCHING-CRITERION-REF"))
         condition.setValue(self.getChildElementOptionalIntegerValue(element, "VALUE"))
         return condition
+
+    def readPostBuildVariantCriterionValue(self, element: ET.Element, value: PostBuildVariantCriterionValue) -> PostBuildVariantCriterionValue:
+        self.readARObject(element, value)
+        # VARIANT-CRITERION-REF, VALUE and ANNOTATIONS all carry minOccurs="0" in the XSD
+        # (AUTOSAR_00052.xsd group POST-BUILD-VARIANT-CRITERION-VALUE) — an empty
+        # POST-BUILD-VARIANT-CRITERION-VALUE is schema-legal and parses to an empty model.
+        value.setVariantCriterionRef(self.getChildElementOptionalRefType(element, "VARIANT-CRITERION-REF"))
+        value.setValue(self.getChildElementOptionalIntegerValue(element, "VALUE"))
+        for annotation in self.getAnnotations(element):
+            value.addAnnotation(annotation)
+        return value
 
     def readVariationPoint(self, element: ET.Element, variation_point: VariationPoint) -> VariationPoint:
         self.readARObject(element, variation_point)

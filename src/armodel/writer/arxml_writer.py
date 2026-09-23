@@ -358,6 +358,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
     ConditionByFormula,
     PostBuildVariantCondition,
     PostBuildVariantCriterion,
+    PostBuildVariantCriterionValue,
     PredefinedVariant,
     SwSystemconstantValueSet,
     SwSystemconstValue,
@@ -1167,6 +1168,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARObject(child_element, condition)
         self.setChildElementOptionalRefType(child_element, "MATCHING-CRITERION-REF", condition.getMatchingCriterionRef())
         self.setChildElementOptionalIntegerValue(child_element, "VALUE", condition.getValue())
+
+    def writePostBuildVariantCriterionValue(self, element: ET.Element, value: PostBuildVariantCriterionValue):
+        child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CRITERION-VALUE")
+        self.writeARObject(child_element, value)
+        self.setChildElementOptionalRefType(child_element, "VARIANT-CRITERION-REF", value.getVariantCriterionRef())
+        self.setChildElementOptionalIntegerValue(child_element, "VALUE", value.getValue())
+        self.setAnnotations(child_element, value.getAnnotations())
 
     def writeVariationPoint(self, element: ET.Element, variation_point: VariationPoint):
         if variation_point is not None:

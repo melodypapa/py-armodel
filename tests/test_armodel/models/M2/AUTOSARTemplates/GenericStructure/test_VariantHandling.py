@@ -358,6 +358,94 @@ class TestPostBuildVariantCriterionValue:
         assert value.getVariantCriterionRef() == criterion_ref
 
 
+class TestPostBuildVariantCriterionValueSpecContract:
+    """Table 7.27 (AUTOSAR_FO_TPS_GenericStructureTemplate, p.259) spec contract
+    for PostBuildVariantCriterionValue."""
+
+    def test_class_docstring_verbatim(self):
+        """
+        Test that the class docstring is the Table 7.27 Note verbatim.
+        """
+        assert PostBuildVariantCriterionValue.__doc__.strip() == (
+            "This class specifies the value which shall be assigned to a particular variant criterion "
+            "in order to bind the variation point. If multiple criterion/value pairs are specified, "
+            "they all shall match to bind the variation point."
+        )
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ has no docstring (spec Notes live in inline member comments).
+        """
+        assert PostBuildVariantCriterionValue.__init__.__doc__ is None
+
+    def test_base_is_arobject(self):
+        """
+        Test that the Base per Table 7.27 is ARObject (most-derived — not an
+        ARElement; aggregation is via PostBuildVariantCriterionValueSet).
+        """
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+        assert issubclass(PostBuildVariantCriterionValue, ARObject)
+        assert not issubclass(PostBuildVariantCriterionValue, ARElement)
+
+    def test_annotations_typed_list_of_annotation(self):
+        """
+        Test that annotation (Annotation, * aggr) maps to a List[Annotation] accessor pair.
+        """
+        getter_hints = typing.get_type_hints(PostBuildVariantCriterionValue.getAnnotations)
+        assert getter_hints.get("return") == typing.List[Annotation]
+
+        setter_hints = typing.get_type_hints(PostBuildVariantCriterionValue.addAnnotation)
+        assert setter_hints.get("value") is Annotation
+        assert setter_hints.get("return") is PostBuildVariantCriterionValue
+
+    def test_value_typed_optional_integer(self):
+        """
+        Test that value (Integer, 1 attr) is typed Optional[Integer]
+        (the spec type name maps to the repo Integer class).
+        """
+        getter_hints = typing.get_type_hints(PostBuildVariantCriterionValue.getValue)
+        assert getter_hints.get("return") == typing.Optional[Integer]
+
+        setter_hints = typing.get_type_hints(PostBuildVariantCriterionValue.setValue)
+        assert setter_hints.get("value") == typing.Optional[Integer]
+        assert setter_hints.get("return") is PostBuildVariantCriterionValue
+
+    def test_variant_criterion_ref_typed_ref_type(self):
+        """
+        Test that variantCriterion (PostBuildVariantCriterion, 1 ref) maps to a RefType
+        accessor pair (Kind ref suffix per the matchingCriterionRef precedent).
+        """
+        getter_hints = typing.get_type_hints(PostBuildVariantCriterionValue.getVariantCriterionRef)
+        assert getter_hints.get("return") is RefType
+
+        setter_hints = typing.get_type_hints(PostBuildVariantCriterionValue.setVariantCriterionRef)
+        assert setter_hints.get("value") is RefType
+        assert setter_hints.get("return") is PostBuildVariantCriterionValue
+
+    def test_getter_docstrings_are_notes_verbatim(self):
+        """
+        Test that getter docstrings are the Table 7.27 Notes verbatim without the Tags suffix.
+        """
+        assert PostBuildVariantCriterionValue.getAnnotations.__doc__.strip() == "This provides the ability to add information why the value is set like it is."
+        assert PostBuildVariantCriterionValue.getValue.__doc__.strip() == "This is the particular value of the post-build variant criterion."
+        assert PostBuildVariantCriterionValue.getVariantCriterionRef.__doc__.strip() == "This association selects the variant criterion whose value is specified."
+
+    def test_setter_docstrings_are_notes_with_none_noop(self):
+        """
+        Test that setter docstrings are the Table 7.27 Notes verbatim plus the None-no-op sentence.
+        """
+        assert PostBuildVariantCriterionValue.addAnnotation.__doc__.strip() == (
+            "This provides the ability to add information why the value is set like it is. " "A None value is a no-op and is not appended."
+        )
+        assert PostBuildVariantCriterionValue.setValue.__doc__.strip() == (
+            "This is the particular value of the post-build variant criterion. " "A None value is a no-op and does not overwrite an existing value."
+        )
+        assert PostBuildVariantCriterionValue.setVariantCriterionRef.__doc__.strip() == (
+            "This association selects the variant criterion whose value is specified. " "A None value is a no-op and does not overwrite an existing variantCriterionRef."
+        )
+
+
 class TestPostBuildVariantCondition:
     def test_initialization(self):
         condition = PostBuildVariantCondition()

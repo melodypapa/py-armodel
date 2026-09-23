@@ -46,33 +46,19 @@ class PostBuildVariantCriterion(ARElement):
 
 class PostBuildVariantCriterionValue(ARObject):
     """
-    This class specifies a the value which must be assigned to a particular variant
-    criterion in order to bind the variation point. If multiple criterion/value pairs
-    are specified, they all must must match to bind the variation point.
-
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
-    Base: ARObject
-
-    Attributes:
-        annotations (List[Annotation]): This provides the ability to add
-            information why the value is set like it is. (Multiplicity: ``*``)
-        value (Integer): This is the particular value of the post-build
-            variant criterion. (Multiplicity: 1)
-        variantCriterionRef (PostBuildVariantCriterion): This association
-            selects the variant criterion whose value is specified.
-            (Multiplicity: 1)
+    This class specifies the value which shall be assigned to a particular variant criterion in order to bind the variation point. If multiple criterion/value pairs are specified, they all shall match to bind the variation point.
     """
 
     # PostBuildVariantCriterionValue method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.27, p.259
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAnnotations          [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
-    # [x] addAnnotation           [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer
-    # [x] getValue                [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
-    # [x] setValue                [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer
-    # [x] getVariantCriterionRef  [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
-    # [x] setVariantCriterionRef  [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAnnotations          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addAnnotation           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getValue                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariantCriterionRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariantCriterionRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -87,46 +73,31 @@ class PostBuildVariantCriterionValue(ARObject):
         self.variantCriterionRef: RefType = None
 
     def getAnnotations(self) -> List[Annotation]:
-        """
-        This provides the ability to add information why the value is set like it is.
-        """
+        """This provides the ability to add information why the value is set like it is."""
         return self.annotations
 
     def addAnnotation(self, value: Annotation) -> "PostBuildVariantCriterionValue":
-        """
-        This provides the ability to add information why the value is set like it is. A
-        None value is a no-op and is not appended.
-        """
+        """This provides the ability to add information why the value is set like it is. A None value is a no-op and is not appended."""
         if value is not None:
             self.annotations.append(value)
         return self
 
     def getValue(self) -> Optional[Integer]:
-        """
-        This is the particular value of the post-build variant criterion.
-        """
+        """This is the particular value of the post-build variant criterion."""
         return self.value
 
     def setValue(self, value: Optional[Integer]) -> "PostBuildVariantCriterionValue":
-        """
-        This is the particular value of the post-build variant criterion. A None value
-        is a no-op and does not overwrite an existing value.
-        """
+        """This is the particular value of the post-build variant criterion. A None value is a no-op and does not overwrite an existing value."""
         if value is not None:
             self.value = value
         return self
 
     def getVariantCriterionRef(self) -> RefType:
-        """
-        This association selects the variant criterion whose value is specified.
-        """
+        """This association selects the variant criterion whose value is specified."""
         return self.variantCriterionRef
 
     def setVariantCriterionRef(self, value: RefType) -> "PostBuildVariantCriterionValue":
-        """
-        This association selects the variant criterion whose value is specified. A None
-        value is a no-op and does not overwrite an existing variantCriterionRef.
-        """
+        """This association selects the variant criterion whose value is specified. A None value is a no-op and does not overwrite an existing variantCriterionRef."""
         if value is not None:
             self.variantCriterionRef = value
         return self
