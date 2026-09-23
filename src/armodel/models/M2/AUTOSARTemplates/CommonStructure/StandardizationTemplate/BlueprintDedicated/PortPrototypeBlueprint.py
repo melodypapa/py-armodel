@@ -98,7 +98,7 @@ class PortPrototypeBlueprint(AtpStructureElement):
     # [x] setRequiredComSpecs        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addRequiredComSpec         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # This specifies the init values for the dataElements in the particular PortPrototypeBlueprint.

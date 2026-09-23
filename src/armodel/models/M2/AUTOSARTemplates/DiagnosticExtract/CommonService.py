@@ -23,8 +23,10 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
             raise TypeError("DiagnosticServiceInstance is an abstract class.")
         super().__init__(parent, short_name)
 
+        # This represents the collection of DiagnosticAccessPermissions that allow for the execution of the referencing DiagnosticServiceInstance..
         self.accessPermissionRef: Optional[RefType] = None
 
+        # This represents the corresponding "class", i.e. this meta-class provides properties that are shared among all instances of applicable sub-classes of DiagnosticServiceInstance. The subclasses that affected by this pattern implement references to the applicable "class"-role that substantiate this abstract reference. Stereotypes: atpAbstract
         self.serviceClassRef: Optional[RefType] = None
 
     def getAccessPermissionRef(self) -> Optional[RefType]:
@@ -45,13 +47,13 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
 
     def getServiceClassRef(self) -> Optional[RefType]:
         """
-        This represents the corresponding "class", i.e. this meta-class provides properties that are shared among all instances of applicable sub-classes of DiagnosticServiceInstance. The subclasses that affected by this pattern implement references to the applicable "class"-role that substantiate this abstract reference.
+        This represents the corresponding "class", i.e. this meta-class provides properties that are shared among all instances of applicable sub-classes of DiagnosticServiceInstance. The subclasses that affected by this pattern implement references to the applicable "class"-role that substantiate this abstract reference. Stereotypes: atpAbstract
         """
         return self.serviceClassRef
 
     def setServiceClassRef(self, value: Optional[RefType]):
         """
-        This represents the corresponding "class", i.e. this meta-class provides properties that are shared among all instances of applicable sub-classes of DiagnosticServiceInstance. The subclasses that affected by this pattern implement references to the applicable "class"-role that substantiate this abstract reference.
+        This represents the corresponding "class", i.e. this meta-class provides properties that are shared among all instances of applicable sub-classes of DiagnosticServiceInstance. The subclasses that affected by this pattern implement references to the applicable "class"-role that substantiate this abstract reference. Stereotypes: atpAbstract
 
         A None value is a no-op and does not overwrite an existing serviceClassRef.
         """

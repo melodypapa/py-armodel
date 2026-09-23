@@ -6,6 +6,8 @@ DiagnosticSecurityLevel (Table 4.32, p.75) and DiagnosticAccessPermission
 (Table 4.29, p.73).
 """
 
+import inspect
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import (
@@ -85,8 +87,8 @@ class Test_DiagnosticAuthRoleProxy:
         assert proxy.getAuthenticationRoleRefs() == [ref]
 
     def test_accessor_docstrings_are_spec_notes_verbatim(self):
-        assert _norm(DiagnosticAuthRoleProxy.getAuthenticationRoleRefs.__doc__) == AUTH_ROLE_NOTE
-        assert _norm(DiagnosticAuthRoleProxy.addAuthenticationRoleRef.__doc__) == (AUTH_ROLE_NOTE + " A None value is a no-op and does not extend the authenticationRoleRefs list.")
+        assert inspect.cleandoc(DiagnosticAuthRoleProxy.getAuthenticationRoleRefs.__doc__) == AUTH_ROLE_NOTE
+        assert inspect.cleandoc(DiagnosticAuthRoleProxy.addAuthenticationRoleRef.__doc__) == (AUTH_ROLE_NOTE + "\n\nA None value is a no-op and does not extend the authenticationRoleRefs list.")
 
 
 def _pkg():

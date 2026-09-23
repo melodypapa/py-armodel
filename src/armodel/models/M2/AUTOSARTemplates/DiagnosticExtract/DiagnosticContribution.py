@@ -29,23 +29,27 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # This represents the DiagnosticConnection that is taken for handling the data transmission for the enclosing DiagnosticServiceTable. It is possible to refer to more than one diagnostic Connections in order to support more than one diagnostic tester. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=diagnosticConnection.diagnosticConnection, diagnosticConnection.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.diagnosticConnectionRefs: List[RefType] = []
 
+        # This represents the applicable EcuInstance for this DiagnosticServiceTable. Stereotypes: atpSplitable Tags: atp.Splitkey=ecuInstance
         self.ecuInstanceRef: Optional[RefType] = None
 
+        # This identifies the applicable protocol.
         self.protocolKind: Optional[NameToken] = None
 
+        # This represents the collection of DiagnosticService Instances to be considered in the scope of this Diagnostic ServiceTable, Stereotypes: atpSplitable Tags: atp.Splitkey=serviceInstance
         self.serviceInstanceRefs: List[RefType] = []
 
     def getDiagnosticConnectionRefs(self) -> List[RefType]:
         """
-        This represents the DiagnosticConnection that is taken for handling the data transmission for the enclosing DiagnosticServiceTable. It is possible to refer to more than one diagnosticConnections in order to support more than one diagnostic tester. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=diagnosticConnection.diagnosticConnection, diagnosticConnection.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        This represents the DiagnosticConnection that is taken for handling the data transmission for the enclosing DiagnosticServiceTable. It is possible to refer to more than one diagnostic Connections in order to support more than one diagnostic tester. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=diagnosticConnection.diagnosticConnection, diagnosticConnection.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
         return self.diagnosticConnectionRefs
 
     def addDiagnosticConnectionRef(self, value: Optional[RefType]):
         """
-        This represents the DiagnosticConnection that is taken for handling the data transmission for the enclosing DiagnosticServiceTable. It is possible to refer to more than one diagnosticConnections in order to support more than one diagnostic tester. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=diagnosticConnection.diagnosticConnection, diagnosticConnection.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        This represents the DiagnosticConnection that is taken for handling the data transmission for the enclosing DiagnosticServiceTable. It is possible to refer to more than one diagnostic Connections in order to support more than one diagnostic tester. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=diagnosticConnection.diagnosticConnection, diagnosticConnection.variationPoint.shortLabel vh.latestBindingTime=postBuild
 
         A None value does not extend the diagnosticConnectionRefs list.
         """
@@ -87,13 +91,13 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
 
     def getServiceInstanceRefs(self) -> List[RefType]:
         """
-        This represents the collection of DiagnosticServiceInstances to be considered in the scope of this DiagnosticServiceTable, Stereotypes: atpSplitable Tags: atp.Splitkey=serviceInstance
+        This represents the collection of DiagnosticService Instances to be considered in the scope of this Diagnostic ServiceTable, Stereotypes: atpSplitable Tags: atp.Splitkey=serviceInstance
         """
         return self.serviceInstanceRefs
 
     def addServiceInstanceRef(self, value: Optional[RefType]):
         """
-        This represents the collection of DiagnosticServiceInstances to be considered in the scope of this DiagnosticServiceTable, Stereotypes: atpSplitable Tags: atp.Splitkey=serviceInstance
+        This represents the collection of DiagnosticService Instances to be considered in the scope of this Diagnostic ServiceTable, Stereotypes: atpSplitable Tags: atp.Splitkey=serviceInstance
 
         A None value does not extend the serviceInstanceRefs list.
         """
