@@ -920,6 +920,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
+    TlvDataIdDefinition,
     TransformationDescription,
     TransformationISignalProps,
     TransformationTechnology,
@@ -11508,6 +11509,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         element = ET.SubElement(parent, "PROPS")
         self.writeIdentifiable(element, cipher_suite_props)
         self.setChildElementOptionalBooleanValue(element, "TCP-IP-TLS-USE-SECURITY-EXTENSION-FORCE-ENCRYPT-THEN-MAC", cipher_suite_props.getTcpIpTlsUseSecurityExtensionForceEncryptThenMac())
+
+    def writeTlvDataIdDefinition(self, parent: ET.Element, tlv_data_id_definition: TlvDataIdDefinition):
+        element = ET.SubElement(parent, "TLV-DATA-ID-DEFINITION")
+        self.setChildElementOptionalPositiveInteger(element, "ID", tlv_data_id_definition.getId())
+        self.setChildElementOptionalRefType(element, "TLV-ARGUMENT-REF", tlv_data_id_definition.getTlvArgumentRef())
+        self.setChildElementOptionalRefType(element, "TLV-IMPLEMENTATION-DATA-TYPE-ELEMENT-REF", tlv_data_id_definition.getTlvImplementationDataTypeElementRef())
+        self.setChildElementOptionalRefType(element, "TLV-RECORD-ELEMENT-REF", tlv_data_id_definition.getTlvRecordElementRef())
 
     def writeSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         self.logger.debug("Write SystemMapping <%s>" % mapping.getShortName())

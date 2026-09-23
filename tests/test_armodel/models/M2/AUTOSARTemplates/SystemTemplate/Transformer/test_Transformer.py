@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
     SOMEIPMessageTypeEnum,
+    TlvDataIdDefinition,
     TransformationDescription,
     TransformationISignalProps,
     TransformationTechnology,
@@ -868,3 +869,98 @@ class Test_SOMEIPMessageTypeEnum:
         e.setValue(SOMEIPMessageTypeEnum.RESPONSE)
         assert e.getValue() == "RESPONSE"
         assert e.getText() == "RESPONSE"
+
+
+class Test_TlvDataIdDefinition:
+    def _make_positive(self, value):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+
+        return PositiveInteger().setValue(value)
+
+    def _make_ref(self, value, dest):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+        ref = RefType()
+        ref.setDest(dest)
+        ref.setValue(value)
+        return ref
+
+    def test_docstring_is_spec_note_verbatim(self):
+        # Table 7.31, p.831 — class Note verbatim from the markdown
+        note = "This meta-class represents the ability to define the tlvDataId."
+        assert TlvDataIdDefinition.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert TlvDataIdDefinition.__init__.__doc__ is None
+
+    def test_heritage_is_arobject_not_identifiable(self):
+        assert issubclass(TlvDataIdDefinition, ARObject)
+        assert not issubclass(TlvDataIdDefinition, Identifiable)
+        assert not issubclass(TlvDataIdDefinition, ARElement)
+
+    def test_initialization(self):
+        tlv = TlvDataIdDefinition()
+
+        assert tlv.getId() is None
+        assert tlv.getTlvArgumentRef() is None
+        assert tlv.getTlvImplementationDataTypeElementRef() is None
+        assert tlv.getTlvRecordElementRef() is None
+
+    def test_get_set_id(self):
+        tlv = TlvDataIdDefinition()
+        value = self._make_positive(7)
+
+        assert tlv == tlv.setId(None)
+        assert tlv.getId() is None
+
+        assert tlv == tlv.setId(value)
+        assert tlv.getId() == value
+        assert tlv.getId().getValue() == 7
+
+        assert tlv == tlv.setId(None)
+        assert tlv.getId() == value
+
+    def test_get_set_tlv_argument_ref(self):
+        tlv = TlvDataIdDefinition()
+        ref = self._make_ref("/PortInterface/op/arg", "ARGUMENT-DATA-PROTOTYPE")
+
+        assert tlv == tlv.setTlvArgumentRef(None)
+        assert tlv.getTlvArgumentRef() is None
+
+        assert tlv == tlv.setTlvArgumentRef(ref)
+        assert tlv.getTlvArgumentRef() == ref
+        assert tlv.getTlvArgumentRef().getValue() == "/PortInterface/op/arg"
+        assert tlv.getTlvArgumentRef().getDest() == "ARGUMENT-DATA-PROTOTYPE"
+
+        assert tlv == tlv.setTlvArgumentRef(None)
+        assert tlv.getTlvArgumentRef() == ref
+
+    def test_get_set_tlv_implementation_data_type_element_ref(self):
+        tlv = TlvDataIdDefinition()
+        ref = self._make_ref("/DataType/element", "IMPLEMENTATION-DATA-TYPE-ELEMENT")
+
+        assert tlv == tlv.setTlvImplementationDataTypeElementRef(None)
+        assert tlv.getTlvImplementationDataTypeElementRef() is None
+
+        assert tlv == tlv.setTlvImplementationDataTypeElementRef(ref)
+        assert tlv.getTlvImplementationDataTypeElementRef() == ref
+        assert tlv.getTlvImplementationDataTypeElementRef().getValue() == "/DataType/element"
+        assert tlv.getTlvImplementationDataTypeElementRef().getDest() == "IMPLEMENTATION-DATA-TYPE-ELEMENT"
+
+        assert tlv == tlv.setTlvImplementationDataTypeElementRef(None)
+        assert tlv.getTlvImplementationDataTypeElementRef() == ref
+
+    def test_get_set_tlv_record_element_ref(self):
+        tlv = TlvDataIdDefinition()
+        ref = self._make_ref("/DataType/record", "APPLICATION-RECORD-ELEMENT")
+
+        assert tlv == tlv.setTlvRecordElementRef(None)
+        assert tlv.getTlvRecordElementRef() is None
+
+        assert tlv == tlv.setTlvRecordElementRef(ref)
+        assert tlv.getTlvRecordElementRef() == ref
+        assert tlv.getTlvRecordElementRef().getValue() == "/DataType/record"
+        assert tlv.getTlvRecordElementRef().getDest() == "APPLICATION-RECORD-ELEMENT"
+
+        assert tlv == tlv.setTlvRecordElementRef(None)
+        assert tlv.getTlvRecordElementRef() == ref

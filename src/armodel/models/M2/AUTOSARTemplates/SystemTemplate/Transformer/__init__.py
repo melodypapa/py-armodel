@@ -1046,6 +1046,92 @@ class SOMEIPMessageTypeEnum(AREnum):
         )
 
 
+class TlvDataIdDefinition(ARObject):
+    """
+    This meta-class represents the ability to define the tlvDataId.
+    """
+
+    # TlvDataIdDefinition method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.31, p.831
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getId                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setId                                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTlvArgumentRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTlvArgumentRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTlvImplementationDataTypeElementRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTlvImplementationDataTypeElementRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTlvRecordElementRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTlvRecordElementRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute represents the definition of the value of the TlvDataId Stereotypes: atpIdentityContributor
+        self.id: Optional[PositiveInteger] = None
+
+        # This reference assigns a tlvDataId to a given argument of a ClientServerOperation.
+        self.tlvArgumentRef: Optional[RefType] = None
+
+        # This reference associates the definition of a TLV data id with a given AbstractImplementationDataTypeElement.
+        self.tlvImplementationDataTypeElementRef: Optional[RefType] = None
+
+        # This reference associates the definition of a TLV data id with a given ApplicationRecordElement.
+        self.tlvRecordElementRef: Optional[RefType] = None
+
+    def getId(self) -> Optional[PositiveInteger]:
+        """This attribute represents the definition of the value of the TlvDataId Stereotypes: atpIdentityContributor"""
+        return self.id
+
+    def setId(self, value: Optional[PositiveInteger]) -> "TlvDataIdDefinition":
+        """
+        This attribute represents the definition of the value of the TlvDataId Stereotypes: atpIdentityContributor
+        A None value is a no-op and does not overwrite an existing id.
+        """
+        if value is not None:
+            self.id = value
+        return self
+
+    def getTlvArgumentRef(self) -> Optional[RefType]:
+        """This reference assigns a tlvDataId to a given argument of a ClientServerOperation."""
+        return self.tlvArgumentRef
+
+    def setTlvArgumentRef(self, value: Optional[RefType]) -> "TlvDataIdDefinition":
+        """
+        This reference assigns a tlvDataId to a given argument of a ClientServerOperation.
+        A None value is a no-op and does not overwrite an existing tlvArgumentRef.
+        """
+        if value is not None:
+            self.tlvArgumentRef = value
+        return self
+
+    def getTlvImplementationDataTypeElementRef(self) -> Optional[RefType]:
+        """This reference associates the definition of a TLV data id with a given AbstractImplementationDataTypeElement."""
+        return self.tlvImplementationDataTypeElementRef
+
+    def setTlvImplementationDataTypeElementRef(self, value: Optional[RefType]) -> "TlvDataIdDefinition":
+        """
+        This reference associates the definition of a TLV data id with a given AbstractImplementationDataTypeElement.
+        A None value is a no-op and does not overwrite an existing tlvImplementationDataTypeElementRef.
+        """
+        if value is not None:
+            self.tlvImplementationDataTypeElementRef = value
+        return self
+
+    def getTlvRecordElementRef(self) -> Optional[RefType]:
+        """This reference associates the definition of a TLV data id with a given ApplicationRecordElement."""
+        return self.tlvRecordElementRef
+
+    def setTlvRecordElementRef(self, value: Optional[RefType]) -> "TlvDataIdDefinition":
+        """
+        This reference associates the definition of a TLV data id with a given ApplicationRecordElement.
+        A None value is a no-op and does not overwrite an existing tlvRecordElementRef.
+        """
+        if value is not None:
+            self.tlvRecordElementRef = value
+        return self
+
+
 class TransformationISignalProps(Describable, ABC):
     """TransformationISignalProps holds all the attributes for the different TransformationTechnologies that are ISignal specific. Tags: vh.latestBindingTime=postBuild"""
 

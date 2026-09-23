@@ -1028,6 +1028,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
+    TlvDataIdDefinition,
     TransformationDescription,
     TransformationISignalProps,
     TransformationTechnology,
@@ -13276,6 +13277,12 @@ class ARXMLParser(AbstractARXMLParser):
     def readTlsCryptoCipherSuiteProps(self, element: ET.Element, cipher_suite_props: TlsCryptoCipherSuiteProps):
         self.readIdentifiable(element, cipher_suite_props)
         cipher_suite_props.setTcpIpTlsUseSecurityExtensionForceEncryptThenMac(self.getChildElementOptionalBooleanValue(element, "TCP-IP-TLS-USE-SECURITY-EXTENSION-FORCE-ENCRYPT-THEN-MAC"))
+
+    def readTlvDataIdDefinition(self, element: ET.Element, tlv_data_id_definition: TlvDataIdDefinition):
+        tlv_data_id_definition.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
+        tlv_data_id_definition.setTlvArgumentRef(self.getChildElementOptionalRefType(element, "TLV-ARGUMENT-REF"))
+        tlv_data_id_definition.setTlvImplementationDataTypeElementRef(self.getChildElementOptionalRefType(element, "TLV-IMPLEMENTATION-DATA-TYPE-ELEMENT-REF"))
+        tlv_data_id_definition.setTlvRecordElementRef(self.getChildElementOptionalRefType(element, "TLV-RECORD-ELEMENT-REF"))
 
     def readSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         # self.logger.debug("Read SystemMapping <%s>" % mapping.getShortName())
