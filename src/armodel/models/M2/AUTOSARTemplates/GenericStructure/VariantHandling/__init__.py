@@ -396,51 +396,44 @@ class PostBuildVariantCondition(ARObject):
 
 class ConditionByFormula(ARObject):
     """
-    This class represents a condition which is computed based on system constants
-    according to the specified expression. The expected result is considered as boolean
-    value. The result of the expression is interpreted as a condition. • "0" represents
-    "false"; • a value other than zero is considered "true"
-
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
-    Base: ARObject, FormulaExpression, SwSystemconstDependentFormula
-    Stereotypes: atpMixedString
-
-    Attributes:
-        bindingTime (BindingTimeEnum): This attribute specifies the point in time when
-            condition may be evaluated at earliest. At this point in time all referenced
-            system constants shall have a value. (Multiplicity: 1)
+    This class represents a condition which is computed based on system constants according to the specified expression. The expected result is considered as boolean value. The result of the expression is interpreted as a condition. • "0" represents "false"; • a value other than zero is considered "true"
     """
 
     # ConditionByFormula method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.5, p.231
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBindingTime    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBindingTime    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBindingTime    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBindingTime    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getText           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setText           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This attribute specifies the point in time when condition may be evaluated at earliest. At this point in time all referenced system constants shall have a value.
+        # This attribute specifies the point in time when condition may be evaluated at earliest. At this point in time all referenced system constants shall have a value. Tags: xml.attribute=true
         self.bindingTime: Optional[BindingTimeEnum] = None
 
+        self._text: Optional[str] = None
+
     def getBindingTime(self) -> Optional[BindingTimeEnum]:
-        """
-        This attribute specifies the point in time when condition may be evaluated at
-        earliest. At this point in time all referenced system constants shall have a
-        value.
-        """
+        """This attribute specifies the point in time when condition may be evaluated at earliest. At this point in time all referenced system constants shall have a value."""
         return self.bindingTime
 
     def setBindingTime(self, value: Optional[BindingTimeEnum]) -> "ConditionByFormula":
-        """
-        This attribute specifies the point in time when condition may be evaluated at
-        earliest. At this point in time all referenced system constants shall have a
-        value. A None value is a no-op and does not overwrite an existing bindingTime.
-        """
+        """This attribute specifies the point in time when condition may be evaluated at earliest. At this point in time all referenced system constants shall have a value. A None value is a no-op and does not overwrite an existing bindingTime."""
         if value is not None:
             self.bindingTime = value
+        return self
+
+    def getText(self) -> Optional[str]:
+        """Returns the mixed string content (the formula expression) of this <<atpMixedString>> element."""
+        return self._text
+
+    def setText(self, value: Optional[str]) -> "ConditionByFormula":
+        """Sets the mixed string content (the formula expression) of this <<atpMixedString>> element. A None value is a no-op and does not overwrite an existing value."""
+        if value is not None:
+            self._text = value
         return self
 
 

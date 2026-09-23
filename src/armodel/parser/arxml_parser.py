@@ -1280,6 +1280,8 @@ class ARXMLParser(AbstractARXMLParser):
                 condition.setBindingTime(BindingTimeEnum().setValue(binding_time))
             else:
                 self.notImplemented("Unsupported BINDING-TIME <%s>" % element.attrib["BINDING-TIME"])
+        if element.text is not None and element.text.strip() != "":
+            condition.setText(element.text)
         return condition
 
     def readPostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition) -> PostBuildVariantCondition:

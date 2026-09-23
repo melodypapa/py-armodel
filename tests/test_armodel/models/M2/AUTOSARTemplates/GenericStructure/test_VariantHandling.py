@@ -2,6 +2,8 @@
 Tests for GenericStructure VariantHandling model classes.
 """
 
+import typing
+
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator import (
     BlueprintGenerator,
 )
@@ -383,6 +385,75 @@ class TestConditionByFormula:
     def test_initialization(self):
         condition = ConditionByFormula()
         assert condition.getBindingTime() is None
+
+
+class TestConditionByFormulaSpecContract:
+    """Table 7.5 (AUTOSAR_FO_TPS_GenericStructureTemplate, p.231) spec contract
+    for ConditionByFormula."""
+
+    def test_class_docstring_verbatim(self):
+        """
+        Test that the class docstring is the Table 7.5 Note verbatim.
+        """
+        assert ConditionByFormula.__doc__.strip() == (
+            "This class represents a condition which is computed based on system constants "
+            "according to the specified expression. The expected result is considered as boolean "
+            "value. The result of the expression is interpreted as a condition. "
+            '• "0" represents "false"; • a value other than zero is considered "true"'
+        )
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ has no docstring (spec Notes live in inline member comments).
+        """
+        assert ConditionByFormula.__init__.__doc__ is None
+
+    def test_binding_time_typed_binding_time_enum(self):
+        """
+        Test that bindingTime is typed BindingTimeEnum per Table 7.5 (getter/setter annotations).
+        """
+        getter_hints = typing.get_type_hints(ConditionByFormula.getBindingTime)
+        assert getter_hints.get("return") == typing.Optional[BindingTimeEnum]
+
+        setter_hints = typing.get_type_hints(ConditionByFormula.setBindingTime)
+        assert setter_hints.get("value") == typing.Optional[BindingTimeEnum]
+        assert setter_hints.get("return") is ConditionByFormula
+
+    def test_getter_docstring_is_note_without_tags(self):
+        """
+        Test that the getter docstring is the Table 7.5 Note verbatim without the Tags suffix.
+        """
+        assert ConditionByFormula.getBindingTime.__doc__.strip() == (
+            "This attribute specifies the point in time when condition may be evaluated at " "earliest. At this point in time all referenced system constants shall have a value."
+        )
+
+    def test_setter_docstring_is_note_with_none_noop(self):
+        """
+        Test that the setter docstring is the Table 7.5 Note plus the None-no-op sentence.
+        """
+        assert ConditionByFormula.setBindingTime.__doc__.strip() == (
+            "This attribute specifies the point in time when condition may be evaluated at "
+            "earliest. At this point in time all referenced system constants shall have a value. "
+            "A None value is a no-op and does not overwrite an existing bindingTime."
+        )
+
+    def test_text_default_none(self):
+        """
+        Test that the <<atpMixedString>> mixed content defaults to None.
+        """
+        condition = ConditionByFormula()
+        assert condition.getText() is None
+
+    def test_text_round_trip_and_chaining(self):
+        """
+        Test the mixed string content accessors (the value IS the mixed text per the
+        empty XSD element group / mixed="true" complexType).
+        """
+        condition = ConditionByFormula()
+        assert condition.setText('sysc == "A"') is condition
+        assert condition.getText() == 'sysc == "A"'
+        condition.setText(None)
+        assert condition.getText() == 'sysc == "A"'
 
 
 def test_criterion_holds_variation_point_via_mixin():

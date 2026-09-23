@@ -108,6 +108,48 @@ class TestReadVariationPoint:
         assert any("VARIATION-POINT" in record.message for record in caplog.records)
 
 
+class TestReadConditionByFormula:
+    """Table 7.5 (AUTOSAR_FO_TPS_GenericStructureTemplate, p.231): the
+    <<atpMixedString>> content of ConditionByFormula is the formula expression."""
+
+    def test_read_sw_syscond_reads_binding_time_and_mixed_text(self, parser):
+        inner = "<VARIATION-POINT>" '<SW-SYSCOND BINDING-TIME="PRE-COMPILE-TIME">sysc == 1</SW-SYSCOND>' "</VARIATION-POINT>"
+        vp_element = _snip(inner).find("{%s}VARIATION-POINT" % NS)
+
+        vp = parser.readVariationPoint(vp_element, VariationPoint())
+
+        sw_syscond = vp.getSwSyscond()
+        assert isinstance(sw_syscond, ConditionByFormula)
+        assert sw_syscond.getBindingTime().getValue() == "preCompileTime"
+        assert sw_syscond.getText() == "sysc == 1"
+
+    def test_read_sw_syscond_without_text_leaves_text_none(self, parser):
+        inner = "<VARIATION-POINT>" '<SW-SYSCOND BINDING-TIME="LINK-TIME"/>' "</VARIATION-POINT>"
+        vp_element = _snip(inner).find("{%s}VARIATION-POINT" % NS)
+
+        vp = parser.readVariationPoint(vp_element, VariationPoint())
+
+        sw_syscond = vp.getSwSyscond()
+        assert sw_syscond.getBindingTime().getValue() == "linkTime"
+        assert sw_syscond.getText() is None
+
+    def test_read_condition_access_reads_mixed_text(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import (
+            VariationPointProxy,
+        )
+
+        inner = "<VARIATION-POINT-PROXY>" '<CONDITION-ACCESS BINDING-TIME="SYSTEM-DESIGN-TIME">sysc &gt; 0</CONDITION-ACCESS>' "</VARIATION-POINT-PROXY>"
+        element = _snip(inner).find("{%s}VARIATION-POINT-PROXY" % NS)
+
+        proxy = VariationPointProxy(None, "vpp1")
+        parser.readVariationPointProxy(element, proxy)
+
+        condition_access = proxy.getConditionAccess()
+        assert isinstance(condition_access, ConditionByFormula)
+        assert condition_access.getBindingTime().getValue() == "systemDesignTime"
+        assert condition_access.getText() == "sysc > 0"
+
+
 class TestReadVariationPointProxy:
     def test_read_value_access(self, parser):
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (

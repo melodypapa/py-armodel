@@ -130,6 +130,60 @@ class TestWriteVariationPoint:
         assert vp_element.find("SHORT-LABEL").text == "VP_Country"
 
 
+class TestWriteConditionByFormula:
+    """Table 7.5 (AUTOSAR_FO_TPS_GenericStructureTemplate, p.231): the
+    <<atpMixedString>> content of ConditionByFormula is the formula expression."""
+
+    def test_write_sw_syscond_writes_binding_time_and_mixed_text(self):
+        vp = VariationPoint()
+        syscond = ConditionByFormula()
+        syscond.setBindingTime(BindingTimeEnum().setValue("preCompileTime"))
+        syscond.setText("sysc == 1")
+        vp.setSwSyscond(syscond)
+
+        element = _write_vp_to_element(vp)
+
+        syscond_element = element.find("VARIATION-POINT").find("SW-SYSCOND")
+        assert syscond_element is not None
+        assert syscond_element.attrib["BINDING-TIME"] == "PRE-COMPILE-TIME"
+        assert syscond_element.text == "sysc == 1"
+
+    def test_write_condition_access_writes_mixed_text(self):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import (
+            VariationPointProxy,
+        )
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        writer = ARXMLWriter()
+        element = ET.Element("PARENT")
+        proxy = VariationPointProxy(None, "vpp1")
+        syscond = ConditionByFormula()
+        syscond.setBindingTime(BindingTimeEnum().setValue("systemDesignTime"))
+        syscond.setText("sysc > 0")
+        proxy.setConditionAccess(syscond)
+        writer.writeVariationPointProxy(element, proxy)
+
+        condition_access_element = element.find("VARIATION-POINT-PROXY").find("CONDITION-ACCESS")
+        assert condition_access_element is not None
+        assert condition_access_element.attrib["BINDING-TIME"] == "SYSTEM-DESIGN-TIME"
+        assert condition_access_element.text == "sysc > 0"
+
+    def test_write_condition_by_formula_without_text_emits_no_text(self):
+        vp = VariationPoint()
+        syscond = ConditionByFormula()
+        syscond.setBindingTime(BindingTimeEnum().setValue("linkTime"))
+        vp.setSwSyscond(syscond)
+
+        element = _write_vp_to_element(vp)
+
+        syscond_element = element.find("VARIATION-POINT").find("SW-SYSCOND")
+        assert syscond_element is not None
+        assert syscond_element.attrib["BINDING-TIME"] == "LINK-TIME"
+        assert syscond_element.text is None
+
+
 class TestWriteAttributeValueVariationPoint:
     def _write_avp_to_element(self, avp):
         document = AUTOSAR.getInstance()
@@ -383,3 +437,45 @@ class TestVariationPointProxyRoundTrip:
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
+
+
+class TestConditionByFormulaRoundTrip:
+    """Table 7.5 round-trip: parse -> write -> re-parse preserves every
+    ConditionByFormula attribute plus the <<atpMixedString>> formula text
+    through the VariationPoint.swSyscond aggregation."""
+
+    def _build_document(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+
+        pkg = document.createARPackage("Demo")
+        criterion = pkg.createPostBuildVariantCriterion("Country")
+        vp = VariationPoint()
+        vp.setShortLabel(Identifier().setValue("VP_Country"))
+        syscond = ConditionByFormula()
+        syscond.setBindingTime(BindingTimeEnum().setValue("preCompileTime"))
+        syscond.setText('defined(sysc) && sysc == "A"')
+        vp.setSwSyscond(syscond)
+        criterion.setVariationPoint(vp)
+        return document
+
+    def test_round_trip_sw_syscond_fields_preserved(self, tmp_path):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = self._build_document()
+        output = str(tmp_path / "condition_by_formula_roundtrip.arxml")
+        ARXMLWriter().save(output, document)
+
+        document_2 = AUTOSAR.getInstance()
+        document_2.clear()
+        ARXMLParser().load(output, document_2)
+
+        criterion_2 = document_2.getARPackages()[0].getPostBuildVariantCriterions()[0]
+        vp_2 = criterion_2.getVariationPoint()
+        assert vp_2 is not None
+        assert vp_2.getShortLabel().getValue() == "VP_Country"
+        sw_syscond = vp_2.getSwSyscond()
+        assert isinstance(sw_syscond, ConditionByFormula)
+        assert sw_syscond.getBindingTime().getValue() == "preCompileTime"
+        assert sw_syscond.getText() == 'defined(sysc) && sysc == "A"'

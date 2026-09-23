@@ -1158,6 +1158,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported BINDING-TIME <%s>" % binding_time.getValue())
                 else:
                     child_element.attrib["BINDING-TIME"] = token
+            text = condition.getText()
+            if text is not None:
+                child_element.text = text
 
     def writePostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition):
         child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CONDITION")
