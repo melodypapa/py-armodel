@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
     SOMEIPMessageTypeEnum,
+    SomeipTransformationISignalProps,
     TlvDataIdDefinition,
     TlvDataIdDefinitionSet,
     TransformationDescription,
@@ -1031,3 +1032,195 @@ class Test_TlvDataIdDefinitionSet:
         definitions = tlv_set.getTlvDataIdDefinitions()
         assert len(definitions) == 1
         assert definitions[0] is first
+
+
+class Test_SomeipTransformationISignalProps:
+    # Table 7.11, p.778 — attribute Notes verbatim from the markdown (cell wraps resolved per XSD mmt.qualifiedName / XSD documentation)
+    NOTE_IMPLEMENTS_LEGACY_STRING_SERIALIZATION = (
+        "This attribute indicates that Strings in the SOME/IP message shall NOT be serialized according to the SOME/IP specification for Strings. "
+        "If this attribute is set to true, BOM and null-termination shall NOT be added in the serialization for Strings in the payload. "
+        "If this attribute is set to false (or not set) BOM and null-termination shall be added in the serialization for Strings in the payload according to the SOME/IP specification for Strings. "
+        'NOTE! This attribute is not future safe, and will be removed in an upcoming AUTOSAR release!" Tags: atp.Status=obsolete'
+    )
+    NOTE_INTERFACE_VERSION = "The interface version the SOME/IP transformer shall use."
+    NOTE_IS_DYNAMIC_LENGTH_FIELD_SIZE = "This attribute shall be used to determine the wire type in the context of using the TLV encoding."
+    NOTE_MESSAGE_TYPE = "The Message Type which shall be placed into the SOME/IP header."
+    NOTE_SIZE_OF_ARRAY_LENGTH_FIELDS = "The size of all length fields (in Bytes) of fixed-size arrays or dynamic size arrays in the SOME/IP message. This attribute is valid for all available occurrences of fixed-size arrays or dynamic size arrays in the SOME/IP message."
+    NOTE_SIZE_OF_STRING_LENGTH_FIELDS = (
+        "The size of all length fields (in Bytes) of dynamic length strings in the SOME/IP message. This attribute is valid for all available occurrences of strings in the SOME/IP message."
+    )
+    NOTE_SIZE_OF_STRUCT_LENGTH_FIELDS = "The size of all length fields (in Bytes) of structs in the SOME/IP message. This attribute is valid for all available occurrences of structures in the SOME/IP message. For a more fine granular modeling on the level of DataPrototypes the DataPrototypeTransformationProps shall be used."
+    NOTE_SIZE_OF_UNION_LENGTH_FIELDS = "The size of all length fields (in Bytes) of unions in the SOME/IP message. This attribute is valid for all available occurrences of Unions in the SOME/IP message. For a more fine granular modeling on the level of DataPrototypes the DataPrototypeTransformationProps shall be used."
+    NOTE_TLV_DATA_ID_DEFINITION = "This reference identifies the TlvDataIdDefinitions relevant for the enclosing SOMEIPTransformationISignalProps"
+
+    def _make_positive(self, value):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+
+        return PositiveInteger().setValue(value)
+
+    def _make_ref(self, value, dest):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+        ref = RefType()
+        ref.setDest(dest)
+        ref.setValue(value)
+        return ref
+
+    def test_docstring_is_spec_note_verbatim(self):
+        # Table 7.11, p.778 — class Note verbatim from the markdown
+        note = "The class SOMEIPTransformationISignalProps specifies ISignal specific configuration properties for SOME/IP transformer attributes."
+        assert SomeipTransformationISignalProps.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert SomeipTransformationISignalProps.__init__.__doc__ is None
+
+    def test_heritage(self):
+        assert issubclass(SomeipTransformationISignalProps, TransformationISignalProps)
+        assert issubclass(SomeipTransformationISignalProps, Describable)
+        assert not issubclass(SomeipTransformationISignalProps, ARElement)
+
+        props = SomeipTransformationISignalProps()
+        assert isinstance(props, TransformationISignalProps)
+        assert isinstance(props, Describable)
+
+    def test_initialization(self):
+        props = SomeipTransformationISignalProps()
+
+        assert props.getImplementsLegacyStringSerialization() is None
+        assert props.getInterfaceVersion() is None
+        assert props.getIsDynamicLengthFieldSize() is None
+        assert props.getMessageType() is None
+        assert props.getSizeOfArrayLengthFields() is None
+        assert props.getSizeOfStringLengthFields() is None
+        assert props.getSizeOfStructLengthFields() is None
+        assert props.getSizeOfUnionLengthFields() is None
+        assert props.getTlvDataIdDefinitionRefs() == []
+
+    def test_get_set_implements_legacy_string_serialization(self):
+        props = SomeipTransformationISignalProps()
+        value = Boolean().setValue(True)
+
+        assert props == props.setImplementsLegacyStringSerialization(None)
+        assert props.getImplementsLegacyStringSerialization() is None
+
+        assert props == props.setImplementsLegacyStringSerialization(value)
+        assert props.getImplementsLegacyStringSerialization() == value
+        assert props.getImplementsLegacyStringSerialization().getValue() is True
+
+        assert props == props.setImplementsLegacyStringSerialization(None)
+        assert props.getImplementsLegacyStringSerialization() == value
+
+    def test_get_set_interface_version(self):
+        props = SomeipTransformationISignalProps()
+        value = self._make_positive(4)
+
+        assert props == props.setInterfaceVersion(None)
+        assert props.getInterfaceVersion() is None
+
+        assert props == props.setInterfaceVersion(value)
+        assert props.getInterfaceVersion() == value
+        assert props.getInterfaceVersion().getValue() == 4
+
+        assert props == props.setInterfaceVersion(None)
+        assert props.getInterfaceVersion() == value
+
+    def test_get_set_is_dynamic_length_field_size(self):
+        props = SomeipTransformationISignalProps()
+        value = Boolean().setValue(False)
+
+        assert props == props.setIsDynamicLengthFieldSize(None)
+        assert props.getIsDynamicLengthFieldSize() is None
+
+        assert props == props.setIsDynamicLengthFieldSize(value)
+        assert props.getIsDynamicLengthFieldSize() == value
+        assert props.getIsDynamicLengthFieldSize().getValue() is False
+
+        assert props == props.setIsDynamicLengthFieldSize(None)
+        assert props.getIsDynamicLengthFieldSize() == value
+
+    def test_get_set_message_type(self):
+        props = SomeipTransformationISignalProps()
+        value = SOMEIPMessageTypeEnum().setValue(SOMEIPMessageTypeEnum.REQUEST_NO_RETURN)
+
+        assert props == props.setMessageType(None)
+        assert props.getMessageType() is None
+
+        assert props == props.setMessageType(value)
+        assert isinstance(props.getMessageType(), SOMEIPMessageTypeEnum)
+        assert props.getMessageType().getValue() == "REQUEST-NO-RETURN"
+
+        assert props == props.setMessageType(None)
+        assert props.getMessageType().getValue() == "REQUEST-NO-RETURN"
+
+    def test_get_set_size_of_array_length_fields(self):
+        props = SomeipTransformationISignalProps()
+        value = self._make_positive(8)
+
+        assert props == props.setSizeOfArrayLengthFields(None)
+        assert props.getSizeOfArrayLengthFields() is None
+
+        assert props == props.setSizeOfArrayLengthFields(value)
+        assert props.getSizeOfArrayLengthFields().getValue() == 8
+
+        assert props == props.setSizeOfArrayLengthFields(None)
+        assert props.getSizeOfArrayLengthFields().getValue() == 8
+
+    def test_get_set_size_of_string_length_fields(self):
+        props = SomeipTransformationISignalProps()
+        value = self._make_positive(12)
+
+        assert props == props.setSizeOfStringLengthFields(None)
+        assert props.getSizeOfStringLengthFields() is None
+
+        assert props == props.setSizeOfStringLengthFields(value)
+        assert props.getSizeOfStringLengthFields().getValue() == 12
+
+        assert props == props.setSizeOfStringLengthFields(None)
+        assert props.getSizeOfStringLengthFields().getValue() == 12
+
+    def test_get_set_size_of_struct_length_fields(self):
+        props = SomeipTransformationISignalProps()
+        value = self._make_positive(16)
+
+        assert props == props.setSizeOfStructLengthFields(None)
+        assert props.getSizeOfStructLengthFields() is None
+
+        assert props == props.setSizeOfStructLengthFields(value)
+        assert props.getSizeOfStructLengthFields().getValue() == 16
+
+        assert props == props.setSizeOfStructLengthFields(None)
+        assert props.getSizeOfStructLengthFields().getValue() == 16
+
+    def test_get_set_size_of_union_length_fields(self):
+        props = SomeipTransformationISignalProps()
+        value = self._make_positive(4)
+
+        assert props == props.setSizeOfUnionLengthFields(None)
+        assert props.getSizeOfUnionLengthFields() is None
+
+        assert props == props.setSizeOfUnionLengthFields(value)
+        assert props.getSizeOfUnionLengthFields().getValue() == 4
+
+        assert props == props.setSizeOfUnionLengthFields(None)
+        assert props.getSizeOfUnionLengthFields().getValue() == 4
+
+    def test_add_tlv_data_id_definition_ref_appends(self):
+        props = SomeipTransformationISignalProps()
+        first = self._make_ref("/TlvSets/Set1", "TLV-DATA-ID-DEFINITION-SET")
+        second = self._make_ref("/TlvSets/Set2", "TLV-DATA-ID-DEFINITION-SET")
+
+        assert props == props.addTlvDataIdDefinitionRef(None)
+        assert props.getTlvDataIdDefinitionRefs() == []
+
+        assert props == props.addTlvDataIdDefinitionRef(first)
+        assert props == props.addTlvDataIdDefinitionRef(second)
+
+        refs = props.getTlvDataIdDefinitionRefs()
+        assert len(refs) == 2
+        assert refs[0] is first
+        assert refs[1] is second
+        assert refs[0].getValue() == "/TlvSets/Set1"
+        assert refs[0].getDest() == "TLV-DATA-ID-DEFINITION-SET"
+
+        assert props == props.addTlvDataIdDefinitionRef(None)
+        assert len(props.getTlvDataIdDefinitionRefs()) == 2

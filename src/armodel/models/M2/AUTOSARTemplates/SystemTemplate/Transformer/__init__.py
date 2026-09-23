@@ -1468,6 +1468,200 @@ class EndToEndTransformationISignalProps(TransformationISignalProps):
         return self
 
 
+class SomeipTransformationISignalProps(TransformationISignalProps):
+    """
+    The class SOMEIPTransformationISignalProps specifies ISignal specific configuration properties for SOME/IP transformer attributes.
+    """
+
+    # SomeipTransformationISignalProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.11, p.778
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getImplementsLegacyStringSerialization [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImplementsLegacyStringSerialization [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInterfaceVersion                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInterfaceVersion                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsDynamicLengthFieldSize            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsDynamicLengthFieldSize            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMessageType                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMessageType                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSizeOfArrayLengthFields             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSizeOfArrayLengthFields             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSizeOfStringLengthFields            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSizeOfStringLengthFields            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSizeOfStructLengthFields            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSizeOfStructLengthFields            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSizeOfUnionLengthFields             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSizeOfUnionLengthFields             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTlvDataIdDefinitionRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTlvDataIdDefinitionRefs             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute indicates that Strings in the SOME/IP message shall NOT be serialized according to the SOME/IP specification for Strings. If this attribute is set to true, BOM and null-termination shall NOT be added in the serialization for Strings in the payload. If this attribute is set to false (or not set) BOM and null-termination shall be added in the serialization for Strings in the payload according to the SOME/IP specification for Strings. NOTE! This attribute is not future safe, and will be removed in an upcoming AUTOSAR release!" Tags: atp.Status=obsolete
+        self.implementsLegacyStringSerialization: Optional[Boolean] = None
+
+        # The interface version the SOME/IP transformer shall use.
+        self.interfaceVersion: Optional[PositiveInteger] = None
+
+        # This attribute shall be used to determine the wire type in the context of using the TLV encoding.
+        self.isDynamicLengthFieldSize: Optional[Boolean] = None
+
+        # The Message Type which shall be placed into the SOME/IP header.
+        self.messageType: Optional[SOMEIPMessageTypeEnum] = None
+
+        # The size of all length fields (in Bytes) of fixed-size arrays or dynamic size arrays in the SOME/IP message. This attribute is valid for all available occurrences of fixed-size arrays or dynamic size arrays in the SOME/IP message.
+        self.sizeOfArrayLengthFields: Optional[PositiveInteger] = None
+
+        # The size of all length fields (in Bytes) of dynamic length strings in the SOME/IP message. This attribute is valid for all available occurrences of strings in the SOME/IP message.
+        self.sizeOfStringLengthFields: Optional[PositiveInteger] = None
+
+        # The size of all length fields (in Bytes) of structs in the SOME/IP message. This attribute is valid for all available occurrences of structures in the SOME/IP message. For a more fine granular modeling on the level of DataPrototypes the DataPrototypeTransformationProps shall be used.
+        self.sizeOfStructLengthFields: Optional[PositiveInteger] = None
+
+        # The size of all length fields (in Bytes) of unions in the SOME/IP message. This attribute is valid for all available occurrences of Unions in the SOME/IP message. For a more fine granular modeling on the level of DataPrototypes the DataPrototypeTransformationProps shall be used.
+        self.sizeOfUnionLengthFields: Optional[PositiveInteger] = None
+
+        # This reference identifies the TlvDataIdDefinitions relevant for the enclosing SOMEIPTransformationISignalProps
+        self.tlvDataIdDefinitionRefs: List[RefType] = []
+
+    def getImplementsLegacyStringSerialization(self) -> Optional[Boolean]:
+        """
+        This attribute indicates that Strings in the SOME/IP message shall NOT be serialized according to the SOME/IP specification for Strings. If this attribute is set to true, BOM and null-termination shall NOT be added in the serialization for Strings in the payload. If this attribute is set to false (or not set) BOM and null-termination shall be added in the serialization for Strings in the payload according to the SOME/IP specification for Strings. NOTE! This attribute is not future safe, and will be removed in an upcoming AUTOSAR release!" Tags: atp.Status=obsolete
+        """
+        return self.implementsLegacyStringSerialization
+
+    def setImplementsLegacyStringSerialization(self, value: Optional[Boolean]) -> "SomeipTransformationISignalProps":
+        """
+        This attribute indicates that Strings in the SOME/IP message shall NOT be serialized according to the SOME/IP specification for Strings. If this attribute is set to true, BOM and null-termination shall NOT be added in the serialization for Strings in the payload. If this attribute is set to false (or not set) BOM and null-termination shall be added in the serialization for Strings in the payload according to the SOME/IP specification for Strings. NOTE! This attribute is not future safe, and will be removed in an upcoming AUTOSAR release!" Tags: atp.Status=obsolete
+        A None value is a no-op and does not overwrite an existing implementsLegacyStringSerialization.
+        """
+        if value is not None:
+            self.implementsLegacyStringSerialization = value
+        return self
+
+    def getInterfaceVersion(self) -> Optional[PositiveInteger]:
+        """
+        The interface version the SOME/IP transformer shall use.
+        """
+        return self.interfaceVersion
+
+    def setInterfaceVersion(self, value: Optional[PositiveInteger]) -> "SomeipTransformationISignalProps":
+        """
+        The interface version the SOME/IP transformer shall use.
+        A None value is a no-op and does not overwrite an existing interfaceVersion.
+        """
+        if value is not None:
+            self.interfaceVersion = value
+        return self
+
+    def getIsDynamicLengthFieldSize(self) -> Optional[Boolean]:
+        """
+        This attribute shall be used to determine the wire type in the context of using the TLV encoding.
+        """
+        return self.isDynamicLengthFieldSize
+
+    def setIsDynamicLengthFieldSize(self, value: Optional[Boolean]) -> "SomeipTransformationISignalProps":
+        """
+        This attribute shall be used to determine the wire type in the context of using the TLV encoding.
+        A None value is a no-op and does not overwrite an existing isDynamicLengthFieldSize.
+        """
+        if value is not None:
+            self.isDynamicLengthFieldSize = value
+        return self
+
+    def getMessageType(self) -> Optional[SOMEIPMessageTypeEnum]:
+        """
+        The Message Type which shall be placed into the SOME/IP header.
+        """
+        return self.messageType
+
+    def setMessageType(self, value: Optional[SOMEIPMessageTypeEnum]) -> "SomeipTransformationISignalProps":
+        """
+        The Message Type which shall be placed into the SOME/IP header.
+        A None value is a no-op and does not overwrite an existing messageType.
+        """
+        if value is not None:
+            self.messageType = value
+        return self
+
+    def getSizeOfArrayLengthFields(self) -> Optional[PositiveInteger]:
+        """
+        The size of all length fields (in Bytes) of fixed-size arrays or dynamic size arrays in the SOME/IP message. This attribute is valid for all available occurrences of fixed-size arrays or dynamic size arrays in the SOME/IP message.
+        """
+        return self.sizeOfArrayLengthFields
+
+    def setSizeOfArrayLengthFields(self, value: Optional[PositiveInteger]) -> "SomeipTransformationISignalProps":
+        """
+        The size of all length fields (in Bytes) of fixed-size arrays or dynamic size arrays in the SOME/IP message. This attribute is valid for all available occurrences of fixed-size arrays or dynamic size arrays in the SOME/IP message.
+        A None value is a no-op and does not overwrite an existing sizeOfArrayLengthFields.
+        """
+        if value is not None:
+            self.sizeOfArrayLengthFields = value
+        return self
+
+    def getSizeOfStringLengthFields(self) -> Optional[PositiveInteger]:
+        """
+        The size of all length fields (in Bytes) of dynamic length strings in the SOME/IP message. This attribute is valid for all available occurrences of strings in the SOME/IP message.
+        """
+        return self.sizeOfStringLengthFields
+
+    def setSizeOfStringLengthFields(self, value: Optional[PositiveInteger]) -> "SomeipTransformationISignalProps":
+        """
+        The size of all length fields (in Bytes) of dynamic length strings in the SOME/IP message. This attribute is valid for all available occurrences of strings in the SOME/IP message.
+        A None value is a no-op and does not overwrite an existing sizeOfStringLengthFields.
+        """
+        if value is not None:
+            self.sizeOfStringLengthFields = value
+        return self
+
+    def getSizeOfStructLengthFields(self) -> Optional[PositiveInteger]:
+        """
+        The size of all length fields (in Bytes) of structs in the SOME/IP message. This attribute is valid for all available occurrences of structures in the SOME/IP message. For a more fine granular modeling on the level of DataPrototypes the DataPrototypeTransformationProps shall be used.
+        """
+        return self.sizeOfStructLengthFields
+
+    def setSizeOfStructLengthFields(self, value: Optional[PositiveInteger]) -> "SomeipTransformationISignalProps":
+        """
+        The size of all length fields (in Bytes) of structs in the SOME/IP message. This attribute is valid for all available occurrences of structures in the SOME/IP message. For a more fine granular modeling on the level of DataPrototypes the DataPrototypeTransformationProps shall be used.
+        A None value is a no-op and does not overwrite an existing sizeOfStructLengthFields.
+        """
+        if value is not None:
+            self.sizeOfStructLengthFields = value
+        return self
+
+    def getSizeOfUnionLengthFields(self) -> Optional[PositiveInteger]:
+        """
+        The size of all length fields (in Bytes) of unions in the SOME/IP message. This attribute is valid for all available occurrences of Unions in the SOME/IP message. For a more fine granular modeling on the level of DataPrototypes the DataPrototypeTransformationProps shall be used.
+        """
+        return self.sizeOfUnionLengthFields
+
+    def setSizeOfUnionLengthFields(self, value: Optional[PositiveInteger]) -> "SomeipTransformationISignalProps":
+        """
+        The size of all length fields (in Bytes) of unions in the SOME/IP message. This attribute is valid for all available occurrences of Unions in the SOME/IP message. For a more fine granular modeling on the level of DataPrototypes the DataPrototypeTransformationProps shall be used.
+        A None value is a no-op and does not overwrite an existing sizeOfUnionLengthFields.
+        """
+        if value is not None:
+            self.sizeOfUnionLengthFields = value
+        return self
+
+    def addTlvDataIdDefinitionRef(self, value: Optional[RefType]) -> "SomeipTransformationISignalProps":
+        """
+        This reference identifies the TlvDataIdDefinitions relevant for the enclosing SOMEIPTransformationISignalProps
+        A None value is a no-op and does not add to tlvDataIdDefinitionRefs.
+        """
+        if value is not None:
+            self.tlvDataIdDefinitionRefs.append(value)
+        return self
+
+    def getTlvDataIdDefinitionRefs(self) -> List[RefType]:
+        """
+        This reference identifies the TlvDataIdDefinitions relevant for the enclosing SOMEIPTransformationISignalProps
+        """
+        return self.tlvDataIdDefinitionRefs
+
+
 class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     """
     The class EndToEndTransformationIComSpecProps specifies port specific configuration properties for EndToEnd transformer attributes.

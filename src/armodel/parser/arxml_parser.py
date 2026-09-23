@@ -1028,6 +1028,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
+    SOMEIPMessageTypeEnum,
+    SomeipTransformationISignalProps,
     TlvDataIdDefinition,
     TlvDataIdDefinitionSet,
     TransformationDescription,
@@ -12390,6 +12392,10 @@ class ARXMLParser(AbstractARXMLParser):
                 props = EndToEndTransformationISignalProps()
                 self.readEndToEndTransformationISignalProps(child_element, props)
                 signal.addTransformationISignalProps(props)
+            elif tag_name == "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS":
+                props = SomeipTransformationISignalProps()
+                self.readSomeipTransformationISignalProps(child_element, props)
+                signal.addTransformationISignalProps(props)
             else:
                 self.notImplemented("Unsupported TransformationISignalProps %s" % tag_name)
 
@@ -12747,12 +12753,36 @@ class ARXMLParser(AbstractARXMLParser):
             self.readEndToEndTransformationISignalPropsDataIds(child_element, props)
             props.setDataLength(self.getChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH"))
 
+    def readSomeipTransformationISignalProps(self, element: ET.Element, props: SomeipTransformationISignalProps):
+        child_element = self.find(element, "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS/SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL")
+        if child_element is not None:
+            self.readTransformationISignalProps(child_element, props)
+            props.setTransformerRef(self.getChildElementOptionalRefType(child_element, "TRANSFORMER-REF"))
+            props.setImplementsLegacyStringSerialization(self.getChildElementOptionalBooleanValue(child_element, "IMPLEMENTS-LEGACY-STRING-SERIALIZATION"))
+            props.setInterfaceVersion(self.getChildElementOptionalPositiveInteger(child_element, "INTERFACE-VERSION"))
+            props.setIsDynamicLengthFieldSize(self.getChildElementOptionalBooleanValue(child_element, "IS-DYNAMIC-LENGTH-FIELD-SIZE"))
+            message_type = self.getChildElementOptionalLiteral(child_element, "MESSAGE-TYPE")
+            if message_type is not None:
+                message_type_enum = SOMEIPMessageTypeEnum()
+                message_type_enum.setValue(message_type.getValue())
+                props.setMessageType(message_type_enum)
+            props.setSizeOfArrayLengthFields(self.getChildElementOptionalPositiveInteger(child_element, "SIZE-OF-ARRAY-LENGTH-FIELDS"))
+            props.setSizeOfStringLengthFields(self.getChildElementOptionalPositiveInteger(child_element, "SIZE-OF-STRING-LENGTH-FIELDS"))
+            props.setSizeOfStructLengthFields(self.getChildElementOptionalPositiveInteger(child_element, "SIZE-OF-STRUCT-LENGTH-FIELDS"))
+            props.setSizeOfUnionLengthFields(self.getChildElementOptionalPositiveInteger(child_element, "SIZE-OF-UNION-LENGTH-FIELDS"))
+            for ref_type in self.getChildElementRefTypeList(child_element, "TLV-DATA-ID-DEFINITION-REFS/TLV-DATA-ID-DEFINITION-REF"):
+                props.addTlvDataIdDefinitionRef(ref_type)
+
     def readISignalGroupTransformationISignalProps(self, element: ET.Element, group: ISignalGroup):
         for child_element in self.findall(element, "TRANSFORMATION-I-SIGNAL-PROPSS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS":
                 props = EndToEndTransformationISignalProps()
                 self.readEndToEndTransformationISignalProps(child_element, props)
+                group.addTransformationISignalProps(props)
+            elif tag_name == "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS":
+                props = SomeipTransformationISignalProps()
+                self.readSomeipTransformationISignalProps(child_element, props)
                 group.addTransformationISignalProps(props)
             else:
                 self.notImplemented("Unsupported TransformationISignalProps %s" % tag_name)

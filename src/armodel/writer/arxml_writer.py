@@ -920,6 +920,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
+    SomeipTransformationISignalProps,
     TlvDataIdDefinition,
     TlvDataIdDefinitionSet,
     TransformationDescription,
@@ -11984,6 +11985,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             for props in props_list:
                 if isinstance(props, EndToEndTransformationISignalProps):
                     self.writeEndToEndTransformationISignalProps(child_element, props)
+                elif isinstance(props, SomeipTransformationISignalProps):
+                    self.writeSomeipTransformationISignalProps(child_element, props)
                 else:
                     self.notImplemented("Unsupported TransformationISignalProps %s" % type(props))
 
@@ -12460,6 +12463,27 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEndToEndTransformationISignalPropsDataIds(child_element, props)
             self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", props.getDataLength())
 
+    def writeSomeipTransformationISignalProps(self, element: ET.Element, props: SomeipTransformationISignalProps):
+        if props is not None:
+            props_element = ET.SubElement(element, "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS")
+            variant_element = ET.SubElement(props_element, "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS")
+            child_element = ET.SubElement(variant_element, "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL")
+            self.writeTransformationISignalProps(child_element, props)
+            self.setChildElementOptionalRefType(child_element, "TRANSFORMER-REF", props.getTransformerRef())
+            self.setChildElementOptionalBooleanValue(child_element, "IMPLEMENTS-LEGACY-STRING-SERIALIZATION", props.getImplementsLegacyStringSerialization())
+            self.setChildElementOptionalPositiveInteger(child_element, "INTERFACE-VERSION", props.getInterfaceVersion())
+            self.setChildElementOptionalBooleanValue(child_element, "IS-DYNAMIC-LENGTH-FIELD-SIZE", props.getIsDynamicLengthFieldSize())
+            self.setChildElementOptionalLiteral(child_element, "MESSAGE-TYPE", props.getMessageType())
+            self.setChildElementOptionalPositiveInteger(child_element, "SIZE-OF-ARRAY-LENGTH-FIELDS", props.getSizeOfArrayLengthFields())
+            self.setChildElementOptionalPositiveInteger(child_element, "SIZE-OF-STRING-LENGTH-FIELDS", props.getSizeOfStringLengthFields())
+            self.setChildElementOptionalPositiveInteger(child_element, "SIZE-OF-STRUCT-LENGTH-FIELDS", props.getSizeOfStructLengthFields())
+            self.setChildElementOptionalPositiveInteger(child_element, "SIZE-OF-UNION-LENGTH-FIELDS", props.getSizeOfUnionLengthFields())
+            refs = props.getTlvDataIdDefinitionRefs()
+            if len(refs) > 0:
+                refs_element = ET.SubElement(child_element, "TLV-DATA-ID-DEFINITION-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_element, "TLV-DATA-ID-DEFINITION-REF", ref)
+
     def writeISignalGroupTransformationISignalProps(self, element: ET.Element, group: ISignalGroup):
         props_list = group.getTransformationISignalProps()
         if len(props_list) > 0:
@@ -12467,6 +12491,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             for props in props_list:
                 if isinstance(props, EndToEndTransformationISignalProps):
                     self.writeEndToEndTransformationISignalProps(child_element, props)
+                elif isinstance(props, SomeipTransformationISignalProps):
+                    self.writeSomeipTransformationISignalProps(child_element, props)
                 else:
                     self.notImplemented("Unsupported TransformationISignalProps %s" % type(props))
 
