@@ -237,7 +237,7 @@ class BuildActionIoElement(ARObject):
         # This represents an artifact applicable to the build action.
         self.engineeringObject: Optional[BuildEngineeringObject] = None
 
-        # foreignModelReference is intentionally skipped: no Class table exists in the R23-11 or R4.3.1 corpus, so no model field or XML reader/writer is fabricated.
+        # foreignModelReference (ForeignModelReference, 0..1, aggr) is intentionally unmodeled: the member class has no Class table in the R23-11 or R4.3.1 corpus (XSD-only, AUTOSAR_00052.xsd) and is not in the confirmed sync closure — tracked as a deviation in method_deviation_by_class.md.
 
         # This allows to denote a particular role of the collection. Note that the applicable semantics shall be mutually agreed between the two parties.
         self.role: Optional[Identifier] = None

@@ -79,17 +79,18 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations  [none open: both Step 1 findings were fixed in-band and leave no deviation rows — (1) type deviation date datetime→DateTime fixed in Step 3 with the matched typed helper repaired in Step 6 (getChildElementOptionalDateTime body instantiated a plain ARLiteral despite its DateTime signature; now CseCodeType-form — Rule 0014: fixed ⇒ no row), (2) reader/writer AR-RELEASE-VERSION-only gaps fixed in Step 6 (all three attrs, XSD order); v1 tracker (docs/examples/method_deviation_by_class.md) reconciled 2026-09-24: new `## LifeCyclePeriod` section added (sync record, no-deviation row, stamp-deferred note, consumer-wiring scope note); v2 tracker has no LifeCyclePeriod entries (verified by grep); consumer-side gaps NOT fixed unilaterally (belong to the later rows in this file): readLifeCycleInfo/writeLifeCycleInfo handle PERIOD-BEGIN only (no PERIOD-END), LifeCycleInfoSet readers/writers touch no DEFAULT-PERIOD-BEGIN/DEFAULT-PERIOD-END; referenced classes: base ARObject stamped, member types RevisionLabelString (PrimitiveTypes, unstamped, queued elsewhere) + DateTime (PrimitiveTypes, unstamped 4-column checklist, queued elsewhere), consumers LifeCycleInfo/LifeCycleInfoSet queued after this row — no missing classes]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-24: target files 94/94 (test_LifeCycles.py 50 + test_life_cycle_period.py parser 3 + writer 4 + test_writer_signals_diagnostic.py 37, re-run green after black reformat of 2 test files), full suite 11061 passed/0 failed (baseline 11049 + 12 net-new: +5 model tests, +7 round-trip tests), npm run lint (flake8+ruff) clean, npm run black reformatted the 2 new/extended test files (canonical formatting only) + black-check clean (1150 files unchanged); integration round-trip (29 ARXML) included in the suite green; 9b blind-spot checks walked: fields↔spec both directions exact (3 attrs), most-derived base ARObject (XSD L76738), no fabrication/flattening, PDF-typed fields (RevisionLabelString/DateTime), member order = markdown displayed order, XML element order = XSD sequenceOffset 10/20/30, docstrings verbatim (class Note + attribute Notes in inline comments/getters/setters + None-no-op sentences), blank line between __init__ attribute blocks, PEP 526 annotated members, reader+writer coverage for all 3 attrs via matched leaf pairs, no open deviations, leaf-file location per spec package; 9b deferred to batch confirmation (user instruction 2026-09-24)
 
-- [ ] `BuildActionIoElement` — ARObject — source TBC (locate table at Step 1)
+- [ ] `BuildActionIoElement` — ARObject — R23-11 FO_TPS_GenericStructureTemplate Table 10.3 (p.369)
   - module: M2/AUTOSARTemplates/GenericStructure/BuildActionManifest.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: Step 1 finding — orphan intake already models 5/6 attrs (category/ecucDefinitionRef/engineeringObject/role/sdgs, verbatim docstrings, ARObject base confirmed vs XSD complexType); `foreignModelReference` (aggr, ForeignModelReference) unmodeled — member class absent from src and table-less in both corpora (XSD-only, AUTOSAR_00052.xsd l.62888), not in confirmed closure → deviation row (Step 8). Reader type gap: CATEGORY read as plain ARLiteral, fix via getChildElementOptionalNameToken/setChildElementOptionalNameToken matched pair. Consume path stays helper-dispatch (readBuildActionIoElement/writeBuildActionIoElement from CREATED/INPUT/MODIFIED-DATAS wrappers).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-24: BuildActionManifest test files 72 passed (parser+writer Red first: 2 failed on CATEGORY ARLiteral-vs-NameToken, then Green after matched getChildElementOptionalNameToken/setChildElementOptionalNameToken pair); full suite `uv run python scripts/run_tests.py --no-coverage` 11067 passed / 0 failed (baseline 11061 + 6 new); `npm run lint` clean (flake8 E9,F63,F7,F82 + ruff E/F/W/I); `npm run black` + `black-check` clean (1150 files unchanged); 9b by-eye checks done (member order = Table 10.3 displayed order, XML order = XSD group sequence, docstrings verbatim by diff, blank lines between __init__ blocks, PEP 526, no `# type:`); 9b deferred to batch confirmation (user instruction 2026-09-24)
 
 - [ ] `AttributeValueVariationPoint` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/GenericStructure/VariantHandling/AttributeValueVariationPoints/__init__.py

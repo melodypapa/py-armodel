@@ -1276,6 +1276,17 @@ Aligned to `class_check_rules.md` on 2026-08-07. PDF-synced (Rule 1):
 |---|---|---|---|---|---|
 | `baseTypeDefinition` | `BaseTypeDirectDefinition` | `baseTypeDefinition` | `BaseTypeDefinition` | aggr | type (PDF abstract BaseTypeDefinition vs py BaseTypeDirectDefinition; the abstract aggregated type is instantiated as the concrete subtype) |
 
+## `BuildActionIoElement`
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 369 (Table 10.3)
+- **Package:** `M2::AUTOSARTemplates::GenericStructure::BuildActionManifest`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/BuildActionManifest.py`
+
+**Note:** Synced 2026-09-24 against R23-11 Table 10.3 (R4.3.1 Table 9.3, p.338, is the byte-equivalent pre-split table; Base `ARObject` confirmed against the XSD complexType `BUILD-ACTION-IO-ELEMENT`, which references only the `AR-OBJECT` group). Reader type gap fixed during the sync — the parser read CATEGORY via `getChildElementOptionalLiteral` (plain `ARLiteral`) while the spec type is `NameToken`; a matched `getChildElementOptionalNameToken`/`setChildElementOptionalNameToken` leaf pair was added and CATEGORY now round-trips as `NameToken` (same reader-type-gap fix as the CseCodeType/DateTime precedents). Reader/writer XML element order already matches the XSD group sequence CATEGORY → SDGS → ECUC-DEFINITION-REF → ENGINEERING-OBJECT → FOREIGN-MODEL-REFERENCE → ROLE (sequenceOffset -100/-90/—/—/—/30); the XSD's `MODEL-OBJECT-REFERENCE` row (GenericModelReference) carries `atp.Status="removed"` and is absent from the R23-11 table, so it stays unmodeled (Rule 0015). Stamp (`# Spec verified: R23-11`) deferred to batch confirmation.
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(missing)* | `—` | `foreignModelReference` | `ForeignModelReference` | aggr | missing (member class has no Class table in the R23-11 or R4.3.1 corpus — XSD-only, `AUTOSAR_00052.xsd` FOREIGN-MODEL-REFERENCE complexType — and is outside the confirmed sync closure, Rule 0001.10; queued for its own XSD-derived sync, reader/writer coverage deferred with it) |
+
 ## `CompositionSwComponentType`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 307
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Composition`

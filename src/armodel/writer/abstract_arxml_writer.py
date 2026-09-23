@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Float,
     Identifier,
     Integer,
+    NameToken,
     Numerical,
     RefType,
     RevisionLabelString,
@@ -177,6 +178,13 @@ class AbstractARXMLWriter(ABC):
         return element
 
     def setChildElementOptionalIdentifier(self, element: ET.Element, key: str, value: Identifier) -> ET.Element:
+        if value is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARType(child_element, value)
+            child_element.text = value.getText()
+        return element
+
+    def setChildElementOptionalNameToken(self, element: ET.Element, key: str, value: NameToken) -> ET.Element:
         if value is not None:
             child_element = ET.SubElement(element, key)
             self.writeARType(child_element, value)

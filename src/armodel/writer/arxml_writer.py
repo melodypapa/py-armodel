@@ -6287,7 +6287,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(element, "FILE-TYPE-PATTERN", engineering_object.getFileTypePattern())
 
     def writeBuildActionIoElement(self, element: ET.Element, io_element: BuildActionIoElement):
-        self.setChildElementOptionalLiteral(element, "CATEGORY", io_element.getCategory())
+        self.setChildElementOptionalNameToken(element, "CATEGORY", io_element.getCategory())
         sdgs = io_element.getSdgs()
         if sdgs:
             sdgs_element = ET.SubElement(element, "SDGS")

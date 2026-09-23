@@ -4978,7 +4978,7 @@ class ARXMLParser(AbstractARXMLParser):
         return engineering_object
 
     def readBuildActionIoElement(self, element: ET.Element, io_element: BuildActionIoElement) -> BuildActionIoElement:
-        io_element.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
+        io_element.setCategory(self.getChildElementOptionalNameToken(element, "CATEGORY"))
         sdgs_element = self.find(element, "SDGS")
         if sdgs_element is not None:
             for child in self.findall(sdgs_element, "SDG"):

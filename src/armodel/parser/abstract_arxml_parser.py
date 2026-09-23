@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Integer,
     IntervalTypeEnum,
     Limit,
+    NameToken,
     Numerical,
     PositiveInteger,
     RefType,
@@ -163,6 +164,19 @@ class AbstractARXMLParser(ABC):
             else:
                 identifier.setValue(child_element.text)
         return identifier
+
+    def getChildElementOptionalNameToken(self, element: ET.Element, key: str) -> NameToken:
+        child_element = self.find(element, key)
+        name_token = None
+        if child_element is not None:
+            name_token = NameToken()
+            self.readARType(child_element, name_token)
+            # Patch for empty element <USED-CODE-GENERATOR></USED-CODE-GENERATOR>
+            if child_element.text is None:
+                name_token.setValue("")
+            else:
+                name_token.setValue(child_element.text)
+        return name_token
 
     def getChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str) -> RevisionLabelString:
         child_element = self.find(element, key)
