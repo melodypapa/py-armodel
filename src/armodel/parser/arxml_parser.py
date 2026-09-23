@@ -14149,7 +14149,7 @@ class ARXMLParser(AbstractARXMLParser):
                 tag_name = self.getTagName(map_element)
                 if tag_name == "BLUEPRINT-MAPPING":
                     blueprint_map = BlueprintMapping()
-                    self.readAtpBlueprintMapping(map_element, blueprint_map)
+                    self.readBlueprintMapping(map_element, blueprint_map)
                     blueprint_mapping_set.addBlueprintMap(blueprint_map)
                 elif tag_name == "PORT-INTERFACE-BLUEPRINT-MAPPING":
                     blueprint_map = PortInterfaceBlueprintMapping()
@@ -14170,6 +14170,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readAtpBlueprintMapping(self, element: ET.Element, blueprint_map: AtpBlueprintMapping):
         self.readARObject(element, blueprint_map)
+
+    def readBlueprintMapping(self, element: ET.Element, blueprint_map: BlueprintMapping):
+        self.readAtpBlueprintMapping(element, blueprint_map)
+        blueprint_map.setBlueprintRef(self.getChildElementOptionalRefType(element, "BLUEPRINT-REF"))
+        blueprint_map.setDerivedObjectRef(self.getChildElementOptionalRefType(element, "DERIVED-OBJECT-REF"))
 
     def readPortInterfaceBlueprintMapping(self, element: ET.Element, blueprint_map: PortInterfaceBlueprintMapping):
         self.readAtpBlueprintMapping(element, blueprint_map)

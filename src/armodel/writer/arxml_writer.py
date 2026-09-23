@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
     PortPrototypeBlueprintMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMapping import (
+    BlueprintMapping,
     BlueprintMappingSet,
 )
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
@@ -13847,7 +13848,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writePortPrototypeBlueprintMapping(blueprint_map_tag, blueprint_map)
                 else:
                     blueprint_map_tag = ET.SubElement(blueprint_maps_tag, "BLUEPRINT-MAPPING")
-                    self.writeAtpBlueprintMapping(blueprint_map_tag, blueprint_map)
+                    self.writeBlueprintMapping(blueprint_map_tag, blueprint_map)
 
     def writeConstantSpecificationMappingSet(self, element: ET.Element, constant_specification_mapping_set: ConstantSpecificationMappingSet):
         self.logger.debug("Write ConstantSpecificationMappingSet %s" % constant_specification_mapping_set.getShortName())
@@ -13861,6 +13862,11 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeAtpBlueprintMapping(self, element: ET.Element, blueprint_map: AtpBlueprintMapping):
         self.writeARObject(element, blueprint_map)
+
+    def writeBlueprintMapping(self, element: ET.Element, blueprint_map: BlueprintMapping):
+        self.writeAtpBlueprintMapping(element, blueprint_map)
+        self.setChildElementOptionalRefType(element, "BLUEPRINT-REF", blueprint_map.getBlueprintRef())
+        self.setChildElementOptionalRefType(element, "DERIVED-OBJECT-REF", blueprint_map.getDerivedObjectRef())
 
     def writePortInterfaceBlueprintMapping(self, element: ET.Element, blueprint_map: PortInterfaceBlueprintMapping):
         self.writeAtpBlueprintMapping(element, blueprint_map)
