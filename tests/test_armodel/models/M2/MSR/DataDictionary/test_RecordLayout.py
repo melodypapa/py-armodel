@@ -8,6 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import (
     AsamRecordLayoutSemantics,
     AxisIndexType,
+    RecordLayoutIteratorPoint,
     SwRecordLayout,
     SwRecordLayoutGroup,
     SwRecordLayoutGroupContent,
@@ -68,6 +69,43 @@ class TestAsamRecordLayoutSemantics:
         semantics.setValue("ROW_DIR")
         semantics.setValue(None)
         assert semantics.getValue() == "ROW_DIR"
+
+
+class TestRecordLayoutIteratorPoint:
+    """Test class for RecordLayoutIteratorPoint primitive (spec CP SWCT Table 5.102, p.425: integer or MAX-TEXT-SIZE/ARRAY-SIZE keyword iteration endpoint for SwRecordLayoutGroup)."""
+
+    def test_record_layout_iterator_point_initialization(self):
+        """Test that a RecordLayoutIteratorPoint object can be instantiated as an ARLiteral and defaults to an empty value."""
+        point = RecordLayoutIteratorPoint()
+        assert isinstance(point, ARLiteral)
+        assert point.getValue() == ""
+
+    def test_record_layout_iterator_point_integer_value(self):
+        """Test that a RecordLayoutIteratorPoint carries an integer value and setValue returns self for chaining."""
+        point = RecordLayoutIteratorPoint()
+        result = point.setValue("3")
+        assert result is point
+        assert point.getValue() == "3"
+
+    def test_record_layout_iterator_point_negative_value(self):
+        """Test that a RecordLayoutIteratorPoint carries a negative value (-1 denotes the last value, counted backwards)."""
+        point = RecordLayoutIteratorPoint()
+        point.setValue("-1")
+        assert point.getValue() == "-1"
+
+    def test_record_layout_iterator_point_keywords(self):
+        """Test the standardized MAX-TEXT-SIZE and ARRAY-SIZE keywords from the spec pattern."""
+        for keyword in ("MAX-TEXT-SIZE", "ARRAY-SIZE"):
+            point = RecordLayoutIteratorPoint()
+            point.setValue(keyword)
+            assert point.getValue() == keyword
+
+    def test_record_layout_iterator_point_none_no_op(self):
+        """Test that setValue(None) is a no-op and does not overwrite an existing value."""
+        point = RecordLayoutIteratorPoint()
+        point.setValue("ARRAY-SIZE")
+        point.setValue(None)
+        assert point.getValue() == "ARRAY-SIZE"
 
 
 class TestSwRecordLayoutV:
@@ -251,17 +289,17 @@ class TestSwRecordLayoutGroup:
         """Test that optional Table 5.99 members retain values when set to None."""
         group = SwRecordLayoutGroup()
         values = {
-            "Category": ARLiteral(),
+            "Category": AsamRecordLayoutSemantics(),
             "Desc": MultiLanguageOverviewParagraph(),
             "ShortLabel": ARLiteral(),
             "SwGenericAxisParamTypeRef": RefType(),
             "SwRecordLayoutComponent": ARLiteral(),
             "SwRecordLayoutGroupAxis": Integer(),
             "SwRecordLayoutGroupContentType": SwRecordLayoutGroupContent(),
-            "SwRecordLayoutGroupFrom": ARLiteral(),
+            "SwRecordLayoutGroupFrom": RecordLayoutIteratorPoint(),
             "SwRecordLayoutGroupIndex": ARLiteral(),
             "SwRecordLayoutGroupStep": Integer(),
-            "SwRecordLayoutGroupTo": ARLiteral(),
+            "SwRecordLayoutGroupTo": RecordLayoutIteratorPoint(),
         }
         for name, value in values.items():
             setter = getattr(group, "set" + name)
@@ -349,9 +387,9 @@ class TestSwRecordLayoutGroup:
         assert result == sw_record_layout_group
 
     def test_sw_record_layout_group_sw_record_layout_group_from_methods(self):
-        """Test the swRecordLayoutGroupFrom getter and setter."""
+        """Test the swRecordLayoutGroupFrom getter and setter (spec type RecordLayoutIteratorPoint, CP SWCT Table 5.99)."""
         sw_record_layout_group = SwRecordLayoutGroup()
-        from_val = ARLiteral()
+        from_val = RecordLayoutIteratorPoint()
 
         result = sw_record_layout_group.setSwRecordLayoutGroupFrom(from_val)
         assert sw_record_layout_group.getSwRecordLayoutGroupFrom() == from_val
@@ -376,9 +414,9 @@ class TestSwRecordLayoutGroup:
         assert result == sw_record_layout_group
 
     def test_sw_record_layout_group_sw_record_layout_group_to_methods(self):
-        """Test the swRecordLayoutGroupTo getter and setter."""
+        """Test the swRecordLayoutGroupTo getter and setter (spec type RecordLayoutIteratorPoint, CP SWCT Table 5.99)."""
         sw_record_layout_group = SwRecordLayoutGroup()
-        to_val = ARLiteral()
+        to_val = RecordLayoutIteratorPoint()
 
         result = sw_record_layout_group.setSwRecordLayoutGroupTo(to_val)
         assert sw_record_layout_group.getSwRecordLayoutGroupTo() == to_val

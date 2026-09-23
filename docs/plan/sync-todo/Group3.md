@@ -1012,15 +1012,15 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 8 — Deviations  [none: Primitive table → ARLiteral subclass (Rule 0001.10 primitive path); no attributes to type; Steps 5/6 N/A (element belongs to the consumer); the category retype to the precise PDF type was this dependency row's purpose, recorded on the SwRecordLayoutGroup row; no missing referenced classes (ARLiteral/ARType in src)]
    - [ ] Step 9 — Verify (9a) + confirm (9b)  [9a: 10924 unit tests + flake8 + ruff + black-check green; 9a run at batch level for integration; **stamp deferred to batch confirmation (user instruction 2026-09-24)**]
  - [ ] `RecordLayoutIteratorPoint` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.102 · primitive type of `SwRecordLayoutGroup.swRecordLayoutGroupFrom` and `swRecordLayoutGroupTo` · **NOT in src — class must be created when this row is synced**)
-   - [ ] Step 1 — Sync members & description from spec
-   - [ ] Step 2 — Write model class unit test (Red)
-   - [ ] Step 3 — Implement model class (Green)
-   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-   - [ ] Step 5 — Write reader/writer round-trip test (Red)
-   - [ ] Step 6 — Update parser & writer (Green)
-   - [ ] Step 7 — Update checklist comment
-   - [ ] Step 8 — Deviations
-   - [ ] Step 9 — Verify (9a) + confirm (9b)
+   - [x] Step 1 — Sync members & description from spec  [Primitive, p.425 via pdf_page.py (FO twin Table 4.59 p.112); Package M2::MSR::DataDictionary::RecordLayout → RecordLayout.py; Note verbatim (integer or MAX-TEXT-SIZE|ARRAY-SIZE keyword; negatives counted backwards, -1 = last value) + Tags xml.xsd.customType=RECORD-LAYOUT-ITERATOR-POINT / xml.xsd.pattern=-?([0-9]+|MAX-TEXT-SIZE|ARRAY-SIZE) / xml.xsd.type=string (markdown &#124; entities decoded); XSD complexType l.141529 + --SIMPLE l.141541 (simpleContent + AR-OBJECT attrs, AxisIndexType shape); Base ARLiteral (primitive path, Rule 0001.10); consumers SW-RECORD-LAYOUT-GROUP-FROM l.116044 / SW-RECORD-LAYOUT-GROUP-TO l.116052]
+   - [x] Step 2 — Write model class unit test (Red)  [TestRecordLayoutIteratorPoint in test_RecordLayout.py: ARLiteral instance + empty default, integer round-trip + chaining, negative -1 (spec's backwards-counting example), MAX-TEXT-SIZE/ARRAY-SIZE keywords, None no-op; ImportError = Red]
+   - [x] Step 3 — Implement model class (Green)  [RecordLayoutIteratorPoint(ARLiteral) added to RecordLayout.py between AxisIndexType (5.101) and AsamRecordLayoutSemantics (5.103) — final file order == spec table order; inherits ARLiteral.__init__ like AxisIndexType; swRecordLayoutGroupFrom/To fields retyped Optional[ARLiteral] → Optional[RecordLayoutIteratorPoint] per the Table 5.99 PDF types; consumer tests updated to construct the typed class; 43 passed]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [brand-new class — docstring = Table 5.102 Note verbatim + Tags bullet block (AxisIndexType precedent, pattern rendered with literal |); no own members, no __init__ docstring]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: standalone ARLiteral primitive with no own XML element — the wire elements are the consumer's SW-RECORD-LAYOUT-GROUP-FROM/TO, already covered by SwRecordLayoutGroup's reader/writer via generic literal helpers (same treatment as AxisIndexType, reader [—] / writer [—])]
+   - [x] Step 6 — Update parser & writer (Green)  [N/A: see Step 5 — no production change; XML identical before/after the From/To retype]
+   - [x] Step 7 — Update checklist comment  [# Spec: CP_TPS Table 5.102, p.425; 1 row (__init__) with 6 columns + release R23-11; marker deferred to batch confirmation]
+   - [x] Step 8 — Deviations  [none: Primitive table → ARLiteral subclass (Rule 0001.10 primitive path); no attributes to type; Steps 5/6 N/A (elements belong to the consumer); the From/To retype to the precise PDF types was this dependency row's purpose, recorded on the SwRecordLayoutGroup row; no missing referenced classes (ARLiteral/ARType in src)]
+   - [ ] Step 9 — Verify (9a) + confirm (9b)  [9a: 10929 unit tests + flake8 + ruff + black-check green; 9a run at batch level for integration; **stamp deferred to batch confirmation (user instruction 2026-09-24)**]
  - [ ] `SwRecordLayoutGroup` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.99 · **moved 2026-09-03 restructure after `SwRecordLayoutV` (aggr `swRecordLayoutV`) + `SwRecordLayoutGroupContent` (aggr `swRecordLayoutGroupContentType`) + `SwRecordLayout` (ref `swRecordLayout`)** · self-recursive `swRecordLayoutGroup` · `swGenericAxisParamType` NOT in src — pending 16.4 below · `desc` stamped ✓)
    - [x] Step 1 — Sync members & description from spec [Table 5.99, p.424; ARObject base; 11 members and XSD sequence order confirmed]
    - [x] Step 2 — Write model class unit test (Red) [class Note/base shape and None-safe optional setters; failed before implementation]
