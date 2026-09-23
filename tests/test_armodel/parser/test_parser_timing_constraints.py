@@ -36,6 +36,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTiming import (
     SynchronizationTimingConstraint,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEventChain
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming
 from armodel.parser.arxml_parser import ARXMLParser
 
@@ -620,3 +621,77 @@ class TestReadSwcTiming:
         assert timing.getTimingRequirements() == []
         assert timing.getTimingResource() is None
         assert timing.getBehaviorRef() is None
+
+
+class TestReadTimingDescriptionEventChain:
+    def test_read_timing_description_event_chain(self, parser):
+        parent = _parent()
+        chain = TimingDescriptionEventChain(parent, "Chain1")
+        element = ET.fromstring(
+            f"<TIMING-DESCRIPTION-EVENT-CHAIN xmlns='{NS}'>"
+            "<SHORT-NAME>Chain1</SHORT-NAME>"
+            "<IS-PIPELINING-PERMITTED>true</IS-PIPELINING-PERMITTED>"
+            "<STIMULUS-REF DEST='TIMING-DESCRIPTION-EVENT'>/AUTOSAR/Stimulus</STIMULUS-REF>"
+            "<RESPONSE-REF DEST='TIMING-DESCRIPTION-EVENT'>/AUTOSAR/Response</RESPONSE-REF>"
+            "<SEGMENT-REFS>"
+            "<SEGMENT-REF DEST='TIMING-DESCRIPTION-EVENT-CHAIN'>/AUTOSAR/Seg1</SEGMENT-REF>"
+            "<SEGMENT-REF DEST='TIMING-DESCRIPTION-EVENT-CHAIN'>/AUTOSAR/Seg2</SEGMENT-REF>"
+            "</SEGMENT-REFS>"
+            "</TIMING-DESCRIPTION-EVENT-CHAIN>"
+        )
+        parser.readTimingDescriptionEventChain(element, chain)
+        assert chain.getShortName() == "Chain1"
+        assert chain.getIsPipeliningPermitted().getValue() is True
+        assert chain.getStimulusRef().getValue() == "/AUTOSAR/Stimulus"
+        assert chain.getStimulusRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        assert chain.getResponseRef().getValue() == "/AUTOSAR/Response"
+        assert chain.getResponseRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        segments = chain.getSegmentRefs()
+        assert len(segments) == 2
+        assert segments[0].getValue() == "/AUTOSAR/Seg1"
+        assert segments[1].getDest() == "TIMING-DESCRIPTION-EVENT-CHAIN"
+
+    def test_read_timing_description_event_chain_empty(self, parser):
+        parent = _parent()
+        chain = TimingDescriptionEventChain(parent, "Chain1")
+        element = ET.fromstring(f"<TIMING-DESCRIPTION-EVENT-CHAIN xmlns='{NS}'><SHORT-NAME>Chain1</SHORT-NAME></TIMING-DESCRIPTION-EVENT-CHAIN>")
+        parser.readTimingDescriptionEventChain(element, chain)
+        assert chain.getIsPipeliningPermitted() is None
+        assert chain.getStimulusRef() is None
+        assert chain.getResponseRef() is None
+        assert chain.getSegmentRefs() == []
+
+    def test_read_timing_description_event_chain_via_timing_extension(self, parser):
+        parent = _parent()
+        extension = SwcTiming(parent, "Timing")
+        element = ET.fromstring(
+            f"<SWC-TIMING xmlns='{NS}'>"
+            "<SHORT-NAME>Timing</SHORT-NAME>"
+            "<TIMING-DESCRIPTIONS>"
+            "<TIMING-DESCRIPTION-EVENT-CHAIN>"
+            "<SHORT-NAME>Chain1</SHORT-NAME>"
+            "<IS-PIPELINING-PERMITTED>false</IS-PIPELINING-PERMITTED>"
+            "<STIMULUS-REF DEST='TIMING-DESCRIPTION-EVENT'>/AUTOSAR/Stimulus</STIMULUS-REF>"
+            "<RESPONSE-REF DEST='TIMING-DESCRIPTION-EVENT'>/AUTOSAR/Response</RESPONSE-REF>"
+            "<SEGMENT-REFS>"
+            "<SEGMENT-REF DEST='TIMING-DESCRIPTION-EVENT-CHAIN'>/AUTOSAR/Seg1</SEGMENT-REF>"
+            "</SEGMENT-REFS>"
+            "</TIMING-DESCRIPTION-EVENT-CHAIN>"
+            "</TIMING-DESCRIPTIONS>"
+            "</SWC-TIMING>"
+        )
+        parser.readTimingExtension(element, extension)
+        descriptions = extension.getTimingDescriptions()
+        assert len(descriptions) == 1
+        description = descriptions[0]
+        assert isinstance(description, TimingDescriptionEventChain)
+        assert description.getShortName() == "Chain1"
+        assert description.getIsPipeliningPermitted().getValue() is False
+        assert description.getStimulusRef().getValue() == "/AUTOSAR/Stimulus"
+        assert description.getStimulusRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        assert description.getResponseRef().getValue() == "/AUTOSAR/Response"
+        assert description.getResponseRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        segments = description.getSegmentRefs()
+        assert len(segments) == 1
+        assert segments[0].getValue() == "/AUTOSAR/Seg1"
+        assert segments[0].getDest() == "TIMING-DESCRIPTION-EVENT-CHAIN"

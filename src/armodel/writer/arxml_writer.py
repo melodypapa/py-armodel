@@ -8052,6 +8052,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(description, TDEventSLLETPort):
                     description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-SLLET-PORT")
                     self.writeTDEventSLLETPort(description_tag, description)
+                elif isinstance(description, TimingDescriptionEventChain):
+                    description_tag = ET.SubElement(descriptions_tag, "TIMING-DESCRIPTION-EVENT-CHAIN")
+                    self.writeTimingDescriptionEventChain(description_tag, description)
 
     def writeSwcTiming(self, element: ET.Element, timing: SwcTiming):
         self.logger.debug("writeSWcTiming %s" % timing.getShortName())

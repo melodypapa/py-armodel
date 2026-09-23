@@ -3183,6 +3183,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "TD-EVENT-SLLET-PORT":
                 event = TDEventSLLETPort(extension, short_name)
                 self.readTDEventSLLETPort(child_element, event)
+            elif tag_name == "TIMING-DESCRIPTION-EVENT-CHAIN":
+                event = TimingDescriptionEventChain(extension, short_name)
+                self.readTimingDescriptionEventChain(child_element, event)
             else:
                 self.notImplemented("Unsupported TIMING-DESCRIPTIONS item <%s>" % tag_name)
                 continue

@@ -36,6 +36,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
     SynchronizationTimingConstraint,
     SynchronizationTypeEnum,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEventChain
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import (
     MultidimensionalTime,
@@ -1062,3 +1063,101 @@ class TestWriteSwcTiming:
         ARXMLParser().readSwcTiming(_round_trip(element), reloaded)
         assert reloaded.getTimingConditions() == []
         assert reloaded.getBehaviorRef() is None
+
+
+class TestWriteTimingDescriptionEventChain:
+    def _parent(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        return document.createARPackage("AUTOSAR")
+
+    def _chain(self, parent) -> TimingDescriptionEventChain:
+        chain = TimingDescriptionEventChain(parent, "Chain1")
+        chain.setIsPipeliningPermitted(Boolean().setValue(True))
+        chain.setStimulusRef(RefType().setValue("/AUTOSAR/Stimulus").setDest("TIMING-DESCRIPTION-EVENT"))
+        chain.setResponseRef(RefType().setValue("/AUTOSAR/Response").setDest("TIMING-DESCRIPTION-EVENT"))
+        chain.addSegmentRef(RefType().setValue("/AUTOSAR/Seg1").setDest("TIMING-DESCRIPTION-EVENT-CHAIN"))
+        chain.addSegmentRef(RefType().setValue("/AUTOSAR/Seg2").setDest("TIMING-DESCRIPTION-EVENT-CHAIN"))
+        return chain
+
+    def test_round_trip_timing_description_event_chain_full(self):
+        parent = self._parent()
+        chain = self._chain(parent)
+
+        element = ET.Element("TIMING-DESCRIPTION-EVENT-CHAIN")
+        ARXMLWriter().writeTimingDescriptionEventChain(element, chain)
+        children = [child.tag for child in element if child.tag != "SHORT-NAME"]
+        assert children.index("IS-PIPELINING-PERMITTED") < children.index("STIMULUS-REF")
+        assert children.index("STIMULUS-REF") < children.index("RESPONSE-REF")
+        assert children.index("RESPONSE-REF") < children.index("SEGMENT-REFS")
+        assert element.find("IS-PIPELINING-PERMITTED").text == "true"
+        assert element.find("STIMULUS-REF").attrib["DEST"] == "TIMING-DESCRIPTION-EVENT"
+        assert element.find("STIMULUS-REF").text == "/AUTOSAR/Stimulus"
+        assert element.find("RESPONSE-REF").attrib["DEST"] == "TIMING-DESCRIPTION-EVENT"
+        assert element.find("RESPONSE-REF").text == "/AUTOSAR/Response"
+        segments = element.find("SEGMENT-REFS").findall("SEGMENT-REF")
+        assert len(segments) == 2
+        assert segments[0].attrib["DEST"] == "TIMING-DESCRIPTION-EVENT-CHAIN"
+        assert segments[1].text == "/AUTOSAR/Seg2"
+
+        reloaded = TimingDescriptionEventChain(parent, "Chain1")
+        ARXMLParser().readTimingDescriptionEventChain(_round_trip(element), reloaded)
+        assert reloaded.getIsPipeliningPermitted().getValue() is True
+        assert reloaded.getStimulusRef().getValue() == "/AUTOSAR/Stimulus"
+        assert reloaded.getStimulusRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        assert reloaded.getResponseRef().getValue() == "/AUTOSAR/Response"
+        assert reloaded.getResponseRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        reloaded_segments = reloaded.getSegmentRefs()
+        assert len(reloaded_segments) == 2
+        assert reloaded_segments[0].getValue() == "/AUTOSAR/Seg1"
+        assert reloaded_segments[1].getDest() == "TIMING-DESCRIPTION-EVENT-CHAIN"
+
+    def test_write_timing_description_event_chain_empty(self):
+        parent = self._parent()
+        chain = TimingDescriptionEventChain(parent, "Chain1")
+
+        element = ET.Element("TIMING-DESCRIPTION-EVENT-CHAIN")
+        ARXMLWriter().writeTimingDescriptionEventChain(element, chain)
+        assert element.find("IS-PIPELINING-PERMITTED") is None
+        assert element.find("STIMULUS-REF") is None
+        assert element.find("RESPONSE-REF") is None
+        assert element.find("SEGMENT-REFS") is None
+
+        reloaded = TimingDescriptionEventChain(parent, "Chain1")
+        ARXMLParser().readTimingDescriptionEventChain(_round_trip(element), reloaded)
+        assert reloaded.getIsPipeliningPermitted() is None
+        assert reloaded.getStimulusRef() is None
+        assert reloaded.getResponseRef() is None
+        assert reloaded.getSegmentRefs() == []
+
+    def test_round_trip_timing_description_event_chain_via_timing_extension(self):
+        parent = self._parent()
+        extension = SwcTiming(parent, "Timing")
+        chain = self._chain(extension)
+        extension.addElement(chain)
+        extension.addTimingDescription(chain)
+
+        element = ET.Element("SWC-TIMING")
+        ARXMLWriter().writeTimingExtension(element, extension)
+        descriptions_tag = element.find("TIMING-DESCRIPTIONS")
+        assert descriptions_tag is not None
+        chain_tag = descriptions_tag.find("TIMING-DESCRIPTION-EVENT-CHAIN")
+        assert chain_tag is not None
+
+        reloaded = SwcTiming(parent, "Timing")
+        ARXMLParser().readTimingExtension(_round_trip(element), reloaded)
+        descriptions = reloaded.getTimingDescriptions()
+        assert len(descriptions) == 1
+        reloaded_chain = descriptions[0]
+        assert isinstance(reloaded_chain, TimingDescriptionEventChain)
+        assert reloaded_chain.getShortName() == "Chain1"
+        assert reloaded_chain.getIsPipeliningPermitted().getValue() is True
+        assert reloaded_chain.getStimulusRef().getValue() == "/AUTOSAR/Stimulus"
+        assert reloaded_chain.getStimulusRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        assert reloaded_chain.getResponseRef().getValue() == "/AUTOSAR/Response"
+        assert reloaded_chain.getResponseRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        reloaded_segments = reloaded_chain.getSegmentRefs()
+        assert len(reloaded_segments) == 2
+        assert reloaded_segments[0].getValue() == "/AUTOSAR/Seg1"
+        assert reloaded_segments[1].getDest() == "TIMING-DESCRIPTION-EVENT-CHAIN"
