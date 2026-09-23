@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationISignalProps,
     SOMEIPMessageTypeEnum,
     TlvDataIdDefinition,
+    TlvDataIdDefinitionSet,
     TransformationDescription,
     TransformationISignalProps,
     TransformationTechnology,
@@ -964,3 +965,69 @@ class Test_TlvDataIdDefinition:
 
         assert tlv == tlv.setTlvRecordElementRef(None)
         assert tlv.getTlvRecordElementRef() == ref
+
+
+class Test_TlvDataIdDefinitionSet:
+    def _make_set(self):
+        return TlvDataIdDefinitionSet(MockParent(), "TlvDataIdDefinitionSet")
+
+    def _make_definition(self, id_value, ref_value, dest):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
+
+        tlv = TlvDataIdDefinition()
+        tlv.setId(PositiveInteger().setValue(id_value))
+        ref = RefType()
+        ref.setDest(dest)
+        ref.setValue(ref_value)
+        tlv.setTlvArgumentRef(ref)
+        return tlv
+
+    def test_docstring_is_spec_note_verbatim(self):
+        # Table 7.30, p.830 — class Note verbatim from the markdown (incl. Tags tail)
+        note = "This meta-class acts as a container of TlvDataIdDefinitions to be used in a given context Tags: atp.recommendedPackage=TlvDataDefinitionSets"
+        assert TlvDataIdDefinitionSet.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert TlvDataIdDefinitionSet.__init__.__doc__ is None
+
+    def test_heritage_is_aelement(self):
+        assert issubclass(TlvDataIdDefinitionSet, ARElement)
+        assert issubclass(TlvDataIdDefinitionSet, Identifiable)
+
+        tlv_set = self._make_set()
+        assert isinstance(tlv_set, ARElement)
+        assert isinstance(tlv_set, Identifiable)
+
+    def test_initialization_defaults(self):
+        tlv_set = self._make_set()
+
+        assert tlv_set.getShortName() == "TlvDataIdDefinitionSet"
+        assert tlv_set.getTlvDataIdDefinitions() == []
+
+    def test_add_tlv_data_id_definition_appends(self):
+        tlv_set = self._make_set()
+        first = self._make_definition(1, "/PortInterface/op/arg", "ARGUMENT-DATA-PROTOTYPE")
+        second = self._make_definition(2, "/DataType/record", "APPLICATION-RECORD-ELEMENT")
+
+        assert tlv_set == tlv_set.addTlvDataIdDefinition(first)
+        assert tlv_set == tlv_set.addTlvDataIdDefinition(second)
+
+        definitions = tlv_set.getTlvDataIdDefinitions()
+        assert len(definitions) == 2
+        assert definitions[0] is first
+        assert definitions[1] is second
+        assert definitions[0].getId().getValue() == 1
+        assert definitions[1].getId().getValue() == 2
+        assert definitions[0].getTlvArgumentRef().getValue() == "/PortInterface/op/arg"
+        assert definitions[1].getTlvArgumentRef().getValue() == "/DataType/record"
+
+    def test_add_tlv_data_id_definition_none_is_no_op(self):
+        tlv_set = self._make_set()
+        first = self._make_definition(1, "/PortInterface/op/arg", "ARGUMENT-DATA-PROTOTYPE")
+        tlv_set.addTlvDataIdDefinition(first)
+
+        assert tlv_set == tlv_set.addTlvDataIdDefinition(None)
+
+        definitions = tlv_set.getTlvDataIdDefinitions()
+        assert len(definitions) == 1
+        assert definitions[0] is first

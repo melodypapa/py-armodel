@@ -1132,6 +1132,40 @@ class TlvDataIdDefinition(ARObject):
         return self
 
 
+class TlvDataIdDefinitionSet(ARElement):
+    """
+    This meta-class acts as a container of TlvDataIdDefinitions to be used in a given context Tags: atp.recommendedPackage=TlvDataDefinitionSets
+    """
+
+    # TlvDataIdDefinitionSet method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.30, p.830
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTlvDataIdDefinitions  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTlvDataIdDefinition   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation represents the collection of TlVDataTidDefinitions aggregated by the TlvDataIdDefinitionSet
+        self.tlvDataIdDefinitions: List[TlvDataIdDefinition] = []
+
+    def getTlvDataIdDefinitions(self) -> List[TlvDataIdDefinition]:
+        """
+        This aggregation represents the collection of TlVDataTidDefinitions aggregated by the TlvDataIdDefinitionSet
+        """
+        return self.tlvDataIdDefinitions
+
+    def addTlvDataIdDefinition(self, value: Optional[TlvDataIdDefinition]) -> "TlvDataIdDefinitionSet":
+        """
+        This aggregation represents the collection of TlVDataTidDefinitions aggregated by the TlvDataIdDefinitionSet
+        A None value is a no-op and does not add to tlvDataIdDefinitions.
+        """
+        if value is not None:
+            self.tlvDataIdDefinitions.append(value)
+        return self
+
+
 class TransformationISignalProps(Describable, ABC):
     """TransformationISignalProps holds all the attributes for the different TransformationTechnologies that are ISignal specific. Tags: vh.latestBindingTime=postBuild"""
 

@@ -208,6 +208,7 @@ __all__ = [
     "SystemSignal",
     "SystemSignalGroup",
     "TcpOptionFilterSet",
+    "TlvDataIdDefinitionSet",
     "TriggerInterface",
     "Unit",
     "UserDefinedIPdu",
@@ -1601,6 +1602,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(props)
         return self.getElement(short_name, E2EProfileCompatibilityProps)
 
+    def createTlvDataIdDefinitionSet(self, short_name: str) -> TlvDataIdDefinitionSet:
+
+        if not self.IsElementExists(short_name, TlvDataIdDefinitionSet):
+            tlv_data_id_definition_set = TlvDataIdDefinitionSet(self, short_name)
+            self.addElement(tlv_data_id_definition_set)
+        return self.getElement(short_name, TlvDataIdDefinitionSet)
+
     def createCollection(self, short_name: str) -> "Collection":
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 
@@ -2076,6 +2084,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (  # noqa: E402
     DataTransformationSet,
     E2EProfileCompatibilityProps,
+    TlvDataIdDefinitionSet,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (  # noqa: E402
     CanTpConfig,

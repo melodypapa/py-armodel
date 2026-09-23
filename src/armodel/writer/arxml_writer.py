@@ -921,6 +921,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
     TlvDataIdDefinition,
+    TlvDataIdDefinitionSet,
     TransformationDescription,
     TransformationISignalProps,
     TransformationTechnology,
@@ -11517,6 +11518,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(element, "TLV-IMPLEMENTATION-DATA-TYPE-ELEMENT-REF", tlv_data_id_definition.getTlvImplementationDataTypeElementRef())
         self.setChildElementOptionalRefType(element, "TLV-RECORD-ELEMENT-REF", tlv_data_id_definition.getTlvRecordElementRef())
 
+    def writeTlvDataIdDefinitionSetTlvDataIdDefinitions(self, element: ET.Element, tlv_data_id_definition_set: TlvDataIdDefinitionSet):
+        definitions = tlv_data_id_definition_set.getTlvDataIdDefinitions()
+        if len(definitions) > 0:
+            child_element = ET.SubElement(element, "TLV-DATA-ID-DEFINITIONS")
+            for tlv_data_id_definition in definitions:
+                if isinstance(tlv_data_id_definition, TlvDataIdDefinition):
+                    self.writeTlvDataIdDefinition(child_element, tlv_data_id_definition)
+                else:
+                    self.notImplemented("Unsupported TlvDataIdDefinition <%s>" % type(tlv_data_id_definition))
+
+    def writeTlvDataIdDefinitionSet(self, element: ET.Element, tlv_data_id_definition_set: TlvDataIdDefinitionSet):
+        if tlv_data_id_definition_set is not None:
+            child_element = ET.SubElement(element, "TLV-DATA-ID-DEFINITION-SET")
+            self.writeIdentifiable(child_element, tlv_data_id_definition_set)
+            self.writeTlvDataIdDefinitionSetTlvDataIdDefinitions(child_element, tlv_data_id_definition_set)
+
     def writeSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         self.logger.debug("Write SystemMapping <%s>" % mapping.getShortName())
         child_element = ET.SubElement(element, "SYSTEM-MAPPING")
@@ -13668,6 +13685,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDataTransformationSet(element, ar_element)
         elif isinstance(ar_element, E2EProfileCompatibilityProps):
             self.writeE2EProfileCompatibilityProps(element, ar_element)
+        elif isinstance(ar_element, TlvDataIdDefinitionSet):
+            self.writeTlvDataIdDefinitionSet(element, ar_element)
         elif isinstance(ar_element, FlexrayFrame):
             self.writeFlexrayFrame(element, ar_element)
         elif isinstance(ar_element, ISignalGroup):

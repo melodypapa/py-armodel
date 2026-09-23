@@ -1029,6 +1029,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
     TlvDataIdDefinition,
+    TlvDataIdDefinitionSet,
     TransformationDescription,
     TransformationISignalProps,
     TransformationTechnology,
@@ -13284,6 +13285,21 @@ class ARXMLParser(AbstractARXMLParser):
         tlv_data_id_definition.setTlvImplementationDataTypeElementRef(self.getChildElementOptionalRefType(element, "TLV-IMPLEMENTATION-DATA-TYPE-ELEMENT-REF"))
         tlv_data_id_definition.setTlvRecordElementRef(self.getChildElementOptionalRefType(element, "TLV-RECORD-ELEMENT-REF"))
 
+    def readTlvDataIdDefinitionSetTlvDataIdDefinitions(self, element: ET.Element, tlv_data_id_definition_set: TlvDataIdDefinitionSet):
+        for child_element in self.findall(element, "TLV-DATA-ID-DEFINITIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "TLV-DATA-ID-DEFINITION":
+                tlv_data_id_definition = TlvDataIdDefinition()
+                self.readTlvDataIdDefinition(child_element, tlv_data_id_definition)
+                tlv_data_id_definition_set.addTlvDataIdDefinition(tlv_data_id_definition)
+            else:
+                self.notImplemented("Unsupported TlvDataIdDefinition <%s>" % tag_name)
+
+    def readTlvDataIdDefinitionSet(self, element: ET.Element, tlv_data_id_definition_set: TlvDataIdDefinitionSet):
+        self.logger.debug("Read TlvDataIdDefinitionSet <%s>" % tlv_data_id_definition_set.getShortName())
+        self.readARElement(element, tlv_data_id_definition_set)
+        self.readTlvDataIdDefinitionSetTlvDataIdDefinitions(element, tlv_data_id_definition_set)
+
     def readSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         # self.logger.debug("Read SystemMapping <%s>" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
@@ -13965,6 +13981,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "E-2-E-PROFILE-COMPATIBILITY-PROPS":
                 props = parent.createE2EProfileCompatibilityProps(self.getShortName(child_element))
                 self.readE2EProfileCompatibilityProps(child_element, props)
+            elif tag_name == "TLV-DATA-ID-DEFINITION-SET":
+                tlv_data_id_definition_set = parent.createTlvDataIdDefinitionSet(self.getShortName(child_element))
+                self.readTlvDataIdDefinitionSet(child_element, tlv_data_id_definition_set)
             elif tag_name == "COLLECTION":
                 collection = parent.createCollection(self.getShortName(child_element))
                 self.readCollection(child_element, collection)
