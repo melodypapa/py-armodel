@@ -926,6 +926,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     TransformationDescription,
     TransformationISignalProps,
     TransformationTechnology,
+    UserDefinedTransformationISignalProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
     CanTpAddress,
@@ -11987,6 +11988,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEndToEndTransformationISignalProps(child_element, props)
                 elif isinstance(props, SomeipTransformationISignalProps):
                     self.writeSomeipTransformationISignalProps(child_element, props)
+                elif isinstance(props, UserDefinedTransformationISignalProps):
+                    self.writeUserDefinedTransformationISignalProps(child_element, props)
                 else:
                     self.notImplemented("Unsupported TransformationISignalProps %s" % type(props))
 
@@ -12484,6 +12487,14 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_element, "TLV-DATA-ID-DEFINITION-REF", ref)
 
+    def writeUserDefinedTransformationISignalProps(self, element: ET.Element, props: UserDefinedTransformationISignalProps):
+        if props is not None:
+            props_element = ET.SubElement(element, "USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS")
+            variant_element = ET.SubElement(props_element, "USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS")
+            child_element = ET.SubElement(variant_element, "USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL")
+            self.writeTransformationISignalProps(child_element, props)
+            self.setChildElementOptionalRefType(child_element, "TRANSFORMER-REF", props.getTransformerRef())
+
     def writeISignalGroupTransformationISignalProps(self, element: ET.Element, group: ISignalGroup):
         props_list = group.getTransformationISignalProps()
         if len(props_list) > 0:
@@ -12493,6 +12504,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEndToEndTransformationISignalProps(child_element, props)
                 elif isinstance(props, SomeipTransformationISignalProps):
                     self.writeSomeipTransformationISignalProps(child_element, props)
+                elif isinstance(props, UserDefinedTransformationISignalProps):
+                    self.writeUserDefinedTransformationISignalProps(child_element, props)
                 else:
                     self.notImplemented("Unsupported TransformationISignalProps %s" % type(props))
 

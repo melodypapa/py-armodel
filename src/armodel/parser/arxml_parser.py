@@ -1035,6 +1035,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     TransformationDescription,
     TransformationISignalProps,
     TransformationTechnology,
+    UserDefinedTransformationISignalProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
     CanTpAddress,
@@ -12396,6 +12397,10 @@ class ARXMLParser(AbstractARXMLParser):
                 props = SomeipTransformationISignalProps()
                 self.readSomeipTransformationISignalProps(child_element, props)
                 signal.addTransformationISignalProps(props)
+            elif tag_name == "USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS":
+                props = UserDefinedTransformationISignalProps()
+                self.readUserDefinedTransformationISignalProps(child_element, props)
+                signal.addTransformationISignalProps(props)
             else:
                 self.notImplemented("Unsupported TransformationISignalProps %s" % tag_name)
 
@@ -12773,6 +12778,12 @@ class ARXMLParser(AbstractARXMLParser):
             for ref_type in self.getChildElementRefTypeList(child_element, "TLV-DATA-ID-DEFINITION-REFS/TLV-DATA-ID-DEFINITION-REF"):
                 props.addTlvDataIdDefinitionRef(ref_type)
 
+    def readUserDefinedTransformationISignalProps(self, element: ET.Element, props: UserDefinedTransformationISignalProps):
+        child_element = self.find(element, "USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS/USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL")
+        if child_element is not None:
+            self.readTransformationISignalProps(child_element, props)
+            props.setTransformerRef(self.getChildElementOptionalRefType(child_element, "TRANSFORMER-REF"))
+
     def readISignalGroupTransformationISignalProps(self, element: ET.Element, group: ISignalGroup):
         for child_element in self.findall(element, "TRANSFORMATION-I-SIGNAL-PROPSS/*"):
             tag_name = self.getTagName(child_element)
@@ -12783,6 +12794,10 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS":
                 props = SomeipTransformationISignalProps()
                 self.readSomeipTransformationISignalProps(child_element, props)
+                group.addTransformationISignalProps(props)
+            elif tag_name == "USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS":
+                props = UserDefinedTransformationISignalProps()
+                self.readUserDefinedTransformationISignalProps(child_element, props)
                 group.addTransformationISignalProps(props)
             else:
                 self.notImplemented("Unsupported TransformationISignalProps %s" % tag_name)

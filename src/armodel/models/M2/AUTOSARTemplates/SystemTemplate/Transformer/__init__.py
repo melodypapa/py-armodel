@@ -1662,6 +1662,21 @@ class SomeipTransformationISignalProps(TransformationISignalProps):
         return self.tlvDataIdDefinitionRefs
 
 
+class UserDefinedTransformationISignalProps(TransformationISignalProps):
+    """
+    The UserDefinedTransformationISignalProps is used to specify ISignal specific configuration properties for custom transformers.
+    """
+
+    # UserDefinedTransformationISignalProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.28, p.828
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; reader/writer coverage via the USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS dispatch)
+
+    def __init__(self):
+        super().__init__()
+
+
 class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     """
     The class EndToEndTransformationIComSpecProps specifies port specific configuration properties for EndToEnd transformer attributes.

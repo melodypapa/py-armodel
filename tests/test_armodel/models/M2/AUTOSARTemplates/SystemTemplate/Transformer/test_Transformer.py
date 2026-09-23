@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     TransformationISignalProps,
     TransformationTechnology,
     TransformerClassEnum,
+    UserDefinedTransformationISignalProps,
 )
 
 
@@ -1224,3 +1225,31 @@ class Test_SomeipTransformationISignalProps:
 
         assert props == props.addTlvDataIdDefinitionRef(None)
         assert len(props.getTlvDataIdDefinitionRefs()) == 2
+
+
+class Test_UserDefinedTransformationISignalProps:
+    # Table 7.28, p.828 — class Note verbatim from the markdown; zero attribute rows
+    # (J1939NmEcu zero-attr precedent: shape = base + nothing)
+
+    def test_concrete_instantiation_and_heritage(self):
+        props = UserDefinedTransformationISignalProps()
+        assert isinstance(props, TransformationISignalProps)
+        assert isinstance(props, Describable)
+        assert issubclass(UserDefinedTransformationISignalProps, TransformationISignalProps)
+        assert issubclass(UserDefinedTransformationISignalProps, Describable)
+        assert not issubclass(UserDefinedTransformationISignalProps, ARElement)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        # Table 7.28, p.828 — class Note verbatim from the markdown
+        note = "The UserDefinedTransformationISignalProps is used to specify ISignal specific configuration properties for custom transformers."
+        assert UserDefinedTransformationISignalProps.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert UserDefinedTransformationISignalProps.__init__.__doc__ is None
+
+    def test_zero_own_attributes(self):
+        # Zero attribute rows (Table 7.28) — no new public accessors beyond the base class
+        props = UserDefinedTransformationISignalProps()
+        base_accessors = {name for name in dir(TransformationISignalProps) if not name.startswith("_") and callable(getattr(TransformationISignalProps, name, None))}
+        own_accessors = {name for name in dir(props) if not name.startswith("_") and callable(getattr(props, name, None))} - base_accessors
+        assert own_accessors == set()
