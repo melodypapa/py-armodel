@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARNumerical,
     ARType,
     Boolean,
+    CseCodeType,
     DateTime,
     Float,
     Identifier,
@@ -115,6 +116,9 @@ class AbstractARXMLWriter(ABC):
         self.setChildElementOptionalNumericalValue(element, key, value)
 
     def setChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str, literal: RevisionLabelString):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalCseCodeType(self, element: ET.Element, key: str, literal: CseCodeType):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalString(self, element: ET.Element, key: str, value: String):

@@ -433,6 +433,8 @@ No deviations.
 
 No deviations.
 
+> Resolution Note (sync 2026-09-24): resynced against the home document `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`, Table 4.74, p.165 — the BSWModuleDescriptionTemplate Table 8.22 row above is a byte-equivalent reproduction, and its p.164 page reference was off by one (actual p.165). Fields/accessors match the spec exactly (cseCode CseCodeType 0..1, cseCodeFactor Integer 0..1, displayed order cseCode→cseCodeFactor); no naming/type/missing deviations. Sync fixes: the old 4-column checklist and the pre-existing `# Spec verified: R23-11` stamp were replaced with the 6-column format (marker withheld pending batch confirmation); fabricated class-docstring paragraphs and "Gets/Sets the…" paraphrase docstrings wiped and rewritten verbatim from the spec Notes; reader type gap fixed — parser/writer now use the matched `getChildElementOptionalCseCodeType`/`setChildElementOptionalCseCodeType` leaf pair (cseCode round-trips as CseCodeType, not plain ARLiteral). Tests: test_MultidimensionalTime.py (model), test_multidimensional_time.py (parser + writer).
+
 ## `AnalyzedExecutionTime`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 164
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime`

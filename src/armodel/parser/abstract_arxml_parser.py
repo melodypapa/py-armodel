@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARNumerical,
     ARType,
     Boolean,
+    CseCodeType,
     DateTime,
     Float,
     Identifier,
@@ -120,6 +121,18 @@ class AbstractARXMLParser(ABC):
             literal = ARLiteral()
             self.readARType(child_element, literal)
             # Patch for empty element <USED-CODE-GENERATOR></USED-CODE-GENERATOR>
+            if child_element.text is None:
+                literal.setValue("")
+            else:
+                literal.setValue(child_element.text)
+        return literal
+
+    def getChildElementOptionalCseCodeType(self, element: ET.Element, key: str) -> Optional[CseCodeType]:
+        child_element = self.find(element, key)
+        literal = None
+        if child_element is not None:
+            literal = CseCodeType()
+            self.readARType(child_element, literal)
             if child_element.text is None:
                 literal.setValue("")
             else:

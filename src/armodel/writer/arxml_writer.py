@@ -5847,7 +5847,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setMultidimensionalTime(self, element: ET.Element, key: str, value: MultidimensionalTime):
         if value is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalLiteral(child_element, "CSE-CODE", value.getCseCode())
+            self.setChildElementOptionalCseCodeType(child_element, "CSE-CODE", value.getCseCode())
             self.setChildElementOptionalIntegerValue(child_element, "CSE-CODE-FACTOR", value.getCseCodeFactor())
 
     def setHardwareConfiguration(self, element: ET.Element, config):

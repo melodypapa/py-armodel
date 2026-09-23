@@ -4508,7 +4508,7 @@ class ARXMLParser(AbstractARXMLParser):
             # self.logger.debug("read MemorySections %s" % memory_section.getShortName())
 
     def readMultidimensionalTime(self, element: ET.Element, time: MultidimensionalTime):
-        time.setCseCode(self.getChildElementOptionalLiteral(element, "CSE-CODE"))
+        time.setCseCode(self.getChildElementOptionalCseCodeType(element, "CSE-CODE"))
         time.setCseCodeFactor(self.getChildElementOptionalIntegerValue(element, "CSE-CODE-FACTOR"))
 
     def readConfidenceInterval(self, element: ET.Element, interval: ConfidenceInterval):
