@@ -222,51 +222,61 @@ class LifeCycleInfo(ARObject):
 
 class LifeCycleInfoSet(ARElement):
     """
-    Represents a set of life cycle information in AUTOSAR models.
-    This class organizes and manages multiple life cycle information entries.
+    This meta class represents the ability to attach a life cycle information to a particular set of elements. The information can be defined for a particular period. This supports the definition of transition plans. If no period is specified, the life cycle state applies forever. Tags: atp.recommendedPackage=LifeCycleInfoSets
     """
 
     # LifeCycleInfoSet method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [x] getDefaultLcStateRef         [x] impl  [x] docstring  [x] test
-    # [x] setDefaultLcStateRef         [x] impl  [x] docstring  [x] test
-    # [x] getDefaultPeriodBegin        [x] impl  [x] docstring  [x] test
-    # [x] setDefaultPeriodBegin        [x] impl  [x] docstring  [x] test
-    # [x] getDefaultPeriodEnd          [x] impl  [x] docstring  [x] test
-    # [x] setDefaultPeriodEnd          [x] impl  [x] docstring  [x] test
-    # [x] getLifeCycleInfos            [x] impl  [x] docstring  [x] test
-    # [x] addLifeCycleInfo             [x] impl  [x] docstring  [x] test
-    # [x] getUsedLifeCycleStateDefinitionGroupRef [x] impl  [x] docstring  [x] test
-    # [x] setUsedLifeCycleStateDefinitionGroupRef [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 12.3, p.392
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # Table split across an image break: body main fragment (header + defaultLcState/defaultPeriodBegin rows) and the
+    # `Table 12.3: LifeCycleInfoSet` caption + continuation fragment (defaultPeriodEnd/lifeCycleInfo/usedLifeCycleStateDefinitionGroup)
+    # both land on p.392. R4.3.1 reproduction: AUTOSAR_TPS_GenericStructureTemplate.pdf Table 11.3, p.363 (identical Note/Base/rows,
+    # no Aggregated-by row — older format); FO GST Table 12.3 cited.
+    # XSD 00052: group LIFE-CYCLE-INFO-SET L76621 sequence DEFAULT-LC-STATE-REF (0..1) → DEFAULT-PERIOD-BEGIN (0..1) →
+    # DEFAULT-PERIOD-END (0..1) → LIFE-CYCLE-INFOS (0..1, unbounded LIFE-CYCLE-INFO) → USED-LIFE-CYCLE-STATE-DEFINITION-GROUP-REF (0..1);
+    # complexType LIFE-CYCLE-INFO-SET L76684 abstract="false" = AR-OBJECT + REFERRABLE + MULTILANGUAGE-REFERRABLE + IDENTIFIABLE +
+    # COLLECTABLE-ELEMENT + PACKAGEABLE-ELEMENT + AR-ELEMENT groups + own group (Base row ARElement, most-derived).
+    # Reader readLifeCycleInfoSet / writer writeLifeCycleInfoSet dispatched from readARPackageElements / the ARElement writer branch
+    # via ARPackage.createLifeCycleInfoSet; DEFAULT-PERIOD-BEGIN/END coverage added this sync (was silently dropped both sides).
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultLcStateRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultLcStateRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDefaultPeriodBegin                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultPeriodBegin                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDefaultPeriodEnd                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultPeriodEnd                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLifeCycleInfos                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addLifeCycleInfo                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUsedLifeCycleStateDefinitionGroupRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUsedLifeCycleStateDefinitionGroupRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
+        # This denotes the default life cycle state. To be used in all LifeCycleInfo elements within the LifeCycleInfoSet if no life cycle state is stated there explicitly. I.e. the defaultLcState can be overwritten in LifeCycleInfo elements.
         self.defaultLcStateRef: Optional[RefType] = None
+
+        # Default starting point of period in which all the specified lifeCycleInfo apply. Note that the default period can be overridden for each lifeCycleInfo individually.
         self.defaultPeriodBegin: Optional[LifeCyclePeriod] = None
+
+        # Default expiry date, i.e. default end point of period for which all specified lifeCycleInfo apply. Note that the default period can be overridden for each lifeCycleInfo individually.
         self.defaultPeriodEnd: Optional[LifeCyclePeriod] = None
+
+        # This represents one particular life cycle information.
         self.lifeCycleInfos: List[LifeCycleInfo] = []
+
+        # This denotes the life cycle states applicable to the current life cycle info set.
         self.usedLifeCycleStateDefinitionGroupRef: Optional[RefType] = None
 
     def getDefaultLcStateRef(self) -> Optional[RefType]:
         """
-        Gets the default life cycle state reference.
-
-        Returns:
-            RefType representing the default life cycle state reference, or None if not set
+        This denotes the default life cycle state. To be used in all LifeCycleInfo elements within the LifeCycleInfoSet if no life cycle state is stated there explicitly. I.e. the defaultLcState can be overwritten in LifeCycleInfo elements.
         """
         return self.defaultLcStateRef
 
-    def setDefaultLcStateRef(self, value: RefType):
+    def setDefaultLcStateRef(self, value: Optional[RefType]) -> "LifeCycleInfoSet":
         """
-        Sets the default life cycle state reference.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The default life cycle state reference to set
-
-        Returns:
-            self for method chaining
+        This denotes the default life cycle state. To be used in all LifeCycleInfo elements within the LifeCycleInfoSet if no life cycle state is stated there explicitly. I.e. the defaultLcState can be overwritten in LifeCycleInfo elements. A None value is a no-op and does not overwrite an existing default life cycle state.
         """
         if value is not None:
             self.defaultLcStateRef = value
@@ -274,23 +284,13 @@ class LifeCycleInfoSet(ARElement):
 
     def getDefaultPeriodBegin(self) -> Optional[LifeCyclePeriod]:
         """
-        Gets the default beginning period.
-
-        Returns:
-            LifeCyclePeriod representing the default beginning period, or None if not set
+        Default starting point of period in which all the specified lifeCycleInfo apply. Note that the default period can be overridden for each lifeCycleInfo individually.
         """
         return self.defaultPeriodBegin
 
-    def setDefaultPeriodBegin(self, value: LifeCyclePeriod):
+    def setDefaultPeriodBegin(self, value: Optional[LifeCyclePeriod]) -> "LifeCycleInfoSet":
         """
-        Sets the default beginning period.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The default beginning period to set
-
-        Returns:
-            self for method chaining
+        Default starting point of period in which all the specified lifeCycleInfo apply. Note that the default period can be overridden for each lifeCycleInfo individually. A None value is a no-op and does not overwrite an existing default period begin.
         """
         if value is not None:
             self.defaultPeriodBegin = value
@@ -298,23 +298,13 @@ class LifeCycleInfoSet(ARElement):
 
     def getDefaultPeriodEnd(self) -> Optional[LifeCyclePeriod]:
         """
-        Gets the default ending period.
-
-        Returns:
-            LifeCyclePeriod representing the default ending period, or None if not set
+        Default expiry date, i.e. default end point of period for which all specified lifeCycleInfo apply. Note that the default period can be overridden for each lifeCycleInfo individually.
         """
         return self.defaultPeriodEnd
 
-    def setDefaultPeriodEnd(self, value: LifeCyclePeriod):
+    def setDefaultPeriodEnd(self, value: Optional[LifeCyclePeriod]) -> "LifeCycleInfoSet":
         """
-        Sets the default ending period.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The default ending period to set
-
-        Returns:
-            self for method chaining
+        Default expiry date, i.e. default end point of period for which all specified lifeCycleInfo apply. Note that the default period can be overridden for each lifeCycleInfo individually. A None value is a no-op and does not overwrite an existing default period end.
         """
         if value is not None:
             self.defaultPeriodEnd = value
@@ -322,23 +312,13 @@ class LifeCycleInfoSet(ARElement):
 
     def getLifeCycleInfos(self) -> List[LifeCycleInfo]:
         """
-        Gets the list of life cycle information entries.
-
-        Returns:
-            List of LifeCycleInfo instances
+        This represents one particular life cycle information.
         """
         return self.lifeCycleInfos
 
-    def addLifeCycleInfo(self, value: LifeCycleInfo):
+    def addLifeCycleInfo(self, value: Optional[LifeCycleInfo]) -> "LifeCycleInfoSet":
         """
-        Adds a life cycle information entry.
-        Only adds the value if it is not None.
-
-        Args:
-            value: The life cycle information entry to add
-
-        Returns:
-            self for method chaining
+        This represents one particular life cycle information. A None value is a no-op and does not add to lifeCycleInfos.
         """
         if value is not None:
             self.lifeCycleInfos.append(value)
@@ -346,23 +326,13 @@ class LifeCycleInfoSet(ARElement):
 
     def getUsedLifeCycleStateDefinitionGroupRef(self) -> Optional[RefType]:
         """
-        Gets the reference to used life cycle state definition group.
-
-        Returns:
-            RefType representing the reference to used life cycle state definition group, or None if not set
+        This denotes the life cycle states applicable to the current life cycle info set.
         """
         return self.usedLifeCycleStateDefinitionGroupRef
 
-    def setUsedLifeCycleStateDefinitionGroupRef(self, value: RefType):
+    def setUsedLifeCycleStateDefinitionGroupRef(self, value: Optional[RefType]) -> "LifeCycleInfoSet":
         """
-        Sets the reference to used life cycle state definition group.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The reference to used life cycle state definition group to set
-
-        Returns:
-            self for method chaining
+        This denotes the life cycle states applicable to the current life cycle info set. A None value is a no-op and does not overwrite an existing used life cycle state definition group.
         """
         if value is not None:
             self.usedLifeCycleStateDefinitionGroupRef = value

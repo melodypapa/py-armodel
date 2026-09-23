@@ -13551,6 +13551,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read LifeCycleInfoSet <%s>" % info_set.getShortName())
         self.readIdentifiable(element, info_set)
         info_set.setDefaultLcStateRef(self.getChildElementOptionalRefType(element, "DEFAULT-LC-STATE-REF"))
+        info_set.setDefaultPeriodBegin(self.getLifeCyclePeriod(element, "DEFAULT-PERIOD-BEGIN"))
+        info_set.setDefaultPeriodEnd(self.getLifeCyclePeriod(element, "DEFAULT-PERIOD-END"))
         self.readLifeCycleInfoSetLifeCycleInfos(element, info_set)
         info_set.setUsedLifeCycleStateDefinitionGroupRef(self.getChildElementOptionalRefType(element, "USED-LIFE-CYCLE-STATE-DEFINITION-GROUP-REF"))
 

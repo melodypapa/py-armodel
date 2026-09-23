@@ -12671,6 +12671,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "LIFE-CYCLE-INFO-SET")
             self.writeIdentifiable(child_element, info_set)
             self.setChildElementOptionalRefType(child_element, "DEFAULT-LC-STATE-REF", info_set.getDefaultLcStateRef())
+            self.setLifeCyclePeriod(child_element, "DEFAULT-PERIOD-BEGIN", info_set.getDefaultPeriodBegin())
+            self.setLifeCyclePeriod(child_element, "DEFAULT-PERIOD-END", info_set.getDefaultPeriodEnd())
             self.writeLifeCycleInfoSetLifeCycleInfos(child_element, info_set)
             self.setChildElementOptionalRefType(child_element, "USED-LIFE-CYCLE-STATE-DEFINITION-GROUP-REF", info_set.getUsedLifeCycleStateDefinitionGroupRef())
 
