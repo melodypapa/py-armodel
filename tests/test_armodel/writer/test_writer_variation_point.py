@@ -29,8 +29,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.Attribu
     NumericalValueVariationPoint,
 )
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageParagraph
 from armodel.writer.arxml_writer import ARXMLWriter
 
 NS = "http://autosar.org/schema/r4.0"
@@ -114,6 +115,95 @@ class TestWriteVariationPoint:
         writer.writeVariationPoint(element, vp)
 
         assert element.find("VARIATION-POINT") is None
+
+
+class TestWriteBlueprintGenerator:
+    """Table E.12 (AUTOSAR_FO_TPS_GenericStructureTemplate, pp.424-425): the class's own
+    writeBlueprintGenerator helper (XSD 00052 group BLUEPRINT-GENERATOR, line 9083:
+    INTRODUCTION offset 10 before EXPRESSION offset 20)."""
+
+    def _new_introduction(self, text):
+        block = DocumentationBlock()
+        paragraph = MultiLanguageParagraph()
+        l1 = LParagraph()
+        l1.setL("EN")
+        l1.setValue(text)
+        paragraph.addL1(l1)
+        block.addP(paragraph)
+        return block
+
+    def test_write_introduction_before_expression(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        writer = ARXMLWriter()
+
+        generator = BlueprintGenerator()
+        generator.setIntroduction(self._new_introduction("Resolve the derivation with the formal expression."))
+        generator.setExpression(VerbatimString().setValue('LET Name = "Example";'))
+
+        element = ET.Element("PARENT")
+        writer.writeBlueprintGenerator(element, generator)
+
+        generator_element = element.find("FORMAL-BLUEPRINT-GENERATOR")
+        assert generator_element is not None
+        child_tags = [child.tag for child in generator_element]
+        assert child_tags == ["INTRODUCTION", "EXPRESSION"]
+        assert generator_element.find("INTRODUCTION/P/L-1").text == "Resolve the derivation with the formal expression."
+        assert generator_element.find("EXPRESSION").text == 'LET Name = "Example";'
+
+    def test_write_empty_generator_emits_bare_element(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        writer = ARXMLWriter()
+
+        element = ET.Element("PARENT")
+        writer.writeBlueprintGenerator(element, BlueprintGenerator())
+
+        generator_element = element.find("FORMAL-BLUEPRINT-GENERATOR")
+        assert generator_element is not None
+        assert len(generator_element) == 0
+
+    def test_write_none_generator_emits_no_element(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        writer = ARXMLWriter()
+
+        element = ET.Element("PARENT")
+        writer.writeBlueprintGenerator(element, None)
+
+        assert element.find("FORMAL-BLUEPRINT-GENERATOR") is None
+
+    def test_round_trip_all_fields_through_variation_point(self):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+
+        vp = VariationPoint()
+        generator = BlueprintGenerator()
+        generator.setIntroduction(self._new_introduction("Resolve the derivation with the formal expression."))
+        generator.setExpression(VerbatimString().setValue('LET Name = "Example";'))
+        vp.setFormalBlueprintGenerator(generator)
+
+        writer = ARXMLWriter()
+        element = ET.Element("PARENT")
+        writer.writeVariationPoint(element, vp)
+        xml_text = ET.tostring(element.find("VARIATION-POINT"), encoding="unicode")
+
+        element_2 = ET.fromstring("<ROOT xmlns='%s'>%s</ROOT>" % (NS, xml_text))
+        vp_element_2 = element_2.find("{%s}VARIATION-POINT" % NS)
+        vp_2 = ARXMLParser().readVariationPoint(vp_element_2, VariationPoint())
+
+        generator_2 = vp_2.getFormalBlueprintGenerator()
+        assert isinstance(generator_2, BlueprintGenerator)
+        assert generator_2.getExpression().getValue() == 'LET Name = "Example";'
+        introduction_2 = generator_2.getIntroduction()
+        assert introduction_2 is not None
+        assert introduction_2.getPs()[0].getL1s()[0].getValue() == "Resolve the derivation with the formal expression."
 
     def test_write_identifiable_emits_variation_point(self):
         document = AUTOSAR.getInstance()

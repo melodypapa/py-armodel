@@ -3436,14 +3436,15 @@ Base stays `Describable` per R4.3.1 Table 6.120 (DESCRIBABLE). The prior 19-memb
 | — *(missing)* | `—` | `blueprintValue` | `?` | — | missing |
 
 ## `BlueprintGenerator`
-- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 424
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **pages:** 424-425
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintGenerator`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/BlueprintGenerator/BlueprintGenerator.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/BlueprintGenerator.py` (leaf package — path updated 2026-09-24, was the pre-reorg `BlueprintGenerator/BlueprintGenerator.py`)
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `expression` | `VerbatimString` | — | missing |
-| — *(missing)* | `—` | `introduction` | `DocumentationBlock` | — | missing |
+| — *(no deviation)* | — | — | — | — | No deviations — both members of the former `missing` rows above (`expression` `VerbatimString` 0..1 attr, `introduction` `DocumentationBlock` 0..1 aggr) are implemented with full reader/writer coverage since the re-sync. |
+
+**Note:** Re-synced 2026-09-24 (alignment pass, batch group6-batch-9b). Citation re-verified and updated to Table E.12, pp.424-425 (page via direct pypdf scan; pdf_page.py does not index appendix-letter ids) — E.12 is the ONLY BlueprintGenerator table in either corpus (no numeric main table in R23-11; R4.3.1 fallback case-insensitive sweep 0 hits — genuinely R23-11-only), and the appendix E caption-shift documented on the AtpBlueprint sync applies here too: the table body renders ABOVE the caption (main fragment incl. the `expression` row under the E.11 caption position, p.424; `introduction` continuation fragment + the `Table E.12` caption on p.425; the Boolean body renders under the E.12 caption matching its own E.13 caption). XSD 00052 corroboration: group `BLUEPRINT-GENERATOR` (L9083) sequence INTRODUCTION (offset 10) → EXPRESSION (offset 20), complexType (L9105, abstract="false") composes AR-OBJECT group + own group — Base row `ARObject` confirmed, most-derived base ARObject; consumed by `VARIATION-POINT` group L130046 `FORMAL-BLUEPRINT-GENERATOR` (0..1, seqOffset 30, atp.Status="draft"). Field-to-spec cross-check both directions EXACT (two attributes → two PEP 526 `Optional` fields in displayed row order; no extra fields; no create/add — neither member is a Referrable child). Reader/writer FULLY covered both sides since intake: `readBlueprintGenerator`/`writeBlueprintGenerator` (INTRODUCTION before EXPRESSION per XSD) dispatched from `readVariationPoint`/`writeVariationPoint` via `FORMAL-BLUEPRINT-GENERATOR` — matched name pairs verified; new element-level reader tests + writer order/round-trip tests added 2026-09-24 (the parser side had zero FORMAL-BLUEPRINT-GENERATOR coverage before). Docstrings wiped and rewritten verbatim from the Table E.12 Notes (class docstring = Note minus the `Tags: atp.Status=valid` tail; setters append the None-no-op sentence). The two `missing` rows above were STALE (pre-dated the implementation) and are superseded by the no-deviation row. NO open deviations; no `# Spec verified:` stamp — deferred to batch confirmation.
 
 ## `CryptoKeySlot`
 - **PDF:** `AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf`  | **page:** 57
