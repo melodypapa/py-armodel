@@ -1129,6 +1129,7 @@ class NmCluster(Identifiable, VariationPointCapable, ABC):
 
     # NmCluster method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.299, p.673
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCommunicationClusterRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
