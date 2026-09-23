@@ -18,6 +18,7 @@ class NmClusterCoupling(ARObject, VariationPointCapable, ABC):
 
     # NmClusterCoupling method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.305, p.676
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -388,6 +389,7 @@ class FlexrayNmNode(NmNode):
 
     # FlexrayNmNode method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.309, p.679
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -759,6 +761,7 @@ class FlexrayNmEcu(BusspecificNmEcu):
 
     # FlexrayNmEcu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.307, p.679
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getNmHwVoteEnabled              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -813,6 +816,7 @@ class J1939NmEcu(BusspecificNmEcu):
 
     # J1939NmEcu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.323, p.694
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no own attributes; reader/writer coverage via BUS-DEPENDENT-NM-ECUS dispatch)
@@ -829,6 +833,7 @@ class UdpNmEcu(BusspecificNmEcu):
     # UdpNmEcu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.316, p.688 (R23-11)
     # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.238, p.431 (R4.3.1)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getNmSynchronizationPointEnabled [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1 (legacy)
@@ -1545,6 +1550,7 @@ class FlexrayNmCluster(NmCluster):
 
     # FlexrayNmCluster method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.306, p.678
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getNmCarWakeUpBitPosition       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1759,6 +1765,7 @@ class J1939NmCluster(NmCluster):
 
     # J1939NmCluster method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.319, p.691
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAddressClaimEnabled      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

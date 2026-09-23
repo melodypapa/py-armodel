@@ -318,7 +318,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 5.28 p.235 citation, release column; marker deferred to 9b
   - [x] Step 8 — Deviations  [resolved in-step (Rule 0014): naming deviation senderToSignal → senderToSignalTextTableMapping fixed (only model + own test referenced it); missing reader/writer coverage added; no open deviations]
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 757aea1d
-- [ ] `NmClusterCoupling` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.305)
+- [x] `NmClusterCoupling` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.305)
   - [x] Step 1 — Sync members & description from spec — Table 6.305, p.676; abstract, Base = ARObject (VariationPointCapable mixin kept: XSD group NM-CLUSTER-COUPLING carries VARIATION-POINT); zero attribute rows (XSD group only VARIATION-POINT); subclasses CanNmClusterCoupling/FlexrayNmClusterCoupling/UdpNmClusterCoupling; aggregated by NmConfig.nmClusterCoupling
   - [x] Step 2 — Write model class unit test (Red) — abstract raise, verbatim class-Note docstring assertion (Red: fabricated docstring), no-`__init__`-docstring, subclass heritage
   - [x] Step 3 — Implement model class (Green) — shape already spec-correct: zero attribute rows ⇒ no members/accessors, abstract guard present
@@ -327,7 +327,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — no changes needed: class contributes no XML content; CAN/UDP coupling read/write helpers + wrapper dispatch pre-exist
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.305 p.676 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
   - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; Base ARObject + VariationPointCapable mixin per XSD VARIATION-POINT; docstring verbatim; FLEXRAY-NM-CLUSTER-COUPLING dispatch gap belongs to FlexrayNmClusterCoupling (own table, separate row — recorded under Pending 16.4)]
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch)
 - [ ] `NmCluster` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.299)
   - [x] Step 1 — Sync members & description from spec — Table 6.299, p.673; abstract, Base → `Identifiable`; attrs in displayed order: communicationCluster (ref 0..1), nmChannelSleepMaster (Boolean), nmNode (NmNode *, aggr), nmNodeDetectionEnabled, nmNodeIdEnabled, nmPncParticipation, nmRepeatMsgIndEnabled, nmSynchronizingNetwork (all Boolean 0..1), pncClusterVectorLength (PositiveInteger 0..1, MISSING in src ⇒ added); XML order per XSD group NM-CLUSTER: COMMUNICATION-CLUSTER-REF → NM-CHANNEL-ID → NM-CHANNEL-SLEEP-MASTER → NM-NODES → NM-NODE-DETECTION-ENABLED → NM-NODE-ID-ENABLED → NM-PNC-PARTICIPATION → NM-REPEAT-MSG-IND-ENABLED → NM-SYNCHRONIZING-NETWORK → PNC-CLUSTER-VECTOR-LENGTH
   - [x] Step 2 — Write model class unit test (Red) — 5 Red: fabricated docstring, missing pncClusterVectorLength accessors, missing createUdpNmNode, registry-filter getters returned short-name-sorted instead of insertion order (dedicated-list pin)
@@ -338,7 +338,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.299 p.673 citation, release column; marker deferred to 9b
   - [x] Step 8 — Deviations  [accepted legacy: nmChannelId absent from R23-11 AND R4.3.1 tables (atp.Status=removed, pre-R4.3.1) but element still in R23-11 XSD and reader/writer coverage pre-exists — kept as optional legacy member per Rule 0019 spirit, docstring = XSD old description; naming fixes recorded: readUdpNmNode→createUdpNmNode, _nmSynchronizingNetwork→nmSynchronizingNetwork; createFlexrayNmNode deferred to FlexrayNmNode row (needs FLEXRAY-NM-NODE reader coverage)]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
-- [ ] `FlexrayNmCluster` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.306)
+- [x] `FlexrayNmCluster` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.306)
   - [x] Step 1 — Sync members & description from spec — Table 6.306, p.678; concrete, Base → `NmCluster`; 10 attrs all 0..1 attr in displayed order: nmCarWakeUpBitPosition/nmCarWakeUpFilterNodeId (PositiveInteger), nmCarWakeUpFilterEnabled/nmCarWakeUpRxEnabled (Boolean), nmDataCycle/nmRepetitionCycle/nmVotingCycle (Integer), nmMainFunctionPeriod/nmRemoteSleepIndicationTime/nmRepeatMessageTime (TimeValue); XML order per XSD group FLEXRAY-NM-CLUSTER = displayed order (removed siblings NM-CONTROL-BIT-VECTOR-ACTIVE/NM-DATA-ENABLED/NM-DETECTION-LOCK/NM-MESSAGE-TIMEOUT-TIME/NM-READY-SLEEP-COUNT/NM-REPEAT-MESSAGE-BIT-ACTIVE not modeled); Note per XSD "NmPdu" (markdown wrap "Nm Pdu"), "CareWakeUp" typo kept verbatim
   - [x] Step 2 — Write model class unit test (Red) — 3 Red: fabricated docstring, all 10 accessors missing (defaults + get/set/None-no-op)
   - [x] Step 3 — Implement model class (Green) — class extended with 10 PEP 526 members in displayed order + typed chaining accessors, None no-op setters
@@ -347,8 +347,8 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — readFlexrayNmCluster + writeFlexrayNmCluster added (XSD order); FLEXRAY-NM-CLUSTER branches in readNmConfigNmClusters/writeNmConfigNmClusters; NmConfig.createFlexrayNmCluster factory added
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.306 p.678 citation, release column; marker deferred to 9b
   - [x] Step 8 — Deviations  [in-pass (Rule 0016.4/0001.10): NmConfig.createFlexrayNmCluster factory created (needed by FLEXRAY-NM-CLUSTER reader dispatch); six removed-status sibling attributes of the XSD group not modeled (absent from R23-11 table, no fixture usage)]
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
-- [ ] `FlexrayNmEcu` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.307)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch)
+- [x] `FlexrayNmEcu` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.307)
   - [x] Step 1 — Sync members & description from spec — Table 6.307, p.679; concrete, Base → `BusspecificNmEcu`; 2 attrs all 0..1 attr in displayed order: nmHwVoteEnabled (Boolean), nmMainFunctionAcrossFrCycle (Boolean); XML order per XSD group FLEXRAY-NM-ECU: NM-HW-VOTE-ENABLED → NM-MAIN-FUNCTION-ACROSS-FR-CYCLE (removed NM-REPEAT-MESSAGE-BIT-ENABLE not modeled); Note "crosses theFlexRay" typo verified against XSD — kept verbatim
   - [x] Step 2 — Write model class unit test (Red) — 3 Red: fabricated docstring, both accessors missing (defaults + get/set/None-no-op)
   - [x] Step 3 — Implement model class (Green) — 2 PEP 526 members + typed chaining accessors, None no-op setters
@@ -357,8 +357,8 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — readFlexrayNmEcu + writeFlexrayNmEcu added; FLEXRAY-NM-ECU branches in readBusDependentNmEcus/writeBusDependentNmEcus
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.307 p.679 citation, release column; marker deferred to 9b
   - [x] Step 8 — Deviations  [none: both attrs modeled exactly; docstrings verbatim; removed-status sibling NM-REPEAT-MESSAGE-BIT-ENABLE not modeled (absent from R23-11 table)]
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
-- [ ] `FlexrayNmNode` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.309)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch)
+- [x] `FlexrayNmNode` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.309)
   - [x] Step 1 — Sync members & description from spec — Table 6.309, p.679; concrete, Base → `NmNode`; zero attribute rows (XSD group FLEXRAY-NM-NODE carries only removed NM-INSTANCE-ID); aggregated by NmCluster.nmNode (XSD choice member FLEXRAY-NM-NODE)
   - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring assertion (Red: fabricated), no-`__init__`-docstring, heritage (NmNode), zero own attribute rows
   - [x] Step 3 — Implement model class (Green) — shape already spec-correct: base NmNode, zero attrs
@@ -367,8 +367,8 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — FLEXRAY-NM-NODE branches in readNmClusterNmNodes/writeNmClusterNmNodes; writeFlexrayNmNode helper; NmCluster.createFlexrayNmNode factory
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.309 p.679 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
   - [x] Step 8 — Deviations  [in-pass (Rule 0016.4/0001.10): NmCluster.createFlexrayNmNode factory created (needed by FLEXRAY-NM-NODE reader dispatch); removed-status NM-INSTANCE-ID not modeled (absent from R23-11 table)]
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
-- [ ] `UdpNmEcu` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.316)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch)
+- [x] `UdpNmEcu` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.316)
   - [x] Step 1 — Sync members & description from spec — Table 6.316, p.688; concrete, Base → `BusspecificNmEcu`; R23-11 table has ZERO attribute rows; XSD group UDP-NM-ECU carries NM-REPEAT-MSG-INDICATION-ENABLED (removed 4.3.0, never modeled, not in R4.3.1 table) + NM-SYNCHRONIZATION-POINT-ENABLED (removed) — combine case
   - [x] Step 2 — Write model class unit test (Red) — 2 Red: fabricated class docstring + legacy attr docstring not the R4.3.1 Note; get/set/None-no-op and heritage already covered
   - [x] Step 3 — Implement model class (Green) — legacy member kept per Rule 0019 combine case: nmSynchronizationPointEnabled documented in R4.3.1 Table 6.238 p.431, reader/writer coverage pre-exists; PEP 526 annotation `Optional[Boolean]` (was bare `Boolean`), typed accessor signatures
@@ -377,8 +377,8 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — no changes needed: readUdpNmEcu/writeUdpNmEcu already cover NM-SYNCHRONIZATION-POINT-ENABLED via BUS-DEPENDENT-NM-ECUS dispatch
   - [x] Step 7 — Update checklist comment — 6-column parity checklist with DUAL `# Spec:` lines (R23-11 Table 6.316 p.688 + R4.3.1 Table 6.238 p.431), legacy rows carry release R4.3.1; marker deferred to 9b
   - [x] Step 8 — Deviations  [accepted legacy (R4.3.1 Table 6.238, p.431); removed in R23-11 — nmSynchronizationPointEnabled kept per Rule 0019 (older verified corpus documents it, XSD element still present with atp.Status=removed, reader/writer coverage pre-exists); NM-REPEAT-MSG-INDICATION-ENABLED (removed 4.3.0, absent from R4.3.1 table too) not modeled — observation only]
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
-- [ ] `J1939NmCluster` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.319)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch)
+- [x] `J1939NmCluster` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.319)
   - [x] Step 1 — Sync members & description from spec — Table 6.319, p.691; concrete, Base → `NmCluster`; 2 attrs all 0..1 attr in displayed order: addressClaimEnabled, usesDynamicAddressing (both Boolean); XML order per XSD group J-1939-NM-CLUSTER: ADDRESS-CLAIM-ENABLED → USES-DYNAMIC-ADDRESSING; class Note has no trailing period (verified against XSD) — kept verbatim
   - [x] Step 2 — Write model class unit test (Red) — 3 Red: fabricated docstring, both accessors missing (defaults + get/set/None-no-op)
   - [x] Step 3 — Implement model class (Green) — 2 PEP 526 members + typed chaining accessors, None no-op setters
@@ -387,8 +387,8 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — readJ1939NmCluster + writeJ1939NmCluster added (XSD order); J-1939-NM-CLUSTER branches in readNmConfigNmClusters/writeNmConfigNmClusters; NmConfig.createJ1939NmCluster factory added
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.319 p.691 citation, release column; marker deferred to 9b
   - [x] Step 8 — Deviations  [in-pass (Rule 0016.4/0001.10): NmConfig.createJ1939NmCluster factory created (needed by J-1939-NM-CLUSTER reader dispatch)]
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
-- [ ] `J1939NmEcu` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.323)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch)
+- [x] `J1939NmEcu` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.323)
   - [x] Step 1 — Sync members & description from spec — Table 6.323, p.694; concrete, Base → `BusspecificNmEcu`; zero attribute rows (XSD group J-1939-NM-ECU empty sequence); aggregated by NmEcu.busDependentNmEcu (XSD choice member J-1939-NM-ECU)
   - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring assertion (Red: fabricated), no-`__init__`-docstring, heritage (BusspecificNmEcu)
   - [x] Step 3 — Implement model class (Green) — shape already spec-correct: base BusspecificNmEcu, zero attrs
@@ -397,7 +397,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — readJ1939NmEcu (no-op, zero attrs) + writeJ1939NmEcu (empty element) added; J-1939-NM-ECU branches in readBusDependentNmEcus/writeBusDependentNmEcus
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.323 p.694 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
   - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; docstring verbatim]
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch)
 - [x] `NmConfig` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.298 · after all NM classes above (aggrs `nmCluster`, `nmClusterCoupling`, `nmIfEcu`))
   - [x] Step 1 — Sync members & description from spec — Table 6.298, p.672; concrete, Base → `FibexElement`; 3 aggrs all * in displayed order: nmCluster (NmCluster), nmClusterCoupling (NmClusterCoupling), nmIfEcu (NmEcu); XML order per XSD group NM-CONFIG: NM-CLUSTERS → NM-CLUSTER-COUPLINGS → NM-IF-ECUS; aggregated by ARPackage.element; Note + "Tags: atp.recommendedPackage=NmConfigs" verbatim
   - [x] Step 2 — Write model class unit test (Red) — 3 Red: fabricated docstring (Note+Tags), registry-filter getNmClusters returned short-name-sorted instead of insertion order (dedicated-list pin), addNmClusterCouplings had no None no-op
@@ -408,7 +408,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.298 p.672 citation, release column; marker deferred to 9b
   - [x] Step 8 — Deviations  [in-pass: createFlexrayNmCluster/createJ1939NmCluster + list appends recorded under their own rows; FLEXRAY-NM-CLUSTER-COUPLING in NM-CLUSTER-COUPLINGS wrapper still notImplemented — belongs to FlexrayNmClusterCoupling (recorded under Pending 16.4); LIN-NM-CLUSTER choice member is atp.Status=removed XSD-only — recorded under Pending 16.4, not modeled]
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 757aea1d
-- [ ] `IPduMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 8.3)
+- [x] `IPduMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 8.3)
   - [x] Step 1 — Sync members & description from spec — Table 8.3, p.840; concrete, Base = ARObject (VariationPointCapable mixin kept: XSD group I-PDU-MAPPING carries VARIATION-POINT, CryptoServiceMapping precedent); attrs in displayed order: introduction (DocumentationBlock 0..1 aggr), pduMaxLength (PositiveInteger 0..1 attr — MISSING in src), pdurTpChunkSize (PositiveInteger 0..1 attr), sourceIPdu (PduTriggering 0..1 ref, accessor sourceIPduRef), targetIPdu (TargetIPduRef 0..1 aggr); XML order per XSD group I-PDU-MAPPING: INTRODUCTION → PDU-MAX-LENGTH → PDUR-TP-CHUNK-SIZE → SOURCE-I-PDU-REF → TARGET-I-PDU (→ VARIATION-POINT); aggregated by Gateway.iPduMapping
   - [x] Step 2 — Write model class unit test (Red) — 3 Red: fabricated docstring (was ISignalToIPduMapping's Note!), missing pduMaxLength accessors, sourceIpduRef → sourceIPduRef rename; typed PositiveInteger/RefType/TargetIPduRef round-trips + None no-ops
   - [x] Step 3 — Implement model class (Green) — pduMaxLength member + accessors added; sourceIpduRef renamed sourceIPduRef with getSourceIPduRef/setSourceIPduRef (Kind-suffix naming, Rule 0001.5); PEP 526 Optional annotations; member order = displayed order
@@ -417,8 +417,8 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — getIPduMappings/setIPduMappings extended with INTRODUCTION (getDocumentationBlock/writeDocumentationBlock), PDU-MAX-LENGTH, PDUR-TP-CHUNK-SIZE in XSD order; sourceIpduRef→sourceIPduRef renames at parser/writer/test call sites
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 8.3 p.840 citation, release column; marker deferred to 9b
   - [x] Step 8 — Deviations  [resolved in-step (Rule 0014): reader/writer silent drop of INTRODUCTION/PDU-MAX-LENGTH/PDUR-TP-CHUNK-SIZE fixed; naming sourceIpduRef → sourceIPduRef fixed; observation: VARIATION-POINT (XSD-only, not a Table 8.3 attribute row) not read/written — consistent with sibling ISignalMapping/FrameMapping, mixin kept]
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
-- [ ] `PduMappingDefaultValue` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 8.5)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch)
+- [x] `PduMappingDefaultValue` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 8.5)
   - [x] Step 1 — Sync members & description from spec — Table 8.5, p.841; concrete, Base = ARObject; attrs in displayed order: defaultValueElement (DefaultValueElement * aggr); XML order per XSD group PDU-MAPPING-DEFAULT-VALUE: DEFAULT-VALUE-ELEMENTS (choice of DEFAULT-VALUE-ELEMENT with ELEMENT-BYTE-VALUE → ELEMENT-POSITION); aggregated by TargetIPduRef.defaultValue; member class DefaultValueElement exists (own table 8.6)
   - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring assertion (Red: "Default value" vs spec "Default Value"), addDefaultValueElement append + None no-op pins (Red: addDefaultValueElements assigned the whole list instead of appending — wrong semantics under an add name); stale none-handling test (wrong semantics) removed with the rewrite
   - [x] Step 3 — Implement model class (Green) — addDefaultValueElements (list-assign) replaced by addDefaultValueElement (append + None no-op + chaining); typed accessor signatures; PEP 526 list annotation kept
@@ -427,7 +427,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — getTargetIPduRef now reads DEFAULT-VALUE-ELEMENTS into PduMappingDefaultValue via new readDefaultValueElement helper; setTargetIPduRef writes DEFAULT-VALUE-ELEMENTS wrapper via new setDefaultValueElement helper (XSD order)
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 8.5 p.841 citation, release column; marker deferred to 9b
   - [x] Step 8 — Deviations  [resolved in-step (Rule 0014): add* semantics violation fixed (list-assign → append); reader/writer silent drop of DEFAULT-VALUE-ELEMENTS fixed; housekeeping: leftover sourceIpduRef→sourceIPduRef rename in tests/.../Fibex/test_Fibex4Multiplatform.py (missed by the IPduMapping row) folded into this commit]
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch)
 - [x] `RtePluginProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 14.5) — **finished, stamped `# Spec verified: R23-11`**
   - [x] Step 1 — Sync members & description from spec — Table 14.5, p.971; Base=ARObject; two optional ref attributes in displayed order: associatedCrossSwClusterComRtePlugin and associatedRtePlugin
   - [x] Step 2 — Write model class unit test (Red) — model defaults, heritage, verbatim class Note, None-guarded getter/setter round-trips

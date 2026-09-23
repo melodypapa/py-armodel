@@ -136,6 +136,7 @@ class PduMappingDefaultValue(ARObject):
 
     # PduMappingDefaultValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 8.5, p.841
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDefaultValueElements     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -203,6 +204,7 @@ class IPduMapping(ARObject, VariationPointCapable):
 
     # IPduMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 8.3, p.840
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getIntroduction          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
