@@ -456,6 +456,114 @@ class TestConditionByFormulaSpecContract:
         assert condition.getText() == 'sysc == "A"'
 
 
+class TestSwSystemconstValueSpecContract:
+    """Table 7.9 (AUTOSAR_FO_TPS_GenericStructureTemplate, p.235) spec contract
+    for SwSystemconstValue."""
+
+    def test_class_docstring_verbatim(self):
+        """
+        Test that the class docstring is the Table 7.9 Note verbatim.
+        """
+        assert SwSystemconstValue.__doc__.strip() == "This meta-class assigns a particular value to a system constant."
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ has no docstring (spec Notes live in inline member comments).
+        """
+        assert SwSystemconstValue.__init__.__doc__ is None
+
+    def test_annotations_typed_list_of_annotation(self):
+        """
+        Test that annotation (Annotation, * aggr) maps to a List[Annotation] accessor pair.
+        """
+        getter_hints = typing.get_type_hints(SwSystemconstValue.getAnnotations)
+        assert getter_hints.get("return") == typing.List[Annotation]
+
+        setter_hints = typing.get_type_hints(SwSystemconstValue.addAnnotation)
+        assert setter_hints.get("value") is Annotation
+        assert setter_hints.get("return") is SwSystemconstValue
+
+    def test_sw_systemconst_ref_typed_ref_type(self):
+        """
+        Test that swSystemconst (SwSystemconst, 1 ref) maps to a RefType accessor pair
+        (field base name verbatim + Kind suffix per the compuMethodRef precedent).
+        """
+        getter_hints = typing.get_type_hints(SwSystemconstValue.getSwSystemconstRef)
+        assert getter_hints.get("return") is RefType
+
+        setter_hints = typing.get_type_hints(SwSystemconstValue.setSwSystemconstRef)
+        assert setter_hints.get("value") is RefType
+        assert setter_hints.get("return") is SwSystemconstValue
+
+    def test_value_typed_optional_ar_numerical(self):
+        """
+        Test that value (Numerical, 1 attr) is typed Optional[ARNumerical]
+        (the repo class for the spec Numerical type).
+        """
+        getter_hints = typing.get_type_hints(SwSystemconstValue.getValue)
+        assert getter_hints.get("return") == typing.Optional[ARNumerical]
+
+        setter_hints = typing.get_type_hints(SwSystemconstValue.setValue)
+        assert setter_hints.get("value") == typing.Optional[ARNumerical]
+        assert setter_hints.get("return") is SwSystemconstValue
+
+    def test_getter_docstrings_are_notes_without_tags(self):
+        """
+        Test that getter docstrings are the Table 7.9 Notes verbatim without the Tags suffix.
+        """
+        assert SwSystemconstValue.getAnnotations.__doc__.strip() == "This provides the ability to add information why the value is set like it is."
+        assert SwSystemconstValue.getSwSystemconstRef.__doc__.strip() == "This is the system constant to which the value applies."
+        assert SwSystemconstValue.getValue.__doc__.strip() == (
+            "This is the particular value of a system constant. It is specified as Numerical. "
+            "Further restrictions may apply by the definition of the system constant. "
+            "The value attribute defines the internal value of the SwSystemconst as it is processed in the Formula Language."
+        )
+
+    def test_setter_docstrings_are_notes_with_none_noop(self):
+        """
+        Test that setter docstrings are the Table 7.9 Notes verbatim plus the None-no-op sentence.
+        """
+        assert SwSystemconstValue.addAnnotation.__doc__.strip() == ("This provides the ability to add information why the value is set like it is. " "A None value is a no-op and is not appended.")
+        assert SwSystemconstValue.setSwSystemconstRef.__doc__.strip() == (
+            "This is the system constant to which the value applies. " "A None value is a no-op and does not overwrite an existing swSystemconstRef."
+        )
+        assert SwSystemconstValue.setValue.__doc__.strip() == (
+            "This is the particular value of a system constant. It is specified as Numerical. "
+            "Further restrictions may apply by the definition of the system constant. "
+            "The value attribute defines the internal value of the SwSystemconst as it is processed in the Formula Language. "
+            "A None value is a no-op and does not overwrite an existing value."
+        )
+
+    def test_defaults(self):
+        """
+        Test the initial state of a fresh SwSystemconstValue.
+        """
+        value = SwSystemconstValue()
+        assert value.getAnnotations() == []
+        assert value.getSwSystemconstRef() is None
+        assert value.getValue() is None
+
+    def test_setter_none_noops(self):
+        """
+        Test that setters ignore None (field values preserved).
+        """
+        value = SwSystemconstValue()
+        annotation = Annotation()
+        ref = RefType().setValue("/Constants/MyConst")
+        numerical = ARNumerical().setValue(1)
+
+        value.addAnnotation(annotation)
+        value.setSwSystemconstRef(ref)
+        value.setValue(numerical)
+
+        assert value.addAnnotation(None) is value
+        assert value.setSwSystemconstRef(None) is value
+        assert value.setValue(None) is value
+        assert value.getAnnotations() == [annotation]
+        assert value.getSwSystemconstRef() is ref
+        assert value.getValue() is numerical
+
+
 def test_criterion_holds_variation_point_via_mixin():
     # PostBuildVariantCriterion is VariationPointCapable through the PackageableElement
     # anchor (ARPackage.element carries atpVariation, GST Table 4.1); the slot is no

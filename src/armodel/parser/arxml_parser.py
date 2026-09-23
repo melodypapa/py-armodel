@@ -11355,10 +11355,10 @@ class ARXMLParser(AbstractARXMLParser):
         system_const.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
 
     def readSwSystemconstValue(self, element: ET.Element, value: SwSystemconstValue):
-        for annotation in self.getAnnotations(element):
-            value.addAnnotation(annotation)
         value.setSwSystemconstRef(self.getChildElementOptionalRefType(element, "SW-SYSTEMCONST-REF"))
         value.setValue(self.getChildElementOptionalNumericalValue(element, "VALUE"))
+        for annotation in self.getAnnotations(element):
+            value.addAnnotation(annotation)
 
     def readSwSystemconstantValueSetSwSystemconstantValues(self, element: ET.Element, value_set: SwSystemconstantValueSet):
         for child_element in self.findall(element, "SW-SYSTEMCONSTANT-VALUES/*"):

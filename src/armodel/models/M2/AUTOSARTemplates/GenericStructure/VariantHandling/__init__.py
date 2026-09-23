@@ -226,63 +226,57 @@ class PredefinedVariant(ARElement):
 class SwSystemconstValue(ARObject):
     """
     This meta-class assigns a particular value to a system constant.
-
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
-    Base: ARObject
-
-    Attributes:
-        annotations (List[Annotation]):
-            Provides the ability to add information why the value is set as
-            it is.
-            Tag: xml.sequenceOffset=30
-        swSystemconstRef (RefType):
-            Reference to the system constant to which the value applies.
-            Tag: xml.sequenceOffset=10
-        value (ARNumerical):
-            The particular value of a system constant. Further restrictions
-            may apply by the definition of the system constant. This defines
-            the internal value of the SwSystemconst as processed in the
-            Formula Language.
-            Stereotype: atpVariation
-            Tags: vh.latestBindingTime=preCompileTime, xml.sequenceOffset=20
     """
 
     # SwSystemconstValue method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAnnotations               [x] impl  [ ] docstring  [ ] test
-    # [ ] addAnnotation                [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwSystemconstRef          [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwSystemconstRef          [x] impl  [ ] docstring  [ ] test
-    # [ ] getValue                     [x] impl  [ ] docstring  [ ] test
-    # [ ] setValue                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.9, p.235
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAnnotations       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addAnnotation        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwSystemconstRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwSystemconstRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getValue             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
+        # This provides the ability to add information why the value is set like it is. Tags: xml.sequenceOffset=30
         self.annotations: List[Annotation] = []
+
+        # This is the system constant to which the value applies. Tags: xml.sequenceOffset=10
         self.swSystemconstRef: RefType = None
-        self.value: ARNumerical = None
+
+        # This is the particular value of a system constant. It is specified as Numerical. Further restrictions may apply by the definition of the system constant. The value attribute defines the internal value of the SwSystemconst as it is processed in the Formula Language. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=20
+        self.value: Optional[ARNumerical] = None
 
     def getAnnotations(self) -> List[Annotation]:
+        """This provides the ability to add information why the value is set like it is."""
         return self.annotations
 
-    def addAnnotation(self, value: Annotation):
+    def addAnnotation(self, value: Annotation) -> "SwSystemconstValue":
+        """This provides the ability to add information why the value is set like it is. A None value is a no-op and is not appended."""
         if value is not None:
             self.annotations.append(value)
         return self
 
     def getSwSystemconstRef(self) -> RefType:
+        """This is the system constant to which the value applies."""
         return self.swSystemconstRef
 
-    def setSwSystemconstRef(self, value: RefType):
+    def setSwSystemconstRef(self, value: RefType) -> "SwSystemconstValue":
+        """This is the system constant to which the value applies. A None value is a no-op and does not overwrite an existing swSystemconstRef."""
         if value is not None:
             self.swSystemconstRef = value
         return self
 
-    def getValue(self) -> ARNumerical:
+    def getValue(self) -> Optional[ARNumerical]:
+        """This is the particular value of a system constant. It is specified as Numerical. Further restrictions may apply by the definition of the system constant. The value attribute defines the internal value of the SwSystemconst as it is processed in the Formula Language."""
         return self.value
 
-    def setValue(self, value: ARNumerical):
+    def setValue(self, value: Optional[ARNumerical]) -> "SwSystemconstValue":
+        """This is the particular value of a system constant. It is specified as Numerical. Further restrictions may apply by the definition of the system constant. The value attribute defines the internal value of the SwSystemconst as it is processed in the Formula Language. A None value is a no-op and does not overwrite an existing value."""
         if value is not None:
             self.value = value
         return self

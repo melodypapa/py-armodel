@@ -1295,6 +1295,121 @@ class TestARXMLWriterSwSystemconstantValueSetMethods:
 
         autosar.clear()
 
+    def test_write_sw_systemconst_value_element_order(self):
+        """Test that SW-SYSTEMCONST-VALUE children follow the XSD element order
+        SW-SYSTEMCONST-REF (sequenceOffset=10) -> VALUE (20) -> ANNOTATIONS (30)."""
+        writer = ARXMLWriter()
+        autosar = AUTOSAR.getInstance()
+        autosar.clear()
+
+        pkg = autosar.createARPackage("Variants")
+        value_set = pkg.createSwSystemconstantValueSet("OrderedValueSet")
+
+        value = SwSystemconstValue()
+        ref = RefType()
+        ref.setDest("SW-SYSTEMCONST")
+        ref.setValue("/Constants/MySystemConstant")
+        value.setSwSystemconstRef(ref)
+        numerical = ARNumerical()
+        numerical.setValue(42)
+        value.setValue(numerical)
+        value.addAnnotation(Annotation())
+        value_set.addSwSystemconstantValue(value)
+
+        root = ET.Element("ELEMENTS")
+        writer.writeARPackageElement(root, value_set)
+
+        value_el = root.find("SW-SYSTEMCONSTANT-VALUE-SET/SW-SYSTEMCONSTANT-VALUES/SW-SYSTEMCONST-VALUE")
+        assert value_el is not None
+        assert [child.tag for child in value_el] == ["SW-SYSTEMCONST-REF", "VALUE", "ANNOTATIONS"]
+
+        autosar.clear()
+
+    def test_write_sw_systemconst_value_without_annotations_omits_wrapper(self):
+        """Test that a SW-SYSTEMCONST-VALUE without annotations writes no ANNOTATIONS wrapper."""
+        writer = ARXMLWriter()
+        autosar = AUTOSAR.getInstance()
+        autosar.clear()
+
+        pkg = autosar.createARPackage("Variants")
+        value_set = pkg.createSwSystemconstantValueSet("BareValueSet")
+
+        value = SwSystemconstValue()
+        numerical = ARNumerical()
+        numerical.setValue(1)
+        value.setValue(numerical)
+        value_set.addSwSystemconstantValue(value)
+
+        root = ET.Element("ELEMENTS")
+        writer.writeARPackageElement(root, value_set)
+
+        value_el = root.find("SW-SYSTEMCONSTANT-VALUE-SET/SW-SYSTEMCONSTANT-VALUES/SW-SYSTEMCONST-VALUE")
+        assert value_el is not None
+        assert value_el.find("ANNOTATIONS") is None
+
+        autosar.clear()
+
+
+class TestSwSystemconstantValueSetRoundTrip:
+    """Table 7.9 round-trip: save -> load preserves every SwSystemconstValue
+    attribute value through the SwSystemconstantValueSet aggregation."""
+
+    def _build_document(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+
+        pkg = document.createARPackage("Variants")
+        value_set = pkg.createSwSystemconstantValueSet("MyValueSet")
+
+        value = SwSystemconstValue()
+        ref = RefType()
+        ref.setDest("SW-SYSTEMCONST")
+        ref.setValue("/Constants/MaxSpeed")
+        value.setSwSystemconstRef(ref)
+        numerical = ARNumerical()
+        numerical.setValue(42)
+        value.setValue(numerical)
+        annotation = Annotation()
+        annotation.setAnnotationOrigin(String().setValue("variant-manager"))
+        value.addAnnotation(annotation)
+        value_set.addSwSystemconstantValue(value)
+
+        empty = SwSystemconstValue()
+        value_set.addSwSystemconstantValue(empty)
+        return document
+
+    def test_round_trip_fields_preserved(self, tmp_path):
+        document = self._build_document()
+        output = str(tmp_path / "sw_systemconst_value_roundtrip.arxml")
+        ARXMLWriter().save(output, document)
+
+        document_2 = AUTOSAR.getInstance()
+        document_2.clear()
+        ARXMLParser().load(output, document_2)
+
+        value_set = document_2.getARPackages()[0].getSwSystemconstantValueSets()[0]
+        assert value_set.getShortName() == "MyValueSet"
+        values = value_set.getSwSystemconstantValues()
+        assert len(values) == 2
+
+        value = values[0]
+        ref = value.getSwSystemconstRef()
+        assert ref is not None
+        assert ref.getValue() == "/Constants/MaxSpeed"
+        assert ref.getDest() == "SW-SYSTEMCONST"
+        numerical = value.getValue()
+        assert isinstance(numerical, ARNumerical)
+        assert numerical.getValue() == 42
+        annotations = value.getAnnotations()
+        assert len(annotations) == 1
+        assert annotations[0].getAnnotationOrigin().getValue() == "variant-manager"
+
+        empty = values[1]
+        assert empty.getSwSystemconstRef() is None
+        assert empty.getValue() is None
+        assert empty.getAnnotations() == []
+
 
 class TestARXMLWriterPredefinedVariantMethods:
     """Tests for PredefinedVariant writer behavior."""
