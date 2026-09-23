@@ -698,6 +698,7 @@ class FirewallActionEnum(AREnum):
 
     # FirewallActionEnum method parity checklist:
     # Spec: AUTOSAR_00052.xsd complexType FIREWALL-ACTION-ENUM l.136671 + --SIMPLE l.136683 (XSD-only; no markdown/PDF table); consumed by StateDependentFirewall.defaultAction (Table 6.234) and FirewallRuleProps.action (Table 6.235)
+    # XSD verified: AUTOSAR_00052.xsd
     # Arbitration 2026-09-22: literal order follows the XSD EnumerationLiteralIndex tags (BLOCK=0 l.136694, ALLOW=1 l.136688); the --SIMPLE document order and the ECUC literal-mapping tables list ALLOW first, which is alphabetical ordering, not index metadata
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
