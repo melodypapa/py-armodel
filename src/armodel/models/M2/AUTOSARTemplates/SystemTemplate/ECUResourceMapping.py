@@ -132,7 +132,7 @@ class ECUMapping(Identifiable, VariationPointCapable):
     # [x] setHwPortMappings            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addHwPortMapping             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # The ECUMapping contains the mapping of all CommunicationControllers of the ECU.
