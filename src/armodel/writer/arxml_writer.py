@@ -722,6 +722,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
     CryptoEllipticCurveProps,
+    CryptoServiceCertificate,
     CryptoServicePrimitive,
     CryptoSignatureScheme,
     MacSecCipherSuiteConfig,
@@ -11420,6 +11421,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, scheme)
         self.setChildElementOptionalPositiveInteger(child_element, "SIGNATURE-SCHEME-ID", scheme.getSignatureSchemeId())
 
+    def writeCryptoServiceCertificate(self, element: ET.Element, certificate: CryptoServiceCertificate):
+        self.logger.debug("Write CryptoServiceCertificate <%s>" % certificate.getShortName())
+        child_element = ET.SubElement(element, "CRYPTO-SERVICE-CERTIFICATE")
+        self.writeIdentifiable(child_element, certificate)
+        self.setChildElementOptionalLiteral(child_element, "ALGORITHM-FAMILY", certificate.getAlgorithmFamily())
+        self.setChildElementOptionalLiteral(child_element, "FORMAT", certificate.getFormat())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-LENGTH", certificate.getMaximumLength())
+        self.setChildElementOptionalRefType(child_element, "NEXT-HIGHER-CERTIFICATE-REF", certificate.getNextHigherCertificateRef())
+        self.setChildElementOptionalString(child_element, "SERVER-NAME-IDENTIFICATION", certificate.getServerNameIdentification())
+
     def writeCryptoServicePrimitive(self, element: ET.Element, primitive: CryptoServicePrimitive):
         self.logger.debug("Write CryptoServicePrimitive <%s>" % primitive.getShortName())
         child_element = ET.SubElement(element, "CRYPTO-SERVICE-PRIMITIVE")
@@ -13582,6 +13593,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeCryptoEllipticCurveProps(element, ar_element)
         elif isinstance(ar_element, CryptoSignatureScheme):
             self.writeCryptoSignatureScheme(element, ar_element)
+        elif isinstance(ar_element, CryptoServiceCertificate):
+            self.writeCryptoServiceCertificate(element, ar_element)
         elif isinstance(ar_element, CryptoServicePrimitive):
             self.writeCryptoServicePrimitive(element, ar_element)
         elif isinstance(ar_element, SoAdRoutingGroup):

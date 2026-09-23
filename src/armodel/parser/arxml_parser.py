@@ -809,7 +809,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
+    CryptoCertificateAlgorithmFamilyEnum,
+    CryptoCertificateFormatEnum,
     CryptoEllipticCurveProps,
+    CryptoServiceCertificate,
     CryptoServicePrimitive,
     CryptoSignatureScheme,
     MacSecCapabilityEnum,
@@ -13180,6 +13183,23 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, scheme)
         scheme.setSignatureSchemeId(self.getChildElementOptionalPositiveInteger(element, "SIGNATURE-SCHEME-ID"))
 
+    def readCryptoServiceCertificate(self, element: ET.Element, certificate: CryptoServiceCertificate):
+        self.logger.debug("Read CryptoServiceCertificate <%s>" % certificate.getShortName())
+        self.readIdentifiable(element, certificate)
+        family = self.getChildElementOptionalLiteral(element, "ALGORITHM-FAMILY")
+        if family is not None:
+            e = CryptoCertificateAlgorithmFamilyEnum()
+            e.setValue(family.getValue())
+            certificate.setAlgorithmFamily(e)
+        fmt = self.getChildElementOptionalLiteral(element, "FORMAT")
+        if fmt is not None:
+            e = CryptoCertificateFormatEnum()
+            e.setValue(fmt.getValue())
+            certificate.setFormat(e)
+        certificate.setMaximumLength(self.getChildElementOptionalPositiveInteger(element, "MAXIMUM-LENGTH"))
+        certificate.setNextHigherCertificateRef(self.getChildElementOptionalRefType(element, "NEXT-HIGHER-CERTIFICATE-REF"))
+        certificate.setServerNameIdentification(self.getChildElementOptionalString(element, "SERVER-NAME-IDENTIFICATION"))
+
     def readCryptoServicePrimitive(self, element: ET.Element, primitive: CryptoServicePrimitive):
         self.logger.debug("Read CryptoServicePrimitive <%s>" % primitive.getShortName())
         self.readIdentifiable(element, primitive)
@@ -13855,6 +13875,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "CRYPTO-SIGNATURE-SCHEME":
                 scheme = parent.createCryptoSignatureScheme(self.getShortName(child_element))
                 self.readCryptoSignatureScheme(child_element, scheme)
+            elif tag_name == "CRYPTO-SERVICE-CERTIFICATE":
+                certificate = parent.createCryptoServiceCertificate(self.getShortName(child_element))
+                self.readCryptoServiceCertificate(child_element, certificate)
             elif tag_name == "CRYPTO-SERVICE-PRIMITIVE":
                 primitive = parent.createCryptoServicePrimitive(self.getShortName(child_element))
                 self.readCryptoServicePrimitive(child_element, primitive)

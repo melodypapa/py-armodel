@@ -1,6 +1,8 @@
 # This module contains AUTOSAR System Template classes for secure communication
 # It defines crypto service mappings and TLS configurations for secure data transmission
 
+from __future__ import annotations
+
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from abc import ABC
@@ -428,6 +430,110 @@ class CryptoSignatureScheme(ARElement):
         """
         if value is not None:
             self.signatureSchemeId = value
+        return self
+
+
+class CryptoServiceCertificate(ARElement):
+    """
+    This meta-class represents the ability to model a cryptographic certificate. Tags: atp.recommendedPackage=CryptoServiceCertificates
+    """
+
+    # CryptoServiceCertificate method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.218, p.565
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAlgorithmFamily                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAlgorithmFamily                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFormat                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFormat                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaximumLength                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaximumLength                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNextHigherCertificateRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNextHigherCertificateRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServerNameIdentification           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServerNameIdentification           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # This attribute represents a description of the family of crypto algorithm used to generate public key and signature of the cryptographic certificate.
+        self.algorithmFamily: Optional[CryptoCertificateAlgorithmFamilyEnum] = None
+
+        # This attribute can be used to provide information about the format used to create the certificate
+        self.format: Optional[CryptoCertificateFormatEnum] = None
+
+        # This attribute represents the ability to define the maximum length of the certificate in bytes.
+        self.maximumLength: Optional[PositiveInteger] = None
+
+        # The reference identifies the next higher certificate in the certificate chain.
+        self.nextHigherCertificateRef: Optional[RefType] = None
+
+        # Server Name Indication (SNI) is needed if the IP address hosts multiple servers (on the same port), each of them using a different certificate. If the client sends the SNI to the Server in the client hello, the server looks the SNI up in its certificate list and uses the certificate identified by the SNI.
+        self.serverNameIdentification: Optional[String] = None
+
+    def getAlgorithmFamily(self) -> Optional[CryptoCertificateAlgorithmFamilyEnum]:
+        """This attribute represents a description of the family of crypto algorithm used to generate public key and signature of the cryptographic certificate."""
+        return self.algorithmFamily
+
+    def setAlgorithmFamily(self, value: Optional[CryptoCertificateAlgorithmFamilyEnum]) -> "CryptoServiceCertificate":
+        """
+        This attribute represents a description of the family of crypto algorithm used to generate public key and signature of the cryptographic certificate.
+        A None value is a no-op and does not overwrite an existing algorithmFamily.
+        """
+        if value is not None:
+            self.algorithmFamily = value
+        return self
+
+    def getFormat(self) -> Optional[CryptoCertificateFormatEnum]:
+        """This attribute can be used to provide information about the format used to create the certificate"""
+        return self.format
+
+    def setFormat(self, value: Optional[CryptoCertificateFormatEnum]) -> "CryptoServiceCertificate":
+        """
+        This attribute can be used to provide information about the format used to create the certificate
+        A None value is a no-op and does not overwrite an existing format.
+        """
+        if value is not None:
+            self.format = value
+        return self
+
+    def getMaximumLength(self) -> Optional[PositiveInteger]:
+        """This attribute represents the ability to define the maximum length of the certificate in bytes."""
+        return self.maximumLength
+
+    def setMaximumLength(self, value: Optional[PositiveInteger]) -> "CryptoServiceCertificate":
+        """
+        This attribute represents the ability to define the maximum length of the certificate in bytes.
+        A None value is a no-op and does not overwrite an existing maximumLength.
+        """
+        if value is not None:
+            self.maximumLength = value
+        return self
+
+    def getNextHigherCertificateRef(self) -> Optional[RefType]:
+        """The reference identifies the next higher certificate in the certificate chain."""
+        return self.nextHigherCertificateRef
+
+    def setNextHigherCertificateRef(self, value: Optional[RefType]) -> "CryptoServiceCertificate":
+        """
+        The reference identifies the next higher certificate in the certificate chain.
+        A None value is a no-op and does not overwrite an existing nextHigherCertificateRef.
+        """
+        if value is not None:
+            self.nextHigherCertificateRef = value
+        return self
+
+    def getServerNameIdentification(self) -> Optional[String]:
+        """Server Name Indication (SNI) is needed if the IP address hosts multiple servers (on the same port), each of them using a different certificate. If the client sends the SNI to the Server in the client hello, the server looks the SNI up in its certificate list and uses the certificate identified by the SNI."""
+        return self.serverNameIdentification
+
+    def setServerNameIdentification(self, value: Optional[String]) -> "CryptoServiceCertificate":
+        """
+        Server Name Indication (SNI) is needed if the IP address hosts multiple servers (on the same port), each of them using a different certificate. If the client sends the SNI to the Server in the client hello, the server looks the SNI up in its certificate list and uses the certificate identified by the SNI.
+        A None value is a no-op and does not overwrite an existing serverNameIdentification.
+        """
+        if value is not None:
+            self.serverNameIdentification = value
         return self
 
 
