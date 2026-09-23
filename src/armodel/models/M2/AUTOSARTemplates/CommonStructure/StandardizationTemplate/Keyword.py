@@ -7,6 +7,7 @@ and classification purposes in AUTOSAR models.
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 
@@ -27,7 +28,7 @@ class Keyword(Identifiable):
     # [x] getClassifications       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
     # [x] addClassification        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # This attribute specifies an abbreviated name of a keyword. This abbreviation may e.g. be used for constructing valid shortNames according to  the AUTOSAR naming conventions.
@@ -85,7 +86,7 @@ class KeywordSet(AtpBlueprintable):
     # [x] getKeywords       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
     # [x] createKeyword     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # This is one particular keyword in the keyword set.
