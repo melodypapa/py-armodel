@@ -1225,9 +1225,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if fragment is not None:
             child_element = ET.SubElement(element, "SHORT-NAME-FRAGMENT")
             self.writeARObject(child_element, fragment)
-            if fragment.getRole() is not None:
-                role_element = ET.SubElement(child_element, "ROLE")
-                role_element.text = fragment.getRole()
+            self.setChildElementOptionalString(child_element, "ROLE", fragment.getRole())
             self.setChildElementOptionalIdentifier(child_element, "FRAGMENT", fragment.getFragment())
 
     def setShortNameFragments(self, element: ET.Element, fragments: List[ShortNameFragment]):

@@ -1058,6 +1058,8 @@ Class not in markdown/PDF — skipped per user (primitive `Integer` has no dedic
 - **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py`
 
+**Note:** Resolved 2026-09-24. `shortName` is the constructor `short_name` parameter with `getShortName()`; the `shortNameFragment` aggregation is implemented as `shortNameFragments: List[ShortNameFragment]` with `addShortNameFragment`/`getShortNameFragments` (SHORT-NAME-FRAGMENTS wrapper; parser `readReferrable`/`getShortNameFragments`, writer `writeReferrable`/`setShortNameFragment(s)`). The aggregated `ShortNameFragment` class (FO GenericStructureTemplate Table 4.13) is synced — see its section below. Supersedes the two "missing" rows below (stale CP BSWModuleDescriptionTemplate audit — both members exist in current code).
+
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `shortName` | `Identifier` | — | missing |
@@ -1108,6 +1110,17 @@ Class not in markdown/PDF — skipped per user (primitive `Integer` has no dedic
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(no deviation)* | — | — | — | — | `waitPoint` resolved: `waitPoints` is now `List[WaitPoint]` via `createWaitPoint`/`getWaitPoints` (Table 7.3); the missing `WaitPoint` class (Table 7.25) is implemented (`timeout` TimeValue 0..1, `trigger` ref) with reader/writer (`WAIT-POINTS` wrapper). All 18 Table 7.3 attributes (`argument`, `asynchronousServerCallResultPoint`, `canBeInvokedConcurrently`, `dataReadAccess`, `dataReceivePointByArgument`, `dataReceivePointByValue`, `dataSendPoint`, `dataWriteAccess`, `externalTriggeringPoint`, `internalTriggeringPoint`, `modeAccessPoint`, `modeSwitchPoint`, `parameterAccess`, `readLocalVariable`, `serverCallPoint`, `symbol`, `waitPoint`, `writtenLocalVariable`) are implemented with accessors + reader/writer coverage; `DATA-RECEIVE-POINT-BY-VALUES` writer added. Member/accessor docstrings synced to the Table 7.3 Notes; `# Spec verified: R23-11` carried. |
+
+## `ShortNameFragment`
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 64 (Table 4.13)
+- **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py`
+
+**Note:** Synced 2026-09-24 against R23-11 Table 4.13 (R4.3.1 Table 4.18 reproduction byte-identical, same displayed order). Deviations found and fixed during the sync — no open rows remain: `role` retyped `Optional[str]` → `Optional[String]` per the spec String type (parser now reads via `getChildElementOptionalString`, writer emits via `setChildElementOptionalString`); member/accessor order aligned to the markdown displayed order fragment → role. Reader/writer coverage via parser `getShortNameFragments` / writer `setShortNameFragment(s)` consumed by `readReferrable`/`writeReferrable` (SHORT-NAME-FRAGMENTS wrapper, xml.sequenceOffset=-90). Stamp (`# Spec verified: R23-11`) deferred to batch confirmation.
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | Both Table 4.13 attributes implemented: `fragment` (`Optional[Identifier]`, 1, attr, xml.sequenceOffset=20) and `role` (`Optional[String]`, 1, attr, xml.sequenceOffset=10); setters None-no-op + chaining; docstrings verbatim from the table Notes; reader/writer via the matched typed helpers. |
 
 ## `SwcInternalBehavior`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 518 (Table 7.2 header block)

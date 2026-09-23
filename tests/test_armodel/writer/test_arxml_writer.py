@@ -1362,7 +1362,7 @@ class TestShortNameFragmentsWriting:
 
         obj = ConcreteReferrable(autosar, "TestName")
         fragment = ShortNameFragment()
-        fragment.setRole("prefix")
+        fragment.setRole(String().setValue("prefix"))
         fragment.setFragment(Identifier().setValue("PFX"))
         obj.addShortNameFragment(fragment)
 

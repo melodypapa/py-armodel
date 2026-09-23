@@ -119,67 +119,49 @@ class ShortNameFragment(ARObject):
     """
 
     # ShortNameFragment method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getRole                      [x] impl  [x] docstring  [x] test
-    # [ ] setRole                      [x] impl  [x] docstring  [x] test
-    # [ ] getFragment                  [x] impl  [x] docstring  [x] test
-    # [ ] setFragment                  [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.13, p.64
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFragment     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFragment     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRole         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRole         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This specifies the role of fragment to define e.g. the order of the fragments. Tags: xml.sequenceOffset=10
-        self.role: Optional[str] = None
-
         # This specifies a single shortName (fragment) which is part of the composed shortName. Tags: xml.sequenceOffset=20
         self.fragment: Optional[Identifier] = None
 
-    def getRole(self) -> Optional[str]:
-        """
-        Gets the role of fragment to define e.g. the order of the fragments.
-
-        Returns:
-            The role string, or None if not set
-        """
-        return self.role
-
-    def setRole(self, value: Optional[str]) -> "ShortNameFragment":
-        """
-        Sets the role of fragment to define e.g. the order of the fragments.
-        A None value is a no-op and does not overwrite an existing role.
-
-        Args:
-            value: The role string to set
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.role = value
-        return self
+        # This specifies the role of fragment to define e.g. the order of the fragments. Tags: xml.sequenceOffset=10
+        self.role: Optional[String] = None
 
     def getFragment(self) -> Optional[Identifier]:
         """
-        Gets the single shortName (fragment) which is part of the composed shortName.
-
-        Returns:
-            Identifier representing the fragment, or None if not set
+        This specifies a single shortName (fragment) which is part of the composed shortName.
         """
         return self.fragment
 
     def setFragment(self, value: Optional[Identifier]) -> "ShortNameFragment":
         """
-        Sets the single shortName (fragment) which is part of the composed shortName.
-        A None value is a no-op and does not overwrite an existing fragment.
-
-        Args:
-            value: The fragment identifier to set
-
-        Returns:
-            self for method chaining
+        This specifies a single shortName (fragment) which is part of the composed shortName. A None value is a no-op and does not overwrite an existing fragment.
         """
         if value is not None:
             self.fragment = value
+        return self
+
+    def getRole(self) -> Optional[String]:
+        """
+        This specifies the role of fragment to define e.g. the order of the fragments.
+        """
+        return self.role
+
+    def setRole(self, value: Optional[String]) -> "ShortNameFragment":
+        """
+        This specifies the role of fragment to define e.g. the order of the fragments. A None value is a no-op and does not overwrite an existing role.
+        """
+        if value is not None:
+            self.role = value
         return self
 
 

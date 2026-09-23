@@ -1387,9 +1387,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "%s/SHORT-NAME-FRAGMENT" % key):
             fragment = ShortNameFragment()
             self.readARObject(child_element, fragment)
-            role_element = self.find(child_element, "ROLE")
-            if role_element is not None:
-                fragment.setRole(role_element.text)
+            fragment.setRole(self.getChildElementOptionalString(child_element, "ROLE"))
             fragment.setFragment(self.getChildElementOptionalIdentifier(child_element, "FRAGMENT"))
             fragments.append(fragment)
         return fragments
