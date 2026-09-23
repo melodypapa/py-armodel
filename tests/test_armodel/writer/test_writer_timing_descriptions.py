@@ -8,6 +8,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TimingDescriptionEventChain,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
+    AutosarOperationArgumentInstance,
+    OperationArgumentInComponentInstanceRef,
     TDEventOccurrenceExpression,
     TDEventOccurrenceExpressionFormula,
 )
@@ -156,6 +158,70 @@ class TestWriteTDEventOccurrenceExpression:
         assert expression2.getModes()[0].getShortName() == "Mode1"
         assert len(expression2.getVariables()) == 1
         assert expression2.getVariables()[0].getShortName() == "Var1"
+
+    def test_round_trip_argument_instance_iref_values(self):
+        """
+        Round-trip the AUTOSAR-OPERATION-ARGUMENT-INSTANCE inside the ARGUMENTS
+        wrapper with a fully populated OPERATION-ARGUMENT-INSTANCE-IREF,
+        asserting the written field values + DESTs, the XSD element order
+        (own group: SHORT-NAME → OPERATION-ARGUMENT-INSTANCE-IREF; instance ref
+        group: CONTEXT-COMPONENT-REF* → CONTEXT-PORT-PROTOTYPE-REF →
+        CONTEXT-OPERATION-REF → ROOT-ARGUMENT-DATA-PROTOTYPE-REF →
+        CONTEXT-DATA-PROTOTYPE-REF* → TARGET-DATA-PROTOTYPE-REF) and the
+        read-back field values.
+        """
+        parent = self._parent()
+        expression = TDEventOccurrenceExpression()
+        argument = expression.createArgument(parent, "OpArg1")
+        iref = OperationArgumentInComponentInstanceRef()
+        iref.addContextComponentRef(RefType().setValue("/AUTOSAR/Comp1").setDest("SW-COMPONENT-PROTOTYPE"))
+        iref.addContextComponentRef(RefType().setValue("/AUTOSAR/Comp2").setDest("SW-COMPONENT-PROTOTYPE"))
+        iref.setContextPortPrototypeRef(RefType().setValue("/AUTOSAR/Port").setDest("PORT-PROTOTYPE"))
+        iref.setContextOperationRef(RefType().setValue("/AUTOSAR/Op").setDest("CLIENT-SERVER-OPERATION"))
+        iref.setRootArgumentDataPrototypeRef(RefType().setValue("/AUTOSAR/RootArg").setDest("AUTOSAR-OPERATION-ARGUMENT-INSTANCE"))
+        iref.addContextDataPrototypeRef(RefType().setValue("/AUTOSAR/CtxDP").setDest("VARIABLE-DATA-PROTOTYPE"))
+        iref.setTargetDataPrototypeRef(RefType().setValue("/AUTOSAR/TargetDP").setDest("DATA-PROTOTYPE"))
+        argument.setOperationArgumentInstanceIRef(iref)
+
+        element = ET.Element("OCCURRENCE-EXPRESSION")
+        ARXMLWriter().writeTDEventOccurrenceExpression(element, expression)
+
+        arguments_tag = element.find("ARGUMENTS")
+        assert arguments_tag is not None
+        instance_tag = arguments_tag.find("AUTOSAR-OPERATION-ARGUMENT-INSTANCE")
+        assert instance_tag is not None
+        assert [child.tag for child in instance_tag] == ["SHORT-NAME", "OPERATION-ARGUMENT-INSTANCE-IREF"]
+        iref_tag = instance_tag.find("OPERATION-ARGUMENT-INSTANCE-IREF")
+        assert [child.tag for child in iref_tag] == [
+            "CONTEXT-COMPONENT-REF",
+            "CONTEXT-COMPONENT-REF",
+            "CONTEXT-PORT-PROTOTYPE-REF",
+            "CONTEXT-OPERATION-REF",
+            "ROOT-ARGUMENT-DATA-PROTOTYPE-REF",
+            "CONTEXT-DATA-PROTOTYPE-REF",
+            "TARGET-DATA-PROTOTYPE-REF",
+        ]
+        assert iref_tag.find("CONTEXT-OPERATION-REF").attrib["DEST"] == "CLIENT-SERVER-OPERATION"
+        assert iref_tag.find("TARGET-DATA-PROTOTYPE-REF").attrib["DEST"] == "DATA-PROTOTYPE"
+
+        xml_str = ET.tostring(element).decode()
+        idx = xml_str.find(">")
+        xml_str = xml_str[:idx] + ' xmlns="http://autosar.org/schema/r4.0"' + xml_str[idx:]
+        parsed = ET.fromstring(xml_str)
+
+        expression2 = ARXMLParser().readTDEventOccurrenceExpression(parsed, self._parent())
+        assert len(expression2.getArguments()) == 1
+        reloaded = expression2.getArguments()[0]
+        assert isinstance(reloaded, AutosarOperationArgumentInstance)
+        assert reloaded.getShortName() == "OpArg1"
+        reloaded_iref = reloaded.getOperationArgumentInstanceIRef()
+        assert isinstance(reloaded_iref, OperationArgumentInComponentInstanceRef)
+        assert [ref.getValue() for ref in reloaded_iref.getContextComponentRefs()] == ["/AUTOSAR/Comp1", "/AUTOSAR/Comp2"]
+        assert reloaded_iref.getContextPortPrototypeRef().getValue() == "/AUTOSAR/Port"
+        assert reloaded_iref.getContextOperationRef().getValue() == "/AUTOSAR/Op"
+        assert reloaded_iref.getRootArgumentDataPrototypeRef().getValue() == "/AUTOSAR/RootArg"
+        assert reloaded_iref.getContextDataPrototypeRefs()[0].getValue() == "/AUTOSAR/CtxDP"
+        assert reloaded_iref.getTargetDataPrototypeRef().getValue() == "/AUTOSAR/TargetDP"
 
 
 class TestWriteTimingDescriptionEvent:
