@@ -34,6 +34,26 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
 > row variance, ARObject/Referrable built-ins, ARPackage's legacy non-enumerating checklist) are
 > legacy-convention noise outside this queue — opportunistic fixes only, never batch-9b work.
 
+> **Dependency audit 2026-09-23 (remaining-`[ ]`-rows closure sweep):** every member type of the
+> 4 unchecked rows re-extracted from the R23-11 markdown and classified (src-class / stamped /
+> queued / missing). Findings: (1) `TlsCryptoCipherSuite` closure CLEAN — all 7 member types
+> (CryptoServicePrimitive, CryptoServiceCertificate, CryptoEllipticCurveProps,
+> TlsCryptoCipherSuiteProps, TlsPskIdentity, CryptoSignatureScheme, TlsVersionEnum) carry
+> `# Spec verified: R23-11` in src; base chain → stamped Identifiable. (2) `TlsCryptoServiceMapping`
+> closure CLEAN (CryptoServicePrimitive stamped; TlsCryptoCipherSuite is the row above it).
+> (3) `UserDefinedTransformationISignalProps` CLEAN — Table 7.28 (p.828, id resolved from TBC) has
+> ZERO attribute rows, Base → stamped TransformationISignalProps. (4) `SomeipTransformationISignalProps`
+> (Table 7.11, p.778 — id resolved from TBC) had THREE missing member types, none in src and none
+> previously queued — inserted below dependency-first: `SOMEIPMessageTypeEnum` (Table 7.13, p.779,
+> Enumeration with 4 literals), `TlvDataIdDefinition` (Table 7.31, p.831; its 3 ref targets
+> ArgumentDataPrototype / AbstractImplementationDataTypeElement / ApplicationRecordElement already
+> stamped), `TlvDataIdDefinitionSet` (Table 7.30, p.830 — **trailing-caption render**: its table body
+> sits BEFORE its caption; the body after the caption belongs to Table 7.31). (5) Table 6.212's
+> "Aggregated by" row names a second consumer `TlsSecureComProps.tlsCipherSuite` — XSD-only
+> (complexType TLS-SECURE-COM-PROPS in AUTOSAR_00052.xsd; no table in R23-11 or R4.3.1 markdown),
+> not in src and NOT in the Group 6 input list → recorded under Pending 16.4 for the record
+> (consumer-side, not a dependency of any pending row).
+
 ## Queue (dependency-first)
 
 - [x] `AbstractEthernetFrame` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.229) — **finished, stamped `# Spec verified: R23-11`, commit ef0708e2**
@@ -278,7 +298,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 7 — Update checklist comment — 6-column parity checklist with release column R23-11 on all rows; marker deferred to 9b
   - [x] Step 8 — Deviations  [resolved in-pass (Rule 0014): CSTransformerErrorReactionEnum wire-value drift fixed — two unit tests updated (raw-literal fixtures unaffected); reader enum construction upgraded; no open deviations]
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 757aea1d
-- [ ] `SomeipTransformationISignalProps` (dependency of TransformationISignalProps, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · table id TBC at Step 1 · concrete subclass of TransformationISignalProps (XSD SOME-IP-TRANSFORMATION-I-SIGNAL-PROPS) · added by 2026-09-22 Group6 member-type audit — was untracked)
+- [ ] `SOMEIPMessageTypeEnum` (dependency of SomeipTransformationISignalProps, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 7.13, p.779 · member type of SomeipTransformationISignalProps.messageType · added by 2026-09-23 dependency audit — was untracked)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -288,7 +308,37 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `UserDefinedTransformationISignalProps` (dependency of TransformationISignalProps, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · table id TBC at Step 1 · concrete subclass of TransformationISignalProps (XSD USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS) · added by 2026-09-22 Group6 member-type audit — was untracked)
+- [ ] `TlvDataIdDefinition` (dependency of TlvDataIdDefinitionSet, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 7.31, p.831 · member type of TlvDataIdDefinitionSet.tlvDataIdDefinition · added by 2026-09-23 dependency audit — was untracked)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `TlvDataIdDefinitionSet` (dependency of SomeipTransformationISignalProps, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 7.30, p.830 · member type of SomeipTransformationISignalProps.tlvDataIdDefinition (* ref) · added by 2026-09-23 dependency audit — was untracked; Table 7.30 renders trailing-caption — body sits BEFORE its caption, the body after belongs to Table 7.31)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SomeipTransformationISignalProps` (dependency of TransformationISignalProps, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 7.11, p.778 · concrete subclass of TransformationISignalProps (XSD SOME-IP-TRANSFORMATION-I-SIGNAL-PROPS) · added by 2026-09-22 Group6 member-type audit — was untracked; closure audited 2026-09-23 — member types SOMEIPMessageTypeEnum/TlvDataIdDefinitionSet queued above)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `UserDefinedTransformationISignalProps` (dependency of TransformationISignalProps, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 7.28, p.828 · concrete subclass of TransformationISignalProps (XSD USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS) · added by 2026-09-22 Group6 member-type audit — was untracked; closure audited 2026-09-23 — zero attribute rows, base stamped)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -449,6 +499,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
 - `LinNmCluster` (R23-11 · XSD-only · AUTOSAR_00052.xsd group LIN-NM-CLUSTER, line 77474) — concrete subclass of NmCluster (XSD choice member LIN-NM-CLUSTER in NM-CLUSTERS), but carries atp.Status="removed" in R23-11 and has no own table; NOT created — queued here only for the record; discovered 2026-09-21 during `NmConfig` sync
 - `TlsCryptoCipherSuite` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.212, p.561) — member type of TlsCryptoServiceMapping.tlsCipherSuite (XSD wrapper TLS-CIPHER-SUITES, choice member TLS-CRYPTO-CIPHER-SUITE); TLS-CIPHER-SUITES reader/writer currently notImplemented; discovered 2026-09-22 during `TlsCryptoServiceMapping` sync; **partially queued 2026-09-22** — TlsVersionEnum, TlsPskIdentity, TlsCryptoCipherSuite, CryptoServicePrimitive now have queue rows (see above, dependency-first before TlsCryptoServiceMapping); remaining closure members — full closure confirmed & queued 2026-09-22 (CryptoServicePrimitive, TlsCryptoCipherSuiteProps, CryptoEllipticCurveProps, CryptoSignatureScheme — memo previously mislabeled TlsSignatureScheme, CryptoCertificateAlgorithmFamilyEnum, CryptoCertificateFormatEnum, CryptoServiceCertificate; all rows above, dependency-first before TlsCryptoCipherSuite); this Pending-16.4 entry is resolved — see queue rows
 - `SomeipTransformationISignalProps` / `UserDefinedTransformationISignalProps` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · table ids TBC at Step 1) — concrete subclasses of TransformationISignalProps (XSD SOME-IP-/USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS); discovered 2026-09-22 by Group6 member-type audit (were untracked); **queued 2026-09-22** — see rows above
+- `TlsSecureComProps` (R23-11 · XSD-only · AUTOSAR_00052.xsd complexType TLS-SECURE-COM-PROPS) — second consumer of TlsCryptoCipherSuite (Table 6.212 "Aggregated by: TlsCryptoServiceMapping.tlsCipherSuite, TlsSecureComProps.tlsCipherSuite"); not in src, no own table in R23-11 or R4.3.1 markdown (checked 2026-09-23); discovered by the 2026-09-23 dependency audit; NOT in the Group 6 input list (consumer of a queue class, not a member type of any pending row) — recorded for the record, out of this group's queue; to be picked up by whichever group owns the remaining SecureCommunication classes
 
 ## Not queued
 
