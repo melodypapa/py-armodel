@@ -9,20 +9,35 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class BindingTimeEnum(AREnum):
     """
-    Enumeration for binding time in AUTOSAR variant handling.
-
-    This class specifies the point in time when a variant condition
-    may be evaluated at earliest. At this point in time, all referenced
-    system constants shall have a value.
-
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
+    This enumerator specifies the applicable binding times for the pre build variation points.
     """
 
     # BindingTimeEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table E.8, p.972
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on AttributeValueVariationPoint.bindingTime + ConditionByFormula.bindingTime (Steps 5/6 N/A: standalone AREnum)
+
+    # • Coding by hand, based on requirements document. • Tool based code generation, e.g. from a model. • The model may contain variants. • Only code for the selected variant(s) is actually generated. Tags: atp.EnumerationLiteralIndex=0
+    CODE_GENERATION_TIME = "codeGenerationTime"
+
+    # Configure what is included in object code, and what is omitted Based on which variant(s) are selected E.g. for modules that are delivered as object code (as opposed to those that are delivered as source code) Tags: atp.EnumerationLiteralIndex=1
+    LINK_TIME = "linkTime"
+
+    # This is typically the C-Preprocessor. Exclude parts of the code from the compilation process, e.g., because they are not required for the selected variant, because they are incompatible with the selected variant, because they require resources that are not present in the selected variant. Object code is only generated for the selected variant(s). The code that is excluded at this stage code will not be available at later stages. Tags: atp.EnumerationLiteralIndex=2
+    PRE_COMPILE_TIME = "preCompileTime"
+
+    # • Designing the VFB. • Software Component types (PortInterfaces). • SWC Prototypes and the Connections between SWCprototypes. • Designing the Topology • ECUs and interconnecting Networks • Designing the Communication Matrix and Data Mapping Tags: atp.EnumerationLiteralIndex=3
+    SYSTEM_DESIGN_TIME = "systemDesignTime"
 
     def __init__(self):
-        super().__init__(["codeGenerationTime", "linkTime", "preCompileTime", "systemDesignTime"])
+        super().__init__(
+            [
+                BindingTimeEnum.CODE_GENERATION_TIME,
+                BindingTimeEnum.LINK_TIME,
+                BindingTimeEnum.PRE_COMPILE_TIME,
+                BindingTimeEnum.SYSTEM_DESIGN_TIME,
+            ]
+        )
 
 
 class XmlSpaceEnum(AREnum):
