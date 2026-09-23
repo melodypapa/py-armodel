@@ -27,6 +27,7 @@ class CryptoServiceMapping(Identifiable, VariationPointCapable, ABC):
 
     # CryptoServiceMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.48, p.375
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -440,6 +441,7 @@ class CryptoServiceCertificate(ARElement):
 
     # CryptoServiceCertificate method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.218, p.565
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAlgorithmFamily                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
