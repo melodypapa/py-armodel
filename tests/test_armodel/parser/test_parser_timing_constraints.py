@@ -194,6 +194,64 @@ class TestReadTimingConstraints:
         assert constraint.getSynchronizationConstraintType().getValue() == "RESPONSE-SYNCHRONIZATION"
         assert constraint.getTolerance().getCseCodeFactor().getValue() == 500
 
+    def test_read_synchronization_timing_constraint_via_timing_extension(self, parser):
+        parent = _parent()
+        extension = SwcTiming(parent, "Timing")
+        element = ET.fromstring(
+            f"<SWC-TIMING xmlns='{NS}'>"
+            "<SHORT-NAME>Timing</SHORT-NAME>"
+            "<TIMING-GUARANTEES>"
+            "<SYNCHRONIZATION-TIMING-CONSTRAINT>"
+            "<SHORT-NAME>Sync1</SHORT-NAME>"
+            "<EVENT-OCCURRENCE-KIND>MULTIPLE-OCCURRENCES</EVENT-OCCURRENCE-KIND>"
+            "<SCOPE-EVENT-REFS>"
+            "<SCOPE-EVENT-REF DEST='TIMING-DESCRIPTION-EVENT'>/AUTOSAR/Evt1</SCOPE-EVENT-REF>"
+            "</SCOPE-EVENT-REFS>"
+            "<SCOPE-REFS>"
+            "<SCOPE-REF DEST='TIMING-DESCRIPTION-EVENT-CHAIN'>/AUTOSAR/Chain1</SCOPE-REF>"
+            "<SCOPE-REF DEST='TIMING-DESCRIPTION-EVENT-CHAIN'>/AUTOSAR/Chain2</SCOPE-REF>"
+            "</SCOPE-REFS>"
+            "<SYNCHRONIZATION-CONSTRAINT-TYPE>STIMULUS-SYNCHRONIZATION</SYNCHRONIZATION-CONSTRAINT-TYPE>"
+            "<TOLERANCE><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>200</CSE-CODE-FACTOR></TOLERANCE>"
+            "</SYNCHRONIZATION-TIMING-CONSTRAINT>"
+            "</TIMING-GUARANTEES>"
+            "<TIMING-REQUIREMENTS>"
+            "<SYNCHRONIZATION-TIMING-CONSTRAINT>"
+            "<SHORT-NAME>Sync2</SHORT-NAME>"
+            "<SCOPE-REFS>"
+            "<SCOPE-REF DEST='TIMING-DESCRIPTION-EVENT-CHAIN'>/AUTOSAR/Chain3</SCOPE-REF>"
+            "</SCOPE-REFS>"
+            "</SYNCHRONIZATION-TIMING-CONSTRAINT>"
+            "</TIMING-REQUIREMENTS>"
+            "</SWC-TIMING>"
+        )
+        parser.readTimingExtension(element, extension)
+        guarantees = extension.getTimingGuarantees()
+        assert len(guarantees) == 1
+        guarantee = guarantees[0]
+        assert isinstance(guarantee, SynchronizationTimingConstraint)
+        assert guarantee.getShortName() == "Sync1"
+        assert guarantee.getEventOccurrenceKind().getValue() == "MULTIPLE-OCCURRENCES"
+        assert guarantee.getSynchronizationConstraintType().getValue() == "STIMULUS-SYNCHRONIZATION"
+        events = guarantee.getScopeEvents()
+        assert len(events) == 1
+        assert events[0].getValue() == "/AUTOSAR/Evt1"
+        assert events[0].getDest() == "TIMING-DESCRIPTION-EVENT"
+        chains = guarantee.getScopes()
+        assert len(chains) == 2
+        assert chains[1].getValue() == "/AUTOSAR/Chain2"
+        assert chains[1].getDest() == "TIMING-DESCRIPTION-EVENT-CHAIN"
+        assert guarantee.getTolerance().getCseCodeFactor().getValue() == 200
+        requirements = extension.getTimingRequirements()
+        assert len(requirements) == 1
+        requirement = requirements[0]
+        assert isinstance(requirement, SynchronizationTimingConstraint)
+        assert requirement.getShortName() == "Sync2"
+        assert len(requirement.getScopes()) == 1
+        assert requirement.getScopeEvents() == []
+        assert requirement.getEventOccurrenceKind() is None
+        assert requirement.getSynchronizationConstraintType() is None
+
     def test_read_constraints_inherit_timing_condition_ref(self, parser):
         parent = _parent()
         constraint = AgeConstraint(parent, "Age1")

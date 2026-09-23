@@ -362,6 +362,52 @@ class TestWriteSynchronizationTimingConstraint:
         assert reloaded.getSynchronizationConstraintType() is None
         assert reloaded.getTolerance() is None
 
+    def test_round_trip_synchronization_timing_constraint_via_timing_extension(self):
+        parent = self._parent()
+        extension = SwcTiming(parent, "Timing")
+        guarantee = SynchronizationTimingConstraint(extension, "SyncGuarantee")
+        guarantee.setEventOccurrenceKind(EventOccurrenceKindEnum().setValue(EventOccurrenceKindEnum.MULTIPLE_OCCURRENCES))
+        guarantee.setSynchronizationConstraintType(SynchronizationTypeEnum().setValue(SynchronizationTypeEnum.STIMULUS_SYNCHRONIZATION))
+        guarantee.addScopeEvent(RefType().setValue("/AUTOSAR/Evt1").setDest("TIMING-DESCRIPTION-EVENT"))
+        guarantee.addScope(RefType().setValue("/AUTOSAR/Chain1").setDest("TIMING-DESCRIPTION-EVENT-CHAIN"))
+        guarantee.setTolerance(_mdt("0", "200"))
+        extension.addElement(guarantee)
+        extension.addTimingGuarantee(guarantee)
+        requirement = SynchronizationTimingConstraint(extension, "SyncRequirement")
+        requirement.addScope(RefType().setValue("/AUTOSAR/Chain2").setDest("TIMING-DESCRIPTION-EVENT-CHAIN"))
+        extension.addElement(requirement)
+        extension.addTimingRequirement(requirement)
+
+        element = ET.Element("SWC-TIMING")
+        ARXMLWriter().writeTimingExtension(element, extension)
+        guarantees_tag = element.find("TIMING-GUARANTEES")
+        assert guarantees_tag is not None
+        assert guarantees_tag.find("SYNCHRONIZATION-TIMING-CONSTRAINT") is not None
+        requirements_tag = element.find("TIMING-REQUIREMENTS")
+        assert requirements_tag is not None
+        assert requirements_tag.find("SYNCHRONIZATION-TIMING-CONSTRAINT") is not None
+
+        reloaded = SwcTiming(parent, "Timing")
+        ARXMLParser().readTimingExtension(_round_trip(element), reloaded)
+        reloaded_guarantees = reloaded.getTimingGuarantees()
+        assert len(reloaded_guarantees) == 1
+        reloaded_guarantee = reloaded_guarantees[0]
+        assert isinstance(reloaded_guarantee, SynchronizationTimingConstraint)
+        assert reloaded_guarantee.getShortName() == "SyncGuarantee"
+        assert reloaded_guarantee.getEventOccurrenceKind().getValue() == "multipleOccurrences"
+        assert reloaded_guarantee.getSynchronizationConstraintType().getValue() == "stimulusSynchronization"
+        assert reloaded_guarantee.getScopeEvents()[0].getValue() == "/AUTOSAR/Evt1"
+        assert reloaded_guarantee.getScopeEvents()[0].getDest() == "TIMING-DESCRIPTION-EVENT"
+        assert reloaded_guarantee.getScopes()[0].getValue() == "/AUTOSAR/Chain1"
+        assert reloaded_guarantee.getScopes()[0].getDest() == "TIMING-DESCRIPTION-EVENT-CHAIN"
+        assert reloaded_guarantee.getTolerance().getCseCodeFactor().getValue() == 200
+        reloaded_requirements = reloaded.getTimingRequirements()
+        assert len(reloaded_requirements) == 1
+        reloaded_requirement = reloaded_requirements[0]
+        assert reloaded_requirement.getScopes()[0].getValue() == "/AUTOSAR/Chain2"
+        assert reloaded_requirement.getScopeEvents() == []
+        assert reloaded_requirement.getEventOccurrenceKind() is None
+
 
 class TestWritePeriodicEventTriggering:
     def _parent(self):
