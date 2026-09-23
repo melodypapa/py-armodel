@@ -265,18 +265,12 @@ class SwRecordLayoutGroup(ARObject):
     # [x] setDesc                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getShortLabel                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setShortLabel                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getSwRecordLayoutGroupIndex           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setSwRecordLayoutGroupIndex           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getSwGenericAxisParamTypeRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setSwGenericAxisParamTypeRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getSwRecordLayoutGroupFrom            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setSwRecordLayoutGroupFrom            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getSwRecordLayoutGroupTo              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setSwRecordLayoutGroupTo              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getSwRecordLayoutGroupStep            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setSwRecordLayoutGroupStep            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSwRecordLayoutComponent            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setSwRecordLayoutComponent            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwRecordLayoutGroupAxis            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwRecordLayoutGroupAxis            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSwRecordLayoutGroupContentType     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setSwRecordLayoutGroupContentType     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSwRecordLayoutGroupFrom            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

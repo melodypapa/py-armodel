@@ -4,7 +4,7 @@ This module contains tests for the RecordLayout module in MSR.DataDictionary.
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Integer, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Identifier, Integer, NameToken, RefType
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import (
     AsamRecordLayoutSemantics,
     AxisIndexType,
@@ -291,13 +291,13 @@ class TestSwRecordLayoutGroup:
         values = {
             "Category": AsamRecordLayoutSemantics(),
             "Desc": MultiLanguageOverviewParagraph(),
-            "ShortLabel": ARLiteral(),
+            "ShortLabel": Identifier(),
             "SwGenericAxisParamTypeRef": RefType(),
             "SwRecordLayoutComponent": ARLiteral(),
-            "SwRecordLayoutGroupAxis": Integer(),
+            "SwRecordLayoutGroupAxis": AxisIndexType(),
             "SwRecordLayoutGroupContentType": SwRecordLayoutGroupContent(),
             "SwRecordLayoutGroupFrom": RecordLayoutIteratorPoint(),
-            "SwRecordLayoutGroupIndex": ARLiteral(),
+            "SwRecordLayoutGroupIndex": NameToken(),
             "SwRecordLayoutGroupStep": Integer(),
             "SwRecordLayoutGroupTo": RecordLayoutIteratorPoint(),
         }
@@ -342,9 +342,9 @@ class TestSwRecordLayoutGroup:
         assert result == sw_record_layout_group
 
     def test_sw_record_layout_group_short_label_methods(self):
-        """Test the shortLabel getter and setter."""
+        """Test the shortLabel getter and setter (spec type Identifier, CP SWCT Table 5.99)."""
         sw_record_layout_group = SwRecordLayoutGroup()
-        label = ARLiteral()
+        label = Identifier()
 
         result = sw_record_layout_group.setShortLabel(label)
         assert sw_record_layout_group.getShortLabel() == label
@@ -369,9 +369,9 @@ class TestSwRecordLayoutGroup:
         assert result == sw_record_layout_group
 
     def test_sw_record_layout_group_sw_record_layout_group_axis_methods(self):
-        """Test the swRecordLayoutGroupAxis getter and setter."""
+        """Test the swRecordLayoutGroupAxis getter and setter (spec type AxisIndexType, CP SWCT Table 5.99)."""
         sw_record_layout_group = SwRecordLayoutGroup()
-        axis = Integer()
+        axis = AxisIndexType()
 
         result = sw_record_layout_group.setSwRecordLayoutGroupAxis(axis)
         assert sw_record_layout_group.getSwRecordLayoutGroupAxis() == axis
@@ -396,9 +396,9 @@ class TestSwRecordLayoutGroup:
         assert result == sw_record_layout_group
 
     def test_sw_record_layout_group_sw_record_layout_group_index_methods(self):
-        """Test the swRecordLayoutGroupIndex getter and setter."""
+        """Test the swRecordLayoutGroupIndex getter and setter (spec type NameToken, CP SWCT Table 5.99)."""
         sw_record_layout_group = SwRecordLayoutGroup()
-        index = ARLiteral()
+        index = NameToken()
 
         result = sw_record_layout_group.setSwRecordLayoutGroupIndex(index)
         assert sw_record_layout_group.getSwRecordLayoutGroupIndex() == index
