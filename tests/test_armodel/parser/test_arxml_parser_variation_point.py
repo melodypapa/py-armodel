@@ -150,6 +150,50 @@ class TestReadConditionByFormula:
         assert condition_access.getText() == "sysc > 0"
 
 
+class TestReadPostBuildVariantCondition:
+    """Table 7.6 (AUTOSAR_FO_TPS_GenericStructureTemplate, p.232): the class's own
+    readPostBuildVariantCondition helper (XSD group order MATCHING-CRITERION-REF,
+    VALUE)."""
+
+    def test_read_post_build_variant_condition_reads_fields(self, parser):
+        inner = (
+            "<POST-BUILD-VARIANT-CONDITION>"
+            '<MATCHING-CRITERION-REF DEST="POST-BUILD-VARIANT-CRITERION">/Demo/Criterions/Country</MATCHING-CRITERION-REF>'
+            "<VALUE>1</VALUE>"
+            "</POST-BUILD-VARIANT-CONDITION>"
+        )
+        element = _snip(inner).find("{%s}POST-BUILD-VARIANT-CONDITION" % NS)
+
+        condition = parser.readPostBuildVariantCondition(element, PostBuildVariantCondition())
+
+        ref = condition.getMatchingCriterionRef()
+        assert ref.getValue() == "/Demo/Criterions/Country"
+        assert ref.getDest() == "POST-BUILD-VARIANT-CRITERION"
+        assert condition.getValue().getValue() == 1
+
+    def test_read_empty_post_build_variant_condition_leaves_fields_none(self, parser):
+        """An empty POST-BUILD-VARIANT-CONDITION (XSD minOccurs="0" for both children)
+        parses to a condition with both fields left None."""
+        inner = "<POST-BUILD-VARIANT-CONDITION/>"
+        element = _snip(inner).find("{%s}POST-BUILD-VARIANT-CONDITION" % NS)
+
+        condition = parser.readPostBuildVariantCondition(element, PostBuildVariantCondition())
+
+        assert condition.getMatchingCriterionRef() is None
+        assert condition.getValue() is None
+
+    def test_read_post_build_variant_condition_value_only(self, parser):
+        """A condition carrying only VALUE (criterion ref absent) keeps both fields
+        faithful: ref None, value read."""
+        inner = "<POST-BUILD-VARIANT-CONDITION>" "<VALUE>7</VALUE>" "</POST-BUILD-VARIANT-CONDITION>"
+        element = _snip(inner).find("{%s}POST-BUILD-VARIANT-CONDITION" % NS)
+
+        condition = parser.readPostBuildVariantCondition(element, PostBuildVariantCondition())
+
+        assert condition.getMatchingCriterionRef() is None
+        assert condition.getValue().getValue() == 7
+
+
 class TestReadVariationPointProxy:
     def test_read_value_access(self, parser):
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (

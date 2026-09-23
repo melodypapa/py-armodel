@@ -1286,7 +1286,10 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readPostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition) -> PostBuildVariantCondition:
         self.readARObject(element, condition)
-        condition.setMatchingCriterionRef(self.getChildElementRefType("", element, "MATCHING-CRITERION-REF"))
+        # MATCHING-CRITERION-REF and VALUE both carry minOccurs="0" in the XSD
+        # (AUTOSAR_00052.xsd group POST-BUILD-VARIANT-CONDITION) — an empty
+        # POST-BUILD-VARIANT-CONDITION is schema-legal and parses to an empty model.
+        condition.setMatchingCriterionRef(self.getChildElementOptionalRefType(element, "MATCHING-CRITERION-REF"))
         condition.setValue(self.getChildElementOptionalIntegerValue(element, "VALUE"))
         return condition
 

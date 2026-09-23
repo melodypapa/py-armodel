@@ -318,33 +318,17 @@ class SwSystemconstantValueSet(ARElement):
 
 class PostBuildVariantCondition(ARObject):
     """
-    This class specifies the value which shall be assigned to a particular variant
-    criterion in order to bind the variation point. If multiple criterion/value pairs
-    are specified, they shall all match to bind the variation point. In other words
-    binding can be represented by (criterion1 == value1) && (condition2 == value2) ...
-
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
-    Base: ARObject
-    Stereotypes: atpVariation
-    Tags: vh.latestBindingTime=preCompileTime
-
-    Attributes:
-        matchingCriterionRef (PostBuildVariantCriterion): This is the
-            criterion which needs to match the value in order to make the
-            PostbuildVariantCondition to be true. (Multiplicity: 1)
-        value (Integer): This is the particular value of the post-build
-            variant criterion. (Multiplicity: 1)
+    This class specifies the value which shall be assigned to a particular variant criterion in order to bind the variation point. If multiple criterion/value pairs are specified, they shall all match to bind the variation point. In other words binding can be represented by (criterion1 == value1) && (condition2 == value2) ...
     """
 
     # PostBuildVariantCondition method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.6, p.232
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getMatchingCriterionRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMatchingCriterionRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getValue                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValue                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMatchingCriterionRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMatchingCriterionRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getValue                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -352,37 +336,25 @@ class PostBuildVariantCondition(ARObject):
         # This is the criterion which needs to match the value in order to make the PostbuildVariantCondition to be true.
         self.matchingCriterionRef: RefType = None
 
-        # This is the particular value of the post-build variant criterion.
+        # This is the particular value of the post-build variant criterion. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
         self.value: Optional[Integer] = None
 
     def getMatchingCriterionRef(self) -> RefType:
-        """
-        This is the criterion which needs to match the value in order to make the
-        PostbuildVariantCondition to be true.
-        """
+        """This is the criterion which needs to match the value in order to make the PostbuildVariantCondition to be true."""
         return self.matchingCriterionRef
 
     def setMatchingCriterionRef(self, value: RefType) -> "PostBuildVariantCondition":
-        """
-        This is the criterion which needs to match the value in order to make the
-        PostbuildVariantCondition to be true. A None value is a no-op and does not
-        overwrite an existing matchingCriterionRef.
-        """
+        """This is the criterion which needs to match the value in order to make the PostbuildVariantCondition to be true. A None value is a no-op and does not overwrite an existing matchingCriterionRef."""
         if value is not None:
             self.matchingCriterionRef = value
         return self
 
     def getValue(self) -> Optional[Integer]:
-        """
-        This is the particular value of the post-build variant criterion.
-        """
+        """This is the particular value of the post-build variant criterion."""
         return self.value
 
     def setValue(self, value: Optional[Integer]) -> "PostBuildVariantCondition":
-        """
-        This is the particular value of the post-build variant criterion. A None value
-        is a no-op and does not overwrite an existing value.
-        """
+        """This is the particular value of the post-build variant criterion. A None value is a no-op and does not overwrite an existing value."""
         if value is not None:
             self.value = value
         return self

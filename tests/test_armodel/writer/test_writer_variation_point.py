@@ -130,6 +130,49 @@ class TestWriteVariationPoint:
         assert vp_element.find("SHORT-LABEL").text == "VP_Country"
 
 
+class TestWritePostBuildVariantCondition:
+    """Table 7.6 (AUTOSAR_FO_TPS_GenericStructureTemplate, p.232): the class's own
+    writePostBuildVariantCondition helper (XSD 00052 group POST-BUILD-VARIANT-CONDITION,
+    line 93223: MATCHING-CRITERION-REF before VALUE)."""
+
+    def test_write_post_build_variant_condition_element_order(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        writer = ARXMLWriter()
+
+        condition = PostBuildVariantCondition()
+        condition.setMatchingCriterionRef(RefType().setValue("/Demo/Criterions/Country").setDest("POST-BUILD-VARIANT-CRITERION"))
+        condition.setValue(Integer().setValue("1"))
+
+        element = ET.Element("PARENT")
+        writer.writePostBuildVariantCondition(element, condition)
+
+        condition_element = element.find("POST-BUILD-VARIANT-CONDITION")
+        assert condition_element is not None
+        child_tags = [child.tag for child in condition_element]
+        assert child_tags == ["MATCHING-CRITERION-REF", "VALUE"]
+        ref_element = condition_element.find("MATCHING-CRITERION-REF")
+        assert ref_element.text == "/Demo/Criterions/Country"
+        assert ref_element.attrib["DEST"] == "POST-BUILD-VARIANT-CRITERION"
+        assert condition_element.find("VALUE").text == "1"
+
+    def test_write_empty_post_build_variant_condition_emits_bare_element(self):
+        """A condition with no fields set writes a bare POST-BUILD-VARIANT-CONDITION
+        without children (writer tolerates the empty form its reader must accept)."""
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        writer = ARXMLWriter()
+
+        element = ET.Element("PARENT")
+        writer.writePostBuildVariantCondition(element, PostBuildVariantCondition())
+
+        condition_element = element.find("POST-BUILD-VARIANT-CONDITION")
+        assert condition_element is not None
+        assert len(condition_element) == 0
+
+
 class TestWriteConditionByFormula:
     """Table 7.5 (AUTOSAR_FO_TPS_GenericStructureTemplate, p.231): the
     <<atpMixedString>> content of ConditionByFormula is the formula expression."""

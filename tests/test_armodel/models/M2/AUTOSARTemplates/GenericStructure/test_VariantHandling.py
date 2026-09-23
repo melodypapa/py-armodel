@@ -564,6 +564,95 @@ class TestSwSystemconstValueSpecContract:
         assert value.getValue() is numerical
 
 
+class TestPostBuildVariantConditionSpecContract:
+    """Table 7.6 (AUTOSAR_FO_TPS_GenericStructureTemplate, p.232) spec contract
+    for PostBuildVariantCondition."""
+
+    def test_class_docstring_verbatim(self):
+        """
+        Test that the class docstring is the Table 7.6 Note verbatim.
+        """
+        assert PostBuildVariantCondition.__doc__.strip() == (
+            "This class specifies the value which shall be assigned to a particular variant criterion "
+            "in order to bind the variation point. If multiple criterion/value pairs are specified, "
+            "they shall all match to bind the variation point. In other words binding can be represented "
+            "by (criterion1 == value1) && (condition2 == value2) ..."
+        )
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ has no docstring (spec Notes live in inline member comments).
+        """
+        assert PostBuildVariantCondition.__init__.__doc__ is None
+
+    def test_matching_criterion_ref_typed_ref_type(self):
+        """
+        Test that matchingCriterion (PostBuildVariantCriterion, 1 ref) maps to a RefType
+        accessor pair (Kind ref suffix per the compuMethodRef precedent).
+        """
+        getter_hints = typing.get_type_hints(PostBuildVariantCondition.getMatchingCriterionRef)
+        assert getter_hints.get("return") is RefType
+
+        setter_hints = typing.get_type_hints(PostBuildVariantCondition.setMatchingCriterionRef)
+        assert setter_hints.get("value") is RefType
+        assert setter_hints.get("return") is PostBuildVariantCondition
+
+    def test_value_typed_optional_integer(self):
+        """
+        Test that value (Integer, 1 attr) is typed Optional[Integer]
+        (the spec type name maps to the repo Integer class).
+        """
+        getter_hints = typing.get_type_hints(PostBuildVariantCondition.getValue)
+        assert getter_hints.get("return") == typing.Optional[Integer]
+
+        setter_hints = typing.get_type_hints(PostBuildVariantCondition.setValue)
+        assert setter_hints.get("value") == typing.Optional[Integer]
+        assert setter_hints.get("return") is PostBuildVariantCondition
+
+    def test_getter_docstrings_are_notes_verbatim(self):
+        """
+        Test that getter docstrings are the Table 7.6 Notes verbatim without the Tags suffix.
+        """
+        assert PostBuildVariantCondition.getMatchingCriterionRef.__doc__.strip() == "This is the criterion which needs to match the value in order to make the PostbuildVariantCondition to be true."
+        assert PostBuildVariantCondition.getValue.__doc__.strip() == "This is the particular value of the post-build variant criterion."
+
+    def test_setter_docstrings_are_notes_with_none_noop(self):
+        """
+        Test that setter docstrings are the Table 7.6 Notes verbatim plus the None-no-op sentence.
+        """
+        assert PostBuildVariantCondition.setMatchingCriterionRef.__doc__.strip() == (
+            "This is the criterion which needs to match the value in order to make the PostbuildVariantCondition to be true. "
+            "A None value is a no-op and does not overwrite an existing matchingCriterionRef."
+        )
+        assert PostBuildVariantCondition.setValue.__doc__.strip() == (
+            "This is the particular value of the post-build variant criterion. " "A None value is a no-op and does not overwrite an existing value."
+        )
+
+    def test_defaults(self):
+        """
+        Test the initial state of a fresh PostBuildVariantCondition.
+        """
+        condition = PostBuildVariantCondition()
+        assert condition.getMatchingCriterionRef() is None
+        assert condition.getValue() is None
+
+    def test_setter_none_noops(self):
+        """
+        Test that setters ignore None (field values preserved).
+        """
+        condition = PostBuildVariantCondition()
+        ref = RefType().setValue("/Criterions/Country")
+        value = Integer().setValue(42)
+
+        condition.setMatchingCriterionRef(ref)
+        condition.setValue(value)
+
+        assert condition.setMatchingCriterionRef(None) is condition
+        assert condition.setValue(None) is condition
+        assert condition.getMatchingCriterionRef() is ref
+        assert condition.getValue() is value
+
+
 def test_criterion_holds_variation_point_via_mixin():
     # PostBuildVariantCriterion is VariationPointCapable through the PackageableElement
     # anchor (ARPackage.element carries atpVariation, GST Table 4.1); the slot is no
