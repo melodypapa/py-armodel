@@ -126,7 +126,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — no changes needed
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.127 p.459 citation, `__init__` row with `[—]` reader/writer
   - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; docstring verbatim; dispatch coverage pre-exists for TcpTp/UdpTp]
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 757aea1d
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 9c8e10b3; feat commit 757aea1d
 - [x] `FlexrayFrame` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.80)
   - [x] Step 1 — Sync members & description from spec — Table 6.80, p.422; concrete, Base chain → most-existing `Frame`; ZERO attribute rows (XSD group FLEXRAY-FRAME empty sequence); Note "FlexRay specific Frame element. Tags: atp.recommendedPackage=Frames"; aggregated by ARPackage.element
   - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring assertion (Red: fabricated docstring), no-`__init__`-docstring, heritage (Frame), concrete instantiation
@@ -136,7 +136,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — no changes needed: readFlexrayFrame→readFrame / writeFlexrayFrame→writeFrame + ARPackage FLEXRAY-FRAME dispatch pre-exist
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.80 p.422 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
   - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; Base chain → Frame; docstring verbatim; reader/writer via inherited Frame helpers]
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 757aea1d
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 9c8e10b3; feat commit 757aea1d
 - [x] `CryptoServiceMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.48)
   - [x] Step 1 — Sync members & description from spec — Table 6.48, p.375; abstract, Base chain → most-existing `Identifiable` (+ VariationPointCapable mixin kept: XSD group CRYPTO-SERVICE-MAPPING carries VARIATION-POINT); ZERO attribute rows; Note verbatim; Subclasses SecOcCryptoServiceMapping/TlsCryptoServiceMapping; aggregated by SystemMapping.cryptoServiceMapping
   - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring assertion (Red: fabricated docstring), no-`__init__`-docstring, abstract raise, subclass heritage
@@ -146,7 +146,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — readSystemMappingCryptoServiceMappings/writeSystemMappingCryptoServiceMappings added (wrapper dispatch in XSD order); readSecOcCryptoServiceMapping/writeSecOcCryptoServiceMapping helpers added; SystemMapping.createSecOcCryptoServiceMapping factory added (in-pass, Rule 0016.4/0001.10); TLS branch dispatched to notImplemented until the TlsCryptoServiceMapping row (queued next)
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.48 p.375 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
   - [x] Step 8 — Deviations  [none for this class: zero attribute rows modeled exactly; Base → Identifiable + VariationPointCapable mixin per XSD VARIATION-POINT; docstring verbatim; TLS-CRYPTO-SERVICE-MAPPING wrapper branch (and SecOcCryptoServiceMapping's own Table 6.49 full sync) belong to the queued TlsCryptoServiceMapping row / separate tables]
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 757aea1d
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 9c8e10b3; feat commit 757aea1d
 - [x] `TlsVersionEnum` (dependency of TlsCryptoCipherSuite, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.213, p.563 · member type of TlsCryptoCipherSuite.version (closure of TlsCryptoServiceMapping.tlsCipherSuite) · added by 2026-09-22 Group6 member-type audit)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -236,7 +236,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — readCryptoServiceCertificate/writeCryptoServiceCertificate helpers next to the CryptoSignatureScheme pair (readIdentifiable + enum-construction from getChildElementOptionalLiteral per TimeSyncTechnologyEnum pattern, getChildElementOptionalPositiveInteger/RefType/String; SubElement + writeIdentifiable + setChildElementOptional*); parser dispatch CRYPTO-SERVICE-CERTIFICATE in readARPackageElements (after CRYPTO-SIGNATURE-SCHEME, before CRYPTO-SERVICE-PRIMITIVE, spec table order); writer isinstance branch in writeARPackageElement (same position); ARPackage.createCryptoServiceCertificate factory (IsElementExists-protected) + __all__ entry + late import; both import blocks extended; 91 passed
   - [x] Step 7 — Update checklist comment — 6-column parity checklist with release column, Table 6.218 p.565 citation; __init__ row [—] reader/writer; reader on setter rows / writer on getter rows; marker deferred to 9b
   - [x] Step 8 — Deviations  [none for this class: 5 attrs modeled exactly in displayed order; markdown column-wrap artifacts ("maximum Length"→maximumLength, "nextHigher Certificate"→nextHigherCertificate, "serverName Identification"→serverNameIdentification, "CryptoCertificate AlgorithmFamilyEnum"/"CryptoCertificateFormat Enum"/"CryptoService Certificate" type names) joined per XSD mmt.qualifiedName (Rule 0001.5 naming, not a deviation); Base ARElement per most-derived rule; nextHigherCertificate is a ref → nextHigherCertificateRef accessor per XSD NEXT-HIGHER-CERTIFICATE-REF; no XSD-only attrs (XSD group holds exactly the 5 PDF attrs); no missing referenced classes (both member enums stamped, self-ref type is this class); no placeholders; implementation note: `from __future__ import annotations` added to SecureCommunication.py (Rule 0005 intra-module forward reference — annotations of class 6.218 reference enums 6.219/6.220 defined later in the module)]
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 757aea1d
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 9c8e10b3; feat commit 757aea1d
 - [ ] `TlsCryptoCipherSuite` (dependency of TlsCryptoServiceMapping, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.212, p.561 · member type of TlsCryptoServiceMapping.tlsCipherSuite (XSD wrapper TLS-CIPHER-SUITES) · added by 2026-09-22 Group6 member-type audit; full closure confirmed 2026-09-22 — all member-type rows queued above; after sync, TlsCryptoServiceMapping needs an extend pass — typed tlsCipherSuites list + reader/writer replace notImplemented)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -266,7 +266,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — no changes needed: readDataTransformationSet/writeDataTransformationSet + ARPackage DATA-TRANSFORMATION-SET dispatch pre-exist in XSD order
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 7.1 p.763 citation, release column added; marker deferred to 9b
   - [x] Step 8 — Deviations  [none: both aggrs modeled exactly as dedicated typed lists; Base → ARElement; docstrings verbatim; reader/writer coverage pre-exists]
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 757aea1d
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 9c8e10b3; feat commit 757aea1d
 - [x] `DataPrototypeTransformationProps` — already verified (# Spec verified: R23-11, `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py`)
 - [x] `TransformationISignalProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 7.8 · after `DataPrototypeTransformationProps` (aggr))
   - [x] Step 1 — Sync members & description from spec — Table 7.8, p.772; `<<atpVariation>>` abstract, Base → `Describable`; attrs in displayed order: csErrorReaction (CSTransformerErrorReactionEnum 0..1 attr), dataPrototypeTransformationProps (DataPrototypeTransformationProps * aggr), transformer (TransformationTechnology 0..1 ref, accessor transformerRef); XML order per XSD group TRANSFORMATION-I-SIGNAL-PROPS-CONTENT: CS-ERROR-REACTION → DATA-PROTOTYPE-TRANSFORMATION-PROPSS → TRANSFORMER-REF; subclasses EndToEnd/SOMEIP/UserDefinedTransformationISignalProps; class + member docstrings already verbatim from a prior pass; member type CSTransformerErrorReactionEnum (Table 7.9, p.773) exists but is **drifted**: wire values camelCase ("applicationOnly"/"autonomous") vs R23-11 XSD APPLICATION-ONLY/AUTONOMOUS ⇒ to-fix in Step 3
@@ -277,7 +277,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — readTransformationISignalProps now constructs CSTransformerErrorReactionEnum from the literal value (getTimeSynchronization pattern, replaces bare ARLiteral); writer unchanged (already writes CS-ERROR-REACTION → DATA-PROTOTYPE-TRANSFORMATION-PROPSS in XSD order; TRANSFORMER-REF via E2E helper)
   - [x] Step 7 — Update checklist comment — 6-column parity checklist with release column R23-11 on all rows; marker deferred to 9b
   - [x] Step 8 — Deviations  [resolved in-pass (Rule 0014): CSTransformerErrorReactionEnum wire-value drift fixed — two unit tests updated (raw-literal fixtures unaffected); reader enum construction upgraded; no open deviations]
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 757aea1d
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 9c8e10b3; feat commit 757aea1d
 - [ ] `SomeipTransformationISignalProps` (dependency of TransformationISignalProps, R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · table id TBC at Step 1 · concrete subclass of TransformationISignalProps (XSD SOME-IP-TRANSFORMATION-I-SIGNAL-PROPS) · added by 2026-09-22 Group6 member-type audit — was untracked)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -307,7 +307,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — no changes needed: class contributes no XML content; readSenderRecCompositeTypeMapping/writeSenderRecCompositeTypeMapping + SENDER-REC-RECORD-TYPE-MAPPING dispatch pre-exist
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 5.27 p.235 citation, `__init__` row with `[—]` reader/writer (empty XSD group); marker deferred to 9b
   - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; Base ARObject; docstring verbatim; SENDER-REC-ARRAY-TYPE-MAPPING dispatch gap belongs to SenderRecArrayTypeMapping (queued next row)]
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 757aea1d
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 9c8e10b3; feat commit 757aea1d
 - [x] `SenderRecArrayTypeMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 5.28 · after `SenderRecArrayElementMapping`/`TextTableMapping`)
   - [x] Step 1 — Sync members & description from spec — Table 5.28, p.235; concrete, Base → `SenderRecCompositeTypeMapping`; attrs in displayed order: arrayElementMapping (SenderRecArrayElementMapping * aggr), senderToSignalTextTableMapping (TextTableMapping 0..1 aggr), signalToReceiverTextTableMapping (TextTableMapping 0..1 aggr); XML order per XSD group SENDER-REC-ARRAY-TYPE-MAPPING: ARRAY-ELEMENT-MAPPINGS → SENDER-TO-SIGNAL-TEXT-TABLE-MAPPING → SIGNAL-TO-RECEIVER-TEXT-TABLE-MAPPING; member classes SenderRecArrayElementMapping/TextTableMapping exist
   - [x] Step 2 — Write model class unit test (Red) — 2 Red: verbatim class-Note docstring (fabricated), renamed accessors getSenderToSignalTextTableMapping/setSenderToSignalTextTableMapping (was getSenderToSignal/setSenderToSignal) + addArrayElementMapping missing; None no-ops, chaining, typed TextTableMapping
@@ -317,7 +317,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — readSenderRecArrayTypeMapping/writeSenderRecArrayTypeMapping helpers added; readSenderRecArrayElementMapping + readIndexedArrayElement/setIndexedArrayElement + writeSenderRecArrayElementMapping added (in-pass, Rule 0016.4/0001.10 — required by ARRAY-ELEMENT-MAPPINGS content); SENDER-REC-ARRAY-TYPE-MAPPING branches in TYPE-MAPPING dispatch both sides; setTextTableMapping gained key param (default TEXT-TABLE-MAPPING, existing call sites unchanged)
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 5.28 p.235 citation, release column; marker deferred to 9b
   - [x] Step 8 — Deviations  [resolved in-step (Rule 0014): naming deviation senderToSignal → senderToSignalTextTableMapping fixed (only model + own test referenced it); missing reader/writer coverage added; no open deviations]
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 757aea1d
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 9c8e10b3; feat commit 757aea1d
 - [x] `NmClusterCoupling` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.305)
   - [x] Step 1 — Sync members & description from spec — Table 6.305, p.676; abstract, Base = ARObject (VariationPointCapable mixin kept: XSD group NM-CLUSTER-COUPLING carries VARIATION-POINT); zero attribute rows (XSD group only VARIATION-POINT); subclasses CanNmClusterCoupling/FlexrayNmClusterCoupling/UdpNmClusterCoupling; aggregated by NmConfig.nmClusterCoupling
   - [x] Step 2 — Write model class unit test (Red) — abstract raise, verbatim class-Note docstring assertion (Red: fabricated docstring), no-`__init__`-docstring, subclass heritage
@@ -327,7 +327,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — no changes needed: class contributes no XML content; CAN/UDP coupling read/write helpers + wrapper dispatch pre-exist
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.305 p.676 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
   - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; Base ARObject + VariationPointCapable mixin per XSD VARIATION-POINT; docstring verbatim; FLEXRAY-NM-CLUSTER-COUPLING dispatch gap belongs to FlexrayNmClusterCoupling (own table, separate row — recorded under Pending 16.4)]
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 9c8e10b3
 - [ ] `NmCluster` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.299)
   - [x] Step 1 — Sync members & description from spec — Table 6.299, p.673; abstract, Base → `Identifiable`; attrs in displayed order: communicationCluster (ref 0..1), nmChannelSleepMaster (Boolean), nmNode (NmNode *, aggr), nmNodeDetectionEnabled, nmNodeIdEnabled, nmPncParticipation, nmRepeatMsgIndEnabled, nmSynchronizingNetwork (all Boolean 0..1), pncClusterVectorLength (PositiveInteger 0..1, MISSING in src ⇒ added); XML order per XSD group NM-CLUSTER: COMMUNICATION-CLUSTER-REF → NM-CHANNEL-ID → NM-CHANNEL-SLEEP-MASTER → NM-NODES → NM-NODE-DETECTION-ENABLED → NM-NODE-ID-ENABLED → NM-PNC-PARTICIPATION → NM-REPEAT-MSG-IND-ENABLED → NM-SYNCHRONIZING-NETWORK → PNC-CLUSTER-VECTOR-LENGTH
   - [x] Step 2 — Write model class unit test (Red) — 5 Red: fabricated docstring, missing pncClusterVectorLength accessors, missing createUdpNmNode, registry-filter getters returned short-name-sorted instead of insertion order (dedicated-list pin)
@@ -347,7 +347,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — readFlexrayNmCluster + writeFlexrayNmCluster added (XSD order); FLEXRAY-NM-CLUSTER branches in readNmConfigNmClusters/writeNmConfigNmClusters; NmConfig.createFlexrayNmCluster factory added
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.306 p.678 citation, release column; marker deferred to 9b
   - [x] Step 8 — Deviations  [in-pass (Rule 0016.4/0001.10): NmConfig.createFlexrayNmCluster factory created (needed by FLEXRAY-NM-CLUSTER reader dispatch); six removed-status sibling attributes of the XSD group not modeled (absent from R23-11 table, no fixture usage)]
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 9c8e10b3
 - [x] `FlexrayNmEcu` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.307)
   - [x] Step 1 — Sync members & description from spec — Table 6.307, p.679; concrete, Base → `BusspecificNmEcu`; 2 attrs all 0..1 attr in displayed order: nmHwVoteEnabled (Boolean), nmMainFunctionAcrossFrCycle (Boolean); XML order per XSD group FLEXRAY-NM-ECU: NM-HW-VOTE-ENABLED → NM-MAIN-FUNCTION-ACROSS-FR-CYCLE (removed NM-REPEAT-MESSAGE-BIT-ENABLE not modeled); Note "crosses theFlexRay" typo verified against XSD — kept verbatim
   - [x] Step 2 — Write model class unit test (Red) — 3 Red: fabricated docstring, both accessors missing (defaults + get/set/None-no-op)
@@ -357,7 +357,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — readFlexrayNmEcu + writeFlexrayNmEcu added; FLEXRAY-NM-ECU branches in readBusDependentNmEcus/writeBusDependentNmEcus
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.307 p.679 citation, release column; marker deferred to 9b
   - [x] Step 8 — Deviations  [none: both attrs modeled exactly; docstrings verbatim; removed-status sibling NM-REPEAT-MESSAGE-BIT-ENABLE not modeled (absent from R23-11 table)]
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 9c8e10b3
 - [x] `FlexrayNmNode` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.309)
   - [x] Step 1 — Sync members & description from spec — Table 6.309, p.679; concrete, Base → `NmNode`; zero attribute rows (XSD group FLEXRAY-NM-NODE carries only removed NM-INSTANCE-ID); aggregated by NmCluster.nmNode (XSD choice member FLEXRAY-NM-NODE)
   - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring assertion (Red: fabricated), no-`__init__`-docstring, heritage (NmNode), zero own attribute rows
@@ -367,7 +367,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — FLEXRAY-NM-NODE branches in readNmClusterNmNodes/writeNmClusterNmNodes; writeFlexrayNmNode helper; NmCluster.createFlexrayNmNode factory
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.309 p.679 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
   - [x] Step 8 — Deviations  [in-pass (Rule 0016.4/0001.10): NmCluster.createFlexrayNmNode factory created (needed by FLEXRAY-NM-NODE reader dispatch); removed-status NM-INSTANCE-ID not modeled (absent from R23-11 table)]
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 9c8e10b3
 - [x] `UdpNmEcu` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.316)
   - [x] Step 1 — Sync members & description from spec — Table 6.316, p.688; concrete, Base → `BusspecificNmEcu`; R23-11 table has ZERO attribute rows; XSD group UDP-NM-ECU carries NM-REPEAT-MSG-INDICATION-ENABLED (removed 4.3.0, never modeled, not in R4.3.1 table) + NM-SYNCHRONIZATION-POINT-ENABLED (removed) — combine case
   - [x] Step 2 — Write model class unit test (Red) — 2 Red: fabricated class docstring + legacy attr docstring not the R4.3.1 Note; get/set/None-no-op and heritage already covered
@@ -377,7 +377,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — no changes needed: readUdpNmEcu/writeUdpNmEcu already cover NM-SYNCHRONIZATION-POINT-ENABLED via BUS-DEPENDENT-NM-ECUS dispatch
   - [x] Step 7 — Update checklist comment — 6-column parity checklist with DUAL `# Spec:` lines (R23-11 Table 6.316 p.688 + R4.3.1 Table 6.238 p.431), legacy rows carry release R4.3.1; marker deferred to 9b
   - [x] Step 8 — Deviations  [accepted legacy (R4.3.1 Table 6.238, p.431); removed in R23-11 — nmSynchronizationPointEnabled kept per Rule 0019 (older verified corpus documents it, XSD element still present with atp.Status=removed, reader/writer coverage pre-exists); NM-REPEAT-MSG-INDICATION-ENABLED (removed 4.3.0, absent from R4.3.1 table too) not modeled — observation only]
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 9c8e10b3
 - [x] `J1939NmCluster` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.319)
   - [x] Step 1 — Sync members & description from spec — Table 6.319, p.691; concrete, Base → `NmCluster`; 2 attrs all 0..1 attr in displayed order: addressClaimEnabled, usesDynamicAddressing (both Boolean); XML order per XSD group J-1939-NM-CLUSTER: ADDRESS-CLAIM-ENABLED → USES-DYNAMIC-ADDRESSING; class Note has no trailing period (verified against XSD) — kept verbatim
   - [x] Step 2 — Write model class unit test (Red) — 3 Red: fabricated docstring, both accessors missing (defaults + get/set/None-no-op)
@@ -387,7 +387,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — readJ1939NmCluster + writeJ1939NmCluster added (XSD order); J-1939-NM-CLUSTER branches in readNmConfigNmClusters/writeNmConfigNmClusters; NmConfig.createJ1939NmCluster factory added
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.319 p.691 citation, release column; marker deferred to 9b
   - [x] Step 8 — Deviations  [in-pass (Rule 0016.4/0001.10): NmConfig.createJ1939NmCluster factory created (needed by J-1939-NM-CLUSTER reader dispatch)]
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 9c8e10b3
 - [x] `J1939NmEcu` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.323)
   - [x] Step 1 — Sync members & description from spec — Table 6.323, p.694; concrete, Base → `BusspecificNmEcu`; zero attribute rows (XSD group J-1939-NM-ECU empty sequence); aggregated by NmEcu.busDependentNmEcu (XSD choice member J-1939-NM-ECU)
   - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring assertion (Red: fabricated), no-`__init__`-docstring, heritage (BusspecificNmEcu)
@@ -397,7 +397,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — readJ1939NmEcu (no-op, zero attrs) + writeJ1939NmEcu (empty element) added; J-1939-NM-ECU branches in readBusDependentNmEcus/writeBusDependentNmEcus
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.323 p.694 citation, `__init__` row with `[—]` reader/writer; marker deferred to 9b
   - [x] Step 8 — Deviations  [none: zero attribute rows modeled exactly; docstring verbatim]
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 9c8e10b3
 - [x] `NmConfig` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.298 · after all NM classes above (aggrs `nmCluster`, `nmClusterCoupling`, `nmIfEcu`))
   - [x] Step 1 — Sync members & description from spec — Table 6.298, p.672; concrete, Base → `FibexElement`; 3 aggrs all * in displayed order: nmCluster (NmCluster), nmClusterCoupling (NmClusterCoupling), nmIfEcu (NmEcu); XML order per XSD group NM-CONFIG: NM-CLUSTERS → NM-CLUSTER-COUPLINGS → NM-IF-ECUS; aggregated by ARPackage.element; Note + "Tags: atp.recommendedPackage=NmConfigs" verbatim
   - [x] Step 2 — Write model class unit test (Red) — 3 Red: fabricated docstring (Note+Tags), registry-filter getNmClusters returned short-name-sorted instead of insertion order (dedicated-list pin), addNmClusterCouplings had no None no-op
@@ -407,7 +407,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — no further changes needed: readNmConfig/writeNmConfig + ARPackage NM-CONFIG dispatch + FLEXRAY/J-1939 cluster branches added in earlier rows of this batch
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 6.298 p.672 citation, release column; marker deferred to 9b
   - [x] Step 8 — Deviations  [in-pass: createFlexrayNmCluster/createJ1939NmCluster + list appends recorded under their own rows; FLEXRAY-NM-CLUSTER-COUPLING in NM-CLUSTER-COUPLINGS wrapper still notImplemented — belongs to FlexrayNmClusterCoupling (recorded under Pending 16.4); LIN-NM-CLUSTER choice member is atp.Status=removed XSD-only — recorded under Pending 16.4, not modeled]
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 757aea1d
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 9c8e10b3; feat commit 757aea1d
 - [x] `IPduMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 8.3)
   - [x] Step 1 — Sync members & description from spec — Table 8.3, p.840; concrete, Base = ARObject (VariationPointCapable mixin kept: XSD group I-PDU-MAPPING carries VARIATION-POINT, CryptoServiceMapping precedent); attrs in displayed order: introduction (DocumentationBlock 0..1 aggr), pduMaxLength (PositiveInteger 0..1 attr — MISSING in src), pdurTpChunkSize (PositiveInteger 0..1 attr), sourceIPdu (PduTriggering 0..1 ref, accessor sourceIPduRef), targetIPdu (TargetIPduRef 0..1 aggr); XML order per XSD group I-PDU-MAPPING: INTRODUCTION → PDU-MAX-LENGTH → PDUR-TP-CHUNK-SIZE → SOURCE-I-PDU-REF → TARGET-I-PDU (→ VARIATION-POINT); aggregated by Gateway.iPduMapping
   - [x] Step 2 — Write model class unit test (Red) — 3 Red: fabricated docstring (was ISignalToIPduMapping's Note!), missing pduMaxLength accessors, sourceIpduRef → sourceIPduRef rename; typed PositiveInteger/RefType/TargetIPduRef round-trips + None no-ops
@@ -417,7 +417,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — getIPduMappings/setIPduMappings extended with INTRODUCTION (getDocumentationBlock/writeDocumentationBlock), PDU-MAX-LENGTH, PDUR-TP-CHUNK-SIZE in XSD order; sourceIpduRef→sourceIPduRef renames at parser/writer/test call sites
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 8.3 p.840 citation, release column; marker deferred to 9b
   - [x] Step 8 — Deviations  [resolved in-step (Rule 0014): reader/writer silent drop of INTRODUCTION/PDU-MAX-LENGTH/PDUR-TP-CHUNK-SIZE fixed; naming sourceIpduRef → sourceIPduRef fixed; observation: VARIATION-POINT (XSD-only, not a Table 8.3 attribute row) not read/written — consistent with sibling ISignalMapping/FrameMapping, mixin kept]
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 9c8e10b3
 - [x] `PduMappingDefaultValue` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 8.5)
   - [x] Step 1 — Sync members & description from spec — Table 8.5, p.841; concrete, Base = ARObject; attrs in displayed order: defaultValueElement (DefaultValueElement * aggr); XML order per XSD group PDU-MAPPING-DEFAULT-VALUE: DEFAULT-VALUE-ELEMENTS (choice of DEFAULT-VALUE-ELEMENT with ELEMENT-BYTE-VALUE → ELEMENT-POSITION); aggregated by TargetIPduRef.defaultValue; member class DefaultValueElement exists (own table 8.6)
   - [x] Step 2 — Write model class unit test (Red) — verbatim class-Note docstring assertion (Red: "Default value" vs spec "Default Value"), addDefaultValueElement append + None no-op pins (Red: addDefaultValueElements assigned the whole list instead of appending — wrong semantics under an add name); stale none-handling test (wrong semantics) removed with the rewrite
@@ -427,7 +427,7 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [x] Step 6 — Update parser & writer (Green) — getTargetIPduRef now reads DEFAULT-VALUE-ELEMENTS into PduMappingDefaultValue via new readDefaultValueElement helper; setTargetIPduRef writes DEFAULT-VALUE-ELEMENTS wrapper via new setDefaultValueElement helper (XSD order)
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 8.5 p.841 citation, release column; marker deferred to 9b
   - [x] Step 8 — Deviations  [resolved in-step (Rule 0014): add* semantics violation fixed (list-assign → append); reader/writer silent drop of DEFAULT-VALUE-ELEMENTS fixed; housekeeping: leftover sourceIpduRef→sourceIPduRef rename in tests/.../Fibex/test_Fibex4Multiplatform.py (missed by the IPduMapping row) folded into this commit]
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9b confirmed 2026-09-23 (batch); feat commit 9c8e10b3
 - [x] `RtePluginProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 14.5) — **finished, stamped `# Spec verified: R23-11`**
   - [x] Step 1 — Sync members & description from spec — Table 14.5, p.971; Base=ARObject; two optional ref attributes in displayed order: associatedCrossSwClusterComRtePlugin and associatedRtePlugin
   - [x] Step 2 — Write model class unit test (Red) — model defaults, heritage, verbatim class Note, None-guarded getter/setter round-trips
