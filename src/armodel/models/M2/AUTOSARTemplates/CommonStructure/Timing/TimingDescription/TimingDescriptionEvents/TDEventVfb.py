@@ -498,6 +498,15 @@ class TDEventTrigger(TDEventVfbPort):
 
 
 class ConcreteTDEventVfb(TDEventVfb):
-    """Concrete direct-use subclass of the abstract TDEventVfb."""
+    """
+    Concrete direct-use instantiation of the abstract TDEventVfb (XSD-only: no own table in the repo corpus; the meta-model permits the abstract TDEventVfb directly — TD-EVENT-VFB in the TD-EVENT-VFB--SUBTYPES-ENUM, AUTOSAR_00052.xsd — and the class carries no attributes of its own).
+    """
 
-    pass
+    # ConcreteTDEventVfb method parity checklist:
+    # Spec: XSD-only, AUTOSAR_00052.xsd line 122350 (no own table in repo corpus — TD-EVENT-VFB--SUBTYPES-ENUM permits the abstract TDEventVfb directly; body = abstract group TD-EVENT-VFB line 122335)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # reader/writer: TIMING-DESCRIPTIONS choice member <TD-EVENT-VFB> → readTDEventVfb/writeTDEventVfb (inherited base helpers; COMPONENT-IREF rows live on the TDEventVfb checklist)
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)

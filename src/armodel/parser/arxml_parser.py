@@ -263,6 +263,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDHeaderIdRange,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (
+    ConcreteTDEventVfb,
     TDEventModeDeclaration,
     TDEventModeDeclarationTypeEnum,
     TDEventOperation,
@@ -3132,6 +3133,9 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "TD-EVENT-VFB-REFERENCE":
                 event = TDEventVfbReference(extension, short_name)
                 self.readTDEventVfbReference(child_element, event)
+            elif tag_name == "TD-EVENT-VFB":
+                event = ConcreteTDEventVfb(extension, short_name)
+                self.readTDEventVfb(child_element, event)
             elif tag_name == "TD-EVENT-VARIABLE-DATA-PROTOTYPE":
                 event = TDEventVariableDataPrototype(extension, short_name)
                 self.readTDEventVariableDataPrototype(child_element, event)

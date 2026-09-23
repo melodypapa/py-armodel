@@ -391,6 +391,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     VariableInComponentInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (
+    ConcreteTDEventVfb,
     TDEventModeDeclaration,
     TDEventOperation,
     TDEventTrigger,
@@ -8001,6 +8002,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if isinstance(description, TDEventVfbReference):
                     description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-VFB-REFERENCE")
                     self.writeTDEventVfbReference(description_tag, description)
+                elif isinstance(description, ConcreteTDEventVfb):
+                    description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-VFB")
+                    self.writeTDEventVfb(description_tag, description)
                 elif isinstance(description, TDEventVariableDataPrototype):
                     description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-VARIABLE-DATA-PROTOTYPE")
                     self.writeTDEventVariableDataPrototype(description_tag, description)

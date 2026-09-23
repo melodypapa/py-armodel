@@ -13,7 +13,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventOccurrenceExpression,
     TDEventOccurrenceExpressionFormula,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (
+    ConcreteTDEventVfb,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ComponentInCompositionInstanceRef
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -322,3 +327,85 @@ class TestWriteTimingDescriptionEventChain:
         assert chain2.getIsPipeliningPermitted().getValue() is True
         assert chain2.getStimulusRef().getDest() == "TD-EVENT-VFB"
         assert len(chain2.getSegmentRefs()) == 1
+
+
+class TestWriteConcreteTDEventVfb:
+    def _parent(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        return document.createARPackage("AUTOSAR")
+
+    def _build_full(self, parent):
+        extension = SwcTiming(parent, "Timing")
+        event = ConcreteTDEventVfb(extension, "Plain1")
+        iref = ComponentInCompositionInstanceRef()
+        iref.addContextComponentRef(RefType().setValue("/AUTOSAR/Comp").setDest("SW-COMPONENT-PROTOTYPE"))
+        iref.setTargetComponentRef(RefType().setValue("/AUTOSAR/SwcProto").setDest("SW-COMPONENT-PROTOTYPE"))
+        event.setComponentIRef(iref)
+        extension.addTimingDescription(event)
+        return extension
+
+    def _round_trip(self, element):
+        xml_str = ET.tostring(element).decode()
+        idx = xml_str.find(">")
+        xml_str = xml_str[:idx] + ' xmlns="http://autosar.org/schema/r4.0"' + xml_str[idx:]
+        return ET.fromstring(xml_str)
+
+    def test_write_full(self):
+        """
+        Write the plain <TD-EVENT-VFB> choice member (ConcreteTDEventVfb — the
+        XSD's TD-EVENT-VFB--SUBTYPES-ENUM permits the abstract TDEventVfb
+        directly) through the TIMING-DESCRIPTIONS wrapper with field values
+        and the XSD element order (SHORT-NAME → COMPONENT-IREF).
+        """
+        parent = self._parent()
+        extension = self._build_full(parent)
+
+        element = ET.Element("SWC-TIMING")
+        ARXMLWriter().writeTimingExtension(element, extension)
+
+        descriptions_tag = element.find("TIMING-DESCRIPTIONS")
+        assert descriptions_tag is not None
+        event_tag = descriptions_tag.find("TD-EVENT-VFB")
+        assert event_tag is not None
+        assert [child.tag for child in event_tag] == ["SHORT-NAME", "COMPONENT-IREF"]
+        assert event_tag.find("SHORT-NAME").text == "Plain1"
+        iref_tag = event_tag.find("COMPONENT-IREF")
+        assert [child.tag for child in iref_tag] == ["CONTEXT-COMPONENT-REF", "TARGET-COMPONENT-REF"]
+        assert iref_tag.find("TARGET-COMPONENT-REF").text == "/AUTOSAR/SwcProto"
+        assert iref_tag.find("TARGET-COMPONENT-REF").attrib["DEST"] == "SW-COMPONENT-PROTOTYPE"
+
+    def test_write_minimal_omits_component_iref(self):
+        parent = self._parent()
+        extension = SwcTiming(parent, "Timing")
+        event = ConcreteTDEventVfb(extension, "PlainMin")
+        extension.addTimingDescription(event)
+
+        element = ET.Element("SWC-TIMING")
+        ARXMLWriter().writeTimingExtension(element, extension)
+
+        event_tag = element.find("TIMING-DESCRIPTIONS/TD-EVENT-VFB")
+        assert event_tag is not None
+        assert event_tag.find("SHORT-NAME").text == "PlainMin"
+        assert event_tag.find("COMPONENT-IREF") is None
+
+    def test_round_trip(self):
+        parent = self._parent()
+        extension = self._build_full(parent)
+
+        element = ET.Element("SWC-TIMING")
+        ARXMLWriter().writeTimingExtension(element, extension)
+
+        reloaded = SwcTiming(parent, "Timing")
+        ARXMLParser().readTimingExtension(self._round_trip(element), reloaded)
+        descriptions = reloaded.getTimingDescriptions()
+        assert len(descriptions) == 1
+        event = descriptions[0]
+        assert isinstance(event, ConcreteTDEventVfb)
+        assert event.getShortName() == "Plain1"
+        iref = event.getComponentIRef()
+        assert iref is not None
+        assert iref.getContextComponentRefs()[0].getValue() == "/AUTOSAR/Comp"
+        assert iref.getTargetComponentRef().getValue() == "/AUTOSAR/SwcProto"
+        assert iref.getTargetComponentRef().getDest() == "SW-COMPONENT-PROTOTYPE"

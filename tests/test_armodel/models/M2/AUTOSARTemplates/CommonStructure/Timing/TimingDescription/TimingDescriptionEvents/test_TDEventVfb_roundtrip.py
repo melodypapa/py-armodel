@@ -3,6 +3,7 @@ import tempfile
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (
+    ConcreteTDEventVfb,
     TDEventModeDeclaration,
     TDEventModeDeclarationTypeEnum,
     TDEventOperation,
@@ -86,6 +87,10 @@ class TestTDEventVfbFamilyRoundTrip:
         trigger.setTdEventTriggerType(make_enum(TDEventTriggerTypeEnum, "triggerReleased"))
         swc_timing.addTimingDescription(trigger)
 
+        plain = ConcreteTDEventVfb(swc_timing, "Plain1")
+        plain.setComponentIRef(make_component_iref())
+        swc_timing.addTimingDescription(plain)
+
         file_path = tempfile.mktemp(suffix=".arxml")
         try:
             ARXMLWriter().save(file_path, document)
@@ -96,7 +101,7 @@ class TestTDEventVfbFamilyRoundTrip:
 
             swc_timing_2 = document_2.getARPackages()[0].getSwcTimings()[0]
             descriptions = {d.getShortName(): d for d in swc_timing_2.getTimingDescriptions()}
-            assert set(descriptions.keys()) == {"VfbRef1", "Vdp1", "Op1", "Mode1", "Trigger1"}
+            assert set(descriptions.keys()) == {"VfbRef1", "Vdp1", "Op1", "Mode1", "Trigger1", "Plain1"}
 
             ref_event_2 = descriptions["VfbRef1"]
             assert isinstance(ref_event_2, TDEventVfbReference)
@@ -129,6 +134,11 @@ class TestTDEventVfbFamilyRoundTrip:
             assert isinstance(trigger_2, TDEventTrigger)
             assert trigger_2.getTriggerRef().getValue() == "/Root/Trigger"
             assert trigger_2.getTdEventTriggerType().value == "triggerReleased"
+
+            plain_2 = descriptions["Plain1"]
+            assert isinstance(plain_2, ConcreteTDEventVfb)
+            assert plain_2.getComponentIRef() is not None
+            assert plain_2.getComponentIRef().getTargetComponentRef().getValue() == "/Root/Comp"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
