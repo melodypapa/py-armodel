@@ -120,6 +120,48 @@ class TestReadTimingConstraints:
         assert constraint.getMinimum().getCseCodeFactor().getValue() == 10
         assert constraint.getMaximum().getCseCodeFactor().getValue() == 20
 
+    def test_read_offset_timing_constraint_via_timing_extension(self, parser):
+        parent = _parent()
+        extension = SwcTiming(parent, "Timing")
+        element = ET.fromstring(
+            f"<SWC-TIMING xmlns='{NS}'>"
+            "<SHORT-NAME>Timing</SHORT-NAME>"
+            "<TIMING-GUARANTEES>"
+            "<OFFSET-TIMING-CONSTRAINT>"
+            "<SHORT-NAME>Offset1</SHORT-NAME>"
+            "<SOURCE-REF DEST='TIMING-DESCRIPTION-EVENT'>/AUTOSAR/SrcEvent</SOURCE-REF>"
+            "<TARGET-REF DEST='TIMING-DESCRIPTION-EVENT'>/AUTOSAR/TgtEvent</TARGET-REF>"
+            "<MINIMUM><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>10</CSE-CODE-FACTOR></MINIMUM>"
+            "<MAXIMUM><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>20</CSE-CODE-FACTOR></MAXIMUM>"
+            "</OFFSET-TIMING-CONSTRAINT>"
+            "</TIMING-GUARANTEES>"
+            "<TIMING-REQUIREMENTS>"
+            "<OFFSET-TIMING-CONSTRAINT>"
+            "<SHORT-NAME>Offset2</SHORT-NAME>"
+            "<MINIMUM><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>15</CSE-CODE-FACTOR></MINIMUM>"
+            "</OFFSET-TIMING-CONSTRAINT>"
+            "</TIMING-REQUIREMENTS>"
+            "</SWC-TIMING>"
+        )
+        parser.readTimingExtension(element, extension)
+        guarantees = extension.getTimingGuarantees()
+        assert len(guarantees) == 1
+        guarantee = guarantees[0]
+        assert isinstance(guarantee, OffsetTimingConstraint)
+        assert guarantee.getShortName() == "Offset1"
+        assert guarantee.getSourceRef().getValue() == "/AUTOSAR/SrcEvent"
+        assert guarantee.getSourceRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        assert guarantee.getTargetRef().getValue() == "/AUTOSAR/TgtEvent"
+        assert guarantee.getMinimum().getCseCodeFactor().getValue() == 10
+        assert guarantee.getMaximum().getCseCodeFactor().getValue() == 20
+        requirements = extension.getTimingRequirements()
+        assert len(requirements) == 1
+        requirement = requirements[0]
+        assert isinstance(requirement, OffsetTimingConstraint)
+        assert requirement.getShortName() == "Offset2"
+        assert requirement.getMinimum().getCseCodeFactor().getValue() == 15
+        assert requirement.getSourceRef() is None
+
     def test_read_synchronization_timing_constraint(self, parser):
         parent = _parent()
         constraint = SynchronizationTimingConstraint(parent, "Sync1")

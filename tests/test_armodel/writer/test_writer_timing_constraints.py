@@ -244,6 +244,46 @@ class TestWriteOffsetTimingConstraint:
         assert reloaded.getMinimum() is None
         assert reloaded.getMaximum() is None
 
+    def test_round_trip_offset_timing_constraint_via_timing_extension(self):
+        parent = self._parent()
+        extension = SwcTiming(parent, "Timing")
+        guarantee = OffsetTimingConstraint(extension, "OffsetGuarantee")
+        guarantee.setMinimum(_mdt("0", "10"))
+        guarantee.setMaximum(_mdt("0", "20"))
+        guarantee.setSourceRef(RefType().setValue("/AUTOSAR/SrcEvent").setDest("TIMING-DESCRIPTION-EVENT"))
+        guarantee.setTargetRef(RefType().setValue("/AUTOSAR/TgtEvent").setDest("TIMING-DESCRIPTION-EVENT"))
+        extension.addElement(guarantee)
+        extension.addTimingGuarantee(guarantee)
+        requirement = OffsetTimingConstraint(extension, "OffsetRequirement")
+        requirement.setMinimum(_mdt("0", "15"))
+        extension.addElement(requirement)
+        extension.addTimingRequirement(requirement)
+
+        element = ET.Element("SWC-TIMING")
+        ARXMLWriter().writeTimingExtension(element, extension)
+        guarantees_tag = element.find("TIMING-GUARANTEES")
+        assert guarantees_tag is not None
+        assert guarantees_tag.find("OFFSET-TIMING-CONSTRAINT") is not None
+        requirements_tag = element.find("TIMING-REQUIREMENTS")
+        assert requirements_tag is not None
+        assert requirements_tag.find("OFFSET-TIMING-CONSTRAINT") is not None
+
+        reloaded = SwcTiming(parent, "Timing")
+        ARXMLParser().readTimingExtension(_round_trip(element), reloaded)
+        reloaded_guarantees = reloaded.getTimingGuarantees()
+        assert len(reloaded_guarantees) == 1
+        reloaded_guarantee = reloaded_guarantees[0]
+        assert isinstance(reloaded_guarantee, OffsetTimingConstraint)
+        assert reloaded_guarantee.getShortName() == "OffsetGuarantee"
+        assert reloaded_guarantee.getMinimum().getCseCodeFactor().getValue() == 10
+        assert reloaded_guarantee.getMaximum().getCseCodeFactor().getValue() == 20
+        assert reloaded_guarantee.getSourceRef().getValue() == "/AUTOSAR/SrcEvent"
+        assert reloaded_guarantee.getSourceRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        assert reloaded_guarantee.getTargetRef().getValue() == "/AUTOSAR/TgtEvent"
+        reloaded_requirements = reloaded.getTimingRequirements()
+        assert len(reloaded_requirements) == 1
+        assert reloaded_requirements[0].getMinimum().getCseCodeFactor().getValue() == 15
+
 
 class TestWriteSynchronizationTimingConstraint:
     def _parent(self):
