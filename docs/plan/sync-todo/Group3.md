@@ -1042,15 +1042,15 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 8 — Deviations  [resolved deviation: annotationOrigin was ARLiteral (spec String); consumers all use getValue(), no fallout. XSD preserves the class Note's paragraph breaks — flattened to the PDF-table single-cell form for the docstring]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 - [ ] `FirewallActionEnum` (dependency · **re-queued 2026-09-22 — supersedes Group7's stale single-line 16.4 record** · **XSD-only re-confirmed** (no R23-11/R4.3.1 markdown Enumeration table, no PDF caption; the sys L49490+ Firewall rows are ECUC literal-mapping tables, not a class table; consumers `StateDependentFirewall.defaultAction` Table 6.234 + `FirewallRuleProps.action` Table 6.235) · AUTOSAR_00052.xsd complexType `FIREWALL-ACTION-ENUM` line 136671 ("List of actions that the Firewall is able to perform.") + `--SIMPLE` line 136683 · **in src** (AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py, AREnum, checklist present, NO marker) · **known deviation to arbitrate in Step 1: src literal order BLOCK=index 0 / ALLOW=index 1 contradicts the XSD `--SIMPLE` order and both ECUC mapping tables, which list ALLOW first → fix to allow=ALLOW index 0, block=BLOCK index 1 (wire values uppercase per XSD)** · marker `# XSD verified: AUTOSAR_00052.xsd` at 9b · AREnum — Steps 5/6 N/A (value form on consuming classes)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec  [XSD-only confirmed: complexType l.136671 Note verbatim "List of actions that the Firewall is able to perform."; --SIMPLE l.136683 literals ALLOW/BLOCK uppercase; **arbitration RESOLVED 2026-09-22 (user-confirmed): the row's reorder premise is refuted — the XSD's own atp.EnumerationLiteralIndex tags (l.136688 ALLOW="1", l.136694 BLOCK="0") are the authoritative index metadata and match the existing src BLOCK=0/ALLOW=1; the --SIMPLE document order and the ECUC mapping-table row order are alphabetical, not index metadata; reorder NOT applied**]
+  - [x] Step 2 — Write model class unit test (Red)  [existing TestFirewallActionEnum extended: ALLOW round-trip added, getEnumValues() == ("BLOCK", "ALLOW") pins the arbitrated order with the XSD line refs in the docstring; member presence/wire values/instantiability/docstring already covered]
+  - [x] Step 3 — Implement model class (Green)  [verified already spec-compliant — no code change: member comments carry the verbatim XSD literal Notes + EnumerationLiteralIndex tags, wire values uppercase, tuple (BLOCK, ALLOW), AREnum base]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class docstring == XSD Note verbatim (tested); literal comments verbatim ("Firewall blocks/allows the communication") with Tags; no __init__ docstring]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: AREnum has no own XML element — value form serialized on consuming classes; consumer coverage verified: readStateDependentFirewall DEFAULT-ACTION l.14030, writeFirewallRuleProps l.13753, readFirewallRuleProps l.14044]
+  - [x] Step 6 — Update parser & writer (Green)  [N/A: no production change — enum value form rides on StateDependentFirewall/FirewallRuleProps attr serialization, already covered]
+  - [x] Step 7 — Update checklist comment  [Spec line now cites XSD l.136671/136683 + consumer Tables 6.234/6.235; arbitration note recorded in the class checklist; six columns + R23-11 retained]
+  - [x] Step 8 — Deviations  [arbitrated: row's stated deviation (BLOCK/ALLOW order) does not exist against the authoritative tags; keeping BLOCK=0/ALLOW=1 means the literal Tags comments stay verbatim — reordering would have forced fabricating non-verbatim tag values; wire values unchanged in XML either way]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a run at batch level; **stamp deferred to batch confirmation (user instruction 2026-09-22)**
 
 
 ## Pending 16.4 resolution (NEW — not in src)

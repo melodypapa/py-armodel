@@ -56,6 +56,16 @@ class TestFirewallActionEnum:
         assert obj.setValue(FirewallActionEnum.BLOCK) is obj
         assert obj.getValue() == "BLOCK"
 
+    def test_allow_round_trip(self):
+        obj = FirewallActionEnum()
+        assert obj.setValue(FirewallActionEnum.ALLOW) is obj
+        assert obj.getValue() == "ALLOW"
+
+    def test_literal_order_matches_xsd_index_tags(self):
+        """BLOCK is EnumerationLiteralIndex=0 and ALLOW=1 per AUTOSAR_00052.xsd l.136694/136688 (arbitrated 2026-09-22: tags outrank --SIMPLE document order)."""
+        obj = FirewallActionEnum()
+        assert obj.getEnumValues() == ("BLOCK", "ALLOW")
+
     def test_class_docstring_is_spec_verbatim(self):
         assert FirewallActionEnum.__doc__ == "List of actions that the Firewall is able to perform."
 
