@@ -23,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecProps,
     MacSecRoleEnum,
     SecOcCryptoServiceMapping,
+    TlsCryptoCipherSuite,
     TlsCryptoCipherSuiteProps,
     TlsCryptoServiceMapping,
     TlsPskIdentity,
@@ -446,6 +447,172 @@ class Test_MacSecKayParticipant:
         assert participant.getCknRef() is None
         assert participant.getCryptoAlgoConfig() is None
         assert participant.getSakRef() is None
+
+
+class Test_TlsCryptoCipherSuiteSpec:
+    """Spec contract of TlsCryptoCipherSuite (AUTOSAR_CP_TPS_SystemTemplate, Table 6.212, p.562)."""
+
+    def test_docstring_is_spec_note_verbatim(self):
+        note = "This meta-class represents a cipher suite for describing cryptographic operations in the context of establishing a connection of ApplicationEndpoints that is protected by TLS."
+        assert TlsCryptoCipherSuite.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert TlsCryptoCipherSuite.__init__.__doc__ is None
+
+    def test_heritage(self):
+        # Base chain ARObject, Identifiable, MultilanguageReferrable, Referrable — most-derived is Identifiable
+        parent = MockParent()
+        suite = TlsCryptoCipherSuite(parent, "suite")
+        assert isinstance(suite, Identifiable)
+        assert not isinstance(suite, ARElement)
+
+    def test_initialization(self):
+        # Table 6.212 — all 14 attributes are optional (Mult 0..1 or *, XSD minOccurs=0)
+        parent = MockParent()
+        suite = TlsCryptoCipherSuite(parent, "suite")
+        assert suite.getAuthenticationRef() is None
+        assert suite.getCertificateRef() is None
+        assert suite.getCipherSuiteId() is None
+        assert suite.getCipherSuiteShortLabel() is None
+        assert suite.getEllipticCurveRefs() == []
+        assert suite.getEncryptionRef() is None
+        assert suite.getKeyExchangeRefs() == []
+        assert suite.getKeyExchangeAuthenticationRefs() == []
+        assert suite.getPriority() is None
+        assert suite.getProps() is None
+        assert suite.getPskIdentity() is None
+        assert suite.getRemoteCertificateRef() is None
+        assert suite.getSignatureSchemeRefs() == []
+        assert suite.getVersion() is None
+
+    def test_get_set_authentication_ref(self):
+        parent = MockParent()
+        suite = TlsCryptoCipherSuite(parent, "suite")
+        ref = _ref("/Crypto/Primitives/Mac1")
+        assert suite.setAuthenticationRef(ref) is suite
+        assert suite.getAuthenticationRef() is ref
+        suite.setAuthenticationRef(None)
+        assert suite.getAuthenticationRef() is ref
+
+    def test_get_set_certificate_ref(self):
+        parent = MockParent()
+        suite = TlsCryptoCipherSuite(parent, "suite")
+        ref = _ref("/Crypto/Certificates/Local1")
+        assert suite.setCertificateRef(ref) is suite
+        assert suite.getCertificateRef() is ref
+        suite.setCertificateRef(None)
+        assert suite.getCertificateRef() is ref
+
+    def test_get_set_encryption_ref(self):
+        parent = MockParent()
+        suite = TlsCryptoCipherSuite(parent, "suite")
+        ref = _ref("/Crypto/Primitives/Enc1")
+        assert suite.setEncryptionRef(ref) is suite
+        assert suite.getEncryptionRef() is ref
+        suite.setEncryptionRef(None)
+        assert suite.getEncryptionRef() is ref
+
+    def test_get_set_remote_certificate_ref(self):
+        parent = MockParent()
+        suite = TlsCryptoCipherSuite(parent, "suite")
+        ref = _ref("/Crypto/Certificates/Remote1")
+        assert suite.setRemoteCertificateRef(ref) is suite
+        assert suite.getRemoteCertificateRef() is ref
+        suite.setRemoteCertificateRef(None)
+        assert suite.getRemoteCertificateRef() is ref
+
+    def test_get_set_cipher_suite_id(self):
+        parent = MockParent()
+        suite = TlsCryptoCipherSuite(parent, "suite")
+        cipher_id = _pos_int("4865")
+        assert suite.setCipherSuiteId(cipher_id) is suite
+        assert suite.getCipherSuiteId() is cipher_id
+        suite.setCipherSuiteId(None)
+        assert suite.getCipherSuiteId() is cipher_id
+
+    def test_get_set_cipher_suite_short_label(self):
+        parent = MockParent()
+        suite = TlsCryptoCipherSuite(parent, "suite")
+        label = _string("TLS_AES_128_GCM_SHA256")
+        assert suite.setCipherSuiteShortLabel(label) is suite
+        assert suite.getCipherSuiteShortLabel() is label
+        suite.setCipherSuiteShortLabel(None)
+        assert suite.getCipherSuiteShortLabel() is label
+
+    def test_get_set_priority(self):
+        parent = MockParent()
+        suite = TlsCryptoCipherSuite(parent, "suite")
+        priority = _pos_int("10")
+        assert suite.setPriority(priority) is suite
+        assert suite.getPriority() is priority
+        suite.setPriority(None)
+        assert suite.getPriority() is priority
+
+    def test_add_elliptic_curve_refs(self):
+        parent = MockParent()
+        suite = TlsCryptoCipherSuite(parent, "suite")
+        assert suite.addEllipticCurveRef(_ref("/Crypto/EllipticCurves/C1")) is suite
+        suite.addEllipticCurveRef(_ref("/Crypto/EllipticCurves/C2"))
+        suite.addEllipticCurveRef(None)
+        assert [r.getValue() for r in suite.getEllipticCurveRefs()] == ["/Crypto/EllipticCurves/C1", "/Crypto/EllipticCurves/C2"]
+
+    def test_add_key_exchange_refs(self):
+        parent = MockParent()
+        suite = TlsCryptoCipherSuite(parent, "suite")
+        assert suite.addKeyExchangeRef(_ref("/Crypto/Primitives/Ke1")) is suite
+        suite.addKeyExchangeRef(_ref("/Crypto/Primitives/Ke2"))
+        suite.addKeyExchangeRef(None)
+        assert [r.getValue() for r in suite.getKeyExchangeRefs()] == ["/Crypto/Primitives/Ke1", "/Crypto/Primitives/Ke2"]
+
+    def test_add_key_exchange_authentication_refs(self):
+        parent = MockParent()
+        suite = TlsCryptoCipherSuite(parent, "suite")
+        assert suite.addKeyExchangeAuthenticationRef(_ref("/Crypto/Primitives/Sig1")) is suite
+        suite.addKeyExchangeAuthenticationRef(_ref("/Crypto/Primitives/Sig2"))
+        suite.addKeyExchangeAuthenticationRef(None)
+        assert [r.getValue() for r in suite.getKeyExchangeAuthenticationRefs()] == ["/Crypto/Primitives/Sig1", "/Crypto/Primitives/Sig2"]
+
+    def test_add_signature_scheme_refs(self):
+        parent = MockParent()
+        suite = TlsCryptoCipherSuite(parent, "suite")
+        assert suite.addSignatureSchemeRef(_ref("/Crypto/SignatureSchemes/S1")) is suite
+        suite.addSignatureSchemeRef(_ref("/Crypto/SignatureSchemes/S2"))
+        suite.addSignatureSchemeRef(None)
+        assert [r.getValue() for r in suite.getSignatureSchemeRefs()] == ["/Crypto/SignatureSchemes/S1", "/Crypto/SignatureSchemes/S2"]
+
+    def test_get_set_props(self):
+        parent = MockParent()
+        suite = TlsCryptoCipherSuite(parent, "suite")
+        props = TlsCryptoCipherSuiteProps(parent, "props")
+        assert suite.setProps(props) is suite
+        assert suite.getProps() is props
+        suite.setProps(None)
+        assert suite.getProps() is props
+
+    def test_get_set_psk_identity(self):
+        parent = MockParent()
+        suite = TlsCryptoCipherSuite(parent, "suite")
+        psk = TlsPskIdentity()
+        assert suite.setPskIdentity(psk) is suite
+        assert suite.getPskIdentity() is psk
+        suite.setPskIdentity(None)
+        assert suite.getPskIdentity() is psk
+
+    def test_get_set_version(self):
+        parent = MockParent()
+        suite = TlsCryptoCipherSuite(parent, "suite")
+        version = TlsVersionEnum().setValue(TlsVersionEnum.TLS_13)
+        assert suite.setVersion(version) is suite
+        assert suite.getVersion() is version
+        suite.setVersion(None)
+        assert suite.getVersion() is version
+
+    def test_consumer_typed_tls_cipher_suites_list(self):
+        # extend pass — TlsCryptoServiceMapping.tlsCipherSuites becomes a typed TlsCryptoCipherSuite list
+        mapping = TlsCryptoServiceMapping(MockParent(), "mapping")
+        suite = TlsCryptoCipherSuite(mapping, "suite")
+        assert mapping.addTlsCipherSuite(suite) is mapping
+        assert mapping.getTlsCipherSuites() == [suite]
 
 
 class Test_TlsVersionEnum:

@@ -732,6 +732,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecLocalKayProps,
     MacSecProps,
     SecOcCryptoServiceMapping,
+    TlsCryptoCipherSuite,
     TlsCryptoCipherSuiteProps,
     TlsCryptoServiceMapping,
     TlsPskIdentity,
@@ -11452,19 +11453,59 @@ class ARXMLWriter(AbstractARXMLWriter):
             refs_tag = ET.SubElement(element, "KEY-EXCHANGE-REFS")
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_tag, "KEY-EXCHANGE-REF", ref)
-        if len(mapping.getTlsCipherSuites()) > 0:
-            self.notImplemented("TLS-CIPHER-SUITES aggregation is not implemented (missing member class TlsCryptoCipherSuite)")
+        cipher_suites = mapping.getTlsCipherSuites()
+        if len(cipher_suites) > 0:
+            suites_tag = ET.SubElement(element, "TLS-CIPHER-SUITES")
+            for cipher_suite in cipher_suites:
+                self.writeTlsCryptoCipherSuite(suites_tag, cipher_suite)
         self.setChildElementOptionalBooleanValue(element, "USE-CLIENT-AUTHENTICATION-REQUEST", mapping.getUseClientAuthenticationRequest())
         self.setChildElementOptionalBooleanValue(element, "USE-SECURITY-EXTENSION-RECORD-SIZE-LIMIT", mapping.getUseSecurityExtensionRecordSizeLimit())
 
+    def writeTlsCryptoCipherSuite(self, parent: ET.Element, cipher_suite: TlsCryptoCipherSuite):
+        self.logger.debug("Write TlsCryptoCipherSuite <%s>" % cipher_suite.getShortName())
+        element = ET.SubElement(parent, "TLS-CRYPTO-CIPHER-SUITE")
+        self.writeIdentifiable(element, cipher_suite)
+        self.setChildElementOptionalRefType(element, "AUTHENTICATION-REF", cipher_suite.getAuthenticationRef())
+        self.setChildElementOptionalRefType(element, "CERTIFICATE-REF", cipher_suite.getCertificateRef())
+        self.setChildElementOptionalPositiveInteger(element, "CIPHER-SUITE-ID", cipher_suite.getCipherSuiteId())
+        self.setChildElementOptionalString(element, "CIPHER-SUITE-SHORT-LABEL", cipher_suite.getCipherSuiteShortLabel())
+        refs = cipher_suite.getEllipticCurveRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "ELLIPTIC-CURVE-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "ELLIPTIC-CURVE-REF", ref)
+        self.setChildElementOptionalRefType(element, "ENCRYPTION-REF", cipher_suite.getEncryptionRef())
+        refs = cipher_suite.getKeyExchangeAuthenticationRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "KEY-EXCHANGE-AUTHENTICATION-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "KEY-EXCHANGE-AUTHENTICATION-REF", ref)
+        refs = cipher_suite.getKeyExchangeRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "KEY-EXCHANGE-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "KEY-EXCHANGE-REF", ref)
+        self.setChildElementOptionalPositiveInteger(element, "PRIORITY", cipher_suite.getPriority())
+        if cipher_suite.getProps() is not None:
+            self.writeTlsCryptoCipherSuiteProps(element, cipher_suite.getProps())
+        if cipher_suite.getPskIdentity() is not None:
+            self.writeTlsPskIdentity(element, cipher_suite.getPskIdentity())
+        self.setChildElementOptionalRefType(element, "REMOTE-CERTIFICATE-REF", cipher_suite.getRemoteCertificateRef())
+        refs = cipher_suite.getSignatureSchemeRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "SIGNATURE-SCHEME-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "SIGNATURE-SCHEME-REF", ref)
+        self.setChildElementOptionalLiteral(element, "VERSION", cipher_suite.getVersion())
+
     def writeTlsPskIdentity(self, parent: ET.Element, psk_identity: TlsPskIdentity):
-        element = ET.SubElement(parent, "TLS-PSK-IDENTITY")
+        element = ET.SubElement(parent, "PSK-IDENTITY")
         self.setChildElementOptionalRefType(element, "PRE-SHARED-KEY-REF", psk_identity.getPreSharedKeyRef())
         self.setChildElementOptionalString(element, "PSK-IDENTITY", psk_identity.getPskIdentity())
         self.setChildElementOptionalString(element, "PSK-IDENTITY-HINT", psk_identity.getPskIdentityHint())
 
     def writeTlsCryptoCipherSuiteProps(self, parent: ET.Element, cipher_suite_props: TlsCryptoCipherSuiteProps):
-        element = ET.SubElement(parent, "TLS-CRYPTO-CIPHER-SUITE-PROPS")
+        element = ET.SubElement(parent, "PROPS")
         self.writeIdentifiable(element, cipher_suite_props)
         self.setChildElementOptionalBooleanValue(element, "TCP-IP-TLS-USE-SECURITY-EXTENSION-FORCE-ENCRYPT-THEN-MAC", cipher_suite_props.getTcpIpTlsUseSecurityExtensionForceEncryptThenMac())
 

@@ -92,11 +92,12 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
 
     # TlsCryptoServiceMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.211, p.560
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addKeyExchangeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getKeyExchangeRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addTlsCipherSuite    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTlsCipherSuite    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getTlsCipherSuites    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getUseClientAuthenticationRequest    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setUseClientAuthenticationRequest    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -110,7 +111,7 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
         self.keyExchangeRefs: List[RefType] = []
 
         # This aggregation represents the collection of supported cipher suites.
-        self.tlsCipherSuites: List = []
+        self.tlsCipherSuites: List[TlsCryptoCipherSuite] = []
 
         # Defines if client authentication shall be applied for this TLS connection.
         self.useClientAuthenticationRequest: Optional[Boolean] = None
@@ -131,7 +132,7 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
         """This reference identifies the shared(i.e. applicable for each of the aggregated cipher suites) crypto service primitive for the execution of key exchange during the handshake phase."""
         return self.keyExchangeRefs
 
-    def addTlsCipherSuite(self, value) -> "TlsCryptoServiceMapping":
+    def addTlsCipherSuite(self, value: Optional[TlsCryptoCipherSuite]) -> "TlsCryptoServiceMapping":
         """
         This aggregation represents the collection of supported cipher suites.
         A None value is a no-op and does not extend the tlsCipherSuites list.
@@ -140,7 +141,7 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
             self.tlsCipherSuites.append(value)
         return self
 
-    def getTlsCipherSuites(self) -> List:
+    def getTlsCipherSuites(self) -> List[TlsCryptoCipherSuite]:
         """This aggregation represents the collection of supported cipher suites."""
         return self.tlsCipherSuites
 
@@ -168,6 +169,273 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
         """
         if value is not None:
             self.useSecurityExtensionRecordSizeLimit = value
+        return self
+
+
+class TlsCryptoCipherSuite(Identifiable):
+    """
+    This meta-class represents a cipher suite for describing cryptographic operations in the context of establishing a connection of ApplicationEndpoints that is protected by TLS.
+    """
+
+    # TlsCryptoCipherSuite method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.212, p.562
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAuthenticationRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthenticationRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCertificateRef                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCertificateRef                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCipherSuiteId                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCipherSuiteId                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCipherSuiteShortLabel                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCipherSuiteShortLabel                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addEllipticCurveRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEllipticCurveRefs                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getEncryptionRef                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEncryptionRef                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addKeyExchangeRef                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeyExchangeRefs                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addKeyExchangeAuthenticationRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeyExchangeAuthenticationRefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPriority                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPriority                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProps                                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProps                                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPskIdentity                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPskIdentity                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRemoteCertificateRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRemoteCertificateRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSignatureSchemeRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSignatureSchemeRefs                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getVersion                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVersion                              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the crypto service primitive for the generation and verification of MACs.
+        self.authenticationRef: Optional[RefType] = None
+
+        # This reference identifies the applicable local certificate.
+        self.certificateRef: Optional[RefType] = None
+
+        # Identification of the CipherSuite according to the IANA assignments list.
+        self.cipherSuiteId: Optional[PositiveInteger] = None
+
+        # Name of the CipherSuite according to the IANA assignments list.
+        self.cipherSuiteShortLabel: Optional[String] = None
+
+        # This references point to the properties of elliptic curves.
+        self.ellipticCurveRefs: List[RefType] = []
+
+        # This reference identifies the crypto service primitive for the execution of encryption.
+        self.encryptionRef: Optional[RefType] = None
+
+        # This reference identifies the individual (i.e. per cipher suite) crypto service primitive for the execution of key exchange during the handshake phase.
+        self.keyExchangeRefs: List[RefType] = []
+
+        # This reference identifies the crypto service primitives for the generation and verification of signatures during the key exchange algorithm.
+        self.keyExchangeAuthenticationRefs: List[RefType] = []
+
+        # This attribute identifies the priority of the cipher suite. Range: 1..65535. Lower values represent higher priorities.
+        self.priority: Optional[PositiveInteger] = None
+
+        # The aggregated TlsCryptoCipherSuiteProps provide details for the TLS Cipher Suite.
+        self.props: Optional[TlsCryptoCipherSuiteProps] = None
+
+        # Pre-shared key identity shared during the handshake among the communication parties, to establish a TLS connection if the handshake is based on the existence of a pre-shared key.
+        self.pskIdentity: Optional[TlsPskIdentity] = None
+
+        # This reference identifies the applicable remote certificate.
+        self.remoteCertificateRef: Optional[RefType] = None
+
+        # This reference points to the properties of a TLS Signature Scheme.
+        self.signatureSchemeRefs: List[RefType] = []
+
+        # This attribute supports the definition of the applicable version of TLS.
+        self.version: Optional[TlsVersionEnum] = None
+
+    def getAuthenticationRef(self) -> Optional[RefType]:
+        """This reference identifies the crypto service primitive for the generation and verification of MACs."""
+        return self.authenticationRef
+
+    def setAuthenticationRef(self, value: Optional[RefType]) -> "TlsCryptoCipherSuite":
+        """
+        This reference identifies the crypto service primitive for the generation and verification of MACs.
+        A None value is a no-op and does not overwrite an existing authenticationRef.
+        """
+        if value is not None:
+            self.authenticationRef = value
+        return self
+
+    def getCertificateRef(self) -> Optional[RefType]:
+        """This reference identifies the applicable local certificate."""
+        return self.certificateRef
+
+    def setCertificateRef(self, value: Optional[RefType]) -> "TlsCryptoCipherSuite":
+        """
+        This reference identifies the applicable local certificate.
+        A None value is a no-op and does not overwrite an existing certificateRef.
+        """
+        if value is not None:
+            self.certificateRef = value
+        return self
+
+    def getCipherSuiteId(self) -> Optional[PositiveInteger]:
+        """Identification of the CipherSuite according to the IANA assignments list."""
+        return self.cipherSuiteId
+
+    def setCipherSuiteId(self, value: Optional[PositiveInteger]) -> "TlsCryptoCipherSuite":
+        """
+        Identification of the CipherSuite according to the IANA assignments list.
+        A None value is a no-op and does not overwrite an existing cipherSuiteId.
+        """
+        if value is not None:
+            self.cipherSuiteId = value
+        return self
+
+    def getCipherSuiteShortLabel(self) -> Optional[String]:
+        """Name of the CipherSuite according to the IANA assignments list."""
+        return self.cipherSuiteShortLabel
+
+    def setCipherSuiteShortLabel(self, value: Optional[String]) -> "TlsCryptoCipherSuite":
+        """
+        Name of the CipherSuite according to the IANA assignments list.
+        A None value is a no-op and does not overwrite an existing cipherSuiteShortLabel.
+        """
+        if value is not None:
+            self.cipherSuiteShortLabel = value
+        return self
+
+    def addEllipticCurveRef(self, ref: Optional[RefType]) -> "TlsCryptoCipherSuite":
+        """
+        This references point to the properties of elliptic curves.
+        A None value is a no-op and does not extend the ellipticCurveRefs list.
+        """
+        if ref is not None:
+            self.ellipticCurveRefs.append(ref)
+        return self
+
+    def getEllipticCurveRefs(self) -> List[RefType]:
+        """This references point to the properties of elliptic curves."""
+        return self.ellipticCurveRefs
+
+    def getEncryptionRef(self) -> Optional[RefType]:
+        """This reference identifies the crypto service primitive for the execution of encryption."""
+        return self.encryptionRef
+
+    def setEncryptionRef(self, value: Optional[RefType]) -> "TlsCryptoCipherSuite":
+        """
+        This reference identifies the crypto service primitive for the execution of encryption.
+        A None value is a no-op and does not overwrite an existing encryptionRef.
+        """
+        if value is not None:
+            self.encryptionRef = value
+        return self
+
+    def addKeyExchangeRef(self, ref: Optional[RefType]) -> "TlsCryptoCipherSuite":
+        """
+        This reference identifies the individual (i.e. per cipher suite) crypto service primitive for the execution of key exchange during the handshake phase.
+        A None value is a no-op and does not extend the keyExchangeRefs list.
+        """
+        if ref is not None:
+            self.keyExchangeRefs.append(ref)
+        return self
+
+    def getKeyExchangeRefs(self) -> List[RefType]:
+        """This reference identifies the individual (i.e. per cipher suite) crypto service primitive for the execution of key exchange during the handshake phase."""
+        return self.keyExchangeRefs
+
+    def addKeyExchangeAuthenticationRef(self, ref: Optional[RefType]) -> "TlsCryptoCipherSuite":
+        """
+        This reference identifies the crypto service primitives for the generation and verification of signatures during the key exchange algorithm.
+        A None value is a no-op and does not extend the keyExchangeAuthenticationRefs list.
+        """
+        if ref is not None:
+            self.keyExchangeAuthenticationRefs.append(ref)
+        return self
+
+    def getKeyExchangeAuthenticationRefs(self) -> List[RefType]:
+        """This reference identifies the crypto service primitives for the generation and verification of signatures during the key exchange algorithm."""
+        return self.keyExchangeAuthenticationRefs
+
+    def getPriority(self) -> Optional[PositiveInteger]:
+        """This attribute identifies the priority of the cipher suite. Range: 1..65535. Lower values represent higher priorities."""
+        return self.priority
+
+    def setPriority(self, value: Optional[PositiveInteger]) -> "TlsCryptoCipherSuite":
+        """
+        This attribute identifies the priority of the cipher suite. Range: 1..65535. Lower values represent higher priorities.
+        A None value is a no-op and does not overwrite an existing priority.
+        """
+        if value is not None:
+            self.priority = value
+        return self
+
+    def getProps(self) -> Optional[TlsCryptoCipherSuiteProps]:
+        """The aggregated TlsCryptoCipherSuiteProps provide details for the TLS Cipher Suite."""
+        return self.props
+
+    def setProps(self, value: Optional[TlsCryptoCipherSuiteProps]) -> "TlsCryptoCipherSuite":
+        """
+        The aggregated TlsCryptoCipherSuiteProps provide details for the TLS Cipher Suite.
+        A None value is a no-op and does not overwrite an existing props.
+        """
+        if value is not None:
+            self.props = value
+        return self
+
+    def getPskIdentity(self) -> Optional[TlsPskIdentity]:
+        """Pre-shared key identity shared during the handshake among the communication parties, to establish a TLS connection if the handshake is based on the existence of a pre-shared key."""
+        return self.pskIdentity
+
+    def setPskIdentity(self, value: Optional[TlsPskIdentity]) -> "TlsCryptoCipherSuite":
+        """
+        Pre-shared key identity shared during the handshake among the communication parties, to establish a TLS connection if the handshake is based on the existence of a pre-shared key.
+        A None value is a no-op and does not overwrite an existing pskIdentity.
+        """
+        if value is not None:
+            self.pskIdentity = value
+        return self
+
+    def getRemoteCertificateRef(self) -> Optional[RefType]:
+        """This reference identifies the applicable remote certificate."""
+        return self.remoteCertificateRef
+
+    def setRemoteCertificateRef(self, value: Optional[RefType]) -> "TlsCryptoCipherSuite":
+        """
+        This reference identifies the applicable remote certificate.
+        A None value is a no-op and does not overwrite an existing remoteCertificateRef.
+        """
+        if value is not None:
+            self.remoteCertificateRef = value
+        return self
+
+    def addSignatureSchemeRef(self, ref: Optional[RefType]) -> "TlsCryptoCipherSuite":
+        """
+        This reference points to the properties of a TLS Signature Scheme.
+        A None value is a no-op and does not extend the signatureSchemeRefs list.
+        """
+        if ref is not None:
+            self.signatureSchemeRefs.append(ref)
+        return self
+
+    def getSignatureSchemeRefs(self) -> List[RefType]:
+        """This reference points to the properties of a TLS Signature Scheme."""
+        return self.signatureSchemeRefs
+
+    def getVersion(self) -> Optional[TlsVersionEnum]:
+        """This attribute supports the definition of the applicable version of TLS."""
+        return self.version
+
+    def setVersion(self, value: Optional[TlsVersionEnum]) -> "TlsCryptoCipherSuite":
+        """
+        This attribute supports the definition of the applicable version of TLS.
+        A None value is a no-op and does not overwrite an existing version.
+        """
+        if value is not None:
+            self.version = value
         return self
 
 

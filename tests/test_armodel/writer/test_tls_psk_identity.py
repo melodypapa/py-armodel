@@ -47,6 +47,7 @@ def test_write_tls_psk_identity_full():
     parent = ET.Element("ROOT")
     ARXMLWriter().writeTlsPskIdentity(parent, psk)
 
+    assert parent[0].tag == "PSK-IDENTITY"
     children = list(parent[0])
     assert [c.tag for c in children] == ["PRE-SHARED-KEY-REF", "PSK-IDENTITY", "PSK-IDENTITY-HINT"]
     assert children[0].get("DEST") == "CRYPTO-SERVICE-KEY"

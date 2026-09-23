@@ -826,9 +826,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecProps,
     MacSecRoleEnum,
     SecOcCryptoServiceMapping,
+    TlsCryptoCipherSuite,
     TlsCryptoCipherSuiteProps,
     TlsCryptoServiceMapping,
     TlsPskIdentity,
+    TlsVersionEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -13223,10 +13225,46 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, mapping)
         for ref in self.getChildElementRefTypeList(element, "KEY-EXCHANGE-REFS/KEY-EXCHANGE-REF"):
             mapping.addKeyExchangeRef(ref)
-        if self.find(element, "TLS-CIPHER-SUITES") is not None:
-            self.notImplemented("TLS-CIPHER-SUITES aggregation is not implemented (missing member class TlsCryptoCipherSuite)")
+        for suite_element in self.findall(element, "TLS-CIPHER-SUITES/TLS-CRYPTO-CIPHER-SUITE"):
+            cipher_suite = TlsCryptoCipherSuite(mapping, self.getShortName(suite_element))
+            mapping.addTlsCipherSuite(cipher_suite)
+            self.readTlsCryptoCipherSuite(suite_element, cipher_suite)
         mapping.setUseClientAuthenticationRequest(self.getChildElementOptionalBooleanValue(element, "USE-CLIENT-AUTHENTICATION-REQUEST"))
         mapping.setUseSecurityExtensionRecordSizeLimit(self.getChildElementOptionalBooleanValue(element, "USE-SECURITY-EXTENSION-RECORD-SIZE-LIMIT"))
+
+    def readTlsCryptoCipherSuite(self, element: ET.Element, cipher_suite: TlsCryptoCipherSuite):
+        self.logger.debug("Read TlsCryptoCipherSuite <%s>" % cipher_suite.getShortName())
+        self.readIdentifiable(element, cipher_suite)
+        cipher_suite.setAuthenticationRef(self.getChildElementOptionalRefType(element, "AUTHENTICATION-REF"))
+        cipher_suite.setCertificateRef(self.getChildElementOptionalRefType(element, "CERTIFICATE-REF"))
+        cipher_suite.setCipherSuiteId(self.getChildElementOptionalPositiveInteger(element, "CIPHER-SUITE-ID"))
+        cipher_suite.setCipherSuiteShortLabel(self.getChildElementOptionalString(element, "CIPHER-SUITE-SHORT-LABEL"))
+        for ref in self.getChildElementRefTypeList(element, "ELLIPTIC-CURVE-REFS/ELLIPTIC-CURVE-REF"):
+            cipher_suite.addEllipticCurveRef(ref)
+        cipher_suite.setEncryptionRef(self.getChildElementOptionalRefType(element, "ENCRYPTION-REF"))
+        for ref in self.getChildElementRefTypeList(element, "KEY-EXCHANGE-AUTHENTICATION-REFS/KEY-EXCHANGE-AUTHENTICATION-REF"):
+            cipher_suite.addKeyExchangeAuthenticationRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "KEY-EXCHANGE-REFS/KEY-EXCHANGE-REF"):
+            cipher_suite.addKeyExchangeRef(ref)
+        cipher_suite.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
+        props_element = self.find(element, "PROPS")
+        if props_element is not None:
+            props = TlsCryptoCipherSuiteProps(cipher_suite, self.getShortName(props_element))
+            self.readTlsCryptoCipherSuiteProps(props_element, props)
+            cipher_suite.setProps(props)
+        psk_element = self.find(element, "PSK-IDENTITY")
+        if psk_element is not None:
+            psk_identity = TlsPskIdentity()
+            self.readTlsPskIdentity(psk_element, psk_identity)
+            cipher_suite.setPskIdentity(psk_identity)
+        cipher_suite.setRemoteCertificateRef(self.getChildElementOptionalRefType(element, "REMOTE-CERTIFICATE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "SIGNATURE-SCHEME-REFS/SIGNATURE-SCHEME-REF"):
+            cipher_suite.addSignatureSchemeRef(ref)
+        literal = self.getChildElementOptionalLiteral(element, "VERSION")
+        if literal is not None:
+            e = TlsVersionEnum()
+            e.setValue(literal.getValue())
+            cipher_suite.setVersion(e)
 
     def readTlsPskIdentity(self, element: ET.Element, psk_identity: TlsPskIdentity):
         ref = self.getChildElementOptionalRefType(element, "PRE-SHARED-KEY-REF")
