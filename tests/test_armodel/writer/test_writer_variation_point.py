@@ -173,6 +173,56 @@ class TestWritePostBuildVariantCondition:
         assert len(condition_element) == 0
 
 
+class TestWritePostBuildVariantCriterion:
+    """Table 7.63 (AUTOSAR_CP_TPS_SoftwareComponentTemplate, p.614): the class's own
+    writePostBuildVariantCriterion helper (XSD 00052 complexType POST-BUILD-VARIANT-CRITERION,
+    line 93296: the own group's COMPU-METHOD-REF follows all base element groups)."""
+
+    def test_write_post_build_variant_criterion_writes_compu_method_ref(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import PostBuildVariantCriterion
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        writer = ARXMLWriter()
+
+        criterion = PostBuildVariantCriterion(ARPackage(None, "Pkg"), "Country")
+        criterion.setCompuMethodRef(RefType().setValue("/Demo/CompuMethods/CountryEnum").setDest("COMPU-METHOD"))
+
+        element = ET.Element("PARENT")
+        writer.writePostBuildVariantCriterion(element, criterion)
+
+        criterion_element = element.find("POST-BUILD-VARIANT-CRITERION")
+        assert criterion_element is not None
+        child_tags = [child.tag for child in criterion_element]
+        assert child_tags[-1] == "COMPU-METHOD-REF"
+        ref_element = criterion_element.find("COMPU-METHOD-REF")
+        assert ref_element.text == "/Demo/CompuMethods/CountryEnum"
+        assert ref_element.attrib["DEST"] == "COMPU-METHOD"
+        assert criterion_element.find("SHORT-NAME").text == "Country"
+
+    def test_write_post_build_variant_criterion_without_ref_omits_child(self):
+        """A criterion with no compuMethodRef writes the element without a
+        COMPU-METHOD-REF child (XSD minOccurs="0"; the empty form its reader accepts)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import PostBuildVariantCriterion
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        writer = ARXMLWriter()
+
+        criterion = PostBuildVariantCriterion(ARPackage(None, "Pkg"), "Country")
+
+        element = ET.Element("PARENT")
+        writer.writePostBuildVariantCriterion(element, criterion)
+
+        criterion_element = element.find("POST-BUILD-VARIANT-CRITERION")
+        assert criterion_element is not None
+        assert criterion_element.find("COMPU-METHOD-REF") is None
+
+
 class TestWriteConditionByFormula:
     """Table 7.5 (AUTOSAR_FO_TPS_GenericStructureTemplate, p.231): the
     <<atpMixedString>> content of ConditionByFormula is the formula expression."""
@@ -522,3 +572,33 @@ class TestConditionByFormulaRoundTrip:
         assert isinstance(sw_syscond, ConditionByFormula)
         assert sw_syscond.getBindingTime().getValue() == "preCompileTime"
         assert sw_syscond.getText() == 'defined(sysc) && sysc == "A"'
+
+
+class TestPostBuildVariantCriterionRoundTrip:
+    """Table 7.63 round-trip: parse -> write -> re-parse preserves the
+    PostBuildVariantCriterion element (ARPackage.element dispatch) and its
+    compuMethodRef field value."""
+
+    def test_round_trip_compu_method_ref_preserved(self, tmp_path):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+
+        pkg = document.createARPackage("Demo")
+        criterion = pkg.createPostBuildVariantCriterion("Country")
+        criterion.setCompuMethodRef(RefType().setValue("/Demo/CompuMethods/CountryEnum").setDest("COMPU-METHOD"))
+
+        file_path = str(tmp_path / "post_build_variant_criterion_roundtrip.arxml")
+        ARXMLWriter().save(file_path, document)
+
+        document_2 = AUTOSAR.getInstance()
+        document_2.clear()
+        ARXMLParser().load(file_path, document_2)
+
+        criterion_2 = document_2.getARPackages()[0].getPostBuildVariantCriterions()[0]
+        assert criterion_2.getShortName() == "Country"
+        ref_2 = criterion_2.getCompuMethodRef()
+        assert ref_2.getValue() == "/Demo/CompuMethods/CountryEnum"
+        assert ref_2.getDest() == "COMPU-METHOD"

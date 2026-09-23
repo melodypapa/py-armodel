@@ -653,6 +653,59 @@ class TestPostBuildVariantConditionSpecContract:
         assert condition.getValue() is value
 
 
+class TestPostBuildVariantCriterionSpecContract:
+    """Table 7.63 (AUTOSAR_CP_TPS_SoftwareComponentTemplate, p.614) spec contract
+    for PostBuildVariantCriterion."""
+
+    def test_class_docstring_verbatim(self):
+        """
+        Test that the class docstring is the Table 7.63 Note verbatim (including the
+        class-level Tags suffix).
+        """
+        assert PostBuildVariantCriterion.__doc__.strip() == ("This class specifies one particular PostBuildVariantSelector. " "Tags: atp.recommendedPackage=PostBuildVariantCriterions")
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ has no docstring (spec Notes live in inline member comments).
+        """
+        assert PostBuildVariantCriterion.__init__.__doc__ is None
+
+    def test_base_is_arelement(self):
+        """
+        Test that the most-derived Base per Table 7.63 is ARElement
+        (ARPackage.element aggregation — an ARPackage-level element).
+        """
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+        assert issubclass(PostBuildVariantCriterion, ARElement)
+
+    def test_compu_method_ref_typed_ref_type(self):
+        """
+        Test that compuMethod (CompuMethod, 1 ref) maps to a RefType accessor pair
+        (Kind ref suffix per the compuMethodRef precedent).
+        """
+        getter_hints = typing.get_type_hints(PostBuildVariantCriterion.getCompuMethodRef)
+        assert getter_hints.get("return") is RefType
+
+        setter_hints = typing.get_type_hints(PostBuildVariantCriterion.setCompuMethodRef)
+        assert setter_hints.get("value") is RefType
+        assert setter_hints.get("return") is PostBuildVariantCriterion
+
+    def test_getter_docstring_is_note_verbatim(self):
+        """
+        Test that the getter docstring is the Table 7.63 Note verbatim.
+        """
+        assert PostBuildVariantCriterion.getCompuMethodRef.__doc__.strip() == ("The compuMethod specifies the possible values for the variant criterion serving as an enumerator.")
+
+    def test_setter_docstring_is_note_with_none_noop(self):
+        """
+        Test that the setter docstring is the Table 7.63 Note verbatim plus the None-no-op sentence.
+        """
+        assert PostBuildVariantCriterion.setCompuMethodRef.__doc__.strip() == (
+            "The compuMethod specifies the possible values for the variant criterion serving as an enumerator. " "A None value is a no-op and does not overwrite an existing compuMethodRef."
+        )
+
+
 def test_criterion_holds_variation_point_via_mixin():
     # PostBuildVariantCriterion is VariationPointCapable through the PackageableElement
     # anchor (ARPackage.element carries atpVariation, GST Table 4.1); the slot is no

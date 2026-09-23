@@ -194,6 +194,71 @@ class TestReadPostBuildVariantCondition:
         assert condition.getValue().getValue() == 7
 
 
+class TestReadPostBuildVariantCriterion:
+    """Table 7.63 (AUTOSAR_CP_TPS_SoftwareComponentTemplate, p.614): the class's own
+    readPostBuildVariantCriterion helper plus the ARPackage.element dispatch
+    (XSD 00052 group POST-BUILD-VARIANT-CRITERION: single COMPU-METHOD-REF,
+    minOccurs="0")."""
+
+    def test_read_post_build_variant_criterion_reads_compu_method_ref(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+
+        inner = (
+            "<POST-BUILD-VARIANT-CRITERION>"
+            "<SHORT-NAME>Country</SHORT-NAME>"
+            '<COMPU-METHOD-REF DEST="COMPU-METHOD">/Demo/CompuMethods/CountryEnum</COMPU-METHOD-REF>'
+            "</POST-BUILD-VARIANT-CRITERION>"
+        )
+        element = _snip(inner).find("{%s}POST-BUILD-VARIANT-CRITERION" % NS)
+
+        criterion = PostBuildVariantCriterion(ARPackage(None, "Pkg"), "Country")
+        parser.readPostBuildVariantCriterion(element, criterion)
+
+        ref = criterion.getCompuMethodRef()
+        assert ref.getValue() == "/Demo/CompuMethods/CountryEnum"
+        assert ref.getDest() == "COMPU-METHOD"
+
+    def test_read_empty_post_build_variant_criterion_leaves_ref_none(self, parser):
+        """An empty POST-BUILD-VARIANT-CRITERION (XSD COMPU-METHOD-REF minOccurs="0")
+        parses with the ref left None."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+
+        inner = "<POST-BUILD-VARIANT-CRITERION>" "<SHORT-NAME>Country</SHORT-NAME>" "</POST-BUILD-VARIANT-CRITERION>"
+        element = _snip(inner).find("{%s}POST-BUILD-VARIANT-CRITERION" % NS)
+
+        criterion = PostBuildVariantCriterion(ARPackage(None, "Pkg"), "Country")
+        parser.readPostBuildVariantCriterion(element, criterion)
+
+        assert criterion.getCompuMethodRef() is None
+
+    def test_read_ar_package_dispatches_post_build_variant_criterion(self, parser):
+        """readARPackageElements dispatches POST-BUILD-VARIANT-CRITERION through
+        ARPackage.createPostBuildVariantCriterion and populates compuMethodRef."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+
+        inner = (
+            "<AR-PACKAGE>"
+            "<SHORT-NAME>Criterions</SHORT-NAME>"
+            "<ELEMENTS>"
+            "<POST-BUILD-VARIANT-CRITERION>"
+            "<SHORT-NAME>Country</SHORT-NAME>"
+            '<COMPU-METHOD-REF DEST="COMPU-METHOD">/Demo/CompuMethods/CountryEnum</COMPU-METHOD-REF>'
+            "</POST-BUILD-VARIANT-CRITERION>"
+            "</ELEMENTS>"
+            "</AR-PACKAGE>"
+        )
+        element = _snip(inner).find("{%s}AR-PACKAGE" % NS)
+
+        pkg = ARPackage(None, "Criterions")
+        parser.readARPackageElements(element, pkg)
+
+        criterions = pkg.getPostBuildVariantCriterions()
+        assert len(criterions) == 1
+        assert criterions[0].getShortName() == "Country"
+        assert criterions[0].getCompuMethodRef().getValue() == "/Demo/CompuMethods/CountryEnum"
+        assert criterions[0].getCompuMethodRef().getDest() == "COMPU-METHOD"
+
+
 class TestReadVariationPointProxy:
     def test_read_value_access(self, parser):
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (

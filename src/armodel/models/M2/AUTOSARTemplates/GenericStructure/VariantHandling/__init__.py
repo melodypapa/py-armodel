@@ -17,27 +17,15 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 
 class PostBuildVariantCriterion(ARElement):
     """
-    This class specifies one particular PostBuildVariantSelector.
-
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
-    Base: ARElement, ARObject, AtpDefinition, CollectableElement, Identifiable,
-    MultilanguageReferrable, PackageableElement, Referrable
-    Tags: atp.recommendedPackage=PostBuildVariantCriterions
-
-    Attributes:
-
-    * compuMethodRef (CompuMethod): The compuMethod specifies the
-      possible values for the variant criterion serving as an
-      enumerator. (Multiplicity: 1)
+    This class specifies one particular PostBuildVariantSelector. Tags: atp.recommendedPackage=PostBuildVariantCriterions
     """
 
     # PostBuildVariantCriterion method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.63, p.614
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCompuMethodRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCompuMethodRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCompuMethodRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCompuMethodRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
@@ -46,18 +34,11 @@ class PostBuildVariantCriterion(ARElement):
         self.compuMethodRef: RefType = None
 
     def getCompuMethodRef(self) -> RefType:
-        """
-        The compuMethod specifies the possible values for the variant criterion
-        serving as an enumerator.
-        """
+        """The compuMethod specifies the possible values for the variant criterion serving as an enumerator."""
         return self.compuMethodRef
 
     def setCompuMethodRef(self, value: RefType) -> "PostBuildVariantCriterion":
-        """
-        The compuMethod specifies the possible values for the variant criterion
-        serving as an enumerator. A None value is a no-op and does not overwrite an
-        existing compuMethodRef.
-        """
+        """The compuMethod specifies the possible values for the variant criterion serving as an enumerator. A None value is a no-op and does not overwrite an existing compuMethodRef."""
         if value is not None:
             self.compuMethodRef = value
         return self

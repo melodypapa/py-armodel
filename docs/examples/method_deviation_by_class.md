@@ -1658,13 +1658,15 @@ tests, and reader/writer coverage. The aggregated Chapter family lives in
 | — *(missing)* | `—` | `metaDataLength` | `PositiveInteger` | — | missing |
 
 ## `PostBuildVariantCriterion`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 304
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 614 (Table 7.63)
 - **Package:** `M2::AUTOSARTemplates::GenericStructure::VariantHandling`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py`
 
+**Note:** Synced 2026-09-24 against R23-11 CP SWCT Table 7.63 (p.614; reproductions FO GST Table 7.7 p.232 and CP ECUConfiguration Table F.30 carry row-identical content; FO FMXF "Table C.11" is caption-shifted — the PostBuildVariantCriterion table body renders ABOVE its caption split by inline images, row-identical to the primary, and nothing sits under the C.11 caption). The stale "compuMethodRef missing" row below was outdated even when written — the member has been implemented with full reader/writer coverage since intake (`compuMethodRef: RefType`, Kind ref suffix). Deviations found and fixed during the sync — no open rows remain: the class docstring carried a stale Package/Base/Tags/Attributes meta block (unlike PostBuildVariantCondition, this table's `Tags: atp.recommendedPackage=PostBuildVariantCriterions` line IS part of the class Note and stays) and the accessor docstrings were line-wrapped — wiped and rewritten to the Table 7.63 Notes verbatim single-line form (getter drops nothing, setter adds the None-no-op sentence); the pre-existing 5-column checklist + `# Spec verified: R23-11` stamp were rebuilt 6-column/withheld — the stamp is deferred to batch confirmation. `Base: ARElement` (most-derived; XSD 00052 complexType POST-BUILD-VARIANT-CRITERION L93296 abstract="false" composes the full base-group chain + own group — no flattening; aggregated by ARPackage.element, dispatch + factory pre-exist on both reader and writer sides). The own XSD group (L93273) has the single element COMPU-METHOD-REF (minOccurs="0", DEST COMPU-METHOD--SUBTYPES-ENUM) — reader lenient via `getChildElementOptionalRefType`, writer emits it only when set, order after all base groups per the XSD sequence (test-pinned). No SemanticallyNeutral-style subtypes (SUBTYPES-ENUM L93316 lists only POST-BUILD-VARIANT-CRITERION). Stamp deferred to batch confirmation.
+
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `compuMethodRef` | `Ref (CompuMethod)` | Ref | missing |
+| — *(no deviation)* | — | — | — | — | The single Table 7.63 attribute implemented spec-named: `compuMethod` → `compuMethodRef` (`RefType`, 1, ref Kind suffix); concrete class per the table header and XSD abstract="false"; docstrings verbatim from the table Notes; reader `readPostBuildVariantCriterion` + writer `writePostBuildVariantCriterion` cover the attribute (ARPackage.element dispatch on both sides). Stamp deferred to batch confirmation. |
 
 ## `PostBuildVariantCriterionValue`
 - **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 305
