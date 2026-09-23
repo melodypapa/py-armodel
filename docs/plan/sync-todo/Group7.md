@@ -34,6 +34,24 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
 >   PortPrototypeBlueprintMapping, TraceableTable, Url, V2xSupportEnum, VariableInComponentInstanceRef — no own
 >   table in either corpus and no PDF caption (appendix limitation noted; their XSD basis stands).
 
+> **Checklist deviation guideline 2026-09-23 (inherited accessors — Rule 0006 batch AST sweep
+> finding):** the sweep found one intra-batch inconsistency. `HwAttributeValue`
+> (HwElementCategory.py) lists `getVariationPoint`/`setVariationPoint` checklist rows although
+> both methods are inherited from `VariationPointCapable` (no in-body definition) — the rows
+> carry the reader/writer columns for the VARIATION-POINT element that
+> readHwAttributeValue/writeHwAttributeValue serialize (row Step 8, deviation 1). `ECUMapping`
+> (ECUResourceMapping.py), same `VariationPointCapable` base and same own-writer
+> VARIATION-POINT emission, lists no such rows — its coverage is recorded in the row's Step 6
+> note (ComManagementMapping precedent) instead.
+> - **Accepted as-is:** HwAttributeValue's two rows stay — they are accurate, tested coverage;
+>   removing them would churn a class pending 9b for bookkeeping only. Do not "normalize" either
+>   class when touching it again.
+> - **Future modification guideline:** parity-checklist rows cover methods defined in the class
+>   body; do NOT add rows for purely inherited accessors. When a class's own reader/writer
+>   serializes a base-owned element (VARIATION-POINT etc.), record that in the row's Step 6/8
+>   notes (ECUMapping form). Note the Rule 0006 sweep compares checklist rows against in-body
+>   methods only, so inherited-row checklists keep flagging as false positives.
+
 ## Queue (dependency-first)
 
 > **Moved:** `HwPin`, `HwPinGroup`, `HwType`, `HwElement`, `FirewallRule`, `StateDependentFirewall` — wrong-heritage uuid-move blockers — moved into `Group1.md` ahead of the `Identifiable` row

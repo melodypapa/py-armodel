@@ -13,6 +13,27 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
 > for the deviation only, and record it in Step 8 (Rule 0012.3: an existing marker is not
 > proof).
 
+> **Known checklist gaps 2026-09-23 (Rule 0006 batch AST sweep — cross-row drift, recorded
+> for the next touch of the consumer class; checklist bookkeeping, NOT spec drift — fixing
+> them does not reopen confirmed stamps):**
+> - `SystemMapping` (SystemTemplate/\_\_init\_\_.py, legacy 4-column checklist): its two Group6-added
+>   factories `createSecOcCryptoServiceMapping` (added by the CryptoServiceMapping row's Step 6)
+>   and `createTlsCryptoServiceMapping` (added by the TlsCryptoServiceMapping row's Step 6,
+>   Rule 0016.4/0001.10 in-pass) have no checklist rows.
+> - `NmCluster` (SystemTemplate/NetworkManagement.py): `createFlexrayNmNode` (created by the
+>   FlexrayNmNode row's Step 6 in-pass) has no checklist row — NmCluster's own Step 8 deferred it
+>   to the FlexrayNmNode row, but that row's Step 7 updated only FlexrayNmNode's own checklist, so
+>   the deferred consumer-row update never landed. Contrast: the FlexrayNmCluster row DID add the
+>   sibling `createFlexrayNmCluster` row to NmConfig's checklist — that is the model to follow.
+> **Future modification guideline:** when a row's Step 6 adds a factory/accessor to a CONSUMER
+> class (a `create*` on an aggregator, in-pass Rule 0016.4), that row's Step 7 must add the
+> sibling `create*` row to the CONSUMER's parity checklist in the same pass, verifying the
+> reader/test columns by grep before ticking (see NmConfig.createFlexrayNmCluster for the row
+> format). Fix the missing rows above in the consumer checklist's own format at the next touch of
+> SystemMapping/NmCluster. Remaining sweep flags (stale MSR Documentation rows, enum `__init__`
+> row variance, ARObject/Referrable built-ins, ARPackage's legacy non-enumerating checklist) are
+> legacy-convention noise outside this queue — opportunistic fixes only, never batch-9b work.
+
 ## Queue (dependency-first)
 
 - [x] `AbstractEthernetFrame` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.229) — **finished, stamped `# Spec verified: R23-11`, commit ef0708e2**
