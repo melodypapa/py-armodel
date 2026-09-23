@@ -148,7 +148,7 @@ class HwAttributeLiteralDef(Identifiable):
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 
@@ -170,7 +170,7 @@ class HwAttributeDef(Identifiable):
     # [x] getUnitRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] setUnitRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # The available EnumerationLiterals of the Enumeration definition. Only applicable if the category of the HwAttributeDef equals Enumeration.
@@ -264,7 +264,7 @@ class HwCategory(ARElement):
     # [x] addHwAttributeDef     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getHwAttributeDefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # This aggregation describes particular hardware attribute definition.
