@@ -3,9 +3,12 @@ This module contains comprehensive tests for the LifeCycles.py file
 in the AUTOSAR GenericStructure module.
 """
 
+import inspect
+import re
 import typing
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, RefType, RevisionLabelString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -469,6 +472,212 @@ class TestLifeCycleInfo:
         result = info.addUseInsteadRef(None)
         assert result is info  # Verify method chaining
         assert info.getUseInsteadRefs() == []
+
+
+class TestLifeCycleInfoSpecContract:
+    """
+    Spec-contract pins for LifeCycleInfo (R23-11 FO_TPS_GenericStructureTemplate Table 12.5).
+    """
+
+    def test_class_docstring_verbatim(self):
+        """
+        Test that the class docstring is the Table 12.5 Note verbatim.
+        """
+        assert LifeCycleInfo.__doc__.strip() == "LifeCycleInfo describes the life cycle state of an element together with additional information like what to use instead"
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ has no docstring (spec Notes live in inline member comments).
+        """
+        assert LifeCycleInfo.__init__.__doc__ is None
+
+    def test_exact_own_field_set(self):
+        """
+        Test that __init__ declares exactly the six Table 12.5 attributes in displayed row order.
+        """
+        source = inspect.getsource(LifeCycleInfo.__init__)
+        assert re.findall(r"self\.(\w+)\s*:", source) == [
+            "lcObjectRef",
+            "lcStateRef",
+            "periodBegin",
+            "periodEnd",
+            "remark",
+            "useInsteadRefs",
+        ]
+
+    def test_pep526_annotated_members(self):
+        """
+        Test that every member is a PEP 526 annotated assignment with the spec type and no trailing '# type:' comment.
+        """
+        source = inspect.getsource(LifeCycleInfo.__init__)
+        assert re.search(r"self\.lcObjectRef:\s*Optional\[RefType\]\s*=\s*None", source)
+        assert re.search(r"self\.lcStateRef:\s*Optional\[RefType\]\s*=\s*None", source)
+        assert re.search(r"self\.periodBegin:\s*Optional\[LifeCyclePeriod\]\s*=\s*None", source)
+        assert re.search(r"self\.periodEnd:\s*Optional\[LifeCyclePeriod\]\s*=\s*None", source)
+        assert re.search(r"self\.remark:\s*Optional\[DocumentationBlock\]\s*=\s*None", source)
+        assert re.search(r"self\.useInsteadRefs:\s*List\[RefType\]\s*=\s*\[\]", source)
+        assert "# type:" not in source
+
+    def test_most_derived_base_ar_object(self):
+        """
+        Test that the most-derived base is ARObject per the Table 12.5 Base row (XSD 00052 complexType LIFE-CYCLE-INFO L76608).
+        """
+        assert LifeCycleInfo.__bases__ == (ARObject,)
+
+    def test_accessor_order(self):
+        """
+        Test that accessors follow the displayed row order with get/set pairs (getUseInsteadRefs/addUseInsteadRef for the * ref).
+        """
+        source = inspect.getsource(LifeCycleInfo)
+        assert re.findall(r"def (\w+)\(", source) == [
+            "__init__",
+            "getLcObjectRef",
+            "setLcObjectRef",
+            "getLcStateRef",
+            "setLcStateRef",
+            "getPeriodBegin",
+            "setPeriodBegin",
+            "getPeriodEnd",
+            "setPeriodEnd",
+            "getRemark",
+            "setRemark",
+            "getUseInsteadRefs",
+            "addUseInsteadRef",
+        ]
+
+    def test_lc_object_ref_typed(self):
+        """
+        Test that lcObjectRef accessors carry the Table 12.5 RefType annotations.
+        """
+        getter_hints = typing.get_type_hints(LifeCycleInfo.getLcObjectRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(LifeCycleInfo.setLcObjectRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is LifeCycleInfo
+
+    def test_lc_state_ref_typed(self):
+        """
+        Test that lcStateRef accessors carry the Table 12.5 RefType annotations.
+        """
+        getter_hints = typing.get_type_hints(LifeCycleInfo.getLcStateRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(LifeCycleInfo.setLcStateRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is LifeCycleInfo
+
+    def test_period_begin_typed(self):
+        """
+        Test that periodBegin accessors carry the Table 12.5 LifeCyclePeriod annotations.
+        """
+        getter_hints = typing.get_type_hints(LifeCycleInfo.getPeriodBegin)
+        assert getter_hints.get("return") == typing.Optional[LifeCyclePeriod]
+
+        setter_hints = typing.get_type_hints(LifeCycleInfo.setPeriodBegin)
+        assert setter_hints.get("value") == typing.Optional[LifeCyclePeriod]
+        assert setter_hints.get("return") is LifeCycleInfo
+
+    def test_period_end_typed(self):
+        """
+        Test that periodEnd accessors carry the Table 12.5 LifeCyclePeriod annotations.
+        """
+        getter_hints = typing.get_type_hints(LifeCycleInfo.getPeriodEnd)
+        assert getter_hints.get("return") == typing.Optional[LifeCyclePeriod]
+
+        setter_hints = typing.get_type_hints(LifeCycleInfo.setPeriodEnd)
+        assert setter_hints.get("value") == typing.Optional[LifeCyclePeriod]
+        assert setter_hints.get("return") is LifeCycleInfo
+
+    def test_remark_typed(self):
+        """
+        Test that remark accessors carry the Table 12.5 DocumentationBlock annotations.
+        """
+        getter_hints = typing.get_type_hints(LifeCycleInfo.getRemark)
+        assert getter_hints.get("return") == typing.Optional[DocumentationBlock]
+
+        setter_hints = typing.get_type_hints(LifeCycleInfo.setRemark)
+        assert setter_hints.get("value") == typing.Optional[DocumentationBlock]
+        assert setter_hints.get("return") is LifeCycleInfo
+
+    def test_use_instead_refs_typed(self):
+        """
+        Test that useInsteadRefs accessors carry the Table 12.5 List[RefType] annotations.
+        """
+        getter_hints = typing.get_type_hints(LifeCycleInfo.getUseInsteadRefs)
+        assert getter_hints.get("return") == typing.List[RefType]
+
+        add_hints = typing.get_type_hints(LifeCycleInfo.addUseInsteadRef)
+        assert add_hints.get("value") == typing.Optional[RefType]
+        assert add_hints.get("return") is LifeCycleInfo
+
+    def test_member_docstrings_verbatim(self):
+        """
+        Test that every member docstring is the Table 12.5 Note verbatim (setters/add append the None no-op sentence).
+        """
+        assert LifeCycleInfo.getLcObjectRef.__doc__.strip() == "Element(s) have the life cycle as described in lcState."
+        assert (
+            LifeCycleInfo.setLcObjectRef.__doc__.strip()
+            == "Element(s) have the life cycle as described in lcState. A None value is a no-op and does not overwrite an existing life cycle object reference."
+        )
+        assert (
+            LifeCycleInfo.getLcStateRef.__doc__.strip()
+            == "This denotes the particular state assigned to the object. If no lcState is given then the default life cycle state of LifeCycleInfoSet is assumed."
+        )
+        assert (
+            LifeCycleInfo.setLcStateRef.__doc__.strip()
+            == "This denotes the particular state assigned to the object. If no lcState is given then the default life cycle state of LifeCycleInfoSet is assumed. A None value is a no-op and does not overwrite an existing life cycle state."
+        )
+        assert (
+            LifeCycleInfo.getPeriodBegin.__doc__.strip()
+            == "Starting point of period in which the element has the denoted life cycle state lcState. If no periodBegin is given then the default period begin of LifeCycleInfoSet is assumed."
+        )
+        assert (
+            LifeCycleInfo.setPeriodBegin.__doc__.strip()
+            == "Starting point of period in which the element has the denoted life cycle state lcState. If no periodBegin is given then the default period begin of LifeCycleInfoSet is assumed. A None value is a no-op and does not overwrite an existing period begin."
+        )
+        assert (
+            LifeCycleInfo.getPeriodEnd.__doc__.strip()
+            == "Expiry date, i.e. end point of period the element does not have the denoted life cycle state lcState any more. If no periodEnd is given then the default period begin of LifeCycleInfoSet is assumed."
+        )
+        assert (
+            LifeCycleInfo.setPeriodEnd.__doc__.strip()
+            == "Expiry date, i.e. end point of period the element does not have the denoted life cycle state lcState any more. If no periodEnd is given then the default period begin of LifeCycleInfoSet is assumed. A None value is a no-op and does not overwrite an existing period end."
+        )
+        assert LifeCycleInfo.getRemark.__doc__.strip() == "Remark describing for example • why the element was given the specified life cycle • the semantics of useInstead"
+        assert (
+            LifeCycleInfo.setRemark.__doc__.strip()
+            == "Remark describing for example • why the element was given the specified life cycle • the semantics of useInstead A None value is a no-op and does not overwrite an existing remark."
+        )
+        assert (
+            LifeCycleInfo.getUseInsteadRefs.__doc__.strip()
+            == 'Element(s) that should be used instead of the one denoted in referrable. Only relevant in case of life cycle states lcState unlike "valid". In case there are multiple references the exact semantics shall be individually described in the remark.'
+        )
+        assert (
+            LifeCycleInfo.addUseInsteadRef.__doc__.strip()
+            == 'Element(s) that should be used instead of the one denoted in referrable. Only relevant in case of life cycle states lcState unlike "valid". In case there are multiple references the exact semantics shall be individually described in the remark. A None value is a no-op and does not add to useInsteadRefs.'
+        )
+
+    def test_inline_init_comments_verbatim(self):
+        """
+        Test that the inline __init__ member comments carry the Table 12.5 Notes verbatim.
+        """
+        source = inspect.getsource(LifeCycleInfo.__init__)
+        assert "# Element(s) have the life cycle as described in lcState." in source
+        assert "# This denotes the particular state assigned to the object. If no lcState is given then the default life cycle state of LifeCycleInfoSet is assumed." in source
+        assert (
+            "# Starting point of period in which the element has the denoted life cycle state lcState. If no periodBegin is given then the default period begin of LifeCycleInfoSet is assumed."
+            in source
+        )
+        assert (
+            "# Expiry date, i.e. end point of period the element does not have the denoted life cycle state lcState any more. If no periodEnd is given then the default period begin of LifeCycleInfoSet is assumed."
+            in source
+        )
+        assert "# Remark describing for example • why the element was given the specified life cycle • the semantics of useInstead" in source
+        assert (
+            '# Element(s) that should be used instead of the one denoted in referrable. Only relevant in case of life cycle states lcState unlike "valid". In case there are multiple references the exact semantics shall be individually described in the remark.'
+            in source
+        )
 
 
 class TestLifeCycleInfoSet:

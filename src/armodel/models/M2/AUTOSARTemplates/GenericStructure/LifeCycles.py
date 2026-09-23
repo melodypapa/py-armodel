@@ -84,54 +84,66 @@ class LifeCyclePeriod(ARObject):
 
 class LifeCycleInfo(ARObject):
     """
-    Represents life cycle information in AUTOSAR models.
-    This class defines information about the life cycle of AUTOSAR elements.
+    LifeCycleInfo describes the life cycle state of an element together with additional information like what to use instead
     """
 
     # LifeCycleInfo method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [x] getLcObjectRef               [x] impl  [x] docstring  [x] test
-    # [x] setLcObjectRef               [x] impl  [x] docstring  [x] test
-    # [x] getLcStateRef                [x] impl  [x] docstring  [x] test
-    # [x] setLcStateRef                [x] impl  [x] docstring  [x] test
-    # [x] getPeriodBegin               [x] impl  [x] docstring  [x] test
-    # [x] setPeriodBegin               [x] impl  [x] docstring  [x] test
-    # [x] getPeriodEnd                 [x] impl  [x] docstring  [x] test
-    # [x] setPeriodEnd                 [x] impl  [x] docstring  [x] test
-    # [x] getRemark                    [x] impl  [x] docstring  [x] test
-    # [x] setRemark                    [x] impl  [x] docstring  [x] test
-    # [x] getUseInsteadRefs            [x] impl  [x] docstring  [x] test
-    # [x] addUseInsteadRef             [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 12.5, pp.392-393
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # Table split across a page break: body main fragment (header + lcObject/lcState/periodBegin rows) p.392,
+    # `Table 12.5: LifeCycleInfo` caption + continuation fragment (periodEnd/remark/useInstead) p.393.
+    # R4.3.1 reproduction: AUTOSAR_TPS_GenericStructureTemplate.pdf Table 11.5, p.364 (identical except useInstead
+    # Note "must" vs R23-11 "shall" and no Aggregated-by row); appendix Table C.63 (AUTOSAR_FO_TPS_StandardizationTemplate)
+    # carries the identical Note — FO GST Table 12.5 cited.
+    # XSD 00052: group LIFE-CYCLE-INFO L76529 sequence LC-OBJECT-REF (0..1) → LC-STATE-REF (0..1) → PERIOD-BEGIN (0..1)
+    # → PERIOD-END (0..1) → REMARK (0..1) → USE-INSTEAD-REFS (0..1, unbounded USE-INSTEAD-REF); complexType
+    # LIFE-CYCLE-INFO L76608 abstract="false" = AR-OBJECT group + own group (Base row ARObject).
+    # Reader readLifeCycleInfo / writer writeLifeCycleInfo dispatched from read/writeLifeCycleInfoSetLifeCycleInfos
+    # (arxml_parser.py / arxml_writer.py); PERIOD-END coverage added this sync (was silently dropped both sides).
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLcObjectRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLcObjectRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLcStateRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLcStateRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPeriodBegin      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPeriodBegin      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPeriodEnd        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPeriodEnd        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRemark           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRemark           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUseInsteadRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addUseInsteadRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
+        # Element(s) have the life cycle as described in lcState.
         self.lcObjectRef: Optional[RefType] = None
+
+        # This denotes the particular state assigned to the object. If no lcState is given then the default life cycle state of LifeCycleInfoSet is assumed.
         self.lcStateRef: Optional[RefType] = None
+
+        # Starting point of period in which the element has the denoted life cycle state lcState. If no periodBegin is given then the default period begin of LifeCycleInfoSet is assumed.
         self.periodBegin: Optional[LifeCyclePeriod] = None
+
+        # Expiry date, i.e. end point of period the element does not have the denoted life cycle state lcState any more. If no periodEnd is given then the default period begin of LifeCycleInfoSet is assumed.
         self.periodEnd: Optional[LifeCyclePeriod] = None
+
+        # Remark describing for example • why the element was given the specified life cycle • the semantics of useInstead
         self.remark: Optional[DocumentationBlock] = None
+
+        # Element(s) that should be used instead of the one denoted in referrable. Only relevant in case of life cycle states lcState unlike "valid". In case there are multiple references the exact semantics shall be individually described in the remark.
         self.useInsteadRefs: List[RefType] = []
 
     def getLcObjectRef(self) -> Optional[RefType]:
         """
-        Gets the life cycle object reference.
-
-        Returns:
-            RefType representing the life cycle object reference, or None if not set
+        Element(s) have the life cycle as described in lcState.
         """
         return self.lcObjectRef
 
-    def setLcObjectRef(self, value: RefType):
+    def setLcObjectRef(self, value: Optional[RefType]) -> "LifeCycleInfo":
         """
-        Sets the life cycle object reference.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The life cycle object reference to set
-
-        Returns:
-            self for method chaining
+        Element(s) have the life cycle as described in lcState. A None value is a no-op and does not overwrite an existing life cycle object reference.
         """
         if value is not None:
             self.lcObjectRef = value
@@ -139,23 +151,13 @@ class LifeCycleInfo(ARObject):
 
     def getLcStateRef(self) -> Optional[RefType]:
         """
-        Gets the life cycle state reference.
-
-        Returns:
-            RefType representing the life cycle state reference, or None if not set
+        This denotes the particular state assigned to the object. If no lcState is given then the default life cycle state of LifeCycleInfoSet is assumed.
         """
         return self.lcStateRef
 
-    def setLcStateRef(self, value: RefType):
+    def setLcStateRef(self, value: Optional[RefType]) -> "LifeCycleInfo":
         """
-        Sets the life cycle state reference.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The life cycle state reference to set
-
-        Returns:
-            self for method chaining
+        This denotes the particular state assigned to the object. If no lcState is given then the default life cycle state of LifeCycleInfoSet is assumed. A None value is a no-op and does not overwrite an existing life cycle state.
         """
         if value is not None:
             self.lcStateRef = value
@@ -163,23 +165,13 @@ class LifeCycleInfo(ARObject):
 
     def getPeriodBegin(self) -> Optional[LifeCyclePeriod]:
         """
-        Gets the beginning period of the life cycle.
-
-        Returns:
-            LifeCyclePeriod representing the beginning period, or None if not set
+        Starting point of period in which the element has the denoted life cycle state lcState. If no periodBegin is given then the default period begin of LifeCycleInfoSet is assumed.
         """
         return self.periodBegin
 
-    def setPeriodBegin(self, value: LifeCyclePeriod):
+    def setPeriodBegin(self, value: Optional[LifeCyclePeriod]) -> "LifeCycleInfo":
         """
-        Sets the beginning period of the life cycle.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The beginning period to set
-
-        Returns:
-            self for method chaining
+        Starting point of period in which the element has the denoted life cycle state lcState. If no periodBegin is given then the default period begin of LifeCycleInfoSet is assumed. A None value is a no-op and does not overwrite an existing period begin.
         """
         if value is not None:
             self.periodBegin = value
@@ -187,23 +179,13 @@ class LifeCycleInfo(ARObject):
 
     def getPeriodEnd(self) -> Optional[LifeCyclePeriod]:
         """
-        Gets the ending period of the life cycle.
-
-        Returns:
-            LifeCyclePeriod representing the ending period, or None if not set
+        Expiry date, i.e. end point of period the element does not have the denoted life cycle state lcState any more. If no periodEnd is given then the default period begin of LifeCycleInfoSet is assumed.
         """
         return self.periodEnd
 
-    def setPeriodEnd(self, value: LifeCyclePeriod):
+    def setPeriodEnd(self, value: Optional[LifeCyclePeriod]) -> "LifeCycleInfo":
         """
-        Sets the ending period of the life cycle.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The ending period to set
-
-        Returns:
-            self for method chaining
+        Expiry date, i.e. end point of period the element does not have the denoted life cycle state lcState any more. If no periodEnd is given then the default period begin of LifeCycleInfoSet is assumed. A None value is a no-op and does not overwrite an existing period end.
         """
         if value is not None:
             self.periodEnd = value
@@ -211,23 +193,13 @@ class LifeCycleInfo(ARObject):
 
     def getRemark(self) -> Optional[DocumentationBlock]:
         """
-        Gets the remark documentation for this life cycle information.
-
-        Returns:
-            DocumentationBlock instance, or None if not set
+        Remark describing for example • why the element was given the specified life cycle • the semantics of useInstead
         """
         return self.remark
 
-    def setRemark(self, value: DocumentationBlock):
+    def setRemark(self, value: Optional[DocumentationBlock]) -> "LifeCycleInfo":
         """
-        Sets the remark documentation for this life cycle information.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The remark documentation to set
-
-        Returns:
-            self for method chaining
+        Remark describing for example • why the element was given the specified life cycle • the semantics of useInstead A None value is a no-op and does not overwrite an existing remark.
         """
         if value is not None:
             self.remark = value
@@ -235,23 +207,13 @@ class LifeCycleInfo(ARObject):
 
     def getUseInsteadRefs(self) -> List[RefType]:
         """
-        Gets the list of "use instead" references.
-
-        Returns:
-            List of RefType instances
+        Element(s) that should be used instead of the one denoted in referrable. Only relevant in case of life cycle states lcState unlike "valid". In case there are multiple references the exact semantics shall be individually described in the remark.
         """
         return self.useInsteadRefs
 
-    def addUseInsteadRef(self, value: RefType):
+    def addUseInsteadRef(self, value: Optional[RefType]) -> "LifeCycleInfo":
         """
-        Adds a "use instead" reference.
-        Only adds the value if it is not None.
-
-        Args:
-            value: The "use instead" reference to add
-
-        Returns:
-            self for method chaining
+        Element(s) that should be used instead of the one denoted in referrable. Only relevant in case of life cycle states lcState unlike "valid". In case there are multiple references the exact semantics shall be individually described in the remark. A None value is a no-op and does not add to useInsteadRefs.
         """
         if value is not None:
             self.useInsteadRefs.append(value)

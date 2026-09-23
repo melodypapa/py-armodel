@@ -446,6 +446,17 @@ No deviations.
 |---|---|---|---|---|---|
 | — *(no deviation)* | — | — | — | — | All Table 12.4 attributes implemented: `arReleaseVersion` (`Optional[RevisionLabelString]`, 0..1, attr, xml.sequenceOffset=20), `date` (`Optional[DateTime]`, 0..1, attr, xml.sequenceOffset=10), `productRelease` (`Optional[RevisionLabelString]`, 0..1, attr, xml.sequenceOffset=30); setters None-no-op + chaining; docstrings verbatim from the table Notes. |
 
+## `LifeCycleInfo`
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 392-393 (Table 12.5)
+- **Package:** `M2::AUTOSARTemplates::GenericStructure::LifeCycles`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/LifeCycles.py`
+
+**Note:** Synced 2026-09-24 against R23-11 Table 12.5 (page-split table: body main fragment p.392, `Table 12.5` caption + continuation fragment p.393; R4.3.1 Table 11.5 p.364 reproduction identical except useInstead Note "must" vs R23-11 "shall"; appendix Table C.63 carries the identical Note — the FO GST table cited). Deviations found and fixed during the sync — no open rows remain: PERIOD-END was silently dropped by both `readLifeCycleInfo` and `writeLifeCycleInfo` — reader now reads `setPeriodEnd(getLifeCyclePeriod(element, "PERIOD-END"))` and writer emits `setLifeCyclePeriod(child, "PERIOD-END", getPeriodEnd())` in XSD group LIFE-CYCLE-INFO order (LC-OBJECT-REF → LC-STATE-REF → PERIOD-BEGIN → PERIOD-END → REMARK → USE-INSTEAD-REFS); setters/addUseInsteadRef gained the family `Optional[T]` value + chained-return annotations; fabricated class docstring and "Gets/Sets the…" paraphrase docstrings wiped and rewritten verbatim from the table Notes; old 4-column checklist rebuilt 6-column with release column (marker withheld pending batch confirmation). The LifeCycleInfoSet-level DEFAULT-PERIOD-BEGIN/DEFAULT-PERIOD-END reader/writer wiring belongs to the LifeCycleInfoSet sync.
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | All Table 12.5 attributes implemented: `lcObjectRef` (`Optional[RefType]`, 1, ref — LC-OBJECT-REF), `lcStateRef` (`Optional[RefType]`, 0..1, ref — LC-STATE-REF), `periodBegin` (`Optional[LifeCyclePeriod]`, 0..1, aggr — PERIOD-BEGIN), `periodEnd` (`Optional[LifeCyclePeriod]`, 0..1, aggr — PERIOD-END), `remark` (`Optional[DocumentationBlock]`, 0..1, aggr — REMARK), `useInsteadRefs` (`List[RefType]`, *, ref — USE-INSTEAD-REFS wrapper with unbounded USE-INSTEAD-REF); setters/add None-no-op + chaining; docstrings verbatim from the table Notes. |
+
 ## `AnalyzedExecutionTime`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 164
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime`

@@ -12651,6 +12651,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "LC-OBJECT-REF", info.getLcObjectRef())
             self.setChildElementOptionalRefType(child_element, "LC-STATE-REF", info.getLcStateRef())
             self.setLifeCyclePeriod(child_element, "PERIOD-BEGIN", info.getPeriodBegin())
+            self.setLifeCyclePeriod(child_element, "PERIOD-END", info.getPeriodEnd())
             self.writeDocumentationBlock(child_element, "REMARK", info.getRemark())
             self.writeLifeCycleInfoUseInsteadRefs(child_element, info)
 

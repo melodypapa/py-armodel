@@ -13533,6 +13533,7 @@ class ARXMLParser(AbstractARXMLParser):
         info.setLcObjectRef(self.getChildElementOptionalRefType(element, "LC-OBJECT-REF"))
         info.setLcStateRef(self.getChildElementOptionalRefType(element, "LC-STATE-REF"))
         info.setPeriodBegin(self.getLifeCyclePeriod(element, "PERIOD-BEGIN"))
+        info.setPeriodEnd(self.getLifeCyclePeriod(element, "PERIOD-END"))
         info.setRemark(self.getDocumentationBlock(element, "REMARK"))
         self.readLifeCycleInfoUseInsteadRefs(element, info)
 
