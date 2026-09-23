@@ -78,6 +78,8 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `ClientServerInterfaceMapping` — PortInterfaceMapping — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
+  - after `ClientServerApplicationErrorMapping`
+  - after `ClientServerOperationMapping`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -90,6 +92,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `ModeInterfaceMapping` — PortInterfaceMapping — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
+  - after `ModeDeclarationGroupPrototypeMapping`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -213,6 +216,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `PModeGroupInAtomicSwcInstanceRef` — ModeGroupInAtomicSwcInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
+  - after `ModeGroupInAtomicSwcInstanceRef`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -225,6 +229,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `RModeGroupInAtomicSWCInstanceRef` — ModeGroupInAtomicSwcInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py
+  - after `ModeGroupInAtomicSwcInstanceRef`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -237,6 +242,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `POperationInAtomicSwcInstanceRef` — OperationInAtomicSwcInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py
+  - after `OperationInAtomicSwcInstanceRef`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -249,6 +255,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `ROperationInAtomicSwcInstanceRef` — OperationInAtomicSwcInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py
+  - after `OperationInAtomicSwcInstanceRef`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -274,6 +281,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `PTriggerInAtomicSwcTypeInstanceRef` — TriggerInAtomicSwcInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
+  - after `TriggerInAtomicSwcInstanceRef`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

@@ -206,58 +206,6 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `StackUsage` — Identifiable — source TBC (locate table at Step 1)
-  - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `MeasuredStackUsage` — StackUsage — source TBC (locate table at Step 1)
-  - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `RoughEstimateStackUsage` — StackUsage — source TBC (locate table at Step 1)
-  - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `WorstCaseStackUsage` — StackUsage — source TBC (locate table at Step 1)
-  - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
 - [ ] `HardwareConfiguration` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
@@ -323,6 +271,63 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `SoAdRoutingGroup` — FibexElement — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ObsoleteModel.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `StackUsage` — Identifiable — source TBC (locate table at Step 1)
+  - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py
+  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
+  - after `HardwareConfiguration`
+  - after `SoftwareContext`
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `MeasuredStackUsage` — StackUsage — source TBC (locate table at Step 1)
+  - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py
+  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
+  - after `StackUsage`
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `RoughEstimateStackUsage` — StackUsage — source TBC (locate table at Step 1)
+  - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py
+  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
+  - after `StackUsage`
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `WorstCaseStackUsage` — StackUsage — source TBC (locate table at Step 1)
+  - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py
+  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
+  - after `StackUsage`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

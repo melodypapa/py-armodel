@@ -67,31 +67,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `LifeCycleInfo` — ARObject — source TBC (locate table at Step 1)
-  - module: M2/AUTOSARTemplates/GenericStructure/LifeCycles.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
 - [ ] `LifeCyclePeriod` — ARObject — source TBC (locate table at Step 1)
-  - module: M2/AUTOSARTemplates/GenericStructure/LifeCycles.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `LifeCycleInfoSet` — ARElement — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/GenericStructure/LifeCycles.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -115,22 +91,10 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `VariationPoint` — ARObject — source TBC (locate table at Step 1)
-  - module: M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
 - [ ] `AttributeValueVariationPoint` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/GenericStructure/VariantHandling/AttributeValueVariationPoints/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
+  - after `BindingTimeEnum`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -144,6 +108,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `ConditionByFormula` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
+  - after `BindingTimeEnum`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -205,19 +170,6 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `ModeInSwcInstanceRef` — AtpInstanceRef — source TBC (locate table at Step 1)
-  - module: M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
 - [ ] `ModeInSwcBswInstanceRef` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition.py
   - [ ] Step 1 — Sync members & description from spec
@@ -233,6 +185,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `OffsetTimingConstraint` — TimingConstraint — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/OffsetConstraint.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
+  - after `MultidimensionalTime`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -246,6 +199,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `SynchronizationTimingConstraint` — TimingConstraint — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/SynchronizationTiming.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
+  - after `MultidimensionalTime`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -323,6 +277,63 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `BlueprintMapping` — AtpBlueprintMapping — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/BlueprintMapping.py
   - note: deviation-tracked in method_deviation_by_class.md + method_deviation_by_class_v2.md — review entries at Step 1
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `LifeCycleInfo` — ARObject — source TBC (locate table at Step 1)
+  - module: M2/AUTOSARTemplates/GenericStructure/LifeCycles.py
+  - after `LifeCyclePeriod`
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `LifeCycleInfoSet` — ARElement — source TBC (locate table at Step 1)
+  - module: M2/AUTOSARTemplates/GenericStructure/LifeCycles.py
+  - after `LifeCyclePeriod`
+  - after `LifeCycleInfo`
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `VariationPoint` — ARObject — source TBC (locate table at Step 1)
+  - module: M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py
+  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
+  - after `ConditionByFormula`
+  - after `PostBuildVariantCondition`
+  - after `BlueprintGenerator`
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `ModeInSwcInstanceRef` — AtpInstanceRef — source TBC (locate table at Step 1)
+  - module: M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition.py
+  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
+  - after `ModeInSwcBswInstanceRef`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

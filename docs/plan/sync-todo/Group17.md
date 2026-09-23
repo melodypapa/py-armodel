@@ -224,6 +224,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `SenderReceiverToSignalMapping` — DataMapping — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/DataMapping.py
+  - after `DataMapping`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -236,6 +237,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `SenderReceiverToSignalGroupMapping` — DataMapping — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/DataMapping.py
+  - after `DataMapping`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -297,6 +299,8 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `Gateway` — FibexElement — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Multiplatform.py
+  - after `FrameMapping`
+  - after `ISignalMapping`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

@@ -154,6 +154,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `ModeSwitchSenderComSpec` — PPortComSpec — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
+  - after `ModeSwitchedAckRequest`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -236,18 +237,6 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `NvBlockDataMapping` — ARObject — source TBC (locate table at Step 1)
-  - module: M2/AUTOSARTemplates/SWComponentTemplate/NvBlockComponent.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
 - [ ] `ModeSwitchEventTriggeredActivity` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/NvBlockComponent.py
   - [ ] Step 1 — Sync members & description from spec
@@ -260,8 +249,153 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
+- [ ] `AutosarVariableRef` — ARObject — source TBC (locate table at Step 1)
+  - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/DataElements/__init__.py
+  - note: moved from Group12 — member type of `NvBlockDataMapping` (dependency priority)
+  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `RoleBasedPortAssignment` — ARObject — source TBC (locate table at Step 1)
+  - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ServiceMapping.py
+  - note: moved from Group12 — member type of `NvBlockDescriptor` (dependency priority)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `AutosarParameterRef` — ARObject — source TBC (locate table at Step 1)
+  - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/DataElements/__init__.py
+  - note: moved from Group12 — member type of `RoleBasedDataAssignment`, `InstantiationDataDefProps` (dependency priority)
+  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `NvBlockNeedsReliabilityEnum` — AREnum — source TBC (locate table at Step 1)
+  - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
+  - note: moved from Group14 — member type of `NvBlockNeeds` (dependency priority)
+  - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `NvBlockNeedsWritingPriorityEnum` — AREnum — source TBC (locate table at Step 1)
+  - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
+  - note: moved from Group14 — member type of `NvBlockNeeds` (dependency priority)
+  - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `RamBlockStatusControlEnum` — AREnum — source TBC (locate table at Step 1)
+  - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
+  - note: moved from Group14 — member type of `NvBlockNeeds` (dependency priority)
+  - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `NvBlockDataMapping` — ARObject — source TBC (locate table at Step 1)
+  - module: M2/AUTOSARTemplates/SWComponentTemplate/NvBlockComponent.py
+  - after `AutosarVariableRef`
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
 - [ ] `BulkNvDataDescriptor` — AtpStructureElement — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/NvBlockComponent.py
+  - after `NvBlockDataMapping`
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `RoleBasedDataAssignment` — ARObject — source TBC (locate table at Step 1)
+  - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
+  - note: moved from Group14 — member type of `NvBlockDescriptor` (dependency priority)
+  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
+  - after `AutosarVariableRef`
+  - after `AutosarParameterRef`
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `InstantiationDataDefProps` — ARObject — source TBC (locate table at Step 1)
+  - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/InstantiationDataDefProps.py
+  - note: moved from Group12 — member type of `NvBlockDescriptor` (dependency priority)
+  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
+  - after `AutosarVariableRef`
+  - after `AutosarParameterRef`
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `NvBlockNeeds` — ServiceNeeds — source TBC (locate table at Step 1)
+  - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
+  - note: moved from Group14 — member type of `NvBlockDescriptor` (dependency priority)
+  - after `NvBlockNeedsReliabilityEnum`
+  - after `NvBlockNeedsWritingPriorityEnum`
+  - after `RamBlockStatusControlEnum`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -274,6 +408,12 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `NvBlockDescriptor` — AtpStructureElement — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/NvBlockComponent.py
+  - after `ModeSwitchEventTriggeredActivity`
+  - after `RoleBasedPortAssignment`
+  - after `NvBlockDataMapping`
+  - after `RoleBasedDataAssignment`
+  - after `InstantiationDataDefProps`
+  - after `NvBlockNeeds`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

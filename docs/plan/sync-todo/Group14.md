@@ -119,45 +119,6 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `NvBlockNeedsReliabilityEnum` — AREnum — source TBC (locate table at Step 1)
-  - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `NvBlockNeedsWritingPriorityEnum` — AREnum — source TBC (locate table at Step 1)
-  - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `RamBlockStatusControlEnum` — AREnum — source TBC (locate table at Step 1)
-  - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
 - [ ] `ServiceDiagnosticRelevanceEnum` — AREnum — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - note: deviation-tracked in method_deviation_by_class.md + method_deviation_by_class_v2.md — review entries at Step 1
@@ -174,6 +135,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `DiagnosticCapabilityElement` — ServiceNeeds — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
+  - after `DiagnosticAudienceEnum`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -186,6 +148,8 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `DiagnosticCommunicationManagerNeeds` — DiagnosticCapabilityElement — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
+  - after `DiagnosticServiceRequestCallbackTypeEnum`
+  - after `DiagnosticCapabilityElement`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -198,6 +162,8 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `DiagnosticEventInfoNeeds` — DiagnosticCapabilityElement — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
+  - after `DtcKindEnum`
+  - after `DiagnosticCapabilityElement`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -210,6 +176,8 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `DiagnosticRoutineNeeds` — DiagnosticCapabilityElement — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
+  - after `DiagnosticRoutineTypeEnum`
+  - after `DiagnosticCapabilityElement`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -223,6 +191,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `DiagnosticValueNeeds` — DiagnosticCapabilityElement — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
+  - after `DiagnosticProcessingStyleEnum`
+  - after `DiagnosticValueAccessEnum`
+  - after `DiagnosticCapabilityElement`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -235,18 +206,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `DtcStatusChangeNotificationNeeds` — DiagnosticCapabilityElement — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `NvBlockNeeds` — ServiceNeeds — source TBC (locate table at Step 1)
-  - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
+  - after `DiagnosticClearDtcNotificationEnum`
+  - after `DtcFormatTypeEnum`
+  - after `DiagnosticCapabilityElement`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -271,19 +233,6 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `DiagEventDebounceCounterBased` — DiagEventDebounceAlgorithm — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `RoleBasedDataAssignment` — ARObject — source TBC (locate table at Step 1)
-  - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -357,6 +306,8 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `DiagnosticEnvConditionFormula` — DiagnosticEnvConditionFormulaPart — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/DiagnosticExtract/EnvironmentalCondition.py
+  - after `DiagnosticLogicalOperatorEnum`
+  - after `DiagnosticEnvConditionFormulaPart`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

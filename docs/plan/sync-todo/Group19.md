@@ -166,6 +166,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `EcucUriReferenceDef` — EcucAbstractInternalReferenceDef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
+  - after `EcucDestinationUriDefRefType`
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
