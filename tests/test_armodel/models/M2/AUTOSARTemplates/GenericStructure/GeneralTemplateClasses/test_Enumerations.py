@@ -53,18 +53,36 @@ class TestBindingTimeEnum:
 
 
 class TestXmlSpaceEnum:
-    """
-    Test class for XmlSpaceEnum functionality.
-    """
+    """Test cases for XmlSpaceEnum (XSD-only, AUTOSAR_00052.xsd line 145398)."""
 
-    def test_members(self):
+    def test_class_note_docstring_verbatim(self):
+        """Spec Note per AUTOSAR_00052.xsd L145398 XML-SPACE-ENUM documentation, verbatim."""
+        assert XmlSpaceEnum.__doc__.strip() == ("This enumerator specifies the fact that white-space shall be preserved.")
+
+    def test_init_has_no_docstring(self):
+        assert XmlSpaceEnum.__init__.__doc__ is None
+
+    def test_enum_members(self):
+        """Spec literals per AUTOSAR_00052.xsd L145410 XML-SPACE-ENUM--SIMPLE (wire tokens are the xml:space values themselves)."""
         assert XmlSpaceEnum.DEFAULT == "default"
         assert XmlSpaceEnum.PRESERVE == "preserve"
 
-    def test_enum_values(self):
-        enum = XmlSpaceEnum()
-        assert set(enum.getEnumValues()) == {"default", "preserve"}
+    def test_enum_values_displayed_order(self):
+        e = XmlSpaceEnum()
+        assert list(e.getEnumValues()) == ["default", "preserve"]
 
-    def test_set_value(self):
-        enum = XmlSpaceEnum().setValue(XmlSpaceEnum.PRESERVE)
-        assert enum.getValue() == "preserve"
+    def test_instantiability(self):
+        e = XmlSpaceEnum()
+        e.setValue(XmlSpaceEnum.DEFAULT)
+        assert e.getValue() == "default"
+        assert e.getText() == "default"
+        e2 = XmlSpaceEnum().setValue(XmlSpaceEnum.PRESERVE)
+        assert e2.getValue() == "preserve"
+        assert e2.getText() == "preserve"
+
+    def test_validate_enum_value(self):
+        e = XmlSpaceEnum()
+        assert e.validateEnumValue("default") is True
+        assert e.validateEnumValue("preserve") is True
+        assert e.validateEnumValue("DEFAULT") is False
+        assert e.validateEnumValue("bogus") is False

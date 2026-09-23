@@ -1618,7 +1618,7 @@ tests, and reader/writer coverage. The aggregated Chapter family lives in
 - **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Enumerations`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Enumerations.py`
 
-Class not in markdown/PDF — skipped per user (enumeration `XmlSpaceEnum` has no dedicated `Enumeration` table in any rendered PDF; XSD-only, used only as an attribute type such as `Sd.xmlSpace`). Left as-is; not part of this sync pass.
+XSD-only — synced 2026-09-24 from `AUTOSAR_00052.xsd` line 145398 (`XML-SPACE-ENUM`); both-corpora gate re-verified (no caption line, no header cell in R23-11 CP_TPS/FO_TPS or R4.3.1 markdown — only consumer attribute-type refs). Literals `default` (idx 0) / `preserve` (idx 1), wire tokens = the xml:space values themselves; class docstring + per-literal comments verbatim from XSD documentation. No open deviation rows. Supersedes the earlier "skipped per user / left as-is" note below. Consumer findings (not deviations of this class): writer `writeSds` emits `xml:space` but parser `readSd` does not read it back (Sd reader gap, flagged for Sd sync); `VerbatimString.xmlSpace` still unimplemented (flagged for VerbatimString sync). Stamp (`# XSD verified: AUTOSAR_00052.xsd`) deferred to batch confirmation.
 
 ## `Annotation`
 - **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 163 (Table 4.72)

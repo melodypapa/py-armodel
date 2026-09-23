@@ -42,18 +42,18 @@ class BindingTimeEnum(AREnum):
 
 class XmlSpaceEnum(AREnum):
     """
-    This attribute is used to signal an intention that in that element, white space
-    should be preserved by applications. It is defined according to xml:space as
-    declared by W3C.
+    This enumerator specifies the fact that white-space shall be preserved.
     """
 
     # XmlSpaceEnum method parity checklist:
-    # (no methods) — enum value form serialized on Sd.xmlSpace; XSD-only (no Enumeration table)
-    # [ ] __init__     [x] impl  [ ] docstring  [ ] test  [—] reader  [—] writer
+    # Spec: XSD-only, AUTOSAR_00052.xsd line 145398 (no own table in repo corpus)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Sd.xmlSpace (Steps 5/6 N/A: standalone AREnum)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    # The value "default" signals that applications' default white-space processing modes are acceptable for this element. Tags: atp.EnumerationValue=0
+    # The value "default" signals that applications' default white-space processing modes are acceptable for this element. Tags: atp.EnumerationLiteralIndex=0
     DEFAULT = "default"
-    # the value "preserve" indicates the intent that applications preserve all the white space. Tags: atp.EnumerationValue=1
+    # the value "preserve" indicates the intent that applications preserve all the white space. Tags: atp.EnumerationLiteralIndex=1
     PRESERVE = "preserve"
 
     def __init__(self):
