@@ -18,20 +18,13 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 
 class ModeInSwcBswInstanceRef(ARObject, ABC):
     """
-    Abstract base of ModeInBswInstanceRef and ModeInSwcInstanceRef.
-
-    This class has no own AUTOSAR table; it is defined only as the common
-    (abstract) base in the XSD group for the ModeIn* instance references used by
-    TimingModeInstance.modeInstance. It is never serialized directly - the
-    concrete subclasses ModeInBswInstanceRef and ModeInSwcInstanceRef carry the
-    actual attributes and XML elements.
+    Abstract class representing an instance reference to be capable of referencing a specific ModeDeclaration utilized by a SW-C or BSW module.
     """
 
     # ModeInSwcBswInstanceRef method parity checklist:
-    # Spec: (XSD-only - no own AUTOSAR table)
-    # XSD verified: AUTOSAR_00052.xsd
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [ ] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Spec: AUTOSAR_00052.xsd line 82683, group MODE-IN-SWC-BSW-INSTANCE-REF (XSD-only; no own table in repo corpus)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is ModeInSwcBswInstanceRef:
