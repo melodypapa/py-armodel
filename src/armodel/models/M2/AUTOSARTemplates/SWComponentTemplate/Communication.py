@@ -1115,38 +1115,31 @@ class ReceiverComSpec(RPortComSpec, ABC):
 
 class ModeSwitchedAckRequest(ARObject):
     """
-    Requests acknowledgements that a mode switch has been proceeded successfully.
+    Requests acknowledgements that a mode switch has been proceeded successfully
     """
 
     # ModeSwitchedAckRequest method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeout                   [x] impl  [x] docstring  [ ] test
-    # [ ] setTimeout                   [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.80, p.190
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTimeout   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeout   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.timeout: TimeValue = None
+        # Number of seconds before an error is reported or in case of allowed redundancy, the value is sent again.
+        self.timeout: Optional[TimeValue] = None
 
-    def getTimeout(self):
+    def getTimeout(self) -> Optional[TimeValue]:
         """
-        Gets the timeout value for the mode switched acknowledgement.
-
-        Returns:
-            TimeValue: The timeout value
+        Number of seconds before an error is reported or in case of allowed redundancy, the value is sent again.
         """
         return self.timeout
 
-    def setTimeout(self, value):
+    def setTimeout(self, value: Optional[TimeValue]) -> ModeSwitchedAckRequest:
         """
-        Sets the timeout value for the mode switched acknowledgement.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The timeout value to set
-
-        Returns:
-            self for method chaining
+        Number of seconds before an error is reported or in case of allowed redundancy, the value is sent again. A None value is a no-op and does not overwrite an existing timeout.
         """
         if value is not None:
             self.timeout = value

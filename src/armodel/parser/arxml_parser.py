@@ -6995,6 +6995,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             request = ModeSwitchedAckRequest()
+            self.readARObject(child_element, request)
             request.setTimeout(self.getChildElementOptionalTimeValue(child_element, "TIMEOUT"))
         return request
 

@@ -550,18 +550,34 @@ class TestReceiverComSpec:
 
 
 class TestModeSwitchedAckRequest:
-    """Test class for ModeSwitchedAckRequest class."""
+    """Test class for ModeSwitchedAckRequest class (Table 4.80)."""
 
-    def test_mode_switched_ack_request_initialization(self):
-        """Test ModeSwitchedAckRequest initialization and methods."""
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings must be the Table 4.80 Notes copied verbatim."""
+        assert ModeSwitchedAckRequest.__doc__.strip() == "Requests acknowledgements that a mode switch has been proceeded successfully"
+        timeout_note = "Number of seconds before an error is reported or in case of allowed redundancy, the value is sent again."
+        assert ModeSwitchedAckRequest.getTimeout.__doc__.strip() == timeout_note
+        assert ModeSwitchedAckRequest.setTimeout.__doc__.strip() == timeout_note + " A None value is a no-op and does not overwrite an existing timeout."
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject — Python base is ARObject; setter return annotation resolves to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(ModeSwitchedAckRequest, ARObject)
+        assert ModeSwitchedAckRequest.__dict__["setTimeout"].__annotations__["return"] == "ModeSwitchedAckRequest"
+
+    def test_initialization_defaults(self):
         ack = ModeSwitchedAckRequest()
         assert ack.timeout is None
+        assert ack.getTimeout() is None
 
-        # Test setters and getters
-        timeout = TimeValue()
-        timeout.setValue(5.0)
-        ack.setTimeout(timeout)
-        assert ack.getTimeout() == timeout
+    def test_get_set_timeout(self):
+        ack = ModeSwitchedAckRequest()
+        value = TimeValue()
+        value.setValue(5.0)
+        result = ack.setTimeout(value)
+        assert result is ack
+        assert ack.getTimeout() is value
+        ack.setTimeout(None)
+        assert ack.getTimeout() is value
 
 
 class TestModeSwitchSenderComSpec:
