@@ -151,7 +151,7 @@ class TestWriteVariationPointSpecAttributes:
 
         syscond = ConditionByFormula()
         syscond.setBindingTime(BindingTimeEnum().setValue("preCompileTime"))
-        syscond.setText("sysc == 1")
+        syscond.setMixedString("sysc == 1")
         vp.setSwSyscond(syscond)
 
         condition = PostBuildVariantCondition()
@@ -206,7 +206,7 @@ class TestWriteVariationPointSpecAttributes:
         assert vp_2.getBlueprintCondition().getPs()[0].getL1s()[0].getValue() == "Resolve the derivation manually."
         assert vp_2.getFormalBlueprintGenerator().getExpression().getValue() == 'LET Name = "Example";'
         assert vp_2.getSwSyscond().getBindingTime().getValue() == "preCompileTime"
-        assert vp_2.getSwSyscond().getText() == "sysc == 1"
+        assert vp_2.getSwSyscond().getMixedString() == "sysc == 1"
         conditions = vp_2.getPostBuildVariantConditions()
         assert len(conditions) == 1
         assert conditions[0].getMatchingCriterionRef().getValue() == "/Demo/Criterions/Country"
@@ -480,7 +480,7 @@ class TestWriteConditionByFormula:
         vp = VariationPoint()
         syscond = ConditionByFormula()
         syscond.setBindingTime(BindingTimeEnum().setValue("preCompileTime"))
-        syscond.setText("sysc == 1")
+        syscond.setMixedString("sysc == 1")
         vp.setSwSyscond(syscond)
 
         element = _write_vp_to_element(vp)
@@ -503,7 +503,7 @@ class TestWriteConditionByFormula:
         proxy = VariationPointProxy(None, "vpp1")
         syscond = ConditionByFormula()
         syscond.setBindingTime(BindingTimeEnum().setValue("systemDesignTime"))
-        syscond.setText("sysc > 0")
+        syscond.setMixedString("sysc > 0")
         proxy.setConditionAccess(syscond)
         writer.writeVariationPointProxy(element, proxy)
 
@@ -543,7 +543,7 @@ class TestWriteAttributeValueVariationPoint:
         avp.setShortLabel(PrimitiveIdentifier().setValue("limit1"))
         avp.setBlueprintValue(String().setValue("derived"))
         avp.setIntervalType(IntervalTypeEnum().setValue("closed"))
-        avp.setText("42")
+        avp.setMixedString("42")
 
         element = self._write_avp_to_element(avp)
 
@@ -585,7 +585,7 @@ class TestWriteAttributeValueVariationPointRoundTrip:
         avp.setSd(String().setValue("sd-rt"))
         avp.setShortLabel(PrimitiveIdentifier().setValue("vp_rt"))
         avp.setBlueprintValue(String().setValue("bp-rt"))
-        avp.setText("1234")
+        avp.setMixedString("1234")
         proxy.setValueAccess(avp)
         behavior.addVariationPointProxy(proxy)
         return document
@@ -609,7 +609,7 @@ class TestWriteAttributeValueVariationPointRoundTrip:
         assert value_access.getSd().getValue() == "sd-rt"
         assert value_access.getShortLabel().getValue() == "vp_rt"
         assert value_access.getBlueprintValue().getValue() == "bp-rt"
-        assert value_access.getText() == "1234"
+        assert value_access.getMixedString() == "1234"
 
     def test_no_value_access_writes_no_wrapper(self):
         import os
@@ -755,7 +755,7 @@ class TestVariationPointProxyRoundTrip:
         limit.setShortLabel(PrimitiveIdentifier().setValue("limit1"))
         limit.setBlueprintValue(String().setValue("derived"))
         limit.setIntervalType(IntervalTypeEnum().setValue("open"))
-        limit.setText("42")
+        limit.setMixedString("42")
         proxy.setValueAccess(limit)
         behavior.addVariationPointProxy(proxy)
 
@@ -775,7 +775,7 @@ class TestVariationPointProxyRoundTrip:
             assert value_access.getShortLabel().getValue() == "limit1"
             assert value_access.getBlueprintValue().getValue() == "derived"
             assert value_access.getIntervalType().getValue() == "open"
-            assert value_access.getText() == "42"
+            assert value_access.getMixedString() == "42"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
@@ -797,7 +797,7 @@ class TestConditionByFormulaRoundTrip:
         vp.setShortLabel(Identifier().setValue("VP_Country"))
         syscond = ConditionByFormula()
         syscond.setBindingTime(BindingTimeEnum().setValue("preCompileTime"))
-        syscond.setText('defined(sysc) && sysc == "A"')
+        syscond.setMixedString('defined(sysc) && sysc == "A"')
         vp.setSwSyscond(syscond)
         criterion.setVariationPoint(vp)
         return document
@@ -820,7 +820,7 @@ class TestConditionByFormulaRoundTrip:
         sw_syscond = vp_2.getSwSyscond()
         assert isinstance(sw_syscond, ConditionByFormula)
         assert sw_syscond.getBindingTime().getValue() == "preCompileTime"
-        assert sw_syscond.getText() == 'defined(sysc) && sysc == "A"'
+        assert sw_syscond.getMixedString() == 'defined(sysc) && sysc == "A"'
 
 
 class TestPostBuildVariantCriterionRoundTrip:
