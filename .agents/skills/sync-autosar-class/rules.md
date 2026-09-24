@@ -1728,3 +1728,55 @@ accept VARIATION-POINT in reader/writer (parser warns, writer skips — same gat
 `readIdentifiable`/`writeIdentifiable`). An old `Identifiable.variationPoint`
 reference in a stamped class's checklist comments means "inherited capability" and
 should be updated to reference the mixin.
+
+## Rule 0021 — `<<atpMixedString>>` stereotype (AtpMixedString mixin) *(added after the atpMixedString support sync, PR #785, 2026-09-24)*
+
+`<<atpMixedString>>` marks meta-classes whose XML element may carry **unqualified text
+mixed in between the formally defined elements**
+(`AUTOSAR_FO_TPS_GenericStructureTemplate.md` §2.3.1, [TPS_GST_00025] — "This is a mixed
+content model with intermixed text. This is applied to metaclasses only."). Serialization:
+`AUTOSAR_FO_TPS_XMLSchemaProductionRules.md` §3.2.4.2, [TPS_XMLSPR_00047] (p.41) —
+`xml.ordered=false`, `xml.text=true`, no role/type wrappers, text allowed in-between.
+
+**The markdown indicator (the trigger):** the class table's Class row carries the
+stereotype prefix — `<<atpMixedString>> <ClassName>` (e.g.
+`<<atpMixedString>> AttributeValueVariationPoint (abstract)`, FormulaExpression §6.1 note
+L3154). **XSD verification (authoritative, cf. Rule 0015):** the class's
+`<xsd:complexType name="<CLASS-UPPER-KEBAB">` block carries **`mixed="true"`**
+(e.g. `CONDITION-BY-FORMULA`, `AUTOSAR_00052.xsd`).
+
+**Implementation convention (never declare a per-class text field):** the class inherits
+the `AtpMixedString` mixin
+(`GenericStructure/GeneralTemplateClasses/AtpMixedString.py` — `mixedString` field +
+`getMixedString`/`setMixedString`, chaining, None no-op; spec refs in the base's header
+comment; accessors have **no spec rows** — stereotype-inherent). Two repo-specific
+traps, both settled in PR #785:
+
+- **MRO bypass:** the repo's `Referrable.__init__` calls `ARObject.__init__` directly
+  (bypassing `super()`), so a mixin `__init__` may never run under combined inheritance.
+  The mixin therefore carries a **class-level default** `mixedString: Optional[str] = None`
+  — do not remove it.
+- **Base order:** when combined with `Referrable`, the mixin goes **second**
+  (`TimingConditionFormula(Referrable, AtpMixedString)`, same for
+  `TDEventOccurrenceExpressionFormula` — MRO `Cls → Referrable → AtpMixedString →
+  ARObject`); when it is the only semantic base it goes first
+  (`ConditionByFormula(AtpMixedString)`, `AttributeValueVariationPoint(AtpMixedString, ABC)`).
+
+**Checklist consequence (Rule 0002):** the class checklist carries **no** rows for the
+text member/accessors; it carries the standard annotation line instead:
+`# getMixedString / setMixedString provided by the AtpMixedString base (mixin) — no spec row (stereotype-inherent)`.
+
+**Reader/writer (Rule 0013):** use the shared helpers — parser
+`readMixedStringText(element, obj)` / writer `writeMixedStringText(element, obj)`
+(`arxml_parser.py` / `arxml_writer.py`). Call sites **keep the pre-existing guards**:
+parser keeps the strip-guard (`element.text is not None and element.text.strip() != ""`;
+storage inside the helper is verbatim, whitespace preserved), writer keeps the None-check
+(`if text is not None:`) so no empty text nodes are emitted.
+
+**Scope boundary — pure-text vs mixed content:** this mixin covers the **pure-text
+shape** only (the element text is the whole value; 25 classes — VP family + formula
+family: 4 migrated in PR #785, 21 queued in `docs/plan/sync-todo/` Group8×17 / Group3×1
+/ Group19×3). The **Documentation mixed-content classes** (17, e.g. the
+`SingleLanguageLongName` / `MixedContentForLongName` family) interleave text segments
+*in order* with child elements and need a segmented/ordered content model — do **not**
+migrate them onto `AtpMixedString`; that is a separate project (Phase 2).
