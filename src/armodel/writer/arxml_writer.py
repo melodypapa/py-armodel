@@ -6440,6 +6440,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "SWC-IMPLEMENTATION")
         self.writeImplementation(child_element, impl)
         self.setChildElementOptionalRefType(child_element, "BEHAVIOR-REF", impl.getBehaviorRef())
+        self.setChildElementOptionalString(child_element, "REQUIRED-RTE-VENDOR", impl.getRequiredRTEVendor())
 
     def writeEndToEndDescriptionDataIds(self, element: ET.Element, parent: EndToEndDescription):
         data_ids = parent.getDataIds()

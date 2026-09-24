@@ -5080,6 +5080,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read SwcImplementation <%s>" % impl.getShortName())
         self.readImplementation(element, impl)
         impl.setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF"))
+        impl.setRequiredRTEVendor(self.getChildElementOptionalString(element, "REQUIRED-RTE-VENDOR"))
         behavior_ref = impl.getBehaviorRef()
         if behavior_ref is not None:
             document = AUTOSAR.getInstance()
