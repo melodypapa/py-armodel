@@ -141,12 +141,12 @@ class CompositeNetworkRepresentation(ARObject):
 
     # CompositeNetworkRepresentation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.74, p.181
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getLeafElementIRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLeafElementIRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNetworkRepresentation [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNetworkRepresentation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLeafElementIRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLeafElementIRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNetworkRepresentation [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkRepresentation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -154,32 +154,18 @@ class CompositeNetworkRepresentation(ARObject):
         # This represents that leaf element of an application composite data type. InstanceRef implemented by: ApplicationCompositeElementInPortInterfaceInstanceRef
         self.leafElementIRef: Optional[ApplicationCompositeElementInPortInterfaceInstanceRef] = None
 
-        # The SwDataDefProps owned by the CompositeNetworkRepresentation are used to define the network representation of the leaf element of an Application CompositeDataType. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentation
+        # The SwDataDefProps owned by the CompositeNetworkRepresentation are used to define the network representation of the leaf element of an ApplicationCompositeDataType.
         self.networkRepresentation: Optional[SwDataDefProps] = None
 
     def getLeafElementIRef(self) -> Optional[ApplicationCompositeElementInPortInterfaceInstanceRef]:
         """
-        Gets the leaf element of an application composite data type.
-
         This represents that leaf element of an application composite data type. InstanceRef implemented by: ApplicationCompositeElementInPortInterfaceInstanceRef
-
-        Returns:
-            ApplicationCompositeElementInPortInterfaceInstanceRef, or None if not set
         """
         return self.leafElementIRef
 
-    def setLeafElementIRef(self, value: Optional[ApplicationCompositeElementInPortInterfaceInstanceRef]) -> "CompositeNetworkRepresentation":
+    def setLeafElementIRef(self, value: Optional[ApplicationCompositeElementInPortInterfaceInstanceRef]) -> CompositeNetworkRepresentation:
         """
-        Sets the leaf element of an application composite data type.
-        A None value is a no-op and does not overwrite an existing leaf element reference.
-
-        This represents that leaf element of an application composite data type. InstanceRef implemented by: ApplicationCompositeElementInPortInterfaceInstanceRef
-
-        Args:
-            value: The ApplicationCompositeElementInPortInterfaceInstanceRef to set
-
-        Returns:
-            self for method chaining
+        This represents that leaf element of an application composite data type. InstanceRef implemented by: ApplicationCompositeElementInPortInterfaceInstanceRef. A None value is a no-op and does not overwrite an existing leafElementIRef.
         """
         if value is not None:
             self.leafElementIRef = value
@@ -187,32 +173,17 @@ class CompositeNetworkRepresentation(ARObject):
 
     def getNetworkRepresentation(self) -> Optional[SwDataDefProps]:
         """
-        Gets the SwDataDefProps used to define the network representation of the leaf element of an Application CompositeDataType.
-
-        The SwDataDefProps owned by the CompositeNetworkRepresentation are used to define the network representation of the leaf element of an Application CompositeDataType. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentation
-
-        Returns:
-            SwDataDefProps, or None if not set
+        The SwDataDefProps owned by the CompositeNetworkRepresentation are used to define the network representation of the leaf element of an ApplicationCompositeDataType.
         """
         return self.networkRepresentation
 
-    def setNetworkRepresentation(self, value: Optional[SwDataDefProps]) -> "CompositeNetworkRepresentation":
+    def setNetworkRepresentation(self, value: Optional[SwDataDefProps]) -> CompositeNetworkRepresentation:
         """
-        Sets the SwDataDefProps used to define the network representation of the leaf element of an Application CompositeDataType.
-        A None value is a no-op and does not overwrite an existing network representation.
-
-        The SwDataDefProps owned by the CompositeNetworkRepresentation are used to define the network representation of the leaf element of an Application CompositeDataType. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentation
-
-        Args:
-            value: The SwDataDefProps to set
-
-        Returns:
-            self for method chaining
+        The SwDataDefProps owned by the CompositeNetworkRepresentation are used to define the network representation of the leaf element of an ApplicationCompositeDataType. A None value is a no-op and does not overwrite an existing networkRepresentation.
         """
         if value is not None:
             self.networkRepresentation = value
         return self
-        self.networkRepresentation = value
         return self
 
 

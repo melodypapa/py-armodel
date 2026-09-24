@@ -41,7 +41,9 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     TransmissionModeDefinitionEnum,
     UserDefinedTransformationComSpecProps,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import EndToEndTransformationComSpecProps
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
 class TestHandleInvalidEnum:
@@ -85,25 +87,61 @@ class TestRPortComSpec:
 
 
 class TestCompositeNetworkRepresentation:
-    """Test class for CompositeNetworkRepresentation class."""
+    """Test class for CompositeNetworkRepresentation class (Table 4.74)."""
 
-    def test_composite_network_representation_initialization(self):
-        """Test CompositeNetworkRepresentation initialization and basic methods."""
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings must be the Table 4.74 Notes copied verbatim."""
+        assert CompositeNetworkRepresentation.__doc__.strip() == "This meta-class is used to define the network representation of leaf elements of composite application data types."
+        leaf_element_note = "This represents that leaf element of an application composite data type. " "InstanceRef implemented by: ApplicationCompositeElementInPortInterfaceInstanceRef"
+        assert CompositeNetworkRepresentation.getLeafElementIRef.__doc__.strip() == leaf_element_note
+        assert CompositeNetworkRepresentation.setLeafElementIRef.__doc__.strip() == leaf_element_note + ". A None value is a no-op and does not overwrite an existing leafElementIRef."
+        network_representation_note = (
+            "The SwDataDefProps owned by the CompositeNetworkRepresentation are used to define the network representation " "of the leaf element of an ApplicationCompositeDataType."
+        )
+        assert CompositeNetworkRepresentation.getNetworkRepresentation.__doc__.strip() == network_representation_note
+        assert (
+            CompositeNetworkRepresentation.setNetworkRepresentation.__doc__.strip()
+            == network_representation_note + " A None value is a no-op and does not overwrite an existing networkRepresentation."
+        )
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject — Python base is ARObject; setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(CompositeNetworkRepresentation, ARObject)
+        for name in ("setLeafElementIRef", "setNetworkRepresentation"):
+            assert CompositeNetworkRepresentation.__dict__[name].__annotations__["return"] == "CompositeNetworkRepresentation"
+
+    def test_initialization_defaults(self):
         representation = CompositeNetworkRepresentation()
         assert representation.leafElementIRef is None
         assert representation.networkRepresentation is None
+        assert representation.getLeafElementIRef() is None
+        assert representation.getNetworkRepresentation() is None
 
-        # Test setters and getters
-        ref = RefType()
-        ref.setValue("/Test/Ref")
-        representation.setLeafElementIRef(ref)
-        assert representation.getLeafElementIRef() == ref
+    def test_get_set_leaf_element_iref(self):
+        representation = CompositeNetworkRepresentation()
+        iref = ApplicationCompositeElementInPortInterfaceInstanceRef()
+        root_ref = RefType()
+        root_ref.setValue("/Composite/Root")
+        iref.setRootDataPrototypeRef(root_ref)
+        target_ref = RefType()
+        target_ref.setValue("/Composite/Leaf")
+        iref.setTargetDataPrototypeRef(target_ref)
+        result = representation.setLeafElementIRef(iref)
+        assert result is representation
+        assert representation.getLeafElementIRef() is iref
+        assert representation.getLeafElementIRef().getRootDataPrototypeRef().getValue() == "/Composite/Root"
+        assert representation.getLeafElementIRef().getTargetDataPrototypeRef().getValue() == "/Composite/Leaf"
+        representation.setLeafElementIRef(None)
+        assert representation.getLeafElementIRef() is iref
 
-        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
-
-        sw_data_def = SwDataDefProps()
-        representation.setNetworkRepresentation(sw_data_def)
-        assert representation.getNetworkRepresentation() == sw_data_def
+    def test_get_set_network_representation(self):
+        representation = CompositeNetworkRepresentation()
+        value = SwDataDefProps()
+        result = representation.setNetworkRepresentation(value)
+        assert result is representation
+        assert representation.getNetworkRepresentation() is value
+        representation.setNetworkRepresentation(None)
+        assert representation.getNetworkRepresentation() is value
 
 
 class TestTransmissionAcknowledgementRequest:

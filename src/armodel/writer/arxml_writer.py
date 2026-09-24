@@ -1654,6 +1654,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if representation is not None:
             self.logger.debug("setCompositeNetworkRepresentation")
             child_element = ET.SubElement(element, "COMPOSITE-NETWORK-REPRESENTATION")
+            self.writeARObject(child_element, representation)
             self.setApplicationCompositeElementInPortInterfaceInstanceRef(child_element, "LEAF-ELEMENT-IREF", representation.getLeafElementIRef())
             self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION", representation.getNetworkRepresentation())
 

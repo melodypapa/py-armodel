@@ -6583,6 +6583,7 @@ class ARXMLParser(AbstractARXMLParser):
     def getCompositeNetworkRepresentation(self, element: ET.Element) -> CompositeNetworkRepresentation:
         # self.logger.debug("getCompositeNetworkRepresentation")
         representation = CompositeNetworkRepresentation()
+        self.readARObject(element, representation)
         representation.setLeafElementIRef(self.getApplicationCompositeElementInPortInterfaceInstanceRef(element, "LEAF-ELEMENT-IREF"))
         representation.setNetworkRepresentation(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION"))
         return representation
