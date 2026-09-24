@@ -239,17 +239,51 @@ class TestServiceProviderEnum:
 
 
 class TestNvBlockNeedsReliabilityEnum:
-    def test_initialization(self):
-        """Test NvBlockNeedsReliabilityEnum initialization"""
-        enum = NvBlockNeedsReliabilityEnum()
-
-        assert enum.enumValues == ("errorCorrection", "errorDetection", "noProtection")
-
-    def test_values(self):
-        """Test enum values"""
+    def test_literals(self):
+        """Test NvBlockNeedsReliabilityEnum literal values per AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 11.10"""
         assert NvBlockNeedsReliabilityEnum.ERROR_CORRECTION == "errorCorrection"
         assert NvBlockNeedsReliabilityEnum.ERROR_DETECTION == "errorDetection"
         assert NvBlockNeedsReliabilityEnum.NO_PROTECTION == "noProtection"
+
+    def test_enum_values(self):
+        """Test the valid enum value set in spec literal order (Table 11.10)"""
+        enum = NvBlockNeedsReliabilityEnum()
+        assert enum.getEnumValues() == (
+            NvBlockNeedsReliabilityEnum.ERROR_CORRECTION,
+            NvBlockNeedsReliabilityEnum.ERROR_DETECTION,
+            NvBlockNeedsReliabilityEnum.NO_PROTECTION,
+        )
+
+    def test_instantiation_set_value(self):
+        """Test enum instantiability and setValue/getValue round-trip per Rule 0011"""
+        enum = NvBlockNeedsReliabilityEnum()
+        result = enum.setValue(NvBlockNeedsReliabilityEnum.ERROR_DETECTION)
+        assert result is enum  # Method chaining
+        assert enum.getValue() == "errorDetection"
+
+    def test_set_value_none_noop(self):
+        """Test setValue(None) is a no-op"""
+        enum = NvBlockNeedsReliabilityEnum()
+        assert enum.setValue(None) is enum
+        assert enum.getValue() == ""  # ARLiteral's empty representation for an unset literal
+        enum.setValue(NvBlockNeedsReliabilityEnum.NO_PROTECTION)
+        enum.setValue(None)
+        assert enum.getValue() == "noProtection"
+
+    def test_validate_enum_value(self):
+        """Test validateEnumValue accepts spec literals and rejects others"""
+        enum = NvBlockNeedsReliabilityEnum()
+        assert enum.validateEnumValue("errorCorrection") is True
+        assert enum.validateEnumValue("noProtection") is True
+        assert enum.validateEnumValue("bogus") is False
+
+    def test_spec_note(self):
+        """Test the Table 11.10 class note."""
+        assert NvBlockNeedsReliabilityEnum.__doc__.strip() == (
+            "Reliability against data loss on the non-volatile medium. "
+            "These requirements give only a relative indication, for example on the required degree of redundancy for storage. "
+            "They do, however, not specify by which means (e.g. software or hardware) the reliability is actually achieved."
+        )
 
 
 class TestNvBlockNeedsWritingPriorityEnum:

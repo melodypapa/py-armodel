@@ -196,24 +196,24 @@ class RamBlockStatusControlEnum(AREnum):
 
 class NvBlockNeedsReliabilityEnum(AREnum):
     """
-    Enumeration for NV block needs reliability levels in AUTOSAR models.
-    Defines the type of error protection used for NV block management.
+    Reliability against data loss on the non-volatile medium. These requirements give only a relative indication, for example on the required degree of redundancy for storage. They do, however, not specify by which means (e.g. software or hardware) the reliability is actually achieved.
     """
 
     # NvBlockNeedsReliabilityEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.10, p.681
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    # Error correction protection for NV blocks
+    # Errors shall be corrected Tags: atp.EnumerationLiteralIndex=0
     ERROR_CORRECTION = "errorCorrection"
-    # Error detection protection for NV blocks
+
+    # Errors shall be detected Tags: atp.EnumerationLiteralIndex=1
     ERROR_DETECTION = "errorDetection"
-    # No protection for NV blocks
+
+    # Data need not to be handled with protection Tags: atp.EnumerationLiteralIndex=2
     NO_PROTECTION = "noProtection"
 
     def __init__(self):
-        """
-        Initializes the NvBlockNeedsReliabilityEnum with all possible values.
-        """
         super().__init__(
             (
                 NvBlockNeedsReliabilityEnum.ERROR_CORRECTION,
