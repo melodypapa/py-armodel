@@ -1806,7 +1806,6 @@ No deviations — the Table 6.2 attribute column is `-` (zero own attributes; co
 
 ## Appendix: classes without a spec attribute table
 
-- `ChapterContent` (`M2::MSR::Documentation::Chapters`)
 - `TopicContent` (`M2::MSR::Documentation::Chapters`)
 - `TopicContentOrMsrQuery` (`M2::MSR::Documentation::Chapters`)
 - `GraphicFitEnum` (`M2::MSR::Documentation::BlockElements::Figure`)

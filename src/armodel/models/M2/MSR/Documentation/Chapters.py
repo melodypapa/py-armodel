@@ -245,25 +245,27 @@ class ChapterContent(ARObject):
 
     # ChapterContent method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.60, p.330
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setTopicContent        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTopicContent        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [ ] setPrms                [x] impl  [ ] docstring  [ ] test  [ ] reader  [ ] writer
-    # [ ] getPrms                [x] impl  [ ] docstring  [ ] test  [ ] reader  [ ] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setTopicContent        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTopicContent        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     #
-    # NOTE: prms (Prms, 1, aggr) is not modeled yet — the Prms class is a deferred
-    # placeholder (Rule 0001.10); the stamp is omitted until the real type lands.
+    # NOTE: prms (Prms, 1, aggr — Table 9.60 first attribute row) is NOT modeled: the
+    # referenced class Prms (Table 9.74; member type GeneralParameter) does not exist in
+    # src and is not queued — Rule 0001.10 referenced missing class, reported at Step 8.
+    # The prior checklist's setPrms/getPrms rows claiming impl [x] were factually wrong
+    # (no prms field or accessor exists) and are removed. `# Spec verified:` stamp
+    # deferred to 9b batch confirmation (2026-09-24).
 
     def __init__(self):
         super().__init__()
 
-        # This is that part of a chapter content which may appear in a chapter as well as in a topic.
+        # This is that part of a chapter content which may appear in a chapter as well as in a topic. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=40 xml.typeElement=false xml.typeWrapperElement=false
         self.topicContent: Optional[TopicContentOrMsrQuery] = None
 
     def setTopicContent(self, value: Optional[TopicContentOrMsrQuery]) -> ChapterContent:
         """
-        This is that part of a chapter content which may appear in a chapter as well as in a topic.
+        This is that part of a chapter content which may appear in a chapter as well as in a topic. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=40 xml.typeElement=false xml.typeWrapperElement=false
 
         A None value is a no-op and does not overwrite an existing topicContent.
 
@@ -276,7 +278,7 @@ class ChapterContent(ARObject):
 
     def getTopicContent(self) -> Optional[TopicContentOrMsrQuery]:
         """
-        This is that part of a chapter content which may appear in a chapter as well as in a topic.
+        This is that part of a chapter content which may appear in a chapter as well as in a topic. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=40 xml.typeElement=false xml.typeWrapperElement=false
 
         Returns:
             The chapter content which may appear in a chapter as well as in a topic

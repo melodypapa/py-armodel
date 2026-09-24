@@ -127,6 +127,57 @@ class TestDocumentationLeafClasses:
         assert isinstance(MsrQueryTopic1(), object)
 
 
+class TestChapterContent:
+    """Test class for ChapterContent class (Table 9.60, AUTOSAR_FO_TPS_GenericStructureTemplate)."""
+
+    def test_initialization(self):
+        content = ChapterContent()
+        assert content.getTopicContent() is None
+
+    def test_chapter_content_inheritance(self):
+        """ChapterContent shall derive from ARObject only (Table 9.60 Base row; XSD 00052 complexType CHAPTER-CONTENT carries the AR-OBJECT group alone — no Identifiable, hence the no-argument constructor)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+
+        content = ChapterContent()
+        assert isinstance(content, ARObject)
+        assert not isinstance(content, Identifiable)
+
+    def test_chapter_content_has_spec_note(self):
+        """The class docstring carries the Table 9.60 Note verbatim."""
+        assert (
+            cleandoc(ChapterContent.__doc__)
+            == "This class represents the content which is directly in a chapter. It is basically the same as the one in a Topic but might have additional complex structures (e.g. Synopsis)"
+        )
+
+    def test_chapter_content_docstrings_match_spec_notes(self):
+        """Each accessor docstring leads with its Table 9.60 attribute Note verbatim (Rule 0001.4)."""
+        topic_content_note = (
+            "This is that part of a chapter content which may appear in a chapter as well as in a topic."
+            " Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=40"
+            " xml.typeElement=false xml.typeWrapperElement=false"
+        )
+
+        assert cleandoc(ChapterContent.setTopicContent.__doc__).split("\n\n")[0] == topic_content_note
+        assert cleandoc(ChapterContent.getTopicContent.__doc__).split("\n\n")[0] == topic_content_note
+        assert "A None value is a no-op and does not overwrite an existing topicContent." in cleandoc(ChapterContent.setTopicContent.__doc__)
+
+    def test_chapter_content_member_annotations(self):
+        """getTopicContent/setTopicContent shall be Optional[TopicContentOrMsrQuery] (Rule 0003)."""
+        import typing
+
+        assert typing.get_type_hints(ChapterContent.getTopicContent)["return"] == typing.Optional[TopicContentOrMsrQuery]
+        assert typing.get_type_hints(ChapterContent.setTopicContent)["value"] == typing.Optional[TopicContentOrMsrQuery]
+
+    def test_set_get_topic_content(self):
+        content = ChapterContent()
+        topic_content_or_msr_query = TopicContentOrMsrQuery()
+        assert content.setTopicContent(topic_content_or_msr_query) is content
+        assert content.getTopicContent() is topic_content_or_msr_query
+        content.setTopicContent(None)
+        assert content.getTopicContent() is topic_content_or_msr_query
+
+
 class TestTopicContentOrMsrQuery:
     """Test class for TopicContentOrMsrQuery class (Table 9.79, AUTOSAR_FO_TPS_GenericStructureTemplate)."""
 
