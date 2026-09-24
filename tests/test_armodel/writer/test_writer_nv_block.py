@@ -233,13 +233,11 @@ class TestWriteBulkNvDataDescriptor:
 
     def test_write_bulk_nv_data_descriptor_full(self, writer):
         from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype  # noqa E501
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor  # noqa E501
 
         root = AUTOSAR.getInstance().createARPackage("Pkg")
         descriptor = BulkNvDataDescriptor(root, "BulkDesc")
-        block = VariableDataPrototype(root, "RamBlock")
-        descriptor.setBulkNvBlock(block)
+        descriptor.createBulkNvBlock("RamBlock")
         descriptor.addNvBlockDataMapping(_mapping())
         parent = _parent()
         writer.writeBulkNvDataDescriptor(parent, descriptor)
@@ -261,6 +259,115 @@ class TestWriteBulkNvDataDescriptor:
         assert elem is not None
         assert elem.find("BULK-NV-BLOCK") is None
         assert elem.find("NV-BLOCK-DATA-MAPPINGS") is None
+
+    def test_write_bulk_nv_data_descriptor_field_values(self, writer):
+        """Test that both Table 11.12 attribute elements are emitted with values read through the getters."""
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor  # noqa E501
+
+        root = AUTOSAR.getInstance().createARPackage("Pkg")
+        descriptor = BulkNvDataDescriptor(root, "BulkDesc")
+        descriptor.createBulkNvBlock("RamBlock")
+        mapping = NvBlockDataMapping()
+        mapping.setReadNvData(_real_variable_ref("/readPort"))
+        mapping.setWrittenNvData(_real_variable_ref("/writtenPort"))
+        descriptor.addNvBlockDataMapping(mapping)
+        parent = _parent()
+        writer.writeBulkNvDataDescriptor(parent, descriptor)
+
+        elem = parent.find("BULK-NV-DATA-DESCRIPTOR")
+        assert elem is not None
+        assert elem.find("BULK-NV-BLOCK/VARIABLE-DATA-PROTOTYPE/SHORT-NAME").text == "RamBlock"
+        mappings_elem = elem.find("NV-BLOCK-DATA-MAPPINGS")
+        assert mappings_elem is not None
+        mappings = mappings_elem.findall("NV-BLOCK-DATA-MAPPING")
+        assert len(mappings) == 1
+        assert mappings[0].find("READ-NV-DATA/AUTOSAR-VARIABLE-IREF/PORT-PROTOTYPE-REF").text == "/readPort"
+        assert mappings[0].find("WRITTEN-NV-DATA/AUTOSAR-VARIABLE-IREF/PORT-PROTOTYPE-REF").text == "/writtenPort"
+
+    def test_write_bulk_nv_data_descriptor_xsd_element_order(self, writer):
+        """Test that the element order follows the XSD group BULK-NV-DATA-DESCRIPTOR sequence."""
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor  # noqa E501
+
+        root = AUTOSAR.getInstance().createARPackage("Pkg")
+        descriptor = BulkNvDataDescriptor(root, "BulkDesc")
+        descriptor.createBulkNvBlock("RamBlock")
+        descriptor.addNvBlockDataMapping(NvBlockDataMapping())
+        parent = _parent()
+        writer.writeBulkNvDataDescriptor(parent, descriptor)
+
+        elem = parent.find("BULK-NV-DATA-DESCRIPTOR")
+        assert [child.tag for child in elem] == ["SHORT-NAME", "BULK-NV-BLOCK", "NV-BLOCK-DATA-MAPPINGS"]
+
+
+class TestBulkNvDataDescriptorRoundTrip:
+    """Write → re-parse round-trip with field values (Table 11.12)."""
+
+    NS = "http://autosar.org/schema/r4.0"
+
+    def _round_trip(self, writer, descriptor):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        parent = _parent()
+        writer.writeBulkNvDataDescriptor(parent, descriptor)
+        elem = parent.find("BULK-NV-DATA-DESCRIPTOR")
+        xml_text = ET.tostring(elem, encoding="unicode")
+        reloaded_element = ET.fromstring(xml_text.replace("BULK-NV-DATA-DESCRIPTOR", f"BULK-NV-DATA-DESCRIPTOR xmlns='{self.NS}'", 1))
+
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor
+
+        root = AUTOSAR.getInstance().createARPackage("RtPkg")
+        reloaded = BulkNvDataDescriptor(root, "BulkDesc")
+        ARXMLParser().readBulkNvDataDescriptor(reloaded_element, reloaded)
+        return reloaded
+
+    def test_round_trip_field_values(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor, NvBlockDataMapping
+
+        root = AUTOSAR.getInstance().createARPackage("Pkg")
+        descriptor = BulkNvDataDescriptor(root, "BulkDesc")
+        descriptor.createBulkNvBlock("RamBlock")
+        mapping = NvBlockDataMapping()
+        mapping.setReadNvData(_real_variable_ref("/readPort"))
+        mapping.setWrittenReadNvData(_real_variable_ref("/prPort"))
+        descriptor.addNvBlockDataMapping(mapping)
+        checksum = String()
+        checksum.setValue("bulkS")
+        descriptor.setChecksum(checksum)
+
+        reloaded = self._round_trip(writer, descriptor)
+
+        assert reloaded.getShortName() == "BulkDesc"
+        assert reloaded.getBulkNvBlock() is not None
+        assert reloaded.getBulkNvBlock().getShortName() == "RamBlock"
+        mappings = reloaded.getNvBlockDataMappings()
+        assert len(mappings) == 1
+        assert mappings[0].getReadNvData().getAutosarVariableIRef().getPortPrototypeRef().getValue() == "/readPort"
+        assert mappings[0].getWrittenReadNvData().getAutosarVariableIRef().getPortPrototypeRef().getValue() == "/prPort"
+        assert reloaded.getChecksum() is not None
+        assert reloaded.getChecksum().getValue() == "bulkS"
+
+    def test_round_trip_absent_elements(self, writer):
+        """Test that an empty descriptor round-trips without emitting BULK-NV-BLOCK or the NV-BLOCK-DATA-MAPPINGS wrapper."""
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor
+
+        root = AUTOSAR.getInstance().createARPackage("Pkg")
+        descriptor = BulkNvDataDescriptor(root, "BulkDesc")
+
+        parent = _parent()
+        writer.writeBulkNvDataDescriptor(parent, descriptor)
+        elem = parent.find("BULK-NV-DATA-DESCRIPTOR")
+        assert elem.find("BULK-NV-BLOCK") is None
+        assert elem.find("NV-BLOCK-DATA-MAPPINGS") is None
+
+        reloaded = self._round_trip(writer, descriptor)
+        assert reloaded.getBulkNvBlock() is None
+        assert reloaded.getNvBlockDataMappings() == []
 
 
 class TestWriteNvBlockDescriptor:

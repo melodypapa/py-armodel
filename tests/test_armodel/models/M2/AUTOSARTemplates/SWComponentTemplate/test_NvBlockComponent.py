@@ -15,6 +15,16 @@ WRITTEN_NV_DATA_NOTE = (
 )
 WRITTEN_READ_NV_DATA_NOTE = "Reference to a VariableDataPrototype of a PRPortPrototype of the NvBlockSwComponentType providing write and read access to the RAM Block."
 
+BULK_DESCRIPTOR_CLASS_NOTE = (
+    "This meta-class represents one bulk NV Data Block that is read-only for the application software. "
+    "The purpose of a bulk NV Data Block is to provide access to information uploaded to the vehicle at e.g. the end of the production line."
+)
+BULK_NV_BLOCK_NOTE = "This aggregation represents the actual bulk NVBlock."
+BULK_NV_BLOCK_DATA_MAPPING_NOTE = (
+    "Defines the mapping between the VariableDataPrototypes in the NvBlockComponents ports and the VariableDataPrototypes of the non-volatile memory. "
+    "The aggregation of NvBlockDataMapping is subject to variability with the purpose to support the conditional existence of nv data ports."
+)
+
 
 def _positive_integer(value):
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
@@ -204,34 +214,62 @@ class TestNvBlockDataMapping:
 
 
 class TestBulkNvDataDescriptor:
-    def test_initialization(self):
-        """Test BulkNvDataDescriptor initialization"""
-        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+    def test_spec_notes_are_verbatim(self):
+        """Test that the class docstring and every accessor docstring is the spec Note verbatim (Table 11.12)"""
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor
 
-        document = AUTOSAR.getInstance()
-        ar_root = document.createARPackage("AUTOSAR")
-        descriptor = BulkNvDataDescriptor(ar_root, "BulkDescriptor")
+        assert BulkNvDataDescriptor.__doc__.strip() == BULK_DESCRIPTOR_CLASS_NOTE
+        assert BulkNvDataDescriptor.createBulkNvBlock.__doc__.strip() == BULK_NV_BLOCK_NOTE
+        assert BulkNvDataDescriptor.getBulkNvBlock.__doc__.strip() == BULK_NV_BLOCK_NOTE
+        assert BulkNvDataDescriptor.getNvBlockDataMappings.__doc__.strip() == BULK_NV_BLOCK_DATA_MAPPING_NOTE
+        assert BulkNvDataDescriptor.addNvBlockDataMapping.__doc__.strip() == (BULK_NV_BLOCK_DATA_MAPPING_NOTE + " A None value is a no-op and does not append anything.")
+
+    def test_base_shape(self):
+        """Test the base chain, constructor signature and typed accessor signatures"""
+        import typing
+
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor, NvBlockDataMapping
+
+        assert issubclass(BulkNvDataDescriptor, AtpStructureElement)
+        assert issubclass(BulkNvDataDescriptor, VariationPointCapable)
+
+        hints = typing.get_type_hints(BulkNvDataDescriptor.createBulkNvBlock)
+        assert hints["short_name"] is str
+        assert hints["return"] is VariableDataPrototype
+        hints = typing.get_type_hints(BulkNvDataDescriptor.getBulkNvBlock)
+        assert hints["return"] == typing.Optional[VariableDataPrototype]
+        hints = typing.get_type_hints(BulkNvDataDescriptor.getNvBlockDataMappings)
+        assert hints["return"] == typing.List[NvBlockDataMapping]
+        hints = typing.get_type_hints(BulkNvDataDescriptor.addNvBlockDataMapping)
+        assert hints["value"] == typing.Optional[NvBlockDataMapping]
+        assert hints["return"] is BulkNvDataDescriptor
+
+    def test_initialization(self):
+        """Test BulkNvDataDescriptor initialization"""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor
+
+        descriptor = BulkNvDataDescriptor(None, "BulkDescriptor")
 
         assert descriptor is not None
-        assert descriptor.parent == ar_root
         assert descriptor.short_name == "BulkDescriptor"
         assert descriptor.bulkNvBlock is None
         assert descriptor.nvBlockDataMappings == []
 
-    def test_get_set_bulk_nv_block(self):
-        """Test getBulkNvBlock and setBulkNvBlock methods"""
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype  # noqa E501
+    def test_create_get_bulk_nv_block(self):
+        """Test createBulkNvBlock and getBulkNvBlock methods (duplicate short name returns the existing element)"""
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor
 
         descriptor = BulkNvDataDescriptor(None, "BulkDescriptor")
 
         assert descriptor.getBulkNvBlock() is None
-        block = VariableDataPrototype(None, "RamBlock")
-        descriptor.setBulkNvBlock(block)
-        assert descriptor.getBulkNvBlock() == block
-        descriptor.setBulkNvBlock(None)
-        assert descriptor.getBulkNvBlock() == block
+        block = descriptor.createBulkNvBlock("RamBlock")
+        assert block.getShortName() == "RamBlock"
+        assert descriptor.getBulkNvBlock() is block
+        assert descriptor.createBulkNvBlock("RamBlock") is block
+        assert descriptor.getBulkNvBlock() is block
 
     def test_add_get_nv_block_data_mappings(self):
         """Test addNvBlockDataMapping and getNvBlockDataMappings methods"""
@@ -241,7 +279,7 @@ class TestBulkNvDataDescriptor:
 
         assert descriptor.getNvBlockDataMappings() == []
         mapping = NvBlockDataMapping()
-        descriptor.addNvBlockDataMapping(mapping)
+        assert descriptor.addNvBlockDataMapping(mapping) is descriptor
         assert descriptor.getNvBlockDataMappings() == [mapping]
         descriptor.addNvBlockDataMapping(mapping)
         assert descriptor.getNvBlockDataMappings() == [mapping]

@@ -146,12 +146,12 @@ class BulkNvDataDescriptor(AtpStructureElement, VariationPointCapable):
 
     # BulkNvDataDescriptor method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.12, p.692
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBulkNvBlock               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBulkNvBlock               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNvBlockDataMappings       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addNvBlockDataMapping        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createBulkNvBlock            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBulkNvBlock               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addNvBlockDataMapping        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNvBlockDataMappings       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -159,64 +159,38 @@ class BulkNvDataDescriptor(AtpStructureElement, VariationPointCapable):
         # This aggregation represents the actual bulk NVBlock.
         self.bulkNvBlock: Optional[VariableDataPrototype] = None
 
-        # Defines the mapping between the VariableData Prototypes in the NvBlockComponents ports and the VariableDataPrototypes of the non-volatile memory. The aggregation of NvBlockDataMapping is subject to variability with the purpose to support the conditional existence of nv data ports. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nvBlockDataMapping, nvBlockData Mapping.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        # Defines the mapping between the VariableDataPrototypes in the NvBlockComponents ports and the VariableDataPrototypes of the non-volatile memory. The aggregation of NvBlockDataMapping is subject to variability with the purpose to support the conditional existence of nv data ports.
         self.nvBlockDataMappings: List[NvBlockDataMapping] = []
+
+    def createBulkNvBlock(self, short_name: str) -> VariableDataPrototype:
+        """
+        This aggregation represents the actual bulk NVBlock.
+        """
+        if not self.IsElementExists(short_name, VariableDataPrototype):
+            block = VariableDataPrototype(self, short_name)
+            self.addElement(block)
+            self.bulkNvBlock = block
+        return self.getElement(short_name, VariableDataPrototype)
 
     def getBulkNvBlock(self) -> Optional[VariableDataPrototype]:
         """
-        Gets the actual bulk NVBlock.
-
         This aggregation represents the actual bulk NVBlock.
-
-        Returns:
-            VariableDataPrototype, or None if not set
         """
         return self.bulkNvBlock
 
-    def setBulkNvBlock(self, value: Optional[VariableDataPrototype]) -> "BulkNvDataDescriptor":
+    def addNvBlockDataMapping(self, value: Optional[NvBlockDataMapping]) -> "BulkNvDataDescriptor":
         """
-        Sets the actual bulk NVBlock.
-        A None value is a no-op and does not overwrite an existing block.
-
-        This aggregation represents the actual bulk NVBlock.
-
-        Args:
-            value: The VariableDataPrototype to set
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.bulkNvBlock = value
-        return self
-
-    def getNvBlockDataMappings(self) -> List[NvBlockDataMapping]:
-        """
-        Gets the mappings between the VariableDataPrototypes in the NvBlockComponents ports and the VariableDataPrototypes of the non-volatile memory.
-
-        Defines the mapping between the VariableData Prototypes in the NvBlockComponents ports and the VariableDataPrototypes of the non-volatile memory. The aggregation of NvBlockDataMapping is subject to variability with the purpose to support the conditional existence of nv data ports. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nvBlockDataMapping, nvBlockData Mapping.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
-
-        Returns:
-            List of NvBlockDataMapping instances
-        """
-        return self.nvBlockDataMappings
-
-    def addNvBlockDataMapping(self, value: NvBlockDataMapping) -> "BulkNvDataDescriptor":
-        """
-        Adds a mapping between the VariableDataPrototypes in the NvBlockComponents ports and the VariableDataPrototypes of the non-volatile memory.
-        A None value is a no-op and does not append anything.
-
-        Defines the mapping between the VariableData Prototypes in the NvBlockComponents ports and the VariableDataPrototypes of the non-volatile memory. The aggregation of NvBlockDataMapping is subject to variability with the purpose to support the conditional existence of nv data ports. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nvBlockDataMapping, nvBlockData Mapping.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
-
-        Args:
-            value: The NvBlockDataMapping to add
-
-        Returns:
-            self for method chaining
+        Defines the mapping between the VariableDataPrototypes in the NvBlockComponents ports and the VariableDataPrototypes of the non-volatile memory. The aggregation of NvBlockDataMapping is subject to variability with the purpose to support the conditional existence of nv data ports. A None value is a no-op and does not append anything.
         """
         if value is not None and value not in self.nvBlockDataMappings:
             self.nvBlockDataMappings.append(value)
         return self
+
+    def getNvBlockDataMappings(self) -> List[NvBlockDataMapping]:
+        """
+        Defines the mapping between the VariableDataPrototypes in the NvBlockComponents ports and the VariableDataPrototypes of the non-volatile memory. The aggregation of NvBlockDataMapping is subject to variability with the purpose to support the conditional existence of nv data ports.
+        """
+        return self.nvBlockDataMappings
 
 
 class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
