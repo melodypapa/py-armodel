@@ -1703,6 +1703,8 @@ class ARXMLParser(AbstractARXMLParser):
             l2.setValue(child_element.text)
             if "L" in child_element.attrib:
                 l2.setL(child_element.attrib["L"])  # noqa: E741
+            if "BLUEPRINT-VALUE" in child_element.attrib:
+                l2.setBlueprintValue(child_element.attrib["BLUEPRINT-VALUE"])
             paragraph.addL2(l2)
 
     def getMultiLanguageOverviewParagraph(self, element: ET.Element, key: str) -> MultiLanguageOverviewParagraph:
@@ -6216,6 +6218,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, key):
             l2 = LOverviewParagraph()
             self.readLanguageSpecific(child_element, l2)
+            if "BLUEPRINT-VALUE" in child_element.attrib:
+                l2.setBlueprintValue(child_element.attrib["BLUEPRINT-VALUE"])
             results.append(l2)
         return results
 

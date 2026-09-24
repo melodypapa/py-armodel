@@ -1008,7 +1008,16 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
     TraceableText,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Tt, Xdoc, Xfile, Xref, XrefTarget
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText, LVerbatim, MixedContentForLongName, MixedContentForParagraph, SlParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
+    LanguageSpecific,
+    LLongName,
+    LOverviewParagraph,
+    LPlainText,
+    LVerbatim,
+    MixedContentForLongName,
+    MixedContentForParagraph,
+    SlParagraph,
+)
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
 from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
@@ -1247,12 +1256,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             for fragment in fragments:
                 self.setShortNameFragment(child_element, fragment)
 
-    def setLanguageSpecific(self, element: ET.Element, key: str, specific: LanguageSpecific):
+    def setLanguageSpecific(self, element: ET.Element, key: str, specific: LanguageSpecific) -> ET.Element:
         child_element = ET.SubElement(element, key)
         self.writeARObject(child_element, specific)
         if specific.getL() is not None:
             child_element.attrib["L"] = specific.getL()
         child_element.text = specific.getValue()
+        return child_element
 
     def setLLongName(self, element: ET.Element, name: LLongName):
         child_element = ET.SubElement(element, "L-4")
@@ -1428,8 +1438,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             for l4 in long_name.getL4s():
                 self.setLLongName(child_element, l4)
 
-    def setLOverviewParagraph(self, element: ET.Element, name: LLongName):
-        self.setLanguageSpecific(element, "L-2", name)
+    def setLOverviewParagraph(self, element: ET.Element, name: LOverviewParagraph):
+        child_element = self.setLanguageSpecific(element, "L-2", name)
+        if name.getBlueprintValue() is not None:
+            child_element.attrib["BLUEPRINT-VALUE"] = name.getBlueprintValue()
 
     def setMultiLanguageOverviewParagraph(self, element: ET.Element, key: str, paragraph: MultiLanguageOverviewParagraph):
         if paragraph is not None:

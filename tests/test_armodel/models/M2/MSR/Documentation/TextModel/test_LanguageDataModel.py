@@ -2,6 +2,8 @@
 This module contains tests for the LanguageDataModel module in MSR.Documentation.TextModel.
 """
 
+from typing import Optional, get_type_hints
+
 import pytest
 
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Superscript, Tt
@@ -90,11 +92,48 @@ class TestLanguageSpecific:
 class TestLOverviewParagraph:
     """Test class for LOverviewParagraph class."""
 
+    def test_l_overview_paragraph_base_chain(self):
+        """LOverviewParagraph must extend LanguageSpecific per Table 9.91."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+        assert issubclass(LOverviewParagraph, LanguageSpecific)
+        assert issubclass(LOverviewParagraph, ARObject)
+        assert isinstance(LOverviewParagraph(), LOverviewParagraph)
+
     def test_l_overview_paragraph_initialization(self):
         """Test that an LOverviewParagraph object can be initialized."""
         l_overview_paragraph = LOverviewParagraph()
         assert l_overview_paragraph.l is None
         assert l_overview_paragraph.value == ""
+        assert l_overview_paragraph.blueprintValue is None
+
+    def test_l_overview_paragraph_docstring_verbatim(self):
+        """Docstring must equal the spec Note from Table 9.91 verbatim."""
+        import inspect
+
+        expected = "MixedContentForOverviewParagraph in one particular language. " "The language is denoted in the attribute l."
+        assert inspect.cleandoc(LOverviewParagraph.__doc__) == expected
+
+    def test_l_overview_paragraph_blueprint_value_methods(self):
+        """Test the blueprintValue getter and setter (Table 9.91 attribute row)."""
+        l_overview_paragraph = LOverviewParagraph()
+        value = "This is the overview text."
+
+        result = l_overview_paragraph.setBlueprintValue(value)
+        assert l_overview_paragraph.getBlueprintValue() == value
+        assert result == l_overview_paragraph
+
+        l_overview_paragraph.setBlueprintValue(None)
+        assert l_overview_paragraph.getBlueprintValue() == value
+
+    def test_l_overview_paragraph_blueprint_value_annotation_is_optional(self):
+        """Accessors must carry Optional[str] hints per Rule 0003 and chain via LOverviewParagraph."""
+        getter_hints = get_type_hints(LOverviewParagraph.getBlueprintValue)
+        setter_hints = get_type_hints(LOverviewParagraph.setBlueprintValue)
+
+        assert getter_hints["return"] == Optional[str]
+        assert setter_hints["value"] == Optional[str]
+        assert setter_hints["return"] == LOverviewParagraph
 
 
 class TestLParagraph:
