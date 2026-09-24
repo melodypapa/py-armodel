@@ -41,18 +41,18 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations (fixed+recorded in step notes: whole-enum stub — fabricated DYNAMIC/STATIC literals with no spec basis, paraphrased docstring, old 4-column checklist — all replaced from Table 5.18; REPORTED UNFIXED: consumer `ImplementationDataTypeElement.arrayImplPolicy` has no reader/writer coverage (`ARRAY-IMPL-POLICY` absent from read/writeImplementationDataTypeElement, arxml_parser.py:6532 / arxml_writer.py:7549; no fixture/test carries it) — fix belongs to the queued ImplementationDataTypeElement row in this file; tracker v2 mention is a stale intake appendix listing only)
   - [ ] Step 9 — Verify (9a) + confirm (9b) [9a: 10937 unit tests + flake8 + ruff + black green; **stamp deferred to batch confirmation (user instruction 2026-09-24)**]
 
-- [ ] `ApiPrincipleEnum` — AREnum — source TBC (locate table at Step 1)
+- [ ] `ApiPrincipleEnum` — AREnum — R23-11 markdown · Table 5.18 (CP_TPS_BSWModuleDescriptionTemplate)
   - module: M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py
   - note: deviation-tracked in method_deviation_by_class.md + method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (Table 5.18, p.83; literals common/perExecutable, indices 0-1 = XSD doc order; SWC TPS Table 7.29 p.557 renders the same enum; found: paraphrased class docstring, `__init__` docstring present, literal comments have spurious trailing period vs spec, old 4-column checklist)
+  - [x] Step 2 — Write model class unit test (Red) (6 tests: literals/values+order/setValue round-trip+chaining/None no-op/validateEnumValue/spec Note; Red confirmed 1st run — test_spec_note failed on the paraphrased docstring "Represents the ability…" vs spec "This enumeration represents…", 5 behavior tests already green)
+  - [x] Step 3 — Implement model class (Green) (no production change: values `common`/`perExecutable`, index order 0-1 and no-arg `__init__` already spec-correct; Green = 6/6 after Step 4's verbatim docstring)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) (paraphrased class docstring, `__init__` docstring and both wrapped literal comments wiped; class Note rewritten verbatim from Table 5.18; both literal comments rewritten verbatim — removed spurious trailing period after "Module", single-line `Tags: atp.EnumerationLiteralIndex=N` form; no `__init__` docstring; mirror file 57/57)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — the value form is serialized by the consuming `apiPrinciple` attributes; consumer coverage verified PRESENT for both: parser `readSwcInternalBehaviorExclusiveAreaPolicies` (arxml_parser.py:3752) + `getBswExclusiveAreaPolicy` (arxml_parser.py:4114); reader test asserts `perExecutable` in test_arxml_parser_handlers.py)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — no parser/writer code added for the enum itself; writer verified: `writeSwcInternalBehaviorExclusiveAreaPolicies` (arxml_writer.py:5715) + `setBswExclusiveAreaPolicy` (arxml_writer.py:7116) emit `API-PRINCIPLE` via `setChildElementOptionalLiteral`; writer test asserts `perExecutable` in test_writer_swc_behavior.py)
+  - [x] Step 7 — Update checklist comment (6-column format, single `__init__` row, release R23-11; NO `# Spec verified:` — deferred to batch confirmation)
+  - [x] Step 8 — Deviations (fixed+recorded in step notes: paraphrased class docstring → Note verbatim, `__init__` docstring removed, wrapped literal comments rewritten verbatim; no open deviations — tracker mentions are stale intake appendix listings)
+  - [ ] Step 9 — Verify (9a) + confirm (9b)  [9a: 10940 unit tests + flake8 + ruff + black green; **stamp deferred to batch confirmation (user instruction 2026-09-24)**]
 
 - [ ] `ReentrancyLevelEnum` — AREnum — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py

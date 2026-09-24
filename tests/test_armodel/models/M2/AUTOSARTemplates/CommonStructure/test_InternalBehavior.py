@@ -39,23 +39,45 @@ class TestReentrancyLevelEnum:
 
 
 class TestApiPrincipleEnum:
-    def test_initialization(self):
-        """Test ApiPrincipleEnum initialization"""
-        api_principle = ApiPrincipleEnum()
-        assert api_principle.COMMON == "common"
-        assert api_principle.PER_EXECUTABLE == "perExecutable"
-        assert "common" in api_principle.getEnumValues()
-        assert "perExecutable" in api_principle.getEnumValues()
-
-    def test_enum_values(self):
-        """Test ApiPrincipleEnum values"""
+    def test_literals(self):
+        """Test ApiPrincipleEnum literal values per AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Table 5.18"""
         assert ApiPrincipleEnum.COMMON == "common"
         assert ApiPrincipleEnum.PER_EXECUTABLE == "perExecutable"
 
-    def test_enum_usage(self):
-        """Test using ApiPrincipleEnum values"""
-        api_principle = ApiPrincipleEnum.COMMON
-        assert api_principle == "common"
+    def test_enum_values(self):
+        """Test the valid enum value set in spec literal order (Table 5.18)"""
+        enum = ApiPrincipleEnum()
+        assert enum.getEnumValues() == (
+            ApiPrincipleEnum.COMMON,
+            ApiPrincipleEnum.PER_EXECUTABLE,
+        )
+
+    def test_instantiation_set_value(self):
+        """Test enum instantiability and setValue/getValue round-trip per Rule 0011"""
+        enum = ApiPrincipleEnum()
+        result = enum.setValue(ApiPrincipleEnum.PER_EXECUTABLE)
+        assert result is enum  # Method chaining
+        assert enum.getValue() == "perExecutable"
+
+    def test_set_value_none_noop(self):
+        """Test setValue(None) is a no-op"""
+        enum = ApiPrincipleEnum()
+        assert enum.setValue(None) is enum
+        assert enum.getValue() == ""  # ARLiteral's empty representation for an unset literal
+        enum.setValue(ApiPrincipleEnum.COMMON)
+        enum.setValue(None)
+        assert enum.getValue() == "common"
+
+    def test_validate_enum_value(self):
+        """Test validateEnumValue accepts spec literals and rejects others"""
+        enum = ApiPrincipleEnum()
+        assert enum.validateEnumValue("common") is True
+        assert enum.validateEnumValue("perExecutable") is True
+        assert enum.validateEnumValue("bogus") is False
+
+    def test_spec_note(self):
+        """Test the Table 5.18 class note."""
+        assert ApiPrincipleEnum.__doc__.strip() == "This enumeration represents the ability to control the granularity of API generation."
 
 
 class TestExclusiveArea:
