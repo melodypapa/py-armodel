@@ -965,7 +965,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
 )
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, InternalConstrs, PhysConstrs, ScaleConstr
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg, SdgContents
-from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
+from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit, UnitGroup
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam, SwGenericAxisParamType
@@ -3483,6 +3483,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalFloatValue(child_element, "FACTOR-SI-TO-UNIT", unit.getFactorSiToUnit())
         self.setChildElementOptionalFloatValue(child_element, "OFFSET-SI-TO-UNIT", unit.getOffsetSiToUnit())
         self.setChildElementOptionalRefType(child_element, "PHYSICAL-DIMENSION-REF", unit.getPhysicalDimensionRef())
+
+    def writeUnitGroup(self, element: ET.Element, unit_group: UnitGroup):
+        self.logger.debug("writeUnitGroup %s" % unit_group.getShortName())
+        child_element = ET.SubElement(element, "UNIT-GROUP")
+        self.writeIdentifiable(child_element, unit_group)
+        refs = unit_group.getUnitRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(child_element, "UNIT-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_element, "UNIT-REF", ref)
 
     def setRModeInAtomicSwcInstanceRef(self, element: ET.Element, key: str, iref: RModeInAtomicSwcInstanceRef):
         child_element = ET.SubElement(element, key)
@@ -13586,6 +13596,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSenderReceiverInterface(element, ar_element)
         elif isinstance(ar_element, Unit):
             self.writeUnit(element, ar_element)
+        elif isinstance(ar_element, UnitGroup):
+            self.writeUnitGroup(element, ar_element)
         elif isinstance(ar_element, BswModuleDescription):
             self.writeBswModuleDescription(element, ar_element)
         elif isinstance(ar_element, BswModuleEntry):

@@ -1075,7 +1075,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
 )
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, DataConstrRule, InternalConstrs, PhysConstrs, ScaleConstr, ScaleConstrValidityEnum
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdf, Sdg, SdgContents
-from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
+from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit, UnitGroup
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import MemoryAllocationKeywordPolicyType, MemorySectionType, SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam, SwGenericAxisParamType
@@ -8090,6 +8090,12 @@ class ARXMLParser(AbstractARXMLParser):
         unit.setOffsetSiToUnit(self.getChildElementOptionalFloatValue(element, "OFFSET-SI-TO-UNIT"))
         unit.setPhysicalDimensionRef(self.getChildElementOptionalRefType(element, "PHYSICAL-DIMENSION-REF"))
 
+    def readUnitGroup(self, element: ET.Element, unit_group: UnitGroup):
+        self.logger.debug("Read UnitGroup <%s>" % unit_group.getShortName())
+        self.readIdentifiable(element, unit_group)
+        for ref in self.getChildElementRefTypeList(element, "UNIT-REFS/UNIT-REF"):
+            unit_group.addUnitRef(ref)
+
     def readEndToEndDescriptionDataIds(self, element: ET.Element, parent: EndToEndDescription):
         child_element = self.find(element, "DATA-IDS")
         if child_element is not None:
@@ -13781,6 +13787,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "UNIT":
                 unit = parent.createUnit(self.getShortName(child_element))
                 self.readUnit(child_element, unit)
+            elif tag_name == "UNIT-GROUP":
+                unit_group = parent.createUnitGroup(self.getShortName(child_element))
+                self.readUnitGroup(child_element, unit_group)
             elif tag_name == "BSW-MODULE-DESCRIPTION":
                 desc = parent.createBswModuleDescription(self.getShortName(child_element))
                 self.readBswModuleDescription(child_element, desc)
