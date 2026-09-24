@@ -2,6 +2,9 @@
 This module contains tests for the AdminData module in MSR.AsamHdo.
 """
 
+from typing import Optional, get_type_hints
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, NameToken, RevisionLabelString, String
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LEnum
@@ -10,6 +13,27 @@ from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import Mult
 
 class TestModification:
     """Test class for Modification class."""
+
+    def test_modification_inheritance_is_arobject(self):
+        """Test that Modification derives from ARObject (Table 4.18 Base row, XSD complexType MODIFICATION = AR-OBJECT group only)."""
+        modification = Modification()
+        assert isinstance(modification, ARObject)
+
+    def test_modification_getter_annotations(self):
+        """Test that both getters carry Optional[MultiLanguageOverviewParagraph] return hints (Table 4.18: change 1, reason 0..1, both aggr; XSD elements minOccurs=0)."""
+        hints = get_type_hints(Modification.getChange)
+        assert hints["return"] == Optional[MultiLanguageOverviewParagraph]
+        hints = get_type_hints(Modification.getReason)
+        assert hints["return"] == Optional[MultiLanguageOverviewParagraph]
+
+    def test_modification_setter_annotations(self):
+        """Test that both setters carry Optional[MultiLanguageOverviewParagraph] value hints and an explicit -> Modification chaining return."""
+        hints = get_type_hints(Modification.setChange)
+        assert hints["value"] == Optional[MultiLanguageOverviewParagraph]
+        assert hints["return"] == Modification
+        hints = get_type_hints(Modification.setReason)
+        assert hints["value"] == Optional[MultiLanguageOverviewParagraph]
+        assert hints["return"] == Modification
 
     def test_modification_initialization(self):
         """Test that a Modification object can be initialized with default values."""
@@ -34,6 +58,18 @@ class TestModification:
         result = modification.setReason(reason_paragraph)
         assert modification.getReason() == reason_paragraph
         assert result == modification  # Should return self for method chaining
+
+    def test_modification_set_none_noop(self):
+        """Test that setChange/setReason with None do not overwrite an existing value (guarded setters)."""
+        modification = Modification()
+        change_paragraph = MultiLanguageOverviewParagraph()
+        reason_paragraph = MultiLanguageOverviewParagraph()
+        modification.setChange(change_paragraph)
+        modification.setReason(reason_paragraph)
+        modification.setChange(None)
+        modification.setReason(None)
+        assert modification.getChange() == change_paragraph
+        assert modification.getReason() == reason_paragraph
 
 
 class TestDocRevision:

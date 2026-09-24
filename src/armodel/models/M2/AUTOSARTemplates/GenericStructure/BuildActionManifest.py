@@ -212,6 +212,7 @@ class BuildActionIoElement(ARObject):
 
     # BuildActionIoElement method parity checklist:
     # Spec: R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 10.3, p.369 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCategory         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

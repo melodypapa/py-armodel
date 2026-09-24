@@ -1,27 +1,30 @@
 # Agent Guidelines for py-armodel
 
+## Environment (uv)
+
+The repo is uv-managed — `uv.lock` and a uv-managed `.venv` (Python 3.11) exist.
+- `uv sync --extra pytest` — install test deps (plain `pip install -e .` does NOT install pytest)
+- `uv run pytest ...` or `uv run python scripts/run_tests.py` — run inside `.venv` without activating (or `source .venv/bin/activate` first); do not commit `.venv` changes
+- Extras in `pyproject.toml`: `pytest` (pytest, pytest-cov, pyyaml) and `lint` (ruff, black)
+
 ## Build, Lint, Test Commands
 
-**Tests (recommended):** `python scripts/run_tests.py` — colored output, summary, auto-installs pyyaml
-- `--unit` / `--integration` / `--no-coverage` / `--verbose` (coverage is ON by default; there is no `--coverage` flag)
-- Subset with `python scripts/run_tests.py -k "datatypes"` or `pytest -k "not integration"` (`-k` is a positional passthrough)
-- Integration tests: round-trip parse → write → re-parse → compare (29 ARXML files)
-- Custom test dirs via `tests/integration_tests/config.yaml`
+**Tests (recommended):** `python scripts/run_tests.py` — colored output, summary, coverage ON by default
+- Flags: `--unit` / `--integration` / `--no-coverage` / `--verbose`. There is NO `--coverage` flag despite `README.md` showing one; use `--no-coverage` to disable coverage
+- Extra args pass through to pytest: `python scripts/run_tests.py -k "datatypes"`
+- Directly: unit `pytest tests/test_armodel/`, integration `pytest tests/integration_tests/ -s`
+- Integration tests = round-trip parse → write → re-parse → compare over `tests/integration_tests/test_files/*.arxml`; add custom dirs via `tests/integration_tests/config.yaml`
+- CI runs plain `pytest` over all of `tests/` — the full suite must pass
 
 **Lint:** `npm run lint` — runs flake8 syntax checks (E9, F63, F7, F82) **and** ruff (`ruff check src tests scripts`, E/F/W/I rules per `[tool.ruff]` in pyproject.toml). Always use this; do not run flake8 alone
-- CI also runs: `--max-complexity=10 --max-line-length=127` (warnings, exit-zero)
+- **Do NOT re-sort imports in `src/armodel/models/**`, `src/armodel/parser/arxml_parser.py`, `src/armodel/writer/arxml_writer.py`** — ruff's I001 (and E402 in parser/writer) is intentionally disabled in `[tool.ruff.lint.per-file-ignores]` because import order avoids circular imports; auto-fixing triggers ImportError at package load
 - **Exclude `build/`** from lint (generated code)
-- **Do NOT re-sort imports in `src/armodel/models/**`, `parser/arxml_parser.py`, `writer/arxml_writer.py`** — ruff's I001 is intentionally disabled there (`[tool.ruff.lint.per-file-ignores]` in pyproject.toml) because import order avoids circular imports; auto-fixing it triggers ImportError at package load
-- **Black formatter:** `npm run black` — formats code with 200 character line length
-- **Black check:** `npm run black-check` — checks code formatting without modifying files
+- CI also runs flake8 `--exit-zero --max-complexity=10 --max-line-length=127` (warnings, non-blocking)
+
+**Format:** `npm run black` — Black formatter at **200 char** line length (`[tool.black]` in pyproject.toml); `npm run black-check` to check only
 
 **Build:** `python -m build` (requires `pip install build`)
 **Dev install:** `pip install -e .`
-
-**Environment (uv):** The repo is uv-managed — `uv.lock` and a uv-managed `.venv` (Python 3.11) exist. The `pytest` extra (`pytest`, `pytest-cov`, `pyyaml`) and `lint` extra (`ruff`, `black`) are in `pyproject.toml`.
-- `uv sync --extra pytest` — create/update `.venv` with test deps (plain `pip install -e .` does NOT install pytest)
-- `uv run pytest ...` or `uv run python scripts/run_tests.py` — run inside `.venv` without activating
-- Or `source .venv/bin/activate` first; do not commit changes to `.venv`
 
 ## Critical: AUTOSAR Version MUST Be Set
 
@@ -37,59 +40,27 @@ writer.save('output.arxml', document)
 
 - Source: `src/armodel/` (src layout). Tests: `tests/test_armodel/` mirrors source structure
 - `AUTOSAR` singleton: `getInstance()` / `new()` to reset
-- Model classes use wildcard exports in `__init__.py` — when adding a class, add `from .my_class import *` to parent `__init__.py`
-- Use `ABC` from `abc` module (not `ABCMeta`)
-- Current version: 1.9.7, Python >= 3.8 (CI tests 3.8–3.13)
-- Dependencies: `colorama`, `openpyxl`, `lxml` (runtime)
-
-### High-Level Data Flow
-
-```
-ARXML file ──> parser/arxml_parser.py ──> in-memory model (models/M2/*)
-                                                          │
-                                            mutate via AUTOSAR singleton
-                                                          │
-                                   writer/arxml_writer.py <── ARXML file
-```
-
-The in-memory model is a bi-directional object graph rooted at the `AUTOSAR` singleton. The parser builds it; the writer serializes it back. Round-trip integrity (parse → write → re-parse → compare) is the contract enforced by the integration tests.
-
-### Module Organization (`src/armodel/`)
-
-- **models/** — AUTOSAR data model classes following the AUTOSAR M2 meta-model
-  - `models/M2/MSR/` — meta-model semantic rules (AsamHdo, DataDictionary, Documentation, CalibrationData)
-  - `models/M2/AUTOSARTemplates/` — template models grouped by domain (CommonStructure, SWComponentTemplate, SystemTemplate, BswModuleTemplate, ECUCDescriptionTemplate, ECUCParameterDefTemplate, EcuResourceTemplate, GenericStructure, DiagnosticExtract)
-  - `models/utils/` — UUID management (`UUIDMgr`)
-- **parser/** — ARXML parsing (`arxml_parser.py`, abstract base, Excel/connector parsers, `file_parser.py`)
-- **writer/** — ARXML writing (`arxml_writer.py`, abstract base)
-- **cli/** — console_scripts entry points (one module per CLI tool)
-- **lib/** — shared utilities (`sw_component.py`, `system_signal.py`, `cli_args_parser.py`)
-- **data_models/** — standalone models like `sw_connector.py`
-- **transformer/** — data transformations (e.g. `admin_data.py`)
-- **report/** — Excel report generation (`connector_xls_report.py`, `excel_report.py`)
-
-### M2 Schema Structure
-
-The model is organized per the AUTOSAR M2 meta-model. Every model class ultimately derives from `ARObject` → `Referrable` → `MultilanguageReferrable` → `Identifiable` → `PackageableElement` → `ARElement` → `AtpType` (see `README.md` §1.9 for the full heritage tree). New model classes must be placed under the correct `AUTOSARTemplates` domain package.
+- Data flow: `parser/arxml_parser.py` builds the in-memory model (`models/M2/*`) → mutate via the AUTOSAR singleton → `writer/arxml_writer.py` serializes it back. Round-trip integrity is the contract enforced by the integration tests
+- Model classes are exported via wildcard imports (`from .my_class import *`) in parent `__init__.py` files — a new class MUST be added there or it won't be importable from `armodel.models`
+- Heritage: every model class derives from `ARObject` → `Referrable` → `MultilanguageReferrable` → `Identifiable` → `PackageableElement` → `ARElement` (full tree: `README.md` §1.9)
+- Domains: `models/M2/MSR/` (AsamHdo, DataDictionary, Documentation, CalibrationData), `models/M2/AUTOSARTemplates/` (CommonStructure, SWComponentTemplate, SystemTemplate, BswModuleTemplate, ECUC*, GenericStructure, DiagnosticExtract), `models/utils/` (UUIDMgr); plus `parser/`, `writer/`, `cli/`, `lib/`, `data_models/`, `transformer/`, `report/`
 
 ### Adding a New Model Class
 
-1. Decide if it is a leaf package (`.py` file, package name = filename) or non-leaf (has subpackages → define in `__init__.py`)
-2. Create it under the correct domain in `src/armodel/models/M2/AUTOSARTemplates/`
-3. Add a wildcard import in the parent `__init__.py`: `from .my_class import *`
-4. Add an import to `src/armodel/models/__init__.py` if it is a top-level name
-5. Add a corresponding test under `tests/test_armodel/models/M2/`
-6. Run `python scripts/run_tests.py` and `npm run black`
+1. **Leaf package** (no subdirs) → define the class in a `.py` file named after the package; **non-leaf** (has subdirs) → define in `__init__.py`
+2. Place it under the correct domain in `src/armodel/models/M2/AUTOSARTemplates/`
+3. Add `from .my_class import *` to the parent `__init__.py`; add to `src/armodel/models/__init__.py` if top-level
+4. Add a test under `tests/test_armodel/models/M2/`; run `python scripts/run_tests.py` and `npm run black`
+- For spec-alignment work use the repo skill `sync-autosar-class` (trigger: "sync <ClassName>"; rules in `.claude/skills/sync-autosar-class/rules.md`, AUTOSAR PDF spec tables are the source of truth)
 
 ## Code Style
 
 - **Do NOT add comments** unless asked
-- Line length: Black is the enforced formatter at **200 chars** (`pyproject.toml` `[tool.black]`) — always run `npm run black`. `coding_rules.md` documents 79 as the PEP 8 ideal and flake8 warns (exit-zero) at 127, but these do NOT block commits. Don't manually wrap lines to 79; let Black handle it. 4-space indent, double quotes
-- Classes: `PascalCase`. AUTOSAR methods: `camelCase`. Constants: `UPPER_CASE`
-- Setters return `self` (method chaining)
-- Type annotations: Python 3.8-compatible — `typing.Optional[T]` / `typing.List[T]`, NEVER `T | None` or `list[...]` (project requires Python >= 3.8, CI runs on 3.8–3.13)
-  - NOTE: `CLAUDE.md` and `docs/development/coding_rules.md` incorrectly recommend `str | None` (3.10+ syntax). That guidance is WRONG for this repo — do not follow it. Use `typing` imports.
-- Package structure rule: **leaf packages** (no subdirs) define the class in a `.py` file named after the package; **non-leaf packages** (have subdirs) define classes in `__init__.py`
+- Black at 200 chars is the enforced format — don't hand-wrap to 79/127; flake8 line-length/complexity warnings are exit-zero and non-blocking
+- Classes `PascalCase`, AUTOSAR methods `camelCase`, constants `UPPER_CASE`; setters return `self` (method chaining)
+- Use `ABC` from `abc` as the base class (as `ARObject` does), not `ABCMeta`
+- Type annotations MUST be Python 3.8-compatible: `typing.Optional[T]` / `typing.List[T]`, NEVER `T | None` or `list[T]` (requires-python >= 3.8, CI tests 3.8–3.13)
+  - NOTE: `CLAUDE.md` and `docs/development/coding_rules.md` recommend 3.10+ union syntax — that guidance is WRONG for this repo; use `typing` imports
 
 ## Parser & Model Gotchas
 
@@ -97,27 +68,26 @@ The model is organized per the AUTOSAR M2 meta-model. Every model class ultimate
 parser = ARXMLParser(options={"warning": True})  # warnings instead of exceptions
 ```
 
-- `findXXX()` returns `None` if not found (no exceptions)
-- Same short names can coexist across *different* types
+- `findXXX()` returns `None` if not found (no exception)
+- Same short name can coexist across *different* types
 - Duplicate UUID checking is enabled
-- Boolean values in XML: no spaces (`true` not ` true `)
-- Float scientific notation is handled (`1.23e-5`)
-- Bi-directional parent-child references — use `addElement()` to maintain them
+- Booleans written without spaces (`true`); float scientific notation handled (`1.23e-5`)
+- Parent-child references are bi-directional — maintain them with `addElement()`
 
 ## CLI Tools (console_scripts)
 
-`arxml-dump`, `arxml-format`, `armodel-component`, `connector2xlsx`, `connector-update`, `armodel-system-signal`, `armodel-memory-section`, `armodel-file-list`, `armodel-uuid-checker`, `format-xml`
+`arxml-dump`, `arxml-format`, `format-xml`, `armodel-component`, `connector2xlsx`, `connector-update`, `armodel-system-signal`, `armodel-memory-section`, `armodel-file-list`, `armodel-uuid-checker`, `os-ecuc-export` — one module per tool in `src/armodel/cli/`
 
-## Pytest Markers (defined in pytest.ini)
+## Pytest Markers (pytest.ini)
 
 `integration`, `slow`, `datatypes`, `components`, `bsw`, `system`, `blueprint`, `lifecycle`
 
-## Slash Commands (for Claude Code)
+## Slash Commands (Claude Code)
 
 `.claude/commands/` — `/test`, `/quality`, `/gh-workflow`, `/merge-pr`, `/req`
 
 ## Key References
 
-- `CLAUDE.md` — comprehensive project guidance (this file is the condensed agent reference)
-- `docs/development/coding_rules.md` — detailed coding standards
-- `docs/development/class_check_rules.md` — 12 rules for syncing model classes with the AUTOSAR PDF spec (method parity checklists, spec-based docstrings, `Optional`/`List` hints, setter chaining). Recent work = syncing model classes to these rules.
+- `CLAUDE.md` — comprehensive project guidance (verify against config; see the 3.10-syntax caveat above)
+- `docs/development/` — `coding_rules.md`, `parser_writer_conventions.md`, `model_test_parity.md`
+- Version lives in `src/armodel/__init__.py` (`__version__`), pulled into the wheel via setuptools dynamic attr — bump there, not in pyproject.toml

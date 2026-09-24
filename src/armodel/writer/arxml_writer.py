@@ -966,7 +966,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
 )
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, InternalConstrs, PhysConstrs, ScaleConstr
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg, SdgContents
-from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
+from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit, UnitGroup
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam, SwGenericAxisParamType
@@ -998,7 +998,7 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
 )
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryResultChapter, MsrQueryResultTopic1, MsrQueryTopic1
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, LabeledItem, LabeledList
+from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, Item, LabeledItem, LabeledList, ListEnum
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note
 from armodel.models.M2.MSR.Documentation.BlockElements import Colspec, Entry, Row, Table, Tbody, Tgroup
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
@@ -1009,7 +1009,16 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
     TraceableText,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Tt, Xdoc, Xfile, Xref, XrefTarget
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText, LVerbatim, MixedContentForLongName, MixedContentForParagraph, SlParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
+    LanguageSpecific,
+    LLongName,
+    LOverviewParagraph,
+    LPlainText,
+    LVerbatim,
+    MixedContentForLongName,
+    MixedContentForParagraph,
+    SlParagraph,
+)
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
 from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
@@ -1248,12 +1257,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             for fragment in fragments:
                 self.setShortNameFragment(child_element, fragment)
 
-    def setLanguageSpecific(self, element: ET.Element, key: str, specific: LanguageSpecific):
+    def setLanguageSpecific(self, element: ET.Element, key: str, specific: LanguageSpecific) -> ET.Element:
         child_element = ET.SubElement(element, key)
         self.writeARObject(child_element, specific)
         if specific.getL() is not None:
             child_element.attrib["L"] = specific.getL()
         child_element.text = specific.getValue()
+        return child_element
 
     def setLLongName(self, element: ET.Element, name: LLongName):
         child_element = ET.SubElement(element, "L-4")
@@ -1429,8 +1439,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             for l4 in long_name.getL4s():
                 self.setLLongName(child_element, l4)
 
-    def setLOverviewParagraph(self, element: ET.Element, name: LLongName):
-        self.setLanguageSpecific(element, "L-2", name)
+    def setLOverviewParagraph(self, element: ET.Element, name: LOverviewParagraph):
+        child_element = self.setLanguageSpecific(element, "L-2", name)
+        if name.getBlueprintValue() is not None:
+            child_element.attrib["BLUEPRINT-VALUE"] = name.getBlueprintValue()
 
     def setMultiLanguageOverviewParagraph(self, element: ET.Element, key: str, paragraph: MultiLanguageOverviewParagraph):
         if paragraph is not None:
@@ -1798,6 +1810,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeNumericalRuleBasedValueSpecification(elements_tag, sub_element)
                 elif isinstance(sub_element, TextValueSpecification):
                     self.writeTextValueSpecification(elements_tag, sub_element)
+                elif isinstance(sub_element, ConstantReference):
+                    self.setConstantReference(elements_tag, sub_element)
                 elif isinstance(sub_element, ArrayValueSpecification):
                     self.writeArrayValueSpecification(elements_tag, sub_element)
                 elif isinstance(sub_element, RecordValueSpecification):
@@ -2218,7 +2232,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeTopicContent(element, topic_content_or_msr_query.getTopicContent())
 
     def writeMsrQueryP1(self, element: ET.Element, msr_query_p1: MsrQueryP1):
-        child_element = ET.SubElement(element, "MSR-QUERY-P1")
+        child_element = ET.SubElement(element, "MSR-QUERY-P-1")
         self.writePaginateable(child_element, msr_query_p1)
         if msr_query_p1.getMsrQueryProps() is not None:
             self.setMsrQueryProps(child_element, msr_query_p1.getMsrQueryProps())
@@ -2458,9 +2472,18 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writePaginateable(child_element, list)
             type = list.getType()
             if type is not None:
-                child_element.attrib["TYPE"] = type
+                if isinstance(type, ListEnum):
+                    child_element.attrib["TYPE"] = type.getValue().upper()
+                else:
+                    child_element.attrib["TYPE"] = type
             for item in list.getItems():
-                self.writeDocumentationBlock(child_element, "ITEM", item)
+                if isinstance(item, Item):
+                    item_element = ET.SubElement(child_element, "ITEM")
+                    self.writePaginateable(item_element, item)
+                    if item.getItemContents() is not None:
+                        self.writeDocumentationBlockContent(item_element, item.getItemContents())
+                else:
+                    self.writeDocumentationBlock(child_element, "ITEM", item)
 
     def setGraphic(self, element: ET.Element, key: str, graphic: Graphic):
         if graphic is not None:
@@ -2751,19 +2774,22 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDocumentationBlock(self, element: ET.Element, key: str, block: DocumentationBlock):
         if block is not None:
             child_element = ET.SubElement(element, key)
-            self.writeARObject(child_element, block)
-            self.setMsrQueryP2(child_element, block.getMsrQueryP2())
-            self.setMultiLanguageParagraphs(child_element, "P", block.getPs())
-            self.setMultiLanguageVerbatim(child_element, "VERBATIM", block.getVerbatim())
-            for list in block.getLists():
-                self.setListElement(child_element, "LIST", list)
-            self.setDefList(child_element, block.getDefList())
-            self.setLabeledList(child_element, block.getLabeledList())
-            self.setMlFormula(child_element, "FORMULA", block.getFormula())
-            self.setMlFigures(child_element, "FIGURE", block.getFigures())
-            self.setNote(child_element, block.getNote())
-            self.setTraceableText(child_element, "TRACE", block.getTrace())
-            self.setStructuredReq(child_element, block.getStructuredReq())
+            self.writeDocumentationBlockContent(child_element, block)
+
+    def writeDocumentationBlockContent(self, element: ET.Element, block: DocumentationBlock):
+        self.writeARObject(element, block)
+        self.setMsrQueryP2(element, block.getMsrQueryP2())
+        self.setMultiLanguageParagraphs(element, "P", block.getPs())
+        self.setMultiLanguageVerbatim(element, "VERBATIM", block.getVerbatim())
+        for list in block.getLists():
+            self.setListElement(element, "LIST", list)
+        self.setDefList(element, block.getDefList())
+        self.setLabeledList(element, block.getLabeledList())
+        self.setMlFormula(element, "FORMULA", block.getFormula())
+        self.setMlFigures(element, "FIGURE", block.getFigures())
+        self.setNote(element, block.getNote())
+        self.setTraceableText(element, "TRACE", block.getTrace())
+        self.setStructuredReq(element, block.getStructuredReq())
 
     def setDefList(self, element: ET.Element, def_list: DefList):
         if def_list is not None:
@@ -3482,6 +3508,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalFloatValue(child_element, "FACTOR-SI-TO-UNIT", unit.getFactorSiToUnit())
         self.setChildElementOptionalFloatValue(child_element, "OFFSET-SI-TO-UNIT", unit.getOffsetSiToUnit())
         self.setChildElementOptionalRefType(child_element, "PHYSICAL-DIMENSION-REF", unit.getPhysicalDimensionRef())
+
+    def writeUnitGroup(self, element: ET.Element, unit_group: UnitGroup):
+        self.logger.debug("writeUnitGroup %s" % unit_group.getShortName())
+        child_element = ET.SubElement(element, "UNIT-GROUP")
+        self.writeIdentifiable(child_element, unit_group)
+        refs = unit_group.getUnitRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(child_element, "UNIT-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_element, "UNIT-REF", ref)
 
     def setRModeInAtomicSwcInstanceRef(self, element: ET.Element, key: str, iref: RModeInAtomicSwcInstanceRef):
         child_element = ET.SubElement(element, key)
@@ -13291,6 +13327,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalLiteral(child_element, "DATA-FILTER-TYPE", filter.getDataFilterType())
             self.setChildElementOptionalIntegerValue(child_element, "MASK", filter.getMask())
+            self.setChildElementOptionalIntegerValue(child_element, "MAX", filter.getMax())
+            self.setChildElementOptionalIntegerValue(child_element, "MIN", filter.getMin())
+            self.setChildElementOptionalPositiveInteger(child_element, "OFFSET", filter.getOffset())
+            self.setChildElementOptionalPositiveInteger(child_element, "PERIOD", filter.getPeriod())
             self.setChildElementOptionalIntegerValue(child_element, "X", filter.getX())
 
     def setTransmissionModeConditions(self, element: ET.Element, key: str, conditions: List[TransmissionModeCondition]):
@@ -13586,6 +13626,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSenderReceiverInterface(element, ar_element)
         elif isinstance(ar_element, Unit):
             self.writeUnit(element, ar_element)
+        elif isinstance(ar_element, UnitGroup):
+            self.writeUnitGroup(element, ar_element)
         elif isinstance(ar_element, BswModuleDescription):
             self.writeBswModuleDescription(element, ar_element)
         elif isinstance(ar_element, BswModuleEntry):

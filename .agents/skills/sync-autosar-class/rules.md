@@ -277,10 +277,12 @@ all agree; Rule 0001.3). Do not stop at the field default:
 
 ### 1.8 Cross-package types
 
-- A field whose type lives in a different package that imports back → import under
-  `TYPE_CHECKING` and annotate with the bare type name (PEP 563 defers evaluation — do
-  **not** quote it, see Rule 0003); the reader/writer may
-  import it directly (they sit below the model graph).
+- A field whose type lives in a different package that imports back → import it for
+  real at the BOTTOM of the module (cycle-breaker, `# noqa: E402` — see Rule 0005) and
+  annotate with the bare type name (do **not** quote it, Rule 0003). Do NOT reach for a
+  `TYPE_CHECKING`-only import: the name must exist at runtime for the `get_type_hints`
+  pin tests to pass on Python 3.8 (bpo-39291). The reader/writer may import it directly
+  (they sit below the model graph).
 - A shared spec enum used by classes in >1 package is defined once in the lowest common
   package (typically `CommonStructure`) and imported directly by consumers.
 
@@ -495,16 +497,24 @@ Python 3.8-compatible: `Optional[T]` / `List[T]` / `Dict[K,V]` from `typing` —
 | add | `def addFoo(self, value: Optional[Foo]) -> Foo:` |
 | create | `def createFoo(self, short_name: str) -> Foo:` |
 
-- **Top-level annotations are bare names — never quoted strings.** Model modules use
-  `from __future__ import annotations` (PEP 563), which stores a quoted annotation
-  **verbatim, quotes included**: `-> "Foo"` survives as the string `"Foo"`, and
+- **Annotations are bare names — never quoted strings, top-level OR nested.** Model
+  modules use `from __future__ import annotations` (PEP 563), which stores a quoted
+  annotation **verbatim, quotes included**: `-> "Foo"` survives as the string `"Foo"`, and
   `typing.get_type_hints()` on Python 3.8 returns an unresolved `ForwardRef` instead of
   the class (3.9+ double-resolves it in a second pass, masking the bug outside the 3.8
-  CI job). A bare name is always safe — PEP 563 defers evaluation, so it also works for
-  classes defined later in the module or imported under `TYPE_CHECKING`. Quotes are
-  allowed only **nested** inside a subscript (`Optional["Foo"]`, `List["Foo"]`). The
-  model tests pin this: `typing.get_type_hints(cls.setXxx).get("return") is <ClassName>`
-  must hold on every supported Python version.
+  CI job). A bare name is always safe at import time — PEP 563 defers evaluation, so it
+  also works for classes defined later in the module. Quotes are forbidden EVERYWHERE in
+  model annotations, including nested positions (`Optional["Foo"]`, `List["Foo"]`): the
+  nested form broke the 3.8 CI job the same way as the top-level form.
+- **A name used in a pinned annotation must exist in the defining module's RUNTIME
+  globals.** `get_type_hints` resolves at call time, not import time: a
+  `TYPE_CHECKING`-only import puts the name nowhere at runtime, and on Python 3.8
+  (bpo-39291) `get_type_hints(fn, globalns=...)` IGNORES the caller-supplied namespace
+  for functions — so no test-side injection can rescue it. When the real import is
+  circular, place it at the BOTTOM of the module (runtime cycle-breaker, `# noqa: E402`;
+  see Rule 0005) so the name is a module global once the module finishes loading. The
+  model tests pin this with PLAIN calls: `typing.get_type_hints(cls.setXxx).get("return")
+  is <ClassName>` must hold on every supported Python version — no `globalns` argument.
 - Getters for collections return `List[T]`; getters that may return `None` return
   `Optional[T]`. Setters/adds declare `value` and return `ClassName` (bare — see the
   PEP 563 warning above). Factories accept
@@ -570,11 +580,15 @@ A `@property` setter is a setter too and must guard.
 ## Rule 0005 — Formatting *(formerly Rule 6)*
 
 - All imports at the top (module docstring, then `from __future__`, then imports, then
-  code — PEP 8 E402). No mid-file imports to work around cycles; break cycles with
-  `TYPE_CHECKING` + `from __future__ import annotations` for annotations, or a
-  function-local import for runtime instantiation. `from __future__ import annotations`
-  also resolves intra-module forward references (a class annotated with a type declared
-  later in the same module).
+  code — PEP 8 E402). One sanctioned exception: a BOTTOM-of-module runtime import that
+  breaks a cycle for a name used in annotations (`# noqa: E402` + a comment naming the
+  cycle) — required whenever a `get_type_hints` pin test must resolve that name on
+  Python 3.8 (bpo-39291), where `TYPE_CHECKING`-only imports cannot work. Never move the
+  cycle INTO the other module: if the imported-back package defines the name AFTER its
+  own import of this module, move that import below the name's definition there too.
+  `TYPE_CHECKING` remains available only for names no test ever resolves at runtime.
+  `from __future__ import annotations` also resolves intra-module forward references (a
+  class annotated with a type declared later in the same module).
 - A blank line separates each attribute block (comment + assignment) in `__init__`.
 - Black `line-length = 200` (`pyproject.toml`, `npm run black-check`); the 79-char limit
   is obsolete.
@@ -798,7 +812,8 @@ subpackages:
   `SomeGroup/__init__.py` (non-leaf).
 - Classes sharing a parent package tail are all direct members of that `__init__.py`
   (consolidate placeholder submodule families into the package `__init__.py`); break
-  resulting cycles with `from __future__ import annotations` + `TYPE_CHECKING`.
+  resulting cycles with `from __future__ import annotations` + `TYPE_CHECKING` for names
+  no test resolves at runtime, else a bottom-of-module runtime import (Rule 0003/0005).
 - **Shadowing:** if `X.py` and a directory `X/` both exist, the file wins and classes in
   `X/*.py` are dead code — migrate them to `X.py` (or make `X/` a real package) and
   update `KNOWN_NAME_COLLISION_CLASSES` in `tests/test_armodel/test_model_imports.py`.

@@ -113,7 +113,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     NumericalOrText,
     NumericalRuleBasedValueSpecification,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter, DataFilterTypeEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap, RtePluginProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, DependencyUsageEnum, Implementation, ImplementationProps, ProgramminglanguageEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType, ImplementationDataTypeElement
@@ -1076,7 +1076,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
 )
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, DataConstrRule, InternalConstrs, PhysConstrs, ScaleConstr, ScaleConstrValidityEnum
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdf, Sdg, SdgContents
-from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
+from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit, UnitGroup
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import MemoryAllocationKeywordPolicyType, MemorySectionType, SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam, SwGenericAxisParamType
@@ -1115,7 +1115,7 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
 )
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryResultChapter, MsrQueryResultTopic1, MsrQueryTopic1
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, ItemLabelPosEnum, LabeledItem, LabeledList
+from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, Item, ItemLabelPosEnum, LabeledItem, LabeledList, ListEnum
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note, NoteTypeEnum
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import ChapterEnumBreak, DocumentViewSelectable, KeepWithPreviousEnum, Paginateable
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
@@ -1137,7 +1137,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.InlineAttributeEnums import (
     ShowSeeEnum,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Superscript, Tt, Xdoc, Xfile, Xref, XrefTarget
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LVerbatim, MixedContentForLongName, SlParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LPlainText, LVerbatim, MixedContentForLongName, SlParagraph
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
 from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
@@ -1704,6 +1704,8 @@ class ARXMLParser(AbstractARXMLParser):
             l2.setValue(child_element.text)
             if "L" in child_element.attrib:
                 l2.setL(child_element.attrib["L"])  # noqa: E741
+            if "BLUEPRINT-VALUE" in child_element.attrib:
+                l2.setBlueprintValue(child_element.attrib["BLUEPRINT-VALUE"])
             paragraph.addL2(l2)
 
     def getMultiLanguageOverviewParagraph(self, element: ET.Element, key: str) -> MultiLanguageOverviewParagraph:
@@ -5716,12 +5718,12 @@ class ARXMLParser(AbstractARXMLParser):
             paragraphs.append(paragraph)
         return paragraphs
 
-    def getLPlainTexts(self, element: ET.Element, key: str) -> List[LParagraph]:
+    def getLPlainTexts(self, element: ET.Element, key: str) -> List[LPlainText]:
         results = []
         for child_element in self.findall(element, key):
-            l1 = LParagraph()
-            self.readLanguageSpecific(child_element, l1)
-            results.append(l1)
+            l10 = LPlainText()
+            self.readLanguageSpecific(child_element, l10)
+            results.append(l10)
         return results
 
     def getListElements(self, element: ET.Element, key: str) -> List[ARList]:
@@ -5733,9 +5735,14 @@ class ARXMLParser(AbstractARXMLParser):
             list = ARList()
             self.readPaginateable(child_element, list)
             if "TYPE" in child_element.attrib:
-                list.setType(child_element.attrib["TYPE"])
-            for block in self.getDocumentationBlockList(child_element, "ITEM"):
-                list.addItem(block)
+                list.setType(ListEnum().setValue(child_element.attrib["TYPE"].lower()))
+            for item_element in self.findall(child_element, "ITEM"):
+                item = Item()
+                self.readPaginateable(item_element, item)
+                block = DocumentationBlock()
+                self.readDocumentationBlock(item_element, block)
+                item.setItemContents(block)
+                list.addItem(item)
             result.append(list)
         return result
 
@@ -6217,6 +6224,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, key):
             l2 = LOverviewParagraph()
             self.readLanguageSpecific(child_element, l2)
+            if "BLUEPRINT-VALUE" in child_element.attrib:
+                l2.setBlueprintValue(child_element.attrib["BLUEPRINT-VALUE"])
             results.append(l2)
         return results
 
@@ -7196,7 +7205,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTopicContentOrMsrQuery(self, element: ET.Element, parent: ARObject) -> "TopicContentOrMsrQuery":
         result = None
-        msr_query_p1_element = self.find(element, "MSR-QUERY-P1")
+        msr_query_p1_element = self.find(element, "MSR-QUERY-P-1")
         topic_content_element = self.find(element, "TOPIC-CONTENT")
         if msr_query_p1_element is not None or topic_content_element is not None:
             result = TopicContentOrMsrQuery()
@@ -7939,7 +7948,7 @@ class ARXMLParser(AbstractARXMLParser):
         value_spec = TextValueSpecification()
         self.readValueSpecification(element, value_spec)
         value_spec.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
-        value_spec.setValue(self.getChildElementOptionalLiteral(element, "VALUE"))
+        value_spec.setValue(self.getChildElementOptionalVerbatimString(element, "VALUE"))
         return value_spec
 
     def getArrayValueSpecification(self, element: ET.Element) -> ArrayValueSpecification:
@@ -8090,6 +8099,12 @@ class ARXMLParser(AbstractARXMLParser):
         unit.setFactorSiToUnit(self.getChildElementOptionalFloatValue(element, "FACTOR-SI-TO-UNIT"))
         unit.setOffsetSiToUnit(self.getChildElementOptionalFloatValue(element, "OFFSET-SI-TO-UNIT"))
         unit.setPhysicalDimensionRef(self.getChildElementOptionalRefType(element, "PHYSICAL-DIMENSION-REF"))
+
+    def readUnitGroup(self, element: ET.Element, unit_group: UnitGroup):
+        self.logger.debug("Read UnitGroup <%s>" % unit_group.getShortName())
+        self.readIdentifiable(element, unit_group)
+        for ref in self.getChildElementRefTypeList(element, "UNIT-REFS/UNIT-REF"):
+            unit_group.addUnitRef(ref)
 
     def readEndToEndDescriptionDataIds(self, element: ET.Element, parent: EndToEndDescription):
         child_element = self.find(element, "DATA-IDS")
@@ -12907,9 +12922,15 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             filter = DataFilter()
-            filter.setDataFilterType(self.getChildElementOptionalLiteral(child_element, "DATA-FILTER-TYPE"))
-            filter.setMask(self.getChildElementOptionalIntegerValue(child_element, "MASK"))
-            filter.setX(self.getChildElementOptionalIntegerValue(child_element, "X"))
+            literal = self.getChildElementOptionalLiteral(child_element, "DATA-FILTER-TYPE")
+            if literal is not None:
+                filter.setDataFilterType(DataFilterTypeEnum().setValue(literal.getText()))
+            filter.setMask(self.getChildElementOptionalUnlimitedInteger(child_element, "MASK"))
+            filter.setMax(self.getChildElementOptionalUnlimitedInteger(child_element, "MAX"))
+            filter.setMin(self.getChildElementOptionalUnlimitedInteger(child_element, "MIN"))
+            filter.setOffset(self.getChildElementOptionalPositiveInteger(child_element, "OFFSET"))
+            filter.setPeriod(self.getChildElementOptionalPositiveInteger(child_element, "PERIOD"))
+            filter.setX(self.getChildElementOptionalUnlimitedInteger(child_element, "X"))
 
         return filter
 
@@ -13782,6 +13803,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "UNIT":
                 unit = parent.createUnit(self.getShortName(child_element))
                 self.readUnit(child_element, unit)
+            elif tag_name == "UNIT-GROUP":
+                unit_group = parent.createUnitGroup(self.getShortName(child_element))
+                self.readUnitGroup(child_element, unit_group)
             elif tag_name == "BSW-MODULE-DESCRIPTION":
                 desc = parent.createBswModuleDescription(self.getShortName(child_element))
                 self.readBswModuleDescription(child_element, desc)

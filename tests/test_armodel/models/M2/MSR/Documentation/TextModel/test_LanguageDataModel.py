@@ -2,10 +2,22 @@
 This module contains tests for the LanguageDataModel module in MSR.Documentation.TextModel.
 """
 
+from typing import Optional, get_type_hints
+
 import pytest
 
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Superscript, Tt
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LEnum, LLongName, LOverviewParagraph, LParagraph, LPlainText, MixedContentForParagraph, SlParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
+    LanguageSpecific,
+    LEnum,
+    LLongName,
+    LOverviewParagraph,
+    LParagraph,
+    LPlainText,
+    LVerbatim,
+    MixedContentForParagraph,
+    SlParagraph,
+)
 
 
 class TestLEnum:
@@ -90,11 +102,48 @@ class TestLanguageSpecific:
 class TestLOverviewParagraph:
     """Test class for LOverviewParagraph class."""
 
+    def test_l_overview_paragraph_base_chain(self):
+        """LOverviewParagraph must extend LanguageSpecific per Table 9.91."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+        assert issubclass(LOverviewParagraph, LanguageSpecific)
+        assert issubclass(LOverviewParagraph, ARObject)
+        assert isinstance(LOverviewParagraph(), LOverviewParagraph)
+
     def test_l_overview_paragraph_initialization(self):
         """Test that an LOverviewParagraph object can be initialized."""
         l_overview_paragraph = LOverviewParagraph()
         assert l_overview_paragraph.l is None
         assert l_overview_paragraph.value == ""
+        assert l_overview_paragraph.blueprintValue is None
+
+    def test_l_overview_paragraph_docstring_verbatim(self):
+        """Docstring must equal the spec Note from Table 9.91 verbatim."""
+        import inspect
+
+        expected = "MixedContentForOverviewParagraph in one particular language. " "The language is denoted in the attribute l."
+        assert inspect.cleandoc(LOverviewParagraph.__doc__) == expected
+
+    def test_l_overview_paragraph_blueprint_value_methods(self):
+        """Test the blueprintValue getter and setter (Table 9.91 attribute row)."""
+        l_overview_paragraph = LOverviewParagraph()
+        value = "This is the overview text."
+
+        result = l_overview_paragraph.setBlueprintValue(value)
+        assert l_overview_paragraph.getBlueprintValue() == value
+        assert result == l_overview_paragraph
+
+        l_overview_paragraph.setBlueprintValue(None)
+        assert l_overview_paragraph.getBlueprintValue() == value
+
+    def test_l_overview_paragraph_blueprint_value_annotation_is_optional(self):
+        """Accessors must carry Optional[str] hints per Rule 0003 and chain via LOverviewParagraph."""
+        getter_hints = get_type_hints(LOverviewParagraph.getBlueprintValue)
+        setter_hints = get_type_hints(LOverviewParagraph.setBlueprintValue)
+
+        assert getter_hints["return"] == Optional[str]
+        assert setter_hints["value"] == Optional[str]
+        assert setter_hints["return"] == LOverviewParagraph
 
 
 class TestLParagraph:
@@ -291,8 +340,100 @@ class TestLLongName:
 class TestLPlainText:
     """Test class for LPlainText class."""
 
+    def test_l_plain_text_base_chain(self):
+        """LPlainText must extend LanguageSpecific per Table 9.96."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+        assert issubclass(LPlainText, LanguageSpecific)
+        assert issubclass(LPlainText, ARObject)
+        assert isinstance(LPlainText(), LPlainText)
+
     def test_l_plain_text_initialization(self):
         """Test that an LPlainText object can be initialized."""
         l_plain_text = LPlainText()
         assert l_plain_text.l is None
         assert l_plain_text.value == ""
+
+    def test_l_plain_text_docstring_verbatim(self):
+        """Docstring must equal the spec Note from Table 9.96 verbatim."""
+        import inspect
+
+        expected = "This represents plain string in one particular language. " "The language is denoted in the attribute l."
+        assert inspect.cleandoc(LPlainText.__doc__) == expected
+
+    def test_l_plain_text_inherited_accessors(self):
+        """LPlainText inherits the l/value accessors from LanguageSpecific (Table 9.96 has no own Attribute rows)."""
+        l_plain_text = LPlainText()
+
+        result = l_plain_text.setL("DE")
+        assert l_plain_text.getL() == "DE"
+        assert result is l_plain_text
+
+        result = l_plain_text.setValue("plain text")
+        assert l_plain_text.getValue() == "plain text"
+        assert result is l_plain_text
+
+        l_plain_text.setL(None)
+        assert l_plain_text.getL() == "DE"
+
+        l_plain_text.setValue(None)
+        assert l_plain_text.getValue() == "plain text"
+
+    def test_l_plain_text_has_no_own_members(self):
+        """Field-to-spec cross-check: Table 9.96 carries no Attribute rows, so LPlainText adds no fields beyond LanguageSpecific."""
+
+        class _BareLanguageSpecific(LanguageSpecific):
+            pass
+
+        assert set(vars(LPlainText()).keys()) == set(vars(_BareLanguageSpecific()).keys())
+
+
+class TestLVerbatim:
+    """Test class for LVerbatim class."""
+
+    def test_l_verbatim_base_chain(self):
+        """LVerbatim must extend LanguageSpecific per Table 9.89."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+        assert issubclass(LVerbatim, LanguageSpecific)
+        assert issubclass(LVerbatim, ARObject)
+        assert isinstance(LVerbatim(), LVerbatim)
+
+    def test_l_verbatim_initialization(self):
+        """Test that an LVerbatim object can be initialized."""
+        l_verbatim = LVerbatim()
+        assert l_verbatim.l is None
+        assert l_verbatim.value == ""
+
+    def test_l_verbatim_docstring_verbatim(self):
+        """Docstring must equal the spec Note from Table 9.89 verbatim."""
+        import inspect
+
+        expected = "MixedContentForVerbatim in one particular language. " "The language is denoted in the attribute l."
+        assert inspect.cleandoc(LVerbatim.__doc__) == expected
+
+    def test_l_verbatim_inherited_accessors(self):
+        """LVerbatim inherits the l/value accessors from LanguageSpecific (Table 9.89 has no own Attribute rows)."""
+        l_verbatim = LVerbatim()
+
+        result = l_verbatim.setL("DE")
+        assert l_verbatim.getL() == "DE"
+        assert result is l_verbatim
+
+        result = l_verbatim.setValue("verbatim text")
+        assert l_verbatim.getValue() == "verbatim text"
+        assert result is l_verbatim
+
+        l_verbatim.setL(None)
+        assert l_verbatim.getL() == "DE"
+
+        l_verbatim.setValue(None)
+        assert l_verbatim.getValue() == "verbatim text"
+
+    def test_l_verbatim_has_no_own_members(self):
+        """Field-to-spec cross-check: Table 9.89 carries no Attribute rows, so LVerbatim adds no fields beyond LanguageSpecific."""
+
+        class _BareLanguageSpecific(LanguageSpecific):
+            pass
+
+        assert set(vars(LVerbatim()).keys()) == set(vars(_BareLanguageSpecific()).keys())

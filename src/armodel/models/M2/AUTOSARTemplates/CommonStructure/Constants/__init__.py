@@ -257,87 +257,66 @@ class RecordValueSpecification(CompositeValueSpecification):
 
 class TextValueSpecification(ValueSpecification):
     """
-    Represents a text value specification in AUTOSAR models.
-    This class contains a literal text value for initializing data objects.
+    The purpose of TextValueSpecification is to define the labels that correspond to enumeration values.
     """
 
     # TextValueSpecification method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getValue                     [x] impl  [x] docstring  [x] test
-    # [x] setValue                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.113, p.436
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the TextValueSpecification with default values.
-        """
         super().__init__()
 
-        # Text value for this specification
-        self.value: ARLiteral = None
+        # This is the value itself. Note that vt uses the | operator to separate the values for the different bitfield masks in case that the semantics of the related DataPrototype is described by means of a BITFIELD_TEXTTABLE in the associated CompuMethod.
+        self.value: Optional[VerbatimString] = None
 
-    def getValue(self):
+    def getValue(self) -> Optional[VerbatimString]:
         """
-        Gets the text value for this specification.
-
-        Returns:
-            ARLiteral: The text value
+        This is the value itself. Note that vt uses the | operator to separate the values for the different bitfield masks in case that the semantics of the related DataPrototype is described by means of a BITFIELD_TEXTTABLE in the associated CompuMethod.
         """
         return self.value
 
-    def setValue(self, value):
+    def setValue(self, value: Optional[VerbatimString]) -> TextValueSpecification:
         """
-        Sets the text value for this specification.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The text value to set
-
-        Returns:
-            self for method chaining
+        This is the value itself. Note that vt uses the | operator to separate the values for the different bitfield masks in case that the semantics of the related DataPrototype is described by means of a BITFIELD_TEXTTABLE in the associated CompuMethod.
+        A None value is a no-op and does not overwrite an existing value.
         """
-        self.value = value
+        if value is not None:
+            self.value = value
         return self
 
 
 class NumericalValueSpecification(ValueSpecification):
     """
-    Represents a numerical value specification in AUTOSAR models.
-    This class contains a numerical value for initializing data objects.
+    A numerical ValueSpecification which is intended to be assigned to a Primitive data element. Note that the numerical value is a variant, it can be computed by a formula.
     """
 
     # NumericalValueSpecification method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getValue                     [x] impl  [x] docstring  [x] test
-    # [x] setValue                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.114, p.436
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the NumericalValueSpecification with default values.
-        """
         super().__init__()
 
-        # Numerical value for this specification
-        self.value: ARNumerical = None
+        # This is the value itself. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.value: Optional[ARNumerical] = None
 
-    def getValue(self) -> ARNumerical:
+    def getValue(self) -> Optional[ARNumerical]:
         """
-        Gets the numerical value for this specification.
-
-        Returns:
-            ARNumerical: The numerical value
+        This is the value itself. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime.
         """
         return self.value
 
-    def setValue(self, value: ARNumerical):
+    def setValue(self, value: Optional[ARNumerical]) -> NumericalValueSpecification:
         """
-        Sets the numerical value for this specification.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The numerical value to set
-
-        Returns:
-            self for method chaining
+        This is the value itself. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime.
+        A None value is a no-op and does not overwrite an existing value.
         """
         if value is not None:
             self.value = value
@@ -388,93 +367,69 @@ class ArrayValueSpecification(CompositeValueSpecification):
 
 class ConstantSpecification(ARElement):
     """
-    Represents a constant specification in AUTOSAR models.
-    This class contains a value specification for defining constants in AUTOSAR systems.
+    Specification of a constant that can be part of a package, i.e. it can be defined stand-alone. Tags: atp.recommendedPackage=ConstantSpecifications
     """
 
     # ConstantSpecification method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getValueSpec                 [x] impl  [x] docstring  [x] test
-    # [x] setValueSpec                 [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.108, p.433
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValueSpec   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValueSpec   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name):
-        """
-        Initializes the ConstantSpecification with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this constant specification
-            short_name: The unique short name of this constant specification
-        """
         super().__init__(parent, short_name)
 
-        # Value specification for this constant
-        self.valueSpec: ValueSpecification = None
+        # Specification of an expression leading to a value for this constant. Stereotypes: atpSplitable Tags: atp.Splitkey=valueSpec
+        self.valueSpec: Optional[ValueSpecification] = None
 
-    def getValueSpec(self):
+    def getValueSpec(self) -> Optional[ValueSpecification]:
         """
-        Gets the value specification for this constant.
-
-        Returns:
-            ValueSpecification: The value specification
+        Specification of an expression leading to a value for this constant. Stereotypes: atpSplitable Tags: atp.Splitkey=valueSpec.
         """
         return self.valueSpec
 
-    def setValueSpec(self, value):
+    def setValueSpec(self, value: Optional[ValueSpecification]) -> ConstantSpecification:
         """
-        Sets the value specification for this constant.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The value specification to set
-
-        Returns:
-            self for method chaining
+        Specification of an expression leading to a value for this constant. Stereotypes: atpSplitable Tags: atp.Splitkey=valueSpec.
+        A None value is a no-op and does not overwrite an existing valueSpec.
         """
-        self.valueSpec = value
+        if value is not None:
+            self.valueSpec = value
         return self
 
 
 class ConstantReference(ValueSpecification):
     """
-    Represents a constant reference in AUTOSAR models.
-    This class contains a reference to a constant for use in value specifications.
+    Instead of defining this value inline, a constant is referenced.
     """
 
     # ConstantReference method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getConstantRef               [x] impl  [x] docstring  [x] test
-    # [x] setConstantRef               [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.117, p.441
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConstantRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConstantRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the ConstantReference with default values.
-        """
         super().__init__()
 
-        # Reference to the constant for this specification
-        self.constantRef: RefType = None
+        # The referenced constant.
+        self.constantRef: Optional[RefType] = None
 
-    def getConstantRef(self):
+    def getConstantRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the constant for this specification.
-
-        Returns:
-            RefType: The constant reference
+        The referenced constant.
         """
         return self.constantRef
 
-    def setConstantRef(self, value):
+    def setConstantRef(self, value: Optional[RefType]) -> ConstantReference:
         """
-        Sets the reference to the constant for this specification.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The constant reference to set
-
-        Returns:
-            self for method chaining
+        The referenced constant.
+        A None value is a no-op and does not overwrite an existing constantRef.
         """
-        self.constantRef = value
+        if value is not None:
+            self.constantRef = value
         return self
 
 

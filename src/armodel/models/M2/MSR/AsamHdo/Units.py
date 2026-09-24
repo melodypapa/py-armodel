@@ -267,30 +267,32 @@ class Unit(ARElement):
 
 class UnitGroup(ARElement):
     """
-    Represents a group of units in the AUTOSAR model.
-
-    This class is used to group related units together for organizational purposes.
-
-    Attributes:
-        parent (ARObject): The parent object in the AUTOSAR model hierarchy.
-        short_name (str): The short name of the unit group.
-        units (List[Unit]): A list of units in the group.
+    This meta-class represents the ability to specify a logical grouping of units.The category denotes the unit system that the referenced units are associated to. In this way, e.g. country-specific unit systems (CATEGORY="COUNTRY") can be defined as well as specific unit systems for certain application domains. In the same way a group of equivalent units, can be defined which are used in different countries, by setting CATEGORY="EQUIV_UNITS". KmPerHour and MilesPerHour could such be combined to one group named "vehicle_speed". The unit MeterPerSec would not belong to this group because it is normally not used for vehicle speed. But all of the mentioned units could be combined to one group named "speed". Note that the UnitGroup does not ensure the physical compliance of the units. This is maintained by the physical dimension. Tags: atp.recommendedPackage=UnitGroups
     """
 
     # UnitGroup method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getUnits                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addUnit                      [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.81, p.402
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getUnitRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addUnitRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.units: List[Unit] = []
+        # This represents one particular unit in the UnitGroup. Tags: xml.sequenceOffset=20
+        self.unitRefs: List[RefType] = []
 
-    def getUnits(self) -> List[Unit]:
-        return self.units
+    def getUnitRefs(self) -> List[RefType]:
+        """
+        This represents one particular unit in the UnitGroup. Tags: xml.sequenceOffset=20.
+        """
+        return self.unitRefs
 
-    def addUnit(self, value: Unit):
+    def addUnitRef(self, value: Optional[RefType]) -> "UnitGroup":
+        """
+        This represents one particular unit in the UnitGroup. Tags: xml.sequenceOffset=20. A None value is a no-op and is not appended.
+        """
         if value is not None:
-            self.units.append(value)
+            self.unitRefs.append(value)
         return self

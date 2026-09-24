@@ -18,6 +18,7 @@ from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import (
     InternalConstrs,
     PhysConstrs,
     ScaleConstr,
+    ScaleConstrValidityEnum,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 
@@ -158,6 +159,51 @@ class TestScaleConstr:
         assert result == scale_constr
         assert scale_constr.setLowerLimit(None) is scale_constr
         assert scale_constr.getLowerLimit() == limit
+
+
+class TestScaleConstrValidityEnum:
+    """Test class for ScaleConstrValidityEnum (R4.3.1 AUTOSAR_TPS_SoftwareComponentTemplate.pdf, Table 5.95, p.417)."""
+
+    def test_scale_constr_validity_enum_has_spec_note(self):
+        assert cleandoc(ScaleConstrValidityEnum.__doc__) == "This enumerator specifies the possible values of a scale."
+
+    def test_scale_constr_validity_enum_initialization(self):
+        """Test that a ScaleConstrValidityEnum object can be instantiated."""
+        enum_obj = ScaleConstrValidityEnum()
+        assert enum_obj is not None
+        assert isinstance(enum_obj, ScaleConstrValidityEnum)
+
+    def test_scale_constr_validity_enum_spec_literals(self):
+        """ScaleConstrValidityEnum shall expose the 4 spec literals with their wire values (Table 5.95)."""
+        enum_obj = ScaleConstrValidityEnum()
+        expected = {
+            ScaleConstrValidityEnum.NOT_AVAILABLE: "notAvailable",
+            ScaleConstrValidityEnum.NOT_DEFINED: "notDefined",
+            ScaleConstrValidityEnum.NOT_VALID: "notValid",
+            ScaleConstrValidityEnum.VALID: "valid",
+        }
+        for const, value in expected.items():
+            assert const == value
+        assert enum_obj.getEnumValues() == ["notAvailable", "notDefined", "notValid", "valid"]
+
+    def test_scale_constr_validity_enum_validate_enum_value(self):
+        """validateEnumValue accepts the wire values and rejects non-wire forms.
+
+        Neither XSD (R23-11 AUTOSAR_00052.xsd L142112, R4.3.1 AUTOSAR_00044.xsd L101206)
+        carries atp.Status="removed" literals for this enum, so no legacy forms are valid.
+        """
+        enum_obj = ScaleConstrValidityEnum()
+        assert enum_obj.validateEnumValue("notAvailable") is True
+        assert enum_obj.validateEnumValue("notDefined") is True
+        assert enum_obj.validateEnumValue("notValid") is True
+        assert enum_obj.validateEnumValue("valid") is True
+        assert enum_obj.validateEnumValue("NOT-AVAILABLE") is False
+        assert enum_obj.validateEnumValue("unknown") is False
+
+    def test_scale_constr_validity_enum_set_value_with_member(self):
+        """The enum is instantiable and its literal value can be set from a member constant."""
+        enum_obj = ScaleConstrValidityEnum().setValue(ScaleConstrValidityEnum.NOT_AVAILABLE)
+        assert enum_obj.getValue() == "notAvailable"
 
 
 class TestPhysConstrs:

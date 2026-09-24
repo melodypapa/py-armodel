@@ -146,28 +146,25 @@ class InternalConstrs(ARObject):
 
 class ScaleConstrValidityEnum(AREnum):
     """
-    Specifies if the values defined by the scales are considered to be valid.
+    This enumerator specifies the possible values of a scale.
     """
 
     # ScaleConstrValidityEnum method parity checklist:
-    # Source: docs/requirements/xsd/AUTOSAR_00046.xsd (ScaleConstrValidityEnum) — no markdown/PDF table
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [ ] __init__            [x] impl  [ ] docstring  [ ] test  [—] reader  [—] writer
-    # [ ] NOT_AVAILABLE       [x] impl  [ ] docstring  [ ] test  [—] reader  [—] writer
-    # [ ] NOT_DEFINED         [x] impl  [ ] docstring  [ ] test  [—] reader  [—] writer
-    # [ ] NOT_VALID           [x] impl  [ ] docstring  [ ] test  [—] reader  [—] writer
-    # [ ] VALID               [x] impl  [ ] docstring  [ ] test  [—] reader  [—] writer
+    # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf, Table 5.95, p.417
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ScaleConstr.validity (VALIDITY attribute)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
 
-    # atp.EnumerationValue=0
+    # Currently invalid area The value usually is presented by the ECU but can currently not be performed due to e.g. initialization or temporary problems. Please note, that this behavior appears during runtime and cannot be handled while data is edited. Tags: atp.EnumerationValue=0
     NOT_AVAILABLE = "notAvailable"
 
-    # atp.EnumerationValue=1
+    # Indicates an area which is marked in a specification (e.g. as reserved) Shall usually not be set by the ECU but is used by a tester to verify correct ECU. Tags: atp.EnumerationValue=1
     NOT_DEFINED = "notDefined"
 
-    # atp.EnumerationValue=2
+    # The ECU cannot process the requested data. Tags: atp.EnumerationValue=2
     NOT_VALID = "notValid"
 
-    # atp.EnumerationValue=3
+    # Current value is within a valid range and can be presented to user as is. Tags: atp.EnumerationValue=3
     VALID = "valid"
 
     def __init__(self):

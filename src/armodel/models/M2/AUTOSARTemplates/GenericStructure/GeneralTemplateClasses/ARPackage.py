@@ -895,6 +895,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(unit)
         return self.getElement(short_name, Unit)
 
+    def createUnitGroup(self, short_name: str) -> UnitGroup:
+
+        if not self.IsElementExists(short_name, UnitGroup):
+            unit_group = UnitGroup(self, short_name)
+            self.addElement(unit_group)
+        return self.getElement(short_name, UnitGroup)
+
     def createEndToEndProtectionSet(self, short_name: str) -> EndToEndProtectionSet:
 
         if not self.IsElementExists(short_name, EndToEndProtectionSet):
@@ -1750,6 +1757,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
 
         return list(filter(lambda a: isinstance(a, Unit), self.elements))
 
+    def getUnitGroups(self) -> List[UnitGroup]:
+
+        return list(filter(lambda a: isinstance(a, UnitGroup), self.elements))
+
     def getApplicationArrayDataTypes(self) -> List[ApplicationArrayDataType]:
 
         return list(sorted(filter(lambda a: isinstance(a, ApplicationArrayDataType), self.elements), key=lambda a: a.short_name))
@@ -2097,6 +2108,7 @@ from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataCons
 from armodel.models.M2.MSR.AsamHdo.Units import (  # noqa: E402
     PhysicalDimension,
     Unit,
+    UnitGroup,
 )
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod  # noqa: E402
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout  # noqa: E402

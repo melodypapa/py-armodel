@@ -1806,16 +1806,12 @@ No deviations — the Table 6.2 attribute column is `-` (zero own attributes; co
 
 ## Appendix: classes without a spec attribute table
 
-- `ChapterContent` (`M2::MSR::Documentation::Chapters`)
 - `TopicContent` (`M2::MSR::Documentation::Chapters`)
 - `TopicContentOrMsrQuery` (`M2::MSR::Documentation::Chapters`)
 - `GraphicFitEnum` (`M2::MSR::Documentation::BlockElements::Figure`)
 - `LOverviewParagraph` (`M2::MSR::Documentation::TextModel::LanguageDataModel`)
 - `LParagraph` (`M2::MSR::Documentation::TextModel::LanguageDataModel`)
-- `LPlainText` (`M2::MSR::Documentation::TextModel::LanguageDataModel`)
-- `LVerbatim` (`M2::MSR::Documentation::TextModel::LanguageDataModel`)
 - `ListEnum` (`M2::MSR::Documentation::TextModel::BlockElements::ListElements`)
-- `ARList` (`M2::MSR::Documentation::TextModel::BlockElements::ListElements`)
 - `SingleLanguageUnitNames` (`M2::MSR::AsamHdo::Units`)
 - `SwValues` (`M2::MSR::CalibrationData::CalibrationValue`)
 - `ValueList` (`M2::MSR::DataDictionary::DataDefProperties`)
