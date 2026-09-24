@@ -332,6 +332,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
     BuildEngineeringObject,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AtpMixedString import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
@@ -1170,7 +1171,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported BINDING-TIME <%s>" % binding_time.getValue())
                 else:
                     child_element.attrib["BINDING-TIME"] = token
-            text = condition.getText()
+            text = condition.getMixedString()
             if text is not None:
                 child_element.text = text
 
@@ -4336,7 +4337,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported INTERVAL-TYPE <%s>" % interval_type.getValue())
                 else:
                     element.attrib["INTERVAL-TYPE"] = token
-        text = avp.getText()
+        text = avp.getMixedString()
         if text is not None:
             element.text = text
 
@@ -4547,7 +4548,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(element, "EVENT-REF", formula.getEventRef())
         self.setChildElementOptionalRefType(element, "MODE-REF", formula.getModeRef())
         self.setChildElementOptionalRefType(element, "VARIABLE-REF", formula.getVariableRef())
-        text = formula.getText()
+        text = formula.getMixedString()
         if text is not None:
             element.text = text
 
@@ -4558,7 +4559,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(element, "TIMING-EVENT-REF", tcf.getTimingEventRef())
         self.setChildElementOptionalRefType(element, "TIMING-MODE-REF", tcf.getTimingModeRef())
         self.setChildElementOptionalRefType(element, "TIMING-VARIABLE-REF", tcf.getTimingVariableRef())
-        text = tcf.getText()
+        text = tcf.getMixedString()
         if text is not None:
             element.text = text
 
@@ -12092,6 +12093,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "FLOAT-VALUE")
         self.writeParameterValue(child_element, float_value)
         self.setChildElementOptionalFloatValue(child_element, "VALUE", float_value.getValue())
+
+    def writeMixedStringText(self, element: ET.Element, obj: AtpMixedString):
+        """<<atpMixedString>>: write getMixedString() as element text; None omits the text node."""
+        if obj is not None:
+            element.text = obj.getMixedString()
 
     def writeStringValue(self, element: ET.Element, string_value: StringValue):
         """Write an R3.2.3 <STRING-VALUE> element (Table 3.36): DEFINITION-REF followed by VALUE."""

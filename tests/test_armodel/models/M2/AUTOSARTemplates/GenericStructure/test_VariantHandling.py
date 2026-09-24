@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARElement,
     ARPackage,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AtpMixedString import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import (
     BindingTimeEnum,
 )
@@ -530,7 +531,7 @@ class TestConditionByFormulaSpecContract:
         Test that the <<atpMixedString>> mixed content defaults to None.
         """
         condition = ConditionByFormula()
-        assert condition.getText() is None
+        assert condition.getMixedString() is None
 
     def test_text_round_trip_and_chaining(self):
         """
@@ -538,10 +539,11 @@ class TestConditionByFormulaSpecContract:
         empty XSD element group / mixed="true" complexType).
         """
         condition = ConditionByFormula()
-        assert condition.setText('sysc == "A"') is condition
-        assert condition.getText() == 'sysc == "A"'
-        condition.setText(None)
-        assert condition.getText() == 'sysc == "A"'
+        assert isinstance(condition, AtpMixedString)
+        assert condition.setMixedString('sysc == "A"') is condition
+        assert condition.getMixedString() == 'sysc == "A"'
+        condition.setMixedString(None)
+        assert condition.getMixedString() == 'sysc == "A"'
 
 
 class TestSwSystemconstValueSpecContract:

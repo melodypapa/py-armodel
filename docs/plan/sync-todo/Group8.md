@@ -360,3 +360,178 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 7 — Update checklist comment — 6-column format written in place of the stale intake 5-column block (which had no release column), verified at this step: `# Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.12, p.39` plus a `[—]`-legend note recording the XSD-skipped `base` association (field kept per the PDF table, no XML element to read or write), rows in markdown displayed order (`__init__`, getBaseRef, setBaseRef, getContextComponentRefs, addContextComponentRef, getContextModeDeclarationGroupPrototypeRef, setContextModeDeclarationGroupPrototypeRef, getContextPortRef, setContextPortRef, getTargetModeDeclarationRef, setTargetModeDeclarationRef), all `[x]` with release R23-11; reader [x] on the four setters + addContextComponentRef (parser sets/adds), writer [x] on the five getters (writer gets), `__init__`/getBaseRef/setBaseRef [—]/[—] (genuine no-XML); stale `# Spec verified: R23-11` line REMOVED (orphan-intake marker did not certify this 9-step pass — withheld, deferred to batch confirmation like the prior batch commits)
   - [x] Step 8 — Deviations  [none open: no naming/type/missing deviation rows — field-to-spec both directions EXACT (exactly the five Table 3.12 attributes → exactly five fields in displayed row order; no extra fields, no flattening — the Base chain ends at AtpInstanceRef + ModeInSwcBswInstanceRef with AtpInstanceRef's members staying on the stamped base; ref-kind fields hold RefType per the DEST --SUBTYPES-ENUM convention; no iref-kind member exists in the table), reader+writer coverage complete for every XML-bearing attr (0001.7 — the four XSD-present elements covered both sides in XSD order; `base`'s [—] is the XSD-skipped-association reality, not a gap), docstrings verbatim (0012/0001.4); the Step 1-7 findings were fixed in-band and leave no rows (Rule 0014: fixed ⇒ no row): (1) fabricated class docstring + constr-tailed member docstrings/comments wiped and rewritten as verbatim Notes (+ None-no-op sentences), (2) stale `# Spec verified: R23-11` marker removed and checklist rebuilt 6-column/release; v1 tracker (method_deviation_by_class.md) `## ModeInSwcInstanceRef` section RECONCILED 2026-09-24: page citation corrected 38→39 (38 is Table 3.11's page), Source path corrected to the Rule 0007 leaf file TimingCondition.py (was the pre-relocation TimingCondition/ModeInSwcInstanceRef.py), the four "missing" rows were STALE (implemented since intake; `base` had never been listed) — section rewritten to the sibling sync-record form with a no-deviation row; v2 tracker (method_deviation_by_class_v2.md) has NO ModeInSwcInstanceRef rows (verified by grep — 0 mentions); docs/plan/staged_class_sync_review.md does not exist; referenced classes: bases AtpInstanceRef (stamped R23-11 Table 5.3 FO GST p.174) + ModeInSwcBswInstanceRef (XSD-only, synced 3a64033f), ref DEST targets SwComponentType/SwComponentPrototype/PortPrototype/ModeDeclarationGroupPrototype/ModeDeclaration are --SUBTYPES-ENUM targets (not field types; RefType held) — no missing classes]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-24: my three test files 66/66 (test_ModeInSwcInstanceRef.py 25 — 10 pre-existing behavior tests + 14 net-new TestModeInSwcInstanceRefSpecContract incl. the exact-own-field-set/PEP 526/most-derived-bases/accessor-order/5 typed-hints pins and the class-docstring + 10 member-docstring + 5 inline-comment verbatim pins that were the Step 2 Reds; test_arxml_parser_timing_instance_refs.py + test_writer_timing_instance_refs.py 41 — 39 pre-existing + 2 net-new writer tests: the XSD element-order pin [CONTEXT-COMPONENT-REF x2, CONTEXT-PORT-REF, CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF, TARGET-MODE-DECLARATION-REF] and the empty-wrapper write/round-trip), 508/508 across the whole Timing model test dir; full suite `uv run python scripts/run_tests.py --no-coverage` 11326 passed / 0 failed (baseline 11310 + 16 net-new: +14 model +2 writer, exact; integration round-trip 29 ARXML included, green); `npm run lint` (flake8 E9/F63/F7/F82 + ruff E/F/W/I) All checks passed; `npm run black` reformatted ONLY my test file (canonical wrapping) + `black-check` clean 1158 files; 9b blind-spot checks walked by the agent: element kind + every spec attr modeled (all five Table 3.12 attributes → exactly five fields, exact-own-field-set test-pinned), most-derived base (0001.2 — Base row ARObject, AtpInstanceRef, ModeInSwcBswInstanceRef; XSD complexType L82755 composes AR-OBJECT → ATP-INSTANCE-REF → MODE-IN-SWC-BSW-INSTANCE-REF → own group; `__bases__ == (AtpInstanceRef, ModeInSwcBswInstanceRef)` test-pinned, AtpInstanceRef members stay INHERITED on the stamped base — no flattening), no fabrication (0001.3 — both-directions cross-check exact; XSD-skipped `base` kept per Rule 0015 PDF-wins with genuine reader/writer [—]), Kind-suffix naming (0001.5 — all rows Kind=ref → Ref suffix; singular `*` → plural contextComponentRefs + add; NO iref member — checked, the OperationArgumentInComponentInstanceRef precedent does not apply), create/set/add shape (0001.6 — four setters + addContextComponentRef with None no-op + chaining, no createXxx needed — not a Referrable container), reader+writer coverage for every XML-bearing attr (0001.7 — the four XSD-present elements covered both sides in XSD order via matched name pairs, verified no cross pairs, tests assert field VALUES not counts), member order (0001.11 — fields + accessors + checklist rows in the markdown displayed row order base→contextComponent→contextModeDeclarationGroupPrototype→contextPort→targetModeDeclaration, accessor-order source-pinned; reader/writer XML element order = XSD seqOffset 20/30/40/50 which DIFFERS from displayed order (contextPort before contextModeDeclarationGroupPrototype) — the two orders checked independently, writer order now test-pinned), docstrings verbatim (0012/0001.4 — class = Note exact, 5 getters = Note prose exact, 4 setters = Note + None-no-op sentences, add = Note + add-form sentence, 5 inline __init__ comments = Note prose verbatim; 16/16 positions exact-equality test-pinned; in-cell Stereotypes/Tags suffixes and section-level [constr] paragraphs kept out per the batch VariationPoint/SynchronizationTimingConstraint precedents), blank line between __init__ attribute blocks (0008 — single blank line between all five blocks, verified by eye post-black), PEP 526 annotated members + no `# type:` (0003 — regex-pinned), deviations resolved/removed (0014 — no open rows; v1 tracker `## ModeInSwcInstanceRef` section rewritten to the sync-record form with page/path corrections and the no-deviation row; v2 tracker 0 mentions), stamp decision: `# Spec verified:` WITHHELD per batch instruction (marker deferred to batch confirmation like the 24 prior commits in this batch; the orphan-intake stale marker was removed at Step 7), Rule 0007 location: TimingCondition.py leaf file matches the spec Package row M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition (same file as the stamped siblings ModeInBswInstanceRef/TimingModeInstance/TimingCondition/TimingConditionFormula/TimingExtensionResource and the XSD-verified ModeInSwcBswInstanceRef); 9b deferred to batch confirmation (user instruction 2026-09-24)
+
+- [ ] `AbstractEnumerationValueVariationPoint` — AttributeValueVariationPoint abstract subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `AbstractNumericalVariationPoint` — AttributeValueVariationPoint abstract subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `BooleanValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `FloatValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `IntegerValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `LimitValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `NumericalValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `PositiveIntegerValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `TimeValueValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `UnlimitedIntegerValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `FormulaExpression` — pure-text formula base — locate spec table at Step 1
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `BlueprintFormula` — pure-text formula class — locate spec table at Step 1
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SwSystemconstDependentFormula` — pure-text formula class — locate spec table at Step 1
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `FMConditionByFeaturesAndAttributes` — pure-text formula class — locate spec table at Step 1
+  - Note: closure check at Step 1 (FeatureDef etc. may be missing; Rule 0016)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `FMConditionByFeaturesAndSwSystemconsts` — pure-text formula class — locate spec table at Step 1
+  - Note: closure check at Step 1 (FeatureDef etc. may be missing; Rule 0016)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `FMFormulaByFeaturesAndAttributes` — pure-text formula class — locate spec table at Step 1
+  - Note: closure check at Step 1 (FeatureDef etc. may be missing; Rule 0016)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `FMFormulaByFeaturesAndSwSystemconsts` — pure-text formula class — locate spec table at Step 1
+  - Note: closure check at Step 1 (FeatureDef etc. may be missing; Rule 0016)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)

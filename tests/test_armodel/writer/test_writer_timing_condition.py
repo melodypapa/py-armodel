@@ -44,7 +44,7 @@ class TestWriteTimingCondition:
         parent = self._parent()
         condition = TimingCondition(parent, "Cond1")
         formula = TimingConditionFormula(condition, "Formula1")
-        formula.setText("modeA == 1")
+        formula.setMixedString("modeA == 1")
         formula.setTimingEventRef(RefType().setValue("/Pkg/Event").setDest("TIMING-DESCRIPTION-EVENT"))
         condition.setTimingConditionFormula(formula)
 
@@ -59,7 +59,7 @@ class TestWriteTimingCondition:
         formula = reloaded.getTimingConditionFormula()
         assert isinstance(formula, TimingConditionFormula)
         assert formula.getShortName() == "Formula1"
-        assert formula.getText() == "modeA == 1"
+        assert formula.getMixedString() == "modeA == 1"
         assert formula.getTimingEventRef().getValue() == "/Pkg/Event"
         assert formula.getTimingEventRef().getDest() == "TIMING-DESCRIPTION-EVENT"
 

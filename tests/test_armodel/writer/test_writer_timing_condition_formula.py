@@ -18,7 +18,7 @@ class TestWriteTimingConditionFormula:
 
     def _build_full(self, parent):
         tcf = TimingConditionFormula(parent, "Formula1")
-        tcf.setText("modeActive && eventFired")
+        tcf.setMixedString("modeActive && eventFired")
         tcf.setTimingArgumentRef(RefType().setValue("/Pkg/Arg").setDest("AUTOSAR-OPERATION-ARGUMENT-INSTANCE"))
         tcf.setTimingConditionRef(RefType().setValue("/Pkg/Cond").setDest("TIMING-CONDITION"))
         tcf.setTimingEventRef(RefType().setValue("/Pkg/Event").setDest("TIMING-DESCRIPTION-EVENT"))
@@ -77,7 +77,7 @@ class TestWriteTimingConditionFormula:
 
         tcf2 = ARXMLParser().readTimingConditionFormula(parent, parsed)
         assert tcf2.getShortName() == "Formula1"
-        assert tcf2.getText() == "modeActive && eventFired"
+        assert tcf2.getMixedString() == "modeActive && eventFired"
         assert tcf2.getTimingArgumentRef().getValue() == "/Pkg/Arg"
         assert tcf2.getTimingArgumentRef().getDest() == "AUTOSAR-OPERATION-ARGUMENT-INSTANCE"
         assert tcf2.getTimingConditionRef().getValue() == "/Pkg/Cond"

@@ -440,6 +440,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
     BuildEngineeringObject,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AtpMixedString import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
@@ -1283,7 +1284,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported BINDING-TIME <%s>" % element.attrib["BINDING-TIME"])
         if element.text is not None and element.text.strip() != "":
-            condition.setText(element.text)
+            self.readMixedStringText(element, condition)
         return condition
 
     def readPostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition) -> PostBuildVariantCondition:
@@ -3042,7 +3043,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported INTERVAL-TYPE <%s>" % element.attrib["INTERVAL-TYPE"])
         if element.text is not None and element.text.strip() != "":
-            avp.setText(element.text)
+            self.readMixedStringText(element, avp)
         return avp
 
     def readTimingDescriptionEventChain(self, element: ET.Element, chain: TimingDescriptionEventChain):
@@ -3339,7 +3340,7 @@ class ARXMLParser(AbstractARXMLParser):
         formula.setModeRef(self.getChildElementOptionalRefType(element, "MODE-REF"))
         formula.setVariableRef(self.getChildElementOptionalRefType(element, "VARIABLE-REF"))
         if element.text is not None and element.text.strip() != "":
-            formula.setText(element.text)
+            self.readMixedStringText(element, formula)
         return formula
 
     def readTimingConditionFormula(self, parent, element: ET.Element) -> TimingConditionFormula:
@@ -3351,7 +3352,7 @@ class ARXMLParser(AbstractARXMLParser):
         tcf.setTimingModeRef(self.getChildElementOptionalRefType(element, "TIMING-MODE-REF"))
         tcf.setTimingVariableRef(self.getChildElementOptionalRefType(element, "TIMING-VARIABLE-REF"))
         if element.text is not None and element.text.strip() != "":
-            tcf.setText(element.text)
+            self.readMixedStringText(element, tcf)
         return tcf
 
     def readTimingCondition(self, element: ET.Element, condition: TimingCondition):
@@ -12478,6 +12479,12 @@ class ARXMLParser(AbstractARXMLParser):
         """Read an R3.2.3 <FLOAT-VALUE> element (Table 3.35): DEFINITION-REF followed by VALUE."""
         self.readParameterValue(element, float_value)
         float_value.setValue(self.getChildElementOptionalFloatValue(element, "VALUE"))
+
+    def readMixedStringText(self, element: ET.Element, obj: AtpMixedString):
+        """<<atpMixedString>>: the element text is the value (pure-text shape).
+        Whitespace is preserved verbatim."""
+        if element.text is not None and obj is not None:
+            obj.setMixedString(element.text)
 
     def readStringValue(self, element: ET.Element, string_value: StringValue):
         """Read an R3.2.3 <STRING-VALUE> element (Table 3.36): DEFINITION-REF followed by VALUE."""

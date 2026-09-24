@@ -59,14 +59,20 @@ class AtpMixedString(ARObject):
     # Serialization: R23-11/AUTOSAR_FO_TPS_XMLSchemaProductionRules.md, [TPS_XMLSPR_00047], section 3.2.4.2 (R23-11)
     # No spec table: stereotype-inherent accessors have no attribute rows ("no spec row" convention).
     # Columns: impl / docstring / test   ([—] = no spec row)
-    # [ ] __init__     [ ] impl  [ ] docstring  [ ] test
-    # [ ] getMixedString    [ ] impl  [ ] docstring  [ ] test
-    # [ ] setMixedString    [ ] impl  [ ] docstring  [ ] test
+    # [x] __init__     [x] impl  [x] docstring  [x] test
+    # [x] getMixedString    [x] impl  [x] docstring  [x] test
+    # [x] setMixedString    [x] impl  [x] docstring  [x] test
 
-    def __init__(self, parent):
+    # Class-level default: the repo's Referrable.__init__ calls ARObject.__init__
+    # directly (bypassing super()), so a mixin __init__ may never run when the
+    # class is combined with Referrable (e.g. TimingConditionFormula). The default
+    # keeps getMixedString() safe in that case.
+    mixedString: Optional[str] = None
+
+    def __init__(self):
         if type(self) is AtpMixedString:
             raise TypeError("AtpMixedString is an abstract class.")
-        super().__init__(parent)
+        super().__init__()
 
         # The unqualified text content mixed into the element (<<atpMixedString>>).
         # Whitespace is preserved verbatim (no strip/normalize).

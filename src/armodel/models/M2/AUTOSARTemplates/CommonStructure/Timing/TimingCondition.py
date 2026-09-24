@@ -6,6 +6,7 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AtpMixedString import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -247,7 +248,7 @@ class TimingCondition(Identifiable, VariationPointCapable):
         return self
 
 
-class TimingConditionFormula(Referrable):
+class TimingConditionFormula(Referrable, AtpMixedString):
     """
     A TimingConditionFormula describes a specific dependency. The expression shall be a boolean expression addressing modes, variables, arguments, and/or events.
     """
@@ -257,8 +258,7 @@ class TimingConditionFormula(Referrable):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getText                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setText                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # getMixedString / setMixedString provided by the AtpMixedString base (mixin) — no spec row (stereotype-inherent)
     # [x] getTimingArgumentRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setTimingArgumentRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getTimingConditionRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -287,18 +287,6 @@ class TimingConditionFormula(Referrable):
 
         # This refers to a variable.
         self.timingVariableRef: Optional[RefType] = None
-
-        self._text: Optional[str] = None
-
-    def getText(self) -> Optional[str]:
-        """Returns the mixed string content (the boolean expression) of this <<atpMixedString>> TimingConditionFormula."""
-        return self._text
-
-    def setText(self, value: Optional[str]) -> TimingConditionFormula:
-        """Sets the mixed string content (the boolean expression) of this <<atpMixedString>> TimingConditionFormula. A None value is a no-op and does not overwrite an existing value."""
-        if value is not None:
-            self._text = value
-        return self
 
     def getTimingArgumentRef(self) -> Optional[RefType]:
         """This refers to an argument of an operation call."""

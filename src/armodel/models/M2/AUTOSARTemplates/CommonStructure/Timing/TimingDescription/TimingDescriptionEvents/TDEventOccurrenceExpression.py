@@ -5,6 +5,7 @@ from typing import List, Optional, TYPE_CHECKING
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AtpMixedString import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
@@ -12,7 +13,7 @@ if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingModeInstance
 
 
-class TDEventOccurrenceExpressionFormula(Referrable):
+class TDEventOccurrenceExpressionFormula(Referrable, AtpMixedString):
     """
     This is an extension of the FormulaExpression for the AUTOSAR Timing Extensions. A TDEventOccurrenceExpressionFormula provides the means to express the temporal characteristics of timing event occurrences in correlation with specific variable and argument values. The formal definition of the extended functions (ExtUnaryFunctions) is described in detail in the AUTOSAR Timing Extensions.
     """
@@ -22,8 +23,7 @@ class TDEventOccurrenceExpressionFormula(Referrable):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getText            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setText            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # getMixedString / setMixedString provided by the AtpMixedString base (mixin) — no spec row (stereotype-inherent)
     # [x] getArgumentRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setArgumentRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getEventRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -47,18 +47,6 @@ class TDEventOccurrenceExpressionFormula(Referrable):
 
         # This is one particular variable value used in the expression formula.
         self.variableRef: Optional[RefType] = None
-
-        self._text: Optional[str] = None
-
-    def getText(self) -> Optional[str]:
-        """Returns the mixed string content (the occurrence expression) of this <<atpMixedString>> TDEventOccurrenceExpressionFormula."""
-        return self._text
-
-    def setText(self, value: Optional[str]) -> TDEventOccurrenceExpressionFormula:
-        """Sets the mixed string content (the occurrence expression) of this <<atpMixedString>> TDEventOccurrenceExpressionFormula. A None value is a no-op and does not overwrite an existing value."""
-        if value is not None:
-            self._text = value
-        return self
 
     def getArgumentRef(self) -> Optional[RefType]:
         """This is one particular argument value used in the expression formula."""

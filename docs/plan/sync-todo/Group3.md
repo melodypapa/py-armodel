@@ -1031,6 +1031,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [Spec line now cites XSD l.136671/136683 + consumer Tables 6.234/6.235; arbitration note recorded in the class checklist; six columns + R23-11 retained]
   - [x] Step 8 — Deviations  [arbitrated: row's stated deviation (BLOCK/ALLOW order) does not exist against the authoritative tags; keeping BLOCK=0/ALLOW=1 means the literal Tags comments stay verbatim — reordering would have forced fabricating non-verbatim tag values; wire values unchanged in XML either way]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a run at batch level; 9b: user-confirmed batch stamp 2026-09-24; marker `# XSD verified: AUTOSAR_00052.xsd` written]
+- [ ] `CompuGenericMath` — pure-text formula class — locate spec table at Step 1
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 
 ## Pending 16.4 resolution (NEW — not in src)
