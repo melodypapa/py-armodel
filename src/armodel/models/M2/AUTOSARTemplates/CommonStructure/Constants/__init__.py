@@ -301,43 +301,32 @@ class TextValueSpecification(ValueSpecification):
 
 class NumericalValueSpecification(ValueSpecification):
     """
-    Represents a numerical value specification in AUTOSAR models.
-    This class contains a numerical value for initializing data objects.
+    A numerical ValueSpecification which is intended to be assigned to a Primitive data element. Note that the numerical value is a variant, it can be computed by a formula.
     """
 
     # NumericalValueSpecification method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getValue                     [x] impl  [x] docstring  [x] test
-    # [x] setValue                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.114, p.436
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the NumericalValueSpecification with default values.
-        """
         super().__init__()
 
-        # Numerical value for this specification
-        self.value: ARNumerical = None
+        # This is the value itself. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.value: Optional[ARNumerical] = None
 
-    def getValue(self) -> ARNumerical:
+    def getValue(self) -> Optional[ARNumerical]:
         """
-        Gets the numerical value for this specification.
-
-        Returns:
-            ARNumerical: The numerical value
+        This is the value itself. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime.
         """
         return self.value
 
-    def setValue(self, value: ARNumerical):
+    def setValue(self, value: Optional[ARNumerical]) -> NumericalValueSpecification:
         """
-        Sets the numerical value for this specification.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The numerical value to set
-
-        Returns:
-            self for method chaining
+        This is the value itself. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime.
+        A None value is a no-op and does not overwrite an existing value.
         """
         if value is not None:
             self.value = value
