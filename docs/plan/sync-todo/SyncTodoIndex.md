@@ -452,12 +452,12 @@ Status: **33/34** completed
 
 ## Group8
 
-Status: **1/25** completed
+Status: **2/25** completed
 
 | Class Name                         | Status      | Commit ID |
 | ---------------------------------- | ----------- | --------- |
 | `BindingTimeEnum`                  | [x] Done    | 53bf1808  |
-| `XmlSpaceEnum`                     | [ ] Pending | N/A       |
+| `XmlSpaceEnum`                     | [x] Done    | ec544e79  |
 | `ShortNameFragment`                | [ ] Pending | N/A       |
 | `MultidimensionalTime`             | [ ] Pending | N/A       |
 | `LifeCyclePeriod`                  | [ ] Pending | N/A       |

@@ -668,7 +668,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `WorstCaseStackUsage`                                   | [ ] Pending | N/A                                      | Group20         |
 | `Xdoc`                                                  | [x] Done    | 294c8aae                                 | Group3          |
 | `Xfile`                                                 | [x] Done    | 7038ce55                                 | Group3          |
-| `XmlSpaceEnum`                                          | [ ] Pending | N/A                                      | Group8          |
+| `XmlSpaceEnum`                                          | [x] Done    | ec544e79                                 | Group8          |
 | `Xref`                                                  | [x] Done    | db2b4fe0                                 | Group3          |
 | `XrefTarget`                                            | [x] Done    | 8c9df663                                 | Group3          |
 
