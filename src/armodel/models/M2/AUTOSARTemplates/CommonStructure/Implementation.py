@@ -89,56 +89,31 @@ class ProgramminglanguageEnum(AREnum):
 
 class ImplementationProps(Referrable, ABC):
     """
-    Define a symbol to be used as (depending on the concrete case) either a complete
-    replacement or a prefix when generating code artifacts.
+    Defines a symbol to be used as (depending on the concrete case) either a complete replacement or a prefix when generating code artifacts.
     """
 
     # ImplementationProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.20, p.287
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getSymbol                    [x] impl  [x] docstring  [x] test
-    # [x] setSymbol                    [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSymbol  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSymbol  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str) -> None:
-        """
-        Initializes the ImplementationProps with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this implementation properties
-            short_name: The unique short name of this implementation properties
-        """
         if type(self) is ImplementationProps:
             raise TypeError("ImplementationProps is an abstract class.")
 
         super().__init__(parent, short_name)
 
-        # The symbol to be used as (depending on the concrete case) either a complete
-        # replacement or a prefix. [constr_1909]
+        # The symbol to be used as (depending on the concrete case) either a complete replacement or a prefix. [constr_1909]
         self.symbol: Optional[CIdentifier] = None
 
     def getSymbol(self) -> Optional[CIdentifier]:
-        """
-        Gets the symbol to be used as (depending on the concrete case) either a complete
-        replacement or a prefix when generating code artifacts. [constr_1909]
-
-        Returns:
-            CIdentifier representing the symbol
-        """
+        """The symbol to be used as (depending on the concrete case) either a complete replacement or a prefix. [constr_1909]"""
         return self.symbol
 
-    def setSymbol(self, value: Optional[CIdentifier]) -> "ImplementationProps":
-        """
-        Sets the symbol to be used as (depending on the concrete case) either a complete
-        replacement or a prefix when generating code artifacts. A None value is a no-op
-        and does not overwrite an existing symbol. [constr_1909]
-
-        Args:
-            value: The symbol to set
-
-        Returns:
-            self for method chaining
-        """
+    def setSymbol(self, value: Optional[CIdentifier]) -> ImplementationProps:
+        """The symbol to be used as (depending on the concrete case) either a complete replacement or a prefix. [constr_1909] A None value is a no-op and does not overwrite an existing symbol."""
         if value is not None:
             self.symbol = value
         return self

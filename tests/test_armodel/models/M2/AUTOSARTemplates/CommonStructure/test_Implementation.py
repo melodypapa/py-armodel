@@ -17,6 +17,20 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 
 class TestImplementationProps:
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings must be the Table 5.20 Notes copied verbatim."""
+        assert ImplementationProps.__doc__.strip() == "Defines a symbol to be used as (depending on the concrete case) either a complete replacement or a prefix when generating code artifacts."
+        symbol_note = "The symbol to be used as (depending on the concrete case) either a complete replacement or a prefix."
+        assert ImplementationProps.getSymbol.__doc__.strip() == symbol_note + " [constr_1909]"
+        assert ImplementationProps.setSymbol.__doc__.strip() == symbol_note + " [constr_1909] A None value is a no-op and does not overwrite an existing symbol."
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject, Referrable — Python base must be the most-derived Referrable; setter return annotation is a bare name (PEP 563, Rule 0003)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
+
+        assert issubclass(ImplementationProps, Referrable)
+        assert ImplementationProps.setSymbol.__annotations__["return"] == "ImplementationProps"
+
     def test_abstract_class_cannot_be_instantiated(self):
         """Test that ImplementationProps abstract class cannot be instantiated directly"""
         parent = AUTOSAR.getInstance()
@@ -24,8 +38,8 @@ class TestImplementationProps:
         with pytest.raises(TypeError, match="ImplementationProps is an abstract class."):
             ImplementationProps(ar_root, "TestImplementationProps")
 
-    def test_concrete_subclass_can_be_instantiated(self):
-        """Test that a concrete subclass of ImplementationProps can be instantiated"""
+    def test_initialization_defaults(self):
+        """Test that a concrete subclass starts with the spec default (symbol unset)"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
 
@@ -37,21 +51,10 @@ class TestImplementationProps:
         assert impl_props is not None
         assert impl_props.getShortName() == "TestImplementationProps"
         assert impl_props.symbol is None
-
-    def test_get_symbol(self):
-        """Test getSymbol method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-
-        class ConcreteImplementationProps(ImplementationProps):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
-        impl_props = ConcreteImplementationProps(ar_root, "TestImplementationProps")
         assert impl_props.getSymbol() is None
 
-    def test_set_symbol(self):
-        """Test setSymbol method"""
+    def test_get_set_symbol(self):
+        """Test getSymbol/setSymbol round-trip with a typed CIdentifier and chaining"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
 
@@ -64,6 +67,22 @@ class TestImplementationProps:
         result = impl_props.setSymbol(test_value)
         assert result is impl_props  # Method chaining
         assert impl_props.getSymbol() == test_value
+        assert impl_props.getSymbol().getValue() == "test_symbol"
+
+    def test_set_symbol_none_is_noop(self):
+        """Test setSymbol(None) does not overwrite an existing symbol"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteImplementationProps(ImplementationProps):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        impl_props = ConcreteImplementationProps(ar_root, "TestImplementationProps")
+        test_value = CIdentifier().setValue("test_symbol")
+        impl_props.setSymbol(test_value)
+        assert impl_props.setSymbol(None) is impl_props  # Method chaining
+        assert impl_props.getSymbol() is test_value
 
 
 class TestCode:
