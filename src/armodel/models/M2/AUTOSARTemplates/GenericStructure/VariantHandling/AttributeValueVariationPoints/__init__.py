@@ -15,33 +15,22 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 class AttributeValueVariationPoint(ARObject, ABC):
     """
     This class represents the ability to derive the value of the Attribute from a system constant (by SwSystemconstDependentFormula). It also provides a bindingTime.
-
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints
-    Base: ARObject, FormulaExpression, SwSystemconstDependentFormula
-    Stereotypes: atpMixedString
-
-    Attributes:
-        bindingTime (BindingTimeEnum): This is the binding time in which the attribute value needs to be bound. If this attribute is missing, the attribute is not a variation point. In particular this means that It needs to be a single value according to the type specified in the pure model. It is an error if it is still a formula. (Multiplicity: 0..1)
-        blueprintValue (String): This represents a description that documents how the value shall be defined when deriving objects from the blueprint. (Multiplicity: 0..1)
-        sd (String): This special data is provided to allow synchronization of Attribute value variation points with variant management systems. The usage is subject of agreement between the involved parties. (Multiplicity: 0..1)
-        shortLabel (PrimitiveIdentifier): This allows to identify the variation point. It is also intended to allow RTE support for CompileTime Variation points. (Multiplicity: 0..1)
     """
 
     # AttributeValueVariationPoint method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.2, p.210
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBindingTime    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setBindingTime    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBlueprintValue [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setBlueprintValue [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSd             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setSd             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getShortLabel     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setShortLabel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getText           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setText           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBindingTime     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBindingTime     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBlueprintValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBlueprintValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSd              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSd              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShortLabel      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShortLabel      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getText            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setText            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is AttributeValueVariationPoint:
@@ -65,13 +54,13 @@ class AttributeValueVariationPoint(ARObject, ABC):
 
     def getBindingTime(self) -> Optional[BindingTimeEnum]:
         """
-        This is the binding time in which the attribute value needs to be bound. If this attribute is missing, the attribute is not a variation point. In particular this means that It needs to be a single value according to the type specified in the pure model. It is an error if it is still a formula. Tags: xml.attribute=true
+        This is the binding time in which the attribute value needs to be bound. If this attribute is missing, the attribute is not a variation point. In particular this means that It needs to be a single value according to the type specified in the pure model. It is an error if it is still a formula.
         """
         return self.bindingTime
 
-    def setBindingTime(self, value: Optional[BindingTimeEnum]) -> "AttributeValueVariationPoint":
+    def setBindingTime(self, value: Optional[BindingTimeEnum]) -> AttributeValueVariationPoint:
         """
-        This is the binding time in which the attribute value needs to be bound. If this attribute is missing, the attribute is not a variation point. In particular this means that It needs to be a single value according to the type specified in the pure model. It is an error if it is still a formula. Tags: xml.attribute=true A None value is a no-op and does not overwrite an existing bindingTime.
+        This is the binding time in which the attribute value needs to be bound. If this attribute is missing, the attribute is not a variation point. In particular this means that It needs to be a single value according to the type specified in the pure model. It is an error if it is still a formula. A None value is a no-op and does not overwrite an existing bindingTime.
         """
         if value is not None:
             self.bindingTime = value
@@ -79,13 +68,13 @@ class AttributeValueVariationPoint(ARObject, ABC):
 
     def getBlueprintValue(self) -> Optional[String]:
         """
-        This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: xml.attribute=true
+        This represents a description that documents how the value shall be defined when deriving objects from the blueprint.
         """
         return self.blueprintValue
 
-    def setBlueprintValue(self, value: Optional[String]) -> "AttributeValueVariationPoint":
+    def setBlueprintValue(self, value: Optional[String]) -> AttributeValueVariationPoint:
         """
-        This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: xml.attribute=true A None value is a no-op and does not overwrite an existing blueprintValue.
+        This represents a description that documents how the value shall be defined when deriving objects from the blueprint. A None value is a no-op and does not overwrite an existing blueprintValue.
         """
         if value is not None:
             self.blueprintValue = value
@@ -93,13 +82,13 @@ class AttributeValueVariationPoint(ARObject, ABC):
 
     def getSd(self) -> Optional[String]:
         """
-        This special data is provided to allow synchronization of Attribute value variation points with variant management systems. The usage is subject of agreement between the involved parties. Tags: xml.attribute=true
+        This special data is provided to allow synchronization of Attribute value variation points with variant management systems. The usage is subject of agreement between the involved parties.
         """
         return self.sd
 
-    def setSd(self, value: Optional[String]) -> "AttributeValueVariationPoint":
+    def setSd(self, value: Optional[String]) -> AttributeValueVariationPoint:
         """
-        This special data is provided to allow synchronization of Attribute value variation points with variant management systems. The usage is subject of agreement between the involved parties. Tags: xml.attribute=true A None value is a no-op and does not overwrite an existing sd.
+        This special data is provided to allow synchronization of Attribute value variation points with variant management systems. The usage is subject of agreement between the involved parties. A None value is a no-op and does not overwrite an existing sd.
         """
         if value is not None:
             self.sd = value
@@ -107,13 +96,13 @@ class AttributeValueVariationPoint(ARObject, ABC):
 
     def getShortLabel(self) -> Optional[PrimitiveIdentifier]:
         """
-        This allows to identify the variation point. It is also intended to allow RTE support for CompileTime Variation points. Tags: xml.attribute=true
+        This allows to identify the variation point. It is also intended to allow RTE support for CompileTime Variation points.
         """
         return self.shortLabel
 
-    def setShortLabel(self, value: Optional[PrimitiveIdentifier]) -> "AttributeValueVariationPoint":
+    def setShortLabel(self, value: Optional[PrimitiveIdentifier]) -> AttributeValueVariationPoint:
         """
-        This allows to identify the variation point. It is also intended to allow RTE support for CompileTime Variation points. Tags: xml.attribute=true A None value is a no-op and does not overwrite an existing shortLabel.
+        This allows to identify the variation point. It is also intended to allow RTE support for CompileTime Variation points. A None value is a no-op and does not overwrite an existing shortLabel.
         """
         if value is not None:
             self.shortLabel = value
@@ -123,7 +112,7 @@ class AttributeValueVariationPoint(ARObject, ABC):
         """Returns the mixed string content (the actual value, e.g. the numerical literal) of this <<atpMixedString>> element."""
         return self._text
 
-    def setText(self, value: Optional[str]) -> "AttributeValueVariationPoint":
+    def setText(self, value: Optional[str]) -> AttributeValueVariationPoint:
         """Sets the mixed string content (the actual value, e.g. the numerical literal) of this <<atpMixedString>> element. A None value is a no-op and does not overwrite an existing value."""
         if value is not None:
             self._text = value
@@ -198,7 +187,7 @@ class LimitValueVariationPoint(AbstractNumericalVariationPoint):
         """This specifies the type of the interval."""
         return self.intervalType
 
-    def setIntervalType(self, value: Optional[IntervalTypeEnum]) -> "LimitValueVariationPoint":
+    def setIntervalType(self, value: Optional[IntervalTypeEnum]) -> LimitValueVariationPoint:
         """This specifies the type of the interval. A None value is a no-op and does not overwrite an existing intervalType."""
         if value is not None:
             self.intervalType = value

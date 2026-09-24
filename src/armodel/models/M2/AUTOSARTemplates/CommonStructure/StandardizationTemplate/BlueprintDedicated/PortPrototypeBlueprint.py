@@ -30,6 +30,7 @@ class PortPrototypeBlueprintInitValue(ARObject):
 
     # PortPrototypeBlueprintInitValue method parity checklist:
     # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 4.10, p.60
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDataPrototypeRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -84,6 +85,7 @@ class PortPrototypeBlueprint(AtpStructureElement):
 
     # PortPrototypeBlueprint method parity checklist:
     # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 4.9, p.60
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getInitValues              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

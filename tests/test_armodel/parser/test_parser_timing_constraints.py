@@ -36,6 +36,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTiming import (
     SynchronizationTimingConstraint,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEventChain
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming
 from armodel.parser.arxml_parser import ARXMLParser
 
@@ -120,6 +121,48 @@ class TestReadTimingConstraints:
         assert constraint.getMinimum().getCseCodeFactor().getValue() == 10
         assert constraint.getMaximum().getCseCodeFactor().getValue() == 20
 
+    def test_read_offset_timing_constraint_via_timing_extension(self, parser):
+        parent = _parent()
+        extension = SwcTiming(parent, "Timing")
+        element = ET.fromstring(
+            f"<SWC-TIMING xmlns='{NS}'>"
+            "<SHORT-NAME>Timing</SHORT-NAME>"
+            "<TIMING-GUARANTEES>"
+            "<OFFSET-TIMING-CONSTRAINT>"
+            "<SHORT-NAME>Offset1</SHORT-NAME>"
+            "<SOURCE-REF DEST='TIMING-DESCRIPTION-EVENT'>/AUTOSAR/SrcEvent</SOURCE-REF>"
+            "<TARGET-REF DEST='TIMING-DESCRIPTION-EVENT'>/AUTOSAR/TgtEvent</TARGET-REF>"
+            "<MINIMUM><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>10</CSE-CODE-FACTOR></MINIMUM>"
+            "<MAXIMUM><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>20</CSE-CODE-FACTOR></MAXIMUM>"
+            "</OFFSET-TIMING-CONSTRAINT>"
+            "</TIMING-GUARANTEES>"
+            "<TIMING-REQUIREMENTS>"
+            "<OFFSET-TIMING-CONSTRAINT>"
+            "<SHORT-NAME>Offset2</SHORT-NAME>"
+            "<MINIMUM><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>15</CSE-CODE-FACTOR></MINIMUM>"
+            "</OFFSET-TIMING-CONSTRAINT>"
+            "</TIMING-REQUIREMENTS>"
+            "</SWC-TIMING>"
+        )
+        parser.readTimingExtension(element, extension)
+        guarantees = extension.getTimingGuarantees()
+        assert len(guarantees) == 1
+        guarantee = guarantees[0]
+        assert isinstance(guarantee, OffsetTimingConstraint)
+        assert guarantee.getShortName() == "Offset1"
+        assert guarantee.getSourceRef().getValue() == "/AUTOSAR/SrcEvent"
+        assert guarantee.getSourceRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        assert guarantee.getTargetRef().getValue() == "/AUTOSAR/TgtEvent"
+        assert guarantee.getMinimum().getCseCodeFactor().getValue() == 10
+        assert guarantee.getMaximum().getCseCodeFactor().getValue() == 20
+        requirements = extension.getTimingRequirements()
+        assert len(requirements) == 1
+        requirement = requirements[0]
+        assert isinstance(requirement, OffsetTimingConstraint)
+        assert requirement.getShortName() == "Offset2"
+        assert requirement.getMinimum().getCseCodeFactor().getValue() == 15
+        assert requirement.getSourceRef() is None
+
     def test_read_synchronization_timing_constraint(self, parser):
         parent = _parent()
         constraint = SynchronizationTimingConstraint(parent, "Sync1")
@@ -151,6 +194,64 @@ class TestReadTimingConstraints:
         assert chains[0].getDest() == "TIMING-DESCRIPTION-EVENT-CHAIN"
         assert constraint.getSynchronizationConstraintType().getValue() == "RESPONSE-SYNCHRONIZATION"
         assert constraint.getTolerance().getCseCodeFactor().getValue() == 500
+
+    def test_read_synchronization_timing_constraint_via_timing_extension(self, parser):
+        parent = _parent()
+        extension = SwcTiming(parent, "Timing")
+        element = ET.fromstring(
+            f"<SWC-TIMING xmlns='{NS}'>"
+            "<SHORT-NAME>Timing</SHORT-NAME>"
+            "<TIMING-GUARANTEES>"
+            "<SYNCHRONIZATION-TIMING-CONSTRAINT>"
+            "<SHORT-NAME>Sync1</SHORT-NAME>"
+            "<EVENT-OCCURRENCE-KIND>MULTIPLE-OCCURRENCES</EVENT-OCCURRENCE-KIND>"
+            "<SCOPE-EVENT-REFS>"
+            "<SCOPE-EVENT-REF DEST='TIMING-DESCRIPTION-EVENT'>/AUTOSAR/Evt1</SCOPE-EVENT-REF>"
+            "</SCOPE-EVENT-REFS>"
+            "<SCOPE-REFS>"
+            "<SCOPE-REF DEST='TIMING-DESCRIPTION-EVENT-CHAIN'>/AUTOSAR/Chain1</SCOPE-REF>"
+            "<SCOPE-REF DEST='TIMING-DESCRIPTION-EVENT-CHAIN'>/AUTOSAR/Chain2</SCOPE-REF>"
+            "</SCOPE-REFS>"
+            "<SYNCHRONIZATION-CONSTRAINT-TYPE>STIMULUS-SYNCHRONIZATION</SYNCHRONIZATION-CONSTRAINT-TYPE>"
+            "<TOLERANCE><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>200</CSE-CODE-FACTOR></TOLERANCE>"
+            "</SYNCHRONIZATION-TIMING-CONSTRAINT>"
+            "</TIMING-GUARANTEES>"
+            "<TIMING-REQUIREMENTS>"
+            "<SYNCHRONIZATION-TIMING-CONSTRAINT>"
+            "<SHORT-NAME>Sync2</SHORT-NAME>"
+            "<SCOPE-REFS>"
+            "<SCOPE-REF DEST='TIMING-DESCRIPTION-EVENT-CHAIN'>/AUTOSAR/Chain3</SCOPE-REF>"
+            "</SCOPE-REFS>"
+            "</SYNCHRONIZATION-TIMING-CONSTRAINT>"
+            "</TIMING-REQUIREMENTS>"
+            "</SWC-TIMING>"
+        )
+        parser.readTimingExtension(element, extension)
+        guarantees = extension.getTimingGuarantees()
+        assert len(guarantees) == 1
+        guarantee = guarantees[0]
+        assert isinstance(guarantee, SynchronizationTimingConstraint)
+        assert guarantee.getShortName() == "Sync1"
+        assert guarantee.getEventOccurrenceKind().getValue() == "MULTIPLE-OCCURRENCES"
+        assert guarantee.getSynchronizationConstraintType().getValue() == "STIMULUS-SYNCHRONIZATION"
+        events = guarantee.getScopeEvents()
+        assert len(events) == 1
+        assert events[0].getValue() == "/AUTOSAR/Evt1"
+        assert events[0].getDest() == "TIMING-DESCRIPTION-EVENT"
+        chains = guarantee.getScopes()
+        assert len(chains) == 2
+        assert chains[1].getValue() == "/AUTOSAR/Chain2"
+        assert chains[1].getDest() == "TIMING-DESCRIPTION-EVENT-CHAIN"
+        assert guarantee.getTolerance().getCseCodeFactor().getValue() == 200
+        requirements = extension.getTimingRequirements()
+        assert len(requirements) == 1
+        requirement = requirements[0]
+        assert isinstance(requirement, SynchronizationTimingConstraint)
+        assert requirement.getShortName() == "Sync2"
+        assert len(requirement.getScopes()) == 1
+        assert requirement.getScopeEvents() == []
+        assert requirement.getEventOccurrenceKind() is None
+        assert requirement.getSynchronizationConstraintType() is None
 
     def test_read_constraints_inherit_timing_condition_ref(self, parser):
         parent = _parent()
@@ -520,3 +621,77 @@ class TestReadSwcTiming:
         assert timing.getTimingRequirements() == []
         assert timing.getTimingResource() is None
         assert timing.getBehaviorRef() is None
+
+
+class TestReadTimingDescriptionEventChain:
+    def test_read_timing_description_event_chain(self, parser):
+        parent = _parent()
+        chain = TimingDescriptionEventChain(parent, "Chain1")
+        element = ET.fromstring(
+            f"<TIMING-DESCRIPTION-EVENT-CHAIN xmlns='{NS}'>"
+            "<SHORT-NAME>Chain1</SHORT-NAME>"
+            "<IS-PIPELINING-PERMITTED>true</IS-PIPELINING-PERMITTED>"
+            "<STIMULUS-REF DEST='TIMING-DESCRIPTION-EVENT'>/AUTOSAR/Stimulus</STIMULUS-REF>"
+            "<RESPONSE-REF DEST='TIMING-DESCRIPTION-EVENT'>/AUTOSAR/Response</RESPONSE-REF>"
+            "<SEGMENT-REFS>"
+            "<SEGMENT-REF DEST='TIMING-DESCRIPTION-EVENT-CHAIN'>/AUTOSAR/Seg1</SEGMENT-REF>"
+            "<SEGMENT-REF DEST='TIMING-DESCRIPTION-EVENT-CHAIN'>/AUTOSAR/Seg2</SEGMENT-REF>"
+            "</SEGMENT-REFS>"
+            "</TIMING-DESCRIPTION-EVENT-CHAIN>"
+        )
+        parser.readTimingDescriptionEventChain(element, chain)
+        assert chain.getShortName() == "Chain1"
+        assert chain.getIsPipeliningPermitted().getValue() is True
+        assert chain.getStimulusRef().getValue() == "/AUTOSAR/Stimulus"
+        assert chain.getStimulusRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        assert chain.getResponseRef().getValue() == "/AUTOSAR/Response"
+        assert chain.getResponseRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        segments = chain.getSegmentRefs()
+        assert len(segments) == 2
+        assert segments[0].getValue() == "/AUTOSAR/Seg1"
+        assert segments[1].getDest() == "TIMING-DESCRIPTION-EVENT-CHAIN"
+
+    def test_read_timing_description_event_chain_empty(self, parser):
+        parent = _parent()
+        chain = TimingDescriptionEventChain(parent, "Chain1")
+        element = ET.fromstring(f"<TIMING-DESCRIPTION-EVENT-CHAIN xmlns='{NS}'><SHORT-NAME>Chain1</SHORT-NAME></TIMING-DESCRIPTION-EVENT-CHAIN>")
+        parser.readTimingDescriptionEventChain(element, chain)
+        assert chain.getIsPipeliningPermitted() is None
+        assert chain.getStimulusRef() is None
+        assert chain.getResponseRef() is None
+        assert chain.getSegmentRefs() == []
+
+    def test_read_timing_description_event_chain_via_timing_extension(self, parser):
+        parent = _parent()
+        extension = SwcTiming(parent, "Timing")
+        element = ET.fromstring(
+            f"<SWC-TIMING xmlns='{NS}'>"
+            "<SHORT-NAME>Timing</SHORT-NAME>"
+            "<TIMING-DESCRIPTIONS>"
+            "<TIMING-DESCRIPTION-EVENT-CHAIN>"
+            "<SHORT-NAME>Chain1</SHORT-NAME>"
+            "<IS-PIPELINING-PERMITTED>false</IS-PIPELINING-PERMITTED>"
+            "<STIMULUS-REF DEST='TIMING-DESCRIPTION-EVENT'>/AUTOSAR/Stimulus</STIMULUS-REF>"
+            "<RESPONSE-REF DEST='TIMING-DESCRIPTION-EVENT'>/AUTOSAR/Response</RESPONSE-REF>"
+            "<SEGMENT-REFS>"
+            "<SEGMENT-REF DEST='TIMING-DESCRIPTION-EVENT-CHAIN'>/AUTOSAR/Seg1</SEGMENT-REF>"
+            "</SEGMENT-REFS>"
+            "</TIMING-DESCRIPTION-EVENT-CHAIN>"
+            "</TIMING-DESCRIPTIONS>"
+            "</SWC-TIMING>"
+        )
+        parser.readTimingExtension(element, extension)
+        descriptions = extension.getTimingDescriptions()
+        assert len(descriptions) == 1
+        description = descriptions[0]
+        assert isinstance(description, TimingDescriptionEventChain)
+        assert description.getShortName() == "Chain1"
+        assert description.getIsPipeliningPermitted().getValue() is False
+        assert description.getStimulusRef().getValue() == "/AUTOSAR/Stimulus"
+        assert description.getStimulusRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        assert description.getResponseRef().getValue() == "/AUTOSAR/Response"
+        assert description.getResponseRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        segments = description.getSegmentRefs()
+        assert len(segments) == 1
+        assert segments[0].getValue() == "/AUTOSAR/Seg1"
+        assert segments[0].getDest() == "TIMING-DESCRIPTION-EVENT-CHAIN"

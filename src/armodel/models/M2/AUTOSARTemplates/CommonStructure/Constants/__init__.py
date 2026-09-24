@@ -54,7 +54,7 @@ class ValueSpecification(ARObject, VariationPointCapable, ABC):
         """
         return self.shortLabel
 
-    def setShortLabel(self, value: Optional[Identifier]) -> "ValueSpecification":
+    def setShortLabel(self, value: Optional[Identifier]) -> ValueSpecification:
         """
         This can be used to identify particular value specifications for human readers, for example elements of a record type.
         A None value is a no-op and does not overwrite an existing shortLabel.
@@ -232,7 +232,7 @@ class RecordValueSpecification(CompositeValueSpecification):
         # The value for a single record field. This could also be mapped explicitly to a record element of the data type using the shortName of the ValueSpecification. But this would introduce a relationship to the data type that is too strong. As of now, it is only important that the structure of the data type matches the structure of the ValueSpecification independently of the shortNames. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=field, field.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.fields: List[ValueSpecification] = []
 
-    def addField(self, field: Optional[ValueSpecification]) -> "RecordValueSpecification":
+    def addField(self, field: Optional[ValueSpecification]) -> RecordValueSpecification:
         """
         The value for a single record field. This could also be mapped explicitly to a record element of the data type using the shortName of the ValueSpecification. But this would introduce a relationship to the data type that is too strong. As of now, it is only important that the structure of the data type matches the structure of the ValueSpecification independently of the shortNames. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=field, field.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
 
@@ -369,7 +369,7 @@ class ArrayValueSpecification(CompositeValueSpecification):
         """This is one of the values of the array. Tags: xml.roleElement=true xml.roleWrapperElement=true xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false."""
         return self.element
 
-    def addElement(self, element: Optional[ValueSpecification]) -> "ArrayValueSpecification":
+    def addElement(self, element: Optional[ValueSpecification]) -> ArrayValueSpecification:
         """This is one of the values of the array. Tags: xml.roleElement=true xml.roleWrapperElement=true xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. None leaves the current list unchanged."""
         if element is not None:
             self.element.append(element)
@@ -379,7 +379,7 @@ class ArrayValueSpecification(CompositeValueSpecification):
         """This is the number of elements which are intended to be initialized partially. Tags: xml.sequenceOffset=30."""
         return self.intendedPartialInitializationCount
 
-    def setIntendedPartialInitializationCount(self, value: Optional[PositiveInteger]) -> "ArrayValueSpecification":
+    def setIntendedPartialInitializationCount(self, value: Optional[PositiveInteger]) -> ArrayValueSpecification:
         """This is the number of elements which are intended to be initialized partially. Tags: xml.sequenceOffset=30. None leaves the current value unchanged."""
         if value is not None:
             self.intendedPartialInitializationCount = value
@@ -528,7 +528,7 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument, Va
         """
         return self.category
 
-    def setCategory(self, value: Optional[Identifier]) -> "ApplicationRuleBasedValueSpecification":
+    def setCategory(self, value: Optional[Identifier]) -> ApplicationRuleBasedValueSpecification:
         """
         Sets the category of the RuleBasedValueSpecification.
         For each ApplicationRuleBasedValueSpecification, attribute category shall exist
@@ -545,7 +545,7 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument, Va
             self.category = value
         return self
 
-    def addSwAxisCont(self, value: Optional[RuleBasedAxisCont]) -> "ApplicationRuleBasedValueSpecification":
+    def addSwAxisCont(self, value: Optional[RuleBasedAxisCont]) -> ApplicationRuleBasedValueSpecification:
         """
         Adds the axis values of a Compound Primitive Data Type (curve or map).
         The first swAxisCont describes the x-axis, the second swAxisCont describes the y-axis,
@@ -586,7 +586,7 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument, Va
         """
         return self.swValueCont
 
-    def setSwValueCont(self, value: Optional[RuleBasedValueCont]) -> "ApplicationRuleBasedValueSpecification":
+    def setSwValueCont(self, value: Optional[RuleBasedValueCont]) -> ApplicationRuleBasedValueSpecification:
         """
         Sets the values of an array or Compound Primitive Data Type.
         A None value is a no-op and does not overwrite an existing value content.
@@ -634,7 +634,7 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
         # This denotes the name of the rule of the RuleBasedValue Specification. The rule determines the calculation specification according which the arguments are used to calculated the values. Tags: xml.sequenceOffset=20
         self.rule: Optional[Identifier] = None
 
-    def addArgument(self, argument: CompositeValueSpecification) -> "CompositeRuleBasedValueSpecification":
+    def addArgument(self, argument: CompositeValueSpecification) -> CompositeRuleBasedValueSpecification:
         """
         This represents the collection of aggregated Value Specifications. The last ValueSpecification in the collection shall be taken to execute the filling rule. Tags: xml.sequenceOffset=30
         A None value is a no-op and does not append anything.
@@ -649,7 +649,7 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
         """
         return self.arguments
 
-    def addCompoundPrimitiveArgument(self, argument: CompositeRuleBasedValueArgument) -> "CompositeRuleBasedValueSpecification":
+    def addCompoundPrimitiveArgument(self, argument: CompositeRuleBasedValueArgument) -> CompositeRuleBasedValueSpecification:
         """
         This represents the collection of aggregated Value Specifications for compound primitive data type. The last ValueSpecification in the collection shall be taken to execute the filling rule. Tags: xml.sequenceOffset=35
         A None value is a no-op and does not append anything.
@@ -670,7 +670,7 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
         """
         return self.maxSizeToFill
 
-    def setMaxSizeToFill(self, value: Optional[PositiveInteger]) -> "CompositeRuleBasedValueSpecification":
+    def setMaxSizeToFill(self, value: Optional[PositiveInteger]) -> CompositeRuleBasedValueSpecification:
         """
         If a rule is chosen which does not fill until the end, this determines until which size the rule shall fill the values. Tags: xml.sequenceOffset=40
         A None value is a no-op and does not overwrite an existing maxSizeToFill.
@@ -685,7 +685,7 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
         """
         return self.rule
 
-    def setRule(self, value: Optional[Identifier]) -> "CompositeRuleBasedValueSpecification":
+    def setRule(self, value: Optional[Identifier]) -> CompositeRuleBasedValueSpecification:
         """
         This denotes the name of the rule of the RuleBasedValue Specification. The rule determines the calculation specification according which the arguments are used to calculated the values. Tags: xml.sequenceOffset=20
         A None value is a no-op and does not overwrite an existing rule.
@@ -728,7 +728,7 @@ class ConstantSpecificationMapping(ARObject):
         """
         return self.applConstantRef
 
-    def setApplConstantRef(self, value: Optional[RefType]) -> "ConstantSpecificationMapping":
+    def setApplConstantRef(self, value: Optional[RefType]) -> ConstantSpecificationMapping:
         """
         A ConstantSpecification defined in the application domain.
         A None value is a no-op and does not overwrite an existing applConstantRef.
@@ -752,7 +752,7 @@ class ConstantSpecificationMapping(ARObject):
         """
         return self.implConstantRef
 
-    def setImplConstantRef(self, value: Optional[RefType]) -> "ConstantSpecificationMapping":
+    def setImplConstantRef(self, value: Optional[RefType]) -> ConstantSpecificationMapping:
         """
         A ConstantSpecification defined in the implementation domain.
         A None value is a no-op and does not overwrite an existing implConstantRef.
@@ -787,7 +787,7 @@ class ConstantSpecificationMappingSet(ARElement):
         # ConstantSpecificationMappings owned by the ConstantSpecificationMappingSet.
         self.mappings: List[ConstantSpecificationMapping] = []
 
-    def addMapping(self, mapping: Optional[ConstantSpecificationMapping]) -> "ConstantSpecificationMappingSet":
+    def addMapping(self, mapping: Optional[ConstantSpecificationMapping]) -> ConstantSpecificationMappingSet:
         """
         ConstantSpecificationMappings owned by the ConstantSpecificationMappingSet.
         A None value is a no-op and does not append anything.
@@ -840,7 +840,7 @@ class NotAvailableValueSpecification(ValueSpecification):
         """
         return self.defaultPattern
 
-    def setDefaultPattern(self, value: Optional[PositiveInteger]) -> "NotAvailableValueSpecification":
+    def setDefaultPattern(self, value: Optional[PositiveInteger]) -> NotAvailableValueSpecification:
         """
         The content of this attribute shall be used to initialize gaps in the memory occupied by a structured data type in the case that an NotAvailableValueSpecification is used. Note that this pattern is only applied during initialization!
         A None value is a no-op and does not overwrite an existing defaultPattern.
@@ -895,7 +895,7 @@ class NumericalOrText(ARObject, VariationPointCapable):
         """
         return self.vf
 
-    def setVf(self, value: Optional[ARNumerical]) -> "NumericalOrText":
+    def setVf(self, value: Optional[ARNumerical]) -> NumericalOrText:
         """
         This attribute represents the ability to provide a numerical value.
         The latest binding time of the VariationPoint shall be preCompileTime.
@@ -920,7 +920,7 @@ class NumericalOrText(ARObject, VariationPointCapable):
         """
         return self.vt
 
-    def setVt(self, value: Optional[ARLiteral]) -> "NumericalOrText":
+    def setVt(self, value: Optional[ARLiteral]) -> NumericalOrText:
         """
         This attribute represents the ability to provide a textual value.
         A None value is a no-op and does not overwrite an existing vt.
@@ -964,7 +964,7 @@ class NumericalRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
         """
         return self.ruleBasedValues
 
-    def setRuleBasedValues(self, value: Optional[RuleBasedValueSpecification]) -> "NumericalRuleBasedValueSpecification":
+    def setRuleBasedValues(self, value: Optional[RuleBasedValueSpecification]) -> NumericalRuleBasedValueSpecification:
         """
         This represents the rule based value specification for the array.
         A None value is a no-op and does not overwrite an existing ruleBasedValues.
@@ -1008,7 +1008,7 @@ class ReferenceValueSpecification(ValueSpecification):
         """
         return self.referenceValueRef
 
-    def setReferenceValueRef(self, value: Optional[RefType]) -> "ReferenceValueSpecification":
+    def setReferenceValueRef(self, value: Optional[RefType]) -> ReferenceValueSpecification:
         """
         The referenced data prototype.
         A None value is a no-op and does not overwrite an existing referenceValueRef.
@@ -1068,7 +1068,7 @@ class RuleArguments(ARObject, VariationPointCapable):
         """
         return self.v
 
-    def setV(self, value: Optional[ARNumerical]) -> "RuleArguments":
+    def setV(self, value: Optional[ARNumerical]) -> RuleArguments:
         """
         This represents a numerical value for the RuleBased ValueSpecification.
         A None value is a no-op and does not overwrite an existing v.
@@ -1093,7 +1093,7 @@ class RuleArguments(ARObject, VariationPointCapable):
         """
         return self.vf
 
-    def setVf(self, value: Optional[ARNumerical]) -> "RuleArguments":
+    def setVf(self, value: Optional[ARNumerical]) -> RuleArguments:
         """
         This represents a numerical value for the RuleBased ValueSpecification which may subject to variability.
         The latest binding time of the VariationPoint shall be pre CompileTime.
@@ -1118,7 +1118,7 @@ class RuleArguments(ARObject, VariationPointCapable):
         """
         return self.vt
 
-    def setVt(self, value: Optional[VerbatimString]) -> "RuleArguments":
+    def setVt(self, value: Optional[VerbatimString]) -> RuleArguments:
         """
         This represents a textual value for the RuleBasedValue Specification.
         A None value is a no-op and does not overwrite an existing vt.
@@ -1142,7 +1142,7 @@ class RuleArguments(ARObject, VariationPointCapable):
         """
         return self.vtf
 
-    def setVtf(self, value: Optional[NumericalOrText]) -> "RuleArguments":
+    def setVtf(self, value: Optional[NumericalOrText]) -> RuleArguments:
         """
         This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability.
         A None value is a no-op and does not overwrite an existing vtf.
@@ -1206,7 +1206,7 @@ class RuleBasedAxisCont(ARObject):
         """
         return self.category
 
-    def setCategory(self, value: Optional[CalprmAxisCategoryEnum]) -> "RuleBasedAxisCont":
+    def setCategory(self, value: Optional[CalprmAxisCategoryEnum]) -> RuleBasedAxisCont:
         """
         This category specifies the particular axis types: • STD_AXIS • COM_AXIS • RES_AXIS (swArraysize necessary)
         A None value is a no-op and does not overwrite an existing category.
@@ -1230,7 +1230,7 @@ class RuleBasedAxisCont(ARObject):
         """
         return self.ruleBasedValues
 
-    def setRuleBasedValues(self, value: Optional[RuleBasedValueSpecification]) -> "RuleBasedAxisCont":
+    def setRuleBasedValues(self, value: Optional[RuleBasedValueSpecification]) -> RuleBasedAxisCont:
         """
         This represents the rule based value specification for the axis of a compound primitive (curve, map).
         A None value is a no-op and does not overwrite an existing ruleBasedValues.
@@ -1254,7 +1254,7 @@ class RuleBasedAxisCont(ARObject):
         """
         return self.swArraysize
 
-    def setSwArraysize(self, value: Optional[ValueList]) -> "RuleBasedAxisCont":
+    def setSwArraysize(self, value: Optional[ValueList]) -> RuleBasedAxisCont:
         """
         For multidimensional compound primitives (curve, map ...) it is necessary to know the dimensions.They are specified using swArraySize.
         A None value is a no-op and does not overwrite an existing swArraysize.
@@ -1278,7 +1278,7 @@ class RuleBasedAxisCont(ARObject):
         """
         return self.swAxisIndex
 
-    def setSwAxisIndex(self, value: Optional[AxisIndexType]) -> "RuleBasedAxisCont":
+    def setSwAxisIndex(self, value: Optional[AxisIndexType]) -> RuleBasedAxisCont:
         """
         This property allows to explicitly assign the axis contents to a particular axis. It is specified by numbers where 1 corresponds to the x-axis. It is also possible to derive the axis association from the sequence of the parent.
         A None value is a no-op and does not overwrite an existing swAxisIndex.
@@ -1302,7 +1302,7 @@ class RuleBasedAxisCont(ARObject):
         """
         return self.unitRef
 
-    def setUnitRef(self, value: Optional[RefType]) -> "RuleBasedAxisCont":
+    def setUnitRef(self, value: Optional[RefType]) -> RuleBasedAxisCont:
         """
         This represents the physical unit of the provided values.
         A None value is a no-op and does not overwrite an existing unitRef.
@@ -1357,7 +1357,7 @@ class RuleBasedValueCont(ARObject):
         """
         return self.ruleBasedValues
 
-    def setRuleBasedValues(self, value: Optional[RuleBasedValueSpecification]) -> "RuleBasedValueCont":
+    def setRuleBasedValues(self, value: Optional[RuleBasedValueSpecification]) -> RuleBasedValueCont:
         """
         This represents the rule based value specification for the array or compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK).
         A None value is a no-op and does not overwrite an existing ruleBasedValues.
@@ -1382,7 +1382,7 @@ class RuleBasedValueCont(ARObject):
         """
         return self.swArraysize
 
-    def setSwArraysize(self, value: Optional[ValueList]) -> "RuleBasedValueCont":
+    def setSwArraysize(self, value: Optional[ValueList]) -> RuleBasedValueCont:
         """
         This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK.
         For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP.
@@ -1407,7 +1407,7 @@ class RuleBasedValueCont(ARObject):
         """
         return self.unitRef
 
-    def setUnitRef(self, value: Optional[RefType]) -> "RuleBasedValueCont":
+    def setUnitRef(self, value: Optional[RefType]) -> RuleBasedValueCont:
         """
         This represents the physical unit of the provided values.
         A None value is a no-op and does not overwrite an existing unitRef.
@@ -1453,7 +1453,7 @@ class RuleBasedValueSpecification(ARObject):
         # The rule determines the calculation specification according which the arguments are used to calculated the values.
         self.rule: Optional[Identifier] = None
 
-    def addArgument(self, argument: RuleArguments) -> "RuleBasedValueSpecification":
+    def addArgument(self, argument: RuleArguments) -> RuleBasedValueSpecification:
         """
         This represents the arguments for the RuleBasedValue Specification.
 
@@ -1485,7 +1485,7 @@ class RuleBasedValueSpecification(ARObject):
         """
         return self.maxSizeToFill
 
-    def setMaxSizeToFill(self, value: Optional[Integer]) -> "RuleBasedValueSpecification":
+    def setMaxSizeToFill(self, value: Optional[Integer]) -> RuleBasedValueSpecification:
         """
         If a rule is chosen which does not fill until the end, this determines until which size the rule shall fill the values.
         A None value is a no-op and does not overwrite an existing maxSizeToFill.
@@ -1510,7 +1510,7 @@ class RuleBasedValueSpecification(ARObject):
         """
         return self.rule
 
-    def setRule(self, value: Optional[Identifier]) -> "RuleBasedValueSpecification":
+    def setRule(self, value: Optional[Identifier]) -> RuleBasedValueSpecification:
         """
         This denotes the name of the rule of the RuleBasedValue Specification.
         The rule determines the calculation specification according which the arguments are used to calculated the values.

@@ -268,9 +268,9 @@ class TestWriteBuildActionIoElement:
     def test_write_active_attributes_without_skipped_foreign_reference(self):
         writer = ARXMLWriter()
         obj = BuildActionIoElement()
-        category = VerbatimString()
+        category = NameToken()
         category.setValue("ARTIFACT")
-        role = VerbatimString()
+        role = Identifier()
         role.setValue("input")
         ref = RefType()
         ref.setValue("/Ecuc/Definition")
@@ -284,6 +284,8 @@ class TestWriteBuildActionIoElement:
         element = ET.Element("BUILD-ACTION-IO-ELEMENT")
         writer.writeBuildActionIoElement(element, obj)
 
+        children = [child.tag for child in element]
+        assert children == ["CATEGORY", "SDGS", "ECUC-DEFINITION-REF", "ENGINEERING-OBJECT", "ROLE"]
         assert element.find("CATEGORY").text == "ARTIFACT"
         assert element.find("SDGS/SDG") is not None
         assert element.find("ECUC-DEFINITION-REF").text == "/Ecuc/Definition"
@@ -297,6 +299,65 @@ class TestWriteBuildActionIoElement:
         writer.writeBuildActionIoElement(element, BuildActionIoElement())
 
         assert list(element) == []
+
+
+class TestBuildActionIoElementRoundTrip:
+    def test_round_trip_preserves_values_and_types(self):
+        writer = ARXMLWriter()
+        parser = ARXMLParser(options={"warning": True})
+        obj = BuildActionIoElement()
+        category = NameToken()
+        category.setValue("ARTIFACT")
+        role = Identifier()
+        role.setValue("input")
+        ref = RefType()
+        ref.setValue("/Ecuc/Definition")
+        ref.setDest("ECUC-PARAMETER-DEF")
+        engineering_object = BuildEngineeringObject()
+        intended_filename = UriString()
+        intended_filename.setValue("output.c")
+        engineering_object.setIntendedFilename(intended_filename)
+        obj.setCategory(category).setRole(role).setEcucDefinitionRef(ref).setEngineeringObject(engineering_object)
+        obj.addSdg(_sdg("FIRST", "ROLE", "PROCESSOR"))
+
+        element = ET.Element("BUILD-ACTION-IO-ELEMENT")
+        writer.writeBuildActionIoElement(element, obj)
+
+        reloaded_element = _namespaced_wrap(element)
+        AUTOSAR.getInstance().new()
+        reloaded = parser.readBuildActionIoElement(reloaded_element, BuildActionIoElement())
+
+        assert isinstance(reloaded.getCategory(), NameToken)
+        assert str(reloaded.getCategory()) == "ARTIFACT"
+        assert reloaded.getEcucDefinitionRef().getValue() == "/Ecuc/Definition"
+        assert reloaded.getEcucDefinitionRef().getDest() == "ECUC-PARAMETER-DEF"
+        assert isinstance(reloaded.getEngineeringObject(), BuildEngineeringObject)
+        assert str(reloaded.getEngineeringObject().getIntendedFilename()) == "output.c"
+        assert isinstance(reloaded.getRole(), Identifier)
+        assert str(reloaded.getRole()) == "input"
+        sdgs = reloaded.getSdgs()
+        assert len(sdgs) == 1
+        assert str(sdgs[0].getGID()) == "FIRST"
+        assert str(sdgs[0].getSdgContentsType().getSds()[0].getValue()) == "PROCESSOR"
+
+    def test_round_trip_empty_element_omits_wrappers(self):
+        writer = ARXMLWriter()
+        parser = ARXMLParser(options={"warning": True})
+        element = ET.Element("BUILD-ACTION-IO-ELEMENT")
+        writer.writeBuildActionIoElement(element, BuildActionIoElement())
+        serialized = ET.tostring(element, encoding="unicode")
+
+        assert "SDGS" not in serialized
+        assert "ENGINEERING-OBJECT" not in serialized
+
+        AUTOSAR.getInstance().new()
+        reloaded = parser.readBuildActionIoElement(_namespaced_wrap(ET.fromstring(serialized)), BuildActionIoElement())
+
+        assert reloaded.getCategory() is None
+        assert reloaded.getSdgs() == []
+        assert reloaded.getEcucDefinitionRef() is None
+        assert reloaded.getEngineeringObject() is None
+        assert reloaded.getRole() is None
 
 
 class TestWriteBuildActionManifest:

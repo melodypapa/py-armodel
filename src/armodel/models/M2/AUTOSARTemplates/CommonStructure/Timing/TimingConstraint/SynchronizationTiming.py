@@ -92,44 +92,23 @@ class EventOccurrenceKindEnum(AREnum):
 
 class SynchronizationTimingConstraint(TimingConstraint):
     """
-    This constraint is used to restrict the timing behavior of different, but correlated events or event chains,
-    with regard to synchronization. Two scenarios are supported: • If ( synchronizationConstraintType ==
-    responseSynchronization ) - TimingDescriptionEvent s: An arbitrary number of correlated events which play the role of
-    responses shall occur synchronously with respect to a predefined tolerance. - TimingDescriptionEventChain s: An
-    arbitrary number of correlated event chains with a common stimulus, but different responses, where the responses
-    shall occur synchronously with respect to a predefined tolerance. • If ( synchronizationConstraintType ==
-    stimulusSynchronization ) - TimingDescriptionEvent s:An arbitrary number of correlated events which play the role of
-    stimuli shall occur synchronously with respect to a predefined tolerance. - TimingDescriptionEventChain s: An
-    arbitrary number of correlated event chains with a common response, but different stimuli, where the stimuli shall
-    occur synchronously with respect to a predefined tolerance. In case the constraint is imposed on events the following
-    two scenarios are supported: • If ( eventOccurrenceKind == singleOccurrence ): any of the events shall occur only once
-    in the given time interval. • If ( eventOccurrenceKind == multipleOccurrences ): any of the events may occur more than
-    once in the given time interval. In other words multiple occurrences of an event within the given time
-
-    [constr_4522] SynchronizationTimingConstraint shall either reference events or event chains: The SynchronizationTimingConstraint
-    shall either reference TimingDescriptionEvent s or TimingDescriptionEventChain s, but not both at the same time.
-    [constr_4514] SynchronizationTimingConstraint shall reference at least two event chains: In the case, that the
-    SynchronizationTimingConstraint is imposed on TimingDescriptionEventChain s then at least two (2) TimingDescriptionEventChain s
-    shall be referenced.
-    [constr_4521] Specifying attribute synchronizationConstraintType: The attribute synchronizationConstraintType shall be specified
-    if the SynchronizationTimingConstraint is imposed on TimingDescriptionEventChain s.
+    This constraint is used to restrict the timing behavior of different, but correlated events or event chains, with regard to synchronization. Two scenarios are supported: • If ( synchronizationConstraintType == responseSynchronization ) - TimingDescriptionEvent s: An arbitrary number of correlated events which play the role of responses shall occur synchronously with respect to a predefined tolerance. - TimingDescriptionEventChain s: An arbitrary number of correlated event chains with a common stimulus, but different responses, where the responses shall occur synchronously with respect to a predefined tolerance. • If ( synchronizationConstraintType == stimulusSynchronization ) - TimingDescriptionEvent s:An arbitrary number of correlated events which play the role of stimuli shall occur synchronously with respect to a predefined tolerance. - TimingDescriptionEventChain s: An arbitrary number of correlated event chains with a common response, but different stimuli, where the stimuli shall occur synchronously with respect to a predefined tolerance. In case the constraint is imposed on events the following two scenarios are supported: • If ( eventOccurrenceKind == singleOccurrence ): any of the events shall occur only once in the given time interval. • If ( eventOccurrenceKind == multipleOccurrences ): any of the events may occur more than once in the given time interval. In other words multiple occurrences of an event within the given time interval are permitted.
     """
 
     # SynchronizationTimingConstraint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.54, p.92
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEventOccurrenceKind           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEventOccurrenceKind           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addScope                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getScopes                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addScopeEvent                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getScopeEvents                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getSynchronizationConstraintType [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSynchronizationConstraintType [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTolerance                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTolerance                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventOccurrenceKind           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventOccurrenceKind           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addScope                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getScopes                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addScopeEvent                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getScopeEvents                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSynchronizationConstraintType [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSynchronizationConstraintType [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTolerance                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTolerance                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
@@ -170,13 +149,13 @@ class SynchronizationTimingConstraint(TimingConstraint):
         return self.scopeRefs
 
     def addScopeEvent(self, value: Optional[RefType]) -> "SynchronizationTimingConstraint":
-        """The events that are in the scope of the constraint. Mutually exclusive to scope , see ([constr_4522]). A None value is a no-op."""
+        """The events that are in the scope of the constraint. Mutually exclusive to scope , see ([constr_4522]) A None value is a no-op."""
         if value is not None:
             self.scopeEventRefs.append(value)
         return self
 
     def getScopeEvents(self) -> List[RefType]:
-        """The events that are in the scope of the constraint. Mutually exclusive to scope , see ([constr_4522])."""
+        """The events that are in the scope of the constraint. Mutually exclusive to scope , see ([constr_4522])"""
         return self.scopeEventRefs
 
     def getSynchronizationConstraintType(self) -> Optional[SynchronizationTypeEnum]:

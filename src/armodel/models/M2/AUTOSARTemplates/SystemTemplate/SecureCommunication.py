@@ -27,6 +27,7 @@ class CryptoServiceMapping(Identifiable, VariationPointCapable, ABC):
 
     # CryptoServiceMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.48, p.375
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -91,11 +92,12 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
 
     # TlsCryptoServiceMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.211, p.560
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addKeyExchangeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getKeyExchangeRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] addTlsCipherSuite    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTlsCipherSuite    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getTlsCipherSuites    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getUseClientAuthenticationRequest    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setUseClientAuthenticationRequest    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -109,7 +111,7 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
         self.keyExchangeRefs: List[RefType] = []
 
         # This aggregation represents the collection of supported cipher suites.
-        self.tlsCipherSuites: List = []
+        self.tlsCipherSuites: List[TlsCryptoCipherSuite] = []
 
         # Defines if client authentication shall be applied for this TLS connection.
         self.useClientAuthenticationRequest: Optional[Boolean] = None
@@ -117,7 +119,7 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
         # Defines if the security extension for max_fragment_length shall be supported as defined in IETF RFC 8449, chapter 4.1.
         self.useSecurityExtensionRecordSizeLimit: Optional[Boolean] = None
 
-    def addKeyExchangeRef(self, ref: Optional[RefType]) -> "TlsCryptoServiceMapping":
+    def addKeyExchangeRef(self, ref: Optional[RefType]) -> TlsCryptoServiceMapping:
         """
         This reference identifies the shared(i.e. applicable for each of the aggregated cipher suites) crypto service primitive for the execution of key exchange during the handshake phase.
         A None value is a no-op and does not extend the keyExchangeRefs list.
@@ -130,7 +132,7 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
         """This reference identifies the shared(i.e. applicable for each of the aggregated cipher suites) crypto service primitive for the execution of key exchange during the handshake phase."""
         return self.keyExchangeRefs
 
-    def addTlsCipherSuite(self, value) -> "TlsCryptoServiceMapping":
+    def addTlsCipherSuite(self, value: Optional[TlsCryptoCipherSuite]) -> TlsCryptoServiceMapping:
         """
         This aggregation represents the collection of supported cipher suites.
         A None value is a no-op and does not extend the tlsCipherSuites list.
@@ -139,7 +141,7 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
             self.tlsCipherSuites.append(value)
         return self
 
-    def getTlsCipherSuites(self) -> List:
+    def getTlsCipherSuites(self) -> List[TlsCryptoCipherSuite]:
         """This aggregation represents the collection of supported cipher suites."""
         return self.tlsCipherSuites
 
@@ -147,7 +149,7 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
         """Defines if client authentication shall be applied for this TLS connection."""
         return self.useClientAuthenticationRequest
 
-    def setUseClientAuthenticationRequest(self, value: Optional[Boolean]) -> "TlsCryptoServiceMapping":
+    def setUseClientAuthenticationRequest(self, value: Optional[Boolean]) -> TlsCryptoServiceMapping:
         """
         Defines if client authentication shall be applied for this TLS connection.
         A None value is a no-op and does not overwrite an existing useClientAuthenticationRequest.
@@ -160,13 +162,280 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
         """Defines if the security extension for max_fragment_length shall be supported as defined in IETF RFC 8449, chapter 4.1."""
         return self.useSecurityExtensionRecordSizeLimit
 
-    def setUseSecurityExtensionRecordSizeLimit(self, value: Optional[Boolean]) -> "TlsCryptoServiceMapping":
+    def setUseSecurityExtensionRecordSizeLimit(self, value: Optional[Boolean]) -> TlsCryptoServiceMapping:
         """
         Defines if the security extension for max_fragment_length shall be supported as defined in IETF RFC 8449, chapter 4.1.
         A None value is a no-op and does not overwrite an existing useSecurityExtensionRecordSizeLimit.
         """
         if value is not None:
             self.useSecurityExtensionRecordSizeLimit = value
+        return self
+
+
+class TlsCryptoCipherSuite(Identifiable):
+    """
+    This meta-class represents a cipher suite for describing cryptographic operations in the context of establishing a connection of ApplicationEndpoints that is protected by TLS.
+    """
+
+    # TlsCryptoCipherSuite method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.212, p.562
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAuthenticationRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthenticationRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCertificateRef                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCertificateRef                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCipherSuiteId                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCipherSuiteId                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCipherSuiteShortLabel                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCipherSuiteShortLabel                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addEllipticCurveRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEllipticCurveRefs                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getEncryptionRef                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEncryptionRef                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addKeyExchangeRef                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeyExchangeRefs                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addKeyExchangeAuthenticationRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeyExchangeAuthenticationRefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPriority                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPriority                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProps                                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProps                                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPskIdentity                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPskIdentity                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRemoteCertificateRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRemoteCertificateRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSignatureSchemeRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSignatureSchemeRefs                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getVersion                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVersion                              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # This reference identifies the crypto service primitive for the generation and verification of MACs.
+        self.authenticationRef: Optional[RefType] = None
+
+        # This reference identifies the applicable local certificate.
+        self.certificateRef: Optional[RefType] = None
+
+        # Identification of the CipherSuite according to the IANA assignments list.
+        self.cipherSuiteId: Optional[PositiveInteger] = None
+
+        # Name of the CipherSuite according to the IANA assignments list.
+        self.cipherSuiteShortLabel: Optional[String] = None
+
+        # This references point to the properties of elliptic curves.
+        self.ellipticCurveRefs: List[RefType] = []
+
+        # This reference identifies the crypto service primitive for the execution of encryption.
+        self.encryptionRef: Optional[RefType] = None
+
+        # This reference identifies the individual (i.e. per cipher suite) crypto service primitive for the execution of key exchange during the handshake phase.
+        self.keyExchangeRefs: List[RefType] = []
+
+        # This reference identifies the crypto service primitives for the generation and verification of signatures during the key exchange algorithm.
+        self.keyExchangeAuthenticationRefs: List[RefType] = []
+
+        # This attribute identifies the priority of the cipher suite. Range: 1..65535. Lower values represent higher priorities.
+        self.priority: Optional[PositiveInteger] = None
+
+        # The aggregated TlsCryptoCipherSuiteProps provide details for the TLS Cipher Suite.
+        self.props: Optional[TlsCryptoCipherSuiteProps] = None
+
+        # Pre-shared key identity shared during the handshake among the communication parties, to establish a TLS connection if the handshake is based on the existence of a pre-shared key.
+        self.pskIdentity: Optional[TlsPskIdentity] = None
+
+        # This reference identifies the applicable remote certificate.
+        self.remoteCertificateRef: Optional[RefType] = None
+
+        # This reference points to the properties of a TLS Signature Scheme.
+        self.signatureSchemeRefs: List[RefType] = []
+
+        # This attribute supports the definition of the applicable version of TLS.
+        self.version: Optional[TlsVersionEnum] = None
+
+    def getAuthenticationRef(self) -> Optional[RefType]:
+        """This reference identifies the crypto service primitive for the generation and verification of MACs."""
+        return self.authenticationRef
+
+    def setAuthenticationRef(self, value: Optional[RefType]) -> TlsCryptoCipherSuite:
+        """
+        This reference identifies the crypto service primitive for the generation and verification of MACs.
+        A None value is a no-op and does not overwrite an existing authenticationRef.
+        """
+        if value is not None:
+            self.authenticationRef = value
+        return self
+
+    def getCertificateRef(self) -> Optional[RefType]:
+        """This reference identifies the applicable local certificate."""
+        return self.certificateRef
+
+    def setCertificateRef(self, value: Optional[RefType]) -> TlsCryptoCipherSuite:
+        """
+        This reference identifies the applicable local certificate.
+        A None value is a no-op and does not overwrite an existing certificateRef.
+        """
+        if value is not None:
+            self.certificateRef = value
+        return self
+
+    def getCipherSuiteId(self) -> Optional[PositiveInteger]:
+        """Identification of the CipherSuite according to the IANA assignments list."""
+        return self.cipherSuiteId
+
+    def setCipherSuiteId(self, value: Optional[PositiveInteger]) -> TlsCryptoCipherSuite:
+        """
+        Identification of the CipherSuite according to the IANA assignments list.
+        A None value is a no-op and does not overwrite an existing cipherSuiteId.
+        """
+        if value is not None:
+            self.cipherSuiteId = value
+        return self
+
+    def getCipherSuiteShortLabel(self) -> Optional[String]:
+        """Name of the CipherSuite according to the IANA assignments list."""
+        return self.cipherSuiteShortLabel
+
+    def setCipherSuiteShortLabel(self, value: Optional[String]) -> TlsCryptoCipherSuite:
+        """
+        Name of the CipherSuite according to the IANA assignments list.
+        A None value is a no-op and does not overwrite an existing cipherSuiteShortLabel.
+        """
+        if value is not None:
+            self.cipherSuiteShortLabel = value
+        return self
+
+    def addEllipticCurveRef(self, ref: Optional[RefType]) -> TlsCryptoCipherSuite:
+        """
+        This references point to the properties of elliptic curves.
+        A None value is a no-op and does not extend the ellipticCurveRefs list.
+        """
+        if ref is not None:
+            self.ellipticCurveRefs.append(ref)
+        return self
+
+    def getEllipticCurveRefs(self) -> List[RefType]:
+        """This references point to the properties of elliptic curves."""
+        return self.ellipticCurveRefs
+
+    def getEncryptionRef(self) -> Optional[RefType]:
+        """This reference identifies the crypto service primitive for the execution of encryption."""
+        return self.encryptionRef
+
+    def setEncryptionRef(self, value: Optional[RefType]) -> TlsCryptoCipherSuite:
+        """
+        This reference identifies the crypto service primitive for the execution of encryption.
+        A None value is a no-op and does not overwrite an existing encryptionRef.
+        """
+        if value is not None:
+            self.encryptionRef = value
+        return self
+
+    def addKeyExchangeRef(self, ref: Optional[RefType]) -> TlsCryptoCipherSuite:
+        """
+        This reference identifies the individual (i.e. per cipher suite) crypto service primitive for the execution of key exchange during the handshake phase.
+        A None value is a no-op and does not extend the keyExchangeRefs list.
+        """
+        if ref is not None:
+            self.keyExchangeRefs.append(ref)
+        return self
+
+    def getKeyExchangeRefs(self) -> List[RefType]:
+        """This reference identifies the individual (i.e. per cipher suite) crypto service primitive for the execution of key exchange during the handshake phase."""
+        return self.keyExchangeRefs
+
+    def addKeyExchangeAuthenticationRef(self, ref: Optional[RefType]) -> TlsCryptoCipherSuite:
+        """
+        This reference identifies the crypto service primitives for the generation and verification of signatures during the key exchange algorithm.
+        A None value is a no-op and does not extend the keyExchangeAuthenticationRefs list.
+        """
+        if ref is not None:
+            self.keyExchangeAuthenticationRefs.append(ref)
+        return self
+
+    def getKeyExchangeAuthenticationRefs(self) -> List[RefType]:
+        """This reference identifies the crypto service primitives for the generation and verification of signatures during the key exchange algorithm."""
+        return self.keyExchangeAuthenticationRefs
+
+    def getPriority(self) -> Optional[PositiveInteger]:
+        """This attribute identifies the priority of the cipher suite. Range: 1..65535. Lower values represent higher priorities."""
+        return self.priority
+
+    def setPriority(self, value: Optional[PositiveInteger]) -> TlsCryptoCipherSuite:
+        """
+        This attribute identifies the priority of the cipher suite. Range: 1..65535. Lower values represent higher priorities.
+        A None value is a no-op and does not overwrite an existing priority.
+        """
+        if value is not None:
+            self.priority = value
+        return self
+
+    def getProps(self) -> Optional[TlsCryptoCipherSuiteProps]:
+        """The aggregated TlsCryptoCipherSuiteProps provide details for the TLS Cipher Suite."""
+        return self.props
+
+    def setProps(self, value: Optional[TlsCryptoCipherSuiteProps]) -> TlsCryptoCipherSuite:
+        """
+        The aggregated TlsCryptoCipherSuiteProps provide details for the TLS Cipher Suite.
+        A None value is a no-op and does not overwrite an existing props.
+        """
+        if value is not None:
+            self.props = value
+        return self
+
+    def getPskIdentity(self) -> Optional[TlsPskIdentity]:
+        """Pre-shared key identity shared during the handshake among the communication parties, to establish a TLS connection if the handshake is based on the existence of a pre-shared key."""
+        return self.pskIdentity
+
+    def setPskIdentity(self, value: Optional[TlsPskIdentity]) -> TlsCryptoCipherSuite:
+        """
+        Pre-shared key identity shared during the handshake among the communication parties, to establish a TLS connection if the handshake is based on the existence of a pre-shared key.
+        A None value is a no-op and does not overwrite an existing pskIdentity.
+        """
+        if value is not None:
+            self.pskIdentity = value
+        return self
+
+    def getRemoteCertificateRef(self) -> Optional[RefType]:
+        """This reference identifies the applicable remote certificate."""
+        return self.remoteCertificateRef
+
+    def setRemoteCertificateRef(self, value: Optional[RefType]) -> TlsCryptoCipherSuite:
+        """
+        This reference identifies the applicable remote certificate.
+        A None value is a no-op and does not overwrite an existing remoteCertificateRef.
+        """
+        if value is not None:
+            self.remoteCertificateRef = value
+        return self
+
+    def addSignatureSchemeRef(self, ref: Optional[RefType]) -> TlsCryptoCipherSuite:
+        """
+        This reference points to the properties of a TLS Signature Scheme.
+        A None value is a no-op and does not extend the signatureSchemeRefs list.
+        """
+        if ref is not None:
+            self.signatureSchemeRefs.append(ref)
+        return self
+
+    def getSignatureSchemeRefs(self) -> List[RefType]:
+        """This reference points to the properties of a TLS Signature Scheme."""
+        return self.signatureSchemeRefs
+
+    def getVersion(self) -> Optional[TlsVersionEnum]:
+        """This attribute supports the definition of the applicable version of TLS."""
+        return self.version
+
+    def setVersion(self, value: Optional[TlsVersionEnum]) -> TlsCryptoCipherSuite:
+        """
+        This attribute supports the definition of the applicable version of TLS.
+        A None value is a no-op and does not overwrite an existing version.
+        """
+        if value is not None:
+            self.version = value
         return self
 
 
@@ -225,7 +494,7 @@ class TlsPskIdentity(ARObject):
         # This attribute provides the identity hint for a pre-shared key.
         self.pskIdentityHint: Optional[String] = None
 
-    def setPreSharedKeyRef(self, value: Optional[RefType]) -> "TlsPskIdentity":
+    def setPreSharedKeyRef(self, value: Optional[RefType]) -> TlsPskIdentity:
         """
         This reference identifies the applicable cryptographic key.
         A None value is a no-op and does not overwrite an existing preSharedKeyRef.
@@ -238,7 +507,7 @@ class TlsPskIdentity(ARObject):
         """This reference identifies the applicable cryptographic key."""
         return self.preSharedKeyRef
 
-    def setPskIdentity(self, value: Optional[String]) -> "TlsPskIdentity":
+    def setPskIdentity(self, value: Optional[String]) -> TlsPskIdentity:
         """
         This attribute provides the key identification.
         A None value is a no-op and does not overwrite an existing pskIdentity.
@@ -251,7 +520,7 @@ class TlsPskIdentity(ARObject):
         """This attribute provides the key identification."""
         return self.pskIdentity
 
-    def setPskIdentityHint(self, value: Optional[String]) -> "TlsPskIdentity":
+    def setPskIdentityHint(self, value: Optional[String]) -> TlsPskIdentity:
         """
         This attribute provides the identity hint for a pre-shared key.
         A None value is a no-op and does not overwrite an existing pskIdentityHint.
@@ -288,7 +557,7 @@ class TlsCryptoCipherSuiteProps(Identifiable):
         """Defines if the security extension according to IETF RFC 7366 shall be supported. This is useful for cipher suites using CBC mode."""
         return self.tcpIpTlsUseSecurityExtensionForceEncryptThenMac
 
-    def setTcpIpTlsUseSecurityExtensionForceEncryptThenMac(self, value: Optional[Boolean]) -> "TlsCryptoCipherSuiteProps":
+    def setTcpIpTlsUseSecurityExtensionForceEncryptThenMac(self, value: Optional[Boolean]) -> TlsCryptoCipherSuiteProps:
         """
         Defines if the security extension according to IETF RFC 7366 shall be supported. This is useful for cipher suites using CBC mode.
         A None value is a no-op and does not overwrite an existing tcpIpTlsUseSecurityExtensionForceEncryptThenMac.
@@ -331,7 +600,7 @@ class CryptoServicePrimitive(ARElement):
         """This attribute represents a description of the family (e.g. AES) of crypto algorithm implemented by the crypto primitive."""
         return self.algorithmFamily
 
-    def setAlgorithmFamily(self, value: Optional[String]) -> "CryptoServicePrimitive":
+    def setAlgorithmFamily(self, value: Optional[String]) -> CryptoServicePrimitive:
         """
         This attribute represents a description of the family (e.g. AES) of crypto algorithm implemented by the crypto primitive.
         A None value is a no-op and does not overwrite an existing algorithmFamily.
@@ -344,7 +613,7 @@ class CryptoServicePrimitive(ARElement):
         """This attribute represents a description of the mode of the crypto algorithm implemented by the crypto primitive."""
         return self.algorithmMode
 
-    def setAlgorithmMode(self, value: Optional[String]) -> "CryptoServicePrimitive":
+    def setAlgorithmMode(self, value: Optional[String]) -> CryptoServicePrimitive:
         """
         This attribute represents a description of the mode of the crypto algorithm implemented by the crypto primitive.
         A None value is a no-op and does not overwrite an existing algorithmMode.
@@ -357,7 +626,7 @@ class CryptoServicePrimitive(ARElement):
         """This attribute represents a further description of the secondary family of crypto algorithm implemented by the crypto primitive. The secondary family is needed for the specification of the hash algorithm for a signature check, e.g. using RSA."""
         return self.algorithmSecondaryFamily
 
-    def setAlgorithmSecondaryFamily(self, value: Optional[String]) -> "CryptoServicePrimitive":
+    def setAlgorithmSecondaryFamily(self, value: Optional[String]) -> CryptoServicePrimitive:
         """
         This attribute represents a further description of the secondary family of crypto algorithm implemented by the crypto primitive. The secondary family is needed for the specification of the hash algorithm for a signature check, e.g. using RSA.
         A None value is a no-op and does not overwrite an existing algorithmSecondaryFamily.
@@ -390,7 +659,7 @@ class CryptoEllipticCurveProps(ARElement):
         """Defines the value of one specific NamedCurve Id."""
         return self.namedCurveId
 
-    def setNamedCurveId(self, value: Optional[PositiveInteger]) -> "CryptoEllipticCurveProps":
+    def setNamedCurveId(self, value: Optional[PositiveInteger]) -> CryptoEllipticCurveProps:
         """
         Defines the value of one specific NamedCurve Id.
         A None value is a no-op and does not overwrite an existing namedCurveId.
@@ -423,7 +692,7 @@ class CryptoSignatureScheme(ARElement):
         """Defines the value of one specific TLS Signature Scheme."""
         return self.signatureSchemeId
 
-    def setSignatureSchemeId(self, value: Optional[PositiveInteger]) -> "CryptoSignatureScheme":
+    def setSignatureSchemeId(self, value: Optional[PositiveInteger]) -> CryptoSignatureScheme:
         """
         Defines the value of one specific TLS Signature Scheme.
         A None value is a no-op and does not overwrite an existing signatureSchemeId.
@@ -440,6 +709,7 @@ class CryptoServiceCertificate(ARElement):
 
     # CryptoServiceCertificate method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.218, p.565
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAlgorithmFamily                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -475,7 +745,7 @@ class CryptoServiceCertificate(ARElement):
         """This attribute represents a description of the family of crypto algorithm used to generate public key and signature of the cryptographic certificate."""
         return self.algorithmFamily
 
-    def setAlgorithmFamily(self, value: Optional[CryptoCertificateAlgorithmFamilyEnum]) -> "CryptoServiceCertificate":
+    def setAlgorithmFamily(self, value: Optional[CryptoCertificateAlgorithmFamilyEnum]) -> CryptoServiceCertificate:
         """
         This attribute represents a description of the family of crypto algorithm used to generate public key and signature of the cryptographic certificate.
         A None value is a no-op and does not overwrite an existing algorithmFamily.
@@ -488,7 +758,7 @@ class CryptoServiceCertificate(ARElement):
         """This attribute can be used to provide information about the format used to create the certificate"""
         return self.format
 
-    def setFormat(self, value: Optional[CryptoCertificateFormatEnum]) -> "CryptoServiceCertificate":
+    def setFormat(self, value: Optional[CryptoCertificateFormatEnum]) -> CryptoServiceCertificate:
         """
         This attribute can be used to provide information about the format used to create the certificate
         A None value is a no-op and does not overwrite an existing format.
@@ -501,7 +771,7 @@ class CryptoServiceCertificate(ARElement):
         """This attribute represents the ability to define the maximum length of the certificate in bytes."""
         return self.maximumLength
 
-    def setMaximumLength(self, value: Optional[PositiveInteger]) -> "CryptoServiceCertificate":
+    def setMaximumLength(self, value: Optional[PositiveInteger]) -> CryptoServiceCertificate:
         """
         This attribute represents the ability to define the maximum length of the certificate in bytes.
         A None value is a no-op and does not overwrite an existing maximumLength.
@@ -514,7 +784,7 @@ class CryptoServiceCertificate(ARElement):
         """The reference identifies the next higher certificate in the certificate chain."""
         return self.nextHigherCertificateRef
 
-    def setNextHigherCertificateRef(self, value: Optional[RefType]) -> "CryptoServiceCertificate":
+    def setNextHigherCertificateRef(self, value: Optional[RefType]) -> CryptoServiceCertificate:
         """
         The reference identifies the next higher certificate in the certificate chain.
         A None value is a no-op and does not overwrite an existing nextHigherCertificateRef.
@@ -527,7 +797,7 @@ class CryptoServiceCertificate(ARElement):
         """Server Name Indication (SNI) is needed if the IP address hosts multiple servers (on the same port), each of them using a different certificate. If the client sends the SNI to the Server in the client hello, the server looks the SNI up in its certificate list and uses the certificate identified by the SNI."""
         return self.serverNameIdentification
 
-    def setServerNameIdentification(self, value: Optional[String]) -> "CryptoServiceCertificate":
+    def setServerNameIdentification(self, value: Optional[String]) -> CryptoServiceCertificate:
         """
         Server Name Indication (SNI) is needed if the IP address hosts multiple servers (on the same port), each of them using a different certificate. If the client sends the SNI to the Server in the client hello, the server looks the SNI up in its certificate list and uses the certificate identified by the SNI.
         A None value is a no-op and does not overwrite an existing serverNameIdentification.
@@ -721,7 +991,7 @@ class MacSecGlobalKayProps(ARElement):
         # This attribute is used to define VLAN-IDs that are bypassed by MACsec. The provided VLAN-IDs will not be MACsec protected. (VLAN-ID 0 is interpreted as no-VLAN -> Bypass untagged traffic)
         self.bypassVlans: List[PositiveInteger] = []
 
-    def addBypassEtherType(self, value: Optional[PositiveInteger]) -> "MacSecGlobalKayProps":
+    def addBypassEtherType(self, value: Optional[PositiveInteger]) -> MacSecGlobalKayProps:
         """
         This attribute is used to define EtherTypes that are bypassed by MACsec. The providedEtherType will not be MACsec protected.
         A None value is a no-op and does not append to bypassEtherTypes.
@@ -734,7 +1004,7 @@ class MacSecGlobalKayProps(ARElement):
         """This attribute is used to define EtherTypes that are bypassed by MACsec. The providedEtherType will not be MACsec protected."""
         return self.bypassEtherTypes
 
-    def addBypassVlan(self, value: Optional[PositiveInteger]) -> "MacSecGlobalKayProps":
+    def addBypassVlan(self, value: Optional[PositiveInteger]) -> MacSecGlobalKayProps:
         """
         This attribute is used to define VLAN-IDs that are bypassed by MACsec. The provided VLAN-IDs will not be MACsec protected. (VLAN-ID 0 is interpreted as no-VLAN -> Bypass untagged traffic)
         A None value is a no-op and does not append to bypassVlans.
@@ -776,7 +1046,7 @@ class MacSecCipherSuiteConfig(ARObject):
         """Cipher Suite to use for MACsec."""
         return self.cipherSuite
 
-    def setCipherSuite(self, value: Optional[String]) -> "MacSecCipherSuiteConfig":
+    def setCipherSuite(self, value: Optional[String]) -> MacSecCipherSuiteConfig:
         """
         Cipher Suite to use for MACsec.
         A None value is a no-op and does not overwrite an existing cipherSuite.
@@ -789,7 +1059,7 @@ class MacSecCipherSuiteConfig(ARObject):
         """In case the MKA instance acts as a Key Server, the priority is used to select the Cipher Suite to use with MACsec from the supported Ciphers."""
         return self.cipherSuitePriority
 
-    def setCipherSuitePriority(self, value: Optional[PositiveInteger]) -> "MacSecCipherSuiteConfig":
+    def setCipherSuitePriority(self, value: Optional[PositiveInteger]) -> MacSecCipherSuiteConfig:
         """
         In case the MKA instance acts as a Key Server, the priority is used to select the Cipher Suite to use with MACsec from the supported Ciphers.
         A None value is a no-op and does not overwrite an existing cipherSuitePriority.
@@ -842,7 +1112,7 @@ class MacSecCryptoAlgoConfig(ARObject):
         """This attribute defines the MACsec capability."""
         return self.capability
 
-    def setCapability(self, value: Optional[MacSecCapabilityEnum]) -> "MacSecCryptoAlgoConfig":
+    def setCapability(self, value: Optional[MacSecCapabilityEnum]) -> MacSecCryptoAlgoConfig:
         """
         This attribute defines the MACsec capability.
         A None value is a no-op and does not overwrite an existing capability.
@@ -865,7 +1135,7 @@ class MacSecCryptoAlgoConfig(ARObject):
         """The MACsec confidentiality offset specifies the number of bytes starting from the frame header. MACsec encrypts only the bytes after the offset in a frame."""
         return self.confidentialityOffset
 
-    def setConfidentialityOffset(self, value: Optional[MacSecConfidentialityOffsetEnum]) -> "MacSecCryptoAlgoConfig":
+    def setConfidentialityOffset(self, value: Optional[MacSecConfidentialityOffsetEnum]) -> MacSecCryptoAlgoConfig:
         """
         The MACsec confidentiality offset specifies the number of bytes starting from the frame header. MACsec encrypts only the bytes after the offset in a frame.
         A None value is a no-op and does not overwrite an existing confidentialityOffset.
@@ -878,7 +1148,7 @@ class MacSecCryptoAlgoConfig(ARObject):
         """This attribute is used to configure the MACsec replay protection."""
         return self.replayProtection
 
-    def setReplayProtection(self, value: Optional[Boolean]) -> "MacSecCryptoAlgoConfig":
+    def setReplayProtection(self, value: Optional[Boolean]) -> MacSecCryptoAlgoConfig:
         """
         This attribute is used to configure the MACsec replay protection.
         A None value is a no-op and does not overwrite an existing replayProtection.
@@ -891,7 +1161,7 @@ class MacSecCryptoAlgoConfig(ARObject):
         """In case replay protection is active, this attribute defines the replay protection window."""
         return self.replayProtectionWindow
 
-    def setReplayProtectionWindow(self, value: Optional[PositiveInteger]) -> "MacSecCryptoAlgoConfig":
+    def setReplayProtectionWindow(self, value: Optional[PositiveInteger]) -> MacSecCryptoAlgoConfig:
         """
         In case replay protection is active, this attribute defines the replay protection window.
         A None value is a no-op and does not overwrite an existing replayProtectionWindow.
@@ -949,7 +1219,7 @@ class MacSecLocalKayProps(ARObject):
         """This attribute defines the destination MAC Address that is used to calculate the ICV (Integrity Check Value)."""
         return self.destinationMacAddress
 
-    def setDestinationMacAddress(self, value: Optional[MacAddressString]) -> "MacSecLocalKayProps":
+    def setDestinationMacAddress(self, value: Optional[MacAddressString]) -> MacSecLocalKayProps:
         """
         This attribute defines the destination MAC Address that is used to calculate the ICV (Integrity Check Value).
         A None value is a no-op and does not overwrite an existing destinationMacAddress.
@@ -962,7 +1232,7 @@ class MacSecLocalKayProps(ARObject):
         """Reference to properties that are shared between MAC Security Key Agreement Entities."""
         return self.globalKayPropsRef
 
-    def setGlobalKayPropsRef(self, value: Optional[RefType]) -> "MacSecLocalKayProps":
+    def setGlobalKayPropsRef(self, value: Optional[RefType]) -> MacSecLocalKayProps:
         """
         Reference to properties that are shared between MAC Security Key Agreement Entities.
         A None value is a no-op and does not overwrite an existing globalKayPropsRef.
@@ -975,7 +1245,7 @@ class MacSecLocalKayProps(ARObject):
         """This attribute defines the key-server priority."""
         return self.keyServerPriority
 
-    def setKeyServerPriority(self, value: Optional[PositiveInteger]) -> "MacSecLocalKayProps":
+    def setKeyServerPriority(self, value: Optional[PositiveInteger]) -> MacSecLocalKayProps:
         """
         This attribute defines the key-server priority.
         A None value is a no-op and does not overwrite an existing keyServerPriority.
@@ -984,7 +1254,7 @@ class MacSecLocalKayProps(ARObject):
             self.keyServerPriority = value
         return self
 
-    def addMkaParticipantRef(self, ref: Optional[RefType]) -> "MacSecLocalKayProps":
+    def addMkaParticipantRef(self, ref: Optional[RefType]) -> MacSecLocalKayProps:
         """
         Reference to MKA participant settings supported on the CouplingPort.
         A None value is a no-op and does not append to mkaParticipantRefs.
@@ -1001,7 +1271,7 @@ class MacSecLocalKayProps(ARObject):
         """Role of the MAC Security Key Agreement Entity"""
         return self.role
 
-    def setRole(self, value: Optional[MacSecRoleEnum]) -> "MacSecLocalKayProps":
+    def setRole(self, value: Optional[MacSecRoleEnum]) -> MacSecLocalKayProps:
         """
         Role of the MAC Security Key Agreement Entity
         A None value is a no-op and does not overwrite an existing role.
@@ -1014,7 +1284,7 @@ class MacSecLocalKayProps(ARObject):
         """This attribute defines the source MAC Address that is used to calculate the ICV (Integrity Check Value)."""
         return self.sourceMacAddress
 
-    def setSourceMacAddress(self, value: Optional[MacAddressString]) -> "MacSecLocalKayProps":
+    def setSourceMacAddress(self, value: Optional[MacAddressString]) -> MacSecLocalKayProps:
         """
         This attribute defines the source MAC Address that is used to calculate the ICV (Integrity Check Value).
         A None value is a no-op and does not overwrite an existing sourceMacAddress.
@@ -1057,7 +1327,7 @@ class MacSecKayParticipant(Identifiable):
         """Reference to the key where the ckn (Connectivity Association key) is stored."""
         return self.cknRef
 
-    def setCknRef(self, value: Optional[RefType]) -> "MacSecKayParticipant":
+    def setCknRef(self, value: Optional[RefType]) -> MacSecKayParticipant:
         """
         Reference to the key where the ckn (Connectivity Association key) is stored.
         A None value is a no-op and does not overwrite an existing cknRef.
@@ -1070,7 +1340,7 @@ class MacSecKayParticipant(Identifiable):
         """Cryptography that is used by the MKA Participant."""
         return self.cryptoAlgoConfig
 
-    def setCryptoAlgoConfig(self, value: Optional[MacSecCryptoAlgoConfig]) -> "MacSecKayParticipant":
+    def setCryptoAlgoConfig(self, value: Optional[MacSecCryptoAlgoConfig]) -> MacSecKayParticipant:
         """
         Cryptography that is used by the MKA Participant.
         A None value is a no-op and does not overwrite an existing cryptoAlgoConfig.
@@ -1083,7 +1353,7 @@ class MacSecKayParticipant(Identifiable):
         """Reference to the key where SAK shall be stored."""
         return self.sakRef
 
-    def setSakRef(self, value: Optional[RefType]) -> "MacSecKayParticipant":
+    def setSakRef(self, value: Optional[RefType]) -> MacSecKayParticipant:
         """
         Reference to the key where SAK shall be stored.
         A None value is a no-op and does not overwrite an existing sakRef.
@@ -1136,7 +1406,7 @@ class MacSecProps(ARObject):
         """This attribute defines how the Port Access Entity (PAE) is started: • true := Autostart • false := Manual Start"""
         return self.autoStart
 
-    def setAutoStart(self, value: Optional[Boolean]) -> "MacSecProps":
+    def setAutoStart(self, value: Optional[Boolean]) -> MacSecProps:
         """
         This attribute defines how the Port Access Entity (PAE) is started: • true := Autostart • false := Manual Start
         A None value is a no-op and does not overwrite an existing autoStart.
@@ -1149,7 +1419,7 @@ class MacSecProps(ARObject):
         """Properties to configure the MKA instance (KaY) for a controlled CouplingPort (PaE)."""
         return self.macSecKayConfig
 
-    def setMacSecKayConfig(self, value: Optional[MacSecLocalKayProps]) -> "MacSecProps":
+    def setMacSecKayConfig(self, value: Optional[MacSecLocalKayProps]) -> MacSecProps:
         """
         Properties to configure the MKA instance (KaY) for a controlled CouplingPort (PaE).
         A None value is a no-op and does not overwrite an existing macSecKayConfig.
@@ -1162,7 +1432,7 @@ class MacSecProps(ARObject):
         """This attribute sets the behavior of the Port Access Entity in case MACsec does not succeed."""
         return self.onFailPermissiveMode
 
-    def setOnFailPermissiveMode(self, value: Optional[MacSecFailPermissiveModeEnum]) -> "MacSecProps":
+    def setOnFailPermissiveMode(self, value: Optional[MacSecFailPermissiveModeEnum]) -> MacSecProps:
         """
         This attribute sets the behavior of the Port Access Entity in case MACsec does not succeed.
         A None value is a no-op and does not overwrite an existing onFailPermissiveMode.
@@ -1175,7 +1445,7 @@ class MacSecProps(ARObject):
         """Timeout in seconds to enable the controlled port in case onFailPermissiveMode is set to Timeout."""
         return self.onFailPermissiveModeTimeout
 
-    def setOnFailPermissiveModeTimeout(self, value: Optional[TimeValue]) -> "MacSecProps":
+    def setOnFailPermissiveModeTimeout(self, value: Optional[TimeValue]) -> MacSecProps:
         """
         Timeout in seconds to enable the controlled port in case onFailPermissiveMode is set to Timeout.
         A None value is a no-op and does not overwrite an existing onFailPermissiveModeTimeout.
@@ -1188,7 +1458,7 @@ class MacSecProps(ARObject):
         """Time in seconds to trigger the rekey of an in use SAK (Static Secure Association key). If set to 0, the rekey will not be triggered after a time span."""
         return self.sakRekeyTimeSpan
 
-    def setSakRekeyTimeSpan(self, value: Optional[TimeValue]) -> "MacSecProps":
+    def setSakRekeyTimeSpan(self, value: Optional[TimeValue]) -> MacSecProps:
         """
         Time in seconds to trigger the rekey of an in use SAK (Static Secure Association key). If set to 0, the rekey will not be triggered after a time span.
         A None value is a no-op and does not overwrite an existing sakRekeyTimeSpan.

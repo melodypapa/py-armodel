@@ -149,7 +149,7 @@ class IndentSample(ARObject):
         """
         return self.itemLabelPos
 
-    def setItemLabelPos(self, value: Optional[ItemLabelPosEnum]) -> "IndentSample":
+    def setItemLabelPos(self, value: Optional[ItemLabelPosEnum]) -> IndentSample:
         """
         The position of the label in case the label is too long. The default is "NO-NEWLINE". A None value is a no-op and does not overwrite an existing itemLabelPos.
 
@@ -160,7 +160,7 @@ class IndentSample(ARObject):
             self.itemLabelPos = value
         return self
 
-    def addL2(self, value: Optional[LOverviewParagraph]) -> "IndentSample":
+    def addL2(self, value: Optional[LOverviewParagraph]) -> IndentSample:
         """
         This represents the indent sample in one particular language. A None value is a no-op and is not appended.
 
@@ -219,7 +219,7 @@ class LabeledItem(ARObject, VariationPointCapable):
         """
         return self.helpEntry
 
-    def setHelpEntry(self, value: Optional[String]) -> "LabeledItem":
+    def setHelpEntry(self, value: Optional[String]) -> LabeledItem:
         """
         This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. A None value is a no-op and does not overwrite an existing helpEntry.
 
@@ -239,7 +239,7 @@ class LabeledItem(ARObject, VariationPointCapable):
         """
         return self.itemContents
 
-    def setItemContents(self, value: Optional["DocumentationBlock"]) -> "LabeledItem":
+    def setItemContents(self, value: Optional["DocumentationBlock"]) -> LabeledItem:
         """
         This represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. A None value is a no-op and does not overwrite an existing itemContents.
 
@@ -259,7 +259,7 @@ class LabeledItem(ARObject, VariationPointCapable):
         """
         return self.itemLabel
 
-    def setItemLabel(self, value: Optional[MultiLanguageOverviewParagraph]) -> "LabeledItem":
+    def setItemLabel(self, value: Optional[MultiLanguageOverviewParagraph]) -> LabeledItem:
         """
         This is the label of the item. A None value is a no-op and does not overwrite an existing itemLabel.
 
@@ -304,7 +304,7 @@ class LabeledList(ARObject, VariationPointCapable):
         """
         return self.indentSample
 
-    def setIndentSample(self, value: Optional[IndentSample]) -> "LabeledList":
+    def setIndentSample(self, value: Optional[IndentSample]) -> LabeledList:
         """
         This is a sample item. This sample is used by a rendering system to measure out the width of indentation. Since this depends on the particular fontsize etc. the indentation cannot be specified e.g. in mm. A None value is a no-op and does not overwrite an existing indentSample.
 
@@ -315,7 +315,7 @@ class LabeledList(ARObject, VariationPointCapable):
             self.indentSample = value
         return self
 
-    def addLabeledItem(self, value: Optional[LabeledItem]) -> "LabeledList":
+    def addLabeledItem(self, value: Optional[LabeledItem]) -> LabeledList:
         """
         This represents one particular item in the labeled list. A None value is a no-op and is not appended.
 
@@ -366,7 +366,7 @@ class DefItem(ARObject, VariationPointCapable):
         """
         return self.def_doc
 
-    def setDef(self, value: Optional["DocumentationBlock"]) -> "DefItem":
+    def setDef(self, value: Optional["DocumentationBlock"]) -> DefItem:
         """
         This represents the definition part of the DefItem. A None value is a no-op and does not overwrite an existing def.
         """
@@ -380,7 +380,7 @@ class DefItem(ARObject, VariationPointCapable):
         """
         return self.helpEntry
 
-    def setHelpEntry(self, value: Optional[String]) -> "DefItem":
+    def setHelpEntry(self, value: Optional[String]) -> DefItem:
         """
         This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. A None value is a no-op and does not overwrite an existing helpEntry.
         """
@@ -408,7 +408,7 @@ class DefList(ARObject, VariationPointCapable):
         # This is one entry in the definition list.
         self.defItems: List[DefItem] = []
 
-    def addDefItem(self, value: Optional[DefItem]) -> "DefList":
+    def addDefItem(self, value: Optional[DefItem]) -> DefList:
         """
         This is one entry in the definition list. A None value is a no-op and is not appended.
 

@@ -223,7 +223,7 @@ class SwCalprmAxisSet(ARObject):
         # One axis belonging to this SwCalprmAxisSet. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         self.swCalprmAxis: List[SwCalprmAxis] = []
 
-    def addSwCalprmAxis(self, axis: Optional[SwCalprmAxis]) -> "SwCalprmAxisSet":
+    def addSwCalprmAxis(self, axis: Optional[SwCalprmAxis]) -> SwCalprmAxisSet:
         """
         One axis belonging to this SwCalprmAxisSet. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         A None value is a no-op and does not append anything.

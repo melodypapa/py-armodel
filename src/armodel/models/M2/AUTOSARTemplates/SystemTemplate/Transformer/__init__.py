@@ -950,6 +950,7 @@ class DataTransformationSet(ARElement):
 
     # DataTransformationSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.1, p.763
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDataTransformations         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1013,11 +1014,164 @@ class CSTransformerErrorReactionEnum(AREnum):
         super().__init__([CSTransformerErrorReactionEnum.APPLICATION_ONLY, CSTransformerErrorReactionEnum.AUTONOMOUS])
 
 
+class SOMEIPMessageTypeEnum(AREnum):
+    """
+    Depending on the style of the communication different message types shall be set in the header of a SOME/IP message.
+    """
+
+    # SOMEIPMessageTypeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.13, p.779
+    # (no methods) — enum value form serialized on SomeipTransformationISignalProps.messageType
+
+    # A request of a notification expecting no response. Tags: atp.EnumerationLiteralIndex=1 xml.name=NOTIFICATION
+    NOTIFICATION = "NOTIFICATION"
+
+    # A request expecting a response. Tags: atp.EnumerationLiteralIndex=2 xml.name=REQUEST
+    REQUEST = "REQUEST"
+
+    # A fire&forget request. Tags: atp.EnumerationLiteralIndex=3 xml.name=REQUEST-NO-RETURN
+    REQUEST_NO_RETURN = "REQUEST-NO-RETURN"
+
+    # The response message. Tags: atp.EnumerationLiteralIndex=4 xml.name=RESPONSE
+    RESPONSE = "RESPONSE"
+
+    def __init__(self):
+        super().__init__(
+            [
+                SOMEIPMessageTypeEnum.NOTIFICATION,
+                SOMEIPMessageTypeEnum.REQUEST,
+                SOMEIPMessageTypeEnum.REQUEST_NO_RETURN,
+                SOMEIPMessageTypeEnum.RESPONSE,
+            ]
+        )
+
+
+class TlvDataIdDefinition(ARObject):
+    """
+    This meta-class represents the ability to define the tlvDataId.
+    """
+
+    # TlvDataIdDefinition method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.31, p.831
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getId                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setId                                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTlvArgumentRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTlvArgumentRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTlvImplementationDataTypeElementRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTlvImplementationDataTypeElementRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTlvRecordElementRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTlvRecordElementRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute represents the definition of the value of the TlvDataId Stereotypes: atpIdentityContributor
+        self.id: Optional[PositiveInteger] = None
+
+        # This reference assigns a tlvDataId to a given argument of a ClientServerOperation.
+        self.tlvArgumentRef: Optional[RefType] = None
+
+        # This reference associates the definition of a TLV data id with a given AbstractImplementationDataTypeElement.
+        self.tlvImplementationDataTypeElementRef: Optional[RefType] = None
+
+        # This reference associates the definition of a TLV data id with a given ApplicationRecordElement.
+        self.tlvRecordElementRef: Optional[RefType] = None
+
+    def getId(self) -> Optional[PositiveInteger]:
+        """This attribute represents the definition of the value of the TlvDataId Stereotypes: atpIdentityContributor"""
+        return self.id
+
+    def setId(self, value: Optional[PositiveInteger]) -> "TlvDataIdDefinition":
+        """
+        This attribute represents the definition of the value of the TlvDataId Stereotypes: atpIdentityContributor
+        A None value is a no-op and does not overwrite an existing id.
+        """
+        if value is not None:
+            self.id = value
+        return self
+
+    def getTlvArgumentRef(self) -> Optional[RefType]:
+        """This reference assigns a tlvDataId to a given argument of a ClientServerOperation."""
+        return self.tlvArgumentRef
+
+    def setTlvArgumentRef(self, value: Optional[RefType]) -> "TlvDataIdDefinition":
+        """
+        This reference assigns a tlvDataId to a given argument of a ClientServerOperation.
+        A None value is a no-op and does not overwrite an existing tlvArgumentRef.
+        """
+        if value is not None:
+            self.tlvArgumentRef = value
+        return self
+
+    def getTlvImplementationDataTypeElementRef(self) -> Optional[RefType]:
+        """This reference associates the definition of a TLV data id with a given AbstractImplementationDataTypeElement."""
+        return self.tlvImplementationDataTypeElementRef
+
+    def setTlvImplementationDataTypeElementRef(self, value: Optional[RefType]) -> "TlvDataIdDefinition":
+        """
+        This reference associates the definition of a TLV data id with a given AbstractImplementationDataTypeElement.
+        A None value is a no-op and does not overwrite an existing tlvImplementationDataTypeElementRef.
+        """
+        if value is not None:
+            self.tlvImplementationDataTypeElementRef = value
+        return self
+
+    def getTlvRecordElementRef(self) -> Optional[RefType]:
+        """This reference associates the definition of a TLV data id with a given ApplicationRecordElement."""
+        return self.tlvRecordElementRef
+
+    def setTlvRecordElementRef(self, value: Optional[RefType]) -> "TlvDataIdDefinition":
+        """
+        This reference associates the definition of a TLV data id with a given ApplicationRecordElement.
+        A None value is a no-op and does not overwrite an existing tlvRecordElementRef.
+        """
+        if value is not None:
+            self.tlvRecordElementRef = value
+        return self
+
+
+class TlvDataIdDefinitionSet(ARElement):
+    """
+    This meta-class acts as a container of TlvDataIdDefinitions to be used in a given context Tags: atp.recommendedPackage=TlvDataDefinitionSets
+    """
+
+    # TlvDataIdDefinitionSet method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.30, p.830
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTlvDataIdDefinitions  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTlvDataIdDefinition   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation represents the collection of TlVDataTidDefinitions aggregated by the TlvDataIdDefinitionSet
+        self.tlvDataIdDefinitions: List[TlvDataIdDefinition] = []
+
+    def getTlvDataIdDefinitions(self) -> List[TlvDataIdDefinition]:
+        """
+        This aggregation represents the collection of TlVDataTidDefinitions aggregated by the TlvDataIdDefinitionSet
+        """
+        return self.tlvDataIdDefinitions
+
+    def addTlvDataIdDefinition(self, value: Optional[TlvDataIdDefinition]) -> "TlvDataIdDefinitionSet":
+        """
+        This aggregation represents the collection of TlVDataTidDefinitions aggregated by the TlvDataIdDefinitionSet
+        A None value is a no-op and does not add to tlvDataIdDefinitions.
+        """
+        if value is not None:
+            self.tlvDataIdDefinitions.append(value)
+        return self
+
+
 class TransformationISignalProps(Describable, ABC):
     """TransformationISignalProps holds all the attributes for the different TransformationTechnologies that are ISignal specific. Tags: vh.latestBindingTime=postBuild"""
 
     # TransformationISignalProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.8, p.772
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCsErrorReaction           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1312,6 +1466,215 @@ class EndToEndTransformationISignalProps(TransformationISignalProps):
         if value is not None:
             self.sourceId = value
         return self
+
+
+class SomeipTransformationISignalProps(TransformationISignalProps):
+    """
+    The class SOMEIPTransformationISignalProps specifies ISignal specific configuration properties for SOME/IP transformer attributes.
+    """
+
+    # SomeipTransformationISignalProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.11, p.778
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getImplementsLegacyStringSerialization [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImplementsLegacyStringSerialization [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInterfaceVersion                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInterfaceVersion                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsDynamicLengthFieldSize            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsDynamicLengthFieldSize            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMessageType                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMessageType                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSizeOfArrayLengthFields             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSizeOfArrayLengthFields             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSizeOfStringLengthFields            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSizeOfStringLengthFields            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSizeOfStructLengthFields            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSizeOfStructLengthFields            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSizeOfUnionLengthFields             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSizeOfUnionLengthFields             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTlvDataIdDefinitionRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTlvDataIdDefinitionRefs             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute indicates that Strings in the SOME/IP message shall NOT be serialized according to the SOME/IP specification for Strings. If this attribute is set to true, BOM and null-termination shall NOT be added in the serialization for Strings in the payload. If this attribute is set to false (or not set) BOM and null-termination shall be added in the serialization for Strings in the payload according to the SOME/IP specification for Strings. NOTE! This attribute is not future safe, and will be removed in an upcoming AUTOSAR release!" Tags: atp.Status=obsolete
+        self.implementsLegacyStringSerialization: Optional[Boolean] = None
+
+        # The interface version the SOME/IP transformer shall use.
+        self.interfaceVersion: Optional[PositiveInteger] = None
+
+        # This attribute shall be used to determine the wire type in the context of using the TLV encoding.
+        self.isDynamicLengthFieldSize: Optional[Boolean] = None
+
+        # The Message Type which shall be placed into the SOME/IP header.
+        self.messageType: Optional[SOMEIPMessageTypeEnum] = None
+
+        # The size of all length fields (in Bytes) of fixed-size arrays or dynamic size arrays in the SOME/IP message. This attribute is valid for all available occurrences of fixed-size arrays or dynamic size arrays in the SOME/IP message.
+        self.sizeOfArrayLengthFields: Optional[PositiveInteger] = None
+
+        # The size of all length fields (in Bytes) of dynamic length strings in the SOME/IP message. This attribute is valid for all available occurrences of strings in the SOME/IP message.
+        self.sizeOfStringLengthFields: Optional[PositiveInteger] = None
+
+        # The size of all length fields (in Bytes) of structs in the SOME/IP message. This attribute is valid for all available occurrences of structures in the SOME/IP message. For a more fine granular modeling on the level of DataPrototypes the DataPrototypeTransformationProps shall be used.
+        self.sizeOfStructLengthFields: Optional[PositiveInteger] = None
+
+        # The size of all length fields (in Bytes) of unions in the SOME/IP message. This attribute is valid for all available occurrences of Unions in the SOME/IP message. For a more fine granular modeling on the level of DataPrototypes the DataPrototypeTransformationProps shall be used.
+        self.sizeOfUnionLengthFields: Optional[PositiveInteger] = None
+
+        # This reference identifies the TlvDataIdDefinitions relevant for the enclosing SOMEIPTransformationISignalProps
+        self.tlvDataIdDefinitionRefs: List[RefType] = []
+
+    def getImplementsLegacyStringSerialization(self) -> Optional[Boolean]:
+        """
+        This attribute indicates that Strings in the SOME/IP message shall NOT be serialized according to the SOME/IP specification for Strings. If this attribute is set to true, BOM and null-termination shall NOT be added in the serialization for Strings in the payload. If this attribute is set to false (or not set) BOM and null-termination shall be added in the serialization for Strings in the payload according to the SOME/IP specification for Strings. NOTE! This attribute is not future safe, and will be removed in an upcoming AUTOSAR release!" Tags: atp.Status=obsolete
+        """
+        return self.implementsLegacyStringSerialization
+
+    def setImplementsLegacyStringSerialization(self, value: Optional[Boolean]) -> "SomeipTransformationISignalProps":
+        """
+        This attribute indicates that Strings in the SOME/IP message shall NOT be serialized according to the SOME/IP specification for Strings. If this attribute is set to true, BOM and null-termination shall NOT be added in the serialization for Strings in the payload. If this attribute is set to false (or not set) BOM and null-termination shall be added in the serialization for Strings in the payload according to the SOME/IP specification for Strings. NOTE! This attribute is not future safe, and will be removed in an upcoming AUTOSAR release!" Tags: atp.Status=obsolete
+        A None value is a no-op and does not overwrite an existing implementsLegacyStringSerialization.
+        """
+        if value is not None:
+            self.implementsLegacyStringSerialization = value
+        return self
+
+    def getInterfaceVersion(self) -> Optional[PositiveInteger]:
+        """
+        The interface version the SOME/IP transformer shall use.
+        """
+        return self.interfaceVersion
+
+    def setInterfaceVersion(self, value: Optional[PositiveInteger]) -> "SomeipTransformationISignalProps":
+        """
+        The interface version the SOME/IP transformer shall use.
+        A None value is a no-op and does not overwrite an existing interfaceVersion.
+        """
+        if value is not None:
+            self.interfaceVersion = value
+        return self
+
+    def getIsDynamicLengthFieldSize(self) -> Optional[Boolean]:
+        """
+        This attribute shall be used to determine the wire type in the context of using the TLV encoding.
+        """
+        return self.isDynamicLengthFieldSize
+
+    def setIsDynamicLengthFieldSize(self, value: Optional[Boolean]) -> "SomeipTransformationISignalProps":
+        """
+        This attribute shall be used to determine the wire type in the context of using the TLV encoding.
+        A None value is a no-op and does not overwrite an existing isDynamicLengthFieldSize.
+        """
+        if value is not None:
+            self.isDynamicLengthFieldSize = value
+        return self
+
+    def getMessageType(self) -> Optional[SOMEIPMessageTypeEnum]:
+        """
+        The Message Type which shall be placed into the SOME/IP header.
+        """
+        return self.messageType
+
+    def setMessageType(self, value: Optional[SOMEIPMessageTypeEnum]) -> "SomeipTransformationISignalProps":
+        """
+        The Message Type which shall be placed into the SOME/IP header.
+        A None value is a no-op and does not overwrite an existing messageType.
+        """
+        if value is not None:
+            self.messageType = value
+        return self
+
+    def getSizeOfArrayLengthFields(self) -> Optional[PositiveInteger]:
+        """
+        The size of all length fields (in Bytes) of fixed-size arrays or dynamic size arrays in the SOME/IP message. This attribute is valid for all available occurrences of fixed-size arrays or dynamic size arrays in the SOME/IP message.
+        """
+        return self.sizeOfArrayLengthFields
+
+    def setSizeOfArrayLengthFields(self, value: Optional[PositiveInteger]) -> "SomeipTransformationISignalProps":
+        """
+        The size of all length fields (in Bytes) of fixed-size arrays or dynamic size arrays in the SOME/IP message. This attribute is valid for all available occurrences of fixed-size arrays or dynamic size arrays in the SOME/IP message.
+        A None value is a no-op and does not overwrite an existing sizeOfArrayLengthFields.
+        """
+        if value is not None:
+            self.sizeOfArrayLengthFields = value
+        return self
+
+    def getSizeOfStringLengthFields(self) -> Optional[PositiveInteger]:
+        """
+        The size of all length fields (in Bytes) of dynamic length strings in the SOME/IP message. This attribute is valid for all available occurrences of strings in the SOME/IP message.
+        """
+        return self.sizeOfStringLengthFields
+
+    def setSizeOfStringLengthFields(self, value: Optional[PositiveInteger]) -> "SomeipTransformationISignalProps":
+        """
+        The size of all length fields (in Bytes) of dynamic length strings in the SOME/IP message. This attribute is valid for all available occurrences of strings in the SOME/IP message.
+        A None value is a no-op and does not overwrite an existing sizeOfStringLengthFields.
+        """
+        if value is not None:
+            self.sizeOfStringLengthFields = value
+        return self
+
+    def getSizeOfStructLengthFields(self) -> Optional[PositiveInteger]:
+        """
+        The size of all length fields (in Bytes) of structs in the SOME/IP message. This attribute is valid for all available occurrences of structures in the SOME/IP message. For a more fine granular modeling on the level of DataPrototypes the DataPrototypeTransformationProps shall be used.
+        """
+        return self.sizeOfStructLengthFields
+
+    def setSizeOfStructLengthFields(self, value: Optional[PositiveInteger]) -> "SomeipTransformationISignalProps":
+        """
+        The size of all length fields (in Bytes) of structs in the SOME/IP message. This attribute is valid for all available occurrences of structures in the SOME/IP message. For a more fine granular modeling on the level of DataPrototypes the DataPrototypeTransformationProps shall be used.
+        A None value is a no-op and does not overwrite an existing sizeOfStructLengthFields.
+        """
+        if value is not None:
+            self.sizeOfStructLengthFields = value
+        return self
+
+    def getSizeOfUnionLengthFields(self) -> Optional[PositiveInteger]:
+        """
+        The size of all length fields (in Bytes) of unions in the SOME/IP message. This attribute is valid for all available occurrences of Unions in the SOME/IP message. For a more fine granular modeling on the level of DataPrototypes the DataPrototypeTransformationProps shall be used.
+        """
+        return self.sizeOfUnionLengthFields
+
+    def setSizeOfUnionLengthFields(self, value: Optional[PositiveInteger]) -> "SomeipTransformationISignalProps":
+        """
+        The size of all length fields (in Bytes) of unions in the SOME/IP message. This attribute is valid for all available occurrences of Unions in the SOME/IP message. For a more fine granular modeling on the level of DataPrototypes the DataPrototypeTransformationProps shall be used.
+        A None value is a no-op and does not overwrite an existing sizeOfUnionLengthFields.
+        """
+        if value is not None:
+            self.sizeOfUnionLengthFields = value
+        return self
+
+    def addTlvDataIdDefinitionRef(self, value: Optional[RefType]) -> "SomeipTransformationISignalProps":
+        """
+        This reference identifies the TlvDataIdDefinitions relevant for the enclosing SOMEIPTransformationISignalProps
+        A None value is a no-op and does not add to tlvDataIdDefinitionRefs.
+        """
+        if value is not None:
+            self.tlvDataIdDefinitionRefs.append(value)
+        return self
+
+    def getTlvDataIdDefinitionRefs(self) -> List[RefType]:
+        """
+        This reference identifies the TlvDataIdDefinitions relevant for the enclosing SOMEIPTransformationISignalProps
+        """
+        return self.tlvDataIdDefinitionRefs
+
+
+class UserDefinedTransformationISignalProps(TransformationISignalProps):
+    """
+    The UserDefinedTransformationISignalProps is used to specify ISignal specific configuration properties for custom transformers.
+    """
+
+    # UserDefinedTransformationISignalProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.28, p.828
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; reader/writer coverage via the USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS dispatch)
+
+    def __init__(self):
+        super().__init__()
 
 
 class EndToEndTransformationComSpecProps(TransformationComSpecProps):

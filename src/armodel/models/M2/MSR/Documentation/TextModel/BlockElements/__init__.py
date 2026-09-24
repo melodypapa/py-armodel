@@ -97,7 +97,7 @@ class DocumentationBlock(ARObject):
         """
         return self.defList
 
-    def setDefList(self, value: Optional[DefList]) -> "DocumentationBlock":
+    def setDefList(self, value: Optional[DefList]) -> DocumentationBlock:
         """
         This represents a definition list in the documentation block. A None value is a no-op and does not overwrite an existing defList.
 
@@ -108,7 +108,7 @@ class DocumentationBlock(ARObject):
             self.defList = value
         return self
 
-    def addFigure(self, value: Optional[MlFigure]) -> "DocumentationBlock":
+    def addFigure(self, value: Optional[MlFigure]) -> DocumentationBlock:
         """
         This represents a figure in the documentation block. A None value is a no-op and is not appended.
 
@@ -137,7 +137,7 @@ class DocumentationBlock(ARObject):
         """
         return self.formula
 
-    def setFormula(self, value: Optional[MlFormula]) -> "DocumentationBlock":
+    def setFormula(self, value: Optional[MlFormula]) -> DocumentationBlock:
         """
         This is a formula in the definition block. A None value is a no-op and does not overwrite an existing formula.
 
@@ -157,7 +157,7 @@ class DocumentationBlock(ARObject):
         """
         return self.labeledList
 
-    def setLabeledList(self, value: Optional[LabeledList]) -> "DocumentationBlock":
+    def setLabeledList(self, value: Optional[LabeledList]) -> DocumentationBlock:
         """
         This represents a labeled list. A None value is a no-op and does not overwrite an existing labeledList.
 
@@ -168,7 +168,7 @@ class DocumentationBlock(ARObject):
             self.labeledList = value
         return self
 
-    def addList(self, value: Optional[ARList]) -> "DocumentationBlock":
+    def addList(self, value: Optional[ARList]) -> DocumentationBlock:
         """
         This represents numbered or unnumbered list. A None value is a no-op and is not appended.
 
@@ -197,7 +197,7 @@ class DocumentationBlock(ARObject):
         """
         return self.msrQueryP2
 
-    def setMsrQueryP2(self, value: Optional[MsrQueryP2]) -> "DocumentationBlock":
+    def setMsrQueryP2(self, value: Optional[MsrQueryP2]) -> DocumentationBlock:
         """
         This represents automatically contributed contents provided by an msrquery in the context of Documentation Block. A None value is a no-op and does not overwrite an existing msrQueryP2.
 
@@ -217,7 +217,7 @@ class DocumentationBlock(ARObject):
         """
         return self.note
 
-    def setNote(self, value: Optional[Note]) -> "DocumentationBlock":
+    def setNote(self, value: Optional[Note]) -> DocumentationBlock:
         """
         This represents a note in the text flow. A None value is a no-op and does not overwrite an existing note.
 
@@ -228,7 +228,7 @@ class DocumentationBlock(ARObject):
             self.note = value
         return self
 
-    def addP(self, value: Optional[MultiLanguageParagraph]) -> "DocumentationBlock":
+    def addP(self, value: Optional[MultiLanguageParagraph]) -> DocumentationBlock:
         """
         This is one particular paragraph. A None value is a no-op and is not appended.
 
@@ -257,7 +257,7 @@ class DocumentationBlock(ARObject):
         """
         return self.structuredReq
 
-    def setStructuredReq(self, value: Optional[StructuredReq]) -> "DocumentationBlock":
+    def setStructuredReq(self, value: Optional[StructuredReq]) -> DocumentationBlock:
         """
         This aggregation supports structured requirements embedded in a documentation block. A None value is a no-op and does not overwrite an existing structuredReq.
 
@@ -277,7 +277,7 @@ class DocumentationBlock(ARObject):
         """
         return self.trace
 
-    def setTrace(self, value: Optional[TraceableText]) -> "DocumentationBlock":
+    def setTrace(self, value: Optional[TraceableText]) -> DocumentationBlock:
         """
         This represents traceable text in the documentation block. This allows to specify requirements/constraints in any documentation block. The kind of the trace is specified in the category. A None value is a no-op and does not overwrite an existing trace.
 
@@ -297,7 +297,7 @@ class DocumentationBlock(ARObject):
         """
         return self.verbatim
 
-    def setVerbatim(self, value: Optional[MultiLanguageVerbatim]) -> "DocumentationBlock":
+    def setVerbatim(self, value: Optional[MultiLanguageVerbatim]) -> DocumentationBlock:
         """
         This represents one particular verbatim text. A None value is a no-op and does not overwrite an existing verbatim.
 

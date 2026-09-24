@@ -3,6 +3,8 @@ This module contains comprehensive tests for the Identifiable.py file
 in the AUTOSAR GenericStructure module.
 """
 
+import typing
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,
@@ -153,6 +155,18 @@ class TestShortNameFragment:
     Test class for ShortNameFragment functionality.
     """
 
+    def test_class_docstring_verbatim(self):
+        """
+        Test that the class docstring is the Table 4.13 Note verbatim.
+        """
+        assert ShortNameFragment.__doc__.strip() == "This class describes how the Referrable.shortName is composed of several shortNameFragments."
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ has no docstring (spec Notes live in inline member comments).
+        """
+        assert ShortNameFragment.__init__.__doc__ is None
+
     def test_initialization(self):
         """
         Test that ShortNameFragment initializes with None attributes.
@@ -161,22 +175,45 @@ class TestShortNameFragment:
         assert fragment.getRole() is None
         assert fragment.getFragment() is None
 
+    def test_role_typed_string(self):
+        """
+        Test that role is typed String per Table 4.13 (getter/setter annotations).
+        """
+        getter_hints = typing.get_type_hints(ShortNameFragment.getRole)
+        assert getter_hints.get("return") == typing.Optional[String]
+
+        setter_hints = typing.get_type_hints(ShortNameFragment.setRole)
+        assert setter_hints.get("value") == typing.Optional[String]
+        assert setter_hints.get("return") is ShortNameFragment
+
+    def test_fragment_typed_identifier(self):
+        """
+        Test that fragment is typed Identifier per Table 4.13 (getter/setter annotations).
+        """
+        getter_hints = typing.get_type_hints(ShortNameFragment.getFragment)
+        assert getter_hints.get("return") == typing.Optional[Identifier]
+
+        setter_hints = typing.get_type_hints(ShortNameFragment.setFragment)
+        assert setter_hints.get("value") == typing.Optional[Identifier]
+        assert setter_hints.get("return") is ShortNameFragment
+
     def test_role_setter_getter(self):
         """
         Test setRole and getRole methods.
         """
         fragment = ShortNameFragment()
-        assert fragment.setRole("prefix") is fragment
-        assert fragment.getRole() == "prefix"
+        assert fragment.setRole(String().setValue("prefix")) is fragment
+        assert isinstance(fragment.getRole(), String)
+        assert fragment.getRole().getValue() == "prefix"
 
     def test_role_none_is_noop(self):
         """
         Test that setRole(None) does not overwrite an existing role.
         """
         fragment = ShortNameFragment()
-        fragment.setRole("prefix")
+        fragment.setRole(String().setValue("prefix"))
         fragment.setRole(None)
-        assert fragment.getRole() == "prefix"
+        assert fragment.getRole().getValue() == "prefix"
 
     def test_fragment_setter_getter(self):
         """

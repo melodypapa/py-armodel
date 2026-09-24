@@ -65,7 +65,7 @@ class HeapUsage(Identifiable, VariationPointCapable, ABC):
         """
         return self.hardwareConfiguration
 
-    def setHardwareConfiguration(self, value: Optional[HardwareConfiguration]) -> "HeapUsage":
+    def setHardwareConfiguration(self, value: Optional[HardwareConfiguration]) -> HeapUsage:
         """
         Sets the hardware configuration this heap usage is describing.
         A None value is a no-op and does not overwrite an existing configuration.
@@ -89,7 +89,7 @@ class HeapUsage(Identifiable, VariationPointCapable, ABC):
         """
         return self.hwElementRef
 
-    def setHwElementRef(self, value: Optional[RefType]) -> "HeapUsage":
+    def setHwElementRef(self, value: Optional[RefType]) -> HeapUsage:
         """
         Sets the reference to the hardware element (e.g. ECU) this heap usage is given for.
         A None value is a no-op and does not overwrite an existing reference.
@@ -113,7 +113,7 @@ class HeapUsage(Identifiable, VariationPointCapable, ABC):
         """
         return self.softwareContext
 
-    def setSoftwareContext(self, value: Optional[SoftwareContext]) -> "HeapUsage":
+    def setSoftwareContext(self, value: Optional[SoftwareContext]) -> HeapUsage:
         """
         Sets the software context this heap usage is provided for.
         A None value is a no-op and does not overwrite an existing context.
@@ -178,7 +178,7 @@ class MeasuredHeapUsage(HeapUsage):
         """
         return self.averageMemoryConsumption
 
-    def setAverageMemoryConsumption(self, value: Optional[PositiveInteger]) -> "MeasuredHeapUsage":
+    def setAverageMemoryConsumption(self, value: Optional[PositiveInteger]) -> MeasuredHeapUsage:
         """
         Sets the average heap usage measured.
         A None value is a no-op and does not overwrite an existing value.
@@ -202,7 +202,7 @@ class MeasuredHeapUsage(HeapUsage):
         """
         return self.maximumMemoryConsumption
 
-    def setMaximumMemoryConsumption(self, value: Optional[PositiveInteger]) -> "MeasuredHeapUsage":
+    def setMaximumMemoryConsumption(self, value: Optional[PositiveInteger]) -> MeasuredHeapUsage:
         """
         Sets the maximum heap usage measured.
         A None value is a no-op and does not overwrite an existing value.
@@ -226,7 +226,7 @@ class MeasuredHeapUsage(HeapUsage):
         """
         return self.minimumMemoryConsumption
 
-    def setMinimumMemoryConsumption(self, value: Optional[PositiveInteger]) -> "MeasuredHeapUsage":
+    def setMinimumMemoryConsumption(self, value: Optional[PositiveInteger]) -> MeasuredHeapUsage:
         """
         Sets the minimum heap usage measured.
         A None value is a no-op and does not overwrite an existing value.
@@ -250,7 +250,7 @@ class MeasuredHeapUsage(HeapUsage):
         """
         return self.testPattern
 
-    def setTestPattern(self, value: Optional[String]) -> "MeasuredHeapUsage":
+    def setTestPattern(self, value: Optional[String]) -> MeasuredHeapUsage:
         """
         Sets the description of the test pattern used to acquire the measured values.
         A None value is a no-op and does not overwrite an existing value.
@@ -300,7 +300,7 @@ class RoughEstimateHeapUsage(HeapUsage):
         """
         return self.memoryConsumption
 
-    def setMemoryConsumption(self, value: Optional[PositiveInteger]) -> "RoughEstimateHeapUsage":
+    def setMemoryConsumption(self, value: Optional[PositiveInteger]) -> RoughEstimateHeapUsage:
         """
         Sets the rough estimate of the heap usage.
         A None value is a no-op and does not overwrite an existing value.
@@ -350,7 +350,7 @@ class WorstCaseHeapUsage(HeapUsage):
         """
         return self.memoryConsumption
 
-    def setMemoryConsumption(self, value: Optional[PositiveInteger]) -> "WorstCaseHeapUsage":
+    def setMemoryConsumption(self, value: Optional[PositiveInteger]) -> WorstCaseHeapUsage:
         """
         Sets the worst case heap consumption.
         A None value is a no-op and does not overwrite an existing value.

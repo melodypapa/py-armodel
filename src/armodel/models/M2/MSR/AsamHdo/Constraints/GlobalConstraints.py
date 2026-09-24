@@ -65,7 +65,7 @@ class InternalConstrs(ARObject):
         """
         return self.lowerLimit
 
-    def setLowerLimit(self, value: Optional[Limit]) -> "InternalConstrs":
+    def setLowerLimit(self, value: Optional[Limit]) -> InternalConstrs:
         """
         This specifies the lower limit of the constraint. A None value is a no-op and does not overwrite an existing lowerLimit.
         """
@@ -79,7 +79,7 @@ class InternalConstrs(ARObject):
         """
         return self.maxDiff
 
-    def setMaxDiff(self, value: Optional[Numerical]) -> "InternalConstrs":
+    def setMaxDiff(self, value: Optional[Numerical]) -> InternalConstrs:
         """
         Maximum difference that is permitted between two consecutive values if the constraint is applied to an axis. A None value is a no-op and does not overwrite an existing maxDiff.
         """
@@ -93,7 +93,7 @@ class InternalConstrs(ARObject):
         """
         return self.maxGradient
 
-    def setMaxGradient(self, value: Optional[Numerical]) -> "InternalConstrs":
+    def setMaxGradient(self, value: Optional[Numerical]) -> InternalConstrs:
         """
         This element specifies the maximum slope that may be used in maps and curves. A None value is a no-op and does not overwrite an existing maxGradient.
         """
@@ -107,7 +107,7 @@ class InternalConstrs(ARObject):
         """
         return self.monotony
 
-    def setMonotony(self, value: Optional[MonotonyEnum]) -> "InternalConstrs":
+    def setMonotony(self, value: Optional[MonotonyEnum]) -> InternalConstrs:
         """
         This element specifies the monotony characteristics of the current internal or physical limits. The following table shows the monotony characteristics which are to be filled through the corresponding values. If the element has no contents or if it is omitted, "no Monotony" is the default content. A None value is a no-op and does not overwrite an existing monotony.
         """
@@ -115,7 +115,7 @@ class InternalConstrs(ARObject):
             self.monotony = value
         return self
 
-    def addScaleConstr(self, value: Optional[ScaleConstr]) -> "InternalConstrs":
+    def addScaleConstr(self, value: Optional[ScaleConstr]) -> InternalConstrs:
         """
         This is one particular scale which contributes to the data constraints. A None value is a no-op and does not add a scaleConstr.
         """
@@ -135,7 +135,7 @@ class InternalConstrs(ARObject):
         """
         return self.upperLimit
 
-    def setUpperLimit(self, value: Optional[Limit]) -> "InternalConstrs":
+    def setUpperLimit(self, value: Optional[Limit]) -> InternalConstrs:
         """
         This specifies the upper limit defined by the constraint. A None value is a no-op and does not overwrite an existing upperLimit.
         """
@@ -226,7 +226,7 @@ class ScaleConstr(ARObject):
         """
         return self.desc
 
-    def setDesc(self, value: Optional[MultiLanguageOverviewParagraph]) -> "ScaleConstr":
+    def setDesc(self, value: Optional[MultiLanguageOverviewParagraph]) -> ScaleConstr:
         """
         <desc> represents a general but brief description of the object in question. A None value is a no-op and does not overwrite an existing desc.
         """
@@ -240,7 +240,7 @@ class ScaleConstr(ARObject):
         """
         return self.lowerLimit
 
-    def setLowerLimit(self, value: Optional[Limit]) -> "ScaleConstr":
+    def setLowerLimit(self, value: Optional[Limit]) -> ScaleConstr:
         """
         This specifies the lower limit of the scale. A None value is a no-op and does not overwrite an existing lowerLimit.
         """
@@ -254,7 +254,7 @@ class ScaleConstr(ARObject):
         """
         return self.shortLabel
 
-    def setShortLabel(self, value: Optional[Identifier]) -> "ScaleConstr":
+    def setShortLabel(self, value: Optional[Identifier]) -> ScaleConstr:
         """
         This element specifies a short name for the scaleConstr. This can for example be used to create more specific messages of a constraint checker. The constraints cannot be associated in the meta-model, therefore shortLabel is somehow a substitute for shortName. A None value is a no-op and does not overwrite an existing shortLabel.
         """
@@ -268,7 +268,7 @@ class ScaleConstr(ARObject):
         """
         return self.upperLimit
 
-    def setUpperLimit(self, value: Optional[Limit]) -> "ScaleConstr":
+    def setUpperLimit(self, value: Optional[Limit]) -> ScaleConstr:
         """
         This specifies the upper limit of a the scale. A None value is a no-op and does not overwrite an existing upperLimit.
         """
@@ -282,7 +282,7 @@ class ScaleConstr(ARObject):
         """
         return self.validity
 
-    def setValidity(self, value: Optional[ScaleConstrValidityEnum]) -> "ScaleConstr":
+    def setValidity(self, value: Optional[ScaleConstrValidityEnum]) -> ScaleConstr:
         """
         Specifies if the values defined by the scales are considered to be valid. If the attribute is missing then the default value is "VALID". A None value is a no-op and does not overwrite an existing validity.
         """
@@ -346,7 +346,7 @@ class PhysConstrs(ARObject):
         """
         return self.lowerLimit
 
-    def setLowerLimit(self, value: Optional[Limit]) -> "PhysConstrs":
+    def setLowerLimit(self, value: Optional[Limit]) -> PhysConstrs:
         """
         This specifies the lower limit of the constraint. A None value is a no-op and does not overwrite an existing lowerLimit.
         """
@@ -360,7 +360,7 @@ class PhysConstrs(ARObject):
         """
         return self.maxDiff
 
-    def setMaxDiff(self, value: Optional[Numerical]) -> "PhysConstrs":
+    def setMaxDiff(self, value: Optional[Numerical]) -> PhysConstrs:
         """
         Maximum difference that is permitted between two consecutive values if the constraint is applied to an axis. A None value is a no-op and does not overwrite an existing maxDiff.
         """
@@ -374,7 +374,7 @@ class PhysConstrs(ARObject):
         """
         return self.maxGradient
 
-    def setMaxGradient(self, value: Optional[Numerical]) -> "PhysConstrs":
+    def setMaxGradient(self, value: Optional[Numerical]) -> PhysConstrs:
         """
         This element specifies the maximum slope that may be used in curves and maps. A None value is a no-op and does not overwrite an existing maxGradient.
         """
@@ -388,7 +388,7 @@ class PhysConstrs(ARObject):
         """
         return self.monotony
 
-    def setMonotony(self, value: Optional[MonotonyEnum]) -> "PhysConstrs":
+    def setMonotony(self, value: Optional[MonotonyEnum]) -> PhysConstrs:
         """
         This specifies the monotony constraints on the data object. Note that this applies only to curves and maps. A None value is a no-op and does not overwrite an existing monotony.
         """
@@ -396,7 +396,7 @@ class PhysConstrs(ARObject):
             self.monotony = value
         return self
 
-    def addScaleConstr(self, value: Optional[ScaleConstr]) -> "PhysConstrs":
+    def addScaleConstr(self, value: Optional[ScaleConstr]) -> PhysConstrs:
         """
         This is one particular scale which contributes to the data constraints. A None value is a no-op and does not add a scaleConstr.
         """
@@ -416,7 +416,7 @@ class PhysConstrs(ARObject):
         """
         return self.unitRef
 
-    def setUnitRef(self, value: Optional[RefType]) -> "PhysConstrs":
+    def setUnitRef(self, value: Optional[RefType]) -> PhysConstrs:
         """
         This is the unit to which the physical constraints relate to. In particular, it is the physical unit of the specified limits. A None value is a no-op and does not overwrite an existing unitRef.
         """
@@ -430,7 +430,7 @@ class PhysConstrs(ARObject):
         """
         return self.upperLimit
 
-    def setUpperLimit(self, value: Optional[Limit]) -> "PhysConstrs":
+    def setUpperLimit(self, value: Optional[Limit]) -> PhysConstrs:
         """
         This specifies the upper limit of the constraint. A None value is a no-op and does not overwrite an existing upperLimit.
         """
@@ -471,7 +471,7 @@ class DataConstrRule(ARObject):
         """This attribute describes the category of a constraint. One of its functions is in the area of constraint violation, where it can be used from a certain level, to produce error messages. The lower the level, the more stringent the check. Used to distinguish hard or soft limits. Tags: xml.sequenceOffset=20"""
         return self.constrLevel
 
-    def setConstrLevel(self, value: Optional[Integer]) -> "DataConstrRule":
+    def setConstrLevel(self, value: Optional[Integer]) -> DataConstrRule:
         """This attribute describes the category of a constraint. One of its functions is in the area of constraint violation, where it can be used from a certain level, to produce error messages. The lower the level, the more stringent the check. Used to distinguish hard or soft limits. Tags: xml.sequenceOffset=20. None leaves the current value unchanged."""
         if value is not None:
             self.constrLevel = value
@@ -481,7 +481,7 @@ class DataConstrRule(ARObject):
         """Describes the limitations applicable on the internal domain (as opposed to the physical domain). Tags: xml.sequenceOffset=40"""
         return self.internalConstrs
 
-    def setInternalConstrs(self, value: Optional[InternalConstrs]) -> "DataConstrRule":
+    def setInternalConstrs(self, value: Optional[InternalConstrs]) -> DataConstrRule:
         """Describes the limitations applicable on the internal domain (as opposed to the physical domain). Tags: xml.sequenceOffset=40. None leaves the current value unchanged."""
         if value is not None:
             self.internalConstrs = value
@@ -491,7 +491,7 @@ class DataConstrRule(ARObject):
         """Describes the limitations applicable on the physical domain (as opposed to the internal domain). Tags: xml.sequenceOffset=30"""
         return self.physConstrs
 
-    def setPhysConstrs(self, value: Optional[PhysConstrs]) -> "DataConstrRule":
+    def setPhysConstrs(self, value: Optional[PhysConstrs]) -> DataConstrRule:
         """Describes the limitations applicable on the physical domain (as opposed to the internal domain). Tags: xml.sequenceOffset=30. None leaves the current value unchanged."""
         if value is not None:
             self.physConstrs = value
@@ -516,7 +516,7 @@ class DataConstr(AtpBlueprintable):
         # This is one particular rule within the data constraints. Tags: xml.roleElement=true xml.roleWrapperElement=true xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
         self.data_constr_rule: List[DataConstrRule] = []
 
-    def addDataConstrRule(self, rule: Optional[DataConstrRule]) -> "DataConstr":
+    def addDataConstrRule(self, rule: Optional[DataConstrRule]) -> DataConstr:
         """This is one particular rule within the data constraints. Tags: xml.roleElement=true xml.roleWrapperElement=true xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false. None leaves the current list unchanged."""
         if rule is not None:
             self.data_constr_rule.append(rule)

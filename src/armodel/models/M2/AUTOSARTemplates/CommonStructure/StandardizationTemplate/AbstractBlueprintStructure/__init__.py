@@ -75,28 +75,33 @@ class AtpBlueprint(Identifiable, ABC):
     """This meta-class represents the ability to act as a Blueprint. As this class is an abstract one, particular blueprint meta-classes inherit from this one."""
 
     # AtpBlueprint method parity checklist:
-    # Spec: R23-11/AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table C.12, p.161 (R23-11)
+    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.11, p.305 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addBlueprintPolicy  [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
     # [x] getBlueprintPolicys [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # Table D.11 is the aligned AtpBlueprint table (caption+body); the row-identical
+    # bodies also render under the extraction-shifted captions C.12 (FO_TPS_
+    # StandardizationTemplate, caption p.161) and E.10 (FO_TPS_GenericStructureTemplate,
+    # caption p.424) one caption early. XSD 00052: AtpBlueprint is group-only
+    # (ATP-BLUEPRINT, L6652) = abstract verified; its SHORT-NAME-PATTERN member carries
+    # atp.Status="removed" and is absent from the PDF table (not modeled, Rule 0015).
     # Marker withheld: the blueprintPolicy aggregation's reader/writer rows stay [ ]
-    # because the concrete BlueprintPolicy subclasses (BlueprintPolicyModifiable,
-    # BlueprintPolicyList, BlueprintPolicyNotModifiable, BlueprintPolicySingle) are
-    # not yet synced — they own the BLUEPRINT-POLICY-LIST/-NOT-MODIFIABLE/-SINGLE
-    # elements (and thus the attributeName coverage). BlueprintPolicy itself is now
-    # implemented (R23-11 Table C.18); only the subtypes' reader/writer blocks the stamp.
+    # because the concrete XML-bearing BlueprintPolicy subclasses (BlueprintPolicyList,
+    # BlueprintPolicyNotModifiable, BlueprintPolicySingle) are not yet synced AND not
+    # queued — they own the BLUEPRINT-POLICY-LIST/-NOT-MODIFIABLE/-SINGLE elements (and
+    # thus the attributeName coverage); no readAtpBlueprint/writeAtpBlueprint helper
+    # exists for the same reason. BlueprintPolicy itself is implemented (R23-11 Table
+    # C.18); only the subtypes' sync unblocks these rows and the stamp.
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpBlueprint:
             raise TypeError("AtpBlueprint is an abstract class.")
         super().__init__(parent, short_name)
 
-        # This role indicates whether the blueprintable element will be
-        # modifiable or not modifiable.
-        # Spec type: BlueprintPolicy (abstract, R23-11 Table C.18). The concrete
-        # subtypes (BlueprintPolicyList/NotModifiable/Single) carry the actual XML
-        # elements, so the aggregation is typed with the abstract base for now.
+        # This role indicates whether the blueprintable element will be modifiable or not modifiable.
+        # Spec type: BlueprintPolicy (abstract, R23-11 Table C.18); the concrete XML-bearing
+        # subtypes (BlueprintPolicyList/-NotModifiable/-Single) own the BLUEPRINT-POLICY-* elements.
         self.blueprintPolicys: List[BlueprintPolicy] = []
 
     def addBlueprintPolicy(self, value: Optional[BlueprintPolicy]) -> "AtpBlueprint":
@@ -105,7 +110,7 @@ class AtpBlueprint(Identifiable, ABC):
             self.blueprintPolicys.append(value)
         return self
 
-    def getBlueprintPolicys(self) -> List[ARObject]:
+    def getBlueprintPolicys(self) -> List[BlueprintPolicy]:
         """This role indicates whether the blueprintable element will be modifiable or not modifiable."""
         return self.blueprintPolicys
 

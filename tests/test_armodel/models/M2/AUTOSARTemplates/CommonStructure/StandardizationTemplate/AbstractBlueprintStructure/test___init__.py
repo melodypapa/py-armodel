@@ -3,6 +3,10 @@ This module contains comprehensive tests for the AtpBlueprint.py file
 in the AUTOSAR CommonStructure module.
 """
 
+import inspect
+import re
+from typing import List, get_type_hints
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprint,
@@ -148,7 +152,11 @@ class TestAtpBlueprint:
 
     def test_class_docstring_verbatim(self):
         """
-        Rule 0001.4 / 0012.2.4: class docstring == spec Table C.12 Note verbatim.
+        Rule 0001.4 / 0012.2.4: class docstring == spec Table D.11 Note verbatim
+        (CP TPS BSWModuleDescriptionTemplate, p.305 -- the aligned AtpBlueprint table;
+        the FO StandardizationTemplate C.12 / FO GenericStructureTemplate E.10 captions
+        are extraction-shifted, their bodies carry the row-identical table one caption
+        early).
         """
         note = "This meta-class represents the ability to act as a Blueprint. As this " "class is an abstract one, particular blueprint meta-classes inherit from " "this one."
         assert AtpBlueprint.__doc__ == note
@@ -164,6 +172,66 @@ class TestAtpBlueprint:
         assert AtpBlueprint.addBlueprintPolicy.__doc__.startswith(note)
         assert AtpBlueprint.getBlueprintPolicys.__doc__ is not None
         assert AtpBlueprint.getBlueprintPolicys.__doc__.startswith(note)
+
+
+class TestAtpBlueprintSpecContract:
+    """
+    Spec-contract pins for AtpBlueprint (R23-11 AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate
+    Table D.11, p.305; row-identical bodies under the extraction-shifted FO captions
+    C.12/E.10). Field-to-spec cross-check both directions: exactly ONE attribute
+    blueprintPolicy (BlueprintPolicy, *, aggr).
+    """
+
+    def test_exact_own_field_set(self):
+        """
+        Rule 0001.3 / 0001.11: the __init__ declares EXACTLY the one spec attribute
+        (blueprintPolicy, * aggr -> blueprintPolicys) and nothing else.
+        """
+        fields = re.findall(r"self\.(\w+)\s*:", inspect.getsource(AtpBlueprint.__init__))
+        assert fields == ["blueprintPolicys"]
+
+    def test_field_pep526_annotated_typed_list(self):
+        """
+        Rule 0003 / 0004: the aggregation is a PEP 526 annotated dedicated typed list
+        field List[BlueprintPolicy] (spec type BlueprintPolicy, * aggr), no # type: comment.
+        """
+        src = inspect.getsource(AtpBlueprint.__init__)
+        assert re.search(r"self\.blueprintPolicys\s*:\s*List\[BlueprintPolicy\]\s*=\s*\[\]", src)
+        assert "# type:" not in src
+
+    def test_getter_returns_spec_type(self):
+        """
+        Rule 0001.3: the getter returns the spec type List[BlueprintPolicy]
+        (blueprintPolicy: BlueprintPolicy, * aggr), not a placeholder List[ARObject].
+        """
+        assert get_type_hints(AtpBlueprint.getBlueprintPolicys)["return"] == List[BlueprintPolicy]
+
+    def test_dedicated_field_not_registry_filter(self):
+        """
+        Rule 0004: getBlueprintPolicys returns the dedicated typed list field itself,
+        never an isinstance filter over a registry.
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        obj = ConcreteAtpBlueprint(ar_root, "TestBlueprint")
+        assert obj.getBlueprintPolicys() is obj.blueprintPolicys
+
+    def test_accessor_order_matches_displayed_row(self):
+        """
+        Rule 0001.11: the class declares the aggregation accessors in the family form
+        add -> get for the single displayed blueprintPolicy row.
+        """
+        accessors = re.findall(r"def (add\w+|get\w+|set\w+|create\w+)", inspect.getsource(AtpBlueprint))
+        assert accessors == ["addBlueprintPolicy", "getBlueprintPolicys"]
+
+    def test_member_docstrings_exact(self):
+        """
+        Rule 0001.4 / 0012.2.5: add/get docstrings are the spec attribute Note verbatim
+        (the setter appends the None-no-op sentence; the getter is the bare Note).
+        """
+        note = "This role indicates whether the blueprintable element will be modifiable or not modifiable."
+        assert AtpBlueprint.addBlueprintPolicy.__doc__ == note + " A None value is a no-op and does not append to blueprintPolicys."
+        assert AtpBlueprint.getBlueprintPolicys.__doc__ == note
 
 
 class ConcreteBlueprintPolicy(BlueprintPolicy):

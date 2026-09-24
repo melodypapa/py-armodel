@@ -13,12 +13,14 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARNumerical,
     ARType,
     Boolean,
+    CseCodeType,
     DateTime,
     Float,
     Identifier,
     Integer,
     IntervalTypeEnum,
     Limit,
+    NameToken,
     Numerical,
     PositiveInteger,
     RefType,
@@ -126,6 +128,18 @@ class AbstractARXMLParser(ABC):
                 literal.setValue(child_element.text)
         return literal
 
+    def getChildElementOptionalCseCodeType(self, element: ET.Element, key: str) -> Optional[CseCodeType]:
+        child_element = self.find(element, key)
+        literal = None
+        if child_element is not None:
+            literal = CseCodeType()
+            self.readARType(child_element, literal)
+            if child_element.text is None:
+                literal.setValue("")
+            else:
+                literal.setValue(child_element.text)
+        return literal
+
     def getChildElementOptionalVerbatimString(self, element: ET.Element, key: str) -> VerbatimString:
         child_element = self.find(element, key)
         literal = None
@@ -151,6 +165,19 @@ class AbstractARXMLParser(ABC):
                 identifier.setValue(child_element.text)
         return identifier
 
+    def getChildElementOptionalNameToken(self, element: ET.Element, key: str) -> NameToken:
+        child_element = self.find(element, key)
+        name_token = None
+        if child_element is not None:
+            name_token = NameToken()
+            self.readARType(child_element, name_token)
+            # Patch for empty element <USED-CODE-GENERATOR></USED-CODE-GENERATOR>
+            if child_element.text is None:
+                name_token.setValue("")
+            else:
+                name_token.setValue(child_element.text)
+        return name_token
+
     def getChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str) -> RevisionLabelString:
         child_element = self.find(element, key)
         literal = None
@@ -169,7 +196,16 @@ class AbstractARXMLParser(ABC):
         return literal
 
     def getChildElementOptionalDateTime(self, element: ET.Element, key: str) -> DateTime:
-        return self.getChildElementOptionalLiteral(element, key)
+        child_element = self.find(element, key)
+        literal = None
+        if child_element is not None:
+            literal = DateTime()
+            self.readARType(child_element, literal)
+            if child_element.text is None:
+                literal.setValue("")
+            else:
+                literal.setValue(child_element.text)
+        return literal
 
     def getChildElementOptionalString(self, element: ET.Element, key: str) -> String:
         child_element = self.find(element, key)

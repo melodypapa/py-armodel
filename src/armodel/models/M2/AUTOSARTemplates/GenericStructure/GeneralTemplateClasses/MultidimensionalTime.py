@@ -10,60 +10,36 @@ from typing import Optional
 
 class MultidimensionalTime(ARObject):
     """
-    Specifies a time value based on [20] see [TPS_GST_00354].
-
-    This is used to specify a multidimensional time value based on ASAM CSE codes. It is
-    specified by a code which defined the basis of the time and a scaling factor which
-    finally determines the time value.
-
-    If for example the cseCode is 100 and the cseCodeFactor is 360, it represents 360
-    angular degrees. If the cseCode is 0 and the cseCodeFactor is 50 it represents 50
-    microseconds.
+    Specifies a time value based on [17] see [TPS_GST_00354].
     """
 
     # MultidimensionalTime method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.22, p.164
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getCseCode                   [x] impl  [x] docstring  [x] test
-    # [x] setCseCode                   [x] impl  [x] docstring  [x] test
-    # [x] getCseCodeFactor             [x] impl  [x] docstring  [x] test
-    # [x] setCseCodeFactor             [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.74, p.165
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCseCode          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCseCode          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCseCodeFactor    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCseCodeFactor    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the MultidimensionalTime.
-        """
         super().__init__()
 
-        # Specifies the time base by means of CSE codes. [constr_10338]
+        # Specifies the time base by means of CSE codes.
         self.cseCode: Optional[CseCodeType] = None
 
-        # The scaling factor for the time value based on the specified CSE code. [constr_10339]
+        # The scaling factor for the time value based on the specified CSE code.
         self.cseCodeFactor: Optional[Integer] = None
 
     def getCseCode(self) -> Optional[CseCodeType]:
         """
-        Gets the CSE code specifying the time base.
-
-        The CSE code determines the basis of the time value. [constr_10338]
-
-        Returns:
-            CseCodeType representing the CSE code, or None if not set
+        Specifies the time base by means of CSE codes.
         """
         return self.cseCode
 
     def setCseCode(self, value: Optional[CseCodeType]) -> "MultidimensionalTime":
         """
-        Sets the CSE code specifying the time base.
-
-        A None value is a no-op and does not overwrite an existing CSE code. [constr_10338]
-
-        Args:
-            value: The CSE code to set
-
-        Returns:
-            self for method chaining
+        Specifies the time base by means of CSE codes. A None value is a no-op and does not overwrite an existing CSE code.
         """
         if value is not None:
             self.cseCode = value
@@ -71,26 +47,13 @@ class MultidimensionalTime(ARObject):
 
     def getCseCodeFactor(self) -> Optional[Integer]:
         """
-        Gets the scaling factor for the time value based on the specified CSE code.
-
-        The scaling factor finally determines the time value. [constr_10339]
-
-        Returns:
-            Integer representing the scaling factor, or None if not set
+        The scaling factor for the time value based on the specified CSE code.
         """
         return self.cseCodeFactor
 
     def setCseCodeFactor(self, value: Optional[Integer]) -> "MultidimensionalTime":
         """
-        Sets the scaling factor for the time value based on the specified CSE code.
-
-        A None value is a no-op and does not overwrite an existing scaling factor. [constr_10339]
-
-        Args:
-            value: The scaling factor to set
-
-        Returns:
-            self for method chaining
+        The scaling factor for the time value based on the specified CSE code. A None value is a no-op and does not overwrite an existing scaling factor.
         """
         if value is not None:
             self.cseCodeFactor = value

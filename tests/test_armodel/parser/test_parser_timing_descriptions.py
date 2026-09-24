@@ -14,6 +14,10 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     AutosarVariableInstance,
     TDEventOccurrenceExpressionFormula,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (
+    ConcreteTDEventVfb,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -204,3 +208,61 @@ class TestReadTimingDescriptionEventChain:
         parser.readTimingDescriptionEventChain(element, chain)
         assert chain.getIsPipeliningPermitted() is None
         assert chain.getSegmentRefs() == []
+
+
+class TestReadConcreteTDEventVfb:
+    def test_read_td_event_vfb_via_timing_extension(self, parser):
+        """
+        The plain <TD-EVENT-VFB> choice member (ConcreteTDEventVfb — the XSD's
+        TD-EVENT-VFB--SUBTYPES-ENUM permits the abstract TDEventVfb directly)
+        is read through the TIMING-DESCRIPTIONS dispatch with field values.
+        """
+        parent = _parent()
+        extension = SwcTiming(parent, "Timing")
+        element = ET.fromstring(
+            f"<SWC-TIMING xmlns='{NS}'>"
+            "<SHORT-NAME>Timing</SHORT-NAME>"
+            "<TIMING-DESCRIPTIONS>"
+            "<TD-EVENT-VFB>"
+            "<SHORT-NAME>Plain1</SHORT-NAME>"
+            "<COMPONENT-IREF>"
+            "<CONTEXT-COMPONENT-REF DEST='SW-COMPONENT-PROTOTYPE'>/AUTOSAR/Comp</CONTEXT-COMPONENT-REF>"
+            "<TARGET-COMPONENT-REF DEST='SW-COMPONENT-PROTOTYPE'>/AUTOSAR/SwcProto</TARGET-COMPONENT-REF>"
+            "</COMPONENT-IREF>"
+            "</TD-EVENT-VFB>"
+            "</TIMING-DESCRIPTIONS>"
+            "</SWC-TIMING>"
+        )
+        parser.readTimingExtension(element, extension)
+        descriptions = extension.getTimingDescriptions()
+        assert len(descriptions) == 1
+        description = descriptions[0]
+        assert isinstance(description, ConcreteTDEventVfb)
+        assert description.getShortName() == "Plain1"
+        iref = description.getComponentIRef()
+        assert iref is not None
+        assert iref.getContextComponentRefs()[0].getValue() == "/AUTOSAR/Comp"
+        assert iref.getContextComponentRefs()[0].getDest() == "SW-COMPONENT-PROTOTYPE"
+        assert iref.getTargetComponentRef().getValue() == "/AUTOSAR/SwcProto"
+        assert iref.getTargetComponentRef().getDest() == "SW-COMPONENT-PROTOTYPE"
+
+    def test_read_td_event_vfb_minimal(self, parser):
+        parent = _parent()
+        extension = SwcTiming(parent, "Timing")
+        element = ET.fromstring(
+            f"<SWC-TIMING xmlns='{NS}'>"
+            "<SHORT-NAME>Timing</SHORT-NAME>"
+            "<TIMING-DESCRIPTIONS>"
+            "<TD-EVENT-VFB>"
+            "<SHORT-NAME>Plain1</SHORT-NAME>"
+            "</TD-EVENT-VFB>"
+            "</TIMING-DESCRIPTIONS>"
+            "</SWC-TIMING>"
+        )
+        parser.readTimingExtension(element, extension)
+        descriptions = extension.getTimingDescriptions()
+        assert len(descriptions) == 1
+        description = descriptions[0]
+        assert isinstance(description, ConcreteTDEventVfb)
+        assert description.getShortName() == "Plain1"
+        assert description.getComponentIRef() is None

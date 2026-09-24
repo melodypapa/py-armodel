@@ -92,7 +92,7 @@ class ExecutionTime(Identifiable, VariationPointCapable, ABC):
         """
         return self.exclusiveAreaRef
 
-    def setExclusiveAreaRef(self, value: Optional[RefType]) -> "ExecutionTime":
+    def setExclusiveAreaRef(self, value: Optional[RefType]) -> ExecutionTime:
         """
         Sets the reference to the ExclusiveArea this execution time is provided for.
         A None value is a no-op and does not overwrite an existing reference.
@@ -116,7 +116,7 @@ class ExecutionTime(Identifiable, VariationPointCapable, ABC):
         """
         return self.executableEntityRef
 
-    def setExecutableEntityRef(self, value: Optional[RefType]) -> "ExecutionTime":
+    def setExecutableEntityRef(self, value: Optional[RefType]) -> ExecutionTime:
         """
         Sets the reference to the executable entity for which this execution time is described.
         A None value is a no-op and does not overwrite an existing reference.
@@ -141,7 +141,7 @@ class ExecutionTime(Identifiable, VariationPointCapable, ABC):
         """
         return self.hardwareConfiguration
 
-    def setHardwareConfiguration(self, value: Optional[HardwareConfiguration]) -> "ExecutionTime":
+    def setHardwareConfiguration(self, value: Optional[HardwareConfiguration]) -> ExecutionTime:
         """
         Sets the information on the HardwareConfiguration used to specify this
         ExecutionTime. [constr_10313] The attribute shall exist at the time when the
@@ -167,7 +167,7 @@ class ExecutionTime(Identifiable, VariationPointCapable, ABC):
         """
         return self.hwElementRef
 
-    def setHwElementRef(self, value: Optional[RefType]) -> "ExecutionTime":
+    def setHwElementRef(self, value: Optional[RefType]) -> ExecutionTime:
         """
         Sets the reference to the hardware element (e.g. type of ECU) for which the
         execution time is specified.
@@ -183,7 +183,7 @@ class ExecutionTime(Identifiable, VariationPointCapable, ABC):
             self.hwElementRef = value
         return self
 
-    def addIncludedLibraryRef(self, value: Optional[RefType]) -> "ExecutionTime":
+    def addIncludedLibraryRef(self, value: Optional[RefType]) -> ExecutionTime:
         """
         Adds a reference to a DependencyOnArtifact. If this dependency is specified,
         the execution time of the library code is included in the execution time data
@@ -209,7 +209,7 @@ class ExecutionTime(Identifiable, VariationPointCapable, ABC):
         """
         return self.includedLibraryRefs
 
-    def addMemorySectionLocation(self, value: Optional["MemorySectionLocation"]) -> "ExecutionTime":
+    def addMemorySectionLocation(self, value: Optional["MemorySectionLocation"]) -> ExecutionTime:
         """
         Adds a MemorySectionLocation which is involved in the ExecutionTime description.
 
@@ -242,7 +242,7 @@ class ExecutionTime(Identifiable, VariationPointCapable, ABC):
         """
         return self.softwareContext
 
-    def setSoftwareContext(self, value: Optional[SoftwareContext]) -> "ExecutionTime":
+    def setSoftwareContext(self, value: Optional[SoftwareContext]) -> ExecutionTime:
         """
         Sets the information on the detailed SoftwareContext used to provide the
         ExecutionTime description. [constr_10314] The attribute shall exist at the time
@@ -299,7 +299,7 @@ class MemorySectionLocation(ARObject):
         """
         return self.providedMemoryRef
 
-    def setProvidedMemoryRef(self, value: Optional[RefType]) -> "MemorySectionLocation":
+    def setProvidedMemoryRef(self, value: Optional[RefType]) -> MemorySectionLocation:
         """
         Sets the reference to the hardware ProvidedMemorySegment.
 
@@ -322,7 +322,7 @@ class MemorySectionLocation(ARObject):
         """
         return self.softwareMemorySectionRef
 
-    def setSoftwareMemorySectionRef(self, value: Optional[RefType]) -> "MemorySectionLocation":
+    def setSoftwareMemorySectionRef(self, value: Optional[RefType]) -> MemorySectionLocation:
         """
         Sets the reference to the MemorySection which is mapped on a certain hardware memory segment.
 
@@ -385,7 +385,7 @@ class AnalyzedExecutionTime(ExecutionTime):
         """
         return self.bestCaseExecutionTime
 
-    def setBestCaseExecutionTime(self, value: Optional[MultidimensionalTime]) -> "AnalyzedExecutionTime":
+    def setBestCaseExecutionTime(self, value: Optional[MultidimensionalTime]) -> AnalyzedExecutionTime:
         """
         Sets the best case execution time (BCET).
 
@@ -408,7 +408,7 @@ class AnalyzedExecutionTime(ExecutionTime):
         """
         return self.worstCaseExecutionTime
 
-    def setWorstCaseExecutionTime(self, value: Optional[MultidimensionalTime]) -> "AnalyzedExecutionTime":
+    def setWorstCaseExecutionTime(self, value: Optional[MultidimensionalTime]) -> AnalyzedExecutionTime:
         """
         Sets the worst case execution time (WCET).
 
@@ -472,7 +472,7 @@ class MeasuredExecutionTime(ExecutionTime):
         """
         return self.maximumExecutionTime
 
-    def setMaximumExecutionTime(self, value: Optional[MultidimensionalTime]) -> "MeasuredExecutionTime":
+    def setMaximumExecutionTime(self, value: Optional[MultidimensionalTime]) -> MeasuredExecutionTime:
         """
         Sets the maximum measured execution time.
 
@@ -495,7 +495,7 @@ class MeasuredExecutionTime(ExecutionTime):
         """
         return self.minimumExecutionTime
 
-    def setMinimumExecutionTime(self, value: Optional[MultidimensionalTime]) -> "MeasuredExecutionTime":
+    def setMinimumExecutionTime(self, value: Optional[MultidimensionalTime]) -> MeasuredExecutionTime:
         """
         Sets the minimum measured execution time.
 
@@ -518,7 +518,7 @@ class MeasuredExecutionTime(ExecutionTime):
         """
         return self.nominalExecutionTime
 
-    def setNominalExecutionTime(self, value: Optional[MultidimensionalTime]) -> "MeasuredExecutionTime":
+    def setNominalExecutionTime(self, value: Optional[MultidimensionalTime]) -> MeasuredExecutionTime:
         """
         Sets the nominal measured execution time.
 
@@ -582,7 +582,7 @@ class SimulatedExecutionTime(ExecutionTime):
         """
         return self.maximumExecutionTime
 
-    def setMaximumExecutionTime(self, value: Optional[MultidimensionalTime]) -> "SimulatedExecutionTime":
+    def setMaximumExecutionTime(self, value: Optional[MultidimensionalTime]) -> SimulatedExecutionTime:
         """
         Sets the maximum simulated execution time.
 
@@ -605,7 +605,7 @@ class SimulatedExecutionTime(ExecutionTime):
         """
         return self.minimumExecutionTime
 
-    def setMinimumExecutionTime(self, value: Optional[MultidimensionalTime]) -> "SimulatedExecutionTime":
+    def setMinimumExecutionTime(self, value: Optional[MultidimensionalTime]) -> SimulatedExecutionTime:
         """
         Sets the minimum simulated execution time.
 
@@ -628,7 +628,7 @@ class SimulatedExecutionTime(ExecutionTime):
         """
         return self.nominalExecutionTime
 
-    def setNominalExecutionTime(self, value: Optional[MultidimensionalTime]) -> "SimulatedExecutionTime":
+    def setNominalExecutionTime(self, value: Optional[MultidimensionalTime]) -> SimulatedExecutionTime:
         """
         Sets the nominal simulated execution time.
 
@@ -685,7 +685,7 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
         """
         return self.additionalInformation
 
-    def setAdditionalInformation(self, value: Optional[String]) -> "RoughEstimateOfExecutionTime":
+    def setAdditionalInformation(self, value: Optional[String]) -> RoughEstimateOfExecutionTime:
         """
         Sets the description on the rough estimate of the execution time.
 
@@ -708,7 +708,7 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
         """
         return self.estimatedExecutionTime
 
-    def setEstimatedExecutionTime(self, value: Optional[MultidimensionalTime]) -> "RoughEstimateOfExecutionTime":
+    def setEstimatedExecutionTime(self, value: Optional[MultidimensionalTime]) -> RoughEstimateOfExecutionTime:
         """
         Sets the estimated execution time.
 

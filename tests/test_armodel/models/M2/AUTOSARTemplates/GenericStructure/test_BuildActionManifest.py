@@ -109,7 +109,23 @@ class TestBuildEngineeringObject:
         assert obj.getShortLabelPattern() is short_pattern
 
 
+IO_ELEMENT_CLASS_NOTE = "This meta-class represents the ability to specify the input/output entities of a BuildAction."
+CATEGORY_NOTE = "This element assigns a category to the parent element. It is intended to specialize the usage and/or the content of the object. Such a specialization may also impose particular semantic constraints on the entire substructure. See also Identifiable."
+ECUC_DEFINITION_NOTE = "This association denotes an ECUC parameter definition. The such referenced parameters are subject of the build action input/output. Note that the reference to the definition denotes the right for a build action to read and/or write values for the given definition and all contained definitions."
+ENGINEERING_OBJECT_NOTE = "This represents an artifact applicable to the build action."
+ROLE_NOTE = "This allows to denote a particular role of the collection. Note that the applicable semantics shall be mutually agreed between the two parties."
+SDG_NOTE = "This special data group allows to denote specific data. The structure is subject of mutual agreement."
+
+
 class TestBuildActionIoElement:
+    def test_docstring_matches_spec_note(self):
+        assert BuildActionIoElement.__doc__.strip() == IO_ELEMENT_CLASS_NOTE
+
+    def test_direct_base_is_ar_object(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+        assert BuildActionIoElement.__bases__ == (ARObject,)
+
     def test_initialization_and_accessors(self):
         obj = BuildActionIoElement()
         assert obj.getCategory() is None
@@ -137,6 +153,33 @@ class TestBuildActionIoElement:
         assert obj.getEcucDefinitionRef() is ecuc_definition
         assert obj.getEngineeringObject() is engineering_object
         assert obj.getRole() is role
+
+    def test_setters_none_is_no_op(self):
+        obj = BuildActionIoElement()
+
+        assert obj.setCategory(None) is obj
+        assert obj.getCategory() is None
+        assert obj.setEcucDefinitionRef(None) is obj
+        assert obj.getEcucDefinitionRef() is None
+        assert obj.setEngineeringObject(None) is obj
+        assert obj.getEngineeringObject() is None
+        assert obj.setRole(None) is obj
+        assert obj.getRole() is None
+        assert obj.addSdg(None) is obj
+        assert obj.getSdgs() == []
+
+    def test_accessor_docstrings_match_spec_note(self):
+        assert BuildActionIoElement.getCategory.__doc__.strip() == CATEGORY_NOTE
+        assert BuildActionIoElement.setCategory.__doc__.strip() == (CATEGORY_NOTE + " A None value is a no-op and does not overwrite an existing category.")
+        assert BuildActionIoElement.getEcucDefinitionRef.__doc__.strip() == ECUC_DEFINITION_NOTE
+        assert BuildActionIoElement.setEcucDefinitionRef.__doc__.strip() == (ECUC_DEFINITION_NOTE + " A None value is a no-op and does not overwrite an existing ecucDefinitionRef.")
+        assert BuildActionIoElement.getEngineeringObject.__doc__.strip() == ENGINEERING_OBJECT_NOTE
+        assert BuildActionIoElement.setEngineeringObject.__doc__.strip() == (ENGINEERING_OBJECT_NOTE + " A None value is a no-op and does not overwrite an existing engineeringObject.")
+        assert BuildActionIoElement.getRole.__doc__.strip() == ROLE_NOTE
+        assert BuildActionIoElement.setRole.__doc__.strip() == (ROLE_NOTE + " A None value is a no-op and does not overwrite an existing role.")
+        assert BuildActionIoElement.getSdgs.__doc__.strip() == SDG_NOTE
+        assert BuildActionIoElement.addSdg.__doc__.strip() == (SDG_NOTE + " A None value is a no-op and does not append anything.")
+        assert BuildActionIoElement.__init__.__doc__ is None
 
 
 class TestBuildActionEnvironment:

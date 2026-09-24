@@ -35,7 +35,7 @@ class MultiLanguageParagraph(Paginateable):
         # This is the paragraph content in one partiucular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         self.l1: List[LParagraph] = []
 
-    def setHelpEntry(self, value: Optional[String]) -> "MultiLanguageParagraph":
+    def setHelpEntry(self, value: Optional[String]) -> MultiLanguageParagraph:
         """
         This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
 
@@ -57,7 +57,7 @@ class MultiLanguageParagraph(Paginateable):
         """
         return self.helpEntry
 
-    def addL1(self, value: Optional[LParagraph]) -> "MultiLanguageParagraph":
+    def addL1(self, value: Optional[LParagraph]) -> MultiLanguageParagraph:
         """
         This is the paragraph content in one partiucular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
 
@@ -99,7 +99,7 @@ class MultiLanguageOverviewParagraph(ARObject):
         # This represents the text in one particular language.
         self.l2: List[LOverviewParagraph] = []
 
-    def addL2(self, l2: Optional[LOverviewParagraph]) -> "MultiLanguageOverviewParagraph":
+    def addL2(self, l2: Optional[LOverviewParagraph]) -> MultiLanguageOverviewParagraph:
         """
         This represents the text in one particular language. A None value is a no-op and
         is not appended.
@@ -134,7 +134,7 @@ class MultilanguageLongName(ARObject):
         # This is the long name in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         self.l4: List[LLongName] = []
 
-    def addL4(self, l4: Optional[LLongName]) -> "MultilanguageLongName":
+    def addL4(self, l4: Optional[LLongName]) -> MultilanguageLongName:
         """
         This is the long name in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and is not appended.
         """
@@ -177,7 +177,7 @@ class MultiLanguagePlainText(ARObject):
         """
         return self.l10s
 
-    def addL10(self, value: Optional[LPlainText]) -> "MultiLanguagePlainText":
+    def addL10(self, value: Optional[LPlainText]) -> MultiLanguagePlainText:
         """
         This is the plain text in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and is not appended.
 
@@ -237,7 +237,7 @@ class MultiLanguageVerbatim(Paginateable, VariationPointCapable):
         """
         return self.allowBreak
 
-    def setAllowBreak(self, value: Optional[NameToken]) -> "MultiLanguageVerbatim":
+    def setAllowBreak(self, value: Optional[NameToken]) -> MultiLanguageVerbatim:
         """
         This indicates if the verbatim text might be split on multiple pages. Default is "1". A None value is a no-op and does not overwrite an existing allowBreak.
 
@@ -257,7 +257,7 @@ class MultiLanguageVerbatim(Paginateable, VariationPointCapable):
         """
         return self.float
 
-    def setFloat(self, value: Optional[FloatEnum]) -> "MultiLanguageVerbatim":
+    def setFloat(self, value: Optional[FloatEnum]) -> MultiLanguageVerbatim:
         """
         Indicate whether it is allowed to break the element. The following values are allowed:. A None value is a no-op and does not overwrite an existing float.
 
@@ -277,7 +277,7 @@ class MultiLanguageVerbatim(Paginateable, VariationPointCapable):
         """
         return self.helpEntry
 
-    def setHelpEntry(self, value: Optional[String]) -> "MultiLanguageVerbatim":
+    def setHelpEntry(self, value: Optional[String]) -> MultiLanguageVerbatim:
         """
         This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. A None value is a no-op and does not overwrite an existing helpEntry.
 
@@ -288,7 +288,7 @@ class MultiLanguageVerbatim(Paginateable, VariationPointCapable):
             self.helpEntry = value
         return self
 
-    def addL5(self, value: Optional[LVerbatim]) -> "MultiLanguageVerbatim":
+    def addL5(self, value: Optional[LVerbatim]) -> MultiLanguageVerbatim:
         """
         This the text in one particular language. A None value is a no-op and is not appended.
 
@@ -317,7 +317,7 @@ class MultiLanguageVerbatim(Paginateable, VariationPointCapable):
         """
         return self.pgwide
 
-    def setPgwide(self, value: Optional[PgwideEnum]) -> "MultiLanguageVerbatim":
+    def setPgwide(self, value: Optional[PgwideEnum]) -> MultiLanguageVerbatim:
         """
         Used to indicate wether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide"). A None value is a no-op and does not overwrite an existing pgwide.
 

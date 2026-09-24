@@ -5,7 +5,7 @@ author: melodypapa
 repository: https://github.com/melodypapa/py-armodel
 license: MIT
 metadata:
-  version: "1.9.2"
+  version: "1.9.3"
   keywords:
     - AUTOSAR
     - model-class

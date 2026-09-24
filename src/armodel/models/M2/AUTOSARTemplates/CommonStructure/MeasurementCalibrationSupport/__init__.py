@@ -64,7 +64,7 @@ class RteEventInEcuInstanceRef(AtpInstanceRef):
         """
         return self.baseRef
 
-    def setBaseRef(self, value: Optional[RefType]) -> "RteEventInEcuInstanceRef":
+    def setBaseRef(self, value: Optional[RefType]) -> RteEventInEcuInstanceRef:
         """
         Sets the base from which the navigation path begins.
         A None value is a no-op and does not overwrite an existing reference.
@@ -88,7 +88,7 @@ class RteEventInEcuInstanceRef(AtpInstanceRef):
         """
         return self.contextRootCompositionRef
 
-    def setContextRootCompositionRef(self, value: Optional[RefType]) -> "RteEventInEcuInstanceRef":
+    def setContextRootCompositionRef(self, value: Optional[RefType]) -> RteEventInEcuInstanceRef:
         """
         Sets the reference to the root composition of the ECU extract containing the referenced RTE event.
         A None value is a no-op and does not overwrite an existing reference.
@@ -112,7 +112,7 @@ class RteEventInEcuInstanceRef(AtpInstanceRef):
         """
         return self.contextAtomicComponentRef
 
-    def setContextAtomicComponentRef(self, value: Optional[RefType]) -> "RteEventInEcuInstanceRef":
+    def setContextAtomicComponentRef(self, value: Optional[RefType]) -> RteEventInEcuInstanceRef:
         """
         Sets the reference to the atomic component in the ECU extract containing the referenced RTE event.
         A None value is a no-op and does not overwrite an existing reference.
@@ -136,7 +136,7 @@ class RteEventInEcuInstanceRef(AtpInstanceRef):
         """
         return self.targetRteEventRef
 
-    def setTargetRteEventRef(self, value: Optional[RefType]) -> "RteEventInEcuInstanceRef":
+    def setTargetRteEventRef(self, value: Optional[RefType]) -> RteEventInEcuInstanceRef:
         """
         Sets the reference to the target RTE event.
         A None value is a no-op and does not overwrite an existing reference.
@@ -198,7 +198,7 @@ class VariableAccessInEcuInstanceRef(AtpInstanceRef):
         """
         return self.baseRef
 
-    def setBaseRef(self, value: Optional[RefType]) -> "VariableAccessInEcuInstanceRef":
+    def setBaseRef(self, value: Optional[RefType]) -> VariableAccessInEcuInstanceRef:
         """
         Sets the base from which the navigation path begins.
         A None value is a no-op and does not overwrite an existing reference.
@@ -222,7 +222,7 @@ class VariableAccessInEcuInstanceRef(AtpInstanceRef):
         """
         return self.contextRootCompositionRef
 
-    def setContextRootCompositionRef(self, value: Optional[RefType]) -> "VariableAccessInEcuInstanceRef":
+    def setContextRootCompositionRef(self, value: Optional[RefType]) -> VariableAccessInEcuInstanceRef:
         """
         Sets the reference to the root composition of the ECU extract containing the referenced VariableAccess.
         A None value is a no-op and does not overwrite an existing reference.
@@ -246,7 +246,7 @@ class VariableAccessInEcuInstanceRef(AtpInstanceRef):
         """
         return self.contextAtomicComponentRef
 
-    def setContextAtomicComponentRef(self, value: Optional[RefType]) -> "VariableAccessInEcuInstanceRef":
+    def setContextAtomicComponentRef(self, value: Optional[RefType]) -> VariableAccessInEcuInstanceRef:
         """
         Sets the reference to the atomic component in the ECU extract containing the referenced VariableAccess.
         A None value is a no-op and does not overwrite an existing reference.
@@ -270,7 +270,7 @@ class VariableAccessInEcuInstanceRef(AtpInstanceRef):
         """
         return self.targetVariableAccessRef
 
-    def setTargetVariableAccessRef(self, value: Optional[RefType]) -> "VariableAccessInEcuInstanceRef":
+    def setTargetVariableAccessRef(self, value: Optional[RefType]) -> VariableAccessInEcuInstanceRef:
         """
         Sets the reference to the target VariableAccess.
         A None value is a no-op and does not overwrite an existing reference.
@@ -313,7 +313,7 @@ class McDataAccessDetails(ARObject):
         # The VariableAccess for which the data buffer is used. InstanceRef implemented by: VariableAccessInEcuInstanceRef. [constr_10329] For each McDataAccessDetails, the instanceRef in the role variableAccess shall exist at least once at the time when the configuration of the BSW module is finished.
         self.variableAccessIRefs: List[VariableAccessInEcuInstanceRef] = []
 
-    def addRteEventIRef(self, value: Optional[RteEventInEcuInstanceRef]) -> "McDataAccessDetails":
+    def addRteEventIRef(self, value: Optional[RteEventInEcuInstanceRef]) -> McDataAccessDetails:
         """
         Adds an RTE event instance reference, referencing the RTE event used to receive the data via this buffer.
         A None value is a no-op and does not append anything.
@@ -338,7 +338,7 @@ class McDataAccessDetails(ARObject):
         """
         return self.rteEventIRefs
 
-    def addVariableAccessIRef(self, value: Optional[VariableAccessInEcuInstanceRef]) -> "McDataAccessDetails":
+    def addVariableAccessIRef(self, value: Optional[VariableAccessInEcuInstanceRef]) -> McDataAccessDetails:
         """
         Adds a VariableAccess instance reference, referencing the VariableAccess for which the data buffer is used.
         A None value is a no-op and does not append anything.
@@ -404,7 +404,7 @@ class McParameterElementGroup(ARObject):
         """
         return self.ramLocationRef
 
-    def setRamLocationRef(self, value: Optional[RefType]) -> "McParameterElementGroup":
+    def setRamLocationRef(self, value: Optional[RefType]) -> McParameterElementGroup:
         """
         Sets the reference to the RAM location of this parameter group. To be used for the init-RAM method.
         A None value is a no-op and does not overwrite an existing reference.
@@ -428,7 +428,7 @@ class McParameterElementGroup(ARObject):
         """
         return self.romLocationRef
 
-    def setRomLocationRef(self, value: Optional[RefType]) -> "McParameterElementGroup":
+    def setRomLocationRef(self, value: Optional[RefType]) -> McParameterElementGroup:
         """
         Sets the reference to the ROM location of this parameter group. To be used for the init-RAM method.
         A None value is a no-op and does not overwrite an existing reference.
@@ -452,7 +452,7 @@ class McParameterElementGroup(ARObject):
         """
         return self.shortLabel
 
-    def setShortLabel(self, value: Optional[Identifier]) -> "McParameterElementGroup":
+    def setShortLabel(self, value: Optional[Identifier]) -> McParameterElementGroup:
         """
         Sets the name assigned to this element.
         A None value is a no-op and does not overwrite an existing short label.
@@ -518,7 +518,7 @@ class McSwEmulationMethodSupport(ARObject, VariationPointCapable):
         """
         return self.baseReferenceRef
 
-    def setBaseReferenceRef(self, value: Optional[RefType]) -> "McSwEmulationMethodSupport":
+    def setBaseReferenceRef(self, value: Optional[RefType]) -> McSwEmulationMethodSupport:
         """
         Sets the reference to the base pointer in case of the double-pointered method.
         A None value is a no-op and does not overwrite an existing reference.
@@ -542,7 +542,7 @@ class McSwEmulationMethodSupport(ARObject, VariationPointCapable):
         """
         return self.category
 
-    def setCategory(self, value: Optional[Identifier]) -> "McSwEmulationMethodSupport":
+    def setCategory(self, value: Optional[Identifier]) -> McSwEmulationMethodSupport:
         """
         Sets the category identifying the actual method. The possible names shall correspond to the symbols of the ECU configuration parameter for the calibration method of the RTE, and can include vendor specific methods.
         A None value is a no-op and does not overwrite an existing category.
@@ -557,7 +557,7 @@ class McSwEmulationMethodSupport(ARObject, VariationPointCapable):
             self.category = value
         return self
 
-    def addElementGroup(self, value: Optional[McParameterElementGroup]) -> "McSwEmulationMethodSupport":
+    def addElementGroup(self, value: Optional[McParameterElementGroup]) -> McSwEmulationMethodSupport:
         """
         Adds a grouping of calibration parameters in the actual RTE code. Depending on the category, this information maybe required to set up the emulation code.
         A None value is a no-op and does not append anything.
@@ -590,7 +590,7 @@ class McSwEmulationMethodSupport(ARObject, VariationPointCapable):
         """
         return self.referenceTableRef
 
-    def setReferenceTableRef(self, value: Optional[RefType]) -> "McSwEmulationMethodSupport":
+    def setReferenceTableRef(self, value: Optional[RefType]) -> McSwEmulationMethodSupport:
         """
         Sets the reference to the pointer table in case of the single-pointered method.
         A None value is a no-op and does not overwrite an existing reference.
@@ -614,7 +614,7 @@ class McSwEmulationMethodSupport(ARObject, VariationPointCapable):
         """
         return self.shortLabel
 
-    def setShortLabel(self, value: Optional[Identifier]) -> "McSwEmulationMethodSupport":
+    def setShortLabel(self, value: Optional[Identifier]) -> McSwEmulationMethodSupport:
         """
         Sets the name assigned to this element.
         A None value is a no-op and does not overwrite an existing short label.
@@ -668,7 +668,7 @@ class ImplementationElementInParameterInstanceRef(ARObject):
         """
         return self.contextRef
 
-    def setContextRef(self, value: Optional[RefType]) -> "ImplementationElementInParameterInstanceRef":
+    def setContextRef(self, value: Optional[RefType]) -> ImplementationElementInParameterInstanceRef:
         """
         Sets the reference to the ParameterDataPrototype providing the context for the referred element.
         A None value is a no-op and does not overwrite an existing reference.
@@ -693,7 +693,7 @@ class ImplementationElementInParameterInstanceRef(ARObject):
         """
         return self.targetRef
 
-    def setTargetRef(self, value: Optional[RefType]) -> "ImplementationElementInParameterInstanceRef":
+    def setTargetRef(self, value: Optional[RefType]) -> ImplementationElementInParameterInstanceRef:
         """
         Sets the reference to the referred AbstractImplementationDataTypeElement.
         A None value is a no-op and does not overwrite an existing reference.
@@ -768,7 +768,7 @@ class McFunction(Identifiable):
         """
         return self.defCalprmSet
 
-    def setDefCalprmSet(self, value: Optional[McFunctionDataRefSet]) -> "McFunction":
+    def setDefCalprmSet(self, value: Optional[McFunctionDataRefSet]) -> McFunction:
         """
         Sets the set of adjustable data (= calibration parameters) defined in this function.
         A None value is a no-op and does not overwrite an existing set.
@@ -792,7 +792,7 @@ class McFunction(Identifiable):
         """
         return self.inMeasurementSet
 
-    def setInMeasurementSet(self, value: Optional[McFunctionDataRefSet]) -> "McFunction":
+    def setInMeasurementSet(self, value: Optional[McFunctionDataRefSet]) -> McFunction:
         """
         Sets the set of measurable input data for this function.
         A None value is a no-op and does not overwrite an existing set.
@@ -816,7 +816,7 @@ class McFunction(Identifiable):
         """
         return self.locMeasurementSet
 
-    def setLocMeasurementSet(self, value: Optional[McFunctionDataRefSet]) -> "McFunction":
+    def setLocMeasurementSet(self, value: Optional[McFunctionDataRefSet]) -> McFunction:
         """
         Sets the set of measurable local data in this function.
         A None value is a no-op and does not overwrite an existing set.
@@ -840,7 +840,7 @@ class McFunction(Identifiable):
         """
         return self.outMeasurementSet
 
-    def setOutMeasurementSet(self, value: Optional[McFunctionDataRefSet]) -> "McFunction":
+    def setOutMeasurementSet(self, value: Optional[McFunctionDataRefSet]) -> McFunction:
         """
         Sets the set of measurable output data from this function.
         A None value is a no-op and does not overwrite an existing set.
@@ -864,7 +864,7 @@ class McFunction(Identifiable):
         """
         return self.refCalprmSet
 
-    def setRefCalprmSet(self, value: Optional[McFunctionDataRefSet]) -> "McFunction":
+    def setRefCalprmSet(self, value: Optional[McFunctionDataRefSet]) -> McFunction:
         """
         Sets the set of adjustable data (= calibration parameters) referred by this function.
         A None value is a no-op and does not overwrite an existing set.
@@ -879,7 +879,7 @@ class McFunction(Identifiable):
             self.refCalprmSet = value
         return self
 
-    def addSubFunctionRef(self, value: Optional[RefType]) -> "McFunction":
+    def addSubFunctionRef(self, value: Optional[RefType]) -> McFunction:
         """
         Adds a reference to a sub-function that is seen as part of the enclosing function.
         A None value is a no-op and does not append anything.
@@ -944,7 +944,7 @@ class RoleBasedMcDataAssignment(ARObject, VariationPointCapable):
         """
         return self.executionContextRefs
 
-    def addExecutionContextRef(self, value: Optional[RefType]) -> "RoleBasedMcDataAssignment":
+    def addExecutionContextRef(self, value: Optional[RefType]) -> RoleBasedMcDataAssignment:
         """
         Adds a reference to the execution context the assigned data instance is used in.
         A None value is a no-op and does not append anything.
@@ -968,7 +968,7 @@ class RoleBasedMcDataAssignment(ARObject, VariationPointCapable):
         """
         return self.mcDataInstanceRefs
 
-    def addMcDataInstanceRef(self, value: Optional[RefType]) -> "RoleBasedMcDataAssignment":
+    def addMcDataInstanceRef(self, value: Optional[RefType]) -> RoleBasedMcDataAssignment:
         """
         Adds a reference to the McDataInstance the role is assigned to.
         A None value is a no-op and does not append anything.
@@ -992,7 +992,7 @@ class RoleBasedMcDataAssignment(ARObject, VariationPointCapable):
         """
         return self.role
 
-    def setRole(self, value: Optional[Identifier]) -> "RoleBasedMcDataAssignment":
+    def setRole(self, value: Optional[Identifier]) -> RoleBasedMcDataAssignment:
         """
         Sets the role of the assigned data instance in relation to the instance that owns the assignment.
         A None value is a no-op and does not overwrite an existing role.
@@ -1097,7 +1097,7 @@ class McDataInstance(Identifiable, VariationPointCapable):
         """
         return self.arraySize
 
-    def setArraySize(self, value: Optional[PositiveInteger]) -> "McDataInstance":
+    def setArraySize(self, value: Optional[PositiveInteger]) -> McDataInstance:
         """
         Sets the array size. The existence of this attribute turns the data instance into an array of data; the value determines the size of the array in terms of number of elements.
         A None value is a no-op and does not overwrite an existing arraySize.
@@ -1121,7 +1121,7 @@ class McDataInstance(Identifiable, VariationPointCapable):
         """
         return self.displayIdentifier
 
-    def setDisplayIdentifier(self, value: Optional[McdIdentifier]) -> "McDataInstance":
+    def setDisplayIdentifier(self, value: Optional[McdIdentifier]) -> McDataInstance:
         """
         Sets the optional ASAM ASAP2 DISPLAY_IDENTIFIER attribute.
         A None value is a no-op and does not overwrite an existing displayIdentifier.
@@ -1145,7 +1145,7 @@ class McDataInstance(Identifiable, VariationPointCapable):
         """
         return self.flatMapEntryRef
 
-    def setFlatMapEntryRef(self, value: Optional[RefType]) -> "McDataInstance":
+    def setFlatMapEntryRef(self, value: Optional[RefType]) -> McDataInstance:
         """
         Sets the reference to the corresponding entry in the ECU Flat Map, allowing to trace back to the original specification of the generated data instance. This link shall be added by the RTE generator mainly for documentation purposes.
         A None value is a no-op and does not overwrite an existing flatMapEntryRef.
@@ -1169,7 +1169,7 @@ class McDataInstance(Identifiable, VariationPointCapable):
         """
         return self.instanceInMemory
 
-    def setInstanceInMemory(self, value: Optional[ImplementationElementInParameterInstanceRef]) -> "McDataInstance":
+    def setInstanceInMemory(self, value: Optional[ImplementationElementInParameterInstanceRef]) -> McDataInstance:
         """
         Sets the reference to the corresponding data instance in the description of calibration data structures published by the RTE generator. This is used to support emulation methods inside the ECU, it is not required for A2L generation.
         A None value is a no-op and does not overwrite an existing instanceInMemory.
@@ -1193,7 +1193,7 @@ class McDataInstance(Identifiable, VariationPointCapable):
         """
         return self.mcDataAccessDetails
 
-    def setMcDataAccessDetails(self, value: Optional[McDataAccessDetails]) -> "McDataInstance":
+    def setMcDataAccessDetails(self, value: Optional[McDataAccessDetails]) -> McDataInstance:
         """
         Sets the upstream information on how the RTE uses this data instance (use case: Rapid Prototyping).
         A None value is a no-op and does not overwrite an existing mcDataAccessDetails.
@@ -1208,7 +1208,7 @@ class McDataInstance(Identifiable, VariationPointCapable):
             self.mcDataAccessDetails = value
         return self
 
-    def addMcDataAssignment(self, value: Optional[RoleBasedMcDataAssignment]) -> "McDataInstance":
+    def addMcDataAssignment(self, value: Optional[RoleBasedMcDataAssignment]) -> McDataInstance:
         """
         Adds an assignment between McDataInstances. This supports the indication of related McDataElement implementing of "RP global buffer", "RP global measurement buffer", "RP enabler flag".
         A None value is a no-op and does not append anything.
@@ -1241,7 +1241,7 @@ class McDataInstance(Identifiable, VariationPointCapable):
         """
         return self.resultingProperties
 
-    def setResultingProperties(self, value: Optional[SwDataDefProps]) -> "McDataInstance":
+    def setResultingProperties(self, value: Optional[SwDataDefProps]) -> McDataInstance:
         """
         Sets the generated properties resulting from decisions taken by the RTE generator for the actually implemented data instance. Only those properties are relevant here, which are needed for the measurement and calibration system.
         A None value is a no-op and does not overwrite an existing resultingProperties.
@@ -1265,7 +1265,7 @@ class McDataInstance(Identifiable, VariationPointCapable):
         """
         return self.resultingRptSwPrototypingAccess
 
-    def setResultingRptSwPrototypingAccess(self, value: Optional[RptSwPrototypingAccess]) -> "McDataInstance":
+    def setResultingRptSwPrototypingAccess(self, value: Optional[RptSwPrototypingAccess]) -> McDataInstance:
         """
         Sets the implemented accessibility of data and modes by the rapid prototyping tooling.
         A None value is a no-op and does not overwrite an existing resultingRptSwPrototypingAccess.
@@ -1289,7 +1289,7 @@ class McDataInstance(Identifiable, VariationPointCapable):
         """
         return self.role
 
-    def setRole(self, value: Optional[Identifier]) -> "McDataInstance":
+    def setRole(self, value: Optional[Identifier]) -> McDataInstance:
         """
         Sets the additional information on the role of this data instance, for example in the context of rapid prototyping.
         A None value is a no-op and does not overwrite an existing role.
@@ -1313,7 +1313,7 @@ class McDataInstance(Identifiable, VariationPointCapable):
         """
         return self.rptImplPolicy
 
-    def setRptImplPolicy(self, value: Optional[RptImplPolicy]) -> "McDataInstance":
+    def setRptImplPolicy(self, value: Optional[RptImplPolicy]) -> McDataInstance:
         """
         Sets the implemented code preparation for rapid prototyping at data accesses for a hook based bypassing.
         A None value is a no-op and does not overwrite an existing policy.
@@ -1328,7 +1328,7 @@ class McDataInstance(Identifiable, VariationPointCapable):
             self.rptImplPolicy = value
         return self
 
-    def createSubElement(self, short_name: str) -> "McDataInstance":
+    def createSubElement(self, short_name: str) -> McDataInstance:
         """
         Creates a McDataInstance sub element and adds it to this data instance.
         If a sub element with the given short name already exists, it is returned instead.
@@ -1364,7 +1364,7 @@ class McDataInstance(Identifiable, VariationPointCapable):
         """
         return self.symbol
 
-    def setSymbol(self, value: Optional[SymbolString]) -> "McDataInstance":
+    def setSymbol(self, value: Optional[SymbolString]) -> McDataInstance:
         """
         Sets the symbol used to determine the memory address during final generation of the MC configuration data (e.g. "A2L" file).
         A None value is a no-op and does not overwrite an existing symbol.
@@ -1421,7 +1421,7 @@ class McSupportData(ARObject):
         # The rapid prototyping support data belonging to this implementation. The aggregtion is <<atpSplitable>> because in case of an already exisiting BSW Implementation model, this description will be added later in the process, namely at code generation time.
         self.rptSupportData: Optional[RptSupportData] = None
 
-    def addEmulationSupport(self, value: Optional[McSwEmulationMethodSupport]) -> "McSupportData":
+    def addEmulationSupport(self, value: Optional[McSwEmulationMethodSupport]) -> McSupportData:
         """
         Adds an emulation support to this MC support data.
         A None value is a no-op and does not append anything.
@@ -1499,7 +1499,7 @@ class McSupportData(ARObject):
         """
         return self.mcVariableInstances
 
-    def addMeasurableSystemConstantValuesRef(self, value: Optional[RefType]) -> "McSupportData":
+    def addMeasurableSystemConstantValuesRef(self, value: Optional[RefType]) -> McSupportData:
         """
         Adds a reference to a set of system constant values to be transferred to the MCD system.
         A None value is a no-op and does not append anything.
@@ -1532,7 +1532,7 @@ class McSupportData(ARObject):
         """
         return self.rptSupportData
 
-    def setRptSupportData(self, value: Optional[RptSupportData]) -> "McSupportData":
+    def setRptSupportData(self, value: Optional[RptSupportData]) -> McSupportData:
         """
         Sets the rapid prototyping support data belonging to this implementation.
         A None value is a no-op and does not overwrite existing support data.

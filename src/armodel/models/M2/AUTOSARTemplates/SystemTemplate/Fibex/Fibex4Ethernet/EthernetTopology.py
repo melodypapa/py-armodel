@@ -94,7 +94,7 @@ class EthernetCluster(CommunicationCluster):
         # MacMulticastGroup that is defined for the Subnet (EthernetCluster).
         self.macMulticastGroups: List[MacMulticastGroup] = []
 
-    def addCouplingPortConnection(self, value: Optional[CouplingPortConnection]) -> "EthernetCluster":
+    def addCouplingPortConnection(self, value: Optional[CouplingPortConnection]) -> EthernetCluster:
         """
         Specification of connections between CouplingElements and EcuInstances.
         A None value is a no-op and does not append to couplingPortConnections.
@@ -111,7 +111,7 @@ class EthernetCluster(CommunicationCluster):
         """The attribute specifies the time in second a coupling port is switched on to enable the host ECU (ECU that maintains an Ethernet switch) to listen to the network for potential network management requests."""
         return self.couplingPortStartupActiveTime
 
-    def setCouplingPortStartupActiveTime(self, value: Optional[TimeValue]) -> "EthernetCluster":
+    def setCouplingPortStartupActiveTime(self, value: Optional[TimeValue]) -> EthernetCluster:
         """
         The attribute specifies the time in second a coupling port is switched on to enable the host ECU (ECU that maintains an Ethernet switch) to listen to the network for potential network management requests.
         A None value is a no-op and does not overwrite an existing couplingPortStartupActiveTime.
@@ -124,7 +124,7 @@ class EthernetCluster(CommunicationCluster):
         """Switch off delay for CouplingPorts in seconds. It denotes the delay of switching off couplingPorts after the request to switch off a couplingPort was issued. (e.g. switch off of Ethernet switch ports)."""
         return self.couplingPortSwitchoffDelay
 
-    def setCouplingPortSwitchoffDelay(self, value: Optional[TimeValue]) -> "EthernetCluster":
+    def setCouplingPortSwitchoffDelay(self, value: Optional[TimeValue]) -> EthernetCluster:
         """
         Switch off delay for CouplingPorts in seconds. It denotes the delay of switching off couplingPorts after the request to switch off a couplingPort was issued. (e.g. switch off of Ethernet switch ports).
         A None value is a no-op and does not overwrite an existing couplingPortSwitchoffDelay.
@@ -223,7 +223,7 @@ class CouplingPortFifo(CouplingPortStructuralElement):
         # Definition of the shaper to be used for the processing of this FIFO.
         self.shaper: Optional[CouplingPortAbstractShaper] = None
 
-    def addAssignedTrafficClass(self, value: Optional[PositiveInteger]) -> "CouplingPortFifo":
+    def addAssignedTrafficClass(self, value: Optional[PositiveInteger]) -> CouplingPortFifo:
         """
         Defines a set of Traffic Classes which shall be handled by this FIFO. range: 0-7
         A None value is a no-op and does not append to assignedTrafficClasses.
@@ -240,7 +240,7 @@ class CouplingPortFifo(CouplingPortStructuralElement):
         """FIFO minimum length in Byte. An actual configuration/ hardware may use a bigger value."""
         return self.minimumFifoLength
 
-    def setMinimumFifoLength(self, value: Optional[PositiveInteger]) -> "CouplingPortFifo":
+    def setMinimumFifoLength(self, value: Optional[PositiveInteger]) -> CouplingPortFifo:
         """
         FIFO minimum length in Byte. An actual configuration/ hardware may use a bigger value.
         A None value is a no-op and does not overwrite an existing minimumFifoLength.
@@ -253,7 +253,7 @@ class CouplingPortFifo(CouplingPortStructuralElement):
         """Definition of the shaper to be used for the processing of this FIFO."""
         return self.shaper
 
-    def setShaper(self, value: Optional[CouplingPortAbstractShaper]) -> "CouplingPortFifo":
+    def setShaper(self, value: Optional[CouplingPortAbstractShaper]) -> CouplingPortFifo:
         """
         Definition of the shaper to be used for the processing of this FIFO.
         A None value is a no-op and does not overwrite an existing shaper.
@@ -293,7 +293,7 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
         """
         return self.portScheduler
 
-    def setPortScheduler(self, value: Optional[EthernetCouplingPortSchedulerEnum]) -> "CouplingPortScheduler":
+    def setPortScheduler(self, value: Optional[EthernetCouplingPortSchedulerEnum]) -> CouplingPortScheduler:
         """
         Defines the schedule algorithm to be used.
         A None value is a no-op and does not overwrite an existing portScheduler.
@@ -308,7 +308,7 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
         """
         return self.predecessorRefs
 
-    def addPredecessorRef(self, value: RefType) -> "CouplingPortScheduler":
+    def addPredecessorRef(self, value: RefType) -> CouplingPortScheduler:
         """
         Ordered List of predecessor inputs. The first element has the highest priority. The following elements have decreasing priorities.
         A None value is a no-op and does not extend the predecessor list.
@@ -426,7 +426,7 @@ class CouplingPortDetails(ARObject):
         """Defines a priority regeneration where the ingress priority is replaced by regenerated priority."""
         return self.ethernetPriorityRegenerations
 
-    def addEthernetTrafficClassAssignment(self, value: Optional[CouplingPortTrafficClassAssignment]) -> "CouplingPortDetails":
+    def addEthernetTrafficClassAssignment(self, value: Optional[CouplingPortTrafficClassAssignment]) -> CouplingPortDetails:
         """
         Defines the ingress port to EthernetTrafficClass assignment.
         A None value is a no-op and does not append to ethernetTrafficClassAssignments.
@@ -443,7 +443,7 @@ class CouplingPortDetails(ARObject):
         """Specifies properties for the usage of the CouplingPort in the scope of Global Time Sync."""
         return self.globalTimeProps
 
-    def setGlobalTimeProps(self, value: Optional[GlobalTimeCouplingPortProps]) -> "CouplingPortDetails":
+    def setGlobalTimeProps(self, value: Optional[GlobalTimeCouplingPortProps]) -> CouplingPortDetails:
         """
         Specifies properties for the usage of the CouplingPort in the scope of Global Time Sync.
         A None value is a no-op and does not overwrite an existing globalTimeProps.
@@ -456,7 +456,7 @@ class CouplingPortDetails(ARObject):
         """Defines which CouplingPortScheduler is the last in the egress port structure."""
         return self.lastEgressSchedulerRef
 
-    def setLastEgressSchedulerRef(self, value: Optional[RefType]) -> "CouplingPortDetails":
+    def setLastEgressSchedulerRef(self, value: Optional[RefType]) -> CouplingPortDetails:
         """
         Defines which CouplingPortScheduler is the last in the egress port structure.
         A None value is a no-op and does not overwrite an existing lastEgressSchedulerRef.
@@ -465,7 +465,7 @@ class CouplingPortDetails(ARObject):
             self.lastEgressSchedulerRef = value
         return self
 
-    def addRatePolicy(self, value: Optional[CouplingPortRatePolicy]) -> "CouplingPortDetails":
+    def addRatePolicy(self, value: Optional[CouplingPortRatePolicy]) -> CouplingPortDetails:
         """
         Rate policies to be applied for this CouplingPort.
         A None value is a no-op and does not append to ratePolicies.
@@ -519,7 +519,7 @@ class VlanMembership(ARObject):
         """
         return self.defaultPriority
 
-    def setDefaultPriority(self, value: Optional[PositiveInteger]) -> "VlanMembership":
+    def setDefaultPriority(self, value: Optional[PositiveInteger]) -> VlanMembership:
         """
         Standard output-priority outgoing Frames will be tagged with. Defines the priority that received frames are assigned together with the VLAN Id (defaultVlan). The values from 0 (best effort) to 7 (highest) are allowed. In case modifyVlan and an already tagged received frame, the actual priority of the received frame is not modified.
         A None value is a no-op and does not overwrite an existing defaultPriority.
@@ -534,7 +534,7 @@ class VlanMembership(ARObject):
         """
         return self.dhcpAddressAssignment
 
-    def setDhcpAddressAssignment(self, value: Optional[DhcpServerConfiguration]) -> "VlanMembership":
+    def setDhcpAddressAssignment(self, value: Optional[DhcpServerConfiguration]) -> VlanMembership:
         """
         Specifies the IP Address which will be assigned to a DHCP Client at this SwitchPort. If no dhcpAddressAssignment is provided all DHCP-Discover messages received at this Port will be discarded by the DHCP Server.
         A None value is a no-op and does not overwrite an existing dhcpAddressAssignment.
@@ -549,7 +549,7 @@ class VlanMembership(ARObject):
         """
         return self.sendActivity
 
-    def setSendActivity(self, value: Optional[EthernetSwitchVlanEgressTaggingEnum]) -> "VlanMembership":
+    def setSendActivity(self, value: Optional[EthernetSwitchVlanEgressTaggingEnum]) -> VlanMembership:
         """
         Attribute denotes whether a VLAN tagged ethernet frame will be 1. sent with its VLAN tag (sentTagged) 2. sent without a VLAN tag (sentUntagged) 3. will be dropped at this port (notSent or VLAN not member of this list)
         A None value is a no-op and does not overwrite an existing sendActivity.
@@ -564,7 +564,7 @@ class VlanMembership(ARObject):
         """
         return self.vlanRef
 
-    def setVlanRef(self, value: Optional[RefType]) -> "VlanMembership":
+    def setVlanRef(self, value: Optional[RefType]) -> VlanMembership:
         """
         References a channel that represents a VLAN or an untagged channel.
         A None value is a no-op and does not overwrite an existing vlanRef.
@@ -662,7 +662,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
         """Specifies the connection negotiation of the CouplingPort."""
         return self.connectionNegotiationBehavior
 
-    def setConnectionNegotiationBehavior(self, value: Optional[EthernetConnectionNegotiationEnum]) -> "CouplingPort":
+    def setConnectionNegotiationBehavior(self, value: Optional[EthernetConnectionNegotiationEnum]) -> CouplingPort:
         """
         Specifies the connection negotiation of the CouplingPort.
         A None value is a no-op and does not overwrite an existing connectionNegotiationBehavior.
@@ -675,7 +675,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
         """Defines more details of a CouplingPort in case a more specific configuration is required."""
         return self.couplingPortDetails
 
-    def setCouplingPortDetails(self, value: Optional[CouplingPortDetails]) -> "CouplingPort":
+    def setCouplingPortDetails(self, value: Optional[CouplingPortDetails]) -> CouplingPort:
         """
         Defines more details of a CouplingPort in case a more specific configuration is required.
         A None value is a no-op and does not overwrite an existing couplingPortDetails.
@@ -688,7 +688,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
         """Defines the role this CouplingPort takes in the context of the CouplingElement."""
         return self.couplingPortRole
 
-    def setCouplingPortRole(self, value: Optional[CouplingPortRoleEnum]) -> "CouplingPort":
+    def setCouplingPortRole(self, value: Optional[CouplingPortRoleEnum]) -> CouplingPort:
         """
         Defines the role this CouplingPort takes in the context of the CouplingElement.
         A None value is a no-op and does not overwrite an existing couplingPortRole.
@@ -701,7 +701,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
         """The vLanIdentifier of the referenced VLAN is the Default-PVID (port VLAN ID). A Port VLAN ID is a default VLAN ID that is assigned to an access CouplingPort to designate the VLAN segment to which this port is connected. Also, if a CouplingPort has not been configured with any VLAN memberships, the virtual switch's Port VLAN ID (pvid) becomes the default VLAN ID for the ports connection. This identifier/tag is added for incoming untagged messages at the port (ingress tagging). For outgoing messages with this identifier, the tag is removed at the port (egress untagging, depending on the Vlan"""
         return self.defaultVlanRef
 
-    def setDefaultVlanRef(self, value: Optional[RefType]) -> "CouplingPort":
+    def setDefaultVlanRef(self, value: Optional[RefType]) -> CouplingPort:
         """
         The vLanIdentifier of the referenced VLAN is the Default-PVID (port VLAN ID). A Port VLAN ID is a default VLAN ID that is assigned to an access CouplingPort to designate the VLAN segment to which this port is connected. Also, if a CouplingPort has not been configured with any VLAN memberships, the virtual switch's Port VLAN ID (pvid) becomes the default VLAN ID for the ports connection. This identifier/tag is added for incoming untagged messages at the port (ingress tagging). For outgoing messages with this identifier, the tag is removed at the port (egress untagging, depending on the Vlan
         A None value is a no-op and does not overwrite an existing defaultVlanRef.
@@ -714,7 +714,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
         """Specifies the mac layer type of the CouplingPort."""
         return self.macLayerType
 
-    def setMacLayerType(self, value: Optional[EthernetMacLayerTypeEnum]) -> "CouplingPort":
+    def setMacLayerType(self, value: Optional[EthernetMacLayerTypeEnum]) -> CouplingPort:
         """
         Specifies the mac layer type of the CouplingPort.
         A None value is a no-op and does not overwrite an existing macLayerType.
@@ -723,7 +723,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
             self.macLayerType = value
         return self
 
-    def addMacMulticastAddressRef(self, ref: Optional[RefType]) -> "CouplingPort":
+    def addMacMulticastAddressRef(self, ref: Optional[RefType]) -> CouplingPort:
         """
         Assigns a set of MAC-Multicast-Addresses which are addressable via this CouplingPort. This is a static pre-configuration and further addresses may be learned during runtime.
         A None value is a no-op and does not append to macMulticastAddressRefs.
@@ -736,7 +736,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
         """Assigns a set of MAC-Multicast-Addresses which are addressable via this CouplingPort. This is a static pre-configuration and further addresses may be learned during runtime."""
         return self.macMulticastAddressRefs
 
-    def addMacSecProps(self, value: Optional[MacSecProps]) -> "CouplingPort":
+    def addMacSecProps(self, value: Optional[MacSecProps]) -> CouplingPort:
         """
         Properties to configure MACsec (Media access control security) and the MKA (MACsec Key Agreement) for the CouplingPort (PHY).
         A None value is a no-op and does not append to macSecProps.
@@ -753,7 +753,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
         """Specifies the physical layer type of the CouplingPort."""
         return self.physicalLayerType
 
-    def setPhysicalLayerType(self, value: Optional[EthernetPhysicalLayerTypeEnum]) -> "CouplingPort":
+    def setPhysicalLayerType(self, value: Optional[EthernetPhysicalLayerTypeEnum]) -> CouplingPort:
         """
         Specifies the physical layer type of the CouplingPort.
         A None value is a no-op and does not overwrite an existing physicalLayerType.
@@ -766,7 +766,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
         """Optional properties for configuration of PLCA (Physical Layer Collision Avoidance) in case 10-BASE-T1S Ethernet is used and PLCA is enabled on the Coupling Port (PHY)."""
         return self.plcaProps
 
-    def setPlcaProps(self, value: Optional[PlcaProps]) -> "CouplingPort":
+    def setPlcaProps(self, value: Optional[PlcaProps]) -> CouplingPort:
         """
         Optional properties for configuration of PLCA (Physical Layer Collision Avoidance) in case 10-BASE-T1S Ethernet is used and PLCA is enabled on the Coupling Port (PHY).
         A None value is a no-op and does not overwrite an existing plcaProps.
@@ -775,7 +775,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
             self.plcaProps = value
         return self
 
-    def addPncMappingRef(self, ref: Optional[RefType]) -> "CouplingPort":
+    def addPncMappingRef(self, ref: Optional[RefType]) -> CouplingPort:
         """
         Reference to the partial networks this CouplingPort participates in.
         A None value is a no-op and does not append to pncMappingRefs.
@@ -792,7 +792,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
         """Defines the handling of frames at the ingress port."""
         return self.receiveActivity
 
-    def setReceiveActivity(self, value: Optional[EthernetSwitchVlanIngressTagEnum]) -> "CouplingPort":
+    def setReceiveActivity(self, value: Optional[EthernetSwitchVlanIngressTagEnum]) -> CouplingPort:
         """
         Defines the handling of frames at the ingress port.
         A None value is a no-op and does not overwrite an existing receiveActivity.
@@ -801,7 +801,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
             self.receiveActivity = value
         return self
 
-    def addVlanMembership(self, value: Optional[VlanMembership]) -> "CouplingPort":
+    def addVlanMembership(self, value: Optional[VlanMembership]) -> CouplingPort:
         """
         Messages of VLANs that are defined here can be communicated via the CouplingPort.
         A None value is a no-op and does not append to vlanMemberships.
@@ -818,7 +818,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
         """All incoming messages at this CouplingPort shall be tagged with this VLAN Id. This tagging is performed regardless whether the message already has a VLAN tag or is untagged, an existing VLAN tag will be overwritten. This feature is XOR with CoupligPort.defaultVlan."""
         return self.vlanModifierRef
 
-    def setVlanModifierRef(self, value: Optional[RefType]) -> "CouplingPort":
+    def setVlanModifierRef(self, value: Optional[RefType]) -> CouplingPort:
         """
         All incoming messages at this CouplingPort shall be tagged with this VLAN Id. This tagging is performed regardless whether the message already has a VLAN tag or is untagged, an existing VLAN tag will be overwritten. This feature is XOR with CoupligPort.defaultVlan.
         A None value is a no-op and does not overwrite an existing vlanModifierRef.
@@ -831,7 +831,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
         """Optional reference to EthernetWakeupSleepOnDatalineConfig."""
         return self.wakeupSleepOnDatalineConfigRef
 
-    def setWakeupSleepOnDatalineConfigRef(self, value: Optional[RefType]) -> "CouplingPort":
+    def setWakeupSleepOnDatalineConfigRef(self, value: Optional[RefType]) -> CouplingPort:
         """
         Optional reference to EthernetWakeupSleepOnDatalineConfig.
         A None value is a no-op and does not overwrite an existing wakeupSleepOnDatalineConfigRef.
@@ -899,7 +899,7 @@ class EthernetCommunicationController(CommunicationController):
         """If the Ethernet frames handled by this Ethernet CommunicationController are to be tunneled through CAN XL, then this reference shall refer to the Abstract CanCommunicationController that aggregates the Can ControllerXlConfiguration of the physical CAN XL channel to be used for tunneling."""
         return self.canXlConfigRef
 
-    def setCanXlConfigRef(self, value: Optional[RefType]) -> "EthernetCommunicationController":
+    def setCanXlConfigRef(self, value: Optional[RefType]) -> EthernetCommunicationController:
         """
         If the Ethernet frames handled by this Ethernet CommunicationController are to be tunneled through CAN XL, then this reference shall refer to the Abstract CanCommunicationController that aggregates the Can ControllerXlConfiguration of the physical CAN XL channel to be used for tunneling.
         A None value is a no-op and does not overwrite an existing canXlConfigRef.
@@ -924,7 +924,7 @@ class EthernetCommunicationController(CommunicationController):
         """Specifies the mac layer type of the ethernet controller."""
         return self.macLayerType
 
-    def setMacLayerType(self, value: Optional[EthernetMacLayerTypeEnum]) -> "EthernetCommunicationController":
+    def setMacLayerType(self, value: Optional[EthernetMacLayerTypeEnum]) -> EthernetCommunicationController:
         """
         Specifies the mac layer type of the ethernet controller.
         A None value is a no-op and does not overwrite an existing macLayerType.
@@ -937,7 +937,7 @@ class EthernetCommunicationController(CommunicationController):
         """Media Access Control address (MAC address) that uniquely identifies each EthernetCommunication Controller in the network."""
         return self.macUnicastAddress
 
-    def setMacUnicastAddress(self, value: Optional[MacAddressString]) -> "EthernetCommunicationController":
+    def setMacUnicastAddress(self, value: Optional[MacAddressString]) -> EthernetCommunicationController:
         """
         Media Access Control address (MAC address) that uniquely identifies each EthernetCommunication Controller in the network.
         A None value is a no-op and does not overwrite an existing macUnicastAddress.
@@ -950,7 +950,7 @@ class EthernetCommunicationController(CommunicationController):
         """Determines the maximum receive buffer length (frame length) in bytes."""
         return self.maximumReceiveBufferLength
 
-    def setMaximumReceiveBufferLength(self, value: Optional[Integer]) -> "EthernetCommunicationController":
+    def setMaximumReceiveBufferLength(self, value: Optional[Integer]) -> EthernetCommunicationController:
         """
         Determines the maximum receive buffer length (frame length) in bytes.
         A None value is a no-op and does not overwrite an existing maximumReceiveBufferLength.
@@ -963,7 +963,7 @@ class EthernetCommunicationController(CommunicationController):
         """Determines the maximum transmit buffer length (frame length) in bytes."""
         return self.maximumTransmitBufferLength
 
-    def setMaximumTransmitBufferLength(self, value: Optional[Integer]) -> "EthernetCommunicationController":
+    def setMaximumTransmitBufferLength(self, value: Optional[Integer]) -> EthernetCommunicationController:
         """
         Determines the maximum transmit buffer length (frame length) in bytes.
         A None value is a no-op and does not overwrite an existing maximumTransmitBufferLength.
@@ -976,7 +976,7 @@ class EthernetCommunicationController(CommunicationController):
         """This attribute specifies if the EcuInstance is acting as a passive communication slave on the connected Physical Channel. This is used for EthernetCommunication Controllers that use Ethernet hardware which supports wake-up and sleep on the network (e.g. Open Alliance TC10 compliant Ethernet hardware)."""
         return self.slaveActAsPassiveCommunicationSlave
 
-    def setSlaveActAsPassiveCommunicationSlave(self, value: Optional[Boolean]) -> "EthernetCommunicationController":
+    def setSlaveActAsPassiveCommunicationSlave(self, value: Optional[Boolean]) -> EthernetCommunicationController:
         """
         This attribute specifies if the EcuInstance is acting as a passive communication slave on the connected Physical Channel. This is used for EthernetCommunication Controllers that use Ethernet hardware which supports wake-up and sleep on the network (e.g. Open Alliance TC10 compliant Ethernet hardware).
         A None value is a no-op and does not overwrite an existing slaveActAsPassiveCommunicationSlave.
@@ -989,7 +989,7 @@ class EthernetCommunicationController(CommunicationController):
         """This attribute specifies time when an unexpected link down is evaluated as link down and indicated to the AUTOSAR communication stack."""
         return self.slaveQualifiedUnexpectedLinkDownTime
 
-    def setSlaveQualifiedUnexpectedLinkDownTime(self, value: Optional[TimeValue]) -> "EthernetCommunicationController":
+    def setSlaveQualifiedUnexpectedLinkDownTime(self, value: Optional[TimeValue]) -> EthernetCommunicationController:
         """
         This attribute specifies time when an unexpected link down is evaluated as link down and indicated to the AUTOSAR communication stack.
         A None value is a no-op and does not overwrite an existing slaveQualifiedUnexpectedLinkDownTime.
@@ -1042,7 +1042,7 @@ class EthernetCommunicationConnector(CommunicationConnector):
         """EcuInstance specific IP attributes."""
         return self.ethIpPropsRef
 
-    def setEthIpPropsRef(self, value: Optional[RefType]) -> "EthernetCommunicationConnector":
+    def setEthIpPropsRef(self, value: Optional[RefType]) -> EthernetCommunicationConnector:
         """
         EcuInstance specific IP attributes.
         A None value is a no-op and does not overwrite an existing ethIpPropsRef.
@@ -1055,7 +1055,7 @@ class EthernetCommunicationConnector(CommunicationConnector):
         """This attribute specifies the maximum transmission unit in bytes."""
         return self.maximumTransmissionUnit
 
-    def setMaximumTransmissionUnit(self, value: Optional[PositiveInteger]) -> "EthernetCommunicationConnector":
+    def setMaximumTransmissionUnit(self, value: Optional[PositiveInteger]) -> EthernetCommunicationConnector:
         """
         This attribute specifies the maximum transmission unit in bytes.
         A None value is a no-op and does not overwrite an existing maximumTransmissionUnit.
@@ -1068,7 +1068,7 @@ class EthernetCommunicationConnector(CommunicationConnector):
         """This attribute specifies the size of neighbor cache or ARP table in units of entries."""
         return self.neighborCacheSize
 
-    def setNeighborCacheSize(self, value: Optional[PositiveInteger]) -> "EthernetCommunicationConnector":
+    def setNeighborCacheSize(self, value: Optional[PositiveInteger]) -> EthernetCommunicationConnector:
         """
         This attribute specifies the size of neighbor cache or ARP table in units of entries.
         A None value is a no-op and does not overwrite an existing neighborCacheSize.
@@ -1081,7 +1081,7 @@ class EthernetCommunicationConnector(CommunicationConnector):
         """If enabled the IPv4/IPv6 processes incoming ICMP "Packet Too Big" messages and stores a MTU value for each destination address."""
         return self.pathMtuEnabled
 
-    def setPathMtuEnabled(self, value: Optional[Boolean]) -> "EthernetCommunicationConnector":
+    def setPathMtuEnabled(self, value: Optional[Boolean]) -> EthernetCommunicationConnector:
         """
         If enabled the IPv4/IPv6 processes incoming ICMP "Packet Too Big" messages and stores a MTU value for each destination address.
         A None value is a no-op and does not overwrite an existing pathMtuEnabled.
@@ -1094,7 +1094,7 @@ class EthernetCommunicationConnector(CommunicationConnector):
         """If this value is >0 the IPv4/IPv6 will reset the MTU value stored for each destination after n seconds."""
         return self.pathMtuTimeout
 
-    def setPathMtuTimeout(self, value: Optional[TimeValue]) -> "EthernetCommunicationConnector":
+    def setPathMtuTimeout(self, value: Optional[TimeValue]) -> EthernetCommunicationConnector:
         """
         If this value is >0 the IPv4/IPv6 will reset the MTU value stored for each destination after n seconds.
         A None value is a no-op and does not overwrite an existing pathMtuTimeout.
@@ -1170,6 +1170,7 @@ class SdClientConfig(ARObject):
 
     # SdClientConfig method parity checklist:
     # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.172, p.356
+    # Spec verified: R4.3.1
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
     # [x] addCapabilityRecord           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
@@ -1206,7 +1207,7 @@ class SdClientConfig(ARObject):
         # TTL for Request and Subscribe messages.
         self.ttl: Optional[PositiveInteger] = None
 
-    def addCapabilityRecord(self, value: Optional[TagWithOptionalValue]) -> "SdClientConfig":
+    def addCapabilityRecord(self, value: Optional[TagWithOptionalValue]) -> SdClientConfig:
         """
         A sequence of records to store arbitrary name/value pairs conveying additional information about the named service. Capability records shall only be existing if the respective SdClientConfig is composed by a ConsumedServiceInstance (see constr_3260).
         A None value is a no-op and does not append to capabilityRecords.
@@ -1223,7 +1224,7 @@ class SdClientConfig(ARObject):
         """Major version number of the Service."""
         return self.clientServiceMajorVersion
 
-    def setClientServiceMajorVersion(self, value: Optional[PositiveInteger]) -> "SdClientConfig":
+    def setClientServiceMajorVersion(self, value: Optional[PositiveInteger]) -> SdClientConfig:
         """
         Major version number of the Service.
         A None value is a no-op and does not overwrite an existing clientServiceMajorVersion.
@@ -1236,7 +1237,7 @@ class SdClientConfig(ARObject):
         """Minor version number of the Service."""
         return self.clientServiceMinorVersion
 
-    def setClientServiceMinorVersion(self, value: Optional[PositiveInteger]) -> "SdClientConfig":
+    def setClientServiceMinorVersion(self, value: Optional[PositiveInteger]) -> SdClientConfig:
         """
         Minor version number of the Service.
         A None value is a no-op and does not overwrite an existing clientServiceMinorVersion.
@@ -1249,7 +1250,7 @@ class SdClientConfig(ARObject):
         """Controls initial find behavior of clients."""
         return self.initialFindBehavior
 
-    def setInitialFindBehavior(self, value: Optional[InitialSdDelayConfig]) -> "SdClientConfig":
+    def setInitialFindBehavior(self, value: Optional[InitialSdDelayConfig]) -> SdClientConfig:
         """
         Controls initial find behavior of clients.
         A None value is a no-op and does not overwrite an existing initialFindBehavior.
@@ -1262,7 +1263,7 @@ class SdClientConfig(ARObject):
         """Maximum/Minimum allowable response delay to entries received by multicast in seconds."""
         return self.requestResponseDelay
 
-    def setRequestResponseDelay(self, value: Optional[RequestResponseDelay]) -> "SdClientConfig":
+    def setRequestResponseDelay(self, value: Optional[RequestResponseDelay]) -> SdClientConfig:
         """
         Maximum/Minimum allowable response delay to entries received by multicast in seconds.
         A None value is a no-op and does not overwrite an existing requestResponseDelay.
@@ -1275,7 +1276,7 @@ class SdClientConfig(ARObject):
         """TTL for Request and Subscribe messages."""
         return self.ttl
 
-    def setTtl(self, value: Optional[PositiveInteger]) -> "SdClientConfig":
+    def setTtl(self, value: Optional[PositiveInteger]) -> SdClientConfig:
         """
         TTL for Request and Subscribe messages.
         A None value is a no-op and does not overwrite an existing ttl.
@@ -1333,7 +1334,7 @@ class Ipv4DhcpServerConfiguration(Describable):
         """Lower range of IP addresses to be issued to DHCP clients. IPv4 Address. Notation: 255.255.255.255."""
         return self.addressRangeLowerBound
 
-    def setAddressRangeLowerBound(self, value: Optional[Ip4AddressString]) -> "Ipv4DhcpServerConfiguration":
+    def setAddressRangeLowerBound(self, value: Optional[Ip4AddressString]) -> Ipv4DhcpServerConfiguration:
         """
         Lower range of IP addresses to be issued to DHCP clients. IPv4 Address. Notation: 255.255.255.255.
         A None value is a no-op and does not overwrite an existing addressRangeLowerBound.
@@ -1346,7 +1347,7 @@ class Ipv4DhcpServerConfiguration(Describable):
         """Upper range of IP addresses to be issued to DHCP clients. Pv4 Address. Notation: 255.255.255.255."""
         return self.addressRangeUpperBound
 
-    def setAddressRangeUpperBound(self, value: Optional[Ip4AddressString]) -> "Ipv4DhcpServerConfiguration":
+    def setAddressRangeUpperBound(self, value: Optional[Ip4AddressString]) -> Ipv4DhcpServerConfiguration:
         """
         Upper range of IP addresses to be issued to DHCP clients. Pv4 Address. Notation: 255.255.255.255.
         A None value is a no-op and does not overwrite an existing addressRangeUpperBound.
@@ -1359,7 +1360,7 @@ class Ipv4DhcpServerConfiguration(Describable):
         """IP address of the default gateway. Notation 255.255.255.255"""
         return self.defaultGateway
 
-    def setDefaultGateway(self, value: Optional[Ip4AddressString]) -> "Ipv4DhcpServerConfiguration":
+    def setDefaultGateway(self, value: Optional[Ip4AddressString]) -> Ipv4DhcpServerConfiguration:
         """
         IP address of the default gateway. Notation 255.255.255.255
         A None value is a no-op and does not overwrite an existing defaultGateway.
@@ -1372,7 +1373,7 @@ class Ipv4DhcpServerConfiguration(Describable):
         """Amount of time in seconds that a client may keep the IP address."""
         return self.defaultLeaseTime
 
-    def setDefaultLeaseTime(self, value: Optional[TimeValue]) -> "Ipv4DhcpServerConfiguration":
+    def setDefaultLeaseTime(self, value: Optional[TimeValue]) -> Ipv4DhcpServerConfiguration:
         """
         Amount of time in seconds that a client may keep the IP address.
         A None value is a no-op and does not overwrite an existing defaultLeaseTime.
@@ -1385,7 +1386,7 @@ class Ipv4DhcpServerConfiguration(Describable):
         """IP addresses of preconfigured DNS servers. Notation 255.255.255.255"""
         return self.dnsServerAddresses
 
-    def addDnsServerAddress(self, value: Optional[Ip4AddressString]) -> "Ipv4DhcpServerConfiguration":
+    def addDnsServerAddress(self, value: Optional[Ip4AddressString]) -> Ipv4DhcpServerConfiguration:
         """
         IP addresses of preconfigured DNS servers. Notation 255.255.255.255
         A None value is a no-op and does not append to dnsServerAddresses.
@@ -1398,7 +1399,7 @@ class Ipv4DhcpServerConfiguration(Describable):
         """Default network mask to be used by DHCP clients. Notation 255.255.255.255"""
         return self.networkMask
 
-    def setNetworkMask(self, value: Optional[Ip4AddressString]) -> "Ipv4DhcpServerConfiguration":
+    def setNetworkMask(self, value: Optional[Ip4AddressString]) -> Ipv4DhcpServerConfiguration:
         """
         Default network mask to be used by DHCP clients. Notation 255.255.255.255
         A None value is a no-op and does not overwrite an existing networkMask.
@@ -1456,7 +1457,7 @@ class Ipv6DhcpServerConfiguration(Describable):
         """Lower range of IP addresses to be issued to DHCP clients. IPv6 Address. Notation: FFFF:...:FFFF."""
         return self.addressRangeLowerBound
 
-    def setAddressRangeLowerBound(self, value: Optional[Ip6AddressString]) -> "Ipv6DhcpServerConfiguration":
+    def setAddressRangeLowerBound(self, value: Optional[Ip6AddressString]) -> Ipv6DhcpServerConfiguration:
         """
         Lower range of IP addresses to be issued to DHCP clients. IPv6 Address. Notation: FFFF:...:FFFF.
         A None value is a no-op and does not overwrite an existing addressRangeLowerBound.
@@ -1469,7 +1470,7 @@ class Ipv6DhcpServerConfiguration(Describable):
         """Upper range of IP addresses to be issued to DHCP clients. IPv6 Address. Notation: FFFF:...:FFFF."""
         return self.addressRangeUpperBound
 
-    def setAddressRangeUpperBound(self, value: Optional[Ip6AddressString]) -> "Ipv6DhcpServerConfiguration":
+    def setAddressRangeUpperBound(self, value: Optional[Ip6AddressString]) -> Ipv6DhcpServerConfiguration:
         """
         Upper range of IP addresses to be issued to DHCP clients. IPv6 Address. Notation: FFFF:...:FFFF.
         A None value is a no-op and does not overwrite an existing addressRangeUpperBound.
@@ -1482,7 +1483,7 @@ class Ipv6DhcpServerConfiguration(Describable):
         """IP address of the default gateway. Notation 255.255.255.255"""
         return self.defaultGateway
 
-    def setDefaultGateway(self, value: Optional[Ip6AddressString]) -> "Ipv6DhcpServerConfiguration":
+    def setDefaultGateway(self, value: Optional[Ip6AddressString]) -> Ipv6DhcpServerConfiguration:
         """
         IP address of the default gateway. Notation 255.255.255.255
         A None value is a no-op and does not overwrite an existing defaultGateway.
@@ -1495,7 +1496,7 @@ class Ipv6DhcpServerConfiguration(Describable):
         """Amount of time in seconds that a client may keep the IP address."""
         return self.defaultLeaseTime
 
-    def setDefaultLeaseTime(self, value: Optional[TimeValue]) -> "Ipv6DhcpServerConfiguration":
+    def setDefaultLeaseTime(self, value: Optional[TimeValue]) -> Ipv6DhcpServerConfiguration:
         """
         Amount of time in seconds that a client may keep the IP address.
         A None value is a no-op and does not overwrite an existing defaultLeaseTime.
@@ -1508,7 +1509,7 @@ class Ipv6DhcpServerConfiguration(Describable):
         """IP addresses of preconfigured DNS servers. Notation: FFFF:...:FFFF."""
         return self.dnsServerAddresses
 
-    def addDnsServerAddress(self, value: Optional[Ip6AddressString]) -> "Ipv6DhcpServerConfiguration":
+    def addDnsServerAddress(self, value: Optional[Ip6AddressString]) -> Ipv6DhcpServerConfiguration:
         """
         IP addresses of preconfigured DNS servers. Notation: FFFF:...:FFFF.
         A None value is a no-op and does not append to dnsServerAddresses.
@@ -1521,7 +1522,7 @@ class Ipv6DhcpServerConfiguration(Describable):
         """Default network mask to be used by DHCP clients. Notation 255.255.255.255"""
         return self.networkMask
 
-    def setNetworkMask(self, value: Optional[Ip6AddressString]) -> "Ipv6DhcpServerConfiguration":
+    def setNetworkMask(self, value: Optional[Ip6AddressString]) -> Ipv6DhcpServerConfiguration:
         """
         Default network mask to be used by DHCP clients. Notation 255.255.255.255
         A None value is a no-op and does not overwrite an existing networkMask.
@@ -1559,7 +1560,7 @@ class DhcpServerConfiguration(ARObject):
         """Configuration of a IPv4 DHCP server that runs on the network endpoint."""
         return self.ipv4DhcpServerConfiguration
 
-    def setIpv4DhcpServerConfiguration(self, value: Optional[Ipv4DhcpServerConfiguration]) -> "DhcpServerConfiguration":
+    def setIpv4DhcpServerConfiguration(self, value: Optional[Ipv4DhcpServerConfiguration]) -> DhcpServerConfiguration:
         """
         Configuration of a IPv4 DHCP server that runs on the network endpoint.
         A None value is a no-op and does not overwrite an existing ipv4DhcpServerConfiguration.
@@ -1572,7 +1573,7 @@ class DhcpServerConfiguration(ARObject):
         """Configuration of a IPv6 DHCP server that runs on the network endpoint."""
         return self.ipv6DhcpServerConfiguration
 
-    def setIpv6DhcpServerConfiguration(self, value: Optional[Ipv6DhcpServerConfiguration]) -> "DhcpServerConfiguration":
+    def setIpv6DhcpServerConfiguration(self, value: Optional[Ipv6DhcpServerConfiguration]) -> DhcpServerConfiguration:
         """
         Configuration of a IPv6 DHCP server that runs on the network endpoint.
         A None value is a no-op and does not overwrite an existing ipv6DhcpServerConfiguration.
@@ -1606,7 +1607,7 @@ class CouplingPortTrafficClassAssignment(Referrable):
         # Defines the Traffic Class which is assigned. range: 0-7
         self.trafficClass: Optional[PositiveInteger] = None
 
-    def addPriority(self, value: Optional[PositiveInteger]) -> "CouplingPortTrafficClassAssignment":
+    def addPriority(self, value: Optional[PositiveInteger]) -> CouplingPortTrafficClassAssignment:
         """
         Defines a priority which is mapped onto a Traffic Class.
         A None value is a no-op and does not append to priorities.
@@ -1623,7 +1624,7 @@ class CouplingPortTrafficClassAssignment(Referrable):
         """Defines the Traffic Class which is assigned. range: 0-7"""
         return self.trafficClass
 
-    def setTrafficClass(self, value: Optional[PositiveInteger]) -> "CouplingPortTrafficClassAssignment":
+    def setTrafficClass(self, value: Optional[PositiveInteger]) -> CouplingPortTrafficClassAssignment:
         """
         Defines the Traffic Class which is assigned. range: 0-7
         A None value is a no-op and does not overwrite an existing trafficClass.
@@ -1680,7 +1681,7 @@ class ApplicationEndpoint(Identifiable):
         # Configuration of the used transport protocol.
         self.tpConfiguration: Optional[TransportProtocolConfiguration] = None
 
-    def createConsumedServiceInstance(self, short_name: str) -> "ConsumedServiceInstance":
+    def createConsumedServiceInstance(self, short_name: str) -> ConsumedServiceInstance:
         """Consumed service instances."""
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ConsumedServiceInstance
 
@@ -1698,7 +1699,7 @@ class ApplicationEndpoint(Identifiable):
         """This attribute defines the maximal number of clients the Server is able to deal with in case of Service Discovery."""
         return self.maxNumberOfConnections
 
-    def setMaxNumberOfConnections(self, value: Optional[PositiveInteger]) -> "ApplicationEndpoint":
+    def setMaxNumberOfConnections(self, value: Optional[PositiveInteger]) -> ApplicationEndpoint:
         """
         This attribute defines the maximal number of clients the Server is able to deal with in case of Service Discovery.
         A None value is a no-op and does not overwrite an existing maxNumberOfConnections.
@@ -1711,7 +1712,7 @@ class ApplicationEndpoint(Identifiable):
         """Reference to the network address."""
         return self.networkEndpointRef
 
-    def setNetworkEndpointRef(self, value: Optional[RefType]) -> "ApplicationEndpoint":
+    def setNetworkEndpointRef(self, value: Optional[RefType]) -> ApplicationEndpoint:
         """
         Reference to the network address.
         A None value is a no-op and does not overwrite an existing networkEndpointRef.
@@ -1724,7 +1725,7 @@ class ApplicationEndpoint(Identifiable):
         """Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed."""
         return self.priority
 
-    def setPriority(self, value: Optional[PositiveInteger]) -> "ApplicationEndpoint":
+    def setPriority(self, value: Optional[PositiveInteger]) -> ApplicationEndpoint:
         """
         Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
         A None value is a no-op and does not overwrite an existing priority.
@@ -1733,7 +1734,7 @@ class ApplicationEndpoint(Identifiable):
             self.priority = value
         return self
 
-    def createProvidedServiceInstance(self, short_name: str) -> "ProvidedServiceInstance":
+    def createProvidedServiceInstance(self, short_name: str) -> ProvidedServiceInstance:
         """Provided service instances."""
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ProvidedServiceInstance
 
@@ -1751,7 +1752,7 @@ class ApplicationEndpoint(Identifiable):
         """This reference identifies the applicable TlsCryptoServiceMapping that adds the ability for TLS-based encryption on the enclosing ApplicationEndpoint."""
         return self.tlsCryptoMappingRef
 
-    def setTlsCryptoMappingRef(self, value: Optional[RefType]) -> "ApplicationEndpoint":
+    def setTlsCryptoMappingRef(self, value: Optional[RefType]) -> ApplicationEndpoint:
         """
         This reference identifies the applicable TlsCryptoServiceMapping that adds the ability for TLS-based encryption on the enclosing ApplicationEndpoint.
         A None value is a no-op and does not overwrite an existing tlsCryptoMappingRef.
@@ -1764,7 +1765,7 @@ class ApplicationEndpoint(Identifiable):
         """Configuration of the used transport protocol."""
         return self.tpConfiguration
 
-    def setTpConfiguration(self, value: Optional[TransportProtocolConfiguration]) -> "ApplicationEndpoint":
+    def setTpConfiguration(self, value: Optional[TransportProtocolConfiguration]) -> ApplicationEndpoint:
         """
         Configuration of the used transport protocol.
         A None value is a no-op and does not overwrite an existing tpConfiguration.
@@ -2162,7 +2163,7 @@ class Ipv6Configuration(NetworkEndpointAddress):
         """Priority of assignment (1 is highest). If a new address from an assignment method with a higher priority is available, it overwrites the IP address previously assigned by an assignment method with a lower priority."""
         return self.assignmentPriority
 
-    def setAssignmentPriority(self, value: Optional[PositiveInteger]) -> "Ipv6Configuration":
+    def setAssignmentPriority(self, value: Optional[PositiveInteger]) -> Ipv6Configuration:
         """
         Priority of assignment (1 is highest). If a new address from an assignment method with a higher priority is available, it overwrites the IP address previously assigned by an assignment method with a lower priority.
         A None value is a no-op and does not overwrite an existing assignmentPriority.
@@ -2175,7 +2176,7 @@ class Ipv6Configuration(NetworkEndpointAddress):
         """IP address of the default router."""
         return self.defaultRouter
 
-    def setDefaultRouter(self, value: Optional[Ip6AddressString]) -> "Ipv6Configuration":
+    def setDefaultRouter(self, value: Optional[Ip6AddressString]) -> Ipv6Configuration:
         """
         IP address of the default router.
         A None value is a no-op and does not overwrite an existing defaultRouter.
@@ -2188,7 +2189,7 @@ class Ipv6Configuration(NetworkEndpointAddress):
         """IP addresses of pre configured DNS servers."""
         return self.dnsServerAddresses
 
-    def addDnsServerAddress(self, value: Optional[Ip6AddressString]) -> "Ipv6Configuration":
+    def addDnsServerAddress(self, value: Optional[Ip6AddressString]) -> Ipv6Configuration:
         """
         IP addresses of pre configured DNS servers.
         A None value is a no-op and does not append to dnsServerAddresses.
@@ -2201,7 +2202,7 @@ class Ipv6Configuration(NetworkEndpointAddress):
         """This attribute is used to enable anycast addressing (i.e. to one of multiple receivers)."""
         return self.enableAnycast
 
-    def setEnableAnycast(self, value: Optional[Boolean]) -> "Ipv6Configuration":
+    def setEnableAnycast(self, value: Optional[Boolean]) -> Ipv6Configuration:
         """
         This attribute is used to enable anycast addressing (i.e. to one of multiple receivers).
         A None value is a no-op and does not overwrite an existing enableAnycast.
@@ -2214,7 +2215,7 @@ class Ipv6Configuration(NetworkEndpointAddress):
         """The distance between two hosts. The hop count n means that n gateways separate the source host from the destination host (Range 0..255)"""
         return self.hopCount
 
-    def setHopCount(self, value: Optional[PositiveInteger]) -> "Ipv6Configuration":
+    def setHopCount(self, value: Optional[PositiveInteger]) -> Ipv6Configuration:
         """
         The distance between two hosts. The hop count n means that n gateways separate the source host from the destination host (Range 0..255)
         A None value is a no-op and does not overwrite an existing hopCount.
@@ -2227,7 +2228,7 @@ class Ipv6Configuration(NetworkEndpointAddress):
         """Defines the lifetime of a dynamically fetched IP address."""
         return self.ipAddressKeepBehavior
 
-    def setIpAddressKeepBehavior(self, value: Optional[IpAddressKeepEnum]) -> "Ipv6Configuration":
+    def setIpAddressKeepBehavior(self, value: Optional[IpAddressKeepEnum]) -> Ipv6Configuration:
         """
         Defines the lifetime of a dynamically fetched IP address.
         A None value is a no-op and does not overwrite an existing ipAddressKeepBehavior.
@@ -2240,7 +2241,7 @@ class Ipv6Configuration(NetworkEndpointAddress):
         """IPv6 prefix length defines the part of the IPv6 address that is the network prefix."""
         return self.ipAddressPrefixLength
 
-    def setIpAddressPrefixLength(self, value: Optional[PositiveInteger]) -> "Ipv6Configuration":
+    def setIpAddressPrefixLength(self, value: Optional[PositiveInteger]) -> Ipv6Configuration:
         """
         IPv6 prefix length defines the part of the IPv6 address that is the network prefix.
         A None value is a no-op and does not overwrite an existing ipAddressPrefixLength.
@@ -2253,7 +2254,7 @@ class Ipv6Configuration(NetworkEndpointAddress):
         """IPv6 Address. Notation: FFFF:...:FFFF. The IP Address shall be declared in case the ipv6AddressSource is FIXED and thus no auto-configuration mechanism is used."""
         return self.ipv6Address
 
-    def setIpv6Address(self, value: Optional[Ip6AddressString]) -> "Ipv6Configuration":
+    def setIpv6Address(self, value: Optional[Ip6AddressString]) -> Ipv6Configuration:
         """
         IPv6 Address. Notation: FFFF:...:FFFF. The IP Address shall be declared in case the ipv6AddressSource is FIXED and thus no auto-configuration mechanism is used.
         A None value is a no-op and does not overwrite an existing ipv6Address.
@@ -2266,7 +2267,7 @@ class Ipv6Configuration(NetworkEndpointAddress):
         """Defines how the node obtains its IP address."""
         return self.ipv6AddressSource
 
-    def setIpv6AddressSource(self, value: Optional[Ipv6AddressSourceEnum]) -> "Ipv6Configuration":
+    def setIpv6AddressSource(self, value: Optional[Ipv6AddressSourceEnum]) -> Ipv6Configuration:
         """
         Defines how the node obtains its IP address.
         A None value is a no-op and does not overwrite an existing ipv6AddressSource.
@@ -2328,7 +2329,7 @@ class OrderedMaster(ARObject):
         """Defines the order of the network endpoint list (e.g. 0, 1, 2, ...)."""
         return self.index
 
-    def setIndex(self, value: Optional[PositiveInteger]) -> "OrderedMaster":
+    def setIndex(self, value: Optional[PositiveInteger]) -> OrderedMaster:
         """
         Defines the order of the network endpoint list (e.g. 0, 1, 2, ...).
         A None value is a no-op and does not overwrite an existing index.
@@ -2341,7 +2342,7 @@ class OrderedMaster(ARObject):
         """Reference to a master (Time Sync Server)."""
         return self.timeSyncServerRef
 
-    def setTimeSyncServerRef(self, value: Optional[RefType]) -> "OrderedMaster":
+    def setTimeSyncServerRef(self, value: Optional[RefType]) -> OrderedMaster:
         """
         Reference to a master (Time Sync Server).
         A None value is a no-op and does not overwrite an existing timeSyncServerRef.
@@ -2381,7 +2382,7 @@ class TimeSyncClientConfiguration(ARObject):
         """
         return self.orderedMasters
 
-    def addOrderedMaster(self, value: Optional[OrderedMaster]) -> "TimeSyncClientConfiguration":
+    def addOrderedMaster(self, value: Optional[OrderedMaster]) -> TimeSyncClientConfiguration:
         """
         Defines a list of ordered NetworkEndpoints. Tags: xml.namePlural=ORDERED-MASTER-LIST
         A None value is a no-op and does not extend the orderedMaster list.
@@ -2396,7 +2397,7 @@ class TimeSyncClientConfiguration(ARObject):
         """
         return self.timeSyncTechnology
 
-    def setTimeSyncTechnology(self, value: Optional[TimeSyncTechnologyEnum]) -> "TimeSyncClientConfiguration":
+    def setTimeSyncTechnology(self, value: Optional[TimeSyncTechnologyEnum]) -> TimeSyncClientConfiguration:
         """
         Defines the time synchronisation technology used.
         A None value is a no-op and does not overwrite an existing timeSyncTechnology.
@@ -2530,7 +2531,7 @@ class InfrastructureServices(ARObject):
         """Defines whether a infrastructure service that runs on the network endpoint is a DoIP-Entity."""
         return self.doIpEntity
 
-    def setDoIpEntity(self, value: Optional[DoIpEntity]) -> "InfrastructureServices":
+    def setDoIpEntity(self, value: Optional[DoIpEntity]) -> InfrastructureServices:
         """
         Defines whether a infrastructure service that runs on the network endpoint is a DoIP-Entity.
         A None value is a no-op and does not overwrite an existing doIpEntity.
@@ -2543,7 +2544,7 @@ class InfrastructureServices(ARObject):
         """Defines the servers / clients in a time synchronised network."""
         return self.timeSynchronization
 
-    def setTimeSynchronization(self, value: Optional[TimeSynchronization]) -> "InfrastructureServices":
+    def setTimeSynchronization(self, value: Optional[TimeSynchronization]) -> InfrastructureServices:
         """
         Defines the servers / clients in a time synchronised network.
         A None value is a no-op and does not overwrite an existing timeSynchronization.
@@ -2781,7 +2782,7 @@ class PlcaProps(ARObject):
         """This attribute defines the node ID when the PLCA mode for 10BASE-T1S is used."""
         return self.plcaLocalNodeId
 
-    def setPlcaLocalNodeId(self, value: Optional[PositiveInteger]) -> "PlcaProps":
+    def setPlcaLocalNodeId(self, value: Optional[PositiveInteger]) -> PlcaProps:
         """
         This attribute defines the node ID when the PLCA mode for 10BASE-T1S is used.
         A None value is a no-op and does not overwrite an existing plcaLocalNodeId.
@@ -2794,7 +2795,7 @@ class PlcaProps(ARObject):
         """Defines maximum packets allowed to be transmitted within a TO. This configuration can be different from one ECU to another within the PLCA mixed segment."""
         return self.plcaMaxBurstCount
 
-    def setPlcaMaxBurstCount(self, value: Optional[PositiveInteger]) -> "PlcaProps":
+    def setPlcaMaxBurstCount(self, value: Optional[PositiveInteger]) -> PlcaProps:
         """
         Defines maximum packets allowed to be transmitted within a TO. This configuration can be different from one ECU to another within the PLCA mixed segment.
         A None value is a no-op and does not overwrite an existing plcaMaxBurstCount.
@@ -2807,7 +2808,7 @@ class PlcaProps(ARObject):
         """Limits the burst frames in bit time. This configuration can be different from one ECU to another within the PLCA mixed segment. For PLCA burst mode to work properly this timer should be set greater than one IPG."""
         return self.plcaMaxBurstTimer
 
-    def setPlcaMaxBurstTimer(self, value: Optional[PositiveInteger]) -> "PlcaProps":
+    def setPlcaMaxBurstTimer(self, value: Optional[PositiveInteger]) -> PlcaProps:
         """
         Limits the burst frames in bit time. This configuration can be different from one ECU to another within the PLCA mixed segment. For PLCA burst mode to work properly this timer should be set greater than one IPG.
         A None value is a no-op and does not overwrite an existing plcaMaxBurstTimer.
@@ -2860,7 +2861,7 @@ class CouplingPortConnection(ARObject, VariationPointCapable):
         """Reference to the first CouplingPort that is connected via the CouplingPortConnection."""
         return self.firstPortRef
 
-    def setFirstPortRef(self, value: Optional[RefType]) -> "CouplingPortConnection":
+    def setFirstPortRef(self, value: Optional[RefType]) -> CouplingPortConnection:
         """
         Reference to the first CouplingPort that is connected via the CouplingPortConnection.
         A None value is a no-op and does not overwrite an existing firstPortRef.
@@ -2873,7 +2874,7 @@ class CouplingPortConnection(ARObject, VariationPointCapable):
         """Reference to a number of CouplingPorts that are connected via the CouplingPortConnection. This reference shall be used to describe a 10BASE-T1S topology architecture where several CouplingPorts of EthernetCommunicationControllers are connected via one CouplingPortConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nodePort.couplingPort, nodePort.variation Point.shortLabel vh.latestBindingTime=postBuild"""
         return self.nodePortRefs
 
-    def addNodePortRef(self, value: Optional[RefType]) -> "CouplingPortConnection":
+    def addNodePortRef(self, value: Optional[RefType]) -> CouplingPortConnection:
         """
         Reference to a number of CouplingPorts that are connected via the CouplingPortConnection. This reference shall be used to describe a 10BASE-T1S topology architecture where several CouplingPorts of EthernetCommunicationControllers are connected via one CouplingPortConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nodePort.couplingPort, nodePort.variation Point.shortLabel vh.latestBindingTime=postBuild
         A None value is a no-op and does not append to nodePortRefs.
@@ -2886,7 +2887,7 @@ class CouplingPortConnection(ARObject, VariationPointCapable):
         """Defines the number of communication participants in case 10BASE-T1S and the nodePort reference is used."""
         return self.plcaLocalNodeCount
 
-    def setPlcaLocalNodeCount(self, value: Optional[PositiveInteger]) -> "CouplingPortConnection":
+    def setPlcaLocalNodeCount(self, value: Optional[PositiveInteger]) -> CouplingPortConnection:
         """
         Defines the number of communication participants in case 10BASE-T1S and the nodePort reference is used.
         A None value is a no-op and does not overwrite an existing plcaLocalNodeCount.
@@ -2899,7 +2900,7 @@ class CouplingPortConnection(ARObject, VariationPointCapable):
         """Timer for the transmission in bit time to evaluate if a Transmission Opportunity is yield or not."""
         return self.plcaTransmitOpportunityTimer
 
-    def setPlcaTransmitOpportunityTimer(self, value: Optional[PositiveInteger]) -> "CouplingPortConnection":
+    def setPlcaTransmitOpportunityTimer(self, value: Optional[PositiveInteger]) -> CouplingPortConnection:
         """
         Timer for the transmission in bit time to evaluate if a Transmission Opportunity is yield or not.
         A None value is a no-op and does not overwrite an existing plcaTransmitOpportunityTimer.
@@ -2912,7 +2913,7 @@ class CouplingPortConnection(ARObject, VariationPointCapable):
         """Reference to the second CouplingPort that is connected via the CouplingPortConnection."""
         return self.secondPortRef
 
-    def setSecondPortRef(self, value: Optional[RefType]) -> "CouplingPortConnection":
+    def setSecondPortRef(self, value: Optional[RefType]) -> CouplingPortConnection:
         """
         Reference to the second CouplingPort that is connected via the CouplingPortConnection.
         A None value is a no-op and does not overwrite an existing secondPortRef.
@@ -2945,7 +2946,7 @@ class GlobalTimeCouplingPortProps(ARObject):
         """If cyclic propagation delay measurement is enabled, this parameter represents the default value of the propagation delay until the first actually measured propagation delay is available. If cyclic propagation delay measurement is disabled, this parameter defines a fixed value for the propagation delay."""
         return self.propagationDelay
 
-    def setPropagationDelay(self, value: Optional[TimeValue]) -> "GlobalTimeCouplingPortProps":
+    def setPropagationDelay(self, value: Optional[TimeValue]) -> GlobalTimeCouplingPortProps:
         """
         If cyclic propagation delay measurement is enabled, this parameter represents the default value of the propagation delay until the first actually measured propagation delay is available. If cyclic propagation delay measurement is disabled, this parameter defines a fixed value for the propagation delay.
         A None value is a no-op and does not overwrite an existing propagationDelay.
@@ -3024,7 +3025,7 @@ class CouplingPortRatePolicy(ARObject):
         """Amount of data in bytes (excluding header information) that can be received to define the rate policy."""
         return self.dataLength
 
-    def setDataLength(self, value: Optional[PositiveInteger]) -> "CouplingPortRatePolicy":
+    def setDataLength(self, value: Optional[PositiveInteger]) -> CouplingPortRatePolicy:
         """
         Amount of data in bytes (excluding header information) that can be received to define the rate policy.
         A None value is a no-op and does not overwrite an existing dataLength.
@@ -3037,7 +3038,7 @@ class CouplingPortRatePolicy(ARObject):
         """Defines the action to be performed when this rate policy is violated."""
         return self.policyAction
 
-    def setPolicyAction(self, value: Optional[CouplingPortRatePolicyActionEnum]) -> "CouplingPortRatePolicy":
+    def setPolicyAction(self, value: Optional[CouplingPortRatePolicyActionEnum]) -> CouplingPortRatePolicy:
         """
         Defines the action to be performed when this rate policy is violated.
         A None value is a no-op and does not overwrite an existing policyAction.
@@ -3050,7 +3051,7 @@ class CouplingPortRatePolicy(ARObject):
         """Defines the priority which this rate policy shall be limited on. If no priority is given this rate policy is not considering priority."""
         return self.priority
 
-    def setPriority(self, value: Optional[PositiveInteger]) -> "CouplingPortRatePolicy":
+    def setPriority(self, value: Optional[PositiveInteger]) -> CouplingPortRatePolicy:
         """
         Defines the priority which this rate policy shall be limited on. If no priority is given this rate policy is not considering priority.
         A None value is a no-op and does not overwrite an existing priority.
@@ -3063,7 +3064,7 @@ class CouplingPortRatePolicy(ARObject):
         """Time interval used to define the base of the rate policy."""
         return self.timeInterval
 
-    def setTimeInterval(self, value: Optional[TimeValue]) -> "CouplingPortRatePolicy":
+    def setTimeInterval(self, value: Optional[TimeValue]) -> CouplingPortRatePolicy:
         """
         Time interval used to define the base of the rate policy.
         A None value is a no-op and does not overwrite an existing timeInterval.
@@ -3072,7 +3073,7 @@ class CouplingPortRatePolicy(ARObject):
             self.timeInterval = value
         return self
 
-    def addVlanRef(self, value: Optional[RefType]) -> "CouplingPortRatePolicy":
+    def addVlanRef(self, value: Optional[RefType]) -> CouplingPortRatePolicy:
         """
         Defines the VLANs this rate policy shall be limited on. If no VLAN is given this rate policy is not considering VLAN tags.
         A None value is a no-op and does not append to vLanRefs.
@@ -3147,6 +3148,7 @@ class TcpUdpConfig(TransportProtocolConfiguration, ABC):
 
     # TcpUdpConfig method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.127, p.459
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -3396,7 +3398,7 @@ class EthernetPhysicalChannel(PhysicalChannel):
         """SoAd Configuration for one specific Physical Channel."""
         return self.soAdConfig
 
-    def setSoAdConfig(self, value: Optional[SoAdConfig]) -> "EthernetPhysicalChannel":
+    def setSoAdConfig(self, value: Optional[SoAdConfig]) -> EthernetPhysicalChannel:
         """
         SoAd Configuration for one specific Physical Channel.
         A None value is a no-op and does not overwrite an existing soAdConfig.
@@ -3445,7 +3447,7 @@ class EthTcpIpProps(ARElement):
         """TCP configuration properties"""
         return self.tcpProps
 
-    def setTcpProps(self, value: Optional[TcpProps]) -> "EthTcpIpProps":
+    def setTcpProps(self, value: Optional[TcpProps]) -> EthTcpIpProps:
         """TCP configuration properties
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3457,7 +3459,7 @@ class EthTcpIpProps(ARElement):
         """UDP configuration properties"""
         return self.udpProps
 
-    def setUdpProps(self, value: Optional[UdpProps]) -> "EthTcpIpProps":
+    def setUdpProps(self, value: Optional[UdpProps]) -> EthTcpIpProps:
         """UDP configuration properties
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3490,7 +3492,7 @@ class UdpProps(ARObject):
         """Default Time-to-live value of outgoing UDP packets."""
         return self.udpTtl
 
-    def setUdpTtl(self, value: Optional[PositiveInteger]) -> "UdpProps":
+    def setUdpTtl(self, value: Optional[PositiveInteger]) -> UdpProps:
         """Default Time-to-live value of outgoing UDP packets.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3618,7 +3620,7 @@ class TcpProps(ARObject):
         """Enables (TRUE) or disables (FALSE) support of TCP congestion avoidance algorithm according to IETF RFC 5681."""
         return self.tcpCongestionAvoidanceEnabled
 
-    def setTcpCongestionAvoidanceEnabled(self, value: Optional[Boolean]) -> "TcpProps":
+    def setTcpCongestionAvoidanceEnabled(self, value: Optional[Boolean]) -> TcpProps:
         """Enables (TRUE) or disables (FALSE) support of TCP congestion avoidance algorithm according to IETF RFC 5681.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3630,7 +3632,7 @@ class TcpProps(ARObject):
         """The maximal time an acknowledgement is delayed for transmission in seconds."""
         return self.tcpDelayedAckTimeout
 
-    def setTcpDelayedAckTimeout(self, value: Optional[TimeValue]) -> "TcpProps":
+    def setTcpDelayedAckTimeout(self, value: Optional[TimeValue]) -> TcpProps:
         """The maximal time an acknowledgement is delayed for transmission in seconds.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3642,7 +3644,7 @@ class TcpProps(ARObject):
         """Enables (TRUE) or disables (FALSE) support of TCP Fast Recovery according to IETF RFC 5681."""
         return self.tcpFastRecoveryEnabled
 
-    def setTcpFastRecoveryEnabled(self, value: Optional[Boolean]) -> "TcpProps":
+    def setTcpFastRecoveryEnabled(self, value: Optional[Boolean]) -> TcpProps:
         """Enables (TRUE) or disables (FALSE) support of TCP Fast Recovery according to IETF RFC 5681.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3654,7 +3656,7 @@ class TcpProps(ARObject):
         """Enables (TRUE) or disables (FALSE) support of TCP Fast Retransmission according to IETF RFC 5681."""
         return self.tcpFastRetransmitEnabled
 
-    def setTcpFastRetransmitEnabled(self, value: Optional[Boolean]) -> "TcpProps":
+    def setTcpFastRetransmitEnabled(self, value: Optional[Boolean]) -> TcpProps:
         """Enables (TRUE) or disables (FALSE) support of TCP Fast Retransmission according to IETF RFC 5681.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3666,7 +3668,7 @@ class TcpProps(ARObject):
         """Timeout in [s] to receive a FIN from the remote node (after this node has initiated connection termination), i.e. maximum time waiting in FINWAIT-2 for a connection termination request from the remote TCP."""
         return self.tcpFinWait2Timeout
 
-    def setTcpFinWait2Timeout(self, value: Optional[TimeValue]) -> "TcpProps":
+    def setTcpFinWait2Timeout(self, value: Optional[TimeValue]) -> TcpProps:
         """Timeout in [s] to receive a FIN from the remote node (after this node has initiated connection termination), i.e. maximum time waiting in FINWAIT-2 for a connection termination request from the remote TCP.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3678,7 +3680,7 @@ class TcpProps(ARObject):
         """Enables (TRUE) or disables (FALSE) TCP Keep Alive Probes according to IETF RFC 1122 chapter 4.2.3.6."""
         return self.tcpKeepAliveEnabled
 
-    def setTcpKeepAliveEnabled(self, value: Optional[Boolean]) -> "TcpProps":
+    def setTcpKeepAliveEnabled(self, value: Optional[Boolean]) -> TcpProps:
         """Enables (TRUE) or disables (FALSE) TCP Keep Alive Probes according to IETF RFC 1122 chapter 4.2.3.6.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3690,7 +3692,7 @@ class TcpProps(ARObject):
         """Specifies the interval in seconds between subsequent keepalive probes."""
         return self.tcpKeepAliveInterval
 
-    def setTcpKeepAliveInterval(self, value: Optional[TimeValue]) -> "TcpProps":
+    def setTcpKeepAliveInterval(self, value: Optional[TimeValue]) -> TcpProps:
         """Specifies the interval in seconds between subsequent keepalive probes.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3702,7 +3704,7 @@ class TcpProps(ARObject):
         """Maximum number of times that a TCP Keep Alive is retransmitted before the connection is closed."""
         return self.tcpKeepAliveProbesMax
 
-    def setTcpKeepAliveProbesMax(self, value: Optional[PositiveInteger]) -> "TcpProps":
+    def setTcpKeepAliveProbesMax(self, value: Optional[PositiveInteger]) -> TcpProps:
         """Maximum number of times that a TCP Keep Alive is retransmitted before the connection is closed.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3714,7 +3716,7 @@ class TcpProps(ARObject):
         """Specifies the time in [s] between the last data packet sent (simple ACKs are not considered data) and the first keepalive probe."""
         return self.tcpKeepAliveTime
 
-    def setTcpKeepAliveTime(self, value: Optional[TimeValue]) -> "TcpProps":
+    def setTcpKeepAliveTime(self, value: Optional[TimeValue]) -> TcpProps:
         """Specifies the time in [s] between the last data packet sent (simple ACKs are not considered data) and the first keepalive probe.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3726,7 +3728,7 @@ class TcpProps(ARObject):
         """Maximum number of times that a TCP segment is retransmitted before the TCP connection is closed. This parameter is only valid if tcpRetransmissionTimeout is configured. Note: This parameter also applies for FIN retransmissions."""
         return self.tcpMaxRtx
 
-    def setTcpMaxRtx(self, value: Optional[PositiveInteger]) -> "TcpProps":
+    def setTcpMaxRtx(self, value: Optional[PositiveInteger]) -> TcpProps:
         """Maximum number of times that a TCP segment is retransmitted before the TCP connection is closed. This parameter is only valid if tcpRetransmissionTimeout is configured. Note: This parameter also applies for FIN retransmissions.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3738,7 +3740,7 @@ class TcpProps(ARObject):
         """Maximum segment lifetime in [s]."""
         return self.tcpMsl
 
-    def setTcpMsl(self, value: Optional[TimeValue]) -> "TcpProps":
+    def setTcpMsl(self, value: Optional[TimeValue]) -> TcpProps:
         """Maximum segment lifetime in [s].
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3750,7 +3752,7 @@ class TcpProps(ARObject):
         """Enables (TRUE) or disables (FALSE) support of Nagle's algorithm according to IETF RFC 1122 (chapter 4.2.3.4 When to Send Data). If enabled the Nagle's algorithm is activated per default for all TCP sockets, but can be deactivated per Socket (with the attribute TcpTp.nagleAlgorithm)."""
         return self.tcpNagleEnabled
 
-    def setTcpNagleEnabled(self, value: Optional[Boolean]) -> "TcpProps":
+    def setTcpNagleEnabled(self, value: Optional[Boolean]) -> TcpProps:
         """Enables (TRUE) or disables (FALSE) support of Nagle's algorithm according to IETF RFC 1122 (chapter 4.2.3.4 When to Send Data). If enabled the Nagle's algorithm is activated per default for all TCP sockets, but can be deactivated per Socket (with the attribute TcpTp.nagleAlgorithm).
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3762,7 +3764,7 @@ class TcpProps(ARObject):
         """Default value of maximum receive window in bytes."""
         return self.tcpReceiveWindowMax
 
-    def setTcpReceiveWindowMax(self, value: Optional[PositiveInteger]) -> "TcpProps":
+    def setTcpReceiveWindowMax(self, value: Optional[PositiveInteger]) -> TcpProps:
         """Default value of maximum receive window in bytes.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3774,7 +3776,7 @@ class TcpProps(ARObject):
         """Timeout in [s] before an unacknowledged TCP segment is sent again. If the timeout is disabled, no TCP segments shall be retransmitted."""
         return self.tcpRetransmissionTimeout
 
-    def setTcpRetransmissionTimeout(self, value: Optional[TimeValue]) -> "TcpProps":
+    def setTcpRetransmissionTimeout(self, value: Optional[TimeValue]) -> TcpProps:
         """Timeout in [s] before an unacknowledged TCP segment is sent again. If the timeout is disabled, no TCP segments shall be retransmitted.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3786,7 +3788,7 @@ class TcpProps(ARObject):
         """Enables (TRUE) or disables (FALSE) support of TCP slow start algorithm according to IETF RFC 5681."""
         return self.tcpSlowStartEnabled
 
-    def setTcpSlowStartEnabled(self, value: Optional[Boolean]) -> "TcpProps":
+    def setTcpSlowStartEnabled(self, value: Optional[Boolean]) -> TcpProps:
         """Enables (TRUE) or disables (FALSE) support of TCP slow start algorithm according to IETF RFC 5681.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3798,7 +3800,7 @@ class TcpProps(ARObject):
         """Maximum number of times that a TCP SYN is retransmitted."""
         return self.tcpSynMaxRtx
 
-    def setTcpSynMaxRtx(self, value: Optional[PositiveInteger]) -> "TcpProps":
+    def setTcpSynMaxRtx(self, value: Optional[PositiveInteger]) -> TcpProps:
         """Maximum number of times that a TCP SYN is retransmitted.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3810,7 +3812,7 @@ class TcpProps(ARObject):
         """Timeout in [s] to complete a remotely initiated TCP connection establishment, i.e. maximum time waiting in SYN-RECEIVED for a confirming connection request acknowledgement after having both received and sent a connection request."""
         return self.tcpSynReceivedTimeout
 
-    def setTcpSynReceivedTimeout(self, value: Optional[TimeValue]) -> "TcpProps":
+    def setTcpSynReceivedTimeout(self, value: Optional[TimeValue]) -> TcpProps:
         """Timeout in [s] to complete a remotely initiated TCP connection establishment, i.e. maximum time waiting in SYN-RECEIVED for a confirming connection request acknowledgement after having both received and sent a connection request.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3822,7 +3824,7 @@ class TcpProps(ARObject):
         """Default Time-to-live value of outgoing TCP packets."""
         return self.tcpTtl
 
-    def setTcpTtl(self, value: Optional[PositiveInteger]) -> "TcpProps":
+    def setTcpTtl(self, value: Optional[PositiveInteger]) -> TcpProps:
         """Default Time-to-live value of outgoing TCP packets.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3860,7 +3862,7 @@ class TcpIpIcmpv4Props(ARObject):
         """This attribute enables or disables transmission of ICMP echo reply message in case of a ICMP echo reception."""
         return self.tcpIpIcmpV4EchoReplyEnabled
 
-    def setTcpIpIcmpV4EchoReplyEnabled(self, value: Optional[Boolean]) -> "TcpIpIcmpv4Props":
+    def setTcpIpIcmpV4EchoReplyEnabled(self, value: Optional[Boolean]) -> TcpIpIcmpv4Props:
         """This attribute enables or disables transmission of ICMP echo reply message in case of a ICMP echo reception.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3872,7 +3874,7 @@ class TcpIpIcmpv4Props(ARObject):
         """This attribute is only relevant in case that ICMP (Internet Control Message Protocol) is used. It specifies the default Time-to-live value of outgoing ICMP packets."""
         return self.tcpIpIcmpV4Ttl
 
-    def setTcpIpIcmpV4Ttl(self, value: Optional[PositiveInteger]) -> "TcpIpIcmpv4Props":
+    def setTcpIpIcmpV4Ttl(self, value: Optional[PositiveInteger]) -> TcpIpIcmpv4Props:
         """This attribute is only relevant in case that ICMP (Internet Control Message Protocol) is used. It specifies the default Time-to-live value of outgoing ICMP packets.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3925,7 +3927,7 @@ class TcpIpIcmpv6Props(ARObject):
         """This attribute defines whether the echo reply is only transmitted in case that the incoming ICMPv6 Echo Request (Pings) fits the MTU of the respective interface, i.e. can be transmitted without IPv6 fragmentation."""
         return self.tcpIpIcmpV6EchoReplyAvoidFragmentation
 
-    def setTcpIpIcmpV6EchoReplyAvoidFragmentation(self, value: Optional[Boolean]) -> "TcpIpIcmpv6Props":
+    def setTcpIpIcmpV6EchoReplyAvoidFragmentation(self, value: Optional[Boolean]) -> TcpIpIcmpv6Props:
         """This attribute defines whether the echo reply is only transmitted in case that the incoming ICMPv6 Echo Request (Pings) fits the MTU of the respective interface, i.e. can be transmitted without IPv6 fragmentation.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3937,7 +3939,7 @@ class TcpIpIcmpv6Props(ARObject):
         """This attribute enables or disables transmission of ICMP echo reply message in case of a ICMP echo reception."""
         return self.tcpIpIcmpV6EchoReplyEnabled
 
-    def setTcpIpIcmpV6EchoReplyEnabled(self, value: Optional[Boolean]) -> "TcpIpIcmpv6Props":
+    def setTcpIpIcmpV6EchoReplyEnabled(self, value: Optional[Boolean]) -> TcpIpIcmpv6Props:
         """This attribute enables or disables transmission of ICMP echo reply message in case of a ICMP echo reception.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3949,7 +3951,7 @@ class TcpIpIcmpv6Props(ARObject):
         """Default Hop-Limit value of outgoing ICMPv6 packets."""
         return self.tcpIpIcmpV6HopLimit
 
-    def setTcpIpIcmpV6HopLimit(self, value: Optional[PositiveInteger]) -> "TcpIpIcmpv6Props":
+    def setTcpIpIcmpV6HopLimit(self, value: Optional[PositiveInteger]) -> TcpIpIcmpv6Props:
         """Default Hop-Limit value of outgoing ICMPv6 packets.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3961,7 +3963,7 @@ class TcpIpIcmpv6Props(ARObject):
         """This attribute Enables/Disables the transmission of Destination Unreachable Messages."""
         return self.tcpIpIcmpV6MsgDestinationUnreachableEnabled
 
-    def setTcpIpIcmpV6MsgDestinationUnreachableEnabled(self, value: Optional[Boolean]) -> "TcpIpIcmpv6Props":
+    def setTcpIpIcmpV6MsgDestinationUnreachableEnabled(self, value: Optional[Boolean]) -> TcpIpIcmpv6Props:
         """This attribute Enables/Disables the transmission of Destination Unreachable Messages.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -3973,7 +3975,7 @@ class TcpIpIcmpv6Props(ARObject):
         """If enabled an ICMPv6 parameter problem message will be sent if a received packet has been dropped due to unknown options or headers that are found in the packet."""
         return self.tcpIpIcmpV6MsgParameterProblemEnabled
 
-    def setTcpIpIcmpV6MsgParameterProblemEnabled(self, value: Optional[Boolean]) -> "TcpIpIcmpv6Props":
+    def setTcpIpIcmpV6MsgParameterProblemEnabled(self, value: Optional[Boolean]) -> TcpIpIcmpv6Props:
         """If enabled an ICMPv6 parameter problem message will be sent if a received packet has been dropped due to unknown options or headers that are found in the packet.
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -4009,7 +4011,7 @@ class EthTcpIpIcmpProps(ARElement):
         """ICMPv4 configuration properties"""
         return self.icmpV4Props
 
-    def setIcmpV4Props(self, value: Optional[TcpIpIcmpv4Props]) -> "EthTcpIpIcmpProps":
+    def setIcmpV4Props(self, value: Optional[TcpIpIcmpv4Props]) -> EthTcpIpIcmpProps:
         """ICMPv4 configuration properties
         A None value is a no-op and does not overwrite an existing value.
         """
@@ -4021,7 +4023,7 @@ class EthTcpIpIcmpProps(ARElement):
         """ICMPv6 configuration properties"""
         return self.icmpV6Props
 
-    def setIcmpV6Props(self, value: Optional[TcpIpIcmpv6Props]) -> "EthTcpIpIcmpProps":
+    def setIcmpV6Props(self, value: Optional[TcpIpIcmpv6Props]) -> EthTcpIpIcmpProps:
         """ICMPv6 configuration properties
         A None value is a no-op and does not overwrite an existing value.
         """

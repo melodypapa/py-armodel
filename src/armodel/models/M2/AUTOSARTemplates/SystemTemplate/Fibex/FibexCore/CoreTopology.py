@@ -96,7 +96,7 @@ class CycleCounter(CommunicationCycle):
         """
         return self.CycleCounter
 
-    def setCycleCounter(self, value: Optional[Integer]) -> "CycleCounter":
+    def setCycleCounter(self, value: Optional[Integer]) -> CycleCounter:
         """
         The communication cycle where the frame described by this timing is sent. If a timing is given in this way the referencing FlexrayCluster shall specify the cycleCount Max as upper bound and point of total repetition. This value is incremented at the beginning of each new cycle, ranging from 0 to cycleCountMax, and is reset to 0 after a sequence of cycleCountMax+1 cycles.
         A None value is a no-op and does not overwrite an existing CycleCounter.
@@ -202,7 +202,7 @@ class CycleRepetition(CommunicationCycle):
         """
         return self.BaseCycle
 
-    def setBaseCycle(self, value: Optional[Integer]) -> "CycleRepetition":
+    def setBaseCycle(self, value: Optional[Integer]) -> CycleRepetition:
         """
         The first communication cycle where the frame is sent. This value is incremented at the beginning of each new cycle, ranging from 0 to 63, and is reset to 0 after a sequence of 64 cycles.
         A None value is a no-op and does not overwrite an existing BaseCycle.
@@ -217,7 +217,7 @@ class CycleRepetition(CommunicationCycle):
         """
         return self.CycleRepetition
 
-    def setCycleRepetition(self, value: Optional[CycleRepetitionType]) -> "CycleRepetition":
+    def setCycleRepetition(self, value: Optional[CycleRepetitionType]) -> CycleRepetition:
         """
         The number of communication cycles (after the first cycle) whenever the frame described by this timing is sent again.
         A None value is a no-op and does not overwrite an existing CycleRepetition.
@@ -277,7 +277,7 @@ class PhysicalChannel(Identifiable, VariationPointCapable, ABC):
         """
         return self.commConnectorRefs
 
-    def addCommConnectorRef(self, value: RefType) -> "PhysicalChannel":
+    def addCommConnectorRef(self, value: RefType) -> PhysicalChannel:
         """
         Reference to the ECUInstance via a Communication Connector to which the channel is connected. atpVariation: Variable assignment of Physical Channels to different CommunicationConnectors is expressed with this variation. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=commConnector.communicationConnector, commConnector.variationPoint.shortLabel vh.latestBindingTime=postBuild
         A None value is a no-op and does not overwrite an existing commConnectorRefs.
@@ -352,7 +352,7 @@ class PhysicalChannel(Identifiable, VariationPointCapable, ABC):
         """
         return self.managedPhysicalChannelRefs
 
-    def addManagedPhysicalChannelRef(self, value: RefType) -> "PhysicalChannel":
+    def addManagedPhysicalChannelRef(self, value: RefType) -> PhysicalChannel:
         """
         Reference between a channel with role managing channel and a channel with role managed channel.
         A None value is a no-op and does not overwrite an existing managedPhysicalChannelRefs.
@@ -444,7 +444,7 @@ class CommunicationCluster(FibexElement, ABC):
         """
         return self.baudrate
 
-    def setBaudrate(self, value: Optional[PositiveUnlimitedInteger]) -> "CommunicationCluster":
+    def setBaudrate(self, value: Optional[PositiveUnlimitedInteger]) -> CommunicationCluster:
         """
         Channels speed in bits/s.
         A None value is a no-op and does not overwrite an existing baudrate.
@@ -537,7 +537,7 @@ class CommunicationCluster(FibexElement, ABC):
         """
         return self.protocolName
 
-    def setProtocolName(self, value: Optional[String]) -> "CommunicationCluster":
+    def setProtocolName(self, value: Optional[String]) -> CommunicationCluster:
         """
         The name of the protocol used.
         A None value is a no-op and does not overwrite an existing protocolName.
@@ -552,7 +552,7 @@ class CommunicationCluster(FibexElement, ABC):
         """
         return self.protocolVersion
 
-    def setProtocolVersion(self, value: Optional[String]) -> "CommunicationCluster":
+    def setProtocolVersion(self, value: Optional[String]) -> CommunicationCluster:
         """
         The version of the protocol used.
         A None value is a no-op and does not overwrite an existing protocolVersion.
@@ -598,7 +598,7 @@ class AbstractCanCluster(CommunicationCluster, ABC):
         """
         return self.busOffRecovery
 
-    def setBusOffRecovery(self, value: Optional[CanClusterBusOffRecovery]) -> "AbstractCanCluster":
+    def setBusOffRecovery(self, value: Optional[CanClusterBusOffRecovery]) -> AbstractCanCluster:
         """
         CAN bus off monitoring / recovery at system level.
         A None value is a no-op and does not overwrite an existing busOffRecovery.
@@ -613,7 +613,7 @@ class AbstractCanCluster(CommunicationCluster, ABC):
         """
         return self.canFdBaudrate
 
-    def setCanFdBaudrate(self, value: Optional[PositiveUnlimitedInteger]) -> "AbstractCanCluster":
+    def setCanFdBaudrate(self, value: Optional[PositiveUnlimitedInteger]) -> AbstractCanCluster:
         """
         Specifies the data segment baud rate of the controller in bits/s.
         A None value is a no-op and does not overwrite an existing canFdBaudrate.
@@ -628,7 +628,7 @@ class AbstractCanCluster(CommunicationCluster, ABC):
         """
         return self.canXlBaudrate
 
-    def setCanXlBaudrate(self, value: Optional[PositiveUnlimitedInteger]) -> "AbstractCanCluster":
+    def setCanXlBaudrate(self, value: Optional[PositiveUnlimitedInteger]) -> AbstractCanCluster:
         """
         Specifies the data segment baud rate of the CAN XL controller in bits/s.
         A None value is a no-op and does not overwrite an existing canXlBaudrate.
@@ -677,7 +677,7 @@ class CommunicationController(Identifiable, VariationPointCapable, ABC):
         """
         return self.wakeUpByControllerSupported
 
-    def setWakeUpByControllerSupported(self, value: Optional[Boolean]) -> "CommunicationController":
+    def setWakeUpByControllerSupported(self, value: Optional[Boolean]) -> CommunicationController:
         """
         Defines whether the ECU shall be woken up by this CommunicationController. TRUE: wake up is possible FALSE: wake up is not supported Note: If wakeUpByControllerSupported is set to TRUE the feature shall be supported by both hardware and basic software.
         A None value is a no-op and does not overwrite an existing wakeUpByControllerSupported.
@@ -760,7 +760,7 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
         """
         return self.commControllerRef
 
-    def setCommControllerRef(self, value: Optional[RefType]) -> "CommunicationConnector":
+    def setCommControllerRef(self, value: Optional[RefType]) -> CommunicationConnector:
         """
         Reference to the communication controller. The CommunicationConnector and referenced CommunicationController shall be aggregated by the same ECUInstance. The communicationController can be referenced by several CommunicationConnector elements. This is important for the FlexRay Bus. FlexRay communicates via two physical channels. But only one controller in an ECU is responsible for both channels. Thus, two connectors (for channel A and for channel B) shall reference to the same controller.
         A None value is a no-op and does not overwrite an existing commControllerRef.
@@ -775,7 +775,7 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
         """
         return self.createEcuWakeupSource
 
-    def setCreateEcuWakeupSource(self, value: Optional[Boolean]) -> "CommunicationConnector":
+    def setCreateEcuWakeupSource(self, value: Optional[Boolean]) -> CommunicationConnector:
         """
         If this parameter is available and set to true then a channel wakeup source shall be created for the Physical Channel referencing this CommunicationConnector.
         A None value is a no-op and does not overwrite an existing createEcuWakeupSource.
@@ -794,7 +794,7 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
         """
         return self.dynamicPncToChannelMappingEnabled
 
-    def setDynamicPncToChannelMappingEnabled(self, value: Optional[Boolean]) -> "CommunicationConnector":
+    def setDynamicPncToChannelMappingEnabled(self, value: Optional[Boolean]) -> CommunicationConnector:
         """
         Defines if this EcuInstance shall implement the dynamic PNC-to-channel-mapping functionality on this CommunicationConnector and its respective Physical Channel. Tags: atp.Status=draft
         A None value is a no-op and does not overwrite an existing dynamicPncToChannelMappingEnabled.
@@ -855,7 +855,7 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
         """
         return self.pncFilterArrayMasks
 
-    def addPncFilterArrayMask(self, value: Optional[PositiveInteger]) -> "CommunicationConnector":
+    def addPncFilterArrayMask(self, value: Optional[PositiveInteger]) -> CommunicationConnector:
         """
         Bit mask for NM-Pdu Payload used to configure the NM filter mask for the Network Management.
         A None value is a no-op and does not overwrite an existing pncFilterArrayMasks.
@@ -870,7 +870,7 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
         """
         return self.pncGatewayType
 
-    def setPncGatewayType(self, value: Optional[PncGatewayTypeEnum]) -> "CommunicationConnector":
+    def setPncGatewayType(self, value: Optional[PncGatewayTypeEnum]) -> CommunicationConnector:
         """
         Defines if this EcuInstance shall implement the Pnc Gateway functionality on this CommunicationConnector and its respective PhysicalChannel. Several Ecu Instances on the same PhysicalChannel can have the PncGateway functionality enabled, but only one of them shall have the pncGatewayType "active".
         A None value is a no-op and does not overwrite an existing pncGatewayType.
@@ -910,7 +910,7 @@ class CommConnectorPort(Identifiable, VariationPointCapable, ABC):
         """
         return self.communicationDirection
 
-    def setCommunicationDirection(self, value: Optional[CommunicationDirectionType]) -> "CommConnectorPort":
+    def setCommunicationDirection(self, value: Optional[CommunicationDirectionType]) -> CommConnectorPort:
         """
         Communication Direction of the Connector Port (input or output Port).
         A None value is a no-op and does not overwrite an existing communicationDirection.
@@ -1083,7 +1083,7 @@ class EcuInstance(FibexElement):
         # Driver support for wakeup over Bus.
         self.wakeUpOverBusSupported: Optional[Boolean] = None
 
-    def addAssociatedComIPduGroupRef(self, value: Optional[RefType]) -> "EcuInstance":
+    def addAssociatedComIPduGroupRef(self, value: Optional[RefType]) -> EcuInstance:
         """
         With this reference it is possible to identify which ISignalIPduGroups are applicable for which CommunicationConnector/ ECU. Only top level ISignalIPduGroups shall be referenced by an EcuInstance. If an ISignalIPduGroup contains other ISignalIPduGroups than these contained ISignalIPduGroups shall not be referenced by the EcuInstance. Contained ISignalIPduGroups are associated to an EcuInstance via the top level ISignalIPduGroup.
 
@@ -1099,7 +1099,7 @@ class EcuInstance(FibexElement):
         """
         return self.associatedComIPduGroupRefs
 
-    def addAssociatedConsumedProvidedServiceInstanceGroupRef(self, value: Optional[RefType]) -> "EcuInstance":
+    def addAssociatedConsumedProvidedServiceInstanceGroupRef(self, value: Optional[RefType]) -> EcuInstance:
         """
         With this reference it is possible to identify which ConsumedProvidedServiceInstanceGroups are applicable for which ECUInstance.
 
@@ -1115,7 +1115,7 @@ class EcuInstance(FibexElement):
         """
         return self.associatedConsumedProvidedServiceInstanceGroupRefs
 
-    def addAssociatedPdurIPduGroupRef(self, value: Optional[RefType]) -> "EcuInstance":
+    def addAssociatedPdurIPduGroupRef(self, value: Optional[RefType]) -> EcuInstance:
         """
         With this reference it is possible to identify which PduR IPdu Groups are applicable for which CommunicationConnector/ ECU.
 
@@ -1137,7 +1137,7 @@ class EcuInstance(FibexElement):
         """
         return self.channelSynchronousWakeup
 
-    def setChannelSynchronousWakeup(self, value: Optional[Boolean]) -> "EcuInstance":
+    def setChannelSynchronousWakeup(self, value: Optional[Boolean]) -> EcuInstance:
         """
         If this parameter is available and set to true, then all available channels will be woken up as soon as at least one channel wakeup occurs. If PNCs are configured, then all PNCs will be requested upon a channel wakeup.
 
@@ -1153,7 +1153,7 @@ class EcuInstance(FibexElement):
         """
         return self.clientIdRange
 
-    def setClientIdRange(self, value: Optional[ClientIdRange]) -> "EcuInstance":
+    def setClientIdRange(self, value: Optional[ClientIdRange]) -> EcuInstance:
         """
         Restriction of the Client Identifier for this Ecu to an allowed range of numerical values. The Client Identifier of the transaction handle is generated by the client RTE for inter-Ecu Client/Server communication.
 
@@ -1169,7 +1169,7 @@ class EcuInstance(FibexElement):
         """
         return self.comConfigurationGwTimeBase
 
-    def setComConfigurationGwTimeBase(self, value: Optional[TimeValue]) -> "EcuInstance":
+    def setComConfigurationGwTimeBase(self, value: Optional[TimeValue]) -> EcuInstance:
         """
         The period between successive calls to Com_MainFunctionRouteSignals of the AUTOSAR COM module in seconds.
 
@@ -1185,7 +1185,7 @@ class EcuInstance(FibexElement):
         """
         return self.comConfigurationRxTimeBase
 
-    def setComConfigurationRxTimeBase(self, value: Optional[TimeValue]) -> "EcuInstance":
+    def setComConfigurationRxTimeBase(self, value: Optional[TimeValue]) -> EcuInstance:
         """
         The period between successive calls to Com_MainFunctionRx of the AUTOSAR COM module in seconds.
 
@@ -1201,7 +1201,7 @@ class EcuInstance(FibexElement):
         """
         return self.comConfigurationTxTimeBase
 
-    def setComConfigurationTxTimeBase(self, value: Optional[TimeValue]) -> "EcuInstance":
+    def setComConfigurationTxTimeBase(self, value: Optional[TimeValue]) -> EcuInstance:
         """
         The period between successive calls to Com_MainFunctionTx of the AUTOSAR COM module in seconds.
 
@@ -1217,7 +1217,7 @@ class EcuInstance(FibexElement):
         """
         return self.comEnableMDTForCyclicTransmission
 
-    def setComEnableMDTForCyclicTransmission(self, value: Optional[Boolean]) -> "EcuInstance":
+    def setComEnableMDTForCyclicTransmission(self, value: Optional[Boolean]) -> EcuInstance:
         """
         Enables for the Com module of this EcuInstance the minimum delay time monitoring for cyclic and repeated transmissions (TransmissionModeTiming has cyclicTiming assigned or eventControlledTiming with numberOfRepetitions > 0).
 
@@ -1341,7 +1341,7 @@ class EcuInstance(FibexElement):
         """
         return self.dltConfig
 
-    def setDltConfig(self, value: Optional[DltConfig]) -> "EcuInstance":
+    def setDltConfig(self, value: Optional[DltConfig]) -> EcuInstance:
         """
         Describes the Dlt configuration on this EcuInstance.
 
@@ -1357,7 +1357,7 @@ class EcuInstance(FibexElement):
         """
         return self.doIpConfig
 
-    def setDoIpConfig(self, value: Optional[DoIpConfig]) -> "EcuInstance":
+    def setDoIpConfig(self, value: Optional[DoIpConfig]) -> EcuInstance:
         """
         DoIp configuration on this EcuInstance.
 
@@ -1367,7 +1367,7 @@ class EcuInstance(FibexElement):
             self.doIpConfig = value
         return self
 
-    def addEcuTaskProxyRef(self, value: Optional[RefType]) -> "EcuInstance":
+    def addEcuTaskProxyRef(self, value: Optional[RefType]) -> EcuInstance:
         """
         Reference to OsTaskProxies assigned to the EcuInstance.
 
@@ -1389,7 +1389,7 @@ class EcuInstance(FibexElement):
         """
         return self.ethSwitchPortGroupDerivation
 
-    def setEthSwitchPortGroupDerivation(self, value: Optional[Boolean]) -> "EcuInstance":
+    def setEthSwitchPortGroupDerivation(self, value: Optional[Boolean]) -> EcuInstance:
         """
         Defines whether the derivation of SwitchPortGroups based on VLAN and/or CouplingPort.pncMapping shall be performed for this EcuInstance. If not defined the derivation shall not be done.
 
@@ -1399,7 +1399,7 @@ class EcuInstance(FibexElement):
             self.ethSwitchPortGroupDerivation = value
         return self
 
-    def addFirewallRuleRef(self, value: Optional[RefType]) -> "EcuInstance":
+    def addFirewallRuleRef(self, value: Optional[RefType]) -> EcuInstance:
         """
         Firewall rules defined in the context of an EcuInstance.
 
@@ -1427,7 +1427,7 @@ class EcuInstance(FibexElement):
             self.partitions.append(partition)
         return self.getElement(short_name, EcuPartition)
 
-    def addPartition(self, value: Optional[EcuPartition]) -> "EcuInstance":
+    def addPartition(self, value: Optional[EcuPartition]) -> EcuInstance:
         """
         Optional definition of Partitions within an Ecu.
 
@@ -1449,7 +1449,7 @@ class EcuInstance(FibexElement):
         """
         return self.pncNmRequest
 
-    def setPncNmRequest(self, value: Optional[Boolean]) -> "EcuInstance":
+    def setPncNmRequest(self, value: Optional[Boolean]) -> EcuInstance:
         """
         Defines if this EcuInstance shall request Nm on all its PhysicalChannels which have Nm variant set to FULL each time a PNC is requested.
 
@@ -1465,7 +1465,7 @@ class EcuInstance(FibexElement):
         """
         return self.pncPrepareSleepTimer
 
-    def setPncPrepareSleepTimer(self, value: Optional[TimeValue]) -> "EcuInstance":
+    def setPncPrepareSleepTimer(self, value: Optional[TimeValue]) -> EcuInstance:
         """
         Time in seconds the PNC state machine shall wait in PNC_PREPARE_SLEEP.
 
@@ -1481,7 +1481,7 @@ class EcuInstance(FibexElement):
         """
         return self.pncSynchronousWakeup
 
-    def setPncSynchronousWakeup(self, value: Optional[Boolean]) -> "EcuInstance":
+    def setPncSynchronousWakeup(self, value: Optional[Boolean]) -> EcuInstance:
         """
         If this parameter is available and set to true then all available PNCs will be woken up as soon as a channel wakeup occurs. This is ensured by adding all PNCs to all channel wakeup sources during upstream mapping.
 
@@ -1497,7 +1497,7 @@ class EcuInstance(FibexElement):
         """
         return self.pnResetTime
 
-    def setPnResetTime(self, value: Optional[TimeValue]) -> "EcuInstance":
+    def setPnResetTime(self, value: Optional[TimeValue]) -> EcuInstance:
         """
         Specifies the runtime of the reset timer in seconds. This reset time is valid for the reset of PN requests in the EIRA and in the ERA.
 
@@ -1513,7 +1513,7 @@ class EcuInstance(FibexElement):
         """
         return self.sleepModeSupported
 
-    def setSleepModeSupported(self, value: Optional[Boolean]) -> "EcuInstance":
+    def setSleepModeSupported(self, value: Optional[Boolean]) -> EcuInstance:
         """
         Specifies whether the ECU instance may be put to a "low power mode" • true: sleep mode is supported • false: sleep mode is not supported Note: This flag may only be set to "true" if the feature is supported by both hardware and basic software.
 
@@ -1529,7 +1529,7 @@ class EcuInstance(FibexElement):
         """
         return self.tcpIpIcmpPropsRef
 
-    def setTcpIpIcmpPropsRef(self, value: Optional[RefType]) -> "EcuInstance":
+    def setTcpIpIcmpPropsRef(self, value: Optional[RefType]) -> EcuInstance:
         """
         EcuInstance specific ICMP (Internet Control Message Protocol) attributes
 
@@ -1545,7 +1545,7 @@ class EcuInstance(FibexElement):
         """
         return self.tcpIpPropsRef
 
-    def setTcpIpPropsRef(self, value: Optional[RefType]) -> "EcuInstance":
+    def setTcpIpPropsRef(self, value: Optional[RefType]) -> EcuInstance:
         """
         EcuInstance specific TcpIp Stack attributes.
 
@@ -1561,7 +1561,7 @@ class EcuInstance(FibexElement):
         """
         return self.v2xSupported
 
-    def setV2xSupported(self, value: Optional[V2xSupportEnum]) -> "EcuInstance":
+    def setV2xSupported(self, value: Optional[V2xSupportEnum]) -> EcuInstance:
         """
         This attribute is used to control the existence of the V2X stack on the given EcuInstance.
 
@@ -1577,7 +1577,7 @@ class EcuInstance(FibexElement):
         """
         return self.wakeUpOverBusSupported
 
-    def setWakeUpOverBusSupported(self, value: Optional[Boolean]) -> "EcuInstance":
+    def setWakeUpOverBusSupported(self, value: Optional[Boolean]) -> EcuInstance:
         """
         Driver support for wakeup over Bus.
 
@@ -1624,7 +1624,7 @@ class ClientIdRange(ARObject):
         """
         return self.lowerLimit
 
-    def setLowerLimit(self, value: Optional[Limit]) -> "ClientIdRange":
+    def setLowerLimit(self, value: Optional[Limit]) -> ClientIdRange:
         """
         This specifies the lower limit of the ClientIdRange.
 
@@ -1640,7 +1640,7 @@ class ClientIdRange(ARObject):
         """
         return self.upperLimit
 
-    def setUpperLimit(self, value: Optional[Limit]) -> "ClientIdRange":
+    def setUpperLimit(self, value: Optional[Limit]) -> ClientIdRange:
         """
         This specifies the upper limit of the ClientIdRange.
 

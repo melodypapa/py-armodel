@@ -90,7 +90,7 @@ class Note(ARObject, VariationPointCapable):
         """
         return self.label
 
-    def setLabel(self, value: Optional[MultilanguageLongName]) -> "Note":
+    def setLabel(self, value: Optional[MultilanguageLongName]) -> Note:
         """
         This label can be used to superseed the default label specified by the noteType attribute. It is in particular useful for noteType="other". A None value is a no-op and does not overwrite an existing label.
 
@@ -110,7 +110,7 @@ class Note(ARObject, VariationPointCapable):
         """
         return self.noteText
 
-    def setNoteText(self, value: Optional["DocumentationBlock"]) -> "Note":
+    def setNoteText(self, value: Optional["DocumentationBlock"]) -> Note:
         """
         This is the text content of the note. A None value is a no-op and does not overwrite an existing noteText.
 
@@ -130,7 +130,7 @@ class Note(ARObject, VariationPointCapable):
         """
         return self.noteType
 
-    def setNoteType(self, value: Optional[NoteTypeEnum]) -> "Note":
+    def setNoteType(self, value: Optional[NoteTypeEnum]) -> Note:
         """
         Type of the Note. Default is "HINT". A None value is a no-op and does not overwrite an existing noteType.
 

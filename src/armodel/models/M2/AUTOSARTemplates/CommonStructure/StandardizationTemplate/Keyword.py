@@ -21,6 +21,7 @@ class Keyword(Identifiable):
 
     # Keyword method parity checklist:
     # Spec: AUTOSAR_TPS_StandardizationTemplate.pdf (R4.3.1), Table 6.2, p.91
+    # Spec verified: R4.3.1
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
     # [x] getAbbrName              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
@@ -81,6 +82,7 @@ class KeywordSet(AtpBlueprintable):
 
     # KeywordSet method parity checklist:
     # Spec: AUTOSAR_TPS_StandardizationTemplate.pdf (R4.3.1), Table 6.1, p.90
+    # Spec verified: R4.3.1
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
     # [x] getKeywords       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1

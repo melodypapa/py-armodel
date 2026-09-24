@@ -83,7 +83,7 @@ class Std(SingleLanguageReferrable):
         """
         return self.date
 
-    def setDate(self, value: Optional[DateTime]) -> "Std":
+    def setDate(self, value: Optional[DateTime]) -> Std:
         """
         This element specifies the release date of the external standard if applicable. Tags: xml.sequenceOffset=50. A None value is a no-op and does not overwrite an existing date.
         """
@@ -97,7 +97,7 @@ class Std(SingleLanguageReferrable):
         """
         return self.position
 
-    def setPosition(self, value: Optional[String]) -> "Std":
+    def setPosition(self, value: Optional[String]) -> Std:
         """
         This represents the reference to the relevant positions of a standard. Kept as a string. Tags: xml.sequenceOffset=70. A None value is a no-op and does not overwrite an existing position.
         """
@@ -111,7 +111,7 @@ class Std(SingleLanguageReferrable):
         """
         return self.state
 
-    def setState(self, value: Optional[String]) -> "Std":
+    def setState(self, value: Optional[String]) -> Std:
         """
         This represents version and state of a standard. Kept as a string. Tags: xml.sequenceOffset=40. A None value is a no-op and does not overwrite an existing state.
         """
@@ -125,7 +125,7 @@ class Std(SingleLanguageReferrable):
         """
         return self.subtitle
 
-    def setSubtitle(self, value: Optional[String]) -> "Std":
+    def setSubtitle(self, value: Optional[String]) -> Std:
         """
         This represents the subtitle of the standard. Tags: xml.sequenceOffset=30. A None value is a no-op and does not overwrite an existing subtitle.
         """
@@ -139,7 +139,7 @@ class Std(SingleLanguageReferrable):
         """
         return self.url
 
-    def setUrl(self, value: Optional[Url]) -> "Std":
+    def setUrl(self, value: Optional[Url]) -> Std:
         """
         This represents the URL of the standard. Tags: xml.sequenceOffset=60. A None value is a no-op and does not overwrite an existing url.
         """
@@ -196,7 +196,7 @@ class Xdoc(SingleLanguageReferrable):
         """This element specifies the release date of the external document if applicable. Tags: xml.sequenceOffset=50"""
         return self.date
 
-    def setDate(self, value: Optional[DateTime]) -> "Xdoc":
+    def setDate(self, value: Optional[DateTime]) -> Xdoc:
         """This element specifies the release date of the external document if applicable. Tags: xml.sequenceOffset=50. A None value is a no-op and does not overwrite an existing date."""
         if value is not None:
             self.date = value
@@ -206,7 +206,7 @@ class Xdoc(SingleLanguageReferrable):
         """This represents document number of an external document that is referenced. Kept as a string. Tags: xml.sequenceOffset=30"""
         return self.number
 
-    def setNumber(self, value: Optional[String]) -> "Xdoc":
+    def setNumber(self, value: Optional[String]) -> Xdoc:
         """This represents document number of an external document that is referenced. Kept as a string. Tags: xml.sequenceOffset=30. A None value is a no-op and does not overwrite an existing number."""
         if value is not None:
             self.number = value
@@ -216,7 +216,7 @@ class Xdoc(SingleLanguageReferrable):
         """This represents the reference to the relevant positions of a standard. Kept as a string. Tags: xml.sequenceOffset=80"""
         return self.position
 
-    def setPosition(self, value: Optional[String]) -> "Xdoc":
+    def setPosition(self, value: Optional[String]) -> Xdoc:
         """This represents the reference to the relevant positions of a standard. Kept as a string. Tags: xml.sequenceOffset=80. A None value is a no-op and does not overwrite an existing position."""
         if value is not None:
             self.position = value
@@ -226,7 +226,7 @@ class Xdoc(SingleLanguageReferrable):
         """This represents the publisher of an external document that is being referenced. Kept as a string. Tags: xml.sequenceOffset=60"""
         return self.publisher
 
-    def setPublisher(self, value: Optional[String]) -> "Xdoc":
+    def setPublisher(self, value: Optional[String]) -> Xdoc:
         """This represents the publisher of an external document that is being referenced. Kept as a string. Tags: xml.sequenceOffset=60. A None value is a no-op and does not overwrite an existing publisher."""
         if value is not None:
             self.publisher = value
@@ -236,7 +236,7 @@ class Xdoc(SingleLanguageReferrable):
         """This represents version and state of the external document. Kept as a string. Tags: xml.sequenceOffset=40"""
         return self.state
 
-    def setState(self, value: Optional[String]) -> "Xdoc":
+    def setState(self, value: Optional[String]) -> Xdoc:
         """This represents version and state of the external document. Kept as a string. Tags: xml.sequenceOffset=40. A None value is a no-op and does not overwrite an existing state."""
         if value is not None:
             self.state = value
@@ -246,7 +246,7 @@ class Xdoc(SingleLanguageReferrable):
         """This specifies the URL of the external document. Tags: xml.sequenceOffset=70"""
         return self.url
 
-    def setUrl(self, value: Optional[Url]) -> "Xdoc":
+    def setUrl(self, value: Optional[Url]) -> Xdoc:
         """This specifies the URL of the external document. Tags: xml.sequenceOffset=70. A None value is a no-op and does not overwrite an existing url."""
         if value is not None:
             self.url = value
@@ -286,7 +286,7 @@ class Xfile(SingleLanguageReferrable):
         """This element describes the tool which was used to generate the corresponding Xfile . Kept as a string since no specific syntax can be provided to denote a tool. Tags: xml.sequenceOffset=50"""
         return self.tool
 
-    def setTool(self, value: Optional[String]) -> "Xfile":
+    def setTool(self, value: Optional[String]) -> Xfile:
         """This element describes the tool which was used to generate the corresponding Xfile . Kept as a string since no specific syntax can be provided to denote a tool. Tags: xml.sequenceOffset=50. A None value is a no-op and does not overwrite an existing tool."""
         if value is not None:
             self.tool = value
@@ -296,7 +296,7 @@ class Xfile(SingleLanguageReferrable):
         """This element describes the tool version which was used to generate the corresponding xfile. Kept as a string, since no specific syntax can be specified. Tags: xml.sequenceOffset=60"""
         return self.toolVersion
 
-    def setToolVersion(self, value: Optional[String]) -> "Xfile":
+    def setToolVersion(self, value: Optional[String]) -> Xfile:
         """This element describes the tool version which was used to generate the corresponding xfile. Kept as a string, since no specific syntax can be specified. Tags: xml.sequenceOffset=60. A None value is a no-op and does not overwrite an existing toolVersion."""
         if value is not None:
             self.toolVersion = value
@@ -306,7 +306,7 @@ class Xfile(SingleLanguageReferrable):
         """This represents the URL of the external file. Tags: xml.sequenceOffset=30"""
         return self.url
 
-    def setUrl(self, value: Optional[Url]) -> "Xfile":
+    def setUrl(self, value: Optional[Url]) -> Xfile:
         """This represents the URL of the external file. Tags: xml.sequenceOffset=30. A None value is a no-op and does not overwrite an existing url."""
         if value is not None:
             self.url = value
@@ -406,7 +406,7 @@ class Xref(ARObject):
         """This allows to specify a replacement text which shall be rendered if showContent is selected."""
         return self.label1
 
-    def setLabel1(self, value: Optional[SingleLanguageLongName]) -> "Xref":
+    def setLabel1(self, value: Optional[SingleLanguageLongName]) -> Xref:
         """This allows to specify a replacement text which shall be rendered if showContent is selected. A None value is a no-op and does not overwrite an existing label1."""
         if value is not None:
             self.label1 = value
@@ -416,7 +416,7 @@ class Xref(ARObject):
         """This establishes the reference in Autosar style."""
         return self.referrableRef
 
-    def setReferrableRef(self, value: Optional[RefType]) -> "Xref":
+    def setReferrableRef(self, value: Optional[RefType]) -> Xref:
         """This establishes the reference in Autosar style. A None value is a no-op and does not overwrite an existing referrable."""
         if value is not None:
             self.referrableRef = value
@@ -426,7 +426,7 @@ class Xref(ARObject):
         """Indicates if the content of the xref element follow a dedicated resolution policy. The default is "NO-SLOPPY". Tags: xml.attribute=true"""
         return self.resolutionPolicy
 
-    def setResolutionPolicy(self, value: Optional[ResolutionPolicyEnum]) -> "Xref":
+    def setResolutionPolicy(self, value: Optional[ResolutionPolicyEnum]) -> Xref:
         """Indicates if the content of the xref element follow a dedicated resolution policy. The default is "NO-SLOPPY". Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing resolutionPolicy."""
         if value is not None:
             self.resolutionPolicy = value
@@ -436,7 +436,7 @@ class Xref(ARObject):
         """Indicates if the content of the xref element shall be rendered. The default is "NO-SHOW-CONTENT". Tags: xml.attribute=true"""
         return self.showContent
 
-    def setShowContent(self, value: Optional[ShowContentEnum]) -> "Xref":
+    def setShowContent(self, value: Optional[ShowContentEnum]) -> Xref:
         """Indicates if the content of the xref element shall be rendered. The default is "NO-SHOW-CONTENT". Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing showContent."""
         if value is not None:
             self.showContent = value
@@ -446,7 +446,7 @@ class Xref(ARObject):
         """This indicates if the alias names of the referenced objects shall be rendered. This means this is some kind of backward searching: look whether there is an alias for the referenced object, if yes, print it. If there is more than one AliasNameSet, Xref might render all of those. If no alias is found and showResourceShortName is set to NoShowShortName, then the shortName of the reference target shall be displayed. By this showResourceAliasName is similar to showResourceShortName but shows the aliasName instead of the shortName. Default is NO-SHOW-ALIAS-NAME. Tags: xml.attribute=true"""
         return self.showResourceAliasName
 
-    def setShowResourceAliasName(self, value: Optional[ShowResourceAliasNameEnum]) -> "Xref":
+    def setShowResourceAliasName(self, value: Optional[ShowResourceAliasNameEnum]) -> Xref:
         """This indicates if the alias names of the referenced objects shall be rendered. This means this is some kind of backward searching: look whether there is an alias for the referenced object, if yes, print it. If there is more than one AliasNameSet, Xref might render all of those. If no alias is found and showResourceShortName is set to NoShowShortName, then the shortName of the reference target shall be displayed. By this showResourceAliasName is similar to showResourceShortName but shows the aliasName instead of the shortName. Default is NO-SHOW-ALIAS-NAME. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing showResourceAliasName."""
         if value is not None:
             self.showResourceAliasName = value
@@ -456,7 +456,7 @@ class Xref(ARObject):
         """Indicates if the category of the referenced resource shall be rendered. Default is "NO-SHOW-CATEGORY". Tags: xml.attribute=true"""
         return self.showResourceCategory
 
-    def setShowResourceCategory(self, value: Optional[ShowResourceCategoryEnum]) -> "Xref":
+    def setShowResourceCategory(self, value: Optional[ShowResourceCategoryEnum]) -> Xref:
         """Indicates if the category of the referenced resource shall be rendered. Default is "NO-SHOW-CATEGORY". Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing showResourceCategory."""
         if value is not None:
             self.showResourceCategory = value
@@ -466,7 +466,7 @@ class Xref(ARObject):
         """Indicates if the longName of the referenced resource shall be rendered. Default is "SHOW-LONG-NAME". Tags: xml.attribute=true"""
         return self.showResourceLongName
 
-    def setShowResourceLongName(self, value: Optional[ShowResourceLongNameEnum]) -> "Xref":
+    def setShowResourceLongName(self, value: Optional[ShowResourceLongNameEnum]) -> Xref:
         """Indicates if the longName of the referenced resource shall be rendered. Default is "SHOW-LONG-NAME". Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing showResourceLongName."""
         if value is not None:
             self.showResourceLongName = value
@@ -476,7 +476,7 @@ class Xref(ARObject):
         """Indicates if the Number of the referenced resource shall be shown. Default is "SHOW-NUMBER" Tags: xml.attribute=true"""
         return self.showResourceNumber
 
-    def setShowResourceNumber(self, value: Optional[ShowResourceNumberEnum]) -> "Xref":
+    def setShowResourceNumber(self, value: Optional[ShowResourceNumberEnum]) -> Xref:
         """Indicates if the Number of the referenced resource shall be shown. Default is "SHOW-NUMBER" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing showResourceNumber."""
         if value is not None:
             self.showResourceNumber = value
@@ -486,7 +486,7 @@ class Xref(ARObject):
         """Indicates if the page number of the referenced resource shall be shown. Default is "SHOW-PAGE" Tags: xml.attribute=true"""
         return self.showResourcePage
 
-    def setShowResourcePage(self, value: Optional[ShowResourcePageEnum]) -> "Xref":
+    def setShowResourcePage(self, value: Optional[ShowResourcePageEnum]) -> Xref:
         """Indicates if the page number of the referenced resource shall be shown. Default is "SHOW-PAGE" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing showResourcePage."""
         if value is not None:
             self.showResourcePage = value
@@ -496,7 +496,7 @@ class Xref(ARObject):
         """Indicates if the shortJName of the referenced resource shall be shown. Default is "SHOW-SHORT-NAME" Tags: xml.attribute=true"""
         return self.showResourceShortName
 
-    def setShowResourceShortName(self, value: Optional[ShowResourceShortNameEnum]) -> "Xref":
+    def setShowResourceShortName(self, value: Optional[ShowResourceShortNameEnum]) -> Xref:
         """Indicates if the shortJName of the referenced resource shall be shown. Default is "SHOW-SHORT-NAME" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing showResourceShortName."""
         if value is not None:
             self.showResourceShortName = value
@@ -506,7 +506,7 @@ class Xref(ARObject):
         """Indicates if the type of the referenced Resource shall be shown. Default is "SHOW-TYPE" Tags: xml.attribute=true"""
         return self.showResourceType
 
-    def setShowResourceType(self, value: Optional[ShowResourceTypeEnum]) -> "Xref":
+    def setShowResourceType(self, value: Optional[ShowResourceTypeEnum]) -> Xref:
         """Indicates if the type of the referenced Resource shall be shown. Default is "SHOW-TYPE" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing showResourceType."""
         if value is not None:
             self.showResourceType = value
@@ -516,7 +516,7 @@ class Xref(ARObject):
         """Indicates if the word "see " shall be shown before the reference. Default is "NO-SHOW-SEE". Note that this is there for compatibility reasons only. Tags: xml.attribute=true"""
         return self.showSee
 
-    def setShowSee(self, value: Optional[ShowSeeEnum]) -> "Xref":
+    def setShowSee(self, value: Optional[ShowSeeEnum]) -> Xref:
         """Indicates if the word "see " shall be shown before the reference. Default is "NO-SHOW-SEE". Note that this is there for compatibility reasons only. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing showSee."""
         if value is not None:
             self.showSee = value
@@ -576,7 +576,7 @@ class Tt(ARObject):
         """
         return self.value
 
-    def setValue(self, value: String) -> "Tt":
+    def setValue(self, value: String) -> Tt:
         """
         This is the term itself. A None value is a no-op and does not overwrite an existing value.
 
@@ -596,7 +596,7 @@ class Tt(ARObject):
         """
         return self.texRender
 
-    def setTexRender(self, value: Optional[String]) -> "Tt":
+    def setTexRender(self, value: Optional[String]) -> Tt:
         r"""
         This attribute holds information how the content (represented by attribute "term") of the particular technical term is rendered using LaTeX. This allows to inject specific LaTeX commands such as \sep{}. An example is to render "MyClass" as "My\sep{}Class". Default is the value of the attribute "term". A None value is a no-op and does not overwrite an existing texRender.
 
@@ -616,7 +616,7 @@ class Tt(ARObject):
         """
         return self.type
 
-    def setType(self, value: Optional[NameToken]) -> "Tt":
+    def setType(self, value: Optional[NameToken]) -> Tt:
         """
         This attribute specifies the type of the technical term. Values are such as "VARIABLE" "CALPRM". It is no longer an enum in order to support process specific extensions. A None value is a no-op and does not overwrite an existing type.
 
@@ -666,7 +666,7 @@ class IndexEntry(ARObject):
         """
         return self.value
 
-    def setValue(self, value: String) -> "IndexEntry":
+    def setValue(self, value: String) -> IndexEntry:
         """
         Sets the text content of the index entry. A None value is a no-op and does not overwrite an existing value.
 
@@ -686,7 +686,7 @@ class IndexEntry(ARObject):
         """
         return self.sub
 
-    def setSub(self, value: Optional[Superscript]) -> "IndexEntry":
+    def setSub(self, value: Optional[Superscript]) -> IndexEntry:
         """
         This is subscript text. A None value is a no-op and does not overwrite an existing sub.
 
@@ -706,7 +706,7 @@ class IndexEntry(ARObject):
         """
         return self.sup
 
-    def setSup(self, value: Optional[Superscript]) -> "IndexEntry":
+    def setSup(self, value: Optional[Superscript]) -> IndexEntry:
         """
         This is superscript text. A None value is a no-op and does not overwrite an existing sup.
 
@@ -776,7 +776,7 @@ class EmphasisText(ARObject):
         """
         return self.value
 
-    def setValue(self, value: String) -> "EmphasisText":
+    def setValue(self, value: String) -> EmphasisText:
         """
         Sets the text content of the emphasized text. A None value is a no-op and does not overwrite an existing value.
 
@@ -796,7 +796,7 @@ class EmphasisText(ARObject):
         """
         return self.color
 
-    def setColor(self, value: Optional[String]) -> "EmphasisText":
+    def setColor(self, value: Optional[String]) -> EmphasisText:
         """
         This allows to recommend a color of the emphasis. It is specified bases on 6 digits RGB hex-code. A None value is a no-op and does not overwrite an existing color.
 
@@ -816,7 +816,7 @@ class EmphasisText(ARObject):
         """
         return self.font
 
-    def setFont(self, value: Optional[ARLiteral]) -> "EmphasisText":
+    def setFont(self, value: Optional[ARLiteral]) -> EmphasisText:
         """
         This specifies the font style in which the emphasized text shall be rendered. A None value is a no-op and does not overwrite an existing font.
 
@@ -836,7 +836,7 @@ class EmphasisText(ARObject):
         """
         return self.sub
 
-    def setSub(self, value: Optional[Superscript]) -> "EmphasisText":
+    def setSub(self, value: Optional[Superscript]) -> EmphasisText:
         """
         this is subscript text. A None value is a no-op and does not overwrite an existing sub.
 
@@ -856,7 +856,7 @@ class EmphasisText(ARObject):
         """
         return self.sup
 
-    def setSup(self, value: Optional[Superscript]) -> "EmphasisText":
+    def setSup(self, value: Optional[Superscript]) -> EmphasisText:
         """
         This is superscript text. A None value is a no-op and does not overwrite an existing sup.
 
@@ -876,7 +876,7 @@ class EmphasisText(ARObject):
         """
         return self.tt
 
-    def setTt(self, value: Optional[Tt]) -> "EmphasisText":
+    def setTt(self, value: Optional[Tt]) -> EmphasisText:
         """
         This is a technical term. A None value is a no-op and does not overwrite an existing tt.
 
@@ -896,7 +896,7 @@ class EmphasisText(ARObject):
         """
         return self.type
 
-    def setType(self, value: Optional[ARLiteral]) -> "EmphasisText":
+    def setType(self, value: Optional[ARLiteral]) -> EmphasisText:
         """
         Indicates how the text may be emphasized. Note that this is only a proposal which can be overridden or ignored by particular formatting engines. Default is BOLD. A None value is a no-op and does not overwrite an existing type.
 
