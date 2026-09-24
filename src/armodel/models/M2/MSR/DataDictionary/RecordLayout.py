@@ -34,6 +34,7 @@ class RecordLayoutIteratorPoint(ARLiteral):
 
     # RecordLayoutIteratorPoint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.102, p.425
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -49,6 +50,7 @@ class AsamRecordLayoutSemantics(ARLiteral):
 
     # AsamRecordLayoutSemantics method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.103, p.427
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -257,6 +259,7 @@ class SwRecordLayoutGroup(ARObject):
 
     # SwRecordLayoutGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.99, p.424
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCategory                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
