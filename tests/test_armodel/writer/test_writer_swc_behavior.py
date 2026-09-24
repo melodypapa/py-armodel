@@ -619,6 +619,120 @@ class TestWriterParameterAccess:
         assert elem is not None
         assert elem.find("ACCESSED-PARAMETER") is not None
 
+    def test_writeParameterAccess_full(self, writer):
+        behavior = _make_behavior()
+        runnable = behavior.createRunnableEntity("r1")
+        pa = runnable.createParameterAccess("pa1")
+        pref = AutosarParameterRef()
+        iref = ParameterInAtomicSWCTypeInstanceRef()
+        iref.setPortPrototypeRef(_ref("/pp"))
+        pref.setAutosarParameterIRef(iref)
+        pref.setLocalParameterRef(_ref("/lp", "PARAMETER-DATA-PROTOTYPE"))
+        pa.setAccessedParameter(pref)
+        props = SwDataDefProps()
+        props.setSwCalibrationAccess(_literal("notAccessible"))
+        pa.setSwDataDefProps(props)
+        parent = _parent()
+        writer.writeParameterAccess(parent, pa)
+        elem = parent.find("PARAMETER-ACCESS")
+        assert elem is not None
+        assert elem.find("ACCESSED-PARAMETER/AUTOSAR-PARAMETER-IREF/PORT-PROTOTYPE-REF").text == "/pp"
+        assert elem.find("ACCESSED-PARAMETER/LOCAL-PARAMETER-REF").text == "/lp"
+        props_elem = elem.find("SW-DATA-DEF-PROPS")
+        assert props_elem is not None
+        assert props_elem.find("SW-DATA-DEF-PROPS-VARIANTS/SW-DATA-DEF-PROPS-CONDITIONAL/SW-CALIBRATION-ACCESS").text == "notAccessible"
+        children = [child.tag for child in elem]
+        assert children.index("ACCESSED-PARAMETER") < children.index("SW-DATA-DEF-PROPS")
+
+    def test_writeParameterAccess_optional_children_omitted(self, writer):
+        behavior = _make_behavior()
+        runnable = behavior.createRunnableEntity("r1")
+        pa = runnable.createParameterAccess("pa1")
+        parent = _parent()
+        writer.writeParameterAccess(parent, pa)
+        elem = parent.find("PARAMETER-ACCESS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "pa1"
+        assert elem.find("ACCESSED-PARAMETER") is None
+        assert elem.find("SW-DATA-DEF-PROPS") is None
+
+
+class TestParameterAccessRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a ParameterAccess with accessedParameter and swDataDefProps."""
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        runnable = behavior.createRunnableEntity("r1")
+        pa = runnable.createParameterAccess("pa1")
+        pref = AutosarParameterRef()
+        iref = ParameterInAtomicSWCTypeInstanceRef()
+        iref.setPortPrototypeRef(_ref("/pp", "R-PORT-PROTOTYPE"))
+        iref.setTargetDataPrototypeRef(_ref("/Prm", "PARAMETER-DATA-PROTOTYPE"))
+        pref.setAutosarParameterIRef(iref)
+        pa.setAccessedParameter(pref)
+        props = SwDataDefProps()
+        props.setSwCalibrationAccess(_literal("notAccessible"))
+        pa.setSwDataDefProps(props)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            pa_2 = behavior_2.getRunnableEntities()[0].getParameterAccesses()[0]
+            assert pa_2.getShortName() == "pa1"
+            assert pa_2.getAccessedParameter() is not None
+            iref_2 = pa_2.getAccessedParameter().getAutosarParameterIRef()
+            assert iref_2.getPortPrototypeRef().getValue() == "/pp"
+            assert iref_2.getTargetDataPrototypeRef().getValue() == "/Prm"
+            assert pa_2.getAccessedParameter().getLocalParameterRef() is None
+            assert pa_2.getSwDataDefProps() is not None
+            assert pa_2.getSwDataDefProps().getSwCalibrationAccess().getValue() == "notAccessible"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that an empty ParameterAccess round-trips with no optional children."""
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        runnable = behavior.createRunnableEntity("r1")
+        runnable.createParameterAccess("pa1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            pa_2 = app_2.getInternalBehavior().getRunnableEntities()[0].getParameterAccesses()[0]
+            assert pa_2.getShortName() == "pa1"
+            assert pa_2.getAccessedParameter() is None
+            assert pa_2.getSwDataDefProps() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
 
 # ==================== RunnableEntity writers ====================
 

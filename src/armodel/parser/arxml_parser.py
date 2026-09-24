@@ -5162,6 +5162,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readParameterAccess(self, element: ET.Element, access: ParameterAccess):
         self.readIdentifiable(element, access)
         access.setAccessedParameter(self.getAutosarParameterRef(element, "ACCESSED-PARAMETER"))
+        access.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
 
     def readRunnableEntityParameterAccesses(self, element: ET.Element, parent: RunnableEntity):
         for child_element in self.findall(element, "PARAMETER-ACCESSS/PARAMETER-ACCESS"):

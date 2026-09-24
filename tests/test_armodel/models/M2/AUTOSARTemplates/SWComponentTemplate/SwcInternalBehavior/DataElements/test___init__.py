@@ -3,15 +3,19 @@ This module contains comprehensive tests for the DataElements module in SWCompon
 Tests cover all classes and methods in the DataElements.py file to achieve 100% test coverage.
 """
 
+import typing
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef, ParameterAccess, VariableAccess
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
 class TestParameterAccess:
     """Test class for ParameterAccess class."""
 
-    def test_parameter_access_initialization(self):
-        """Test ParameterAccess initialization and methods."""
+    def test_initialization(self):
+        """Test ParameterAccess initialization defaults."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         param_access = ParameterAccess(ar_root, "TestParameterAccess")
@@ -22,24 +26,57 @@ class TestParameterAccess:
         assert param_access.accessedParameter is None
         assert param_access.swDataDefProps is None
 
-        # Test returnValueProvision methods
-        return_prov = "test_provision"
-        param_access.setReturnValueProvision(return_prov)
-        assert param_access.getReturnValueProvision() == return_prov
+    def test_get_set_accessedParameter(self):
+        """Test accessedParameter round-trip, None no-op and type hints."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefsUsage import ParameterInAtomicSWCTypeInstanceRef
 
-        # Test accessedParameter methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        param_access = ParameterAccess(ar_root, "TestParameterAccess")
 
         param_ref = AutosarParameterRef()
-        param_access.setAccessedParameter(param_ref)
-        assert param_access.getAccessedParameter() == param_ref
+        iref = ParameterInAtomicSWCTypeInstanceRef()
+        target_ref = RefType()
+        target_ref.setValue("/Prm")
+        iref.setTargetDataPrototypeRef(target_ref)
+        param_ref.setAutosarParameterIRef(iref)
 
-        # Test swDataDefProps methods
-        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+        assert param_access.setAccessedParameter(param_ref) is param_access
+        assert param_access.getAccessedParameter() is param_ref
+        assert param_access.getAccessedParameter().getAutosarParameterIRef().getTargetDataPrototypeRef().getValue() == "/Prm"
 
-        sw_data_def = SwDataDefProps()
-        param_access.setSwDataDefProps(sw_data_def)
-        assert param_access.getSwDataDefProps() == sw_data_def
+        assert param_access.setAccessedParameter(None) is param_access
+        assert param_access.getAccessedParameter() is param_ref
+
+        hints = typing.get_type_hints(ParameterAccess.setAccessedParameter)
+        assert hints.get("value") == typing.Optional[AutosarParameterRef]
+        assert hints.get("return") is ParameterAccess
+        assert typing.get_type_hints(ParameterAccess.getAccessedParameter).get("return") == typing.Optional[AutosarParameterRef]
+
+    def test_get_set_swDataDefProps(self):
+        """Test swDataDefProps round-trip, None no-op and type hints."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        param_access = ParameterAccess(ar_root, "TestParameterAccess")
+
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+
+        props = SwDataDefProps()
+        access_literal = ARLiteral()
+        access_literal.setValue("notAccessible")
+        props.setSwCalibrationAccess(access_literal)
+
+        assert param_access.setSwDataDefProps(props) is param_access
+        assert param_access.getSwDataDefProps() is props
+        assert param_access.getSwDataDefProps().getSwCalibrationAccess().getValue() == "notAccessible"
+
+        assert param_access.setSwDataDefProps(None) is param_access
+        assert param_access.getSwDataDefProps() is props
+
+        hints = typing.get_type_hints(ParameterAccess.setSwDataDefProps)
+        assert hints.get("value") == typing.Optional[SwDataDefProps]
+        assert hints.get("return") is ParameterAccess
+        assert typing.get_type_hints(ParameterAccess.getSwDataDefProps).get("return") == typing.Optional[SwDataDefProps]
 
 
 class TestVariableAccess:

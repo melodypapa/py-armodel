@@ -3,6 +3,8 @@ This module contains classes for representing AUTOSAR data elements
 in software component internal behavior templates.
 """
 
+from __future__ import annotations
+
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
@@ -19,65 +21,45 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProp
 
 class ParameterAccess(AbstractAccessPoint, VariationPointCapable):
     """
-    A ParameterAccess represents the access to a parameter data prototype
-    within the internal behavior of an atomic software component.
+    The presence of a ParameterAccess implies that a RunnableEntity needs access to a ParameterDataPrototype.
     """
 
     # ParameterAccess method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAccessedParameter         [x] impl  [x] docstring  [ ] test
-    # [ ] setAccessedParameter         [x] impl  [x] docstring  [ ] test
-    # [ ] getSwDataDefProps            [x] impl  [x] docstring  [ ] test
-    # [ ] setSwDataDefProps            [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.40, p.586
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAccessedParameter  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAccessedParameter  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwDataDefProps     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwDataDefProps     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.accessedParameter: "AutosarParameterRef" = None
-        self.swDataDefProps: SwDataDefProps = None
+        # Reference to the accessed calibration parameter.
+        self.accessedParameter: Optional[AutosarParameterRef] = None
 
-    def getAccessedParameter(self):
-        """
-        Gets the accessed parameter.
+        # This allows denote instance and access specific properties, mainly input values and common axis. Stereotypes: atpSplitable Tags: atp.Splitkey=swDataDefProps
+        self.swDataDefProps: Optional[SwDataDefProps] = None
 
-        Returns:
-            The accessed parameter reference
-        """
+    def getAccessedParameter(self) -> Optional[AutosarParameterRef]:
+        """Reference to the accessed calibration parameter."""
         return self.accessedParameter
 
-    def setAccessedParameter(self, value):
-        """
-        Sets the accessed parameter.
-
-        Args:
-            value: The accessed parameter reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.accessedParameter = value
+    def setAccessedParameter(self, value: Optional[AutosarParameterRef]) -> ParameterAccess:
+        """Reference to the accessed calibration parameter. A None value is a no-op and does not overwrite an existing accessedParameter."""
+        if value is not None:
+            self.accessedParameter = value
         return self
 
-    def getSwDataDefProps(self):
-        """
-        Gets the software data definition properties.
-
-        Returns:
-            SwDataDefProps: The software data definition properties
-        """
+    def getSwDataDefProps(self) -> Optional[SwDataDefProps]:
+        """This allows denote instance and access specific properties, mainly input values and common axis. Stereotypes: atpSplitable Tags: atp.Splitkey=swDataDefProps"""
         return self.swDataDefProps
 
-    def setSwDataDefProps(self, value):
-        """
-        Sets the software data definition properties.
-
-        Args:
-            value: The software data definition properties to set
-
-        Returns:
-            self for method chaining
-        """
-        self.swDataDefProps = value
+    def setSwDataDefProps(self, value: Optional[SwDataDefProps]) -> ParameterAccess:
+        """This allows denote instance and access specific properties, mainly input values and common axis. Stereotypes: atpSplitable Tags: atp.Splitkey=swDataDefProps A None value is a no-op and does not overwrite an existing swDataDefProps."""
+        if value is not None:
+            self.swDataDefProps = value
         return self
 
 
@@ -115,7 +97,7 @@ class VariableAccess(AbstractAccessPoint, VariationPointCapable):
         """
         return self.accessedVariableRef
 
-    def setAccessedVariableRef(self, value: Optional["AutosarVariableRef"]) -> "VariableAccess":
+    def setAccessedVariableRef(self, value: Optional["AutosarVariableRef"]) -> VariableAccess:
         """
         Sets the accessed variable.
         A None value is a no-op and does not overwrite an existing accessed variable.
@@ -143,7 +125,7 @@ class VariableAccess(AbstractAccessPoint, VariationPointCapable):
         """
         return self.scope
 
-    def setScope(self, value: Optional[ARLiteral]) -> "VariableAccess":
+    def setScope(self, value: Optional[ARLiteral]) -> VariableAccess:
         """
         Sets the scope of the corresponding communication.
         A None value is a no-op and does not overwrite an existing scope.
@@ -199,7 +181,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         """This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure."""
         return self.contextDataPrototypeRefs
 
-    def addContextDataPrototypeRef(self, value: Optional[RefType]) -> "ArVariableInImplementationDataInstanceRef":
+    def addContextDataPrototypeRef(self, value: Optional[RefType]) -> ArVariableInImplementationDataInstanceRef:
         """This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. A None value is a no-op and does not append anything."""
         if value is not None:
             self.contextDataPrototypeRefs.append(value)
@@ -209,7 +191,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         """This is the port providing/receiving the root of the variable."""
         return self.portPrototypeRef
 
-    def setPortPrototypeRef(self, value: Optional[RefType]) -> "ArVariableInImplementationDataInstanceRef":
+    def setPortPrototypeRef(self, value: Optional[RefType]) -> ArVariableInImplementationDataInstanceRef:
         """This is the port providing/receiving the root of the variable. A None value is a no-op and does not overwrite an existing portPrototypeRef."""
         if value is not None:
             self.portPrototypeRef = value
@@ -219,7 +201,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         """This refers to the VariableDataPrototype typed by the ImplementationDatatype in which the target can be found."""
         return self.rootVariableDataPrototypeRef
 
-    def setRootVariableDataPrototypeRef(self, value: Optional[RefType]) -> "ArVariableInImplementationDataInstanceRef":
+    def setRootVariableDataPrototypeRef(self, value: Optional[RefType]) -> ArVariableInImplementationDataInstanceRef:
         """This refers to the VariableDataPrototype typed by the ImplementationDatatype in which the target can be found. A None value is a no-op and does not overwrite an existing rootVariableDataPrototypeRef."""
         if value is not None:
             self.rootVariableDataPrototypeRef = value
@@ -229,7 +211,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         """This reference points to the target ImplementationDataTypeElement."""
         return self.targetDataPrototypeRef
 
-    def setTargetDataPrototypeRef(self, value: Optional[RefType]) -> "ArVariableInImplementationDataInstanceRef":
+    def setTargetDataPrototypeRef(self, value: Optional[RefType]) -> ArVariableInImplementationDataInstanceRef:
         """This reference points to the target ImplementationDataTypeElement. A None value is a no-op and does not overwrite an existing targetDataPrototypeRef."""
         if value is not None:
             self.targetDataPrototypeRef = value

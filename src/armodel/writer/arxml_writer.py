@@ -3873,6 +3873,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "PARAMETER-ACCESS")
         self.writeIdentifiable(child_element, parameter_access)
         self.setAutosarParameterRef(child_element, "ACCESSED-PARAMETER", parameter_access.getAccessedParameter())
+        self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", parameter_access.getSwDataDefProps())
 
     def writeRunnableEntityParameterAccesses(self, element: ET.Element, entity: RunnableEntity):
         parameter_accesses = entity.getParameterAccesses()

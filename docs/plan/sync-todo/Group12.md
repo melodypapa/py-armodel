@@ -15,17 +15,19 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 ## Queue (dependency-first)
 
-- [ ] `ParameterAccess` — AbstractAccessPoint — source TBC (locate table at Step 1)
+- [ ] `ParameterAccess` — AbstractAccessPoint — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.40, p.586
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/DataElements/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Base chain ARObject/AbstractAccessPoint/AtpClassifier/AtpFeature/AtpStructureElement/Identifiable/MultilanguageReferrable/Referrable — most-derived base AbstractAccessPoint (stamped `# Spec verified: R23-11`, BSWModuleDescriptionTemplate Table 4.24, p.57 — no blocker). Attrs (displayed order): accessedParameter (AutosarParameterRef, 0..1, aggr), swDataDefProps (SwDataDefProps, 0..1, aggr). BSW appendix Table D.48 verified identical reproduction. XSD PARAMETER-ACCESS group (AUTOSAR_00052.xsd:87809) element order ACCESSED-PARAMETER, SW-DATA-DEF-PROPS, VARIATION-POINT; class docstring Note renders "ParameterData Prototype" in markdown (line-wrap artifact; XSD documentation + VariableAccess precedent join it as "ParameterDataPrototype"). Existing reader/writer drop SW-DATA-DEF-PROPS (genuine Red pending).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) (note: Red via None-no-op + get_type_hints pins; `test_initialization` passed immediately — defaults were already correct)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (note: Red on all three SW-DATA-DEF-PROPS gaps — reader, writer, populated round-trip; empty round-trip + optional-children-omitted passed immediately, already correct)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - note (Step 8): no in-scope deviations remain (both Table 7.40 attributes modeled, typed `Optional[T]`, reader+writer covered; no naming/type/missing rows). Observations (out of scope, not blockers): (1) `AbstractAccessPoint.returnValueProvision` (RETURN-VALUE-PROVISION) has no reader/writer coverage anywhere — inherited-base gap (Rule 0001.7) for a future AbstractAccessPoint drift pass; no fixture carries the element. (2) `RunnableEntity.getParameterAccesses` still filters the `elements` registry (`sorted(filter(...))`) although `self.parameterAccesses` exists (Rule 0004 to-fix shape) — aggregator row, not this class. (3) Writer emits VARIATION-POINT via `writeIdentifiable` (IDENTIFIABLE-group position) rather than the XSD group tail position — generic pre-existing behavior, round-trip lossless. (4) Adding `from __future__ import annotations` (bare-name pins, Rule 0003/0005) made this module a PEP 563 module and tripped `test_no_top_level_quoted_annotations_in_pep563_modules`: 6 pre-existing top-level quoted return annotations in `VariableAccess` (setAccessedVariableRef, setScope) and `ArVariableInImplementationDataInstanceRef` (4 setters) were mechanically unquoted to bare same-module names to keep the suite green — no runtime behavior change, row 2's spec state untouched (nested quotes left for row 2's own pass).
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-24: touched tests 467 passed (model DataElements/test___init__.py + parser/test_arxml_parser_orchestrators.py + writer/test_writer_swc_behavior.py); full suite 11534 passed / 0 failed (`uv run python scripts/run_tests.py --no-coverage`, baseline 11527 + 7 new); `uv run ruff check src tests scripts` clean; black clean on all 6 touched files (23 unrelated pre-existing files at HEAD fail repo-wide black --check — not touched); set-based checklist==methods + coverage audit OK; verbatim docstring/`# type:`/blank-line/export/get_type_hints pin audits OK; integration round-trip 11/11. 9b deferred to batch confirmation (user instruction 2026-09-24)
 
 - [ ] `VariableAccess` — AbstractAccessPoint — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/DataElements/__init__.py
