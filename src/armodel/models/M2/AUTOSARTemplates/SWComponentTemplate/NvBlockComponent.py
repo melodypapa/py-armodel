@@ -4,7 +4,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import NvBlockNeeds, RoleBasedDataAssignment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarVariableRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstantiationDataDefProps import InstantiationDataDefProps
@@ -720,45 +720,31 @@ class ModeSwitchEventTriggeredActivity(ARObject, VariationPointCapable):
 
     # ModeSwitchEventTriggeredActivity method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.7, p.675
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getRole                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRole                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwcModeSwitchEventRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwcModeSwitchEventRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRole                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRole                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcModeSwitchEventRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcModeSwitchEventRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
         # This attribute indicates which service of the NvM for the NvBlock shall be requested.
-        self.role = None
+        self.role: Optional[Identifier] = None
 
         # This reference identifies the SwcModeSwitchEvent that triggers the activity.
         self.swcModeSwitchEventRef: Optional[RefType] = None
 
-    def getRole(self):
+    def getRole(self) -> Optional[Identifier]:
         """
-        Gets which service of the NvM for the NvBlock shall be requested.
-
         This attribute indicates which service of the NvM for the NvBlock shall be requested.
-
-        Returns:
-            Identifier, or None if not set
         """
         return self.role
 
-    def setRole(self, value) -> "ModeSwitchEventTriggeredActivity":
+    def setRole(self, value: Optional[Identifier]) -> "ModeSwitchEventTriggeredActivity":
         """
-        Sets which service of the NvM for the NvBlock shall be requested.
-        A None value is a no-op and does not overwrite an existing value.
-
-        This attribute indicates which service of the NvM for the NvBlock shall be requested.
-
-        Args:
-            value: The role to set
-
-        Returns:
-            self for method chaining
+        This attribute indicates which service of the NvM for the NvBlock shall be requested. A None value is a no-op and does not overwrite an existing role.
         """
         if value is not None:
             self.role = value
@@ -766,27 +752,13 @@ class ModeSwitchEventTriggeredActivity(ARObject, VariationPointCapable):
 
     def getSwcModeSwitchEventRef(self) -> Optional[RefType]:
         """
-        Gets the reference that identifies the SwcModeSwitchEvent that triggers the activity.
-
         This reference identifies the SwcModeSwitchEvent that triggers the activity.
-
-        Returns:
-            RefType, or None if not set
         """
         return self.swcModeSwitchEventRef
 
     def setSwcModeSwitchEventRef(self, value: Optional[RefType]) -> "ModeSwitchEventTriggeredActivity":
         """
-        Sets the reference that identifies the SwcModeSwitchEvent that triggers the activity.
-        A None value is a no-op and does not overwrite an existing reference.
-
-        This reference identifies the SwcModeSwitchEvent that triggers the activity.
-
-        Args:
-            value: The swcModeSwitchEventRef to set
-
-        Returns:
-            self for method chaining
+        This reference identifies the SwcModeSwitchEvent that triggers the activity. A None value is a no-op and does not overwrite an existing swcModeSwitchEventRef.
         """
         if value is not None:
             self.swcModeSwitchEventRef = value

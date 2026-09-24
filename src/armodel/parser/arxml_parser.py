@@ -2085,7 +2085,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getModeSwitchEventTriggeredActivity(self, element: ET.Element) -> ModeSwitchEventTriggeredActivity:
         activity = ModeSwitchEventTriggeredActivity()
-        activity.setRole(self.getChildElementOptionalLiteral(element, "ROLE"))
+        self.readARObject(element, activity)
+        activity.setRole(self.getChildElementOptionalIdentifier(element, "ROLE"))
         activity.setSwcModeSwitchEventRef(self.getChildElementOptionalRefType(element, "SWC-MODE-SWITCH-EVENT-REF"))
         return activity
 

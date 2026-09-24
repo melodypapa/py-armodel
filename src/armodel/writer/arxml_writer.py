@@ -3764,7 +3764,8 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeModeSwitchEventTriggeredActivity(self, element: ET.Element, activity: ModeSwitchEventTriggeredActivity):
         child_element = ET.SubElement(element, "MODE-SWITCH-EVENT-TRIGGERED-ACTIVITY")
-        self.setChildElementOptionalLiteral(child_element, "ROLE", activity.getRole())
+        self.writeARObject(child_element, activity)
+        self.setChildElementOptionalIdentifier(child_element, "ROLE", activity.getRole())
         self.setChildElementOptionalRefType(child_element, "SWC-MODE-SWITCH-EVENT-REF", activity.getSwcModeSwitchEventRef())
 
     def setComponentInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: ComponentInSystemInstanceRef):

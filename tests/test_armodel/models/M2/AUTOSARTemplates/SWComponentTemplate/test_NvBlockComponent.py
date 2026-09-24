@@ -322,6 +322,45 @@ class TestNvBlockDescriptor:
 
 
 class TestModeSwitchEventTriggeredActivity:
+    def test_spec_notes_are_verbatim(self):
+        """Test that the class docstring and every accessor docstring is the spec Note verbatim (Table 11.7)"""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import ModeSwitchEventTriggeredActivity  # noqa E501
+
+        role_note = "This attribute indicates which service of the NvM for the NvBlock shall be requested."
+        swc_mode_switch_event_note = "This reference identifies the SwcModeSwitchEvent that triggers the activity."
+
+        assert ModeSwitchEventTriggeredActivity.__doc__.strip() == ("This meta-class defines an activity of the NvBlockSwComponentType for a specific NvBlock which is triggered by a ModeSwitchEvent.")
+        assert ModeSwitchEventTriggeredActivity.getRole.__doc__.strip() == role_note
+        assert ModeSwitchEventTriggeredActivity.setRole.__doc__.strip() == (role_note + " A None value is a no-op and does not overwrite an existing role.")
+        assert ModeSwitchEventTriggeredActivity.getSwcModeSwitchEventRef.__doc__.strip() == swc_mode_switch_event_note
+        assert ModeSwitchEventTriggeredActivity.setSwcModeSwitchEventRef.__doc__.strip() == (
+            swc_mode_switch_event_note + " A None value is a no-op and does not overwrite an existing swcModeSwitchEventRef."
+        )
+
+    def test_base_shape(self):
+        """Test the base chain, no-arg __init__ and typed accessor signatures"""
+        import typing
+
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import ModeSwitchEventTriggeredActivity  # noqa E501
+
+        assert issubclass(ModeSwitchEventTriggeredActivity, ARObject)
+        assert issubclass(ModeSwitchEventTriggeredActivity, VariationPointCapable)
+        assert ModeSwitchEventTriggeredActivity().role is None
+
+        hints = typing.get_type_hints(ModeSwitchEventTriggeredActivity.getRole)
+        assert hints["return"] == typing.Optional[Identifier]
+        hints = typing.get_type_hints(ModeSwitchEventTriggeredActivity.setRole)
+        assert hints["value"] == typing.Optional[Identifier]
+        assert hints["return"] is ModeSwitchEventTriggeredActivity
+        hints = typing.get_type_hints(ModeSwitchEventTriggeredActivity.getSwcModeSwitchEventRef)
+        assert hints["return"] == typing.Optional[RefType]
+        hints = typing.get_type_hints(ModeSwitchEventTriggeredActivity.setSwcModeSwitchEventRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert hints["return"] is ModeSwitchEventTriggeredActivity
+
     def test_initialization(self):
         """Test ModeSwitchEventTriggeredActivity initialization"""
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import ModeSwitchEventTriggeredActivity  # noqa E501
@@ -329,19 +368,25 @@ class TestModeSwitchEventTriggeredActivity:
         activity = ModeSwitchEventTriggeredActivity()
 
         assert activity is not None
-        assert activity is not None
         assert activity.role is None
         assert activity.swcModeSwitchEventRef is None
 
     def test_get_set_role(self):
         """Test getRole and setRole methods"""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import ModeSwitchEventTriggeredActivity  # noqa E501
 
         activity = ModeSwitchEventTriggeredActivity()
 
         assert activity.getRole() is None
-        activity.setRole("WriteBlock")
-        assert activity.getRole() == "WriteBlock"
+        role = Identifier()
+        role.setValue("WriteBlock")
+        assert activity.setRole(role) is activity
+        assert isinstance(activity.getRole(), Identifier)
+        assert activity.getRole() is role
+        assert activity.getRole().getValue() == "WriteBlock"
+        activity.setRole(None)
+        assert activity.getRole() is role
 
     def test_get_set_swc_mode_switch_event_ref(self):
         """Test getSwcModeSwitchEventRef and setSwcModeSwitchEventRef methods"""
@@ -353,7 +398,7 @@ class TestModeSwitchEventTriggeredActivity:
         assert activity.getSwcModeSwitchEventRef() is None
         ref = RefType()
         ref.setValue("/SwcModeSwitchEvent")
-        activity.setSwcModeSwitchEventRef(ref)
-        assert activity.getSwcModeSwitchEventRef() == ref
+        assert activity.setSwcModeSwitchEventRef(ref) is activity
+        assert activity.getSwcModeSwitchEventRef() is ref
         activity.setSwcModeSwitchEventRef(None)
-        assert activity.getSwcModeSwitchEventRef() == ref
+        assert activity.getSwcModeSwitchEventRef() is ref
