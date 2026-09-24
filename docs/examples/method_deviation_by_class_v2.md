@@ -1812,7 +1812,6 @@ No deviations — the Table 6.2 attribute column is `-` (zero own attributes; co
 - `GraphicFitEnum` (`M2::MSR::Documentation::BlockElements::Figure`)
 - `LOverviewParagraph` (`M2::MSR::Documentation::TextModel::LanguageDataModel`)
 - `LParagraph` (`M2::MSR::Documentation::TextModel::LanguageDataModel`)
-- `LVerbatim` (`M2::MSR::Documentation::TextModel::LanguageDataModel`)
 - `ListEnum` (`M2::MSR::Documentation::TextModel::BlockElements::ListElements`)
 - `ARList` (`M2::MSR::Documentation::TextModel::BlockElements::ListElements`)
 - `SingleLanguageUnitNames` (`M2::MSR::AsamHdo::Units`)

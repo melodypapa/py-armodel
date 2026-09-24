@@ -7,7 +7,17 @@ from typing import Optional, get_type_hints
 import pytest
 
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Superscript, Tt
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LEnum, LLongName, LOverviewParagraph, LParagraph, LPlainText, MixedContentForParagraph, SlParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
+    LanguageSpecific,
+    LEnum,
+    LLongName,
+    LOverviewParagraph,
+    LParagraph,
+    LPlainText,
+    LVerbatim,
+    MixedContentForParagraph,
+    SlParagraph,
+)
 
 
 class TestLEnum:
@@ -376,3 +386,54 @@ class TestLPlainText:
             pass
 
         assert set(vars(LPlainText()).keys()) == set(vars(_BareLanguageSpecific()).keys())
+
+
+class TestLVerbatim:
+    """Test class for LVerbatim class."""
+
+    def test_l_verbatim_base_chain(self):
+        """LVerbatim must extend LanguageSpecific per Table 9.89."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+        assert issubclass(LVerbatim, LanguageSpecific)
+        assert issubclass(LVerbatim, ARObject)
+        assert isinstance(LVerbatim(), LVerbatim)
+
+    def test_l_verbatim_initialization(self):
+        """Test that an LVerbatim object can be initialized."""
+        l_verbatim = LVerbatim()
+        assert l_verbatim.l is None
+        assert l_verbatim.value == ""
+
+    def test_l_verbatim_docstring_verbatim(self):
+        """Docstring must equal the spec Note from Table 9.89 verbatim."""
+        import inspect
+
+        expected = "MixedContentForVerbatim in one particular language. " "The language is denoted in the attribute l."
+        assert inspect.cleandoc(LVerbatim.__doc__) == expected
+
+    def test_l_verbatim_inherited_accessors(self):
+        """LVerbatim inherits the l/value accessors from LanguageSpecific (Table 9.89 has no own Attribute rows)."""
+        l_verbatim = LVerbatim()
+
+        result = l_verbatim.setL("DE")
+        assert l_verbatim.getL() == "DE"
+        assert result is l_verbatim
+
+        result = l_verbatim.setValue("verbatim text")
+        assert l_verbatim.getValue() == "verbatim text"
+        assert result is l_verbatim
+
+        l_verbatim.setL(None)
+        assert l_verbatim.getL() == "DE"
+
+        l_verbatim.setValue(None)
+        assert l_verbatim.getValue() == "verbatim text"
+
+    def test_l_verbatim_has_no_own_members(self):
+        """Field-to-spec cross-check: Table 9.89 carries no Attribute rows, so LVerbatim adds no fields beyond LanguageSpecific."""
+
+        class _BareLanguageSpecific(LanguageSpecific):
+            pass
+
+        assert set(vars(LVerbatim()).keys()) == set(vars(_BareLanguageSpecific()).keys())

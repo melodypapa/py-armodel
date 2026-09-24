@@ -701,11 +701,16 @@ class LPlainText(LanguageSpecific):
 
 class LVerbatim(LanguageSpecific):
     """
-    Language-specific verbatim text element.
+    MixedContentForVerbatim in one particular language. The language is denoted in the attribute l.
     """
 
     # LVerbatim method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.89, p.347
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes — Table 9.89 Attribute rows: none; inherited LanguageSpecific accessors
+    #  getL/setL/getValue/setValue are covered by their declaring class checklist; the L-5
+    #  element serializes via the shared stamped setLanguageSpecific/readLanguageSpecific pair)
 
     def __init__(self):
         super().__init__()
