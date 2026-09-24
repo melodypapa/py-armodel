@@ -17,7 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
     SOMEIPMessageTypeEnum,
-    SomeipTransformationISignalProps,
+    SOMEIPTransformationISignalProps,
     TlvDataIdDefinition,
     TlvDataIdDefinitionSet,
     TransformationDescription,
@@ -1035,7 +1035,7 @@ class Test_TlvDataIdDefinitionSet:
         assert definitions[0] is first
 
 
-class Test_SomeipTransformationISignalProps:
+class Test_SOMEIPTransformationISignalProps:
     # Table 7.11, p.778 — attribute Notes verbatim from the markdown (cell wraps resolved per XSD mmt.qualifiedName / XSD documentation)
     NOTE_IMPLEMENTS_LEGACY_STRING_SERIALIZATION = (
         "This attribute indicates that Strings in the SOME/IP message shall NOT be serialized according to the SOME/IP specification for Strings. "
@@ -1070,22 +1070,22 @@ class Test_SomeipTransformationISignalProps:
     def test_docstring_is_spec_note_verbatim(self):
         # Table 7.11, p.778 — class Note verbatim from the markdown
         note = "The class SOMEIPTransformationISignalProps specifies ISignal specific configuration properties for SOME/IP transformer attributes."
-        assert SomeipTransformationISignalProps.__doc__.strip() == note
+        assert SOMEIPTransformationISignalProps.__doc__.strip() == note
 
     def test_init_has_no_docstring(self):
-        assert SomeipTransformationISignalProps.__init__.__doc__ is None
+        assert SOMEIPTransformationISignalProps.__init__.__doc__ is None
 
     def test_heritage(self):
-        assert issubclass(SomeipTransformationISignalProps, TransformationISignalProps)
-        assert issubclass(SomeipTransformationISignalProps, Describable)
-        assert not issubclass(SomeipTransformationISignalProps, ARElement)
+        assert issubclass(SOMEIPTransformationISignalProps, TransformationISignalProps)
+        assert issubclass(SOMEIPTransformationISignalProps, Describable)
+        assert not issubclass(SOMEIPTransformationISignalProps, ARElement)
 
-        props = SomeipTransformationISignalProps()
+        props = SOMEIPTransformationISignalProps()
         assert isinstance(props, TransformationISignalProps)
         assert isinstance(props, Describable)
 
     def test_initialization(self):
-        props = SomeipTransformationISignalProps()
+        props = SOMEIPTransformationISignalProps()
 
         assert props.getImplementsLegacyStringSerialization() is None
         assert props.getInterfaceVersion() is None
@@ -1098,7 +1098,7 @@ class Test_SomeipTransformationISignalProps:
         assert props.getTlvDataIdDefinitionRefs() == []
 
     def test_get_set_implements_legacy_string_serialization(self):
-        props = SomeipTransformationISignalProps()
+        props = SOMEIPTransformationISignalProps()
         value = Boolean().setValue(True)
 
         assert props == props.setImplementsLegacyStringSerialization(None)
@@ -1112,7 +1112,7 @@ class Test_SomeipTransformationISignalProps:
         assert props.getImplementsLegacyStringSerialization() == value
 
     def test_get_set_interface_version(self):
-        props = SomeipTransformationISignalProps()
+        props = SOMEIPTransformationISignalProps()
         value = self._make_positive(4)
 
         assert props == props.setInterfaceVersion(None)
@@ -1126,7 +1126,7 @@ class Test_SomeipTransformationISignalProps:
         assert props.getInterfaceVersion() == value
 
     def test_get_set_is_dynamic_length_field_size(self):
-        props = SomeipTransformationISignalProps()
+        props = SOMEIPTransformationISignalProps()
         value = Boolean().setValue(False)
 
         assert props == props.setIsDynamicLengthFieldSize(None)
@@ -1140,7 +1140,7 @@ class Test_SomeipTransformationISignalProps:
         assert props.getIsDynamicLengthFieldSize() == value
 
     def test_get_set_message_type(self):
-        props = SomeipTransformationISignalProps()
+        props = SOMEIPTransformationISignalProps()
         value = SOMEIPMessageTypeEnum().setValue(SOMEIPMessageTypeEnum.REQUEST_NO_RETURN)
 
         assert props == props.setMessageType(None)
@@ -1154,7 +1154,7 @@ class Test_SomeipTransformationISignalProps:
         assert props.getMessageType().getValue() == "REQUEST-NO-RETURN"
 
     def test_get_set_size_of_array_length_fields(self):
-        props = SomeipTransformationISignalProps()
+        props = SOMEIPTransformationISignalProps()
         value = self._make_positive(8)
 
         assert props == props.setSizeOfArrayLengthFields(None)
@@ -1167,7 +1167,7 @@ class Test_SomeipTransformationISignalProps:
         assert props.getSizeOfArrayLengthFields().getValue() == 8
 
     def test_get_set_size_of_string_length_fields(self):
-        props = SomeipTransformationISignalProps()
+        props = SOMEIPTransformationISignalProps()
         value = self._make_positive(12)
 
         assert props == props.setSizeOfStringLengthFields(None)
@@ -1180,7 +1180,7 @@ class Test_SomeipTransformationISignalProps:
         assert props.getSizeOfStringLengthFields().getValue() == 12
 
     def test_get_set_size_of_struct_length_fields(self):
-        props = SomeipTransformationISignalProps()
+        props = SOMEIPTransformationISignalProps()
         value = self._make_positive(16)
 
         assert props == props.setSizeOfStructLengthFields(None)
@@ -1193,7 +1193,7 @@ class Test_SomeipTransformationISignalProps:
         assert props.getSizeOfStructLengthFields().getValue() == 16
 
     def test_get_set_size_of_union_length_fields(self):
-        props = SomeipTransformationISignalProps()
+        props = SOMEIPTransformationISignalProps()
         value = self._make_positive(4)
 
         assert props == props.setSizeOfUnionLengthFields(None)
@@ -1206,7 +1206,7 @@ class Test_SomeipTransformationISignalProps:
         assert props.getSizeOfUnionLengthFields().getValue() == 4
 
     def test_add_tlv_data_id_definition_ref_appends(self):
-        props = SomeipTransformationISignalProps()
+        props = SOMEIPTransformationISignalProps()
         first = self._make_ref("/TlvSets/Set1", "TLV-DATA-ID-DEFINITION-SET")
         second = self._make_ref("/TlvSets/Set2", "TLV-DATA-ID-DEFINITION-SET")
 

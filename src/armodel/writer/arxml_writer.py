@@ -923,7 +923,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
-    SomeipTransformationISignalProps,
+    SOMEIPTransformationISignalProps,
     TlvDataIdDefinition,
     TlvDataIdDefinitionSet,
     TransformationDescription,
@@ -12003,8 +12003,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             for props in props_list:
                 if isinstance(props, EndToEndTransformationISignalProps):
                     self.writeEndToEndTransformationISignalProps(child_element, props)
-                elif isinstance(props, SomeipTransformationISignalProps):
-                    self.writeSomeipTransformationISignalProps(child_element, props)
+                elif isinstance(props, SOMEIPTransformationISignalProps):
+                    self.writeSOMEIPTransformationISignalProps(child_element, props)
                 elif isinstance(props, UserDefinedTransformationISignalProps):
                     self.writeUserDefinedTransformationISignalProps(child_element, props)
                 else:
@@ -12483,7 +12483,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEndToEndTransformationISignalPropsDataIds(child_element, props)
             self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", props.getDataLength())
 
-    def writeSomeipTransformationISignalProps(self, element: ET.Element, props: SomeipTransformationISignalProps):
+    def writeSOMEIPTransformationISignalProps(self, element: ET.Element, props: SOMEIPTransformationISignalProps):
         if props is not None:
             props_element = ET.SubElement(element, "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS")
             variant_element = ET.SubElement(props_element, "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS")
@@ -12519,8 +12519,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             for props in props_list:
                 if isinstance(props, EndToEndTransformationISignalProps):
                     self.writeEndToEndTransformationISignalProps(child_element, props)
-                elif isinstance(props, SomeipTransformationISignalProps):
-                    self.writeSomeipTransformationISignalProps(child_element, props)
+                elif isinstance(props, SOMEIPTransformationISignalProps):
+                    self.writeSOMEIPTransformationISignalProps(child_element, props)
                 elif isinstance(props, UserDefinedTransformationISignalProps):
                     self.writeUserDefinedTransformationISignalProps(child_element, props)
                 else:

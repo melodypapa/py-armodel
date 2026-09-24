@@ -1021,7 +1021,8 @@ class SOMEIPMessageTypeEnum(AREnum):
 
     # SOMEIPMessageTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.13, p.779
-    # (no methods) — enum value form serialized on SomeipTransformationISignalProps.messageType
+    # Spec verified: R23-11
+    # (no methods) — enum value form serialized on SOMEIPTransformationISignalProps.messageType
 
     # A request of a notification expecting no response. Tags: atp.EnumerationLiteralIndex=1 xml.name=NOTIFICATION
     NOTIFICATION = "NOTIFICATION"
@@ -1053,6 +1054,7 @@ class TlvDataIdDefinition(ARObject):
 
     # TlvDataIdDefinition method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.31, p.831
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getId                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1139,6 +1141,7 @@ class TlvDataIdDefinitionSet(ARElement):
 
     # TlvDataIdDefinitionSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.30, p.830
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getTlvDataIdDefinitions  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1468,13 +1471,14 @@ class EndToEndTransformationISignalProps(TransformationISignalProps):
         return self
 
 
-class SomeipTransformationISignalProps(TransformationISignalProps):
+class SOMEIPTransformationISignalProps(TransformationISignalProps):
     """
     The class SOMEIPTransformationISignalProps specifies ISignal specific configuration properties for SOME/IP transformer attributes.
     """
 
-    # SomeipTransformationISignalProps method parity checklist:
+    # SOMEIPTransformationISignalProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.11, p.778
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getImplementsLegacyStringSerialization [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1532,7 +1536,7 @@ class SomeipTransformationISignalProps(TransformationISignalProps):
         """
         return self.implementsLegacyStringSerialization
 
-    def setImplementsLegacyStringSerialization(self, value: Optional[Boolean]) -> "SomeipTransformationISignalProps":
+    def setImplementsLegacyStringSerialization(self, value: Optional[Boolean]) -> "SOMEIPTransformationISignalProps":
         """
         This attribute indicates that Strings in the SOME/IP message shall NOT be serialized according to the SOME/IP specification for Strings. If this attribute is set to true, BOM and null-termination shall NOT be added in the serialization for Strings in the payload. If this attribute is set to false (or not set) BOM and null-termination shall be added in the serialization for Strings in the payload according to the SOME/IP specification for Strings. NOTE! This attribute is not future safe, and will be removed in an upcoming AUTOSAR release!" Tags: atp.Status=obsolete
         A None value is a no-op and does not overwrite an existing implementsLegacyStringSerialization.
@@ -1547,7 +1551,7 @@ class SomeipTransformationISignalProps(TransformationISignalProps):
         """
         return self.interfaceVersion
 
-    def setInterfaceVersion(self, value: Optional[PositiveInteger]) -> "SomeipTransformationISignalProps":
+    def setInterfaceVersion(self, value: Optional[PositiveInteger]) -> "SOMEIPTransformationISignalProps":
         """
         The interface version the SOME/IP transformer shall use.
         A None value is a no-op and does not overwrite an existing interfaceVersion.
@@ -1562,7 +1566,7 @@ class SomeipTransformationISignalProps(TransformationISignalProps):
         """
         return self.isDynamicLengthFieldSize
 
-    def setIsDynamicLengthFieldSize(self, value: Optional[Boolean]) -> "SomeipTransformationISignalProps":
+    def setIsDynamicLengthFieldSize(self, value: Optional[Boolean]) -> "SOMEIPTransformationISignalProps":
         """
         This attribute shall be used to determine the wire type in the context of using the TLV encoding.
         A None value is a no-op and does not overwrite an existing isDynamicLengthFieldSize.
@@ -1577,7 +1581,7 @@ class SomeipTransformationISignalProps(TransformationISignalProps):
         """
         return self.messageType
 
-    def setMessageType(self, value: Optional[SOMEIPMessageTypeEnum]) -> "SomeipTransformationISignalProps":
+    def setMessageType(self, value: Optional[SOMEIPMessageTypeEnum]) -> "SOMEIPTransformationISignalProps":
         """
         The Message Type which shall be placed into the SOME/IP header.
         A None value is a no-op and does not overwrite an existing messageType.
@@ -1592,7 +1596,7 @@ class SomeipTransformationISignalProps(TransformationISignalProps):
         """
         return self.sizeOfArrayLengthFields
 
-    def setSizeOfArrayLengthFields(self, value: Optional[PositiveInteger]) -> "SomeipTransformationISignalProps":
+    def setSizeOfArrayLengthFields(self, value: Optional[PositiveInteger]) -> "SOMEIPTransformationISignalProps":
         """
         The size of all length fields (in Bytes) of fixed-size arrays or dynamic size arrays in the SOME/IP message. This attribute is valid for all available occurrences of fixed-size arrays or dynamic size arrays in the SOME/IP message.
         A None value is a no-op and does not overwrite an existing sizeOfArrayLengthFields.
@@ -1607,7 +1611,7 @@ class SomeipTransformationISignalProps(TransformationISignalProps):
         """
         return self.sizeOfStringLengthFields
 
-    def setSizeOfStringLengthFields(self, value: Optional[PositiveInteger]) -> "SomeipTransformationISignalProps":
+    def setSizeOfStringLengthFields(self, value: Optional[PositiveInteger]) -> "SOMEIPTransformationISignalProps":
         """
         The size of all length fields (in Bytes) of dynamic length strings in the SOME/IP message. This attribute is valid for all available occurrences of strings in the SOME/IP message.
         A None value is a no-op and does not overwrite an existing sizeOfStringLengthFields.
@@ -1622,7 +1626,7 @@ class SomeipTransformationISignalProps(TransformationISignalProps):
         """
         return self.sizeOfStructLengthFields
 
-    def setSizeOfStructLengthFields(self, value: Optional[PositiveInteger]) -> "SomeipTransformationISignalProps":
+    def setSizeOfStructLengthFields(self, value: Optional[PositiveInteger]) -> "SOMEIPTransformationISignalProps":
         """
         The size of all length fields (in Bytes) of structs in the SOME/IP message. This attribute is valid for all available occurrences of structures in the SOME/IP message. For a more fine granular modeling on the level of DataPrototypes the DataPrototypeTransformationProps shall be used.
         A None value is a no-op and does not overwrite an existing sizeOfStructLengthFields.
@@ -1637,7 +1641,7 @@ class SomeipTransformationISignalProps(TransformationISignalProps):
         """
         return self.sizeOfUnionLengthFields
 
-    def setSizeOfUnionLengthFields(self, value: Optional[PositiveInteger]) -> "SomeipTransformationISignalProps":
+    def setSizeOfUnionLengthFields(self, value: Optional[PositiveInteger]) -> "SOMEIPTransformationISignalProps":
         """
         The size of all length fields (in Bytes) of unions in the SOME/IP message. This attribute is valid for all available occurrences of Unions in the SOME/IP message. For a more fine granular modeling on the level of DataPrototypes the DataPrototypeTransformationProps shall be used.
         A None value is a no-op and does not overwrite an existing sizeOfUnionLengthFields.
@@ -1646,7 +1650,7 @@ class SomeipTransformationISignalProps(TransformationISignalProps):
             self.sizeOfUnionLengthFields = value
         return self
 
-    def addTlvDataIdDefinitionRef(self, value: Optional[RefType]) -> "SomeipTransformationISignalProps":
+    def addTlvDataIdDefinitionRef(self, value: Optional[RefType]) -> "SOMEIPTransformationISignalProps":
         """
         This reference identifies the TlvDataIdDefinitions relevant for the enclosing SOMEIPTransformationISignalProps
         A None value is a no-op and does not add to tlvDataIdDefinitionRefs.
@@ -1669,6 +1673,7 @@ class UserDefinedTransformationISignalProps(TransformationISignalProps):
 
     # UserDefinedTransformationISignalProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.28, p.828
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no own attributes; reader/writer coverage via the USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS dispatch)
