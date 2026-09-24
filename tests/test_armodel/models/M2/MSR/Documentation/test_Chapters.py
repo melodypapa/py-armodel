@@ -74,6 +74,96 @@ class TestPredefinedChapter:
         assert predefined.getChapterModel() is chapter_model
 
 
+class TestChapterModel:
+    """Test class for ChapterModel class (Table 9.59, AUTOSAR_FO_TPS_GenericStructureTemplate)."""
+
+    def test_initialization(self):
+        model = ChapterModel()
+        assert model.getChapter() is None
+        assert model.getChapterContent() is None
+        assert model.getTopic1() is None
+
+    def test_chapter_model_inheritance(self):
+        """ChapterModel shall derive from ARObject only (Table 9.59 Base row; XSD 00052 complexType CHAPTER-MODEL carries the AR-OBJECT group alone — no Identifiable, hence the no-argument constructor)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+
+        model = ChapterModel()
+        assert isinstance(model, ARObject)
+        assert not isinstance(model, Identifiable)
+
+    def test_chapter_model_has_spec_note(self):
+        """The class docstring carries the Table 9.59 Note verbatim."""
+        assert cleandoc(ChapterModel.__doc__) == (
+            "This is the basic content model of a chapter except the Chapter title. This can be utilized in general chapters as well as in predefined chapters.\n"
+            "\n"
+            "A chapter has content on three levels:\n"
+            "\n"
+            "1. chapter content\n"
+            "\n"
+            "2. topics\n"
+            "\n"
+            "3. subchapters"
+        )
+
+    def test_chapter_model_docstrings_match_spec_notes(self):
+        """Each accessor docstring leads with its Table 9.59 attribute Note verbatim (Rule 0001.4)."""
+        chapter_note = "This is a particular subchapter." " Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=200" " xml.typeElement=false xml.typeWrapperElement=false"
+        chapter_content_note = (
+            "This is the chapter content which is not a topic or a subchapter. It is the content which is directly in the chapter."
+            " Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=30"
+            " xml.typeElement=false xml.typeWrapperElement=false"
+        )
+        topic1_note = "This is a topic within the chapter." " Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=170" " xml.typeElement=false xml.typeWrapperElement=false"
+
+        assert cleandoc(ChapterModel.setChapter.__doc__).split("\n\n")[0] == chapter_note
+        assert cleandoc(ChapterModel.getChapter.__doc__).split("\n\n")[0] == chapter_note
+        assert "A None value is a no-op and does not overwrite an existing chapter." in cleandoc(ChapterModel.setChapter.__doc__)
+
+        assert cleandoc(ChapterModel.setChapterContent.__doc__).split("\n\n")[0] == chapter_content_note
+        assert cleandoc(ChapterModel.getChapterContent.__doc__).split("\n\n")[0] == chapter_content_note
+        assert "A None value is a no-op and does not overwrite an existing chapterContent." in cleandoc(ChapterModel.setChapterContent.__doc__)
+
+        assert cleandoc(ChapterModel.setTopic1.__doc__).split("\n\n")[0] == topic1_note
+        assert cleandoc(ChapterModel.getTopic1.__doc__).split("\n\n")[0] == topic1_note
+        assert "A None value is a no-op and does not overwrite an existing topic1." in cleandoc(ChapterModel.setTopic1.__doc__)
+
+    def test_chapter_model_member_annotations(self):
+        """getChapter/setChapter shall be Optional[ChapterOrMsrQuery], getChapterContent/setChapterContent Optional[ChapterContent] and getTopic1/setTopic1 Optional[TopicOrMsrQuery] (Rule 0003)."""
+        import typing
+
+        assert typing.get_type_hints(ChapterModel.getChapter)["return"] == typing.Optional[ChapterOrMsrQuery]
+        assert typing.get_type_hints(ChapterModel.setChapter)["value"] == typing.Optional[ChapterOrMsrQuery]
+        assert typing.get_type_hints(ChapterModel.getChapterContent)["return"] == typing.Optional[ChapterContent]
+        assert typing.get_type_hints(ChapterModel.setChapterContent)["value"] == typing.Optional[ChapterContent]
+        assert typing.get_type_hints(ChapterModel.getTopic1)["return"] == typing.Optional[TopicOrMsrQuery]
+        assert typing.get_type_hints(ChapterModel.setTopic1)["value"] == typing.Optional[TopicOrMsrQuery]
+
+    def test_set_get_chapter(self):
+        model = ChapterModel()
+        query = ChapterOrMsrQuery()
+        assert model.setChapter(query) is model
+        assert model.getChapter() is query
+        model.setChapter(None)
+        assert model.getChapter() is query
+
+    def test_set_get_chapter_content(self):
+        model = ChapterModel()
+        content = ChapterContent()
+        assert model.setChapterContent(content) is model
+        assert model.getChapterContent() is content
+        model.setChapterContent(None)
+        assert model.getChapterContent() is content
+
+    def test_set_get_topic1(self):
+        model = ChapterModel()
+        topic_or_msr_query = TopicOrMsrQuery()
+        assert model.setTopic1(topic_or_msr_query) is model
+        assert model.getTopic1() is topic_or_msr_query
+        model.setTopic1(None)
+        assert model.getTopic1() is topic_or_msr_query
+
+
 class TestDocumentationLeafClasses:
     """Test classes for the empty/leaf documentation container classes."""
 

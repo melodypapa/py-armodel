@@ -149,75 +149,32 @@ class ChapterModel(ARObject):
 
     # ChapterModel method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.59, p.330
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setChapter         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getChapter         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setChapterContent  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getChapterContent  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTopic1          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTopic1          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setChapter         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getChapter         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setChapterContent  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getChapterContent  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTopic1          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTopic1          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # NOTE: `# Spec verified:` stamp deferred to 9b batch confirmation (2026-09-24).
 
     def __init__(self):
         super().__init__()
 
-        # This is a particular subchapter.
+        # This is a particular subchapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=200 xml.typeElement=false xml.typeWrapperElement=false
         self.chapter: Optional[ChapterOrMsrQuery] = None
 
-        # This is the chapter content which is not a topic or a subchapter. It is the content which is directly in the chapter.
+        # This is the chapter content which is not a topic or a subchapter. It is the content which is directly in the chapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
         self.chapterContent: Optional[ChapterContent] = None
 
-        # This is a topic within the chapter.
+        # This is a topic within the chapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=170 xml.typeElement=false xml.typeWrapperElement=false
         self.topic1: Optional[TopicOrMsrQuery] = None
-
-    def setChapterContent(self, value: Optional[ChapterContent]) -> ChapterModel:
-        """
-        This is the chapter content which is not a topic or a subchapter. It is the content which is directly in the chapter.
-
-        A None value is a no-op and does not overwrite an existing chapterContent.
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.chapterContent = value
-        return self
-
-    def getChapterContent(self) -> Optional[ChapterContent]:
-        """
-        This is the chapter content which is not a topic or a subchapter. It is the content which is directly in the chapter.
-
-        Returns:
-            The chapter content which is not a topic or a subchapter
-        """
-        return self.chapterContent
-
-    def setTopic1(self, value: Optional[TopicOrMsrQuery]) -> ChapterModel:
-        """
-        This is a topic within the chapter.
-
-        A None value is a no-op and does not overwrite an existing topic1.
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.topic1 = value
-        return self
-
-    def getTopic1(self) -> Optional[TopicOrMsrQuery]:
-        """
-        This is a topic within the chapter.
-
-        Returns:
-            A topic within the chapter
-        """
-        return self.topic1
 
     def setChapter(self, value: Optional[ChapterOrMsrQuery]) -> ChapterModel:
         """
-        This is a particular subchapter.
+        This is a particular subchapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=200 xml.typeElement=false xml.typeWrapperElement=false
 
         A None value is a no-op and does not overwrite an existing chapter.
 
@@ -230,12 +187,56 @@ class ChapterModel(ARObject):
 
     def getChapter(self) -> Optional[ChapterOrMsrQuery]:
         """
-        This is a particular subchapter.
+        This is a particular subchapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=200 xml.typeElement=false xml.typeWrapperElement=false
 
         Returns:
             A particular subchapter
         """
         return self.chapter
+
+    def setChapterContent(self, value: Optional[ChapterContent]) -> ChapterModel:
+        """
+        This is the chapter content which is not a topic or a subchapter. It is the content which is directly in the chapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
+
+        A None value is a no-op and does not overwrite an existing chapterContent.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.chapterContent = value
+        return self
+
+    def getChapterContent(self) -> Optional[ChapterContent]:
+        """
+        This is the chapter content which is not a topic or a subchapter. It is the content which is directly in the chapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
+
+        Returns:
+            The chapter content which is not a topic or a subchapter
+        """
+        return self.chapterContent
+
+    def setTopic1(self, value: Optional[TopicOrMsrQuery]) -> ChapterModel:
+        """
+        This is a topic within the chapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=170 xml.typeElement=false xml.typeWrapperElement=false
+
+        A None value is a no-op and does not overwrite an existing topic1.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.topic1 = value
+        return self
+
+    def getTopic1(self) -> Optional[TopicOrMsrQuery]:
+        """
+        This is a topic within the chapter. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=170 xml.typeElement=false xml.typeWrapperElement=false
+
+        Returns:
+            A topic within the chapter
+        """
+        return self.topic1
 
 
 class ChapterContent(ARObject):
