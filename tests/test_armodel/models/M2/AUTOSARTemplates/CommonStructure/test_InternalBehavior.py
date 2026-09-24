@@ -16,26 +16,48 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 
 class TestReentrancyLevelEnum:
-    def test_initialization(self):
-        """Test ReentrancyLevelEnum initialization"""
-        reentrancy_level = ReentrancyLevelEnum()
-        assert reentrancy_level.MULTICORE_REENTRANT == "multicoreReentrant"
-        assert reentrancy_level.NON_REENTRANT == "nonReentrant"
-        assert reentrancy_level.SINGLE_CORE_REENTRANT == "singleCoreReentrant"
-        assert "multicoreReentrant" in reentrancy_level.getEnumValues()
-        assert "nonReentrant" in reentrancy_level.getEnumValues()
-        assert "singleCoreReentrant" in reentrancy_level.getEnumValues()
-
-    def test_enum_values(self):
-        """Test ReentrancyLevelEnum values"""
+    def test_literals(self):
+        """Test ReentrancyLevelEnum literal values per AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Table 5.5"""
         assert ReentrancyLevelEnum.MULTICORE_REENTRANT == "multicoreReentrant"
         assert ReentrancyLevelEnum.NON_REENTRANT == "nonReentrant"
         assert ReentrancyLevelEnum.SINGLE_CORE_REENTRANT == "singleCoreReentrant"
 
-    def test_enum_usage(self):
-        """Test using ReentrancyLevelEnum values"""
-        reentrant_level = ReentrancyLevelEnum.MULTICORE_REENTRANT
-        assert reentrant_level == "multicoreReentrant"
+    def test_enum_values(self):
+        """Test the valid enum value set in spec literal order (Table 5.5)"""
+        enum = ReentrancyLevelEnum()
+        assert enum.getEnumValues() == (
+            ReentrancyLevelEnum.MULTICORE_REENTRANT,
+            ReentrancyLevelEnum.NON_REENTRANT,
+            ReentrancyLevelEnum.SINGLE_CORE_REENTRANT,
+        )
+
+    def test_instantiation_set_value(self):
+        """Test enum instantiability and setValue/getValue round-trip per Rule 0011"""
+        enum = ReentrancyLevelEnum()
+        result = enum.setValue(ReentrancyLevelEnum.SINGLE_CORE_REENTRANT)
+        assert result is enum  # Method chaining
+        assert enum.getValue() == "singleCoreReentrant"
+
+    def test_set_value_none_noop(self):
+        """Test setValue(None) is a no-op"""
+        enum = ReentrancyLevelEnum()
+        assert enum.setValue(None) is enum
+        assert enum.getValue() == ""  # ARLiteral's empty representation for an unset literal
+        enum.setValue(ReentrancyLevelEnum.MULTICORE_REENTRANT)
+        enum.setValue(None)
+        assert enum.getValue() == "multicoreReentrant"
+
+    def test_validate_enum_value(self):
+        """Test validateEnumValue accepts spec literals and rejects others"""
+        enum = ReentrancyLevelEnum()
+        assert enum.validateEnumValue("multicoreReentrant") is True
+        assert enum.validateEnumValue("nonReentrant") is True
+        assert enum.validateEnumValue("singleCoreReentrant") is True
+        assert enum.validateEnumValue("bogus") is False
+
+    def test_spec_note(self):
+        """Test the Table 5.5 class note."""
+        assert ReentrancyLevelEnum.__doc__.strip() == "Specifies if and in which kinds of environments an entity is reentrant."
 
 
 class TestApiPrincipleEnum:

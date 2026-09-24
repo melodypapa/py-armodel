@@ -22,25 +22,19 @@ class ReentrancyLevelEnum(AREnum):
 
     # ReentrancyLevelEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.5, p.73
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    # Unlimited concurrent execution of this entity is possible, including
-    # preemption and parallel execution on multi core systems.
-    # Tags: atp.EnumerationLiteralIndex=0
+    # Unlimited concurrent execution of this entity is possible, including preemption and parallel execution on multi core systems. Tags: atp.EnumerationLiteralIndex=0
     MULTICORE_REENTRANT = "multicoreReentrant"
 
-    # Concurrent execution of this entity is not possible.
-    # Tags: atp.EnumerationLiteralIndex=1
+    # Concurrent execution of this entity is not possible. Tags: atp.EnumerationLiteralIndex=1
     NON_REENTRANT = "nonReentrant"
 
-    # Pseudo-concurrent execution (i.e. preemption) of this entity is possible
-    # on single core systems. Tags: atp.EnumerationLiteralIndex=2
+    # Pseudo-concurrent execution (i.e. preemption) of this entity is possible on single core systems. Tags: atp.EnumerationLiteralIndex=2
     SINGLE_CORE_REENTRANT = "singleCoreReentrant"
 
     def __init__(self):
-        """
-        Initializes the ReentrancyLevelEnum with valid values.
-        """
         super().__init__(
             (
                 ReentrancyLevelEnum.MULTICORE_REENTRANT,
