@@ -465,15 +465,42 @@ class TestArraySizeSemanticsEnum:
 
 
 class TestArrayImplPolicyEnum:
-    def test_initialization_and_values(self):
+    def test_literals(self):
+        """Test ArrayImplPolicyEnum literal values per AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 5.18"""
+        assert ArrayImplPolicyEnum.PAYLOAD_AS_ARRAY == "payloadAsArray"
+        assert ArrayImplPolicyEnum.PAYLOAD_AS_POINTER_TO_ARRAY == "payloadAsPointerToArray"
+
+    def test_enum_values(self):
+        """Test the valid enum value set in spec literal order (Table 5.18)"""
         enum = ArrayImplPolicyEnum()
+        assert enum.getEnumValues() == (
+            ArrayImplPolicyEnum.PAYLOAD_AS_ARRAY,
+            ArrayImplPolicyEnum.PAYLOAD_AS_POINTER_TO_ARRAY,
+        )
 
-        assert enum.getEnumValues() == (ArrayImplPolicyEnum.DYNAMIC, ArrayImplPolicyEnum.STATIC)
-
-    def test_set_get_and_validate(self):
+    def test_instantiation_set_value(self):
+        """Test enum instantiability and setValue/getValue round-trip per Rule 0011"""
         enum = ArrayImplPolicyEnum()
+        result = enum.setValue(ArrayImplPolicyEnum.PAYLOAD_AS_POINTER_TO_ARRAY)
+        assert result is enum  # Method chaining
+        assert enum.getValue() == "payloadAsPointerToArray"
 
-        assert enum.setValue(ArrayImplPolicyEnum.STATIC) is enum
-        assert enum.getValue() == "static"
-        assert enum.validateEnumValue("dynamic") is True
-        assert enum.validateEnumValue("invalid") is False
+    def test_set_value_none_noop(self):
+        """Test setValue(None) is a no-op"""
+        enum = ArrayImplPolicyEnum()
+        assert enum.setValue(None) is enum
+        assert enum.getValue() == ""  # ARLiteral's empty representation for an unset literal
+        enum.setValue(ArrayImplPolicyEnum.PAYLOAD_AS_ARRAY)
+        enum.setValue(None)
+        assert enum.getValue() == "payloadAsArray"
+
+    def test_validate_enum_value(self):
+        """Test validateEnumValue accepts spec literals and rejects others"""
+        enum = ArrayImplPolicyEnum()
+        assert enum.validateEnumValue("payloadAsArray") is True
+        assert enum.validateEnumValue("payloadAsPointerToArray") is True
+        assert enum.validateEnumValue("bogus") is False
+
+    def test_spec_note(self):
+        """Test the Table 5.18 class note."""
+        assert ArrayImplPolicyEnum.__doc__.strip() == "This meta-class provides values to configure the implementation of the payload part of an array."

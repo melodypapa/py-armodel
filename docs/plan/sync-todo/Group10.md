@@ -28,18 +28,18 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations (fixed+recorded in step notes: CODEGENERATION comment trailing period removed (spec has none), `Tags:` prefix format applied, 4-col checklist → 6-col, set-based order test → exact order; no open deviations — tracker v2 mention is a stale intake appendix listing only)
   - [ ] Step 9 — Verify (9a) + confirm (9b) [9a: 10933 unit tests + flake8 + ruff + black green; **stamp deferred to batch confirmation (user instruction 2026-09-24)**]
 
-- [ ] `ArrayImplPolicyEnum` — AREnum — source TBC (locate table at Step 1)
+- [ ] `ArrayImplPolicyEnum` — AREnum — R23-11 markdown · Table 5.18 (CP_TPS_SoftwareComponentTemplate)
   - module: M2/AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py
-  - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: deviation-tracked in method_deviation_by_class_v2.md — reviewed at Step 1: only an Appendix intake listing (no deviation rows); Table 5.18 exists, so the appendix entry is a stale intake artifact
+  - [x] Step 1 — Sync members & description from spec (Table 5.18, p.276; literals payloadAsArray/payloadAsPointerToArray, indices 0-1 = XSD doc order; found: markdown renders `payloadAsPointerTo Array` via column wrap — XSD `mmt.qualifiedName` confirms `payloadAsPointerToArray`)
+  - [x] Step 2 — Write model class unit test (Red) (6 tests: literals/values+order/setValue round-trip+chaining/None no-op/validateEnumValue/spec Note; Red confirmed 1st run — 6/6 failed on the fabricated DYNAMIC/STATIC stub members and paraphrased docstring)
+  - [x] Step 3 — Implement model class (Green) (production change: fabricated DYNAMIC/STATIC stub literals replaced with spec PAYLOAD_AS_ARRAY/"payloadAsArray" + PAYLOAD_AS_POINTER_TO_ARRAY/"payloadAsPointerToArray" in index order, no-arg `__init__`; Green = 5/6 behavior tests pass — test_spec_note intentionally Red pending Step 4)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) (paraphrased docstring "Enumeration for array implementation policy." wiped; class Note rewritten verbatim from Table 5.18; both literal comments rewritten verbatim with `Tags: atp.EnumerationLiteralIndex=N`; no `__init__` docstring; mirror file 53/53)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — the value form is serialized by `ImplementationDataTypeElement.arrayImplPolicy`; consumer coverage verified MISSING: no `ARRAY-IMPL-POLICY` in parser/writer and no fixture/test carries it — recorded at Step 8 as consuming-class deviation, fix belongs to the queued ImplementationDataTypeElement row)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — no parser/writer code added for the enum itself; consumer gap reported, not fixed here — out of this row's per-class commit scope)
+  - [x] Step 7 — Update checklist comment (6-column format, single `__init__` row, `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.18, p.276`, release R23-11; NO `# Spec verified:` — deferred to batch confirmation)
+  - [x] Step 8 — Deviations (fixed+recorded in step notes: whole-enum stub — fabricated DYNAMIC/STATIC literals with no spec basis, paraphrased docstring, old 4-column checklist — all replaced from Table 5.18; REPORTED UNFIXED: consumer `ImplementationDataTypeElement.arrayImplPolicy` has no reader/writer coverage (`ARRAY-IMPL-POLICY` absent from read/writeImplementationDataTypeElement, arxml_parser.py:6532 / arxml_writer.py:7549; no fixture/test carries it) — fix belongs to the queued ImplementationDataTypeElement row in this file; tracker v2 mention is a stale intake appendix listing only)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) [9a: 10937 unit tests + flake8 + ruff + black green; **stamp deferred to batch confirmation (user instruction 2026-09-24)**]
 
 - [ ] `ApiPrincipleEnum` — AREnum — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py

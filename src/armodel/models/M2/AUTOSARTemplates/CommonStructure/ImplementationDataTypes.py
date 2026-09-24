@@ -330,20 +330,25 @@ class ImplementationDataType(AbstractImplementationDataType):
 
 class ArrayImplPolicyEnum(AREnum):
     """
-    Enumeration for array implementation policy.
+    This meta-class provides values to configure the implementation of the payload part of an array.
     """
 
     # ArrayImplPolicyEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.18, p.276
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    DYNAMIC = "dynamic"
-    STATIC = "static"
+    # This configuration demands the implementation of the payload as an array. Tags: atp.EnumerationLiteralIndex=0
+    PAYLOAD_AS_ARRAY = "payloadAsArray"
+
+    # This configuration demands the implementation of the payload as a pointer to an array. Tags: atp.EnumerationLiteralIndex=1
+    PAYLOAD_AS_POINTER_TO_ARRAY = "payloadAsPointerToArray"
 
     def __init__(self):
         super().__init__(
             (
-                ArrayImplPolicyEnum.DYNAMIC,
-                ArrayImplPolicyEnum.STATIC,
+                ArrayImplPolicyEnum.PAYLOAD_AS_ARRAY,
+                ArrayImplPolicyEnum.PAYLOAD_AS_POINTER_TO_ARRAY,
             )
         )
 
