@@ -16,6 +16,8 @@ class AtpMixedString(ARObject):
     # [x] getMixedString    [x] impl  [x] docstring  [x] test
     # [x] setMixedString    [x] impl  [x] docstring  [x] test
 
+    mixedString: Optional[str] = None
+
     def __init__(self):
         if type(self) is AtpMixedString:
             raise TypeError("AtpMixedString is an abstract class.")

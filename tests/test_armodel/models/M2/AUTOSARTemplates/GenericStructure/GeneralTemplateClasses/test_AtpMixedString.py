@@ -25,3 +25,9 @@ def test_none_noop_and_chaining():
     m.setMixedString("keep")
     assert m.setMixedString(None) is m
     assert m.getMixedString() == "keep"
+
+
+def test_whitespace_only_stored_verbatim():
+    m = _Mixed()
+    m.setMixedString(" ")
+    assert m.getMixedString() == " "
