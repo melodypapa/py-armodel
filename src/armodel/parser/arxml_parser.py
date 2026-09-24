@@ -1742,7 +1742,6 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             instance_ref = AutosarVariableRef()
             self.readARObject(child_element, instance_ref)
-            instance_ref.setAutosarVariableIRef(self.getVariableInAtomicSWCTypeInstanceRef(self.find(child_element, "AUTOSAR-VARIABLE-IREF")))
             implementation_ref_element = self.find(child_element, "AUTOSAR-VARIABLE-IN-IMPL-DATATYPE")
             if implementation_ref_element is not None:
                 implementation_ref = ArVariableInImplementationDataInstanceRef()
@@ -1752,6 +1751,7 @@ class ARXMLParser(AbstractARXMLParser):
                     implementation_ref.addContextDataPrototypeRef(ref)
                 implementation_ref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(implementation_ref_element, "TARGET-DATA-PROTOTYPE-REF"))
                 instance_ref.setAutosarVariableInImplDatatype(implementation_ref)
+            instance_ref.setAutosarVariableIRef(self.getVariableInAtomicSWCTypeInstanceRef(self.find(child_element, "AUTOSAR-VARIABLE-IREF")))
             instance_ref.setLocalVariableRef(self.getChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF"))
         return instance_ref
 

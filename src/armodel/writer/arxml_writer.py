@@ -3661,7 +3661,6 @@ class ARXMLWriter(AbstractARXMLWriter):
         if ref is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, ref)
-            self.setVariableInAtomicSWCTypeInstanceRef(child_element, "AUTOSAR-VARIABLE-IREF", ref.getAutosarVariableIRef())
             implementation_ref = ref.getAutosarVariableInImplDatatype()
             if implementation_ref is not None:
                 implementation_element = ET.SubElement(child_element, "AUTOSAR-VARIABLE-IN-IMPL-DATATYPE")
@@ -3670,6 +3669,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for context_ref in implementation_ref.getContextDataPrototypeRefs():
                     self.setChildElementOptionalRefType(implementation_element, "CONTEXT-DATA-PROTOTYPE-REF", context_ref)
                 self.setChildElementOptionalRefType(implementation_element, "TARGET-DATA-PROTOTYPE-REF", implementation_ref.getTargetDataPrototypeRef())
+            self.setVariableInAtomicSWCTypeInstanceRef(child_element, "AUTOSAR-VARIABLE-IREF", ref.getAutosarVariableIRef())
             self.setChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF", ref.getLocalVariableRef())
 
     def writeNvBlockDataMapping(self, element: ET.Element, mapping: NvBlockDataMapping):
