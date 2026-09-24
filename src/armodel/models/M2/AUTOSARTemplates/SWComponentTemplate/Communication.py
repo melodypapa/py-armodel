@@ -1380,93 +1380,69 @@ class ServerComSpec(PPortComSpec):
 
 class NvProvideComSpec(PPortComSpec):
     """
-    Communication attributes of PPortPrototypes with respect to Nv data communication
-    on the provided side.
+    Communication attributes of PPortPrototypes with respect to Nv data communication on the provided side.
     """
 
     # NvProvideComSpec method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getRamBlockInitValue         [x] impl  [x] docstring  [ ] test
-    # [ ] setRamBlockInitValue         [x] impl  [x] docstring  [ ] test
-    # [ ] getRomBlockInitValue         [x] impl  [x] docstring  [ ] test
-    # [ ] setRomBlockInitValue         [x] impl  [x] docstring  [ ] test
-    # [ ] getVariableRef               [x] impl  [x] docstring  [ ] test
-    # [ ] setVariableRef               [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.85, p.195
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRamBlockInitValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRamBlockInitValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRomBlockInitValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRomBlockInitValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariableRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariableRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.ramBlockInitValue: ValueSpecification = None
-        self.romBlockInitValue: ValueSpecification = None
-        self.variableRef: RefType = None
+        # This represents the initial value of the RAM Block that corresponds to the referenced variable.
+        self.ramBlockInitValue: Optional[ValueSpecification] = None
 
-    def getRamBlockInitValue(self):
+        # This represents the initial value of the ROM block that corresponds to the referenced variable.
+        self.romBlockInitValue: Optional[ValueSpecification] = None
+
+        # This represents the variable for which the ComSpec is specified. [constr_1900]
+        self.variableRef: Optional[RefType] = None
+
+    def getRamBlockInitValue(self) -> Optional[ValueSpecification]:
         """
-        Gets the initial value for the RAM block of Nv data.
-
-        Returns:
-            ValueSpecification: The RAM block init value
+        This represents the initial value of the RAM Block that corresponds to the referenced variable.
         """
         return self.ramBlockInitValue
 
-    def setRamBlockInitValue(self, value: ValueSpecification):
+    def setRamBlockInitValue(self, value: Optional[ValueSpecification]) -> NvProvideComSpec:
         """
-        Sets the initial value for the RAM block of Nv data.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The RAM block init value to set
-
-        Returns:
-            self for method chaining
+        This represents the initial value of the RAM Block that corresponds to the referenced variable. A None value is a no-op and does not overwrite an existing ramBlockInitValue.
         """
         if value is not None:
             self.ramBlockInitValue = value
         return self
 
-    def getRomBlockInitValue(self):
+    def getRomBlockInitValue(self) -> Optional[ValueSpecification]:
         """
-        Gets the initial value for the ROM block of Nv data.
-
-        Returns:
-            ValueSpecification: The ROM block init value
+        This represents the initial value of the ROM block that corresponds to the referenced variable.
         """
         return self.romBlockInitValue
 
-    def setRomBlockInitValue(self, value: ValueSpecification):
+    def setRomBlockInitValue(self, value: Optional[ValueSpecification]) -> NvProvideComSpec:
         """
-        Sets the initial value for the ROM block of Nv data.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The ROM block init value to set
-
-        Returns:
-            self for method chaining
+        This represents the initial value of the ROM block that corresponds to the referenced variable. A None value is a no-op and does not overwrite an existing romBlockInitValue.
         """
         if value is not None:
             self.romBlockInitValue = value
         return self
 
-    def getVariableRef(self):
+    def getVariableRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the VariableDataPrototype within the NvDataInterface.
-
-        Returns:
-            RefType: The variable reference
+        This represents the variable for which the ComSpec is specified. [constr_1900]
         """
         return self.variableRef
 
-    def setVariableRef(self, value: RefType):
+    def setVariableRef(self, value: Optional[RefType]) -> NvProvideComSpec:
         """
-        Sets the reference to the VariableDataPrototype within the NvDataInterface.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The variable reference to set
-
-        Returns:
-            self for method chaining
+        This represents the variable for which the ComSpec is specified. [constr_1900] A None value is a no-op and does not overwrite an existing variableRef.
         """
         if value is not None:
             self.variableRef = value

@@ -966,30 +966,66 @@ class TestServerComSpec:
 
 
 class TestNvProvideComSpec:
-    """Test class for NvProvideComSpec class."""
+    """Test class for NvProvideComSpec class (Table 4.85)."""
 
-    def test_nv_provide_com_spec_initialization(self):
-        """Test NvProvideComSpec initialization and methods."""
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings must be the Table 4.85 Notes copied verbatim."""
+        assert NvProvideComSpec.__doc__.strip() == "Communication attributes of PPortPrototypes with respect to Nv data communication on the provided side."
+        ram_note = "This represents the initial value of the RAM Block that corresponds to the referenced variable."
+        assert NvProvideComSpec.getRamBlockInitValue.__doc__.strip() == ram_note
+        assert NvProvideComSpec.setRamBlockInitValue.__doc__.strip() == ram_note + " A None value is a no-op and does not overwrite an existing ramBlockInitValue."
+        rom_note = "This represents the initial value of the ROM block that corresponds to the referenced variable."
+        assert NvProvideComSpec.getRomBlockInitValue.__doc__.strip() == rom_note
+        assert NvProvideComSpec.setRomBlockInitValue.__doc__.strip() == rom_note + " A None value is a no-op and does not overwrite an existing romBlockInitValue."
+        variable_note = "This represents the variable for which the ComSpec is specified. [constr_1900]"
+        assert NvProvideComSpec.getVariableRef.__doc__.strip() == variable_note
+        assert NvProvideComSpec.setVariableRef.__doc__.strip() == variable_note + " A None value is a no-op and does not overwrite an existing variableRef."
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject + PPortComSpec — Python base is PPortComSpec (most-derived, Table 4.58); setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(NvProvideComSpec, PPortComSpec)
+        assert issubclass(NvProvideComSpec, ARObject)
+        assert NvProvideComSpec.__dict__["setRamBlockInitValue"].__annotations__["return"] == "NvProvideComSpec"
+        assert NvProvideComSpec.__dict__["setRomBlockInitValue"].__annotations__["return"] == "NvProvideComSpec"
+        assert NvProvideComSpec.__dict__["setVariableRef"].__annotations__["return"] == "NvProvideComSpec"
+
+    def test_initialization_defaults(self):
+        """Test NvProvideComSpec field defaults."""
         nv_prov = NvProvideComSpec()
         assert nv_prov.ramBlockInitValue is None
         assert nv_prov.romBlockInitValue is None
         assert nv_prov.variableRef is None
 
-        # Test setters and getters
-        from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
+    def test_get_set_ram_block_init_value(self):
+        """Test ramBlockInitValue accessor pair, chaining and None no-op."""
+        nv_prov = NvProvideComSpec()
+        value = TextValueSpecification()
+        result = nv_prov.setRamBlockInitValue(value)
+        assert result is nv_prov
+        assert nv_prov.getRamBlockInitValue() is value
+        nv_prov.setRamBlockInitValue(None)
+        assert nv_prov.getRamBlockInitValue() is value
 
-        ram_value = TextValueSpecification()
-        nv_prov.setRamBlockInitValue(ram_value)
-        assert nv_prov.getRamBlockInitValue() == ram_value
+    def test_get_set_rom_block_init_value(self):
+        """Test romBlockInitValue accessor pair, chaining and None no-op."""
+        nv_prov = NvProvideComSpec()
+        value = TextValueSpecification()
+        result = nv_prov.setRomBlockInitValue(value)
+        assert result is nv_prov
+        assert nv_prov.getRomBlockInitValue() is value
+        nv_prov.setRomBlockInitValue(None)
+        assert nv_prov.getRomBlockInitValue() is value
 
-        rom_value = TextValueSpecification()
-        nv_prov.setRomBlockInitValue(rom_value)
-        assert nv_prov.getRomBlockInitValue() == rom_value
-
-        ref = RefType()
-        ref.setValue("/Test/Variable")
-        nv_prov.setVariableRef(ref)
-        assert nv_prov.getVariableRef() == ref
+    def test_get_set_variable_ref(self):
+        """Test variableRef accessor pair, chaining and None no-op."""
+        nv_prov = NvProvideComSpec()
+        value = RefType()
+        value.setValue("/NvDataInterface/Variable")
+        result = nv_prov.setVariableRef(value)
+        assert result is nv_prov
+        assert nv_prov.getVariableRef() is value
+        nv_prov.setVariableRef(None)
+        assert nv_prov.getVariableRef() is value
 
 
 class TestNonqueuedReceiverComSpec:
