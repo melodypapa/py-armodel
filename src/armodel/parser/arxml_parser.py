@@ -440,6 +440,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
     BuildEngineeringObject,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AtpMixedString import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
@@ -12464,7 +12465,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readParameterValue(element, float_value)
         float_value.setValue(self.getChildElementOptionalFloatValue(element, "VALUE"))
 
-    def readMixedStringText(self, element, obj):
+    def readMixedStringText(self, element: ET.Element, obj: AtpMixedString):
         """<<atpMixedString>>: the element text is the value (pure-text shape).
         Whitespace is preserved verbatim."""
         if element.text is not None and obj is not None:

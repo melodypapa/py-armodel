@@ -30,6 +30,16 @@ def test_read_none_text_noop():
     assert m.getMixedString() is None
 
 
+def test_read_write_whitespace_verbatim():
+    e = ET.Element("COND-BY-FORMULA")
+    e.text = "  A\nB "
+    m = _Mixed()
+    ARXMLParser().readMixedStringText(e, m)
+    out = ET.Element("COND")
+    ARXMLWriter().writeMixedStringText(out, m)
+    assert out.text == "  A\nB "
+
+
 def test_write_mixed_string_text_and_omit():
     m = _Mixed()
     m.setMixedString("X or Y")

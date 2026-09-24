@@ -332,6 +332,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
     BuildEngineeringObject,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AtpMixedString import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
@@ -12057,7 +12058,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeParameterValue(child_element, float_value)
         self.setChildElementOptionalFloatValue(child_element, "VALUE", float_value.getValue())
 
-    def writeMixedStringText(self, element, obj):
+    def writeMixedStringText(self, element: ET.Element, obj: AtpMixedString):
         """<<atpMixedString>>: write getMixedString() as element text; None omits the text node."""
         if obj is not None:
             element.text = obj.getMixedString()
