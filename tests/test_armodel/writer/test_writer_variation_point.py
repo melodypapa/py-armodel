@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Identifier,
     Integer,
     IntervalTypeEnum,
+    NameToken,
     PrimitiveIdentifier,
     RefType,
     String,
@@ -28,10 +29,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.Attribu
     LimitValueVariationPoint,
     NumericalValueVariationPoint,
 )
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LParagraph
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LOverviewParagraph, LParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph
 from armodel.writer.arxml_writer import ARXMLWriter
 
 NS = "http://autosar.org/schema/r4.0"
@@ -115,6 +117,102 @@ class TestWriteVariationPoint:
         writer.writeVariationPoint(element, vp)
 
         assert element.find("VARIATION-POINT") is None
+
+
+class TestWriteVariationPointSpecAttributes:
+    """Table 7.4 (AUTOSAR_FO_TPS_GenericStructureTemplate, p.226): writeVariationPoint
+    emits all seven spec attributes in the XSD 00052 group VARIATION-POINT order
+    (line 130012: SHORT-LABEL, DESC, BLUEPRINT-CONDITION, [FORMAL-BLUEPRINT-CONDITION
+    removed], FORMAL-BLUEPRINT-GENERATOR, SW-SYSCOND, POST-BUILD-VARIANT-CONDITIONS, SDG)."""
+
+    def _build_full_vp(self) -> VariationPoint:
+        vp = VariationPoint()
+        vp.setShortLabel(Identifier().setValue("VP_All"))
+
+        desc = MultiLanguageOverviewParagraph()
+        l2 = LOverviewParagraph()
+        l2.setL("EN")
+        l2.setValue("Short purpose text")
+        desc.addL2(l2)
+        vp.setDesc(desc)
+
+        block = DocumentationBlock()
+        paragraph = MultiLanguageParagraph()
+        l1 = LParagraph()
+        l1.setL("EN")
+        l1.setValue("Resolve the derivation manually.")
+        paragraph.addL1(l1)
+        block.addP(paragraph)
+        vp.setBlueprintCondition(block)
+
+        generator = BlueprintGenerator()
+        generator.setExpression(VerbatimString().setValue('LET Name = "Example";'))
+        vp.setFormalBlueprintGenerator(generator)
+
+        syscond = ConditionByFormula()
+        syscond.setBindingTime(BindingTimeEnum().setValue("preCompileTime"))
+        syscond.setText("sysc == 1")
+        vp.setSwSyscond(syscond)
+
+        condition = PostBuildVariantCondition()
+        condition.setMatchingCriterionRef(RefType().setValue("/Demo/Criterions/Country").setDest("POST-BUILD-VARIANT-CRITERION"))
+        condition.setValue(Integer().setValue("1"))
+        vp.addPostBuildVariantCondition(condition)
+
+        vp.setSdg(Sdg().setGID(NameToken().setValue("SDG_TOOL")))
+        return vp
+
+    def test_write_all_seven_attributes_in_xsd_order(self):
+        element = _write_vp_to_element(self._build_full_vp())
+
+        vp_element = element.find("VARIATION-POINT")
+        child_tags = [child.tag for child in vp_element]
+        assert child_tags == ["SHORT-LABEL", "DESC", "BLUEPRINT-CONDITION", "FORMAL-BLUEPRINT-GENERATOR", "SW-SYSCOND", "POST-BUILD-VARIANT-CONDITIONS", "SDG"]
+
+        assert vp_element.find("SHORT-LABEL").text == "VP_All"
+        assert vp_element.find("DESC/L-2").text == "Short purpose text"
+        assert vp_element.find("DESC/L-2").attrib["L"] == "EN"
+        assert vp_element.find("BLUEPRINT-CONDITION/P/L-1").text == "Resolve the derivation manually."
+        assert vp_element.find("FORMAL-BLUEPRINT-GENERATOR/EXPRESSION").text == 'LET Name = "Example";'
+        assert vp_element.find("SW-SYSCOND").attrib["BINDING-TIME"] == "PRE-COMPILE-TIME"
+        assert vp_element.find("SW-SYSCOND").text == "sysc == 1"
+        assert vp_element.find("POST-BUILD-VARIANT-CONDITIONS/POST-BUILD-VARIANT-CONDITION/MATCHING-CRITERION-REF").text == "/Demo/Criterions/Country"
+        assert vp_element.find("SDG").attrib["GID"] == "SDG_TOOL"
+
+    def test_write_empty_conditions_list_emits_no_wrapper(self):
+        """A VariationPoint with no post build variant conditions writes no
+        POST-BUILD-VARIANT-CONDITIONS wrapper element."""
+        vp = VariationPoint()
+        vp.setShortLabel(Identifier().setValue("VP_NoConditions"))
+
+        element = _write_vp_to_element(vp)
+
+        vp_element = element.find("VARIATION-POINT")
+        assert vp_element.find("POST-BUILD-VARIANT-CONDITIONS") is None
+
+    def test_round_trip_all_seven_spec_attributes(self):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        element = _write_vp_to_element(self._build_full_vp())
+        xml_text = ET.tostring(element.find("VARIATION-POINT"), encoding="unicode")
+
+        element_2 = ET.fromstring("<ROOT xmlns='%s'>%s</ROOT>" % (NS, xml_text))
+        vp_element_2 = element_2.find("{%s}VARIATION-POINT" % NS)
+        vp_2 = ARXMLParser().readVariationPoint(vp_element_2, VariationPoint())
+
+        assert vp_2.getShortLabel().getValue() == "VP_All"
+        assert vp_2.getDesc().getL2s()[0].getValue() == "Short purpose text"
+        assert vp_2.getDesc().getL2s()[0].getL() == "EN"
+        assert vp_2.getBlueprintCondition().getPs()[0].getL1s()[0].getValue() == "Resolve the derivation manually."
+        assert vp_2.getFormalBlueprintGenerator().getExpression().getValue() == 'LET Name = "Example";'
+        assert vp_2.getSwSyscond().getBindingTime().getValue() == "preCompileTime"
+        assert vp_2.getSwSyscond().getText() == "sysc == 1"
+        conditions = vp_2.getPostBuildVariantConditions()
+        assert len(conditions) == 1
+        assert conditions[0].getMatchingCriterionRef().getValue() == "/Demo/Criterions/Country"
+        assert conditions[0].getMatchingCriterionRef().getDest() == "POST-BUILD-VARIANT-CRITERION"
+        assert conditions[0].getValue().getValue() == 1
+        assert vp_2.getSdg().getGID().getValue() == "SDG_TOOL"
 
 
 class TestWriteBlueprintGenerator:

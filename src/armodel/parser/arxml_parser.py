@@ -1311,7 +1311,8 @@ class ARXMLParser(AbstractARXMLParser):
         variation_point.setShortLabel(self.getChildElementOptionalIdentifier(element, "SHORT-LABEL"))
         variation_point.setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC"))
         variation_point.setBlueprintCondition(self.getDocumentationBlock(element, "BLUEPRINT-CONDITION"))
-        # FORMAL-BLUEPRINT-CONDITION is obsolete (atp.Status="obsolete") and has no
+        # FORMAL-BLUEPRINT-CONDITION is removed (atp.Status="removed" in the R23-11
+        # XSD, AUTOSAR_00052.xsd group VARIATION-POINT line 130012) and has no
         # model attribute — deliberately not read.
         formal_element = self.find(element, "FORMAL-BLUEPRINT-GENERATOR")
         if formal_element is not None:

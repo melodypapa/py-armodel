@@ -356,63 +356,26 @@ class ConditionByFormula(ARObject):
 
 
 class VariationPoint(ARObject):
-    """
-    This meta-class represents the ability to express a "structural variation point".
-    The container of the variation point is part of the selected variant if swSyscond
-    evaluates to true and each postBuildVariantCriterion is fulfilled.
-
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
-    Base: ARObject
-
-    Attributes:
-        blueprintCondition (DocumentationBlock): This represents a description
-            that documents how the variation point shall be resolved when deriving
-            objects from the blueprint. Note that variationPoints are not allowed
-            within a blueprintCondition. (Multiplicity: 0..1)
-        desc (MultiLanguageOverviewParagraph): This allows to describe shortly the
-            purpose of the variation point. (Multiplicity: 0..1)
-        formalBlueprintGenerator (BlueprintGenerator): This represents a description
-            that documents how the variation point shall be resolved when deriving
-            objects from the blueprint by using ARMQL. Note that variationPoints are
-            not allowed within a formal BlueprintGenerator. (Multiplicity: 0..1)
-        postBuildVariantConditions (List[PostBuildVariantCondition]): This is the
-            set of post build variant conditions which all shall be fulfilled in
-            order to (postbuild) bind the variation point. (Multiplicity: ``*``)
-        sdg (Sdg): An optional special data group is attached to every variation
-            point. These data can be used by external software systems to attach
-            application specific data. For example, a variant management system
-            might add an identifier, an URL or a specific classifier.
-            (Multiplicity: 0..1)
-        shortLabel (Identifier): This provides a name to the particular variation
-            point to support the RTE generator. It is necessary for supporting
-            splitable aggregations and if binding time is later than
-            codeGenerationTime, as well as some RTE conditions. It needs to be
-            unique with in the enclosing Identifiables with the same ShortName.
-            (Multiplicity: 0..1)
-        swSyscond (ConditionByFormula): This condition acts as Binding Function for
-            the Variation Point. Note that the multiplicity is 0..1 in order to
-            support pure postBuild variants. (Multiplicity: 0..1)
-    """
+    """This meta-class represents the ability to express a "structural variation point". The container of the variation point is part of the selected variant if swSyscond evaluates to true and each postBuildVariantCriterion is fulfilled."""
 
     # VariationPoint method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.4, p.226
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBlueprintCondition             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBlueprintCondition             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDesc                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDesc                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFormalBlueprintGenerator       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFormalBlueprintGenerator       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPostBuildVariantConditions     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addPostBuildVariantCondition      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getSdg                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSdg                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getShortLabel                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setShortLabel                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwSyscond                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwSyscond                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBlueprintCondition          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBlueprintCondition          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDesc                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDesc                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFormalBlueprintGenerator    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFormalBlueprintGenerator    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPostBuildVariantConditions  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addPostBuildVariantCondition   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSdg                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSdg                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShortLabel                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShortLabel                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwSyscond                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwSyscond                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -423,7 +386,7 @@ class VariationPoint(ARObject):
         # This allows to describe shortly the purpose of the variation point.
         self.desc: Optional[MultiLanguageOverviewParagraph] = None
 
-        # This represents a description that documents how the variation point shall be resolved when deriving objects from the blueprint by using ARMQL. Note that variationPoints are not allowed within a formal BlueprintGenerator.
+        # This represents a description that documents how the variation point shall be resolved when deriving objects from the blueprint by using ARMQL. Note that variationPoints are not allowed within a formalBlueprintGenerator.
         self.formalBlueprintGenerator: Optional[BlueprintGenerator] = None
 
         # This is the set of post build variant conditions which all shall be fulfilled in order to (postbuild) bind the variation point.
@@ -439,130 +402,71 @@ class VariationPoint(ARObject):
         self.swSyscond: Optional[ConditionByFormula] = None
 
     def getBlueprintCondition(self) -> Optional[DocumentationBlock]:
-        """
-        This represents a description that documents how the variation point shall be
-        resolved when deriving objects from the blueprint. Note that variationPoints
-        are not allowed within a blueprintCondition.
-        """
+        """This represents a description that documents how the variation point shall be resolved when deriving objects from the blueprint. Note that variationPoints are not allowed within a blueprintCondition."""
         return self.blueprintCondition
 
     def setBlueprintCondition(self, value: Optional[DocumentationBlock]) -> "VariationPoint":
-        """
-        This represents a description that documents how the variation point shall be
-        resolved when deriving objects from the blueprint. Note that variationPoints
-        are not allowed within a blueprintCondition. A None value is a no-op and does
-        not overwrite an existing blueprintCondition.
-        """
+        """This represents a description that documents how the variation point shall be resolved when deriving objects from the blueprint. Note that variationPoints are not allowed within a blueprintCondition. A None value is a no-op and does not overwrite an existing blueprintCondition."""
         if value is not None:
             self.blueprintCondition = value
         return self
 
     def getDesc(self) -> Optional[MultiLanguageOverviewParagraph]:
-        """
-        This allows to describe shortly the purpose of the variation point.
-        """
+        """This allows to describe shortly the purpose of the variation point."""
         return self.desc
 
     def setDesc(self, value: Optional[MultiLanguageOverviewParagraph]) -> "VariationPoint":
-        """
-        This allows to describe shortly the purpose of the variation point. A None value
-        is a no-op and does not overwrite an existing desc.
-        """
+        """This allows to describe shortly the purpose of the variation point. A None value is a no-op and does not overwrite an existing desc."""
         if value is not None:
             self.desc = value
         return self
 
     def getFormalBlueprintGenerator(self) -> Optional[BlueprintGenerator]:
-        """
-        This represents a description that documents how the variation point shall be
-        resolved when deriving objects from the blueprint by using ARMQL. Note that
-        variationPoints are not allowed within a formal BlueprintGenerator.
-        """
+        """This represents a description that documents how the variation point shall be resolved when deriving objects from the blueprint by using ARMQL. Note that variationPoints are not allowed within a formalBlueprintGenerator."""
         return self.formalBlueprintGenerator
 
     def setFormalBlueprintGenerator(self, value: Optional[BlueprintGenerator]) -> "VariationPoint":
-        """
-        This represents a description that documents how the variation point shall be
-        resolved when deriving objects from the blueprint by using ARMQL. Note that
-        variationPoints are not allowed within a formal BlueprintGenerator. A None value
-        is a no-op and does not overwrite an existing formalBlueprintGenerator.
-        """
+        """This represents a description that documents how the variation point shall be resolved when deriving objects from the blueprint by using ARMQL. Note that variationPoints are not allowed within a formalBlueprintGenerator. A None value is a no-op and does not overwrite an existing formalBlueprintGenerator."""
         if value is not None:
             self.formalBlueprintGenerator = value
         return self
 
     def getPostBuildVariantConditions(self) -> List[PostBuildVariantCondition]:
-        """
-        This is the set of post build variant conditions which all shall be fulfilled in
-        order to (postbuild) bind the variation point.
-        """
+        """This is the set of post build variant conditions which all shall be fulfilled in order to (postbuild) bind the variation point."""
         return self.postBuildVariantConditions
 
     def addPostBuildVariantCondition(self, value: PostBuildVariantCondition) -> "VariationPoint":
-        """
-        This is the set of post build variant conditions which all shall be fulfilled in
-        order to (postbuild) bind the variation point. A None value is a no-op and is
-        not appended.
-        """
+        """This is the set of post build variant conditions which all shall be fulfilled in order to (postbuild) bind the variation point. A None value is a no-op and is not appended."""
         if value is not None:
             self.postBuildVariantConditions.append(value)
         return self
 
     def getSdg(self) -> Optional[Sdg]:
-        """
-        An optional special data group is attached to every variation point. These data
-        can be used by external software systems to attach application specific data.
-        For example, a variant management system might add an identifier, an URL or a
-        specific classifier.
-        """
+        """An optional special data group is attached to every variation point. These data can be used by external software systems to attach application specific data. For example, a variant management system might add an identifier, an URL or a specific classifier."""
         return self.sdg
 
     def setSdg(self, value: Optional[Sdg]) -> "VariationPoint":
-        """
-        An optional special data group is attached to every variation point. These data
-        can be used by external software systems to attach application specific data.
-        For example, a variant management system might add an identifier, an URL or a
-        specific classifier. A None value is a no-op and does not overwrite an existing
-        sdg.
-        """
+        """An optional special data group is attached to every variation point. These data can be used by external software systems to attach application specific data. For example, a variant management system might add an identifier, an URL or a specific classifier. A None value is a no-op and does not overwrite an existing sdg."""
         if value is not None:
             self.sdg = value
         return self
 
     def getShortLabel(self) -> Optional[Identifier]:
-        """
-        This provides a name to the particular variation point to support the RTE
-        generator. It is necessary for supporting splitable aggregations and if binding
-        time is later than codeGenerationTime, as well as some RTE conditions. It needs
-        to be unique with in the enclosing Identifiables with the same ShortName.
-        """
+        """This provides a name to the particular variation point to support the RTE generator. It is necessary for supporting splitable aggregations and if binding time is later than codeGenerationTime, as well as some RTE conditions. It needs to be unique with in the enclosing Identifiables with the same ShortName."""
         return self.shortLabel
 
     def setShortLabel(self, value: Optional[Identifier]) -> "VariationPoint":
-        """
-        This provides a name to the particular variation point to support the RTE
-        generator. It is necessary for supporting splitable aggregations and if binding
-        time is later than codeGenerationTime, as well as some RTE conditions. It needs
-        to be unique with in the enclosing Identifiables with the same ShortName. A None
-        value is a no-op and does not overwrite an existing shortLabel.
-        """
+        """This provides a name to the particular variation point to support the RTE generator. It is necessary for supporting splitable aggregations and if binding time is later than codeGenerationTime, as well as some RTE conditions. It needs to be unique with in the enclosing Identifiables with the same ShortName. A None value is a no-op and does not overwrite an existing shortLabel."""
         if value is not None:
             self.shortLabel = value
         return self
 
     def getSwSyscond(self) -> Optional[ConditionByFormula]:
-        """
-        This condition acts as Binding Function for the Variation Point. Note that the
-        multiplicity is 0..1 in order to support pure postBuild variants.
-        """
+        """This condition acts as Binding Function for the Variation Point. Note that the multiplicity is 0..1 in order to support pure postBuild variants."""
         return self.swSyscond
 
     def setSwSyscond(self, value: Optional[ConditionByFormula]) -> "VariationPoint":
-        """
-        This condition acts as Binding Function for the Variation Point. Note that the
-        multiplicity is 0..1 in order to support pure postBuild variants. A None value is
-        a no-op and does not overwrite an existing swSyscond.
-        """
+        """This condition acts as Binding Function for the Variation Point. Note that the multiplicity is 0..1 in order to support pure postBuild variants. A None value is a no-op and does not overwrite an existing swSyscond."""
         if value is not None:
             self.swSyscond = value
         return self

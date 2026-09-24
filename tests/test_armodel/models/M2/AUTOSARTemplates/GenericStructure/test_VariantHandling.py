@@ -875,3 +875,244 @@ class TestVariationPoint:
         assert variation_point.getSwSyscond() == syscond
         variation_point.setSwSyscond(None)
         assert variation_point.getSwSyscond() == syscond
+
+
+class TestVariationPointSpecContract:
+    """Table 7.4 (AUTOSAR_FO_TPS_GenericStructureTemplate, p.226) spec contract
+    for VariationPoint. The mid-identifier spaces in the PDF-extracted Note
+    ("postBuildVariant Criterion", "formal BlueprintGenerator") are extraction
+    artifacts — the XSD 00052 documentation strings (AUTOSAR_00052.xsd group
+    VARIATION-POINT, line 130012) confirm the camelCase forms."""
+
+    def test_class_docstring_verbatim(self):
+        """
+        Test that the class docstring is the Table 7.4 Note verbatim.
+        """
+        assert VariationPoint.__doc__.strip() == (
+            'This meta-class represents the ability to express a "structural variation point". '
+            "The container of the variation point is part of the selected variant if swSyscond "
+            "evaluates to true and each postBuildVariantCriterion is fulfilled."
+        )
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ has no docstring (spec Notes live in inline member comments).
+        """
+        assert VariationPoint.__init__.__doc__ is None
+
+    def test_base_is_arobject(self):
+        """
+        Test that the Base per Table 7.4 is ARObject (most-derived).
+        """
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+        assert issubclass(VariationPoint, ARObject)
+
+    def test_blueprint_condition_typed_documentation_block(self):
+        """
+        Test that blueprintCondition (DocumentationBlock, 0..1 aggr) is typed
+        Optional[DocumentationBlock].
+        """
+        getter_hints = typing.get_type_hints(VariationPoint.getBlueprintCondition)
+        assert getter_hints.get("return") == typing.Optional[DocumentationBlock]
+
+        setter_hints = typing.get_type_hints(VariationPoint.setBlueprintCondition)
+        assert setter_hints.get("value") == typing.Optional[DocumentationBlock]
+        assert setter_hints.get("return") is VariationPoint
+
+    def test_desc_typed_multi_language_overview_paragraph(self):
+        """
+        Test that desc (MultiLanguageOverviewParagraph, 0..1 aggr) is typed
+        Optional[MultiLanguageOverviewParagraph].
+        """
+        getter_hints = typing.get_type_hints(VariationPoint.getDesc)
+        assert getter_hints.get("return") == typing.Optional[MultiLanguageOverviewParagraph]
+
+        setter_hints = typing.get_type_hints(VariationPoint.setDesc)
+        assert setter_hints.get("value") == typing.Optional[MultiLanguageOverviewParagraph]
+        assert setter_hints.get("return") is VariationPoint
+
+    def test_formal_blueprint_generator_typed_blueprint_generator(self):
+        """
+        Test that formalBlueprintGenerator (BlueprintGenerator, 0..1 aggr,
+        atp.Status=draft) is typed Optional[BlueprintGenerator].
+        """
+        getter_hints = typing.get_type_hints(VariationPoint.getFormalBlueprintGenerator)
+        assert getter_hints.get("return") == typing.Optional[BlueprintGenerator]
+
+        setter_hints = typing.get_type_hints(VariationPoint.setFormalBlueprintGenerator)
+        assert setter_hints.get("value") == typing.Optional[BlueprintGenerator]
+        assert setter_hints.get("return") is VariationPoint
+
+    def test_post_build_variant_conditions_typed_list(self):
+        """
+        Test that postBuildVariantCondition (PostBuildVariantCondition, * aggr) maps to
+        a List[PostBuildVariantCondition] accessor pair (singular `*` -> plural field).
+        """
+        getter_hints = typing.get_type_hints(VariationPoint.getPostBuildVariantConditions)
+        assert getter_hints.get("return") == typing.List[PostBuildVariantCondition]
+
+        setter_hints = typing.get_type_hints(VariationPoint.addPostBuildVariantCondition)
+        assert setter_hints.get("value") is PostBuildVariantCondition
+        assert setter_hints.get("return") is VariationPoint
+
+    def test_sdg_typed_optional_sdg(self):
+        """
+        Test that sdg (Sdg, 0..1 aggr) is typed Optional[Sdg].
+        """
+        getter_hints = typing.get_type_hints(VariationPoint.getSdg)
+        assert getter_hints.get("return") == typing.Optional[Sdg]
+
+        setter_hints = typing.get_type_hints(VariationPoint.setSdg)
+        assert setter_hints.get("value") == typing.Optional[Sdg]
+        assert setter_hints.get("return") is VariationPoint
+
+    def test_short_label_typed_identifier(self):
+        """
+        Test that shortLabel (Identifier, 0..1 attr, atpIdentityContributor) is typed
+        Optional[Identifier].
+        """
+        getter_hints = typing.get_type_hints(VariationPoint.getShortLabel)
+        assert getter_hints.get("return") == typing.Optional[Identifier]
+
+        setter_hints = typing.get_type_hints(VariationPoint.setShortLabel)
+        assert setter_hints.get("value") == typing.Optional[Identifier]
+        assert setter_hints.get("return") is VariationPoint
+
+    def test_sw_syscond_typed_condition_by_formula(self):
+        """
+        Test that swSyscond (ConditionByFormula, 0..1 aggr) is typed
+        Optional[ConditionByFormula].
+        """
+        getter_hints = typing.get_type_hints(VariationPoint.getSwSyscond)
+        assert getter_hints.get("return") == typing.Optional[ConditionByFormula]
+
+        setter_hints = typing.get_type_hints(VariationPoint.setSwSyscond)
+        assert setter_hints.get("value") == typing.Optional[ConditionByFormula]
+        assert setter_hints.get("return") is VariationPoint
+
+    def test_getter_docstrings_are_notes_without_tags(self):
+        """
+        Test that getter docstrings are the Table 7.4 Notes verbatim without the
+        Tags/Stereotypes suffix.
+        """
+        assert VariationPoint.getBlueprintCondition.__doc__.strip() == (
+            "This represents a description that documents how the variation point shall be "
+            "resolved when deriving objects from the blueprint. Note that variationPoints are "
+            "not allowed within a blueprintCondition."
+        )
+        assert VariationPoint.getDesc.__doc__.strip() == "This allows to describe shortly the purpose of the variation point."
+        assert VariationPoint.getFormalBlueprintGenerator.__doc__.strip() == (
+            "This represents a description that documents how the variation point shall be "
+            "resolved when deriving objects from the blueprint by using ARMQL. Note that "
+            "variationPoints are not allowed within a formalBlueprintGenerator."
+        )
+        assert VariationPoint.getPostBuildVariantConditions.__doc__.strip() == (
+            "This is the set of post build variant conditions which all shall be fulfilled in " "order to (postbuild) bind the variation point."
+        )
+        assert VariationPoint.getSdg.__doc__.strip() == (
+            "An optional special data group is attached to every variation point. These data "
+            "can be used by external software systems to attach application specific data. "
+            "For example, a variant management system might add an identifier, an URL or a "
+            "specific classifier."
+        )
+        assert VariationPoint.getShortLabel.__doc__.strip() == (
+            "This provides a name to the particular variation point to support the RTE "
+            "generator. It is necessary for supporting splitable aggregations and if binding "
+            "time is later than codeGenerationTime, as well as some RTE conditions. It needs "
+            "to be unique with in the enclosing Identifiables with the same ShortName."
+        )
+        assert VariationPoint.getSwSyscond.__doc__.strip() == (
+            "This condition acts as Binding Function for the Variation Point. Note that the " "multiplicity is 0..1 in order to support pure postBuild variants."
+        )
+
+    def test_setter_docstrings_are_notes_with_none_noop(self):
+        """
+        Test that setter docstrings are the Table 7.4 Notes verbatim plus the None-no-op
+        sentence.
+        """
+        assert VariationPoint.setBlueprintCondition.__doc__.strip() == (
+            "This represents a description that documents how the variation point shall be "
+            "resolved when deriving objects from the blueprint. Note that variationPoints are "
+            "not allowed within a blueprintCondition. A None value is a no-op and does not "
+            "overwrite an existing blueprintCondition."
+        )
+        assert VariationPoint.setDesc.__doc__.strip() == ("This allows to describe shortly the purpose of the variation point. A None value " "is a no-op and does not overwrite an existing desc.")
+        assert VariationPoint.setFormalBlueprintGenerator.__doc__.strip() == (
+            "This represents a description that documents how the variation point shall be "
+            "resolved when deriving objects from the blueprint by using ARMQL. Note that "
+            "variationPoints are not allowed within a formalBlueprintGenerator. A None value "
+            "is a no-op and does not overwrite an existing formalBlueprintGenerator."
+        )
+        assert VariationPoint.addPostBuildVariantCondition.__doc__.strip() == (
+            "This is the set of post build variant conditions which all shall be fulfilled in " "order to (postbuild) bind the variation point. A None value is a no-op and is " "not appended."
+        )
+        assert VariationPoint.setSdg.__doc__.strip() == (
+            "An optional special data group is attached to every variation point. These data "
+            "can be used by external software systems to attach application specific data. "
+            "For example, a variant management system might add an identifier, an URL or a "
+            "specific classifier. A None value is a no-op and does not overwrite an existing "
+            "sdg."
+        )
+        assert VariationPoint.setShortLabel.__doc__.strip() == (
+            "This provides a name to the particular variation point to support the RTE "
+            "generator. It is necessary for supporting splitable aggregations and if binding "
+            "time is later than codeGenerationTime, as well as some RTE conditions. It needs "
+            "to be unique with in the enclosing Identifiables with the same ShortName. A None "
+            "value is a no-op and does not overwrite an existing shortLabel."
+        )
+        assert VariationPoint.setSwSyscond.__doc__.strip() == (
+            "This condition acts as Binding Function for the Variation Point. Note that the "
+            "multiplicity is 0..1 in order to support pure postBuild variants. A None value "
+            "is a no-op and does not overwrite an existing swSyscond."
+        )
+
+    def test_defaults(self):
+        """
+        Test the initial state of a fresh VariationPoint.
+        """
+        variation_point = VariationPoint()
+        assert variation_point.getBlueprintCondition() is None
+        assert variation_point.getDesc() is None
+        assert variation_point.getFormalBlueprintGenerator() is None
+        assert variation_point.getPostBuildVariantConditions() == []
+        assert variation_point.getSdg() is None
+        assert variation_point.getShortLabel() is None
+        assert variation_point.getSwSyscond() is None
+
+    def test_setter_none_noops(self):
+        """
+        Test that setters ignore None (field values preserved).
+        """
+        variation_point = VariationPoint()
+        block = DocumentationBlock()
+        desc = MultiLanguageOverviewParagraph()
+        generator = BlueprintGenerator()
+        condition = PostBuildVariantCondition()
+        sdg = Sdg()
+        label = Identifier().setValue("VP_Label")
+        syscond = ConditionByFormula()
+
+        variation_point.setBlueprintCondition(block)
+        variation_point.setDesc(desc)
+        variation_point.setFormalBlueprintGenerator(generator)
+        variation_point.addPostBuildVariantCondition(condition)
+        variation_point.setSdg(sdg)
+        variation_point.setShortLabel(label)
+        variation_point.setSwSyscond(syscond)
+
+        assert variation_point.setBlueprintCondition(None) is variation_point
+        assert variation_point.setDesc(None) is variation_point
+        assert variation_point.setFormalBlueprintGenerator(None) is variation_point
+        assert variation_point.addPostBuildVariantCondition(None) is variation_point
+        assert variation_point.setSdg(None) is variation_point
+        assert variation_point.setShortLabel(None) is variation_point
+        assert variation_point.setSwSyscond(None) is variation_point
+
+        assert variation_point.getBlueprintCondition() is block
+        assert variation_point.getDesc() is desc
+        assert variation_point.getFormalBlueprintGenerator() is generator
+        assert variation_point.getPostBuildVariantConditions() == [condition]
+        assert variation_point.getSdg() is sdg
+        assert variation_point.getShortLabel() is label
+        assert variation_point.getSwSyscond() is syscond

@@ -5,6 +5,9 @@ import os
 import pytest
 
 from armodel.models import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator import (
+    BlueprintGenerator,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     ConditionByFormula,
     PostBuildVariantCondition,
@@ -12,7 +15,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
     PostBuildVariantCriterionValue,
     VariationPoint,
 )
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 from tests.test_armodel.parser._helpers import _snip
@@ -397,6 +403,81 @@ class TestReadVariationPointProxy:
         assert isinstance(value_access, LimitValueVariationPoint)
         assert value_access.getIntervalType().getValue() == "closed"
         assert value_access.getText() == "42"
+
+
+class TestReadVariationPointSpecAttributes:
+    """Table 7.4 (AUTOSAR_FO_TPS_GenericStructureTemplate, p.226): readVariationPoint
+    populates all seven spec attributes (XSD 00052 group VARIATION-POINT, line 130012:
+    SHORT-LABEL, DESC, BLUEPRINT-CONDITION, [FORMAL-BLUEPRINT-CONDITION removed],
+    FORMAL-BLUEPRINT-GENERATOR, SW-SYSCOND, POST-BUILD-VARIANT-CONDITIONS, SDG)."""
+
+    def test_read_all_seven_spec_attributes(self, parser):
+        inner = (
+            "<VARIATION-POINT>"
+            "<SHORT-LABEL>VP_All</SHORT-LABEL>"
+            "<DESC>"
+            '<L-2 L="EN">Short purpose text</L-2>'
+            "</DESC>"
+            "<BLUEPRINT-CONDITION>"
+            "<P>"
+            '<L-1 L="EN">Resolve the derivation manually.</L-1>'
+            "</P>"
+            "</BLUEPRINT-CONDITION>"
+            '<FORMAL-BLUEPRINT-GENERATOR><EXPRESSION>LET Name = "Example";</EXPRESSION></FORMAL-BLUEPRINT-GENERATOR>'
+            '<SW-SYSCOND BINDING-TIME="PRE-COMPILE-TIME">sysc == 1</SW-SYSCOND>'
+            "<POST-BUILD-VARIANT-CONDITIONS>"
+            "<POST-BUILD-VARIANT-CONDITION>"
+            '<MATCHING-CRITERION-REF DEST="POST-BUILD-VARIANT-CRITERION">/Demo/Criterions/Country</MATCHING-CRITERION-REF>'
+            "<VALUE>1</VALUE>"
+            "</POST-BUILD-VARIANT-CONDITION>"
+            "</POST-BUILD-VARIANT-CONDITIONS>"
+            '<SDG GID="SDG_TOOL">'
+            '<SD GID="TOOL-ID">Tool X</SD>'
+            "</SDG>"
+            "</VARIATION-POINT>"
+        )
+        vp_element = _snip(inner).find("{%s}VARIATION-POINT" % NS)
+
+        vp = parser.readVariationPoint(vp_element, VariationPoint())
+
+        assert vp.getShortLabel().getValue() == "VP_All"
+
+        desc = vp.getDesc()
+        assert isinstance(desc, MultiLanguageOverviewParagraph)
+        assert desc.getL2s()[0].getValue() == "Short purpose text"
+        assert desc.getL2s()[0].getL() == "EN"
+
+        blueprint_condition = vp.getBlueprintCondition()
+        assert isinstance(blueprint_condition, DocumentationBlock)
+        assert blueprint_condition.getPs()[0].getL1s()[0].getValue() == "Resolve the derivation manually."
+
+        generator = vp.getFormalBlueprintGenerator()
+        assert isinstance(generator, BlueprintGenerator)
+        assert generator.getExpression().getValue() == 'LET Name = "Example";'
+
+        sw_syscond = vp.getSwSyscond()
+        assert isinstance(sw_syscond, ConditionByFormula)
+        assert sw_syscond.getBindingTime().getValue() == "preCompileTime"
+        assert sw_syscond.getText() == "sysc == 1"
+
+        conditions = vp.getPostBuildVariantConditions()
+        assert len(conditions) == 1
+        assert conditions[0].getMatchingCriterionRef().getValue() == "/Demo/Criterions/Country"
+        assert conditions[0].getValue().getValue() == 1
+
+        sdg = vp.getSdg()
+        assert isinstance(sdg, Sdg)
+        assert sdg.getGID().getValue() == "SDG_TOOL"
+
+    def test_read_empty_post_build_variant_conditions_wrapper(self, parser):
+        """An empty POST-BUILD-VARIANT-CONDITIONS wrapper (XSD choice
+        minOccurs="0") parses to no conditions."""
+        inner = "<VARIATION-POINT>" "<POST-BUILD-VARIANT-CONDITIONS/>" "</VARIATION-POINT>"
+        vp_element = _snip(inner).find("{%s}VARIATION-POINT" % NS)
+
+        vp = parser.readVariationPoint(vp_element, VariationPoint())
+
+        assert vp.getPostBuildVariantConditions() == []
 
 
 @pytest.mark.integration

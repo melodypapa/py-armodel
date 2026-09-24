@@ -1182,8 +1182,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         if variation_point is not None:
             child_element = ET.SubElement(element, "VARIATION-POINT")
             self.writeARObject(child_element, variation_point)
-            # XSD sequence (AUTOSAR_00046.xsd group AR:VARIATION-POINT, line 99470):
-            # SHORT-LABEL, DESC, BLUEPRINT-CONDITION, [FORMAL-BLUEPRINT-CONDITION obsolete],
+            # XSD sequence (R23-11 AUTOSAR_00052.xsd group AR:VARIATION-POINT, line 130012):
+            # SHORT-LABEL, DESC, BLUEPRINT-CONDITION, [FORMAL-BLUEPRINT-CONDITION removed],
             # FORMAL-BLUEPRINT-GENERATOR, SW-SYSCOND, POST-BUILD-VARIANT-CONDITIONS, SDG.
             short_label = variation_point.getShortLabel()
             if short_label is not None:
