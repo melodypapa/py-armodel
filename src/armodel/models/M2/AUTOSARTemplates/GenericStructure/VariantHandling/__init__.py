@@ -324,7 +324,7 @@ class ConditionByFormula(AtpMixedString):
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBindingTime    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setBindingTime    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # getText / setText provided by the AtpMixedString base (mixin).
+    # getMixedString / setMixedString provided by the AtpMixedString base (mixin) — no spec row (stereotype-inherent)
 
     def __init__(self):
         super().__init__()
