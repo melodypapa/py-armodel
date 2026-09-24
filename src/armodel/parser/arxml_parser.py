@@ -6532,9 +6532,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readImplementationDataTypeElement(self, element: ET.Element, impl_data_type_element: ImplementationDataTypeElement):
         self.readAutosarDataType(element, impl_data_type_element)
+        impl_data_type_element.setArrayImplPolicy(self.getChildElementOptionalLiteral(element, "ARRAY-IMPL-POLICY"))
         impl_data_type_element.setArraySize(self.getChildElementOptionalPositiveInteger(element, "ARRAY-SIZE"))
         impl_data_type_element.setArraySizeHandling(self.getChildElementOptionalLiteral(element, "ARRAY-SIZE-HANDLING"))
         impl_data_type_element.setArraySizeSemantics(self.getChildElementOptionalLiteral(element, "ARRAY-SIZE-SEMANTICS"))
+        impl_data_type_element.setIsOptional(self.getChildElementOptionalBooleanValue(element, "IS-OPTIONAL"))
         self.readImplementationDataTypeSubElements(element, impl_data_type_element)
 
     def readImplementationDataTypeSubElements(self, element: ET.Element, parent: ImplementationDataType):

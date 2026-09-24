@@ -7551,9 +7551,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("writeImplementationDataTypeElement %s" % impl_data_type_element.getShortName())
         child_element = ET.SubElement(element, "IMPLEMENTATION-DATA-TYPE-ELEMENT")
         self.writeAbstractImplementationDataTypeElement(child_element, impl_data_type_element)
-        self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE", impl_data_type_element.getArraySize())
+        self.setChildElementOptionalLiteral(child_element, "ARRAY-IMPL-POLICY", impl_data_type_element.getArrayImplPolicy())
+        self.setChildElementOptionalPositiveInteger(child_element, "ARRAY-SIZE", impl_data_type_element.getArraySize())
         self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-HANDLING", impl_data_type_element.getArraySizeHandling())
         self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS", impl_data_type_element.getArraySizeSemantics())
+        self.setChildElementOptionalBooleanValue(child_element, "IS-OPTIONAL", impl_data_type_element.getIsOptional())
         self.writeImplementationDataTypeElementSubElements(child_element, impl_data_type_element)
         self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", impl_data_type_element.getSwDataDefProps())
 
