@@ -15,6 +15,7 @@ class IdsPlatformInstantiation(AtpStructureElement, ABC):
 
     # IdsPlatformInstantiation method parity checklist:
     # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table B.13, p.63
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addNetworkInterfaceRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -79,6 +80,7 @@ class IdsmModuleInstantiation(IdsPlatformInstantiation):
 
     # IdsmModuleInstantiation method parity checklist:
     # Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table B.14, p.63
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     #

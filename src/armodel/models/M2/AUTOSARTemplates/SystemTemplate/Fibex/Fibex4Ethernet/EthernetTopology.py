@@ -1170,6 +1170,7 @@ class SdClientConfig(ARObject):
 
     # SdClientConfig method parity checklist:
     # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.172, p.356
+    # Spec verified: R4.3.1
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
     # [x] addCapabilityRecord           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1

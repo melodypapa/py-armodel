@@ -11,6 +11,7 @@ class CommunicationControllerMapping(ARObject):
 
     # CommunicationControllerMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.134, p.183
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getCommunicationControllerRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -65,6 +66,7 @@ class HwPortMapping(ARObject):
 
     # HwPortMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.135, p.183
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getCommunicationConnectorRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -119,6 +121,7 @@ class ECUMapping(Identifiable, VariationPointCapable):
 
     # ECUMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.133, p.182
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getCommControllerMappings    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
