@@ -1,4 +1,7 @@
+from typing import Optional, get_type_hints
+
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter, DataFilterTypeEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, UnlimitedInteger
 
 
@@ -229,3 +232,26 @@ class TestDataFilter:
         assert data_filter.getOffset() == offset
         assert data_filter.getPeriod() == period
         assert data_filter.getX() == x_val
+
+    def test_inheritance_is_arobject(self):
+        """DataFilter shall derive from ARObject (Table 4.75 Base row)."""
+        data_filter = DataFilter()
+        assert isinstance(data_filter, ARObject)
+
+    def test_accessor_annotations(self):
+        """Accessors shall carry Optional[<spec type>] hints; setters shall chain DataFilter (Table 4.75)."""
+        spec_types = {
+            "DataFilterType": DataFilterTypeEnum,
+            "Mask": UnlimitedInteger,
+            "Max": UnlimitedInteger,
+            "Min": UnlimitedInteger,
+            "Offset": PositiveInteger,
+            "Period": PositiveInteger,
+            "X": UnlimitedInteger,
+        }
+        for suffix, spec_type in spec_types.items():
+            getter_hints = get_type_hints(getattr(DataFilter, "get%s" % suffix))
+            assert getter_hints["return"] == Optional[spec_type]
+            setter_hints = get_type_hints(getattr(DataFilter, "set%s" % suffix))
+            assert setter_hints["value"] == Optional[spec_type]
+            assert setter_hints["return"] == DataFilter

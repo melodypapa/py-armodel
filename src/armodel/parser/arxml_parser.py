@@ -113,7 +113,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     NumericalOrText,
     NumericalRuleBasedValueSpecification,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter, DataFilterTypeEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap, RtePluginProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, DependencyUsageEnum, Implementation, ImplementationProps, ProgramminglanguageEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType, ImplementationDataTypeElement
@@ -12900,9 +12900,15 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             filter = DataFilter()
-            filter.setDataFilterType(self.getChildElementOptionalLiteral(child_element, "DATA-FILTER-TYPE"))
-            filter.setMask(self.getChildElementOptionalIntegerValue(child_element, "MASK"))
-            filter.setX(self.getChildElementOptionalIntegerValue(child_element, "X"))
+            literal = self.getChildElementOptionalLiteral(child_element, "DATA-FILTER-TYPE")
+            if literal is not None:
+                filter.setDataFilterType(DataFilterTypeEnum().setValue(literal.getText()))
+            filter.setMask(self.getChildElementOptionalUnlimitedInteger(child_element, "MASK"))
+            filter.setMax(self.getChildElementOptionalUnlimitedInteger(child_element, "MAX"))
+            filter.setMin(self.getChildElementOptionalUnlimitedInteger(child_element, "MIN"))
+            filter.setOffset(self.getChildElementOptionalPositiveInteger(child_element, "OFFSET"))
+            filter.setPeriod(self.getChildElementOptionalPositiveInteger(child_element, "PERIOD"))
+            filter.setX(self.getChildElementOptionalUnlimitedInteger(child_element, "X"))
 
         return filter
 

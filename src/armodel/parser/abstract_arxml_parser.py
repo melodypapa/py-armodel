@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RevisionLabelString,
     String,
     TimeValue,
+    UnlimitedInteger,
     UriString,
     VerbatimString,
 )
@@ -337,6 +338,17 @@ class AbstractARXMLParser(ABC):
         numerical.setValue(child_element.text)
         if numerical.getValue() < 0:
             raise ValueError("Invalid PositiveInteger <%s>" % child_element.text)
+        return numerical
+
+    def getChildElementOptionalUnlimitedInteger(self, element: ET.Element, key: str) -> UnlimitedInteger:
+        child_element = self.find(element, key)
+        if child_element is None:
+            return None
+        if child_element.text is None:
+            return None
+        numerical = UnlimitedInteger()
+        self.readARType(child_element, numerical)
+        numerical.setValue(child_element.text)
         return numerical
 
     def getChildElementNumericalValueList(self, element: ET.Element, key: str) -> List[ARNumerical]:

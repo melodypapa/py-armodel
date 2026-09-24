@@ -13287,6 +13287,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalLiteral(child_element, "DATA-FILTER-TYPE", filter.getDataFilterType())
             self.setChildElementOptionalIntegerValue(child_element, "MASK", filter.getMask())
+            self.setChildElementOptionalIntegerValue(child_element, "MAX", filter.getMax())
+            self.setChildElementOptionalIntegerValue(child_element, "MIN", filter.getMin())
+            self.setChildElementOptionalPositiveInteger(child_element, "OFFSET", filter.getOffset())
+            self.setChildElementOptionalPositiveInteger(child_element, "PERIOD", filter.getPeriod())
             self.setChildElementOptionalIntegerValue(child_element, "X", filter.getX())
 
     def setTransmissionModeConditions(self, element: ET.Element, key: str, conditions: List[TransmissionModeCondition]):
