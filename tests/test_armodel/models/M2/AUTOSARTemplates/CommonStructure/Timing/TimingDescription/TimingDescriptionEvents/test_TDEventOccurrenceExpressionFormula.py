@@ -7,6 +7,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     AutosarVariableInstance,
     TDEventOccurrenceExpressionFormula,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AtpMixedString import (
+    AtpMixedString,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Referrable,
 )
@@ -28,7 +31,7 @@ class TestTDEventOccurrenceExpressionFormula:
     def test_initialization_defaults(self):
         formula = TDEventOccurrenceExpressionFormula(self._parent(), "Formula1")
         assert formula.getShortName() == "Formula1"
-        assert formula.getText() is None
+        assert formula.getMixedString() is None
         assert formula.getArgumentRef() is None
         assert formula.getEventRef() is None
         assert formula.getModeRef() is None
@@ -36,14 +39,15 @@ class TestTDEventOccurrenceExpressionFormula:
 
     def test_set_text(self):
         formula = TDEventOccurrenceExpressionFormula(self._parent(), "Formula1")
-        assert formula.setText("TIMEX_count(E1) > 3") is formula
-        assert formula.getText() == "TIMEX_count(E1) > 3"
+        assert isinstance(formula, AtpMixedString)
+        assert formula.setMixedString("TIMEX_count(E1) > 3") is formula
+        assert formula.getMixedString() == "TIMEX_count(E1) > 3"
 
     def test_set_text_none_is_no_op(self):
         formula = TDEventOccurrenceExpressionFormula(self._parent(), "Formula1")
-        formula.setText("A && B")
-        formula.setText(None)
-        assert formula.getText() == "A && B"
+        formula.setMixedString("A && B")
+        formula.setMixedString(None)
+        assert formula.getMixedString() == "A && B"
 
     def test_get_set_argument_ref(self):
         formula = TDEventOccurrenceExpressionFormula(self._parent(), "Formula1")

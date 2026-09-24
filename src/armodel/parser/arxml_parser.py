@@ -3338,7 +3338,7 @@ class ARXMLParser(AbstractARXMLParser):
         formula.setModeRef(self.getChildElementOptionalRefType(element, "MODE-REF"))
         formula.setVariableRef(self.getChildElementOptionalRefType(element, "VARIABLE-REF"))
         if element.text is not None and element.text.strip() != "":
-            formula.setText(element.text)
+            self.readMixedStringText(element, formula)
         return formula
 
     def readTimingConditionFormula(self, parent, element: ET.Element) -> TimingConditionFormula:

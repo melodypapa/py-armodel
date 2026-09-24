@@ -4512,7 +4512,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(element, "EVENT-REF", formula.getEventRef())
         self.setChildElementOptionalRefType(element, "MODE-REF", formula.getModeRef())
         self.setChildElementOptionalRefType(element, "VARIABLE-REF", formula.getVariableRef())
-        text = formula.getText()
+        text = formula.getMixedString()
         if text is not None:
             element.text = text
 

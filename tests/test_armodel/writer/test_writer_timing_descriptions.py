@@ -36,7 +36,7 @@ class TestWriteTDEventOccurrenceExpressionFormula:
 
     def _build_full(self, parent):
         formula = TDEventOccurrenceExpressionFormula(parent, "Formula1")
-        formula.setText("TIMEX_count(E1) > 3")
+        formula.setMixedString("TIMEX_count(E1) > 3")
         formula.setArgumentRef(RefType().setValue("/AUTOSAR/OpArg1").setDest("AUTOSAR-OPERATION-ARGUMENT-INSTANCE"))
         formula.setEventRef(RefType().setValue("/AUTOSAR/TDEvent1").setDest("TD-EVENT-VFB"))
         formula.setModeRef(RefType().setValue("/AUTOSAR/Mode1").setDest("TIMING-MODE-INSTANCE"))
@@ -90,7 +90,7 @@ class TestWriteTDEventOccurrenceExpressionFormula:
 
         formula2 = ARXMLParser().readTDEventOccurrenceExpressionFormula(parent, parsed)
         assert formula2.getShortName() == "Formula1"
-        assert formula2.getText() == "TIMEX_count(E1) > 3"
+        assert formula2.getMixedString() == "TIMEX_count(E1) > 3"
         assert formula2.getArgumentRef().getValue() == "/AUTOSAR/OpArg1"
         assert formula2.getEventRef().getDest() == "TD-EVENT-VFB"
         assert formula2.getModeRef().getValue() == "/AUTOSAR/Mode1"
@@ -110,7 +110,7 @@ class TestWriteTDEventOccurrenceExpression:
         expression.createMode(parent, "Mode1")
         expression.createVariable(parent, "Var1")
         formula = TDEventOccurrenceExpressionFormula(parent, "Formula1")
-        formula.setText("TIMEX_count(E1) > 3")
+        formula.setMixedString("TIMEX_count(E1) > 3")
         expression.setFormula(formula)
         return expression
 
@@ -158,7 +158,7 @@ class TestWriteTDEventOccurrenceExpression:
         expression2 = ARXMLParser().readTDEventOccurrenceExpression(parsed, self._parent())
         assert len(expression2.getArguments()) == 1
         assert expression2.getArguments()[0].getShortName() == "OpArg1"
-        assert expression2.getFormula().getText() == "TIMEX_count(E1) > 3"
+        assert expression2.getFormula().getMixedString() == "TIMEX_count(E1) > 3"
         assert len(expression2.getModes()) == 1
         assert expression2.getModes()[0].getShortName() == "Mode1"
         assert len(expression2.getVariables()) == 1

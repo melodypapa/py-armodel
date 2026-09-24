@@ -59,7 +59,7 @@ class TestReadTDEventOccurrenceExpressionFormula:
         )
         formula = parser.readTDEventOccurrenceExpressionFormula(parent, element)
         assert formula.getShortName() == "Formula1"
-        assert formula.getText() == "TIMEX_count(E1) > 3"
+        assert formula.getMixedString() == "TIMEX_count(E1) > 3"
         assert formula.getArgumentRef().getValue() == "/AUTOSAR/OpArg1"
         assert formula.getArgumentRef().getDest() == "AUTOSAR-OPERATION-ARGUMENT-INSTANCE"
         assert formula.getEventRef().getValue() == "/AUTOSAR/TDEvent1"
@@ -74,7 +74,7 @@ class TestReadTDEventOccurrenceExpressionFormula:
         element = ET.fromstring(f"<FORMULA xmlns='{NS}'><SHORT-NAME>Formula1</SHORT-NAME></FORMULA>")
         formula = parser.readTDEventOccurrenceExpressionFormula(parent, element)
         assert formula.getShortName() == "Formula1"
-        assert formula.getText() is None
+        assert formula.getMixedString() is None
         assert formula.getArgumentRef() is None
         assert formula.getEventRef() is None
         assert formula.getModeRef() is None
@@ -123,7 +123,7 @@ class TestReadTDEventOccurrenceExpression:
         assert arguments[0].getOperationArgumentInstanceIRef().getRootArgumentDataPrototypeRef().getValue() == "/AUTOSAR/Arg"
         formula = expression.getFormula()
         assert isinstance(formula, TDEventOccurrenceExpressionFormula)
-        assert formula.getText() == "TIMEX_count(E1) > 3"
+        assert formula.getMixedString() == "TIMEX_count(E1) > 3"
         modes = expression.getModes()
         assert len(modes) == 1
         assert modes[0].getShortName() == "Mode1"
