@@ -7,23 +7,43 @@ class TestDataFilterTypeEnum:
         """Test DataFilterTypeEnum initialization"""
         enum_obj = DataFilterTypeEnum()
         assert enum_obj is not None
+        assert isinstance(enum_obj, DataFilterTypeEnum)
 
-    def test_enum_values(self):
-        """Test all enum values are properly defined"""
-        assert DataFilterTypeEnum.MASKED_NEW_DIFFERS_MASKED_OLD == "maskedNewDiffersMaskedOld"
-        assert DataFilterTypeEnum.MASKED_NEW_DIFFERS_X == "maskedNewDiffersX"
-        assert DataFilterTypeEnum.MASKED_NEW_EQUALS_X == "maskedNewEqualsX"
-        assert DataFilterTypeEnum.NEVER == "never"
-        assert DataFilterTypeEnum.NEW_IS_OUTSIDE == "newIsOutside"
-        assert DataFilterTypeEnum.NEW_IS_WITHIN == "newIsWithin"
-        assert DataFilterTypeEnum.ONE_EVERY_N == "oneEveryN"
+    def test_spec_literals(self):
+        """DataFilterTypeEnum shall expose the 8 spec literals with their XSD wire values (Table 4.76)."""
+        enum = DataFilterTypeEnum()
+        expected = {
+            DataFilterTypeEnum.ALWAYS: "ALWAYS",
+            DataFilterTypeEnum.MASKED_NEW_DIFFERS_MASKED_OLD: "MASKED-NEW-DIFFERS-MASKED-OLD",
+            DataFilterTypeEnum.MASKED_NEW_DIFFERS_X: "MASKED-NEW-DIFFERS-X",
+            DataFilterTypeEnum.MASKED_NEW_EQUALS_X: "MASKED-NEW-EQUALS-X",
+            DataFilterTypeEnum.NEVER: "NEVER",
+            DataFilterTypeEnum.NEW_IS_OUTSIDE: "NEW-IS-OUTSIDE",
+            DataFilterTypeEnum.NEW_IS_WITHIN: "NEW-IS-WITHIN",
+            DataFilterTypeEnum.ONE_EVERY_N: "ONE-EVERY-N",
+        }
+        for const, value in expected.items():
+            assert const == value
+        assert set(enum.getEnumValues()) == set(expected.values())
 
-    def test_enum_values_list(self):
-        """Test that all enum values are in the list"""
-        enum_obj = DataFilterTypeEnum()
-        values = enum_obj.getEnumValues()
-        expected_values = ["maskedNewDiffersMaskedOld", "maskedNewDiffersX", "maskedNewEqualsX", "never", "newIsOutside", "newIsWithin", "oneEveryN"]
-        assert set(values) == set(expected_values)
+    def test_validate_enum_value(self):
+        """validateEnumValue accepts the XSD wire values and rejects stale non-wire forms.
+
+        R23-11 XSD carries no atp:Status="removed" literals for this enum, so the
+        invalid-value pins are the pre-sync camelCase forms.
+        """
+        enum = DataFilterTypeEnum()
+        assert enum.validateEnumValue("ALWAYS") is True
+        assert enum.validateEnumValue("MASKED-NEW-DIFFERS-MASKED-OLD") is True
+        assert enum.validateEnumValue("ONE-EVERY-N") is True
+        assert enum.validateEnumValue("maskedNewDiffersMaskedOld") is False
+        assert enum.validateEnumValue("never") is False
+        assert enum.validateEnumValue("UNKNOWN") is False
+
+    def test_set_value_with_member(self):
+        """The enum is instantiable and its literal value can be set from a member constant."""
+        enum_obj = DataFilterTypeEnum().setValue(DataFilterTypeEnum.NEVER)
+        assert enum_obj.getValue() == "NEVER"
 
 
 class TestDataFilter:

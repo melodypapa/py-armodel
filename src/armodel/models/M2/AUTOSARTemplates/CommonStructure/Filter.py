@@ -10,34 +10,43 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class DataFilterTypeEnum(AREnum):
     """
-    Enumeration for data filter types in AUTOSAR models.
-    Defines various filtering strategies for data processing in AUTOSAR systems.
+    This enum specifies the supported DataFilterTypes.
     """
 
     # DataFilterTypeEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.76, p.183
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on DataFilter.dataFilterType (DATA-FILTER-TYPE child element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    # Filter condition: new value with mask differs from old value with mask
-    MASKED_NEW_DIFFERS_MASKED_OLD = "maskedNewDiffersMaskedOld"
-    # Filter condition: new value with mask differs from reference value X
-    MASKED_NEW_DIFFERS_X = "maskedNewDiffersX"
-    # Filter condition: new value with mask equals reference value X
-    MASKED_NEW_EQUALS_X = "maskedNewEqualsX"
-    # Filter condition: never update (no filtering)
-    NEVER = "never"
-    # Filter condition: new value is outside specified range
-    NEW_IS_OUTSIDE = "newIsOutside"
-    # Filter condition: new value is within specified range
-    NEW_IS_WITHIN = "newIsWithin"
-    # Filter condition: update every N occurrences
-    ONE_EVERY_N = "oneEveryN"
+    # No filtering is performed so that the message always passes. Tags: atp.EnumerationLiteralIndex=0
+    ALWAYS = "ALWAYS"
+
+    # Pass messages where the masked value has changed. (new_value&mask) !=(old_value&mask) new_value: current value of the message old_value: last value of the message (initialized with the initial value of the message, updated with new_value if the new message value is not filtered out) Tags: atp.EnumerationLiteralIndex=1
+    MASKED_NEW_DIFFERS_MASKED_OLD = "MASKED-NEW-DIFFERS-MASKED-OLD"
+
+    # Pass messages whose masked value is not equal to a specific value x (new_value&mask) != x new_value: current value of the message Tags: atp.EnumerationLiteralIndex=2
+    MASKED_NEW_DIFFERS_X = "MASKED-NEW-DIFFERS-X"
+
+    # Pass messages whose masked value is equal to a specific value x (new_value&mask) == x new_value: current value of the message Tags: atp.EnumerationLiteralIndex=3
+    MASKED_NEW_EQUALS_X = "MASKED-NEW-EQUALS-X"
+
+    # The filter removes all messages. Tags: atp.EnumerationLiteralIndex=4
+    NEVER = "NEVER"
+
+    # Pass a message if its value is outside a predefined boundary. (min > new_value) OR (new_value > max) Tags: atp.EnumerationLiteralIndex=5
+    NEW_IS_OUTSIDE = "NEW-IS-OUTSIDE"
+
+    # Pass a message if its value is within a predefined boundary. min <= new_value <= max Tags: atp.EnumerationLiteralIndex=6
+    NEW_IS_WITHIN = "NEW-IS-WITHIN"
+
+    # Pass a message once every N message occurrences. Algorithm: occurrence %period == offset Start: occurrence = 0. Each time the message is received or transmitted, occurrence is incremented by 1 after filtering. Length of occurrence is 8 bit (minimum). Tags: atp.EnumerationLiteralIndex=7
+    ONE_EVERY_N = "ONE-EVERY-N"
 
     def __init__(self):
-        """
-        Initializes the DataFilterTypeEnum with all possible values.
-        """
         super().__init__(
-            [
+            (
+                DataFilterTypeEnum.ALWAYS,
                 DataFilterTypeEnum.MASKED_NEW_DIFFERS_MASKED_OLD,
                 DataFilterTypeEnum.MASKED_NEW_DIFFERS_X,
                 DataFilterTypeEnum.MASKED_NEW_EQUALS_X,
@@ -45,7 +54,7 @@ class DataFilterTypeEnum(AREnum):
                 DataFilterTypeEnum.NEW_IS_OUTSIDE,
                 DataFilterTypeEnum.NEW_IS_WITHIN,
                 DataFilterTypeEnum.ONE_EVERY_N,
-            ]
+            )
         )
 
 
