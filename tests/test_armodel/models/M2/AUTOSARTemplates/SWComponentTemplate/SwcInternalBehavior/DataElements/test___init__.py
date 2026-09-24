@@ -10,11 +10,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (
     ArVariableInImplementationDataInstanceRef,
+    AutosarParameterRef,
     AutosarVariableRef,
     ParameterAccess,
     VariableAccess,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefsUsage import (
+    ParameterInAtomicSWCTypeInstanceRef,
     VariableInAtomicSWCTypeInstanceRef,
 )
 
@@ -82,6 +84,97 @@ class TestVariableAccess:
         scope.setValue("test_scope")
         var_access.setScope(scope)
         assert var_access.getScope() == scope
+
+
+PARAMETER_CLASS_NOTE = (
+    "This class represents a reference to a parameter within AUTOSAR which can be one of the following use cases: "
+    "localParameter: • localParameter which is used as whole (e.g. sharedAxis for curve) "
+    "autosarVariable: • a parameter provided via PortPrototype which is used as whole (e.g. parameterAccess) "
+    "• an element inside of a composite local parameter typed by ApplicationDatatype (e.g. sharedAxis for a curve) "
+    "• an element inside of a composite parameter provided via Port and typed by ApplicationDatatype (e.g. sharedAxis for a curve) "  # noqa E501
+    "autosarParameterInImplDatatype: "
+    "• an element inside of a composite local parameter typed by ImplementationDatatype "
+    "• an element inside of a composite parameter provided via PortPrototype and typed by ImplementationDatatype"  # noqa E501
+)
+
+AUTOSAR_PARAMETER_NOTE = (
+    "This instance reference is used if the calibration parameter is either imported via a port or is part of a composite data structure. "
+    "InstanceRef implemented by: ParameterInAtomicSWCTypeInstanceRef"
+)
+
+LOCAL_PARAMETER_NOTE = (
+    "In the majority of cases this reference goes to ParameterDataPrototypes rather than VariableDataPrototypes. "  # noqa E501
+    "Pointing the reference to a VariableDataPrototype is limited to special use cases, e.g. if the AutosarParameterRef is used in the context of an SwAxisGrouped. "  # noqa E501
+    "This reference is used if the arParameter is local to the current component. "
+    "Of course, it would technically also be feasible to use an InstanceRef for this case. However, the InstanceRef would not have a contextElement (because the current instance is the context). "  # noqa E501
+    "Hence, the local instance is a special case which may provide further optimization. Therefore an explicit reference is provided for this case."  # noqa E501
+)
+
+
+class TestAutosarParameterRef:
+    def test_spec_notes_are_verbatim(self):
+        """Test that the class docstring and every accessor docstring is the spec Note verbatim (Table 5.34)"""
+        assert AutosarParameterRef.__doc__.strip() == PARAMETER_CLASS_NOTE
+        assert AutosarParameterRef.getAutosarParameterIRef.__doc__.strip() == AUTOSAR_PARAMETER_NOTE
+        assert AutosarParameterRef.setAutosarParameterIRef.__doc__.strip() == (AUTOSAR_PARAMETER_NOTE + ". A None value is a no-op and does not overwrite an existing autosarParameterIRef.")
+        assert AutosarParameterRef.getLocalParameterRef.__doc__.strip() == LOCAL_PARAMETER_NOTE
+        assert AutosarParameterRef.setLocalParameterRef.__doc__.strip() == (LOCAL_PARAMETER_NOTE + " A None value is a no-op and does not overwrite an existing localParameterRef.")
+
+    def test_base_shape(self):
+        """Test the base chain, no-arg __init__ and typed accessor signatures"""
+        assert issubclass(AutosarParameterRef, ARObject)
+        ref = AutosarParameterRef()
+        assert ref.autosarParameterIRef is None
+        assert ref.localParameterRef is None
+
+        hints = typing.get_type_hints(AutosarParameterRef.getAutosarParameterIRef)
+        assert hints["return"] == typing.Optional[ParameterInAtomicSWCTypeInstanceRef]
+        hints = typing.get_type_hints(AutosarParameterRef.setAutosarParameterIRef)
+        assert hints["value"] == typing.Optional[ParameterInAtomicSWCTypeInstanceRef]
+        assert hints["return"] is AutosarParameterRef
+        hints = typing.get_type_hints(AutosarParameterRef.getLocalParameterRef)
+        assert hints["return"] == typing.Optional[RefType]
+        hints = typing.get_type_hints(AutosarParameterRef.setLocalParameterRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert hints["return"] is AutosarParameterRef
+
+    def test_initialization(self):
+        """Test AutosarParameterRef initialization"""
+        ref = AutosarParameterRef()
+
+        assert ref is not None
+        assert ref.autosarParameterIRef is None
+        assert ref.localParameterRef is None
+
+    def test_get_set_autosar_parameter_iref(self):
+        """Test getAutosarParameterIRef and setAutosarParameterIRef methods"""
+        ref = AutosarParameterRef()
+
+        assert ref.getAutosarParameterIRef() is None
+        iref = ParameterInAtomicSWCTypeInstanceRef()
+        target = RefType()
+        target.setValue("/SwcInternalBehavior/ParameterDataPrototype")
+        iref.setTargetDataPrototypeRef(target)
+        assert ref.setAutosarParameterIRef(iref) is ref
+        assert ref.getAutosarParameterIRef() is iref
+        assert isinstance(ref.getAutosarParameterIRef(), ParameterInAtomicSWCTypeInstanceRef)
+        assert ref.getAutosarParameterIRef().getTargetDataPrototypeRef() is target
+        ref.setAutosarParameterIRef(None)
+        assert ref.getAutosarParameterIRef() is iref
+
+    def test_get_set_local_parameter_ref(self):
+        """Test getLocalParameterRef and setLocalParameterRef methods"""
+        ref = AutosarParameterRef()
+
+        assert ref.getLocalParameterRef() is None
+        local_ref = RefType()
+        local_ref.setValue("/SwcInternalBehavior/LocalParameterDataPrototype")
+        assert ref.setLocalParameterRef(local_ref) is ref
+        assert ref.getLocalParameterRef() is local_ref
+        assert isinstance(ref.getLocalParameterRef(), RefType)
+        assert ref.getLocalParameterRef().getValue() == "/SwcInternalBehavior/LocalParameterDataPrototype"
+        ref.setLocalParameterRef(None)
+        assert ref.getLocalParameterRef() is local_ref
 
 
 CLASS_NOTE = (

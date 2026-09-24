@@ -3816,6 +3816,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setAutosarParameterRef(self, element: ET.Element, key: str, parameter_ref: AutosarParameterRef):
         if parameter_ref is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, parameter_ref)
             self.setParameterInAtomicSWCTypeInstanceRef(child_element, "AUTOSAR-PARAMETER-IREF", parameter_ref.getAutosarParameterIRef())
             self.setChildElementOptionalRefType(child_element, "LOCAL-PARAMETER-REF", parameter_ref.getLocalParameterRef())
 

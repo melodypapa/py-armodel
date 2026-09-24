@@ -5124,6 +5124,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             parameter = AutosarParameterRef()
+            self.readARObject(child_element, parameter)
             parameter.setAutosarParameterIRef(self.getParameterInAtomicSWCTypeInstanceRef(child_element, "AUTOSAR-PARAMETER-IREF"))
             parameter.setLocalParameterRef(self.getChildElementOptionalRefType(child_element, "LOCAL-PARAMETER-REF"))
         return parameter
