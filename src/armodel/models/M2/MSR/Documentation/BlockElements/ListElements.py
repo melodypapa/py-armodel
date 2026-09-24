@@ -36,24 +36,38 @@ class ListEnum(AREnum):
 
 class Item(Paginateable, VariationPointCapable):
     """
-    An item within a list with content defined by itemContents.
+    This meta-class represents one particular item in a list.
     """
 
     # Item method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getItemContents              [x] impl  [ ] docstring  [ ] test
-    # [ ] setItemContents              [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.9, p.295
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getItemContents    [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # [x] setItemContents    [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # (Pending: reader/writer coverage for the ITEM wrapper accessors is the ARList row's
+    # scope — writer setListElement / parser getListElements currently flatten
+    # ITEM<->DocumentationBlock and never instantiate Item)
 
     def __init__(self):
         super().__init__()
 
-        self.itemContents = None
+        # this represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
+        self.itemContents: Optional["DocumentationBlock"] = None
 
-    def getItemContents(self):
+    def getItemContents(self) -> Optional["DocumentationBlock"]:
+        """
+        this represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
+        """
         return self.itemContents
 
-    def setItemContents(self, value):
-        self.itemContents = value
+    def setItemContents(self, value: Optional["DocumentationBlock"]) -> Item:
+        """
+        this represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
+        A None value is a no-op and does not overwrite an existing itemContents.
+        """
+        if value is not None:
+            self.itemContents = value
         return self
 
 

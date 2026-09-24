@@ -63,21 +63,71 @@ class TestListEnum:
 
 
 class TestItem:
-    """Test class for Item class."""
+    """Test class for Item class (Table 9.9, AUTOSAR_FO_TPS_GenericStructureTemplate)."""
 
-    def test_item_initialization(self):
-        """Test that an Item object can be initialized with default values."""
-        item = Item()
-        assert item.itemContents is None
+    def test_item_inheritance(self):
+        """Item shall derive from Paginateable (Table 9.9 Base row, most-derived) and carry the VariationPointCapable mixin (XSD 00052 group ITEM carries the VARIATION-POINT element)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+        from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
 
-    def test_item_contents_methods(self):
-        """Test the itemContents getter and setter."""
         item = Item()
-        contents = "Test contents"
+        assert isinstance(item, Paginateable)
+        assert isinstance(item, DocumentViewSelectable)
+        assert isinstance(item, VariationPointCapable)
+
+    def test_item_has_spec_note(self):
+        """The class docstring carries the Table 9.9 Note verbatim."""
+        assert cleandoc(Item.__doc__) == "This meta-class represents one particular item in a list."
+
+    def test_item_contents_annotation_is_optional(self):
+        """getItemContents return and setItemContents value shall be Optional[DocumentationBlock] (Rule 0003).
+
+        DocumentationBlock is a TYPE_CHECKING-only import in ListElements.py
+        (runtime import would be circular via TextModel.BlockElements), so the
+        hints are resolved with an explicit globals mapping.
+        """
+        import sys
+        import typing
+
+        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+
+        list_elements_module = sys.modules[Item.__module__]
+        globalns = dict(list_elements_module.__dict__)
+        globalns["DocumentationBlock"] = DocumentationBlock
+        getter_hints = typing.get_type_hints(Item.getItemContents, globalns=globalns)
+        setter_hints = typing.get_type_hints(Item.setItemContents, globalns=globalns)
+        assert getter_hints["return"] == typing.Optional[DocumentationBlock]
+        assert setter_hints["value"] == typing.Optional[DocumentationBlock]
+
+    def test_item_contents_round_trip(self):
+        """setItemContents stores the DocumentationBlock and the setter chains."""
+        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+
+        item = Item()
+        contents = DocumentationBlock()
 
         result = item.setItemContents(contents)
         assert item.getItemContents() == contents
         assert result == item
+
+    def test_set_item_contents_none_noop(self):
+        """setItemContents(None) is a no-op and does not overwrite an existing itemContents."""
+        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+
+        item = Item()
+        contents = DocumentationBlock()
+
+        item.setItemContents(contents)
+        item.setItemContents(None)
+        assert item.getItemContents() == contents
+
+    def test_item_inherits_paginateable_accessors(self):
+        """The Paginateable base accessors remain reachable on Item (Table 9.9 Base row)."""
+        from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import ChapterEnumBreak
+
+        item = Item()
+        item.setBreak(ChapterEnumBreak.BREAK)
+        assert item.getBreak() == ChapterEnumBreak.BREAK
 
 
 class TestARList:
