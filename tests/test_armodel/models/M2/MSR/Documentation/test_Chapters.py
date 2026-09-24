@@ -4,6 +4,8 @@ MSR Documentation::Chapters package (Chapter, ChapterModel, ChapterContent,
 ChapterOrMsrQuery, TopicOrMsrQuery and the MSR query stub types).
 """
 
+from inspect import cleandoc
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import Table
@@ -126,13 +128,56 @@ class TestDocumentationLeafClasses:
 
 
 class TestTopicContentOrMsrQuery:
-    """Test class for TopicContentOrMsrQuery class."""
+    """Test class for TopicContentOrMsrQuery class (Table 9.79, AUTOSAR_FO_TPS_GenericStructureTemplate)."""
 
     def test_initialization(self):
         content = TopicContentOrMsrQuery()
         assert isinstance(content, object)
         assert content.getMsrQueryP1() is None
         assert content.getTopicContent() is None
+
+    def test_topic_content_or_msr_query_inheritance(self):
+        """TopicContentOrMsrQuery shall derive from ARObject only (Table 9.79 Base row; XSD 00052 complexType TOPIC-CONTENT-OR-MSR-QUERY carries the AR-OBJECT group alone — no Identifiable, hence the no-argument constructor)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+
+        content = TopicContentOrMsrQuery()
+        assert isinstance(content, ARObject)
+        assert not isinstance(content, Identifiable)
+
+    def test_topic_content_or_msr_query_has_spec_note(self):
+        """The class docstring carries the Table 9.79 Note verbatim."""
+        assert cleandoc(TopicContentOrMsrQuery.__doc__) == "This meta-class represents a topic or a topic content which is generated using queries."
+
+    def test_topic_content_or_msr_query_docstrings_match_spec_notes(self):
+        """Each accessor docstring leads with its Table 9.79 attribute Note verbatim (Rule 0001.4)."""
+        msr_query_p1_note = "This represents automatically contributed contents provided by an msrquery."
+        topic_content_note = "This is the content of a topic. Tags: xml.roleElement=false"
+
+        assert cleandoc(TopicContentOrMsrQuery.setMsrQueryP1.__doc__).split("\n\n")[0] == msr_query_p1_note
+        assert cleandoc(TopicContentOrMsrQuery.getMsrQueryP1.__doc__).split("\n\n")[0] == msr_query_p1_note
+        assert "A None value is a no-op and does not overwrite an existing msrQueryP1." in cleandoc(TopicContentOrMsrQuery.setMsrQueryP1.__doc__)
+
+        assert cleandoc(TopicContentOrMsrQuery.setTopicContent.__doc__).split("\n\n")[0] == topic_content_note
+        assert cleandoc(TopicContentOrMsrQuery.getTopicContent.__doc__).split("\n\n")[0] == topic_content_note
+        assert "A None value is a no-op and does not overwrite an existing topicContent." in cleandoc(TopicContentOrMsrQuery.setTopicContent.__doc__)
+
+    def test_topic_content_or_msr_query_member_annotations(self):
+        """getMsrQueryP1/setMsrQueryP1 shall be Optional[MsrQueryP1] and getTopicContent/setTopicContent Optional[TopicContent] (Rule 0003).
+
+        MsrQueryP1 is a TYPE_CHECKING-only import in Chapters.py, so the hints
+        are resolved with an explicit globals mapping.
+        """
+        import sys
+        import typing
+
+        chapters_module = sys.modules[TopicContentOrMsrQuery.__module__]
+        globalns = dict(chapters_module.__dict__)
+        globalns["MsrQueryP1"] = MsrQueryP1
+        assert typing.get_type_hints(TopicContentOrMsrQuery.getMsrQueryP1, globalns=globalns)["return"] == typing.Optional[MsrQueryP1]
+        assert typing.get_type_hints(TopicContentOrMsrQuery.setMsrQueryP1, globalns=globalns)["value"] == typing.Optional[MsrQueryP1]
+        assert typing.get_type_hints(TopicContentOrMsrQuery.getTopicContent)["return"] == typing.Optional[TopicContent]
+        assert typing.get_type_hints(TopicContentOrMsrQuery.setTopicContent)["value"] == typing.Optional[TopicContent]
 
     def test_set_get_msr_query_p1(self):
         content = TopicContentOrMsrQuery()

@@ -599,15 +599,21 @@ class TopicContentOrMsrQuery(ARObject):
 
     # TopicContentOrMsrQuery method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.79, p.342
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setMsrQueryP1          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMsrQueryP1          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTopicContent        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTopicContent        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setMsrQueryP1    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMsrQueryP1    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTopicContent  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTopicContent  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     #
-    # NOTE: msrQueryP1 references the MsrQueryP1 stub (Rule 0001.10) which is a deferred
-    # placeholder; the stamp is omitted until the real type lands.
+    # NOTE: msrQueryP1 role element corrected "MSR-QUERY-P1" -> "MSR-QUERY-P-1" per the XSD
+    # group TOPIC-CONTENT-OR-MSR-QUERY (00052 L125001; 00044 L87859); sibling role MSR-QUERY-P2
+    # (DocumentationBlock) carries the same legacy tag and is out of this class's scope.
+    # PENDING: topicContent carries xml.roleElement=false (the XSD inlines the TOPIC-CONTENT
+    # group payload; no <TOPIC-CONTENT> wrapper element exists in the schema) while the
+    # reader/writer still serialize a synthetic wrapper — inlining spans TopicContent's
+    # writeTopicContent/readTopicContent and the consuming classes (ChapterContent/Topic1),
+    # not this class's helpers alone.
 
     def __init__(self):
         super().__init__()
@@ -615,7 +621,7 @@ class TopicContentOrMsrQuery(ARObject):
         # This represents automatically contributed contents provided by an msrquery.
         self.msrQueryP1: Optional[MsrQueryP1] = None
 
-        # This is the content of a topic.
+        # This is the content of a topic. Tags: xml.roleElement=false
         self.topicContent: Optional[TopicContent] = None
 
     def setMsrQueryP1(self, value: Optional[MsrQueryP1]) -> TopicContentOrMsrQuery:
@@ -642,7 +648,7 @@ class TopicContentOrMsrQuery(ARObject):
 
     def setTopicContent(self, value: Optional[TopicContent]) -> TopicContentOrMsrQuery:
         """
-        This is the content of a topic.
+        This is the content of a topic. Tags: xml.roleElement=false
 
         A None value is a no-op and does not overwrite an existing topicContent.
 
@@ -655,7 +661,7 @@ class TopicContentOrMsrQuery(ARObject):
 
     def getTopicContent(self) -> Optional[TopicContent]:
         """
-        This is the content of a topic.
+        This is the content of a topic. Tags: xml.roleElement=false
 
         Returns:
             The content of a topic

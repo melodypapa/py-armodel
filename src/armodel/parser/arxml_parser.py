@@ -7195,7 +7195,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTopicContentOrMsrQuery(self, element: ET.Element, parent: ARObject) -> "TopicContentOrMsrQuery":
         result = None
-        msr_query_p1_element = self.find(element, "MSR-QUERY-P1")
+        msr_query_p1_element = self.find(element, "MSR-QUERY-P-1")
         topic_content_element = self.find(element, "TOPIC-CONTENT")
         if msr_query_p1_element is not None or topic_content_element is not None:
             result = TopicContentOrMsrQuery()

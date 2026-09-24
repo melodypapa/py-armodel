@@ -2219,7 +2219,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeTopicContent(element, topic_content_or_msr_query.getTopicContent())
 
     def writeMsrQueryP1(self, element: ET.Element, msr_query_p1: MsrQueryP1):
-        child_element = ET.SubElement(element, "MSR-QUERY-P1")
+        child_element = ET.SubElement(element, "MSR-QUERY-P-1")
         self.writePaginateable(child_element, msr_query_p1)
         if msr_query_p1.getMsrQueryProps() is not None:
             self.setMsrQueryProps(child_element, msr_query_p1.getMsrQueryProps())

@@ -20,7 +20,7 @@ class TestMsrQueryP1Writer:
 
         ARXMLWriter().writeMsrQueryP1(element, _build_full_query())
 
-        written = element.find("MSR-QUERY-P1")
+        written = element.find("MSR-QUERY-P-1")
         assert written is not None
         assert [child.tag for child in written] == ["MSR-QUERY-PROPS", "TOPIC-CONTENT"]
         assert written.find("MSR-QUERY-PROPS/MSR-QUERY-NAME").text == "paragraph-query"
@@ -30,7 +30,7 @@ class TestMsrQueryP1Writer:
 
         ARXMLWriter().writeMsrQueryP1(element, MsrQueryP1())
 
-        written = element.find("MSR-QUERY-P1")
+        written = element.find("MSR-QUERY-P-1")
         assert written is not None
         assert list(written) == []
 
@@ -40,7 +40,7 @@ class TestMsrQueryP1Writer:
         writer_element.attrib["xmlns"] = "http://autosar.org/schema/r4.0"
         parsed = ET.fromstring(ET.tostring(writer_element, encoding="unicode"))
 
-        result = ARXMLParser().getMsrQueryP1(parsed, "MSR-QUERY-P1")
+        result = ARXMLParser().getMsrQueryP1(parsed, "MSR-QUERY-P-1")
 
         assert result.getMsrQueryProps().getMsrQueryName().getValue() == "paragraph-query"
         assert result.getMsrQueryResultP1() is not None
