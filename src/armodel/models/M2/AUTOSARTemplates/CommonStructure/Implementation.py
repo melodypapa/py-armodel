@@ -27,21 +27,22 @@ class DependencyUsageEnum(AREnum):
 
     # DependencyUsageEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 7.4, p.132
-    # [x] __init__                     [x] impl  [x] docstring  [ ] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    # The object referred by the dependency is required during the build process. atp.EnumerationLiteralIndex=0
+    # The object referred by the dependency is required during the build process. Tags: atp.EnumerationLiteralIndex=0
     BUILD = "build"
 
-    # The object referred by the dependency is required during code generation. atp.EnumerationLiteralIndex=1
+    # The object referred by the dependency is required during code generation Tags: atp.EnumerationLiteralIndex=1
     CODEGENERATION = "codegeneration"
 
-    # The object referred by the dependency is required during compilation. atp.EnumerationLiteralIndex=2
+    # The object referred by the dependency is required during compilation. Tags: atp.EnumerationLiteralIndex=2
     COMPILE = "compile"
 
-    # The object referred by the dependency is required at execution time. atp.EnumerationLiteralIndex=3
+    # The object referred by the dependency is required at execution time. Tags: atp.EnumerationLiteralIndex=3
     EXECUTE = "execute"
 
-    # The object referred by the dependency is required during linking. atp.EnumerationLiteralIndex=4
+    # The object referred by the dependency is required during linking. Tags: atp.EnumerationLiteralIndex=4
     LINK = "link"
 
     def __init__(self):

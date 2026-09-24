@@ -1080,9 +1080,42 @@ class TestDependencyUsageEnum:
         assert DependencyUsageEnum.LINK == "link"
 
     def test_enum_values(self):
-        """Test the valid enum value set"""
+        """Test the valid enum value set in spec literal order (Table 7.4)"""
         enum = DependencyUsageEnum()
-        assert set(enum.getEnumValues()) == {"build", "codegeneration", "compile", "execute", "link"}
+        assert enum.getEnumValues() == (
+            DependencyUsageEnum.BUILD,
+            DependencyUsageEnum.CODEGENERATION,
+            DependencyUsageEnum.COMPILE,
+            DependencyUsageEnum.EXECUTE,
+            DependencyUsageEnum.LINK,
+        )
+
+    def test_instantiation_set_value(self):
+        """Test enum instantiability and setValue/getValue round-trip per Rule 0011"""
+        enum = DependencyUsageEnum()
+        result = enum.setValue(DependencyUsageEnum.CODEGENERATION)
+        assert result is enum  # Method chaining
+        assert enum.getValue() == "codegeneration"
+
+    def test_set_value_none_noop(self):
+        """Test setValue(None) is a no-op"""
+        enum = DependencyUsageEnum()
+        assert enum.setValue(None) is enum
+        assert enum.getValue() == ""  # ARLiteral's empty representation for an unset literal
+        enum.setValue(DependencyUsageEnum.LINK)
+        enum.setValue(None)
+        assert enum.getValue() == "link"
+
+    def test_validate_enum_value(self):
+        """Test validateEnumValue accepts spec literals and rejects others"""
+        enum = DependencyUsageEnum()
+        assert enum.validateEnumValue("build") is True
+        assert enum.validateEnumValue("link") is True
+        assert enum.validateEnumValue("bogus") is False
+
+    def test_spec_note(self):
+        """Test the Table 7.4 class note."""
+        assert DependencyUsageEnum.__doc__.strip() == "Enumeration describing the process steps a dependency is valid in."
 
 
 class TestImplementationSpecNotes:
