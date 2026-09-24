@@ -1764,6 +1764,7 @@ class ARXMLParser(AbstractARXMLParser):
         return mapping
 
     def readNvBlockDataMapping(self, element: ET.Element, mapping: NvBlockDataMapping):
+        self.readARObject(element, mapping)
         mapping.setBitfieldTextTableMaskNvBlockDescriptor(self.getChildElementOptionalPositiveInteger(element, "BITFIELD-TEXT-TABLE-MASK-NV-BLOCK-DESCRIPTOR"))
         mapping.setBitfieldTextTableMaskPortPrototype(self.getChildElementOptionalPositiveInteger(element, "BITFIELD-TEXT-TABLE-MASK-PORT-PROTOTYPE"))
         mapping.setNvRamBlockElement(self.getAutosarVariableRef(element, "NV-RAM-BLOCK-ELEMENT"))

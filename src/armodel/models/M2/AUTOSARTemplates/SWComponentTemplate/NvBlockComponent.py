@@ -18,20 +18,20 @@ class NvBlockDataMapping(ARObject, VariationPointCapable):
 
     # NvBlockDataMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.11, p.689
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBitfieldTextTableMaskNvBlockDescriptor [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBitfieldTextTableMaskNvBlockDescriptor [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBitfieldTextTableMaskPortPrototype [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBitfieldTextTableMaskPortPrototype [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNvRamBlockElement        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNvRamBlockElement        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getReadNvData               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setReadNvData               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getWrittenNvData            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setWrittenNvData            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getWrittenReadNvData        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setWrittenReadNvData        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBitfieldTextTableMaskNvBlockDescriptor [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBitfieldTextTableMaskNvBlockDescriptor [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBitfieldTextTableMaskPortPrototype [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBitfieldTextTableMaskPortPrototype [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNvRamBlockElement        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNvRamBlockElement        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReadNvData               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReadNvData               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWrittenNvData            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWrittenNvData            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWrittenReadNvData        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWrittenReadNvData        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -48,35 +48,21 @@ class NvBlockDataMapping(ARObject, VariationPointCapable):
         # Reference to a VariableDataPrototype of a pPort of the NvBlockComponent providing read access to the RAM Block.If there is no PortPrototype providing read access (write-only) the reference can be omitted.
         self.readNvData: Optional[AutosarVariableRef] = None
 
-        # Reference to a VariableDataPrototype of a rPort of the Nv BlockComponent providing write access to the RAM Block. If there is no port providing write access (read-only) the reference can be omitted.
+        # Reference to a VariableDataPrototype of a rPort of the NvBlockComponent providing write access to the RAM Block. If there is no port providing write access (read-only) the reference can be omitted.
         self.writtenNvData: Optional[AutosarVariableRef] = None
 
-        # Reference to a VariableDataPrototype of a PRPort Prototype of the NvBlockSwComponentType providing write and read access to the RAM Block.
+        # Reference to a VariableDataPrototype of a PRPortPrototype of the NvBlockSwComponentType providing write and read access to the RAM Block.
         self.writtenReadNvData: Optional[AutosarVariableRef] = None
 
     def getBitfieldTextTableMaskNvBlockDescriptor(self) -> Optional[PositiveInteger]:
         """
-        Gets the bit field text table mask of the NvBlockDescriptor.
-
         This attribute identifies the applicable bit mask on the side of the Nv Block.
-
-        Returns:
-            PositiveInteger, or None if not set
         """
         return self.bitfieldTextTableMaskNvBlockDescriptor
 
     def setBitfieldTextTableMaskNvBlockDescriptor(self, value: Optional[PositiveInteger]) -> "NvBlockDataMapping":
         """
-        Sets the bit field text table mask of the NvBlockDescriptor.
-        A None value is a no-op and does not overwrite an existing bit mask.
-
-        This attribute identifies the applicable bit mask on the side of the Nv Block.
-
-        Args:
-            value: The bit mask to set
-
-        Returns:
-            self for method chaining
+        This attribute identifies the applicable bit mask on the side of the Nv Block. A None value is a no-op and does not overwrite an existing bitfieldTextTableMaskNvBlockDescriptor.
         """
         if value is not None:
             self.bitfieldTextTableMaskNvBlockDescriptor = value
@@ -84,27 +70,13 @@ class NvBlockDataMapping(ARObject, VariationPointCapable):
 
     def getBitfieldTextTableMaskPortPrototype(self) -> Optional[PositiveInteger]:
         """
-        Gets the bit field text table mask of the PortPrototype.
-
         This attribute identifies the applicable bit mask on the side of the PortPrototype.
-
-        Returns:
-            PositiveInteger, or None if not set
         """
         return self.bitfieldTextTableMaskPortPrototype
 
     def setBitfieldTextTableMaskPortPrototype(self, value: Optional[PositiveInteger]) -> "NvBlockDataMapping":
         """
-        Sets the bit field text table mask of the PortPrototype.
-        A None value is a no-op and does not overwrite an existing bit mask.
-
-        This attribute identifies the applicable bit mask on the side of the PortPrototype.
-
-        Args:
-            value: The bit mask to set
-
-        Returns:
-            self for method chaining
+        This attribute identifies the applicable bit mask on the side of the PortPrototype. A None value is a no-op and does not overwrite an existing bitfieldTextTableMaskPortPrototype.
         """
         if value is not None:
             self.bitfieldTextTableMaskPortPrototype = value
@@ -112,27 +84,13 @@ class NvBlockDataMapping(ARObject, VariationPointCapable):
 
     def getNvRamBlockElement(self) -> Optional[AutosarVariableRef]:
         """
-        Gets the NV RAM block element.
-
         Reference to a VariableDataPrototype of a RAM Block.
-
-        Returns:
-            AutosarVariableRef, or None if not set
         """
         return self.nvRamBlockElement
 
     def setNvRamBlockElement(self, value: Optional[AutosarVariableRef]) -> "NvBlockDataMapping":
         """
-        Sets the NV RAM block element.
-        A None value is a no-op and does not overwrite an existing reference.
-
-        Reference to a VariableDataPrototype of a RAM Block.
-
-        Args:
-            value: The AutosarVariableRef to set
-
-        Returns:
-            self for method chaining
+        Reference to a VariableDataPrototype of a RAM Block. A None value is a no-op and does not overwrite an existing nvRamBlockElement.
         """
         if value is not None:
             self.nvRamBlockElement = value
@@ -140,27 +98,13 @@ class NvBlockDataMapping(ARObject, VariationPointCapable):
 
     def getReadNvData(self) -> Optional[AutosarVariableRef]:
         """
-        Gets the read NV data.
-
         Reference to a VariableDataPrototype of a pPort of the NvBlockComponent providing read access to the RAM Block.If there is no PortPrototype providing read access (write-only) the reference can be omitted.
-
-        Returns:
-            AutosarVariableRef, or None if not set
         """
         return self.readNvData
 
     def setReadNvData(self, value: Optional[AutosarVariableRef]) -> "NvBlockDataMapping":
         """
-        Sets the read NV data.
-        A None value is a no-op and does not overwrite an existing reference.
-
-        Reference to a VariableDataPrototype of a pPort of the NvBlockComponent providing read access to the RAM Block.If there is no PortPrototype providing read access (write-only) the reference can be omitted.
-
-        Args:
-            value: The AutosarVariableRef to set
-
-        Returns:
-            self for method chaining
+        Reference to a VariableDataPrototype of a pPort of the NvBlockComponent providing read access to the RAM Block.If there is no PortPrototype providing read access (write-only) the reference can be omitted. A None value is a no-op and does not overwrite an existing readNvData.
         """
         if value is not None:
             self.readNvData = value
@@ -168,27 +112,13 @@ class NvBlockDataMapping(ARObject, VariationPointCapable):
 
     def getWrittenNvData(self) -> Optional[AutosarVariableRef]:
         """
-        Gets the written NV data.
-
-        Reference to a VariableDataPrototype of a rPort of the Nv BlockComponent providing write access to the RAM Block. If there is no port providing write access (read-only) the reference can be omitted.
-
-        Returns:
-            AutosarVariableRef, or None if not set
+        Reference to a VariableDataPrototype of a rPort of the NvBlockComponent providing write access to the RAM Block. If there is no port providing write access (read-only) the reference can be omitted.
         """
         return self.writtenNvData
 
     def setWrittenNvData(self, value: Optional[AutosarVariableRef]) -> "NvBlockDataMapping":
         """
-        Sets the written NV data.
-        A None value is a no-op and does not overwrite an existing reference.
-
-        Reference to a VariableDataPrototype of a rPort of the Nv BlockComponent providing write access to the RAM Block. If there is no port providing write access (read-only) the reference can be omitted.
-
-        Args:
-            value: The AutosarVariableRef to set
-
-        Returns:
-            self for method chaining
+        Reference to a VariableDataPrototype of a rPort of the NvBlockComponent providing write access to the RAM Block. If there is no port providing write access (read-only) the reference can be omitted. A None value is a no-op and does not overwrite an existing writtenNvData.
         """
         if value is not None:
             self.writtenNvData = value
@@ -196,27 +126,13 @@ class NvBlockDataMapping(ARObject, VariationPointCapable):
 
     def getWrittenReadNvData(self) -> Optional[AutosarVariableRef]:
         """
-        Gets the written read NV data.
-
-        Reference to a VariableDataPrototype of a PRPort Prototype of the NvBlockSwComponentType providing write and read access to the RAM Block.
-
-        Returns:
-            AutosarVariableRef, or None if not set
+        Reference to a VariableDataPrototype of a PRPortPrototype of the NvBlockSwComponentType providing write and read access to the RAM Block.
         """
         return self.writtenReadNvData
 
     def setWrittenReadNvData(self, value: Optional[AutosarVariableRef]) -> "NvBlockDataMapping":
         """
-        Sets the written read NV data.
-        A None value is a no-op and does not overwrite an existing reference.
-
-        Reference to a VariableDataPrototype of a PRPort Prototype of the NvBlockSwComponentType providing write and read access to the RAM Block.
-
-        Args:
-            value: The AutosarVariableRef to set
-
-        Returns:
-            self for method chaining
+        Reference to a VariableDataPrototype of a PRPortPrototype of the NvBlockSwComponentType providing write and read access to the RAM Block. A None value is a no-op and does not overwrite an existing writtenReadNvData.
         """
         if value is not None:
             self.writtenReadNvData = value
