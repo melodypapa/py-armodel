@@ -184,7 +184,6 @@ class CompositeNetworkRepresentation(ARObject):
         if value is not None:
             self.networkRepresentation = value
         return self
-        return self
 
 
 class TransmissionModeDefinitionEnum(AREnum):
