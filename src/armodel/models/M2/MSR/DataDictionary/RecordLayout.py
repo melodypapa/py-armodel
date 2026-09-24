@@ -22,6 +22,37 @@ class AxisIndexType(ARLiteral):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
 
+class RecordLayoutIteratorPoint(ARLiteral):
+    """
+    This meta-class denotes a start / endpoint for the iteration of a SwRecordLayoutGroup. It can be an integer or one of the keywords MAX-TEXT-SIZE|ARRAY-SIZE. Note that negative numbers are counted backwards. Therefore e.g. -1 refers to the last value.
+
+    Tags:
+        * xml.xsd.customType=RECORD-LAYOUT-ITERATOR-POINT
+        * xml.xsd.pattern=-?([0-9]+|MAX-TEXT-SIZE|ARRAY-SIZE)
+        * xml.xsd.type=string
+    """
+
+    # RecordLayoutIteratorPoint method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.102, p.425
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+
+class AsamRecordLayoutSemantics(ARLiteral):
+    """
+    This meta-class is used to denote the semantics in particular in terms of the corresponding A2L-Keyword. This is to support the mapping of the more general record layouts in AUTOSAR/MSR to the specific A2L keywords. It is possible to express the specific semantics of A2l RecordLayout keywords in SwRecordlayoutGroup but not always vice versa. Therefore the mapping is provided in this optional attribute. It is specified as NMTOKEN to reduce the direct dependency of ASAM an AUTOSAR standards.
+
+    Tags:
+        * xml.xsd.customType=ASAM-RECORD-LAYOUT-SEMANTICS
+        * xml.xsd.type=NMTOKEN
+    """
+
+    # AsamRecordLayoutSemantics method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.103, p.427
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+
 class SwRecordLayoutV(ARObject):
     """
     This element specifies which values are stored for the current SwRecordLayoutGroup. If no baseType is present, the SwBaseType referenced initially in the parent SwRecordLayoutGroup is valid. The specification of swRecordLayoutVAxis gives the axis of the values which shall be stored in accordance with the current record layout SwRecordLayoutGroup. In swRecordLayoutVProp one can specify the information which shall be stored.
@@ -234,18 +265,12 @@ class SwRecordLayoutGroup(ARObject):
     # [x] setDesc                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getShortLabel                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setShortLabel                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getSwRecordLayoutGroupIndex           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setSwRecordLayoutGroupIndex           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getSwGenericAxisParamTypeRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setSwGenericAxisParamTypeRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getSwRecordLayoutGroupFrom            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setSwRecordLayoutGroupFrom            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getSwRecordLayoutGroupTo              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setSwRecordLayoutGroupTo              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getSwRecordLayoutGroupStep            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setSwRecordLayoutGroupStep            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSwRecordLayoutComponent            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setSwRecordLayoutComponent            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwRecordLayoutGroupAxis            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwRecordLayoutGroupAxis            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSwRecordLayoutGroupContentType     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setSwRecordLayoutGroupContentType     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSwRecordLayoutGroupFrom            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -261,7 +286,7 @@ class SwRecordLayoutGroup(ARObject):
         super().__init__()
 
         # This attribute denotes the semantics in particular in terms of the corresponding A2L-Keyword. This is to support the mapping of the more general record layouts in AUTOSAR/ MSR to the specific A2l keywords. It is possible to express the specific semantics of A2l recordlayout keywords in swRecordlayoutGroup but not always vice versa. Therefore the mapping is provided in this optional attribute. Tags: xml.sequenceOffset=5
-        self.category: Optional[ARLiteral] = None
+        self.category: Optional[AsamRecordLayoutSemantics] = None
 
         # This aggregation allows a brief description about the particular record layout group which can help to identify the entry. In-depth documentation should be added to the introduction of the surrounding record layout. Tags: xml.sequenceOffset=20
         self.desc: Optional[MultiLanguageOverviewParagraph] = None
@@ -282,7 +307,7 @@ class SwRecordLayoutGroup(ARObject):
         self.swRecordLayoutGroupContentType: Optional[SwRecordLayoutGroupContent] = None
 
         # This attribute specifies the iterator index for the point in the axis from which a record layout group is commenced. Negative values are also possible, i.e. the value -4 counts from the fourth value from the end. If this property is missing, the iteration starts with '1'. Tags: xml.sequenceOffset=60
-        self.swRecordLayoutGroupFrom: Optional[ARLiteral] = None
+        self.swRecordLayoutGroupFrom: Optional[RecordLayoutIteratorPoint] = None
 
         # This attribute attributes a symbolic name to the iterator of the superimposed record layout group. This can be referenced as a loop index in contained SwRecordLayoutV elements. Tags: xml.sequenceOffset=40
         self.swRecordLayoutGroupIndex: Optional[NameToken] = None
@@ -291,7 +316,7 @@ class SwRecordLayoutGroup(ARObject):
         self.swRecordLayoutGroupStep: Optional[Integer] = None
 
         # This attribute specifies the end point for the iteration. Negative values are also possible, i.e. the value -4 counts up to the fourth value from the end. If this property is not there, the iteration ends at "-1" which is the last element. Note that depending on the arraySizeSemantics of Sw TextProps the iteration ends at the value specified in swMaxTextSize. Tags: xml.sequenceOffset=70
-        self.swRecordLayoutGroupTo: Optional[ARLiteral] = None
+        self.swRecordLayoutGroupTo: Optional[RecordLayoutIteratorPoint] = None
 
     def getCategory(self):
         """This attribute denotes the semantics in particular in terms of the corresponding A2L-Keyword. This is to support the mapping of the more general record layouts in AUTOSAR/ MSR to the specific A2l keywords. It is possible to express the specific semantics of A2l recordlayout keywords in swRecordlayoutGroup but not always vice versa. Therefore the mapping is provided in this optional attribute. Tags: xml.sequenceOffset=5"""
