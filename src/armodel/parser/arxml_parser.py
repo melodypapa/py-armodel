@@ -6751,9 +6751,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getQueuedReceiverComSpec(self, element: ET.Element) -> QueuedReceiverComSpec:
         com_spec = QueuedReceiverComSpec()
-        self.readARObject(element, com_spec)
         self.readReceiverComSpec(element, com_spec)
-        com_spec.queueLength = self.getChildElementOptionalNumericalValue(element, "QUEUE-LENGTH")
+        com_spec.setQueueLength(self.getChildElementOptionalPositiveInteger(element, "QUEUE-LENGTH"))
         return com_spec
 
     def getModeSwitchReceiverComSpec(self, element: ET.Element) -> ModeSwitchReceiverComSpec:

@@ -1204,18 +1204,40 @@ class TestHandleTimeoutEnum:
 
 
 class TestQueuedReceiverComSpec:
-    """Test class for QueuedReceiverComSpec class."""
+    """Test class for QueuedReceiverComSpec class (Table 4.63)."""
 
-    def test_queued_receiver_com_spec_initialization(self):
-        """Test QueuedReceiverComSpec initialization and methods."""
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings must be the Table 4.63 Notes copied verbatim."""
+        assert QueuedReceiverComSpec.__doc__.strip() == "Communication attributes specific to queued receiving."
+        queue_length_note = "Length of queue for received events. [constr_1889]"
+        assert QueuedReceiverComSpec.getQueueLength.__doc__.strip() == queue_length_note
+        assert QueuedReceiverComSpec.setQueueLength.__doc__.strip() == queue_length_note + " A None value is a no-op and does not overwrite an existing queueLength."
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject + RPortComSpec + ReceiverComSpec — Python base is ReceiverComSpec (most-derived, Table 4.60); inherited members are not flattened onto the subclass; setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(QueuedReceiverComSpec, ReceiverComSpec)
+        assert issubclass(QueuedReceiverComSpec, RPortComSpec)
+        assert issubclass(QueuedReceiverComSpec, ARObject)
+        assert "dataElementRef" not in QueuedReceiverComSpec.__dict__ and "compositeNetworkRepresentations" not in QueuedReceiverComSpec.__dict__
+        assert QueuedReceiverComSpec.__dict__["setQueueLength"].__annotations__["return"] == "QueuedReceiverComSpec"
+
+    def test_initialization_defaults(self):
+        """Test QueuedReceiverComSpec field defaults, including inherited base members."""
         receiver = QueuedReceiverComSpec()
         assert receiver.queueLength is None
+        assert receiver.compositeNetworkRepresentations == []
+        assert receiver.dataElementRef is None
 
-        # Test setters and getters
-        queue_len = PositiveInteger()
-        queue_len.setValue(5)
-        receiver.setQueueLength(queue_len)
-        assert receiver.getQueueLength() == queue_len
+    def test_get_set_queue_length(self):
+        """Test queueLength accessor pair, chaining and None no-op."""
+        receiver = QueuedReceiverComSpec()
+        value = PositiveInteger()
+        value.setValue("5")
+        result = receiver.setQueueLength(value)
+        assert result is receiver
+        assert receiver.getQueueLength() is value
+        receiver.setQueueLength(None)
+        assert receiver.getQueueLength() is value
 
 
 class TestHandleOutOfRangeEnum:

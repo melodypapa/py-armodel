@@ -1600,36 +1600,30 @@ class QueuedReceiverComSpec(ReceiverComSpec):
     """
 
     # QueuedReceiverComSpec method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getQueueLength               [x] impl  [x] docstring  [ ] test
-    # [ ] setQueueLength               [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.63, p.173
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getQueueLength  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setQueueLength  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.queueLength: PositiveInteger = None
+        # Length of queue for received events. [constr_1889]
+        self.queueLength: Optional[PositiveInteger] = None
 
-    def getQueueLength(self):
+    def getQueueLength(self) -> Optional[PositiveInteger]:
         """
-        Gets the length of queue for received events.
-
-        Returns:
-            PositiveInteger: The queue length
+        Length of queue for received events. [constr_1889]
         """
         return self.queueLength
 
-    def setQueueLength(self, value):
+    def setQueueLength(self, value: Optional[PositiveInteger]) -> QueuedReceiverComSpec:
         """
-        Sets the length of queue for received events.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The queue length to set
-
-        Returns:
-            self for method chaining
+        Length of queue for received events. [constr_1889] A None value is a no-op and does not overwrite an existing queueLength.
         """
-        self.queueLength = value
+        if value is not None:
+            self.queueLength = value
         return self
 
 
