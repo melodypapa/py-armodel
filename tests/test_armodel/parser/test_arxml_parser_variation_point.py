@@ -129,7 +129,7 @@ class TestReadConditionByFormula:
         sw_syscond = vp.getSwSyscond()
         assert isinstance(sw_syscond, ConditionByFormula)
         assert sw_syscond.getBindingTime().getValue() == "preCompileTime"
-        assert sw_syscond.getText() == "sysc == 1"
+        assert sw_syscond.getMixedString() == "sysc == 1"
 
     def test_read_sw_syscond_without_text_leaves_text_none(self, parser):
         inner = "<VARIATION-POINT>" '<SW-SYSCOND BINDING-TIME="LINK-TIME"/>' "</VARIATION-POINT>"
@@ -139,7 +139,7 @@ class TestReadConditionByFormula:
 
         sw_syscond = vp.getSwSyscond()
         assert sw_syscond.getBindingTime().getValue() == "linkTime"
-        assert sw_syscond.getText() is None
+        assert sw_syscond.getMixedString() is None
 
     def test_read_condition_access_reads_mixed_text(self, parser):
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import (
@@ -155,7 +155,7 @@ class TestReadConditionByFormula:
         condition_access = proxy.getConditionAccess()
         assert isinstance(condition_access, ConditionByFormula)
         assert condition_access.getBindingTime().getValue() == "systemDesignTime"
-        assert condition_access.getText() == "sysc > 0"
+        assert condition_access.getMixedString() == "sysc > 0"
 
 
 class TestReadPostBuildVariantCondition:
@@ -458,7 +458,7 @@ class TestReadVariationPointSpecAttributes:
         sw_syscond = vp.getSwSyscond()
         assert isinstance(sw_syscond, ConditionByFormula)
         assert sw_syscond.getBindingTime().getValue() == "preCompileTime"
-        assert sw_syscond.getText() == "sysc == 1"
+        assert sw_syscond.getMixedString() == "sysc == 1"
 
         conditions = vp.getPostBuildVariantConditions()
         assert len(conditions) == 1

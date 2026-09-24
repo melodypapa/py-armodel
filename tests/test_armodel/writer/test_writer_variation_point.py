@@ -151,7 +151,7 @@ class TestWriteVariationPointSpecAttributes:
 
         syscond = ConditionByFormula()
         syscond.setBindingTime(BindingTimeEnum().setValue("preCompileTime"))
-        syscond.setText("sysc == 1")
+        syscond.setMixedString("sysc == 1")
         vp.setSwSyscond(syscond)
 
         condition = PostBuildVariantCondition()
@@ -206,7 +206,7 @@ class TestWriteVariationPointSpecAttributes:
         assert vp_2.getBlueprintCondition().getPs()[0].getL1s()[0].getValue() == "Resolve the derivation manually."
         assert vp_2.getFormalBlueprintGenerator().getExpression().getValue() == 'LET Name = "Example";'
         assert vp_2.getSwSyscond().getBindingTime().getValue() == "preCompileTime"
-        assert vp_2.getSwSyscond().getText() == "sysc == 1"
+        assert vp_2.getSwSyscond().getMixedString() == "sysc == 1"
         conditions = vp_2.getPostBuildVariantConditions()
         assert len(conditions) == 1
         assert conditions[0].getMatchingCriterionRef().getValue() == "/Demo/Criterions/Country"
@@ -480,7 +480,7 @@ class TestWriteConditionByFormula:
         vp = VariationPoint()
         syscond = ConditionByFormula()
         syscond.setBindingTime(BindingTimeEnum().setValue("preCompileTime"))
-        syscond.setText("sysc == 1")
+        syscond.setMixedString("sysc == 1")
         vp.setSwSyscond(syscond)
 
         element = _write_vp_to_element(vp)
@@ -503,7 +503,7 @@ class TestWriteConditionByFormula:
         proxy = VariationPointProxy(None, "vpp1")
         syscond = ConditionByFormula()
         syscond.setBindingTime(BindingTimeEnum().setValue("systemDesignTime"))
-        syscond.setText("sysc > 0")
+        syscond.setMixedString("sysc > 0")
         proxy.setConditionAccess(syscond)
         writer.writeVariationPointProxy(element, proxy)
 
@@ -797,7 +797,7 @@ class TestConditionByFormulaRoundTrip:
         vp.setShortLabel(Identifier().setValue("VP_Country"))
         syscond = ConditionByFormula()
         syscond.setBindingTime(BindingTimeEnum().setValue("preCompileTime"))
-        syscond.setText('defined(sysc) && sysc == "A"')
+        syscond.setMixedString('defined(sysc) && sysc == "A"')
         vp.setSwSyscond(syscond)
         criterion.setVariationPoint(vp)
         return document
@@ -820,7 +820,7 @@ class TestConditionByFormulaRoundTrip:
         sw_syscond = vp_2.getSwSyscond()
         assert isinstance(sw_syscond, ConditionByFormula)
         assert sw_syscond.getBindingTime().getValue() == "preCompileTime"
-        assert sw_syscond.getText() == 'defined(sysc) && sysc == "A"'
+        assert sw_syscond.getMixedString() == 'defined(sysc) && sysc == "A"'
 
 
 class TestPostBuildVariantCriterionRoundTrip:

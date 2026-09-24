@@ -1162,7 +1162,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported BINDING-TIME <%s>" % binding_time.getValue())
                 else:
                     child_element.attrib["BINDING-TIME"] = token
-            text = condition.getText()
+            text = condition.getMixedString()
             if text is not None:
                 child_element.text = text
 
