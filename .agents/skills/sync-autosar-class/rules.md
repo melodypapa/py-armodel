@@ -278,7 +278,8 @@ all agree; Rule 0001.3). Do not stop at the field default:
 ### 1.8 Cross-package types
 
 - A field whose type lives in a different package that imports back → import under
-  `TYPE_CHECKING` and annotate with a string forward reference; the reader/writer may
+  `TYPE_CHECKING` and annotate with the bare type name (PEP 563 defers evaluation — do
+  **not** quote it, see Rule 0003); the reader/writer may
   import it directly (they sit below the model graph).
 - A shared spec enum used by classes in >1 package is defined once in the lowest common
   package (typically `CommonStructure`) and imported directly by consumers.
@@ -490,12 +491,23 @@ Python 3.8-compatible: `Optional[T]` / `List[T]` / `Dict[K,V]` from `typing` —
 |---|---|
 | list getter | `def getFoos(self) -> List[Foo]:` |
 | single getter | `def getFoo(self) -> Optional[Foo]:` |
-| setter | `def setFoo(self, value: Optional[Foo]) -> "ClassName":` |
-| add | `def addFoo(self, value: Optional[Foo]) -> "ClassName":` |
+| setter | `def setFoo(self, value: Optional[Foo]) -> Foo:` |
+| add | `def addFoo(self, value: Optional[Foo]) -> Foo:` |
 | create | `def createFoo(self, short_name: str) -> Foo:` |
 
+- **Top-level annotations are bare names — never quoted strings.** Model modules use
+  `from __future__ import annotations` (PEP 563), which stores a quoted annotation
+  **verbatim, quotes included**: `-> "Foo"` survives as the string `"Foo"`, and
+  `typing.get_type_hints()` on Python 3.8 returns an unresolved `ForwardRef` instead of
+  the class (3.9+ double-resolves it in a second pass, masking the bug outside the 3.8
+  CI job). A bare name is always safe — PEP 563 defers evaluation, so it also works for
+  classes defined later in the module or imported under `TYPE_CHECKING`. Quotes are
+  allowed only **nested** inside a subscript (`Optional["Foo"]`, `List["Foo"]`). The
+  model tests pin this: `typing.get_type_hints(cls.setXxx).get("return") is <ClassName>`
+  must hold on every supported Python version.
 - Getters for collections return `List[T]`; getters that may return `None` return
-  `Optional[T]`. Setters/adds declare `value` and return `"ClassName"`. Factories accept
+  `Optional[T]`. Setters/adds declare `value` and return `ClassName` (bare — see the
+  PEP 563 warning above). Factories accept
   `short_name: str` and return the concrete type. `Optional`/`List` imported from
   `typing`. `__init__` fields annotated, matching getter/setter type.
 - **`__init__` members are PEP 526 annotated assignments with the spec `Note` above**
