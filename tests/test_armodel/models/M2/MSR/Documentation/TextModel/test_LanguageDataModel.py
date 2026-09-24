@@ -330,8 +330,49 @@ class TestLLongName:
 class TestLPlainText:
     """Test class for LPlainText class."""
 
+    def test_l_plain_text_base_chain(self):
+        """LPlainText must extend LanguageSpecific per Table 9.96."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+        assert issubclass(LPlainText, LanguageSpecific)
+        assert issubclass(LPlainText, ARObject)
+        assert isinstance(LPlainText(), LPlainText)
+
     def test_l_plain_text_initialization(self):
         """Test that an LPlainText object can be initialized."""
         l_plain_text = LPlainText()
         assert l_plain_text.l is None
         assert l_plain_text.value == ""
+
+    def test_l_plain_text_docstring_verbatim(self):
+        """Docstring must equal the spec Note from Table 9.96 verbatim."""
+        import inspect
+
+        expected = "This represents plain string in one particular language. " "The language is denoted in the attribute l."
+        assert inspect.cleandoc(LPlainText.__doc__) == expected
+
+    def test_l_plain_text_inherited_accessors(self):
+        """LPlainText inherits the l/value accessors from LanguageSpecific (Table 9.96 has no own Attribute rows)."""
+        l_plain_text = LPlainText()
+
+        result = l_plain_text.setL("DE")
+        assert l_plain_text.getL() == "DE"
+        assert result is l_plain_text
+
+        result = l_plain_text.setValue("plain text")
+        assert l_plain_text.getValue() == "plain text"
+        assert result is l_plain_text
+
+        l_plain_text.setL(None)
+        assert l_plain_text.getL() == "DE"
+
+        l_plain_text.setValue(None)
+        assert l_plain_text.getValue() == "plain text"
+
+    def test_l_plain_text_has_no_own_members(self):
+        """Field-to-spec cross-check: Table 9.96 carries no Attribute rows, so LPlainText adds no fields beyond LanguageSpecific."""
+
+        class _BareLanguageSpecific(LanguageSpecific):
+            pass
+
+        assert set(vars(LPlainText()).keys()) == set(vars(_BareLanguageSpecific()).keys())

@@ -684,11 +684,16 @@ class LLongName(MixedContentForLongName, LanguageSpecific):
 
 class LPlainText(LanguageSpecific):
     """
-    Language-specific plain text element.
+    This represents plain string in one particular language. The language is denoted in the attribute l.
     """
 
     # LPlainText method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.96, p.349
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes — Table 9.96 Attribute rows: none; inherited LanguageSpecific accessors
+    #  getL/setL/getValue/setValue are covered by their declaring class checklist; the L-PLAIN-TEXT
+    #  element serializes via the shared stamped setLanguageSpecific/readLanguageSpecific pair)
 
     def __init__(self):
         super().__init__()

@@ -1136,7 +1136,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.InlineAttributeEnums import (
     ShowSeeEnum,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Superscript, Tt, Xdoc, Xfile, Xref, XrefTarget
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LVerbatim, MixedContentForLongName, SlParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LPlainText, LVerbatim, MixedContentForLongName, SlParagraph
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
 from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
@@ -5717,12 +5717,12 @@ class ARXMLParser(AbstractARXMLParser):
             paragraphs.append(paragraph)
         return paragraphs
 
-    def getLPlainTexts(self, element: ET.Element, key: str) -> List[LParagraph]:
+    def getLPlainTexts(self, element: ET.Element, key: str) -> List[LPlainText]:
         results = []
         for child_element in self.findall(element, key):
-            l1 = LParagraph()
-            self.readLanguageSpecific(child_element, l1)
-            results.append(l1)
+            l10 = LPlainText()
+            self.readLanguageSpecific(child_element, l10)
+            results.append(l10)
         return results
 
     def getListElements(self, element: ET.Element, key: str) -> List[ARList]:
