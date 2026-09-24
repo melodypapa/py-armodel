@@ -363,30 +363,68 @@ class TestClientComSpec:
 
 
 class TestModeSwitchReceiverComSpec:
-    """Test class for ModeSwitchReceiverComSpec class."""
+    """Test class for ModeSwitchReceiverComSpec class (Table 4.81)."""
 
-    def test_mode_switch_receiver_com_spec_initialization(self):
-        """Test ModeSwitchReceiverComSpec initialization and methods."""
-        receiver = ModeSwitchReceiverComSpec()
-        assert receiver.enhancedModeApi is None
-        assert receiver.modeGroupRef is None
-        assert receiver.supportsAsynchronousModeSwitch is None
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings must be the Table 4.81 Notes copied verbatim."""
+        assert ModeSwitchReceiverComSpec.__doc__.strip() == "Communication attributes of RPortPrototypes with respect to mode communication"
+        enhanced_note = 'This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to "true" the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE.'
+        assert ModeSwitchReceiverComSpec.getEnhancedModeApi.__doc__.strip() == enhanced_note
+        assert ModeSwitchReceiverComSpec.setEnhancedModeApi.__doc__.strip() == enhanced_note + " A None value is a no-op and does not overwrite an existing enhancedModeApi."
+        mode_group_note = "ModeDeclarationGroupPrototype (of the same PortInterface) to which these communication attributes apply. [constr_1896]"
+        assert ModeSwitchReceiverComSpec.getModeGroupRef.__doc__.strip() == mode_group_note
+        assert ModeSwitchReceiverComSpec.setModeGroupRef.__doc__.strip() == mode_group_note + " A None value is a no-op and does not overwrite an existing modeGroupRef."
+        async_note = "This attribute controls the behavior of the corresponding RPortPrototype with respect to the question whether it can deal with asynchronous mode switch requests, i.e. if set to true, the RPortPrototype is able to deal with an asynchronous mode switch request."
+        assert ModeSwitchReceiverComSpec.getSupportsAsynchronousModeSwitch.__doc__.strip() == async_note
+        assert ModeSwitchReceiverComSpec.setSupportsAsynchronousModeSwitch.__doc__.strip() == async_note + " A None value is a no-op and does not overwrite an existing supportsAsynchronousModeSwitch."
 
-        # Test setters and getters
-        api = Boolean()
-        api.setValue(True)
-        receiver.setEnhancedModeApi(api)
-        assert receiver.getEnhancedModeApi() == api
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject + RPortComSpec — Python base is RPortComSpec (most-derived, Table 4.59); setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(ModeSwitchReceiverComSpec, RPortComSpec)
+        assert issubclass(ModeSwitchReceiverComSpec, ARObject)
+        assert ModeSwitchReceiverComSpec.__dict__["setEnhancedModeApi"].__annotations__["return"] == "ModeSwitchReceiverComSpec"
+        assert ModeSwitchReceiverComSpec.__dict__["setModeGroupRef"].__annotations__["return"] == "ModeSwitchReceiverComSpec"
+        assert ModeSwitchReceiverComSpec.__dict__["setSupportsAsynchronousModeSwitch"].__annotations__["return"] == "ModeSwitchReceiverComSpec"
 
-        ref = RefType()
-        ref.setValue("/Test/ModeGroup")
-        receiver.setModeGroupRef(ref)
-        assert receiver.getModeGroupRef() == ref
+    def test_initialization_defaults(self):
+        """Test ModeSwitchReceiverComSpec field defaults."""
+        com_spec = ModeSwitchReceiverComSpec()
+        assert com_spec.enhancedModeApi is None
+        assert com_spec.modeGroupRef is None
+        assert com_spec.supportsAsynchronousModeSwitch is None
 
-        async_mode = Boolean()
-        async_mode.setValue(False)
-        receiver.setSupportsAsynchronousModeSwitch(async_mode)
-        assert receiver.getSupportsAsynchronousModeSwitch() == async_mode
+    def test_get_set_enhanced_mode_api(self):
+        """Test enhancedModeApi accessor pair, chaining and None no-op."""
+        com_spec = ModeSwitchReceiverComSpec()
+        value = Boolean()
+        value.setValue(True)
+        result = com_spec.setEnhancedModeApi(value)
+        assert result is com_spec
+        assert com_spec.getEnhancedModeApi() is value
+        com_spec.setEnhancedModeApi(None)
+        assert com_spec.getEnhancedModeApi() is value
+
+    def test_get_set_mode_group_ref(self):
+        """Test modeGroupRef accessor pair, chaining and None no-op."""
+        com_spec = ModeSwitchReceiverComSpec()
+        value = RefType()
+        value.setValue("/ModeDcl/Group")
+        result = com_spec.setModeGroupRef(value)
+        assert result is com_spec
+        assert com_spec.getModeGroupRef() is value
+        com_spec.setModeGroupRef(None)
+        assert com_spec.getModeGroupRef() is value
+
+    def test_get_set_supports_asynchronous_mode_switch(self):
+        """Test supportsAsynchronousModeSwitch accessor pair, chaining and None no-op."""
+        com_spec = ModeSwitchReceiverComSpec()
+        value = Boolean()
+        value.setValue(False)
+        result = com_spec.setSupportsAsynchronousModeSwitch(value)
+        assert result is com_spec
+        assert com_spec.getSupportsAsynchronousModeSwitch() is value
+        com_spec.setSupportsAsynchronousModeSwitch(None)
+        assert com_spec.getSupportsAsynchronousModeSwitch() is value
 
 
 class TestNvRequireComSpec:

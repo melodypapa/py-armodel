@@ -632,92 +632,72 @@ class ClientComSpec(RPortComSpec):
 
 class ModeSwitchReceiverComSpec(RPortComSpec):
     """
-    Communication attributes of RPortPrototypes with respect to mode communication.
+    Communication attributes of RPortPrototypes with respect to mode communication
     """
 
     # ModeSwitchReceiverComSpec method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getEnhancedModeApi           [x] impl  [x] docstring  [ ] test
-    # [ ] setEnhancedModeApi           [x] impl  [x] docstring  [ ] test
-    # [ ] getModeGroupRef              [x] impl  [x] docstring  [ ] test
-    # [ ] setModeGroupRef              [x] impl  [x] docstring  [ ] test
-    # [ ] getSupportsAsynchronousModeSwitch [x] impl  [x] docstring  [ ] test
-    # [ ] setSupportsAsynchronousModeSwitch [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.81, p.191
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEnhancedModeApi                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnhancedModeApi                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeGroupRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeGroupRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSupportsAsynchronousModeSwitch [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSupportsAsynchronousModeSwitch [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.enhancedModeApi: Boolean = None
-        self.modeGroupRef: RefType = None
-        self.supportsAsynchronousModeSwitch: Boolean = None
+        # This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to "true" the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE.
+        self.enhancedModeApi: Optional[Boolean] = None
 
-    def getEnhancedModeApi(self):
+        # ModeDeclarationGroupPrototype (of the same PortInterface) to which these communication attributes apply. [constr_1896]
+        self.modeGroupRef: Optional[RefType] = None
+
+        # This attribute controls the behavior of the corresponding RPortPrototype with respect to the question whether it can deal with asynchronous mode switch requests, i.e. if set to true, the RPortPrototype is able to deal with an asynchronous mode switch request.
+        self.supportsAsynchronousModeSwitch: Optional[Boolean] = None
+
+    def getEnhancedModeApi(self) -> Optional[Boolean]:
         """
-        Gets whether the enhanced mode API is enabled.
-
-        Returns:
-            Boolean: True if enhanced mode API is enabled
+        This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to "true" the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE.
         """
         return self.enhancedModeApi
 
-    def setEnhancedModeApi(self, value):
+    def setEnhancedModeApi(self, value: Optional[Boolean]) -> ModeSwitchReceiverComSpec:
         """
-        Sets whether the enhanced mode API is enabled.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The enhanced mode API flag
-
-        Returns:
-            self for method chaining
+        This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to "true" the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE. A None value is a no-op and does not overwrite an existing enhancedModeApi.
         """
-        self.enhancedModeApi = value
+        if value is not None:
+            self.enhancedModeApi = value
         return self
 
-    def getModeGroupRef(self):
+    def getModeGroupRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the mode group.
-
-        Returns:
-            RefType: The mode group reference
+        ModeDeclarationGroupPrototype (of the same PortInterface) to which these communication attributes apply. [constr_1896]
         """
         return self.modeGroupRef
 
-    def setModeGroupRef(self, value):
+    def setModeGroupRef(self, value: Optional[RefType]) -> ModeSwitchReceiverComSpec:
         """
-        Sets the reference to the mode group.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The mode group reference to set
-
-        Returns:
-            self for method chaining
+        ModeDeclarationGroupPrototype (of the same PortInterface) to which these communication attributes apply. [constr_1896] A None value is a no-op and does not overwrite an existing modeGroupRef.
         """
-        self.modeGroupRef = value
+        if value is not None:
+            self.modeGroupRef = value
         return self
 
-    def getSupportsAsynchronousModeSwitch(self):
+    def getSupportsAsynchronousModeSwitch(self) -> Optional[Boolean]:
         """
-        Gets whether asynchronous mode switch is supported.
-
-        Returns:
-            Boolean: True if asynchronous mode switch is supported
+        This attribute controls the behavior of the corresponding RPortPrototype with respect to the question whether it can deal with asynchronous mode switch requests, i.e. if set to true, the RPortPrototype is able to deal with an asynchronous mode switch request.
         """
         return self.supportsAsynchronousModeSwitch
 
-    def setSupportsAsynchronousModeSwitch(self, value):
+    def setSupportsAsynchronousModeSwitch(self, value: Optional[Boolean]) -> ModeSwitchReceiverComSpec:
         """
-        Sets whether asynchronous mode switch is supported.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The asynchronous mode switch support flag
-
-        Returns:
-            self for method chaining
+        This attribute controls the behavior of the corresponding RPortPrototype with respect to the question whether it can deal with asynchronous mode switch requests, i.e. if set to true, the RPortPrototype is able to deal with an asynchronous mode switch request. A None value is a no-op and does not overwrite an existing supportsAsynchronousModeSwitch.
         """
-        self.supportsAsynchronousModeSwitch = value
+        if value is not None:
+            self.supportsAsynchronousModeSwitch = value
         return self
 
 
