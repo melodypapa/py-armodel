@@ -116,7 +116,7 @@ class ExternalTriggeringPoint(ARObject, VariationPointCapable):
         """
         return self.trigger
 
-    def setTrigger(self, value: Optional["PTriggerInAtomicSwcTypeInstanceRef"]) -> "ExternalTriggeringPoint":
+    def setTrigger(self, value: Optional["PTriggerInAtomicSwcTypeInstanceRef"]) -> ExternalTriggeringPoint:
         """
         Sets the trigger taken for the ExternalTriggeringPoint. The trigger is
         represented as a PTriggerInAtomicSwcTypeInstanceRef. A None value is a

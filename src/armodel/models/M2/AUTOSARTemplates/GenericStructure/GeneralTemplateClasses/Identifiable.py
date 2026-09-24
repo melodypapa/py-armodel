@@ -88,7 +88,7 @@ class Referrable(ARObject, ABC):
         """
         return self.full_name
 
-    def addShortNameFragment(self, value: Optional["ShortNameFragment"]) -> "Referrable":
+    def addShortNameFragment(self, value: Optional["ShortNameFragment"]) -> Referrable:
         """
         Adds a short name fragment that specifies how the shortName is composed of several shortNameFragments.
         A None value is a no-op and does not append anything.
@@ -142,7 +142,7 @@ class ShortNameFragment(ARObject):
         """
         return self.fragment
 
-    def setFragment(self, value: Optional[Identifier]) -> "ShortNameFragment":
+    def setFragment(self, value: Optional[Identifier]) -> ShortNameFragment:
         """
         This specifies a single shortName (fragment) which is part of the composed shortName. A None value is a no-op and does not overwrite an existing fragment.
         """
@@ -156,7 +156,7 @@ class ShortNameFragment(ARObject):
         """
         return self.role
 
-    def setRole(self, value: Optional[String]) -> "ShortNameFragment":
+    def setRole(self, value: Optional[String]) -> ShortNameFragment:
         """
         This specifies the role of fragment to define e.g. the order of the fragments. A None value is a no-op and does not overwrite an existing role.
         """
@@ -193,7 +193,7 @@ class MultilanguageReferrable(Referrable, ABC):
         """
         return self.longName
 
-    def setLongName(self, value: Optional["MultilanguageLongName"]) -> "MultilanguageReferrable":
+    def setLongName(self, value: Optional["MultilanguageLongName"]) -> MultilanguageReferrable:
         """
         This specifies the long name of the object. Long name is targeted to human readers and acts like a headline.
         A None value is a no-op and does not overwrite an existing longName.
@@ -237,7 +237,7 @@ class SingleLanguageReferrable(Referrable, ABC):
         """
         return self.longName1
 
-    def setLongName1(self, value: Optional[SingleLanguageLongName]) -> "SingleLanguageReferrable":
+    def setLongName1(self, value: Optional[SingleLanguageLongName]) -> SingleLanguageReferrable:
         """
         This specifies the long name of the object. The role is longName1 for compatibiilty to ASAM FSX. A None value is a no-op and does not overwrite an existing longName1.
         """
@@ -320,7 +320,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.adminData
 
-    def setAdminData(self, value: Optional[AdminData]) -> "Identifiable":
+    def setAdminData(self, value: Optional[AdminData]) -> Identifiable:
         """
         This represents the administrative data for the identifiable object. Only sets the value if it is not None.
         """
@@ -334,7 +334,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         self.adminData = None
 
-    def addAnnotation(self, annotation: Optional[Annotation]) -> "Identifiable":
+    def addAnnotation(self, annotation: Optional[Annotation]) -> Identifiable:
         """
         Possibility to provide additional notes while defining a model element (e.g. the ECU Configuration Parameter Values). These are not intended as documentation but are mere design notes. A None value is a no-op and does not append anything.
         """
@@ -354,7 +354,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.category
 
-    def setCategory(self, value: Union[CategoryString, str]) -> "Identifiable":
+    def setCategory(self, value: Union[CategoryString, str]) -> Identifiable:
         """
         The category is a keyword that specializes the semantics of the Identifiable. It affects the expected existence of attributes and the applicability of constraints. Only sets the value if it is not None.
         """
@@ -371,7 +371,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.desc
 
-    def setDesc(self, value: Optional[MultiLanguageOverviewParagraph]) -> "Identifiable":
+    def setDesc(self, value: Optional[MultiLanguageOverviewParagraph]) -> Identifiable:
         """
         This represents a general but brief (one paragraph) description what the object in question is about. It is only one paragraph! Desc is intended to be collected into overview tables. This property helps a human reader to identify the object in question. More elaborate documentation, (in particular how the object is built or used) should go to "introduction". Only sets the value if it is not None.
         """
@@ -385,7 +385,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.introduction
 
-    def setIntroduction(self, value: Optional[DocumentationBlock]) -> "Identifiable":
+    def setIntroduction(self, value: Optional[DocumentationBlock]) -> Identifiable:
         """
         This represents more information about how the object in question is built or is used. Therefore it is a DocumentationBlock. Only sets the value if it is not None.
         """
@@ -399,7 +399,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.uuid
 
-    def setUuid(self, value: Optional[String]) -> "Identifiable":
+    def setUuid(self, value: Optional[String]) -> Identifiable:
         """
         The purpose of this attribute is to provide a globally unique identifier for an instance of a meta-class. The values of this attribute should be globally unique strings prefixed by the type of identifier. For example, to include a DCE UUID as defined by The Open Group, the UUID would be preceded by "DCE:". The values of this attribute may be used to support merging of different AUTOSAR models. The form of the UUID (Universally Unique Identifier) is taken from a standard defined by the Open Group (was Open Software Foundation). This standard is widely used, including by Microsoft for COM (GUIDs) and by many companies for DCE, which is based on CORBA. The method for generating these 128-bit IDs is published in the standard and the effectiveness and uniqueness of the IDs is not in practice disputed. If the id namespace is omitted, DCE is assumed. An example is "DCE:2fac1234-31f8-11b4-a222-08002b34c003". The uuid attribute has no semantic meaning for an AUTOSAR model and there is no requirement for AUTOSAR tools to manage the timestamp. Only sets the value if it is not None.
         """

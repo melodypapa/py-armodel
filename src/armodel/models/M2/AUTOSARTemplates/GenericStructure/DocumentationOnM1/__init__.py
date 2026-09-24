@@ -61,7 +61,7 @@ class Documentation(ARElement):
         # This is the content of the documentation related to the specified contexts.
         self.documentationContent: Optional[PredefinedChapter] = None
 
-    def addContext(self, value: DocumentationContext) -> "Documentation":
+    def addContext(self, value: DocumentationContext) -> Documentation:
         """
         This is the context of the particular documentation.
 
@@ -83,7 +83,7 @@ class Documentation(ARElement):
         """
         return self.contexts
 
-    def setDocumentationContent(self, value: Optional[PredefinedChapter]) -> "Documentation":
+    def setDocumentationContent(self, value: Optional[PredefinedChapter]) -> Documentation:
         """
         This is the content of the documentation related to the specified contexts.
 
@@ -130,7 +130,7 @@ class DocumentationContext(MultilanguageReferrable):
         # This is an identifiable object which is part of the context of the documentation.
         self.identifiableRef: Optional[RefType] = None
 
-    def setFeatureIRef(self, value: Optional[AnyInstanceRef]) -> "DocumentationContext":
+    def setFeatureIRef(self, value: Optional[AnyInstanceRef]) -> DocumentationContext:
         """
         This refers to a particular feature (instance in the M0 model) to which is the context of the documentation.
 
@@ -152,7 +152,7 @@ class DocumentationContext(MultilanguageReferrable):
         """
         return self.featureIRef
 
-    def setIdentifiableRef(self, value: Optional[RefType]) -> "DocumentationContext":
+    def setIdentifiableRef(self, value: Optional[RefType]) -> DocumentationContext:
         """
         This is an identifiable object which is part of the context of the documentation.
 

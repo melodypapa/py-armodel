@@ -116,7 +116,7 @@ class Collection(Identifiable):
         """
         return self.autoCollect
 
-    def setAutoCollect(self, value: Optional[AutoCollectEnum]) -> "Collection":
+    def setAutoCollect(self, value: Optional[AutoCollectEnum]) -> Collection:
         """
         This attribute reflects how far the referenced objects are part of the collection.
         A None value is a no-op and is not set.
@@ -131,7 +131,7 @@ class Collection(Identifiable):
         """
         return self.collectedInstanceIRefs
 
-    def addCollectedInstanceIRef(self, value: Optional[AnyInstanceRef]) -> "Collection":
+    def addCollectedInstanceIRef(self, value: Optional[AnyInstanceRef]) -> Collection:
         """
         This instance ref supports the use case that a particular instance is part of the collection.
         A None value is a no-op and is not set.
@@ -146,7 +146,7 @@ class Collection(Identifiable):
         """
         return self.collectionSemantics
 
-    def setCollectionSemantics(self, value: Optional[NameToken]) -> "Collection":
+    def setCollectionSemantics(self, value: Optional[NameToken]) -> Collection:
         """
         Provides the ability to express the semantics of a Collection depending on the intended use case. The collectionSemantics is specified as a NameToken which must be agreed by all stakeholders.
         A None value is a no-op and is not set.
@@ -161,7 +161,7 @@ class Collection(Identifiable):
         """
         return self.elementRefs
 
-    def addElementRef(self, value: Optional[RefType]) -> "Collection":
+    def addElementRef(self, value: Optional[RefType]) -> Collection:
         """
         This is an element in the collection. Note that Collection itself is collectable. Therefore collections can be nested. In case of category="RELATION" this represents the target end of the relation.
         A None value is a no-op and is not set.
@@ -176,7 +176,7 @@ class Collection(Identifiable):
         """
         return self.elementRole
 
-    def setElementRole(self, value: Optional[Identifier]) -> "Collection":
+    def setElementRole(self, value: Optional[Identifier]) -> Collection:
         """
         This attribute allows to denote a particular role of the collection. Note that the applicable semantics shall be mutually agreed between the two parties. In particular it denotes the role of element in the context of sourceElement.
         A None value is a no-op and is not set.
@@ -191,7 +191,7 @@ class Collection(Identifiable):
         """
         return self.sourceElementRefs
 
-    def addSourceElementRef(self, value: Optional[RefType]) -> "Collection":
+    def addSourceElementRef(self, value: Optional[RefType]) -> Collection:
         """
         Only if Category = "RELATION". This represents the source of a relation.
         A None value is a no-op and is not set.
@@ -206,7 +206,7 @@ class Collection(Identifiable):
         """
         return self.sourceInstanceIRefs
 
-    def addSourceInstanceIRef(self, value: Optional[AnyInstanceRef]) -> "Collection":
+    def addSourceInstanceIRef(self, value: Optional[AnyInstanceRef]) -> Collection:
         """
         Only if Category = "RELATION". This represents the source instance of a relation.
         A None value is a no-op and is not set.

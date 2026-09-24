@@ -58,7 +58,7 @@ class AttributeValueVariationPoint(ARObject, ABC):
         """
         return self.bindingTime
 
-    def setBindingTime(self, value: Optional[BindingTimeEnum]) -> "AttributeValueVariationPoint":
+    def setBindingTime(self, value: Optional[BindingTimeEnum]) -> AttributeValueVariationPoint:
         """
         This is the binding time in which the attribute value needs to be bound. If this attribute is missing, the attribute is not a variation point. In particular this means that It needs to be a single value according to the type specified in the pure model. It is an error if it is still a formula. A None value is a no-op and does not overwrite an existing bindingTime.
         """
@@ -72,7 +72,7 @@ class AttributeValueVariationPoint(ARObject, ABC):
         """
         return self.blueprintValue
 
-    def setBlueprintValue(self, value: Optional[String]) -> "AttributeValueVariationPoint":
+    def setBlueprintValue(self, value: Optional[String]) -> AttributeValueVariationPoint:
         """
         This represents a description that documents how the value shall be defined when deriving objects from the blueprint. A None value is a no-op and does not overwrite an existing blueprintValue.
         """
@@ -86,7 +86,7 @@ class AttributeValueVariationPoint(ARObject, ABC):
         """
         return self.sd
 
-    def setSd(self, value: Optional[String]) -> "AttributeValueVariationPoint":
+    def setSd(self, value: Optional[String]) -> AttributeValueVariationPoint:
         """
         This special data is provided to allow synchronization of Attribute value variation points with variant management systems. The usage is subject of agreement between the involved parties. A None value is a no-op and does not overwrite an existing sd.
         """
@@ -100,7 +100,7 @@ class AttributeValueVariationPoint(ARObject, ABC):
         """
         return self.shortLabel
 
-    def setShortLabel(self, value: Optional[PrimitiveIdentifier]) -> "AttributeValueVariationPoint":
+    def setShortLabel(self, value: Optional[PrimitiveIdentifier]) -> AttributeValueVariationPoint:
         """
         This allows to identify the variation point. It is also intended to allow RTE support for CompileTime Variation points. A None value is a no-op and does not overwrite an existing shortLabel.
         """
@@ -112,7 +112,7 @@ class AttributeValueVariationPoint(ARObject, ABC):
         """Returns the mixed string content (the actual value, e.g. the numerical literal) of this <<atpMixedString>> element."""
         return self._text
 
-    def setText(self, value: Optional[str]) -> "AttributeValueVariationPoint":
+    def setText(self, value: Optional[str]) -> AttributeValueVariationPoint:
         """Sets the mixed string content (the actual value, e.g. the numerical literal) of this <<atpMixedString>> element. A None value is a no-op and does not overwrite an existing value."""
         if value is not None:
             self._text = value
@@ -187,7 +187,7 @@ class LimitValueVariationPoint(AbstractNumericalVariationPoint):
         """This specifies the type of the interval."""
         return self.intervalType
 
-    def setIntervalType(self, value: Optional[IntervalTypeEnum]) -> "LimitValueVariationPoint":
+    def setIntervalType(self, value: Optional[IntervalTypeEnum]) -> LimitValueVariationPoint:
         """This specifies the type of the interval. A None value is a no-op and does not overwrite an existing intervalType."""
         if value is not None:
             self.intervalType = value

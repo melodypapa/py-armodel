@@ -282,7 +282,7 @@ class ReferenceBase(ARObject):
         """
         return self.globalElements
 
-    def addGlobalElement(self, value: ReferrableSubtypesEnum) -> "ReferenceBase":
+    def addGlobalElement(self, value: ReferrableSubtypesEnum) -> ReferenceBase:
         """
         This attribute represents a meta-class for which the global referencing is supported via this reference base.
         """
@@ -295,7 +295,7 @@ class ReferenceBase(ARObject):
         """
         return self.globalInPackageRefs
 
-    def addGlobalInPackageRef(self, value: RefType) -> "ReferenceBase":
+    def addGlobalInPackageRef(self, value: RefType) -> ReferenceBase:
         """
         This represents the ability to express that global elements live in various packages which do not have a common ancestor package. Packages mentioned by Reference Base.globalInPackage are used in addition to the one in ReferenceBase.package.
         """
@@ -308,7 +308,7 @@ class ReferenceBase(ARObject):
         """
         return self.isDefault
 
-    def setIsDefault(self, value: Optional[Boolean]) -> "ReferenceBase":
+    def setIsDefault(self, value: Optional[Boolean]) -> ReferenceBase:
         """
         This attribute denotes if the current ReferenceBase is the default. Note that there can only be one default reference base within a package. A None value is a no-op and does not overwrite an existing isDefault.
         """
@@ -322,7 +322,7 @@ class ReferenceBase(ARObject):
         """
         return self.packageRef
 
-    def setPackageRef(self, value: Optional[RefType]) -> "ReferenceBase":
+    def setPackageRef(self, value: Optional[RefType]) -> ReferenceBase:
         """
         This association specifies the basis of all relative references with the base equals shortLabel. A None value is a no-op and does not overwrite an existing packageRef.
         """
@@ -336,7 +336,7 @@ class ReferenceBase(ARObject):
         """
         return self.shortLabel
 
-    def setShortLabel(self, value: Optional[Identifier]) -> "ReferenceBase":
+    def setShortLabel(self, value: Optional[Identifier]) -> ReferenceBase:
         """
         This is the name of the reference base. By this name, particular references can denote the applicable base. A None value is a no-op and does not overwrite an existing shortLabel.
         """
@@ -350,7 +350,7 @@ class ReferenceBase(ARObject):
         """
         return self.isGlobal
 
-    def setIsGlobal(self, value: Optional[Boolean]) -> "ReferenceBase":
+    def setIsGlobal(self, value: Optional[Boolean]) -> ReferenceBase:
         """
         This indicates that the target of the applicable reference can be resolved via the non-qualified shortName. This requires that the shortName of the target is unique within the package referenced in the reference base. The default is false. Note that the reference base also maintains a list of elements which may be referenced using a "global Reference". A None value is a no-op and does not overwrite an existing isGlobal.
         """
@@ -364,7 +364,7 @@ class ReferenceBase(ARObject):
         """
         return self.baseIsThisPackage
 
-    def setBaseIsThisPackage(self, value: Optional[Boolean]) -> "ReferenceBase":
+    def setBaseIsThisPackage(self, value: Optional[Boolean]) -> ReferenceBase:
         """
         This indicates that this base is established by the current package. In this case the association "package" can be derived as the qualified shortName of the enclosing package. If the value of baseIsThisPackage is set to true then one of the following must be true: • target of the association "package" must be the enclosing package. • association "package" is omitted. A None value is a no-op and does not overwrite an existing baseIsThisPackage.
         """
@@ -423,7 +423,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         return list(sorted(self.arPackages, key=lambda a: a.short_name))
         # return list(filter(lambda e: isinstance(e, ARPackage), self.elements))
 
-    def createARPackage(self, short_name: str) -> "ARPackage":
+    def createARPackage(self, short_name: str) -> ARPackage:
         """
         This represents a sub package within an ARPackage, thus allowing for an unlimited package hierarchy. Creates a new sub-package with the given short name, or returns an existing package if one with the same name already exists.
 
@@ -1321,7 +1321,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(map)
         return self.getElement(short_name, FlatMap)
 
-    def createBuildActionManifest(self, short_name: str) -> "BuildActionManifest":
+    def createBuildActionManifest(self, short_name: str) -> BuildActionManifest:
         if not self.IsElementExists(short_name, BuildActionManifest):
             manifest = BuildActionManifest(self, short_name)
             self.addElement(manifest)
@@ -1609,7 +1609,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(tlv_data_id_definition_set)
         return self.getElement(short_name, TlvDataIdDefinitionSet)
 
-    def createCollection(self, short_name: str) -> "Collection":
+    def createCollection(self, short_name: str) -> Collection:
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 
         if not self.IsElementExists(short_name, Collection):
@@ -1935,7 +1935,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
         """
         return self.referenceBases
 
-    def addReferenceBase(self, value: Optional[ReferenceBase]) -> "ARPackage":
+    def addReferenceBase(self, value: Optional[ReferenceBase]) -> ARPackage:
         """
         This denotes the reference bases for the package. This is the basis for all relative references within the package. The base needs to be selected according to the base attribute within the references. A None value is a no-op and does not append to referenceBases.
         """

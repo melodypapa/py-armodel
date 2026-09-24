@@ -68,7 +68,7 @@ class ModeInBswInstanceRef(ModeInSwcBswInstanceRef):
         """Specifies the BSW implementation that manifests the context."""
         return self.contextBswImplementationRef
 
-    def setContextBswImplementationRef(self, value: Optional[RefType]) -> "ModeInBswInstanceRef":
+    def setContextBswImplementationRef(self, value: Optional[RefType]) -> ModeInBswInstanceRef:
         """Specifies the BSW implementation that manifests the context. A None value is a no-op and does not overwrite an existing contextBswImplementationRef."""
         if value is not None:
             self.contextBswImplementationRef = value
@@ -78,7 +78,7 @@ class ModeInBswInstanceRef(ModeInSwcBswInstanceRef):
         """Specifies the mode declaration group prototype that manifests the context. [constr_6853] The reference shall exist at least once at the time when the Bsw Timing Description is complete."""
         return self.contextModeDeclarationGroupPrototypeRef
 
-    def setContextModeDeclarationGroupPrototypeRef(self, value: Optional[RefType]) -> "ModeInBswInstanceRef":
+    def setContextModeDeclarationGroupPrototypeRef(self, value: Optional[RefType]) -> ModeInBswInstanceRef:
         """Specifies the mode declaration group prototype that manifests the context. [constr_6853] The reference shall exist at least once at the time when the Bsw Timing Description is complete. A None value is a no-op and does not overwrite an existing contextModeDeclarationGroupPrototypeRef."""
         if value is not None:
             self.contextModeDeclarationGroupPrototypeRef = value
@@ -88,7 +88,7 @@ class ModeInBswInstanceRef(ModeInSwcBswInstanceRef):
         """Specifies the specific mode declaration in the given context. [constr_6854] The reference shall exist at least once at the time when the Bsw Timing Description is complete."""
         return self.targetModeDeclarationRef
 
-    def setTargetModeDeclarationRef(self, value: Optional[RefType]) -> "ModeInBswInstanceRef":
+    def setTargetModeDeclarationRef(self, value: Optional[RefType]) -> ModeInBswInstanceRef:
         """Specifies the specific mode declaration in the given context. [constr_6854] The reference shall exist at least once at the time when the Bsw Timing Description is complete. A None value is a no-op and does not overwrite an existing targetModeDeclarationRef."""
         if value is not None:
             self.targetModeDeclarationRef = value
@@ -139,7 +139,7 @@ class ModeInSwcInstanceRef(AtpInstanceRef, ModeInSwcBswInstanceRef):
         """Specifies the SW component representing the base of the context."""
         return self.baseRef
 
-    def setBaseRef(self, value: Optional[RefType]) -> "ModeInSwcInstanceRef":
+    def setBaseRef(self, value: Optional[RefType]) -> ModeInSwcInstanceRef:
         """Specifies the SW component representing the base of the context. A None value is a no-op and does not overwrite an existing baseRef."""
         if value is not None:
             self.baseRef = value
@@ -149,7 +149,7 @@ class ModeInSwcInstanceRef(AtpInstanceRef, ModeInSwcBswInstanceRef):
         """Specifies the SW component prototype representing the context."""
         return self.contextComponentRefs
 
-    def addContextComponentRef(self, value: Optional[RefType]) -> "ModeInSwcInstanceRef":
+    def addContextComponentRef(self, value: Optional[RefType]) -> ModeInSwcInstanceRef:
         """Specifies the SW component prototype representing the context. A None value is a no-op and does not append anything."""
         if value is not None:
             self.contextComponentRefs.append(value)
@@ -159,7 +159,7 @@ class ModeInSwcInstanceRef(AtpInstanceRef, ModeInSwcBswInstanceRef):
         """Specifies the mode declaration group prototype that manifests the context."""
         return self.contextModeDeclarationGroupPrototypeRef
 
-    def setContextModeDeclarationGroupPrototypeRef(self, value: Optional[RefType]) -> "ModeInSwcInstanceRef":
+    def setContextModeDeclarationGroupPrototypeRef(self, value: Optional[RefType]) -> ModeInSwcInstanceRef:
         """Specifies the mode declaration group prototype that manifests the context. A None value is a no-op and does not overwrite an existing contextModeDeclarationGroupPrototypeRef."""
         if value is not None:
             self.contextModeDeclarationGroupPrototypeRef = value
@@ -169,7 +169,7 @@ class ModeInSwcInstanceRef(AtpInstanceRef, ModeInSwcBswInstanceRef):
         """Specifies the port prototype representing the context."""
         return self.contextPortRef
 
-    def setContextPortRef(self, value: Optional[RefType]) -> "ModeInSwcInstanceRef":
+    def setContextPortRef(self, value: Optional[RefType]) -> ModeInSwcInstanceRef:
         """Specifies the port prototype representing the context. A None value is a no-op and does not overwrite an existing contextPortRef."""
         if value is not None:
             self.contextPortRef = value
@@ -179,7 +179,7 @@ class ModeInSwcInstanceRef(AtpInstanceRef, ModeInSwcBswInstanceRef):
         """Specifies the specific mode declaration in the given context."""
         return self.targetModeDeclarationRef
 
-    def setTargetModeDeclarationRef(self, value: Optional[RefType]) -> "ModeInSwcInstanceRef":
+    def setTargetModeDeclarationRef(self, value: Optional[RefType]) -> ModeInSwcInstanceRef:
         """Specifies the specific mode declaration in the given context. A None value is a no-op and does not overwrite an existing targetModeDeclarationRef."""
         if value is not None:
             self.targetModeDeclarationRef = value
@@ -210,7 +210,7 @@ class TimingModeInstance(Identifiable, VariationPointCapable):
         """This refers to a specific mode declaration in the given context."""
         return self.modeInstance
 
-    def setModeInstance(self, value: Optional[ModeInSwcBswInstanceRef]) -> "TimingModeInstance":
+    def setModeInstance(self, value: Optional[ModeInSwcBswInstanceRef]) -> TimingModeInstance:
         """This refers to a specific mode declaration in the given context. A None value is a no-op and does not overwrite an existing modeInstance."""
         if value is not None:
             self.modeInstance = value
@@ -240,7 +240,7 @@ class TimingCondition(Identifiable, VariationPointCapable):
         """This is the expression describing the dependency on a specific condition."""
         return self.timingConditionFormula
 
-    def setTimingConditionFormula(self, value: Optional[TimingConditionFormula]) -> "TimingCondition":
+    def setTimingConditionFormula(self, value: Optional[TimingConditionFormula]) -> TimingCondition:
         """This is the expression describing the dependency on a specific condition. A None value is a no-op and does not overwrite an existing formula."""
         if value is not None:
             self.timingConditionFormula = value
@@ -294,7 +294,7 @@ class TimingConditionFormula(Referrable):
         """Returns the mixed string content (the boolean expression) of this <<atpMixedString>> TimingConditionFormula."""
         return self._text
 
-    def setText(self, value: Optional[str]) -> "TimingConditionFormula":
+    def setText(self, value: Optional[str]) -> TimingConditionFormula:
         """Sets the mixed string content (the boolean expression) of this <<atpMixedString>> TimingConditionFormula. A None value is a no-op and does not overwrite an existing value."""
         if value is not None:
             self._text = value
@@ -304,7 +304,7 @@ class TimingConditionFormula(Referrable):
         """This refers to an argument of an operation call."""
         return self.timingArgumentRef
 
-    def setTimingArgumentRef(self, value: Optional[RefType]) -> "TimingConditionFormula":
+    def setTimingArgumentRef(self, value: Optional[RefType]) -> TimingConditionFormula:
         """This refers to an argument of an operation call. A None value is a no-op and does not overwrite an existing timingArgumentRef."""
         if value is not None:
             self.timingArgumentRef = value
@@ -314,7 +314,7 @@ class TimingConditionFormula(Referrable):
         """This refers to a timing condition that is part of an expression describing the dependency on a specific condition."""
         return self.timingConditionRef
 
-    def setTimingConditionRef(self, value: Optional[RefType]) -> "TimingConditionFormula":
+    def setTimingConditionRef(self, value: Optional[RefType]) -> TimingConditionFormula:
         """This refers to a timing condition that is part of an expression describing the dependency on a specific condition. A None value is a no-op and does not overwrite an existing timingConditionRef."""
         if value is not None:
             self.timingConditionRef = value
@@ -324,7 +324,7 @@ class TimingConditionFormula(Referrable):
         """This refers to a timing event."""
         return self.timingEventRef
 
-    def setTimingEventRef(self, value: Optional[RefType]) -> "TimingConditionFormula":
+    def setTimingEventRef(self, value: Optional[RefType]) -> TimingConditionFormula:
         """This refers to a timing event. A None value is a no-op and does not overwrite an existing timingEventRef."""
         if value is not None:
             self.timingEventRef = value
@@ -334,7 +334,7 @@ class TimingConditionFormula(Referrable):
         """This refers to a mode declaration."""
         return self.timingModeRef
 
-    def setTimingModeRef(self, value: Optional[RefType]) -> "TimingConditionFormula":
+    def setTimingModeRef(self, value: Optional[RefType]) -> TimingConditionFormula:
         """This refers to a mode declaration. A None value is a no-op and does not overwrite an existing timingModeRef."""
         if value is not None:
             self.timingModeRef = value
@@ -344,7 +344,7 @@ class TimingConditionFormula(Referrable):
         """This refers to a variable."""
         return self.timingVariableRef
 
-    def setTimingVariableRef(self, value: Optional[RefType]) -> "TimingConditionFormula":
+    def setTimingVariableRef(self, value: Optional[RefType]) -> TimingConditionFormula:
         """This refers to a variable. A None value is a no-op and does not overwrite an existing timingVariableRef."""
         if value is not None:
             self.timingVariableRef = value

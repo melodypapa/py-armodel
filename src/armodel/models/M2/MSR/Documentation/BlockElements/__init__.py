@@ -53,7 +53,7 @@ class Caption(MultilanguageReferrable):
         """
         return self.desc
 
-    def setDesc(self, value: Optional[MultiLanguageOverviewParagraph]) -> "Caption":
+    def setDesc(self, value: Optional[MultiLanguageOverviewParagraph]) -> Caption:
         """
         This represents a general but brief (one paragraph) description what the object in question is about. It is only one paragraph! This property helps a human reader to identify the object in question. Tags: xml.sequenceOffset=10. A None value is a no-op and does not overwrite an existing desc.
 
@@ -89,7 +89,7 @@ class Url(ARObject):
         # The URL value represented by this object.
         self.value: Optional[UriString] = None
 
-    def setMimeType(self, value: Optional[MimeTypeString]) -> "Url":
+    def setMimeType(self, value: Optional[MimeTypeString]) -> Url:
         """
         this denotes the mime type of the resource located by the url. A None value is a no-op and does not overwrite an existing mimeType.
         """
@@ -103,7 +103,7 @@ class Url(ARObject):
         """
         return self.mimeType
 
-    def setValue(self, value: Optional[UriString]) -> "Url":
+    def setValue(self, value: Optional[UriString]) -> Url:
         """
         The URL value represented by this object. A None value is a no-op and does not overwrite an existing value.
         """

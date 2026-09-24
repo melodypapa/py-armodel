@@ -177,7 +177,7 @@ class LanguageSpecific(ARObject, ABC):
         """
         return self.l
 
-    def setL(self, value: Optional[LEnum]) -> "LanguageSpecific":
+    def setL(self, value: Optional[LEnum]) -> LanguageSpecific:
         """
         This attribute denotes the language in which the language specific document entity is given. Note that "FOR-ALL" means, that the entity is applicable to all languages. It is language neutral. It follows ISO 639-1:2002 and is specified in upper case. A None value is a no-op and does not overwrite an existing l.
         """
@@ -191,7 +191,7 @@ class LanguageSpecific(ARObject, ABC):
         """
         return self.value
 
-    def setValue(self, value: str) -> "LanguageSpecific":
+    def setValue(self, value: str) -> LanguageSpecific:
         """
         Sets the text content of the language specific entity. A None value is a no-op and does not overwrite an existing value.
         """
@@ -260,7 +260,7 @@ class MixedContentForLongName(ARObject, ABC):
         """
         return self.e
 
-    def setE(self, value: Optional[EmphasisText]) -> "MixedContentForLongName":
+    def setE(self, value: Optional[EmphasisText]) -> MixedContentForLongName:
         """
         This is emphasized text. A None value is a no-op and does not overwrite an existing e.
         """
@@ -274,7 +274,7 @@ class MixedContentForLongName(ARObject, ABC):
         """
         return self.ie
 
-    def setIe(self, value: Optional[IndexEntry]) -> "MixedContentForLongName":
+    def setIe(self, value: Optional[IndexEntry]) -> MixedContentForLongName:
         """
         This is an index entry. A None value is a no-op and does not overwrite an existing ie.
         """
@@ -288,7 +288,7 @@ class MixedContentForLongName(ARObject, ABC):
         """
         return self.sub
 
-    def setSub(self, value: Optional[Superscript]) -> "MixedContentForLongName":
+    def setSub(self, value: Optional[Superscript]) -> MixedContentForLongName:
         """
         This is subscript text. A None value is a no-op and does not overwrite an existing sub.
         """
@@ -302,7 +302,7 @@ class MixedContentForLongName(ARObject, ABC):
         """
         return self.sup
 
-    def setSup(self, value: Optional[Superscript]) -> "MixedContentForLongName":
+    def setSup(self, value: Optional[Superscript]) -> MixedContentForLongName:
         """
         This is superscript text. A None value is a no-op and does not overwrite an existing sup.
         """
@@ -316,7 +316,7 @@ class MixedContentForLongName(ARObject, ABC):
         """
         return self.tt
 
-    def setTt(self, value: Optional[Tt]) -> "MixedContentForLongName":
+    def setTt(self, value: Optional[Tt]) -> MixedContentForLongName:
         """
         This is a technical term. A None value is a no-op and does not overwrite an existing tt.
         """
@@ -413,7 +413,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.br
 
-    def setBr(self, value: Optional[Br]) -> "MixedContentForParagraph":
+    def setBr(self, value: Optional[Br]) -> MixedContentForParagraph:
         """
         This element is the same as function here as in a HTML document i.e. it forces a line break. A None value is a no-op and does not overwrite an existing br.
         """
@@ -427,7 +427,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.e
 
-    def setE(self, value: Optional[EmphasisText]) -> "MixedContentForParagraph":
+    def setE(self, value: Optional[EmphasisText]) -> MixedContentForParagraph:
         """
         This is emphasized text. A None value is a no-op and does not overwrite an existing e.
         """
@@ -441,7 +441,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.ft
 
-    def setFt(self, value: Optional[SlParagraph]) -> "MixedContentForParagraph":
+    def setFt(self, value: Optional[SlParagraph]) -> MixedContentForParagraph:
         """
         This is a foot note within a paragraph. A None value is a no-op and does not overwrite an existing ft.
         """
@@ -455,7 +455,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.ie
 
-    def setIe(self, value: Optional[IndexEntry]) -> "MixedContentForParagraph":
+    def setIe(self, value: Optional[IndexEntry]) -> MixedContentForParagraph:
         """
         This is an index entry. A None value is a no-op and does not overwrite an existing ie.
         """
@@ -469,7 +469,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.std
 
-    def setStd(self, value: Optional[Std]) -> "MixedContentForParagraph":
+    def setStd(self, value: Optional[Std]) -> MixedContentForParagraph:
         """
         This is a refeernce to a standard. A None value is a no-op and does not overwrite an existing std.
         """
@@ -483,7 +483,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.sub
 
-    def setSub(self, value: Optional[Superscript]) -> "MixedContentForParagraph":
+    def setSub(self, value: Optional[Superscript]) -> MixedContentForParagraph:
         """
         This is subscript text. A None value is a no-op and does not overwrite an existing sub.
         """
@@ -497,7 +497,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.sup
 
-    def setSup(self, value: Optional[Superscript]) -> "MixedContentForParagraph":
+    def setSup(self, value: Optional[Superscript]) -> MixedContentForParagraph:
         """
         This is superscript text. A None value is a no-op and does not overwrite an existing sup.
         """
@@ -511,7 +511,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.traceRef
 
-    def setTraceRef(self, value: Optional[Traceable]) -> "MixedContentForParagraph":
+    def setTraceRef(self, value: Optional[Traceable]) -> MixedContentForParagraph:
         """
         This allows to place an arbitrary reference to a traceable object in documentation. A None value is a no-op and does not overwrite an existing traceRef.
         """
@@ -525,7 +525,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.tt
 
-    def setTt(self, value: Optional[Tt]) -> "MixedContentForParagraph":
+    def setTt(self, value: Optional[Tt]) -> MixedContentForParagraph:
         """
         This is a technical term. A None value is a no-op and does not overwrite an existing tt.
         """
@@ -539,7 +539,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.xdoc
 
-    def setXdoc(self, value: Optional[Xdoc]) -> "MixedContentForParagraph":
+    def setXdoc(self, value: Optional[Xdoc]) -> MixedContentForParagraph:
         """
         This is a reference to a printable external document. A None value is a no-op and does not overwrite an existing xdoc.
         """
@@ -553,7 +553,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.xfile
 
-    def setXfile(self, value: Optional[Xfile]) -> "MixedContentForParagraph":
+    def setXfile(self, value: Optional[Xfile]) -> MixedContentForParagraph:
         """
         This represents a reference to an external file which usually cannot be printed. A None value is a no-op and does not overwrite an existing xfile.
         """
@@ -567,7 +567,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.xref
 
-    def setXref(self, value: Optional[Xref]) -> "MixedContentForParagraph":
+    def setXref(self, value: Optional[Xref]) -> MixedContentForParagraph:
         """
         This is a cross reference. A None value is a no-op and does not overwrite an existing xref.
         """
@@ -581,7 +581,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.xrefTarget
 
-    def setXrefTarget(self, value: Optional[XrefTarget]) -> "MixedContentForParagraph":
+    def setXrefTarget(self, value: Optional[XrefTarget]) -> MixedContentForParagraph:
         """
         This element specifies a reference target which can be scattered throughout the text. A None value is a no-op and does not overwrite an existing xrefTarget.
         """
@@ -647,7 +647,7 @@ class LLongName(MixedContentForLongName, LanguageSpecific):
         """
         return self.blueprintValue
 
-    def setBlueprintValue(self, value: Optional[str]) -> "LLongName":
+    def setBlueprintValue(self, value: Optional[str]) -> LLongName:
         """
         This represents a description that documents how the value shall be defined when deriving objects from the blueprint. A None value is a no-op and does not overwrite an existing blueprintValue.
         """

@@ -47,7 +47,7 @@ class Chapter(Identifiable, VariationPointCapable):
         # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Maybe it is a concatenated Identifier, but as of now we leave it as an arbitrary string.
         self.helpEntry: Optional[String] = None
 
-    def setHelpEntry(self, value: Optional[String]) -> "Chapter":
+    def setHelpEntry(self, value: Optional[String]) -> Chapter:
         """
         This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Maybe it is a concatenated Identifier, but as of now we leave it as an arbitrary string.
 
@@ -69,7 +69,7 @@ class Chapter(Identifiable, VariationPointCapable):
         """
         return self.helpEntry
 
-    def setChapterModel(self, value: Optional[ChapterModel]) -> "Chapter":
+    def setChapterModel(self, value: Optional[ChapterModel]) -> Chapter:
         """
         This represents the overall contents of the chapter.
 
@@ -111,7 +111,7 @@ class PredefinedChapter(ARObject):
         # This is the content of the predefined chapter.
         self.chapterModel: Optional[ChapterModel] = None
 
-    def setChapterModel(self, value: Optional[ChapterModel]) -> "PredefinedChapter":
+    def setChapterModel(self, value: Optional[ChapterModel]) -> PredefinedChapter:
         """
         This is the content of the predefined chapter.
 
@@ -171,7 +171,7 @@ class ChapterModel(ARObject):
         # This is a topic within the chapter.
         self.topic1: Optional[TopicOrMsrQuery] = None
 
-    def setChapterContent(self, value: Optional[ChapterContent]) -> "ChapterModel":
+    def setChapterContent(self, value: Optional[ChapterContent]) -> ChapterModel:
         """
         This is the chapter content which is not a topic or a subchapter. It is the content which is directly in the chapter.
 
@@ -193,7 +193,7 @@ class ChapterModel(ARObject):
         """
         return self.chapterContent
 
-    def setTopic1(self, value: Optional[TopicOrMsrQuery]) -> "ChapterModel":
+    def setTopic1(self, value: Optional[TopicOrMsrQuery]) -> ChapterModel:
         """
         This is a topic within the chapter.
 
@@ -215,7 +215,7 @@ class ChapterModel(ARObject):
         """
         return self.topic1
 
-    def setChapter(self, value: Optional[ChapterOrMsrQuery]) -> "ChapterModel":
+    def setChapter(self, value: Optional[ChapterOrMsrQuery]) -> ChapterModel:
         """
         This is a particular subchapter.
 
@@ -261,7 +261,7 @@ class ChapterContent(ARObject):
         # This is that part of a chapter content which may appear in a chapter as well as in a topic.
         self.topicContent: Optional[TopicContentOrMsrQuery] = None
 
-    def setTopicContent(self, value: Optional[TopicContentOrMsrQuery]) -> "ChapterContent":
+    def setTopicContent(self, value: Optional[TopicContentOrMsrQuery]) -> ChapterContent:
         """
         This is that part of a chapter content which may appear in a chapter as well as in a topic.
 
@@ -308,7 +308,7 @@ class ChapterOrMsrQuery(ARObject):
         # This represents automatically contributed chapters provided by an msrquery.
         self.msrQueryChapter: Optional[MsrQueryChapter] = None
 
-    def addChapter(self, value: Optional[Chapter]) -> "ChapterOrMsrQuery":
+    def addChapter(self, value: Optional[Chapter]) -> ChapterOrMsrQuery:
         """
         This establishes a subschapter.
 
@@ -330,7 +330,7 @@ class ChapterOrMsrQuery(ARObject):
         """
         return self.chapters
 
-    def setMsrQueryChapter(self, value: Optional[MsrQueryChapter]) -> "ChapterOrMsrQuery":
+    def setMsrQueryChapter(self, value: Optional[MsrQueryChapter]) -> ChapterOrMsrQuery:
         """
         This represents automatically contributed chapters provided by an msrquery.
 
@@ -377,7 +377,7 @@ class TopicOrMsrQuery(ARObject):
         # This is used to create particular topics within a chapter. A topic is similar to a subchapter, but cannot be nested and will not appear in the table of contents of the document.
         self.topic1: List[Topic1] = []
 
-    def addTopic1(self, value: Optional[Topic1]) -> "TopicOrMsrQuery":
+    def addTopic1(self, value: Optional[Topic1]) -> TopicOrMsrQuery:
         """
         This is used to create particular topics within a chapter. A topic is similar to a subchapter, but cannot be nested and will not appear in the table of contents of the document.
 
@@ -399,7 +399,7 @@ class TopicOrMsrQuery(ARObject):
         """
         return self.topic1
 
-    def setMsrQueryTopic1(self, value: Optional[MsrQueryTopic1]) -> "TopicOrMsrQuery":
+    def setMsrQueryTopic1(self, value: Optional[MsrQueryTopic1]) -> TopicOrMsrQuery:
         """
         This represents automatically contributed topics provided by an msrquery.
 
@@ -448,7 +448,7 @@ class Topic1(Identifiable, VariationPointCapable):
         # This is the content of the topic.
         self.topicContent: Optional[TopicContentOrMsrQuery] = None
 
-    def setHelpEntry(self, value: Optional[String]) -> "Topic1":
+    def setHelpEntry(self, value: Optional[String]) -> Topic1:
         """
         This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator.
 
@@ -470,7 +470,7 @@ class Topic1(Identifiable, VariationPointCapable):
         """
         return self.helpEntry
 
-    def setTopicContent(self, value: Optional[TopicContentOrMsrQuery]) -> "Topic1":
+    def setTopicContent(self, value: Optional[TopicContentOrMsrQuery]) -> Topic1:
         """
         This is the content of the topic.
 
@@ -522,7 +522,7 @@ class TopicContent(ARObject):
         # This represents a traceable table within a topic.
         self.traceableTable: Optional[TraceableTable] = None
 
-    def setBlockLevelContent(self, value: Optional[DocumentationBlock]) -> "TopicContent":
+    def setBlockLevelContent(self, value: Optional[DocumentationBlock]) -> TopicContent:
         """
         This is that part of the content which may also occur in a table cell. Tags: xml.roleElement=false
 
@@ -544,7 +544,7 @@ class TopicContent(ARObject):
         """
         return self.blockLevelContent
 
-    def setTable(self, value: Optional[Table]) -> "TopicContent":
+    def setTable(self, value: Optional[Table]) -> TopicContent:
         """
         This represents a table within a topic. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=table, table.variationPoint.shortLabel vh.latestBindingTime=postBuild
 
@@ -618,7 +618,7 @@ class TopicContentOrMsrQuery(ARObject):
         # This is the content of a topic.
         self.topicContent: Optional[TopicContent] = None
 
-    def setMsrQueryP1(self, value: Optional[MsrQueryP1]) -> "TopicContentOrMsrQuery":
+    def setMsrQueryP1(self, value: Optional[MsrQueryP1]) -> TopicContentOrMsrQuery:
         """
         This represents automatically contributed contents provided by an msrquery.
 
@@ -640,7 +640,7 @@ class TopicContentOrMsrQuery(ARObject):
         """
         return self.msrQueryP1
 
-    def setTopicContent(self, value: Optional[TopicContent]) -> "TopicContentOrMsrQuery":
+    def setTopicContent(self, value: Optional[TopicContent]) -> TopicContentOrMsrQuery:
         """
         This is the content of a topic.
 

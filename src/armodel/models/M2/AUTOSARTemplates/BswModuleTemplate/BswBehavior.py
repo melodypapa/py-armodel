@@ -111,7 +111,7 @@ class BswAsynchronousServerCallPoint(BswModuleCallPoint):
         """
         return self.calledEntryRef
 
-    def setCalledEntryRef(self, value: Optional[RefType]) -> "BswAsynchronousServerCallPoint":
+    def setCalledEntryRef(self, value: Optional[RefType]) -> BswAsynchronousServerCallPoint:
         """
         The entry to be called.
         Only sets the value if it is not None.
@@ -307,7 +307,7 @@ class BswAsynchronousServerCallResultPoint(BswModuleCallPoint):
         """
         return self.asynchronousServerCallPointRef
 
-    def setAsynchronousServerCallPointRef(self, value: Optional[RefType]) -> "BswAsynchronousServerCallResultPoint":
+    def setAsynchronousServerCallPointRef(self, value: Optional[RefType]) -> BswAsynchronousServerCallResultPoint:
         """
         The call point invoking the call to which the result belongs.
         Only sets the value if it is not None.
@@ -502,7 +502,7 @@ class BswModuleEntity(ExecutableEntity, VariationPointCapable, ABC):
         """
         return self.accessedModeGroupRefs
 
-    def addAccessedModeGroupRef(self, value: RefType) -> "BswModuleEntity":
+    def addAccessedModeGroupRef(self, value: RefType) -> BswModuleEntity:
         """
         Adds a mode group accessed via API call by this entity. A mode group which is accessed via API call by this entity. It shall be a ModeDeclarationGroupPrototype required by this module or cluster. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=accessedModeGroup.modeDeclaration GroupPrototype, accessedModeGroup.variation Point.shortLabel vh.latestBindingTime=preCompileTime
         Only adds the value if it is not None.
@@ -526,7 +526,7 @@ class BswModuleEntity(ExecutableEntity, VariationPointCapable, ABC):
         """
         return self.activationPointRefs
 
-    def addActivationPointRef(self, value: RefType) -> "BswModuleEntity":
+    def addActivationPointRef(self, value: RefType) -> BswModuleEntity:
         """
         Adds an activation point used to activate one or more internal triggers. Activation point used by the module entity to activate one or more internal triggers. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=activationPoint.bswInternalTriggeringPoint, activationPoint.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         Only adds the value if it is not None.
@@ -667,7 +667,7 @@ class BswModuleEntity(ExecutableEntity, VariationPointCapable, ABC):
         """
         return self.implementedEntryRef
 
-    def setImplementedEntryRef(self, value: Optional[RefType]) -> "BswModuleEntity":
+    def setImplementedEntryRef(self, value: Optional[RefType]) -> BswModuleEntity:
         """
         Sets the entry which is implemented by this module entity. The entry which is implemented by this module entity.
         Only sets the value if it is not None.
@@ -691,7 +691,7 @@ class BswModuleEntity(ExecutableEntity, VariationPointCapable, ABC):
         """
         return self.issuedTriggerRefs
 
-    def addIssuedTriggerRef(self, value: RefType) -> "BswModuleEntity":
+    def addIssuedTriggerRef(self, value: RefType) -> BswModuleEntity:
         """
         Adds a trigger issued by this entity via BSW Scheduler API call. A trigger issued by this entity via BSW Scheduler API call. It shall be a BswTrigger released (i.e. owned) by this module or cluster. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=issuedTrigger.trigger, issuedTrigger.variation Point.shortLabel vh.latestBindingTime=preCompileTime
         Only adds the value if it is not None.
@@ -715,7 +715,7 @@ class BswModuleEntity(ExecutableEntity, VariationPointCapable, ABC):
         """
         return self.managedModeGroupRefs
 
-    def addManagedModeGroupRef(self, value: RefType) -> "BswModuleEntity":
+    def addManagedModeGroupRef(self, value: RefType) -> BswModuleEntity:
         """
         Adds a mode group managed by this entity. A mode group which is managed by this entity. It shall be a ModeDeclarationGroupPrototype provided by this module or cluster. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=managedModeGroup.modeDeclaration GroupPrototype, managedModeGroup.variation Point.shortLabel vh.latestBindingTime=preCompileTime
         Only adds the value if it is not None.
@@ -739,7 +739,7 @@ class BswModuleEntity(ExecutableEntity, VariationPointCapable, ABC):
         """
         return self.schedulerNamePrefixRef
 
-    def setSchedulerNamePrefixRef(self, value: Optional[RefType]) -> "BswModuleEntity":
+    def setSchedulerNamePrefixRef(self, value: Optional[RefType]) -> BswModuleEntity:
         """
         Sets the prefix to be used in generated names for the BswModuleScheduler in the context of this BswModuleEntity. A prefix to be used in generated names for the Bsw ModuleScheduler in the context of this BswModuleEntity, for example entry point prototypes, macros for dealing with exclusive areas, header file names. Details are defined in the SWS RTE. The prefix supersedes default rules for the prefix of those names.
         Only sets the value if it is not None.
@@ -927,7 +927,7 @@ class BswEvent(AbstractEvent, VariationPointCapable, ABC):
         """
         return self.contextLimitationRefs
 
-    def addContextLimitationRef(self, value: RefType) -> "BswEvent":
+    def addContextLimitationRef(self, value: RefType) -> BswEvent:
         """
         The existence of this reference indicates that the usage of the event is limited to the context of the referred Bsw DistinguishedPartitions.
         Only adds the value if it is not None.
@@ -951,7 +951,7 @@ class BswEvent(AbstractEvent, VariationPointCapable, ABC):
         """
         return self.disabledInModeIRefs
 
-    def addDisabledInModeIRef(self, value: ModeInBswModuleDescriptionInstanceRef) -> "BswEvent":
+    def addDisabledInModeIRef(self, value: ModeInBswModuleDescriptionInstanceRef) -> BswEvent:
         """
         The modes, in which this event is disabled. Stereotypes: atpSplitable Tags: atp.Splitkey=disabledInMode.contextMode DeclarationGroup, disabledInMode.targetMode InstanceRef implemented by: ModeInBswModule DescriptionInstanceRef
         Only adds the value if it is not None.
@@ -975,7 +975,7 @@ class BswEvent(AbstractEvent, VariationPointCapable, ABC):
         """
         return self.startsOnEventRef
 
-    def setStartsOnEventRef(self, value: Optional[RefType]) -> "BswEvent":
+    def setStartsOnEventRef(self, value: Optional[RefType]) -> BswEvent:
         """
         The entity which is started by the event.
         Only sets the value if it is not None.
@@ -1119,7 +1119,7 @@ class BswAsynchronousServerCallReturnsEvent(BswScheduleEvent):
         """
         return self.eventSourceRef
 
-    def setEventSourceRef(self, value: RefType) -> "BswAsynchronousServerCallReturnsEvent":
+    def setEventSourceRef(self, value: RefType) -> BswAsynchronousServerCallReturnsEvent:
         """
         Sets the call point to be used for retrieving the result.
         Only sets if value is not None.
@@ -1168,7 +1168,7 @@ class BswModeSwitchEvent(BswScheduleEvent):
         """
         return self.activation
 
-    def setActivation(self, value: ModeActivationKind) -> "BswModeSwitchEvent":
+    def setActivation(self, value: ModeActivationKind) -> BswModeSwitchEvent:
         """
         Kind of activation w.r.t. to the referred mode.
         Only sets the value if it is not None.
@@ -1192,7 +1192,7 @@ class BswModeSwitchEvent(BswScheduleEvent):
         """
         return self.modeIRefs
 
-    def addModeIRef(self, value: ModeInBswModuleDescriptionInstanceRef) -> "BswModeSwitchEvent":
+    def addModeIRef(self, value: ModeInBswModuleDescriptionInstanceRef) -> BswModeSwitchEvent:
         """
         Reference to one or two Modes that initiate the Mode Switch Event. InstanceRef implemented by: ModeInBswModule DescriptionInstanceRef
         Only adds the value if it is not None.
@@ -1249,7 +1249,7 @@ class BswModeSwitchedAckEvent(BswScheduleEvent):
         """
         return self.modeGroupRef
 
-    def setModeGroupRef(self, value: RefType) -> "BswModeSwitchedAckEvent":
+    def setModeGroupRef(self, value: RefType) -> BswModeSwitchedAckEvent:
         """
         Sets the mode group provided by this module. Only sets if value is
         not None.
@@ -1306,7 +1306,7 @@ class BswModeManagerErrorEvent(BswScheduleEvent):
         """
         return self.modeGroupRef
 
-    def setModeGroupRef(self, value: RefType) -> "BswModeManagerErrorEvent":
+    def setModeGroupRef(self, value: RefType) -> BswModeManagerErrorEvent:
         """
         Sets the ModeDeclarationGroupPrototype for which the error behavior
         of the mode manager applies. Only sets if value is not None.
@@ -1359,7 +1359,7 @@ class BswTimingEvent(BswScheduleEvent):
         """
         return self.period
 
-    def setPeriod(self, value: TimeValue) -> "BswTimingEvent":
+    def setPeriod(self, value: TimeValue) -> BswTimingEvent:
         """
         Sets the time period (in seconds) by which this event is triggered.
         Only sets if value is not None.
@@ -1578,7 +1578,7 @@ class BswModeSenderPolicy(ARObject, VariationPointCapable):
         """
         return self.ackRequest
 
-    def setAckRequest(self, value: BswModeSwitchAckRequest) -> "BswModeSenderPolicy":
+    def setAckRequest(self, value: BswModeSwitchAckRequest) -> BswModeSenderPolicy:
         """
         Sets the request for acknowledgement. Only sets if value is not None.
 
@@ -1602,7 +1602,7 @@ class BswModeSenderPolicy(ARObject, VariationPointCapable):
         """
         return self.enhancedModeApi
 
-    def setEnhancedModeApi(self, value: Boolean) -> "BswModeSenderPolicy":
+    def setEnhancedModeApi(self, value: Boolean) -> BswModeSenderPolicy:
         """
         Sets the flag that controls the creation of the enhanced mode API.
         Only sets if value is not None.
@@ -1626,7 +1626,7 @@ class BswModeSenderPolicy(ARObject, VariationPointCapable):
         """
         return self.providedModeGroupRef
 
-    def setProvidedModeGroupRef(self, value: RefType) -> "BswModeSenderPolicy":
+    def setProvidedModeGroupRef(self, value: RefType) -> BswModeSenderPolicy:
         """
         Sets the provided mode group for which the policy is specified. Only
         sets if value is not None.
@@ -1650,7 +1650,7 @@ class BswModeSenderPolicy(ARObject, VariationPointCapable):
         """
         return self.queueLength
 
-    def setQueueLength(self, value: PositiveInteger) -> "BswModeSenderPolicy":
+    def setQueueLength(self, value: PositiveInteger) -> BswModeSenderPolicy:
         """
         Sets the length of the call queue on the sender side. Only sets if
         value is not None.
@@ -1707,7 +1707,7 @@ class BswModeReceiverPolicy(ARObject, VariationPointCapable):
         """
         return self.enhancedModeApi
 
-    def setEnhancedModeApi(self, value: Optional[Boolean]) -> "BswModeReceiverPolicy":
+    def setEnhancedModeApi(self, value: Optional[Boolean]) -> BswModeReceiverPolicy:
         """
         Sets the enhanced mode API flag.
         Controls the creation of the enhanced mode API that returns information about the previous and next mode.
@@ -1725,7 +1725,7 @@ class BswModeReceiverPolicy(ARObject, VariationPointCapable):
         """
         return self.requiredModeGroupRef
 
-    def setRequiredModeGroupRef(self, value: Optional[RefType]) -> "BswModeReceiverPolicy":
+    def setRequiredModeGroupRef(self, value: Optional[RefType]) -> BswModeReceiverPolicy:
         """
         Sets the required mode group reference.
         The required mode group for which the policy is specified.
@@ -1744,7 +1744,7 @@ class BswModeReceiverPolicy(ARObject, VariationPointCapable):
         """
         return self.supportsAsynchronousModeSwitch
 
-    def setSupportsAsynchronousModeSwitch(self, value: Optional[Boolean]) -> "BswModeReceiverPolicy":
+    def setSupportsAsynchronousModeSwitch(self, value: Optional[Boolean]) -> BswModeReceiverPolicy:
         """
         Sets the asynchronous mode switch support flag.
         Specifies whether the module can handle the reception of an asynchronous mode switch (true) or not (false).
@@ -1928,7 +1928,7 @@ class BswExclusiveAreaPolicy(BswApiOptions, VariationPointCapable):
         """
         return self.apiPrinciple
 
-    def setApiPrinciple(self, value: Optional[ApiPrincipleEnum]) -> "BswExclusiveAreaPolicy":
+    def setApiPrinciple(self, value: Optional[ApiPrincipleEnum]) -> BswExclusiveAreaPolicy:
         """
         Sets the API principle for this ExclusiveArea.
         Only sets the value if it is not None.
@@ -1952,7 +1952,7 @@ class BswExclusiveAreaPolicy(BswApiOptions, VariationPointCapable):
         """
         return self.exclusiveAreaRef
 
-    def setExclusiveAreaRef(self, value: Optional[RefType]) -> "BswExclusiveAreaPolicy":
+    def setExclusiveAreaRef(self, value: Optional[RefType]) -> BswExclusiveAreaPolicy:
         """
         Sets the ExclusiveArea for which the BSW Scheduler uses this policy.
         Only sets the value if it is not None.
@@ -1993,7 +1993,7 @@ class BswPerInstanceMemoryPolicy(BswApiOptions, VariationPointCapable):
         """
         return self.arTypedPerInstanceMemoryRef
 
-    def setArTypedPerInstanceMemoryRef(self, value: Optional[RefType]) -> "BswPerInstanceMemoryPolicy":
+    def setArTypedPerInstanceMemoryRef(self, value: Optional[RefType]) -> BswPerInstanceMemoryPolicy:
         """
         The arTypedPerInstanceMemory for which the BSW Scheduler using this policy
 
@@ -2029,7 +2029,7 @@ class BswClientPolicy(BswApiOptions, VariationPointCapable):
         """
         return self.requiredClientServerEntryRef
 
-    def setRequiredClientServerEntryRef(self, value: Optional[RefType]) -> "BswClientPolicy":
+    def setRequiredClientServerEntryRef(self, value: Optional[RefType]) -> BswClientPolicy:
         """
         The requiredClientServerEntry for which the BSW Scheduler using this policy.
 
@@ -2065,7 +2065,7 @@ class BswInternalTriggeringPointPolicy(BswApiOptions, VariationPointCapable):
         """
         return self.bswInternalTriggeringPointRef
 
-    def setBswInternalTriggeringPointRef(self, value: Optional[RefType]) -> "BswInternalTriggeringPointPolicy":
+    def setBswInternalTriggeringPointRef(self, value: Optional[RefType]) -> BswInternalTriggeringPointPolicy:
         """
         The BswInternalTriggeringPoint for which the BSW Scheduler using this policy.
 
@@ -2101,7 +2101,7 @@ class BswParameterPolicy(BswApiOptions, VariationPointCapable):
         """
         return self.perInstanceParameterRef
 
-    def setPerInstanceParameterRef(self, value: Optional[RefType]) -> "BswParameterPolicy":
+    def setPerInstanceParameterRef(self, value: Optional[RefType]) -> BswParameterPolicy:
         """
         The perInstanceParameter for which the BSW Scheduler using this policy.
 
@@ -2137,7 +2137,7 @@ class BswReleasedTriggerPolicy(BswApiOptions, VariationPointCapable):
         """
         return self.releasedTriggerRef
 
-    def setReleasedTriggerRef(self, value: Optional[RefType]) -> "BswReleasedTriggerPolicy":
+    def setReleasedTriggerRef(self, value: Optional[RefType]) -> BswReleasedTriggerPolicy:
         """
         The Trigger for which the BSW Scheduler using this policy.
 
@@ -2178,7 +2178,7 @@ class BswDataSendPolicy(BswApiOptions, VariationPointCapable):
         """
         return self.providedDataRef
 
-    def setProvidedDataRef(self, value: Optional[RefType]) -> "BswDataSendPolicy":
+    def setProvidedDataRef(self, value: Optional[RefType]) -> BswDataSendPolicy:
         """
         The data sent over the BSW Scheduler using this policy.
 
@@ -2194,7 +2194,7 @@ class BswDataSendPolicy(BswApiOptions, VariationPointCapable):
         """
         return self.proviedeDataRef
 
-    def setProviedeDataRef(self, value: Optional[RefType]) -> "BswDataSendPolicy":
+    def setProviedeDataRef(self, value: Optional[RefType]) -> BswDataSendPolicy:
         """
         The data sent over the BSW Scheduler using this policy.
 
@@ -2394,7 +2394,7 @@ class RoleBasedBswModuleEntryAssignment(ARObject, VariationPointCapable):
         """
         return self.assignedEntryRef
 
-    def setAssignedEntryRef(self, value: Optional[RefType]) -> "RoleBasedBswModuleEntryAssignment":
+    def setAssignedEntryRef(self, value: Optional[RefType]) -> RoleBasedBswModuleEntryAssignment:
         """
         Sets the reference to the assigned BswModuleEntry. It should be an
         implementedEntry or expectedEntry of the module or cluster that requires
@@ -2425,7 +2425,7 @@ class RoleBasedBswModuleEntryAssignment(ARObject, VariationPointCapable):
         """
         return self.role
 
-    def setRole(self, value: Optional[Identifier]) -> "RoleBasedBswModuleEntryAssignment":
+    def setRole(self, value: Optional[Identifier]) -> RoleBasedBswModuleEntryAssignment:
         """
         Sets the role of the assigned BswModuleEntry in the given context. The value
         shall be the role name of a configurable function call (usually a callback)
@@ -2498,7 +2498,7 @@ class BswServiceDependency(ServiceDependency, VariationPointCapable):
         """
         return self.assignedData
 
-    def addAssignedData(self, value: Optional[RoleBasedDataAssignment]) -> "BswServiceDependency":
+    def addAssignedData(self, value: Optional[RoleBasedDataAssignment]) -> BswServiceDependency:
         """
         Adds a role-based data assignment defining the role of an associated data
         object (owned by this module or cluster) in the context of the ServiceNeeds
@@ -2525,7 +2525,7 @@ class BswServiceDependency(ServiceDependency, VariationPointCapable):
         """
         return self.assignedEntryRole
 
-    def addAssignedEntryRole(self, value: Optional[RoleBasedBswModuleEntryAssignment]) -> "BswServiceDependency":
+    def addAssignedEntryRole(self, value: Optional[RoleBasedBswModuleEntryAssignment]) -> BswServiceDependency:
         """
         Adds a role-based BSW module entry assignment defining the role of an
         associated BswModuleEntry in the context of the ServiceNeeds element.
@@ -2551,7 +2551,7 @@ class BswServiceDependency(ServiceDependency, VariationPointCapable):
         """
         return self.ident
 
-    def setIdent(self, value: Optional[BswServiceDependencyIdent]) -> "BswServiceDependency":
+    def setIdent(self, value: Optional[BswServiceDependencyIdent]) -> BswServiceDependency:
         """
         Sets the identification caption that adds the ability to become referrable
         to this BswServiceDependency.
@@ -2577,7 +2577,7 @@ class BswServiceDependency(ServiceDependency, VariationPointCapable):
         """
         return self.serviceNeeds
 
-    def setServiceNeeds(self, value: Optional[ServiceNeeds]) -> "BswServiceDependency":
+    def setServiceNeeds(self, value: Optional[ServiceNeeds]) -> BswServiceDependency:
         """
         Sets the associated ServiceNeeds. [constr_10257]: shall exist when the
         configuration of the BSW module is finished.
@@ -2776,7 +2776,7 @@ class BswInternalBehavior(InternalBehavior):
             self.arTypedPerInstanceMemories = value
         return self
 
-    def addArTypedPerInstanceMemory(self, value: Optional[VariableDataPrototype]) -> "BswInternalBehavior":
+    def addArTypedPerInstanceMemory(self, value: Optional[VariableDataPrototype]) -> BswInternalBehavior:
         """
         Defines an AUTOSAR typed memory-block that needs to be available for each instance of the Basic Software Module. The aggregation of arTypedPerInstanceMemory is subject to variability with the purpose to support variability in the Basic Software Module's implementations. Typically different algorithms in the implementation are requiring different number of memory objects.
 
@@ -2805,7 +2805,7 @@ class BswInternalBehavior(InternalBehavior):
             self.bswPerInstanceMemoryPolicies = value
         return self
 
-    def addBswPerInstanceMemoryPolicy(self, value: Optional[BswPerInstanceMemoryPolicy]) -> "BswInternalBehavior":
+    def addBswPerInstanceMemoryPolicy(self, value: Optional[BswPerInstanceMemoryPolicy]) -> BswInternalBehavior:
         """
         Policy for a arTypedPerInstanceMemory The policy selects the options of the Schedule Manager API generation.
 
@@ -2818,7 +2818,7 @@ class BswInternalBehavior(InternalBehavior):
             self.bswPerInstanceMemoryPolicies.append(value)
         return self
 
-    def addClientPolicy(self, value: Optional[BswClientPolicy]) -> "BswInternalBehavior":
+    def addClientPolicy(self, value: Optional[BswClientPolicy]) -> BswInternalBehavior:
         """
         Policy for a requiredClientServerEntry. The policy selects the options of the Schedule Manager API generation.
 
@@ -2895,7 +2895,7 @@ class BswInternalBehavior(InternalBehavior):
             self.exclusiveAreaPolicies = value
         return self
 
-    def addExclusiveAreaPolicy(self, value: Optional[BswExclusiveAreaPolicy]) -> "BswInternalBehavior":
+    def addExclusiveAreaPolicy(self, value: Optional[BswExclusiveAreaPolicy]) -> BswInternalBehavior:
         """
         Policy for an ExclusiveArea in this BswInternalBehavior. The policy selects the options of the Schedule Manager API generation.
 
@@ -2946,7 +2946,7 @@ class BswInternalBehavior(InternalBehavior):
             self.internalTriggeringPointPolicies = value
         return self
 
-    def addInternalTriggeringPointPolicy(self, value: Optional[BswInternalTriggeringPointPolicy]) -> "BswInternalBehavior":
+    def addInternalTriggeringPointPolicy(self, value: Optional[BswInternalTriggeringPointPolicy]) -> BswInternalBehavior:
         """
         Policy for an internalTriggeringPoint in this BswInternalBehavior.. The policy selects the options of the Schedule Manager API generation.
 
@@ -2975,7 +2975,7 @@ class BswInternalBehavior(InternalBehavior):
             self.modeReceiverPolicies = value
         return self
 
-    def addModeReceiverPolicy(self, value: Optional[BswModeReceiverPolicy]) -> "BswInternalBehavior":
+    def addModeReceiverPolicy(self, value: Optional[BswModeReceiverPolicy]) -> BswInternalBehavior:
         """
         Implementation policy for the reception of mode switches.
 
@@ -3014,7 +3014,7 @@ class BswInternalBehavior(InternalBehavior):
             self.parameterPolicies = value
         return self
 
-    def addParameterPolicy(self, value: Optional[BswParameterPolicy]) -> "BswInternalBehavior":
+    def addParameterPolicy(self, value: Optional[BswParameterPolicy]) -> BswInternalBehavior:
         """
         Policy for a perInstanceParameter in this BswInternalBehavior. The policy selects the options of the Schedule Manager API generation.
 
@@ -3043,7 +3043,7 @@ class BswInternalBehavior(InternalBehavior):
             self.perInstanceParameters = value
         return self
 
-    def addPerInstanceParameter(self, value: Optional[ParameterDataPrototype]) -> "BswInternalBehavior":
+    def addPerInstanceParameter(self, value: Optional[ParameterDataPrototype]) -> BswInternalBehavior:
         """
         Describes a read only memory object containing characteristic value(s) needed by this BswInternalBehavior. The role name perInstanceParameter is chosen in analogy to the similar role in the context of SwcInternalBehavior. In contrast to constantMemory, this object is not allocated locally by the module's code, but by the BSW Scheduler and it is accessed from the BSW module via the BSW Scheduler API. The main use case is the support of software emulation of calibration data. The aggregation is subject to variability with the purpose to support implementation variants.
 
@@ -3091,7 +3091,7 @@ class BswInternalBehavior(InternalBehavior):
             self.releasedTriggerPolicies = value
         return self
 
-    def addReleasedTriggerPolicy(self, value: Optional[BswReleasedTriggerPolicy]) -> "BswInternalBehavior":
+    def addReleasedTriggerPolicy(self, value: Optional[BswReleasedTriggerPolicy]) -> BswInternalBehavior:
         """
         Policy for a releasedTrigger. The policy selects the options of the Schedule Manager API generation.
 
@@ -3152,7 +3152,7 @@ class BswInternalBehavior(InternalBehavior):
             self.sendPolicies = value
         return self
 
-    def addSendPolicy(self, value: Optional[BswDataSendPolicy]) -> "BswInternalBehavior":
+    def addSendPolicy(self, value: Optional[BswDataSendPolicy]) -> BswInternalBehavior:
         """
         Policy for a providedData. The policy selects the options of the Schedule Manager API generation.
 
@@ -3209,7 +3209,7 @@ class BswInternalBehavior(InternalBehavior):
             self.triggerDirectImplementations = value
         return self
 
-    def addTriggerDirectImplementation(self, value: Optional[BswTriggerDirectImplementation]) -> "BswInternalBehavior":
+    def addTriggerDirectImplementation(self, value: Optional[BswTriggerDirectImplementation]) -> BswInternalBehavior:
         """
         Specifies a trigger to be directly implemented via OS calls.
 
@@ -3238,7 +3238,7 @@ class BswInternalBehavior(InternalBehavior):
             self.variationPointProxies = value
         return self
 
-    def addVariationPointProxy(self, value: Optional[VariationPointProxy]) -> "BswInternalBehavior":
+    def addVariationPointProxy(self, value: Optional[VariationPointProxy]) -> BswInternalBehavior:
         """
         Proxy of a variation points in the C/C++ implementation.
 
@@ -3686,7 +3686,7 @@ class BswTriggerDirectImplementation(ARObject, VariationPointCapable):
         """
         return self.cat2Isr
 
-    def setCat2Isr(self, value: Optional[Identifier]) -> "BswTriggerDirectImplementation":
+    def setCat2Isr(self, value: Optional[Identifier]) -> BswTriggerDirectImplementation:
         """
         Sets the name of the OS category 2 ISR. Only sets if value is not None.
         Returns self for method chaining.
@@ -3702,7 +3702,7 @@ class BswTriggerDirectImplementation(ARObject, VariationPointCapable):
         """
         return self.masteredTriggerRef
 
-    def setMasteredTriggerRef(self, value: Optional[RefType]) -> "BswTriggerDirectImplementation":
+    def setMasteredTriggerRef(self, value: Optional[RefType]) -> BswTriggerDirectImplementation:
         """
         Sets the trigger reference. Only sets if value is not None.
         Returns self for method chaining.
@@ -3718,7 +3718,7 @@ class BswTriggerDirectImplementation(ARObject, VariationPointCapable):
         """
         return self.task
 
-    def setTask(self, value: Optional[Identifier]) -> "BswTriggerDirectImplementation":
+    def setTask(self, value: Optional[Identifier]) -> BswTriggerDirectImplementation:
         """
         Sets the name of the OS task. Only sets if value is not None.
         Returns self for method chaining.

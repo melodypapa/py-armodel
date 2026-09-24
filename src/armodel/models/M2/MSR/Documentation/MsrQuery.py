@@ -44,7 +44,7 @@ class MsrQueryArg(ARObject):
         """
         return self.arg
 
-    def setArg(self, value: Optional[String]) -> "MsrQueryArg":
+    def setArg(self, value: Optional[String]) -> MsrQueryArg:
         """
         This is the value of the argument. A None value is a no-op and does not overwrite an existing arg.
 
@@ -64,7 +64,7 @@ class MsrQueryArg(ARObject):
         """
         return self.si
 
-    def setSi(self, value: Optional[NameToken]) -> "MsrQueryArg":
+    def setSi(self, value: Optional[NameToken]) -> MsrQueryArg:
         """
         This denotes the name of the query argument (semantic information). A None value is a no-op and does not overwrite an existing si.
 
@@ -114,7 +114,7 @@ class MsrQueryProps(ARObject):
         """
         return self.comment
 
-    def setComment(self, value: Optional[String]) -> "MsrQueryProps":
+    def setComment(self, value: Optional[String]) -> MsrQueryProps:
         """
         This element contains a commentary in text form. A None value is a no-op and does not overwrite an existing comment.
 
@@ -134,7 +134,7 @@ class MsrQueryProps(ARObject):
         """
         return self.msrQueryName
 
-    def setMsrQueryName(self, value: Optional[String]) -> "MsrQueryProps":
+    def setMsrQueryName(self, value: Optional[String]) -> MsrQueryProps:
         """
         This element specifies the name of the MSR-QUERY triggered. A None value is a no-op and does not overwrite an existing msrQueryName.
 
@@ -145,7 +145,7 @@ class MsrQueryProps(ARObject):
             self.msrQueryName = value
         return self
 
-    def addMsrQueryArg(self, value: Optional[MsrQueryArg]) -> "MsrQueryProps":
+    def addMsrQueryArg(self, value: Optional[MsrQueryArg]) -> MsrQueryProps:
         """
         This element specifies an argument within an MsrQuery. A None value is a no-op and is not appended.
 
@@ -199,7 +199,7 @@ class MsrQueryP2(ARObject):
         """
         return self.msrQueryProps
 
-    def setMsrQueryProps(self, value: Optional[MsrQueryProps]) -> "MsrQueryP2":
+    def setMsrQueryProps(self, value: Optional[MsrQueryProps]) -> MsrQueryP2:
         """
         This is argument and properties of the Documentation Block query. A None value is a no-op and does not overwrite an existing msrQueryProps.
 
@@ -219,7 +219,7 @@ class MsrQueryP2(ARObject):
         """
         return self.msrQueryResultP2
 
-    def setMsrQueryResultP2(self, value: Optional["DocumentationBlock"]) -> "MsrQueryP2":
+    def setMsrQueryResultP2(self, value: Optional["DocumentationBlock"]) -> MsrQueryP2:
         """
         This represents the result of the query. A None value is a no-op and does not overwrite an existing msrQueryResultP2.
 
@@ -255,7 +255,7 @@ class MsrQueryP1(Paginateable):
         # This represents the result of the query. Tags: xml.sequenceOffset=30
         self.msrQueryResultP1: Optional[TopicContent] = None
 
-    def setMsrQueryProps(self, value: Optional[MsrQueryProps]) -> "MsrQueryP1":
+    def setMsrQueryProps(self, value: Optional[MsrQueryProps]) -> MsrQueryP1:
         """
         This is argument and properties of the paragraph query. Tags: xml.sequenceOffset=20. A None value is a no-op and does not overwrite an existing msrQueryProps.
 
@@ -272,7 +272,7 @@ class MsrQueryP1(Paginateable):
         """
         return self.msrQueryProps
 
-    def setMsrQueryResultP1(self, value: Optional[TopicContent]) -> "MsrQueryP1":
+    def setMsrQueryResultP1(self, value: Optional[TopicContent]) -> MsrQueryP1:
         """
         This represents the result of the query. Tags: xml.sequenceOffset=30. A None value is a no-op and does not overwrite an existing msrQueryResultP1.
 
@@ -314,7 +314,7 @@ class MsrQueryChapter(Paginateable):
         # This represents the result of the query. Tags: xml.sequenceOffset=30
         self.msrQueryResultChapter: Optional[MsrQueryResultChapter] = None
 
-    def setMsrQueryProps(self, value: Optional[MsrQueryProps]) -> "MsrQueryChapter":
+    def setMsrQueryProps(self, value: Optional[MsrQueryProps]) -> MsrQueryChapter:
         """
         This is argument and properties of the chapter query. Tags: xml.sequenceOffset=20. A None value is a no-op and does not overwrite an existing msrQueryProps.
 
@@ -331,7 +331,7 @@ class MsrQueryChapter(Paginateable):
         """
         return self.msrQueryProps
 
-    def setMsrQueryResultChapter(self, value: Optional[MsrQueryResultChapter]) -> "MsrQueryChapter":
+    def setMsrQueryResultChapter(self, value: Optional[MsrQueryResultChapter]) -> MsrQueryChapter:
         """
         This represents the result of the query. Tags: xml.sequenceOffset=30. A None value is a no-op and does not overwrite an existing msrQueryResultChapter.
 
@@ -369,7 +369,7 @@ class MsrQueryTopic1(Paginateable):
         self.msrQueryProps: Optional[MsrQueryProps] = None
         self.msrQueryResultTopic1: Optional[MsrQueryResultTopic1] = None
 
-    def setMsrQueryProps(self, value: Optional[MsrQueryProps]) -> "MsrQueryTopic1":
+    def setMsrQueryProps(self, value: Optional[MsrQueryProps]) -> MsrQueryTopic1:
         if value is not None:
             self.msrQueryProps = value
         return self
@@ -377,7 +377,7 @@ class MsrQueryTopic1(Paginateable):
     def getMsrQueryProps(self) -> Optional[MsrQueryProps]:
         return self.msrQueryProps
 
-    def setMsrQueryResultTopic1(self, value: Optional[MsrQueryResultTopic1]) -> "MsrQueryTopic1":
+    def setMsrQueryResultTopic1(self, value: Optional[MsrQueryResultTopic1]) -> MsrQueryTopic1:
         if value is not None:
             self.msrQueryResultTopic1 = value
         return self
@@ -405,7 +405,7 @@ class MsrQueryResultChapter(ARObject):
         # This is one particular chapter in the query result. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         self.chapters: List[Chapter] = []
 
-    def addChapter(self, value: Optional[Chapter]) -> "MsrQueryResultChapter":
+    def addChapter(self, value: Optional[Chapter]) -> MsrQueryResultChapter:
         """
         This is one particular chapter in the query result. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and does not append to the existing chapters.
 
@@ -442,7 +442,7 @@ class MsrQueryResultTopic1(ARObject):
         # This represents one particular topic in the query result. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         self.topic1: List[Topic1] = []
 
-    def addTopic1(self, value: Optional[Topic1]) -> "MsrQueryResultTopic1":
+    def addTopic1(self, value: Optional[Topic1]) -> MsrQueryResultTopic1:
         """
         This represents one particular topic in the query result. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and does not append to the existing topic1.
 
