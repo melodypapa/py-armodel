@@ -543,7 +543,7 @@ class TestWriteAttributeValueVariationPoint:
         avp.setShortLabel(PrimitiveIdentifier().setValue("limit1"))
         avp.setBlueprintValue(String().setValue("derived"))
         avp.setIntervalType(IntervalTypeEnum().setValue("closed"))
-        avp.setText("42")
+        avp.setMixedString("42")
 
         element = self._write_avp_to_element(avp)
 
@@ -585,7 +585,7 @@ class TestWriteAttributeValueVariationPointRoundTrip:
         avp.setSd(String().setValue("sd-rt"))
         avp.setShortLabel(PrimitiveIdentifier().setValue("vp_rt"))
         avp.setBlueprintValue(String().setValue("bp-rt"))
-        avp.setText("1234")
+        avp.setMixedString("1234")
         proxy.setValueAccess(avp)
         behavior.addVariationPointProxy(proxy)
         return document
@@ -609,7 +609,7 @@ class TestWriteAttributeValueVariationPointRoundTrip:
         assert value_access.getSd().getValue() == "sd-rt"
         assert value_access.getShortLabel().getValue() == "vp_rt"
         assert value_access.getBlueprintValue().getValue() == "bp-rt"
-        assert value_access.getText() == "1234"
+        assert value_access.getMixedString() == "1234"
 
     def test_no_value_access_writes_no_wrapper(self):
         import os
@@ -755,7 +755,7 @@ class TestVariationPointProxyRoundTrip:
         limit.setShortLabel(PrimitiveIdentifier().setValue("limit1"))
         limit.setBlueprintValue(String().setValue("derived"))
         limit.setIntervalType(IntervalTypeEnum().setValue("open"))
-        limit.setText("42")
+        limit.setMixedString("42")
         proxy.setValueAccess(limit)
         behavior.addVariationPointProxy(proxy)
 
@@ -775,7 +775,7 @@ class TestVariationPointProxyRoundTrip:
             assert value_access.getShortLabel().getValue() == "limit1"
             assert value_access.getBlueprintValue().getValue() == "derived"
             assert value_access.getIntervalType().getValue() == "open"
-            assert value_access.getText() == "42"
+            assert value_access.getMixedString() == "42"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

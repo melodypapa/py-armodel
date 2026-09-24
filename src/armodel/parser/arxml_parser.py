@@ -3041,7 +3041,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported INTERVAL-TYPE <%s>" % element.attrib["INTERVAL-TYPE"])
         if element.text is not None and element.text.strip() != "":
-            avp.setText(element.text)
+            self.readMixedStringText(element, avp)
         return avp
 
     def readTimingDescriptionEventChain(self, element: ET.Element, chain: TimingDescriptionEventChain):

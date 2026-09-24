@@ -3,7 +3,7 @@ from __future__ import annotations
 from abc import ABC
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AtpMixedString import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     IntervalTypeEnum,
@@ -12,7 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 
 
-class AttributeValueVariationPoint(ARObject, ABC):
+class AttributeValueVariationPoint(AtpMixedString, ABC):
     """
     This class represents the ability to derive the value of the Attribute from a system constant (by SwSystemconstDependentFormula). It also provides a bindingTime.
     """
@@ -29,8 +29,7 @@ class AttributeValueVariationPoint(ARObject, ABC):
     # [x] setSd              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getShortLabel      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setShortLabel      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getText            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setText            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # getMixedString / setMixedString provided by the AtpMixedString base (mixin) — no spec row (stereotype-inherent)
 
     def __init__(self):
         if type(self) is AttributeValueVariationPoint:
@@ -49,8 +48,6 @@ class AttributeValueVariationPoint(ARObject, ABC):
 
         # This allows to identify the variation point. It is also intended to allow RTE support for CompileTime Variation points. Tags: xml.attribute=true
         self.shortLabel: Optional[PrimitiveIdentifier] = None
-
-        self._text: Optional[str] = None
 
     def getBindingTime(self) -> Optional[BindingTimeEnum]:
         """
@@ -106,16 +103,6 @@ class AttributeValueVariationPoint(ARObject, ABC):
         """
         if value is not None:
             self.shortLabel = value
-        return self
-
-    def getText(self) -> Optional[str]:
-        """Returns the mixed string content (the actual value, e.g. the numerical literal) of this <<atpMixedString>> element."""
-        return self._text
-
-    def setText(self, value: Optional[str]) -> AttributeValueVariationPoint:
-        """Sets the mixed string content (the actual value, e.g. the numerical literal) of this <<atpMixedString>> element. A None value is a no-op and does not overwrite an existing value."""
-        if value is not None:
-            self._text = value
         return self
 
 

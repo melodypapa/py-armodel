@@ -4301,7 +4301,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported INTERVAL-TYPE <%s>" % interval_type.getValue())
                 else:
                     element.attrib["INTERVAL-TYPE"] = token
-        text = avp.getText()
+        text = avp.getMixedString()
         if text is not None:
             element.text = text
 

@@ -369,7 +369,7 @@ class TestReadVariationPointProxy:
         assert value_access.getSd().getValue() == "sd-1"
         assert value_access.getShortLabel().getValue() == "vp1"
         assert value_access.getBlueprintValue().getValue() == "bp"
-        assert value_access.getText() == "123"
+        assert value_access.getMixedString() == "123"
 
     def test_read_value_access_empty_wrapper(self, parser):
         """An empty VALUE-ACCESS wrapper leaves valueAccess unset (None)."""
@@ -402,7 +402,7 @@ class TestReadVariationPointProxy:
         value_access = proxy.getValueAccess()
         assert isinstance(value_access, LimitValueVariationPoint)
         assert value_access.getIntervalType().getValue() == "closed"
-        assert value_access.getText() == "42"
+        assert value_access.getMixedString() == "42"
 
 
 class TestReadVariationPointSpecAttributes:
