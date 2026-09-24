@@ -12057,6 +12057,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeParameterValue(child_element, float_value)
         self.setChildElementOptionalFloatValue(child_element, "VALUE", float_value.getValue())
 
+    def writeMixedStringText(self, element, obj):
+        """<<atpMixedString>>: write getMixedString() as element text; None omits the text node."""
+        if obj is not None:
+            element.text = obj.getMixedString()
+
     def writeStringValue(self, element: ET.Element, string_value: StringValue):
         """Write an R3.2.3 <STRING-VALUE> element (Table 3.36): DEFINITION-REF followed by VALUE."""
         child_element = ET.SubElement(element, "STRING-VALUE")

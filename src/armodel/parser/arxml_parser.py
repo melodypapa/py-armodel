@@ -12464,6 +12464,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.readParameterValue(element, float_value)
         float_value.setValue(self.getChildElementOptionalFloatValue(element, "VALUE"))
 
+    def readMixedStringText(self, element, obj):
+        """<<atpMixedString>>: the element text is the value (pure-text shape).
+        Whitespace is preserved verbatim."""
+        if element.text is not None and obj is not None:
+            obj.setMixedString(element.text)
+
     def readStringValue(self, element: ET.Element, string_value: StringValue):
         """Read an R3.2.3 <STRING-VALUE> element (Table 3.36): DEFINITION-REF followed by VALUE."""
         self.readParameterValue(element, string_value)
