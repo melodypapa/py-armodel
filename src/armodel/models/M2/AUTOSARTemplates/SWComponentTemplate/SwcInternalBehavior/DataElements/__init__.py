@@ -70,74 +70,38 @@ class VariableAccess(AbstractAccessPoint, VariationPointCapable):
 
     # VariableAccess method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.33, p.567
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAccessedVariableRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAccessedVariableRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getScope                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setScope                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAccessedVariable   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAccessedVariable   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getScope              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setScope              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent: ARObject, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # This denotes the accessed variable.
-        self.accessedVariableRef: Optional["AutosarVariableRef"] = None
+        self.accessedVariable: Optional[AutosarVariableRef] = None
 
         # This attribute allows for constraining the scope of the corresponding communication. For example, it possible to express whether the communication is intended to cross the boundary of an ECU or whether it is intended not to cross the boundary of a single partition.
         self.scope: Optional[ARLiteral] = None
 
-    def getAccessedVariableRef(self) -> Optional["AutosarVariableRef"]:
-        """
-        Gets the accessed variable.
+    def getAccessedVariable(self) -> Optional[AutosarVariableRef]:
+        """This denotes the accessed variable."""
+        return self.accessedVariable
 
-        This denotes the accessed variable.
-
-        Returns:
-            AutosarVariableRef, or None if not set
-        """
-        return self.accessedVariableRef
-
-    def setAccessedVariableRef(self, value: Optional["AutosarVariableRef"]) -> VariableAccess:
-        """
-        Sets the accessed variable.
-        A None value is a no-op and does not overwrite an existing accessed variable.
-
-        This denotes the accessed variable.
-
-        Args:
-            value: The AutosarVariableRef to set
-
-        Returns:
-            self for method chaining
-        """
+    def setAccessedVariable(self, value: Optional[AutosarVariableRef]) -> VariableAccess:
+        """This denotes the accessed variable. A None value is a no-op and does not overwrite an existing accessedVariable."""
         if value is not None:
-            self.accessedVariableRef = value
+            self.accessedVariable = value
         return self
 
     def getScope(self) -> Optional[ARLiteral]:
-        """
-        Gets the scope of the corresponding communication.
-
-        This attribute allows for constraining the scope of the corresponding communication. For example, it possible to express whether the communication is intended to cross the boundary of an ECU or whether it is intended not to cross the boundary of a single partition.
-
-        Returns:
-            ARLiteral, or None if not set
-        """
+        """This attribute allows for constraining the scope of the corresponding communication. For example, it possible to express whether the communication is intended to cross the boundary of an ECU or whether it is intended not to cross the boundary of a single partition."""
         return self.scope
 
     def setScope(self, value: Optional[ARLiteral]) -> VariableAccess:
-        """
-        Sets the scope of the corresponding communication.
-        A None value is a no-op and does not overwrite an existing scope.
-
-        This attribute allows for constraining the scope of the corresponding communication. For example, it possible to express whether the communication is intended to cross the boundary of an ECU or whether it is intended not to cross the boundary of a single partition.
-
-        Args:
-            value: The ARLiteral to set
-
-        Returns:
-            self for method chaining
-        """
+        """This attribute allows for constraining the scope of the corresponding communication. For example, it possible to express whether the communication is intended to cross the boundary of an ECU or whether it is intended not to cross the boundary of a single partition. A None value is a no-op and does not overwrite an existing scope."""
         if value is not None:
             self.scope = value
         return self

@@ -1725,7 +1725,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if access is not None:
             child_element = ET.SubElement(element, key)
             self.writeIdentifiable(child_element, access)
-            self.setAutosarVariableRef(child_element, "ACCESSED-VARIABLE", access.getAccessedVariableRef())
+            self.setAutosarVariableRef(child_element, "ACCESSED-VARIABLE", access.getAccessedVariable())
             self.setChildElementOptionalLiteral(child_element, "SCOPE", access.getScope())
 
     def setSwValues(self, element: ET.Element, key: str, sw_values: SwValues):
@@ -3852,7 +3852,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeVariableAccess(self, element: ET.Element, access: VariableAccess):
         child_element = ET.SubElement(element, "VARIABLE-ACCESS")
         self.writeIdentifiable(child_element, access)
-        self.setAutosarVariableRef(child_element, "ACCESSED-VARIABLE", access.getAccessedVariableRef())
+        self.setAutosarVariableRef(child_element, "ACCESSED-VARIABLE", access.getAccessedVariable())
+        self.setChildElementOptionalLiteral(child_element, "SCOPE", access.getScope())
 
     def setParameterInAtomicSWCTypeInstanceRef(self, element: ET.Element, key: str, parameter_iref: ParameterInAtomicSWCTypeInstanceRef):
         if parameter_iref is not None:

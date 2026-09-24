@@ -546,12 +546,45 @@ class TestWriterVariableAccess:
         iref = VariableInAtomicSWCTypeInstanceRef()
         iref.setPortPrototypeRef(_ref("/pp"))
         ref.setAutosarVariableIRef(iref)
-        access.setAccessedVariableRef(ref)
+        access.setAccessedVariable(ref)
         parent = _parent()
         writer.writeVariableAccess(parent, access)
         va = parent.find("VARIABLE-ACCESS")
         assert va is not None
         assert va.find("ACCESSED-VARIABLE") is not None
+
+    def test_writeVariableAccess_full(self, writer):
+        behavior = _make_behavior()
+        runnable = behavior.createRunnableEntity("r1")
+        access = runnable.createDataReadAccess("va")
+        ref = AutosarVariableRef()
+        iref = VariableInAtomicSWCTypeInstanceRef()
+        iref.setPortPrototypeRef(_ref("/pp", "R-PORT-PROTOTYPE"))
+        iref.setTargetDataPrototypeRef(_ref("/Var", "VARIABLE-DATA-PROTOTYPE"))
+        ref.setAutosarVariableIRef(iref)
+        access.setAccessedVariable(ref)
+        access.setScope(_literal("COMMUNICATION-INTRA-PARTITION"))
+        parent = _parent()
+        writer.writeVariableAccess(parent, access)
+        va = parent.find("VARIABLE-ACCESS")
+        assert va is not None
+        assert va.find("ACCESSED-VARIABLE/AUTOSAR-VARIABLE-IREF/PORT-PROTOTYPE-REF").text == "/pp"
+        assert va.find("ACCESSED-VARIABLE/AUTOSAR-VARIABLE-IREF/TARGET-DATA-PROTOTYPE-REF").text == "/Var"
+        assert va.find("SCOPE").text == "COMMUNICATION-INTRA-PARTITION"
+        children = [child.tag for child in va]
+        assert children.index("ACCESSED-VARIABLE") < children.index("SCOPE")
+
+    def test_writeVariableAccess_optional_children_omitted(self, writer):
+        behavior = _make_behavior()
+        runnable = behavior.createRunnableEntity("r1")
+        runnable.createDataReadAccess("va")
+        parent = _parent()
+        writer.writeVariableAccess(parent, runnable.getDataReadAccesses()[0])
+        va = parent.find("VARIABLE-ACCESS")
+        assert va is not None
+        assert va.find("SHORT-NAME").text == "va"
+        assert va.find("ACCESSED-VARIABLE") is None
+        assert va.find("SCOPE") is None
 
 
 class TestWriterParameterAccess:
@@ -729,6 +762,80 @@ class TestParameterAccessRoundTrip:
             assert pa_2.getShortName() == "pa1"
             assert pa_2.getAccessedParameter() is None
             assert pa_2.getSwDataDefProps() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestVariableAccessRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a VariableAccess with accessedVariable and scope."""
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        runnable = behavior.createRunnableEntity("r1")
+        va = runnable.createDataReadAccess("va1")
+        ref = AutosarVariableRef()
+        iref = VariableInAtomicSWCTypeInstanceRef()
+        iref.setPortPrototypeRef(_ref("/pp", "R-PORT-PROTOTYPE"))
+        iref.setTargetDataPrototypeRef(_ref("/Var", "VARIABLE-DATA-PROTOTYPE"))
+        ref.setAutosarVariableIRef(iref)
+        va.setAccessedVariable(ref)
+        va.setScope(_literal("COMMUNICATION-INTRA-PARTITION"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            va_2 = app_2.getInternalBehavior().getRunnableEntities()[0].getDataReadAccesses()[0]
+            assert va_2.getShortName() == "va1"
+            assert va_2.getAccessedVariable() is not None
+            iref_2 = va_2.getAccessedVariable().getAutosarVariableIRef()
+            assert iref_2.getPortPrototypeRef().getValue() == "/pp"
+            assert iref_2.getTargetDataPrototypeRef().getValue() == "/Var"
+            assert va_2.getAccessedVariable().getLocalVariableRef() is None
+            assert va_2.getScope() is not None
+            assert va_2.getScope().getValue() == "COMMUNICATION-INTRA-PARTITION"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that an empty VariableAccess round-trips with no optional children."""
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        runnable = behavior.createRunnableEntity("r1")
+        runnable.createDataReadAccess("va1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            va_2 = app_2.getInternalBehavior().getRunnableEntities()[0].getDataReadAccesses()[0]
+            assert va_2.getShortName() == "va1"
+            assert va_2.getAccessedVariable() is None
+            assert va_2.getScope() is None
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

@@ -1873,31 +1873,24 @@ class ARXMLParser(AbstractARXMLParser):
 
             if key == "DATA-RECEIVE-POINT-BY-ARGUMENTS":
                 variable_access = parent.createDataReceivePointByArgument(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             elif key == "DATA-RECEIVE-POINT-BY-VALUES":
                 variable_access = parent.createDataReceivePointByValue(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             elif key == "DATA-READ-ACCESSS":
                 variable_access = parent.createDataReadAccess(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             elif key == "DATA-WRITE-ACCESSS":
                 variable_access = parent.createDataWriteAccess(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             elif key == "DATA-SEND-POINTS":
                 variable_access = parent.createDataSendPoint(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             elif key == "WRITTEN-LOCAL-VARIABLES":
                 variable_access = parent.createWrittenLocalVariable(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             elif key == "READ-LOCAL-VARIABLES":
                 variable_access = parent.createReadLocalVariable(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             else:
                 self.notImplemented("Unsupported Variable Accesss <%s>" % key)
                 supported = False
 
             if supported:
-                self.readIdentifiable(child_element, variable_access)
+                self.readVariableAccess(child_element, variable_access)
 
     def readBswModuleDescriptionImplementedEntryRefs(self, element: ET.Element, parent: BswModuleDescription):
         for child_element in self.findall(element, "PROVIDED-ENTRYS/BSW-MODULE-ENTRY-REF-CONDITIONAL"):
@@ -6659,7 +6652,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readVariableAccess(self, element: ET.Element, access: VariableAccess):
         self.readIdentifiable(element, access)
-        access.setAccessedVariableRef(self.getAutosarVariableRef(element, "ACCESSED-VARIABLE"))
+        access.setAccessedVariable(self.getAutosarVariableRef(element, "ACCESSED-VARIABLE"))
         access.setScope(self.getChildElementOptionalLiteral(element, "SCOPE"))
 
     def getTransformationComSpecProps(self, element: ET.Element) -> Optional[TransformationComSpecProps]:

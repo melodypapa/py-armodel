@@ -7,7 +7,7 @@ import typing
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef, ParameterAccess, VariableAccess
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef, AutosarVariableRef, ParameterAccess, VariableAccess
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
@@ -82,28 +82,64 @@ class TestParameterAccess:
 class TestVariableAccess:
     """Test class for VariableAccess class."""
 
-    def test_variable_access_initialization(self):
-        """Test VariableAccess initialization and methods."""
+    def test_initialization(self):
+        """Test VariableAccess initialization defaults."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         var_access = VariableAccess(ar_root, "TestVariableAccess")
 
         assert var_access.parent == ar_root
         assert var_access.short_name == "TestVariableAccess"
-        assert var_access.accessedVariableRef is None
+        assert var_access.returnValueProvision is None
+        assert var_access.accessedVariable is None
         assert var_access.scope is None
 
-        # Test accessedVariableRef methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarVariableRef
+    def test_get_set_accessedVariable(self):
+        """Test accessedVariable round-trip, None no-op and type hints."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefsUsage import VariableInAtomicSWCTypeInstanceRef
+
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        var_access = VariableAccess(ar_root, "TestVariableAccess")
 
         var_ref = AutosarVariableRef()
-        var_access.setAccessedVariableRef(var_ref)
-        assert var_access.getAccessedVariableRef() == var_ref
+        iref = VariableInAtomicSWCTypeInstanceRef()
+        target_ref = RefType()
+        target_ref.setValue("/Var")
+        iref.setTargetDataPrototypeRef(target_ref)
+        var_ref.setAutosarVariableIRef(iref)
 
-        # Test scope methods
+        assert var_access.setAccessedVariable(var_ref) is var_access
+        assert var_access.getAccessedVariable() is var_ref
+        assert var_access.getAccessedVariable().getAutosarVariableIRef().getTargetDataPrototypeRef().getValue() == "/Var"
+
+        assert var_access.setAccessedVariable(None) is var_access
+        assert var_access.getAccessedVariable() is var_ref
+
+        hints = typing.get_type_hints(VariableAccess.setAccessedVariable)
+        assert hints.get("value") == typing.Optional[AutosarVariableRef]
+        assert hints.get("return") is VariableAccess
+        assert typing.get_type_hints(VariableAccess.getAccessedVariable).get("return") == typing.Optional[AutosarVariableRef]
+
+    def test_get_set_scope(self):
+        """Test scope round-trip, None no-op and type hints."""
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        var_access = VariableAccess(ar_root, "TestVariableAccess")
+
         scope = ARLiteral()
-        scope.setValue("test_scope")
-        var_access.setScope(scope)
-        assert var_access.getScope() == scope
+        scope.setValue("communicationIntraPartition")
+
+        assert var_access.setScope(scope) is var_access
+        assert var_access.getScope() is scope
+        assert var_access.getScope().getValue() == "communicationIntraPartition"
+
+        assert var_access.setScope(None) is var_access
+        assert var_access.getScope() is scope
+
+        hints = typing.get_type_hints(VariableAccess.setScope)
+        assert hints.get("value") == typing.Optional[ARLiteral]
+        assert hints.get("return") is VariableAccess
+        assert typing.get_type_hints(VariableAccess.getScope).get("return") == typing.Optional[ARLiteral]

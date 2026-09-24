@@ -1256,6 +1256,39 @@ class TestRunnableEntityOrchestrator:
         assert access.getSwDataDefProps() is not None
         assert access.getSwDataDefProps().getSwCalibrationAccess().getValue() == "notAccessible"
 
+    def test_readRunnableEntity_with_dataReadAccess_full(self, parser):
+        from armodel.models import ApplicationSwComponentType
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        runnable = behavior.createRunnableEntity("run")
+        element = _snip(
+            "<SHORT-NAME>run</SHORT-NAME>"
+            "<DATA-READ-ACCESSS>"
+            "<VARIABLE-ACCESS><SHORT-NAME>ra</SHORT-NAME>"
+            "<ACCESSED-VARIABLE>"
+            "<AUTOSAR-VARIABLE-IREF>"
+            "<PORT-PROTOTYPE-REF DEST='R-PORT-PROTOTYPE'>/pp</PORT-PROTOTYPE-REF>"
+            "<TARGET-DATA-PROTOTYPE-REF DEST='VARIABLE-DATA-PROTOTYPE'>/Var</TARGET-DATA-PROTOTYPE-REF>"
+            "</AUTOSAR-VARIABLE-IREF>"
+            "</ACCESSED-VARIABLE>"
+            "<SCOPE>COMMUNICATION-INTRA-PARTITION</SCOPE>"
+            "</VARIABLE-ACCESS>"
+            "</DATA-READ-ACCESSS>",
+            root_tag="RUNNABLE-ENTITY",
+        )
+        parser.readRunnableEntity(element, runnable)
+        accesses = runnable.getDataReadAccesses()
+        assert len(accesses) == 1
+        access = accesses[0]
+        assert access.getShortName() == "ra"
+        assert access.getAccessedVariable() is not None
+        iref = access.getAccessedVariable().getAutosarVariableIRef()
+        assert iref.getPortPrototypeRef().getValue() == "/pp"
+        assert iref.getTargetDataPrototypeRef().getValue() == "/Var"
+        assert access.getScope() is not None
+        assert access.getScope().getValue() == "COMMUNICATION-INTRA-PARTITION"
+
     def test_readRunnableEntity_with_asynchronousServerCallResultPoints(self, parser):
         from armodel.models import ApplicationSwComponentType
 
