@@ -48,6 +48,7 @@ class XmlSpaceEnum(AREnum):
 
     # XmlSpaceEnum method parity checklist:
     # Spec: XSD-only, AUTOSAR_00052.xsd line 145398 (no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on Sd.xmlSpace (Steps 5/6 N/A: standalone AREnum)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
