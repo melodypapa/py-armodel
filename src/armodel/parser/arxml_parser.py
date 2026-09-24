@@ -7938,7 +7938,7 @@ class ARXMLParser(AbstractARXMLParser):
         value_spec = TextValueSpecification()
         self.readValueSpecification(element, value_spec)
         value_spec.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
-        value_spec.setValue(self.getChildElementOptionalLiteral(element, "VALUE"))
+        value_spec.setValue(self.getChildElementOptionalVerbatimString(element, "VALUE"))
         return value_spec
 
     def getArrayValueSpecification(self, element: ET.Element) -> ArrayValueSpecification:

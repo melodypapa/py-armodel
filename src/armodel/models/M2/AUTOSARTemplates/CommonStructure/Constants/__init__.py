@@ -257,45 +257,35 @@ class RecordValueSpecification(CompositeValueSpecification):
 
 class TextValueSpecification(ValueSpecification):
     """
-    Represents a text value specification in AUTOSAR models.
-    This class contains a literal text value for initializing data objects.
+    The purpose of TextValueSpecification is to define the labels that correspond to enumeration values.
     """
 
     # TextValueSpecification method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getValue                     [x] impl  [x] docstring  [x] test
-    # [x] setValue                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.113, p.436
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the TextValueSpecification with default values.
-        """
         super().__init__()
 
-        # Text value for this specification
-        self.value: ARLiteral = None
+        # This is the value itself. Note that vt uses the | operator to separate the values for the different bitfield masks in case that the semantics of the related DataPrototype is described by means of a BITFIELD_TEXTTABLE in the associated CompuMethod.
+        self.value: Optional[VerbatimString] = None
 
-    def getValue(self):
+    def getValue(self) -> Optional[VerbatimString]:
         """
-        Gets the text value for this specification.
-
-        Returns:
-            ARLiteral: The text value
+        This is the value itself. Note that vt uses the | operator to separate the values for the different bitfield masks in case that the semantics of the related DataPrototype is described by means of a BITFIELD_TEXTTABLE in the associated CompuMethod.
         """
         return self.value
 
-    def setValue(self, value):
+    def setValue(self, value: Optional[VerbatimString]) -> TextValueSpecification:
         """
-        Sets the text value for this specification.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The text value to set
-
-        Returns:
-            self for method chaining
+        This is the value itself. Note that vt uses the | operator to separate the values for the different bitfield masks in case that the semantics of the related DataPrototype is described by means of a BITFIELD_TEXTTABLE in the associated CompuMethod.
+        A None value is a no-op and does not overwrite an existing value.
         """
-        self.value = value
+        if value is not None:
+            self.value = value
         return self
 
 
