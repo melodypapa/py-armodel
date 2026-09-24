@@ -131,7 +131,21 @@ class TestItem:
 
 
 class TestARList:
-    """Test class for ARList class."""
+    """Test class for ARList class (Table 9.8, AUTOSAR_FO_TPS_GenericStructureTemplate — spec class name List)."""
+
+    def test_ar_list_inheritance(self):
+        """ARList shall derive from Paginateable (Table 9.8 Base row, most-derived) and carry the VariationPointCapable mixin (XSD 00052 group LIST carries the VARIATION-POINT element, mmt.qualifiedName="List.variationPoint" — same convention as the Item sibling)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+        from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+
+        ar_list = ARList()
+        assert isinstance(ar_list, Paginateable)
+        assert isinstance(ar_list, DocumentViewSelectable)
+        assert isinstance(ar_list, VariationPointCapable)
+
+    def test_ar_list_has_spec_note(self):
+        """The class docstring carries the Table 9.8 Note verbatim."""
+        assert cleandoc(ARList.__doc__) == "This meta-class represents the ability to express a list. The kind of list is specified in the attribute."
 
     def test_ar_list_initialization(self):
         """Test that an ARList object can be initialized with default values."""
@@ -149,6 +163,24 @@ class TestARList:
         assert item in items
         assert result == ar_list
 
+    def test_ar_list_add_item_none_noop(self):
+        """addItem(None) is a no-op and is not appended (stamped-sibling accessor convention)."""
+        ar_list = ARList()
+        item = Item()
+
+        ar_list.addItem(item)
+        ar_list.addItem(None)
+        assert ar_list.getItems() == [item]
+
+    def test_ar_list_items_annotation_is_typed_list(self):
+        """getItems return and addItem value shall be List[Item] / Optional[Item] (Rule 0003)."""
+        import typing
+
+        getter_hints = typing.get_type_hints(ARList.getItems)
+        adder_hints = typing.get_type_hints(ARList.addItem)
+        assert getter_hints["return"] == typing.List[Item]
+        assert adder_hints["value"] == typing.Optional[Item]
+
     def test_ar_list_type_methods(self):
         """Test the type getter and setter."""
         ar_list = ARList()
@@ -157,6 +189,35 @@ class TestARList:
         result = ar_list.setType(list_type)
         assert ar_list.getType() == list_type
         assert result == ar_list
+
+    def test_ar_list_set_type_none_noop(self):
+        """setType(None) is a no-op and does not overwrite an existing type (stamped-sibling accessor convention)."""
+        ar_list = ARList()
+        list_type = ListEnum()
+
+        ar_list.setType(list_type)
+        ar_list.setType(None)
+        assert ar_list.getType() == list_type
+
+    def test_ar_list_type_annotation_is_optional_list_enum(self):
+        """getType return and setType value shall be Optional[ListEnum] (Rule 0003)."""
+        import typing
+
+        getter_hints = typing.get_type_hints(ARList.getType)
+        setter_hints = typing.get_type_hints(ARList.setType)
+        assert getter_hints["return"] == typing.Optional[ListEnum]
+        assert setter_hints["value"] == typing.Optional[ListEnum]
+
+    def test_ar_list_member_order(self):
+        """Field-to-spec cross-check: ARList adds exactly the 2 Table 9.8 attribute rows over its base, in displayed order (item, type)."""
+        from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
+
+        class _ConcretePaginateable(Paginateable):
+            pass
+
+        base_fields = set(vars(_ConcretePaginateable()).keys())
+        own_fields = [key for key in vars(ARList()).keys() if key not in base_fields]
+        assert own_fields == ["items", "type"]
 
 
 class TestItemLabelPosEnum:

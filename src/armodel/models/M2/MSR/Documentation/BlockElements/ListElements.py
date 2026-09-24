@@ -43,11 +43,12 @@ class Item(Paginateable, VariationPointCapable):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.9, p.295
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getItemContents    [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # [x] setItemContents    [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
-    # (Pending: reader/writer coverage for the ITEM wrapper accessors is the ARList row's
-    # scope — writer setListElement / parser getListElements currently flatten
-    # ITEM<->DocumentationBlock and never instantiate Item)
+    # [x] getItemContents    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setItemContents    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (consume path completed by the ARList row, 2026-09-24: reader getListElements /
+    # writer setListElement instantiate Item and map itemContents <-> the inline
+    # DocumentationBlock content of each <ITEM> element; the itemContents payload has
+    # xml.roleElement=false, so it carries no wrapper element of its own)
 
     def __init__(self):
         super().__init__()
@@ -71,37 +72,56 @@ class Item(Paginateable, VariationPointCapable):
         return self
 
 
-class ARList(Paginateable):
+class ARList(Paginateable, VariationPointCapable):
     """
     This meta-class represents the ability to express a list. The kind of list is specified in the attribute.
-    In AUTOSAR standard class name shall be List, but it is conflict with Python List and renamed to ARList
     """
 
     # ARList method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getItems                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addItem                      [x] impl  [ ] docstring  [ ] test
-    # [ ] getType                      [x] impl  [ ] docstring  [ ] test
-    # [ ] setType                      [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.8, p.295
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (spec class name: List — renamed ARList for the Python builtin clash; consumer: DocumentationBlock.list)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getItems  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addItem   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setType   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.items = []  # type: List[Item]
-        self.type = None  # type: ListEnum
+        # this represents a particular list item. Note that this is again a documentation block.Therefore lists can be arbitrarily nested. It is discouraged to have a very deep nesting. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=item, item.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        self.items: List[Item] = []
 
-    def getItems(self):
+        # The type of the list. Default is "UNNUMBER" Tags: xml.attribute=true
+        self.type: Optional[ListEnum] = None
+
+    def getItems(self) -> List[Item]:
+        """
+        this represents a particular list item. Note that this is again a documentation block.Therefore lists can be arbitrarily nested. It is discouraged to have a very deep nesting. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=item, item.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        """
         return self.items
 
-    def addItem(self, value: Item):
-        self.items.append(value)
+    def addItem(self, value: Optional[Item]) -> ARList:
+        """
+        this represents a particular list item. Note that this is again a documentation block.Therefore lists can be arbitrarily nested. It is discouraged to have a very deep nesting. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=item, item.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and is not appended.
+        """
+        if value is not None:
+            self.items.append(value)
         return self
 
-    def getType(self):
+    def getType(self) -> Optional[ListEnum]:
+        """
+        The type of the list. Default is "UNNUMBER" Tags: xml.attribute=true
+        """
         return self.type
 
-    def setType(self, value):
-        self.type = value
+    def setType(self, value: Optional[ListEnum]) -> ARList:
+        """
+        The type of the list. Default is "UNNUMBER" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing type.
+        """
+        if value is not None:
+            self.type = value
         return self
 
 

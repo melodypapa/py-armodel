@@ -1114,7 +1114,7 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
 )
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryResultChapter, MsrQueryResultTopic1, MsrQueryTopic1
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, ItemLabelPosEnum, LabeledItem, LabeledList
+from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, Item, ItemLabelPosEnum, LabeledItem, LabeledList, ListEnum
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note, NoteTypeEnum
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import ChapterEnumBreak, DocumentViewSelectable, KeepWithPreviousEnum, Paginateable
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
@@ -5734,9 +5734,14 @@ class ARXMLParser(AbstractARXMLParser):
             list = ARList()
             self.readPaginateable(child_element, list)
             if "TYPE" in child_element.attrib:
-                list.setType(child_element.attrib["TYPE"])
-            for block in self.getDocumentationBlockList(child_element, "ITEM"):
-                list.addItem(block)
+                list.setType(ListEnum().setValue(child_element.attrib["TYPE"].lower()))
+            for item_element in self.findall(child_element, "ITEM"):
+                item = Item()
+                self.readPaginateable(item_element, item)
+                block = DocumentationBlock()
+                self.readDocumentationBlock(item_element, block)
+                item.setItemContents(block)
+                list.addItem(item)
             result.append(list)
         return result
 

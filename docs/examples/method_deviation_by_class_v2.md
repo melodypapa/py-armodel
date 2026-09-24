@@ -1813,7 +1813,6 @@ No deviations — the Table 6.2 attribute column is `-` (zero own attributes; co
 - `LOverviewParagraph` (`M2::MSR::Documentation::TextModel::LanguageDataModel`)
 - `LParagraph` (`M2::MSR::Documentation::TextModel::LanguageDataModel`)
 - `ListEnum` (`M2::MSR::Documentation::TextModel::BlockElements::ListElements`)
-- `ARList` (`M2::MSR::Documentation::TextModel::BlockElements::ListElements`)
 - `SingleLanguageUnitNames` (`M2::MSR::AsamHdo::Units`)
 - `SwValues` (`M2::MSR::CalibrationData::CalibrationValue`)
 - `ValueList` (`M2::MSR::DataDictionary::DataDefProperties`)

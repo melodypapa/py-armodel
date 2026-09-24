@@ -997,7 +997,7 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
 )
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryResultChapter, MsrQueryResultTopic1, MsrQueryTopic1
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, LabeledItem, LabeledList
+from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, Item, LabeledItem, LabeledList, ListEnum
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note
 from armodel.models.M2.MSR.Documentation.BlockElements import Colspec, Entry, Row, Table, Tbody, Tgroup
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
@@ -2471,9 +2471,18 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writePaginateable(child_element, list)
             type = list.getType()
             if type is not None:
-                child_element.attrib["TYPE"] = type
+                if isinstance(type, ListEnum):
+                    child_element.attrib["TYPE"] = type.getValue().upper()
+                else:
+                    child_element.attrib["TYPE"] = type
             for item in list.getItems():
-                self.writeDocumentationBlock(child_element, "ITEM", item)
+                if isinstance(item, Item):
+                    item_element = ET.SubElement(child_element, "ITEM")
+                    self.writePaginateable(item_element, item)
+                    if item.getItemContents() is not None:
+                        self.writeDocumentationBlockContent(item_element, item.getItemContents())
+                else:
+                    self.writeDocumentationBlock(child_element, "ITEM", item)
 
     def setGraphic(self, element: ET.Element, key: str, graphic: Graphic):
         if graphic is not None:
@@ -2764,19 +2773,22 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDocumentationBlock(self, element: ET.Element, key: str, block: DocumentationBlock):
         if block is not None:
             child_element = ET.SubElement(element, key)
-            self.writeARObject(child_element, block)
-            self.setMsrQueryP2(child_element, block.getMsrQueryP2())
-            self.setMultiLanguageParagraphs(child_element, "P", block.getPs())
-            self.setMultiLanguageVerbatim(child_element, "VERBATIM", block.getVerbatim())
-            for list in block.getLists():
-                self.setListElement(child_element, "LIST", list)
-            self.setDefList(child_element, block.getDefList())
-            self.setLabeledList(child_element, block.getLabeledList())
-            self.setMlFormula(child_element, "FORMULA", block.getFormula())
-            self.setMlFigures(child_element, "FIGURE", block.getFigures())
-            self.setNote(child_element, block.getNote())
-            self.setTraceableText(child_element, "TRACE", block.getTrace())
-            self.setStructuredReq(child_element, block.getStructuredReq())
+            self.writeDocumentationBlockContent(child_element, block)
+
+    def writeDocumentationBlockContent(self, element: ET.Element, block: DocumentationBlock):
+        self.writeARObject(element, block)
+        self.setMsrQueryP2(element, block.getMsrQueryP2())
+        self.setMultiLanguageParagraphs(element, "P", block.getPs())
+        self.setMultiLanguageVerbatim(element, "VERBATIM", block.getVerbatim())
+        for list in block.getLists():
+            self.setListElement(element, "LIST", list)
+        self.setDefList(element, block.getDefList())
+        self.setLabeledList(element, block.getLabeledList())
+        self.setMlFormula(element, "FORMULA", block.getFormula())
+        self.setMlFigures(element, "FIGURE", block.getFigures())
+        self.setNote(element, block.getNote())
+        self.setTraceableText(element, "TRACE", block.getTrace())
+        self.setStructuredReq(element, block.getStructuredReq())
 
     def setDefList(self, element: ET.Element, def_list: DefList):
         if def_list is not None:
