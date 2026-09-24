@@ -9,8 +9,8 @@ Status: **77/77** completed
 
 | Class Name                              | Status   | Commit ID                                |
 | --------------------------------------- | -------- | ---------------------------------------- |
-| `ARObject`                              | [x] Done | N/A                                      |
-| `ARElement`                             | [x] Done | N/A                                      |
+| `ARObject`                              | [x] Done | 78ae363c                                      |
+| `ARElement`                             | [x] Done | 61c85fa7                                      |
 | `ReferenceBase`                         | [x] Done | 192dfd94                                 |
 | `MultilanguageReferrable`               | [x] Done | 7c7157a0                                 |
 | `HwPin`                                 | [x] Done | ff5b0e08                                 |
@@ -22,19 +22,19 @@ Status: **77/77** completed
 | `PortPrototypeBlueprintMapping`         | [x] Done | f87babf31beb141ba1f5ea32b1389e6fbc9a8e8d |
 | `BlueprintMappingSet`                   | [x] Done | 3ba85998bb8a378d2fc76d8f0aa2eb58ad86d6f4 |
 | `ConstantSpecificationMappingSet`       | [x] Done | 8e5acbb2b1853163dc88ea0376143c58056eaccf |
-| `StandardNameEnum`                      | [x] Done | N/A                                      |
+| `StandardNameEnum`                      | [x] Done | 9a9ffdae                                      |
 | `StructuredReq`                         | [x] Done | d311fc7c                                 |
 | `TraceableText`                         | [x] Done | 9e80479b                                 |
 | `Identifiable`                          | [x] Done | a22d473c                                 |
 | `CollectableElement`                    | [x] Done | 3b31b7c4                                 |
 | `PackageableElement`                    | [x] Done | bb032ddd                                 |
 | `ARPackage`                             | [x] Done | 36064817                                 |
-| `AUTOSAR`                               | [x] Done | N/A                                      |
+| `AUTOSAR`                               | [x] Done | 74f4d3c8                                      |
 | `FileInfoComment`                       | [x] Done | c62e1c89                                 |
 | `AutoCollectEnum`                       | [x] Done | 75f40055                                 |
 | `Collection`                            | [x] Done | 75f40055                                 |
 | `AtpType`                               | [x] Done | 451ad383                                 |
-| `AtpPrototype`                          | [x] Done | N/A                                      |
+| `AtpPrototype`                          | [x] Done | eb4c4bf3                                      |
 | `PortPrototype`                         | [x] Done | 74e4c824                                 |
 | `DataPrototype`                         | [x] Done | 90528d34                                 |
 | `ModeDeclarationGroupPrototype`         | [x] Done | 51f2e115                                 |
@@ -54,7 +54,7 @@ Status: **77/77** completed
 | `DataInterface`                         | [x] Done | d838fd43                                 |
 | `VariableDataPrototype`                 | [x] Done | d3b5d680                                 |
 | `ParameterInterface`                    | [x] Done | 6bf99879                                 |
-| `NvDataInterface`                       | [x] Done | N/A                                      |
+| `NvDataInterface`                       | [x] Done | 1d666bc1                                      |
 | `HandleInvalidEnum`                     | [x] Done | 18271ddd                                 |
 | `InvalidationPolicy`                    | [x] Done | 1000053d                                 |
 | `SenderReceiverInterface`               | [x] Done | e4e4770f                                 |
@@ -68,7 +68,7 @@ Status: **77/77** completed
 | `SubElementRef`                         | [x] Done | 47b30521                                 |
 | `TextTableMapping`                      | [x] Done | be79d799                                 |
 | `SubElementMapping`                     | [x] Done | 5eadca78                                 |
-| `FlatInstanceDescriptor`                | [x] Done | N/A                                      |
+| `FlatInstanceDescriptor`                | [x] Done | 9db34796                                      |
 | `FlatMap`                               | [x] Done | 5eadca78                                 |
 | `ProgramminglanguageEnum`               | [x] Done | be79d799                                 |
 | `Compiler`                              | [x] Done | 3fce5973                                 |
@@ -106,20 +106,20 @@ Status: **45/45** completed
 | `RTEEvent`                                              | [x] Done | f0483d57  |
 | `ServerCallPoint`                                       | [x] Done | 774620a3  |
 | `VariableDataPrototype`                                 | [x] Done | d3b5d680  |
-| `PerInstanceMemory`                                     | [x] Done | N/A       |
-| `PortInCompositionTypeInstanceRef`                      | [x] Done | N/A       |
+| `PerInstanceMemory`                                     | [x] Done | f35aa0cd       |
+| `PortInCompositionTypeInstanceRef`                      | [x] Done | a6d84b26       |
 | `AssemblySwConnector`                                   | [x] Done | 2a104a06  |
 | `DataTypeMappingSet`                                    | [x] Done | 21ab486b  |
-| `AbstractImplementationDataTypeElement`                 | [x] Done | N/A       |
+| `AbstractImplementationDataTypeElement`                 | [x] Done | cabd5469  |
 | `ApplicationDataType`                                   | [x] Done | b8d0878d  |
 | `ApplicationCompositeElementDataPrototype`              | [x] Done | 031d5c78  |
-| `InitEvent`                                             | [x] Done | N/A       |
+| `InitEvent`                                             | [x] Done | 64ab725d       |
 | `BackgroundEvent`                                       | [x] Done | 27b88a94  |
 | `SynchronousServerCallPoint`                            | [x] Done | 9182987d  |
 | `AsynchronousServerCallPoint`                           | [x] Done | 3223dde4  |
 | `AsynchronousServerCallResultPoint`                     | [x] Done | 724f490c  |
 | `VariableInAtomicSwcInstanceRef`                        | [x] Done | 03690054  |
-| `VariableInAtomicSWCTypeInstanceRef`                    | [x] Done | N/A       |
+| `VariableInAtomicSWCTypeInstanceRef`                    | [x] Done | c8ac9ef7       |
 | `ArVariableInImplementationDataInstanceRef`             | [x] Done | 910009ee  |
 | `DelegationSwConnector`                                 | [x] Done | 7fc79e4b  |
 | `ApplicationPrimitiveDataType`                          | [x] Done | 7fc79e4b  |
@@ -136,7 +136,7 @@ Status: **45/45** completed
 | `CommunicationBufferLocking`                            | [x] Done | 7c676281  |
 | `SupportBufferLockingEnum`                              | [x] Done | 7c676281  |
 | `PortAPIOption`                                         | [x] Done | 7c676281  |
-| `IncludedModeDeclarationGroupSet`                       | [x] Done | N/A       |
+| `IncludedModeDeclarationGroupSet`                       | [x] Done | b9ac782d       |
 | `SwcInternalBehavior`                                   | [x] Done | 4043dc01  |
 
 ## Group3
@@ -221,7 +221,7 @@ Status: **93/93** completed
 | `DataConstrRule`                       | [x] Done    | fa640a0d  |
 | `DataConstr`                           | [x] Done    | 9927cc9e  |
 | `CompositeValueSpecification`          | [x] Done    | cc842d74  |
-| `ArrayValueSpecification`              | [x] Done    | N/A       |
+| `ArrayValueSpecification`              | [x] Done    | b1c7030b       |
 | `RecordValueSpecification`             | [x] Done    | b1c7030b  |
 | `CompositeRuleBasedValueArgument`      | [x] Done    | 0c916371  |
 | `CompositeRuleBasedValueSpecification` | [x] Done    | 13a010bf  |
@@ -245,12 +245,12 @@ Status: **35/35** completed
 
 | Class Name                              | Status   | Commit ID |
 | --------------------------------------- | -------- | --------- |
-| `DiagnosticControlNeeds`                | [x] Done | N/A       |
-| `DiagnosticEventManagerNeeds`           | [x] Done | N/A       |
-| `DiagnosticRequestFileTransferNeeds`    | [x] Done | N/A       |
-| `DoIpActivationLineNeeds`               | [x] Done | N/A       |
-| `DoIpGidNeeds`                          | [x] Done | N/A       |
-| `DoIpGidSynchronizationNeeds`           | [x] Done | N/A       |
+| `DiagnosticControlNeeds`                | [x] Done | d0a1134e       |
+| `DiagnosticEventManagerNeeds`           | [x] Done | dc347744       |
+| `DiagnosticRequestFileTransferNeeds`    | [x] Done | f084c432       |
+| `DoIpActivationLineNeeds`               | [x] Done | bf846cce       |
+| `DoIpGidNeeds`                          | [x] Done | 6c31e005       |
+| `DoIpGidSynchronizationNeeds`           | [x] Done | c64cb631       |
 | `BswPerInstanceMemoryPolicy`            | [x] Done | b89ad783  |
 | `BswClientPolicy`                       | [x] Done | 31418241  |
 | `BswInternalTriggeringPointPolicy`      | [x] Done | 2bb84139  |
@@ -264,22 +264,22 @@ Status: **35/35** completed
 | `EcuStateMgrUserNeeds`                  | [x] Done | 6b31696d  |
 | `DltUserNeeds`                          | [x] Done | cc86c100  |
 | `DiagnosticComponentNeeds`              | [x] Done | 5c4c0963  |
-| `DiagnosticUploadDownloadNeeds`         | [x] Done | N/A       |
-| `DiagnosticsCommunicationSecurityNeeds` | [x] Done | N/A       |
+| `DiagnosticUploadDownloadNeeds`         | [x] Done | fe8a0a1a       |
+| `DiagnosticsCommunicationSecurityNeeds` | [x] Done | d24a6663       |
 | `FunctionInhibitionNeeds`               | [x] Done | 5c4c0963  |
 | `GlobalSupervisionNeeds`                | [x] Done | 5c4c0963  |
 | `HardwareTestNeeds`                     | [x] Done | 5c4c0963  |
-| `SupervisedEntityCheckpointNeeds`       | [x] Done | N/A       |
-| `SyncTimeBaseMgrUserNeeds`              | [x] Done | N/A       |
-| `BswMgrNeeds`                           | [x] Done | N/A       |
-| `CryptoKeyManagementNeeds`              | [x] Done | N/A       |
-| `CryptoServiceJobNeeds`                 | [x] Done | N/A       |
+| `SupervisedEntityCheckpointNeeds`       | [x] Done | 67640c80       |
+| `SyncTimeBaseMgrUserNeeds`              | [x] Done | 609f148a       |
+| `BswMgrNeeds`                           | [x] Done | 628464ed       |
+| `CryptoKeyManagementNeeds`              | [x] Done | dc49a716       |
+| `CryptoServiceJobNeeds`                 | [x] Done | 2ec47467       |
 | `DiagnosticControlNeeds`                | [x] Done | 5c4c0963  |
-| `DiagnosticEventManagerNeeds`           | [x] Done | N/A       |
-| `DiagnosticRequestFileTransferNeeds`    | [x] Done | N/A       |
-| `DoIpActivationLineNeeds`               | [x] Done | N/A       |
-| `DoIpGidNeeds`                          | [x] Done | N/A       |
-| `DoIpGidSynchronizationNeeds`           | [x] Done | N/A       |
+| `DiagnosticEventManagerNeeds`           | [x] Done | dc347744       |
+| `DiagnosticRequestFileTransferNeeds`    | [x] Done | f084c432       |
+| `DoIpActivationLineNeeds`               | [x] Done | bf846cce       |
+| `DoIpGidNeeds`                          | [x] Done | 6c31e005       |
+| `DoIpGidSynchronizationNeeds`           | [x] Done | c64cb631       |
 
 ## Group5
 
@@ -370,7 +370,7 @@ Status: **45/45** completed
 | `CouplingPortScheduler`                 | [x] Done | 7617e250  |
 | `VlanMembership`                        | [x] Done | 2aa74da9  |
 | `NetworkEndpointAddress`                | [x] Done | 17f23e9c  |
-| `OrderedMaster`                         | [x] Done | N/A       |
+| `OrderedMaster`                         | [x] Done | 5d624502       |
 | `TimeSyncClientConfiguration`           | [x] Done | 101b0f3b  |
 | `TransportProtocolConfiguration`        | [x] Done | 0d39cd16  |
 | `TcpUdpConfig`                          | [x] Done | 757aea1d  |
@@ -378,23 +378,23 @@ Status: **45/45** completed
 | `CryptoServiceMapping`                  | [x] Done | 757aea1d  |
 | `TlsVersionEnum`                        | [x] Done | d969a0dd  |
 | `TlsPskIdentity`                        | [x] Done | 16c2791a  |
-| `CryptoServicePrimitive`                | [x] Done | N/A       |
-| `TlsCryptoCipherSuiteProps`             | [x] Done | N/A       |
-| `CryptoEllipticCurveProps`              | [x] Done | N/A       |
-| `CryptoSignatureScheme`                 | [x] Done | N/A       |
+| `CryptoServicePrimitive`                | [x] Done | b609d72d       |
+| `TlsCryptoCipherSuiteProps`             | [x] Done | 648b40ac       |
+| `CryptoEllipticCurveProps`              | [x] Done | d31256a6       |
+| `CryptoSignatureScheme`                 | [x] Done | 1eaeb580       |
 | `CryptoCertificateAlgorithmFamilyEnum`  | [x] Done | 4c653291  |
 | `CryptoCertificateFormatEnum`           | [x] Done | 7fc9ab76  |
 | `CryptoServiceCertificate`              | [x] Done | 757aea1d  |
 | `TlsCryptoCipherSuite`                  | [x] Done | 67315ec0  |
 | `TlsCryptoServiceMapping`               | [x] Done | 67315ec0  |
 | `DataTransformationSet`                 | [x] Done | 757aea1d  |
-| `DataPrototypeTransformationProps`      | [x] Done | N/A       |
+| `DataPrototypeTransformationProps`      | [x] Done | ba255a82       |
 | `TransformationISignalProps`            | [x] Done | 757aea1d  |
 | `SOMEIPMessageTypeEnum`                 | [x] Done | b1630807  |
 | `TlvDataIdDefinition`                   | [x] Done | 27ea0743  |
 | `TlvDataIdDefinitionSet`                | [x] Done | f0c94731  |
 | `SOMEIPTransformationISignalProps`      | [x] Done | c7ab3d96  |
-| `UserDefinedTransformationISignalProps` | [x] Done | N/A       |
+| `UserDefinedTransformationISignalProps` | [x] Done | 30118276       |
 | `SenderRecCompositeTypeMapping`         | [x] Done | 757aea1d  |
 | `SenderRecArrayTypeMapping`             | [x] Done | 757aea1d  |
 | `NmClusterCoupling`                     | [x] Done | 9c8e10b3  |
@@ -416,39 +416,39 @@ Status: **33/34** completed
 
 | Class Name                                    | Status      | Commit ID |
 | --------------------------------------------- | ----------- | --------- |
-| `ComponentInCompositionInstanceRef`           | [x] Done    | N/A       |
-| `SdClientConfig`                              | [x] Done    | N/A       |
-| `HwAttributeDef`                              | [x] Done    | N/A       |
-| `HwCategory`                                  | [x] Done    | N/A       |
-| `HwAttributeValue`                            | [x] Done    | N/A       |
-| `HwAttributeLiteralDef`                       | [x] Done    | N/A       |
+| `ComponentInCompositionInstanceRef`           | [x] Done    | 02e863a5       |
+| `SdClientConfig`                              | [x] Done    | 8e0c8857       |
+| `HwAttributeDef`                              | [x] Done    | 3912963b       |
+| `HwCategory`                                  | [x] Done    | b7e2199a       |
+| `HwAttributeValue`                            | [x] Done    | 269d34d9       |
+| `HwAttributeLiteralDef`                       | [x] Done    | 5d767ace       |
 | `CryptoKeySlot`                               | [x] Done    | a02f6175  |
-| `AbstractDoIpLogicAddressProps`               | [x] Done    | N/A       |
-| `DoIpLogicTargetAddressProps`                 | [x] Done    | N/A       |
-| `DoIpLogicTesterAddressProps`                 | [x] Done    | N/A       |
-| `DoIpTpConfig`                                | [x] Done    | N/A       |
-| `FirewallRuleProps`                           | [x] Done    | N/A       |
-| `IdsPlatformInstantiation`                    | [x] Done    | N/A       |
+| `AbstractDoIpLogicAddressProps`               | [x] Done    | bbfb9605       |
+| `DoIpLogicTargetAddressProps`                 | [x] Done    | 603091fa       |
+| `DoIpLogicTesterAddressProps`                 | [x] Done    | 0cca7684       |
+| `DoIpTpConfig`                                | [x] Done    | ac63e581       |
+| `FirewallRuleProps`                           | [x] Done    | 89039bf2       |
+| `IdsPlatformInstantiation`                    | [x] Done    | 5d4cc1c4       |
 | `IdsmModuleInstantiation`                     | [x] Done    | 5d4cc1c4  |
 | `PlatformModuleEthernetEndpointConfiguration` | [x] Done    | 5d4cc1c4  |
-| `CommunicationControllerMapping`              | [x] Done    | N/A       |
-| `HwPortMapping`                               | [x] Done    | N/A       |
-| `ECUMapping`                                  | [x] Done    | N/A       |
-| `VariableDataPrototypeInSystemInstanceRef`    | [x] Done    | N/A       |
-| `ComponentInSystemInstanceRef`                | [x] Done    | N/A       |
-| `PortPrototypeBlueprintInitValue`             | [x] Done    | N/A       |
-| `PortPrototypeBlueprint`                      | [x] Done    | N/A       |
-| `Keyword`                                     | [x] Done    | N/A       |
-| `KeywordSet`                                  | [x] Done    | N/A       |
-| `DiagnosticServiceInstance`                   | [x] Done    | N/A       |
-| `DiagnosticServiceTable`                      | [x] Done    | N/A       |
-| `DiagnosticCommonElement`                     | [x] Done    | N/A       |
-| `DiagnosticAuthRoleProxy`                     | [x] Done    | N/A       |
-| `DiagnosticSession`                           | [x] Done    | N/A       |
-| `DiagnosticSecurityLevel`                     | [x] Done    | N/A       |
-| `DiagnosticEnvironmentalCondition`            | [x] Done    | N/A       |
-| `DiagnosticAccessPermission`                  | [x] Done    | N/A       |
-| `FirewallActionEnum`                          | [x] Done    | N/A       |
+| `CommunicationControllerMapping`              | [x] Done    | 2613747d       |
+| `HwPortMapping`                               | [x] Done    | 7d945104       |
+| `ECUMapping`                                  | [x] Done    | 34bb50d7       |
+| `VariableDataPrototypeInSystemInstanceRef`    | [x] Done    | 1b3d673d       |
+| `ComponentInSystemInstanceRef`                | [x] Done    | b511fb85       |
+| `PortPrototypeBlueprintInitValue`             | [x] Done    | 57509a2e       |
+| `PortPrototypeBlueprint`                      | [x] Done    | 8782a8ff       |
+| `Keyword`                                     | [x] Done    | 4ed5a2fe       |
+| `KeywordSet`                                  | [x] Done    | a6a1d31c       |
+| `DiagnosticServiceInstance`                   | [x] Done    | 6b514727       |
+| `DiagnosticServiceTable`                      | [x] Done    | 9bd6fada       |
+| `DiagnosticCommonElement`                     | [x] Done    | e0d022b1       |
+| `DiagnosticAuthRoleProxy`                     | [x] Done    | 4579b43f       |
+| `DiagnosticSession`                           | [x] Done    | 06d4e49a       |
+| `DiagnosticSecurityLevel`                     | [x] Done    | f2da1338       |
+| `DiagnosticEnvironmentalCondition`            | [x] Done    | 5bbca5f2       |
+| `DiagnosticAccessPermission`                  | [x] Done    | 9cbb4e26       |
+| `FirewallActionEnum`                          | [x] Done    | ab2daa77  |
 
 ## Group8
 
