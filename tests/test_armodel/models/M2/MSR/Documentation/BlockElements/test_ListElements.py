@@ -2,6 +2,8 @@
 This module contains tests for the ListElements module in MSR.Documentation.BlockElements.
 """
 
+from inspect import cleandoc
+
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import (
     ARList,
     DefItem,
@@ -27,6 +29,37 @@ class TestListEnum:
         assert hasattr(ListEnum, "UNNUMBER")
         assert ListEnum.NUMBER == "number"
         assert ListEnum.UNNUMBER == "unnumber"
+
+    def test_list_enum_has_spec_note(self):
+        """The class docstring carries the Table 9.10 Note verbatim."""
+        assert cleandoc(ListEnum.__doc__) == "This meta-class represents the notation of the various types of lists."
+
+    def test_list_enum_spec_literals(self):
+        """ListEnum shall expose the 2 spec literals in Table 9.10 order."""
+        enum_obj = ListEnum()
+        assert ListEnum.NUMBER == "number"
+        assert ListEnum.UNNUMBER == "unnumber"
+        assert enum_obj.getEnumValues() == ["number", "unnumber"]
+
+    def test_list_enum_validate_enum_value(self):
+        """validateEnumValue accepts the model literal values and rejects non-wire forms.
+
+        R23-11 AUTOSAR_00052.xsd LIST-ENUM--SIMPLE (L139836) carries no
+        atp.Status="removed" literals, so no legacy forms are valid; the uppercase
+        wire forms (NUMBER, UNNUMBER) live only in the consumer-side TYPE attribute
+        handling and are not model values.
+        """
+        enum_obj = ListEnum()
+        assert enum_obj.validateEnumValue("number") is True
+        assert enum_obj.validateEnumValue("unnumber") is True
+        assert enum_obj.validateEnumValue("NUMBER") is False
+        assert enum_obj.validateEnumValue("UNNUMBER") is False
+        assert enum_obj.validateEnumValue("unknown") is False
+
+    def test_list_enum_set_value_with_member(self):
+        """The enum is instantiable and its literal value can be set from a member constant."""
+        enum_obj = ListEnum().setValue(ListEnum.UNNUMBER)
+        assert enum_obj.getValue() == "unnumber"
 
 
 class TestItem:

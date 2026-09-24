@@ -15,19 +15,23 @@ if TYPE_CHECKING:
 
 class ListEnum(AREnum):
     """
-    Enumeration for list numbering types: number or unnumber.
+    This meta-class represents the notation of the various types of lists.
     """
 
     # ListEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.10, p.295
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ARList.type (TYPE attribute; consumer: ARList)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
+    # This indicates that the list is an numerated list. Tags: atp.EnumerationLiteralIndex=0
     NUMBER = "number"
+
+    # This indicates that it is an enumeration (bulleted list) Tags: atp.EnumerationLiteralIndex=1
     UNNUMBER = "unnumber"
 
-    def __init__(
-        self,
-    ):
-        super().__init__((ListEnum.NUMBER, ListEnum.UNNUMBER))
+    def __init__(self):
+        super().__init__([ListEnum.NUMBER, ListEnum.UNNUMBER])
 
 
 class Item(Paginateable, VariationPointCapable):
