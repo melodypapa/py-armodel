@@ -34,7 +34,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `AreaEnumShape`                                         | [x] Done    | 966320f6                                 | Group3          |
 | `ArrayImplPolicyEnum`                                   | [ ] Pending | N/A                                      | Group10         |
 | `ArrayValueSpecification`                               | [x] Done    | N/A                                      | Group3          |
-| `AsamRecordLayoutSemantics`                             | [ ] Pending | N/A                                      | Group3          |
+| `AsamRecordLayoutSemantics`                             | [x] Done    | 2acaf7a4                                 | Group3          |
 | `AssemblySwConnector`                                   | [x] Done    | 2a104a06                                 | Group2          |
 | `AsynchronousServerCallPoint`                           | [x] Done    | 3223dde4                                 | Group2          |
 | `AsynchronousServerCallResultPoint`                     | [x] Done    | 724f490c                                 | Group2          |
@@ -496,7 +496,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `RVariableInAtomicSwcInstanceRef`                       | [ ] Pending | N/A                                      | Group11         |
 | `RamBlockStatusControlEnum`                             | [ ] Pending | N/A                                      | Group10         |
 | `ReceptionComSpecProps`                                 | [ ] Pending | N/A                                      | Group10         |
-| `RecordLayoutIteratorPoint`                             | [ ] Pending | N/A                                      | Group3          |
+| `RecordLayoutIteratorPoint`                             | [x] Done    | 2acaf7a4                                 | Group3          |
 | `RecordValueSpecification`                              | [x] Done    | b1c7030b                                 | Group3          |
 | `ReentrancyLevelEnum`                                   | [ ] Pending | N/A                                      | Group10         |
 | `ReferenceBase`                                         | [x] Done    | 192dfd94                                 | Group1          |
@@ -570,7 +570,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SwGenericAxisParamType`                                | [x] Done    | 1eacd1a7                                 | Group3          |
 | `SwImplPolicyEnum`                                      | [ ] Pending | N/A                                      | Group9          |
 | `SwRecordLayout`                                        | [x] Done    | f8149880                                 | Group3          |
-| `SwRecordLayoutGroup`                                   | [ ] Pending | N/A                                      | Group3          |
+| `SwRecordLayoutGroup`                                   | [x] Done    | 2acaf7a4                                 | Group3          |
 | `SwRecordLayoutGroupContent`                            | [x] Done    | 0f19d490                                 | Group3          |
 | `SwRecordLayoutV`                                       | [x] Done    | 9c0c3f85                                 | Group3          |
 | `SwSystemconst`                                         | [ ] Pending | N/A                                      | Group9          |
