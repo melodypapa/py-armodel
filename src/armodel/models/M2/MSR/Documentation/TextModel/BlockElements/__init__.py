@@ -4,9 +4,6 @@ from typing import List, Optional
 
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import MlFigure as MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula as MlFormula
-from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList as ARList
-from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import DefList as DefList
-from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import LabeledList as LabeledList
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note as Note
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import NoteTypeEnum as NoteTypeEnum
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import StructuredReq as StructuredReq
@@ -307,3 +304,11 @@ class DocumentationBlock(ARObject):
         if value is not None:
             self.verbatim = value
         return self
+
+
+# These imports stay at the bottom: ListElements imports this module for
+# DocumentationBlock at its own module bottom, and that cycle only resolves when
+# DocumentationBlock is defined before the ListElements names are bound here.
+from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList as ARList  # noqa: E402
+from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import DefList as DefList  # noqa: E402
+from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import LabeledList as LabeledList  # noqa: E402

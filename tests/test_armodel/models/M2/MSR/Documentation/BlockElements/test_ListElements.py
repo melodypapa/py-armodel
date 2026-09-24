@@ -82,22 +82,21 @@ class TestItem:
     def test_item_contents_annotation_is_optional(self):
         """getItemContents return and setItemContents value shall be Optional[DocumentationBlock] (Rule 0003).
 
-        DocumentationBlock is a TYPE_CHECKING-only import in ListElements.py
-        (runtime import would be circular via TextModel.BlockElements), so the
-        hints are resolved with an explicit globals mapping.
+        DocumentationBlock is imported at the BOTTOM of ListElements.py (runtime import,
+        cycle-breaker against TextModel.BlockElements), so the name lives in the module's
+        runtime globals and plain get_type_hints resolves it on every supported Python
+        (3.8's get_type_hints ignores caller-supplied globalns for functions — bpo-39291 —
+        which is why the import must be a real module global, not TYPE_CHECKING-only).
         """
-        import sys
         import typing
 
         from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
-        list_elements_module = sys.modules[Item.__module__]
-        globalns = dict(list_elements_module.__dict__)
-        globalns["DocumentationBlock"] = DocumentationBlock
-        getter_hints = typing.get_type_hints(Item.getItemContents, globalns=globalns)
-        setter_hints = typing.get_type_hints(Item.setItemContents, globalns=globalns)
-        assert getter_hints["return"] == typing.Optional[DocumentationBlock]
-        assert setter_hints["value"] == typing.Optional[DocumentationBlock]
+        for cls in (Item, LabeledItem):
+            getter_hints = typing.get_type_hints(cls.getItemContents)
+            setter_hints = typing.get_type_hints(cls.setItemContents)
+            assert getter_hints["return"] == typing.Optional[DocumentationBlock]
+            assert setter_hints["value"] == typing.Optional[DocumentationBlock]
 
     def test_item_contents_round_trip(self):
         """setItemContents stores the DocumentationBlock and the setter chains."""

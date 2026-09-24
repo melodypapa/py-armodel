@@ -1,16 +1,13 @@
 from __future__ import annotations
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
-from typing import TYPE_CHECKING, List, Optional
+from typing import List, Optional
 
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, String
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
-
-if TYPE_CHECKING:
-    from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
 class ListEnum(AREnum):
@@ -54,15 +51,15 @@ class Item(Paginateable, VariationPointCapable):
         super().__init__()
 
         # this represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
-        self.itemContents: Optional["DocumentationBlock"] = None
+        self.itemContents: Optional[DocumentationBlock] = None
 
-    def getItemContents(self) -> Optional["DocumentationBlock"]:
+    def getItemContents(self) -> Optional[DocumentationBlock]:
         """
         this represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
         """
         return self.itemContents
 
-    def setItemContents(self, value: Optional["DocumentationBlock"]) -> Item:
+    def setItemContents(self, value: Optional[DocumentationBlock]) -> Item:
         """
         this represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
         A None value is a no-op and does not overwrite an existing itemContents.
@@ -243,7 +240,7 @@ class LabeledItem(ARObject, VariationPointCapable):
         self.helpEntry: Optional[String] = None
 
         # This represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes.
-        self.itemContents: Optional["DocumentationBlock"] = None
+        self.itemContents: Optional[DocumentationBlock] = None
 
         # This is the label of the item.
         self.itemLabel: Optional[MultiLanguageOverviewParagraph] = None
@@ -268,7 +265,7 @@ class LabeledItem(ARObject, VariationPointCapable):
             self.helpEntry = value
         return self
 
-    def getItemContents(self) -> Optional["DocumentationBlock"]:
+    def getItemContents(self) -> Optional[DocumentationBlock]:
         """
         This represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes.
 
@@ -277,7 +274,7 @@ class LabeledItem(ARObject, VariationPointCapable):
         """
         return self.itemContents
 
-    def setItemContents(self, value: Optional["DocumentationBlock"]) -> LabeledItem:
+    def setItemContents(self, value: Optional[DocumentationBlock]) -> LabeledItem:
         """
         This represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. A None value is a no-op and does not overwrite an existing itemContents.
 
@@ -393,18 +390,18 @@ class DefItem(ARObject, VariationPointCapable):
         super().__init__()
 
         # This represents the definition part of the DefItem.
-        self.def_doc: Optional["DocumentationBlock"] = None
+        self.def_doc: Optional[DocumentationBlock] = None
 
         # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator.
         self.helpEntry: Optional[String] = None
 
-    def getDef(self) -> Optional["DocumentationBlock"]:
+    def getDef(self) -> Optional[DocumentationBlock]:
         """
         This represents the definition part of the DefItem.
         """
         return self.def_doc
 
-    def setDef(self, value: Optional["DocumentationBlock"]) -> DefItem:
+    def setDef(self, value: Optional[DocumentationBlock]) -> DefItem:
         """
         This represents the definition part of the DefItem. A None value is a no-op and does not overwrite an existing def.
         """
@@ -465,3 +462,9 @@ class DefList(ARObject, VariationPointCapable):
             The entries in the definition list
         """
         return self.defItems
+
+
+# TextModel.BlockElements imports this module at its top, so importing DocumentationBlock
+# any earlier would be circular. The name must exist in this module's runtime globals for
+# typing.get_type_hints on Python 3.8 (bpo-39291 ignores caller-supplied globalns).
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock  # noqa: E402
