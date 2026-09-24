@@ -428,25 +428,51 @@ class TestModeSwitchReceiverComSpec:
 
 
 class TestNvRequireComSpec:
-    """Test class for NvRequireComSpec class."""
+    """Test class for NvRequireComSpec class (Table 4.84)."""
 
-    def test_nv_require_com_spec_initialization(self):
-        """Test NvRequireComSpec initialization and methods."""
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings must be the Table 4.84 Notes copied verbatim."""
+        assert NvRequireComSpec.__doc__.strip() == "Communication attributes of RPortPrototypes with respect to Nv data communication on the required side."
+        init_value_note = "The initial value owned by the NvComSpec"
+        assert NvRequireComSpec.getInitValue.__doc__.strip() == init_value_note
+        assert NvRequireComSpec.setInitValue.__doc__.strip() == init_value_note + " A None value is a no-op and does not overwrite an existing initValue."
+        variable_note = "The VariableDataPrototype the ComSpec applies for. [constr_1899]"
+        assert NvRequireComSpec.getVariableRef.__doc__.strip() == variable_note
+        assert NvRequireComSpec.setVariableRef.__doc__.strip() == variable_note + " A None value is a no-op and does not overwrite an existing variableRef."
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject + RPortComSpec — Python base is RPortComSpec (most-derived, Table 4.59); setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(NvRequireComSpec, RPortComSpec)
+        assert issubclass(NvRequireComSpec, ARObject)
+        assert NvRequireComSpec.__dict__["setInitValue"].__annotations__["return"] == "NvRequireComSpec"
+        assert NvRequireComSpec.__dict__["setVariableRef"].__annotations__["return"] == "NvRequireComSpec"
+
+    def test_initialization_defaults(self):
+        """Test NvRequireComSpec field defaults."""
         nv_req = NvRequireComSpec()
         assert nv_req.initValue is None
         assert nv_req.variableRef is None
 
-        # Test setters and getters
-        from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
+    def test_get_set_init_value(self):
+        """Test initValue accessor pair, chaining and None no-op."""
+        nv_req = NvRequireComSpec()
+        value = TextValueSpecification()
+        result = nv_req.setInitValue(value)
+        assert result is nv_req
+        assert nv_req.getInitValue() is value
+        nv_req.setInitValue(None)
+        assert nv_req.getInitValue() is value
 
-        value_spec = TextValueSpecification()
-        nv_req.setInitValue(value_spec)
-        assert nv_req.getInitValue() == value_spec
-
-        ref = RefType()
-        ref.setValue("/Test/Variable")
-        nv_req.setVariableRef(ref)
-        assert nv_req.getVariableRef() == ref
+    def test_get_set_variable_ref(self):
+        """Test variableRef accessor pair, chaining and None no-op."""
+        nv_req = NvRequireComSpec()
+        value = RefType()
+        value.setValue("/NvDataInterface/Variable")
+        result = nv_req.setVariableRef(value)
+        assert result is nv_req
+        assert nv_req.getVariableRef() is value
+        nv_req.setVariableRef(None)
+        assert nv_req.getVariableRef() is value
 
 
 class TestParameterRequireComSpec:

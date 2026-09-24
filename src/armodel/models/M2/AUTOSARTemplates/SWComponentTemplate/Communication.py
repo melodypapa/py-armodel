@@ -703,66 +703,50 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
 
 class NvRequireComSpec(RPortComSpec):
     """
-    Communication attributes of RPortPrototypes with respect to Nv data communication
-    on the required side.
+    Communication attributes of RPortPrototypes with respect to Nv data communication on the required side.
     """
 
     # NvRequireComSpec method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitValue                 [x] impl  [x] docstring  [ ] test
-    # [ ] setInitValue                 [x] impl  [x] docstring  [ ] test
-    # [ ] getVariableRef               [x] impl  [x] docstring  [ ] test
-    # [ ] setVariableRef               [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.84, p.194
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInitValue                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitValue                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariableRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariableRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.initValue: ValueSpecification = None
-        self.variableRef: RefType = None
+        # The initial value owned by the NvComSpec
+        self.initValue: Optional[ValueSpecification] = None
 
-    def getInitValue(self):
+        # The VariableDataPrototype the ComSpec applies for. [constr_1899]
+        self.variableRef: Optional[RefType] = None
+
+    def getInitValue(self) -> Optional[ValueSpecification]:
         """
-        Gets the initial value to be used in case the sending component is not yet initialized.
-
-        Returns:
-            ValueSpecification: The initial value
+        The initial value owned by the NvComSpec
         """
         return self.initValue
 
-    def setInitValue(self, value: ValueSpecification):
+    def setInitValue(self, value: Optional[ValueSpecification]) -> NvRequireComSpec:
         """
-        Sets the initial value to be used in case the sending component is not yet initialized.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The initial value to set
-
-        Returns:
-            self for method chaining
+        The initial value owned by the NvComSpec A None value is a no-op and does not overwrite an existing initValue.
         """
         if value is not None:
             self.initValue = value
         return self
 
-    def getVariableRef(self):
+    def getVariableRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the VariableDataPrototype within the NvDataInterface.
-
-        Returns:
-            RefType: The variable reference
+        The VariableDataPrototype the ComSpec applies for. [constr_1899]
         """
         return self.variableRef
 
-    def setVariableRef(self, value: RefType):
+    def setVariableRef(self, value: Optional[RefType]) -> NvRequireComSpec:
         """
-        Sets the reference to the VariableDataPrototype within the NvDataInterface.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The variable reference to set
-
-        Returns:
-            self for method chaining
+        The VariableDataPrototype the ComSpec applies for. [constr_1899] A None value is a no-op and does not overwrite an existing variableRef.
         """
         if value is not None:
             self.variableRef = value
