@@ -1021,6 +1021,7 @@ class SOMEIPMessageTypeEnum(AREnum):
 
     # SOMEIPMessageTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.13, p.779
+    # Spec verified: R23-11
     # (no methods) — enum value form serialized on SomeipTransformationISignalProps.messageType
 
     # A request of a notification expecting no response. Tags: atp.EnumerationLiteralIndex=1 xml.name=NOTIFICATION
