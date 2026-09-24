@@ -1797,6 +1797,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeNumericalRuleBasedValueSpecification(elements_tag, sub_element)
                 elif isinstance(sub_element, TextValueSpecification):
                     self.writeTextValueSpecification(elements_tag, sub_element)
+                elif isinstance(sub_element, ConstantReference):
+                    self.setConstantReference(elements_tag, sub_element)
                 elif isinstance(sub_element, ArrayValueSpecification):
                     self.writeArrayValueSpecification(elements_tag, sub_element)
                 elif isinstance(sub_element, RecordValueSpecification):

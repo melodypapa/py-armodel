@@ -415,45 +415,35 @@ class ConstantSpecification(ARElement):
 
 class ConstantReference(ValueSpecification):
     """
-    Represents a constant reference in AUTOSAR models.
-    This class contains a reference to a constant for use in value specifications.
+    Instead of defining this value inline, a constant is referenced.
     """
 
     # ConstantReference method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getConstantRef               [x] impl  [x] docstring  [x] test
-    # [x] setConstantRef               [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.117, p.441
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConstantRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConstantRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the ConstantReference with default values.
-        """
         super().__init__()
 
-        # Reference to the constant for this specification
-        self.constantRef: RefType = None
+        # The referenced constant.
+        self.constantRef: Optional[RefType] = None
 
-    def getConstantRef(self):
+    def getConstantRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the constant for this specification.
-
-        Returns:
-            RefType: The constant reference
+        The referenced constant.
         """
         return self.constantRef
 
-    def setConstantRef(self, value):
+    def setConstantRef(self, value: Optional[RefType]) -> ConstantReference:
         """
-        Sets the reference to the constant for this specification.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The constant reference to set
-
-        Returns:
-            self for method chaining
+        The referenced constant.
+        A None value is a no-op and does not overwrite an existing constantRef.
         """
-        self.constantRef = value
+        if value is not None:
+            self.constantRef = value
         return self
 
 
