@@ -449,7 +449,6 @@ Status: **33/34** completed
 | `DiagnosticEnvironmentalCondition`            | [x] Done    | N/A       |
 | `DiagnosticAccessPermission`                  | [x] Done    | N/A       |
 | `FirewallActionEnum`                          | [x] Done    | N/A       |
-| `DiagnosticAccessPermission`                  | [ ] Pending | N/A       |
 
 ## Group8
 
