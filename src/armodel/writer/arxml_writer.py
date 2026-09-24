@@ -4523,7 +4523,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(element, "TIMING-EVENT-REF", tcf.getTimingEventRef())
         self.setChildElementOptionalRefType(element, "TIMING-MODE-REF", tcf.getTimingModeRef())
         self.setChildElementOptionalRefType(element, "TIMING-VARIABLE-REF", tcf.getTimingVariableRef())
-        text = tcf.getText()
+        text = tcf.getMixedString()
         if text is not None:
             element.text = text
 

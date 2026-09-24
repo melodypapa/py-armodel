@@ -35,7 +35,7 @@ class TestReadTimingConditionFormula:
 
         tcf = ARXMLParser().readTimingConditionFormula(parent, _round_trip(element))
         assert tcf.getShortName() == "Formula1"
-        assert tcf.getText() == "modeActive && eventFired"
+        assert tcf.getMixedString() == "modeActive && eventFired"
         assert tcf.getTimingArgumentRef().getValue() == "/Pkg/Arg"
         assert tcf.getTimingArgumentRef().getDest() == "AUTOSAR-OPERATION-ARGUMENT-INSTANCE"
         assert tcf.getTimingModeRef().getValue() == "/Pkg/Mode"
@@ -51,7 +51,7 @@ class TestReadTimingConditionFormula:
 
         tcf = ARXMLParser().readTimingConditionFormula(parent, _round_trip(element))
         assert tcf.getShortName() == "Formula1"
-        assert tcf.getText() is None
+        assert tcf.getMixedString() is None
         assert tcf.getTimingArgumentRef() is None
         assert tcf.getTimingConditionRef() is None
         assert tcf.getTimingEventRef() is None

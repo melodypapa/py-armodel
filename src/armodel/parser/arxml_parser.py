@@ -3350,7 +3350,7 @@ class ARXMLParser(AbstractARXMLParser):
         tcf.setTimingModeRef(self.getChildElementOptionalRefType(element, "TIMING-MODE-REF"))
         tcf.setTimingVariableRef(self.getChildElementOptionalRefType(element, "TIMING-VARIABLE-REF"))
         if element.text is not None and element.text.strip() != "":
-            tcf.setText(element.text)
+            self.readMixedStringText(element, tcf)
         return tcf
 
     def readTimingCondition(self, element: ET.Element, condition: TimingCondition):
