@@ -2,6 +2,8 @@
 This module contains tests for the DataDefProperties module in MSR.DataDictionary.
 """
 
+from inspect import cleandoc
+
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import NumericalValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
@@ -59,6 +61,47 @@ class TestSwImplPolicyEnum:
         assert SwImplPolicyEnum.MEASUREMENT_POINT == "measurementPoint"
         assert SwImplPolicyEnum.QUEUED == "queued"
         assert SwImplPolicyEnum.STANDARD == "standard"
+
+    def test_sw_impl_policy_enum_has_spec_note(self):
+        """The class docstring carries the Table 5.45 Note verbatim."""
+        assert cleandoc(SwImplPolicyEnum.__doc__) == "Specifies the implementation strategy with respect to consistency mechanisms of variables."
+
+    def test_sw_impl_policy_enum_spec_literals(self):
+        """SwImplPolicyEnum shall expose the 5 spec literals in Table 5.45 order."""
+        enum_obj = SwImplPolicyEnum()
+        expected = {
+            SwImplPolicyEnum.CONST: "const",
+            SwImplPolicyEnum.FIXED: "fixed",
+            SwImplPolicyEnum.MEASUREMENT_POINT: "measurementPoint",
+            SwImplPolicyEnum.QUEUED: "queued",
+            SwImplPolicyEnum.STANDARD: "standard",
+        }
+        for const, value in expected.items():
+            assert const == value
+        assert enum_obj.getEnumValues() == ["const", "fixed", "measurementPoint", "queued", "standard"]
+
+    def test_sw_impl_policy_enum_validate_enum_value(self):
+        """validateEnumValue accepts the model literal values and rejects non-wire forms.
+
+        R23-11 AUTOSAR_00052.xsd SW-IMPL-POLICY-ENUM--SIMPLE (L143675) carries no
+        atp.Status="removed" literals, so no legacy forms are valid; the uppercase
+        wire forms (CONST, MEASUREMENT-POINT, ...) live only in the consumer-side
+        SW_IMPL_POLICY_XML_MAP and are not model values.
+        """
+        enum_obj = SwImplPolicyEnum()
+        assert enum_obj.validateEnumValue("const") is True
+        assert enum_obj.validateEnumValue("fixed") is True
+        assert enum_obj.validateEnumValue("measurementPoint") is True
+        assert enum_obj.validateEnumValue("queued") is True
+        assert enum_obj.validateEnumValue("standard") is True
+        assert enum_obj.validateEnumValue("CONST") is False
+        assert enum_obj.validateEnumValue("MEASUREMENT-POINT") is False
+        assert enum_obj.validateEnumValue("unknown") is False
+
+    def test_sw_impl_policy_enum_set_value_with_member(self):
+        """The enum is instantiable and its literal value can be set from a member constant."""
+        enum_obj = SwImplPolicyEnum().setValue(SwImplPolicyEnum.MEASUREMENT_POINT)
+        assert enum_obj.getValue() == "measurementPoint"
 
 
 class TestSwCalibrationAccessEnum:

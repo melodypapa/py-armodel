@@ -28,39 +28,28 @@ if TYPE_CHECKING:
 
 class SwImplPolicyEnum(AREnum):
     """
-    Enumeration for software implementation policy.
-
-    * const
-      forced implementation such that the running software within the ECU shall not modify it. For example
-      implemented with the "const" modifier in C. This can be applied for parameters (not for those in
-      NVRAM) as well as argument data prototypes.
-    * fixed
-      This data element is fixed. In particular this indicates, that it might also be implemented e.g. as in
-      place data, (#DEFINE).
-    * measurementPoint
-      The data element is created for measurement purposes only. The data element is never read directly
-      within the ECU software. In contrast to a "standard" data element in an unconnected provide port is,
-      this unconnection is guaranteed for measurementPoint data elements.
-    * queued
-      The content of the data element is queued and the data element has 'event' semantics, i.e. data
-      elements are stored in a queue and all data elements are processed in 'first in first out' order. The
-      queuing is intended to be implemented by RTE Generator. This value is not applicable for parameters.
-    * standard
-      This is applicable for all kinds of data elements. For variable data prototypes the 'last is best'
-      semantics applies. For parameter there is no specific implementation directive.
+    Specifies the implementation strategy with respect to consistency mechanisms of variables.
     """
 
     # SwImplPolicyEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.45, p.336
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on SwDataDefProps.swImplPolicy
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on SwDataDefProps.swImplPolicy (SW-IMPL-POLICY element; consumers: SwDataDefProps, InternalTriggeringPoint, Trigger, BswInternalTriggeringPoint)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
+    # forced implementation such that the running software within the ECU shall not modify it. For example implemented with the "const" modifier in C. This can be applied for parameters (not for those in NVRAM) as well as argument data prototypes. Tags: atp.EnumerationLiteralIndex=0
     CONST = "const"
+
+    # This data element is fixed. In particular this indicates, that it might also be implemented e.g. as in place data, (#DEFINE). Tags: atp.EnumerationLiteralIndex=1
     FIXED = "fixed"
+
+    # The data element is created for measurement purposes only. The data element is never read directly within the ECU software. In contrast to a "standard" data element in an unconnected provide port is, this unconnection is guaranteed for measurementPoint data elements. Tags: atp.EnumerationLiteralIndex=2
     MEASUREMENT_POINT = "measurementPoint"
+
+    # The content of the data element is queued and the data element has 'event' semantics, i.e. data elements are stored in a queue and all data elements are processed in 'first in first out' order. The queuing is intended to be implemented by RTE Generator. This value is not applicable for parameters. Tags: atp.EnumerationLiteralIndex=3
     QUEUED = "queued"
+
+    # This is applicable for all kinds of data elements. For variable data prototypes the 'last is best' semantics applies. For parameter there is no specific implementation directive. Tags: atp.EnumerationLiteralIndex=4
     STANDARD = "standard"
 
     def __init__(self):
