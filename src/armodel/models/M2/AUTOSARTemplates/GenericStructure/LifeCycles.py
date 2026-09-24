@@ -18,6 +18,7 @@ class LifeCyclePeriod(ARObject):
 
     # LifeCyclePeriod method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 12.4, p.392
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getArReleaseVersion   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
