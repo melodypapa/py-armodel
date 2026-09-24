@@ -287,17 +287,47 @@ class TestNvBlockNeedsReliabilityEnum:
 
 
 class TestNvBlockNeedsWritingPriorityEnum:
-    def test_initialization(self):
-        """Test NvBlockNeedsWritingPriorityEnum initialization"""
-        enum = NvBlockNeedsWritingPriorityEnum()
-
-        assert enum.enumValues == ("high", "low", "medium")
-
-    def test_values(self):
-        """Test enum values"""
+    def test_literals(self):
+        """Test NvBlockNeedsWritingPriorityEnum literal values per AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 11.9"""
         assert NvBlockNeedsWritingPriorityEnum.HIGH == "high"
         assert NvBlockNeedsWritingPriorityEnum.LOW == "low"
         assert NvBlockNeedsWritingPriorityEnum.MEDIUM == "medium"
+
+    def test_enum_values(self):
+        """Test the valid enum value set in spec literal order (Table 11.9)"""
+        enum = NvBlockNeedsWritingPriorityEnum()
+        assert enum.getEnumValues() == (
+            NvBlockNeedsWritingPriorityEnum.HIGH,
+            NvBlockNeedsWritingPriorityEnum.LOW,
+            NvBlockNeedsWritingPriorityEnum.MEDIUM,
+        )
+
+    def test_instantiation_set_value(self):
+        """Test enum instantiability and setValue/getValue round-trip per Rule 0011"""
+        enum = NvBlockNeedsWritingPriorityEnum()
+        result = enum.setValue(NvBlockNeedsWritingPriorityEnum.LOW)
+        assert result is enum  # Method chaining
+        assert enum.getValue() == "low"
+
+    def test_set_value_none_noop(self):
+        """Test setValue(None) is a no-op"""
+        enum = NvBlockNeedsWritingPriorityEnum()
+        assert enum.setValue(None) is enum
+        assert enum.getValue() == ""  # ARLiteral's empty representation for an unset literal
+        enum.setValue(NvBlockNeedsWritingPriorityEnum.MEDIUM)
+        enum.setValue(None)
+        assert enum.getValue() == "medium"
+
+    def test_validate_enum_value(self):
+        """Test validateEnumValue accepts spec literals and rejects others"""
+        enum = NvBlockNeedsWritingPriorityEnum()
+        assert enum.validateEnumValue("high") is True
+        assert enum.validateEnumValue("medium") is True
+        assert enum.validateEnumValue("bogus") is False
+
+    def test_spec_note(self):
+        """Test the Table 11.9 class note."""
+        assert NvBlockNeedsWritingPriorityEnum.__doc__.strip() == ("Specifies the priority of writing this block in case of concurrent requests to write other blocks.")
 
 
 class TestNvBlockNeeds:

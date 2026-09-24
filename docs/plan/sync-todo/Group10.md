@@ -317,19 +317,19 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations (fixed+recorded in step notes: paraphrased class docstring → Table 11.10 Note verbatim, `__init__` docstring removed, paraphrased literal comments → verbatim single-line `Tags: atp.EnumerationLiteralIndex=N` form, old 4-column checklist → 6-column R23-11, glued literal blocks → blank lines (Rule 0008); tracker review: method_deviation_by_class_v2.md:1914 is under "Appendix: classes without a spec attribute table" — a stale intake appendix listing only (Table 11.10 exists), no deviation rows; method_deviation_by_class.md has no entries for this class; no missing referenced classes, no placeholders; consumer coverage PRESENT both sides so nothing deferred)
   - [ ] Step 9 — Verify (9a) + confirm (9b) [9a: 11195 unit tests + flake8 + ruff + black green; set-based checklist==methods (single `__init__` row) + coverage + class-scoped no-marker + runtime `armodel.NvBlockNeedsReliabilityEnum` export + verbatim Note/literal-comment diff + blank-line audit green; **stamp deferred to batch confirmation (user instruction 2026-09-24)**]
 
-- [ ] `NvBlockNeedsWritingPriorityEnum` — AREnum — source TBC (locate table at Step 1)
+- [ ] `NvBlockNeedsWritingPriorityEnum` — AREnum — R23-11 markdown · Table 11.9 (CP_TPS_SoftwareComponentTemplate)
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - note: moved from Group14 — member type of `NvBlockNeeds` (dependency priority)
   - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (Table 11.9, p.680 SWC TPS; twin rendering BSW TPS Table 12.9, p.233; Enumeration table, Package M2::AUTOSARTemplates::CommonStructure::ServiceNeeds; Aggregated by NvBlockNeeds.writingPriority; literals high/low/medium, indices 0-2 = XSD doc order (00052 lines 140882-140904, wire values HIGH/LOW/MEDIUM); found: paraphrased class docstring, `__init__` docstring present, paraphrased literal comments, old 4-column checklist; values/order/no-arg `__init__` already spec-correct)
+  - [x] Step 2 — Write model class unit test (Red) (6 tests replacing the old 2-test class in TestNvBlockNeedsWritingPriorityEnum (test_ServiceNeeds.py): literals/values+order via getEnumValues/setValue round-trip+chaining/None no-op/validateEnumValue/spec Note; Red confirmed 1st run — test_spec_note failed on the paraphrased docstring "Enumeration for NV block needs writing priorities…" vs spec Note, 5 behavior tests already green)
+  - [x] Step 3 — Implement model class (Green) (no production change: values `high`/`low`/`medium`, index order 0-2 and no-arg `__init__` already spec-correct per Table 11.9 + XSD doc order; Green = 5/6 behavior tests pass — test_spec_note intentionally Red pending Step 4)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) (paraphrased class docstring wiped, rewritten verbatim from Table 11.9 Note; `__init__` docstring removed (Rule 0012.2.4); all three paraphrased literal comments rewritten verbatim in single-line `Tags: atp.EnumerationLiteralIndex=N` form (spec has no trailing periods — kept); blank line between literal blocks (Rule 0008); no `__init__` docstring; Green = 6/6)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — the value form is serialized by `NvBlockNeeds.writingPriority`; consumer coverage verified PRESENT: parser `readNvBlockNeeds` → `setWritingPriority(getChildElementOptionalLiteral(element, "WRITING-PRIORITY"))` (arxml_parser.py:2455); existing writer test asserts "high" in test_writer_swc_behavior.py:1345 and fixture SoftwareComponents.arxml:619 carries MEDIUM)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — no parser/writer code added for the enum itself; writer verified: `writeNvBlockNeeds` emits `WRITING-PRIORITY` via `setChildElementOptionalLiteral` (arxml_writer.py:5144); consumer class checklist reader/writer rows are its own queued row's business)
+  - [x] Step 7 — Update checklist comment (6-column format, single `__init__` row, `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.9, p.680`, release R23-11; NO `# Spec verified:` — deferred to batch confirmation)
+  - [x] Step 8 — Deviations (fixed+recorded in step notes: paraphrased class docstring → Table 11.9 Note verbatim, `__init__` docstring removed, paraphrased literal comments → verbatim single-line `Tags: atp.EnumerationLiteralIndex=N` form, old 4-column checklist → 6-column R23-11, glued literal blocks → blank lines (Rule 0008); tracker review: method_deviation_by_class_v2.md:1915 is under "Appendix: classes without a spec attribute table" — a stale intake appendix listing only (Table 11.9 exists), no deviation rows; method_deviation_by_class.md has no entries for this class; no missing referenced classes, no placeholders; consumer coverage PRESENT both sides so nothing deferred)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) [9a: 11199 unit tests + flake8 + ruff + black green; set-based checklist==methods (single `__init__` row) + coverage + class-scoped no-marker + runtime `armodel.NvBlockNeedsWritingPriorityEnum` export + verbatim Note/literal-comment diff + blank-line audit green; **stamp deferred to batch confirmation (user instruction 2026-09-24)**]
 
 - [ ] `RamBlockStatusControlEnum` — AREnum — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py

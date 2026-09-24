@@ -225,24 +225,24 @@ class NvBlockNeedsReliabilityEnum(AREnum):
 
 class NvBlockNeedsWritingPriorityEnum(AREnum):
     """
-    Enumeration for NV block needs writing priorities in AUTOSAR models.
-    Defines the priority level for writing operations to NV blocks.
+    Specifies the priority of writing this block in case of concurrent requests to write other blocks.
     """
 
     # NvBlockNeedsWritingPriorityEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.9, p.680
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    # High priority for NV block writing
+    # Writing priority is high. Tags: atp.EnumerationLiteralIndex=0
     HIGH = "high"
-    # Low priority for NV block writing
+
+    # Writing priority is low. Tags: atp.EnumerationLiteralIndex=1
     LOW = "low"
-    # Medium priority for NV block writing
+
+    # Writing priority is medium. Tags: atp.EnumerationLiteralIndex=2
     MEDIUM = "medium"
 
     def __init__(self):
-        """
-        Initializes the NvBlockNeedsWritingPriorityEnum with all possible values.
-        """
         super().__init__(
             (
                 NvBlockNeedsWritingPriorityEnum.HIGH,
