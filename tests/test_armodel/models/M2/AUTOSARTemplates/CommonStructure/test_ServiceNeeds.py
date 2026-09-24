@@ -163,17 +163,45 @@ class TestServiceNeeds:
 
 
 class TestRamBlockStatusControlEnum:
-    def test_initialization(self):
-        """Test RamBlockStatusControlEnum initialization"""
-        enum = RamBlockStatusControlEnum()
-
-        # Enum values are stored in enumValues attribute as a tuple
-        assert enum.enumValues == ("api", "nvRamManager")
-
-    def test_values(self):
-        """Test enum values"""
+    def test_literals(self):
+        """Test RamBlockStatusControlEnum literal values per AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 13.1"""
         assert RamBlockStatusControlEnum.API == "api"
         assert RamBlockStatusControlEnum.NV_RAM_MANAGER == "nvRamManager"
+
+    def test_enum_values(self):
+        """Test the valid enum value set in spec literal order (Table 13.1)"""
+        enum = RamBlockStatusControlEnum()
+        assert enum.getEnumValues() == (
+            RamBlockStatusControlEnum.API,
+            RamBlockStatusControlEnum.NV_RAM_MANAGER,
+        )
+
+    def test_instantiation_set_value(self):
+        """Test enum instantiability and setValue/getValue round-trip per Rule 0011"""
+        enum = RamBlockStatusControlEnum()
+        result = enum.setValue(RamBlockStatusControlEnum.NV_RAM_MANAGER)
+        assert result is enum  # Method chaining
+        assert enum.getValue() == "nvRamManager"
+
+    def test_set_value_none_noop(self):
+        """Test setValue(None) is a no-op"""
+        enum = RamBlockStatusControlEnum()
+        assert enum.setValue(None) is enum
+        assert enum.getValue() == ""  # ARLiteral's empty representation for an unset literal
+        enum.setValue(RamBlockStatusControlEnum.API)
+        enum.setValue(None)
+        assert enum.getValue() == "api"
+
+    def test_validate_enum_value(self):
+        """Test validateEnumValue accepts spec literals and rejects others"""
+        enum = RamBlockStatusControlEnum()
+        assert enum.validateEnumValue("api") is True
+        assert enum.validateEnumValue("nvRamManager") is True
+        assert enum.validateEnumValue("bogus") is False
+
+    def test_spec_note(self):
+        """Test the Table 13.1 class note."""
+        assert RamBlockStatusControlEnum.__doc__.strip() == ("This enumeration type defines options for how the management of the ramBlock status is controlled.")
 
 
 class TestServiceProviderEnum:

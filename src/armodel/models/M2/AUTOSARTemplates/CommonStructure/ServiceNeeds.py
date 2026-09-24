@@ -170,22 +170,21 @@ class ServiceNeeds(Identifiable, ABC):
 
 class RamBlockStatusControlEnum(AREnum):
     """
-    Enumeration for RAM block status control methods in AUTOSAR NV block needs.
-    Defines how the status of RAM blocks is controlled in NV block management.
+    This enumeration type defines options for how the management of the ramBlock status is controlled.
     """
 
     # RamBlockStatusControlEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.1, p.701
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    # Status control through API calls
+    # The ramBlock status is controlled via service interface by usage of the SetRamBlockStatus operation. Tags: atp.EnumerationLiteralIndex=0
     API = "api"
-    # Status control through NV RAM manager
+
+    # The ramBlock status is controlled exclusively by the Nv Ram Manager. Tags: atp.EnumerationLiteralIndex=1
     NV_RAM_MANAGER = "nvRamManager"
 
     def __init__(self):
-        """
-        Initializes the RamBlockStatusControlEnum with all possible values.
-        """
         super().__init__(
             (
                 RamBlockStatusControlEnum.API,
