@@ -1031,7 +1031,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
     SOMEIPMessageTypeEnum,
-    SomeipTransformationISignalProps,
+    SOMEIPTransformationISignalProps,
     TlvDataIdDefinition,
     TlvDataIdDefinitionSet,
     TransformationDescription,
@@ -12417,8 +12417,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readEndToEndTransformationISignalProps(child_element, props)
                 signal.addTransformationISignalProps(props)
             elif tag_name == "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS":
-                props = SomeipTransformationISignalProps()
-                self.readSomeipTransformationISignalProps(child_element, props)
+                props = SOMEIPTransformationISignalProps()
+                self.readSOMEIPTransformationISignalProps(child_element, props)
                 signal.addTransformationISignalProps(props)
             elif tag_name == "USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS":
                 props = UserDefinedTransformationISignalProps()
@@ -12781,7 +12781,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readEndToEndTransformationISignalPropsDataIds(child_element, props)
             props.setDataLength(self.getChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH"))
 
-    def readSomeipTransformationISignalProps(self, element: ET.Element, props: SomeipTransformationISignalProps):
+    def readSOMEIPTransformationISignalProps(self, element: ET.Element, props: SOMEIPTransformationISignalProps):
         child_element = self.find(element, "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS/SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL")
         if child_element is not None:
             self.readTransformationISignalProps(child_element, props)
@@ -12815,8 +12815,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readEndToEndTransformationISignalProps(child_element, props)
                 group.addTransformationISignalProps(props)
             elif tag_name == "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS":
-                props = SomeipTransformationISignalProps()
-                self.readSomeipTransformationISignalProps(child_element, props)
+                props = SOMEIPTransformationISignalProps()
+                self.readSOMEIPTransformationISignalProps(child_element, props)
                 group.addTransformationISignalProps(props)
             elif tag_name == "USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS":
                 props = UserDefinedTransformationISignalProps()

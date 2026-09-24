@@ -1,4 +1,4 @@
-"""Writer round-trip tests for SomeipTransformationISignalProps (Table 7.11, p.778).
+"""Writer round-trip tests for SOMEIPTransformationISignalProps (Table 7.11, p.778).
 
 Wrapper form per XSD: SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS → -VARIANTS →
 -CONDITIONAL → content. Conditional content order per XSD (base group
@@ -19,7 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     CSTransformerErrorReactionEnum,
     SOMEIPMessageTypeEnum,
-    SomeipTransformationISignalProps,
+    SOMEIPTransformationISignalProps,
 )
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -36,7 +36,7 @@ def reset_autosar():
 
 
 def _new_props():
-    props = SomeipTransformationISignalProps()
+    props = SOMEIPTransformationISignalProps()
     props.setCsErrorReaction(CSTransformerErrorReactionEnum().setValue(CSTransformerErrorReactionEnum.AUTONOMOUS))
 
     transformer_ref = RefType()
@@ -79,10 +79,10 @@ EXPECTED_CONDITIONAL_ORDER = [
 ]
 
 
-class TestWriteSomeipTransformationISignalProps:
+class TestWriteSOMEIPTransformationISignalProps:
     def test_write_wrapper_form_in_xsd_order(self):
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeSomeipTransformationISignalProps(parent, _new_props())
+        ARXMLWriter().writeSOMEIPTransformationISignalProps(parent, _new_props())
 
         assert parent[0].tag == "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS"
         assert parent[0][0].tag == "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS"
@@ -107,7 +107,7 @@ class TestWriteSomeipTransformationISignalProps:
 
     def test_write_refs_wrapper(self):
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeSomeipTransformationISignalProps(parent, _new_props())
+        ARXMLWriter().writeSOMEIPTransformationISignalProps(parent, _new_props())
 
         refs_element = parent.find("SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS/SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS/SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL/TLV-DATA-ID-DEFINITION-REFS")
         refs = list(refs_element)
@@ -119,7 +119,7 @@ class TestWriteSomeipTransformationISignalProps:
 
     def test_write_empty_omits_optional_tags(self):
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeSomeipTransformationISignalProps(parent, SomeipTransformationISignalProps())
+        ARXMLWriter().writeSOMEIPTransformationISignalProps(parent, SOMEIPTransformationISignalProps())
 
         assert parent[0].tag == "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS"
         conditional = parent[0][0][0]
@@ -129,13 +129,13 @@ class TestWriteSomeipTransformationISignalProps:
     def test_round_trip_preserves_all_values(self):
         props = _new_props()
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeSomeipTransformationISignalProps(parent, props)
+        ARXMLWriter().writeSOMEIPTransformationISignalProps(parent, props)
         root = ET.fromstring("<ROOT xmlns='%s'>%s</ROOT>" % (NS, ET.tostring(parent).decode("utf-8")))
 
-        parsed = SomeipTransformationISignalProps()
-        ARXMLParser().readSomeipTransformationISignalProps(root[0][0], parsed)
+        parsed = SOMEIPTransformationISignalProps()
+        ARXMLParser().readSOMEIPTransformationISignalProps(root[0][0], parsed)
 
-        assert isinstance(parsed, SomeipTransformationISignalProps)
+        assert isinstance(parsed, SOMEIPTransformationISignalProps)
         assert parsed.getCsErrorReaction().getValue() == "AUTONOMOUS"
         assert parsed.getTransformerRef().getValue() == "/Transformers/Serializer"
         assert parsed.getTransformerRef().getDest() == "TRANSFORMATION-TECHNOLOGY"

@@ -1,4 +1,4 @@
-"""Parser tests for SomeipTransformationISignalProps (Table 7.11, p.778).
+"""Parser tests for SOMEIPTransformationISignalProps (Table 7.11, p.778).
 
 Concrete atpVariation subclass of TransformationISignalProps. Wire form per XSD:
 SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS → -VARIANTS → -CONDITIONAL → content groups.
@@ -17,7 +17,7 @@ from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     CSTransformerErrorReactionEnum,
     SOMEIPMessageTypeEnum,
-    SomeipTransformationISignalProps,
+    SOMEIPTransformationISignalProps,
 )
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -60,13 +60,13 @@ CONDITIONAL_XML = (
 )
 
 
-class TestReadSomeipTransformationISignalProps:
+class TestReadSOMEIPTransformationISignalProps:
     def test_read_full(self):
-        props = SomeipTransformationISignalProps()
+        props = SOMEIPTransformationISignalProps()
         root = _snip(CONDITIONAL_XML)
-        ARXMLParser().readSomeipTransformationISignalProps(root, props)
+        ARXMLParser().readSOMEIPTransformationISignalProps(root, props)
 
-        assert isinstance(props, SomeipTransformationISignalProps)
+        assert isinstance(props, SOMEIPTransformationISignalProps)
         cs_error_reaction = props.getCsErrorReaction()
         assert isinstance(cs_error_reaction, CSTransformerErrorReactionEnum)
         assert cs_error_reaction.getValue() == "AUTONOMOUS"
@@ -95,9 +95,9 @@ class TestReadSomeipTransformationISignalProps:
         assert refs[1].getDest() == "TLV-DATA-ID-DEFINITION-SET"
 
     def test_read_optional_absent(self):
-        props = SomeipTransformationISignalProps()
+        props = SOMEIPTransformationISignalProps()
         root = _snip("<SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS>" "<SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL />" "</SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS>")
-        ARXMLParser().readSomeipTransformationISignalProps(root, props)
+        ARXMLParser().readSOMEIPTransformationISignalProps(root, props)
 
         assert props.getCsErrorReaction() is None
         assert props.getTransformerRef() is None
@@ -121,24 +121,24 @@ class TestReadSomeipTransformationISignalProps:
         props_list = signal.getTransformationISignalProps()
         assert len(props_list) == 1
         props = props_list[0]
-        assert isinstance(props, SomeipTransformationISignalProps)
+        assert isinstance(props, SOMEIPTransformationISignalProps)
         assert props.getMessageType().getValue() == "REQUEST-NO-RETURN"
         assert props.getInterfaceVersion().getValue() == 4
 
 
-class TestSomeipTransformationISignalPropsRoundTrip:
+class TestSOMEIPTransformationISignalPropsRoundTrip:
     def test_parse_write_reparse(self):
-        parsed_first = SomeipTransformationISignalProps()
+        parsed_first = SOMEIPTransformationISignalProps()
         root = _snip(CONDITIONAL_XML)
-        ARXMLParser().readSomeipTransformationISignalProps(root, parsed_first)
+        ARXMLParser().readSOMEIPTransformationISignalProps(root, parsed_first)
 
         parent = ET.Element("PARENT")
-        ARXMLWriter().writeSomeipTransformationISignalProps(parent, parsed_first)
+        ARXMLWriter().writeSOMEIPTransformationISignalProps(parent, parsed_first)
         written = ET.tostring(parent).decode("utf-8")
         reparse_root = ET.fromstring("<ROOT xmlns='%s'>%s</ROOT>" % (NS, written))
 
-        parsed_second = SomeipTransformationISignalProps()
-        ARXMLParser().readSomeipTransformationISignalProps(reparse_root[0][0], parsed_second)
+        parsed_second = SOMEIPTransformationISignalProps()
+        ARXMLParser().readSOMEIPTransformationISignalProps(reparse_root[0][0], parsed_second)
 
         assert parsed_second.getCsErrorReaction().getValue() == "AUTONOMOUS"
         assert parsed_second.getTransformerRef().getValue() == "/Transformers/Serializer"
