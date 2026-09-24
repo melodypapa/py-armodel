@@ -476,25 +476,51 @@ class TestNvRequireComSpec:
 
 
 class TestParameterRequireComSpec:
-    """Test class for ParameterRequireComSpec class."""
+    """Test class for ParameterRequireComSpec class (Table 4.83)."""
 
-    def test_parameter_require_com_spec_initialization(self):
-        """Test ParameterRequireComSpec initialization and methods."""
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings must be the Table 4.83 Notes copied verbatim."""
+        assert ParameterRequireComSpec.__doc__.strip() == '"Communication" specification that applies to parameters on the required side of a connection.'
+        init_value_note = "The initial value applicable for the corresponding ParameterDataPrototype."
+        assert ParameterRequireComSpec.getInitValue.__doc__.strip() == init_value_note
+        assert ParameterRequireComSpec.setInitValue.__doc__.strip() == init_value_note + " A None value is a no-op and does not overwrite an existing initValue."
+        parameter_note = "The ParameterDataPrototype to which the ParameterRequireComSpec applies. [constr_1898]"
+        assert ParameterRequireComSpec.getParameterRef.__doc__.strip() == parameter_note
+        assert ParameterRequireComSpec.setParameterRef.__doc__.strip() == parameter_note + " A None value is a no-op and does not overwrite an existing parameterRef."
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject + RPortComSpec — Python base is RPortComSpec (most-derived, Table 4.59); setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(ParameterRequireComSpec, RPortComSpec)
+        assert issubclass(ParameterRequireComSpec, ARObject)
+        assert ParameterRequireComSpec.__dict__["setInitValue"].__annotations__["return"] == "ParameterRequireComSpec"
+        assert ParameterRequireComSpec.__dict__["setParameterRef"].__annotations__["return"] == "ParameterRequireComSpec"
+
+    def test_initialization_defaults(self):
+        """Test ParameterRequireComSpec field defaults."""
         param_req = ParameterRequireComSpec()
         assert param_req.initValue is None
         assert param_req.parameterRef is None
 
-        # Test setters and getters
-        from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
+    def test_get_set_init_value(self):
+        """Test initValue accessor pair, chaining and None no-op."""
+        param_req = ParameterRequireComSpec()
+        value = TextValueSpecification()
+        result = param_req.setInitValue(value)
+        assert result is param_req
+        assert param_req.getInitValue() is value
+        param_req.setInitValue(None)
+        assert param_req.getInitValue() is value
 
-        value_spec = TextValueSpecification()
-        param_req.setInitValue(value_spec)
-        assert param_req.getInitValue() == value_spec
-
-        ref = RefType()
-        ref.setValue("/Test/Parameter")
-        param_req.setParameterRef(ref)
-        assert param_req.getParameterRef() == ref
+    def test_get_set_parameter_ref(self):
+        """Test parameterRef accessor pair, chaining and None no-op."""
+        param_req = ParameterRequireComSpec()
+        value = RefType()
+        value.setValue("/ParamInterface/Parameter")
+        result = param_req.setParameterRef(value)
+        assert result is param_req
+        assert param_req.getParameterRef() is value
+        param_req.setParameterRef(None)
+        assert param_req.getParameterRef() is value
 
 
 class TestReceiverComSpec:

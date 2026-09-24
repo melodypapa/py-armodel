@@ -755,67 +755,53 @@ class NvRequireComSpec(RPortComSpec):
 
 class ParameterRequireComSpec(RPortComSpec):
     """
-    \"Communication\" specification that applies to parameters on the required side
-    of a connection.
+    "Communication" specification that applies to parameters on the required side of a connection.
     """
 
     # ParameterRequireComSpec method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitValue                 [x] impl  [x] docstring  [ ] test
-    # [ ] setInitValue                 [x] impl  [x] docstring  [ ] test
-    # [ ] getParameterRef              [x] impl  [x] docstring  [ ] test
-    # [ ] setParameterRef              [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.83, p.193
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInitValue       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitValue       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameterRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setParameterRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.initValue: ValueSpecification = None
-        self.parameterRef: RefType = None
+        # The initial value applicable for the corresponding ParameterDataPrototype.
+        self.initValue: Optional[ValueSpecification] = None
 
-    def getInitValue(self):
+        # The ParameterDataPrototype to which the ParameterRequireComSpec applies. [constr_1898]
+        self.parameterRef: Optional[RefType] = None
+
+    def getInitValue(self) -> Optional[ValueSpecification]:
         """
-        Gets the initial value for the parameter.
-
-        Returns:
-            ValueSpecification: The initial value
+        The initial value applicable for the corresponding ParameterDataPrototype.
         """
         return self.initValue
 
-    def setInitValue(self, value):
+    def setInitValue(self, value: Optional[ValueSpecification]) -> ParameterRequireComSpec:
         """
-        Sets the initial value for the parameter.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The initial value to set
-
-        Returns:
-            self for method chaining
+        The initial value applicable for the corresponding ParameterDataPrototype. A None value is a no-op and does not overwrite an existing initValue.
         """
-        self.initValue = value
+        if value is not None:
+            self.initValue = value
         return self
 
-    def getParameterRef(self):
+    def getParameterRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the parameter in the ParameterInterface.
-
-        Returns:
-            RefType: The parameter reference
+        The ParameterDataPrototype to which the ParameterRequireComSpec applies. [constr_1898]
         """
         return self.parameterRef
 
-    def setParameterRef(self, value):
+    def setParameterRef(self, value: Optional[RefType]) -> ParameterRequireComSpec:
         """
-        Sets the reference to the parameter in the ParameterInterface.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The parameter reference to set
-
-        Returns:
-            self for method chaining
+        The ParameterDataPrototype to which the ParameterRequireComSpec applies. [constr_1898] A None value is a no-op and does not overwrite an existing parameterRef.
         """
-        self.parameterRef = value
+        if value is not None:
+            self.parameterRef = value
         return self
 
 
