@@ -7524,8 +7524,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in element.findall("./xmlns:DATA-TYPE-MAPS/xmlns:DATA-TYPE-MAP", self.nsmap):
             data_type_map = DataTypeMap()
             self.readARObject(child_element, data_type_map)
-            data_type_map.applicationDataTypeRef = self.getChildElementOptionalRefType(child_element, "APPLICATION-DATA-TYPE-REF")
-            data_type_map.implementationDataTypeRef = self.getChildElementOptionalRefType(child_element, "IMPLEMENTATION-DATA-TYPE-REF")
+            data_type_map.setApplicationDataTypeRef(self.getChildElementOptionalRefType(child_element, "APPLICATION-DATA-TYPE-REF"))
+            data_type_map.setImplementationDataTypeRef(self.getChildElementOptionalRefType(child_element, "IMPLEMENTATION-DATA-TYPE-REF"))
             parent.addDataTypeMap(data_type_map)
             # add the data type map to global namespace
             document = AUTOSAR.getInstance()
