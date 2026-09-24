@@ -103,17 +103,20 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — NO deviations: no placeholders, no missing members (table = 2 attrs change/reason, all modeled in displayed order), no naming deviations (field names = spec member names verbatim — change/reason; Kind is plain `aggr` on both rows so the ref/tref Kind-suffix rules are n/a; no `*` aggr so no pluralization), no type deviations (MultiLanguageOverviewParagraph → exactly the spec Type column "MultiLanguageOverview Paragraph" de-hyphenated), reader+writer coverage complete (pre-existing, verified end-to-end at Steps 5/6 incl. the DocRevision MODIFICATIONS wrapper chain), member order = displayed row order; reader/writer XML element order = XSD 00052 group sequence CHANGE(20), REASON(30) (checked independently at Step 1); tracker reconciliation COMPLETE: the single md L3483 `Modification` match is `keySlotAllowedModification` → `CryptoKeySlotAllowedModification` — a consumer-side `— *(missing)*` row owned by a Crypto consumer class, NOT a Modification deviation; NO `Modification` section exists in either docs/examples/method_deviation_by_class.md or method_deviation_by_class_v2.md and nothing to add; `# Spec verified:` stamp WITHHELD pending 9b batch confirmation (Rule 0012.1)
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-24: target tests 17/17 (test_AdminData.py 13 incl. 4 new TestModification tests + new test_writer_modification.py 4), full suite 11390 passed/0 failed (prior-row baseline 11382 + 8 net-new: 4 model + 4 round-trip), npm run lint (flake8+ruff) clean, npm run black no-op (1169 files unchanged) + black-check clean, integration round-trip (29 ARXML) included in suite green; 9b deferred to batch confirmation (user instruction 2026-09-24)
 
-- [ ] `ScaleConstrValidityEnum` — AREnum — source TBC (locate table at Step 1)
+- [ ] `ScaleConstrValidityEnum` — AREnum — R4.3.1 AUTOSAR_TPS_SoftwareComponentTemplate.md Table 5.95
   - module: M2/MSR/AsamHdo/Constraints/GlobalConstraints.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: R4.3.1 fallback verified per Rule 0016.3 (Step 1, 2026-09-24) — token `ScaleConstrValidityEnum` appears in NO `autosar/R23-11/markdown/` file (caption + tolerant header-cell grep across all R23-11 markdown); the only R23-11 mention is the attribute-type cell `ScaleConstrValidity Enum` on the ScaleConstr.validity row (AUTOSAR_CP_TPS_SoftwareComponentTemplate.md:29382, itself atp.Status=obsolete). Spec = R4.3.1 AUTOSAR_TPS_SoftwareComponentTemplate.md Table 5.95 (L9747), p.417. Literals cross-checked both directions: notAvailable/notDefined/notValid/valid with atp.EnumerationValue=0-3 — existing wire values already match, none missing, none extra. XSD R23-11 AUTOSAR_00052.xsd L142112 and R4.3.1 AUTOSAR_00044.xsd L101206 agree (R23-11 tags atp.EnumerationLiteralIndex vs R4.3.1 atp.EnumerationValue); no atp.Status="removed" literals in either release. Consumer: ScaleConstr.validity (XML attribute VALIDITY; parser arxml_parser.py:8052, writer arxml_writer.py:3438). Old intake claim "XSD-only via docs/requirements/xsd/AUTOSAR_00046.xsd" superseded.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - note: Step 2 honest note — 1 of 5 new tests Red (spec-note docstring test; the intake docstring carried the ScaleConstr.validity attribute note instead of the enum's Table 5.95 Note); the 4 literal/validate/instantiation tests were already green (orphan intake values correct).
+  - [x] Step 3 — Implement model class (Green — no code change: literals already match Table 5.95 both directions; the Red test is the docstring contract, closed in Step 4)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (N/A: standalone AREnum — no own XML element; serialized as the VALIDITY attribute on consumer ScaleConstr, round-tripped there)
+  - [x] Step 6 — Update parser & writer (N/A: standalone AREnum — consumer coverage already exists: parser arxml_parser.py:8052 readScaleConstr element.get("VALIDITY"), writer arxml_writer.py:3438 child_element.set("VALIDITY", getValidity().getValue()))
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note: Step 8 — no deviations: 4/4 spec literals modeled verbatim both directions, no placeholders/fabrication, no missing referenced classes (AREnum base), no atp.Status="removed" literals in either XSD, no tracker entries for this class. Marker withheld only per batch instruction (9b deferred), not for a deviation.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-24: TestScaleConstrValidityEnum 5/5 green (file 25/25); full suite `uv run python scripts/run_tests.py --no-coverage` 11395 passed / 0 failed (baseline 11390 + 5 new); `npm run lint` clean; `npm run black` + `black-check` clean (1169 files unchanged); 9b deferred to batch confirmation (user instruction 2026-09-24)
 
 - [ ] `UnitGroup` — ARElement — source TBC (locate table at Step 1)
   - module: M2/MSR/AsamHdo/Units.py
