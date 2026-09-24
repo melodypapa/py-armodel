@@ -5071,7 +5071,8 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeRoleBasedDataAssignment(self, element: ET.Element, assignment: RoleBasedDataAssignment):
         child_element = ET.SubElement(element, "ROLE-BASED-DATA-ASSIGNMENT")
-        self.setChildElementOptionalLiteral(child_element, "ROLE", assignment.role)
+        self.writeARObject(child_element, assignment)
+        self.setChildElementOptionalIdentifier(child_element, "ROLE", assignment.getRole())
         self.setAutosarVariableRef(child_element, "USED-DATA-ELEMENT", assignment.getUsedDataElement())
         self.setAutosarParameterRef(child_element, "USED-PARAMETER-ELEMENT", assignment.getUsedParameterElement())
         self.setChildElementOptionalRefType(child_element, "USED-PIM-REF", assignment.getUsedPimRef())

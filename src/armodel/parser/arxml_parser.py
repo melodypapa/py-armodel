@@ -2077,7 +2077,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getRoleBasedDataAssignment(self, element: ET.Element) -> RoleBasedDataAssignment:
         assignment = RoleBasedDataAssignment()
-        assignment.setRole(self.getChildElementOptionalLiteral(element, "ROLE"))
+        self.readARObject(element, assignment)
+        assignment.setRole(self.getChildElementOptionalIdentifier(element, "ROLE"))
         assignment.setUsedDataElement(self.getAutosarVariableRef(element, "USED-DATA-ELEMENT"))
         assignment.setUsedParameterElement(self.getAutosarParameterRef(element, "USED-PARAMETER-ELEMENT"))
         assignment.setUsedPimRef(self.getChildElementOptionalRefType(element, "USED-PIM-REF"))

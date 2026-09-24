@@ -1600,7 +1600,7 @@ class TestWriterBswServiceDependency:
         dependency = BswServiceDependency()
         dependency.setIdent(BswServiceDependencyIdent(dependency, "ident"))
         data = RoleBasedDataAssignment()
-        data.setRole(ARLiteral().setValue("theRole"))
+        data.setRole(Identifier().setValue("theRole"))
         dependency.addAssignedData(data)
         entry = RoleBasedBswModuleEntryAssignment()
         entry.setRole(ARLiteral().setValue("errorNotification"))

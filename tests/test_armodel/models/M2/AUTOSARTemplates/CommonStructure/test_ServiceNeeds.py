@@ -5,6 +5,7 @@ in the AUTOSAR CommonStructure module.
 
 import os
 import tempfile
+import typing
 
 import pytest
 
@@ -78,12 +79,88 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     TransientFault,
     VerificationStatusIndicationModeEnum,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, NameToken, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, NameToken, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef, AutosarVariableRef
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
+RBDA_CLASS_NOTE = (
+    "This class specifies an assignment of a role to a particular data object in either "
+    "• the SwcInternalBehavior of a software component (or in the BswInternalBehavior of a BSW module or BSW cluster) in the context of an AUTOSAR Service or "
+    "• an NvBlockDescriptor to sort out the assignment of event-based writing strategies to data elements in a PortPrototype. "
+    "With this assignment, the role of the data can be mapped to a DataPrototype that is used in the context of the definition of a specific ServiceNeeds or NvBlockDescriptor, so that a tool is able to create the correct access or writing strategy."  # noqa E501
+)
+
+RBDA_ROLE_NOTE = (
+    "This is the role of the assigned data in the given context. "
+    "Possible values need to be specified on M1 level. Additionally the TPS Software Component Template provides a list of applicable roles "
+    'for various service dependencies and service use cases in chapter 13 "Service Dependencies and Service Use Cases" '
+    "(e.g., ramBlock in case of the needs for a permanent RAM block)."  # noqa E501
+)
+
+RBDA_USED_DATA_ELEMENT_NOTE = (
+    "The VariableDataPrototype used in this role, e.g. "
+    "• Permanent RAM Block of an NVRAM Block which shall belong to the same SwcInternalBehavior or BswInternalBehavior. "
+    "• In the role signalBasedDiagnostics it has to refer to a VariableDataPrototype in a SenderReceiverInterface or a NvDataInterface."  # noqa E501
+)
+
+RBDA_USED_PARAMETER_ELEMENT_NOTE = (
+    "The ParameterDataPrototype used in this role, e.g. "
+    "• ROM Block of an NVRAM Block. It shall belong to the same SwcInternalBehavior or BswInternalbehavior. "
+    "• In the role signalBasedDiagnostics it has to refer to a ParameterDataPrototype in a ParameterInterface."  # noqa E501
+)
+
+RBDA_USED_PIM_NOTE = "The (untyped) PerInstanceMemory used in this role (e.g. as a Permanent RAM Block for an NVRAM Block)."
+
 
 class TestRoleBasedDataAssignment:
+    def test_spec_notes_are_verbatim(self):
+        """Test that the class docstring and every accessor docstring is the spec Note verbatim (Table 12.4)"""
+        assert RoleBasedDataAssignment.__doc__.strip() == RBDA_CLASS_NOTE
+        assert RoleBasedDataAssignment.getRole.__doc__.strip() == RBDA_ROLE_NOTE
+        assert RoleBasedDataAssignment.setRole.__doc__.strip() == (RBDA_ROLE_NOTE + " A None value is a no-op and does not overwrite an existing role.")
+        assert RoleBasedDataAssignment.getUsedDataElement.__doc__.strip() == RBDA_USED_DATA_ELEMENT_NOTE
+        assert RoleBasedDataAssignment.setUsedDataElement.__doc__.strip() == (RBDA_USED_DATA_ELEMENT_NOTE + " A None value is a no-op and does not overwrite an existing usedDataElement.")
+        assert RoleBasedDataAssignment.getUsedParameterElement.__doc__.strip() == RBDA_USED_PARAMETER_ELEMENT_NOTE
+        assert RoleBasedDataAssignment.setUsedParameterElement.__doc__.strip() == (
+            RBDA_USED_PARAMETER_ELEMENT_NOTE + " A None value is a no-op and does not overwrite an existing usedParameterElement."
+        )
+        assert RoleBasedDataAssignment.getUsedPimRef.__doc__.strip() == RBDA_USED_PIM_NOTE
+        assert RoleBasedDataAssignment.setUsedPimRef.__doc__.strip() == (RBDA_USED_PIM_NOTE + " A None value is a no-op and does not overwrite an existing usedPimRef.")
+
+    def test_base_shape(self):
+        """Test the base chain, no-arg __init__ and typed accessor signatures"""
+        assert issubclass(RoleBasedDataAssignment, ARObject)
+        assert issubclass(RoleBasedDataAssignment, VariationPointCapable)
+        assignment = RoleBasedDataAssignment()
+        assert assignment.role is None
+        assert assignment.usedDataElement is None
+        assert assignment.usedParameterElement is None
+        assert assignment.usedPimRef is None
+
+        hints = typing.get_type_hints(RoleBasedDataAssignment.getRole)
+        assert hints["return"] == typing.Optional[Identifier]
+        hints = typing.get_type_hints(RoleBasedDataAssignment.setRole)
+        assert hints["value"] == typing.Optional[Identifier]
+        assert hints["return"] is RoleBasedDataAssignment
+        hints = typing.get_type_hints(RoleBasedDataAssignment.getUsedDataElement)
+        assert hints["return"] == typing.Optional[AutosarVariableRef]
+        hints = typing.get_type_hints(RoleBasedDataAssignment.setUsedDataElement)
+        assert hints["value"] == typing.Optional[AutosarVariableRef]
+        assert hints["return"] is RoleBasedDataAssignment
+        hints = typing.get_type_hints(RoleBasedDataAssignment.getUsedParameterElement)
+        assert hints["return"] == typing.Optional[AutosarParameterRef]
+        hints = typing.get_type_hints(RoleBasedDataAssignment.setUsedParameterElement)
+        assert hints["value"] == typing.Optional[AutosarParameterRef]
+        assert hints["return"] is RoleBasedDataAssignment
+        hints = typing.get_type_hints(RoleBasedDataAssignment.getUsedPimRef)
+        assert hints["return"] == typing.Optional[RefType]
+        hints = typing.get_type_hints(RoleBasedDataAssignment.setUsedPimRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert hints["return"] is RoleBasedDataAssignment
+
     def test_initialization(self):
         """Test RoleBasedDataAssignment initialization"""
         assignment = RoleBasedDataAssignment()
@@ -99,48 +176,57 @@ class TestRoleBasedDataAssignment:
         assignment = RoleBasedDataAssignment()
 
         assert assignment.getRole() is None
+        role = Identifier().setValue("ramBlock")
+        assert assignment.setRole(role) is assignment
+        assert assignment.getRole() is role
+        assert isinstance(assignment.getRole(), Identifier)
+        assert assignment.getRole().getValue() == "ramBlock"
 
-        assignment.setRole("TestRole")
-        assert assignment.getRole() == "TestRole"
+        # None is a no-op
+        assignment.setRole(None)
+        assert assignment.getRole() is role
 
     def test_get_set_used_data_element(self):
         """Test getUsedDataElement and setUsedDataElement methods"""
         assignment = RoleBasedDataAssignment()
 
         assert assignment.getUsedDataElement() is None
+        var_ref = AutosarVariableRef()
+        assert assignment.setUsedDataElement(var_ref) is assignment
+        assert assignment.getUsedDataElement() is var_ref
 
-        class MockVariableRef:
-            pass
-
-        var_ref = MockVariableRef()
-        assignment.setUsedDataElement(var_ref)
-        assert assignment.getUsedDataElement() == var_ref
+        # None is a no-op
+        assignment.setUsedDataElement(None)
+        assert assignment.getUsedDataElement() is var_ref
 
     def test_get_set_used_parameter_element(self):
         """Test getUsedParameterElement and setUsedParameterElement methods"""
         assignment = RoleBasedDataAssignment()
 
         assert assignment.getUsedParameterElement() is None
+        param_ref = AutosarParameterRef()
+        assert assignment.setUsedParameterElement(param_ref) is assignment
+        assert assignment.getUsedParameterElement() is param_ref
 
-        class MockParameterRef:
-            pass
-
-        param_ref = MockParameterRef()
-        assignment.setUsedParameterElement(param_ref)
-        assert assignment.getUsedParameterElement() == param_ref
+        # None is a no-op
+        assignment.setUsedParameterElement(None)
+        assert assignment.getUsedParameterElement() is param_ref
 
     def test_get_set_used_pim_ref(self):
         """Test getUsedPimRef and setUsedPimRef methods"""
         assignment = RoleBasedDataAssignment()
 
         assert assignment.getUsedPimRef() is None
+        ref_type = RefType()
+        ref_type.setValue("/Swc/Pim")
+        ref_type.setDest("PER-INSTANCE-MEMORY")
+        assert assignment.setUsedPimRef(ref_type) is assignment
+        assert assignment.getUsedPimRef() is ref_type
+        assert assignment.getUsedPimRef().getValue() == "/Swc/Pim"
 
-        class MockRefType:
-            pass
-
-        ref_type = MockRefType()
-        assignment.setUsedPimRef(ref_type)
-        assert assignment.getUsedPimRef() == ref_type
+        # None is a no-op
+        assignment.setUsedPimRef(None)
+        assert assignment.getUsedPimRef() is ref_type
 
 
 class TestServiceNeeds:

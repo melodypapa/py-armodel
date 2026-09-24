@@ -11,15 +11,11 @@ from abc import ABC
 from typing import List, Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (
-        AutosarParameterRef,
-        AutosarVariableRef,
-    )
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, AREnum, Boolean, ARLiteral
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, AREnum, Boolean
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagRequirementIdString, Integer, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String, TimeValue
@@ -27,126 +23,91 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class RoleBasedDataAssignment(ARObject, VariationPointCapable):
     """
-    Represents a role-based data assignment in AUTOSAR models.
-    This class defines how data elements are assigned based on their role in service interactions.
+    This class specifies an assignment of a role to a particular data object in either • the SwcInternalBehavior of a software component (or in the BswInternalBehavior of a BSW module or BSW cluster) in the context of an AUTOSAR Service or • an NvBlockDescriptor to sort out the assignment of event-based writing strategies to data elements in a PortPrototype. With this assignment, the role of the data can be mapped to a DataPrototype that is used in the context of the definition of a specific ServiceNeeds or NvBlockDescriptor, so that a tool is able to create the correct access or writing strategy.
     """
 
     # RoleBasedDataAssignment method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getRole                      [x] impl  [x] docstring  [ ] test
-    # [ ] setRole                      [x] impl  [x] docstring  [ ] test
-    # [ ] getUsedDataElement           [x] impl  [x] docstring  [ ] test
-    # [ ] setUsedDataElement           [x] impl  [x] docstring  [ ] test
-    # [ ] getUsedParameterElement      [x] impl  [x] docstring  [ ] test
-    # [ ] setUsedParameterElement      [x] impl  [x] docstring  [ ] test
-    # [ ] getUsedPimRef                [x] impl  [x] docstring  [ ] test
-    # [ ] setUsedPimRef                [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.4, p.227 (sibling rendering: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.55, p.607)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRole                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRole                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUsedDataElement      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUsedDataElement      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUsedParameterElement [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUsedParameterElement [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUsedPimRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUsedPimRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the RoleBasedDataAssignment with default values.
-        """
         super().__init__()
 
-        # Role identifier for this data assignment
-        self.role: ARLiteral = None
-        # Used data element reference for this assignment
-        self.usedDataElement: AutosarVariableRef = None
-        # Used parameter element reference for this assignment
-        self.usedParameterElement: AutosarParameterRef = None
-        # Reference to the PIM (Port Interface Mapping) for this assignment
-        self.usedPimRef: RefType = None
+        # This is the role of the assigned data in the given context. Possible values need to be specified on M1 level. Additionally the TPS Software Component Template provides a list of applicable roles for various service dependencies and service use cases in chapter 13 "Service Dependencies and Service Use Cases" (e.g., ramBlock in case of the needs for a permanent RAM block).
+        self.role: Optional[Identifier] = None
 
-    def getRole(self):
+        # The VariableDataPrototype used in this role, e.g. • Permanent RAM Block of an NVRAM Block which shall belong to the same SwcInternalBehavior or BswInternalBehavior. • In the role signalBasedDiagnostics it has to refer to a VariableDataPrototype in a SenderReceiverInterface or a NvDataInterface.
+        self.usedDataElement: Optional[AutosarVariableRef] = None
+
+        # The ParameterDataPrototype used in this role, e.g. • ROM Block of an NVRAM Block. It shall belong to the same SwcInternalBehavior or BswInternalbehavior. • In the role signalBasedDiagnostics it has to refer to a ParameterDataPrototype in a ParameterInterface.
+        self.usedParameterElement: Optional[AutosarParameterRef] = None
+
+        # The (untyped) PerInstanceMemory used in this role (e.g. as a Permanent RAM Block for an NVRAM Block).
+        self.usedPimRef: Optional[RefType] = None
+
+    def getRole(self) -> Optional[Identifier]:
         """
-        Gets the role identifier for this data assignment.
-
-        Returns:
-            ARLiteral: The role identifier
+        This is the role of the assigned data in the given context. Possible values need to be specified on M1 level. Additionally the TPS Software Component Template provides a list of applicable roles for various service dependencies and service use cases in chapter 13 "Service Dependencies and Service Use Cases" (e.g., ramBlock in case of the needs for a permanent RAM block).
         """
         return self.role
 
-    def setRole(self, value):
+    def setRole(self, value: Optional[Identifier]) -> RoleBasedDataAssignment:
         """
-        Sets the role identifier for this data assignment.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The role identifier to set
-
-        Returns:
-            self for method chaining
+        This is the role of the assigned data in the given context. Possible values need to be specified on M1 level. Additionally the TPS Software Component Template provides a list of applicable roles for various service dependencies and service use cases in chapter 13 "Service Dependencies and Service Use Cases" (e.g., ramBlock in case of the needs for a permanent RAM block). A None value is a no-op and does not overwrite an existing role.
         """
-        self.role = value
+        if value is not None:
+            self.role = value
         return self
 
-    def getUsedDataElement(self):
+    def getUsedDataElement(self) -> Optional[AutosarVariableRef]:
         """
-        Gets the used data element reference for this assignment.
-
-        Returns:
-            AutosarVariableRef: The used data element reference
+        The VariableDataPrototype used in this role, e.g. • Permanent RAM Block of an NVRAM Block which shall belong to the same SwcInternalBehavior or BswInternalBehavior. • In the role signalBasedDiagnostics it has to refer to a VariableDataPrototype in a SenderReceiverInterface or a NvDataInterface.
         """
         return self.usedDataElement
 
-    def setUsedDataElement(self, value):
+    def setUsedDataElement(self, value: Optional[AutosarVariableRef]) -> RoleBasedDataAssignment:
         """
-        Sets the used data element reference for this assignment.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The used data element reference to set
-
-        Returns:
-            self for method chaining
+        The VariableDataPrototype used in this role, e.g. • Permanent RAM Block of an NVRAM Block which shall belong to the same SwcInternalBehavior or BswInternalBehavior. • In the role signalBasedDiagnostics it has to refer to a VariableDataPrototype in a SenderReceiverInterface or a NvDataInterface. A None value is a no-op and does not overwrite an existing usedDataElement.
         """
-        self.usedDataElement = value
+        if value is not None:
+            self.usedDataElement = value
         return self
 
-    def getUsedParameterElement(self):
+    def getUsedParameterElement(self) -> Optional[AutosarParameterRef]:
         """
-        Gets the used parameter element reference for this assignment.
-
-        Returns:
-            AutosarParameterRef: The used parameter element reference
+        The ParameterDataPrototype used in this role, e.g. • ROM Block of an NVRAM Block. It shall belong to the same SwcInternalBehavior or BswInternalbehavior. • In the role signalBasedDiagnostics it has to refer to a ParameterDataPrototype in a ParameterInterface.
         """
         return self.usedParameterElement
 
-    def setUsedParameterElement(self, value):
+    def setUsedParameterElement(self, value: Optional[AutosarParameterRef]) -> RoleBasedDataAssignment:
         """
-        Sets the used parameter element reference for this assignment.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The used parameter element reference to set
-
-        Returns:
-            self for method chaining
+        The ParameterDataPrototype used in this role, e.g. • ROM Block of an NVRAM Block. It shall belong to the same SwcInternalBehavior or BswInternalbehavior. • In the role signalBasedDiagnostics it has to refer to a ParameterDataPrototype in a ParameterInterface. A None value is a no-op and does not overwrite an existing usedParameterElement.
         """
-        self.usedParameterElement = value
+        if value is not None:
+            self.usedParameterElement = value
         return self
 
-    def getUsedPimRef(self):
+    def getUsedPimRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the PIM (Port Interface Mapping) for this assignment.
-
-        Returns:
-            RefType: The PIM reference
+        The (untyped) PerInstanceMemory used in this role (e.g. as a Permanent RAM Block for an NVRAM Block).
         """
         return self.usedPimRef
 
-    def setUsedPimRef(self, value):
+    def setUsedPimRef(self, value: Optional[RefType]) -> RoleBasedDataAssignment:
         """
-        Sets the reference to the PIM (Port Interface Mapping) for this assignment.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The PIM reference to set
-
-        Returns:
-            self for method chaining
+        The (untyped) PerInstanceMemory used in this role (e.g. as a Permanent RAM Block for an NVRAM Block). A None value is a no-op and does not overwrite an existing usedPimRef.
         """
-        self.usedPimRef = value
+        if value is not None:
+            self.usedPimRef = value
         return self
 
 
@@ -4403,3 +4364,8 @@ class WarningIndicatorRequestedBitNeeds(ServiceNeeds):
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+
+# Runtime cycle-breaker: SWComponentTemplate.SwcInternalBehavior.__init__ -> ServiceMapping imports this module,
+# so the DataElements import must run after every class above is defined (Rule 0005).
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef, AutosarVariableRef  # noqa: E402
