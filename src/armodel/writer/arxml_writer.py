@@ -6449,19 +6449,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(data_ids) > 0:
             child_element = ET.SubElement(element, "DATA-IDS")
             for data_id in data_ids:
-                self.setChildElementOptionalNumericalValue(child_element, "DATA-ID", data_id)
+                self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID", data_id)
 
     def setEndToEndDescription(self, element: ET.Element, key: str, desc: EndToEndDescription):
         if desc is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, desc)
-            self.setChildElementOptionalLiteral(child_element, "CATEGORY", desc.getCategory())
+            self.setChildElementOptionalNameToken(child_element, "CATEGORY", desc.getCategory())
             self.writeEndToEndDescriptionDataIds(child_element, desc)
             self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID-MODE", desc.getDataIdMode())
             self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", desc.getDataLength())
             self.setChildElementOptionalPositiveInteger(child_element, "MAX-DELTA-COUNTER-INIT", desc.getMaxDeltaCounterInit())
             self.setChildElementOptionalPositiveInteger(child_element, "CRC-OFFSET", desc.getCrcOffset())
             self.setChildElementOptionalPositiveInteger(child_element, "COUNTER-OFFSET", desc.getCounterOffset())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-NO-NEW-OR-REPEATED-DATA", desc.getMaxNoNewOrRepeatedData())
+            self.setChildElementOptionalPositiveInteger(child_element, "SYNC-COUNTER-INIT", desc.getSyncCounterInit())
+            self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID-NIBBLE-OFFSET", desc.getDataIdNibbleOffset())
 
     def setVariableDataPrototypeInSystemInstanceRef(self, element: ET.Element, key: str, instance_ref: VariableDataPrototypeInSystemInstanceRef):
         if instance_ref is not None:

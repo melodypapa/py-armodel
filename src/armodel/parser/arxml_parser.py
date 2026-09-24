@@ -8069,7 +8069,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readEndToEndDescriptionDataIds(self, element: ET.Element, parent: EndToEndDescription):
         child_element = self.find(element, "DATA-IDS")
         if child_element is not None:
-            for value in self.getChildElementNumericalValueList(child_element, "DATA-ID"):
+            for value in self.getChildElementPositiveIntegerValueList(child_element, "DATA-ID"):
                 parent.addDataId(value)
 
     def getEndToEndDescription(self, element: ET.Element, key: str) -> EndToEndDescription:
@@ -8078,13 +8078,16 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             desc = EndToEndDescription()
             self.readARObject(child_element, desc)
-            desc.setCategory(self.getChildElementOptionalLiteral(child_element, "CATEGORY"))
+            desc.setCategory(self.getChildElementOptionalNameToken(child_element, "CATEGORY"))
             self.readEndToEndDescriptionDataIds(child_element, desc)
             desc.setDataIdMode(self.getChildElementOptionalPositiveInteger(child_element, "DATA-ID-MODE"))
             desc.setDataLength(self.getChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH"))
             desc.setMaxDeltaCounterInit(self.getChildElementOptionalPositiveInteger(child_element, "MAX-DELTA-COUNTER-INIT"))
             desc.setCrcOffset(self.getChildElementOptionalPositiveInteger(child_element, "CRC-OFFSET"))
             desc.setCounterOffset(self.getChildElementOptionalPositiveInteger(child_element, "COUNTER-OFFSET"))
+            desc.setMaxNoNewOrRepeatedData(self.getChildElementOptionalPositiveInteger(child_element, "MAX-NO-NEW-OR-REPEATED-DATA"))
+            desc.setSyncCounterInit(self.getChildElementOptionalPositiveInteger(child_element, "SYNC-COUNTER-INIT"))
+            desc.setDataIdNibbleOffset(self.getChildElementOptionalPositiveInteger(child_element, "DATA-ID-NIBBLE-OFFSET"))
         return desc
 
     def getVariableDataPrototypeInSystemInstanceRef(self, element: ET.Element) -> VariableDataPrototypeInSystemInstanceRef:
