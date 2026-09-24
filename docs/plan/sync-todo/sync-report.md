@@ -53,7 +53,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `AutosarParameterRef`                                   | [ ] Pending | N/A                                      | Group10         |
 | `AutosarVariableRef`                                    | [ ] Pending | N/A                                      | Group10         |
 | `BackgroundEvent`                                       | [x] Done    | 27b88a94                                 | Group2          |
-| `BindingTimeEnum`                                       | [ ] Pending | N/A                                      | Group8          |
+| `BindingTimeEnum`                                       | [x] Done    | 53bf1808                                 | Group8          |
 | `BlueprintGenerator`                                    | [ ] Pending | N/A                                      | Group8          |
 | `BlueprintMapping`                                      | [ ] Pending | N/A                                      | Group8          |
 | `BlueprintMappingSet`                                   | [x] Done    | 3ba85998bb8a378d2fc76d8f0aa2eb58ad86d6f4 | Group1          |
