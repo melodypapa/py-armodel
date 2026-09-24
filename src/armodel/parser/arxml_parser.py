@@ -2093,8 +2093,8 @@ class ARXMLParser(AbstractARXMLParser):
     def getRoleBasedPortAssignment(self, element: ET.Element) -> RoleBasedPortAssignment:
         assignment = RoleBasedPortAssignment()
         self.readARObject(element, assignment)
-        assignment.portPrototypeRef = self.getChildElementOptionalRefType(element, "PORT-PROTOTYPE-REF")
-        assignment.role = self.getChildElementOptionalLiteral(element, "ROLE")
+        assignment.setPortPrototypeRef(self.getChildElementOptionalRefType(element, "PORT-PROTOTYPE-REF"))
+        assignment.setRole(self.getChildElementOptionalIdentifier(element, "ROLE"))
         return assignment
 
     def getRoleBasedDataTypeAssignment(self, element: ET.Element) -> RoleBasedDataTypeAssignment:

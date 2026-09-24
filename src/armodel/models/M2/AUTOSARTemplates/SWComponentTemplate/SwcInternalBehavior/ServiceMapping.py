@@ -74,65 +74,53 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class RoleBasedPortAssignment(ARObject, VariationPointCapable):
     """
-    A role-based port assignment that links a port prototype to a specific
-    role within a service dependency.
+    This class specifies an assignment of a role to a particular service port (RPortPrototype or PPortPrototype) of an AtomicSwComponentType. With this assignment, the role of the service port can be mapped to a specific ServiceNeeds element, so that a tool is able to create the correct connector.
     """
 
     # RoleBasedPortAssignment method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getPortPrototypeRef          [x] impl  [x] docstring  [ ] test
-    # [ ] setPortPrototypeRef          [x] impl  [x] docstring  [ ] test
-    # [ ] getRole                      [x] impl  [x] docstring  [ ] test
-    # [ ] setRole                      [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.54, p.605
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPortPrototypeRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPortPrototypeRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRole             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRole             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.portPrototypeRef: RefType = None
-        self.role: Identifier = None
+        # Service PortPrototype used in the assigned role. This PortPrototype shall either belong to the same AtomicSwComponentType as the SwcInternalBehavior which owns the ServiceDependency or to the same NvBlockSwComponentType as the NvBlockDescriptor.
+        self.portPrototypeRef: Optional[RefType] = None
 
-    def getPortPrototypeRef(self):
+        # This is the role of the assigned Port in the given context. The value shall be a shortName of the Blueprint of a PortInterface as standardized in the Software Specification of the related AUTOSAR Service.
+        self.role: Optional[Identifier] = None
+
+    def getPortPrototypeRef(self) -> Optional[RefType]:
         """
-        Gets the port prototype reference.
-
-        Returns:
-            RefType: The port prototype reference
+        Service PortPrototype used in the assigned role. This PortPrototype shall either belong to the same AtomicSwComponentType as the SwcInternalBehavior which owns the ServiceDependency or to the same NvBlockSwComponentType as the NvBlockDescriptor.
         """
         return self.portPrototypeRef
 
-    def setPortPrototypeRef(self, value):
+    def setPortPrototypeRef(self, value: Optional[RefType]) -> "RoleBasedPortAssignment":
         """
-        Sets the port prototype reference.
-
-        Args:
-            value: The port prototype reference to set
-
-        Returns:
-            self for method chaining
+        Service PortPrototype used in the assigned role. This PortPrototype shall either belong to the same AtomicSwComponentType as the SwcInternalBehavior which owns the ServiceDependency or to the same NvBlockSwComponentType as the NvBlockDescriptor. A None value is a no-op and does not overwrite an existing portPrototypeRef.
         """
-        self.portPrototypeRef = value
+        if value is not None:
+            self.portPrototypeRef = value
         return self
 
-    def getRole(self):
+    def getRole(self) -> Optional[Identifier]:
         """
-        Gets the role identifier.
-
-        Returns:
-            Identifier: The role identifier
+        This is the role of the assigned Port in the given context. The value shall be a shortName of the Blueprint of a PortInterface as standardized in the Software Specification of the related AUTOSAR Service.
         """
         return self.role
 
-    def setRole(self, value):
+    def setRole(self, value: Optional[Identifier]) -> "RoleBasedPortAssignment":
         """
-        Sets the role identifier.
-
-        Args:
-            value: The role identifier to set
-
-        Returns:
-            self for method chaining
+        This is the role of the assigned Port in the given context. The value shall be a shortName of the Blueprint of a PortInterface as standardized in the Software Specification of the related AUTOSAR Service. A None value is a no-op and does not overwrite an existing role.
         """
-        self.role = value
+        if value is not None:
+            self.role = value
         return self
 
 

@@ -5078,8 +5078,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeRoleBasedPortAssignment(self, element: ET.Element, assignment: RoleBasedPortAssignment):
         child_element = ET.SubElement(element, "ROLE-BASED-PORT-ASSIGNMENT")
         self.writeARObject(child_element, assignment)
-        self.setChildElementOptionalRefType(child_element, "PORT-PROTOTYPE-REF", assignment.portPrototypeRef)
-        self.setChildElementOptionalLiteral(child_element, "ROLE", assignment.role)
+        self.setChildElementOptionalRefType(child_element, "PORT-PROTOTYPE-REF", assignment.getPortPrototypeRef())
+        self.setChildElementOptionalIdentifier(child_element, "ROLE", assignment.getRole())
 
     def writeSwcServiceDependencyAssignedData(self, element: ET.Element, dependency: SwcServiceDependency):
         assigned_data = dependency.getAssignedData()
