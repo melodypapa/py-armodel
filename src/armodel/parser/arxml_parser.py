@@ -7001,9 +7001,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getModeSwitchSenderComSpec(self, element) -> ModeSwitchSenderComSpec:
         com_spec = ModeSwitchSenderComSpec()
+        self.readPPortComSpec(element, com_spec)
+        com_spec.setEnhancedModeApi(self.getChildElementOptionalBooleanValue(element, "ENHANCED-MODE-API"))
         com_spec.setModeGroupRef(self.getChildElementOptionalRefType(element, "MODE-GROUP-REF"))
         com_spec.setModeSwitchedAck(self.getModeSwitchedAckRequest(element, "MODE-SWITCHED-ACK"))
-        com_spec.setQueueLength(self.getChildElementOptionalNumericalValue(element, "QUEUE-LENGTH"))
+        com_spec.setQueueLength(self.getChildElementOptionalPositiveInteger(element, "QUEUE-LENGTH"))
         return com_spec
 
     def getNvProvideComSpec(self, element: ET.Element) -> NvProvideComSpec:

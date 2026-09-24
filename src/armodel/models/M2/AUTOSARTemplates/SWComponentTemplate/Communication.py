@@ -1127,118 +1127,91 @@ class ModeSwitchedAckRequest(ARObject):
 
 class ModeSwitchSenderComSpec(PPortComSpec):
     """
-    Communication attributes of PPortPrototypes with respect to mode communication.
+    Communication attributes of PPortPrototypes with respect to mode communication
     """
 
     # ModeSwitchSenderComSpec method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getEnhancedModeApi           [x] impl  [x] docstring  [ ] test
-    # [ ] setEnhancedModeApi           [x] impl  [x] docstring  [ ] test
-    # [ ] getModeGroupRef              [x] impl  [x] docstring  [ ] test
-    # [ ] setModeGroupRef              [x] impl  [x] docstring  [ ] test
-    # [ ] getModeSwitchedAck           [x] impl  [x] docstring  [ ] test
-    # [ ] setModeSwitchedAck           [x] impl  [x] docstring  [ ] test
-    # [ ] getQueueLength               [x] impl  [x] docstring  [ ] test
-    # [ ] setQueueLength               [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.79, p.190
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEnhancedModeApi   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnhancedModeApi   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeGroupRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeGroupRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeSwitchedAck   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeSwitchedAck   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getQueueLength       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setQueueLength       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.enhancedModeApi: Boolean = None
-        self.modeGroupRef: RefType = None
-        self.modeSwitchedAck: ModeSwitchedAckRequest = None
-        self.queueLength: PositiveInteger = None
+        # This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to "true" the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE.
+        self.enhancedModeApi: Optional[Boolean] = None
 
-    def getEnhancedModeApi(self):
+        # ModeDeclarationGroupPrototype (of the same PortInterface) to which these communication attributes apply. [constr_1895]
+        self.modeGroupRef: Optional[RefType] = None
+
+        # If this aggregation exists an acknowledgement for the successful processing of the mode switch request is required.
+        self.modeSwitchedAck: Optional[ModeSwitchedAckRequest] = None
+
+        # Length of call queue on the mode user side. The queue is implemented by the RTE. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed. [constr_1894]
+        self.queueLength: Optional[PositiveInteger] = None
+
+    def getEnhancedModeApi(self) -> Optional[Boolean]:
         """
-        Gets whether the enhanced mode API is enabled.
-
-        Returns:
-            Boolean: True if enhanced mode API is enabled
+        This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to "true" the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE.
         """
         return self.enhancedModeApi
 
-    def setEnhancedModeApi(self, value):
+    def setEnhancedModeApi(self, value: Optional[Boolean]) -> ModeSwitchSenderComSpec:
         """
-        Sets whether the enhanced mode API is enabled.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The enhanced mode API flag
-
-        Returns:
-            self for method chaining
+        This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to "true" the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE. A None value is a no-op and does not overwrite an existing enhancedModeApi.
         """
-        self.enhancedModeApi = value
+        if value is not None:
+            self.enhancedModeApi = value
         return self
 
-    def getModeGroupRef(self):
+    def getModeGroupRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the mode group.
-
-        Returns:
-            RefType: The mode group reference
+        ModeDeclarationGroupPrototype (of the same PortInterface) to which these communication attributes apply. [constr_1895]
         """
         return self.modeGroupRef
 
-    def setModeGroupRef(self, value):
+    def setModeGroupRef(self, value: Optional[RefType]) -> ModeSwitchSenderComSpec:
         """
-        Sets the reference to the mode group.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The mode group reference to set
-
-        Returns:
-            self for method chaining
+        ModeDeclarationGroupPrototype (of the same PortInterface) to which these communication attributes apply. [constr_1895] A None value is a no-op and does not overwrite an existing modeGroupRef.
         """
-        self.modeGroupRef = value
+        if value is not None:
+            self.modeGroupRef = value
         return self
 
-    def getModeSwitchedAck(self):
+    def getModeSwitchedAck(self) -> Optional[ModeSwitchedAckRequest]:
         """
-        Gets the mode switched acknowledgement request.
-
-        Returns:
-            ModeSwitchedAckRequest: The mode switched acknowledgement
+        If this aggregation exists an acknowledgement for the successful processing of the mode switch request is required.
         """
         return self.modeSwitchedAck
 
-    def setModeSwitchedAck(self, value):
+    def setModeSwitchedAck(self, value: Optional[ModeSwitchedAckRequest]) -> ModeSwitchSenderComSpec:
         """
-        Sets the mode switched acknowledgement request.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The mode switched acknowledgement request to set
-
-        Returns:
-            self for method chaining
+        If this aggregation exists an acknowledgement for the successful processing of the mode switch request is required. A None value is a no-op and does not overwrite an existing modeSwitchedAck.
         """
-        self.modeSwitchedAck = value
+        if value is not None:
+            self.modeSwitchedAck = value
         return self
 
-    def getQueueLength(self):
+    def getQueueLength(self) -> Optional[PositiveInteger]:
         """
-        Gets the length of the mode switch queue.
-
-        Returns:
-            PositiveInteger: The queue length
+        Length of call queue on the mode user side. The queue is implemented by the RTE. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed. [constr_1894]
         """
         return self.queueLength
 
-    def setQueueLength(self, value):
+    def setQueueLength(self, value: Optional[PositiveInteger]) -> ModeSwitchSenderComSpec:
         """
-        Sets the length of the mode switch queue.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The queue length to set
-
-        Returns:
-            self for method chaining
+        Length of call queue on the mode user side. The queue is implemented by the RTE. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed. [constr_1894] A None value is a no-op and does not overwrite an existing queueLength.
         """
-        self.queueLength = value
+        if value is not None:
+            self.queueLength = value
         return self
 
 

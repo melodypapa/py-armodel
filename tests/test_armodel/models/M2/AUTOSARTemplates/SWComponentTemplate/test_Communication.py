@@ -619,35 +619,83 @@ class TestModeSwitchedAckRequest:
 
 
 class TestModeSwitchSenderComSpec:
-    """Test class for ModeSwitchSenderComSpec class."""
+    """Test class for ModeSwitchSenderComSpec class (Table 4.79)."""
 
-    def test_mode_switch_sender_com_spec_initialization(self):
-        """Test ModeSwitchSenderComSpec initialization and methods."""
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings must be the Table 4.79 Notes copied verbatim."""
+        assert ModeSwitchSenderComSpec.__doc__.strip() == "Communication attributes of PPortPrototypes with respect to mode communication"
+        enhanced_note = 'This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to "true" the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE.'
+        assert ModeSwitchSenderComSpec.getEnhancedModeApi.__doc__.strip() == enhanced_note
+        assert ModeSwitchSenderComSpec.setEnhancedModeApi.__doc__.strip() == enhanced_note + " A None value is a no-op and does not overwrite an existing enhancedModeApi."
+        mode_group_note = "ModeDeclarationGroupPrototype (of the same PortInterface) to which these communication attributes apply. [constr_1895]"
+        assert ModeSwitchSenderComSpec.getModeGroupRef.__doc__.strip() == mode_group_note
+        assert ModeSwitchSenderComSpec.setModeGroupRef.__doc__.strip() == mode_group_note + " A None value is a no-op and does not overwrite an existing modeGroupRef."
+        ack_note = "If this aggregation exists an acknowledgement for the successful processing of the mode switch request is required."
+        assert ModeSwitchSenderComSpec.getModeSwitchedAck.__doc__.strip() == ack_note
+        assert ModeSwitchSenderComSpec.setModeSwitchedAck.__doc__.strip() == ack_note + " A None value is a no-op and does not overwrite an existing modeSwitchedAck."
+        queue_note = "Length of call queue on the mode user side. The queue is implemented by the RTE. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed. [constr_1894]"
+        assert ModeSwitchSenderComSpec.getQueueLength.__doc__.strip() == queue_note
+        assert ModeSwitchSenderComSpec.setQueueLength.__doc__.strip() == queue_note + " A None value is a no-op and does not overwrite an existing queueLength."
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject + PPortComSpec — Python base is PPortComSpec (most-derived, Table 4.58); setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(ModeSwitchSenderComSpec, PPortComSpec)
+        assert issubclass(ModeSwitchSenderComSpec, ARObject)
+        assert ModeSwitchSenderComSpec.__dict__["setEnhancedModeApi"].__annotations__["return"] == "ModeSwitchSenderComSpec"
+        assert ModeSwitchSenderComSpec.__dict__["setModeGroupRef"].__annotations__["return"] == "ModeSwitchSenderComSpec"
+        assert ModeSwitchSenderComSpec.__dict__["setModeSwitchedAck"].__annotations__["return"] == "ModeSwitchSenderComSpec"
+        assert ModeSwitchSenderComSpec.__dict__["setQueueLength"].__annotations__["return"] == "ModeSwitchSenderComSpec"
+
+    def test_initialization_defaults(self):
+        """Test ModeSwitchSenderComSpec field defaults."""
         sender = ModeSwitchSenderComSpec()
         assert sender.enhancedModeApi is None
         assert sender.modeGroupRef is None
         assert sender.modeSwitchedAck is None
         assert sender.queueLength is None
 
-        # Test setters and getters
-        api = Boolean()
-        api.setValue(True)
-        sender.setEnhancedModeApi(api)
-        assert sender.getEnhancedModeApi() == api
+    def test_get_set_enhanced_mode_api(self):
+        """Test enhancedModeApi accessor pair, chaining and None no-op."""
+        sender = ModeSwitchSenderComSpec()
+        value = Boolean()
+        value.setValue(True)
+        result = sender.setEnhancedModeApi(value)
+        assert result is sender
+        assert sender.getEnhancedModeApi() is value
+        sender.setEnhancedModeApi(None)
+        assert sender.getEnhancedModeApi() is value
 
-        ref = RefType()
-        ref.setValue("/Test/ModeGroup")
-        sender.setModeGroupRef(ref)
-        assert sender.getModeGroupRef() == ref
+    def test_get_set_mode_group_ref(self):
+        """Test modeGroupRef accessor pair, chaining and None no-op."""
+        sender = ModeSwitchSenderComSpec()
+        value = RefType()
+        value.setValue("/ModeDcl/Group")
+        result = sender.setModeGroupRef(value)
+        assert result is sender
+        assert sender.getModeGroupRef() is value
+        sender.setModeGroupRef(None)
+        assert sender.getModeGroupRef() is value
 
-        ack_request = ModeSwitchedAckRequest()
-        sender.setModeSwitchedAck(ack_request)
-        assert sender.getModeSwitchedAck() == ack_request
+    def test_get_set_mode_switched_ack(self):
+        """Test modeSwitchedAck accessor pair, chaining and None no-op."""
+        sender = ModeSwitchSenderComSpec()
+        value = ModeSwitchedAckRequest()
+        result = sender.setModeSwitchedAck(value)
+        assert result is sender
+        assert sender.getModeSwitchedAck() is value
+        sender.setModeSwitchedAck(None)
+        assert sender.getModeSwitchedAck() is value
 
-        queue_len = PositiveInteger()
-        queue_len.setValue(5)
-        sender.setQueueLength(queue_len)
-        assert sender.getQueueLength() == queue_len
+    def test_get_set_queue_length(self):
+        """Test queueLength accessor pair, chaining and None no-op."""
+        sender = ModeSwitchSenderComSpec()
+        value = PositiveInteger()
+        value.setValue(5)
+        result = sender.setQueueLength(value)
+        assert result is sender
+        assert sender.getQueueLength() is value
+        sender.setQueueLength(None)
+        assert sender.getQueueLength() is value
 
 
 class TestParameterProvideComSpec:
