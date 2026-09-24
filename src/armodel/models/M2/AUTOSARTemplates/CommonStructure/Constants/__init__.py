@@ -367,49 +367,35 @@ class ArrayValueSpecification(CompositeValueSpecification):
 
 class ConstantSpecification(ARElement):
     """
-    Represents a constant specification in AUTOSAR models.
-    This class contains a value specification for defining constants in AUTOSAR systems.
+    Specification of a constant that can be part of a package, i.e. it can be defined stand-alone. Tags: atp.recommendedPackage=ConstantSpecifications
     """
 
     # ConstantSpecification method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getValueSpec                 [x] impl  [x] docstring  [x] test
-    # [x] setValueSpec                 [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.108, p.433
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValueSpec   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValueSpec   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name):
-        """
-        Initializes the ConstantSpecification with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this constant specification
-            short_name: The unique short name of this constant specification
-        """
         super().__init__(parent, short_name)
 
-        # Value specification for this constant
-        self.valueSpec: ValueSpecification = None
+        # Specification of an expression leading to a value for this constant. Stereotypes: atpSplitable Tags: atp.Splitkey=valueSpec
+        self.valueSpec: Optional[ValueSpecification] = None
 
-    def getValueSpec(self):
+    def getValueSpec(self) -> Optional[ValueSpecification]:
         """
-        Gets the value specification for this constant.
-
-        Returns:
-            ValueSpecification: The value specification
+        Specification of an expression leading to a value for this constant. Stereotypes: atpSplitable Tags: atp.Splitkey=valueSpec.
         """
         return self.valueSpec
 
-    def setValueSpec(self, value):
+    def setValueSpec(self, value: Optional[ValueSpecification]) -> ConstantSpecification:
         """
-        Sets the value specification for this constant.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The value specification to set
-
-        Returns:
-            self for method chaining
+        Specification of an expression leading to a value for this constant. Stereotypes: atpSplitable Tags: atp.Splitkey=valueSpec.
+        A None value is a no-op and does not overwrite an existing valueSpec.
         """
-        self.valueSpec = value
+        if value is not None:
+            self.valueSpec = value
         return self
 
 
