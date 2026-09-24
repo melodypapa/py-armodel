@@ -1011,3 +1011,56 @@ class TestHandleOutOfRangeEnum:
         assert HandleOutOfRangeEnum.INVALID in values
         assert HandleOutOfRangeEnum.NONE in values
         assert HandleOutOfRangeEnum.SATURATE in values
+
+
+class TestReceptionComSpecProps:
+    """Test class for ReceptionComSpecProps class (Table 4.64)."""
+
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings must be the Table 4.64 Notes copied verbatim."""
+        assert ReceptionComSpecProps.__doc__.strip() == "This meta-class defines a set of reception attributes which the application software is assumed to implement."
+        data_update_period_note = (
+            "This attribute defines the period in which the application shall check for updated data. This attribute is used for the configuration "
+            "of the E2E protection, but may also indicate a general data reception period."
+        )
+        assert ReceptionComSpecProps.getDataUpdatePeriod.__doc__.strip() == data_update_period_note
+        assert ReceptionComSpecProps.setDataUpdatePeriod.__doc__.strip() == data_update_period_note + " A None value is a no-op and does not overwrite an existing dataUpdatePeriod."
+        timeout_note = (
+            "This attribute defines the time interval after which the application shall assume that the to be received data reception has timed out, "
+            "i.e. the respective data has not been received for that amount of time."
+        )
+        assert ReceptionComSpecProps.getTimeout.__doc__.strip() == timeout_note
+        assert ReceptionComSpecProps.setTimeout.__doc__.strip() == timeout_note + " A None value is a no-op and does not overwrite an existing timeout."
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject — Python base is ARObject; setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(ReceptionComSpecProps, ARObject)
+        for name in ("setDataUpdatePeriod", "setTimeout"):
+            assert ReceptionComSpecProps.__dict__[name].__annotations__["return"] == "ReceptionComSpecProps"
+
+    def test_initialization_defaults(self):
+        props = ReceptionComSpecProps()
+        assert props.dataUpdatePeriod is None
+        assert props.timeout is None
+        assert props.getDataUpdatePeriod() is None
+        assert props.getTimeout() is None
+
+    def test_get_set_data_update_period(self):
+        props = ReceptionComSpecProps()
+        value = TimeValue()
+        value.setValue(0.02)
+        result = props.setDataUpdatePeriod(value)
+        assert result is props
+        assert props.getDataUpdatePeriod() is value
+        props.setDataUpdatePeriod(None)
+        assert props.getDataUpdatePeriod() is value
+
+    def test_get_set_timeout(self):
+        props = ReceptionComSpecProps()
+        value = TimeValue()
+        value.setValue(2.5)
+        result = props.setTimeout(value)
+        assert result is props
+        assert props.getTimeout() is value
+        props.setTimeout(None)
+        assert props.getTimeout() is value

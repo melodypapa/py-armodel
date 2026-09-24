@@ -5,6 +5,8 @@ for different types of port communication such as sender/receiver, client/server
 and mode switching communications, as well as non-volatile and parameter communications.
 """
 
+from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional
 
@@ -87,12 +89,12 @@ class ReceptionComSpecProps(ARObject):
 
     # ReceptionComSpecProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.64, p.174
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDataUpdatePeriod  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataUpdatePeriod  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeout           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeout           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataUpdatePeriod  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataUpdatePeriod  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeout           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeout           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -105,27 +107,13 @@ class ReceptionComSpecProps(ARObject):
 
     def getDataUpdatePeriod(self) -> Optional[TimeValue]:
         """
-        Gets the period in which the application shall check for updated data.
-
         This attribute defines the period in which the application shall check for updated data. This attribute is used for the configuration of the E2E protection, but may also indicate a general data reception period.
-
-        Returns:
-            TimeValue representing the data update period, or None if not set
         """
         return self.dataUpdatePeriod
 
-    def setDataUpdatePeriod(self, value: Optional[TimeValue]) -> "ReceptionComSpecProps":
+    def setDataUpdatePeriod(self, value: Optional[TimeValue]) -> ReceptionComSpecProps:
         """
-        Sets the period in which the application shall check for updated data.
-        A None value is a no-op and does not overwrite an existing data update period.
-
-        This attribute defines the period in which the application shall check for updated data. This attribute is used for the configuration of the E2E protection, but may also indicate a general data reception period.
-
-        Args:
-            value: The data update period TimeValue to set
-
-        Returns:
-            self for method chaining
+        This attribute defines the period in which the application shall check for updated data. This attribute is used for the configuration of the E2E protection, but may also indicate a general data reception period. A None value is a no-op and does not overwrite an existing dataUpdatePeriod.
         """
         if value is not None:
             self.dataUpdatePeriod = value
@@ -133,27 +121,13 @@ class ReceptionComSpecProps(ARObject):
 
     def getTimeout(self) -> Optional[TimeValue]:
         """
-        Gets the time interval after which the application shall assume that the to be received data reception has timed out.
-
         This attribute defines the time interval after which the application shall assume that the to be received data reception has timed out, i.e. the respective data has not been received for that amount of time.
-
-        Returns:
-            TimeValue representing the timeout, or None if not set
         """
         return self.timeout
 
-    def setTimeout(self, value: Optional[TimeValue]) -> "ReceptionComSpecProps":
+    def setTimeout(self, value: Optional[TimeValue]) -> ReceptionComSpecProps:
         """
-        Sets the time interval after which the application shall assume that the to be received data reception has timed out.
-        A None value is a no-op and does not overwrite an existing timeout.
-
-        This attribute defines the time interval after which the application shall assume that the to be received data reception has timed out, i.e. the respective data has not been received for that amount of time.
-
-        Args:
-            value: The timeout TimeValue to set
-
-        Returns:
-            self for method chaining
+        This attribute defines the time interval after which the application shall assume that the to be received data reception has timed out, i.e. the respective data has not been received for that amount of time. A None value is a no-op and does not overwrite an existing timeout.
         """
         if value is not None:
             self.timeout = value
