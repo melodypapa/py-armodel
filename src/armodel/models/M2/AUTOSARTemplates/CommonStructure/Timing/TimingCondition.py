@@ -98,55 +98,49 @@ class ModeInBswInstanceRef(ModeInSwcBswInstanceRef):
 class ModeInSwcInstanceRef(AtpInstanceRef, ModeInSwcBswInstanceRef):
     """
     Instance reference to be capable of referencing a ModeDeclaration at a specific Mode Switch Port of a SW-C.
-
-    [constr_6899] Existence of ModeInSwcInstanceRef.base: For each ModeInSwcInstanceRef, the reference to SwComponentType in the role base shall exist at least once at the time when the Swc Timing Description is complete.
-    [constr_6855] Existence of ModeInSwcInstanceRef.contextModeDeclarationGroupPrototype: For each ModeInSwcInstanceRef, the reference to ModeDeclarationGroupPrototype in the role contextModeDeclarationGroupPrototype shall exist at least once at the time when the Swc Timing Description is complete.
-    [constr_6856] Existence of ModeInSwcInstanceRef.contextPort: For each ModeInSwcInstanceRef, the reference to PortPrototype in the role contextPort shall exist at least once at the time when the Swc Timing Description is complete.
-    [constr_6857] Existence of ModeInSwcInstanceRef.targetModeDeclaration: For each ModeInSwcInstanceRef, the reference to ModeDeclaration in the role targetModeDeclaration shall exist at least once at the time when the Swc Timing Description is complete.
-
-    The Python bases AtpInstanceRef and ModeInSwcBswInstanceRef jointly stand in for the abstract spec base ModeInSwcBswInstanceRef.
     """
 
     # ModeInSwcInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.12, p.39
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBaseRef                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setBaseRef                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getContextComponentRefs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addContextComponentRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getContextModeDeclarationGroupPrototypeRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setContextModeDeclarationGroupPrototypeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getContextPortRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setContextPortRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTargetModeDeclarationRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTargetModeDeclarationRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element; `base` is an
+    #          atpDerived association XSD-skipped in group MODE-IN-SWC-INSTANCE-REF — field kept per the
+    #          PDF table, no XML element to read or write)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseRef                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setBaseRef                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextComponentRefs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContextComponentRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextModeDeclarationGroupPrototypeRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextModeDeclarationGroupPrototypeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextPortRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextPortRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetModeDeclarationRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetModeDeclarationRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # Specifies the SW component representing the base of the context. Stereotypes: atpDerived [constr_6899] The reference shall exist at least once at the time when the Swc Timing Description is complete.
+        # Specifies the SW component representing the base of the context.
         self.baseRef: Optional[RefType] = None
 
         # Specifies the SW component prototype representing the context.
         self.contextComponentRefs: List[RefType] = []
 
-        # Specifies the mode declaration group prototype that manifests the context. [constr_6855] The reference shall exist at least once at the time when the Swc Timing Description is complete.
+        # Specifies the mode declaration group prototype that manifests the context.
         self.contextModeDeclarationGroupPrototypeRef: Optional[RefType] = None
 
-        # Specifies the port prototype representing the context. [constr_6856] The reference shall exist at least once at the time when the Swc Timing Description is complete.
+        # Specifies the port prototype representing the context.
         self.contextPortRef: Optional[RefType] = None
 
-        # Specifies the specific mode declaration in the given context. [constr_6857] The reference shall exist at least once at the time when the Swc Timing Description is complete.
+        # Specifies the specific mode declaration in the given context.
         self.targetModeDeclarationRef: Optional[RefType] = None
 
     def getBaseRef(self) -> Optional[RefType]:
-        """Specifies the SW component representing the base of the context. Stereotypes: atpDerived [constr_6899] The reference shall exist at least once at the time when the Swc Timing Description is complete."""
+        """Specifies the SW component representing the base of the context."""
         return self.baseRef
 
     def setBaseRef(self, value: Optional[RefType]) -> "ModeInSwcInstanceRef":
-        """Specifies the SW component representing the base of the context. Stereotypes: atpDerived [constr_6899] The reference shall exist at least once at the time when the Swc Timing Description is complete. A None value is a no-op and does not overwrite an existing baseRef."""
+        """Specifies the SW component representing the base of the context. A None value is a no-op and does not overwrite an existing baseRef."""
         if value is not None:
             self.baseRef = value
         return self
@@ -162,31 +156,31 @@ class ModeInSwcInstanceRef(AtpInstanceRef, ModeInSwcBswInstanceRef):
         return self
 
     def getContextModeDeclarationGroupPrototypeRef(self) -> Optional[RefType]:
-        """Specifies the mode declaration group prototype that manifests the context. [constr_6855] The reference shall exist at least once at the time when the Swc Timing Description is complete."""
+        """Specifies the mode declaration group prototype that manifests the context."""
         return self.contextModeDeclarationGroupPrototypeRef
 
     def setContextModeDeclarationGroupPrototypeRef(self, value: Optional[RefType]) -> "ModeInSwcInstanceRef":
-        """Specifies the mode declaration group prototype that manifests the context. [constr_6855] The reference shall exist at least once at the time when the Swc Timing Description is complete. A None value is a no-op and does not overwrite an existing contextModeDeclarationGroupPrototypeRef."""
+        """Specifies the mode declaration group prototype that manifests the context. A None value is a no-op and does not overwrite an existing contextModeDeclarationGroupPrototypeRef."""
         if value is not None:
             self.contextModeDeclarationGroupPrototypeRef = value
         return self
 
     def getContextPortRef(self) -> Optional[RefType]:
-        """Specifies the port prototype representing the context. [constr_6856] The reference shall exist at least once at the time when the Swc Timing Description is complete."""
+        """Specifies the port prototype representing the context."""
         return self.contextPortRef
 
     def setContextPortRef(self, value: Optional[RefType]) -> "ModeInSwcInstanceRef":
-        """Specifies the port prototype representing the context. [constr_6856] The reference shall exist at least once at the time when the Swc Timing Description is complete. A None value is a no-op and does not overwrite an existing contextPortRef."""
+        """Specifies the port prototype representing the context. A None value is a no-op and does not overwrite an existing contextPortRef."""
         if value is not None:
             self.contextPortRef = value
         return self
 
     def getTargetModeDeclarationRef(self) -> Optional[RefType]:
-        """Specifies the specific mode declaration in the given context. [constr_6857] The reference shall exist at least once at the time when the Swc Timing Description is complete."""
+        """Specifies the specific mode declaration in the given context."""
         return self.targetModeDeclarationRef
 
     def setTargetModeDeclarationRef(self, value: Optional[RefType]) -> "ModeInSwcInstanceRef":
-        """Specifies the specific mode declaration in the given context. [constr_6857] The reference shall exist at least once at the time when the Swc Timing Description is complete. A None value is a no-op and does not overwrite an existing targetModeDeclarationRef."""
+        """Specifies the specific mode declaration in the given context. A None value is a no-op and does not overwrite an existing targetModeDeclarationRef."""
         if value is not None:
             self.targetModeDeclarationRef = value
         return self
