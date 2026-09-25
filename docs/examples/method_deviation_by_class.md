@@ -1146,6 +1146,15 @@ Class not in markdown/PDF — skipped per user (primitive `Integer` has no dedic
 | — *(missing)* | `—` | `shortName` | `Identifier` | — | missing |
 | — *(missing)* | `—` | `shortNameFragment` | `ShortNameFragment` | — | missing |
 
+## `ShortNameFragment`
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 64
+- **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py`
+
+No deviations.
+
+> Resolution Note (sync 2026-09-24, section added 2026-09-25 — the sync's Step 8 claimed this section but it never landed): synced against the home document `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`, Table 4.13, p.64 (R4.3.1 Table 4.18, p.64 reproduction byte-identical). Fields/accessors match the spec exactly — `fragment` (Identifier, 1, attr) then `role` (String, 1, attr) in displayed order; no naming/type/missing deviations. Sync fixes: `role` retyped `Optional[str]` → `Optional[String]` (Rule 0001.3) and member/accessor order corrected role→fragment to the displayed fragment→role order (Rule 0001.11); reader ROLE read now uses the matched `getChildElementOptionalString`/`setChildElementOptionalString` pair and the writer the getter counterpart (fixes raw-string assignment of a `String` object). `9b` confirmed 2026-09-25 (user, one-by-one review) — `# Spec verified: R23-11` written, feat commit 519d50539. Tests: test_Identifiable.py (model), test_short_name_fragments.py (parser + writer round-trip). This section also resolves the dangling "see its section below" pointer in the `## Referrable` note above.
+
 ## `RoleBasedMcDataAssignment`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 329
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport`
