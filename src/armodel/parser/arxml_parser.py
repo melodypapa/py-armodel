@@ -4273,6 +4273,17 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readBswInternalTriggeringPoint(self, element: ET.Element, point: BswInternalTriggeringPoint):
         self.readIdentifiable(element, point)
+        literal = self.getChildElementOptionalLiteral(element, "SW-IMPL-POLICY")
+        if literal is not None:
+            camel = None
+            for camel_value, token in SW_IMPL_POLICY_XML_MAP.items():
+                if token == literal.getText():
+                    camel = camel_value
+                    break
+            if camel is not None:
+                point.setSwImplPolicy(SwImplPolicyEnum().setValue(camel))
+            else:
+                self.notImplemented("Unsupported SW-IMPL-POLICY <%s>" % literal.getText())
 
     def readBswInternalBehaviorInternalTriggeringPoints(self, element: ET.Element, behavior: BswInternalBehavior):
         for child_element in self.findall(element, "INTERNAL-TRIGGERING-POINTS/*"):

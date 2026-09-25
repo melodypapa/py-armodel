@@ -7240,7 +7240,17 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeBswInternalTriggeringPoint(self, element: ET.Element, point: BswInternalTriggeringPoint):
         child_element = ET.SubElement(element, "BSW-INTERNAL-TRIGGERING-POINT")
-        self.writeIdentifiable(child_element, point)
+        self.writeIdentifiable(child_element, point, write_variation_point=False)
+        policy = point.getSwImplPolicy()
+        if policy is not None:
+            token = SW_IMPL_POLICY_XML_MAP.get(policy.getValue())
+            if token is None:
+                self.notImplemented("Unsupported SW-IMPL-POLICY <%s>" % policy.getValue())
+            else:
+                policy_element = ET.SubElement(child_element, "SW-IMPL-POLICY")
+                policy_element.text = token
+        if isinstance(point, VariationPointCapable):
+            self.writeVariationPoint(child_element, point.getVariationPoint())
 
     def writeBswInternalBehaviorInternalTriggeringPoints(self, element: ET.Element, behavior: BswInternalBehavior):
         points = behavior.getInternalTriggeringPoints()

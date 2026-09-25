@@ -196,6 +196,17 @@ No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 2.1 (p.42, R23-1
 |---|---|---|---|---|---|
 | — *(no deviations)* | — | — | — | - | none (2026-09-17 sync: XSD-only class, complexType `BSW-INTERNAL-TRIGGERING-POINT-POLICY`; attr `bswInternalTriggeringPoint` → `bswInternalTriggeringPointRef` RefType 0..1 with full reader/writer coverage incl. VARIATION-POINT; `enableTakeAddress` inherited from `BswApiOptions` — base class synced 2026-09-25 (XSD-only group class, AUTOSAR_00052.xsd L9379; stamp deferred to batch confirmation)) |
 
+## `BswInternalTriggeringPoint` (BSW Module Template)
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 91  | **table:** Table 5.28
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
+- **Note:** BSW-domain class of Table 5.28 — distinct from the SWC-domain `InternalTriggeringPoint`
+  (`SwcInternalBehavior/Trigger.py`, Swc TPS), which keeps its own spec table and class.
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviations)* | — | — | — | - | none (2026-09-26 sync: R23-11 Table 5.28; orphan-intake drift fixed — fabricated class docstring replaced with the Note verbatim, `__init__` docstring removed, bare `SwImplPolicyEnum = None` field retyped `Optional[SwImplPolicyEnum]`, accessors typed, old 4-col checklist rebuilt 6-col; attr `swImplPolicy` SwImplPolicyEnum 0..1 with full reader/writer coverage (`SW-IMPL-POLICY`, shared `SW_IMPL_POLICY_XML_MAP`) + VARIATION-POINT via the shared Identifiable helpers; Base `Identifiable` (most-derived, XSD chain AR-OBJECT→REFERRABLE→MULTILANGUAGE-REFERRABLE→IDENTIFIABLE) + `VariationPointCapable` mixin kept per Rule 0020 (XSD group AUTOSAR_00052.xsd L10773); reader/writer XML element order SW-IMPL-POLICY then VARIATION-POINT — writer uses `write_variation_point=False` idiom. No pre-existing fake intake marker found (nothing removed). Stamp deferred to batch confirmation. |
+
 ## `BswParameterPolicy`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf` (upstream document; class XSD-only)  | **XSD:** `AUTOSAR_00052.xsd` line 12325
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`

@@ -2249,47 +2249,32 @@ class BswQueuedDataReceptionPolicy(BswDataReceptionPolicy):
 
 class BswInternalTriggeringPoint(Identifiable, VariationPointCapable):
     """
-    Represents an internal triggering point in a BSW module's internal behavior.
-    This is used to define points from which triggers can be issued internally.
+    Represents the activation point for one or more BswInternalTriggerOccurredEvents.
     """
 
     # BswInternalTriggeringPoint method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getSwImplPolicy              [x] impl  [x] docstring  [ ] test
-    # [x] setSwImplPolicy              [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.28, p.91
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwImplPolicy   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwImplPolicy   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswInternalTriggeringPoint with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this triggering point
-            short_name: The unique short name of this triggering point
-        """
         super().__init__(parent, short_name)
 
-        # Software implementation policy for this triggering point
-        self.swImplPolicy: SwImplPolicyEnum = None
+        # This attribute, when set to value queued, specifies a queued processing of the internal trigger event.
+        self.swImplPolicy: Optional[SwImplPolicyEnum] = None
 
-    def getSwImplPolicy(self):
+    def getSwImplPolicy(self) -> Optional[SwImplPolicyEnum]:
         """
-        Gets the software implementation policy for this triggering point.
-
-        Returns:
-            SwImplPolicyEnum value
+        This attribute, when set to value queued, specifies a queued processing of the internal trigger event.
         """
         return self.swImplPolicy
 
-    def setSwImplPolicy(self, value):
+    def setSwImplPolicy(self, value: Optional[SwImplPolicyEnum]) -> BswInternalTriggeringPoint:
         """
-        Sets the software implementation policy for this triggering point.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The SwImplPolicyEnum value to set
-
-        Returns:
-            self for method chaining
+        This attribute, when set to value queued, specifies a queued processing of the internal trigger event.
+        A None value is a no-op and does not overwrite an existing swImplPolicy.
         """
         if value is not None:
             self.swImplPolicy = value

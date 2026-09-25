@@ -1015,6 +1015,43 @@ class TestBswSynchronousServerCallPointHandlers:
         assert points[0].getCalledEntryRef().getValue() == "/ent"
 
 
+class TestBswInternalTriggeringPointHandlers:
+    """Exercise readBswInternalTriggeringPoint SW-IMPL-POLICY and VARIATION-POINT coverage."""
+
+    def test_readBswInternalTriggeringPoint_sets_policy(self, parser):
+        from armodel.models import BswInternalTriggeringPoint
+
+        point = BswInternalTriggeringPoint(parent=_autosar_root(), short_name="tp")
+        element = _snip(
+            "<SHORT-NAME>tp</SHORT-NAME>" "<SW-IMPL-POLICY>QUEUED</SW-IMPL-POLICY>",
+            root_tag="BSW-INTERNAL-TRIGGERING-POINT",
+        )
+        parser.readBswInternalTriggeringPoint(element, point)
+        assert point.getSwImplPolicy() is not None
+        assert point.getSwImplPolicy().getValue() == "queued"
+
+    def test_readBswInternalTriggeringPoint_reads_variation_point(self, parser):
+        from armodel.models import BswInternalTriggeringPoint
+
+        point = BswInternalTriggeringPoint(parent=_autosar_root(), short_name="tp")
+        element = _snip(
+            "<SHORT-NAME>tp</SHORT-NAME>" "<VARIATION-POINT><SHORT-LABEL>lbl</SHORT-LABEL></VARIATION-POINT>",
+            root_tag="BSW-INTERNAL-TRIGGERING-POINT",
+        )
+        parser.readBswInternalTriggeringPoint(element, point)
+        assert point.getVariationPoint() is not None
+        assert point.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_readBswInternalTriggeringPoint_empty(self, parser):
+        from armodel.models import BswInternalTriggeringPoint
+
+        point = BswInternalTriggeringPoint(parent=_autosar_root(), short_name="tp")
+        element = _snip("<SHORT-NAME>tp</SHORT-NAME>", root_tag="BSW-INTERNAL-TRIGGERING-POINT")
+        parser.readBswInternalTriggeringPoint(element, point)
+        assert point.getSwImplPolicy() is None
+        assert point.getVariationPoint() is None
+
+
 # ==================== BSW entities dispatch (Called/Schedulable/Interrupt) ====================
 
 

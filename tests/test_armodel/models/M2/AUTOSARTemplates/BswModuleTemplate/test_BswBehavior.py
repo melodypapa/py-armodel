@@ -1651,7 +1651,7 @@ class TestBswQueuedDataReceptionPolicy:
 
 
 class TestBswInternalTriggeringPoint:
-    """Test cases for BswInternalTriggeringPoint class - represents an internal triggering point in a BSW module."""
+    """Test cases for BswInternalTriggeringPoint class - represents the activation point for one or more BswInternalTriggerOccurredEvents."""
 
     def test_initialization(self):
         document = AUTOSAR.getInstance()
@@ -1666,7 +1666,7 @@ class TestBswInternalTriggeringPoint:
         ar_root = document.createARPackage("AUTOSAR")
         point = BswInternalTriggeringPoint(ar_root, "test_internal_triggering_point")
 
-        policy = SwImplPolicyEnum()
+        policy = SwImplPolicyEnum().setValue(SwImplPolicyEnum.QUEUED)
         result = point.setSwImplPolicy(policy)
 
         assert result == point
@@ -1676,6 +1676,15 @@ class TestBswInternalTriggeringPoint:
         result = point.setSwImplPolicy(None)
         assert result == point
         assert point.getSwImplPolicy() == policy  # Value should remain unchanged
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswInternalTriggeringPoint.getSwImplPolicy)
+        assert getter_hints.get("return") == typing.Optional[SwImplPolicyEnum]
+
+        setter_hints = typing.get_type_hints(BswInternalTriggeringPoint.setSwImplPolicy)
+        assert setter_hints.get("value") == typing.Optional[SwImplPolicyEnum]
+        assert setter_hints.get("return") is BswInternalTriggeringPoint
 
 
 class TestBswInternalBehavior:

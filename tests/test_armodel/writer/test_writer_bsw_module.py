@@ -53,6 +53,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     IncludedModeDeclarationGroupSet,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -1429,6 +1430,65 @@ class TestWriterBswInternalTriggeringPointPolicyRoundTrip:
         assert policies[0].getEnableTakeAddress() is None
 
 
+class TestWriterBswInternalTriggeringPointRoundTrip:
+    def test_round_trip_internal_triggering_point(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        point = behavior.createBswInternalTriggeringPoint("tp")
+        point.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.QUEUED))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        point.setVariationPoint(variation_point)
+
+        out_file = tmp_path / "itp_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        points = behavior_2.getInternalTriggeringPoints()
+        assert len(points) == 1
+        point_2 = points[0]
+        assert point_2.getShortName() == "tp"
+        assert point_2.getSwImplPolicy() is not None
+        assert point_2.getSwImplPolicy().getValue() == "queued"
+        assert point_2.getVariationPoint() is not None
+        assert point_2.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_round_trip_internal_triggering_point_empty(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.createBswInternalTriggeringPoint("tp")
+
+        out_file = tmp_path / "itp_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        points = behavior_2.getInternalTriggeringPoints()
+        assert len(points) == 1
+        point_2 = points[0]
+        assert point_2.getSwImplPolicy() is None
+        assert point_2.getVariationPoint() is None
+
+
 class TestWriterBswParameterPolicies:
     def test_parameter_policy(self, writer):
         policy = BswParameterPolicy()
@@ -1911,9 +1971,46 @@ class TestWriterBswInternalTriggeringPoints:
     def test_internal_triggering_point(self, writer):
         behavior = _make_behavior()
         point = behavior.createBswInternalTriggeringPoint("itp")
+        point.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.QUEUED))
         parent = _parent()
         writer.writeBswInternalTriggeringPoint(parent, point)
         assert parent[0].tag == "BSW-INTERNAL-TRIGGERING-POINT"
+        policy_element = parent[0].find("SW-IMPL-POLICY")
+        assert policy_element is not None
+        assert policy_element.text == "QUEUED"
+        vp = parent[0].find("VARIATION-POINT")
+        assert vp is None
+
+    def test_internal_triggering_point_variation_point(self, writer):
+        behavior = _make_behavior()
+        point = behavior.createBswInternalTriggeringPoint("itp")
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        point.setVariationPoint(variation_point)
+        parent = _parent()
+        writer.writeBswInternalTriggeringPoint(parent, point)
+        assert parent[0].find("VARIATION-POINT") is not None
+
+    def test_internal_triggering_point_element_order(self, writer):
+        behavior = _make_behavior()
+        point = behavior.createBswInternalTriggeringPoint("itp")
+        point.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.STANDARD))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        point.setVariationPoint(variation_point)
+        parent = _parent()
+        writer.writeBswInternalTriggeringPoint(parent, point)
+        tags = [c.tag for c in parent[0]]
+        assert tags.index("SW-IMPL-POLICY") < tags.index("VARIATION-POINT")
+
+    def test_internal_triggering_point_empty(self, writer):
+        behavior = _make_behavior()
+        behavior.createBswInternalTriggeringPoint("itp")
+        parent = _parent()
+        writer.writeBswInternalTriggeringPoint(parent, behavior.getInternalTriggeringPoints()[0])
+        assert parent[0].tag == "BSW-INTERNAL-TRIGGERING-POINT"
+        assert parent[0].find("SW-IMPL-POLICY") is None
+        assert parent[0].find("VARIATION-POINT") is None
 
     def test_behavior_internal_triggering_points(self, writer):
         behavior = _make_behavior()
