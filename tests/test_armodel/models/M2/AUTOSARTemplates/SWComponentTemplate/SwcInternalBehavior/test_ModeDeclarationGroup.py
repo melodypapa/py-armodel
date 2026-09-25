@@ -3,35 +3,76 @@ This module contains comprehensive tests for the ModeDeclarationGroup module in 
 Tests cover all classes and methods in the ModeDeclarationGroup.py file to achieve 100% test coverage.
 """
 
+import typing
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import ModeGroupInAtomicSwcInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ModeAccessPointIdent
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet, ModeAccessPoint, ModeSwitchPoint
+
+
+def _make_ref(value):
+    ref = RefType()
+    ref.setValue(value)
+    return ref
 
 
 class TestModeAccessPoint:
     """Test class for ModeAccessPoint class."""
 
-    def test_mode_access_point_initialization(self):
-        """Test ModeAccessPoint initialization and methods."""
+    def test_initialization(self):
+        """Test ModeAccessPoint initialization defaults."""
         mode_access_point = ModeAccessPoint()
 
         assert mode_access_point.ident is None
         assert mode_access_point.modeGroupIRef is None
 
-        # Test ident methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ModeAccessPointIdent
+    def test_create_ident(self):
+        """Test ident factory: appended, duplicate returns existing."""
+        mode_access_point = ModeAccessPoint()
 
-        document = AUTOSAR.getInstance()
-        ar_root = document.createARPackage("AUTOSAR")
-        ident = ModeAccessPointIdent(ar_root, "TestIdent")
-        mode_access_point.setIdent(ident)
-        assert mode_access_point.getIdent() == ident
+        ident = mode_access_point.createIdent("map_ident")
+        assert isinstance(ident, ModeAccessPointIdent)
+        assert ident.getShortName() == "map_ident"
+        assert mode_access_point.getIdent() is ident
+        assert mode_access_point.createIdent("map_ident") is ident
 
-        # Test modeGroupIRef methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeGroupInAtomicSWCInstanceRef
+    def test_get_set_modeGroupIRef(self):
+        """Test modeGroupIRef round-trip, polymorphic P/R variants and None no-op."""
+        mode_access_point = ModeAccessPoint()
 
         iref = RModeGroupInAtomicSWCInstanceRef()
-        mode_access_point.setModeGroupIRef(iref)
-        assert mode_access_point.getModeGroupIRef() == iref
+        iref.setContextRPortRef(_make_ref("/rp"))
+        iref.setTargetModeGroupRef(_make_ref("/mg"))
+        assert mode_access_point.setModeGroupIRef(iref) is mode_access_point
+        assert mode_access_point.getModeGroupIRef() is iref
+
+        assert mode_access_point.setModeGroupIRef(None) is mode_access_point
+        assert mode_access_point.getModeGroupIRef() is iref
+
+        piref = PModeGroupInAtomicSwcInstanceRef()
+        piref.setContextPPortRef(_make_ref("/pp"))
+        piref.setTargetModeGroupRef(_make_ref("/mg"))
+        mode_access_point.setModeGroupIRef(piref)
+        assert mode_access_point.getModeGroupIRef() is piref
+
+    def test_get_type_hints(self):
+        """Test spec-typed annotations resolve at runtime (plain get_type_hints)."""
+        hints = typing.get_type_hints(ModeAccessPoint.setModeGroupIRef)
+        assert hints.get("value") == typing.Optional[ModeGroupInAtomicSwcInstanceRef]
+        assert hints.get("return") is ModeAccessPoint
+
+        assert typing.get_type_hints(ModeAccessPoint.getModeGroupIRef).get("return") == typing.Optional[ModeGroupInAtomicSwcInstanceRef]
+        assert typing.get_type_hints(ModeAccessPoint.getIdent).get("return") == typing.Optional[ModeAccessPointIdent]
+
+        create_hints = typing.get_type_hints(ModeAccessPoint.createIdent)
+        assert create_hints.get("short_name") is str
+        assert create_hints.get("return") is ModeAccessPointIdent
+
+    def test_ident_is_created_not_set(self):
+        """Rule 0001.6: ModeAccessPointIdent is a 0..1 Referrable child, created via createIdent(short_name)."""
+        assert not hasattr(ModeAccessPoint, "setIdent")
 
 
 class TestModeSwitchPoint:

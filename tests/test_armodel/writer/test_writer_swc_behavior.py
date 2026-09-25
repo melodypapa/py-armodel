@@ -31,7 +31,6 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceR
     ROperationInAtomicSwcInstanceRef,
     RVariableInAtomicSwcInstanceRef,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ModeAccessPointIdent
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     RunnableEntityArgument,
 )
@@ -1062,8 +1061,7 @@ class TestWriterRunnableEntity:
         behavior = _make_behavior()
         entity = behavior.createRunnableEntity("re1")
         point = ModeAccessPoint()
-        ident = ModeAccessPointIdent(point, "map_ident")
-        point.setIdent(ident)
+        point.createIdent("map_ident")
         iref = PModeGroupInAtomicSwcInstanceRef()
         iref.setContextPPortRef(_ref("/pp"))
         iref.setTargetModeGroupRef(_ref("/mg"))
@@ -1095,6 +1093,64 @@ class TestWriterRunnableEntity:
         parent = _parent()
         writer.writeRunnableEntityModeAccessPoints(parent, entity)
         assert parent.find("MODE-ACCESS-POINTS") is None
+
+    def test_writeRunnableEntityModeAccessPoints_rmode_values(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createRunnableEntity("re1")
+        point = ModeAccessPoint()
+        iref = RModeGroupInAtomicSWCInstanceRef()
+        iref.setContextRPortRef(_ref("/rp", "R-PORT-PROTOTYPE"))
+        iref.setTargetModeGroupRef(_ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        point.setModeGroupIRef(iref)
+        entity.addModeAccessPoint(point)
+        parent = _parent()
+        writer.writeRunnableEntityModeAccessPoints(parent, entity)
+        wrapper = parent.find("MODE-ACCESS-POINTS")
+        point_elem = wrapper.find("MODE-ACCESS-POINT")
+        mode_group_iref = point_elem.find("MODE-GROUP-IREF")
+        assert mode_group_iref is not None
+        r_iref_elem = mode_group_iref.find("R-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF")
+        assert r_iref_elem is not None
+        context_ref = r_iref_elem.find("CONTEXT-R-PORT-REF")
+        assert context_ref.get("DEST") == "R-PORT-PROTOTYPE"
+        assert context_ref.text == "/rp"
+        target_ref = r_iref_elem.find("TARGET-MODE-GROUP-REF")
+        assert target_ref.get("DEST") == "MODE-DECLARATION-GROUP-PROTOTYPE"
+        assert target_ref.text == "/mg"
+
+    def test_writeRunnableEntityModeAccessPoints_pmode_values(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createRunnableEntity("re1")
+        point = ModeAccessPoint()
+        iref = PModeGroupInAtomicSwcInstanceRef()
+        iref.setContextPPortRef(_ref("/pp", "P-PORT-PROTOTYPE"))
+        iref.setTargetModeGroupRef(_ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        point.setModeGroupIRef(iref)
+        entity.addModeAccessPoint(point)
+        parent = _parent()
+        writer.writeRunnableEntityModeAccessPoints(parent, entity)
+        point_elem = parent.find("MODE-ACCESS-POINTS").find("MODE-ACCESS-POINT")
+        mode_group_iref = point_elem.find("MODE-GROUP-IREF")
+        assert mode_group_iref is not None
+        p_iref_elem = mode_group_iref.find("P-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF")
+        assert p_iref_elem is not None
+        context_ref = p_iref_elem.find("CONTEXT-P-PORT-REF")
+        assert context_ref.get("DEST") == "P-PORT-PROTOTYPE"
+        assert context_ref.text == "/pp"
+        target_ref = p_iref_elem.find("TARGET-MODE-GROUP-REF")
+        assert target_ref.get("DEST") == "MODE-DECLARATION-GROUP-PROTOTYPE"
+        assert target_ref.text == "/mg"
+
+    def test_writeRunnableEntityModeAccessPoints_optional_children_omitted(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createRunnableEntity("re1")
+        point = ModeAccessPoint()
+        entity.addModeAccessPoint(point)
+        parent = _parent()
+        writer.writeRunnableEntityModeAccessPoints(parent, entity)
+        point_elem = parent.find("MODE-ACCESS-POINTS").find("MODE-ACCESS-POINT")
+        assert point_elem.find("IDENT") is None
+        assert point_elem.find("MODE-GROUP-IREF") is None
 
     def test_writeRunnableEntityExternalTriggeringPoints(self, writer):
         behavior = _make_behavior()

@@ -1190,7 +1190,7 @@ class TestRunnableEntityOrchestrator:
         behavior = swc.createSwcInternalBehavior("bh")
         runnable = behavior.createRunnableEntity("run")
         point = ModeAccessPoint()
-        point.setIdent(ModeAccessPointIdent(point, "map_ident"))
+        point.createIdent("map_ident")
         runnable.addModeAccessPoint(point)
 
         namespace = "http://autosar.org/schema/r4.0"
@@ -1208,6 +1208,95 @@ class TestRunnableEntityOrchestrator:
         assert ident is not None
         assert isinstance(ident, ModeAccessPointIdent)
         assert ident.getShortName() == "map_ident"
+
+    def test_readRunnableEntityModeAccessPoints_with_mode_group_iref(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        runnable = behavior.createRunnableEntity("run")
+        element = _snip(
+            "<SHORT-NAME>run</SHORT-NAME>"
+            "<MODE-ACCESS-POINTS>"
+            "<MODE-ACCESS-POINT>"
+            "<MODE-GROUP-IREF>"
+            "<R-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF>"
+            '<CONTEXT-R-PORT-REF DEST="R-PORT-PROTOTYPE">/swc/rp</CONTEXT-R-PORT-REF>'
+            '<TARGET-MODE-GROUP-REF DEST="MODE-DECLARATION-GROUP-PROTOTYPE">/mg/entry</TARGET-MODE-GROUP-REF>'
+            "</R-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF>"
+            "</MODE-GROUP-IREF>"
+            "</MODE-ACCESS-POINT>"
+            "<MODE-ACCESS-POINT>"
+            "<MODE-GROUP-IREF>"
+            "<P-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF>"
+            '<CONTEXT-P-PORT-REF DEST="P-PORT-PROTOTYPE">/swc/pp</CONTEXT-P-PORT-REF>'
+            '<TARGET-MODE-GROUP-REF DEST="MODE-DECLARATION-GROUP-PROTOTYPE">/mg/exit</TARGET-MODE-GROUP-REF>'
+            "</P-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF>"
+            "</MODE-GROUP-IREF>"
+            "</MODE-ACCESS-POINT>"
+            "</MODE-ACCESS-POINTS>",
+            root_tag="RUNNABLE-ENTITY",
+        )
+        parser.readRunnableEntity(element, runnable)
+        points = runnable.getModeAccessPoints()
+        assert len(points) == 2
+
+        r_iref = points[0].getModeGroupIRef()
+        assert isinstance(r_iref, RModeGroupInAtomicSWCInstanceRef)
+        assert r_iref.getContextRPortRef().getValue() == "/swc/rp"
+        assert r_iref.getContextRPortRef().getDest() == "R-PORT-PROTOTYPE"
+        assert r_iref.getTargetModeGroupRef().getValue() == "/mg/entry"
+
+        p_iref = points[1].getModeGroupIRef()
+        assert isinstance(p_iref, PModeGroupInAtomicSwcInstanceRef)
+        assert p_iref.getContextPPortRef().getValue() == "/swc/pp"
+        assert p_iref.getTargetModeGroupRef().getValue() == "/mg/exit"
+
+    def test_readRunnableEntityModeAccessPoints_round_trip_populated(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeGroupInAtomicSWCInstanceRef
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeAccessPoint
+        from armodel.writer.arxml_writer import ARXMLWriter
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        runnable = behavior.createRunnableEntity("run")
+        point = ModeAccessPoint()
+        point.createIdent("map_ident")
+        iref = RModeGroupInAtomicSWCInstanceRef()
+        context_ref = RefType()
+        context_ref.setValue("/swc/rp")
+        context_ref.setDest("R-PORT-PROTOTYPE")
+        iref.setContextRPortRef(context_ref)
+        target_ref = RefType()
+        target_ref.setValue("/mg/entry")
+        target_ref.setDest("MODE-DECLARATION-GROUP-PROTOTYPE")
+        iref.setTargetModeGroupRef(target_ref)
+        point.setModeGroupIRef(iref)
+        runnable.addModeAccessPoint(point)
+
+        namespace = "http://autosar.org/schema/r4.0"
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeRunnableEntityModeAccessPoints(parent, runnable)
+        inner = ET.tostring(parent).decode("utf-8")
+        container = ET.fromstring(f"<RUNNABLE-ENTITY xmlns='{namespace}'>{inner}</RUNNABLE-ENTITY>")
+        element = container[0]
+
+        recovered = behavior.createRunnableEntity("recovered")
+        parser.readRunnableEntityModeAccessPoints(element, recovered)
+        points = recovered.getModeAccessPoints()
+        assert len(points) == 1
+        recovered_point = points[0]
+        assert recovered_point.getIdent() is not None
+        assert recovered_point.getIdent().getShortName() == "map_ident"
+        recovered_iref = recovered_point.getModeGroupIRef()
+        assert isinstance(recovered_iref, RModeGroupInAtomicSWCInstanceRef)
+        assert recovered_iref.getContextRPortRef().getValue() == "/swc/rp"
+        assert recovered_iref.getContextRPortRef().getDest() == "R-PORT-PROTOTYPE"
+        assert recovered_iref.getTargetModeGroupRef().getValue() == "/mg/entry"
+        assert recovered_iref.getTargetModeGroupRef().getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
 
     def test_readRunnableEntity_with_modeSwitchPoints(self, parser):
         from armodel.models import ApplicationSwComponentType
