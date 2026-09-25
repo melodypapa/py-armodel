@@ -124,34 +124,27 @@ AtpMixedString(ABC)
 ├─ IndexEntry(ARObject, AtpMixedString)  ⚙ mixin pending
 │     Base: ARObject · MSR DataDictionary (InlineTextElements)
 │
-└─ MixedContentFor*(ARObject, AtpMixedString, ABC)  ← doc-model abstract bases
-      Base: ARObject (all variants) · GST appendix E / InlineTextModel package
-   │
-   ├─ MixedContentForLongName  ✔ IN SRC (ARObject, ABC) — mixin pending
+├─ MixedContentForLongName(ARObject, AtpMixedString, ABC)  ✔ IN SRC — mixin pending
+   │   │   GST Table 4.9, p.63 — STAMPED
    │   │   GST Table 4.9, p.63 — STAMPED
    │   ├─ LLongName(+ LanguageSpecific)  ✔ chain correct
    │   └─ SingleLanguageLongName  ✔     GST Table 4.7, p.62 — STAMPED
-   │
-   ├─ MixedContentForParagraph  ✔ IN SRC (ARObject, ABC) — mixin pending
+   ├─ MixedContentForParagraph(ARObject, AtpMixedString, ABC)  ✔ IN SRC — mixin pending
    │   │   Subclasses: LParagraph, SlParagraph
    │   ├─ LParagraph(+ LanguageSpecific)  ✔
    │   └─ SlParagraph  ✔
-   │
-   ├─ MixedContentForOverviewParagraph  ❑ queued Group8
+   ├─ MixedContentForOverviewParagraph(ARObject, AtpMixedString, ABC)  ❑ queued Group8
    │   │   Base: ARObject · InlineTextModel
    │   ├─ LOverviewParagraph(+ LanguageSpecific)  ⚠ src misses this base
    │   └─ SlOverviewParagraph  ❑ queued Group8
    │         Base: ARObject , MixedContentForOverviewParagraph · SingleLanguageData
-   │
-   ├─ MixedContentForPlainText(+ WhitespaceControlled)  ❑ queued Group8
+   ├─ MixedContentForPlainText(ARObject, AtpMixedString, ABC + WhitespaceControlled)  ❑ queued Group8
    │   │   Base: ARObject , WhitespaceControlled · InlineTextModel
    │   └─ LPlainText(+ LanguageSpecific + WhitespaceControlled)  ⚠ src misses 2 bases
-   │
-   ├─ MixedContentForVerbatim(+ WhitespaceControlled)  ❑ queued Group8
+   ├─ MixedContentForVerbatim(ARObject, AtpMixedString, ABC + WhitespaceControlled)  ❑ queued Group8
    │   │   Base: ARObject , WhitespaceControlled · InlineTextModel
    │   └─ LVerbatim(+ LanguageSpecific + WhitespaceControlled)  ⚠ src misses 2 bases
-   │
-   └─ MixedContentForUnitNames(ARObject, ABC)  ✱ CREATED 2026-09-25 — stamp pending 9b
+   └─ MixedContentForUnitNames(ARObject, AtpMixedString, ABC)  ✱ CREATED 2026-09-25 — stamp pending 9b
        │   Base: ARObject · GST Table E.55, p.456 · attrs: sub/sup (Superscript)
        └─ SingleLanguageUnitNames  ✱ FIXED 2026-09-25 (was ARLiteral; a brief
              FormulaExpression re-parent was reverted — caption-shift misread)
