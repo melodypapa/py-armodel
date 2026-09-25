@@ -261,7 +261,7 @@ class ImplementationDataType(AbstractImplementationDataType):
         """
         return self.dynamicArraySizeProfile
 
-    def setDynamicArraySizeProfile(self, value: Optional[String]) -> "ImplementationDataType":
+    def setDynamicArraySizeProfile(self, value: Optional[String]) -> ImplementationDataType:
         """
         Sets the profile which the array will follow in case this data type is
         a variable size array. A None value is a no-op and does not overwrite
@@ -288,7 +288,7 @@ class ImplementationDataType(AbstractImplementationDataType):
         """
         return self.isStructWithOptionalElement
 
-    def setIsStructWithOptionalElement(self, value: Optional[Boolean]) -> "ImplementationDataType":
+    def setIsStructWithOptionalElement(self, value: Optional[Boolean]) -> ImplementationDataType:
         """
         Sets the flag indicating whether the ImplementationDataType has been
         created with the intention to define at least one element of the
@@ -369,7 +369,7 @@ class ImplementationDataType(AbstractImplementationDataType):
         """
         return self.typeEmitter
 
-    def setTypeEmitter(self, value: Optional[NameToken]) -> "ImplementationDataType":
+    def setTypeEmitter(self, value: Optional[NameToken]) -> ImplementationDataType:
         """
         Sets the type emitter that controls which part of the AUTOSAR
         toolchain is supposed to trigger data type definitions. A None value is

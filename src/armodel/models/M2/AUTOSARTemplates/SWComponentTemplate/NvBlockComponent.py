@@ -61,7 +61,7 @@ class NvBlockDataMapping(ARObject, VariationPointCapable):
         """
         return self.bitfieldTextTableMaskNvBlockDescriptor
 
-    def setBitfieldTextTableMaskNvBlockDescriptor(self, value: Optional[PositiveInteger]) -> "NvBlockDataMapping":
+    def setBitfieldTextTableMaskNvBlockDescriptor(self, value: Optional[PositiveInteger]) -> NvBlockDataMapping:
         """
         This attribute identifies the applicable bit mask on the side of the Nv Block. A None value is a no-op and does not overwrite an existing bitfieldTextTableMaskNvBlockDescriptor.
         """
@@ -75,7 +75,7 @@ class NvBlockDataMapping(ARObject, VariationPointCapable):
         """
         return self.bitfieldTextTableMaskPortPrototype
 
-    def setBitfieldTextTableMaskPortPrototype(self, value: Optional[PositiveInteger]) -> "NvBlockDataMapping":
+    def setBitfieldTextTableMaskPortPrototype(self, value: Optional[PositiveInteger]) -> NvBlockDataMapping:
         """
         This attribute identifies the applicable bit mask on the side of the PortPrototype. A None value is a no-op and does not overwrite an existing bitfieldTextTableMaskPortPrototype.
         """
@@ -89,7 +89,7 @@ class NvBlockDataMapping(ARObject, VariationPointCapable):
         """
         return self.nvRamBlockElement
 
-    def setNvRamBlockElement(self, value: Optional[AutosarVariableRef]) -> "NvBlockDataMapping":
+    def setNvRamBlockElement(self, value: Optional[AutosarVariableRef]) -> NvBlockDataMapping:
         """
         Reference to a VariableDataPrototype of a RAM Block. A None value is a no-op and does not overwrite an existing nvRamBlockElement.
         """
@@ -103,7 +103,7 @@ class NvBlockDataMapping(ARObject, VariationPointCapable):
         """
         return self.readNvData
 
-    def setReadNvData(self, value: Optional[AutosarVariableRef]) -> "NvBlockDataMapping":
+    def setReadNvData(self, value: Optional[AutosarVariableRef]) -> NvBlockDataMapping:
         """
         Reference to a VariableDataPrototype of a pPort of the NvBlockComponent providing read access to the RAM Block.If there is no PortPrototype providing read access (write-only) the reference can be omitted. A None value is a no-op and does not overwrite an existing readNvData.
         """
@@ -117,7 +117,7 @@ class NvBlockDataMapping(ARObject, VariationPointCapable):
         """
         return self.writtenNvData
 
-    def setWrittenNvData(self, value: Optional[AutosarVariableRef]) -> "NvBlockDataMapping":
+    def setWrittenNvData(self, value: Optional[AutosarVariableRef]) -> NvBlockDataMapping:
         """
         Reference to a VariableDataPrototype of a rPort of the NvBlockComponent providing write access to the RAM Block. If there is no port providing write access (read-only) the reference can be omitted. A None value is a no-op and does not overwrite an existing writtenNvData.
         """
@@ -131,7 +131,7 @@ class NvBlockDataMapping(ARObject, VariationPointCapable):
         """
         return self.writtenReadNvData
 
-    def setWrittenReadNvData(self, value: Optional[AutosarVariableRef]) -> "NvBlockDataMapping":
+    def setWrittenReadNvData(self, value: Optional[AutosarVariableRef]) -> NvBlockDataMapping:
         """
         Reference to a VariableDataPrototype of a PRPortPrototype of the NvBlockSwComponentType providing write and read access to the RAM Block. A None value is a no-op and does not overwrite an existing writtenReadNvData.
         """
@@ -179,7 +179,7 @@ class BulkNvDataDescriptor(AtpStructureElement, VariationPointCapable):
         """
         return self.bulkNvBlock
 
-    def addNvBlockDataMapping(self, value: Optional[NvBlockDataMapping]) -> "BulkNvDataDescriptor":
+    def addNvBlockDataMapping(self, value: Optional[NvBlockDataMapping]) -> BulkNvDataDescriptor:
         """
         Defines the mapping between the VariableDataPrototypes in the NvBlockComponents ports and the VariableDataPrototypes of the non-volatile memory. The aggregation of NvBlockDataMapping is subject to variability with the purpose to support the conditional existence of nv data ports. A None value is a no-op and does not append anything.
         """
@@ -272,7 +272,7 @@ class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
         """The RoleBasedPortAssignement defines which client server port of the NvBlockSwComponentType serves for which kind of service or notification. In case of notifications one common callback function is provided by the RTE for each individual kind of notification defined by the "role". The aggregation of RoleBasedPortAssignment is subject to variability with the purpose to support the conditional existence of ports."""
         return self.clientServerPorts
 
-    def addClientServerPort(self, value: Optional[RoleBasedPortAssignment]) -> "NvBlockDescriptor":
+    def addClientServerPort(self, value: Optional[RoleBasedPortAssignment]) -> NvBlockDescriptor:
         """The RoleBasedPortAssignement defines which client server port of the NvBlockSwComponentType serves for which kind of service or notification. In case of notifications one common callback function is provided by the RTE for each individual kind of notification defined by the "role". The aggregation of RoleBasedPortAssignment is subject to variability with the purpose to support the conditional existence of ports. A None value is a no-op and does not append anything."""
         if value is not None and value not in self.clientServerPorts:
             self.clientServerPorts.append(value)
@@ -282,7 +282,7 @@ class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
         """Reference to the ConstantSpecificationMapping to be applied for the particular NVRAM Block"""
         return self.constantValueMappingRefs
 
-    def addConstantValueMappingRef(self, value: Optional[RefType]) -> "NvBlockDescriptor":
+    def addConstantValueMappingRef(self, value: Optional[RefType]) -> NvBlockDescriptor:
         """Reference to the ConstantSpecificationMapping to be applied for the particular NVRAM Block A None value is a no-op and does not append anything."""
         if value is not None and value not in self.constantValueMappingRefs:
             self.constantValueMappingRefs.append(value)
@@ -292,7 +292,7 @@ class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
         """Reference to the DataTypeMapping to be applied for the particular NVRAM Block."""
         return self.dataTypeMappingRefs
 
-    def addDataTypeMappingRef(self, value: Optional[RefType]) -> "NvBlockDescriptor":
+    def addDataTypeMappingRef(self, value: Optional[RefType]) -> NvBlockDescriptor:
         """Reference to the DataTypeMapping to be applied for the particular NVRAM Block. A None value is a no-op and does not append anything."""
         if value is not None and value not in self.dataTypeMappingRefs:
             self.dataTypeMappingRefs.append(value)
@@ -302,7 +302,7 @@ class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
         """The purpose of InstantiationDataDefProps are the refinement of some data def properties of individual instantiations within the context of a NvBlockSwComponentType. The aggregation of InstantiationDataDefProps is subject to variability with the purpose to support the conditional existence of ports, component internal memory objects and those attributes."""
         return self.instantiationDataDefPropss
 
-    def addInstantiationDataDefProps(self, value: Optional[InstantiationDataDefProps]) -> "NvBlockDescriptor":
+    def addInstantiationDataDefProps(self, value: Optional[InstantiationDataDefProps]) -> NvBlockDescriptor:
         """The purpose of InstantiationDataDefProps are the refinement of some data def properties of individual instantiations within the context of a NvBlockSwComponentType. The aggregation of InstantiationDataDefProps is subject to variability with the purpose to support the conditional existence of ports, component internal memory objects and those attributes. A None value is a no-op and does not append anything."""
         if value is not None and value not in self.instantiationDataDefPropss:
             self.instantiationDataDefPropss.append(value)
@@ -312,7 +312,7 @@ class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
         """This represents the collection of ModeSwitchEventTriggeredActivities related to the enclosing NvBlockDescriptor."""
         return self.modeSwitchEventTriggeredActivitys
 
-    def addModeSwitchEventTriggeredActivity(self, value: Optional[ModeSwitchEventTriggeredActivity]) -> "NvBlockDescriptor":
+    def addModeSwitchEventTriggeredActivity(self, value: Optional[ModeSwitchEventTriggeredActivity]) -> NvBlockDescriptor:
         """This represents the collection of ModeSwitchEventTriggeredActivities related to the enclosing NvBlockDescriptor. A None value is a no-op and does not append anything."""
         if value is not None and value not in self.modeSwitchEventTriggeredActivitys:
             self.modeSwitchEventTriggeredActivitys.append(value)
@@ -322,7 +322,7 @@ class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
         """Defines the mapping between the VariableDataPrototypes in the NvBlockComponents ports and the VariableDataPrototypes of the RAM Block. The aggregation of NvBlockDataMapping is subject to variability with the purpose to support the conditional existence of nv data ports."""
         return self.nvBlockDataMappings
 
-    def addNvBlockDataMapping(self, value: Optional[NvBlockDataMapping]) -> "NvBlockDescriptor":
+    def addNvBlockDataMapping(self, value: Optional[NvBlockDataMapping]) -> NvBlockDescriptor:
         """Defines the mapping between the VariableDataPrototypes in the NvBlockComponents ports and the VariableDataPrototypes of the RAM Block. The aggregation of NvBlockDataMapping is subject to variability with the purpose to support the conditional existence of nv data ports. A None value is a no-op and does not append anything."""
         if value is not None and value not in self.nvBlockDataMappings:
             self.nvBlockDataMappings.append(value)
@@ -368,7 +368,7 @@ class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
         """Specifies whether calling of NvM functions for writing and/or status control of potentially modified RAM Blocks to NV memory shall be controlled by the RTE."""
         return self.supportDirtyFlag
 
-    def setSupportDirtyFlag(self, value: Optional[Boolean]) -> "NvBlockDescriptor":
+    def setSupportDirtyFlag(self, value: Optional[Boolean]) -> NvBlockDescriptor:
         """Specifies whether calling of NvM functions for writing and/or status control of potentially modified RAM Blocks to NV memory shall be controlled by the RTE. A None value is a no-op and does not overwrite an existing supportDirtyFlag."""
         if value is not None:
             self.supportDirtyFlag = value
@@ -378,7 +378,7 @@ class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
         """this reference can be taken to identify the TimingEvent to be used by the RTE for implementing a cyclic writing strategy for this block"""
         return self.timingEventRef
 
-    def setTimingEventRef(self, value: Optional[RefType]) -> "NvBlockDescriptor":
+    def setTimingEventRef(self, value: Optional[RefType]) -> NvBlockDescriptor:
         """this reference can be taken to identify the TimingEvent to be used by the RTE for implementing a cyclic writing strategy for this block A None value is a no-op and does not overwrite an existing timingEventRef."""
         if value is not None:
             self.timingEventRef = value
@@ -388,7 +388,7 @@ class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
         """This attribute allows for assigning a specific writing strategy for an incoming AutosarDataPrototype."""
         return self.writingStrategies
 
-    def addWritingStrategy(self, value: Optional[RoleBasedDataAssignment]) -> "NvBlockDescriptor":
+    def addWritingStrategy(self, value: Optional[RoleBasedDataAssignment]) -> NvBlockDescriptor:
         """This attribute allows for assigning a specific writing strategy for an incoming AutosarDataPrototype. A None value is a no-op and does not append anything."""
         if value is not None and value not in self.writingStrategies:
             self.writingStrategies.append(value)
@@ -424,7 +424,7 @@ class ModeSwitchEventTriggeredActivity(ARObject, VariationPointCapable):
         """
         return self.role
 
-    def setRole(self, value: Optional[Identifier]) -> "ModeSwitchEventTriggeredActivity":
+    def setRole(self, value: Optional[Identifier]) -> ModeSwitchEventTriggeredActivity:
         """
         This attribute indicates which service of the NvM for the NvBlock shall be requested. A None value is a no-op and does not overwrite an existing role.
         """
@@ -438,7 +438,7 @@ class ModeSwitchEventTriggeredActivity(ARObject, VariationPointCapable):
         """
         return self.swcModeSwitchEventRef
 
-    def setSwcModeSwitchEventRef(self, value: Optional[RefType]) -> "ModeSwitchEventTriggeredActivity":
+    def setSwcModeSwitchEventRef(self, value: Optional[RefType]) -> ModeSwitchEventTriggeredActivity:
         """
         This reference identifies the SwcModeSwitchEvent that triggers the activity. A None value is a no-op and does not overwrite an existing swcModeSwitchEventRef.
         """

@@ -153,7 +153,7 @@ class TestVariableAccessRoundTrip:
         """Test the writeVariableAccess → readVariableAccess aggregation round-trip with field values."""
         root = AUTOSAR.getInstance().createARPackage("Pkg")
         access = VariableAccess(root, "VarAccess")
-        access.setAccessedVariableRef(_filled_variable_ref())
+        access.setAccessedVariable(_filled_variable_ref())
 
         parent = ET.Element("PARENT")
         writer.writeVariableAccess(parent, access)
@@ -167,7 +167,7 @@ class TestVariableAccessRoundTrip:
         reloaded = VariableAccess(root2, "OtherName")
         ARXMLParser().readVariableAccess(reloaded_element, reloaded)
 
-        ref = reloaded.getAccessedVariableRef()
+        ref = reloaded.getAccessedVariable()
         assert isinstance(ref, AutosarVariableRef)
         assert ref.getAutosarVariableIRef().getPortPrototypeRef().getValue() == "/VarPort"
         assert ref.getAutosarVariableIRef().getTargetDataPrototypeRef().getValue() == "/VarTarget"

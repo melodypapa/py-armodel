@@ -187,13 +187,6 @@ class AbstractARXMLWriter(ABC):
             child_element.text = value.getText()
         return element
 
-    def setChildElementOptionalNameToken(self, element: ET.Element, key: str, value: NameToken) -> ET.Element:
-        if value is not None:
-            child_element = ET.SubElement(element, key)
-            self.writeARType(child_element, value)
-            child_element.text = value.getText()
-        return element
-
     def patch_xml(self, xml: str) -> str:
         xml = re.sub(r"\<([\w-]+)\/\>", r"<\1></\1>", xml)
 

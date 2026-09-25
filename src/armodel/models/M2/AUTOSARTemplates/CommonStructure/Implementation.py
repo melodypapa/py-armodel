@@ -143,7 +143,7 @@ class Code(Identifiable):
         # The association callbackHeader describes in which header files the function declarations of callback functions are provided to a service module. With this information the service module can include the appropriate header files in its configuration files.
         self.callbackHeaderRefs: List[RefType] = []
 
-    def addArtifactDescriptor(self, desc: Optional[AutosarEngineeringObject]) -> "Code":
+    def addArtifactDescriptor(self, desc: Optional[AutosarEngineeringObject]) -> Code:
         """Refers to the artifact belonging to this code descriptor. A None value is a no-op and does not append anything."""
         if desc is not None:
             self.artifactDescriptors.append(desc)
@@ -160,7 +160,7 @@ class Code(Identifiable):
         """The association callbackHeader describes in which header files the function declarations of callback functions are provided to a service module. With this information the service module can include the appropriate header files in its configuration files."""
         return self.callbackHeaderRefs
 
-    def addCallbackHeaderRef(self, value: Optional[RefType]) -> "Code":
+    def addCallbackHeaderRef(self, value: Optional[RefType]) -> Code:
         """The association callbackHeader describes in which header files the function declarations of callback functions are provided to a service module. With this information the service module can include the appropriate header files in its configuration files. A None value is a no-op and does not append anything."""
         if value is not None:
             self.callbackHeaderRefs.append(value)
@@ -207,7 +207,7 @@ class Compiler(Identifiable):
         """Compiler name (like gcc)."""
         return self.name
 
-    def setName(self, value: Optional[String]) -> "Compiler":
+    def setName(self, value: Optional[String]) -> Compiler:
         """Compiler name (like gcc). Only sets the value if it is not None."""
         if value is not None:
             self.name = value
@@ -217,7 +217,7 @@ class Compiler(Identifiable):
         """Specifies the compiler options."""
         return self.options
 
-    def setOptions(self, value: Optional[String]) -> "Compiler":
+    def setOptions(self, value: Optional[String]) -> Compiler:
         """Specifies the compiler options. Only sets the value if it is not None."""
         if value is not None:
             self.options = value
@@ -227,7 +227,7 @@ class Compiler(Identifiable):
         """Vendor of compiler."""
         return self.vendor
 
-    def setVendor(self, value: Optional[String]) -> "Compiler":
+    def setVendor(self, value: Optional[String]) -> Compiler:
         """Vendor of compiler. Only sets the value if it is not None."""
         if value is not None:
             self.vendor = value
@@ -237,7 +237,7 @@ class Compiler(Identifiable):
         """Exact version of compiler executable."""
         return self.version
 
-    def setVersion(self, value: Optional[String]) -> "Compiler":
+    def setVersion(self, value: Optional[String]) -> Compiler:
         """Exact version of compiler executable. Only sets the value if it is not None."""
         if value is not None:
             self.version = value
@@ -273,7 +273,7 @@ class DependencyOnArtifact(Identifiable, VariationPointCapable):
         """The specified artifact needs to exist."""
         return self.artifactDescriptor
 
-    def setArtifactDescriptor(self, value: Optional[AutosarEngineeringObject]) -> "DependencyOnArtifact":
+    def setArtifactDescriptor(self, value: Optional[AutosarEngineeringObject]) -> DependencyOnArtifact:
         """The specified artifact needs to exist. A None value is a no-op and does not overwrite an existing artifact."""
         if value is not None:
             self.artifactDescriptor = value
@@ -283,7 +283,7 @@ class DependencyOnArtifact(Identifiable, VariationPointCapable):
         """Specification for which process step(s) this dependency is required."""
         return self.usages
 
-    def addUsage(self, value: Optional[DependencyUsageEnum]) -> "DependencyOnArtifact":
+    def addUsage(self, value: Optional[DependencyUsageEnum]) -> DependencyOnArtifact:
         """Specification for which process step(s) this dependency is required. A None value is a no-op and does not append anything."""
         if value is not None:
             self.usages.append(value)
@@ -335,7 +335,7 @@ class Linker(Identifiable):
         """Linker name."""
         return self.name
 
-    def setName(self, value: Optional[String]) -> "Linker":
+    def setName(self, value: Optional[String]) -> Linker:
         """Linker name. A None value is a no-op and does not overwrite an existing name."""
         if value is not None:
             self.name = value
@@ -345,7 +345,7 @@ class Linker(Identifiable):
         """Specifies the linker options."""
         return self.options
 
-    def setOptions(self, value: Optional[String]) -> "Linker":
+    def setOptions(self, value: Optional[String]) -> Linker:
         """Specifies the linker options. A None value is a no-op and does not overwrite an existing options."""
         if value is not None:
             self.options = value
@@ -355,7 +355,7 @@ class Linker(Identifiable):
         """Vendor of linker."""
         return self.vendor
 
-    def setVendor(self, value: Optional[String]) -> "Linker":
+    def setVendor(self, value: Optional[String]) -> Linker:
         """Vendor of linker. A None value is a no-op and does not overwrite an existing vendor."""
         if value is not None:
             self.vendor = value
@@ -365,7 +365,7 @@ class Linker(Identifiable):
         """Exact version of linker executable."""
         return self.version
 
-    def setVersion(self, value: Optional[String]) -> "Linker":
+    def setVersion(self, value: Optional[String]) -> Linker:
         """Exact version of linker executable. A None value is a no-op and does not overwrite an existing version."""
         if value is not None:
             self.version = value
@@ -468,7 +468,7 @@ class Implementation(ARElement, ABC):
         """A manifest specifying the intended build actions for the software delivered with this implementation."""
         return self.buildActionManifestRef
 
-    def setBuildActionManifestRef(self, value: Optional[RefType]) -> "Implementation":
+    def setBuildActionManifestRef(self, value: Optional[RefType]) -> Implementation:
         """A manifest specifying the intended build actions for the software delivered with this implementation. A None value is a no-op and does not overwrite the existing reference."""
         if value is not None:
             self.buildActionManifestRef = value
@@ -538,7 +538,7 @@ class Implementation(ARElement, ABC):
         """The hardware elements (e.g. the processor) required for this implementation."""
         return self.hwElementRefs
 
-    def addHwElementRef(self, value: Optional[RefType]) -> "Implementation":
+    def addHwElementRef(self, value: Optional[RefType]) -> Implementation:
         """The hardware elements (e.g. the processor) required for this implementation. A None value is a no-op and is not appended."""
         if value is not None:
             self.hwElementRefs.append(value)
@@ -568,7 +568,7 @@ class Implementation(ARElement, ABC):
         """The measurement & calibration support data belonging to this implementation."""
         return self.mcSupport
 
-    def setMcSupport(self, value: Optional[McSupportData]) -> "Implementation":
+    def setMcSupport(self, value: Optional[McSupportData]) -> Implementation:
         """The measurement & calibration support data belonging to this implementation. A None value is a no-op and does not overwrite the existing value."""
         if value is not None:
             self.mcSupport = value
@@ -578,7 +578,7 @@ class Implementation(ARElement, ABC):
         """Programming language the implementation was created in."""
         return self.programmingLanguage
 
-    def setProgrammingLanguage(self, value: Optional[ProgramminglanguageEnum]) -> "Implementation":
+    def setProgrammingLanguage(self, value: Optional[ProgramminglanguageEnum]) -> Implementation:
         """Programming language the implementation was created in. A None value is a no-op and does not overwrite the existing value."""
         if value is not None:
             self.programmingLanguage = value
@@ -650,7 +650,7 @@ class Implementation(ARElement, ABC):
         """This allows a mapping between an SWC and a BSW behavior to be attached to an implementation description (for AUTOSAR Service, ECU Abstraction and Complex Driver Components). It is up to the methodology to define whether this reference has to be set for the Swc- or BswImplementtion or for both."""
         return self.swcBswMappingRef
 
-    def setSwcBswMappingRef(self, value: Optional[RefType]) -> "Implementation":
+    def setSwcBswMappingRef(self, value: Optional[RefType]) -> Implementation:
         """This allows a mapping between an SWC and a BSW behavior to be attached to an implementation description (for AUTOSAR Service, ECU Abstraction and Complex Driver Components). It is up to the methodology to define whether this reference has to be set for the Swc- or BswImplementtion or for both. A None value is a no-op and does not overwrite the existing reference."""
         if value is not None:
             self.swcBswMappingRef = value
@@ -660,7 +660,7 @@ class Implementation(ARElement, ABC):
         """Software version of this implementation. The numbering contains three levels (like major, minor, patch), its values are vendor specific."""
         return self.swVersion
 
-    def setSwVersion(self, value: Optional[RevisionLabelString]) -> "Implementation":
+    def setSwVersion(self, value: Optional[RevisionLabelString]) -> Implementation:
         """Software version of this implementation. The numbering contains three levels (like major, minor, patch), its values are vendor specific. A None value is a no-op and does not overwrite the existing version."""
         if value is not None:
             self.swVersion = value
@@ -670,7 +670,7 @@ class Implementation(ARElement, ABC):
         """Optional: code generator used."""
         return self.usedCodeGenerator
 
-    def setUsedCodeGenerator(self, value: Optional[String]) -> "Implementation":
+    def setUsedCodeGenerator(self, value: Optional[String]) -> Implementation:
         """Optional: code generator used. A None value is a no-op and does not overwrite the existing value."""
         if value is not None:
             self.usedCodeGenerator = value
@@ -680,7 +680,7 @@ class Implementation(ARElement, ABC):
         """Vendor ID of this Implementation according to the AUTOSAR vendor list."""
         return self.vendorId
 
-    def setVendorId(self, value: Optional[PositiveInteger]) -> "Implementation":
+    def setVendorId(self, value: Optional[PositiveInteger]) -> Implementation:
         """Vendor ID of this Implementation according to the AUTOSAR vendor list. A None value is a no-op and does not overwrite the existing vendor ID."""
         if value is not None:
             self.vendorId = value

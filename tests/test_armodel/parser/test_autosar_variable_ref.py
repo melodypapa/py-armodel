@@ -133,7 +133,7 @@ class TestReadVariableAccessDispatch:
 
         parser.readVariableAccess(element, access)
 
-        ref = access.getAccessedVariableRef()
+        ref = access.getAccessedVariable()
         assert isinstance(ref, AutosarVariableRef)
         assert ref.getAutosarVariableIRef().getTargetDataPrototypeRef().getValue() == "/VarTarget"
         assert ref.getLocalVariableRef().getValue() == "/LocalVariable"
@@ -146,4 +146,4 @@ class TestReadVariableAccessDispatch:
 
         parser.readVariableAccess(element, access)
 
-        assert access.getAccessedVariableRef() is None
+        assert access.getAccessedVariable() is None

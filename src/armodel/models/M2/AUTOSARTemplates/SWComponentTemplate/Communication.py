@@ -252,7 +252,7 @@ class TransmissionComSpecProps(ARObject):
         """
         return self.dataUpdatePeriod
 
-    def setDataUpdatePeriod(self, value: Optional[TimeValue]) -> "TransmissionComSpecProps":
+    def setDataUpdatePeriod(self, value: Optional[TimeValue]) -> TransmissionComSpecProps:
         """
         This attribute defines the period in which the application is assumed to transmit the respective data.
         A None value is a no-op and does not overwrite an existing dataUpdatePeriod.
@@ -267,7 +267,7 @@ class TransmissionComSpecProps(ARObject):
         """
         return self.minimumSendInterval
 
-    def setMinimumSendInterval(self, value: Optional[TimeValue]) -> "TransmissionComSpecProps":
+    def setMinimumSendInterval(self, value: Optional[TimeValue]) -> TransmissionComSpecProps:
         """
         This attribute defines the minimum interval between two consecutive transmissions of the respective data the application is assumed to ensure.
         A None value is a no-op and does not overwrite an existing minimumSendInterval.
@@ -282,7 +282,7 @@ class TransmissionComSpecProps(ARObject):
         """
         return self.transmissionMode
 
-    def setTransmissionMode(self, value: Optional[TransmissionModeDefinitionEnum]) -> "TransmissionComSpecProps":
+    def setTransmissionMode(self, value: Optional[TransmissionModeDefinitionEnum]) -> TransmissionComSpecProps:
         """
         The attribute defines the mode in which the application is assumed to transmit the respective data.
         A None value is a no-op and does not overwrite an existing transmissionMode.
@@ -317,7 +317,7 @@ class TransmissionAcknowledgementRequest(ARObject):
         """
         return self.timeout
 
-    def setTimeout(self, value: Optional[TimeValue]) -> "TransmissionAcknowledgementRequest":
+    def setTimeout(self, value: Optional[TimeValue]) -> TransmissionAcknowledgementRequest:
         """
         Number of seconds before an error is reported or in case of allowed redundancy, the value is sent again.
         A None value is a no-op and does not overwrite an existing timeout.
@@ -379,7 +379,7 @@ class SenderComSpec(PPortComSpec, ABC):
         # This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
         self.usesEndToEndProtection: Optional[Boolean] = None
 
-    def addCompositeNetworkRepresentation(self, representation: Optional[CompositeNetworkRepresentation]) -> "SenderComSpec":
+    def addCompositeNetworkRepresentation(self, representation: Optional[CompositeNetworkRepresentation]) -> SenderComSpec:
         """
         This represents a CompositeNetworkRepresentation defined in the context of a SenderComSpec. Stereotypes: atpSplitable Tags: atp.Splitkey=compositeNetworkRepresentation
         A None value is a no-op and does not append anything.
@@ -400,7 +400,7 @@ class SenderComSpec(PPortComSpec, ABC):
         """
         return self.dataElementRef
 
-    def setDataElementRef(self, value: Optional[RefType]) -> "SenderComSpec":
+    def setDataElementRef(self, value: Optional[RefType]) -> SenderComSpec:
         """
         Data element these quality of service attributes apply to.
         A None value is a no-op and does not overwrite an existing dataElementRef.
@@ -415,7 +415,7 @@ class SenderComSpec(PPortComSpec, ABC):
         """
         return self.handleOutOfRange
 
-    def setHandleOutOfRange(self, value: Optional["HandleOutOfRangeEnum"]) -> "SenderComSpec":
+    def setHandleOutOfRange(self, value: Optional["HandleOutOfRangeEnum"]) -> SenderComSpec:
         """
         This attribute controls how out-of-range values shall be dealt with.
         A None value is a no-op and does not overwrite an existing handleOutOfRange.
@@ -430,7 +430,7 @@ class SenderComSpec(PPortComSpec, ABC):
         """
         return self.networkRepresentation
 
-    def setNetworkRepresentation(self, value: Optional[SwDataDefProps]) -> "SenderComSpec":
+    def setNetworkRepresentation(self, value: Optional[SwDataDefProps]) -> SenderComSpec:
         """
         A networkRepresentation is used to define how the data Element is mapped to a communication bus. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentation
         A None value is a no-op and does not overwrite an existing networkRepresentation.
@@ -445,7 +445,7 @@ class SenderComSpec(PPortComSpec, ABC):
         """
         return self.transmissionAcknowledge
 
-    def setTransmissionAcknowledge(self, value: Optional[TransmissionAcknowledgementRequest]) -> "SenderComSpec":
+    def setTransmissionAcknowledge(self, value: Optional[TransmissionAcknowledgementRequest]) -> SenderComSpec:
         """
         Requested transmission acknowledgement for data element.
         A None value is a no-op and does not overwrite an existing transmissionAcknowledge.
@@ -460,7 +460,7 @@ class SenderComSpec(PPortComSpec, ABC):
         """
         return self.transmissionProps
 
-    def setTransmissionProps(self, value: Optional[TransmissionComSpecProps]) -> "SenderComSpec":
+    def setTransmissionProps(self, value: Optional[TransmissionComSpecProps]) -> SenderComSpec:
         """
         This aggregation represents the definition transmission props in the context of the enclosing SenderComSpec.
         A None value is a no-op and does not overwrite an existing transmissionProps.
@@ -475,7 +475,7 @@ class SenderComSpec(PPortComSpec, ABC):
         """
         return self.usesEndToEndProtection
 
-    def setUsesEndToEndProtection(self, value: Optional[Boolean]) -> "SenderComSpec":
+    def setUsesEndToEndProtection(self, value: Optional[Boolean]) -> SenderComSpec:
         """
         This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
         A None value is a no-op and does not overwrite an existing usesEndToEndProtection.
@@ -530,7 +530,7 @@ class NonqueuedSenderComSpec(SenderComSpec):
         """
         return self.dataFilter
 
-    def setDataFilter(self, value: Optional[DataFilter]) -> "NonqueuedSenderComSpec":
+    def setDataFilter(self, value: Optional[DataFilter]) -> NonqueuedSenderComSpec:
         """
         The applicable filter algorithm for filtering the value of the corresponding dataElement.
         A None value is a no-op and does not overwrite an existing dataFilter.
@@ -545,7 +545,7 @@ class NonqueuedSenderComSpec(SenderComSpec):
         """
         return self.initValue
 
-    def setInitValue(self, value: Optional[ValueSpecification]) -> "NonqueuedSenderComSpec":
+    def setInitValue(self, value: Optional[ValueSpecification]) -> NonqueuedSenderComSpec:
         """
         Initial value to be sent if sender component is not yet fully initialized, but receiver needs data already.
         A None value is a no-op and does not overwrite an existing initValue.
@@ -590,7 +590,7 @@ class ClientComSpec(RPortComSpec):
         """
         return self.endToEndCallResponseTimeout
 
-    def setEndToEndCallResponseTimeout(self, value: Optional[TimeValue]) -> "ClientComSpec":
+    def setEndToEndCallResponseTimeout(self, value: Optional[TimeValue]) -> ClientComSpec:
         """
         This attribute defines the maximum time interval in which the application shall expect the servers's response (time between the sending of the call invocation until the arrival of the server's response).
         A None value is a no-op and does not overwrite an existing endToEndCallResponseTimeout.
@@ -605,7 +605,7 @@ class ClientComSpec(RPortComSpec):
         """
         return self.operationRef
 
-    def setOperationRef(self, value: Optional[RefType]) -> "ClientComSpec":
+    def setOperationRef(self, value: Optional[RefType]) -> ClientComSpec:
         """
         This represents the corresponding ClientServerOperation.
         A None value is a no-op and does not overwrite an existing operationRef.
@@ -614,7 +614,7 @@ class ClientComSpec(RPortComSpec):
             self.operationRef = value
         return self
 
-    def addTransformationComSpecProps(self, value: Optional["TransformationComSpecProps"]) -> "ClientComSpec":
+    def addTransformationComSpecProps(self, value: Optional["TransformationComSpecProps"]) -> ClientComSpec:
         """
         This references the TransformationComSpecProps which define port-specific configuration for data transformation.
         A None value is a no-op and does not append anything.
@@ -881,7 +881,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         # This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach.
         self.usesEndToEndProtection: Optional[Boolean] = None
 
-    def addCompositeNetworkRepresentation(self, representation: CompositeNetworkRepresentation) -> "ReceiverComSpec":
+    def addCompositeNetworkRepresentation(self, representation: CompositeNetworkRepresentation) -> ReceiverComSpec:
         """
         This represents a CompositeNetworkRepresentation defined in the context of a ReceiverComSpec. The purpose of this aggregation is to be able to specify the network representation of leaf elements of Application CompositeDataTypes. Stereotypes: atpSplitable Tags: atp.Splitkey=compositeNetworkRepresentation
         A None value is a no-op and does not append anything.
@@ -902,7 +902,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         """
         return self.dataElementRef
 
-    def setDataElementRef(self, value: Optional[RefType]) -> "ReceiverComSpec":
+    def setDataElementRef(self, value: Optional[RefType]) -> ReceiverComSpec:
         """
         Data element these attributes belong to.
         A None value is a no-op and does not overwrite an existing dataElementRef.
@@ -917,7 +917,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         """
         return self.handleOutOfRange
 
-    def setHandleOutOfRange(self, value: Optional["HandleOutOfRangeEnum"]) -> "ReceiverComSpec":
+    def setHandleOutOfRange(self, value: Optional["HandleOutOfRangeEnum"]) -> ReceiverComSpec:
         """
         This attribute controls how values that are out of the specified range are handled according to the values of HandleOutOfRangeEnum.
         A None value is a no-op and does not overwrite an existing handleOutOfRange.
@@ -932,7 +932,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         """
         return self.handleOutOfRangeStatus
 
-    def setHandleOutOfRangeStatus(self, value: Optional["HandleOutOfRangeStatusEnum"]) -> "ReceiverComSpec":
+    def setHandleOutOfRangeStatus(self, value: Optional["HandleOutOfRangeStatusEnum"]) -> ReceiverComSpec:
         """
         Control the way how return values are created in case of an out-of-range situation.
         A None value is a no-op and does not overwrite an existing handleOutOfRangeStatus.
@@ -947,7 +947,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         """
         return self.maxDeltaCounterInit
 
-    def setMaxDeltaCounterInit(self, value: Optional[PositiveInteger]) -> "ReceiverComSpec":
+    def setMaxDeltaCounterInit(self, value: Optional[PositiveInteger]) -> ReceiverComSpec:
         """
         Initial maximum allowed gap between two counter values of two consecutively received valid Data, i.e. how many subsequent lost data is accepted. For example, if the receiver gets Data with counter 1 and MaxDeltaCounterInit is 1, then at the next reception the receiver can accept Counters with values 2 and 3, but not 4. Note that if the receiver does not receive new Data at a consecutive read, then the receiver increments the tolerance by 1. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach. Stereotypes: atpVariation
         A None value is a no-op and does not overwrite an existing maxDeltaCounterInit.
@@ -962,7 +962,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         """
         return self.maxNoNewOrRepeatedData
 
-    def setMaxNoNewOrRepeatedData(self, value: Optional[PositiveInteger]) -> "ReceiverComSpec":
+    def setMaxNoNewOrRepeatedData(self, value: Optional[PositiveInteger]) -> ReceiverComSpec:
         """
         The maximum amount of missing or repeated Data which the receiver does not expect to exceed under normal communication conditions. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach.
         A None value is a no-op and does not overwrite an existing maxNoNewOrRepeatedData.
@@ -977,7 +977,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         """
         return self.networkRepresentation
 
-    def setNetworkRepresentation(self, value: Optional[SwDataDefProps]) -> "ReceiverComSpec":
+    def setNetworkRepresentation(self, value: Optional[SwDataDefProps]) -> ReceiverComSpec:
         """
         A networkRepresentation is used to define how the data Element is mapped to a communication bus. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentation
         A None value is a no-op and does not overwrite an existing networkRepresentation.
@@ -992,7 +992,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         """
         return self.receptionProps
 
-    def setReceptionProps(self, value: Optional[ReceptionComSpecProps]) -> "ReceiverComSpec":
+    def setReceptionProps(self, value: Optional[ReceptionComSpecProps]) -> ReceiverComSpec:
         """
         This aggregation represents the definition transmission props in the context of the enclosing ReceiverComSpec.
         A None value is a no-op and does not overwrite an existing receptionProps.
@@ -1007,7 +1007,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         """
         return self.replaceWith
 
-    def setReplaceWith(self, value: Optional[VariableAccess]) -> "ReceiverComSpec":
+    def setReplaceWith(self, value: Optional[VariableAccess]) -> ReceiverComSpec:
         """
         This aggregation is used to identify the AutosarData Prototype to be taken for sourcing an external replacement in the out-of-range and invalidValue handling.
         A None value is a no-op and does not overwrite an existing replaceWith.
@@ -1022,7 +1022,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         """
         return self.syncCounterInit
 
-    def setSyncCounterInit(self, value: Optional[PositiveInteger]) -> "ReceiverComSpec":
+    def setSyncCounterInit(self, value: Optional[PositiveInteger]) -> ReceiverComSpec:
         """
         Number of Data required for validating the consistency of the counter that shall be received with a valid counter (i.e. counter within the allowed lock-in range) after the detection of an unexpected behavior of a received counter. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach.
         A None value is a no-op and does not overwrite an existing syncCounterInit.
@@ -1031,7 +1031,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
             self.syncCounterInit = value
         return self
 
-    def addTransformationComSpecProps(self, value: Optional["TransformationComSpecProps"]) -> "ReceiverComSpec":
+    def addTransformationComSpecProps(self, value: Optional["TransformationComSpecProps"]) -> ReceiverComSpec:
         """
         This references the TransformationComSpecProps which define port-specific configuration for data transformation.
         A None value is a no-op and does not append anything.
@@ -1052,7 +1052,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         """
         return self.usesEndToEndProtection
 
-    def setUsesEndToEndProtection(self, value: Optional[Boolean]) -> "ReceiverComSpec":
+    def setUsesEndToEndProtection(self, value: Optional[Boolean]) -> ReceiverComSpec:
         """
         This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
         A None value is a no-op and does not overwrite an existing usesEndToEndProtection.
@@ -1215,7 +1215,7 @@ class ParameterProvideComSpec(PPortComSpec):
         """
         return self.initValue
 
-    def setInitValue(self, value: Optional[ValueSpecification]) -> "ParameterProvideComSpec":
+    def setInitValue(self, value: Optional[ValueSpecification]) -> ParameterProvideComSpec:
         """
         The initial value applicable for the corresponding ParameterDataPrototype.
         A None value is a no-op and does not overwrite an existing initValue.
@@ -1230,7 +1230,7 @@ class ParameterProvideComSpec(PPortComSpec):
         """
         return self.parameterRef
 
-    def setParameterRef(self, value: Optional[RefType]) -> "ParameterProvideComSpec":
+    def setParameterRef(self, value: Optional[RefType]) -> ParameterProvideComSpec:
         """
         The ParameterDataPrototype to which the Parameter ComSpec applies.
         A None value is a no-op and does not overwrite an existing parameterRef.
@@ -1308,7 +1308,7 @@ class ServerComSpec(PPortComSpec):
         """
         return self.operationRef
 
-    def setOperationRef(self, value: Optional[RefType]) -> "ServerComSpec":
+    def setOperationRef(self, value: Optional[RefType]) -> ServerComSpec:
         """
         Operation these communication attributes apply to.
         A None value is a no-op and does not overwrite an existing operationRef.
@@ -1323,7 +1323,7 @@ class ServerComSpec(PPortComSpec):
         """
         return self.queueLength
 
-    def setQueueLength(self, value: Optional[PositiveInteger]) -> "ServerComSpec":
+    def setQueueLength(self, value: Optional[PositiveInteger]) -> ServerComSpec:
         """
         Length of call queue on the server side. The queue is implemented by the RTE. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed.
         A None value is a no-op and does not overwrite an existing queueLength.
@@ -1332,7 +1332,7 @@ class ServerComSpec(PPortComSpec):
             self.queueLength = value
         return self
 
-    def addTransformationComSpecProps(self, value: Optional[TransformationComSpecProps]) -> "ServerComSpec":
+    def addTransformationComSpecProps(self, value: Optional[TransformationComSpecProps]) -> ServerComSpec:
         """
         This references the TransformationComSpecProps which define port-specific configuration for data transformation.
         A None value is a no-op and does not append anything.
@@ -1479,7 +1479,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
         """
         return self.aliveTimeout
 
-    def setAliveTimeout(self, value: Optional[TimeValue]) -> "NonqueuedReceiverComSpec":
+    def setAliveTimeout(self, value: Optional[TimeValue]) -> NonqueuedReceiverComSpec:
         """
         Specify the amount of time (in seconds) after which the software component (via the RTE) needs to be notified if the corresponding data item have not been received according to the specified timing description. If the aliveTimeout attribute is 0 no timeout monitoring shall be performed.
         A None value is a no-op and does not overwrite an existing aliveTimeout.
@@ -1494,7 +1494,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
         """
         return self.enableUpdate
 
-    def setEnableUpdate(self, value: Optional[Boolean]) -> "NonqueuedReceiverComSpec":
+    def setEnableUpdate(self, value: Optional[Boolean]) -> NonqueuedReceiverComSpec:
         """
         This attribute controls whether application code is entitled to check whether the value of the corresponding Variable DataPrototype has been updated.
         A None value is a no-op and does not overwrite an existing enableUpdate.
@@ -1509,7 +1509,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
         """
         return self.filter
 
-    def setFilter(self, value: Optional[DataFilter]) -> "NonqueuedReceiverComSpec":
+    def setFilter(self, value: Optional[DataFilter]) -> NonqueuedReceiverComSpec:
         """
         The applicable filter algorithm for filtering the value of the corresponding dataElement.
         A None value is a no-op and does not overwrite an existing filter.
@@ -1524,7 +1524,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
         """
         return self.handleDataStatus
 
-    def setHandleDataStatus(self, value: Optional[Boolean]) -> "NonqueuedReceiverComSpec":
+    def setHandleDataStatus(self, value: Optional[Boolean]) -> NonqueuedReceiverComSpec:
         """
         If this attribute is set to true, then the Rte_IStatus API shall exist. If the attribute does not exist or is set to false, then the Rte_IStatus API may still exist in response to the existence of further conditions.
         A None value is a no-op and does not overwrite an existing handleDataStatus.
@@ -1539,7 +1539,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
         """
         return self.handleNeverReceived
 
-    def setHandleNeverReceived(self, value: Optional[Boolean]) -> "NonqueuedReceiverComSpec":
+    def setHandleNeverReceived(self, value: Optional[Boolean]) -> NonqueuedReceiverComSpec:
         """
         This attribute specifies whether for the corresponding VariableDataPrototype the "never received" flag is available. If yes, the RTE is supposed to assume that initially the VariableDataPrototype has not been received before. After the first reception of the corresponding VariableDataPrototype the flag is cleared. • If the value of this attribute is set to "true" the flag is required. • If set to "false", the RTE shall not support the "never received" functionality for the corresponding Variable DataPrototype.
         A None value is a no-op and does not overwrite an existing handleNeverReceived.
@@ -1554,7 +1554,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
         """
         return self.handleTimeoutType
 
-    def setHandleTimeoutType(self, value: Optional["HandleTimeoutEnum"]) -> "NonqueuedReceiverComSpec":
+    def setHandleTimeoutType(self, value: Optional["HandleTimeoutEnum"]) -> NonqueuedReceiverComSpec:
         """
         This attribute controls the behavior with respect to the handling of timeouts.
         A None value is a no-op and does not overwrite an existing handleTimeoutType.
@@ -1569,7 +1569,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
         """
         return self.initValue
 
-    def setInitValue(self, value: Optional[ValueSpecification]) -> "NonqueuedReceiverComSpec":
+    def setInitValue(self, value: Optional[ValueSpecification]) -> NonqueuedReceiverComSpec:
         """
         Initial value to be used in case the sending component is not yet initialized. If the sender also specifies an initial value, then the receiver's value will be used.
         A None value is a no-op and does not overwrite an existing initValue.
@@ -1584,7 +1584,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
         """
         return self.timeoutSubstitutionValue
 
-    def setTimeoutSubstitutionValue(self, value: Optional[ValueSpecification]) -> "NonqueuedReceiverComSpec":
+    def setTimeoutSubstitutionValue(self, value: Optional[ValueSpecification]) -> NonqueuedReceiverComSpec:
         """
         This attribute represents the substitution value applicable in the case of a timeout.
         A None value is a no-op and does not overwrite an existing timeoutSubstitutionValue.
