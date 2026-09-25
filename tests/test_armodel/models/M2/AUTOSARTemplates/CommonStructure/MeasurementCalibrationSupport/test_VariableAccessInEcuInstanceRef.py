@@ -1,91 +1,71 @@
+import inspect
+import typing
+
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import VariableAccessInEcuInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
-def make_ref(value: str) -> RefType:
+def make_ref(value, dest):
     ref = RefType()
+    ref.setDest(dest)
     ref.setValue(value)
     return ref
 
 
-class TestVariableAccessInEcuInstanceRefInitialization:
-    def test_initialization(self):
-        """Test VariableAccessInEcuInstanceRef __init__ defaults"""
+class TestVariableAccessInEcuInstanceRefSpec:
+    """Spec contract of VariableAccessInEcuInstanceRef (XSD-only, AUTOSAR_00052.xsd L129566)."""
+
+    def test_docstring_documents_xsd_derivation(self):
+        """The class docstring documents the XSD-only derivation (no spec Note exists)."""
+        assert "ECU extract" in inspect.cleandoc(VariableAccessInEcuInstanceRef.__doc__)
+        assert "XSD-only" in inspect.cleandoc(VariableAccessInEcuInstanceRef.__doc__)
+
+    def test_heritage(self):
+        """Base chain ARObject + AtpInstanceRef (XSD complexType group refs)."""
         iref = VariableAccessInEcuInstanceRef()
-        assert iref is not None
-        assert iref.baseRef is None
+        assert isinstance(iref, AtpInstanceRef)
+
+    def test_initialization(self):
+        """All 3 own attributes optional (XSD minOccurs=0); base atpDerived fields inherited."""
+        iref = VariableAccessInEcuInstanceRef()
         assert iref.contextRootCompositionRef is None
         assert iref.contextAtomicComponentRef is None
         assert iref.targetVariableAccessRef is None
+        # the <<atpDerived>>base association is NOT re-declared on the subclass
+        # (it duplicates the inherited AtpInstanceRef.atpBaseRef)
+        assert not hasattr(iref, "baseRef")
+        assert iref.atpBaseRef is None
 
-
-class TestVariableAccessInEcuInstanceRefBase:
-    def test_get_set_base_ref(self):
-        """Test setBaseRef returns self and getBaseRef round-trips"""
-        iref = VariableAccessInEcuInstanceRef()
-        ref = make_ref("/Root")
-        result = iref.setBaseRef(ref)
-        assert result is iref
-        assert iref.getBaseRef() is ref
-
-    def test_set_base_ref_none_is_noop(self):
-        """Test setting a None base ref is a no-op"""
-        iref = VariableAccessInEcuInstanceRef()
-        ref = make_ref("/Root")
-        iref.setBaseRef(ref)
-        iref.setBaseRef(None)
-        assert iref.getBaseRef() is ref
-
-
-class TestVariableAccessInEcuInstanceRefContextRootComposition:
     def test_get_set_context_root_composition_ref(self):
-        """Test setContextRootCompositionRef returns self and getContextRootCompositionRef round-trips"""
         iref = VariableAccessInEcuInstanceRef()
-        ref = make_ref("/Root")
-        result = iref.setContextRootCompositionRef(ref)
-        assert result is iref
+        ref = make_ref("/Root", "ROOT-SW-COMPOSITION-PROTOTYPE")
+        assert iref.setContextRootCompositionRef(ref) is iref
         assert iref.getContextRootCompositionRef() is ref
-
-    def test_set_context_root_composition_ref_none_is_noop(self):
-        """Test setting a None context root composition ref is a no-op"""
-        iref = VariableAccessInEcuInstanceRef()
-        ref = make_ref("/Root")
-        iref.setContextRootCompositionRef(ref)
         iref.setContextRootCompositionRef(None)
         assert iref.getContextRootCompositionRef() is ref
 
-
-class TestVariableAccessInEcuInstanceRefContextAtomicComponent:
     def test_get_set_context_atomic_component_ref(self):
-        """Test setContextAtomicComponentRef returns self and getContextAtomicComponentRef round-trips"""
         iref = VariableAccessInEcuInstanceRef()
-        ref = make_ref("/Root/Comp")
-        result = iref.setContextAtomicComponentRef(ref)
-        assert result is iref
+        ref = make_ref("/Comp", "SW-COMPONENT-PROTOTYPE")
+        assert iref.setContextAtomicComponentRef(ref) is iref
         assert iref.getContextAtomicComponentRef() is ref
-
-    def test_set_context_atomic_component_ref_none_is_noop(self):
-        """Test setting a None context atomic component ref is a no-op"""
-        iref = VariableAccessInEcuInstanceRef()
-        ref = make_ref("/Root/Comp")
-        iref.setContextAtomicComponentRef(ref)
         iref.setContextAtomicComponentRef(None)
         assert iref.getContextAtomicComponentRef() is ref
 
-
-class TestVariableAccessInEcuInstanceRefTarget:
     def test_get_set_target_variable_access_ref(self):
-        """Test setTargetVariableAccessRef returns self and getTargetVariableAccessRef round-trips"""
         iref = VariableAccessInEcuInstanceRef()
-        ref = make_ref("/Root/Comp/Var")
-        result = iref.setTargetVariableAccessRef(ref)
-        assert result is iref
+        ref = make_ref("/va", "VARIABLE-ACCESS")
+        assert iref.setTargetVariableAccessRef(ref) is iref
         assert iref.getTargetVariableAccessRef() is ref
-
-    def test_set_target_variable_access_ref_none_is_noop(self):
-        """Test setting a None target VariableAccess ref is a no-op"""
-        iref = VariableAccessInEcuInstanceRef()
-        ref = make_ref("/Root/Comp/Var")
-        iref.setTargetVariableAccessRef(ref)
         iref.setTargetVariableAccessRef(None)
         assert iref.getTargetVariableAccessRef() is ref
+
+    def test_get_type_hints(self):
+        """Spec-typed annotations resolve at runtime (plain get_type_hints)."""
+        for accessor in ("setContextRootCompositionRef", "setContextAtomicComponentRef", "setTargetVariableAccessRef"):
+            hints = typing.get_type_hints(getattr(VariableAccessInEcuInstanceRef, accessor))
+            assert hints.get("value") == typing.Optional[RefType], accessor
+            assert hints.get("return") is VariableAccessInEcuInstanceRef, accessor
+        for accessor in ("getContextRootCompositionRef", "getContextAtomicComponentRef", "getTargetVariableAccessRef"):
+            assert typing.get_type_hints(getattr(VariableAccessInEcuInstanceRef, accessor)).get("return") == typing.Optional[RefType], accessor

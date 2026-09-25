@@ -111,117 +111,107 @@ class AsynchronousServerCallReturnsEvent(RTEEvent):
 
 class DataSendCompletedEvent(RTEEvent):
     """
-    This event is raised when the referenced explicit data element has been
-    sent or an error occurred.
+    This event is raised when the referenced explicit data element has been sent or an error occurred.
+
+    [constr_1941] Existence of attribute DataSendCompletedEvent.eventSource: For each DataSendCompletedEvent, attribute eventSource shall exist at the time when the contract phase generation is executed.
     """
 
     # DataSendCompletedEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getEventSourceRef            [x] impl  [x] docstring  [ ] test
-    # [ ] setEventSourceRef            [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.11, p.542
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventSourceRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventSourceRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.eventSourceRef: RefType = None
+        # The referenced VariableAccess raises this DataSendCompletedEvent when the explicit write access was successful or an error occurred.
+        self.eventSourceRef: Optional[RefType] = None
 
-    def getEventSourceRef(self):
+    def getEventSourceRef(self) -> Optional[RefType]:
         """
-        Gets the event source reference.
-
-        Returns:
-            RefType: The event source reference
+        The referenced VariableAccess raises this DataSendCompletedEvent when the explicit write access was successful or an error occurred.
         """
         return self.eventSourceRef
 
-    def setEventSourceRef(self, value):
+    def setEventSourceRef(self, value: Optional[RefType]) -> DataSendCompletedEvent:
         """
-        Sets the event source reference.
-
-        Args:
-            value: The event source reference to set
-
-        Returns:
-            self for method chaining
+        The referenced VariableAccess raises this DataSendCompletedEvent when the explicit write access was successful or an error occurred.
+        A None value is a no-op and does not overwrite an existing eventSourceRef.
         """
-        self.eventSourceRef = value
+        if value is not None:
+            self.eventSourceRef = value
         return self
 
 
 class DataWriteCompletedEvent(RTEEvent):
     """
-    This event is raised when an implicit write access was successful or
-    an error occurred.
+    This event is raised when an implicit write access was successful or an error occurred.
+
+    [constr_1942] Existence of attribute DataWriteCompletedEvent.eventSource: For each DataWriteCompletedEvent, attribute eventSource shall exist at the time when the contract phase generation is executed.
     """
 
     # DataWriteCompletedEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getEventSourceRef            [x] impl  [x] docstring  [ ] test
-    # [ ] setEventSourceRef            [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.12, p.542
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventSourceRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventSourceRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.eventSourceRef: RefType = None
+        # The referenced VariableAccess raises this DataWriteCompletedEvent when the implicit write access was successful or an error occurred.
+        self.eventSourceRef: Optional[RefType] = None
 
-    def getEventSourceRef(self):
-        """
-        Gets the event source reference.
-
-        Returns:
-            RefType: The event source reference
-        """
+    def getEventSourceRef(self) -> Optional[RefType]:
+        """The referenced VariableAccess raises this DataWriteCompletedEvent when the implicit write access was successful or an error occurred."""
         return self.eventSourceRef
 
-    def setEventSourceRef(self, value):
+    def setEventSourceRef(self, value: Optional[RefType]) -> DataWriteCompletedEvent:
         """
-        Sets the event source reference.
-
-        Args:
-            value: The event source reference to set
-
-        Returns:
-            self for method chaining
+        The referenced VariableAccess raises this DataWriteCompletedEvent when the implicit write access was successful or an error occurred.
+        A None value is a no-op and does not overwrite an existing eventSourceRef.
         """
-        self.eventSourceRef = value
+        if value is not None:
+            self.eventSourceRef = value
         return self
 
 
 class DataReceivedEvent(RTEEvent):
     """
     This event is raised when the referenced data element is received.
+
+    [constr_1943] Existence of attribute DataReceivedEvent.data: For each DataReceivedEvent, attribute data shall exist at the time when the contract phase generation is executed.
     """
 
     # DataReceivedEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataIRef                  [x] impl  [x] docstring  [ ] test
-    # [ ] setDataIRef                  [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.13, p.542
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dataIRef: RVariableInAtomicSwcInstanceRef = None
+        # The referenced VariableDataPrototype raises this DataReceivedEvent when the data has been received. InstanceRef implemented by: RVariableInAtomicSwcInstanceRef
+        self.dataIRef: Optional[RVariableInAtomicSwcInstanceRef] = None
 
-    def getDataIRef(self):
+    def getDataIRef(self) -> Optional[RVariableInAtomicSwcInstanceRef]:
         """
-        Gets the data instance reference.
-
-        Returns:
-            RVariableInAtomicSwcInstanceRef: The data instance reference
+        The referenced VariableDataPrototype raises this DataReceivedEvent when the data has been received. InstanceRef implemented by: RVariableInAtomicSwcInstanceRef
         """
         return self.dataIRef
 
-    def setDataIRef(self, value):
+    def setDataIRef(self, value: Optional[RVariableInAtomicSwcInstanceRef]) -> DataReceivedEvent:
         """
-        Sets the data instance reference.
-
-        Args:
-            value: The data instance reference to set
-
-        Returns:
-            self for method chaining
+        The referenced VariableDataPrototype raises this DataReceivedEvent when the data has been received. InstanceRef implemented by: RVariableInAtomicSwcInstanceRef
+        A None value is a no-op and does not overwrite an existing dataIRef.
         """
-        self.dataIRef = value
+        if value is not None:
+            self.dataIRef = value
         return self
 
 
@@ -282,77 +272,68 @@ class SwcModeSwitchEvent(RTEEvent):
 
 class DataReceiveErrorEvent(RTEEvent):
     """
-    This event is raised when the Com layer detects and notifies an error
-    concerning the reception of the referenced VariableDataPrototype.
+    This event is raised when the Com layer detects and notifies an error concerning the reception of the referenced VariableDataPrototype.
+
+    [constr_1944] Existence of attribute DataReceiveErrorEvent.data: For each DataReceiveErrorEvent, attribute data shall exist at the time when the contract phase generation is executed.
     """
 
     # DataReceiveErrorEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataIRef                  [x] impl  [x] docstring  [ ] test
-    # [ ] setDataIRef                  [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.14, p.543
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dataIRef: RVariableInAtomicSwcInstanceRef = None
+        # The referenced VariableDataPrototype raises this DataReceiveErrorEvent when there was an error during the reception. InstanceRef implemented by: RVariableInAtomicSwcInstanceRef
+        self.dataIRef: Optional[RVariableInAtomicSwcInstanceRef] = None
 
-    def getDataIRef(self):
+    def getDataIRef(self) -> Optional[RVariableInAtomicSwcInstanceRef]:
         """
-        Gets the data instance reference.
-
-        Returns:
-            RVariableInAtomicSwcInstanceRef: The data instance reference
+        The referenced VariableDataPrototype raises this DataReceiveErrorEvent when there was an error during the reception. InstanceRef implemented by: RVariableInAtomicSwcInstanceRef
         """
         return self.dataIRef
 
-    def setDataIRef(self, value):
+    def setDataIRef(self, value: Optional[RVariableInAtomicSwcInstanceRef]) -> DataReceiveErrorEvent:
         """
-        Sets the data instance reference.
-
-        Args:
-            value: The data instance reference to set
-
-        Returns:
-            self for method chaining
+        The referenced VariableDataPrototype raises this DataReceiveErrorEvent when there was an error during the reception. InstanceRef implemented by: RVariableInAtomicSwcInstanceRef
+        A None value is a no-op and does not overwrite an existing dataIRef.
         """
-        self.dataIRef = value
+        if value is not None:
+            self.dataIRef = value
         return self
 
 
 class OperationInvokedEvent(RTEEvent):
     """
-    This event is raised when the ClientServerOperation referenced in
-    OperationInvokedEvent.operation shall be invoked.
+    This event is raised when the ClientServerOperation referenced in OperationInvokedEvent.operation shall be invoked.
+
+    [constr_1945] Existence of attribute OperationInvokedEvent.operation: For each OperationInvokedEvent, attribute operation shall exist at the time when the contract phase generation is executed.
     """
 
     # OperationInvokedEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getOperationIRef             [x] impl  [x] docstring  [ ] test
-    # [ ] setOperationIRef             [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.15, p.543
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOperationIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOperationIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.operationIRef: POperationInAtomicSwcInstanceRef = None
+        # This represents the ClientServerOperation which shall be invoked.
+        self.operationIRef: Optional[POperationInAtomicSwcInstanceRef] = None
 
-    def getOperationIRef(self):
-        """
-        Gets the operation instance reference.
-
-        Returns:
-            POperationInAtomicSwcInstanceRef: The operation instance reference
-        """
+    def getOperationIRef(self) -> Optional[POperationInAtomicSwcInstanceRef]:
+        """This represents the ClientServerOperation which shall be invoked."""
         return self.operationIRef
 
-    def setOperationIRef(self, value):
+    def setOperationIRef(self, value: Optional[POperationInAtomicSwcInstanceRef]) -> OperationInvokedEvent:
         """
-        Sets the operation instance reference.
-
-        Args:
-            value: The operation instance reference to set
-
-        Returns:
-            self for method chaining
+        This represents the ClientServerOperation which shall be invoked.
+        A None value is a no-op and does not overwrite an existing operationIRef.
         """
         if value is not None:
             self.operationIRef = value
@@ -454,38 +435,32 @@ class TimingEvent(RTEEvent):
 
 class InternalTriggerOccurredEvent(RTEEvent):
     """
-    This event is raised when the referenced InternalTriggeringPoint has
-    occurred.
+    This event is raised when the referenced InternalTriggeringPoint has occurred.
+
+    [constr_1950] Existence of attribute InternalTriggerOccurredEvent.eventSource: For each InternalTriggerOccurredEvent, the attribute eventSource shall exist at the time when the RTE is generated.
     """
 
     # InternalTriggerOccurredEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getEventSourceRef            [x] impl  [x] docstring  [ ] test
-    # [ ] setEventSourceRef            [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.21, p.546
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventSourceRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventSourceRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.eventSourceRef: RefType = None
+        # The referenced InternalTriggeringPoint raises this InternalTriggerOccurredEvent.
+        self.eventSourceRef: Optional[RefType] = None
 
-    def getEventSourceRef(self):
-        """
-        Gets the event source reference.
-
-        Returns:
-            RefType: The event source reference
-        """
+    def getEventSourceRef(self) -> Optional[RefType]:
+        """The referenced InternalTriggeringPoint raises this InternalTriggerOccurredEvent."""
         return self.eventSourceRef
 
-    def setEventSourceRef(self, value):
+    def setEventSourceRef(self, value: Optional[RefType]) -> InternalTriggerOccurredEvent:
         """
-        Sets the event source reference.
-
-        Args:
-            value: The event source reference to set
-
-        Returns:
-            self for method chaining
+        The referenced InternalTriggeringPoint raises this InternalTriggerOccurredEvent.
+        A None value is a no-op and does not overwrite an existing eventSourceRef.
         """
         if value is not None:
             self.eventSourceRef = value

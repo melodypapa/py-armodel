@@ -1,6 +1,6 @@
 import os
 import xml.etree.ElementTree as ET
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, FileInfoComment
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment import (
@@ -704,8 +704,10 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
     AsynchronousServerCallReturnsEvent,
     BackgroundEvent,
+    DataReceiveErrorEvent,
     DataReceivedEvent,
     DataSendCompletedEvent,
+    DataWriteCompletedEvent,
     InitEvent,
     InternalTriggerOccurredEvent,
     ModeSwitchedAckEvent,
@@ -5190,7 +5192,7 @@ class ARXMLParser(AbstractARXMLParser):
             operation_iref.setTargetRequiredOperationRef(self.getChildElementOptionalRefType(child_element, "TARGET-REQUIRED-OPERATION-REF"))
             parent.setOperationIRef(operation_iref)
 
-    def readRVariableInAtomicSwcInstanceRef(self, element: ET.Element, parent: DataReceivedEvent):
+    def readRVariableInAtomicSwcInstanceRef(self, element: ET.Element, parent: Union[DataReceivedEvent, DataReceiveErrorEvent]):
         child_element = self.find(element, "DATA-IREF")
         if child_element is not None:
             data_iref = RVariableInAtomicSwcInstanceRef()
@@ -5607,6 +5609,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readRTEEvent(element, event)
         self.readRVariableInAtomicSwcInstanceRef(element, event)
 
+    def readDataReceiveErrorEvent(self, element: ET.Element, event: DataReceiveErrorEvent):
+        # self.logger.debug("Read DataReceiveErrorEvent <%s>" % event.getShortName())
+        self.readRTEEvent(element, event)
+        self.readRVariableInAtomicSwcInstanceRef(element, event)
+
     def readSwcModeSwitchEvent(self, element: ET.Element, event: SwcModeSwitchEvent):
         # self.logger.debug("Read SwcModeSwitchEvent <%s>" % event.getShortName())
         self.readRTEEvent(element, event)
@@ -5643,6 +5650,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readRTEEvent(element, event)
         event.setEventSourceRef(self.getChildElementOptionalRefType(element, "EVENT-SOURCE-REF"))
 
+    def readDataWriteCompletedEvent(self, element, event: DataWriteCompletedEvent):
+        # self.logger.debug("Read DataWriteCompletedEvent <%s>" % event.getShortName())
+        self.readRTEEvent(element, event)
+        event.setEventSourceRef(self.getChildElementOptionalRefType(element, "EVENT-SOURCE-REF"))
+
     def readSwcInternalBehaviorEvents(self, element: ET.Element, parent: SwcInternalBehavior):
         for child_element in self.findall(element, "EVENTS/*"):
             tag_name = self.getTagName(child_element)
@@ -5658,6 +5670,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DATA-RECEIVED-EVENT":
                 event = parent.createDataReceivedEvent(self.getShortName(child_element))
                 self.readDataReceivedEvent(child_element, event)
+            elif tag_name == "DATA-RECEIVE-ERROR-EVENT":
+                event = parent.createDataReceiveErrorEvent(self.getShortName(child_element))
+                self.readDataReceiveErrorEvent(child_element, event)
             elif tag_name == "INTERNAL-TRIGGER-OCCURRED-EVENT":
                 event = parent.createInternalTriggerOccurredEvent(self.getShortName(child_element))
                 self.readInternalTriggerOccurredEvent(child_element, event)
@@ -5676,6 +5691,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DATA-SEND-COMPLETED-EVENT":
                 event = parent.createDataSendCompletedEvent(self.getShortName(child_element))
                 self.readDataSendCompletedEvent(child_element, event)
+            elif tag_name == "DATA-WRITE-COMPLETED-EVENT":
+                event = parent.createDataWriteCompletedEvent(self.getShortName(child_element))
+                self.readDataWriteCompletedEvent(child_element, event)
             else:
                 self.notImplemented("Unsupported SwcInternalBehavior Event <%s>" % tag_name)
 

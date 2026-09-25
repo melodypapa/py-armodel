@@ -619,8 +619,10 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
     AsynchronousServerCallReturnsEvent,
     BackgroundEvent,
+    DataReceiveErrorEvent,
     DataReceivedEvent,
     DataSendCompletedEvent,
+    DataWriteCompletedEvent,
     InitEvent,
     InternalTriggerOccurredEvent,
     ModeSwitchedAckEvent,
@@ -3564,7 +3566,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if event is not None:
             child_element = ET.SubElement(element, "OPERATION-INVOKED-EVENT")
             self.setRTEEvent(child_element, event)
-            self.setPOperationInAtomicSwcInstanceRef(child_element, "OPERATION-IREF", event.operationIRef)
+            self.setPOperationInAtomicSwcInstanceRef(child_element, "OPERATION-IREF", event.getOperationIRef())
 
     def writeSwcModeSwitchEvent(self, element: ET.Element, event: SwcModeSwitchEvent):
         if event is not None:
@@ -3587,7 +3589,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         if event is not None:
             child_element = ET.SubElement(element, "DATA-RECEIVED-EVENT")
             self.setRTEEvent(child_element, event)
-            self.setRVariableInAtomicSwcInstanceRef(child_element, event.dataIRef)
+            self.setRVariableInAtomicSwcInstanceRef(child_element, event.getDataIRef())
+
+    def writeDataReceiveErrorEvent(self, element: ET.Element, event: DataReceiveErrorEvent):
+        if event is not None:
+            child_element = ET.SubElement(element, "DATA-RECEIVE-ERROR-EVENT")
+            self.setRTEEvent(child_element, event)
+            self.setRVariableInAtomicSwcInstanceRef(child_element, event.getDataIRef())
 
     def writeInternalTriggerOccurredEvent(self, element: ET.Element, event: InternalTriggerOccurredEvent):
         if event is not None:
@@ -3623,6 +3631,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setRTEEvent(child_element, event)
             self.setChildElementOptionalRefType(child_element, "EVENT-SOURCE-REF", event.getEventSourceRef())
 
+    def writeDataWriteCompletedEvent(self, element: ET.Element, event: DataWriteCompletedEvent):
+        if event is not None:
+            child_element = ET.SubElement(element, "DATA-WRITE-COMPLETED-EVENT")
+            self.setRTEEvent(child_element, event)
+            self.setChildElementOptionalRefType(child_element, "EVENT-SOURCE-REF", event.getEventSourceRef())
+
     def writeSwcInternalBehaviorEvents(self, element: ET.Element, parent: SwcInternalBehavior):
         events = parent.getRteEvents()
         if len(events) > 0:
@@ -3637,6 +3651,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeSwcModeSwitchEvent(child_element, event)
                 elif isinstance(event, DataReceivedEvent):
                     self.writeDataReceivedEvent(child_element, event)
+                elif isinstance(event, DataReceiveErrorEvent):
+                    self.writeDataReceiveErrorEvent(child_element, event)
                 elif isinstance(event, InternalTriggerOccurredEvent):
                     self.writeInternalTriggerOccurredEvent(child_element, event)
                 elif isinstance(event, InitEvent):
@@ -3649,6 +3665,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeBackgroundEvent(child_element, event)
                 elif isinstance(event, DataSendCompletedEvent):
                     self.writeDataSendCompletedEvent(child_element, event)
+                elif isinstance(event, DataWriteCompletedEvent):
+                    self.writeDataWriteCompletedEvent(child_element, event)
                 else:
                     self.notImplemented("Unsupported Event <%s>" % type(event))
 
