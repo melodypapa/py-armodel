@@ -55,10 +55,12 @@ class TestReadImplementationDataTypeElement:
         Test that the ARRAY-IMPL-POLICY value is populated into the arrayImplPolicy field.
         """
         impl_element = _impl_element()
-        element = ET.fromstring(f"""<IMPLEMENTATION-DATA-TYPE-ELEMENT xmlns='{NS}'>
+        element = ET.fromstring(
+            f"""<IMPLEMENTATION-DATA-TYPE-ELEMENT xmlns='{NS}'>
                 <SHORT-NAME>Elem</SHORT-NAME>
                 <ARRAY-IMPL-POLICY>payloadAsPointerToArray</ARRAY-IMPL-POLICY>
-            </IMPLEMENTATION-DATA-TYPE-ELEMENT>""")
+            </IMPLEMENTATION-DATA-TYPE-ELEMENT>"""
+        )
 
         parser.readImplementationDataTypeElement(element, impl_element)
 
@@ -70,10 +72,12 @@ class TestReadImplementationDataTypeElement:
         Test that the IS-OPTIONAL value is populated into the isOptional field.
         """
         impl_element = _impl_element()
-        element = ET.fromstring(f"""<IMPLEMENTATION-DATA-TYPE-ELEMENT xmlns='{NS}'>
+        element = ET.fromstring(
+            f"""<IMPLEMENTATION-DATA-TYPE-ELEMENT xmlns='{NS}'>
                 <SHORT-NAME>Elem</SHORT-NAME>
                 <IS-OPTIONAL>true</IS-OPTIONAL>
-            </IMPLEMENTATION-DATA-TYPE-ELEMENT>""")
+            </IMPLEMENTATION-DATA-TYPE-ELEMENT>"""
+        )
 
         parser.readImplementationDataTypeElement(element, impl_element)
 
@@ -86,12 +90,14 @@ class TestReadImplementationDataTypeElement:
         Test that ARRAY-SIZE, ARRAY-SIZE-HANDLING and ARRAY-SIZE-SEMANTICS populate their fields.
         """
         impl_element = _impl_element()
-        element = ET.fromstring(f"""<IMPLEMENTATION-DATA-TYPE-ELEMENT xmlns='{NS}'>
+        element = ET.fromstring(
+            f"""<IMPLEMENTATION-DATA-TYPE-ELEMENT xmlns='{NS}'>
                 <SHORT-NAME>Elem</SHORT-NAME>
                 <ARRAY-SIZE>8</ARRAY-SIZE>
                 <ARRAY-SIZE-HANDLING>allIndicesSameArraySize</ARRAY-SIZE-HANDLING>
                 <ARRAY-SIZE-SEMANTICS>fixedSize</ARRAY-SIZE-SEMANTICS>
-            </IMPLEMENTATION-DATA-TYPE-ELEMENT>""")
+            </IMPLEMENTATION-DATA-TYPE-ELEMENT>"""
+        )
 
         parser.readImplementationDataTypeElement(element, impl_element)
 
@@ -107,7 +113,8 @@ class TestReadImplementationDataTypeElement:
         Test that nested IMPLEMENTATION-DATA-TYPE-ELEMENT items are populated recursively.
         """
         impl_element = _impl_element()
-        element = ET.fromstring(f"""<IMPLEMENTATION-DATA-TYPE-ELEMENT xmlns='{NS}'>
+        element = ET.fromstring(
+            f"""<IMPLEMENTATION-DATA-TYPE-ELEMENT xmlns='{NS}'>
                 <SHORT-NAME>Elem</SHORT-NAME>
                 <SUB-ELEMENTS>
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT>
@@ -115,7 +122,8 @@ class TestReadImplementationDataTypeElement:
                         <ARRAY-IMPL-POLICY>payloadAsArray</ARRAY-IMPL-POLICY>
                     </IMPLEMENTATION-DATA-TYPE-ELEMENT>
                 </SUB-ELEMENTS>
-            </IMPLEMENTATION-DATA-TYPE-ELEMENT>""")
+            </IMPLEMENTATION-DATA-TYPE-ELEMENT>"""
+        )
 
         parser.readImplementationDataTypeElement(element, impl_element)
 

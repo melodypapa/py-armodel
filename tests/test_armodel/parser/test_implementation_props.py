@@ -55,10 +55,12 @@ class TestReadImplementationProps:
         Test that the SYMBOL value is populated into the symbol field.
         """
         props = _props()
-        element = ET.fromstring(f"""<SYMBOL-PROPS xmlns='{NS}'>
+        element = ET.fromstring(
+            f"""<SYMBOL-PROPS xmlns='{NS}'>
                 <SHORT-NAME>props</SHORT-NAME>
                 <SYMBOL>TestSymbol_C</SYMBOL>
-            </SYMBOL-PROPS>""")
+            </SYMBOL-PROPS>"""
+        )
 
         parser.readImplementationProps(element, props)
 

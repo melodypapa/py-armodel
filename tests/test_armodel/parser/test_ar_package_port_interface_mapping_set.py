@@ -44,10 +44,12 @@ def _mapping_set(short_name: str = "pims") -> PortInterfaceMappingSet:
 
 
 def _parse(parser: ARXMLParser, mapping_set: PortInterfaceMappingSet, inner: str):
-    element = ET.fromstring(f"""<PORT-INTERFACE-MAPPING-SET xmlns='{NS}'>
+    element = ET.fromstring(
+        f"""<PORT-INTERFACE-MAPPING-SET xmlns='{NS}'>
             <SHORT-NAME>pims</SHORT-NAME>
             {inner}
-        </PORT-INTERFACE-MAPPING-SET>""")
+        </PORT-INTERFACE-MAPPING-SET>"""
+    )
     parser.readPortInterfaceMappingSet(element, mapping_set)
 
 

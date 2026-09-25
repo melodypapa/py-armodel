@@ -75,7 +75,8 @@ class TestGetNvProvideComSpec:
         AUTOSAR.getInstance().setARRelease("R23-11")
         app = ApplicationSwComponentType(parent=_autosar_root(), short_name="App")
         p_port = app.createPPortPrototype("PPort")
-        element = _snip("""
+        element = _snip(
+            """
             <PROVIDED-COM-SPECS>
                 <NV-PROVIDE-COM-SPEC>
                     <RAM-BLOCK-INIT-VALUE>
@@ -86,7 +87,8 @@ class TestGetNvProvideComSpec:
                     <VARIABLE-REF DEST="VARIABLE-DATA-PROTOTYPE">/pkg/NvDataInterface/Var</VARIABLE-REF>
                 </NV-PROVIDE-COM-SPEC>
             </PROVIDED-COM-SPECS>
-            """)
+            """
+        )
         parser.readProvidedComSpec(element, p_port)
         specs = p_port.getProvidedComSpecs()
         assert len(specs) == 1

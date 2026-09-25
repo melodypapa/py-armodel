@@ -75,14 +75,16 @@ class TestGetModeSwitchSenderComSpec:
         AUTOSAR.getInstance().setARRelease("R23-11")
         app = ApplicationSwComponentType(parent=_autosar_root(), short_name="App")
         p_port = app.createPPortPrototype("PPort")
-        element = _snip("""
+        element = _snip(
+            """
             <PROVIDED-COM-SPECS>
                 <MODE-SWITCH-SENDER-COM-SPEC>
                     <ENHANCED-MODE-API>true</ENHANCED-MODE-API>
                     <MODE-GROUP-REF DEST="MODE-DECLARATION-GROUP-PROTOTYPE">/mdg/Group</MODE-GROUP-REF>
                 </MODE-SWITCH-SENDER-COM-SPEC>
             </PROVIDED-COM-SPECS>
-            """)
+            """
+        )
         parser.readProvidedComSpec(element, p_port)
         specs = p_port.getProvidedComSpecs()
         assert len(specs) == 1
