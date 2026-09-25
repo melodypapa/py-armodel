@@ -368,6 +368,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
     VariationPoint,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
+    AbstractEnumerationValueVariationPoint,
     AttributeValueVariationPoint,
     BooleanValueVariationPoint,
     FloatValueVariationPoint,
@@ -4455,6 +4456,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             element.text = text
         if isinstance(avp, SwSystemconstDependentFormula):
             self.writeSwSystemconstDependentFormula(element, avp)
+
+    def writeAbstractEnumerationValueVariationPoint(self, element: ET.Element, obj: AbstractEnumerationValueVariationPoint):
+        base = obj.getBase()
+        if base is not None:
+            element.attrib["BASE"] = base.getValue()
+        enum_table = obj.getEnumTable()
+        if enum_table is not None:
+            element.attrib["ENUM-TABLE"] = enum_table.getValue()
 
     def writeTimingDescriptionEventChain(self, element: ET.Element, chain: TimingDescriptionEventChain):
         self.writeIdentifiable(element, chain)

@@ -465,6 +465,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     CIdentifier,
     DateTime,
+    Identifier,
     Integer,
     IntervalTypeEnum,
     Ip4AddressString,
@@ -499,6 +500,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
     VariationPoint,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
+    AbstractEnumerationValueVariationPoint,
     AttributeValueVariationPoint,
     BooleanValueVariationPoint,
     FloatValueVariationPoint,
@@ -3144,6 +3146,13 @@ class ARXMLParser(AbstractARXMLParser):
         if isinstance(avp, SwSystemconstDependentFormula):
             self.readSwSystemconstDependentFormula(element, avp)
         return avp
+
+    def readAbstractEnumerationValueVariationPoint(self, element: ET.Element, obj: AbstractEnumerationValueVariationPoint) -> AbstractEnumerationValueVariationPoint:
+        if "BASE" in element.attrib:
+            obj.setBase(Identifier().setValue(element.attrib["BASE"]))
+        if "ENUM-TABLE" in element.attrib:
+            obj.setEnumTable(RefType().setValue(element.attrib["ENUM-TABLE"]))
+        return obj
 
     def readTimingDescriptionEventChain(self, element: ET.Element, chain: TimingDescriptionEventChain):
         self.readIdentifiable(element, chain)
