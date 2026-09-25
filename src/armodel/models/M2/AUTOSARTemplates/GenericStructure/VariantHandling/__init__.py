@@ -2,7 +2,6 @@ from abc import ABC
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.FormulaLanguage import FormulaExpression
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARNumerical, Identifier, Integer
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
@@ -315,37 +314,7 @@ class PostBuildVariantCondition(ARObject):
         return self
 
 
-class ConditionByFormula(ARObject, AtpMixedString):
-    """
-    This class represents a condition which is computed based on system constants according to the specified expression. The expected result is considered as boolean value. The result of the expression is interpreted as a condition. • "0" represents "false"; • a value other than zero is considered "true"
-    """
-
-    # ConditionByFormula method parity checklist:
-    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.5, p.231
-    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getBindingTime    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setBindingTime    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # getMixedString / setMixedString provided by the AtpMixedString base (mixin) — no spec row (stereotype-inherent)
-
-    def __init__(self):
-        super().__init__()
-
-        # This attribute specifies the point in time when condition may be evaluated at earliest. At this point in time all referenced system constants shall have a value. Tags: xml.attribute=true
-        self.bindingTime: Optional[BindingTimeEnum] = None
-
-    def getBindingTime(self) -> Optional[BindingTimeEnum]:
-        """This attribute specifies the point in time when condition may be evaluated at earliest. At this point in time all referenced system constants shall have a value."""
-        return self.bindingTime
-
-    def setBindingTime(self, value: Optional[BindingTimeEnum]) -> "ConditionByFormula":
-        """This attribute specifies the point in time when condition may be evaluated at earliest. At this point in time all referenced system constants shall have a value. A None value is a no-op and does not overwrite an existing bindingTime."""
-        if value is not None:
-            self.bindingTime = value
-        return self
-
-
-class SwSystemconstDependentFormula(AtpMixedString, FormulaExpression, ABC):
+class SwSystemconstDependentFormula(FormulaExpression, ABC):
     """
     This class represents an expression depending on system constants.
     """
@@ -359,7 +328,7 @@ class SwSystemconstDependentFormula(AtpMixedString, FormulaExpression, ABC):
     # [x] setSyscRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getSyscStringRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] setSyscStringRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # getMixedString / setMixedString provided by the AtpMixedString base (mixin) — no spec row (stereotype-inherent)
+    # getMixedString / setMixedString provided by the AtpMixedString mixin (via FormulaExpression) — no spec row (stereotype-inherent)
 
     def __init__(self):
         if type(self) is SwSystemconstDependentFormula:
@@ -391,6 +360,36 @@ class SwSystemconstDependentFormula(AtpMixedString, FormulaExpression, ABC):
         """syscString indicates that the referenced system constant shall be evaluated as a string according to [TPS_SWCT_01431]. A None value is a no-op and does not overwrite an existing syscStringRef."""
         if value is not None:
             self.syscStringRef = value
+        return self
+
+
+class ConditionByFormula(SwSystemconstDependentFormula):
+    """
+    This class represents a condition which is computed based on system constants according to the specified expression. The expected result is considered as boolean value. The result of the expression is interpreted as a condition. • "0" represents "false"; • a value other than zero is considered "true"
+    """
+
+    # ConditionByFormula method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.5, p.231
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBindingTime    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBindingTime    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # getMixedString / setMixedString provided by the AtpMixedString mixin (via FormulaExpression) — no spec row (stereotype-inherent)
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute specifies the point in time when condition may be evaluated at earliest. At this point in time all referenced system constants shall have a value. Tags: xml.attribute=true
+        self.bindingTime: Optional[BindingTimeEnum] = None
+
+    def getBindingTime(self) -> Optional[BindingTimeEnum]:
+        """This attribute specifies the point in time when condition may be evaluated at earliest. At this point in time all referenced system constants shall have a value."""
+        return self.bindingTime
+
+    def setBindingTime(self, value: Optional[BindingTimeEnum]) -> "ConditionByFormula":
+        """This attribute specifies the point in time when condition may be evaluated at earliest. At this point in time all referenced system constants shall have a value. A None value is a no-op and does not overwrite an existing bindingTime."""
+        if value is not None:
+            self.bindingTime = value
         return self
 
 

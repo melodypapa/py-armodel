@@ -3,9 +3,10 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 
 
-class FormulaExpression(ARObject, ABC):
+class FormulaExpression(ARObject, AtpMixedString, ABC):
     """
     This class represents the syntax of the formula language. The class is modeled as an abstract class in order to be specialized into particular use cases. For each use case the referable objects might be specified in the specialization.
     """
@@ -13,7 +14,7 @@ class FormulaExpression(ARObject, ABC):
     # FormulaExpression method parity checklist:
     # Spec: R23-11/AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table C.5, pp.73-74 (R23-11)
     # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element; <<atpMixedString>> stereotype, mixin not inherited per standing decision)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element; getMixedString/setMixedString inherited from the AtpMixedString mixin — no spec rows)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAtpReferences         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addAtpReference          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11

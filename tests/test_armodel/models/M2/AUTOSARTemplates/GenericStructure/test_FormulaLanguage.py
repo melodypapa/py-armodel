@@ -5,6 +5,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.FormulaLanguage import FormulaExpression
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 
 
 class _RefProbe(Referrable):
@@ -17,6 +18,7 @@ class _ConcreteFormulaExpression(FormulaExpression):
 
 class TestFormulaExpression:
     def test_abstract(self):
+        assert issubclass(FormulaExpression, AtpMixedString)
         assert issubclass(FormulaExpression, ARObject)
         assert issubclass(FormulaExpression, ABC)
         with pytest.raises(TypeError):

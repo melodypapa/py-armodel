@@ -3,8 +3,7 @@ from __future__ import annotations
 from abc import ABC
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import SwSystemconstDependentFormula
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     IntervalTypeEnum,
@@ -13,7 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 
 
-class AttributeValueVariationPoint(ARObject, AtpMixedString, ABC):
+class AttributeValueVariationPoint(SwSystemconstDependentFormula, ABC):
     """
     This class represents the ability to derive the value of the Attribute from a system constant (by SwSystemconstDependentFormula). It also provides a bindingTime.
     """
@@ -31,7 +30,7 @@ class AttributeValueVariationPoint(ARObject, AtpMixedString, ABC):
     # [x] setSd              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getShortLabel      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setShortLabel      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # getMixedString / setMixedString provided by the AtpMixedString base (mixin) — no spec row (stereotype-inherent)
+    # getMixedString / setMixedString provided by the AtpMixedString mixin (via FormulaExpression) — no spec row (stereotype-inherent)
 
     def __init__(self):
         if type(self) is AttributeValueVariationPoint:
