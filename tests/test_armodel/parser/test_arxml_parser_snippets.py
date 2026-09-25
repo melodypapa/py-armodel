@@ -783,6 +783,33 @@ class TestSwSystemconstantValueSetParser:
         assert len(annotations) == 1
         assert annotations[0].getAnnotationOrigin().getValue() == "TEST"
 
+    def test_read_sw_systemconst_value_empty_fields(self, parser):
+        """Test parsing an empty SW-SYSTEMCONST-VALUE: all Table 7.9 attributes default."""
+        xml = f"""<AUTOSAR xmlns='{NS}'>
+            <AR-PACKAGES>
+                <AR-PACKAGE>
+                    <SHORT-NAME>Variants</SHORT-NAME>
+                    <ELEMENTS>
+                        <SW-SYSTEMCONSTANT-VALUE-SET>
+                            <SHORT-NAME>EmptyValueSet</SHORT-NAME>
+                            <SW-SYSTEMCONSTANT-VALUES>
+                                <SW-SYSTEMCONST-VALUE/>
+                            </SW-SYSTEMCONSTANT-VALUES>
+                        </SW-SYSTEMCONSTANT-VALUE-SET>
+                    </ELEMENTS>
+                </AR-PACKAGE>
+            </AR-PACKAGES>
+        </AUTOSAR>"""
+
+        element = ET.fromstring(xml)
+        document = AUTOSARDoc()
+        parser.readARPackages(element, document)
+
+        value = document.getARPackages()[0].getSwSystemconstantValueSets()[0].getSwSystemconstantValues()[0]
+        assert value.getAnnotations() == []
+        assert value.getSwSystemconstRef() is None
+        assert value.getValue() is None
+
 
 class TestPredefinedVariantParser:
     """Test PredefinedVariant parsing from ARXML."""

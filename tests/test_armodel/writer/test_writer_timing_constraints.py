@@ -36,6 +36,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
     SynchronizationTimingConstraint,
     SynchronizationTypeEnum,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEventChain
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import (
     MultidimensionalTime,
@@ -244,6 +245,46 @@ class TestWriteOffsetTimingConstraint:
         assert reloaded.getMinimum() is None
         assert reloaded.getMaximum() is None
 
+    def test_round_trip_offset_timing_constraint_via_timing_extension(self):
+        parent = self._parent()
+        extension = SwcTiming(parent, "Timing")
+        guarantee = OffsetTimingConstraint(extension, "OffsetGuarantee")
+        guarantee.setMinimum(_mdt("0", "10"))
+        guarantee.setMaximum(_mdt("0", "20"))
+        guarantee.setSourceRef(RefType().setValue("/AUTOSAR/SrcEvent").setDest("TIMING-DESCRIPTION-EVENT"))
+        guarantee.setTargetRef(RefType().setValue("/AUTOSAR/TgtEvent").setDest("TIMING-DESCRIPTION-EVENT"))
+        extension.addElement(guarantee)
+        extension.addTimingGuarantee(guarantee)
+        requirement = OffsetTimingConstraint(extension, "OffsetRequirement")
+        requirement.setMinimum(_mdt("0", "15"))
+        extension.addElement(requirement)
+        extension.addTimingRequirement(requirement)
+
+        element = ET.Element("SWC-TIMING")
+        ARXMLWriter().writeTimingExtension(element, extension)
+        guarantees_tag = element.find("TIMING-GUARANTEES")
+        assert guarantees_tag is not None
+        assert guarantees_tag.find("OFFSET-TIMING-CONSTRAINT") is not None
+        requirements_tag = element.find("TIMING-REQUIREMENTS")
+        assert requirements_tag is not None
+        assert requirements_tag.find("OFFSET-TIMING-CONSTRAINT") is not None
+
+        reloaded = SwcTiming(parent, "Timing")
+        ARXMLParser().readTimingExtension(_round_trip(element), reloaded)
+        reloaded_guarantees = reloaded.getTimingGuarantees()
+        assert len(reloaded_guarantees) == 1
+        reloaded_guarantee = reloaded_guarantees[0]
+        assert isinstance(reloaded_guarantee, OffsetTimingConstraint)
+        assert reloaded_guarantee.getShortName() == "OffsetGuarantee"
+        assert reloaded_guarantee.getMinimum().getCseCodeFactor().getValue() == 10
+        assert reloaded_guarantee.getMaximum().getCseCodeFactor().getValue() == 20
+        assert reloaded_guarantee.getSourceRef().getValue() == "/AUTOSAR/SrcEvent"
+        assert reloaded_guarantee.getSourceRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        assert reloaded_guarantee.getTargetRef().getValue() == "/AUTOSAR/TgtEvent"
+        reloaded_requirements = reloaded.getTimingRequirements()
+        assert len(reloaded_requirements) == 1
+        assert reloaded_requirements[0].getMinimum().getCseCodeFactor().getValue() == 15
+
 
 class TestWriteSynchronizationTimingConstraint:
     def _parent(self):
@@ -321,6 +362,52 @@ class TestWriteSynchronizationTimingConstraint:
         assert reloaded.getScopes() == []
         assert reloaded.getSynchronizationConstraintType() is None
         assert reloaded.getTolerance() is None
+
+    def test_round_trip_synchronization_timing_constraint_via_timing_extension(self):
+        parent = self._parent()
+        extension = SwcTiming(parent, "Timing")
+        guarantee = SynchronizationTimingConstraint(extension, "SyncGuarantee")
+        guarantee.setEventOccurrenceKind(EventOccurrenceKindEnum().setValue(EventOccurrenceKindEnum.MULTIPLE_OCCURRENCES))
+        guarantee.setSynchronizationConstraintType(SynchronizationTypeEnum().setValue(SynchronizationTypeEnum.STIMULUS_SYNCHRONIZATION))
+        guarantee.addScopeEvent(RefType().setValue("/AUTOSAR/Evt1").setDest("TIMING-DESCRIPTION-EVENT"))
+        guarantee.addScope(RefType().setValue("/AUTOSAR/Chain1").setDest("TIMING-DESCRIPTION-EVENT-CHAIN"))
+        guarantee.setTolerance(_mdt("0", "200"))
+        extension.addElement(guarantee)
+        extension.addTimingGuarantee(guarantee)
+        requirement = SynchronizationTimingConstraint(extension, "SyncRequirement")
+        requirement.addScope(RefType().setValue("/AUTOSAR/Chain2").setDest("TIMING-DESCRIPTION-EVENT-CHAIN"))
+        extension.addElement(requirement)
+        extension.addTimingRequirement(requirement)
+
+        element = ET.Element("SWC-TIMING")
+        ARXMLWriter().writeTimingExtension(element, extension)
+        guarantees_tag = element.find("TIMING-GUARANTEES")
+        assert guarantees_tag is not None
+        assert guarantees_tag.find("SYNCHRONIZATION-TIMING-CONSTRAINT") is not None
+        requirements_tag = element.find("TIMING-REQUIREMENTS")
+        assert requirements_tag is not None
+        assert requirements_tag.find("SYNCHRONIZATION-TIMING-CONSTRAINT") is not None
+
+        reloaded = SwcTiming(parent, "Timing")
+        ARXMLParser().readTimingExtension(_round_trip(element), reloaded)
+        reloaded_guarantees = reloaded.getTimingGuarantees()
+        assert len(reloaded_guarantees) == 1
+        reloaded_guarantee = reloaded_guarantees[0]
+        assert isinstance(reloaded_guarantee, SynchronizationTimingConstraint)
+        assert reloaded_guarantee.getShortName() == "SyncGuarantee"
+        assert reloaded_guarantee.getEventOccurrenceKind().getValue() == "multipleOccurrences"
+        assert reloaded_guarantee.getSynchronizationConstraintType().getValue() == "stimulusSynchronization"
+        assert reloaded_guarantee.getScopeEvents()[0].getValue() == "/AUTOSAR/Evt1"
+        assert reloaded_guarantee.getScopeEvents()[0].getDest() == "TIMING-DESCRIPTION-EVENT"
+        assert reloaded_guarantee.getScopes()[0].getValue() == "/AUTOSAR/Chain1"
+        assert reloaded_guarantee.getScopes()[0].getDest() == "TIMING-DESCRIPTION-EVENT-CHAIN"
+        assert reloaded_guarantee.getTolerance().getCseCodeFactor().getValue() == 200
+        reloaded_requirements = reloaded.getTimingRequirements()
+        assert len(reloaded_requirements) == 1
+        reloaded_requirement = reloaded_requirements[0]
+        assert reloaded_requirement.getScopes()[0].getValue() == "/AUTOSAR/Chain2"
+        assert reloaded_requirement.getScopeEvents() == []
+        assert reloaded_requirement.getEventOccurrenceKind() is None
 
 
 class TestWritePeriodicEventTriggering:
@@ -976,3 +1063,101 @@ class TestWriteSwcTiming:
         ARXMLParser().readSwcTiming(_round_trip(element), reloaded)
         assert reloaded.getTimingConditions() == []
         assert reloaded.getBehaviorRef() is None
+
+
+class TestWriteTimingDescriptionEventChain:
+    def _parent(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        return document.createARPackage("AUTOSAR")
+
+    def _chain(self, parent) -> TimingDescriptionEventChain:
+        chain = TimingDescriptionEventChain(parent, "Chain1")
+        chain.setIsPipeliningPermitted(Boolean().setValue(True))
+        chain.setStimulusRef(RefType().setValue("/AUTOSAR/Stimulus").setDest("TIMING-DESCRIPTION-EVENT"))
+        chain.setResponseRef(RefType().setValue("/AUTOSAR/Response").setDest("TIMING-DESCRIPTION-EVENT"))
+        chain.addSegmentRef(RefType().setValue("/AUTOSAR/Seg1").setDest("TIMING-DESCRIPTION-EVENT-CHAIN"))
+        chain.addSegmentRef(RefType().setValue("/AUTOSAR/Seg2").setDest("TIMING-DESCRIPTION-EVENT-CHAIN"))
+        return chain
+
+    def test_round_trip_timing_description_event_chain_full(self):
+        parent = self._parent()
+        chain = self._chain(parent)
+
+        element = ET.Element("TIMING-DESCRIPTION-EVENT-CHAIN")
+        ARXMLWriter().writeTimingDescriptionEventChain(element, chain)
+        children = [child.tag for child in element if child.tag != "SHORT-NAME"]
+        assert children.index("IS-PIPELINING-PERMITTED") < children.index("STIMULUS-REF")
+        assert children.index("STIMULUS-REF") < children.index("RESPONSE-REF")
+        assert children.index("RESPONSE-REF") < children.index("SEGMENT-REFS")
+        assert element.find("IS-PIPELINING-PERMITTED").text == "true"
+        assert element.find("STIMULUS-REF").attrib["DEST"] == "TIMING-DESCRIPTION-EVENT"
+        assert element.find("STIMULUS-REF").text == "/AUTOSAR/Stimulus"
+        assert element.find("RESPONSE-REF").attrib["DEST"] == "TIMING-DESCRIPTION-EVENT"
+        assert element.find("RESPONSE-REF").text == "/AUTOSAR/Response"
+        segments = element.find("SEGMENT-REFS").findall("SEGMENT-REF")
+        assert len(segments) == 2
+        assert segments[0].attrib["DEST"] == "TIMING-DESCRIPTION-EVENT-CHAIN"
+        assert segments[1].text == "/AUTOSAR/Seg2"
+
+        reloaded = TimingDescriptionEventChain(parent, "Chain1")
+        ARXMLParser().readTimingDescriptionEventChain(_round_trip(element), reloaded)
+        assert reloaded.getIsPipeliningPermitted().getValue() is True
+        assert reloaded.getStimulusRef().getValue() == "/AUTOSAR/Stimulus"
+        assert reloaded.getStimulusRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        assert reloaded.getResponseRef().getValue() == "/AUTOSAR/Response"
+        assert reloaded.getResponseRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        reloaded_segments = reloaded.getSegmentRefs()
+        assert len(reloaded_segments) == 2
+        assert reloaded_segments[0].getValue() == "/AUTOSAR/Seg1"
+        assert reloaded_segments[1].getDest() == "TIMING-DESCRIPTION-EVENT-CHAIN"
+
+    def test_write_timing_description_event_chain_empty(self):
+        parent = self._parent()
+        chain = TimingDescriptionEventChain(parent, "Chain1")
+
+        element = ET.Element("TIMING-DESCRIPTION-EVENT-CHAIN")
+        ARXMLWriter().writeTimingDescriptionEventChain(element, chain)
+        assert element.find("IS-PIPELINING-PERMITTED") is None
+        assert element.find("STIMULUS-REF") is None
+        assert element.find("RESPONSE-REF") is None
+        assert element.find("SEGMENT-REFS") is None
+
+        reloaded = TimingDescriptionEventChain(parent, "Chain1")
+        ARXMLParser().readTimingDescriptionEventChain(_round_trip(element), reloaded)
+        assert reloaded.getIsPipeliningPermitted() is None
+        assert reloaded.getStimulusRef() is None
+        assert reloaded.getResponseRef() is None
+        assert reloaded.getSegmentRefs() == []
+
+    def test_round_trip_timing_description_event_chain_via_timing_extension(self):
+        parent = self._parent()
+        extension = SwcTiming(parent, "Timing")
+        chain = self._chain(extension)
+        extension.addElement(chain)
+        extension.addTimingDescription(chain)
+
+        element = ET.Element("SWC-TIMING")
+        ARXMLWriter().writeTimingExtension(element, extension)
+        descriptions_tag = element.find("TIMING-DESCRIPTIONS")
+        assert descriptions_tag is not None
+        chain_tag = descriptions_tag.find("TIMING-DESCRIPTION-EVENT-CHAIN")
+        assert chain_tag is not None
+
+        reloaded = SwcTiming(parent, "Timing")
+        ARXMLParser().readTimingExtension(_round_trip(element), reloaded)
+        descriptions = reloaded.getTimingDescriptions()
+        assert len(descriptions) == 1
+        reloaded_chain = descriptions[0]
+        assert isinstance(reloaded_chain, TimingDescriptionEventChain)
+        assert reloaded_chain.getShortName() == "Chain1"
+        assert reloaded_chain.getIsPipeliningPermitted().getValue() is True
+        assert reloaded_chain.getStimulusRef().getValue() == "/AUTOSAR/Stimulus"
+        assert reloaded_chain.getStimulusRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        assert reloaded_chain.getResponseRef().getValue() == "/AUTOSAR/Response"
+        assert reloaded_chain.getResponseRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        reloaded_segments = reloaded_chain.getSegmentRefs()
+        assert len(reloaded_segments) == 2
+        assert reloaded_segments[0].getValue() == "/AUTOSAR/Seg1"
+        assert reloaded_segments[1].getDest() == "TIMING-DESCRIPTION-EVENT-CHAIN"

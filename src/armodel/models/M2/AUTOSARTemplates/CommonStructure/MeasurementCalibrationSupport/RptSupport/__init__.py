@@ -197,7 +197,7 @@ class RptSwPrototypingAccess(ARObject):
         """
         return self.rptHookAccess
 
-    def setRptHookAccess(self, value: Optional[RptAccessEnum]) -> "RptSwPrototypingAccess":
+    def setRptHookAccess(self, value: Optional[RptAccessEnum]) -> RptSwPrototypingAccess:
         """
         Sets whether the related data element can be modified using a post-build hooking tool.
         A None value is a no-op and does not overwrite an existing access.
@@ -221,7 +221,7 @@ class RptSwPrototypingAccess(ARObject):
         """
         return self.rptReadAccess
 
-    def setRptReadAccess(self, value: Optional[RptAccessEnum]) -> "RptSwPrototypingAccess":
+    def setRptReadAccess(self, value: Optional[RptAccessEnum]) -> RptSwPrototypingAccess:
         """
         Sets whether the related data element can be used as input for bypass functionality by the RP tool.
         A None value is a no-op and does not overwrite an existing access.
@@ -245,7 +245,7 @@ class RptSwPrototypingAccess(ARObject):
         """
         return self.rptWriteAccess
 
-    def setRptWriteAccess(self, value: Optional[RptAccessEnum]) -> "RptSwPrototypingAccess":
+    def setRptWriteAccess(self, value: Optional[RptAccessEnum]) -> RptSwPrototypingAccess:
         """
         Sets whether the related data element can be used as output for bypass functionality by the RP tool.
         A None value is a no-op and does not overwrite an existing access.
@@ -300,7 +300,7 @@ class RptServicePoint(Identifiable, VariationPointCapable):
         """
         return self.serviceId
 
-    def setServiceId(self, value: Optional[PositiveInteger]) -> "RptServicePoint":
+    def setServiceId(self, value: Optional[PositiveInteger]) -> RptServicePoint:
         """
         Sets the unique ID representing the service point.
         A None value is a no-op and does not overwrite an existing ID.
@@ -324,7 +324,7 @@ class RptServicePoint(Identifiable, VariationPointCapable):
         """
         return self.symbol
 
-    def setSymbol(self, value: Optional[CIdentifier]) -> "RptServicePoint":
+    def setSymbol(self, value: Optional[CIdentifier]) -> RptServicePoint:
         """
         Sets the complete symbol of the function implementing the service point.
         A None value is a no-op and does not overwrite an existing symbol.
@@ -366,7 +366,7 @@ class McFunctionDataRefSet(ARObject):
         # Refers to a data instance within MC support data that is part of the set, i.e. a calibration parameter or measured variable. Tags: xml.sequenceOffset=20
         self.mcDataInstanceRefs: List[RefType] = []
 
-    def addFlatMapEntryRef(self, value: Optional[RefType]) -> "McFunctionDataRefSet":
+    def addFlatMapEntryRef(self, value: Optional[RefType]) -> McFunctionDataRefSet:
         """
         Adds a reference to an entry in a FlatMap that is part of the set, for example a calibration parameter or measured variable.
         A None value is a no-op and does not append anything.
@@ -390,7 +390,7 @@ class McFunctionDataRefSet(ARObject):
         """
         return self.flatMapEntryRefs
 
-    def addMcDataInstanceRef(self, value: Optional[RefType]) -> "McFunctionDataRefSet":
+    def addMcDataInstanceRef(self, value: Optional[RefType]) -> McFunctionDataRefSet:
         """
         Adds a reference to a data instance within MC support data that is part of the set, i.e. a calibration parameter or measured variable.
         A None value is a no-op and does not append anything.
@@ -470,7 +470,7 @@ class RptExecutableEntityEvent(Identifiable, VariationPointCapable):
         # This describes the applicable Pre Service Points for a RTEEvent / BswEvent of a bypassed ExecutableEntity.
         self.rptServicePointPreRefs: List[RefType] = []
 
-    def addExecutionContextRef(self, value: Optional[RefType]) -> "RptExecutableEntityEvent":
+    def addExecutionContextRef(self, value: Optional[RefType]) -> RptExecutableEntityEvent:
         """
         Adds a reference to the context in which the event of the executable entity is executed.
         A None value is a no-op and does not append anything.
@@ -494,7 +494,7 @@ class RptExecutableEntityEvent(Identifiable, VariationPointCapable):
         """
         return self.executionContextRefs
 
-    def addMcDataAssignment(self, value: Optional[RoleBasedMcDataAssignment]) -> "RptExecutableEntityEvent":
+    def addMcDataAssignment(self, value: Optional[RoleBasedMcDataAssignment]) -> RptExecutableEntityEvent:
         """
         Adds a reference to related McDataElements describing the implementation of "RP runnable disabler flag" and "stimulation enabler flag".
         A None value is a no-op and does not append anything.
@@ -527,7 +527,7 @@ class RptExecutableEntityEvent(Identifiable, VariationPointCapable):
         """
         return self.rptEventId
 
-    def setRptEventId(self, value: Optional[PositiveInteger]) -> "RptExecutableEntityEvent":
+    def setRptEventId(self, value: Optional[PositiveInteger]) -> RptExecutableEntityEvent:
         """
         Sets the RPT event id used for service points call.
         A None value is a no-op and does not overwrite an existing id.
@@ -551,7 +551,7 @@ class RptExecutableEntityEvent(Identifiable, VariationPointCapable):
         """
         return self.rptExecutableEntityProperties
 
-    def setRptExecutableEntityProperties(self, value: Optional[RptExecutableEntityProperties]) -> "RptExecutableEntityEvent":
+    def setRptExecutableEntityProperties(self, value: Optional[RptExecutableEntityProperties]) -> RptExecutableEntityEvent:
         """
         Sets the implemented code preparation for rapid prototyping at ExecutableEntity invocation.
         A None value is a no-op and does not overwrite existing properties.
@@ -575,7 +575,7 @@ class RptExecutableEntityEvent(Identifiable, VariationPointCapable):
         """
         return self.rptImplPolicy
 
-    def setRptImplPolicy(self, value: Optional[RptImplPolicy]) -> "RptExecutableEntityEvent":
+    def setRptImplPolicy(self, value: Optional[RptImplPolicy]) -> RptExecutableEntityEvent:
         """
         Sets the RptImplPolicy of a RptExecutableEvent for service based bypassing.
         A None value is a no-op and does not overwrite an existing policy.
@@ -590,7 +590,7 @@ class RptExecutableEntityEvent(Identifiable, VariationPointCapable):
             self.rptImplPolicy = value
         return self
 
-    def addRptServicePointPostRef(self, value: Optional[RefType]) -> "RptExecutableEntityEvent":
+    def addRptServicePointPostRef(self, value: Optional[RefType]) -> RptExecutableEntityEvent:
         """
         Adds a reference to an applicable Post Service Point for a RTEEvent / BswEvent of a bypassed ExecutableEntity.
         A None value is a no-op and does not append anything.
@@ -614,7 +614,7 @@ class RptExecutableEntityEvent(Identifiable, VariationPointCapable):
         """
         return self.rptServicePointPostRefs
 
-    def addRptServicePointPreRef(self, value: Optional[RefType]) -> "RptExecutableEntityEvent":
+    def addRptServicePointPreRef(self, value: Optional[RefType]) -> RptExecutableEntityEvent:
         """
         Adds a reference to an applicable Pre Service Point for a RTEEvent / BswEvent of a bypassed ExecutableEntity.
         A None value is a no-op and does not append anything.
@@ -706,7 +706,7 @@ class RptExecutableEntity(Identifiable, VariationPointCapable):
         """
         return self.rptExecutableEntityEvents
 
-    def addRptRead(self, value: Optional[RoleBasedMcDataAssignment]) -> "RptExecutableEntity":
+    def addRptRead(self, value: Optional[RoleBasedMcDataAssignment]) -> RptExecutableEntity:
         """
         Adds a read access to a variable to this executable entity.
         A None value is a no-op and does not append anything.
@@ -730,7 +730,7 @@ class RptExecutableEntity(Identifiable, VariationPointCapable):
         """
         return self.rptReads
 
-    def addRptWrite(self, value: Optional[RoleBasedMcDataAssignment]) -> "RptExecutableEntity":
+    def addRptWrite(self, value: Optional[RoleBasedMcDataAssignment]) -> RptExecutableEntity:
         """
         Adds a write access to a variable to this executable entity.
         A None value is a no-op and does not append anything.
@@ -763,7 +763,7 @@ class RptExecutableEntity(Identifiable, VariationPointCapable):
         """
         return self.symbol
 
-    def setSymbol(self, value: Optional[CIdentifier]) -> "RptExecutableEntity":
+    def setSymbol(self, value: Optional[CIdentifier]) -> RptExecutableEntity:
         """
         Sets the symbol describing this ExecutableEntity's entry point.
         A None value is a no-op and does not overwrite an existing symbol.
@@ -814,7 +814,7 @@ class RptComponent(Identifiable, VariationPointCapable):
         # ExecutableEntity instance which can be bypassed.
         self.rptExecutableEntities: List[RptExecutableEntity] = []
 
-    def addMcDataAssignment(self, value: Optional[RoleBasedMcDataAssignment]) -> "RptComponent":
+    def addMcDataAssignment(self, value: Optional[RoleBasedMcDataAssignment]) -> RptComponent:
         """
         Adds a reference to a related McDataElement describing the implementation of "RP global buffer", "RP global measurement buffer", "RP enabler flag" and the "RP runnable disabler flag".
         A None value is a no-op and does not append anything.
@@ -847,7 +847,7 @@ class RptComponent(Identifiable, VariationPointCapable):
         """
         return self.rpImplPolicy
 
-    def setRpImplPolicy(self, value: Optional[RptImplPolicy]) -> "RptComponent":
+    def setRpImplPolicy(self, value: Optional[RptImplPolicy]) -> RptComponent:
         """
         Sets the implemented code preparation for rapid prototyping at data accesses.
         A None value is a no-op and does not overwrite an existing policy.

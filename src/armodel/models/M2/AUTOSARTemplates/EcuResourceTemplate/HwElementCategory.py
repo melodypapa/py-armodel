@@ -45,6 +45,7 @@ class HwAttributeValue(ARObject, VariationPointCapable):
 
     # HwAttributeValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.2, p.16
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAnnotation         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -145,6 +146,7 @@ class HwAttributeLiteralDef(Identifiable):
 
     # HwAttributeLiteralDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.14, p.26
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -159,6 +161,7 @@ class HwAttributeDef(Identifiable):
 
     # HwAttributeDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.13, p.26
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] createHwAttributeLiteral  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -258,6 +261,7 @@ class HwCategory(ARElement):
 
     # HwCategory method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.11, p.24
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] createHwAttributeDef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11

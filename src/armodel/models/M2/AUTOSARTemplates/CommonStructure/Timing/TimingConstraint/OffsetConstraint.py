@@ -20,28 +20,21 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class OffsetTimingConstraint(TimingConstraint):
     """
-    Bounds the time offset between the occurrence of two timing events, without requiring a direct functional dependency
-    between the source and the target . If the target event occurs, it is expected to occur earliest with the minimum ,
-    and latest with the maximum offset relatively after the occurrence of the source event. Note: not every source event
-    occurrence shall be followed by a target event occurrence. In contrast to LatencyTimingConstraint , there shall not
-    necessarily be a causal dependency between the source and target event.
-
-    (source/target -> TimingDescriptionEvent placeholders, Rule 0001.10)
+    Bounds the time offset between the occurrence of two timing events, without requiring a direct functional dependency between the source and the target . If the target event occurs, it is expected to occur earliest with the minimum , and latest with the maximum offset relatively after the occurrence of the source event. Note: not every source event occurrence shall be followed by a target event occurrence. In contrast to LatencyTimingConstraint , there shall not necessarily be a causal dependency between the source and target event.
     """
 
     # OffsetTimingConstraint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.66, p.114
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getMaximum     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaximum     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinimum     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinimum     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSourceRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSourceRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTargetRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTargetRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaximum     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaximum     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinimum     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimum     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
@@ -52,10 +45,10 @@ class OffsetTimingConstraint(TimingConstraint):
         # The mimum offset the target event occurs relatively after the occurrence of the source event. Tags: xml.sequenceOffset=10
         self.minimum: Optional[MultidimensionalTime] = None
 
-        # The timing event that the target event is to be synchronized with. (TimingDescriptionEvent placeholder, Rule 0001.10)
+        # The timing event that the target event is to be synchronized with.
         self.sourceRef: Optional[RefType] = None
 
-        # The timing event which is expected to occur timely after the source event. (TimingDescriptionEvent placeholder, Rule 0001.10)
+        # The timing event which is expected to occur timely after the source event.
         self.targetRef: Optional[RefType] = None
 
     def getMaximum(self) -> Optional[MultidimensionalTime]:

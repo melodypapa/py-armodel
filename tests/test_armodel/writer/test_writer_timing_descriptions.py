@@ -8,10 +8,17 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TimingDescriptionEventChain,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
+    AutosarOperationArgumentInstance,
+    OperationArgumentInComponentInstanceRef,
     TDEventOccurrenceExpression,
     TDEventOccurrenceExpressionFormula,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (
+    ConcreteTDEventVfb,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ComponentInCompositionInstanceRef
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -29,7 +36,7 @@ class TestWriteTDEventOccurrenceExpressionFormula:
 
     def _build_full(self, parent):
         formula = TDEventOccurrenceExpressionFormula(parent, "Formula1")
-        formula.setText("TIMEX_count(E1) > 3")
+        formula.setMixedString("TIMEX_count(E1) > 3")
         formula.setArgumentRef(RefType().setValue("/AUTOSAR/OpArg1").setDest("AUTOSAR-OPERATION-ARGUMENT-INSTANCE"))
         formula.setEventRef(RefType().setValue("/AUTOSAR/TDEvent1").setDest("TD-EVENT-VFB"))
         formula.setModeRef(RefType().setValue("/AUTOSAR/Mode1").setDest("TIMING-MODE-INSTANCE"))
@@ -83,7 +90,7 @@ class TestWriteTDEventOccurrenceExpressionFormula:
 
         formula2 = ARXMLParser().readTDEventOccurrenceExpressionFormula(parent, parsed)
         assert formula2.getShortName() == "Formula1"
-        assert formula2.getText() == "TIMEX_count(E1) > 3"
+        assert formula2.getMixedString() == "TIMEX_count(E1) > 3"
         assert formula2.getArgumentRef().getValue() == "/AUTOSAR/OpArg1"
         assert formula2.getEventRef().getDest() == "TD-EVENT-VFB"
         assert formula2.getModeRef().getValue() == "/AUTOSAR/Mode1"
@@ -103,7 +110,7 @@ class TestWriteTDEventOccurrenceExpression:
         expression.createMode(parent, "Mode1")
         expression.createVariable(parent, "Var1")
         formula = TDEventOccurrenceExpressionFormula(parent, "Formula1")
-        formula.setText("TIMEX_count(E1) > 3")
+        formula.setMixedString("TIMEX_count(E1) > 3")
         expression.setFormula(formula)
         return expression
 
@@ -151,11 +158,75 @@ class TestWriteTDEventOccurrenceExpression:
         expression2 = ARXMLParser().readTDEventOccurrenceExpression(parsed, self._parent())
         assert len(expression2.getArguments()) == 1
         assert expression2.getArguments()[0].getShortName() == "OpArg1"
-        assert expression2.getFormula().getText() == "TIMEX_count(E1) > 3"
+        assert expression2.getFormula().getMixedString() == "TIMEX_count(E1) > 3"
         assert len(expression2.getModes()) == 1
         assert expression2.getModes()[0].getShortName() == "Mode1"
         assert len(expression2.getVariables()) == 1
         assert expression2.getVariables()[0].getShortName() == "Var1"
+
+    def test_round_trip_argument_instance_iref_values(self):
+        """
+        Round-trip the AUTOSAR-OPERATION-ARGUMENT-INSTANCE inside the ARGUMENTS
+        wrapper with a fully populated OPERATION-ARGUMENT-INSTANCE-IREF,
+        asserting the written field values + DESTs, the XSD element order
+        (own group: SHORT-NAME → OPERATION-ARGUMENT-INSTANCE-IREF; instance ref
+        group: CONTEXT-COMPONENT-REF* → CONTEXT-PORT-PROTOTYPE-REF →
+        CONTEXT-OPERATION-REF → ROOT-ARGUMENT-DATA-PROTOTYPE-REF →
+        CONTEXT-DATA-PROTOTYPE-REF* → TARGET-DATA-PROTOTYPE-REF) and the
+        read-back field values.
+        """
+        parent = self._parent()
+        expression = TDEventOccurrenceExpression()
+        argument = expression.createArgument(parent, "OpArg1")
+        iref = OperationArgumentInComponentInstanceRef()
+        iref.addContextComponentRef(RefType().setValue("/AUTOSAR/Comp1").setDest("SW-COMPONENT-PROTOTYPE"))
+        iref.addContextComponentRef(RefType().setValue("/AUTOSAR/Comp2").setDest("SW-COMPONENT-PROTOTYPE"))
+        iref.setContextPortPrototypeRef(RefType().setValue("/AUTOSAR/Port").setDest("PORT-PROTOTYPE"))
+        iref.setContextOperationRef(RefType().setValue("/AUTOSAR/Op").setDest("CLIENT-SERVER-OPERATION"))
+        iref.setRootArgumentDataPrototypeRef(RefType().setValue("/AUTOSAR/RootArg").setDest("AUTOSAR-OPERATION-ARGUMENT-INSTANCE"))
+        iref.addContextDataPrototypeRef(RefType().setValue("/AUTOSAR/CtxDP").setDest("VARIABLE-DATA-PROTOTYPE"))
+        iref.setTargetDataPrototypeRef(RefType().setValue("/AUTOSAR/TargetDP").setDest("DATA-PROTOTYPE"))
+        argument.setOperationArgumentInstanceIRef(iref)
+
+        element = ET.Element("OCCURRENCE-EXPRESSION")
+        ARXMLWriter().writeTDEventOccurrenceExpression(element, expression)
+
+        arguments_tag = element.find("ARGUMENTS")
+        assert arguments_tag is not None
+        instance_tag = arguments_tag.find("AUTOSAR-OPERATION-ARGUMENT-INSTANCE")
+        assert instance_tag is not None
+        assert [child.tag for child in instance_tag] == ["SHORT-NAME", "OPERATION-ARGUMENT-INSTANCE-IREF"]
+        iref_tag = instance_tag.find("OPERATION-ARGUMENT-INSTANCE-IREF")
+        assert [child.tag for child in iref_tag] == [
+            "CONTEXT-COMPONENT-REF",
+            "CONTEXT-COMPONENT-REF",
+            "CONTEXT-PORT-PROTOTYPE-REF",
+            "CONTEXT-OPERATION-REF",
+            "ROOT-ARGUMENT-DATA-PROTOTYPE-REF",
+            "CONTEXT-DATA-PROTOTYPE-REF",
+            "TARGET-DATA-PROTOTYPE-REF",
+        ]
+        assert iref_tag.find("CONTEXT-OPERATION-REF").attrib["DEST"] == "CLIENT-SERVER-OPERATION"
+        assert iref_tag.find("TARGET-DATA-PROTOTYPE-REF").attrib["DEST"] == "DATA-PROTOTYPE"
+
+        xml_str = ET.tostring(element).decode()
+        idx = xml_str.find(">")
+        xml_str = xml_str[:idx] + ' xmlns="http://autosar.org/schema/r4.0"' + xml_str[idx:]
+        parsed = ET.fromstring(xml_str)
+
+        expression2 = ARXMLParser().readTDEventOccurrenceExpression(parsed, self._parent())
+        assert len(expression2.getArguments()) == 1
+        reloaded = expression2.getArguments()[0]
+        assert isinstance(reloaded, AutosarOperationArgumentInstance)
+        assert reloaded.getShortName() == "OpArg1"
+        reloaded_iref = reloaded.getOperationArgumentInstanceIRef()
+        assert isinstance(reloaded_iref, OperationArgumentInComponentInstanceRef)
+        assert [ref.getValue() for ref in reloaded_iref.getContextComponentRefs()] == ["/AUTOSAR/Comp1", "/AUTOSAR/Comp2"]
+        assert reloaded_iref.getContextPortPrototypeRef().getValue() == "/AUTOSAR/Port"
+        assert reloaded_iref.getContextOperationRef().getValue() == "/AUTOSAR/Op"
+        assert reloaded_iref.getRootArgumentDataPrototypeRef().getValue() == "/AUTOSAR/RootArg"
+        assert reloaded_iref.getContextDataPrototypeRefs()[0].getValue() == "/AUTOSAR/CtxDP"
+        assert reloaded_iref.getTargetDataPrototypeRef().getValue() == "/AUTOSAR/TargetDP"
 
 
 class TestWriteTimingDescriptionEvent:
@@ -256,3 +327,85 @@ class TestWriteTimingDescriptionEventChain:
         assert chain2.getIsPipeliningPermitted().getValue() is True
         assert chain2.getStimulusRef().getDest() == "TD-EVENT-VFB"
         assert len(chain2.getSegmentRefs()) == 1
+
+
+class TestWriteConcreteTDEventVfb:
+    def _parent(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        return document.createARPackage("AUTOSAR")
+
+    def _build_full(self, parent):
+        extension = SwcTiming(parent, "Timing")
+        event = ConcreteTDEventVfb(extension, "Plain1")
+        iref = ComponentInCompositionInstanceRef()
+        iref.addContextComponentRef(RefType().setValue("/AUTOSAR/Comp").setDest("SW-COMPONENT-PROTOTYPE"))
+        iref.setTargetComponentRef(RefType().setValue("/AUTOSAR/SwcProto").setDest("SW-COMPONENT-PROTOTYPE"))
+        event.setComponentIRef(iref)
+        extension.addTimingDescription(event)
+        return extension
+
+    def _round_trip(self, element):
+        xml_str = ET.tostring(element).decode()
+        idx = xml_str.find(">")
+        xml_str = xml_str[:idx] + ' xmlns="http://autosar.org/schema/r4.0"' + xml_str[idx:]
+        return ET.fromstring(xml_str)
+
+    def test_write_full(self):
+        """
+        Write the plain <TD-EVENT-VFB> choice member (ConcreteTDEventVfb — the
+        XSD's TD-EVENT-VFB--SUBTYPES-ENUM permits the abstract TDEventVfb
+        directly) through the TIMING-DESCRIPTIONS wrapper with field values
+        and the XSD element order (SHORT-NAME → COMPONENT-IREF).
+        """
+        parent = self._parent()
+        extension = self._build_full(parent)
+
+        element = ET.Element("SWC-TIMING")
+        ARXMLWriter().writeTimingExtension(element, extension)
+
+        descriptions_tag = element.find("TIMING-DESCRIPTIONS")
+        assert descriptions_tag is not None
+        event_tag = descriptions_tag.find("TD-EVENT-VFB")
+        assert event_tag is not None
+        assert [child.tag for child in event_tag] == ["SHORT-NAME", "COMPONENT-IREF"]
+        assert event_tag.find("SHORT-NAME").text == "Plain1"
+        iref_tag = event_tag.find("COMPONENT-IREF")
+        assert [child.tag for child in iref_tag] == ["CONTEXT-COMPONENT-REF", "TARGET-COMPONENT-REF"]
+        assert iref_tag.find("TARGET-COMPONENT-REF").text == "/AUTOSAR/SwcProto"
+        assert iref_tag.find("TARGET-COMPONENT-REF").attrib["DEST"] == "SW-COMPONENT-PROTOTYPE"
+
+    def test_write_minimal_omits_component_iref(self):
+        parent = self._parent()
+        extension = SwcTiming(parent, "Timing")
+        event = ConcreteTDEventVfb(extension, "PlainMin")
+        extension.addTimingDescription(event)
+
+        element = ET.Element("SWC-TIMING")
+        ARXMLWriter().writeTimingExtension(element, extension)
+
+        event_tag = element.find("TIMING-DESCRIPTIONS/TD-EVENT-VFB")
+        assert event_tag is not None
+        assert event_tag.find("SHORT-NAME").text == "PlainMin"
+        assert event_tag.find("COMPONENT-IREF") is None
+
+    def test_round_trip(self):
+        parent = self._parent()
+        extension = self._build_full(parent)
+
+        element = ET.Element("SWC-TIMING")
+        ARXMLWriter().writeTimingExtension(element, extension)
+
+        reloaded = SwcTiming(parent, "Timing")
+        ARXMLParser().readTimingExtension(self._round_trip(element), reloaded)
+        descriptions = reloaded.getTimingDescriptions()
+        assert len(descriptions) == 1
+        event = descriptions[0]
+        assert isinstance(event, ConcreteTDEventVfb)
+        assert event.getShortName() == "Plain1"
+        iref = event.getComponentIRef()
+        assert iref is not None
+        assert iref.getContextComponentRefs()[0].getValue() == "/AUTOSAR/Comp"
+        assert iref.getTargetComponentRef().getValue() == "/AUTOSAR/SwcProto"
+        assert iref.getTargetComponentRef().getDest() == "SW-COMPONENT-PROTOTYPE"

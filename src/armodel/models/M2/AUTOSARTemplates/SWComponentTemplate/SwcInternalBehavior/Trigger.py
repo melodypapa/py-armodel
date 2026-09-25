@@ -19,38 +19,34 @@ if TYPE_CHECKING:
 
 class InternalTriggeringPoint(AbstractAccessPoint, VariationPointCapable):
     """
-    An internal triggering point that can be referenced by an
-    InternalTriggerOccurredEvent.
+    If a RunnableEntity owns an InternalTriggeringPoint it is entitled to trigger the execution of Runnable Entities of the corresponding software-component.
+
+    [constr_1182] Allowed values for InternalTriggeringPoint.swImplPolicy: The only allowed values for the attribute swImplPolicy of meta-class InternalTriggeringPoint are either STANDARD (in which case the processing of the internal triggering does not use a queue) or QUEUED (in which case the processing of internal triggering positively uses a queue). This rule shall be imposed at the time when the RTE is generated.
     """
 
     # InternalTriggeringPoint method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwImplPolicy              [x] impl  [x] docstring  [ ] test
-    # [ ] setSwImplPolicy              [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.30, p.561
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwImplPolicy [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwImplPolicy [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.swImplPolicy: SwImplPolicyEnum = None
+        # This attribute, when set to value queued, allows for a queued processing of Triggers.
+        self.swImplPolicy: Optional[SwImplPolicyEnum] = None
 
-    def getSwImplPolicy(self) -> SwImplPolicyEnum:
+    def getSwImplPolicy(self) -> Optional[SwImplPolicyEnum]:
         """
-        Gets the software implementation policy.
-
-        Returns:
-            SwImplPolicyEnum: The software implementation policy
+        This attribute, when set to value queued, allows for a queued processing of Triggers.
         """
         return self.swImplPolicy
 
-    def setSwImplPolicy(self, value: SwImplPolicyEnum):
+    def setSwImplPolicy(self, value: Optional[SwImplPolicyEnum]) -> InternalTriggeringPoint:
         """
-        Sets the software implementation policy.
-
-        Args:
-            value: The software implementation policy to set
-
-        Returns:
-            self for method chaining
+        This attribute, when set to value queued, allows for a queued processing of Triggers.
+        A None value is a no-op and does not overwrite an existing swImplPolicy.
         """
         if value is not None:
             self.swImplPolicy = value
@@ -116,7 +112,7 @@ class ExternalTriggeringPoint(ARObject, VariationPointCapable):
         """
         return self.trigger
 
-    def setTrigger(self, value: Optional["PTriggerInAtomicSwcTypeInstanceRef"]) -> "ExternalTriggeringPoint":
+    def setTrigger(self, value: Optional["PTriggerInAtomicSwcTypeInstanceRef"]) -> ExternalTriggeringPoint:
         """
         Sets the trigger taken for the ExternalTriggeringPoint. The trigger is
         represented as a PTriggerInAtomicSwcTypeInstanceRef. A None value is a

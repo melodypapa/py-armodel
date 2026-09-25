@@ -28,39 +28,28 @@ if TYPE_CHECKING:
 
 class SwImplPolicyEnum(AREnum):
     """
-    Enumeration for software implementation policy.
-
-    * const
-      forced implementation such that the running software within the ECU shall not modify it. For example
-      implemented with the "const" modifier in C. This can be applied for parameters (not for those in
-      NVRAM) as well as argument data prototypes.
-    * fixed
-      This data element is fixed. In particular this indicates, that it might also be implemented e.g. as in
-      place data, (#DEFINE).
-    * measurementPoint
-      The data element is created for measurement purposes only. The data element is never read directly
-      within the ECU software. In contrast to a "standard" data element in an unconnected provide port is,
-      this unconnection is guaranteed for measurementPoint data elements.
-    * queued
-      The content of the data element is queued and the data element has 'event' semantics, i.e. data
-      elements are stored in a queue and all data elements are processed in 'first in first out' order. The
-      queuing is intended to be implemented by RTE Generator. This value is not applicable for parameters.
-    * standard
-      This is applicable for all kinds of data elements. For variable data prototypes the 'last is best'
-      semantics applies. For parameter there is no specific implementation directive.
+    Specifies the implementation strategy with respect to consistency mechanisms of variables.
     """
 
     # SwImplPolicyEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.45, p.336
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on SwDataDefProps.swImplPolicy
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on SwDataDefProps.swImplPolicy (SW-IMPL-POLICY element; consumers: SwDataDefProps, InternalTriggeringPoint, Trigger, BswInternalTriggeringPoint)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
+    # forced implementation such that the running software within the ECU shall not modify it. For example implemented with the "const" modifier in C. This can be applied for parameters (not for those in NVRAM) as well as argument data prototypes. Tags: atp.EnumerationLiteralIndex=0
     CONST = "const"
+
+    # This data element is fixed. In particular this indicates, that it might also be implemented e.g. as in place data, (#DEFINE). Tags: atp.EnumerationLiteralIndex=1
     FIXED = "fixed"
+
+    # The data element is created for measurement purposes only. The data element is never read directly within the ECU software. In contrast to a "standard" data element in an unconnected provide port is, this unconnection is guaranteed for measurementPoint data elements. Tags: atp.EnumerationLiteralIndex=2
     MEASUREMENT_POINT = "measurementPoint"
+
+    # The content of the data element is queued and the data element has 'event' semantics, i.e. data elements are stored in a queue and all data elements are processed in 'first in first out' order. The queuing is intended to be implemented by RTE Generator. This value is not applicable for parameters. Tags: atp.EnumerationLiteralIndex=3
     QUEUED = "queued"
+
+    # This is applicable for all kinds of data elements. For variable data prototypes the 'last is best' semantics applies. For parameter there is no specific implementation directive. Tags: atp.EnumerationLiteralIndex=4
     STANDARD = "standard"
 
     def __init__(self):
@@ -144,7 +133,7 @@ class SwBitRepresentation(ARObject):
         """
         return self.bitPosition
 
-    def setBitPosition(self, value: Optional[Integer]) -> "SwBitRepresentation":
+    def setBitPosition(self, value: Optional[Integer]) -> SwBitRepresentation:
         """
         If the "bit data object" is hosted within another data object (e.g. if the memory can be accessed via byte as well as bit address), this attribute specifies the position of the data object. The count starts at zero (0). A None value is a no-op and does not overwrite an existing bitPosition.
         """
@@ -158,7 +147,7 @@ class SwBitRepresentation(ARObject):
         """
         return self.numberOfBits
 
-    def setNumberOfBits(self, value: Optional[Integer]) -> "SwBitRepresentation":
+    def setNumberOfBits(self, value: Optional[Integer]) -> SwBitRepresentation:
         """
         Number of bits allocated by a "bit data object" within its host data object. A None value is a no-op and does not overwrite an existing numberOfBits.
         """
@@ -197,7 +186,7 @@ class SwDataDependencyArgs(ARObject):
         """
         return self.swCalprmRef
 
-    def setSwCalprmRef(self, value: Optional[SwCalprmRefProxy]) -> "SwDataDependencyArgs":
+    def setSwCalprmRef(self, value: Optional[SwCalprmRefProxy]) -> SwDataDependencyArgs:
         """
         Specifies a calibration parameter as an input argument to the dependency. A None value is a no-op and does not overwrite an existing swCalprmRef.
         """
@@ -211,7 +200,7 @@ class SwDataDependencyArgs(ARObject):
         """
         return self.swVariable
 
-    def setSwVariable(self, value: Optional[SwVariableRefProxy]) -> "SwDataDependencyArgs":
+    def setSwVariable(self, value: Optional[SwVariableRefProxy]) -> SwDataDependencyArgs:
         """
         Specifies a variable as an input argument to the dependency. A None value is a no-op and does not overwrite an existing swVariable.
         """
@@ -245,7 +234,7 @@ class CompuGenericMath(ARObject):
         """
         return self.level
 
-    def setLevel(self, value: Optional[PrimitiveIdentifier]) -> "CompuGenericMath":
+    def setLevel(self, value: Optional[PrimitiveIdentifier]) -> CompuGenericMath:
         """
         Placeholder to describe an indicator of a language level for the mathematics e.g. INFORMAL, ASAMHDO. May be refined by particular use-cases. A None value is a no-op and does not overwrite an existing level.
         """
@@ -284,7 +273,7 @@ class SwDataDependency(ARObject):
         """
         return self.swDataDependencyFormula
 
-    def setSwDataDependencyFormula(self, value: Optional[CompuGenericMath]) -> "SwDataDependency":
+    def setSwDataDependencyFormula(self, value: Optional[CompuGenericMath]) -> SwDataDependency:
         """
         This element describes the formula with which the dependencies between the participating objects are defined. A None value is a no-op and does not overwrite an existing swDataDependencyFormula.
         """
@@ -298,7 +287,7 @@ class SwDataDependency(ARObject):
         """
         return self.swDataDependencyArgs
 
-    def setSwDataDependencyArgs(self, value: Optional[SwDataDependencyArgs]) -> "SwDataDependency":
+    def setSwDataDependencyArgs(self, value: Optional[SwDataDependencyArgs]) -> SwDataDependency:
         """
         Specifies the arguments used in the data dependency. Note that this is 0..1 since the aggregated class is a container (atpMixed). A None value is a no-op and does not overwrite an existing swDataDependencyArgs.
         """
@@ -477,7 +466,7 @@ class SwDataDefProps(ARObject):
         """
         return self.displayPresentation
 
-    def setDisplayPresentation(self, value: Optional[DisplayPresentationEnum]) -> "SwDataDefProps":
+    def setDisplayPresentation(self, value: Optional[DisplayPresentationEnum]) -> SwDataDefProps:
         """
         This attribute controls the presentation of the related data for measurement and calibration tools. A None value is a no-op and does not overwrite an existing displayPresentation.
         """
@@ -491,7 +480,7 @@ class SwDataDefProps(ARObject):
         """
         return self.stepSize
 
-    def setStepSize(self, value: Optional[Float]) -> "SwDataDefProps":
+    def setStepSize(self, value: Optional[Float]) -> SwDataDefProps:
         """
         This attribute can be used to define a value which is added to or subtracted from the value of a DataPrototype when using up/down keys while calibrating. A None value is a no-op and does not overwrite an existing stepSize.
         """
@@ -505,7 +494,7 @@ class SwDataDefProps(ARObject):
         """
         return self.swValueBlockSizeMults
 
-    def addSwValueBlockSizeMult(self, value: Optional[ARNumerical]) -> "SwDataDefProps":
+    def addSwValueBlockSizeMult(self, value: Optional[ARNumerical]) -> SwDataDefProps:
         """
         This attribute is used to specify the dimensions of a value block (VAL_BLK) for the case that that value block has more than one dimension. Appends a dimension to the ordered list. A None value is a no-op.
         """
@@ -519,7 +508,7 @@ class SwDataDefProps(ARObject):
         """
         return self.annotations
 
-    def addAnnotation(self, annotation: Annotation) -> "SwDataDefProps":
+    def addAnnotation(self, annotation: Annotation) -> SwDataDefProps:
         """
         This aggregation allows to add annotations (yellow pads ...) related to the current data object. A None value is a no-op.
         """
@@ -533,7 +522,7 @@ class SwDataDefProps(ARObject):
         """
         return self.swAddrMethodRef
 
-    def setSwAddrMethodRef(self, value: Optional[RefType]) -> "SwDataDefProps":
+    def setSwAddrMethodRef(self, value: Optional[RefType]) -> SwDataDefProps:
         """
         Addressing method related to this data object. Via an association to the same SwAddrMethod it can be specified that several DataPrototypes shall be located in the same memory without already specifying the memory section itself. A None value is a no-op and does not overwrite an existing swAddrMethodRef.
         """
@@ -547,7 +536,7 @@ class SwDataDefProps(ARObject):
         """
         return self.swAlignment
 
-    def setSwAlignment(self, value: Optional[AlignmentType]) -> "SwDataDefProps":
+    def setSwAlignment(self, value: Optional[AlignmentType]) -> SwDataDefProps:
         """
         The attribute describes the intended typical alignment of the DataPrototype. If the attribute is not defined the alignment is determined by the swBaseType size and the memoryAllocationKeywordPolicy of the referenced SwAddrMethod. A None value is a no-op and does not overwrite an existing swAlignment.
         """
@@ -561,7 +550,7 @@ class SwDataDefProps(ARObject):
         """
         return self.baseTypeRef
 
-    def setBaseTypeRef(self, value: Optional[RefType]) -> "SwDataDefProps":
+    def setBaseTypeRef(self, value: Optional[RefType]) -> SwDataDefProps:
         """
         Base type associated with the containing data object. A None value is a no-op and does not overwrite an existing baseTypeRef.
         """
@@ -575,7 +564,7 @@ class SwDataDefProps(ARObject):
         """
         return self.swBitRepresentation
 
-    def setSwBitRepresentation(self, value: Optional[SwBitRepresentation]) -> "SwDataDefProps":
+    def setSwBitRepresentation(self, value: Optional[SwBitRepresentation]) -> SwDataDefProps:
         """
         Description of the binary representation in case of a bit variable. A None value is a no-op and does not overwrite an existing swBitRepresentation.
         """
@@ -589,7 +578,7 @@ class SwDataDefProps(ARObject):
         """
         return self.swCalibrationAccess
 
-    def setSwCalibrationAccess(self, value: Optional[SwCalibrationAccessEnum]) -> "SwDataDefProps":
+    def setSwCalibrationAccess(self, value: Optional[SwCalibrationAccessEnum]) -> SwDataDefProps:
         """
         Specifies the read or write access by MCD tools for this data object. A None value is a no-op and does not overwrite an existing swCalibrationAccess.
         """
@@ -603,7 +592,7 @@ class SwDataDefProps(ARObject):
         """
         return self.swValueBlockSize
 
-    def setSwValueBlockSize(self, value: Optional[ARNumerical]) -> "SwDataDefProps":
+    def setSwValueBlockSize(self, value: Optional[ARNumerical]) -> SwDataDefProps:
         """
         This represents the size of a Value Block A None value is a no-op and does not overwrite an existing swValueBlockSize.
         """
@@ -617,7 +606,7 @@ class SwDataDefProps(ARObject):
         """
         return self.swCalprmAxisSet
 
-    def setSwCalprmAxisSet(self, value: Optional[SwCalprmAxisSet]) -> "SwDataDefProps":
+    def setSwCalprmAxisSet(self, value: Optional[SwCalprmAxisSet]) -> SwDataDefProps:
         """
         This specifies the properties of the axes in case of a curve or map etc. This is mainly applicable to calibration parameters. A None value is a no-op and does not overwrite an existing swCalprmAxisSet.
         """
@@ -631,7 +620,7 @@ class SwDataDefProps(ARObject):
         """
         return self.swTextProps
 
-    def setSwTextProps(self, value: Optional[SwTextProps]) -> "SwDataDefProps":
+    def setSwTextProps(self, value: Optional[SwTextProps]) -> SwDataDefProps:
         """
         the specific properties if the data object is a text object. A None value is a no-op and does not overwrite an existing swTextProps.
         """
@@ -645,7 +634,7 @@ class SwDataDefProps(ARObject):
         """
         return self.swComparisonVariables
 
-    def addSwComparisonVariable(self, value: Optional[SwVariableRefProxy]) -> "SwDataDefProps":
+    def addSwComparisonVariable(self, value: Optional[SwVariableRefProxy]) -> SwDataDefProps:
         """
         Variables used for comparison in an MCD process. Appends a comparison variable. A None value is a no-op.
         """
@@ -659,7 +648,7 @@ class SwDataDefProps(ARObject):
         """
         return self.compuMethodRef
 
-    def setCompuMethodRef(self, value: Optional[RefType]) -> "SwDataDefProps":
+    def setCompuMethodRef(self, value: Optional[RefType]) -> SwDataDefProps:
         """
         Computation method associated with the semantics of this data object. A None value is a no-op and does not overwrite an existing compuMethodRef.
         """
@@ -673,7 +662,7 @@ class SwDataDefProps(ARObject):
         """
         return self.dataConstrRef
 
-    def setDataConstrRef(self, value: Optional[RefType]) -> "SwDataDefProps":
+    def setDataConstrRef(self, value: Optional[RefType]) -> SwDataDefProps:
         """
         Data constraint for this data object. A None value is a no-op and does not overwrite an existing dataConstrRef.
         """
@@ -687,7 +676,7 @@ class SwDataDefProps(ARObject):
         """
         return self.swDataDependency
 
-    def setSwDataDependency(self, value: Optional[SwDataDependency]) -> "SwDataDefProps":
+    def setSwDataDependency(self, value: Optional[SwDataDependency]) -> SwDataDefProps:
         """
         Describes how the value of the data object has to be calculated from the value of another data object (by the MCD system). A None value is a no-op and does not overwrite an existing swDataDependency.
         """
@@ -701,7 +690,7 @@ class SwDataDefProps(ARObject):
         """
         return self.displayFormat
 
-    def setDisplayFormat(self, value: Optional[DisplayFormatString]) -> "SwDataDefProps":
+    def setDisplayFormat(self, value: Optional[DisplayFormatString]) -> SwDataDefProps:
         """
         This property describes how a number is to be rendered e.g. in documents or in a measurement and calibration system. A None value is a no-op and does not overwrite an existing displayFormat.
         """
@@ -715,7 +704,7 @@ class SwDataDefProps(ARObject):
         """
         return self.implementationDataTypeRef
 
-    def setImplementationDataTypeRef(self, value: Optional[RefType]) -> "SwDataDefProps":
+    def setImplementationDataTypeRef(self, value: Optional[RefType]) -> SwDataDefProps:
         """
         This association denotes the ImplementationDataType of a data declaration via its aggregated SwDataDefProps. It is used whenever a data declaration is not directly referring to a base type. Especially • redefinition of an ImplementationDataType via a "typedef" to another ImplementationDatatype • the target type of a pointer (see SwPointerTargetProps), if it does not refer to a base type directly • the data type of an array or record element within an ImplementationDataType, if it does not refer to a base type directly • the data type of an SwServiceArg, if it does not refer to a base type directly. A None value is a no-op and does not overwrite an existing implementationDataTypeRef.
         """
@@ -729,7 +718,7 @@ class SwDataDefProps(ARObject):
         """
         return self.swHostVariable
 
-    def setSwHostVariable(self, value: Optional[SwVariableRefProxy]) -> "SwDataDefProps":
+    def setSwHostVariable(self, value: Optional[SwVariableRefProxy]) -> SwDataDefProps:
         """
         Contains a reference to a variable which serves as a host-variable for a bit variable. Only applicable to bit objects. A None value is a no-op and does not overwrite an existing swHostVariable.
         """
@@ -743,7 +732,7 @@ class SwDataDefProps(ARObject):
         """
         return self.swImplPolicy
 
-    def setSwImplPolicy(self, value: Optional[SwImplPolicyEnum]) -> "SwDataDefProps":
+    def setSwImplPolicy(self, value: Optional[SwImplPolicyEnum]) -> SwDataDefProps:
         """
         Implementation policy for this data object. A None value is a no-op and does not overwrite an existing swImplPolicy.
         """
@@ -757,7 +746,7 @@ class SwDataDefProps(ARObject):
         """
         return self.additionalNativeTypeQualifier
 
-    def setAdditionalNativeTypeQualifier(self, value: Optional[NativeDeclarationString]) -> "SwDataDefProps":
+    def setAdditionalNativeTypeQualifier(self, value: Optional[NativeDeclarationString]) -> SwDataDefProps:
         """
         This attribute is used to declare native qualifiers of the programming language which can neither be deduced from the baseType (e.g. because the data object describes a pointer) nor from other more abstract attributes. Examples are qualifiers like "volatile", "strict" or "enum" of the C-language. All such declarations have to be put into one string. A None value is a no-op and does not overwrite an existing additionalNativeTypeQualifier.
         """
@@ -771,7 +760,7 @@ class SwDataDefProps(ARObject):
         """
         return self.swIntendedResolution
 
-    def setSwIntendedResolution(self, value: Optional[ARNumerical]) -> "SwDataDefProps":
+    def setSwIntendedResolution(self, value: Optional[ARNumerical]) -> SwDataDefProps:
         """
         The purpose of this element is to describe the requested quantization of data objects early on in the design process. The resolution ultimately occurs via the conversion formula present (compuMethod), which specifies the transition from the physical world to the standardized world (and vice-versa) (here, "the slope per bit" is present implicitly in the conversion formula). In the case of a development phase without a fixed conversion formula, a pre-specification can occur through swIntendedResolution. The resolution is specified in the physical domain according to the property "unit". A None value is a no-op and does not overwrite an existing swIntendedResolution.
         """
@@ -785,7 +774,7 @@ class SwDataDefProps(ARObject):
         """
         return self.swInterpolationMethod
 
-    def setSwInterpolationMethod(self, value: Optional[Identifier]) -> "SwDataDefProps":
+    def setSwInterpolationMethod(self, value: Optional[Identifier]) -> SwDataDefProps:
         """
         This is a keyword identifying the mathematical method to be applied for interpolation. The keyword needs to be related to the interpolation routine which needs to be invoked. A None value is a no-op and does not overwrite an existing swInterpolationMethod.
         """
@@ -799,7 +788,7 @@ class SwDataDefProps(ARObject):
         """
         return self.invalidValue
 
-    def setInvalidValue(self, value: Optional[ValueSpecification]) -> "SwDataDefProps":
+    def setInvalidValue(self, value: Optional[ValueSpecification]) -> SwDataDefProps:
         """
         Optional value to express invalidity of the actual data element. A None value is a no-op and does not overwrite an existing invalidValue.
         """
@@ -813,7 +802,7 @@ class SwDataDefProps(ARObject):
         """
         return self.swIsVirtual
 
-    def setSwIsVirtual(self, value: Optional[Boolean]) -> "SwDataDefProps":
+    def setSwIsVirtual(self, value: Optional[Boolean]) -> SwDataDefProps:
         """
         This element distinguishes virtual objects. Virtual objects do not appear in the memory, their derivation is much more dependent on other objects and hence they shall have a swDataDependency. A None value is a no-op and does not overwrite an existing swIsVirtual.
         """
@@ -827,7 +816,7 @@ class SwDataDefProps(ARObject):
         """
         return self.swPointerTargetProps
 
-    def setSwPointerTargetProps(self, value: Optional[SwPointerTargetProps]) -> "SwDataDefProps":
+    def setSwPointerTargetProps(self, value: Optional[SwPointerTargetProps]) -> SwDataDefProps:
         """
         Specifies that the containing data object is a pointer to another data object. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). A None value is a no-op and does not overwrite an existing swPointerTargetProps.
         """
@@ -841,7 +830,7 @@ class SwDataDefProps(ARObject):
         """
         return self.swRecordLayoutRef
 
-    def setSwRecordLayoutRef(self, value: Optional[RefType]) -> "SwDataDefProps":
+    def setSwRecordLayoutRef(self, value: Optional[RefType]) -> SwDataDefProps:
         """
         Record layout for this data object. A None value is a no-op and does not overwrite an existing swRecordLayoutRef.
         """
@@ -855,7 +844,7 @@ class SwDataDefProps(ARObject):
         """
         return self.swRefreshTiming
 
-    def setSwRefreshTiming(self, value: Optional[MultidimensionalTime]) -> "SwDataDefProps":
+    def setSwRefreshTiming(self, value: Optional[MultidimensionalTime]) -> SwDataDefProps:
         """
         This element specifies the frequency in which the object involved shall be or is called or calculated. This timing can be collected from the task in which write access processes to the variable run. But this cannot be done by the MCD system. So this attribute can be used in an early phase to express the desired refresh timing and later on to specify the real refresh timing. A None value is a no-op and does not overwrite an existing swRefreshTiming.
         """
@@ -869,7 +858,7 @@ class SwDataDefProps(ARObject):
         """
         return self.unitRef
 
-    def setUnitRef(self, value: Optional[RefType]) -> "SwDataDefProps":
+    def setUnitRef(self, value: Optional[RefType]) -> SwDataDefProps:
         """
         Physical unit associated with the semantics of this data object. This attribute applies if no compuMethod is specified. If both units (this as well as via compuMethod) are specified the units shall be compatible. A None value is a no-op and does not overwrite an existing unitRef.
         """
@@ -883,7 +872,7 @@ class SwDataDefProps(ARObject):
         """
         return self.valueAxisDataTypeRef
 
-    def setValueAxisDataTypeRef(self, value: Optional[RefType]) -> "SwDataDefProps":
+    def setValueAxisDataTypeRef(self, value: Optional[RefType]) -> SwDataDefProps:
         """
         The referenced ApplicationPrimitiveDataType represents the primitive data type of the value axis within a compound primitive (e.g. curve, map). It supersedes CompuMethod, Unit, and BaseType. A None value is a no-op and does not overwrite an existing valueAxisDataTypeRef.
         """
@@ -927,7 +916,7 @@ class SwPointerTargetProps(ARObject):
         """
         return self.functionPointerSignatureRef
 
-    def setFunctionPointerSignatureRef(self, value: Optional[RefType]) -> "SwPointerTargetProps":
+    def setFunctionPointerSignatureRef(self, value: Optional[RefType]) -> SwPointerTargetProps:
         """
         The referenced BswModuleEntry serves as the signature of a function pointer definition. Primary use case: function pointer passed as argument to other function. A None value is a no-op and does not overwrite an existing functionPointerSignatureRef.
         """
@@ -941,7 +930,7 @@ class SwPointerTargetProps(ARObject):
         """
         return self.swDataDefProps
 
-    def setSwDataDefProps(self, value: Optional[SwDataDefProps]) -> "SwPointerTargetProps":
+    def setSwDataDefProps(self, value: Optional[SwDataDefProps]) -> SwPointerTargetProps:
         """
         The properties of the target data type. A None value is a no-op and does not overwrite an existing swDataDefProps.
         """
@@ -955,7 +944,7 @@ class SwPointerTargetProps(ARObject):
         """
         return self.targetCategory
 
-    def setTargetCategory(self, value: Optional[Identifier]) -> "SwPointerTargetProps":
+    def setTargetCategory(self, value: Optional[Identifier]) -> SwPointerTargetProps:
         """
         This specifies the category of the target: • In case of a data pointer, it shall specify the category of the referenced data. • In case of a function pointer, it could be used to denote the category of the referenced BswModuleEntry. A None value is a no-op and does not overwrite an existing targetCategory.
         """
@@ -997,7 +986,7 @@ class ValueList(ARObject):
         """
         return self.v
 
-    def setV(self, value: Optional[Numerical]) -> "ValueList":
+    def setV(self, value: Optional[Numerical]) -> ValueList:
         """
         This is a particular numerical value without variation.
         A None value is a no-op and does not overwrite an existing v.
@@ -1012,7 +1001,7 @@ class ValueList(ARObject):
             self.v = value
         return self
 
-    def addVf(self, vf: Numerical) -> "ValueList":
+    def addVf(self, vf: Numerical) -> ValueList:
         """
         This is one entry in the list of numerical values
 
@@ -1075,7 +1064,7 @@ class SwTextProps(ARObject):
         """
         return self.arraySizeSemantics
 
-    def setArraySizeSemantics(self, value: Optional[ArraySizeSemanticsEnum]) -> "SwTextProps":
+    def setArraySizeSemantics(self, value: Optional[ArraySizeSemanticsEnum]) -> SwTextProps:
         """
         This attribute controls the semantics of the arraysize for the array representing the string in an Implementation DataType. It is there to support a safe conversion between ApplicationDatatype and ImplementationDatatype, even for variable length strings as required e.g. for Support of SAE J1939. A None value is a no-op and does not overwrite an existing arraySizeSemantics.
         """
@@ -1089,7 +1078,7 @@ class SwTextProps(ARObject):
         """
         return self.baseTypeRef
 
-    def setBaseTypeRef(self, value: Optional[RefType]) -> "SwTextProps":
+    def setBaseTypeRef(self, value: Optional[RefType]) -> SwTextProps:
         """
         This is the base type of one character in the string. In particular this baseType denotes the intended encoding of the characters in the string on level of ApplicationData Type. A None value is a no-op and does not overwrite an existing baseTypeRef.
         """
@@ -1103,7 +1092,7 @@ class SwTextProps(ARObject):
         """
         return self.swFillCharacter
 
-    def setSwFillCharacter(self, value: Optional[Integer]) -> "SwTextProps":
+    def setSwFillCharacter(self, value: Optional[Integer]) -> SwTextProps:
         """
         Filler character for text parameter to pad up to the maximum length swMaxTextSize. The value will be interpreted according to the encoding specified in the associated base type of the data object, e.g. 0x30 (hex) represents the ASCII character zero as filler character and 0 (dec) represents an end of string as filler character. The usage of the fill character depends on the arraySize Semantics. A None value is a no-op and does not overwrite an existing swFillCharacter.
         """
@@ -1117,7 +1106,7 @@ class SwTextProps(ARObject):
         """
         return self.swMaxTextSize
 
-    def setSwMaxTextSize(self, value: Optional[Integer]) -> "SwTextProps":
+    def setSwMaxTextSize(self, value: Optional[Integer]) -> SwTextProps:
         """
         Specifies the maximum text size in characters. Note the size in bytes depends on the encoding in the corresponding baseType. A None value is a no-op and does not overwrite an existing swMaxTextSize.
         """

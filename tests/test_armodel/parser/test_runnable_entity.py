@@ -106,10 +106,10 @@ class TestRunnableEntity:
 
         drp_arg = runnable_entity.getDataReceivePointByArguments()[0]
         assert drp_arg.getShortName() == "DRP_P_Special_EventMessage"
-        assert drp_arg.getAccessedVariableRef().getAutosarVariableIRef().getPortPrototypeRef().getDest() == "R-PORT-PROTOTYPE"
-        assert drp_arg.getAccessedVariableRef().getAutosarVariableIRef().getPortPrototypeRef().getValue() == "/DemoApplication/SwComponentTypes/SWC_CyclicCounter/R_SpecialHandling"
-        assert drp_arg.getAccessedVariableRef().getAutosarVariableIRef().getTargetDataPrototypeRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
-        assert drp_arg.getAccessedVariableRef().getAutosarVariableIRef().getTargetDataPrototypeRef().getValue() == "/DemoApplication/PortInterfaces/If_Internal/EventMessage"
+        assert drp_arg.getAccessedVariable().getAutosarVariableIRef().getPortPrototypeRef().getDest() == "R-PORT-PROTOTYPE"
+        assert drp_arg.getAccessedVariable().getAutosarVariableIRef().getPortPrototypeRef().getValue() == "/DemoApplication/SwComponentTypes/SWC_CyclicCounter/R_SpecialHandling"
+        assert drp_arg.getAccessedVariable().getAutosarVariableIRef().getTargetDataPrototypeRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+        assert drp_arg.getAccessedVariable().getAutosarVariableIRef().getTargetDataPrototypeRef().getValue() == "/DemoApplication/PortInterfaces/If_Internal/EventMessage"
 
     def test_written_local_variables(self):
         # prepare the XML content
@@ -130,9 +130,9 @@ class TestRunnableEntity:
 
         written_var = runnable_entity.getWrittenLocalVariables()[0]
         assert written_var.getShortName() == "CurrentCounterValue4"
-        assert written_var.getAccessedVariableRef().getTimestamp().getValue() == "2020-08-03T07:59:25+02:00"
-        assert written_var.getAccessedVariableRef().getLocalVariableRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
-        assert written_var.getAccessedVariableRef().getLocalVariableRef().getValue() == "/DemoApplication/SwComponentTypes/SWC_CyclicCounter/IB_SWC_CyclicCounter/CurrentCounterValue"
+        assert written_var.getAccessedVariable().getTimestamp().getValue() == "2020-08-03T07:59:25+02:00"
+        assert written_var.getAccessedVariable().getLocalVariableRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+        assert written_var.getAccessedVariable().getLocalVariableRef().getValue() == "/DemoApplication/SwComponentTypes/SWC_CyclicCounter/IB_SWC_CyclicCounter/CurrentCounterValue"
 
     def _read_runnables(self, xml_content):
         element = ET.fromstring(xml_content)

@@ -44,6 +44,7 @@ def test_write_tls_crypto_cipher_suite_props_full():
     parent = ET.Element("ROOT")
     ARXMLWriter().writeTlsCryptoCipherSuiteProps(parent, props)
 
+    assert parent[0].tag == "PROPS"
     children = list(parent[0])
     assert [c.tag for c in children] == ["SHORT-NAME", "TCP-IP-TLS-USE-SECURITY-EXTENSION-FORCE-ENCRYPT-THEN-MAC"]
     assert children[0].text == "Props"

@@ -1,7 +1,6 @@
 """Tests for writer SWC internal behavior handlers."""
 
 import xml.etree.cElementTree as ET
-from unittest.mock import MagicMock
 
 import pytest
 
@@ -32,7 +31,6 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceR
     ROperationInAtomicSwcInstanceRef,
     RVariableInAtomicSwcInstanceRef,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ModeAccessPointIdent
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     RunnableEntityArgument,
 )
@@ -62,7 +60,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import (  # noqa E501
     ExternalTriggeringPoint,
 )
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, SwImplPolicyEnum
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -271,12 +269,22 @@ class TestWriterRteEvents:
     def test_writeAsynchronousServerCallReturnsEvent(self, writer):
         behavior = _make_behavior()
         event = behavior.createAsynchronousServerCallReturnsEvent("ascr")
-        event.getActivationReasonRepresentationRef = MagicMock(return_value=_ref("/acp", "ASYNCHRONOUS-SERVER-CALL-POINT"))
+        event.setEventSourceRef(_ref("/acp", "ASYNCHRONOUS-SERVER-CALL-RESULT-POINT"))
         parent = _parent()
         writer.writeAsynchronousServerCallReturnsEvent(parent, event)
         evt = parent[0]
         assert evt.tag == "ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT"
-        assert evt.find("EVENT-SOURCE-REF") is not None
+        assert evt.find("EVENT-SOURCE-REF").text == "/acp"
+        assert evt.find("EVENT-SOURCE-REF").get("DEST") == "ASYNCHRONOUS-SERVER-CALL-RESULT-POINT"
+
+    def test_writeAsynchronousServerCallReturnsEvent_optional_children_omitted(self, writer):
+        behavior = _make_behavior()
+        event = behavior.createAsynchronousServerCallReturnsEvent("ascr")
+        parent = _parent()
+        writer.writeAsynchronousServerCallReturnsEvent(parent, event)
+        evt = parent[0]
+        assert evt.tag == "ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT"
+        assert evt.find("EVENT-SOURCE-REF") is None
 
     def test_writeAsynchronousServerCallReturnsEvent_none(self, writer):
         parent = _parent()
@@ -344,8 +352,7 @@ class TestWriterSwcInternalBehaviorEventsDispatch:
         behavior.createBackgroundEvent("be")
         behavior.createModeSwitchedAckEvent("msa")
         behavior.createDataSendCompletedEvent("dsc")
-        ascr = behavior.createAsynchronousServerCallReturnsEvent("ascr")
-        ascr.getActivationReasonRepresentationRef = MagicMock(return_value=None)
+        behavior.createAsynchronousServerCallReturnsEvent("ascr")
         behavior.createInternalTriggerOccurredEvent("ito")
         parent = _parent()
         writer.writeSwcInternalBehaviorEvents(parent, behavior)
@@ -547,12 +554,45 @@ class TestWriterVariableAccess:
         iref = VariableInAtomicSWCTypeInstanceRef()
         iref.setPortPrototypeRef(_ref("/pp"))
         ref.setAutosarVariableIRef(iref)
-        access.setAccessedVariableRef(ref)
+        access.setAccessedVariable(ref)
         parent = _parent()
         writer.writeVariableAccess(parent, access)
         va = parent.find("VARIABLE-ACCESS")
         assert va is not None
         assert va.find("ACCESSED-VARIABLE") is not None
+
+    def test_writeVariableAccess_full(self, writer):
+        behavior = _make_behavior()
+        runnable = behavior.createRunnableEntity("r1")
+        access = runnable.createDataReadAccess("va")
+        ref = AutosarVariableRef()
+        iref = VariableInAtomicSWCTypeInstanceRef()
+        iref.setPortPrototypeRef(_ref("/pp", "R-PORT-PROTOTYPE"))
+        iref.setTargetDataPrototypeRef(_ref("/Var", "VARIABLE-DATA-PROTOTYPE"))
+        ref.setAutosarVariableIRef(iref)
+        access.setAccessedVariable(ref)
+        access.setScope(_literal("COMMUNICATION-INTRA-PARTITION"))
+        parent = _parent()
+        writer.writeVariableAccess(parent, access)
+        va = parent.find("VARIABLE-ACCESS")
+        assert va is not None
+        assert va.find("ACCESSED-VARIABLE/AUTOSAR-VARIABLE-IREF/PORT-PROTOTYPE-REF").text == "/pp"
+        assert va.find("ACCESSED-VARIABLE/AUTOSAR-VARIABLE-IREF/TARGET-DATA-PROTOTYPE-REF").text == "/Var"
+        assert va.find("SCOPE").text == "COMMUNICATION-INTRA-PARTITION"
+        children = [child.tag for child in va]
+        assert children.index("ACCESSED-VARIABLE") < children.index("SCOPE")
+
+    def test_writeVariableAccess_optional_children_omitted(self, writer):
+        behavior = _make_behavior()
+        runnable = behavior.createRunnableEntity("r1")
+        runnable.createDataReadAccess("va")
+        parent = _parent()
+        writer.writeVariableAccess(parent, runnable.getDataReadAccesses()[0])
+        va = parent.find("VARIABLE-ACCESS")
+        assert va is not None
+        assert va.find("SHORT-NAME").text == "va"
+        assert va.find("ACCESSED-VARIABLE") is None
+        assert va.find("SCOPE") is None
 
 
 class TestWriterParameterAccess:
@@ -619,6 +659,315 @@ class TestWriterParameterAccess:
         elem = parent.find("PARAMETER-ACCESS")
         assert elem is not None
         assert elem.find("ACCESSED-PARAMETER") is not None
+
+    def test_writeParameterAccess_full(self, writer):
+        behavior = _make_behavior()
+        runnable = behavior.createRunnableEntity("r1")
+        pa = runnable.createParameterAccess("pa1")
+        pref = AutosarParameterRef()
+        iref = ParameterInAtomicSWCTypeInstanceRef()
+        iref.setPortPrototypeRef(_ref("/pp"))
+        pref.setAutosarParameterIRef(iref)
+        pref.setLocalParameterRef(_ref("/lp", "PARAMETER-DATA-PROTOTYPE"))
+        pa.setAccessedParameter(pref)
+        props = SwDataDefProps()
+        props.setSwCalibrationAccess(_literal("notAccessible"))
+        pa.setSwDataDefProps(props)
+        parent = _parent()
+        writer.writeParameterAccess(parent, pa)
+        elem = parent.find("PARAMETER-ACCESS")
+        assert elem is not None
+        assert elem.find("ACCESSED-PARAMETER/AUTOSAR-PARAMETER-IREF/PORT-PROTOTYPE-REF").text == "/pp"
+        assert elem.find("ACCESSED-PARAMETER/LOCAL-PARAMETER-REF").text == "/lp"
+        props_elem = elem.find("SW-DATA-DEF-PROPS")
+        assert props_elem is not None
+        assert props_elem.find("SW-DATA-DEF-PROPS-VARIANTS/SW-DATA-DEF-PROPS-CONDITIONAL/SW-CALIBRATION-ACCESS").text == "notAccessible"
+        children = [child.tag for child in elem]
+        assert children.index("ACCESSED-PARAMETER") < children.index("SW-DATA-DEF-PROPS")
+
+    def test_writeParameterAccess_optional_children_omitted(self, writer):
+        behavior = _make_behavior()
+        runnable = behavior.createRunnableEntity("r1")
+        pa = runnable.createParameterAccess("pa1")
+        parent = _parent()
+        writer.writeParameterAccess(parent, pa)
+        elem = parent.find("PARAMETER-ACCESS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "pa1"
+        assert elem.find("ACCESSED-PARAMETER") is None
+        assert elem.find("SW-DATA-DEF-PROPS") is None
+
+
+class TestParameterAccessRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a ParameterAccess with accessedParameter and swDataDefProps."""
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        runnable = behavior.createRunnableEntity("r1")
+        pa = runnable.createParameterAccess("pa1")
+        pref = AutosarParameterRef()
+        iref = ParameterInAtomicSWCTypeInstanceRef()
+        iref.setPortPrototypeRef(_ref("/pp", "R-PORT-PROTOTYPE"))
+        iref.setTargetDataPrototypeRef(_ref("/Prm", "PARAMETER-DATA-PROTOTYPE"))
+        pref.setAutosarParameterIRef(iref)
+        pa.setAccessedParameter(pref)
+        props = SwDataDefProps()
+        props.setSwCalibrationAccess(_literal("notAccessible"))
+        pa.setSwDataDefProps(props)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            pa_2 = behavior_2.getRunnableEntities()[0].getParameterAccesses()[0]
+            assert pa_2.getShortName() == "pa1"
+            assert pa_2.getAccessedParameter() is not None
+            iref_2 = pa_2.getAccessedParameter().getAutosarParameterIRef()
+            assert iref_2.getPortPrototypeRef().getValue() == "/pp"
+            assert iref_2.getTargetDataPrototypeRef().getValue() == "/Prm"
+            assert pa_2.getAccessedParameter().getLocalParameterRef() is None
+            assert pa_2.getSwDataDefProps() is not None
+            assert pa_2.getSwDataDefProps().getSwCalibrationAccess().getValue() == "notAccessible"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that an empty ParameterAccess round-trips with no optional children."""
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        runnable = behavior.createRunnableEntity("r1")
+        runnable.createParameterAccess("pa1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            pa_2 = app_2.getInternalBehavior().getRunnableEntities()[0].getParameterAccesses()[0]
+            assert pa_2.getShortName() == "pa1"
+            assert pa_2.getAccessedParameter() is None
+            assert pa_2.getSwDataDefProps() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestVariableAccessRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a VariableAccess with accessedVariable and scope."""
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        runnable = behavior.createRunnableEntity("r1")
+        va = runnable.createDataReadAccess("va1")
+        ref = AutosarVariableRef()
+        iref = VariableInAtomicSWCTypeInstanceRef()
+        iref.setPortPrototypeRef(_ref("/pp", "R-PORT-PROTOTYPE"))
+        iref.setTargetDataPrototypeRef(_ref("/Var", "VARIABLE-DATA-PROTOTYPE"))
+        ref.setAutosarVariableIRef(iref)
+        va.setAccessedVariable(ref)
+        va.setScope(_literal("COMMUNICATION-INTRA-PARTITION"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            va_2 = app_2.getInternalBehavior().getRunnableEntities()[0].getDataReadAccesses()[0]
+            assert va_2.getShortName() == "va1"
+            assert va_2.getAccessedVariable() is not None
+            iref_2 = va_2.getAccessedVariable().getAutosarVariableIRef()
+            assert iref_2.getPortPrototypeRef().getValue() == "/pp"
+            assert iref_2.getTargetDataPrototypeRef().getValue() == "/Var"
+            assert va_2.getAccessedVariable().getLocalVariableRef() is None
+            assert va_2.getScope() is not None
+            assert va_2.getScope().getValue() == "COMMUNICATION-INTRA-PARTITION"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that an empty VariableAccess round-trips with no optional children."""
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        runnable = behavior.createRunnableEntity("r1")
+        runnable.createDataReadAccess("va1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            va_2 = app_2.getInternalBehavior().getRunnableEntities()[0].getDataReadAccesses()[0]
+            assert va_2.getShortName() == "va1"
+            assert va_2.getAccessedVariable() is None
+            assert va_2.getScope() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+# ==================== InternalTriggeringPoint writers ====================
+
+
+class TestWriterInternalTriggeringPoint:
+    def test_writeRunnableEntityInternalTriggeringPoints(self, writer):
+        behavior = _make_behavior()
+        runnable = behavior.createRunnableEntity("r1")
+        point = runnable.createInternalTriggeringPoint("itp")
+        point.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.QUEUED))
+        parent = _parent()
+        writer.writeRunnableEntityInternalTriggeringPoints(parent, runnable)
+        wrapper = parent.find("INTERNAL-TRIGGERING-POINTS")
+        assert wrapper is not None
+        itp = wrapper.find("INTERNAL-TRIGGERING-POINT")
+        assert itp is not None
+        assert itp.find("SHORT-NAME").text == "itp"
+        assert itp.find("SW-IMPL-POLICY").text == "QUEUED"
+
+    def test_writeRunnableEntityInternalTriggeringPoints_empty(self, writer):
+        behavior = _make_behavior()
+        runnable = behavior.createRunnableEntity("r1")
+        parent = _parent()
+        writer.writeRunnableEntityInternalTriggeringPoints(parent, runnable)
+        assert parent.find("INTERNAL-TRIGGERING-POINTS") is None
+
+    def test_writeInternalTriggeringPoint(self, writer):
+        behavior = _make_behavior()
+        runnable = behavior.createRunnableEntity("r1")
+        point = runnable.createInternalTriggeringPoint("itp")
+        point.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.STANDARD))
+        parent = _parent()
+        writer.writeInternalTriggeringPoint(parent, point)
+        itp = parent.find("INTERNAL-TRIGGERING-POINT")
+        assert itp is not None
+        assert itp.find("SHORT-NAME").text == "itp"
+        assert itp.find("SW-IMPL-POLICY").text == "STANDARD"
+
+    def test_writeInternalTriggeringPoint_optional_children_omitted(self, writer):
+        behavior = _make_behavior()
+        runnable = behavior.createRunnableEntity("r1")
+        runnable.createInternalTriggeringPoint("itp")
+        parent = _parent()
+        writer.writeInternalTriggeringPoint(parent, list(runnable.getInternalTriggeringPoints())[0])
+        itp = parent.find("INTERNAL-TRIGGERING-POINT")
+        assert itp is not None
+        assert itp.find("SHORT-NAME").text == "itp"
+        assert itp.find("SW-IMPL-POLICY") is None
+
+    def test_writeInternalTriggeringPoint_none(self, writer):
+        parent = _parent()
+        writer.writeInternalTriggeringPoint(parent, None)
+        assert len(parent) == 0
+
+
+class TestInternalTriggeringPointRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of an InternalTriggeringPoint with swImplPolicy."""
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        runnable = behavior.createRunnableEntity("r1")
+        point = runnable.createInternalTriggeringPoint("itp1")
+        point.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.QUEUED))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            itp_2 = list(app_2.getInternalBehavior().getRunnableEntities()[0].getInternalTriggeringPoints())[0]
+            assert itp_2.getShortName() == "itp1"
+            policy = itp_2.getSwImplPolicy()
+            assert isinstance(policy, SwImplPolicyEnum)
+            assert policy.getValue() == "queued"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that an InternalTriggeringPoint without swImplPolicy round-trips without the element."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        runnable = behavior.createRunnableEntity("r1")
+        runnable.createInternalTriggeringPoint("itp1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            assert saved.find(".//INTERNAL-TRIGGERING-POINT/SW-IMPL-POLICY") is None
+            document.clear()
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            itp_2 = list(app_2.getInternalBehavior().getRunnableEntities()[0].getInternalTriggeringPoints())[0]
+            assert itp_2.getShortName() == "itp1"
+            assert itp_2.getSwImplPolicy() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
 
 
 # ==================== RunnableEntity writers ====================
@@ -721,8 +1070,7 @@ class TestWriterRunnableEntity:
         behavior = _make_behavior()
         entity = behavior.createRunnableEntity("re1")
         point = ModeAccessPoint()
-        ident = ModeAccessPointIdent(point, "map_ident")
-        point.setIdent(ident)
+        point.createIdent("map_ident")
         iref = PModeGroupInAtomicSwcInstanceRef()
         iref.setContextPPortRef(_ref("/pp"))
         iref.setTargetModeGroupRef(_ref("/mg"))
@@ -754,6 +1102,64 @@ class TestWriterRunnableEntity:
         parent = _parent()
         writer.writeRunnableEntityModeAccessPoints(parent, entity)
         assert parent.find("MODE-ACCESS-POINTS") is None
+
+    def test_writeRunnableEntityModeAccessPoints_rmode_values(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createRunnableEntity("re1")
+        point = ModeAccessPoint()
+        iref = RModeGroupInAtomicSWCInstanceRef()
+        iref.setContextRPortRef(_ref("/rp", "R-PORT-PROTOTYPE"))
+        iref.setTargetModeGroupRef(_ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        point.setModeGroupIRef(iref)
+        entity.addModeAccessPoint(point)
+        parent = _parent()
+        writer.writeRunnableEntityModeAccessPoints(parent, entity)
+        wrapper = parent.find("MODE-ACCESS-POINTS")
+        point_elem = wrapper.find("MODE-ACCESS-POINT")
+        mode_group_iref = point_elem.find("MODE-GROUP-IREF")
+        assert mode_group_iref is not None
+        r_iref_elem = mode_group_iref.find("R-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF")
+        assert r_iref_elem is not None
+        context_ref = r_iref_elem.find("CONTEXT-R-PORT-REF")
+        assert context_ref.get("DEST") == "R-PORT-PROTOTYPE"
+        assert context_ref.text == "/rp"
+        target_ref = r_iref_elem.find("TARGET-MODE-GROUP-REF")
+        assert target_ref.get("DEST") == "MODE-DECLARATION-GROUP-PROTOTYPE"
+        assert target_ref.text == "/mg"
+
+    def test_writeRunnableEntityModeAccessPoints_pmode_values(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createRunnableEntity("re1")
+        point = ModeAccessPoint()
+        iref = PModeGroupInAtomicSwcInstanceRef()
+        iref.setContextPPortRef(_ref("/pp", "P-PORT-PROTOTYPE"))
+        iref.setTargetModeGroupRef(_ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        point.setModeGroupIRef(iref)
+        entity.addModeAccessPoint(point)
+        parent = _parent()
+        writer.writeRunnableEntityModeAccessPoints(parent, entity)
+        point_elem = parent.find("MODE-ACCESS-POINTS").find("MODE-ACCESS-POINT")
+        mode_group_iref = point_elem.find("MODE-GROUP-IREF")
+        assert mode_group_iref is not None
+        p_iref_elem = mode_group_iref.find("P-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF")
+        assert p_iref_elem is not None
+        context_ref = p_iref_elem.find("CONTEXT-P-PORT-REF")
+        assert context_ref.get("DEST") == "P-PORT-PROTOTYPE"
+        assert context_ref.text == "/pp"
+        target_ref = p_iref_elem.find("TARGET-MODE-GROUP-REF")
+        assert target_ref.get("DEST") == "MODE-DECLARATION-GROUP-PROTOTYPE"
+        assert target_ref.text == "/mg"
+
+    def test_writeRunnableEntityModeAccessPoints_optional_children_omitted(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createRunnableEntity("re1")
+        point = ModeAccessPoint()
+        entity.addModeAccessPoint(point)
+        parent = _parent()
+        writer.writeRunnableEntityModeAccessPoints(parent, entity)
+        point_elem = parent.find("MODE-ACCESS-POINTS").find("MODE-ACCESS-POINT")
+        assert point_elem.find("IDENT") is None
+        assert point_elem.find("MODE-GROUP-IREF") is None
 
     def test_writeRunnableEntityExternalTriggeringPoints(self, writer):
         behavior = _make_behavior()
@@ -803,6 +1209,37 @@ class TestWriterRunnableEntity:
         parent = _parent()
         writer.writeRunnableEntityModeSwitchPoints(parent, entity)
         assert parent.find("MODE-SWITCH-POINTS") is None
+
+    def test_writeRunnableEntityModeSwitchPoints_values(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createRunnableEntity("re1")
+        point = entity.createModeSwitchPoint("msp1")
+        iref = PModeGroupInAtomicSwcInstanceRef()
+        iref.setContextPPortRef(_ref("/pp", "P-PORT-PROTOTYPE"))
+        iref.setTargetModeGroupRef(_ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        point.setModeGroupIRef(iref)
+        parent = _parent()
+        writer.writeRunnableEntityModeSwitchPoints(parent, entity)
+        wrapper = parent.find("MODE-SWITCH-POINTS")
+        point_elem = wrapper.find("MODE-SWITCH-POINT")
+        assert point_elem is not None
+        mode_group_iref = point_elem.find("MODE-GROUP-IREF")
+        assert mode_group_iref is not None
+        context_ref = mode_group_iref.find("CONTEXT-P-PORT-REF")
+        assert context_ref.get("DEST") == "P-PORT-PROTOTYPE"
+        assert context_ref.text == "/pp"
+        target_ref = mode_group_iref.find("TARGET-MODE-GROUP-REF")
+        assert target_ref.get("DEST") == "MODE-DECLARATION-GROUP-PROTOTYPE"
+        assert target_ref.text == "/mg"
+
+    def test_writeRunnableEntityModeSwitchPoints_optional_children_omitted(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createRunnableEntity("re1")
+        entity.createModeSwitchPoint("msp1")
+        parent = _parent()
+        writer.writeRunnableEntityModeSwitchPoints(parent, entity)
+        point_elem = parent.find("MODE-SWITCH-POINTS").find("MODE-SWITCH-POINT")
+        assert point_elem.find("MODE-GROUP-IREF") is None
 
     def test_writeRunnableEntityServerCallPoints(self, writer):
         behavior = _make_behavior()
@@ -2152,3 +2589,77 @@ class TestWriterComponentInSystemInstanceRef:
         parent = _parent()
         writer.setComponentInSystemInstanceRef(parent, "CONTEXT-COMPONENT-IREF", None)
         assert len(parent) == 0
+
+
+class TestAsynchronousServerCallReturnsEventRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of an AsynchronousServerCallReturnsEvent with eventSourceRef."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        event = behavior.createAsynchronousServerCallReturnsEvent("ascr1")
+        event.setEventSourceRef(_ref("/Pkg/App/Acp1", "ASYNCHRONOUS-SERVER-CALL-RESULT-POINT"))
+        event.setStartOnEventRef(_ref("/Pkg/App/Behavior/r1", "RUNNABLE-ENTITY"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "ascr1")
+            assert isinstance(event_2, AsynchronousServerCallReturnsEvent)
+            ref = event_2.getEventSourceRef()
+            assert ref is not None
+            assert ref.getValue() == "/Pkg/App/Acp1"
+            assert ref.getDest() == "ASYNCHRONOUS-SERVER-CALL-RESULT-POINT"
+            start_ref = event_2.getStartOnEventRef()
+            assert start_ref is not None
+            assert start_ref.getValue() == "/Pkg/App/Behavior/r1"
+            assert start_ref.getDest() == "RUNNABLE-ENTITY"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that an AsynchronousServerCallReturnsEvent without eventSourceRef round-trips without the element."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        behavior.createAsynchronousServerCallReturnsEvent("ascr1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            evt = next(e for e in saved.iter() if e.tag.endswith("ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT"))
+            assert all(not c.tag.endswith("EVENT-SOURCE-REF") for c in evt)
+            document.clear()
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "ascr1")
+            assert event_2.getEventSourceRef() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)

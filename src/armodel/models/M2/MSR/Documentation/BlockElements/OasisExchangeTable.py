@@ -270,7 +270,7 @@ class Colspec(ARObject):
         """
         return self.align
 
-    def setAlign(self, value: Optional[AlignEnum]) -> "Colspec":
+    def setAlign(self, value: Optional[AlignEnum]) -> Colspec:
         """
         Specifies how the cell entries shall be horizontally aligned within the specified column. Default is "LEFT" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing align.
         """
@@ -284,7 +284,7 @@ class Colspec(ARObject):
         """
         return self.colname
 
-    def setColname(self, value: Optional[String]) -> "Colspec":
+    def setColname(self, value: Optional[String]) -> Colspec:
         """
         Specifies the name of the column. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing colname.
         """
@@ -298,7 +298,7 @@ class Colspec(ARObject):
         """
         return self.colnum
 
-    def setColnum(self, value: Optional[String]) -> "Colspec":
+    def setColnum(self, value: Optional[String]) -> Colspec:
         """
         column number (allows to sort the columns). Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing colnum.
         """
@@ -312,7 +312,7 @@ class Colspec(ARObject):
         """
         return self.colsep
 
-    def setColsep(self, value: Optional[TableSeparatorString]) -> "Colspec":
+    def setColsep(self, value: Optional[TableSeparatorString]) -> Colspec:
         """
         Indicates whether a line should be displayed right of this column in the column specification. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing colsep.
         """
@@ -326,7 +326,7 @@ class Colspec(ARObject):
         """
         return self.colwidth
 
-    def setColwidth(self, value: Optional[String]) -> "Colspec":
+    def setColwidth(self, value: Optional[String]) -> Colspec:
         """
         Width of the column. You can enter absolute values such as 4 cm, or relative values marked with * (e.g., 2* for column widths double those of other columns with 1*). The unit can be added to the number in the string. Possible units are: cm, mm, px, pt. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing colwidth.
         """
@@ -340,7 +340,7 @@ class Colspec(ARObject):
         """
         return self.rowsep
 
-    def setRowsep(self, value: Optional[TableSeparatorString]) -> "Colspec":
+    def setRowsep(self, value: Optional[TableSeparatorString]) -> Colspec:
         """
         Indicates whether a line should be displayed at the bottom end of the cells of the column defined in the Colspec. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing rowsep.
         """
@@ -429,7 +429,7 @@ class Entry(ARObject):
         """
         return self.align
 
-    def setAlign(self, value: Optional[AlignEnum]) -> "Entry":
+    def setAlign(self, value: Optional[AlignEnum]) -> Entry:
         """
         Specifies how the cell ENTRY shall be horizontally aligned. Default is "LEFT" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing align.
         """
@@ -443,7 +443,7 @@ class Entry(ARObject):
         """
         return self.bgcolor
 
-    def setBgcolor(self, value: Optional[String]) -> "Entry":
+    def setBgcolor(self, value: Optional[String]) -> Entry:
         """
         This allows to recommend a background color of the entry. It is specified bases on 6 digits RGB hex-code. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing bgcolor.
         """
@@ -457,7 +457,7 @@ class Entry(ARObject):
         """
         return self.colname
 
-    def setColname(self, value: Optional[String]) -> "Entry":
+    def setColname(self, value: Optional[String]) -> Entry:
         """
         Indicate the name of the column, where the entry should appear. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing colname.
         """
@@ -471,7 +471,7 @@ class Entry(ARObject):
         """
         return self.colsep
 
-    def setColsep(self, value: Optional[TableSeparatorString]) -> "Entry":
+    def setColsep(self, value: Optional[TableSeparatorString]) -> Entry:
         """
         Indicates whether a line should be displayed end of this entry. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing colsep.
         """
@@ -485,7 +485,7 @@ class Entry(ARObject):
         """
         return self.entryContents
 
-    def setEntryContents(self, value: Optional["DocumentationBlock"]) -> "Entry":
+    def setEntryContents(self, value: Optional["DocumentationBlock"]) -> Entry:
         """
         This is the content of the TableEntry Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and does not overwrite an existing entryContents.
         """
@@ -499,7 +499,7 @@ class Entry(ARObject):
         """
         return self.morerows
 
-    def setMorerows(self, value: Optional[String]) -> "Entry":
+    def setMorerows(self, value: Optional[String]) -> Entry:
         """
         Number of additional rows. Default is "0" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing morerows.
         """
@@ -513,7 +513,7 @@ class Entry(ARObject):
         """
         return self.nameend
 
-    def setNameend(self, value: Optional[String]) -> "Entry":
+    def setNameend(self, value: Optional[String]) -> Entry:
         """
         When an entry spans multiple column this is the name of the last column. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing nameend.
         """
@@ -527,7 +527,7 @@ class Entry(ARObject):
         """
         return self.namest
 
-    def setNamest(self, value: Optional[String]) -> "Entry":
+    def setNamest(self, value: Optional[String]) -> Entry:
         """
         When an entry spans multiple column this is the name of the first column. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing namest.
         """
@@ -541,7 +541,7 @@ class Entry(ARObject):
         """
         return self.rotate
 
-    def setRotate(self, value: Optional[String]) -> "Entry":
+    def setRotate(self, value: Optional[String]) -> Entry:
         """
         Indicates if the cellcontent shall be rotated. Default is 0; 1 would rotate the contents 90 degree counterclockwise. This attribute is defined by OASIS. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing rotate.
         """
@@ -555,7 +555,7 @@ class Entry(ARObject):
         """
         return self.rowsep
 
-    def setRowsep(self, value: Optional[TableSeparatorString]) -> "Entry":
+    def setRowsep(self, value: Optional[TableSeparatorString]) -> Entry:
         """
         Indicates whether a line should be displayed at the bottom end of the cell. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing rowsep.
         """
@@ -569,7 +569,7 @@ class Entry(ARObject):
         """
         return self.spanname
 
-    def setSpanname(self, value: Optional[String]) -> "Entry":
+    def setSpanname(self, value: Optional[String]) -> Entry:
         """
         Capture the name of entry merging multiple columns. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing spanname.
         """
@@ -583,7 +583,7 @@ class Entry(ARObject):
         """
         return self.valign
 
-    def setValign(self, value: Optional[ValignEnum]) -> "Entry":
+    def setValign(self, value: Optional[ValignEnum]) -> Entry:
         """
         Indicates how the content of the cell shall be aligned. Default is inherited from row or tbody, otherwise "TOP" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing valign.
         """
@@ -620,7 +620,7 @@ class Row(Paginateable):
         # Indicates how the cells in the rows shall be aligned. Default is inherited from tbody, otherwise it is "TOP" Tags: xml.attribute=true
         self.valign: Optional[ValignEnum] = None
 
-    def addEntry(self, value: Entry) -> "Row":
+    def addEntry(self, value: Entry) -> Row:
         """
         This represents one particular table cell. It is an entry in the table. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         """
@@ -639,7 +639,7 @@ class Row(Paginateable):
         """
         return self.rowsep
 
-    def setRowsep(self, value: Optional[TableSeparatorString]) -> "Row":
+    def setRowsep(self, value: Optional[TableSeparatorString]) -> Row:
         """
         Indicates if by default a line should be displayed below the row. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing rowsep.
         """
@@ -653,7 +653,7 @@ class Row(Paginateable):
         """
         return self.valign
 
-    def setValign(self, value: Optional[ValignEnum]) -> "Row":
+    def setValign(self, value: Optional[ValignEnum]) -> Row:
         """
         Indicates how the cells in the rows shall be aligned. Default is inherited from tbody, otherwise it is "TOP" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing valign.
         """
@@ -686,7 +686,7 @@ class Tbody(ARObject):
         # Indicates how the cells in the rows shall be aligned. Default is inherited from tbody, otherwise it is "TOP" Tags: xml.attribute=true
         self.valign: Optional[ValignEnum] = None
 
-    def addRow(self, value: Row) -> "Tbody":
+    def addRow(self, value: Row) -> Tbody:
         """
         This is a particular row in a table. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=row, row.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         """
@@ -705,7 +705,7 @@ class Tbody(ARObject):
         """
         return self.valign
 
-    def setValign(self, value: Optional[ValignEnum]) -> "Tbody":
+    def setValign(self, value: Optional[ValignEnum]) -> Tbody:
         """
         Indicates how the cells in the rows shall be aligned. Default is inherited from tbody, otherwise it is "TOP" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing valign.
         """
@@ -768,7 +768,7 @@ class Tgroup(ARObject):
         # This represents the heading of the table section. The heading is usually repeated at the beginning of each new page. Tags: xml.sequenceOffset=40
         self.thead: Optional[Tbody] = None
 
-    def addColspec(self, value: Colspec) -> "Tgroup":
+    def addColspec(self, value: Colspec) -> Tgroup:
         """
         This specifies one particular column specification in the table. There shall be one entry for each column. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         """
@@ -787,7 +787,7 @@ class Tgroup(ARObject):
         """
         return self.align
 
-    def setAlign(self, value: Optional[AlignEnum]) -> "Tgroup":
+    def setAlign(self, value: Optional[AlignEnum]) -> Tgroup:
         """
         Specifies how the cell entries shall be horizontally aligned within the specified TGROUP. Default is "LEFT" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing align.
         """
@@ -801,7 +801,7 @@ class Tgroup(ARObject):
         """
         return self.cols
 
-    def setCols(self, value: Optional[Integer]) -> "Tgroup":
+    def setCols(self, value: Optional[Integer]) -> Tgroup:
         """
         This attribute represents the number of columns in the table. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing cols.
         """
@@ -815,7 +815,7 @@ class Tgroup(ARObject):
         """
         return self.colsep
 
-    def setColsep(self, value: Optional[TableSeparatorString]) -> "Tgroup":
+    def setColsep(self, value: Optional[TableSeparatorString]) -> Tgroup:
         """
         Indicates if by default a line shall be drawn between the columns of this table group. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing colsep.
         """
@@ -829,7 +829,7 @@ class Tgroup(ARObject):
         """
         return self.rowsep
 
-    def setRowsep(self, value: Optional[TableSeparatorString]) -> "Tgroup":
+    def setRowsep(self, value: Optional[TableSeparatorString]) -> Tgroup:
         """
         Indicates if by default a line shall be drawn at the bottom of the rows in this table group. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing rowsep.
         """
@@ -843,7 +843,7 @@ class Tgroup(ARObject):
         """
         return self.tbody
 
-    def setTbody(self, value: Optional[Tbody]) -> "Tgroup":
+    def setTbody(self, value: Optional[Tbody]) -> Tgroup:
         """
         This is the main part of the table segment, called the table body. Tags: xml.sequenceOffset=60. A None value is a no-op and does not overwrite an existing tbody.
         """
@@ -857,7 +857,7 @@ class Tgroup(ARObject):
         """
         return self.tfoot
 
-    def setTfoot(self, value: Optional[Tbody]) -> "Tgroup":
+    def setTfoot(self, value: Optional[Tbody]) -> Tgroup:
         """
         This represents the footer of the table segment. This segment is printed at the end of the table or before a page break. Tags: xml.sequenceOffset=50. A None value is a no-op and does not overwrite an existing tfoot.
         """
@@ -871,7 +871,7 @@ class Tgroup(ARObject):
         """
         return self.thead
 
-    def setThead(self, value: Optional[Tbody]) -> "Tgroup":
+    def setThead(self, value: Optional[Tbody]) -> Tgroup:
         """
         This represents the heading of the table section. The heading is usually repeated at the beginning of each new page. Tags: xml.sequenceOffset=40. A None value is a no-op and does not overwrite an existing thead.
         """
@@ -944,7 +944,7 @@ class Table(Paginateable):
         # A table can be built of individual segments. Such a segment is called tgroup. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
         self.tgroups: List[Tgroup] = []
 
-    def addTgroup(self, value: Tgroup) -> "Table":
+    def addTgroup(self, value: Tgroup) -> Table:
         """
         A table can be built of individual segments. Such a segment is called tgroup. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
         """
@@ -963,7 +963,7 @@ class Table(Paginateable):
         """
         return self.colsep
 
-    def setColsep(self, value: Optional[TableSeparatorString]) -> "Table":
+    def setColsep(self, value: Optional[TableSeparatorString]) -> Table:
         """
         Indicates if by default a line should be drawn between the columns of this table. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing colsep.
         """
@@ -977,7 +977,7 @@ class Table(Paginateable):
         """
         return self.float
 
-    def setFloat(self, value: Optional[FloatEnum]) -> "Table":
+    def setFloat(self, value: Optional[FloatEnum]) -> Table:
         """
         Indicate whether it is allowed to break the element. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing float.
         """
@@ -991,7 +991,7 @@ class Table(Paginateable):
         """
         return self.frame
 
-    def setFrame(self, value: Optional[FrameEnum]) -> "Table":
+    def setFrame(self, value: Optional[FrameEnum]) -> Table:
         """
         Used to defined the frame line around a table. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing frame.
         """
@@ -1005,7 +1005,7 @@ class Table(Paginateable):
         """
         return self.helpEntry
 
-    def setHelpEntry(self, value: Optional[String]) -> "Table":
+    def setHelpEntry(self, value: Optional[String]) -> Table:
         """
         This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing helpEntry.
         """
@@ -1019,7 +1019,7 @@ class Table(Paginateable):
         """
         return self.orient
 
-    def setOrient(self, value: Optional[OrientEnum]) -> "Table":
+    def setOrient(self, value: Optional[OrientEnum]) -> Table:
         """
         Indicate whether a table should be represented as landscape or portrait. • land : landscape • port : portrait Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing orient.
         """
@@ -1033,7 +1033,7 @@ class Table(Paginateable):
         """
         return self.pgwide
 
-    def setPgwide(self, value: Optional[NameToken]) -> "Table":
+    def setPgwide(self, value: Optional[NameToken]) -> Table:
         """
         Used to indicate whether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide"). Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing pgwide.
         """
@@ -1047,7 +1047,7 @@ class Table(Paginateable):
         """
         return self.rowsep
 
-    def setRowsep(self, value: Optional[TableSeparatorString]) -> "Table":
+    def setRowsep(self, value: Optional[TableSeparatorString]) -> Table:
         """
         Indicates if by default a line should be drawn at the bottom of table rows. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing rowsep.
         """
@@ -1061,7 +1061,7 @@ class Table(Paginateable):
         """
         return self.tableCaption
 
-    def setTableCaption(self, value: Optional[Caption]) -> "Table":
+    def setTableCaption(self, value: Optional[Caption]) -> Table:
         """
         This element specifies the table heading. Tags: xml.sequenceOffset=20. A None value is a no-op and does not overwrite an existing tableCaption.
         """
@@ -1075,7 +1075,7 @@ class Table(Paginateable):
         """
         return self.tabstyle
 
-    def setTabstyle(self, value: Optional[NameToken]) -> "Table":
+    def setTabstyle(self, value: Optional[NameToken]) -> Table:
         """
         Indicates an external table style. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing tabstyle.
         """

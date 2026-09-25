@@ -69,7 +69,7 @@ class StackUsage(Identifiable, VariationPointCapable, ABC):
         """
         return self.executableEntityRef
 
-    def setExecutableEntityRef(self, value: Optional[RefType]) -> "StackUsage":
+    def setExecutableEntityRef(self, value: Optional[RefType]) -> StackUsage:
         """
         Sets the reference to the executable entity for which this stack usage is described.
         A None value is a no-op and does not overwrite an existing reference.
@@ -94,7 +94,7 @@ class StackUsage(Identifiable, VariationPointCapable, ABC):
         """
         return self.hardwareConfiguration
 
-    def setHardwareConfiguration(self, value: Optional[HardwareConfiguration]) -> "StackUsage":
+    def setHardwareConfiguration(self, value: Optional[HardwareConfiguration]) -> StackUsage:
         """
         Sets the hardware configuration associated with this stack usage.
         Contains information about the hardware context this stack usage is describing.
@@ -119,7 +119,7 @@ class StackUsage(Identifiable, VariationPointCapable, ABC):
         """
         return self.hwElementRef
 
-    def setHwElementRef(self, value: Optional[RefType]) -> "StackUsage":
+    def setHwElementRef(self, value: Optional[RefType]) -> StackUsage:
         """
         Sets the reference to the hardware element (e.g. ECU) for which this stack usage is given.
         A None value is a no-op and does not overwrite an existing reference.
@@ -143,7 +143,7 @@ class StackUsage(Identifiable, VariationPointCapable, ABC):
         """
         return self.softwareContext
 
-    def setSoftwareContext(self, value: Optional[SoftwareContext]) -> "StackUsage":
+    def setSoftwareContext(self, value: Optional[SoftwareContext]) -> StackUsage:
         """
         Sets the software context details for which this stack usage is provided.
         A None value is a no-op and does not overwrite an existing context.
@@ -208,7 +208,7 @@ class MeasuredStackUsage(StackUsage):
         """
         return self.averageMemoryConsumption
 
-    def setAverageMemoryConsumption(self, value: Optional[PositiveInteger]) -> "MeasuredStackUsage":
+    def setAverageMemoryConsumption(self, value: Optional[PositiveInteger]) -> MeasuredStackUsage:
         """
         Sets the average memory consumption measured for this stack usage.
         A None value is a no-op and does not overwrite an existing value.
@@ -232,7 +232,7 @@ class MeasuredStackUsage(StackUsage):
         """
         return self.maximumMemoryConsumption
 
-    def setMaximumMemoryConsumption(self, value: Optional[PositiveInteger]) -> "MeasuredStackUsage":
+    def setMaximumMemoryConsumption(self, value: Optional[PositiveInteger]) -> MeasuredStackUsage:
         """
         Sets the maximum memory consumption measured for this stack usage.
         A None value is a no-op and does not overwrite an existing value.
@@ -256,7 +256,7 @@ class MeasuredStackUsage(StackUsage):
         """
         return self.minimumMemoryConsumption
 
-    def setMinimumMemoryConsumption(self, value: Optional[PositiveInteger]) -> "MeasuredStackUsage":
+    def setMinimumMemoryConsumption(self, value: Optional[PositiveInteger]) -> MeasuredStackUsage:
         """
         Sets the minimum memory consumption measured for this stack usage.
         A None value is a no-op and does not overwrite an existing value.
@@ -280,7 +280,7 @@ class MeasuredStackUsage(StackUsage):
         """
         return self.testPattern
 
-    def setTestPattern(self, value: Optional[String]) -> "MeasuredStackUsage":
+    def setTestPattern(self, value: Optional[String]) -> MeasuredStackUsage:
         """
         Sets the description of the test pattern used to acquire the measured values.
         A None value is a no-op and does not overwrite an existing value.
@@ -330,7 +330,7 @@ class RoughEstimateStackUsage(StackUsage):
         """
         return self.memoryConsumption
 
-    def setMemoryConsumption(self, value: Optional[PositiveInteger]) -> "RoughEstimateStackUsage":
+    def setMemoryConsumption(self, value: Optional[PositiveInteger]) -> RoughEstimateStackUsage:
         """
         Sets the rough estimate of the stack usage.
         A None value is a no-op and does not overwrite an existing value.
@@ -380,7 +380,7 @@ class WorstCaseStackUsage(StackUsage):
         """
         return self.memoryConsumption
 
-    def setMemoryConsumption(self, value: Optional[PositiveInteger]) -> "WorstCaseStackUsage":
+    def setMemoryConsumption(self, value: Optional[PositiveInteger]) -> WorstCaseStackUsage:
         """
         Sets the worst case stack consumption.
         A None value is a no-op and does not overwrite an existing value.

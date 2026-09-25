@@ -250,7 +250,7 @@ class SwComponentType(AtpType, ABC):
         """
         return self.portGroups
 
-    def addSwcMappingConstraintRef(self, value: Optional[RefType]) -> "SwComponentType":
+    def addSwcMappingConstraintRef(self, value: Optional[RefType]) -> SwComponentType:
         """
         Adds a reference to constraints that are valid for this SwComponentType.
         A None value is a no-op and does not append anything.
@@ -283,7 +283,7 @@ class SwComponentType(AtpType, ABC):
         """
         return self.swComponentDocumentation
 
-    def setSwComponentDocumentation(self, value: Optional[SwComponentDocumentation]) -> "SwComponentType":
+    def setSwComponentDocumentation(self, value: Optional[SwComponentDocumentation]) -> SwComponentType:
         """
         Sets the documentation that is added to the SwComponentType.
         A None value is a no-op and does not overwrite an existing documentation.
@@ -298,7 +298,7 @@ class SwComponentType(AtpType, ABC):
             self.swComponentDocumentation = value
         return self
 
-    def addUnitGroupRef(self, value: Optional[RefType]) -> "SwComponentType":
+    def addUnitGroupRef(self, value: Optional[RefType]) -> SwComponentType:
         """
         Adds a reference which allows for the specification of which UnitGroups are relevant in the context of referencing SwComponentType.
         A None value is a no-op and does not append anything.
@@ -403,7 +403,7 @@ class PortPrototype(AtpPrototype, AtpBlueprintable, VariationPointCapable, ABC):
         """
         return self.clientServerAnnotations
 
-    def addClientServerAnnotation(self, value: Optional[ClientServerAnnotation]) -> "PortPrototype":
+    def addClientServerAnnotation(self, value: Optional[ClientServerAnnotation]) -> PortPrototype:
         """
         Adds an annotation of this PortPrototype with respect to client/server communication.
         A None value is a no-op and does not append anything.
@@ -427,7 +427,7 @@ class PortPrototype(AtpPrototype, AtpBlueprintable, VariationPointCapable, ABC):
         """
         return self.delegatedPortAnnotation
 
-    def setDelegatedPortAnnotation(self, value: Optional[DelegatedPortAnnotation]) -> "PortPrototype":
+    def setDelegatedPortAnnotation(self, value: Optional[DelegatedPortAnnotation]) -> PortPrototype:
         """
         Sets the annotations on this delegated port.
         A None value is a no-op and does not overwrite an existing annotation.
@@ -451,7 +451,7 @@ class PortPrototype(AtpPrototype, AtpBlueprintable, VariationPointCapable, ABC):
         """
         return self.ioHwAbstractionServerAnnotations
 
-    def addIoHwAbstractionServerAnnotation(self, value: Optional[IoHwAbstractionServerAnnotation]) -> "PortPrototype":
+    def addIoHwAbstractionServerAnnotation(self, value: Optional[IoHwAbstractionServerAnnotation]) -> PortPrototype:
         """
         Adds an annotation on this IO Hardware Abstraction port.
         A None value is a no-op and does not append anything.
@@ -475,7 +475,7 @@ class PortPrototype(AtpPrototype, AtpBlueprintable, VariationPointCapable, ABC):
         """
         return self.modePortAnnotations
 
-    def addModePortAnnotation(self, value: Optional[ModePortAnnotation]) -> "PortPrototype":
+    def addModePortAnnotation(self, value: Optional[ModePortAnnotation]) -> PortPrototype:
         """
         Adds an annotation on this mode port.
         A None value is a no-op and does not append anything.
@@ -499,7 +499,7 @@ class PortPrototype(AtpPrototype, AtpBlueprintable, VariationPointCapable, ABC):
         """
         return self.nvDataPortAnnotations
 
-    def addNvDataPortAnnotation(self, value: Optional[NvDataPortAnnotation]) -> "PortPrototype":
+    def addNvDataPortAnnotation(self, value: Optional[NvDataPortAnnotation]) -> PortPrototype:
         """
         Adds an annotation on this non voilatile data port.
         A None value is a no-op and does not append anything.
@@ -523,7 +523,7 @@ class PortPrototype(AtpPrototype, AtpBlueprintable, VariationPointCapable, ABC):
         """
         return self.parameterPortAnnotations
 
-    def addParameterPortAnnotation(self, value: Optional[ParameterPortAnnotation]) -> "PortPrototype":
+    def addParameterPortAnnotation(self, value: Optional[ParameterPortAnnotation]) -> PortPrototype:
         """
         Adds an annotation on this parameter port.
         A None value is a no-op and does not append anything.
@@ -547,7 +547,7 @@ class PortPrototype(AtpPrototype, AtpBlueprintable, VariationPointCapable, ABC):
         """
         return self.senderReceiverAnnotations
 
-    def addSenderReceiverAnnotation(self, value: Optional[SenderReceiverAnnotation]) -> "PortPrototype":
+    def addSenderReceiverAnnotation(self, value: Optional[SenderReceiverAnnotation]) -> PortPrototype:
         """
         Adds an annotation of this ports sender/receiver communication.
         A None value is a no-op and does not append anything.
@@ -571,7 +571,7 @@ class PortPrototype(AtpPrototype, AtpBlueprintable, VariationPointCapable, ABC):
         """
         return self.triggerPortAnnotations
 
-    def addTriggerPortAnnotation(self, value: Optional[TriggerPortAnnotation]) -> "PortPrototype":
+    def addTriggerPortAnnotation(self, value: Optional[TriggerPortAnnotation]) -> PortPrototype:
         """
         Adds an annotation on this trigger port.
         A None value is a no-op and does not append anything.
@@ -709,7 +709,7 @@ class PPortPrototype(AbstractProvidedPortPrototype):
         """
         return self.providedInterfaceTRef
 
-    def setProvidedInterfaceTRef(self, value: Optional[TRefType]) -> "PPortPrototype":
+    def setProvidedInterfaceTRef(self, value: Optional[TRefType]) -> PPortPrototype:
         """
         The interface that this port provides. Stereotypes: isOfType
         """
@@ -748,7 +748,7 @@ class RPortPrototype(AbstractRequiredPortPrototype):
         """
         return self.mayBeUnconnected
 
-    def setMayBeUnconnected(self, value: Optional[Boolean]) -> "RPortPrototype":
+    def setMayBeUnconnected(self, value: Optional[Boolean]) -> RPortPrototype:
         """
         If set to true, this attribute indicates that the enclosing RPortPrototype may be left unconnected and that this aspect has explicitly been considered in the software-component's design.
         """
@@ -762,7 +762,7 @@ class RPortPrototype(AbstractRequiredPortPrototype):
         """
         return self.requiredInterfaceTRef
 
-    def setRequiredInterfaceTRef(self, value: Optional[TRefType]) -> "RPortPrototype":
+    def setRequiredInterfaceTRef(self, value: Optional[TRefType]) -> RPortPrototype:
         """
         The interface that this port requires. Stereotypes: isOfType
         """
@@ -795,7 +795,7 @@ class PRPortPrototype(AbstractProvidedPortPrototype, AbstractRequiredPortPrototy
         """
         return self.providedRequiredInterfaceTRef
 
-    def setProvidedRequiredInterfaceTRef(self, value: Optional[TRefType]) -> "PRPortPrototype":
+    def setProvidedRequiredInterfaceTRef(self, value: Optional[TRefType]) -> PRPortPrototype:
         """
         This represents the PortInterface used to type the PRPortPrototype Stereotypes: isOfType
         If value is None, the existing value is not changed.
@@ -829,7 +829,7 @@ class PortGroup(AtpStructureElement, VariationPointCapable):
         # Outer PortPrototype of this AtomicSwComponentType which belongs to the group. A port can belong to several groups or to no group at all.
         self.outerPortRefs: List[RefType] = []
 
-    def addInnerGroupIRef(self, iref: InnerPortGroupInCompositionInstanceRef) -> "PortGroup":
+    def addInnerGroupIRef(self, iref: InnerPortGroupInCompositionInstanceRef) -> PortGroup:
         """
         Links a PortGroup in a composition to another PortGroup, that is defined in a component which is part of this CompositionSwComponentType. InstanceRef implemented by: InnerPortGroupInCompositionInstanceRef
         """
@@ -842,7 +842,7 @@ class PortGroup(AtpStructureElement, VariationPointCapable):
         """
         return self.innerGroupIRefs
 
-    def addOuterPortRef(self, ref: RefType) -> "PortGroup":
+    def addOuterPortRef(self, ref: RefType) -> PortGroup:
         """
         Outer PortPrototype of this AtomicSwComponentType which belongs to the group. A port can belong to several groups or to no group at all.
         """
@@ -967,7 +967,7 @@ class EcuAbstractionSwComponentType(AtomicSwComponentType):
         """
         return self.hardwareElementRefs
 
-    def addHardwareElementRef(self, value: Optional[RefType]) -> "EcuAbstractionSwComponentType":
+    def addHardwareElementRef(self, value: Optional[RefType]) -> EcuAbstractionSwComponentType:
         """
         Adds a reference to the description of a used hardware element.
         A None value is a no-op and does not append anything.
@@ -1026,7 +1026,7 @@ class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
         """
         return self.hardwareElementRefs
 
-    def addHardwareElementRef(self, value: Optional[RefType]) -> "ComplexDeviceDriverSwComponentType":
+    def addHardwareElementRef(self, value: Optional[RefType]) -> ComplexDeviceDriverSwComponentType:
         """
         Adds a reference to the description of a used hardware element.
         A None value is a no-op and does not append anything.
@@ -1155,7 +1155,7 @@ class SensorActuatorSwComponentType(AtomicSwComponentType):
         """
         return self.sensorActuatorRef
 
-    def setSensorActuatorRef(self, value: Optional[RefType]) -> "SensorActuatorSwComponentType":
+    def setSensorActuatorRef(self, value: Optional[RefType]) -> SensorActuatorSwComponentType:
         """
         Sets the reference to the description of the actual hardware.
         A None value is a no-op and does not overwrite an existing reference.

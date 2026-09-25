@@ -5,6 +5,7 @@ from typing import List, Optional, TYPE_CHECKING
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AtpMixedString import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
@@ -12,7 +13,7 @@ if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingModeInstance
 
 
-class TDEventOccurrenceExpressionFormula(Referrable):
+class TDEventOccurrenceExpressionFormula(Referrable, AtpMixedString):
     """
     This is an extension of the FormulaExpression for the AUTOSAR Timing Extensions. A TDEventOccurrenceExpressionFormula provides the means to express the temporal characteristics of timing event occurrences in correlation with specific variable and argument values. The formal definition of the extended functions (ExtUnaryFunctions) is described in detail in the AUTOSAR Timing Extensions.
     """
@@ -22,8 +23,7 @@ class TDEventOccurrenceExpressionFormula(Referrable):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getText            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setText            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # getMixedString / setMixedString provided by the AtpMixedString base (mixin) — no spec row (stereotype-inherent)
     # [x] getArgumentRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setArgumentRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getEventRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -48,23 +48,11 @@ class TDEventOccurrenceExpressionFormula(Referrable):
         # This is one particular variable value used in the expression formula.
         self.variableRef: Optional[RefType] = None
 
-        self._text: Optional[str] = None
-
-    def getText(self) -> Optional[str]:
-        """Returns the mixed string content (the occurrence expression) of this <<atpMixedString>> TDEventOccurrenceExpressionFormula."""
-        return self._text
-
-    def setText(self, value: Optional[str]) -> "TDEventOccurrenceExpressionFormula":
-        """Sets the mixed string content (the occurrence expression) of this <<atpMixedString>> TDEventOccurrenceExpressionFormula. A None value is a no-op and does not overwrite an existing value."""
-        if value is not None:
-            self._text = value
-        return self
-
     def getArgumentRef(self) -> Optional[RefType]:
         """This is one particular argument value used in the expression formula."""
         return self.argumentRef
 
-    def setArgumentRef(self, value: Optional[RefType]) -> "TDEventOccurrenceExpressionFormula":
+    def setArgumentRef(self, value: Optional[RefType]) -> TDEventOccurrenceExpressionFormula:
         """This is one particular argument value used in the expression formula. A None value is a no-op and does not overwrite an existing argumentRef."""
         if value is not None:
             self.argumentRef = value
@@ -74,7 +62,7 @@ class TDEventOccurrenceExpressionFormula(Referrable):
         """This is one particular timing description event used in the expression formula."""
         return self.eventRef
 
-    def setEventRef(self, value: Optional[RefType]) -> "TDEventOccurrenceExpressionFormula":
+    def setEventRef(self, value: Optional[RefType]) -> TDEventOccurrenceExpressionFormula:
         """This is one particular timing description event used in the expression formula. A None value is a no-op and does not overwrite an existing eventRef."""
         if value is not None:
             self.eventRef = value
@@ -84,7 +72,7 @@ class TDEventOccurrenceExpressionFormula(Referrable):
         """This is one particular mode used in the expression formula."""
         return self.modeRef
 
-    def setModeRef(self, value: Optional[RefType]) -> "TDEventOccurrenceExpressionFormula":
+    def setModeRef(self, value: Optional[RefType]) -> TDEventOccurrenceExpressionFormula:
         """This is one particular mode used in the expression formula. A None value is a no-op and does not overwrite an existing modeRef."""
         if value is not None:
             self.modeRef = value
@@ -94,7 +82,7 @@ class TDEventOccurrenceExpressionFormula(Referrable):
         """This is one particular variable value used in the expression formula."""
         return self.variableRef
 
-    def setVariableRef(self, value: Optional[RefType]) -> "TDEventOccurrenceExpressionFormula":
+    def setVariableRef(self, value: Optional[RefType]) -> TDEventOccurrenceExpressionFormula:
         """This is one particular variable value used in the expression formula. A None value is a no-op and does not overwrite an existing variableRef."""
         if value is not None:
             self.variableRef = value
@@ -149,7 +137,7 @@ class OperationArgumentInComponentInstanceRef(AtpInstanceRef):
         """Specifies the SW component prototype representing the context."""
         return self.contextComponentRefs
 
-    def addContextComponentRef(self, value: Optional[RefType]) -> "OperationArgumentInComponentInstanceRef":
+    def addContextComponentRef(self, value: Optional[RefType]) -> OperationArgumentInComponentInstanceRef:
         """Specifies the SW component prototype representing the context. A None value is a no-op and does not append anything."""
         if value is not None:
             self.contextComponentRefs.append(value)
@@ -159,7 +147,7 @@ class OperationArgumentInComponentInstanceRef(AtpInstanceRef):
         """Specifies the port prototype representing the context."""
         return self.contextPortPrototypeRef
 
-    def setContextPortPrototypeRef(self, value: Optional[RefType]) -> "OperationArgumentInComponentInstanceRef":
+    def setContextPortPrototypeRef(self, value: Optional[RefType]) -> OperationArgumentInComponentInstanceRef:
         """Specifies the port prototype representing the context. A None value is a no-op and does not overwrite an existing contextPortPrototypeRef."""
         if value is not None:
             self.contextPortPrototypeRef = value
@@ -169,7 +157,7 @@ class OperationArgumentInComponentInstanceRef(AtpInstanceRef):
         """Specifies the client server operation representing the context."""
         return self.contextOperationRef
 
-    def setContextOperationRef(self, value: Optional[RefType]) -> "OperationArgumentInComponentInstanceRef":
+    def setContextOperationRef(self, value: Optional[RefType]) -> OperationArgumentInComponentInstanceRef:
         """Specifies the client server operation representing the context. A None value is a no-op and does not overwrite an existing contextOperationRef."""
         if value is not None:
             self.contextOperationRef = value
@@ -179,7 +167,7 @@ class OperationArgumentInComponentInstanceRef(AtpInstanceRef):
         """Specifies the root argument data prototype representing the context."""
         return self.rootArgumentDataPrototypeRef
 
-    def setRootArgumentDataPrototypeRef(self, value: Optional[RefType]) -> "OperationArgumentInComponentInstanceRef":
+    def setRootArgumentDataPrototypeRef(self, value: Optional[RefType]) -> OperationArgumentInComponentInstanceRef:
         """Specifies the root argument data prototype representing the context. A None value is a no-op and does not overwrite an existing rootArgumentDataPrototypeRef."""
         if value is not None:
             self.rootArgumentDataPrototypeRef = value
@@ -189,7 +177,7 @@ class OperationArgumentInComponentInstanceRef(AtpInstanceRef):
         """Specifies the application composite element data prototype representing the context."""
         return self.contextDataPrototypeRefs
 
-    def addContextDataPrototypeRef(self, value: Optional[RefType]) -> "OperationArgumentInComponentInstanceRef":
+    def addContextDataPrototypeRef(self, value: Optional[RefType]) -> OperationArgumentInComponentInstanceRef:
         """Specifies the application composite element data prototype representing the context. A None value is a no-op and does not append anything."""
         if value is not None:
             self.contextDataPrototypeRefs.append(value)
@@ -199,7 +187,7 @@ class OperationArgumentInComponentInstanceRef(AtpInstanceRef):
         """Specifies the target data prototype (the argument instance target)."""
         return self.targetDataPrototypeRef
 
-    def setTargetDataPrototypeRef(self, value: Optional[RefType]) -> "OperationArgumentInComponentInstanceRef":
+    def setTargetDataPrototypeRef(self, value: Optional[RefType]) -> OperationArgumentInComponentInstanceRef:
         """Specifies the target data prototype (the argument instance target). A None value is a no-op and does not overwrite an existing targetDataPrototypeRef."""
         if value is not None:
             self.targetDataPrototypeRef = value
@@ -208,16 +196,16 @@ class OperationArgumentInComponentInstanceRef(AtpInstanceRef):
 
 class AutosarOperationArgumentInstance(Identifiable, VariationPointCapable):
     """
-    This class represents a reference to an argument instance. This way it is possible to reference an argument instance in the occurrence expression formula. The argument instance can target to one of the following arguments: • a whole argument used in an operation of a PortPrototype with ClientServerInterface • an element inside of a composite argument used in an operation of a PortPrototype with ClientServer Interface
+    This class represents a reference to an argument instance. This way it is possible to reference an argument instance in the occurrence expression formula. The argument instance can target to one of the following arguments: • a whole argument used in an operation of a PortPrototype with ClientServerInterface • an element inside of a composite argument used in an operation of a PortPrototype with ClientServerInterface
     """
 
     # AutosarOperationArgumentInstance method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.53, p.85
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # operationArgumentInstanceIRef is an InstanceRef (OperationArgumentInComponentInstanceRef), read/written via its own reader/writer.
-    # [x] __init__                               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getOperationArgumentInstanceIRef       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setOperationArgumentInstanceIRef       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] __init__                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOperationArgumentInstanceIRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOperationArgumentInstanceIRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
@@ -226,11 +214,11 @@ class AutosarOperationArgumentInstance(Identifiable, VariationPointCapable):
         self.operationArgumentInstanceIRef: Optional[OperationArgumentInComponentInstanceRef] = None
 
     def getOperationArgumentInstanceIRef(self) -> Optional[OperationArgumentInComponentInstanceRef]:
-        """This is the reference to the instanceRef definition. InstanceRef implemented by: OperationArgumentInComponentInstanceRef."""
+        """This is the reference to the instanceRef definition. InstanceRef implemented by: OperationArgumentInComponentInstanceRef"""
         return self.operationArgumentInstanceIRef
 
-    def setOperationArgumentInstanceIRef(self, value: Optional[OperationArgumentInComponentInstanceRef]) -> "AutosarOperationArgumentInstance":
-        """This is the reference to the instanceRef definition. InstanceRef implemented by: OperationArgumentInComponentInstanceRef. A None value is a no-op and does not overwrite an existing operationArgumentInstanceIRef."""
+    def setOperationArgumentInstanceIRef(self, value: Optional[OperationArgumentInComponentInstanceRef]) -> AutosarOperationArgumentInstance:
+        """This is the reference to the instanceRef definition. InstanceRef implemented by: OperationArgumentInComponentInstanceRef A None value is a no-op and does not overwrite an existing operationArgumentInstanceIRef."""
         if value is not None:
             self.operationArgumentInstanceIRef = value
         return self
@@ -279,7 +267,7 @@ class VariableInComponentInstanceRef(AtpInstanceRef):
         """Specifies the SW component prototype representing the context."""
         return self.contextComponentRefs
 
-    def addContextComponentRef(self, value: Optional[RefType]) -> "VariableInComponentInstanceRef":
+    def addContextComponentRef(self, value: Optional[RefType]) -> VariableInComponentInstanceRef:
         """Specifies the SW component prototype representing the context. A None value is a no-op and does not append anything."""
         if value is not None:
             self.contextComponentRefs.append(value)
@@ -289,7 +277,7 @@ class VariableInComponentInstanceRef(AtpInstanceRef):
         """Specifies the port prototype representing the context."""
         return self.contextPortPrototypeRef
 
-    def setContextPortPrototypeRef(self, value: Optional[RefType]) -> "VariableInComponentInstanceRef":
+    def setContextPortPrototypeRef(self, value: Optional[RefType]) -> VariableInComponentInstanceRef:
         """Specifies the port prototype representing the context. A None value is a no-op and does not overwrite an existing contextPortPrototypeRef."""
         if value is not None:
             self.contextPortPrototypeRef = value
@@ -299,7 +287,7 @@ class VariableInComponentInstanceRef(AtpInstanceRef):
         """Specifies the root variable data prototype representing the context."""
         return self.rootVariableDataPrototypeRef
 
-    def setRootVariableDataPrototypeRef(self, value: Optional[RefType]) -> "VariableInComponentInstanceRef":
+    def setRootVariableDataPrototypeRef(self, value: Optional[RefType]) -> VariableInComponentInstanceRef:
         """Specifies the root variable data prototype representing the context. A None value is a no-op and does not overwrite an existing rootVariableDataPrototypeRef."""
         if value is not None:
             self.rootVariableDataPrototypeRef = value
@@ -309,7 +297,7 @@ class VariableInComponentInstanceRef(AtpInstanceRef):
         """Specifies the application composite element data prototype representing the context."""
         return self.contextDataPrototypeRefs
 
-    def addContextDataPrototypeRef(self, value: Optional[RefType]) -> "VariableInComponentInstanceRef":
+    def addContextDataPrototypeRef(self, value: Optional[RefType]) -> VariableInComponentInstanceRef:
         """Specifies the application composite element data prototype representing the context. A None value is a no-op and does not append anything."""
         if value is not None:
             self.contextDataPrototypeRefs.append(value)
@@ -319,7 +307,7 @@ class VariableInComponentInstanceRef(AtpInstanceRef):
         """Specifies the target data prototype (the variable instance target)."""
         return self.targetDataPrototypeRef
 
-    def setTargetDataPrototypeRef(self, value: Optional[RefType]) -> "VariableInComponentInstanceRef":
+    def setTargetDataPrototypeRef(self, value: Optional[RefType]) -> VariableInComponentInstanceRef:
         """Specifies the target data prototype (the variable instance target). A None value is a no-op and does not overwrite an existing targetDataPrototypeRef."""
         if value is not None:
             self.targetDataPrototypeRef = value
@@ -350,7 +338,7 @@ class AutosarVariableInstance(Identifiable, VariationPointCapable):
         """This is the reference to the instanceRef definition. InstanceRef implemented by: VariableInComponentInstanceRef."""
         return self.variableInstanceIRef
 
-    def setVariableInstanceIRef(self, value: Optional[VariableInComponentInstanceRef]) -> "AutosarVariableInstance":
+    def setVariableInstanceIRef(self, value: Optional[VariableInComponentInstanceRef]) -> AutosarVariableInstance:
         """This is the reference to the instanceRef definition. InstanceRef implemented by: VariableInComponentInstanceRef. A None value is a no-op and does not overwrite an existing variableInstanceIRef."""
         if value is not None:
             self.variableInstanceIRef = value
@@ -408,7 +396,7 @@ class TDEventOccurrenceExpression(ARObject):
         """This is the expression formula which is used to describe the occurrence expression."""
         return self.formula
 
-    def setFormula(self, value: Optional[TDEventOccurrenceExpressionFormula]) -> "TDEventOccurrenceExpression":
+    def setFormula(self, value: Optional[TDEventOccurrenceExpressionFormula]) -> TDEventOccurrenceExpression:
         """This is the expression formula which is used to describe the occurrence expression. A None value is a no-op and does not overwrite an existing formula."""
         if value is not None:
             self.formula = value

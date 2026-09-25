@@ -5,6 +5,7 @@ AUTOSAR CommonStructure.Timing.TimingCondition module.
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AtpMixedString import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
@@ -24,7 +25,7 @@ class TestTimingConditionFormula:
         obj = TimingConditionFormula(parent, "Formula1")
         assert isinstance(obj, TimingConditionFormula)
         assert obj.getShortName() == "Formula1"
-        assert obj.getText() is None
+        assert obj.getMixedString() is None
         assert obj.getTimingArgumentRef() is None
         assert obj.getTimingConditionRef() is None
         assert obj.getTimingEventRef() is None
@@ -33,14 +34,15 @@ class TestTimingConditionFormula:
 
     def test_get_set_text(self):
         obj = TimingConditionFormula(self._parent(), "Formula1")
-        assert obj.setText("a == b && modeActive") is obj
-        assert obj.getText() == "a == b && modeActive"
+        assert isinstance(obj, AtpMixedString)
+        assert obj.setMixedString("a == b && modeActive") is obj
+        assert obj.getMixedString() == "a == b && modeActive"
 
     def test_set_text_none_noop(self):
         obj = TimingConditionFormula(self._parent(), "Formula1")
-        obj.setText("expr")
-        assert obj.setText(None) is obj
-        assert obj.getText() == "expr"
+        obj.setMixedString("expr")
+        assert obj.setMixedString(None) is obj
+        assert obj.getMixedString() == "expr"
 
     def test_get_set_timing_argument_ref(self):
         obj = TimingConditionFormula(self._parent(), "Formula1")

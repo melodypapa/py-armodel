@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARNumerical,
     ARType,
     Boolean,
+    CseCodeType,
     DateTime,
     Float,
     Identifier,
@@ -26,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RevisionLabelString,
     String,
     TimeValue,
+    UnlimitedInteger,
     UriString,
     VerbatimString,
 )
@@ -127,6 +129,18 @@ class AbstractARXMLParser(ABC):
                 literal.setValue(child_element.text)
         return literal
 
+    def getChildElementOptionalCseCodeType(self, element: ET.Element, key: str) -> Optional[CseCodeType]:
+        child_element = self.find(element, key)
+        literal = None
+        if child_element is not None:
+            literal = CseCodeType()
+            self.readARType(child_element, literal)
+            if child_element.text is None:
+                literal.setValue("")
+            else:
+                literal.setValue(child_element.text)
+        return literal
+
     def getChildElementOptionalVerbatimString(self, element: ET.Element, key: str) -> VerbatimString:
         child_element = self.find(element, key)
         literal = None
@@ -183,7 +197,16 @@ class AbstractARXMLParser(ABC):
         return literal
 
     def getChildElementOptionalDateTime(self, element: ET.Element, key: str) -> DateTime:
-        return self.getChildElementOptionalLiteral(element, key)
+        child_element = self.find(element, key)
+        literal = None
+        if child_element is not None:
+            literal = DateTime()
+            self.readARType(child_element, literal)
+            if child_element.text is None:
+                literal.setValue("")
+            else:
+                literal.setValue(child_element.text)
+        return literal
 
     def getChildElementOptionalString(self, element: ET.Element, key: str) -> String:
         child_element = self.find(element, key)
@@ -315,6 +338,17 @@ class AbstractARXMLParser(ABC):
         numerical.setValue(child_element.text)
         if numerical.getValue() < 0:
             raise ValueError("Invalid PositiveInteger <%s>" % child_element.text)
+        return numerical
+
+    def getChildElementOptionalUnlimitedInteger(self, element: ET.Element, key: str) -> UnlimitedInteger:
+        child_element = self.find(element, key)
+        if child_element is None:
+            return None
+        if child_element.text is None:
+            return None
+        numerical = UnlimitedInteger()
+        self.readARType(child_element, numerical)
+        numerical.setValue(child_element.text)
         return numerical
 
     def getChildElementNumericalValueList(self, element: ET.Element, key: str) -> List[ARNumerical]:

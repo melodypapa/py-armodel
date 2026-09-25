@@ -3,127 +3,104 @@ This module contains classes for representing AUTOSAR mode declaration groups
 in software component internal behavior templates.
 """
 
+from __future__ import annotations
+
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ModeAccessPointIdent
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import ModeGroupInAtomicSwcInstanceRef, PModeGroupInAtomicSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class ModeAccessPoint(ARObject, VariationPointCapable):
     """
-    A mode access point used by a runnable entity to read the current mode
-    of a mode declaration group.
+    A ModeAccessPoint is required by a RunnableEntity owned by a Mode Manager or Mode User. Its semantics implies the ability to access the current mode (provided by the RTE) of a ModeDeclarationGroupPrototype's ModeDeclarationGroup.
     """
 
     # ModeAccessPoint method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIdent                     [x] impl  [x] docstring  [ ] test
-    # [ ] setIdent                     [x] impl  [x] docstring  [ ] test
-    # [ ] getModeGroupIRef             [x] impl  [x] docstring  [ ] test
-    # [ ] setModeGroupIRef             [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 9.5, p.634
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createIdent      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIdent         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getModeGroupIRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeGroupIRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.ident: ModeAccessPointIdent = None
-        self.modeGroupIRef: RModeGroupInAtomicSWCInstanceRef = None
+        # The aggregation in the role ident provides the ability to make the ModeAccessPoint identifiable. From the semantical point of view, the ModeAccessPoint is considered a first-class Identifiable and therefore the aggregation in the role ident shall always exist (until it may be possible to let ModeAccessPoint directly inherit from Identifiable).
+        self.ident: Optional[ModeAccessPointIdent] = None
+
+        # The mode declaration group that is accessed by this runnable.
+        self.modeGroupIRef: Optional[ModeGroupInAtomicSwcInstanceRef] = None
 
     def createIdent(self, short_name: str) -> ModeAccessPointIdent:
         """
-        Creates the identification of this mode access point.
-
-        Returns:
-            ModeAccessPointIdent: The identification
+        The aggregation in the role ident provides the ability to make the ModeAccessPoint identifiable. From the semantical point of view, the ModeAccessPoint is considered a first-class Identifiable and therefore the aggregation in the role ident shall always exist (until it may be possible to let ModeAccessPoint directly inherit from Identifiable).
         """
         if self.ident is None:
             self.ident = ModeAccessPointIdent(self, short_name)
         return self.ident
 
-    def getIdent(self):
+    def getIdent(self) -> Optional[ModeAccessPointIdent]:
         """
-        Gets the identification of this mode access point.
-
-        Returns:
-            ModeAccessPointIdent: The identification
+        The aggregation in the role ident provides the ability to make the ModeAccessPoint identifiable. From the semantical point of view, the ModeAccessPoint is considered a first-class Identifiable and therefore the aggregation in the role ident shall always exist (until it may be possible to let ModeAccessPoint directly inherit from Identifiable).
         """
         return self.ident
 
-    def setIdent(self, value):
+    def getModeGroupIRef(self) -> Optional[ModeGroupInAtomicSwcInstanceRef]:
         """
-        Sets the identification of this mode access point.
-
-        Args:
-            value: The identification to set
-
-        Returns:
-            self for method chaining
-        """
-        self.ident = value
-        return self
-
-    def getModeGroupIRef(self):
-        """
-        Gets the mode group instance reference.
-
-        Returns:
-            RModeGroupInAtomicSWCInstanceRef: The mode group instance reference
+        The mode declaration group that is accessed by this runnable.
         """
         return self.modeGroupIRef
 
-    def setModeGroupIRef(self, value):
+    def setModeGroupIRef(self, value: Optional[ModeGroupInAtomicSwcInstanceRef]) -> ModeAccessPoint:
         """
-        Sets the mode group instance reference.
-
-        Args:
-            value: The mode group instance reference to set
-
-        Returns:
-            self for method chaining
+        The mode declaration group that is accessed by this runnable.
+        A None value is a no-op and does not overwrite an existing modeGroupIRef.
         """
-        self.modeGroupIRef = value
+        if value is not None:
+            self.modeGroupIRef = value
         return self
 
 
 class ModeSwitchPoint(AbstractAccessPoint, VariationPointCapable):
     """
-    A mode switch point used by a runnable entity to switch the mode
-    of a mode declaration group.
+    A ModeSwitchPoint is required by a RunnableEntity owned a Mode Manager. Its semantics implies the ability to initiate a mode switch.
+
+    [constr_1778] Value of attribute modeSwitchPoint.returnValueProvision: All RunnableEntity.modeSwitchPoint that refer to the same modeGroup shall define the identical value of attribute returnValueProvision at the time when the contract phase generation is executed.
     """
 
     # ModeSwitchPoint method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getModeGroupIRef             [x] impl  [x] docstring  [ ] test
-    # [ ] setModeGroupIRef             [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 9.4, p.633
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getModeGroupIRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeGroupIRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.modeGroupIRef: PModeGroupInAtomicSwcInstanceRef = None
+        # The mode declaration group that is switched by this runnable. InstanceRef implemented by: PModeGroupInAtomicSwcInstanceRef
+        self.modeGroupIRef: Optional[PModeGroupInAtomicSwcInstanceRef] = None
 
-    def getModeGroupIRef(self):
+    def getModeGroupIRef(self) -> Optional[PModeGroupInAtomicSwcInstanceRef]:
         """
-        Gets the mode group instance reference.
-
-        Returns:
-            PModeGroupInAtomicSwcInstanceRef: The mode group instance reference
+        The mode declaration group that is switched by this runnable. InstanceRef implemented by: PModeGroupInAtomicSwcInstanceRef
         """
         return self.modeGroupIRef
 
-    def setModeGroupIRef(self, value):
+    def setModeGroupIRef(self, value: Optional[PModeGroupInAtomicSwcInstanceRef]) -> ModeSwitchPoint:
         """
-        Sets the mode group instance reference.
-
-        Args:
-            value: The mode group instance reference to set
-
-        Returns:
-            self for method chaining
+        The mode declaration group that is switched by this runnable. InstanceRef implemented by: PModeGroupInAtomicSwcInstanceRef
+        A None value is a no-op and does not overwrite an existing modeGroupIRef.
         """
-        self.modeGroupIRef = value
+        if value is not None:
+            self.modeGroupIRef = value
         return self
 
 
@@ -150,7 +127,7 @@ class IncludedModeDeclarationGroupSet(ARObject):
         # The prefix shall be used by the RTE generator as a prefix for the creation of symbols related to the referenced ModeDeclarationGroups, e.g RTE_TRANSITION_<Mode DeclarationGroup>.
         self.prefix: Optional[Identifier] = None
 
-    def addModeDeclarationGroupRef(self, value: RefType) -> "IncludedModeDeclarationGroupSet":
+    def addModeDeclarationGroupRef(self, value: RefType) -> IncludedModeDeclarationGroupSet:
         """
         This represents the referenced ModeDeclarationGroup.
 
@@ -175,7 +152,7 @@ class IncludedModeDeclarationGroupSet(ARObject):
         """
         return self.modeDeclarationGroupRefs
 
-    def setPrefix(self, value: Optional[Identifier]) -> "IncludedModeDeclarationGroupSet":
+    def setPrefix(self, value: Optional[Identifier]) -> IncludedModeDeclarationGroupSet:
         """
         The prefix shall be used by the RTE generator as a prefix for the creation of symbols related to the referenced ModeDeclarationGroups, e.g RTE_TRANSITION_<Mode DeclarationGroup>.
 

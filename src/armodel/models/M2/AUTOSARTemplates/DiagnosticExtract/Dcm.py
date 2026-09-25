@@ -10,6 +10,7 @@ class DiagnosticAuthRoleProxy(ARObject):
 
     # DiagnosticAuthRoleProxy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.33, p.76
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (writer helper is content-only; AUTHENTICATION-ENABLED tag emitted by the DiagnosticAccessPermission writer)
     # [x] getAuthenticationRoleRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -79,6 +80,7 @@ class DiagnosticSession(DiagnosticCommonElement):
 
     # DiagnosticSession method parity checklist:
     # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.30, p.74
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getId                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -175,6 +177,7 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
 
     # DiagnosticSecurityLevel method parity checklist:
     # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.32, p.75
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAccessDataRecordSize       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -292,6 +295,7 @@ class DiagnosticAccessPermission(DiagnosticCommonElement):
 
     # DiagnosticAccessPermission method parity checklist:
     # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.29, p.73
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAuthenticationEnabled          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

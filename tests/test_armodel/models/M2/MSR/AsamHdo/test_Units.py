@@ -2,12 +2,16 @@
 This module contains tests for the Units module in MSR.AsamHdo.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+import typing
+from typing import List
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement, ARPackage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Float, RefType
 from armodel.models.M2.MSR.AsamHdo.Units import (
     PhysicalDimension,
     SingleLanguageUnitNames,
     Unit,
+    UnitGroup,
 )
 
 
@@ -180,3 +184,54 @@ class TestUnit:
         assert result == unit
         assert unit.setPhysicalDimensionRef(None) is unit
         assert unit.getPhysicalDimensionRef() == ref
+
+
+class TestUnitGroup:
+    """Test class for UnitGroup class (Table 5.81)."""
+
+    def _make(self) -> UnitGroup:
+        parent_obj = ARPackage(None, "parent_test")
+        return UnitGroup(parent_obj, "test_name")
+
+    def test_unit_group_inheritance_is_arelement(self):
+        """Test that UnitGroup derives from ARElement per the Table 5.81 Base row."""
+        unit_group = self._make()
+        assert isinstance(unit_group, ARElement)
+
+    def test_unit_group_initialization(self):
+        """Test that a UnitGroup object can be initialized with default values."""
+        unit_group = self._make()
+        assert unit_group.getUnitRefs() == []
+
+    def test_unit_group_ref_annotations(self):
+        """Test that the unit ref accessors carry the spec Optional/List[RefType] hints."""
+        hints_get = typing.get_type_hints(UnitGroup.getUnitRefs)
+        assert hints_get["return"] == List[RefType]
+
+        hints_add = typing.get_type_hints(UnitGroup.addUnitRef)
+        assert hints_add["value"] == typing.Optional[RefType]
+        assert hints_add["return"] == UnitGroup
+
+    def test_unit_group_add_unit_ref(self):
+        """Test that addUnitRef appends refs and returns self for chaining."""
+        unit_group = self._make()
+        ref = RefType()
+        ref.setValue("/Units/KmPerHour")
+
+        result = unit_group.addUnitRef(ref)
+        assert result == unit_group
+        assert unit_group.getUnitRefs() == [ref]
+
+        second = RefType()
+        second.setValue("/Units/MilesPerHour")
+        unit_group.addUnitRef(second)
+        assert unit_group.getUnitRefs() == [ref, second]
+
+    def test_unit_group_add_unit_ref_none_noop(self):
+        """Test that addUnitRef(None) is a no-op."""
+        unit_group = self._make()
+        ref = RefType()
+        unit_group.addUnitRef(ref)
+
+        assert unit_group.addUnitRef(None) is unit_group
+        assert unit_group.getUnitRefs() == [ref]

@@ -63,7 +63,7 @@ class PduToFrameMapping(Identifiable, VariationPointCapable):
         """
         return self.packingByteOrder
 
-    def setPackingByteOrder(self, value: Optional[ByteOrderEnum]) -> "PduToFrameMapping":
+    def setPackingByteOrder(self, value: Optional[ByteOrderEnum]) -> PduToFrameMapping:
         """
         This attribute defines the order of the bytes of the Pdu and the packing into the Frame. Please consider that [constr_3246] and [constr_3222] are restricting the usage of this attribute.
         A None value is a no-op and does not overwrite an existing packingByteOrder.
@@ -78,7 +78,7 @@ class PduToFrameMapping(Identifiable, VariationPointCapable):
         """
         return self.pduRef
 
-    def setPduRef(self, value: Optional[RefType]) -> "PduToFrameMapping":
+    def setPduRef(self, value: Optional[RefType]) -> PduToFrameMapping:
         """
         Reference to a I-Pdu, N-Pdu or NmPdu that is transmitted in the Frame.
         A None value is a no-op and does not overwrite an existing pduRef.
@@ -93,7 +93,7 @@ class PduToFrameMapping(Identifiable, VariationPointCapable):
         """
         return self.startPosition
 
-    def setStartPosition(self, value: Optional[Integer]) -> "PduToFrameMapping":
+    def setStartPosition(self, value: Optional[Integer]) -> PduToFrameMapping:
         """
         This attribute describes the bitposition of a Pdu within a Frame. Please note that the absolute position of the Pdu in the Frame is determined by the definition of the packingByteOrder attribute. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the Frame. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the Frame. The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. The Pdus are byte aligned in a Frame and only the values 0, 8, 16, 24,... (for little endian) and 7, 15, 23, ... (for big endian) are allowed.
         A None value is a no-op and does not overwrite an existing startPosition.
@@ -108,7 +108,7 @@ class PduToFrameMapping(Identifiable, VariationPointCapable):
         """
         return self.updateIndicationBitPosition
 
-    def setUpdateIndicationBitPosition(self, value: Optional[Integer]) -> "PduToFrameMapping":
+    def setUpdateIndicationBitPosition(self, value: Optional[Integer]) -> PduToFrameMapping:
         """
         Indication to the receivers that the corresponding Pdu was updated by the sender. This attribute describes the position of the update bit in the frame that aggregates this PDUToFrameMapping. Length is always one bit. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing Frame still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian".
         A None value is a no-op and does not overwrite an existing updateIndicationBitPosition.
@@ -152,7 +152,7 @@ class Frame(FibexElement, ABC):
         """
         return self.frameLength
 
-    def setFrameLength(self, value: Optional[Integer]) -> "Frame":
+    def setFrameLength(self, value: Optional[Integer]) -> Frame:
         """
         The used length (in bytes) of the referencing frame. Should not be confused with a static byte length reserved for each frame by some platforms (e.g. FlexRay). The frameLength of zero bytes is allowed. Please consider also TPS_SYST_02255.
         A None value is a no-op and does not overwrite an existing frameLength.
@@ -262,7 +262,7 @@ class ContainedIPduProps(ARObject):
         """
         return self.collectionSemantics
 
-    def setCollectionSemantics(self, value: Optional[ContainedIPduCollectionSemanticsEnum]) -> "ContainedIPduProps":
+    def setCollectionSemantics(self, value: Optional[ContainedIPduCollectionSemanticsEnum]) -> ContainedIPduProps:
         """
         Defines whether this ContainedIPdu shall be collected using a last-is-best or queued semantics.
         A None value is a no-op and does not overwrite an existing collectionSemantics.
@@ -277,7 +277,7 @@ class ContainedIPduProps(ARObject):
         """
         return self.containedPduTriggeringRef
 
-    def setContainedPduTriggeringRef(self, value: Optional[RefType]) -> "ContainedIPduProps":
+    def setContainedPduTriggeringRef(self, value: Optional[RefType]) -> ContainedIPduProps:
         """
         Reference to Pdu for which the ContainedIPduProps are valid.
         A None value is a no-op and does not overwrite an existing containedPduTriggeringRef.
@@ -292,7 +292,7 @@ class ContainedIPduProps(ARObject):
         """
         return self.headerIdLongHeader
 
-    def setHeaderIdLongHeader(self, value: Optional[PositiveInteger]) -> "ContainedIPduProps":
+    def setHeaderIdLongHeader(self, value: Optional[PositiveInteger]) -> ContainedIPduProps:
         """
         Defines the header id this IPdu shall have in case this IPdu is put inside a ContainerIPdu with headerType = longHeader.
         A None value is a no-op and does not overwrite an existing headerIdLongHeader.
@@ -307,7 +307,7 @@ class ContainedIPduProps(ARObject):
         """
         return self.headerIdShortHeader
 
-    def setHeaderIdShortHeader(self, value: Optional[PositiveInteger]) -> "ContainedIPduProps":
+    def setHeaderIdShortHeader(self, value: Optional[PositiveInteger]) -> ContainedIPduProps:
         """
         Defines the header id this IPdu shall have in case this IPdu is put inside a ContainerIPdu with headerType = shortHeader.
         A None value is a no-op and does not overwrite an existing headerIdShortHeader.
@@ -322,7 +322,7 @@ class ContainedIPduProps(ARObject):
         """
         return self.offset
 
-    def setOffset(self, value: Optional[PositiveInteger]) -> "ContainedIPduProps":
+    def setOffset(self, value: Optional[PositiveInteger]) -> ContainedIPduProps:
         """
         Byte offset that describes the location of the ContainedPdu in the ContainerPdu if no header is used.
         A None value is a no-op and does not overwrite an existing offset.
@@ -337,7 +337,7 @@ class ContainedIPduProps(ARObject):
         """
         return self.priority
 
-    def setPriority(self, value: Optional[PositiveInteger]) -> "ContainedIPduProps":
+    def setPriority(self, value: Optional[PositiveInteger]) -> ContainedIPduProps:
         """
         Defines a priority of a ContainedTxPdu. 255 represents the lowest priority and 0 represent the highest priority.
         A None value is a no-op and does not overwrite an existing priority.
@@ -352,7 +352,7 @@ class ContainedIPduProps(ARObject):
         """
         return self.timeout
 
-    def setTimeout(self, value: Optional[TimeValue]) -> "ContainedIPduProps":
+    def setTimeout(self, value: Optional[TimeValue]) -> ContainedIPduProps:
         """
         Defines a IPdu specific sender timeout which can reduce the ContainerIPdu timer when this containedIPdu is put inside the ContainerIPdu. This attribute is ignored on receiver side.
         A None value is a no-op and does not overwrite an existing timeout.
@@ -367,7 +367,7 @@ class ContainedIPduProps(ARObject):
         """
         return self.trigger
 
-    def setTrigger(self, value: Optional[PduCollectionTriggerEnum]) -> "ContainedIPduProps":
+    def setTrigger(self, value: Optional[PduCollectionTriggerEnum]) -> ContainedIPduProps:
         """
         Defines whether this IPdu does trigger the sending of the ContainerIPdu. This attribute is ignored on receiver side.
         A None value is a no-op and does not overwrite an existing trigger.
@@ -382,7 +382,7 @@ class ContainedIPduProps(ARObject):
         """
         return self.updateIndicationBitPosition
 
-    def setUpdateIndicationBitPosition(self, value: Optional[PositiveInteger]) -> "ContainedIPduProps":
+    def setUpdateIndicationBitPosition(self, value: Optional[PositiveInteger]) -> ContainedIPduProps:
         """
         The updateIndicationBit specifies the bit location of ContainedIPdu Update-Bit in the Container PDU. It indicates to the receivers that the ContainedIPdu in the ContainerIPdu was updated.
         A None value is a no-op and does not overwrite an existing updateIndicationBitPosition.
@@ -432,7 +432,7 @@ class ISignalGroup(FibexElement):
         """
         return self.comBasedSignalGroupTransformationRef
 
-    def setComBasedSignalGroupTransformationRef(self, value: Optional[RefType]) -> "ISignalGroup":
+    def setComBasedSignalGroupTransformationRef(self, value: Optional[RefType]) -> ISignalGroup:
         """
         Optional reference to a DataTransformation which represents the transformer chain that is used to transform the data that shall be placed inside this ISignalGroup based on the COMBasedTransformer approach. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=comBasedSignalGroupTransformation.data Transformation, comBasedSignalGroup Transformation.variationPoint.shortLabel vh.latestBindingTime=codeGenerationTime
         A None value is a no-op and does not overwrite an existing comBasedSignalGroupTransformationRef.
@@ -447,7 +447,7 @@ class ISignalGroup(FibexElement):
         """
         return self.iSignalRefs
 
-    def addISignalRef(self, value: RefType) -> "ISignalGroup":
+    def addISignalRef(self, value: RefType) -> ISignalGroup:
         """
         Reference to a set of ISignals that shall always be kept together.
         """
@@ -460,7 +460,7 @@ class ISignalGroup(FibexElement):
         """
         return self.systemSignalGroupRef
 
-    def setSystemSignalGroupRef(self, value: Optional[RefType]) -> "ISignalGroup":
+    def setSystemSignalGroupRef(self, value: Optional[RefType]) -> ISignalGroup:
         """
         Reference to the SystemSignalGroup that is defined on VFB level and that is supposed to be transmitted in the ISignalGroup.
         A None value is a no-op and does not overwrite an existing systemSignalGroupRef.
@@ -475,7 +475,7 @@ class ISignalGroup(FibexElement):
         """
         return self.transformationISignalProps
 
-    def addTransformationISignalProps(self, value: TransformationISignalProps) -> "ISignalGroup":
+    def addTransformationISignalProps(self, value: TransformationISignalProps) -> ISignalGroup:
         """
         A transformer chain consists of an ordered list of transformers. The ISignalGroup specific configuration properties for each transformer are defined in the TransformationISignalProps class. The transformer configuration properties that are common for all ISignal Groups are described in the TransformationTechnology class. Stereotypes: atpSplitable Tags: atp.Splitkey=transformationISignalProps
         """
@@ -575,7 +575,7 @@ class Pdu(FibexElement, ABC):
         # Pdu length in bytes. In case of dynamic length IPdus (containing a dynamical length signal), this value indicates the maximum data length. It should be noted that in former AUTOSAR releases (Rel 2.1, Rel 3.0, Rel 3.1, Rel 4.0 Rev. 1) this parameter was defined in bits. The Pdu length of zero bytes is allowed.
         self.length: UnlimitedInteger = None
 
-    def setHasDynamicLength(self, value: Optional[Boolean]) -> "Pdu":
+    def setHasDynamicLength(self, value: Optional[Boolean]) -> Pdu:
         """
         This attribute defines whether the Pdu has dynamic length (true) or not (false). Please note that the usage of this attribute is restricted by [constr_3448].
         A None value is a no-op and does not overwrite an existing hasDynamicLength.
@@ -590,7 +590,7 @@ class Pdu(FibexElement, ABC):
         """
         return self.hasDynamicLength
 
-    def setLength(self, value: Optional[UnlimitedInteger]) -> "Pdu":
+    def setLength(self, value: Optional[UnlimitedInteger]) -> Pdu:
         """
         Pdu length in bytes. In case of dynamic length IPdus (containing a dynamical length signal), this value indicates the maximum data length. It should be noted that in former AUTOSAR releases (Rel 2.1, Rel 3.0, Rel 3.1, Rel 4.0 Rev. 1) this parameter was defined in bits. The Pdu length of zero bytes is allowed.
         A None value is a no-op and does not overwrite an existing length.
@@ -634,7 +634,7 @@ class IPdu(Pdu, ABC):
         """
         return self.containedIPduProps
 
-    def setContainedIPduProps(self, value: Optional[ContainedIPduProps]) -> "IPdu":
+    def setContainedIPduProps(self, value: Optional[ContainedIPduProps]) -> IPdu:
         """
         Defines whether this IPdu may be collected inside a ContainerIPdu.
         A None value is a no-op and does not overwrite an existing containedIPduProps.
@@ -722,7 +722,7 @@ class SecureCommunicationProps(ARObject):
         """
         return self.authDataFreshnessLength
 
-    def setAuthDataFreshnessLength(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+    def setAuthDataFreshnessLength(self, value: Optional[PositiveInteger]) -> SecureCommunicationProps:
         """
         This attribute defines the length in bits of the authentic PDU data that is passed to the SWC that verifies and generates the Freshness.
         A None value is a no-op and does not overwrite an existing authDataFreshnessLength.
@@ -737,7 +737,7 @@ class SecureCommunicationProps(ARObject):
         """
         return self.authDataFreshnessStartPosition
 
-    def setAuthDataFreshnessStartPosition(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+    def setAuthDataFreshnessStartPosition(self, value: Optional[PositiveInteger]) -> SecureCommunicationProps:
         """
         This value determines the start position in bits of the Authentic PDU that shall be passed on to the SWC that verifies and generates the Freshness. The bit counting is done according to TPS_SYST_01068.
         A None value is a no-op and does not overwrite an existing authDataFreshnessStartPosition.
@@ -752,7 +752,7 @@ class SecureCommunicationProps(ARObject):
         """
         return self.authenticationBuildAttempts
 
-    def setAuthenticationBuildAttempts(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+    def setAuthenticationBuildAttempts(self, value: Optional[PositiveInteger]) -> SecureCommunicationProps:
         """
         This attribute specifies the number of authentication build attempts.
         A None value is a no-op and does not overwrite an existing authenticationBuildAttempts.
@@ -767,7 +767,7 @@ class SecureCommunicationProps(ARObject):
         """
         return self.authenticationRetries
 
-    def setAuthenticationRetries(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+    def setAuthenticationRetries(self, value: Optional[PositiveInteger]) -> SecureCommunicationProps:
         """
         This attribute defines the additional number of authentication attempts that are to be carried out when the generation of the authentication information failed for a given SecuredIPdu. If zero is set than only one authentication attempt is done.
         A None value is a no-op and does not overwrite an existing authenticationRetries.
@@ -782,7 +782,7 @@ class SecureCommunicationProps(ARObject):
         """
         return self.dataId
 
-    def setDataId(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+    def setDataId(self, value: Optional[PositiveInteger]) -> SecureCommunicationProps:
         """
         This attribute defines a numerical identifier for the Secured I-PDU.
         A None value is a no-op and does not overwrite an existing dataId.
@@ -797,7 +797,7 @@ class SecureCommunicationProps(ARObject):
         """
         return self.freshnessValueId
 
-    def setFreshnessValueId(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+    def setFreshnessValueId(self, value: Optional[PositiveInteger]) -> SecureCommunicationProps:
         """
         This attribute defines the Id of the Freshness Value. The Freshness Value might be a normal counter or a time value.
         A None value is a no-op and does not overwrite an existing freshnessValueId.
@@ -812,7 +812,7 @@ class SecureCommunicationProps(ARObject):
         """
         return self.messageLinkLength
 
-    def setMessageLinkLength(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+    def setMessageLinkLength(self, value: Optional[PositiveInteger]) -> SecureCommunicationProps:
         """
         SecOC links an AuthenticIPdu and CryptographicIPdu together by repeating a specific part (Message Linker) of the AuthenticIPdu in the CryptographicIPdu. This attribute defines the length in bits of the messageLinker.
         A None value is a no-op and does not overwrite an existing messageLinkLength.
@@ -827,7 +827,7 @@ class SecureCommunicationProps(ARObject):
         """
         return self.messageLinkPosition
 
-    def setMessageLinkPosition(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+    def setMessageLinkPosition(self, value: Optional[PositiveInteger]) -> SecureCommunicationProps:
         """
         SecOC links an AuthenticIPdu and CryptographicIPdu together by repeating a specific part (Message Linker) of the AuthenticIPdu in the CryptographicIPdu. This attribute defines the startPosition in bits of the messageLinker.
         A None value is a no-op and does not overwrite an existing messageLinkPosition.
@@ -842,7 +842,7 @@ class SecureCommunicationProps(ARObject):
         """
         return self.secondaryFreshnessValueId
 
-    def setSecondaryFreshnessValueId(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+    def setSecondaryFreshnessValueId(self, value: Optional[PositiveInteger]) -> SecureCommunicationProps:
         """
         This attribute defines the Id of the Secondary Freshness Value. The Secondary Freshness Value might be a normal counter or a time value. Please note that this attribute is for documentation only to allow the configuration of required freshness value manager and no upstream mapping is defined for it.
         A None value is a no-op and does not overwrite an existing secondaryFreshnessValueId.
@@ -857,7 +857,7 @@ class SecureCommunicationProps(ARObject):
         """
         return self.securedAreaLength
 
-    def setSecuredAreaLength(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+    def setSecuredAreaLength(self, value: Optional[PositiveInteger]) -> SecureCommunicationProps:
         """
         This attribute defines the length in bytes of the area within the payload Pdu which will be secured.
         A None value is a no-op and does not overwrite an existing securedAreaLength.
@@ -872,7 +872,7 @@ class SecureCommunicationProps(ARObject):
         """
         return self.securedAreaOffset
 
-    def setSecuredAreaOffset(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+    def setSecuredAreaOffset(self, value: Optional[PositiveInteger]) -> SecureCommunicationProps:
         """
         This attribute defines the start position (offset in byte) of the area within the payload Pdu which will be secured.
         A None value is a no-op and does not overwrite an existing securedAreaOffset.
@@ -1060,7 +1060,7 @@ class ISignalToIPduMapping(Identifiable, VariationPointCapable):
         """
         return self.iSignalRef
 
-    def setISignalRef(self, value: Optional[RefType]) -> "ISignalToIPduMapping":
+    def setISignalRef(self, value: Optional[RefType]) -> ISignalToIPduMapping:
         """
         Reference to a ISignal that is mapped into the ISignal IPdu. Each ISignal contained in the ISignalGroup shall be mapped into an IPdu by an own ISignalToIPduMapping. The references to the ISignal and to the ISignalGroup in an ISignalToIPduMapping are mutually exclusive.
         A None value is a no-op and does not overwrite an existing iSignalRef.
@@ -1075,7 +1075,7 @@ class ISignalToIPduMapping(Identifiable, VariationPointCapable):
         """
         return self.iSignalGroupRef
 
-    def setISignalGroupRef(self, value: Optional[RefType]) -> "ISignalToIPduMapping":
+    def setISignalGroupRef(self, value: Optional[RefType]) -> ISignalToIPduMapping:
         """
         Reference to an ISignalGroup that is mapped into the SignalIPdu. If an ISignalToIPduMapping for an ISignal Group is defined, only the UpdateIndicationBitPosition and the transferProperty is relevant. The startPosition and the packingByteOrder shall be ignored. Each ISignal contained in the ISignalGroup shall be mapped into an IPdu by an own ISignalToIPduMapping. The references to the ISignal and to the ISignalGroup in an ISignalToIPduMapping are mutually exclusive.
         A None value is a no-op and does not overwrite an existing iSignalGroupRef.
@@ -1090,7 +1090,7 @@ class ISignalToIPduMapping(Identifiable, VariationPointCapable):
         """
         return self.packingByteOrder
 
-    def setPackingByteOrder(self, value: Optional[ByteOrderEnum]) -> "ISignalToIPduMapping":
+    def setPackingByteOrder(self, value: Optional[ByteOrderEnum]) -> ISignalToIPduMapping:
         """
         This parameter defines the order of the bytes of the signal and the packing into the SignalIPdu. The byte ordering "Little Endian" (MostSignificantByteLast), "Big Endian" (MostSignificantByteFirst) and "Opaque" can be selected. For opaque data endianness conversion shall be configured to Opaque. The value of this attribute impacts the absolute position of the signal into the SignalIPdu (see the startPosition attribute description). For an ISignalGroup the packingByteOrder is irrelevant and shall be ignored.
         A None value is a no-op and does not overwrite an existing packingByteOrder.
@@ -1105,7 +1105,7 @@ class ISignalToIPduMapping(Identifiable, VariationPointCapable):
         """
         return self.startPosition
 
-    def setStartPosition(self, value: Optional[UnlimitedInteger]) -> "ISignalToIPduMapping":
+    def setStartPosition(self, value: Optional[UnlimitedInteger]) -> ISignalToIPduMapping:
         """
         This parameter is necessary to describe the bitposition of a signal within an SignalIPdu. It denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. Please note that the way the bytes will be actually sent on the bus does not impact this representation: they will always be seen by the software as a byte array. If a mapping for the ISignalGroup is defined, this attribute is irrelevant and shall be ignored.
         A None value is a no-op and does not overwrite an existing startPosition.
@@ -1120,7 +1120,7 @@ class ISignalToIPduMapping(Identifiable, VariationPointCapable):
         """
         return self.transferProperty
 
-    def setTransferProperty(self, value: Optional[TransferPropertyEnum]) -> "ISignalToIPduMapping":
+    def setTransferProperty(self, value: Optional[TransferPropertyEnum]) -> ISignalToIPduMapping:
         """
         Defines how the referenced ISignal contributes to the send triggering of the ISignalIPdu.
         A None value is a no-op and does not overwrite an existing transferProperty.
@@ -1135,7 +1135,7 @@ class ISignalToIPduMapping(Identifiable, VariationPointCapable):
         """
         return self.updateIndicationBitPosition
 
-    def setUpdateIndicationBitPosition(self, value: Optional[UnlimitedInteger]) -> "ISignalToIPduMapping":
+    def setUpdateIndicationBitPosition(self, value: Optional[UnlimitedInteger]) -> ISignalToIPduMapping:
         """
         The UpdateIndicationBit indicates to the receivers that the signal (or the signal group) was updated by the sender. Length is always one bit. The UpdateIndicationBitPosition attribute describes the position of the update bit within the SignalIPdu. For Signals of a ISignalGroup this attribute is irrelevant and shall be ignored. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing ISignalIPdu still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
         A None value is a no-op and does not overwrite an existing updateIndicationBitPosition.
@@ -1201,7 +1201,7 @@ class NmPdu(Pdu):
         """
         return self.nmDataInformation
 
-    def setNmDataInformation(self, value: Optional[Boolean]) -> "NmPdu":
+    def setNmDataInformation(self, value: Optional[Boolean]) -> NmPdu:
         """
         Defines if the Pdu contains NM Data. If the NmPdu does not aggregate any ISignalToIPduMappings it still may contain UserData that is set via Nm_SetUserData(). If the ISignalToIPduMapping exists then the nmDataInformation attribute shall be ignored.
         A None value is a no-op and does not overwrite an existing nmDataInformation.
@@ -1216,7 +1216,7 @@ class NmPdu(Pdu):
         """
         return self.nmVoteInformation
 
-    def setNmVoteInformation(self, value: Optional[Boolean]) -> "NmPdu":
+    def setNmVoteInformation(self, value: Optional[Boolean]) -> NmPdu:
         """
         Defines if the Pdu contains NM Vote information.
         A None value is a no-op and does not overwrite an existing nmVoteInformation.
@@ -1231,7 +1231,7 @@ class NmPdu(Pdu):
         """
         return self.unusedBitPattern
 
-    def setUnusedBitPattern(self, value: Optional[Integer]) -> "NmPdu":
+    def setUnusedBitPattern(self, value: Optional[Integer]) -> NmPdu:
         """
         AUTOSAR COM is filling not used areas of an Pdu with this bit-pattern. This attribute can only be used if the nmDataInformation attribute is set to true.
         A None value is a no-op and does not overwrite an existing unusedBitPattern.
@@ -1310,7 +1310,7 @@ class IPduTiming(Describable, VariationPointCapable):
         """
         return self.minimumDelay
 
-    def setMinimumDelay(self, value: Optional[TimeValue]) -> "IPduTiming":
+    def setMinimumDelay(self, value: Optional[TimeValue]) -> IPduTiming:
         """
         Minimum Delay in seconds between successive transmissions of this I-PDU, independent of the Transmission Mode.
         A None value is a no-op and does not overwrite an existing minimumDelay.
@@ -1325,7 +1325,7 @@ class IPduTiming(Describable, VariationPointCapable):
         """
         return self.transmissionModeDeclaration
 
-    def setTransmissionModeDeclaration(self, value: Optional[TransmissionModeDeclaration]) -> "IPduTiming":
+    def setTransmissionModeDeclaration(self, value: Optional[TransmissionModeDeclaration]) -> IPduTiming:
         """
         AUTOSAR COM allows configuring statically two different transmission modes for each I-PDU (True and False). The Transmission Mode Selector evaluates the conditions for a subset of signals and decides the transmission mode. It is possible to switch between the transmission modes during runtime.
         A None value is a no-op and does not overwrite an existing transmissionModeDeclaration.
@@ -1370,7 +1370,7 @@ class ISignalIPdu(IPdu):
         """
         return self.iPduTimingSpecification
 
-    def setIPduTimingSpecification(self, value: Optional[IPduTiming]) -> "ISignalIPdu":
+    def setIPduTimingSpecification(self, value: Optional[IPduTiming]) -> ISignalIPdu:
         """
         Timing specification for Com IPdus (Transmission Modes). This information is mandatory for the sender in a System Extract. This information may be omitted on receivers in a System Extract. atpVariation: The timing of a Pdu can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iPduTimingSpecification, iPduTiming Specification.variationPoint.shortLabel vh.latestBindingTime=postBuild
         A None value is a no-op and does not overwrite an existing iPduTimingSpecification.
@@ -1401,7 +1401,7 @@ class ISignalIPdu(IPdu):
         """
         return self.unusedBitPattern
 
-    def setUnusedBitPattern(self, value: Optional[Integer]) -> "ISignalIPdu":
+    def setUnusedBitPattern(self, value: Optional[Integer]) -> ISignalIPdu:
         """
         AUTOSAR COM and AUTOSAR IPDUM are filling not used areas of an IPDU with this bit-pattern. This attribute is mandatory to avoid undefined behavior. This byte-pattern will be repeated throughout the IPdu.
         A None value is a no-op and does not overwrite an existing unusedBitPattern.
@@ -1464,7 +1464,7 @@ class ISignalProps(ARObject):
         """
         return self.handleOutOfRange
 
-    def setHandleOutOfRange(self, value: Optional[HandleOutOfRangeEnum]) -> "ISignalProps":
+    def setHandleOutOfRange(self, value: Optional[HandleOutOfRangeEnum]) -> ISignalProps:
         """
         This attribute defines the outOfRangeHandling for received and sent signals.
         A None value is a no-op and does not overwrite an existing handleOutOfRange.
@@ -1547,7 +1547,7 @@ class ISignal(FibexElement):
         """
         return self.dataTransformationRef
 
-    def setDataTransformationRef(self, value: Optional[RefType]) -> "ISignal":
+    def setDataTransformationRef(self, value: Optional[RefType]) -> ISignal:
         """
         Optional reference to a DataTransformation which represents the transformer chain that is used to transform the data that shall be placed inside this ISignal.
         A None value is a no-op and does not overwrite an existing dataTransformationRef.
@@ -1562,7 +1562,7 @@ class ISignal(FibexElement):
         """
         return self.dataTypePolicy
 
-    def setDataTypePolicy(self, value: Optional[DataTypePolicyEnum]) -> "ISignal":
+    def setDataTypePolicy(self, value: Optional[DataTypePolicyEnum]) -> ISignal:
         """
         With the aggregation of SwDataDefProps an ISignal specifies how it is represented on the network. This representation follows a particular policy. Note that this causes some redundancy which is intended and can be used to support flexible development methodology as well as subsequent integrity checks. If the policy "networkRepresentationFromComSpec" is chosen the network representation from the ComSpec that is aggregated by the PortPrototype shall be used. If the "override" policy is chosen the requirements specified in the PortInterface and in the ComSpec are not fulfilled by the networkRepresentationProps. In case the System Description doesn't use a complete Software Component Description (VFB View) the "legacy" policy can be chosen.
         A None value is a no-op and does not overwrite an existing dataTypePolicy.
@@ -1577,7 +1577,7 @@ class ISignal(FibexElement):
         """
         return self.initValue
 
-    def setInitValue(self, value: Optional[ValueSpecification]) -> "ISignal":
+    def setInitValue(self, value: Optional[ValueSpecification]) -> ISignal:
         """
         Optional definition of a ISignal's initValue in case the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy system signals. This value can be used to configure the Signal's "Init Value". If a full DataMapping exist for the SystemSignal this information may be available from a configured SenderComSpec and ReceiverComSpec. In this case the initvalues in SenderComSpec and/or ReceiverComSpec override this optional value specification. Further restrictions apply from the RTE specification.
         A None value is a no-op and does not overwrite an existing initValue.
@@ -1592,7 +1592,7 @@ class ISignal(FibexElement):
         """
         return self.iSignalProps
 
-    def setISignalProps(self, value: Optional[ISignalProps]) -> "ISignal":
+    def setISignalProps(self, value: Optional[ISignalProps]) -> ISignal:
         """
         Additional optional ISignal properties that may be stored in different files.
         A None value is a no-op and does not overwrite an existing iSignalProps.
@@ -1607,7 +1607,7 @@ class ISignal(FibexElement):
         """
         return self.iSignalType
 
-    def setISignalType(self, value: Optional[ISignalTypeEnum]) -> "ISignal":
+    def setISignalType(self, value: Optional[ISignalTypeEnum]) -> ISignal:
         """
         This attribute defines whether this iSignal is an array that results in a UINT8_N / UINT8_DYN ComSignalType in the COM configuration or a primitive type.
         A None value is a no-op and does not overwrite an existing iSignalType.
@@ -1622,7 +1622,7 @@ class ISignal(FibexElement):
         """
         return self.length
 
-    def setLength(self, value: Optional[UnlimitedInteger]) -> "ISignal":
+    def setLength(self, value: Optional[UnlimitedInteger]) -> ISignal:
         """
         Size of the signal in bits. The size needs to be derived from the mapped VariableDataPrototype according to the mapping of primitive DataTypes to BaseTypes as used in the RTE. Indicates maximum size for dynamic length signals. The ISignal length of zero bits is allowed.
         A None value is a no-op and does not overwrite an existing length.
@@ -1637,7 +1637,7 @@ class ISignal(FibexElement):
         """
         return self.networkRepresentationProps
 
-    def setNetworkRepresentationProps(self, value: Optional[SwDataDefProps]) -> "ISignal":
+    def setNetworkRepresentationProps(self, value: Optional[SwDataDefProps]) -> ISignal:
         """
         Specification of the actual network representation. The usage of SwDataDefProps for this purpose is restricted to the attributes compuMethod and baseType. The optional baseType attributes "memAllignment" and "byteOrder" shall not be used. The attribute "dataTypePolicy" in the SystemTemplate element defines whether this network representation shall be ignored and the information shall be taken over from the network representation of the ComSpec. If "override" is chosen by the system integrator the network representation can violate against the requirements defined in the PortInterface and in the network representation of the ComSpec. In case that the System Description doesn't use a complete Software Component Description (VFB View) this element is used to configure "ComSignalDataInvalidValue" and the Data Semantics.
         A None value is a no-op and does not overwrite an existing networkRepresentationProps.
@@ -1652,7 +1652,7 @@ class ISignal(FibexElement):
         """
         return self.systemSignalRef
 
-    def setSystemSignalRef(self, value: Optional[RefType]) -> "ISignal":
+    def setSystemSignalRef(self, value: Optional[RefType]) -> ISignal:
         """
         Reference to the System Signal that is supposed to be transmitted in the ISignal.
         A None value is a no-op and does not overwrite an existing systemSignalRef.
@@ -1667,7 +1667,7 @@ class ISignal(FibexElement):
         """
         return self.timeoutSubstitutionValue
 
-    def setTimeoutSubstitutionValue(self, value: Optional[ValueSpecification]) -> "ISignal":
+    def setTimeoutSubstitutionValue(self, value: Optional[ValueSpecification]) -> ISignal:
         """
         Defines and enables the ComTimeoutSubstituition for this ISignal.
         A None value is a no-op and does not overwrite an existing timeoutSubstitutionValue.
@@ -1676,7 +1676,7 @@ class ISignal(FibexElement):
             self.timeoutSubstitutionValue = value
         return self
 
-    def addTransformationISignalProps(self, value: Optional[TransformationISignalProps]) -> "ISignal":
+    def addTransformationISignalProps(self, value: Optional[TransformationISignalProps]) -> ISignal:
         """
         A transformer chain consists of an ordered list of transformers. The ISignal specific configuration properties for each transformer are defined in the TransformationISignalProps class. The transformer configuration properties that are common for all ISignals are described in the TransformationTechnology class.
         """
@@ -1736,7 +1736,7 @@ class PduTriggering(Identifiable, VariationPointCapable):
         """
         return self.iPduRef
 
-    def setIPduRef(self, value: Optional[RefType]) -> "PduTriggering":
+    def setIPduRef(self, value: Optional[RefType]) -> PduTriggering:
         """
         Reference to the Pdu for which the PduTriggering is defined. One I-Pdu can be triggered on different channels (PduR fan-out). The Pdu routing by the PduR is only allowed for subclasses of IPdu. Nevertheless is the reference to the Pdu element necessary since the PduTriggering element is also used to specify the sending and receiving connections to Ecu Ports.
         A None value is a no-op and does not overwrite an existing iPduRef.
@@ -1751,7 +1751,7 @@ class PduTriggering(Identifiable, VariationPointCapable):
         """
         return self.iPduPortRefs
 
-    def addIPduPortRef(self, value: Optional[RefType]) -> "PduTriggering":
+    def addIPduPortRef(self, value: Optional[RefType]) -> PduTriggering:
         """
         References to the IPduPort on every ECU of the system which sends and/or receives the I-PDU. References for both the sender and the receiver side shall be included when the system is completely defined.
         """
@@ -1765,7 +1765,7 @@ class PduTriggering(Identifiable, VariationPointCapable):
         """
         return self.iSignalTriggeringRefs
 
-    def addISignalTriggeringRef(self, value: Optional[RefType]) -> "PduTriggering":
+    def addISignalTriggeringRef(self, value: Optional[RefType]) -> PduTriggering:
         """
         This reference provides the relationship to the ISignalTriggerings that are implemented by the PduTriggering. The reference is optional since no ISignalTriggering can be defined for DCM and Multiplexed Pdus. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.iSignalTriggering, iSignalTriggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
@@ -1779,7 +1779,7 @@ class PduTriggering(Identifiable, VariationPointCapable):
         """
         return self.secOcCryptoMappingRef
 
-    def setSecOcCryptoMappingRef(self, value: Optional[RefType]) -> "PduTriggering":
+    def setSecOcCryptoMappingRef(self, value: Optional[RefType]) -> PduTriggering:
         """
         This reference identifies the crypto profile applicable to the usage (send, receive) of the also referenced Secured IPdu. Obviously, this reference is only applicable if the Pdutriggering also references a SecuredIPdu in the role iPdu.
         A None value is a no-op and does not overwrite an existing secOcCryptoMappingRef.
@@ -1794,7 +1794,7 @@ class PduTriggering(Identifiable, VariationPointCapable):
         """
         return self.triggerIPduSendConditions
 
-    def addTriggerIPduSendCondition(self, value: Optional[TriggerIPduSendCondition]) -> "PduTriggering":
+    def addTriggerIPduSendCondition(self, value: Optional[TriggerIPduSendCondition]) -> PduTriggering:
         """
         Defines the trigger for the Com_TriggerIPDUSend API call. Only if all defined TriggerIPduSendConditions evaluate to true (AND associated) the Com_TriggerIPDUSend API shall be called.
         """
@@ -1833,7 +1833,7 @@ class PdurIPduGroup(FibexElement):
         """
         return self.communicationMode
 
-    def setCommunicationMode(self, value: Optional[String]) -> "PdurIPduGroup":
+    def setCommunicationMode(self, value: Optional[String]) -> PdurIPduGroup:
         """
         This attribute defines the use-case for this PduRIPduGroup. For example, in a diagnostic mode all IPdus - which are not involved in diagnostic - are disabled. The use cases are not limited to a fixed enumeration and can be specified as a string.
         A None value is a no-op and does not overwrite an existing communicationMode.
@@ -1842,7 +1842,7 @@ class PdurIPduGroup(FibexElement):
             self.communicationMode = value
         return self
 
-    def addIPduRef(self, value: Optional[RefType]) -> "PdurIPduGroup":
+    def addIPduRef(self, value: Optional[RefType]) -> PdurIPduGroup:
         """
         Reference to a set of IPdus, which are contained in the PduR I-Pdu Group. If an IPdu is routed by the PduR to different destinations (PduR fan-out) than an PduTriggering for each destination is created in the System Template. To enable/disable a specific destination the PdurIPduGroup refers to the PduTriggering. atpVariation: The content of a PduR I-Pdu group can vary (->vehicle modes).
         A None value is a no-op and does not add to iPduRefs.
@@ -1898,7 +1898,7 @@ class FrameTriggering(Identifiable, VariationPointCapable, ABC):
         """
         return self.frameRef
 
-    def setFrameRef(self, value: Optional[RefType]) -> "FrameTriggering":
+    def setFrameRef(self, value: Optional[RefType]) -> FrameTriggering:
         """
         One frame can be triggered several times, e.g. on different channels. If a frame has no frame triggering, it won't be sent at all. A frame triggering has assigned exactly one frame, which it triggers.
         A None value is a no-op and does not overwrite an existing frameRef.
@@ -1907,7 +1907,7 @@ class FrameTriggering(Identifiable, VariationPointCapable, ABC):
             self.frameRef = value
         return self
 
-    def addFramePortRef(self, value: Optional[RefType]) -> "FrameTriggering":
+    def addFramePortRef(self, value: Optional[RefType]) -> FrameTriggering:
         """
         References to the FramePort on every ECU of the system which sends and/or receives the frame. References for both the sender and the receiver side shall be included when the system is completely defined.
         """
@@ -1921,7 +1921,7 @@ class FrameTriggering(Identifiable, VariationPointCapable, ABC):
         """
         return self.framePortRefs
 
-    def addPduTriggeringRef(self, value: Optional[RefType]) -> "FrameTriggering":
+    def addPduTriggeringRef(self, value: Optional[RefType]) -> FrameTriggering:
         """
         This reference provides the relationship to the Pdu Triggerings that are implemented by the FrameTriggering. The reference is optional since no PduTriggering can be defined for NmPdus and XCP Pdus. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.pduTriggering, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
@@ -2001,7 +2001,7 @@ class SystemSignalGroup(ARElement):
         """
         return self.systemSignalRefs
 
-    def addSystemSignalRef(self, value: RefType) -> "SystemSignalGroup":
+    def addSystemSignalRef(self, value: RefType) -> SystemSignalGroup:
         """
         Reference to a set of SystemSignals that shall always be kept together.
         """
@@ -2014,7 +2014,7 @@ class SystemSignalGroup(ARElement):
         """
         return self.transformingSystemSignalRef
 
-    def setTransformingSystemSignalRef(self, value: Optional[RefType]) -> "SystemSignalGroup":
+    def setTransformingSystemSignalRef(self, value: Optional[RefType]) -> SystemSignalGroup:
         """
         Optional reference to the SystemSignal which shall contain the transformed (linear) data.
         A None value is a no-op and does not overwrite an existing transformingSystemSignalRef.
@@ -2059,7 +2059,7 @@ class ISignalTriggering(Identifiable, VariationPointCapable):
         """
         return self.iSignalRef
 
-    def setISignalRef(self, value: Optional[RefType]) -> "ISignalTriggering":
+    def setISignalRef(self, value: Optional[RefType]) -> ISignalTriggering:
         """
         This reference shall be used if an ISignal is transported on the PhysicalChannel. This reference forms an XOR relationship with the ISignalTriggering-ISignalGroup reference.
         A None value is a no-op and does not overwrite an existing iSignalRef.
@@ -2074,7 +2074,7 @@ class ISignalTriggering(Identifiable, VariationPointCapable):
         """
         return self.iSignalGroupRef
 
-    def setISignalGroupRef(self, value: Optional[RefType]) -> "ISignalTriggering":
+    def setISignalGroupRef(self, value: Optional[RefType]) -> ISignalTriggering:
         """
         This reference shall be used if an ISignalGroup is transported on the PhysicalChannel. This reference forms an XOR relationship with the ISignal Triggering-ISignal reference.
         A None value is a no-op and does not overwrite an existing iSignalGroupRef.
@@ -2083,7 +2083,7 @@ class ISignalTriggering(Identifiable, VariationPointCapable):
             self.iSignalGroupRef = value
         return self
 
-    def addISignalPortRef(self, value: Optional[RefType]) -> "ISignalTriggering":
+    def addISignalPortRef(self, value: Optional[RefType]) -> ISignalTriggering:
         """
         References to the ISignalPort on every ECU of the system which sends and/or receives the ISignal. References for both the sender and the receiver side shall be included when the system is completely defined.
         """
@@ -2202,7 +2202,7 @@ class StaticPart(MultiplexedPart, VariationPointCapable):
         """
         return self.iPduRef
 
-    def setIPduRef(self, value: Optional[RefType]) -> "StaticPart":
+    def setIPduRef(self, value: Optional[RefType]) -> StaticPart:
         """
         Reference to a Com IPdu which is routed to the IPduM module and is combined to a multiplexedPdu.
         A None value is a no-op and does not overwrite an existing iPduRef.
@@ -2253,7 +2253,7 @@ class DynamicPartAlternative(ARObject):
         """
         return self.initialDynamicPart
 
-    def setInitialDynamicPart(self, value: Optional[Boolean]) -> "DynamicPartAlternative":
+    def setInitialDynamicPart(self, value: Optional[Boolean]) -> DynamicPartAlternative:
         """
         Dynamic part that shall be used to initialize this multiplexed IPdu. Constraint: Only one "DynamicPartAlternative" in a "DynamicPart" shall be the initialDynamicPart.
         A None value is a no-op and does not overwrite an existing initialDynamicPart.
@@ -2268,7 +2268,7 @@ class DynamicPartAlternative(ARObject):
         """
         return self.iPduRef
 
-    def setIPduRef(self, value: Optional[RefType]) -> "DynamicPartAlternative":
+    def setIPduRef(self, value: Optional[RefType]) -> DynamicPartAlternative:
         """
         Reference to a Com IPdu which is routed to the IPduM module and is combined to a multiplexedPdu.
         A None value is a no-op and does not overwrite an existing iPduRef.
@@ -2283,7 +2283,7 @@ class DynamicPartAlternative(ARObject):
         """
         return self.selectorFieldCode
 
-    def setSelectorFieldCode(self, value: Optional[Integer]) -> "DynamicPartAlternative":
+    def setSelectorFieldCode(self, value: Optional[Integer]) -> DynamicPartAlternative:
         """
         The selector field is part of a multiplexed IPdu. It consists of contiguous bits. The value of the selector field selects the layout of the multiplexed part of the IPdu.
         A None value is a no-op and does not overwrite an existing selectorFieldCode.
@@ -2591,7 +2591,7 @@ class SecureCommunicationAuthenticationProps(Identifiable):
         """
         return self.authInfoTxLength
 
-    def setAuthInfoTxLength(self, value: Optional[PositiveInteger]) -> "SecureCommunicationAuthenticationProps":
+    def setAuthInfoTxLength(self, value: Optional[PositiveInteger]) -> SecureCommunicationAuthenticationProps:
         """
         This attribute defines the length in bits of the authentication code to be included in the payload of the authenticated Pdu.
         A None value is a no-op and does not overwrite an existing authInfoTxLength.
@@ -2649,7 +2649,7 @@ class SecureCommunicationFreshnessProps(Identifiable):
         """
         return self.freshnessCounterSyncAttempts
 
-    def setFreshnessCounterSyncAttempts(self, value: Optional[PositiveInteger]) -> "SecureCommunicationFreshnessProps":
+    def setFreshnessCounterSyncAttempts(self, value: Optional[PositiveInteger]) -> SecureCommunicationFreshnessProps:
         """
         This attribute defines the number of Freshness Counter re-synchronization attempts when a verification failed for a Secured I-PDU. If the value is zero, there will be no additional verification attempt to synchronize with a potentially better fitting Freshness Counter value. This attribute is only applicable if useFreshnessTimestamp is FALSE.
         A None value is a no-op and does not overwrite an existing freshnessCounterSyncAttempts.
@@ -2664,7 +2664,7 @@ class SecureCommunicationFreshnessProps(Identifiable):
         """
         return self.freshnessTimestampTimePeriodFactor
 
-    def setFreshnessTimestampTimePeriodFactor(self, value: Optional[PositiveInteger]) -> "SecureCommunicationFreshnessProps":
+    def setFreshnessTimestampTimePeriodFactor(self, value: Optional[PositiveInteger]) -> SecureCommunicationFreshnessProps:
         """
         This attribute defines a factor that specifies the time period for the Freshness Timestamp. It holds a multiplication factor that specifies the concrete meaning of a Freshness Timestamp increment by one on basis of microseconds.
         A None value is a no-op and does not overwrite an existing freshnessTimestampTimePeriodFactor.
@@ -2679,7 +2679,7 @@ class SecureCommunicationFreshnessProps(Identifiable):
         """
         return self.freshnessValueLength
 
-    def setFreshnessValueLength(self, value: Optional[PositiveInteger]) -> "SecureCommunicationFreshnessProps":
+    def setFreshnessValueLength(self, value: Optional[PositiveInteger]) -> SecureCommunicationFreshnessProps:
         """
         This attribute defines the complete length in bits of the Freshness Value. As long as the key doesn't change the counter shall not overflow. The length of the counter shall be determined based on the expected life time of the corresponding key and frequency of usage of the counter.
         A None value is a no-op and does not overwrite an existing freshnessValueLength.
@@ -2694,7 +2694,7 @@ class SecureCommunicationFreshnessProps(Identifiable):
         """
         return self.freshnessValueTxLength
 
-    def setFreshnessValueTxLength(self, value: Optional[PositiveInteger]) -> "SecureCommunicationFreshnessProps":
+    def setFreshnessValueTxLength(self, value: Optional[PositiveInteger]) -> SecureCommunicationFreshnessProps:
         """
         This attribute defines the length in bits of the Freshness Value to be included in the payload of the Secured I-PDU. This length is specific to the least significant bits of the complete Freshness Counter. If the attribute is 0 no Freshness Value is included in the Secured I-PDU.
         A None value is a no-op and does not overwrite an existing freshnessValueTxLength.
@@ -2709,7 +2709,7 @@ class SecureCommunicationFreshnessProps(Identifiable):
         """
         return self.useFreshnessTimestamp
 
-    def setUseFreshnessTimestamp(self, value: Optional[Boolean]) -> "SecureCommunicationFreshnessProps":
+    def setUseFreshnessTimestamp(self, value: Optional[Boolean]) -> SecureCommunicationFreshnessProps:
         """
         This attribute specifies whether the Freshness Value is generated through individual Freshness Counters or by a Timestamps. The value is set to TRUE when Timestamps are used.
         A None value is a no-op and does not overwrite an existing useFreshnessTimestamp.
@@ -2816,7 +2816,7 @@ class IPduPort(CommConnectorPort):
         """
         return self.iPduSignalProcessing
 
-    def setIPduSignalProcessing(self, value: Optional[IPduSignalProcessingEnum]) -> "IPduPort":
+    def setIPduSignalProcessing(self, value: Optional[IPduSignalProcessingEnum]) -> IPduPort:
         """
         Definition of the two signal processing modes Immediate and Deferred for both Tx and Rx IPdus.
         A None value is a no-op and does not overwrite an existing iPduSignalProcessing.
@@ -2831,7 +2831,7 @@ class IPduPort(CommConnectorPort):
         """
         return self.rxSecurityVerification
 
-    def setRxSecurityVerification(self, value: Optional[Boolean]) -> "IPduPort":
+    def setRxSecurityVerification(self, value: Optional[Boolean]) -> IPduPort:
         """
         This attribute defines the bypassing of signature authentication or MAC verification in the receiving ECU. If not defined or set to true the signature authentication or MAC verification shall be performed for the SecuredIPdu. If set to false the signature authentication or MAC verification shall not be performed for the SecuredIPdu.
         A None value is a no-op and does not overwrite an existing rxSecurityVerification.
@@ -2846,7 +2846,7 @@ class IPduPort(CommConnectorPort):
         """
         return self.timestampRxAcceptanceWindow
 
-    def setTimestampRxAcceptanceWindow(self, value: Optional[TimeValue]) -> "IPduPort":
+    def setTimestampRxAcceptanceWindow(self, value: Optional[TimeValue]) -> IPduPort:
         """
         This attribute is used to define the maximum allowed deviation in seconds from the expected timestamp for which a SecuredIPdu is still deemed authentic. Please note that this attribute is for documentation only to allow the configuration of required freshness value manager and no upstream mapping is defined for it.
         A None value is a no-op and does not overwrite an existing timestampRxAcceptanceWindow.
@@ -2861,7 +2861,7 @@ class IPduPort(CommConnectorPort):
         """
         return self.useAuthDataFreshness
 
-    def setUseAuthDataFreshness(self, value: Optional[Boolean]) -> "IPduPort":
+    def setUseAuthDataFreshness(self, value: Optional[Boolean]) -> IPduPort:
         """
         This attribute describes whether a part of AuthenticPdu contained in a SecuredIPdu shall be passed on to the SWC that verifies and generates the Freshness. The part of the Authentic-PDU is defined by the authData FreshnessStartPosition and authDataFreshnessLength.
         A None value is a no-op and does not overwrite an existing useAuthDataFreshness.

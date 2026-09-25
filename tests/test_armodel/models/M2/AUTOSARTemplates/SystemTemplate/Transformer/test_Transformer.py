@@ -16,10 +16,15 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
+    SOMEIPMessageTypeEnum,
+    SOMEIPTransformationISignalProps,
+    TlvDataIdDefinition,
+    TlvDataIdDefinitionSet,
     TransformationDescription,
     TransformationISignalProps,
     TransformationTechnology,
     TransformerClassEnum,
+    UserDefinedTransformationISignalProps,
 )
 
 
@@ -828,3 +833,423 @@ class TestEndToEndTransformationComSpecProps:
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransformationComSpecProps
 
         assert issubclass(EndToEndTransformationComSpecProps, TransformationComSpecProps)
+
+
+class Test_SOMEIPMessageTypeEnum:
+    def test_docstring_is_spec_note_verbatim(self):
+        # Table 7.13, p.779 — class Note verbatim from the markdown
+        note = "Depending on the style of the communication different message types shall be set in the header of a SOME/IP message."
+        assert SOMEIPMessageTypeEnum.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert SOMEIPMessageTypeEnum.__init__.__doc__ is None
+
+    def test_literal_values_and_indexes(self):
+        # spec literals per Table 7.13 (notification idx1, request idx2, requestNoReturn idx3, response idx4, displayed order); xml values per XSD SIMPLE type
+        assert SOMEIPMessageTypeEnum.NOTIFICATION == "NOTIFICATION"
+        assert SOMEIPMessageTypeEnum.REQUEST == "REQUEST"
+        assert SOMEIPMessageTypeEnum.REQUEST_NO_RETURN == "REQUEST-NO-RETURN"
+        assert SOMEIPMessageTypeEnum.RESPONSE == "RESPONSE"
+        e = SOMEIPMessageTypeEnum()
+        assert e.getEnumValues() == ["NOTIFICATION", "REQUEST", "REQUEST-NO-RETURN", "RESPONSE"]
+        assert e.validateEnumValue("NOTIFICATION") is True
+        assert e.validateEnumValue("REQUEST") is True
+        assert e.validateEnumValue("REQUEST-NO-RETURN") is True
+        assert e.validateEnumValue("RESPONSE") is True
+        assert e.validateEnumValue("ERROR") is False
+
+    def test_instantiation(self):
+        e = SOMEIPMessageTypeEnum()
+        e.setValue(SOMEIPMessageTypeEnum.NOTIFICATION)
+        assert e.getValue() == "NOTIFICATION"
+        assert e.getText() == "NOTIFICATION"
+        e.setValue(SOMEIPMessageTypeEnum.REQUEST)
+        assert e.getValue() == "REQUEST"
+        assert e.getText() == "REQUEST"
+        e.setValue(SOMEIPMessageTypeEnum.REQUEST_NO_RETURN)
+        assert e.getValue() == "REQUEST-NO-RETURN"
+        assert e.getText() == "REQUEST-NO-RETURN"
+        e.setValue(SOMEIPMessageTypeEnum.RESPONSE)
+        assert e.getValue() == "RESPONSE"
+        assert e.getText() == "RESPONSE"
+
+
+class Test_TlvDataIdDefinition:
+    def _make_positive(self, value):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+
+        return PositiveInteger().setValue(value)
+
+    def _make_ref(self, value, dest):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+        ref = RefType()
+        ref.setDest(dest)
+        ref.setValue(value)
+        return ref
+
+    def test_docstring_is_spec_note_verbatim(self):
+        # Table 7.31, p.831 — class Note verbatim from the markdown
+        note = "This meta-class represents the ability to define the tlvDataId."
+        assert TlvDataIdDefinition.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert TlvDataIdDefinition.__init__.__doc__ is None
+
+    def test_heritage_is_arobject_not_identifiable(self):
+        assert issubclass(TlvDataIdDefinition, ARObject)
+        assert not issubclass(TlvDataIdDefinition, Identifiable)
+        assert not issubclass(TlvDataIdDefinition, ARElement)
+
+    def test_initialization(self):
+        tlv = TlvDataIdDefinition()
+
+        assert tlv.getId() is None
+        assert tlv.getTlvArgumentRef() is None
+        assert tlv.getTlvImplementationDataTypeElementRef() is None
+        assert tlv.getTlvRecordElementRef() is None
+
+    def test_get_set_id(self):
+        tlv = TlvDataIdDefinition()
+        value = self._make_positive(7)
+
+        assert tlv == tlv.setId(None)
+        assert tlv.getId() is None
+
+        assert tlv == tlv.setId(value)
+        assert tlv.getId() == value
+        assert tlv.getId().getValue() == 7
+
+        assert tlv == tlv.setId(None)
+        assert tlv.getId() == value
+
+    def test_get_set_tlv_argument_ref(self):
+        tlv = TlvDataIdDefinition()
+        ref = self._make_ref("/PortInterface/op/arg", "ARGUMENT-DATA-PROTOTYPE")
+
+        assert tlv == tlv.setTlvArgumentRef(None)
+        assert tlv.getTlvArgumentRef() is None
+
+        assert tlv == tlv.setTlvArgumentRef(ref)
+        assert tlv.getTlvArgumentRef() == ref
+        assert tlv.getTlvArgumentRef().getValue() == "/PortInterface/op/arg"
+        assert tlv.getTlvArgumentRef().getDest() == "ARGUMENT-DATA-PROTOTYPE"
+
+        assert tlv == tlv.setTlvArgumentRef(None)
+        assert tlv.getTlvArgumentRef() == ref
+
+    def test_get_set_tlv_implementation_data_type_element_ref(self):
+        tlv = TlvDataIdDefinition()
+        ref = self._make_ref("/DataType/element", "IMPLEMENTATION-DATA-TYPE-ELEMENT")
+
+        assert tlv == tlv.setTlvImplementationDataTypeElementRef(None)
+        assert tlv.getTlvImplementationDataTypeElementRef() is None
+
+        assert tlv == tlv.setTlvImplementationDataTypeElementRef(ref)
+        assert tlv.getTlvImplementationDataTypeElementRef() == ref
+        assert tlv.getTlvImplementationDataTypeElementRef().getValue() == "/DataType/element"
+        assert tlv.getTlvImplementationDataTypeElementRef().getDest() == "IMPLEMENTATION-DATA-TYPE-ELEMENT"
+
+        assert tlv == tlv.setTlvImplementationDataTypeElementRef(None)
+        assert tlv.getTlvImplementationDataTypeElementRef() == ref
+
+    def test_get_set_tlv_record_element_ref(self):
+        tlv = TlvDataIdDefinition()
+        ref = self._make_ref("/DataType/record", "APPLICATION-RECORD-ELEMENT")
+
+        assert tlv == tlv.setTlvRecordElementRef(None)
+        assert tlv.getTlvRecordElementRef() is None
+
+        assert tlv == tlv.setTlvRecordElementRef(ref)
+        assert tlv.getTlvRecordElementRef() == ref
+        assert tlv.getTlvRecordElementRef().getValue() == "/DataType/record"
+        assert tlv.getTlvRecordElementRef().getDest() == "APPLICATION-RECORD-ELEMENT"
+
+        assert tlv == tlv.setTlvRecordElementRef(None)
+        assert tlv.getTlvRecordElementRef() == ref
+
+
+class Test_TlvDataIdDefinitionSet:
+    def _make_set(self):
+        return TlvDataIdDefinitionSet(MockParent(), "TlvDataIdDefinitionSet")
+
+    def _make_definition(self, id_value, ref_value, dest):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
+
+        tlv = TlvDataIdDefinition()
+        tlv.setId(PositiveInteger().setValue(id_value))
+        ref = RefType()
+        ref.setDest(dest)
+        ref.setValue(ref_value)
+        tlv.setTlvArgumentRef(ref)
+        return tlv
+
+    def test_docstring_is_spec_note_verbatim(self):
+        # Table 7.30, p.830 — class Note verbatim from the markdown (incl. Tags tail)
+        note = "This meta-class acts as a container of TlvDataIdDefinitions to be used in a given context Tags: atp.recommendedPackage=TlvDataDefinitionSets"
+        assert TlvDataIdDefinitionSet.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert TlvDataIdDefinitionSet.__init__.__doc__ is None
+
+    def test_heritage_is_aelement(self):
+        assert issubclass(TlvDataIdDefinitionSet, ARElement)
+        assert issubclass(TlvDataIdDefinitionSet, Identifiable)
+
+        tlv_set = self._make_set()
+        assert isinstance(tlv_set, ARElement)
+        assert isinstance(tlv_set, Identifiable)
+
+    def test_initialization_defaults(self):
+        tlv_set = self._make_set()
+
+        assert tlv_set.getShortName() == "TlvDataIdDefinitionSet"
+        assert tlv_set.getTlvDataIdDefinitions() == []
+
+    def test_add_tlv_data_id_definition_appends(self):
+        tlv_set = self._make_set()
+        first = self._make_definition(1, "/PortInterface/op/arg", "ARGUMENT-DATA-PROTOTYPE")
+        second = self._make_definition(2, "/DataType/record", "APPLICATION-RECORD-ELEMENT")
+
+        assert tlv_set == tlv_set.addTlvDataIdDefinition(first)
+        assert tlv_set == tlv_set.addTlvDataIdDefinition(second)
+
+        definitions = tlv_set.getTlvDataIdDefinitions()
+        assert len(definitions) == 2
+        assert definitions[0] is first
+        assert definitions[1] is second
+        assert definitions[0].getId().getValue() == 1
+        assert definitions[1].getId().getValue() == 2
+        assert definitions[0].getTlvArgumentRef().getValue() == "/PortInterface/op/arg"
+        assert definitions[1].getTlvArgumentRef().getValue() == "/DataType/record"
+
+    def test_add_tlv_data_id_definition_none_is_no_op(self):
+        tlv_set = self._make_set()
+        first = self._make_definition(1, "/PortInterface/op/arg", "ARGUMENT-DATA-PROTOTYPE")
+        tlv_set.addTlvDataIdDefinition(first)
+
+        assert tlv_set == tlv_set.addTlvDataIdDefinition(None)
+
+        definitions = tlv_set.getTlvDataIdDefinitions()
+        assert len(definitions) == 1
+        assert definitions[0] is first
+
+
+class Test_SOMEIPTransformationISignalProps:
+    # Table 7.11, p.778 — attribute Notes verbatim from the markdown (cell wraps resolved per XSD mmt.qualifiedName / XSD documentation)
+    NOTE_IMPLEMENTS_LEGACY_STRING_SERIALIZATION = (
+        "This attribute indicates that Strings in the SOME/IP message shall NOT be serialized according to the SOME/IP specification for Strings. "
+        "If this attribute is set to true, BOM and null-termination shall NOT be added in the serialization for Strings in the payload. "
+        "If this attribute is set to false (or not set) BOM and null-termination shall be added in the serialization for Strings in the payload according to the SOME/IP specification for Strings. "
+        'NOTE! This attribute is not future safe, and will be removed in an upcoming AUTOSAR release!" Tags: atp.Status=obsolete'
+    )
+    NOTE_INTERFACE_VERSION = "The interface version the SOME/IP transformer shall use."
+    NOTE_IS_DYNAMIC_LENGTH_FIELD_SIZE = "This attribute shall be used to determine the wire type in the context of using the TLV encoding."
+    NOTE_MESSAGE_TYPE = "The Message Type which shall be placed into the SOME/IP header."
+    NOTE_SIZE_OF_ARRAY_LENGTH_FIELDS = "The size of all length fields (in Bytes) of fixed-size arrays or dynamic size arrays in the SOME/IP message. This attribute is valid for all available occurrences of fixed-size arrays or dynamic size arrays in the SOME/IP message."
+    NOTE_SIZE_OF_STRING_LENGTH_FIELDS = (
+        "The size of all length fields (in Bytes) of dynamic length strings in the SOME/IP message. This attribute is valid for all available occurrences of strings in the SOME/IP message."
+    )
+    NOTE_SIZE_OF_STRUCT_LENGTH_FIELDS = "The size of all length fields (in Bytes) of structs in the SOME/IP message. This attribute is valid for all available occurrences of structures in the SOME/IP message. For a more fine granular modeling on the level of DataPrototypes the DataPrototypeTransformationProps shall be used."
+    NOTE_SIZE_OF_UNION_LENGTH_FIELDS = "The size of all length fields (in Bytes) of unions in the SOME/IP message. This attribute is valid for all available occurrences of Unions in the SOME/IP message. For a more fine granular modeling on the level of DataPrototypes the DataPrototypeTransformationProps shall be used."
+    NOTE_TLV_DATA_ID_DEFINITION = "This reference identifies the TlvDataIdDefinitions relevant for the enclosing SOMEIPTransformationISignalProps"
+
+    def _make_positive(self, value):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+
+        return PositiveInteger().setValue(value)
+
+    def _make_ref(self, value, dest):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+        ref = RefType()
+        ref.setDest(dest)
+        ref.setValue(value)
+        return ref
+
+    def test_docstring_is_spec_note_verbatim(self):
+        # Table 7.11, p.778 — class Note verbatim from the markdown
+        note = "The class SOMEIPTransformationISignalProps specifies ISignal specific configuration properties for SOME/IP transformer attributes."
+        assert SOMEIPTransformationISignalProps.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert SOMEIPTransformationISignalProps.__init__.__doc__ is None
+
+    def test_heritage(self):
+        assert issubclass(SOMEIPTransformationISignalProps, TransformationISignalProps)
+        assert issubclass(SOMEIPTransformationISignalProps, Describable)
+        assert not issubclass(SOMEIPTransformationISignalProps, ARElement)
+
+        props = SOMEIPTransformationISignalProps()
+        assert isinstance(props, TransformationISignalProps)
+        assert isinstance(props, Describable)
+
+    def test_initialization(self):
+        props = SOMEIPTransformationISignalProps()
+
+        assert props.getImplementsLegacyStringSerialization() is None
+        assert props.getInterfaceVersion() is None
+        assert props.getIsDynamicLengthFieldSize() is None
+        assert props.getMessageType() is None
+        assert props.getSizeOfArrayLengthFields() is None
+        assert props.getSizeOfStringLengthFields() is None
+        assert props.getSizeOfStructLengthFields() is None
+        assert props.getSizeOfUnionLengthFields() is None
+        assert props.getTlvDataIdDefinitionRefs() == []
+
+    def test_get_set_implements_legacy_string_serialization(self):
+        props = SOMEIPTransformationISignalProps()
+        value = Boolean().setValue(True)
+
+        assert props == props.setImplementsLegacyStringSerialization(None)
+        assert props.getImplementsLegacyStringSerialization() is None
+
+        assert props == props.setImplementsLegacyStringSerialization(value)
+        assert props.getImplementsLegacyStringSerialization() == value
+        assert props.getImplementsLegacyStringSerialization().getValue() is True
+
+        assert props == props.setImplementsLegacyStringSerialization(None)
+        assert props.getImplementsLegacyStringSerialization() == value
+
+    def test_get_set_interface_version(self):
+        props = SOMEIPTransformationISignalProps()
+        value = self._make_positive(4)
+
+        assert props == props.setInterfaceVersion(None)
+        assert props.getInterfaceVersion() is None
+
+        assert props == props.setInterfaceVersion(value)
+        assert props.getInterfaceVersion() == value
+        assert props.getInterfaceVersion().getValue() == 4
+
+        assert props == props.setInterfaceVersion(None)
+        assert props.getInterfaceVersion() == value
+
+    def test_get_set_is_dynamic_length_field_size(self):
+        props = SOMEIPTransformationISignalProps()
+        value = Boolean().setValue(False)
+
+        assert props == props.setIsDynamicLengthFieldSize(None)
+        assert props.getIsDynamicLengthFieldSize() is None
+
+        assert props == props.setIsDynamicLengthFieldSize(value)
+        assert props.getIsDynamicLengthFieldSize() == value
+        assert props.getIsDynamicLengthFieldSize().getValue() is False
+
+        assert props == props.setIsDynamicLengthFieldSize(None)
+        assert props.getIsDynamicLengthFieldSize() == value
+
+    def test_get_set_message_type(self):
+        props = SOMEIPTransformationISignalProps()
+        value = SOMEIPMessageTypeEnum().setValue(SOMEIPMessageTypeEnum.REQUEST_NO_RETURN)
+
+        assert props == props.setMessageType(None)
+        assert props.getMessageType() is None
+
+        assert props == props.setMessageType(value)
+        assert isinstance(props.getMessageType(), SOMEIPMessageTypeEnum)
+        assert props.getMessageType().getValue() == "REQUEST-NO-RETURN"
+
+        assert props == props.setMessageType(None)
+        assert props.getMessageType().getValue() == "REQUEST-NO-RETURN"
+
+    def test_get_set_size_of_array_length_fields(self):
+        props = SOMEIPTransformationISignalProps()
+        value = self._make_positive(8)
+
+        assert props == props.setSizeOfArrayLengthFields(None)
+        assert props.getSizeOfArrayLengthFields() is None
+
+        assert props == props.setSizeOfArrayLengthFields(value)
+        assert props.getSizeOfArrayLengthFields().getValue() == 8
+
+        assert props == props.setSizeOfArrayLengthFields(None)
+        assert props.getSizeOfArrayLengthFields().getValue() == 8
+
+    def test_get_set_size_of_string_length_fields(self):
+        props = SOMEIPTransformationISignalProps()
+        value = self._make_positive(12)
+
+        assert props == props.setSizeOfStringLengthFields(None)
+        assert props.getSizeOfStringLengthFields() is None
+
+        assert props == props.setSizeOfStringLengthFields(value)
+        assert props.getSizeOfStringLengthFields().getValue() == 12
+
+        assert props == props.setSizeOfStringLengthFields(None)
+        assert props.getSizeOfStringLengthFields().getValue() == 12
+
+    def test_get_set_size_of_struct_length_fields(self):
+        props = SOMEIPTransformationISignalProps()
+        value = self._make_positive(16)
+
+        assert props == props.setSizeOfStructLengthFields(None)
+        assert props.getSizeOfStructLengthFields() is None
+
+        assert props == props.setSizeOfStructLengthFields(value)
+        assert props.getSizeOfStructLengthFields().getValue() == 16
+
+        assert props == props.setSizeOfStructLengthFields(None)
+        assert props.getSizeOfStructLengthFields().getValue() == 16
+
+    def test_get_set_size_of_union_length_fields(self):
+        props = SOMEIPTransformationISignalProps()
+        value = self._make_positive(4)
+
+        assert props == props.setSizeOfUnionLengthFields(None)
+        assert props.getSizeOfUnionLengthFields() is None
+
+        assert props == props.setSizeOfUnionLengthFields(value)
+        assert props.getSizeOfUnionLengthFields().getValue() == 4
+
+        assert props == props.setSizeOfUnionLengthFields(None)
+        assert props.getSizeOfUnionLengthFields().getValue() == 4
+
+    def test_add_tlv_data_id_definition_ref_appends(self):
+        props = SOMEIPTransformationISignalProps()
+        first = self._make_ref("/TlvSets/Set1", "TLV-DATA-ID-DEFINITION-SET")
+        second = self._make_ref("/TlvSets/Set2", "TLV-DATA-ID-DEFINITION-SET")
+
+        assert props == props.addTlvDataIdDefinitionRef(None)
+        assert props.getTlvDataIdDefinitionRefs() == []
+
+        assert props == props.addTlvDataIdDefinitionRef(first)
+        assert props == props.addTlvDataIdDefinitionRef(second)
+
+        refs = props.getTlvDataIdDefinitionRefs()
+        assert len(refs) == 2
+        assert refs[0] is first
+        assert refs[1] is second
+        assert refs[0].getValue() == "/TlvSets/Set1"
+        assert refs[0].getDest() == "TLV-DATA-ID-DEFINITION-SET"
+
+        assert props == props.addTlvDataIdDefinitionRef(None)
+        assert len(props.getTlvDataIdDefinitionRefs()) == 2
+
+
+class Test_UserDefinedTransformationISignalProps:
+    # Table 7.28, p.828 — class Note verbatim from the markdown; zero attribute rows
+    # (J1939NmEcu zero-attr precedent: shape = base + nothing)
+
+    def test_concrete_instantiation_and_heritage(self):
+        props = UserDefinedTransformationISignalProps()
+        assert isinstance(props, TransformationISignalProps)
+        assert isinstance(props, Describable)
+        assert issubclass(UserDefinedTransformationISignalProps, TransformationISignalProps)
+        assert issubclass(UserDefinedTransformationISignalProps, Describable)
+        assert not issubclass(UserDefinedTransformationISignalProps, ARElement)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        # Table 7.28, p.828 — class Note verbatim from the markdown
+        note = "The UserDefinedTransformationISignalProps is used to specify ISignal specific configuration properties for custom transformers."
+        assert UserDefinedTransformationISignalProps.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert UserDefinedTransformationISignalProps.__init__.__doc__ is None
+
+    def test_zero_own_attributes(self):
+        # Zero attribute rows (Table 7.28) — no new public accessors beyond the base class
+        props = UserDefinedTransformationISignalProps()
+        base_accessors = {name for name in dir(TransformationISignalProps) if not name.startswith("_") and callable(getattr(TransformationISignalProps, name, None))}
+        own_accessors = {name for name in dir(props) if not name.startswith("_") and callable(getattr(props, name, None))} - base_accessors
+        assert own_accessors == set()

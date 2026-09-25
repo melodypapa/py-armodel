@@ -46,7 +46,7 @@ class Traceable(Identifiable, ABC):
         """
         return self.traceRefs
 
-    def addTraceRef(self, value: Optional[RefType]) -> "Traceable":
+    def addTraceRef(self, value: Optional[RefType]) -> Traceable:
         """
         This association represents the ability to trace to upstream requirements / constraints. A None value is a no-op and is not appended.
 
@@ -88,7 +88,7 @@ class TraceableText(Traceable, VariationPointCapable):
         """
         return self.text
 
-    def setText(self, value: Optional["DocumentationBlock"]) -> "TraceableText":
+    def setText(self, value: Optional["DocumentationBlock"]) -> TraceableText:
         """
         This represents the text to which the tag applies. A None value is a no-op and is not set.
 
@@ -190,7 +190,7 @@ class StructuredReq(Traceable, VariationPointCapable):
         """
         return self.appliesTo
 
-    def addAppliesTo(self, value: Optional[StandardNameEnum]) -> "StructuredReq":
+    def addAppliesTo(self, value: Optional[StandardNameEnum]) -> StructuredReq:
         """
         This attribute represents the platform the requirement is assigned to. A None value is a no-op and is not appended.
 
@@ -210,7 +210,7 @@ class StructuredReq(Traceable, VariationPointCapable):
         """
         return self.conflicts
 
-    def setConflicts(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
+    def setConflicts(self, value: Optional["DocumentationBlock"]) -> StructuredReq:
         """
         This represents an informal specification of conflicts. A None value is a no-op and does not overwrite an existing conflicts.
 
@@ -230,7 +230,7 @@ class StructuredReq(Traceable, VariationPointCapable):
         """
         return self.date
 
-    def setDate(self, value: Optional[DateTime]) -> "StructuredReq":
+    def setDate(self, value: Optional[DateTime]) -> StructuredReq:
         """
         This represents the date when the requirement was initiated. A None value is a no-op and does not overwrite an existing date.
 
@@ -250,7 +250,7 @@ class StructuredReq(Traceable, VariationPointCapable):
         """
         return self.dependencies
 
-    def setDependencies(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
+    def setDependencies(self, value: Optional["DocumentationBlock"]) -> StructuredReq:
         """
         This represents an informal specification of dependencies. A None value is a no-op and does not overwrite an existing dependencies.
 
@@ -270,7 +270,7 @@ class StructuredReq(Traceable, VariationPointCapable):
         """
         return self.description
 
-    def setDescription(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
+    def setDescription(self, value: Optional["DocumentationBlock"]) -> StructuredReq:
         """
         This represents the general description of the requirement. A None value is a no-op and does not overwrite an existing description.
 
@@ -290,7 +290,7 @@ class StructuredReq(Traceable, VariationPointCapable):
         """
         return self.importance
 
-    def setImportance(self, value: Optional[String]) -> "StructuredReq":
+    def setImportance(self, value: Optional[String]) -> StructuredReq:
         """
         This allows to represent the importance of the requirement. A None value is a no-op and does not overwrite an existing importance.
 
@@ -310,7 +310,7 @@ class StructuredReq(Traceable, VariationPointCapable):
         """
         return self.issuedBy
 
-    def setIssuedBy(self, value: Optional[String]) -> "StructuredReq":
+    def setIssuedBy(self, value: Optional[String]) -> StructuredReq:
         """
         This represents the person, organization or authority which issued the requirement. A None value is a no-op and does not overwrite an existing issuedBy.
 
@@ -330,7 +330,7 @@ class StructuredReq(Traceable, VariationPointCapable):
         """
         return self.rationale
 
-    def setRationale(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
+    def setRationale(self, value: Optional["DocumentationBlock"]) -> StructuredReq:
         """
         This represents the rationale of the requirement. A None value is a no-op and does not overwrite an existing rationale.
 
@@ -350,7 +350,7 @@ class StructuredReq(Traceable, VariationPointCapable):
         """
         return self.remark
 
-    def setRemark(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
+    def setRemark(self, value: Optional["DocumentationBlock"]) -> StructuredReq:
         """
         This represents an informal remark. Note that this is not modeled as annotation, since these remark is still essential part of the requirement. A None value is a no-op and does not overwrite an existing remark.
 
@@ -370,7 +370,7 @@ class StructuredReq(Traceable, VariationPointCapable):
         """
         return self.supportingMaterial
 
-    def setSupportingMaterial(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
+    def setSupportingMaterial(self, value: Optional["DocumentationBlock"]) -> StructuredReq:
         """
         This represents an informal specification of the supporting material. A None value is a no-op and does not overwrite an existing supportingMaterial.
 
@@ -390,7 +390,7 @@ class StructuredReq(Traceable, VariationPointCapable):
         """
         return self.testedItemRefs
 
-    def addTestedItemRef(self, value: Optional[RefType]) -> "StructuredReq":
+    def addTestedItemRef(self, value: Optional[RefType]) -> StructuredReq:
         """
         This association represents the ability to trace on the same specification level. This supports for example the of acceptance tests. A None value is a no-op and is not appended.
 
@@ -410,7 +410,7 @@ class StructuredReq(Traceable, VariationPointCapable):
         """
         return self.type
 
-    def setType(self, value: Optional[String]) -> "StructuredReq":
+    def setType(self, value: Optional[String]) -> StructuredReq:
         """
         This attribute allows to denote the type of requirement to denote for example is it an "enhancement", "new feature" etc. A None value is a no-op and does not overwrite an existing type.
 
@@ -430,7 +430,7 @@ class StructuredReq(Traceable, VariationPointCapable):
         """
         return self.useCase
 
-    def setUseCase(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
+    def setUseCase(self, value: Optional["DocumentationBlock"]) -> StructuredReq:
         """
         This describes the relevant use cases. Note that formal references to use cases should be done in the trace relation. A None value is a no-op and does not overwrite an existing useCase.
 
@@ -476,7 +476,7 @@ class TraceableTable(Traceable, Paginateable):
         """
         return self.table
 
-    def setTable(self, value: Optional[Table]) -> "TraceableTable":
+    def setTable(self, value: Optional[Table]) -> TraceableTable:
         """
         This represents a table with a traceable table. This aggregation contains a variation point although it is not variant. Therefore, this variation point shall not exist in models. See constr_2638. A None value is a no-op and does not overwrite an existing table.
 

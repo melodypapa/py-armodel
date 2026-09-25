@@ -3,6 +3,8 @@ This module contains comprehensive tests for the RTEEvents module in SWComponent
 Tests cover all classes and methods in the RTEEvents.py file to achieve 100% test coverage.
 """
 
+import typing
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
@@ -91,10 +93,10 @@ class TestRTEEvent:
 
 
 class TestAsynchronousServerCallReturnsEvent:
-    """Test class for AsynchronousServerCallReturnsEvent class."""
+    """Test class for AsynchronousServerCallReturnsEvent class (Table 7.10)."""
 
-    def test_asynchronous_server_call_returns_event_initialization(self):
-        """Test AsynchronousServerCallReturnsEvent initialization and methods."""
+    def test_initialization(self):
+        """Test AsynchronousServerCallReturnsEvent initialization defaults."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         event = AsynchronousServerCallReturnsEvent(ar_root, "TestAsynchronousServerCallReturnsEvent")
@@ -104,14 +106,32 @@ class TestAsynchronousServerCallReturnsEvent:
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.eventSourceRef is None
+        assert isinstance(event, RTEEvent)
 
-        # Test eventSourceRef methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+    def test_get_set_eventSourceRef(self):
+        """Test setEventSourceRef/getEventSourceRef round-trip and None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = AsynchronousServerCallReturnsEvent(ar_root, "TestAsynchronousServerCallReturnsEvent")
 
-        source_ref = RefType()
-        source_ref.setValue("/Source/Ref")
-        event.setEventSourceRef(source_ref)
-        assert event.getEventSourceRef() == source_ref
+        ref = RefType()
+        ref.setDest("ASYNCHRONOUS-SERVER-CALL-RESULT-POINT")
+        ref.setValue("/swc/ib/acp")
+        assert event.setEventSourceRef(ref) is event
+        assert event.getEventSourceRef() is ref
+        assert event.getEventSourceRef().getDest() == "ASYNCHRONOUS-SERVER-CALL-RESULT-POINT"
+        assert event.getEventSourceRef().getValue() == "/swc/ib/acp"
+
+        event.setEventSourceRef(None)
+        assert event.getEventSourceRef() is ref
+
+    def test_get_type_hints(self):
+        """Test spec-typed annotations resolve at runtime (plain get_type_hints)."""
+        hints = typing.get_type_hints(AsynchronousServerCallReturnsEvent.setEventSourceRef)
+        assert hints.get("value") == typing.Optional[RefType]
+        assert hints.get("return") is AsynchronousServerCallReturnsEvent
+
+        assert typing.get_type_hints(AsynchronousServerCallReturnsEvent.getEventSourceRef).get("return") == typing.Optional[RefType]
 
 
 class TestDataSendCompletedEvent:

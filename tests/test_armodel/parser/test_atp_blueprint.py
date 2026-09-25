@@ -1,15 +1,17 @@
 """
-Regression tests for AtpBlueprint (R23-11 AUTOSAR_FO_TPS_StandardizationTemplate,
-Table C.12) reader/writer coverage.
+Regression tests for AtpBlueprint (R23-11 AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate,
+Table D.11, p.305) reader/writer coverage.
 
 AtpBlueprint is abstract and its only own attribute blueprintPolicy (BlueprintPolicy, *)
-is aggregated; BlueprintPolicy itself is NOT implemented in this repo (Rule 0001.10
-referenced-class placeholder), so the BLUEPRINT-POLICY aggregation is deferred until
-that type lands. AtpBlueprint therefore owns no dedicated XML dispatch of its own
-(no readAtpBlueprint/writeAtpBlueprint) and inherited members arrive through the
-shared readIdentifiable/writeIdentifiable helpers (Table C.12 Base closure =
-{ARObject, Identifiable, MultilanguageReferrable, Referrable}).
-Steps 5/6 are N/A for a dedicated dispatch; these tests pin that N/A contract.
+is aggregated. BlueprintPolicy itself is implemented (R23-11 Table C.18, attributeName
+modeled), but its concrete XML-bearing subclasses (BlueprintPolicyList/-NotModifiable/
+-Single -- they own the BLUEPRINT-POLICY-* elements, XSD 00052 group ATP-BLUEPRINT) are
+not yet synced, so the blueprintPolicy aggregation's serialization is deferred until
+those types land (Rule 0001.10 blocker owned by the subclasses). AtpBlueprint therefore
+owns no dedicated XML dispatch of its own (no readAtpBlueprint/writeAtpBlueprint) and
+inherited members arrive through the shared readIdentifiable/writeIdentifiable helpers
+(Table D.11 Base closure = {ARObject, Identifiable, MultilanguageReferrable, Referrable}).
+Steps 5/6 are N/A for a dedicated dispatch; these tests pin that deferral contract.
 """
 
 import logging
@@ -22,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
+from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -55,12 +58,14 @@ class TestAtpBlueprintReaderWriter:
 
     def test_round_trip_inherited_members_through_identifiable(self):
         """
-        The inherited Identifiable member (shortName) round-trips through the shared
-        readIdentifiable/writeIdentifiable helpers.
+        The inherited Identifiable members (shortName, adminData) round-trip through the
+        shared readIdentifiable/writeIdentifiable helpers.
         """
         AUTOSAR.getInstance().new()
         parent = AUTOSAR.getInstance().createARPackage("AUTOSAR")
         src = ConcreteAtpBlueprint(parent, "MyBlueprint")
+        admin_data = AdminData()
+        src.setAdminData(admin_data)
 
         writer = _make_writer()
         element = ET.Element("AR-ELEMENT")
@@ -72,12 +77,15 @@ class TestAtpBlueprintReaderWriter:
         _make_parser().readIdentifiable(reparsed, dst)
 
         assert dst.getShortName() == "MyBlueprint"
+        assert dst.getAdminData() is not None
+        assert dst.getAdminData() is not admin_data
 
     def test_blueprint_policy_aggregation_deferred(self):
         """
-        Rule 0001.10 placeholder: the blueprintPolicy aggregation is kept on the model
-        as a List[ARObject] placeholder (BlueprintPolicy unimplemented), but is not
-        serialized (no BLUEPRINT-POLICY reader/writer) until BlueprintPolicy lands.
+        Rule 0001.10 deferral: the blueprintPolicy aggregation is typed with the
+        implemented abstract BlueprintPolicy (List[BlueprintPolicy], R23-11 Table C.18)
+        but is not serialized (no BLUEPRINT-POLICYS reader/writer) until the concrete
+        XML-bearing subclasses (BlueprintPolicyList/-NotModifiable/-Single) land.
         """
         AUTOSAR.getInstance().new()
         parent = AUTOSAR.getInstance().createARPackage("AUTOSAR")

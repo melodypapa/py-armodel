@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
     ModeInBswInstanceRef,
+    ModeInSwcBswInstanceRef,
     ModeInSwcInstanceRef,
     TimingExtensionResource,
     TimingModeInstance,
@@ -133,6 +134,7 @@ class TestReadTimingModeInstance:
         ARXMLParser().readTimingModeInstance(_round_trip(element), instance)
         assert instance.getShortName() == "ModeInstance1"
         mode_instance = instance.getModeInstance()
+        assert isinstance(mode_instance, ModeInSwcBswInstanceRef)
         assert isinstance(mode_instance, ModeInSwcInstanceRef)
         assert mode_instance.getContextPortRef().getValue() == "/Pkg/Port"
         assert mode_instance.getTargetModeDeclarationRef().getValue() == "/Pkg/Mode"
@@ -153,6 +155,7 @@ class TestReadTimingModeInstance:
         instance = TimingModeInstance(parent, "ModeInstance1")
         ARXMLParser().readTimingModeInstance(_round_trip(element), instance)
         mode_instance = instance.getModeInstance()
+        assert isinstance(mode_instance, ModeInSwcBswInstanceRef)
         assert isinstance(mode_instance, ModeInBswInstanceRef)
         assert mode_instance.getContextBswImplementationRef().getValue() == "/Pkg/BswImpl"
         assert mode_instance.getTargetModeDeclarationRef().getValue() == "/Pkg/Mode"

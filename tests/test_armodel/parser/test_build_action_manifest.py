@@ -19,7 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
     BuildEngineeringObject,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import UriString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, UriString
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -187,6 +187,7 @@ class TestReadBuildActionIoElement:
         )
         obj = parser.readBuildActionIoElement(element, BuildActionIoElement())
 
+        assert isinstance(obj.getCategory(), NameToken)
         assert str(obj.getCategory()) == "ARTIFACT"
         assert len(obj.getSdgs()) == 1
         assert obj.getEcucDefinitionRef().getValue() == "/Ecuc/Definition"

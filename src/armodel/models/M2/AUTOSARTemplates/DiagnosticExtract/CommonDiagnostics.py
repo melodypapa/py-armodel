@@ -10,6 +10,7 @@ class DiagnosticCommonElement(ARElement, ABC):
 
     # DiagnosticCommonElement method parity checklist:
     # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.1, p.33
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 

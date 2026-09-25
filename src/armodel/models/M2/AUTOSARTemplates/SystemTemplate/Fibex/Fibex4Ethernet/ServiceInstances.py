@@ -63,7 +63,7 @@ class AbstractServiceInstance(Identifiable, VariationPointCapable, ABC):
         # The ServiceDiscovery module is able to activate and deactivate the PDU routing from and to TCP/IP-sockets.
         self.routingGroupRefs: List[RefType] = []
 
-    def addCapabilityRecord(self, value: Optional[TagWithOptionalValue]) -> "AbstractServiceInstance":
+    def addCapabilityRecord(self, value: Optional[TagWithOptionalValue]) -> AbstractServiceInstance:
         """
         A sequence of records to store arbitrary name/value pairs conveying additional information about the named service.
         A None value is a no-op and does not append to capabilityRecords.
@@ -80,7 +80,7 @@ class AbstractServiceInstance(Identifiable, VariationPointCapable, ABC):
         """Major Version of the ServiceInterface. Value can be set to a number that represents the Major Version of the service."""
         return self.majorVersion
 
-    def setMajorVersion(self, value: Optional[PositiveInteger]) -> "AbstractServiceInstance":
+    def setMajorVersion(self, value: Optional[PositiveInteger]) -> AbstractServiceInstance:
         """
         Major Version of the ServiceInterface. Value can be set to a number that represents the Major Version of the service.
         A None value is a no-op and does not overwrite an existing majorVersion.
@@ -93,7 +93,7 @@ class AbstractServiceInstance(Identifiable, VariationPointCapable, ABC):
         """The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods)."""
         return self.methodActivationRoutingGroup
 
-    def setMethodActivationRoutingGroup(self, value: Optional["PduActivationRoutingGroup"]) -> "AbstractServiceInstance":
+    def setMethodActivationRoutingGroup(self, value: Optional["PduActivationRoutingGroup"]) -> AbstractServiceInstance:
         """
         The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods).
         A None value is a no-op and does not overwrite an existing methodActivationRoutingGroup.
@@ -102,7 +102,7 @@ class AbstractServiceInstance(Identifiable, VariationPointCapable, ABC):
             self.methodActivationRoutingGroup = value
         return self
 
-    def addRoutingGroupRef(self, value: Optional[RefType]) -> "AbstractServiceInstance":
+    def addRoutingGroupRef(self, value: Optional[RefType]) -> AbstractServiceInstance:
         """
         The ServiceDiscovery module is able to activate and deactivate the PDU routing from and to TCP/IP-sockets.
         A None value is a no-op and does not append to routingGroupRefs.
@@ -177,7 +177,7 @@ class ConsumedEventGroup(Identifiable, VariationPointCapable):
         """Defines the application endpoint where the events of the event group are received in case of multicast reception."""
         return self.applicationEndpointRef
 
-    def setApplicationEndpointRef(self, value: Optional[RefType]) -> "ConsumedEventGroup":
+    def setApplicationEndpointRef(self, value: Optional[RefType]) -> ConsumedEventGroup:
         """
         Defines the application endpoint where the events of the event group are received in case of multicast reception.
         A None value is a no-op and does not overwrite an existing applicationEndpointRef.
@@ -190,7 +190,7 @@ class ConsumedEventGroup(Identifiable, VariationPointCapable):
         """Defines that this ConsumedEventGroup shall be requested (subscribed) as soon as the corresponding ConsumedServiceInstance is requested. This could be at ECU start, if ConsumedServiceInstance.autoRequire is set to TRUE or as soon as the ConsumedServiceInstance is requested by the application, if ConsumedService Instance.autoRequire is set to FALSE."""
         return self.autoRequire
 
-    def setAutoRequire(self, value: Optional[Boolean]) -> "ConsumedEventGroup":
+    def setAutoRequire(self, value: Optional[Boolean]) -> ConsumedEventGroup:
         """
         Defines that this ConsumedEventGroup shall be requested (subscribed) as soon as the corresponding ConsumedServiceInstance is requested. This could be at ECU start, if ConsumedServiceInstance.autoRequire is set to TRUE or as soon as the ConsumedServiceInstance is requested by the application, if ConsumedService Instance.autoRequire is set to FALSE.
         A None value is a no-op and does not overwrite an existing autoRequire.
@@ -203,7 +203,7 @@ class ConsumedEventGroup(Identifiable, VariationPointCapable):
         """EventGroup ID. Shall be unique within one system to allow service discovery."""
         return self.eventGroupIdentifier
 
-    def setEventGroupIdentifier(self, value: Optional[PositiveInteger]) -> "ConsumedEventGroup":
+    def setEventGroupIdentifier(self, value: Optional[PositiveInteger]) -> ConsumedEventGroup:
         """
         EventGroup ID. Shall be unique within one system to allow service discovery.
         A None value is a no-op and does not overwrite an existing eventGroupIdentifier.
@@ -212,7 +212,7 @@ class ConsumedEventGroup(Identifiable, VariationPointCapable):
             self.eventGroupIdentifier = value
         return self
 
-    def addEventMulticastAddressRef(self, value: Optional[RefType]) -> "ConsumedEventGroup":
+    def addEventMulticastAddressRef(self, value: Optional[RefType]) -> ConsumedEventGroup:
         """
         This reference defines the multicast address or a multicast address resource where the events of the event group are received. If the multicast address is determined via configuration and not at runtime via service discovery this reference points to the multicast address over which the events will be received. If the multicast address is determined at runtime via service discovery this reference shall be used to define the necessary local multicast address resources, i.e. RAM space in the TcpIp module in which the multicast address is stored at runtime. Please note that in this case the referenced address may be defined as ANY UDP port and ANY IP address since the multicast address will be received at runtime. If several multicast addresses are considered to be used the ConsumedEventGroup shall point to different ApplicationEndpoint objects to reserve the necessary resources in the configuration.
         A None value is a no-op and does not append to eventMulticastAddressRefs.
@@ -225,7 +225,7 @@ class ConsumedEventGroup(Identifiable, VariationPointCapable):
         """This reference defines the multicast address or a multicast address resource where the events of the event group are received. If the multicast address is determined via configuration and not at runtime via service discovery this reference points to the multicast address over which the events will be received. If the multicast address is determined at runtime via service discovery this reference shall be used to define the necessary local multicast address resources, i.e. RAM space in the TcpIp module in which the multicast address is stored at runtime. Please note that in this case the referenced address may be defined as ANY UDP port and ANY IP address since the multicast address will be received at runtime. If several multicast addresses are considered to be used the ConsumedEventGroup shall point to different ApplicationEndpoint objects to reserve the necessary resources in the configuration."""
         return self.eventMulticastAddressRefs
 
-    def addPduActivationRoutingGroup(self, value: Optional["PduActivationRoutingGroup"]) -> "ConsumedEventGroup":
+    def addPduActivationRoutingGroup(self, value: Optional["PduActivationRoutingGroup"]) -> ConsumedEventGroup:
         """
         The ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events.
         A None value is a no-op and does not append to pduActivationRoutingGroups.
@@ -242,7 +242,7 @@ class ConsumedEventGroup(Identifiable, VariationPointCapable):
         """Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed."""
         return self.priority
 
-    def setPriority(self, value: Optional[PositiveInteger]) -> "ConsumedEventGroup":
+    def setPriority(self, value: Optional[PositiveInteger]) -> ConsumedEventGroup:
         """
         Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
         A None value is a no-op and does not overwrite an existing priority.
@@ -251,7 +251,7 @@ class ConsumedEventGroup(Identifiable, VariationPointCapable):
             self.priority = value
         return self
 
-    def addRoutingGroupRef(self, value: Optional[RefType]) -> "ConsumedEventGroup":
+    def addRoutingGroupRef(self, value: Optional[RefType]) -> ConsumedEventGroup:
         """
         The ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events.
         A None value is a no-op and does not append to routingGroupRefs.
@@ -268,7 +268,7 @@ class ConsumedEventGroup(Identifiable, VariationPointCapable):
         """The readiness to receive events is defined by the Service Discovery of the ConsumedEventGroup. The Event Handler shall know about this announcement to decide about the submission of events. Therefore the Event Handler may be configured with Service-Discovery Client attributes."""
         return self.sdClientConfig
 
-    def setSdClientConfig(self, value: Optional[SdClientConfig]) -> "ConsumedEventGroup":
+    def setSdClientConfig(self, value: Optional[SdClientConfig]) -> ConsumedEventGroup:
         """
         The readiness to receive events is defined by the Service Discovery of the ConsumedEventGroup. The Event Handler shall know about this announcement to decide about the submission of events. Therefore the Event Handler may be configured with Service-Discovery Client attributes.
         A None value is a no-op and does not overwrite an existing sdClientConfig.
@@ -281,7 +281,7 @@ class ConsumedEventGroup(Identifiable, VariationPointCapable):
         """Client Timing configuration settings that are EventGroup specific."""
         return self.sdClientTimerConfigRef
 
-    def setSdClientTimerConfigRef(self, value: Optional[RefType]) -> "ConsumedEventGroup":
+    def setSdClientTimerConfigRef(self, value: Optional[RefType]) -> ConsumedEventGroup:
         """
         Client Timing configuration settings that are EventGroup specific.
         A None value is a no-op and does not overwrite an existing sdClientTimerConfigRef.
@@ -458,7 +458,7 @@ class PduActivationRoutingGroup(Identifiable, VariationPointCapable):
         """This attribute defines the type of a RoutingGroup. There are RoutingGroups that activate the data path for unicast or multicast events of an event group. And there are RoutingGroups that activate the data path for initial events that are triggered, namely events that are sent out on the server side after a client got subscribed. Please note that this attribute is only valid for event communication (Sender Receiver communication) and shall be omitted in MethodActivationRoutingGroups."""
         return self.eventGroupControlType
 
-    def setEventGroupControlType(self, value: Optional[EventGroupControlTypeEnum]) -> "PduActivationRoutingGroup":
+    def setEventGroupControlType(self, value: Optional[EventGroupControlTypeEnum]) -> PduActivationRoutingGroup:
         """
         This attribute defines the type of a RoutingGroup. There are RoutingGroups that activate the data path for unicast or multicast events of an event group. And there are RoutingGroups that activate the data path for initial events that are triggered, namely events that are sent out on the server side after a client got subscribed. Please note that this attribute is only valid for event communication (Sender Receiver communication) and shall be omitted in MethodActivationRoutingGroups.
         A None value is a no-op and does not overwrite an existing eventGroupControlType.
@@ -471,7 +471,7 @@ class PduActivationRoutingGroup(Identifiable, VariationPointCapable):
         """PduIdentifiers assigned for transmission over Tcp in case that the referencing PduActivationRoutingGroup is activated."""
         return self.iPduIdentifierTcpRefs
 
-    def addIPduIdentifierTcpRef(self, ref: Optional[RefType]) -> "PduActivationRoutingGroup":
+    def addIPduIdentifierTcpRef(self, ref: Optional[RefType]) -> PduActivationRoutingGroup:
         """
         PduIdentifiers assigned for transmission over Tcp in case that the referencing PduActivationRoutingGroup is activated.
         A None value is a no-op and does not append to iPduIdentifierTcpRefs.
@@ -484,7 +484,7 @@ class PduActivationRoutingGroup(Identifiable, VariationPointCapable):
         """PduIdentifiers assigned for transmission over Udp in case that the referencing PduActivationRoutingGroup is activated."""
         return self.iPduIdentifierUdpRefs
 
-    def addIPduIdentifierUdpRef(self, ref: Optional[RefType]) -> "PduActivationRoutingGroup":
+    def addIPduIdentifierUdpRef(self, ref: Optional[RefType]) -> PduActivationRoutingGroup:
         """
         PduIdentifiers assigned for transmission over Udp in case that the referencing PduActivationRoutingGroup is activated.
         A None value is a no-op and does not append to iPduIdentifierUdpRefs.
@@ -532,7 +532,7 @@ class StaticSocketConnection(Identifiable, VariationPointCapable):
         """Assignment of IPduIdentifiers that are transmitted over the static SocketConnection."""
         return self.iPduIdentifierRefs
 
-    def addIPduIdentifierRef(self, ref: Optional[RefType]) -> "StaticSocketConnection":
+    def addIPduIdentifierRef(self, ref: Optional[RefType]) -> StaticSocketConnection:
         """
         Assignment of IPduIdentifiers that are transmitted over the static SocketConnection.
         A None value is a no-op and does not append to iPduIdentifierRefs.
@@ -545,7 +545,7 @@ class StaticSocketConnection(Identifiable, VariationPointCapable):
         """RemoteAddress of the static SocketConnection."""
         return self.remoteAddressRef
 
-    def setRemoteAddressRef(self, ref: Optional[RefType]) -> "StaticSocketConnection":
+    def setRemoteAddressRef(self, ref: Optional[RefType]) -> StaticSocketConnection:
         """
         RemoteAddress of the static SocketConnection.
         A None value is a no-op and does not overwrite an existing remoteAddressRef.
@@ -558,7 +558,7 @@ class StaticSocketConnection(Identifiable, VariationPointCapable):
         """Specifies the time in seconds how long TCP connect attempts are repeated to reach SOAD_SOCON_ONLINE. This attribute is restricted to socket connection groups which are initiating a TCP connection and are under control of SoAd."""
         return self.tcpConnectTimeout
 
-    def setTcpConnectTimeout(self, value: Optional[TimeValue]) -> "StaticSocketConnection":
+    def setTcpConnectTimeout(self, value: Optional[TimeValue]) -> StaticSocketConnection:
         """
         Specifies the time in seconds how long TCP connect attempts are repeated to reach SOAD_SOCON_ONLINE. This attribute is restricted to socket connection groups which are initiating a TCP connection and are under control of SoAd.
         A None value is a no-op and does not overwrite an existing tcpConnectTimeout.
@@ -571,7 +571,7 @@ class StaticSocketConnection(Identifiable, VariationPointCapable):
         """Defines whether the local Address (that is aggregating the StaticSocketConnection) does a listen or a connect."""
         return self.tcpRole
 
-    def setTcpRole(self, value: Optional[TcpRoleEnum]) -> "StaticSocketConnection":
+    def setTcpRole(self, value: Optional[TcpRoleEnum]) -> StaticSocketConnection:
         """
         Defines whether the local Address (that is aggregating the StaticSocketConnection) does a listen or a connect.
         A None value is a no-op and does not overwrite an existing tcpRole.
@@ -663,7 +663,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         # Defines the service discovery find behavior.
         self.versionDrivenFindBehavior: Optional[ServiceVersionAcceptanceKindEnum] = None
 
-    def addAllowedServiceProviderRef(self, value: Optional[RefType]) -> "ConsumedServiceInstance":
+    def addAllowedServiceProviderRef(self, value: Optional[RefType]) -> ConsumedServiceInstance:
         """
         NetworkEndpoint on which the ProvidedServiceInstance that is communicating with this ConsumedService Instance is allowed to be located so that the ACL check in the ServiceDiscovery is successful and the connection is allowed to be established.
         A None value is a no-op and does not append to allowedServiceProviderRefs.
@@ -680,7 +680,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """Defines that this ConsumedServiceInstance shall be required (searched for) by the service discovery at ECU start."""
         return self.autoRequire
 
-    def setAutoRequire(self, value: Optional[Boolean]) -> "ConsumedServiceInstance":
+    def setAutoRequire(self, value: Optional[Boolean]) -> ConsumedServiceInstance:
         """
         Defines that this ConsumedServiceInstance shall be required (searched for) by the service discovery at ECU start.
         A None value is a no-op and does not overwrite an existing autoRequire.
@@ -689,7 +689,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
             self.autoRequire = value
         return self
 
-    def addBlocklistedVersion(self, value: Optional["SomeipServiceVersion"]) -> "ConsumedServiceInstance":
+    def addBlocklistedVersion(self, value: Optional["SomeipServiceVersion"]) -> ConsumedServiceInstance:
         """
         Collection of blocklisted versions
         A None value is a no-op and does not append to blocklistedVersions.
@@ -718,7 +718,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """Multicast Address that is used by the client to subscribe to the server: This enables the multicast subscription feature."""
         return self.eventMulticastSubscriptionAddressRef
 
-    def setEventMulticastSubscriptionAddressRef(self, value: Optional[RefType]) -> "ConsumedServiceInstance":
+    def setEventMulticastSubscriptionAddressRef(self, value: Optional[RefType]) -> ConsumedServiceInstance:
         """
         Multicast Address that is used by the client to subscribe to the server: This enables the multicast subscription feature.
         A None value is a no-op and does not overwrite an existing eventMulticastSubscriptionAddressRef.
@@ -731,7 +731,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """This attribute represents the ability to describe the required service instance ID."""
         return self.instanceIdentifier
 
-    def setInstanceIdentifier(self, value: Optional[AnyServiceInstanceId]) -> "ConsumedServiceInstance":
+    def setInstanceIdentifier(self, value: Optional[AnyServiceInstanceId]) -> ConsumedServiceInstance:
         """
         This attribute represents the ability to describe the required service instance ID.
         A None value is a no-op and does not overwrite an existing instanceIdentifier.
@@ -740,7 +740,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
             self.instanceIdentifier = value
         return self
 
-    def addLocalUnicastAddressRef(self, value: Optional[RefType]) -> "ConsumedServiceInstance":
+    def addLocalUnicastAddressRef(self, value: Optional[RefType]) -> ConsumedServiceInstance:
         """
         The local address over which the CSI is consumed (udp, tcp or both).
         A None value is a no-op and does not append to localUnicastAddressRefs.
@@ -757,7 +757,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """Minor Version of the ServiceInterface. Value can be set to a number that represents the Minor Version of the searched service or to ANY."""
         return self.minorVersion
 
-    def setMinorVersion(self, value: Optional[AnyVersionString]) -> "ConsumedServiceInstance":
+    def setMinorVersion(self, value: Optional[AnyVersionString]) -> ConsumedServiceInstance:
         """
         Minor Version of the ServiceInterface. Value can be set to a number that represents the Minor Version of the searched service or to ANY.
         A None value is a no-op and does not overwrite an existing minorVersion.
@@ -770,7 +770,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """Reference to a providedServiceInstance to get the instanceIdentifier information from the ProvidedService Instance."""
         return self.providedServiceInstanceRef
 
-    def setProvidedServiceInstanceRef(self, value: Optional[RefType]) -> "ConsumedServiceInstance":
+    def setProvidedServiceInstanceRef(self, value: Optional[RefType]) -> ConsumedServiceInstance:
         """
         Reference to a providedServiceInstance to get the instanceIdentifier information from the ProvidedService Instance.
         A None value is a no-op and does not overwrite an existing providedServiceInstanceRef.
@@ -779,7 +779,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
             self.providedServiceInstanceRef = value
         return self
 
-    def addRemoteUnicastAddressRef(self, value: Optional[RefType]) -> "ConsumedServiceInstance":
+    def addRemoteUnicastAddressRef(self, value: Optional[RefType]) -> ConsumedServiceInstance:
         """
         This reference defines the remote address where the service provider is located. This reference shall ONLY be used if the remote address is determined from the configuration and not at runtime from the Service Discovery.
         A None value is a no-op and does not append to remoteUnicastAddressRefs.
@@ -796,7 +796,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """Service Discovery Client configuration."""
         return self.sdClientConfig
 
-    def setSdClientConfig(self, value: Optional[SdClientConfig]) -> "ConsumedServiceInstance":
+    def setSdClientConfig(self, value: Optional[SdClientConfig]) -> ConsumedServiceInstance:
         """
         Service Discovery Client configuration.
         A None value is a no-op and does not overwrite an existing sdClientConfig.
@@ -809,7 +809,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """Client specific configuration settings relevant for the SOME/IP service discovery."""
         return self.sdClientTimerConfigRef
 
-    def setSdClientTimerConfigRef(self, value: Optional[RefType]) -> "ConsumedServiceInstance":
+    def setSdClientTimerConfigRef(self, value: Optional[RefType]) -> ConsumedServiceInstance:
         """
         Client specific configuration settings relevant for the SOME/IP service discovery.
         A None value is a no-op and does not overwrite an existing sdClientTimerConfigRef.
@@ -822,7 +822,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """This attribute represents the ability to describe the SOME/ IP service ID that is searched."""
         return self.serviceIdentifier
 
-    def setServiceIdentifier(self, value: Optional[PositiveInteger]) -> "ConsumedServiceInstance":
+    def setServiceIdentifier(self, value: Optional[PositiveInteger]) -> ConsumedServiceInstance:
         """
         This attribute represents the ability to describe the SOME/ IP service ID that is searched.
         A None value is a no-op and does not overwrite an existing serviceIdentifier.
@@ -835,7 +835,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """Defines the service discovery find behavior."""
         return self.versionDrivenFindBehavior
 
-    def setVersionDrivenFindBehavior(self, value: Optional[ServiceVersionAcceptanceKindEnum]) -> "ConsumedServiceInstance":
+    def setVersionDrivenFindBehavior(self, value: Optional[ServiceVersionAcceptanceKindEnum]) -> ConsumedServiceInstance:
         """
         Defines the service discovery find behavior.
         A None value is a no-op and does not overwrite an existing versionDrivenFindBehavior.
@@ -935,7 +935,7 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
         """Controls initial find behavior of clients."""
         return self.initialFindBehavior
 
-    def setInitialFindBehavior(self, value: Optional[InitialSdDelayConfig]) -> "SomeipSdClientServiceInstanceConfig":
+    def setInitialFindBehavior(self, value: Optional[InitialSdDelayConfig]) -> SomeipSdClientServiceInstanceConfig:
         """
         Controls initial find behavior of clients.
         A None value is a no-op and does not overwrite an existing initialFindBehavior.
@@ -948,7 +948,7 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
         """This attribute defines the VLAN frame priority for Service Discovery messages that result from RequiredSomeipServiceInstances that are referncing this SomeipSdClientServiceInstanceConfig (Find, SubscribeEventGroup, Stop SubscribeEventgroup). Values from 0 (best effort) to 7 (highest) are allowed."""
         return self.priority
 
-    def setPriority(self, value: Optional[PositiveInteger]) -> "SomeipSdClientServiceInstanceConfig":
+    def setPriority(self, value: Optional[PositiveInteger]) -> SomeipSdClientServiceInstanceConfig:
         """
         This attribute defines the VLAN frame priority for Service Discovery messages that result from RequiredSomeipServiceInstances that are referncing this SomeipSdClientServiceInstanceConfig (Find, SubscribeEventGroup, Stop SubscribeEventgroup). Values from 0 (best effort) to 7 (highest) are allowed.
         A None value is a no-op and does not overwrite an existing priority.
@@ -961,7 +961,7 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
         """This attribute represents the ability to define the time in seconds the service find is valid. Note! The TTL value for FindService entries is not used and shall be ignored by the server service. This configuration is only kept for backward compatibility. Default value if not specified shall be 0xFFFFFF."""
         return self.serviceFindTimeToLive
 
-    def setServiceFindTimeToLive(self, value: Optional[PositiveInteger]) -> "SomeipSdClientServiceInstanceConfig":
+    def setServiceFindTimeToLive(self, value: Optional[PositiveInteger]) -> SomeipSdClientServiceInstanceConfig:
         """
         This attribute represents the ability to define the time in seconds the service find is valid. Note! The TTL value for FindService entries is not used and shall be ignored by the server service. This configuration is only kept for backward compatibility. Default value if not specified shall be 0xFFFFFF.
         A None value is a no-op and does not overwrite an existing serviceFindTimeToLive.
@@ -997,7 +997,7 @@ class SomeipServiceVersion(ARObject):
         """Major Version of the ServiceInterface. Tags: xml.sequenceOffset=10"""
         return self.majorVersion
 
-    def setMajorVersion(self, value: Optional[PositiveInteger]) -> "SomeipServiceVersion":
+    def setMajorVersion(self, value: Optional[PositiveInteger]) -> SomeipServiceVersion:
         """
         Major Version of the ServiceInterface. Tags: xml.sequenceOffset=10
         A None value is a no-op and does not overwrite an existing majorVersion.
@@ -1010,7 +1010,7 @@ class SomeipServiceVersion(ARObject):
         """Minor Version of the ServiceInterface. Tags: xml.sequenceOffset=20"""
         return self.minorVersion
 
-    def setMinorVersion(self, value: Optional[PositiveInteger]) -> "SomeipServiceVersion":
+    def setMinorVersion(self, value: Optional[PositiveInteger]) -> SomeipServiceVersion:
         """
         Minor Version of the ServiceInterface. Tags: xml.sequenceOffset=20
         A None value is a no-op and does not overwrite an existing minorVersion.
@@ -1056,7 +1056,7 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
         """The Service Discovery shall delay answers to unicast messages triggered by multicast messages (e.g. Subscribe Eventgroup after Offer Service)."""
         return self.requestResponseDelay
 
-    def setRequestResponseDelay(self, value: Optional[RequestResponseDelay]) -> "SomeipSdClientEventGroupTimingConfig":
+    def setRequestResponseDelay(self, value: Optional[RequestResponseDelay]) -> SomeipSdClientEventGroupTimingConfig:
         """
         The Service Discovery shall delay answers to unicast messages triggered by multicast messages (e.g. Subscribe Eventgroup after Offer Service).
         A None value is a no-op and does not overwrite an existing requestResponseDelay.
@@ -1069,7 +1069,7 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
         """This attribute defines the interval in seconds to re-trigger a subscription to a Eventgroup, if a retry to subscribe to a Eventgroup is configured (subscribeEventgroupRetryMax > 0)."""
         return self.subscribeEventgroupRetryDelay
 
-    def setSubscribeEventgroupRetryDelay(self, value: Optional[TimeValue]) -> "SomeipSdClientEventGroupTimingConfig":
+    def setSubscribeEventgroupRetryDelay(self, value: Optional[TimeValue]) -> SomeipSdClientEventGroupTimingConfig:
         """
         This attribute defines the interval in seconds to re-trigger a subscription to a Eventgroup, if a retry to subscribe to a Eventgroup is configured (subscribeEventgroupRetryMax > 0).
         A None value is a no-op and does not overwrite an existing subscribeEventgroupRetryDelay.
@@ -1082,7 +1082,7 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
         """This attribute define the maximum counts of retries to subscribe to an Eventgroup. If the value is set to 0 no retry shall be done. If the value is set to 255 the retry shall be done as along as the Eventgroup is requested and no SubscribeEventGroupAck was received."""
         return self.subscribeEventgroupRetryMax
 
-    def setSubscribeEventgroupRetryMax(self, value: Optional[PositiveInteger]) -> "SomeipSdClientEventGroupTimingConfig":
+    def setSubscribeEventgroupRetryMax(self, value: Optional[PositiveInteger]) -> SomeipSdClientEventGroupTimingConfig:
         """
         This attribute define the maximum counts of retries to subscribe to an Eventgroup. If the value is set to 0 no retry shall be done. If the value is set to 255 the retry shall be done as along as the Eventgroup is requested and no SubscribeEventGroupAck was received.
         A None value is a no-op and does not overwrite an existing subscribeEventgroupRetryMax.
@@ -1095,7 +1095,7 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
         """Defines the time in seconds the subscription of this event is expected by the client. this value is sent from the client to the server in the SD-subscribeEvent message."""
         return self.timeToLive
 
-    def setTimeToLive(self, value: Optional[PositiveInteger]) -> "SomeipSdClientEventGroupTimingConfig":
+    def setTimeToLive(self, value: Optional[PositiveInteger]) -> SomeipSdClientEventGroupTimingConfig:
         """
         Defines the time in seconds the subscription of this event is expected by the client. this value is sent from the client to the server in the SD-subscribeEvent message.
         A None value is a no-op and does not overwrite an existing timeToLive.
@@ -1126,7 +1126,7 @@ class SomeipSdServerEventGroupTimingConfig(ARElement):
         """The Service Discovery shall delay answers to unicast messages triggered by multicast messages (e.g. Subscribe Eventgroup after Offer Service)."""
         return self.requestResponseDelay
 
-    def setRequestResponseDelay(self, value: Optional[RequestResponseDelay]) -> "SomeipSdServerEventGroupTimingConfig":
+    def setRequestResponseDelay(self, value: Optional[RequestResponseDelay]) -> SomeipSdServerEventGroupTimingConfig:
         """
         The Service Discovery shall delay answers to unicast messages triggered by multicast messages (e.g. Subscribe Eventgroup after Offer Service).
         A None value is a no-op and does not overwrite an existing requestResponseDelay.
@@ -1282,7 +1282,7 @@ class EventHandler(Identifiable, VariationPointCapable):
         # Server Timing configuration settings that are EventGroup specific.
         self.sdServerEgTimingConfigRef: Optional[RefType] = None
 
-    def addConsumedEventGroupRef(self, value: Optional[RefType]) -> "EventHandler":
+    def addConsumedEventGroupRef(self, value: Optional[RefType]) -> EventHandler:
         """
         All consumers of the event are referenced here.
         A None value is a no-op and does not append to consumedEventGroupRefs.
@@ -1299,7 +1299,7 @@ class EventHandler(Identifiable, VariationPointCapable):
         """Unique Identifier that identifies the EventGroup in SOME/IP. This Identifier is sent as Eventgroup ID in SOME/IP Service Discovery messages."""
         return self.eventGroupIdentifier
 
-    def setEventGroupIdentifier(self, value: Optional[PositiveInteger]) -> "EventHandler":
+    def setEventGroupIdentifier(self, value: Optional[PositiveInteger]) -> EventHandler:
         """
         Unique Identifier that identifies the EventGroup in SOME/IP. This Identifier is sent as Eventgroup ID in SOME/IP Service Discovery messages.
         A None value is a no-op and does not overwrite an existing eventGroupIdentifier.
@@ -1312,7 +1312,7 @@ class EventHandler(Identifiable, VariationPointCapable):
         """Multicast Address that is used for event communication in the IP-Multicast case. It is the destination address to which the server sends the multicast event messages if the mulicastThreshold is exceeded. This address is transmitted in the SD-SubscribeEventGroupAck Message to client (answer to SD-SubscribeEventGroup)."""
         return self.eventMulticastAddressRef
 
-    def setEventMulticastAddressRef(self, value: Optional[RefType]) -> "EventHandler":
+    def setEventMulticastAddressRef(self, value: Optional[RefType]) -> EventHandler:
         """
         Multicast Address that is used for event communication in the IP-Multicast case. It is the destination address to which the server sends the multicast event messages if the mulicastThreshold is exceeded. This address is transmitted in the SD-SubscribeEventGroupAck Message to client (answer to SD-SubscribeEventGroup).
         A None value is a no-op and does not overwrite an existing eventMulticastAddressRef.
@@ -1325,7 +1325,7 @@ class EventHandler(Identifiable, VariationPointCapable):
         """Specifies the number of subscribed clients that trigger the server to change the transmission of events to multicast. If configured to 0 only unicast will be used. If configured to 1 the first client will be already served by multicast. If configured to 2 the first client will be server with unicast and as soon as the second client arrives both will be served by multicast. This does not influence the handling of initial events, which are served using unicast only."""
         return self.multicastThreshold
 
-    def setMulticastThreshold(self, value: Optional[PositiveInteger]) -> "EventHandler":
+    def setMulticastThreshold(self, value: Optional[PositiveInteger]) -> EventHandler:
         """
         Specifies the number of subscribed clients that trigger the server to change the transmission of events to multicast. If configured to 0 only unicast will be used. If configured to 1 the first client will be already served by multicast. If configured to 2 the first client will be server with unicast and as soon as the second client arrives both will be served by multicast. This does not influence the handling of initial events, which are served using unicast only.
         A None value is a no-op and does not overwrite an existing multicastThreshold.
@@ -1334,7 +1334,7 @@ class EventHandler(Identifiable, VariationPointCapable):
             self.multicastThreshold = value
         return self
 
-    def addPduActivationRoutingGroup(self, value: Optional[PduActivationRoutingGroup]) -> "EventHandler":
+    def addPduActivationRoutingGroup(self, value: Optional[PduActivationRoutingGroup]) -> EventHandler:
         """
         The ServiceDiscovery module is able to activate and deactivate the PDU routing for events.
         A None value is a no-op and does not append to pduActivationRoutingGroups.
@@ -1347,7 +1347,7 @@ class EventHandler(Identifiable, VariationPointCapable):
         """The ServiceDiscovery module is able to activate and deactivate the PDU routing for events."""
         return self.pduActivationRoutingGroups
 
-    def addRoutingGroupRef(self, value: Optional[RefType]) -> "EventHandler":
+    def addRoutingGroupRef(self, value: Optional[RefType]) -> EventHandler:
         """
         The ServiceDiscovery module is able to activate and deactivate the PDU routing for events.
         A None value is a no-op and does not append to routingGroupRefs.
@@ -1364,7 +1364,7 @@ class EventHandler(Identifiable, VariationPointCapable):
         """Server configuration parameter for Service-Discovery."""
         return self.sdServerConfig
 
-    def setSdServerConfig(self, value: Optional[SdServerConfig]) -> "EventHandler":
+    def setSdServerConfig(self, value: Optional[SdServerConfig]) -> EventHandler:
         """
         Server configuration parameter for Service-Discovery.
         A None value is a no-op and does not overwrite an existing sdServerConfig.
@@ -1377,7 +1377,7 @@ class EventHandler(Identifiable, VariationPointCapable):
         """Server Timing configuration settings that are EventGroup specific."""
         return self.sdServerEgTimingConfigRef
 
-    def setSdServerEgTimingConfigRef(self, value: Optional[RefType]) -> "EventHandler":
+    def setSdServerEgTimingConfigRef(self, value: Optional[RefType]) -> EventHandler:
         """
         Server Timing configuration settings that are EventGroup specific.
         A None value is a no-op and does not overwrite an existing sdServerEgTimingConfigRef.
@@ -1481,7 +1481,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         """
         return self.allowedServiceConsumerRefs
 
-    def addAllowedServiceConsumerRef(self, allowed_service_consumer_ref: RefType) -> "ProvidedServiceInstance":
+    def addAllowedServiceConsumerRef(self, allowed_service_consumer_ref: RefType) -> ProvidedServiceInstance:
         """
         NetworkEndpoints on which the ConsumedService Instances that are communicating with this Provided ServiceInstance are allowed to be located so that the ACL check in the ServiceDiscovery is successful and the connection is allowed to be established. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=allowedServiceConsumer.networkEndpoint, allowedServiceConsumer.variationPoint.shortLabel atp.Status=draft vh.latestBindingTime=postBuild
         """
@@ -1489,7 +1489,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
             self.allowedServiceConsumerRefs.append(allowed_service_consumer_ref)
         return self
 
-    def setAllowedServiceConsumerRefs(self, allowed_service_consumer_refs: List[RefType]) -> "ProvidedServiceInstance":
+    def setAllowedServiceConsumerRefs(self, allowed_service_consumer_refs: List[RefType]) -> ProvidedServiceInstance:
         """
         NetworkEndpoints on which the ConsumedService Instances that are communicating with this Provided ServiceInstance are allowed to be located so that the ACL check in the ServiceDiscovery is successful and the connection is allowed to be established. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=allowedServiceConsumer.networkEndpoint, allowedServiceConsumer.variationPoint.shortLabel atp.Status=draft vh.latestBindingTime=postBuild
         """
@@ -1782,7 +1782,7 @@ class SocketAddress(Identifiable, VariationPointCapable):
         """Reference to a list of IPv6 Extension Headers allowed for this SocketConnection. If no list is referenced all IPv6 Extension Headers are allowed and processed."""
         return self.allowedIPv6ExtHeadersRef
 
-    def setAllowedIPv6ExtHeadersRef(self, value: Optional[RefType]) -> "SocketAddress":
+    def setAllowedIPv6ExtHeadersRef(self, value: Optional[RefType]) -> SocketAddress:
         """
         Reference to a list of IPv6 Extension Headers allowed for this SocketConnection. If no list is referenced all IPv6 Extension Headers are allowed and processed.
         A None value is a no-op and does not overwrite an existing allowedIPv6ExtHeadersRef.
@@ -1795,7 +1795,7 @@ class SocketAddress(Identifiable, VariationPointCapable):
         """Reference to a list of TCP options allowed for this Socket Connection."""
         return self.allowedTcpOptionsRef
 
-    def setAllowedTcpOptionsRef(self, value: Optional[RefType]) -> "SocketAddress":
+    def setAllowedTcpOptionsRef(self, value: Optional[RefType]) -> SocketAddress:
         """
         Reference to a list of TCP options allowed for this Socket Connection.
         A None value is a no-op and does not overwrite an existing allowedTcpOptionsRef.
@@ -1820,7 +1820,7 @@ class SocketAddress(Identifiable, VariationPointCapable):
         """Association to a CommunicationConnector in the topology description. This reference shall be used if the SocketAddress describes an IP unicast address for an ECU that is part of the model."""
         return self.connectorRef
 
-    def setConnectorRef(self, value: Optional[RefType]) -> "SocketAddress":
+    def setConnectorRef(self, value: Optional[RefType]) -> SocketAddress:
         """
         Association to a CommunicationConnector in the topology description. This reference shall be used if the SocketAddress describes an IP unicast address for an ECU that is part of the model.
         A None value is a no-op and does not overwrite an existing connectorRef.
@@ -1833,7 +1833,7 @@ class SocketAddress(Identifiable, VariationPointCapable):
         """The 6-bit Differentiated Service Field in the IP headers may be used for classifying network traffic. If not set a value of zero is used to indicate packets that have not been classified."""
         return self.differentiatedServiceField
 
-    def setDifferentiatedServiceField(self, value: Optional[PositiveInteger]) -> "SocketAddress":
+    def setDifferentiatedServiceField(self, value: Optional[PositiveInteger]) -> SocketAddress:
         """
         The 6-bit Differentiated Service Field in the IP headers may be used for classifying network traffic. If not set a value of zero is used to indicate packets that have not been classified.
         A None value is a no-op and does not overwrite an existing differentiatedServiceField.
@@ -1846,7 +1846,7 @@ class SocketAddress(Identifiable, VariationPointCapable):
         """The 20-bit Flow Label field in the IPv6 header may be used by a source to label sequences of packets for which it requests special handling by the IPv6 routers, such as non-default quality of service. If not set a Flow Label of zero is used to indicate packets that have not been labeled."""
         return self.flowLabel
 
-    def setFlowLabel(self, value: Optional[PositiveInteger]) -> "SocketAddress":
+    def setFlowLabel(self, value: Optional[PositiveInteger]) -> SocketAddress:
         """
         The 20-bit Flow Label field in the IPv6 header may be used by a source to label sequences of packets for which it requests special handling by the IPv6 routers, such as non-default quality of service. If not set a Flow Label of zero is used to indicate packets that have not been labeled.
         A None value is a no-op and does not overwrite an existing flowLabel.
@@ -1855,7 +1855,7 @@ class SocketAddress(Identifiable, VariationPointCapable):
             self.flowLabel = value
         return self
 
-    def addMulticastConnectorRef(self, value: Optional[RefType]) -> "SocketAddress":
+    def addMulticastConnectorRef(self, value: Optional[RefType]) -> SocketAddress:
         """
         Association to a CommunicationConnector in the topology description. This reference shall be used if the SocketAddress describes an IP multicast address, i.e. if the aggregated ApplicationEndpoint references a NetworkEndpoint that describes an IP Address in the IP multicast range. Such a SocketAddress contains references to those Ecus (via the multicastConnector reference) in the model that will receive multicast messages via the SocketAddress that is defined by the aggregated ApplicationEndpoint and NetworkEndpoint, i.e. IP Address and UDP Port combination.
         A None value is a no-op and does not append to multicastConnectorRefs.
@@ -1872,7 +1872,7 @@ class SocketAddress(Identifiable, VariationPointCapable):
         """Defines whether the Path MTU Discovery shall be performed for the related socket."""
         return self.pathMtuDiscoveryEnabled
 
-    def setPathMtuDiscoveryEnabled(self, value: Optional[Boolean]) -> "SocketAddress":
+    def setPathMtuDiscoveryEnabled(self, value: Optional[Boolean]) -> SocketAddress:
         """
         Defines whether the Path MTU Discovery shall be performed for the related socket.
         A None value is a no-op and does not overwrite an existing pathMtuDiscoveryEnabled.
@@ -1885,7 +1885,7 @@ class SocketAddress(Identifiable, VariationPointCapable):
         """Defines the maximum buffer size in Byte which shall be filled before a socket with Pdu collection enabled shall be transmitted to the lower layer."""
         return self.pduCollectionMaxBufferSize
 
-    def setPduCollectionMaxBufferSize(self, value: Optional[PositiveInteger]) -> "SocketAddress":
+    def setPduCollectionMaxBufferSize(self, value: Optional[PositiveInteger]) -> SocketAddress:
         """
         Defines the maximum buffer size in Byte which shall be filled before a socket with Pdu collection enabled shall be transmitted to the lower layer.
         A None value is a no-op and does not overwrite an existing pduCollectionMaxBufferSize.
@@ -1898,7 +1898,7 @@ class SocketAddress(Identifiable, VariationPointCapable):
         """Defines the time in seconds which shall pass before a socket with Pdu collection enabled shall be transmitted to the lower layer after the first Pdu has been put into the socket buffer."""
         return self.pduCollectionTimeout
 
-    def setPduCollectionTimeout(self, value: Optional[TimeValue]) -> "SocketAddress":
+    def setPduCollectionTimeout(self, value: Optional[TimeValue]) -> SocketAddress:
         """
         Defines the time in seconds which shall pass before a socket with Pdu collection enabled shall be transmitted to the lower layer after the first Pdu has been put into the socket buffer.
         A None value is a no-op and does not overwrite an existing pduCollectionTimeout.
@@ -1907,7 +1907,7 @@ class SocketAddress(Identifiable, VariationPointCapable):
             self.pduCollectionTimeout = value
         return self
 
-    def addStaticSocketConnection(self, value: Optional[StaticSocketConnection]) -> "SocketAddress":
+    def addStaticSocketConnection(self, value: Optional[StaticSocketConnection]) -> SocketAddress:
         """
         Definition of a static SocketConnection.
         A None value is a no-op and does not append to staticSocketConnections.
@@ -1924,7 +1924,7 @@ class SocketAddress(Identifiable, VariationPointCapable):
         """Specifies if UDP checksum handling shall be enabled (udpChecksumEnabled) or skipped (udpChecksum Disabled) on the related socket connection."""
         return self.udpChecksumHandling
 
-    def setUdpChecksumHandling(self, value: Optional[UdpChecksumCalculationEnum]) -> "SocketAddress":
+    def setUdpChecksumHandling(self, value: Optional[UdpChecksumCalculationEnum]) -> SocketAddress:
         """
         Specifies if UDP checksum handling shall be enabled (udpChecksumEnabled) or skipped (udpChecksum Disabled) on the related socket connection.
         A None value is a no-op and does not overwrite an existing udpChecksumHandling.
@@ -1963,7 +1963,7 @@ class SoAdConfig(ARObject):
         # Collection of SoAdAddresses.
         self.socketAddresses: List[SocketAddress] = []
 
-    def addConnection(self, value: Optional[SocketConnection]) -> "SoAdConfig":
+    def addConnection(self, value: Optional[SocketConnection]) -> SoAdConfig:
         """
         This aggregation is obsolete and will be removed in the future. The connectionGroup aggregation with bundled Connections shall be used instead. Old description: Collection of socket connections.
         A None value is a no-op and does not append to connections.
@@ -2059,7 +2059,7 @@ class ConsumedProvidedServiceInstanceGroup(FibexElement):
         # This reference assigns a set of ConsumedServiceInstances to the ConsumedProvidedServiceInstanceGroup.
         self.providedServiceInstanceRefs: List[RefType] = []
 
-    def addConsumedServiceInstanceRef(self, value: Optional[RefType]) -> "ConsumedProvidedServiceInstanceGroup":
+    def addConsumedServiceInstanceRef(self, value: Optional[RefType]) -> ConsumedProvidedServiceInstanceGroup:
         """
         This reference assigns a set of ProvidedServiceInstances to the ConsumedProvidedServiceInstanceGroup.
 
@@ -2075,7 +2075,7 @@ class ConsumedProvidedServiceInstanceGroup(FibexElement):
         """
         return self.consumedServiceInstanceRefs
 
-    def addProvidedServiceInstanceRef(self, value: Optional[RefType]) -> "ConsumedProvidedServiceInstanceGroup":
+    def addProvidedServiceInstanceRef(self, value: Optional[RefType]) -> ConsumedProvidedServiceInstanceGroup:
         """
         This reference assigns a set of ConsumedServiceInstances to the ConsumedProvidedServiceInstanceGroup.
 

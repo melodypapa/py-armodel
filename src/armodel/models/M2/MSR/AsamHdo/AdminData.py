@@ -9,36 +9,53 @@ from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 
 class Modification(ARObject):
     """
-    Represents a modification made to a document.
-    Base: ARObject
-    Aggregated by: DocRevision.modifications
+    This meta-class represents the ability to record what has changed in a document in comparison to its predecessor.
     """
 
     # Modification method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getChange                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setChange                    [x] impl  [ ] docstring  [ ] test
-    # [ ] getReason                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setReason                    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.18, p.86
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getChange    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setChange    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReason    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReason    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.change: MultiLanguageOverviewParagraph = None
-        self.reason: MultiLanguageOverviewParagraph = None
+        # This property denotes the one particular change which was performed on the object. Tags: xml.sequenceOffset=20
+        self.change: Optional[MultiLanguageOverviewParagraph] = None
 
-    def getChange(self) -> MultiLanguageOverviewParagraph:
+        # This property represents the rationale for the particular change. Tags: xml.sequenceOffset=30
+        self.reason: Optional[MultiLanguageOverviewParagraph] = None
+
+    def getChange(self) -> Optional[MultiLanguageOverviewParagraph]:
+        """
+        This property denotes the one particular change which was performed on the object. Tags: xml.sequenceOffset=20
+        """
         return self.change
 
-    def setChange(self, value: MultiLanguageOverviewParagraph):
+    def setChange(self, value: Optional[MultiLanguageOverviewParagraph]) -> "Modification":
+        """
+        This property denotes the one particular change which was performed on the object. Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing change.
+        """
         if value is not None:
             self.change = value
         return self
 
-    def getReason(self) -> MultiLanguageOverviewParagraph:
+    def getReason(self) -> Optional[MultiLanguageOverviewParagraph]:
+        """
+        This property represents the rationale for the particular change. Tags: xml.sequenceOffset=30
+        """
         return self.reason
 
-    def setReason(self, value: MultiLanguageOverviewParagraph):
+    def setReason(self, value: Optional[MultiLanguageOverviewParagraph]) -> "Modification":
+        """
+        This property represents the rationale for the particular change. Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing reason.
+        """
         if value is not None:
             self.reason = value
         return self

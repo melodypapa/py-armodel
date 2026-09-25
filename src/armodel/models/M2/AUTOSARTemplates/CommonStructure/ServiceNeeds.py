@@ -719,7 +719,7 @@ class ServiceDependency(ARObject, ABC):
         """
         return self.assignedDataType
 
-    def setAssignedDataType(self, value: Optional[RoleBasedDataTypeAssignment]) -> "ServiceDependency":
+    def setAssignedDataType(self, value: Optional[RoleBasedDataTypeAssignment]) -> ServiceDependency:
         """
         This is the role of the assignment data type in the given context. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=assignedDataType, assignedDataType.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         Only sets the value if it is not None.
@@ -740,7 +740,7 @@ class ServiceDependency(ARObject, ABC):
         """
         return self.diagnosticRelevance
 
-    def setDiagnosticRelevance(self, value: Optional[ServiceDiagnosticRelevanceEnum]) -> "ServiceDependency":
+    def setDiagnosticRelevance(self, value: Optional[ServiceDiagnosticRelevanceEnum]) -> ServiceDependency:
         """
         If this attribute indicates a relevance for diagnostics then the integrator has a much easier time identifying the candidates for the configuration of the diagnostic stack. Example: identification of mode conditions (e.g. communication between application and BswM) relevant for the Dcm.
         Only sets the value if it is not None.
@@ -761,7 +761,7 @@ class ServiceDependency(ARObject, ABC):
         """
         return self.symbolicNameProps
 
-    def setSymbolicNameProps(self, value: Optional["SymbolicNameProps"]) -> "ServiceDependency":
+    def setSymbolicNameProps(self, value: Optional["SymbolicNameProps"]) -> ServiceDependency:
         """
         This attribute can be taken to contribute to the creation of symbolic name values.
         Only sets the value if it is not None.
@@ -1805,7 +1805,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         """
         return self.deferringFidRefs
 
-    def addDeferringFidRef(self, value: Optional[RefType]) -> "DiagnosticEventNeeds":
+    def addDeferringFidRef(self, value: Optional[RefType]) -> DiagnosticEventNeeds:
         """
         Adds a reference to a function identifier within the FiM which is used by the monitor before delivering a result.
         A None value is a no-op and does not append anything.
@@ -1886,7 +1886,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         """
         return self.inhibitingFidRef
 
-    def setInhibitingFidRef(self, value: Optional[RefType]) -> "DiagnosticEventNeeds":
+    def setInhibitingFidRef(self, value: Optional[RefType]) -> DiagnosticEventNeeds:
         """
         Sets the primary Function Inhibition Identifier used for inhibition of the diagnostic monitor. The FID might either inhibit the monitoring of a symptom or the reporting of detected faults.
         A None value is a no-op and does not overwrite an existing inhibitingFidRef.
@@ -1910,7 +1910,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         """
         return self.inhibitingSecondaryFidRefs
 
-    def addInhibitingSecondaryFidRef(self, value: Optional[RefType]) -> "DiagnosticEventNeeds":
+    def addInhibitingSecondaryFidRef(self, value: Optional[RefType]) -> DiagnosticEventNeeds:
         """
         Adds a secondary Function Inhibition Identifier used for inhibition of the diagnostic monitor. Any of the FID inhibitions leads to an inhibition of the monitoring of a symptom or the reporting of detected faults.
         A None value is a no-op and does not append anything.
@@ -1934,7 +1934,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         """
         return self.prestoredFreezeframeStoredInNvm
 
-    def setPrestoredFreezeframeStoredInNvm(self, value: Optional[Boolean]) -> "DiagnosticEventNeeds":
+    def setPrestoredFreezeframeStoredInNvm(self, value: Optional[Boolean]) -> DiagnosticEventNeeds:
         """
         Sets whether the Event requires the data of a prestored freeze-frame to be stored in non-volatile memory. TRUE = Dem shall store the prestored data in non-volatile memory, FALSE = Data can be lost at shutdown (not stored in Nvm).
         A None value is a no-op and does not overwrite an existing prestoredFreezeframeStoredInNvm.
@@ -1958,7 +1958,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         """
         return self.usesMonitorData
 
-    def setUsesMonitorData(self, value: Optional[Boolean]) -> "DiagnosticEventNeeds":
+    def setUsesMonitorData(self, value: Optional[Boolean]) -> DiagnosticEventNeeds:
         """
         Sets whether additional monitor data shall be added to the reporting of events.
         A None value is a no-op and does not overwrite an existing usesMonitorData.
@@ -2182,7 +2182,7 @@ class ComMgrUserNeeds(ServiceNeeds):
         """
         return self.maxCommMode
 
-    def setMaxCommMode(self, value: Optional[MaxCommModeEnum]) -> "ComMgrUserNeeds":
+    def setMaxCommMode(self, value: Optional[MaxCommModeEnum]) -> ComMgrUserNeeds:
         """
         Sets the maximum communication mode requested by this ComM user.
         A None value is a no-op and does not overwrite an existing maxCommMode.
@@ -2266,7 +2266,7 @@ class TracedFailure(Identifiable, VariationPointCapable, ABC):
         """
         return self.id
 
-    def setId(self, value: Optional[PositiveInteger]) -> "TracedFailure":
+    def setId(self, value: Optional[PositiveInteger]) -> TracedFailure:
         """
         Sets the ID of detected failure used in reporting API as error or fault id.
         A None value is a no-op and does not overwrite an existing id.
@@ -2406,7 +2406,7 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
         """
         return self.initialStatus
 
-    def setInitialStatus(self, value: Optional[EventAcceptanceStatusEnum]) -> "DiagnosticEnableConditionNeeds":
+    def setInitialStatus(self, value: Optional[EventAcceptanceStatusEnum]) -> DiagnosticEnableConditionNeeds:
         """
         Sets a new initialStatus. A None value is a no-op and does not overwrite an existing initialStatus.
 
@@ -2485,7 +2485,7 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
         """
         return self.currentValueRef
 
-    def setCurrentValueRef(self, value: Optional[RefType]) -> "DiagnosticIoControlNeeds":
+    def setCurrentValueRef(self, value: Optional[RefType]) -> DiagnosticIoControlNeeds:
         """
         Sets the reference to the DiagnosticValueNeeds indicating the access to the current value via signalBasedDiagnostics.
         A None value is a no-op and does not overwrite an existing currentValueRef.
@@ -2509,7 +2509,7 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
         """
         return self.freezeCurrentStateSupported
 
-    def setFreezeCurrentStateSupported(self, value: Optional[Boolean]) -> "DiagnosticIoControlNeeds":
+    def setFreezeCurrentStateSupported(self, value: Optional[Boolean]) -> DiagnosticIoControlNeeds:
         """
         Sets whether the referenced port supports temporary freezing of I/O value.
         A None value is a no-op and does not overwrite an existing freezeCurrentStateSupported.
@@ -2533,7 +2533,7 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
         """
         return self.resetToDefaultSupported
 
-    def setResetToDefaultSupported(self, value: Optional[Boolean]) -> "DiagnosticIoControlNeeds":
+    def setResetToDefaultSupported(self, value: Optional[Boolean]) -> DiagnosticIoControlNeeds:
         """
         Sets the flag for the existence of the ResetToDefault operation in the service interface.
         A None value is a no-op and does not overwrite an existing resetToDefaultSupported.
@@ -2557,7 +2557,7 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
         """
         return self.shortTermAdjustmentSupported
 
-    def setShortTermAdjustmentSupported(self, value: Optional[Boolean]) -> "DiagnosticIoControlNeeds":
+    def setShortTermAdjustmentSupported(self, value: Optional[Boolean]) -> DiagnosticIoControlNeeds:
         """
         Sets whether the referenced port supports temporarily setting of I/O value to a specific value provided by the diagnostic tester.
         A None value is a no-op and does not overwrite an existing shortTermAdjustmentSupported.
@@ -2635,7 +2635,7 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
         """
         return self.operationCycle
 
-    def setOperationCycle(self, value: Optional[OperationCycleTypeEnum]) -> "DiagnosticOperationCycleNeeds":
+    def setOperationCycle(self, value: Optional[OperationCycleTypeEnum]) -> DiagnosticOperationCycleNeeds:
         """
         Sets the operation cycles types for the Dem to be supported by cycle-state APIs.
         A None value is a no-op and does not overwrite an existing operationCycle.
@@ -2700,7 +2700,7 @@ class DiagnosticStorageConditionNeeds(DiagnosticCapabilityElement):
         """
         return self.initialStatus
 
-    def setInitialStatus(self, value: Optional[StorageConditionStatusEnum]) -> "DiagnosticStorageConditionNeeds":
+    def setInitialStatus(self, value: Optional[StorageConditionStatusEnum]) -> DiagnosticStorageConditionNeeds:
         """
         Sets a new initialStatus. A None value is a no-op and does not overwrite an existing initialStatus.
 
@@ -2859,7 +2859,7 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
         """
         return self.dataLengthRequest
 
-    def setDataLengthRequest(self, value: Optional[PositiveInteger]) -> "DoIpRoutingActivationAuthenticationNeeds":
+    def setDataLengthRequest(self, value: Optional[PositiveInteger]) -> DoIpRoutingActivationAuthenticationNeeds:
         """
         Describes the length in byte of the additional information for RA authentication that is needed by the software entity. If the software entity is a software-component the attribute does not need to exist as the information is available via the length of the uint8 Array type. Otherwise (i.e the software entity is a Complex Driver) this attribute needs to be filled out if additional information is needed.
         A None value is a no-op and does not overwrite an existing dataLengthRequest.
@@ -2883,7 +2883,7 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
         """
         return self.dataLengthResponse
 
-    def setDataLengthResponse(self, value: Optional[PositiveInteger]) -> "DoIpRoutingActivationAuthenticationNeeds":
+    def setDataLengthResponse(self, value: Optional[PositiveInteger]) -> DoIpRoutingActivationAuthenticationNeeds:
         """
         Describes the length in byte of the additional information for RA authentication that is provided by the software entity. If the software entity is a software-component the attribute does not need to exist as the information is available via the length of the uint8 Array type. Otherwise (i.e the software entity is a Complex Driver) this attribute needs to be filled in if additional information is provided.
         A None value is a no-op and does not overwrite an existing dataLengthResponse.
@@ -2907,7 +2907,7 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
         """
         return self.routingActivationType
 
-    def setRoutingActivationType(self, value: Optional[NameToken]) -> "DoIpRoutingActivationAuthenticationNeeds":
+    def setRoutingActivationType(self, value: Optional[NameToken]) -> DoIpRoutingActivationAuthenticationNeeds:
         """
         Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain ``RA_`` + hex value representation of the integer value shall be used (i.e: ``RA_0xE1``).
         A None value is a no-op and does not overwrite an existing routingActivationType.
@@ -2960,7 +2960,7 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
         """
         return self.dataLengthRequest
 
-    def setDataLengthRequest(self, value: Optional[PositiveInteger]) -> "DoIpRoutingActivationConfirmationNeeds":
+    def setDataLengthRequest(self, value: Optional[PositiveInteger]) -> DoIpRoutingActivationConfirmationNeeds:
         """
         Describes the length in byte of the additional information for RA confirmation that is needed by the software entity. If the software entity is a software-component the attribute does not need to exist as the information is available via the length of the uint8 Array type. Otherwise (i.e the software entity is a Complex Driver) this attribute needs to be filled out if additional information is needed.
         A None value is a no-op and does not overwrite an existing dataLengthRequest.
@@ -2984,7 +2984,7 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
         """
         return self.dataLengthResponse
 
-    def setDataLengthResponse(self, value: Optional[PositiveInteger]) -> "DoIpRoutingActivationConfirmationNeeds":
+    def setDataLengthResponse(self, value: Optional[PositiveInteger]) -> DoIpRoutingActivationConfirmationNeeds:
         """
         Describes the length in byte of the additional information for RA confirmation that is provided by the software entity. If the software entity is a software-component the attribute does not need to exist as the information is available via the length of the uint8 Array type. Otherwise (i.e the software entity is a Complex Driver) this attribute needs to be filled out if additional information is provided.
         A None value is a no-op and does not overwrite an existing dataLengthResponse.
@@ -3008,7 +3008,7 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
         """
         return self.routingActivationType
 
-    def setRoutingActivationType(self, value: Optional[NameToken]) -> "DoIpRoutingActivationConfirmationNeeds":
+    def setRoutingActivationType(self, value: Optional[NameToken]) -> DoIpRoutingActivationConfirmationNeeds:
         """
         Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain ``RA_`` + hex value representation of the integer value shall be used (i.e: ``RA_0xE1``).
         A None value is a no-op and does not overwrite an existing routingActivationType.
@@ -3165,7 +3165,7 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
         """
         return self.controlledFidRef
 
-    def setControlledFidRef(self, value: Optional[RefType]) -> "FunctionInhibitionAvailabilityNeeds":
+    def setControlledFidRef(self, value: Optional[RefType]) -> FunctionInhibitionAvailabilityNeeds:
         """
         This reference represents the controlled FID.
         A None value is a no-op and does not overwrite an existing controlledFidRef.
@@ -3283,7 +3283,7 @@ class IdsMgrNeeds(ServiceNeeds):
         """
         return self.useSmartSensorApi
 
-    def setUseSmartSensorApi(self, value: Optional[Boolean]) -> "IdsMgrNeeds":
+    def setUseSmartSensorApi(self, value: Optional[Boolean]) -> IdsMgrNeeds:
         """
         This attribute controls whether the reporting of the security event shall be done by means of the smart sensor API.
         A None value is a no-op and does not overwrite an existing useSmartSensorApi.
@@ -3373,7 +3373,7 @@ class IndicatorStatusNeeds(ServiceNeeds):
         """
         return self.type
 
-    def setType(self, value: Optional[DiagnosticIndicatorTypeEnum]) -> "IndicatorStatusNeeds":
+    def setType(self, value: Optional[DiagnosticIndicatorTypeEnum]) -> IndicatorStatusNeeds:
         """
         Sets the type of the indicator.
         A None value is a no-op and does not overwrite an existing type.
@@ -3557,7 +3557,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
         """
         return self.applicationDataTypeRef
 
-    def setApplicationDataTypeRef(self, value: Optional[RefType]) -> "ObdMonitorServiceNeeds":
+    def setApplicationDataTypeRef(self, value: Optional[RefType]) -> ObdMonitorServiceNeeds:
         """
         Sets the reference to an ApplicationDataType that describes the scaling of the data reported by the software-component to the Dem.
         A None value is a no-op and does not overwrite an existing applicationDataTypeRef.
@@ -3581,7 +3581,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
         """
         return self.eventNeedsRef
 
-    def setEventNeedsRef(self, value: Optional[RefType]) -> "ObdMonitorServiceNeeds":
+    def setEventNeedsRef(self, value: Optional[RefType]) -> ObdMonitorServiceNeeds:
         """
         Sets the reference that identifies the corresponding diagnostic event.
         A None value is a no-op and does not overwrite an existing eventNeedsRef.
@@ -3605,7 +3605,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
         """
         return self.unitAndScalingId
 
-    def setUnitAndScalingId(self, value: Optional[PositiveInteger]) -> "ObdMonitorServiceNeeds":
+    def setUnitAndScalingId(self, value: Optional[PositiveInteger]) -> ObdMonitorServiceNeeds:
         """
         Sets the unit and scaling ID according to ISO 15031-5.
         A None value is a no-op and does not overwrite an existing unitAndScalingId.
@@ -3629,7 +3629,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
         """
         return self.updateKind
 
-    def setUpdateKind(self, value: Optional[DiagnosticMonitorUpdateKindEnum]) -> "ObdMonitorServiceNeeds":
+    def setUpdateKind(self, value: Optional[DiagnosticMonitorUpdateKindEnum]) -> ObdMonitorServiceNeeds:
         """
         Sets the settings for the acceptance of updates to the Dem.
         A None value is a no-op and does not overwrite an existing updateKind.
@@ -3717,7 +3717,7 @@ class ObdRatioDenominatorNeeds(ServiceNeeds):
         """
         return self.denominatorCondition
 
-    def setDenominatorCondition(self, value: Optional[DiagnosticDenominatorConditionEnum]) -> "ObdRatioDenominatorNeeds":
+    def setDenominatorCondition(self, value: Optional[DiagnosticDenominatorConditionEnum]) -> ObdRatioDenominatorNeeds:
         """
         This attribute indicates the applicable denominator condition.
         A None value is a no-op and does not overwrite an existing denominatorCondition.
@@ -3770,7 +3770,7 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
         """
         return self.connectionType
 
-    def setConnectionType(self, value: Optional[ObdRatioConnectionKindEnum]) -> "ObdRatioServiceNeeds":
+    def setConnectionType(self, value: Optional[ObdRatioConnectionKindEnum]) -> ObdRatioServiceNeeds:
         """
         Defines how the DEM is connected to the component or module to perform the IUMPR (In use monitor performance ratio) service.
         A None value is a no-op and does not overwrite an existing connectionType.
@@ -3794,7 +3794,7 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
         """
         return self.rateBasedMonitoredEventRef
 
-    def setRateBasedMonitoredEventRef(self, value: Optional[RefType]) -> "ObdRatioServiceNeeds":
+    def setRateBasedMonitoredEventRef(self, value: Optional[RefType]) -> ObdRatioServiceNeeds:
         """
         The rate based monitored Diagnostic Event.
         A None value is a no-op and does not overwrite an existing rateBasedMonitoredEventRef.
@@ -3818,7 +3818,7 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
         """
         return self.usedFidRef
 
-    def setUsedFidRef(self, value: Optional[RefType]) -> "ObdRatioServiceNeeds":
+    def setUsedFidRef(self, value: Optional[RefType]) -> ObdRatioServiceNeeds:
         """
         This represents the primary Function Inhibition Identifier used for the rate based monitor. This is an optional attribute.
         A None value is a no-op and does not overwrite an existing usedFidRef.
@@ -3912,7 +3912,7 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
         """
         return self.verificationStatusIndicationMode
 
-    def setVerificationStatusIndicationMode(self, value: Optional[VerificationStatusIndicationModeEnum]) -> "SecureOnBoardCommunicationNeeds":
+    def setVerificationStatusIndicationMode(self, value: Optional[VerificationStatusIndicationModeEnum]) -> SecureOnBoardCommunicationNeeds:
         """
         This attribute provides the ability to control the mode in which the application software is notified about the result of authentication attempts.
         A None value is a no-op and does not overwrite an existing verificationStatusIndicationMode.
@@ -4142,7 +4142,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
         """
         return self.activateAtStart
 
-    def setActivateAtStart(self, value: Optional[Boolean]) -> "SupervisedEntityNeeds":
+    def setActivateAtStart(self, value: Optional[Boolean]) -> SupervisedEntityNeeds:
         """
         Sets the supervision activation status of the Supervised Entity to be enabled/disabled at start.
         A None value is a no-op and does not overwrite an existing activateAtStart.
@@ -4157,7 +4157,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
             self.activateAtStart = value
         return self
 
-    def addCheckpointsRef(self, value: Optional[RefType]) -> "SupervisedEntityNeeds":
+    def addCheckpointsRef(self, value: Optional[RefType]) -> SupervisedEntityNeeds:
         """
         Adds a reference indicating a checkpoint belonging to the Supervised Entity.
         A None value is a no-op and does not append anything.
@@ -4190,7 +4190,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
         """
         return self.enableDeactivation
 
-    def setEnableDeactivation(self, value: Optional[Boolean]) -> "SupervisedEntityNeeds":
+    def setEnableDeactivation(self, value: Optional[Boolean]) -> SupervisedEntityNeeds:
         """
         Sets whether the software-component shall be allowed to deactivate supervision of this SupervisedEntity.
         A None value is a no-op and does not overwrite an existing enableDeactivation.
@@ -4214,7 +4214,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
         """
         return self.expectedAliveCycle
 
-    def setExpectedAliveCycle(self, value: Optional[TimeValue]) -> "SupervisedEntityNeeds":
+    def setExpectedAliveCycle(self, value: Optional[TimeValue]) -> SupervisedEntityNeeds:
         """
         Sets the expected cycle time of the alive trigger of this SupervisedEntity (in seconds).
         A None value is a no-op and does not overwrite an existing expectedAliveCycle.
@@ -4238,7 +4238,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
         """
         return self.maxAliveCycle
 
-    def setMaxAliveCycle(self, value: Optional[TimeValue]) -> "SupervisedEntityNeeds":
+    def setMaxAliveCycle(self, value: Optional[TimeValue]) -> SupervisedEntityNeeds:
         """
         Sets the maximum cycle time of the alive trigger of this SupervisedEntity (in seconds).
         A None value is a no-op and does not overwrite an existing maxAliveCycle.
@@ -4262,7 +4262,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
         """
         return self.minAliveCycle
 
-    def setMinAliveCycle(self, value: Optional[TimeValue]) -> "SupervisedEntityNeeds":
+    def setMinAliveCycle(self, value: Optional[TimeValue]) -> SupervisedEntityNeeds:
         """
         Sets the minimum cycle time of the alive trigger of this SupervisedEntity (in seconds).
         A None value is a no-op and does not overwrite an existing minAliveCycle.
@@ -4286,7 +4286,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
         """
         return self.toleratedFailedCycles
 
-    def setToleratedFailedCycles(self, value: Optional[PositiveInteger]) -> "SupervisedEntityNeeds":
+    def setToleratedFailedCycles(self, value: Optional[PositiveInteger]) -> SupervisedEntityNeeds:
         """
         Sets the number of consecutive failed alive cycles for this SupervisedEntity which shall be tolerated until the supervision status is set to WDGM_ALIVE_EXPIRED.
         A None value is a no-op and does not overwrite an existing toleratedFailedCycles.
@@ -4372,7 +4372,7 @@ class PossibleErrorReaction(Identifiable):
         """
         return self.reactionCode
 
-    def setReactionCode(self, value: Optional[PositiveInteger]) -> "PossibleErrorReaction":
+    def setReactionCode(self, value: Optional[PositiveInteger]) -> PossibleErrorReaction:
         """
         Sets the fault reaction code which can be returned by transient fault handler.
         A None value is a no-op and does not overwrite an existing reactionCode.

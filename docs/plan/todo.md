@@ -1,1 +1,1 @@
-/sync-autosar-class the unchecked classes one by one and commit the modification first without spec verified, then list the modified class list and ask for confirmation the spec verified stamp together.
+sync-autosar-class the unchecked classes one by one in [Group3.md](./docs/plan/sync-todo/Group3.md) in git worktree environment. And commit the modification to a new feature branch in git worktree environment from main branch first without spec verified, then list the modified class list and ask for confirmation the spec verified stamp together.

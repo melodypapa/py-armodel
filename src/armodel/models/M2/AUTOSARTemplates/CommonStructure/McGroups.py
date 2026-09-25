@@ -51,7 +51,7 @@ class McGroup(ARElement):
         # A sub-group that is seen as part of the enclosing group. Tags: atp.Splitkey=subGroup xml.sequenceOffset=10
         self.subGroupRefs: List[RefType] = []
 
-    def addMcFunctionRef(self, value: Optional[RefType]) -> "McGroup":
+    def addMcFunctionRef(self, value: Optional[RefType]) -> McGroup:
         """
         Adds a reference to an McFunction that is seen as part of the enclosing group.
         A None value is a no-op and does not append anything.
@@ -84,7 +84,7 @@ class McGroup(ARElement):
         """
         return self.refCalprmSet
 
-    def setRefCalprmSet(self, value: Optional[McGroupDataRefSet]) -> "McGroup":
+    def setRefCalprmSet(self, value: Optional[McGroupDataRefSet]) -> McGroup:
         """
         Sets the set of adjustable data (= calibration parameters) referred by this McGroup.
         A None value is a no-op and does not overwrite an existing set.
@@ -108,7 +108,7 @@ class McGroup(ARElement):
         """
         return self.refMeasurementSet
 
-    def setRefMeasurementSet(self, value: Optional[McGroupDataRefSet]) -> "McGroup":
+    def setRefMeasurementSet(self, value: Optional[McGroupDataRefSet]) -> McGroup:
         """
         Sets the set of measurable belonging to this Mc Group.
         A None value is a no-op and does not overwrite an existing set.
@@ -123,7 +123,7 @@ class McGroup(ARElement):
             self.refMeasurementSet = value
         return self
 
-    def addSubGroupRef(self, value: Optional[RefType]) -> "McGroup":
+    def addSubGroupRef(self, value: Optional[RefType]) -> McGroup:
         """
         Adds a reference to a sub-group that is seen as part of the enclosing group.
         A None value is a no-op and does not append anything.
@@ -174,7 +174,7 @@ class McGroupDataRefSet(ARObject):
         # Refers to a data instance within MC support data that is part of the set, i.e. a calibration parameter or measured variable. Tags: xml.sequenceOffset=60
         self.mcDataInstanceRefs: List[RefType] = []
 
-    def addFlatMapEntryRef(self, value: Optional[RefType]) -> "McGroupDataRefSet":
+    def addFlatMapEntryRef(self, value: Optional[RefType]) -> McGroupDataRefSet:
         """
         Adds a reference to an entry in a FlatMap that is part of the set, for example a calibration parameter or measured variable.
         A None value is a no-op and does not append anything.
@@ -198,7 +198,7 @@ class McGroupDataRefSet(ARObject):
         """
         return self.flatMapEntryRefs
 
-    def addMcDataInstanceRef(self, value: Optional[RefType]) -> "McGroupDataRefSet":
+    def addMcDataInstanceRef(self, value: Optional[RefType]) -> McGroupDataRefSet:
         """
         Adds a reference to a data instance within MC support data that is part of the set, i.e. a calibration parameter or measured variable.
         A None value is a no-op and does not append anything.

@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
     ModeInBswInstanceRef,
+    ModeInSwcBswInstanceRef,
     ModeInSwcInstanceRef,
     TimingExtensionResource,
     TimingModeInstance,
@@ -104,6 +105,41 @@ class TestWriteTimingInstanceRefs:
         assert len(element.findall("*")) == 5
         assert element.find("BASE-REF") is None
 
+    def test_write_mode_in_swc_xsd_element_order(self):
+        iref = self._build_swc_iref()
+
+        element = ET.Element("MODE-IN-SWC-INSTANCE-REF")
+        ARXMLWriter().writeModeInSwcInstanceRef(element, iref)
+        assert [child.tag for child in element] == [
+            "CONTEXT-COMPONENT-REF",
+            "CONTEXT-COMPONENT-REF",
+            "CONTEXT-PORT-REF",
+            "CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF",
+            "TARGET-MODE-DECLARATION-REF",
+        ]
+        assert element.find("CONTEXT-PORT-REF").text == "/Pkg/Port"
+        assert element.find("CONTEXT-PORT-REF").attrib["DEST"] == "PORT-PROTOTYPE"
+        assert element.find("CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF").text == "/Pkg/Mdgp"
+        assert element.find("CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF").attrib["DEST"] == "MODE-DECLARATION-GROUP-PROTOTYPE"
+        assert element.find("TARGET-MODE-DECLARATION-REF").text == "/Pkg/Mode"
+        assert element.find("TARGET-MODE-DECLARATION-REF").attrib["DEST"] == "MODE-DECLARATION"
+
+    def test_write_mode_in_swc_empty(self):
+        iref = ModeInSwcInstanceRef()
+
+        element = ET.Element("MODE-IN-SWC-INSTANCE-REF")
+        ARXMLWriter().writeModeInSwcInstanceRef(element, iref)
+        assert len(element.findall("*")) == 0
+        assert element.find("BASE-REF") is None
+
+        reloaded = ARXMLParser().readModeInSwcInstanceRef(_round_trip(element))
+        assert isinstance(reloaded, ModeInSwcInstanceRef)
+        assert reloaded.getBaseRef() is None
+        assert reloaded.getContextComponentRefs() == []
+        assert reloaded.getContextModeDeclarationGroupPrototypeRef() is None
+        assert reloaded.getContextPortRef() is None
+        assert reloaded.getTargetModeDeclarationRef() is None
+
     def test_round_trip_timing_mode_instance(self):
         parent = self._parent()
         instance = TimingModeInstance(parent, "ModeInstance1")
@@ -123,6 +159,27 @@ class TestWriteTimingInstanceRefs:
         assert isinstance(mode_instance, ModeInSwcInstanceRef)
         assert mode_instance.getContextComponentRefs()[0].getValue() == "/Pkg/SwcProto1"
         assert mode_instance.getContextPortRef().getValue() == "/Pkg/Port"
+        assert mode_instance.getTargetModeDeclarationRef().getValue() == "/Pkg/Mode"
+
+    def test_round_trip_timing_mode_instance_bsw_iref(self):
+        parent = self._parent()
+        instance = TimingModeInstance(parent, "ModeInstance1")
+        bsw_iref = self._build_bsw_iref()
+        instance.setModeInstance(bsw_iref)
+
+        element = ET.Element("TIMING-MODE-INSTANCE")
+        ARXMLWriter().writeTimingModeInstance(element, instance)
+        mode_instance_tag = element.find("MODE-INSTANCE")
+        assert mode_instance_tag is not None
+        assert mode_instance_tag.find("MODE-IN-BSW-INSTANCE-REF") is not None
+
+        reloaded = TimingModeInstance(parent, "ModeInstance1")
+        ARXMLParser().readTimingModeInstance(_round_trip(element), reloaded)
+        mode_instance = reloaded.getModeInstance()
+        assert isinstance(mode_instance, ModeInSwcBswInstanceRef)
+        assert isinstance(mode_instance, ModeInBswInstanceRef)
+        assert mode_instance.getContextBswImplementationRef().getValue() == "/Pkg/BswImpl"
+        assert mode_instance.getContextModeDeclarationGroupPrototypeRef().getValue() == "/Pkg/Mdgp"
         assert mode_instance.getTargetModeDeclarationRef().getValue() == "/Pkg/Mode"
 
     def test_write_timing_mode_instance_no_mode(self):

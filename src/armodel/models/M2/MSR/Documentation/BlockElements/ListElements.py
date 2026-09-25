@@ -1,7 +1,7 @@
 from __future__ import annotations
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
-from typing import TYPE_CHECKING, List, Optional
+from typing import List, Optional
 
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -9,81 +9,116 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 
-if TYPE_CHECKING:
-    from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-
 
 class ListEnum(AREnum):
     """
-    Enumeration for list numbering types: number or unnumber.
+    This meta-class represents the notation of the various types of lists.
     """
 
     # ListEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.10, p.295
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ARList.type (TYPE attribute; consumer: ARList)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
+    # This indicates that the list is an numerated list. Tags: atp.EnumerationLiteralIndex=0
     NUMBER = "number"
+
+    # This indicates that it is an enumeration (bulleted list) Tags: atp.EnumerationLiteralIndex=1
     UNNUMBER = "unnumber"
 
-    def __init__(
-        self,
-    ):
-        super().__init__((ListEnum.NUMBER, ListEnum.UNNUMBER))
+    def __init__(self):
+        super().__init__([ListEnum.NUMBER, ListEnum.UNNUMBER])
 
 
 class Item(Paginateable, VariationPointCapable):
     """
-    An item within a list with content defined by itemContents.
+    This meta-class represents one particular item in a list.
     """
 
     # Item method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getItemContents              [x] impl  [ ] docstring  [ ] test
-    # [ ] setItemContents              [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.9, p.295
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getItemContents    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setItemContents    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (consume path completed by the ARList row, 2026-09-24: reader getListElements /
+    # writer setListElement instantiate Item and map itemContents <-> the inline
+    # DocumentationBlock content of each <ITEM> element; the itemContents payload has
+    # xml.roleElement=false, so it carries no wrapper element of its own)
 
     def __init__(self):
         super().__init__()
 
-        self.itemContents = None
+        # this represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
+        self.itemContents: Optional[DocumentationBlock] = None
 
-    def getItemContents(self):
+    def getItemContents(self) -> Optional[DocumentationBlock]:
+        """
+        this represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
+        """
         return self.itemContents
 
-    def setItemContents(self, value):
-        self.itemContents = value
+    def setItemContents(self, value: Optional[DocumentationBlock]) -> Item:
+        """
+        this represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
+        A None value is a no-op and does not overwrite an existing itemContents.
+        """
+        if value is not None:
+            self.itemContents = value
         return self
 
 
-class ARList(Paginateable):
+class ARList(Paginateable, VariationPointCapable):
     """
     This meta-class represents the ability to express a list. The kind of list is specified in the attribute.
-    In AUTOSAR standard class name shall be List, but it is conflict with Python List and renamed to ARList
     """
 
     # ARList method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getItems                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addItem                      [x] impl  [ ] docstring  [ ] test
-    # [ ] getType                      [x] impl  [ ] docstring  [ ] test
-    # [ ] setType                      [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.8, p.295
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (spec class name: List — renamed ARList for the Python builtin clash; consumer: DocumentationBlock.list)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getItems  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addItem   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setType   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.items = []  # type: List[Item]
-        self.type = None  # type: ListEnum
+        # this represents a particular list item. Note that this is again a documentation block.Therefore lists can be arbitrarily nested. It is discouraged to have a very deep nesting. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=item, item.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        self.items: List[Item] = []
 
-    def getItems(self):
+        # The type of the list. Default is "UNNUMBER" Tags: xml.attribute=true
+        self.type: Optional[ListEnum] = None
+
+    def getItems(self) -> List[Item]:
+        """
+        this represents a particular list item. Note that this is again a documentation block.Therefore lists can be arbitrarily nested. It is discouraged to have a very deep nesting. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=item, item.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        """
         return self.items
 
-    def addItem(self, value: Item):
-        self.items.append(value)
+    def addItem(self, value: Optional[Item]) -> ARList:
+        """
+        this represents a particular list item. Note that this is again a documentation block.Therefore lists can be arbitrarily nested. It is discouraged to have a very deep nesting. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=item, item.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and is not appended.
+        """
+        if value is not None:
+            self.items.append(value)
         return self
 
-    def getType(self):
+    def getType(self) -> Optional[ListEnum]:
+        """
+        The type of the list. Default is "UNNUMBER" Tags: xml.attribute=true
+        """
         return self.type
 
-    def setType(self, value):
-        self.type = value
+    def setType(self, value: Optional[ListEnum]) -> ARList:
+        """
+        The type of the list. Default is "UNNUMBER" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing type.
+        """
+        if value is not None:
+            self.type = value
         return self
 
 
@@ -149,7 +184,7 @@ class IndentSample(ARObject):
         """
         return self.itemLabelPos
 
-    def setItemLabelPos(self, value: Optional[ItemLabelPosEnum]) -> "IndentSample":
+    def setItemLabelPos(self, value: Optional[ItemLabelPosEnum]) -> IndentSample:
         """
         The position of the label in case the label is too long. The default is "NO-NEWLINE". A None value is a no-op and does not overwrite an existing itemLabelPos.
 
@@ -160,7 +195,7 @@ class IndentSample(ARObject):
             self.itemLabelPos = value
         return self
 
-    def addL2(self, value: Optional[LOverviewParagraph]) -> "IndentSample":
+    def addL2(self, value: Optional[LOverviewParagraph]) -> IndentSample:
         """
         This represents the indent sample in one particular language. A None value is a no-op and is not appended.
 
@@ -205,7 +240,7 @@ class LabeledItem(ARObject, VariationPointCapable):
         self.helpEntry: Optional[String] = None
 
         # This represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes.
-        self.itemContents: Optional["DocumentationBlock"] = None
+        self.itemContents: Optional[DocumentationBlock] = None
 
         # This is the label of the item.
         self.itemLabel: Optional[MultiLanguageOverviewParagraph] = None
@@ -219,7 +254,7 @@ class LabeledItem(ARObject, VariationPointCapable):
         """
         return self.helpEntry
 
-    def setHelpEntry(self, value: Optional[String]) -> "LabeledItem":
+    def setHelpEntry(self, value: Optional[String]) -> LabeledItem:
         """
         This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. A None value is a no-op and does not overwrite an existing helpEntry.
 
@@ -230,7 +265,7 @@ class LabeledItem(ARObject, VariationPointCapable):
             self.helpEntry = value
         return self
 
-    def getItemContents(self) -> Optional["DocumentationBlock"]:
+    def getItemContents(self) -> Optional[DocumentationBlock]:
         """
         This represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes.
 
@@ -239,7 +274,7 @@ class LabeledItem(ARObject, VariationPointCapable):
         """
         return self.itemContents
 
-    def setItemContents(self, value: Optional["DocumentationBlock"]) -> "LabeledItem":
+    def setItemContents(self, value: Optional[DocumentationBlock]) -> LabeledItem:
         """
         This represents the actual content of the item. It is composed of a DocumentationBlock. This way it is possible to use simple paragraphs to nested lists, formula, figures or notes. A None value is a no-op and does not overwrite an existing itemContents.
 
@@ -259,7 +294,7 @@ class LabeledItem(ARObject, VariationPointCapable):
         """
         return self.itemLabel
 
-    def setItemLabel(self, value: Optional[MultiLanguageOverviewParagraph]) -> "LabeledItem":
+    def setItemLabel(self, value: Optional[MultiLanguageOverviewParagraph]) -> LabeledItem:
         """
         This is the label of the item. A None value is a no-op and does not overwrite an existing itemLabel.
 
@@ -304,7 +339,7 @@ class LabeledList(ARObject, VariationPointCapable):
         """
         return self.indentSample
 
-    def setIndentSample(self, value: Optional[IndentSample]) -> "LabeledList":
+    def setIndentSample(self, value: Optional[IndentSample]) -> LabeledList:
         """
         This is a sample item. This sample is used by a rendering system to measure out the width of indentation. Since this depends on the particular fontsize etc. the indentation cannot be specified e.g. in mm. A None value is a no-op and does not overwrite an existing indentSample.
 
@@ -315,7 +350,7 @@ class LabeledList(ARObject, VariationPointCapable):
             self.indentSample = value
         return self
 
-    def addLabeledItem(self, value: Optional[LabeledItem]) -> "LabeledList":
+    def addLabeledItem(self, value: Optional[LabeledItem]) -> LabeledList:
         """
         This represents one particular item in the labeled list. A None value is a no-op and is not appended.
 
@@ -355,18 +390,18 @@ class DefItem(ARObject, VariationPointCapable):
         super().__init__()
 
         # This represents the definition part of the DefItem.
-        self.def_doc: Optional["DocumentationBlock"] = None
+        self.def_doc: Optional[DocumentationBlock] = None
 
         # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator.
         self.helpEntry: Optional[String] = None
 
-    def getDef(self) -> Optional["DocumentationBlock"]:
+    def getDef(self) -> Optional[DocumentationBlock]:
         """
         This represents the definition part of the DefItem.
         """
         return self.def_doc
 
-    def setDef(self, value: Optional["DocumentationBlock"]) -> "DefItem":
+    def setDef(self, value: Optional[DocumentationBlock]) -> DefItem:
         """
         This represents the definition part of the DefItem. A None value is a no-op and does not overwrite an existing def.
         """
@@ -380,7 +415,7 @@ class DefItem(ARObject, VariationPointCapable):
         """
         return self.helpEntry
 
-    def setHelpEntry(self, value: Optional[String]) -> "DefItem":
+    def setHelpEntry(self, value: Optional[String]) -> DefItem:
         """
         This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. A None value is a no-op and does not overwrite an existing helpEntry.
         """
@@ -408,7 +443,7 @@ class DefList(ARObject, VariationPointCapable):
         # This is one entry in the definition list.
         self.defItems: List[DefItem] = []
 
-    def addDefItem(self, value: Optional[DefItem]) -> "DefList":
+    def addDefItem(self, value: Optional[DefItem]) -> DefList:
         """
         This is one entry in the definition list. A None value is a no-op and is not appended.
 
@@ -427,3 +462,9 @@ class DefList(ARObject, VariationPointCapable):
             The entries in the definition list
         """
         return self.defItems
+
+
+# TextModel.BlockElements imports this module at its top, so importing DocumentationBlock
+# any earlier would be circular. The name must exist in this module's runtime globals for
+# typing.get_type_hints on Python 3.8 (bpo-39291 ignores caller-supplied globalns).
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock  # noqa: E402

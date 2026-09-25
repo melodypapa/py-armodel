@@ -113,7 +113,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     NumericalOrText,
     NumericalRuleBasedValueSpecification,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter, DataFilterTypeEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap, RtePluginProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, DependencyUsageEnum, Implementation, ImplementationProps, ProgramminglanguageEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType, ImplementationDataTypeElement
@@ -263,6 +263,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDHeaderIdRange,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (
+    ConcreteTDEventVfb,
     TDEventModeDeclaration,
     TDEventModeDeclarationTypeEnum,
     TDEventOperation,
@@ -439,6 +440,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
     BuildEngineeringObject,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AtpMixedString import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
@@ -489,6 +491,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
     ConditionByFormula,
     PostBuildVariantCondition,
     PostBuildVariantCriterion,
+    PostBuildVariantCriterionValue,
     PredefinedVariant,
     SwSystemconstantValueSet,
     SwSystemconstValue,
@@ -674,7 +677,14 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDoc
     SwComponentDocumentation,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import ExternalTriggeringPoint, RunnableEntity, RunnableEntityArgument, SwcExclusiveAreaPolicy, SwcInternalBehavior
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+    ExternalTriggeringPoint,
+    InternalTriggeringPoint,
+    RunnableEntity,
+    RunnableEntityArgument,
+    SwcExclusiveAreaPolicy,
+    SwcInternalBehavior,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AccessCount, AccessCountSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ArVariableInImplementationDataInstanceRef, AutosarVariableRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
@@ -826,9 +836,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecProps,
     MacSecRoleEnum,
     SecOcCryptoServiceMapping,
+    TlsCryptoCipherSuite,
     TlsCryptoCipherSuiteProps,
     TlsCryptoServiceMapping,
     TlsPskIdentity,
+    TlsVersionEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -1026,9 +1038,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
+    SOMEIPMessageTypeEnum,
+    SOMEIPTransformationISignalProps,
+    TlvDataIdDefinition,
+    TlvDataIdDefinitionSet,
     TransformationDescription,
     TransformationISignalProps,
     TransformationTechnology,
+    UserDefinedTransformationISignalProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
     CanTpAddress,
@@ -1066,7 +1083,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
 )
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, DataConstrRule, InternalConstrs, PhysConstrs, ScaleConstr, ScaleConstrValidityEnum
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdf, Sdg, SdgContents
-from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
+from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit, UnitGroup
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import MemoryAllocationKeywordPolicyType, MemorySectionType, SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam, SwGenericAxisParamType
@@ -1105,7 +1122,7 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
 )
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryResultChapter, MsrQueryResultTopic1, MsrQueryTopic1
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, ItemLabelPosEnum, LabeledItem, LabeledList
+from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, Item, ItemLabelPosEnum, LabeledItem, LabeledList, ListEnum
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note, NoteTypeEnum
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import ChapterEnumBreak, DocumentViewSelectable, KeepWithPreviousEnum, Paginateable
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
@@ -1127,7 +1144,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.InlineAttributeEnums import (
     ShowSeeEnum,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Superscript, Tt, Xdoc, Xfile, Xref, XrefTarget
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LVerbatim, MixedContentForLongName, SlParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LPlainText, LVerbatim, MixedContentForLongName, SlParagraph
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
 from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
@@ -1273,20 +1290,37 @@ class ARXMLParser(AbstractARXMLParser):
                 condition.setBindingTime(BindingTimeEnum().setValue(binding_time))
             else:
                 self.notImplemented("Unsupported BINDING-TIME <%s>" % element.attrib["BINDING-TIME"])
+        if element.text is not None and element.text.strip() != "":
+            self.readMixedStringText(element, condition)
         return condition
 
     def readPostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition) -> PostBuildVariantCondition:
         self.readARObject(element, condition)
-        condition.setMatchingCriterionRef(self.getChildElementRefType("", element, "MATCHING-CRITERION-REF"))
+        # MATCHING-CRITERION-REF and VALUE both carry minOccurs="0" in the XSD
+        # (AUTOSAR_00052.xsd group POST-BUILD-VARIANT-CONDITION) — an empty
+        # POST-BUILD-VARIANT-CONDITION is schema-legal and parses to an empty model.
+        condition.setMatchingCriterionRef(self.getChildElementOptionalRefType(element, "MATCHING-CRITERION-REF"))
         condition.setValue(self.getChildElementOptionalIntegerValue(element, "VALUE"))
         return condition
+
+    def readPostBuildVariantCriterionValue(self, element: ET.Element, value: PostBuildVariantCriterionValue) -> PostBuildVariantCriterionValue:
+        self.readARObject(element, value)
+        # VARIANT-CRITERION-REF, VALUE and ANNOTATIONS all carry minOccurs="0" in the XSD
+        # (AUTOSAR_00052.xsd group POST-BUILD-VARIANT-CRITERION-VALUE) — an empty
+        # POST-BUILD-VARIANT-CRITERION-VALUE is schema-legal and parses to an empty model.
+        value.setVariantCriterionRef(self.getChildElementOptionalRefType(element, "VARIANT-CRITERION-REF"))
+        value.setValue(self.getChildElementOptionalIntegerValue(element, "VALUE"))
+        for annotation in self.getAnnotations(element):
+            value.addAnnotation(annotation)
+        return value
 
     def readVariationPoint(self, element: ET.Element, variation_point: VariationPoint) -> VariationPoint:
         self.readARObject(element, variation_point)
         variation_point.setShortLabel(self.getChildElementOptionalIdentifier(element, "SHORT-LABEL"))
         variation_point.setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC"))
         variation_point.setBlueprintCondition(self.getDocumentationBlock(element, "BLUEPRINT-CONDITION"))
-        # FORMAL-BLUEPRINT-CONDITION is obsolete (atp.Status="obsolete") and has no
+        # FORMAL-BLUEPRINT-CONDITION is removed (atp.Status="removed" in the R23-11
+        # XSD, AUTOSAR_00052.xsd group VARIATION-POINT line 130012) and has no
         # model attribute — deliberately not read.
         formal_element = self.find(element, "FORMAL-BLUEPRINT-GENERATOR")
         if formal_element is not None:
@@ -1380,9 +1414,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "%s/SHORT-NAME-FRAGMENT" % key):
             fragment = ShortNameFragment()
             self.readARObject(child_element, fragment)
-            role_element = self.find(child_element, "ROLE")
-            if role_element is not None:
-                fragment.setRole(role_element.text)
+            fragment.setRole(self.getChildElementOptionalString(child_element, "ROLE"))
             fragment.setFragment(self.getChildElementOptionalIdentifier(child_element, "FRAGMENT"))
             fragments.append(fragment)
         return fragments
@@ -1679,6 +1711,8 @@ class ARXMLParser(AbstractARXMLParser):
             l2.setValue(child_element.text)
             if "L" in child_element.attrib:
                 l2.setL(child_element.attrib["L"])  # noqa: E741
+            if "BLUEPRINT-VALUE" in child_element.attrib:
+                l2.setBlueprintValue(child_element.attrib["BLUEPRINT-VALUE"])
             paragraph.addL2(l2)
 
     def getMultiLanguageOverviewParagraph(self, element: ET.Element, key: str) -> MultiLanguageOverviewParagraph:
@@ -1843,31 +1877,24 @@ class ARXMLParser(AbstractARXMLParser):
 
             if key == "DATA-RECEIVE-POINT-BY-ARGUMENTS":
                 variable_access = parent.createDataReceivePointByArgument(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             elif key == "DATA-RECEIVE-POINT-BY-VALUES":
                 variable_access = parent.createDataReceivePointByValue(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             elif key == "DATA-READ-ACCESSS":
                 variable_access = parent.createDataReadAccess(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             elif key == "DATA-WRITE-ACCESSS":
                 variable_access = parent.createDataWriteAccess(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             elif key == "DATA-SEND-POINTS":
                 variable_access = parent.createDataSendPoint(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             elif key == "WRITTEN-LOCAL-VARIABLES":
                 variable_access = parent.createWrittenLocalVariable(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             elif key == "READ-LOCAL-VARIABLES":
                 variable_access = parent.createReadLocalVariable(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             else:
                 self.notImplemented("Unsupported Variable Accesss <%s>" % key)
                 supported = False
 
             if supported:
-                self.readIdentifiable(child_element, variable_access)
+                self.readVariableAccess(child_element, variable_access)
 
     def readBswModuleDescriptionImplementedEntryRefs(self, element: ET.Element, parent: BswModuleDescription):
         for child_element in self.findall(element, "PROVIDED-ENTRYS/BSW-MODULE-ENTRY-REF-CONDITIONAL"):
@@ -3018,7 +3045,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported INTERVAL-TYPE <%s>" % element.attrib["INTERVAL-TYPE"])
         if element.text is not None and element.text.strip() != "":
-            avp.setText(element.text)
+            self.readMixedStringText(element, avp)
         return avp
 
     def readTimingDescriptionEventChain(self, element: ET.Element, chain: TimingDescriptionEventChain):
@@ -3112,6 +3139,9 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "TD-EVENT-VFB-REFERENCE":
                 event = TDEventVfbReference(extension, short_name)
                 self.readTDEventVfbReference(child_element, event)
+            elif tag_name == "TD-EVENT-VFB":
+                event = ConcreteTDEventVfb(extension, short_name)
+                self.readTDEventVfb(child_element, event)
             elif tag_name == "TD-EVENT-VARIABLE-DATA-PROTOTYPE":
                 event = TDEventVariableDataPrototype(extension, short_name)
                 self.readTDEventVariableDataPrototype(child_element, event)
@@ -3163,6 +3193,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "TD-EVENT-SLLET-PORT":
                 event = TDEventSLLETPort(extension, short_name)
                 self.readTDEventSLLETPort(child_element, event)
+            elif tag_name == "TIMING-DESCRIPTION-EVENT-CHAIN":
+                event = TimingDescriptionEventChain(extension, short_name)
+                self.readTimingDescriptionEventChain(child_element, event)
             else:
                 self.notImplemented("Unsupported TIMING-DESCRIPTIONS item <%s>" % tag_name)
                 continue
@@ -3309,7 +3342,7 @@ class ARXMLParser(AbstractARXMLParser):
         formula.setModeRef(self.getChildElementOptionalRefType(element, "MODE-REF"))
         formula.setVariableRef(self.getChildElementOptionalRefType(element, "VARIABLE-REF"))
         if element.text is not None and element.text.strip() != "":
-            formula.setText(element.text)
+            self.readMixedStringText(element, formula)
         return formula
 
     def readTimingConditionFormula(self, parent, element: ET.Element) -> TimingConditionFormula:
@@ -3321,7 +3354,7 @@ class ARXMLParser(AbstractARXMLParser):
         tcf.setTimingModeRef(self.getChildElementOptionalRefType(element, "TIMING-MODE-REF"))
         tcf.setTimingVariableRef(self.getChildElementOptionalRefType(element, "TIMING-VARIABLE-REF"))
         if element.text is not None and element.text.strip() != "":
-            tcf.setText(element.text)
+            self.readMixedStringText(element, tcf)
         return tcf
 
     def readTimingCondition(self, element: ET.Element, condition: TimingCondition):
@@ -4505,7 +4538,7 @@ class ARXMLParser(AbstractARXMLParser):
             # self.logger.debug("read MemorySections %s" % memory_section.getShortName())
 
     def readMultidimensionalTime(self, element: ET.Element, time: MultidimensionalTime):
-        time.setCseCode(self.getChildElementOptionalLiteral(element, "CSE-CODE"))
+        time.setCseCode(self.getChildElementOptionalCseCodeType(element, "CSE-CODE"))
         time.setCseCodeFactor(self.getChildElementOptionalIntegerValue(element, "CSE-CODE-FACTOR"))
 
     def readConfidenceInterval(self, element: ET.Element, interval: ConfidenceInterval):
@@ -4975,7 +5008,7 @@ class ARXMLParser(AbstractARXMLParser):
         return engineering_object
 
     def readBuildActionIoElement(self, element: ET.Element, io_element: BuildActionIoElement) -> BuildActionIoElement:
-        io_element.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
+        io_element.setCategory(self.getChildElementOptionalNameToken(element, "CATEGORY"))
         sdgs_element = self.find(element, "SDGS")
         if sdgs_element is not None:
             for child in self.findall(sdgs_element, "SDG"):
@@ -5133,6 +5166,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readParameterAccess(self, element: ET.Element, access: ParameterAccess):
         self.readIdentifiable(element, access)
         access.setAccessedParameter(self.getAutosarParameterRef(element, "ACCESSED-PARAMETER"))
+        access.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
 
     def readRunnableEntityParameterAccesses(self, element: ET.Element, parent: RunnableEntity):
         for child_element in self.findall(element, "PARAMETER-ACCESSS/PARAMETER-ACCESS"):
@@ -5199,11 +5233,28 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.raiseError("Unsupported server call point type <%s>" % tag_name)
 
+    def readInternalTriggeringPoint(self, element: ET.Element, point: InternalTriggeringPoint):
+        self.readIdentifiable(element, point)
+        literal = self.getChildElementOptionalLiteral(element, "SW-IMPL-POLICY")
+        if literal is not None:
+            camel = None
+            for camel_value, token in SW_IMPL_POLICY_XML_MAP.items():
+                if token == literal.getText():
+                    camel = camel_value
+                    break
+            if camel is not None:
+                point.setSwImplPolicy(SwImplPolicyEnum().setValue(camel))
+            else:
+                self.notImplemented("Unsupported SW-IMPL-POLICY <%s>" % literal.getText())
+
     def readRunnableEntityInternalTriggeringPoints(self, element: ET.Element, parent: RunnableEntity):
-        for child_element in self.findall(element, "INTERNAL-TRIGGERING-POINTS/INTERNAL-TRIGGERING-POINT"):
-            short_name = self.getShortName(child_element)
-            point = parent.createInternalTriggeringPoint(short_name)
-            point.sw_impl_policy = self.getChildElementOptionalLiteral(child_element, "SW-IMPL-POLICY")
+        for child_element in self.findall(element, "INTERNAL-TRIGGERING-POINTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "INTERNAL-TRIGGERING-POINT":
+                point = parent.createInternalTriggeringPoint(self.getShortName(child_element))
+                self.readInternalTriggeringPoint(child_element, point)
+            else:
+                self.notImplemented("Unsupported Internal Triggering Point <%s>" % tag_name)
 
     def readRunnableEntityExternalTriggeringPoints(self, element: ET.Element, parent: RunnableEntity):
         for child_element in self.findall(element, "EXTERNAL-TRIGGERING-POINTS/EXTERNAL-TRIGGERING-POINT"):
@@ -5364,7 +5415,7 @@ class ARXMLParser(AbstractARXMLParser):
             point.setModeGroupIRef(instance_ref)
 
     def readModeSwitchPoint(self, element: ET.Element, point: ModeSwitchPoint):
-        self.readARObject(element, point)
+        self.readIdentifiable(element, point)
         self.readModeSwitchPointModeGroupIRef(element, point)
 
     def readRunnableEntityModeSwitchPoints(self, element: ET.Element, parent: RunnableEntity):
@@ -5689,12 +5740,12 @@ class ARXMLParser(AbstractARXMLParser):
             paragraphs.append(paragraph)
         return paragraphs
 
-    def getLPlainTexts(self, element: ET.Element, key: str) -> List[LParagraph]:
+    def getLPlainTexts(self, element: ET.Element, key: str) -> List[LPlainText]:
         results = []
         for child_element in self.findall(element, key):
-            l1 = LParagraph()
-            self.readLanguageSpecific(child_element, l1)
-            results.append(l1)
+            l10 = LPlainText()
+            self.readLanguageSpecific(child_element, l10)
+            results.append(l10)
         return results
 
     def getListElements(self, element: ET.Element, key: str) -> List[ARList]:
@@ -5706,9 +5757,14 @@ class ARXMLParser(AbstractARXMLParser):
             list = ARList()
             self.readPaginateable(child_element, list)
             if "TYPE" in child_element.attrib:
-                list.setType(child_element.attrib["TYPE"])
-            for block in self.getDocumentationBlockList(child_element, "ITEM"):
-                list.addItem(block)
+                list.setType(ListEnum().setValue(child_element.attrib["TYPE"].lower()))
+            for item_element in self.findall(child_element, "ITEM"):
+                item = Item()
+                self.readPaginateable(item_element, item)
+                block = DocumentationBlock()
+                self.readDocumentationBlock(item_element, block)
+                item.setItemContents(block)
+                list.addItem(item)
             result.append(list)
         return result
 
@@ -6190,6 +6246,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, key):
             l2 = LOverviewParagraph()
             self.readLanguageSpecific(child_element, l2)
+            if "BLUEPRINT-VALUE" in child_element.attrib:
+                l2.setBlueprintValue(child_element.attrib["BLUEPRINT-VALUE"])
             results.append(l2)
         return results
 
@@ -6625,7 +6683,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readVariableAccess(self, element: ET.Element, access: VariableAccess):
         self.readIdentifiable(element, access)
-        access.setAccessedVariableRef(self.getAutosarVariableRef(element, "ACCESSED-VARIABLE"))
+        access.setAccessedVariable(self.getAutosarVariableRef(element, "ACCESSED-VARIABLE"))
         access.setScope(self.getChildElementOptionalLiteral(element, "SCOPE"))
 
     def getTransformationComSpecProps(self, element: ET.Element) -> Optional[TransformationComSpecProps]:
@@ -7174,7 +7232,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTopicContentOrMsrQuery(self, element: ET.Element, parent: ARObject) -> "TopicContentOrMsrQuery":
         result = None
-        msr_query_p1_element = self.find(element, "MSR-QUERY-P1")
+        msr_query_p1_element = self.find(element, "MSR-QUERY-P-1")
         topic_content_element = self.find(element, "TOPIC-CONTENT")
         if msr_query_p1_element is not None or topic_content_element is not None:
             result = TopicContentOrMsrQuery()
@@ -7917,7 +7975,7 @@ class ARXMLParser(AbstractARXMLParser):
         value_spec = TextValueSpecification()
         self.readValueSpecification(element, value_spec)
         value_spec.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
-        value_spec.setValue(self.getChildElementOptionalLiteral(element, "VALUE"))
+        value_spec.setValue(self.getChildElementOptionalVerbatimString(element, "VALUE"))
         return value_spec
 
     def getArrayValueSpecification(self, element: ET.Element) -> ArrayValueSpecification:
@@ -8068,6 +8126,12 @@ class ARXMLParser(AbstractARXMLParser):
         unit.setFactorSiToUnit(self.getChildElementOptionalFloatValue(element, "FACTOR-SI-TO-UNIT"))
         unit.setOffsetSiToUnit(self.getChildElementOptionalFloatValue(element, "OFFSET-SI-TO-UNIT"))
         unit.setPhysicalDimensionRef(self.getChildElementOptionalRefType(element, "PHYSICAL-DIMENSION-REF"))
+
+    def readUnitGroup(self, element: ET.Element, unit_group: UnitGroup):
+        self.logger.debug("Read UnitGroup <%s>" % unit_group.getShortName())
+        self.readIdentifiable(element, unit_group)
+        for ref in self.getChildElementRefTypeList(element, "UNIT-REFS/UNIT-REF"):
+            unit_group.addUnitRef(ref)
 
     def readEndToEndDescriptionDataIds(self, element: ET.Element, parent: EndToEndDescription):
         child_element = self.find(element, "DATA-IDS")
@@ -11360,10 +11424,10 @@ class ARXMLParser(AbstractARXMLParser):
         system_const.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
 
     def readSwSystemconstValue(self, element: ET.Element, value: SwSystemconstValue):
-        for annotation in self.getAnnotations(element):
-            value.addAnnotation(annotation)
         value.setSwSystemconstRef(self.getChildElementOptionalRefType(element, "SW-SYSTEMCONST-REF"))
         value.setValue(self.getChildElementOptionalNumericalValue(element, "VALUE"))
+        for annotation in self.getAnnotations(element):
+            value.addAnnotation(annotation)
 
     def readSwSystemconstantValueSetSwSystemconstantValues(self, element: ET.Element, value_set: SwSystemconstantValueSet):
         for child_element in self.findall(element, "SW-SYSTEMCONSTANT-VALUES/*"):
@@ -12398,6 +12462,14 @@ class ARXMLParser(AbstractARXMLParser):
                 props = EndToEndTransformationISignalProps()
                 self.readEndToEndTransformationISignalProps(child_element, props)
                 signal.addTransformationISignalProps(props)
+            elif tag_name == "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS":
+                props = SOMEIPTransformationISignalProps()
+                self.readSOMEIPTransformationISignalProps(child_element, props)
+                signal.addTransformationISignalProps(props)
+            elif tag_name == "USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS":
+                props = UserDefinedTransformationISignalProps()
+                self.readUserDefinedTransformationISignalProps(child_element, props)
+                signal.addTransformationISignalProps(props)
             else:
                 self.notImplemented("Unsupported TransformationISignalProps %s" % tag_name)
 
@@ -12437,6 +12509,12 @@ class ARXMLParser(AbstractARXMLParser):
         """Read an R3.2.3 <FLOAT-VALUE> element (Table 3.35): DEFINITION-REF followed by VALUE."""
         self.readParameterValue(element, float_value)
         float_value.setValue(self.getChildElementOptionalFloatValue(element, "VALUE"))
+
+    def readMixedStringText(self, element: ET.Element, obj: AtpMixedString):
+        """<<atpMixedString>>: the element text is the value (pure-text shape).
+        Whitespace is preserved verbatim."""
+        if element.text is not None and obj is not None:
+            obj.setMixedString(element.text)
 
     def readStringValue(self, element: ET.Element, string_value: StringValue):
         """Read an R3.2.3 <STRING-VALUE> element (Table 3.36): DEFINITION-REF followed by VALUE."""
@@ -12755,12 +12833,46 @@ class ARXMLParser(AbstractARXMLParser):
             self.readEndToEndTransformationISignalPropsDataIds(child_element, props)
             props.setDataLength(self.getChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH"))
 
+    def readSOMEIPTransformationISignalProps(self, element: ET.Element, props: SOMEIPTransformationISignalProps):
+        child_element = self.find(element, "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS/SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL")
+        if child_element is not None:
+            self.readTransformationISignalProps(child_element, props)
+            props.setTransformerRef(self.getChildElementOptionalRefType(child_element, "TRANSFORMER-REF"))
+            props.setImplementsLegacyStringSerialization(self.getChildElementOptionalBooleanValue(child_element, "IMPLEMENTS-LEGACY-STRING-SERIALIZATION"))
+            props.setInterfaceVersion(self.getChildElementOptionalPositiveInteger(child_element, "INTERFACE-VERSION"))
+            props.setIsDynamicLengthFieldSize(self.getChildElementOptionalBooleanValue(child_element, "IS-DYNAMIC-LENGTH-FIELD-SIZE"))
+            message_type = self.getChildElementOptionalLiteral(child_element, "MESSAGE-TYPE")
+            if message_type is not None:
+                message_type_enum = SOMEIPMessageTypeEnum()
+                message_type_enum.setValue(message_type.getValue())
+                props.setMessageType(message_type_enum)
+            props.setSizeOfArrayLengthFields(self.getChildElementOptionalPositiveInteger(child_element, "SIZE-OF-ARRAY-LENGTH-FIELDS"))
+            props.setSizeOfStringLengthFields(self.getChildElementOptionalPositiveInteger(child_element, "SIZE-OF-STRING-LENGTH-FIELDS"))
+            props.setSizeOfStructLengthFields(self.getChildElementOptionalPositiveInteger(child_element, "SIZE-OF-STRUCT-LENGTH-FIELDS"))
+            props.setSizeOfUnionLengthFields(self.getChildElementOptionalPositiveInteger(child_element, "SIZE-OF-UNION-LENGTH-FIELDS"))
+            for ref_type in self.getChildElementRefTypeList(child_element, "TLV-DATA-ID-DEFINITION-REFS/TLV-DATA-ID-DEFINITION-REF"):
+                props.addTlvDataIdDefinitionRef(ref_type)
+
+    def readUserDefinedTransformationISignalProps(self, element: ET.Element, props: UserDefinedTransformationISignalProps):
+        child_element = self.find(element, "USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS/USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL")
+        if child_element is not None:
+            self.readTransformationISignalProps(child_element, props)
+            props.setTransformerRef(self.getChildElementOptionalRefType(child_element, "TRANSFORMER-REF"))
+
     def readISignalGroupTransformationISignalProps(self, element: ET.Element, group: ISignalGroup):
         for child_element in self.findall(element, "TRANSFORMATION-I-SIGNAL-PROPSS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS":
                 props = EndToEndTransformationISignalProps()
                 self.readEndToEndTransformationISignalProps(child_element, props)
+                group.addTransformationISignalProps(props)
+            elif tag_name == "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS":
+                props = SOMEIPTransformationISignalProps()
+                self.readSOMEIPTransformationISignalProps(child_element, props)
+                group.addTransformationISignalProps(props)
+            elif tag_name == "USER-DEFINED-TRANSFORMATION-I-SIGNAL-PROPS":
+                props = UserDefinedTransformationISignalProps()
+                self.readUserDefinedTransformationISignalProps(child_element, props)
                 group.addTransformationISignalProps(props)
             else:
                 self.notImplemented("Unsupported TransformationISignalProps %s" % tag_name)
@@ -12840,9 +12952,15 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             filter = DataFilter()
-            filter.setDataFilterType(self.getChildElementOptionalLiteral(child_element, "DATA-FILTER-TYPE"))
-            filter.setMask(self.getChildElementOptionalIntegerValue(child_element, "MASK"))
-            filter.setX(self.getChildElementOptionalIntegerValue(child_element, "X"))
+            literal = self.getChildElementOptionalLiteral(child_element, "DATA-FILTER-TYPE")
+            if literal is not None:
+                filter.setDataFilterType(DataFilterTypeEnum().setValue(literal.getText()))
+            filter.setMask(self.getChildElementOptionalUnlimitedInteger(child_element, "MASK"))
+            filter.setMax(self.getChildElementOptionalUnlimitedInteger(child_element, "MAX"))
+            filter.setMin(self.getChildElementOptionalUnlimitedInteger(child_element, "MIN"))
+            filter.setOffset(self.getChildElementOptionalPositiveInteger(child_element, "OFFSET"))
+            filter.setPeriod(self.getChildElementOptionalPositiveInteger(child_element, "PERIOD"))
+            filter.setX(self.getChildElementOptionalUnlimitedInteger(child_element, "X"))
 
         return filter
 
@@ -13235,10 +13353,46 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, mapping)
         for ref in self.getChildElementRefTypeList(element, "KEY-EXCHANGE-REFS/KEY-EXCHANGE-REF"):
             mapping.addKeyExchangeRef(ref)
-        if self.find(element, "TLS-CIPHER-SUITES") is not None:
-            self.notImplemented("TLS-CIPHER-SUITES aggregation is not implemented (missing member class TlsCryptoCipherSuite)")
+        for suite_element in self.findall(element, "TLS-CIPHER-SUITES/TLS-CRYPTO-CIPHER-SUITE"):
+            cipher_suite = TlsCryptoCipherSuite(mapping, self.getShortName(suite_element))
+            mapping.addTlsCipherSuite(cipher_suite)
+            self.readTlsCryptoCipherSuite(suite_element, cipher_suite)
         mapping.setUseClientAuthenticationRequest(self.getChildElementOptionalBooleanValue(element, "USE-CLIENT-AUTHENTICATION-REQUEST"))
         mapping.setUseSecurityExtensionRecordSizeLimit(self.getChildElementOptionalBooleanValue(element, "USE-SECURITY-EXTENSION-RECORD-SIZE-LIMIT"))
+
+    def readTlsCryptoCipherSuite(self, element: ET.Element, cipher_suite: TlsCryptoCipherSuite):
+        self.logger.debug("Read TlsCryptoCipherSuite <%s>" % cipher_suite.getShortName())
+        self.readIdentifiable(element, cipher_suite)
+        cipher_suite.setAuthenticationRef(self.getChildElementOptionalRefType(element, "AUTHENTICATION-REF"))
+        cipher_suite.setCertificateRef(self.getChildElementOptionalRefType(element, "CERTIFICATE-REF"))
+        cipher_suite.setCipherSuiteId(self.getChildElementOptionalPositiveInteger(element, "CIPHER-SUITE-ID"))
+        cipher_suite.setCipherSuiteShortLabel(self.getChildElementOptionalString(element, "CIPHER-SUITE-SHORT-LABEL"))
+        for ref in self.getChildElementRefTypeList(element, "ELLIPTIC-CURVE-REFS/ELLIPTIC-CURVE-REF"):
+            cipher_suite.addEllipticCurveRef(ref)
+        cipher_suite.setEncryptionRef(self.getChildElementOptionalRefType(element, "ENCRYPTION-REF"))
+        for ref in self.getChildElementRefTypeList(element, "KEY-EXCHANGE-AUTHENTICATION-REFS/KEY-EXCHANGE-AUTHENTICATION-REF"):
+            cipher_suite.addKeyExchangeAuthenticationRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "KEY-EXCHANGE-REFS/KEY-EXCHANGE-REF"):
+            cipher_suite.addKeyExchangeRef(ref)
+        cipher_suite.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
+        props_element = self.find(element, "PROPS")
+        if props_element is not None:
+            props = TlsCryptoCipherSuiteProps(cipher_suite, self.getShortName(props_element))
+            self.readTlsCryptoCipherSuiteProps(props_element, props)
+            cipher_suite.setProps(props)
+        psk_element = self.find(element, "PSK-IDENTITY")
+        if psk_element is not None:
+            psk_identity = TlsPskIdentity()
+            self.readTlsPskIdentity(psk_element, psk_identity)
+            cipher_suite.setPskIdentity(psk_identity)
+        cipher_suite.setRemoteCertificateRef(self.getChildElementOptionalRefType(element, "REMOTE-CERTIFICATE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "SIGNATURE-SCHEME-REFS/SIGNATURE-SCHEME-REF"):
+            cipher_suite.addSignatureSchemeRef(ref)
+        literal = self.getChildElementOptionalLiteral(element, "VERSION")
+        if literal is not None:
+            e = TlsVersionEnum()
+            e.setValue(literal.getValue())
+            cipher_suite.setVersion(e)
 
     def readTlsPskIdentity(self, element: ET.Element, psk_identity: TlsPskIdentity):
         ref = self.getChildElementOptionalRefType(element, "PRE-SHARED-KEY-REF")
@@ -13250,6 +13404,27 @@ class ARXMLParser(AbstractARXMLParser):
     def readTlsCryptoCipherSuiteProps(self, element: ET.Element, cipher_suite_props: TlsCryptoCipherSuiteProps):
         self.readIdentifiable(element, cipher_suite_props)
         cipher_suite_props.setTcpIpTlsUseSecurityExtensionForceEncryptThenMac(self.getChildElementOptionalBooleanValue(element, "TCP-IP-TLS-USE-SECURITY-EXTENSION-FORCE-ENCRYPT-THEN-MAC"))
+
+    def readTlvDataIdDefinition(self, element: ET.Element, tlv_data_id_definition: TlvDataIdDefinition):
+        tlv_data_id_definition.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
+        tlv_data_id_definition.setTlvArgumentRef(self.getChildElementOptionalRefType(element, "TLV-ARGUMENT-REF"))
+        tlv_data_id_definition.setTlvImplementationDataTypeElementRef(self.getChildElementOptionalRefType(element, "TLV-IMPLEMENTATION-DATA-TYPE-ELEMENT-REF"))
+        tlv_data_id_definition.setTlvRecordElementRef(self.getChildElementOptionalRefType(element, "TLV-RECORD-ELEMENT-REF"))
+
+    def readTlvDataIdDefinitionSetTlvDataIdDefinitions(self, element: ET.Element, tlv_data_id_definition_set: TlvDataIdDefinitionSet):
+        for child_element in self.findall(element, "TLV-DATA-ID-DEFINITIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "TLV-DATA-ID-DEFINITION":
+                tlv_data_id_definition = TlvDataIdDefinition()
+                self.readTlvDataIdDefinition(child_element, tlv_data_id_definition)
+                tlv_data_id_definition_set.addTlvDataIdDefinition(tlv_data_id_definition)
+            else:
+                self.notImplemented("Unsupported TlvDataIdDefinition <%s>" % tag_name)
+
+    def readTlvDataIdDefinitionSet(self, element: ET.Element, tlv_data_id_definition_set: TlvDataIdDefinitionSet):
+        self.logger.debug("Read TlvDataIdDefinitionSet <%s>" % tlv_data_id_definition_set.getShortName())
+        self.readARElement(element, tlv_data_id_definition_set)
+        self.readTlvDataIdDefinitionSetTlvDataIdDefinitions(element, tlv_data_id_definition_set)
 
     def readSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         # self.logger.debug("Read SystemMapping <%s>" % mapping.getShortName())
@@ -13403,7 +13578,9 @@ class ARXMLParser(AbstractARXMLParser):
         period = None
         if child_element is not None:
             period = LifeCyclePeriod()
+            period.setDate(self.getChildElementOptionalDateTime(child_element, "DATE"))
             period.setArReleaseVersion(self.getChildElementOptionalRevisionLabelString(child_element, "AR-RELEASE-VERSION"))
+            period.setProductRelease(self.getChildElementOptionalRevisionLabelString(child_element, "PRODUCT-RELEASE"))
         return period
 
     def readLifeCycleInfoUseInsteadRefs(self, element: ET.Element, info: LifeCycleInfo):
@@ -13415,6 +13592,7 @@ class ARXMLParser(AbstractARXMLParser):
         info.setLcObjectRef(self.getChildElementOptionalRefType(element, "LC-OBJECT-REF"))
         info.setLcStateRef(self.getChildElementOptionalRefType(element, "LC-STATE-REF"))
         info.setPeriodBegin(self.getLifeCyclePeriod(element, "PERIOD-BEGIN"))
+        info.setPeriodEnd(self.getLifeCyclePeriod(element, "PERIOD-END"))
         info.setRemark(self.getDocumentationBlock(element, "REMARK"))
         self.readLifeCycleInfoUseInsteadRefs(element, info)
 
@@ -13432,6 +13610,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read LifeCycleInfoSet <%s>" % info_set.getShortName())
         self.readIdentifiable(element, info_set)
         info_set.setDefaultLcStateRef(self.getChildElementOptionalRefType(element, "DEFAULT-LC-STATE-REF"))
+        info_set.setDefaultPeriodBegin(self.getLifeCyclePeriod(element, "DEFAULT-PERIOD-BEGIN"))
+        info_set.setDefaultPeriodEnd(self.getLifeCyclePeriod(element, "DEFAULT-PERIOD-END"))
         self.readLifeCycleInfoSetLifeCycleInfos(element, info_set)
         info_set.setUsedLifeCycleStateDefinitionGroupRef(self.getChildElementOptionalRefType(element, "USED-LIFE-CYCLE-STATE-DEFINITION-GROUP-REF"))
 
@@ -13653,6 +13833,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "UNIT":
                 unit = parent.createUnit(self.getShortName(child_element))
                 self.readUnit(child_element, unit)
+            elif tag_name == "UNIT-GROUP":
+                unit_group = parent.createUnitGroup(self.getShortName(child_element))
+                self.readUnitGroup(child_element, unit_group)
             elif tag_name == "BSW-MODULE-DESCRIPTION":
                 desc = parent.createBswModuleDescription(self.getShortName(child_element))
                 self.readBswModuleDescription(child_element, desc)
@@ -13932,6 +14115,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "E-2-E-PROFILE-COMPATIBILITY-PROPS":
                 props = parent.createE2EProfileCompatibilityProps(self.getShortName(child_element))
                 self.readE2EProfileCompatibilityProps(child_element, props)
+            elif tag_name == "TLV-DATA-ID-DEFINITION-SET":
+                tlv_data_id_definition_set = parent.createTlvDataIdDefinitionSet(self.getShortName(child_element))
+                self.readTlvDataIdDefinitionSet(child_element, tlv_data_id_definition_set)
             elif tag_name == "COLLECTION":
                 collection = parent.createCollection(self.getShortName(child_element))
                 self.readCollection(child_element, collection)
@@ -14028,7 +14214,7 @@ class ARXMLParser(AbstractARXMLParser):
                 tag_name = self.getTagName(map_element)
                 if tag_name == "BLUEPRINT-MAPPING":
                     blueprint_map = BlueprintMapping()
-                    self.readAtpBlueprintMapping(map_element, blueprint_map)
+                    self.readBlueprintMapping(map_element, blueprint_map)
                     blueprint_mapping_set.addBlueprintMap(blueprint_map)
                 elif tag_name == "PORT-INTERFACE-BLUEPRINT-MAPPING":
                     blueprint_map = PortInterfaceBlueprintMapping()
@@ -14049,6 +14235,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readAtpBlueprintMapping(self, element: ET.Element, blueprint_map: AtpBlueprintMapping):
         self.readARObject(element, blueprint_map)
+
+    def readBlueprintMapping(self, element: ET.Element, blueprint_map: BlueprintMapping):
+        self.readAtpBlueprintMapping(element, blueprint_map)
+        blueprint_map.setBlueprintRef(self.getChildElementOptionalRefType(element, "BLUEPRINT-REF"))
+        blueprint_map.setDerivedObjectRef(self.getChildElementOptionalRefType(element, "DERIVED-OBJECT-REF"))
 
     def readPortInterfaceBlueprintMapping(self, element: ET.Element, blueprint_map: PortInterfaceBlueprintMapping):
         self.readAtpBlueprintMapping(element, blueprint_map)

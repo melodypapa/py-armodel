@@ -60,7 +60,7 @@ class DataPrototype(AtpPrototype, ABC):
         """
         return self.swDataDefProps
 
-    def setSwDataDefProps(self, value: Optional[SwDataDefProps]) -> "DataPrototype":
+    def setSwDataDefProps(self, value: Optional[SwDataDefProps]) -> DataPrototype:
         """
         This property allows to specify data definition properties which apply on data prototype level. A None value is a no-op and does not overwrite an existing swDataDefProps.
 
@@ -106,7 +106,7 @@ class AutosarDataPrototype(DataPrototype, ABC):
         """
         return self.typeTRef
 
-    def setTypeTRef(self, value: Optional[TRefType]) -> "AutosarDataPrototype":
+    def setTypeTRef(self, value: Optional[TRefType]) -> AutosarDataPrototype:
         """
         This represents the corresponding data type. A None value is a no-op and does not overwrite an existing typeTRef.
 
@@ -149,7 +149,7 @@ class VariableDataPrototype(AutosarDataPrototype, VariationPointCapable):
         """
         return self.initValue
 
-    def setInitValue(self, value: Optional[ValueSpecification]) -> "VariableDataPrototype":
+    def setInitValue(self, value: Optional[ValueSpecification]) -> VariableDataPrototype:
         """
         Specifies initial value(s) of the VariableDataPrototype A None value is a no-op and does not overwrite an existing initValue.
 
@@ -192,7 +192,7 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
         """
         return self.typeTRef
 
-    def setTypeTRef(self, value: Optional[TRefType]) -> "ApplicationCompositeElementDataPrototype":
+    def setTypeTRef(self, value: Optional[TRefType]) -> ApplicationCompositeElementDataPrototype:
         """
         This represents the corresponding data type. Stereotypes: isOfType
         A None value is a no-op and does not overwrite an existing typeTRef.
@@ -245,7 +245,7 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
         """
         return self.arraySizeHandling
 
-    def setArraySizeHandling(self, value: Optional[ArraySizeHandlingEnum]) -> "ApplicationArrayElement":
+    def setArraySizeHandling(self, value: Optional[ArraySizeHandlingEnum]) -> ApplicationArrayElement:
         """
         The way how the size of the array is handled. A None value is a no-op and does not overwrite an existing arraySizeHandling.
 
@@ -268,7 +268,7 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
         """
         return self.arraySizeSemantics
 
-    def setArraySizeSemantics(self, value: Optional[ArraySizeSemanticsEnum]) -> "ApplicationArrayElement":
+    def setArraySizeSemantics(self, value: Optional[ArraySizeSemanticsEnum]) -> ApplicationArrayElement:
         """
         This attribute controls how the information about the array size shall be interpreted. A None value is a no-op and does not overwrite an existing arraySizeSemantics.
 
@@ -291,7 +291,7 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
         """
         return self.indexDataTypeRef
 
-    def setIndexDataTypeRef(self, value: Optional[RefType]) -> "ApplicationArrayElement":
+    def setIndexDataTypeRef(self, value: Optional[RefType]) -> ApplicationArrayElement:
         """
         This reference can be taken to assign a CompuMethod of category TEXTTABLE to the array. The texttable entries associate a textual value to an index number such that the element with that index number is represented by a symbolic name. A None value is a no-op and does not overwrite an existing indexDataTypeRef.
 
@@ -314,7 +314,7 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
         """
         return self.maxNumberOfElements
 
-    def setMaxNumberOfElements(self, value: Optional[PositiveInteger]) -> "ApplicationArrayElement":
+    def setMaxNumberOfElements(self, value: Optional[PositiveInteger]) -> ApplicationArrayElement:
         """
         The maximum number of elements that the array can contain. A None value is a no-op and does not overwrite an existing maxNumberOfElements.
 
@@ -354,7 +354,7 @@ class ApplicationRecordElement(ApplicationCompositeElementDataPrototype, Variati
         """
         return self.isOptional
 
-    def setIsOptional(self, value: Optional[Boolean]) -> "ApplicationRecordElement":
+    def setIsOptional(self, value: Optional[Boolean]) -> ApplicationRecordElement:
         """
         This attribute represents the ability to declare the enclosing ApplicationRecordElement as optional. This means the that, at runtime, the ApplicationRecord Element may or may not have a valid value and shall therefore be ignored. The underlying runtime software provides means to set the ApplicationRecordElement as not valid at the sending end of a communication and determine its validity at the receiving end.
         A None value is a no-op and does not overwrite an existing value.
@@ -392,7 +392,7 @@ class ParameterDataPrototype(AutosarDataPrototype, VariationPointCapable):
         """
         return self.initValue
 
-    def setInitValue(self, value: Optional[ValueSpecification]) -> "ParameterDataPrototype":
+    def setInitValue(self, value: Optional[ValueSpecification]) -> ParameterDataPrototype:
         """
         Specifies initial value(s) of the ParameterDataPrototype A None value is a no-op and does not overwrite an existing initValue.
 
