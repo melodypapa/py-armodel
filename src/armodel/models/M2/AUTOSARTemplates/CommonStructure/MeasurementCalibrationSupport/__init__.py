@@ -88,132 +88,66 @@ class RteEventInEcuInstanceRef(AtpInstanceRef):
 
 class VariableAccessInEcuInstanceRef(AtpInstanceRef):
     """
-    Instance reference to a VariableAccess in the context of an ECU extract.
-    The navigation path begins at the root composition of the ECU extract, passes
-    through the atomic component that contains the variable access and ends at the
-    VariableAccess itself.
+    Instance reference to a VariableAccess in the context of an ECU extract. The navigation path begins at the root composition of the ECU extract, passes through the atomic component that contains the VariableAccess and ends at the VariableAccess itself. (XSD-only class: no own spec table in the repo corpus; attributes derived from the XSD group VARIABLE-ACCESS-IN-ECU-INSTANCE-REF.)
     """
 
     # VariableAccessInEcuInstanceRef method parity checklist:
-    # [ ] __init__                             [ ] impl  [ ] docstring  [ ] test
-    # [ ] getBaseRef                           [ ] impl  [ ] docstring  [ ] test
-    # [ ] setBaseRef                           [ ] impl  [ ] docstring  [ ] test
-    # [ ] getContextRootCompositionRef         [ ] impl  [ ] docstring  [ ] test
-    # [ ] setContextRootCompositionRef         [ ] impl  [ ] docstring  [ ] test
-    # [ ] getContextAtomicComponentRef         [ ] impl  [ ] docstring  [ ] test
-    # [ ] setContextAtomicComponentRef         [ ] impl  [ ] docstring  [ ] test
-    # [ ] getTargetVariableAccessRef           [ ] impl  [ ] docstring  [ ] test
-    # [ ] setTargetVariableAccessRef           [ ] impl  [ ] docstring  [ ] test
+    # Spec: XSD-only, AUTOSAR_00052.xsd line 129566 (no own table in repo corpus)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextRootCompositionRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextRootCompositionRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextAtomicComponentRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextAtomicComponentRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetVariableAccessRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetVariableAccessRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the VariableAccessInEcuInstanceRef with default values.
-        """
         super().__init__()
 
-        # The base from which the navigation path begins. Stereotypes: atpDerived
-        self.baseRef: Optional[RefType] = None
-
-        # The root composition of the ECU extract that contains the referenced VariableAccess. Tags: xml.sequenceOffset=20
+        # CONTEXT-ROOT-COMPOSITION-REF (DEST ROOT-SW-COMPOSITION-PROTOTYPE--SUBTYPES-ENUM); xml.sequenceOffset=20
         self.contextRootCompositionRef: Optional[RefType] = None
 
-        # The atomic component in the ECU extract that contains the referenced VariableAccess. Tags: xml.sequenceOffset=30
+        # CONTEXT-ATOMIC-COMPONENT-REF (DEST SW-COMPONENT-PROTOTYPE--SUBTYPES-ENUM); xml.sequenceOffset=30
         self.contextAtomicComponentRef: Optional[RefType] = None
 
-        # The target VariableAccess. Tags: xml.sequenceOffset=40
+        # TARGET-VARIABLE-ACCESS-REF (DEST VARIABLE-ACCESS--SUBTYPES-ENUM); xml.sequenceOffset=40
         self.targetVariableAccessRef: Optional[RefType] = None
 
-    def getBaseRef(self) -> Optional[RefType]:
-        """
-        Gets the base from which the navigation path begins.
-
-        Returns:
-            RefType referencing the base classifier, or None if not set
-        """
-        return self.baseRef
-
-    def setBaseRef(self, value: Optional[RefType]) -> VariableAccessInEcuInstanceRef:
-        """
-        Sets the base from which the navigation path begins.
-        A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The base reference to set
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.baseRef = value
-        return self
-
     def getContextRootCompositionRef(self) -> Optional[RefType]:
-        """
-        Gets the reference to the root composition of the ECU extract containing the referenced VariableAccess.
-
-        Returns:
-            RefType referencing the RootSwCompositionPrototype, or None if not set
-        """
+        """The root composition of the ECU extract that contains the referenced VariableAccess."""
         return self.contextRootCompositionRef
 
     def setContextRootCompositionRef(self, value: Optional[RefType]) -> VariableAccessInEcuInstanceRef:
         """
-        Sets the reference to the root composition of the ECU extract containing the referenced VariableAccess.
-        A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The context root composition reference to set
-
-        Returns:
-            self for method chaining
+        The root composition of the ECU extract that contains the referenced VariableAccess.
+        A None value is a no-op and does not overwrite an existing contextRootCompositionRef.
         """
         if value is not None:
             self.contextRootCompositionRef = value
         return self
 
     def getContextAtomicComponentRef(self) -> Optional[RefType]:
-        """
-        Gets the reference to the atomic component in the ECU extract containing the referenced VariableAccess.
-
-        Returns:
-            RefType referencing the SwComponentPrototype, or None if not set
-        """
+        """The atomic component in the ECU extract that contains the referenced VariableAccess."""
         return self.contextAtomicComponentRef
 
     def setContextAtomicComponentRef(self, value: Optional[RefType]) -> VariableAccessInEcuInstanceRef:
         """
-        Sets the reference to the atomic component in the ECU extract containing the referenced VariableAccess.
-        A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The context atomic component reference to set
-
-        Returns:
-            self for method chaining
+        The atomic component in the ECU extract that contains the referenced VariableAccess.
+        A None value is a no-op and does not overwrite an existing contextAtomicComponentRef.
         """
         if value is not None:
             self.contextAtomicComponentRef = value
         return self
 
     def getTargetVariableAccessRef(self) -> Optional[RefType]:
-        """
-        Gets the reference to the target VariableAccess.
-
-        Returns:
-            RefType referencing the VariableAccess, or None if not set
-        """
+        """The target VariableAccess."""
         return self.targetVariableAccessRef
 
     def setTargetVariableAccessRef(self, value: Optional[RefType]) -> VariableAccessInEcuInstanceRef:
         """
-        Sets the reference to the target VariableAccess.
-        A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The target VariableAccess reference to set
-
-        Returns:
-            self for method chaining
+        The target VariableAccess.
+        A None value is a no-op and does not overwrite an existing targetVariableAccessRef.
         """
         if value is not None:
             self.targetVariableAccessRef = value
