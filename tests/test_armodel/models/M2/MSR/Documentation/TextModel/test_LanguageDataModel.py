@@ -20,6 +20,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     LVerbatim,
     MixedContentForOverviewParagraph,
     MixedContentForParagraph,
+    MixedContentForPlainText,
     SlParagraph,
 )
 
@@ -440,16 +441,71 @@ class TestLLongName:
         assert l_long_name.getBlueprintValue() == value
 
 
+class TestMixedContentForPlainText:
+    def test_abstract_guard_and_defaults(self):
+        with pytest.raises(TypeError):
+            MixedContentForPlainText()
+
+        class ConcreteMixedContent(MixedContentForPlainText):
+            pass
+
+        content = ConcreteMixedContent()
+        assert content.getMixedString() is None
+
+    def test_base_anchoring(self):
+        """Most-derived base anchoring per Table 9.94 Base row ARObject + the <<atpMixedString>> mixin (sibling MCFOP shape; WhitespaceControlled referenced-missing, not yet in src)."""
+        assert MixedContentForPlainText.__bases__ == (ARObject, AtpMixedString, ABC)
+
+    def test_docstring_verbatim(self):
+        """Docstring must equal the spec Note from Table 9.94 verbatim."""
+        import inspect
+
+        expected = "This represents a plain text which conceptually is handled as mixed contents. " "It is modeled as such for symmetry reasons."
+        assert inspect.cleandoc(MixedContentForPlainText.__doc__) == expected
+
+    def test_mixin_accessors(self):
+        """getMixedString/setMixedString are stereotype-inherent (no spec rows) via the AtpMixedString mixin."""
+
+        class ConcreteMixedContent(MixedContentForPlainText):
+            pass
+
+        content = ConcreteMixedContent()
+        assert content.setMixedString("plain text") is content
+        assert content.getMixedString() == "plain text"
+        content.setMixedString(None)
+        assert content.getMixedString() == "plain text"
+
+    def test_has_no_own_members(self):
+        """Field-to-spec cross-check: Table 9.94 carries no Attribute rows, so MixedContentForPlainText adds no fields beyond the ARObject anchor."""
+
+        class _BareARObject(ARObject):
+            pass
+
+        class ConcreteMixedContent(MixedContentForPlainText):
+            pass
+
+        assert set(vars(ConcreteMixedContent()).keys()) == set(vars(_BareARObject()).keys())
+
+
 class TestLPlainText:
     """Test class for LPlainText class."""
 
     def test_l_plain_text_base_chain(self):
-        """LPlainText must extend LanguageSpecific per Table 9.96."""
+        """LPlainText must extend MixedContentForPlainText and LanguageSpecific per Table 9.96."""
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
+        assert issubclass(LPlainText, MixedContentForPlainText)
         assert issubclass(LPlainText, LanguageSpecific)
         assert issubclass(LPlainText, ARObject)
         assert isinstance(LPlainText(), LPlainText)
+
+    def test_l_plain_text_inherits_mixed_content_accessors(self):
+        """LPlainText inherits the mixed-content accessors from MixedContentForPlainText (Table 9.96 Base row)."""
+        l_plain_text = LPlainText()
+        assert l_plain_text.setMixedString("plain text") is l_plain_text
+        assert l_plain_text.getMixedString() == "plain text"
+        assert l_plain_text.setMixedString(None) is l_plain_text
+        assert l_plain_text.getMixedString() == "plain text"
 
     def test_l_plain_text_initialization(self):
         """Test that an LPlainText object can be initialized."""
