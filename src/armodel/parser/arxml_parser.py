@@ -1163,7 +1163,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
 )
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
-from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
+from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName, SlOverviewParagraph
 from armodel.parser.abstract_arxml_parser import AbstractARXMLParser
 
 #: Mapping between BindingTimeEnum camelCase values and their XML attribute tokens
@@ -1751,6 +1751,11 @@ class ARXMLParser(AbstractARXMLParser):
         br = self.getBr(element, "BR")
         if br is not None:
             content.setBr(br)
+        ft_element = self.find(element, "FT")
+        if ft_element is not None:
+            footnote = SlOverviewParagraph()
+            self.readSlOverviewParagraph(ft_element, footnote)
+            content.setFt(footnote)
         emphasis_element = self.find(element, "E")
         if emphasis_element is not None:
             content.setE(self.readEmphasisText(emphasis_element))
@@ -1771,6 +1776,13 @@ class ARXMLParser(AbstractARXMLParser):
         xref_target = self.getXrefTarget(element, "XREF-TARGET")
         if xref_target is not None:
             content.setXrefTarget(xref_target)
+
+    def readSlOverviewParagraph(self, element: ET.Element, paragraph: SlOverviewParagraph):
+        self.readARObject(element, paragraph)
+        self.readMixedContentForOverviewParagraph(element, paragraph)
+        paragraph.setValue(element.text or "")
+        if "L" in element.attrib:
+            paragraph.setL(element.attrib["L"])
 
     def readMixedContentForVerbatim(self, element: ET.Element, content: MixedContentForVerbatim):
         br = self.getBr(element, "BR")

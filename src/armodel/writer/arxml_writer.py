@@ -1029,7 +1029,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
 )
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
-from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
+from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName, SlOverviewParagraph
 from armodel.writer.abstract_arxml_writer import AbstractARXMLWriter
 
 #: Mapping between BindingTimeEnum camelCase values and their XML attribute tokens
@@ -1427,6 +1427,9 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeMixedContentForOverviewParagraph(self, element: ET.Element, content: MixedContentForOverviewParagraph):
         self.setBr(element, "BR", content.getBr())
+        if content.getFt() is not None:
+            footnote = ET.SubElement(element, "FT")
+            self.writeSlOverviewParagraphContent(footnote, content.getFt())
         if content.getE() is not None:
             self.setEmphasisText(element, "E", content.getE())
         if content.getIe() is not None:
@@ -1442,6 +1445,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setXref(element, "XREF", content.getXref())
         if content.getXrefTarget() is not None:
             self.setXrefTarget(element, "XREF-TARGET", content.getXrefTarget())
+
+    def writeSlOverviewParagraphContent(self, element: ET.Element, paragraph: SlOverviewParagraph):
+        self.writeARObject(element, paragraph)
+        self.writeMixedContentForOverviewParagraph(element, paragraph)
+        element.text = paragraph.getValue()
+        if paragraph.getL() is not None:
+            element.attrib["L"] = paragraph.getL()
 
     def writeMixedContentForVerbatim(self, element: ET.Element, content: MixedContentForVerbatim):
         self.setBr(element, "BR", content.getBr())

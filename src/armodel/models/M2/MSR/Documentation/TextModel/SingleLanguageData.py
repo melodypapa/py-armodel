@@ -4,7 +4,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
+    LanguageSpecific,
     MixedContentForLongName,
+    MixedContentForOverviewParagraph,
 )
 
 
@@ -40,3 +42,24 @@ class SingleLanguageLongName(MixedContentForLongName):
         if value is not None:
             self.value = value
         return self
+
+
+class SlOverviewParagraph(MixedContentForOverviewParagraph, LanguageSpecific):
+    """
+    MixedContentForOverviewParagraph in one particular language. The language is defined by the context. The attribute l is there only for backwards compatibility and shall be ignored.
+    """
+
+    # SlOverviewParagraph method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.70, p.464
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes — Table E.70 Attribute rows: none (dash placeholder); the XSD-only
+    #  `L` XML attribute (attributeGroup SL-OVERVIEW-PARAGRAPH, L-ENUM--SIMPLE,
+    #  atp.Status="removed") and the mixed text ride the inherited LanguageSpecific accessors
+    #  getL/setL/getValue/setValue covered by their declaring class checklist; the Table 9.3
+    #  Base members are covered by their declaring class checklist and serialize on the
+    #  consuming L-2 element's FT child via readSlOverviewParagraph/writeSlOverviewParagraphContent;
+    #  getMixedString/setMixedString via the AtpMixedString mixin — stereotype-inherent, no spec rows)
+
+    def __init__(self):
+        super().__init__()

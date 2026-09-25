@@ -6,6 +6,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Superscript, Tt, Xref, XrefTarget
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SlOverviewParagraph
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -84,3 +85,63 @@ class TestMixedContentForOverviewParagraphWriter:
         assert isinstance(reread.getXrefTarget(), XrefTarget)
         assert reread.getTraceRef().getValue() == "traceable-obj"
         assert reread.getTraceRef().getDest() == "TRACEABLE"
+
+
+class TestWriteSlOverviewParagraph:
+    def test_write_l2_writes_ft_sl_overview_paragraph(self):
+        """The ft member must be emitted as an FT child element (L XML attribute + text + own mixed content) right after BR, per the MCFP writer precedent and the XSD group element order."""
+        footnote = SlOverviewParagraph()
+        footnote.setL("DE")
+        footnote.setValue("footnote text")
+        footnote.setTt(Tt().setValue(String().setValue("term in footnote")))
+        l2 = _build_l2_with_mixed_content()
+        l2.setFt(footnote)
+
+        element = ET.Element("MULTI-LANGUAGE-OVERVIEW-PARAGRAPH")
+        ARXMLWriter().setMultiLanguageOverviewParagraph(element, "MULTI-LANGUAGE-OVERVIEW-PARAGRAPH", MultiLanguageOverviewParagraph().addL2(l2))
+
+        written = element.find("MULTI-LANGUAGE-OVERVIEW-PARAGRAPH/L-2")
+        assert written is not None
+        assert [child.tag for child in written] == ["BR", "FT", "E", "IE", "TT"]
+        written_ft = written.find("FT")
+        assert written_ft.attrib["L"] == "DE"
+        assert written_ft.text == "footnote text"
+        assert written_ft.find("TT").text == "term in footnote"
+
+    def test_write_l2_without_ft_omits_ft(self):
+        l2 = _build_l2_with_mixed_content()
+
+        element = ET.Element("MULTI-LANGUAGE-OVERVIEW-PARAGRAPH")
+        ARXMLWriter().setMultiLanguageOverviewParagraph(element, "MULTI-LANGUAGE-OVERVIEW-PARAGRAPH", MultiLanguageOverviewParagraph().addL2(l2))
+
+        written = element.find("MULTI-LANGUAGE-OVERVIEW-PARAGRAPH/L-2")
+        assert written is not None
+        assert written.find("FT") is None
+
+    def test_l2_ft_roundtrip(self):
+        """Document-level parse -> write -> re-parse must preserve the footnote field values."""
+        footnote = SlOverviewParagraph()
+        footnote.setL("DE")
+        footnote.setValue("footnote text")
+        footnote.setBr(Br())
+        footnote.setTt(Tt().setValue(String().setValue("term in footnote")))
+        l2 = _build_l2_with_mixed_content()
+        l2.setFt(footnote)
+
+        writer_element = ET.Element("ROOT")
+        ARXMLWriter().setMultiLanguageOverviewParagraph(writer_element, "MULTI-LANGUAGE-OVERVIEW-PARAGRAPH", MultiLanguageOverviewParagraph().addL2(l2))
+        writer_element.attrib["xmlns"] = "http://autosar.org/schema/r4.0"
+        parsed = ET.fromstring(ET.tostring(writer_element, encoding="unicode"))
+
+        result = ARXMLParser().getMultiLanguageOverviewParagraph(parsed, "MULTI-LANGUAGE-OVERVIEW-PARAGRAPH")
+
+        assert result is not None
+        reread = result.getL2s()[0]
+        assert reread.getValue() == "overview text"
+        assert reread.getE().getValue().getValue() == "emphasized overview"
+        reread_ft = reread.getFt()
+        assert isinstance(reread_ft, SlOverviewParagraph)
+        assert reread_ft.getValue() == "footnote text"
+        assert reread_ft.getL() == "DE"
+        assert isinstance(reread_ft.getBr(), Br)
+        assert reread_ft.getTt().getValue().getValue() == "term in footnote"

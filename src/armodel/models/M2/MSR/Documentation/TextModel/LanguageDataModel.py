@@ -24,6 +24,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import (
 if TYPE_CHECKING:
     from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import Traceable
     from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Std, Xdoc, Xfile
+    from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SlOverviewParagraph
     from armodel.models.M2.MSR.Documentation.TextModel.SlParagraph import SlParagraph
 
 
@@ -249,7 +250,7 @@ class MixedContentForOverviewParagraph(ARObject, AtpMixedString, ABC):
         self.e: Optional[EmphasisText] = None
 
         # This is a foot note within a paragraph.
-        self.ft: Optional["SlOverviewParagraph"] = None  # noqa: F821
+        self.ft: Optional["SlOverviewParagraph"] = None
 
         # This is an index entry. Tags: xml.sequenceOffset=100
         self.ie: Optional[IndexEntry] = None
@@ -300,13 +301,13 @@ class MixedContentForOverviewParagraph(ARObject, AtpMixedString, ABC):
             self.e = value
         return self
 
-    def getFt(self) -> Optional["SlOverviewParagraph"]:  # noqa: F821
+    def getFt(self) -> Optional["SlOverviewParagraph"]:
         """
         This is a foot note within a paragraph.
         """
         return self.ft
 
-    def setFt(self, value: Optional["SlOverviewParagraph"]) -> MixedContentForOverviewParagraph:  # noqa: F821
+    def setFt(self, value: Optional["SlOverviewParagraph"]) -> MixedContentForOverviewParagraph:
         """
         This is a foot note within a paragraph. A None value is a no-op and does not overwrite an existing ft.
         """

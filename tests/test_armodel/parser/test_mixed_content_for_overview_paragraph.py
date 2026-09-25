@@ -3,6 +3,7 @@
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Superscript, Tt, Xref, XrefTarget
+from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SlOverviewParagraph
 from armodel.parser.arxml_parser import ARXMLParser
 
 _L2_WITH_CHILDREN = (
@@ -80,3 +81,43 @@ class TestMixedContentForOverviewParagraphParser:
         assert len(l2s) == 1
         assert l2s[0].getTt() is not None
         assert l2s[0].getTt().getValue().getValue() == "technical term"
+
+
+class TestReadSlOverviewParagraph:
+    def test_read_l2_reads_ft_sl_overview_paragraph(self):
+        """The FT child element (type SL-OVERVIEW-PARAGRAPH, XSD 00052 L81345) must populate the ft member with a SlOverviewParagraph carrying its L attribute, text and own mixed content (Table E.70)."""
+        parser = ARXMLParser()
+        element = ET.fromstring(
+            '<ROOT xmlns="http://autosar.org/schema/r4.0">'
+            "<MULTI-LANGUAGE-OVERVIEW-PARAGRAPH>"
+            '<L-2 L="EN">overview text'
+            '<FT L="DE">footnote text<TT>term in footnote</TT></FT>'
+            "<BR/>"
+            "</L-2>"
+            "</MULTI-LANGUAGE-OVERVIEW-PARAGRAPH>"
+            "</ROOT>"
+        )
+
+        paragraph = parser.getMultiLanguageOverviewParagraph(element, "MULTI-LANGUAGE-OVERVIEW-PARAGRAPH")
+
+        assert paragraph is not None
+        l2 = paragraph.getL2s()[0]
+        assert l2.getValue() == "overview text"
+        footnote = l2.getFt()
+        assert isinstance(footnote, SlOverviewParagraph)
+        assert footnote.getValue() == "footnote text"
+        assert footnote.getL() == "DE"
+        assert isinstance(footnote.getTt(), Tt)
+        assert footnote.getTt().getValue().getValue() == "term in footnote"
+
+    def test_read_l2_without_ft_leaves_ft_none(self):
+        parser = ARXMLParser()
+        element = ET.fromstring(
+            '<ROOT xmlns="http://autosar.org/schema/r4.0">' "<MULTI-LANGUAGE-OVERVIEW-PARAGRAPH>" '<L-2 L="EN">overview text</L-2>' "</MULTI-LANGUAGE-OVERVIEW-PARAGRAPH>" "</ROOT>"
+        )
+
+        paragraph = parser.getMultiLanguageOverviewParagraph(element, "MULTI-LANGUAGE-OVERVIEW-PARAGRAPH")
+
+        l2 = paragraph.getL2s()[0]
+        assert l2.getValue() == "overview text"
+        assert l2.getFt() is None
