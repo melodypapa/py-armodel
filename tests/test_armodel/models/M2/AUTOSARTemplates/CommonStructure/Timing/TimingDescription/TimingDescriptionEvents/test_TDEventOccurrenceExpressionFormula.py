@@ -7,14 +7,14 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     AutosarVariableInstance,
     TDEventOccurrenceExpressionFormula,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import (
-    AtpMixedString,
-)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Referrable,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import (
+    AtpMixedString,
 )
 
 
