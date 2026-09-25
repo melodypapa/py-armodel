@@ -3931,6 +3931,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readBswSynchronousServerCallPoint(self, element: ET.Element, point: BswSynchronousServerCallPoint):
         self.readBswModuleCallPoint(element, point)
         point.setCalledEntryRef(self.getChildElementOptionalRefType(element, "CALLED-ENTRY-REF"))
+        point.setCalledFromWithinExclusiveAreaRef(self.getChildElementOptionalRefType(element, "CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF"))
 
     def readBswDirectCallPoint(self, element: ET.Element, point: BswDirectCallPoint):
         self.readBswModuleCallPoint(element, point)

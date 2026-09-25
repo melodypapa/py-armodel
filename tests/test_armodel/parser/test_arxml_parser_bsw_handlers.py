@@ -961,6 +961,60 @@ class TestBswDirectCallPointHandlers:
         assert points[0].getCalledEntryRef().getValue() == "/ent"
 
 
+# ==================== BswSynchronousServerCallPoint (R23-11 Table 5.12) ====================
+
+
+class TestBswSynchronousServerCallPointHandlers:
+    """Exercise readBswSynchronousServerCallPoint and the BSW-SYNCHRONOUS-SERVER-CALL-POINT
+    branch of the call point dispatch."""
+
+    def test_readBswSynchronousServerCallPoint_sets_refs(self, parser):
+        from armodel.models import BswSynchronousServerCallPoint
+
+        point = BswSynchronousServerCallPoint(parent=_autosar_root(), short_name="cp")
+        element = _snip(
+            "<SHORT-NAME>cp</SHORT-NAME>"
+            "<CALLED-ENTRY-REF DEST='BSW-MODULE-CLIENT-SERVER-ENTRY'>/mod/Entry</CALLED-ENTRY-REF>"
+            "<CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF DEST='EXCLUSIVE-AREA-NESTING-ORDER'>/mod/Nesting</CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF>",
+            root_tag="BSW-SYNCHRONOUS-SERVER-CALL-POINT",
+        )
+        parser.readBswSynchronousServerCallPoint(element, point)
+        assert point.getCalledEntryRef().getValue() == "/mod/Entry"
+        assert point.getCalledEntryRef().getDest() == "BSW-MODULE-CLIENT-SERVER-ENTRY"
+        assert point.getCalledFromWithinExclusiveAreaRef().getValue() == "/mod/Nesting"
+        assert point.getCalledFromWithinExclusiveAreaRef().getDest() == "EXCLUSIVE-AREA-NESTING-ORDER"
+
+    def test_readBswSynchronousServerCallPoint_empty(self, parser):
+        from armodel.models import BswSynchronousServerCallPoint
+
+        point = BswSynchronousServerCallPoint(parent=_autosar_root(), short_name="cp")
+        element = _snip("<SHORT-NAME>cp</SHORT-NAME>", root_tag="BSW-SYNCHRONOUS-SERVER-CALL-POINT")
+        parser.readBswSynchronousServerCallPoint(element, point)
+        assert point.getCalledEntryRef() is None
+        assert point.getCalledFromWithinExclusiveAreaRef() is None
+
+    def test_readBswModuleEntityCallPoints_sync_server_call_point_dispatch(self, parser):
+        from armodel.models import BswInternalBehavior, BswSynchronousServerCallPoint
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        entity = behavior.createBswSchedulableEntity("e")
+        element = _snip(
+            "<CALL-POINTS>"
+            "<BSW-SYNCHRONOUS-SERVER-CALL-POINT>"
+            "<SHORT-NAME>scp</SHORT-NAME>"
+            "<CALLED-ENTRY-REF DEST='BSW-MODULE-CLIENT-SERVER-ENTRY'>/ent</CALLED-ENTRY-REF>"
+            "</BSW-SYNCHRONOUS-SERVER-CALL-POINT>"
+            "</CALL-POINTS>",
+            root_tag="ENTITY",
+        )
+        parser.readBswModuleEntityCallPoints(element, entity)
+        points = entity.getCallPoints()
+        assert len(points) == 1
+        assert isinstance(points[0], BswSynchronousServerCallPoint)
+        assert points[0].getShortName() == "scp"
+        assert points[0].getCalledEntryRef().getValue() == "/ent"
+
+
 # ==================== BSW entities dispatch (Called/Schedulable/Interrupt) ====================
 
 

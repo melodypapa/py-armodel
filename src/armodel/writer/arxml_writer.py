@@ -6896,6 +6896,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "BSW-SYNCHRONOUS-SERVER-CALL-POINT")
         self.writeBswModuleCallPoint(child_element, point)
         self.setChildElementOptionalRefType(child_element, "CALLED-ENTRY-REF", point.getCalledEntryRef())
+        self.setChildElementOptionalRefType(child_element, "CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF", point.getCalledFromWithinExclusiveAreaRef())
 
     def writeBswDirectCallPoint(self, element: ET.Element, point: BswDirectCallPoint):
         child_element = ET.SubElement(element, "BSW-DIRECT-CALL-POINT")

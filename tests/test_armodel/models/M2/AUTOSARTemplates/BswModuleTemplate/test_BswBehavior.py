@@ -226,9 +226,10 @@ class TestBswDirectCallPoint:
 
 
 class TestBswSynchronousServerCallPoint:
-    """Test cases for BswSynchronousServerCallPoint class - represents a synchronous server call point in a BSW module."""
+    """Test cases for BswSynchronousServerCallPoint class - represents a synchronous procedure call point via the BSW Scheduler."""
 
     def test_initialization(self):
+        """Test initialization of BswSynchronousServerCallPoint with the spec defaults."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         sync_call_point = BswSynchronousServerCallPoint(ar_root, "test_sync_call")
@@ -236,38 +237,57 @@ class TestBswSynchronousServerCallPoint:
         assert sync_call_point.short_name == "test_sync_call"
         assert sync_call_point.getCalledEntryRef() is None
         assert sync_call_point.getCalledFromWithinExclusiveAreaRef() is None
+        assert sync_call_point.getContextLimitationRefs() == []
 
-    def test_set_called_entry_ref(self):
+    def test_get_set_called_entry_ref(self):
+        """Test setting and getting the called entry reference, including the None no-op."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         sync_call_point = BswSynchronousServerCallPoint(ar_root, "test_sync_call")
 
         ref = RefType()
+        ref.setValue("/mod/ClientServerEntry")
         result = sync_call_point.setCalledEntryRef(ref)
 
         assert result == sync_call_point
         assert sync_call_point.getCalledEntryRef() == ref
 
-        # Setting None should not change the value (based on implementation)
         result = sync_call_point.setCalledEntryRef(None)
         assert result == sync_call_point
-        assert sync_call_point.getCalledEntryRef() == ref  # Value should remain unchanged
+        assert sync_call_point.getCalledEntryRef() == ref
 
-    def test_set_called_from_within_exclusive_area_ref(self):
+    def test_get_set_called_from_within_exclusive_area_ref(self):
+        """Test setting and getting the exclusive area reference, including the None no-op."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         sync_call_point = BswSynchronousServerCallPoint(ar_root, "test_sync_call")
 
         ref = RefType()
+        ref.setValue("/mod/AreaNesting")
         result = sync_call_point.setCalledFromWithinExclusiveAreaRef(ref)
 
         assert result == sync_call_point
         assert sync_call_point.getCalledFromWithinExclusiveAreaRef() == ref
 
-        # Setting None should not change the value (based on implementation)
         result = sync_call_point.setCalledFromWithinExclusiveAreaRef(None)
         assert result == sync_call_point
-        assert sync_call_point.getCalledFromWithinExclusiveAreaRef() == ref  # Value should remain unchanged
+        assert sync_call_point.getCalledFromWithinExclusiveAreaRef() == ref
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswSynchronousServerCallPoint.getCalledEntryRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswSynchronousServerCallPoint.setCalledEntryRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswSynchronousServerCallPoint
+
+        getter_hints = typing.get_type_hints(BswSynchronousServerCallPoint.getCalledFromWithinExclusiveAreaRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswSynchronousServerCallPoint.setCalledFromWithinExclusiveAreaRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswSynchronousServerCallPoint
 
 
 class TestBswAsynchronousServerCallResultPoint:

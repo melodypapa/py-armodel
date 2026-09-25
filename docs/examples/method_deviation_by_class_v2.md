@@ -169,6 +169,15 @@ No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 2.1 (p.42, R23-1
 |---|---|---|---|---|---|
 | — *(no deviations)* | — | — | — | - | none (2026-09-17 sync: XSD-only class, complexType `BSW-PER-INSTANCE-MEMORY-POLICY`; attr `arTypedPerInstanceMemory` → `arTypedPerInstanceMemoryRef` RefType 0..1 with full reader/writer coverage incl. VARIATION-POINT; `enableTakeAddress` inherited from `BswApiOptions` — base class synced 2026-09-25 (XSD-only group class, AUTOSAR_00052.xsd L9379; stamp deferred to batch confirmation)) |
 
+## `BswSynchronousServerCallPoint`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 79
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviations)* | — | — | — | - | none (2026-09-26 sync: R23-11 Table 5.12 p.79; both attrs 0..1 ref → `calledEntryRef` (BswModuleClientServerEntry) + `calledFromWithinExclusiveAreaRef` (ExclusiveAreaNestingOrder), both retyped `Optional[RefType]` from bare `RefType = None`, accessors typed, None no-op kept; Base most-derived `BswModuleCallPoint` (stamped this batch); VP capability inherited from base — no VARIATION-POINT element in XSD group `BSW-SYNCHRONOUS-SERVER-CALL-POINT` (AUTOSAR_00052.xsd L12705), arrives via the base group ref L12750 (Rule 0020); reader/writer drift FIXED this pass — `readBswSynchronousServerCallPoint`/`writeBswSynchronousServerCallPoint` already existed but dropped `CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF`; now write both refs in XSD wire order `CALLED-ENTRY-REF` then `CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF`; `BSW-SYNCHRONOUS-SERVER-CALL-POINT` dispatch branches and `createBswSynchronousServerCallPoint` factory on `BswModuleEntity` pre-existed; fabricated class docstring, `__init__` docstring, paraphrased member docstrings and old glued `__init__` member blocks wiped, rewritten verbatim from the Table 5.12 Notes; stamp deferred to batch confirmation) |
+
 ## `BswClientPolicy`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf` (upstream document; class XSD-only)  | **XSD:** `AUTOSAR_00052.xsd` line 9616
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`

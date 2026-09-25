@@ -169,75 +169,52 @@ class BswDirectCallPoint(BswModuleCallPoint):
 
 class BswSynchronousServerCallPoint(BswModuleCallPoint):
     """
-    Represents a synchronous server call point in a BSW module.
-    This call point is used when the server operation is executed synchronously.
+    Represents a synchronous procedure call point via the BSW Scheduler.
     """
 
     # BswSynchronousServerCallPoint method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getCalledEntryRef            [x] impl  [x] docstring  [ ] test
-    # [x] setCalledEntryRef            [x] impl  [x] docstring  [x] test
-    # [ ] getCalledFromWithinExclusiveAreaRef [x] impl  [x] docstring  [ ] test
-    # [x] setCalledFromWithinExclusiveAreaRef [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.12, p.79
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCalledEntryRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCalledEntryRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCalledFromWithinExclusiveAreaRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCalledFromWithinExclusiveAreaRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswSynchronousServerCallPoint with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this call point
-            short_name: The unique short name of this call point
-        """
         super().__init__(parent, short_name)
 
-        # Reference to the entry that is called by this synchronous call point
-        self.calledEntryRef: RefType = None
-        # Reference to an exclusive area from which this call is made
-        self.calledFromWithinExclusiveAreaRef: RefType = None
+        # The entry to be called.
+        self.calledEntryRef: Optional[RefType] = None
 
-    def getCalledEntryRef(self):
+        # This indicates that the call point is located at the deepest level inside one or more ExclusiveAreas that are nested in the given order.
+        self.calledFromWithinExclusiveAreaRef: Optional[RefType] = None
+
+    def getCalledEntryRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the entry that is called by this synchronous call point.
-
-        Returns:
-            Reference to the called entry
+        The entry to be called.
         """
         return self.calledEntryRef
 
-    def setCalledEntryRef(self, value):
+    def setCalledEntryRef(self, value: Optional[RefType]) -> BswSynchronousServerCallPoint:
         """
-        Sets the reference to the entry that is called by this synchronous call point.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The entry reference to set
-
-        Returns:
-            self for method chaining
+        The entry to be called.
+        A None value is a no-op and does not overwrite an existing calledEntryRef.
         """
         if value is not None:
             self.calledEntryRef = value
         return self
 
-    def getCalledFromWithinExclusiveAreaRef(self):
+    def getCalledFromWithinExclusiveAreaRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the exclusive area from which this call is made.
-
-        Returns:
-            Reference to the exclusive area
+        This indicates that the call point is located at the deepest level inside one or more ExclusiveAreas that are nested in the given order.
         """
         return self.calledFromWithinExclusiveAreaRef
 
-    def setCalledFromWithinExclusiveAreaRef(self, value):
+    def setCalledFromWithinExclusiveAreaRef(self, value: Optional[RefType]) -> BswSynchronousServerCallPoint:
         """
-        Sets the reference to the exclusive area from which this call is made.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The exclusive area reference to set
-
-        Returns:
-            self for method chaining
+        This indicates that the call point is located at the deepest level inside one or more ExclusiveAreas that are nested in the given order.
+        A None value is a no-op and does not overwrite an existing calledFromWithinExclusiveAreaRef.
         """
         if value is not None:
             self.calledFromWithinExclusiveAreaRef = value
