@@ -931,31 +931,76 @@ class PortInterfaceMapping(AtpBlueprintable, VariationPointCapable, ABC):
 
 
 class ClientServerApplicationErrorMapping(ARObject):
+    """
+    This meta-class represents the ability to map ApplicationErrors onto each other.
+
+    [constr_1238] Scope of mapped ApplicationErrors in the context of a ClientServerOperationMapping: All ApplicationErrors referenced by a ClientServerApplicationErrorMapping in the role firstApplicationError shall belong to exactly one ClientServerInterface. All ApplicationErrors referenced by a ClientServerApplicationErrorMapping in the role secondApplicationError shall belong to exactly one other ClientServerInterface. This rule shall be imposed at the time when the RTE is generated.
+    """
+
     # ClientServerApplicationErrorMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getFirstApplicationErrorRef  [x] impl  [ ] docstring  [ ] test
-    # [ ] setFirstApplicationErrorRef  [x] impl  [ ] docstring  [ ] test
-    # [ ] getSecondApplicationErrorRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setSecondApplicationErrorRef [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.25, p.129
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFirstApplicationErrorRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFirstApplicationErrorRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondApplicationErrorRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecondApplicationErrorRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.firstApplicationErrorRef: RefType = None
-        self.secondApplicationErrorRef: RefType = None
+        # This represents the first ApplicationError in the context of the ClientServerApplicationErrorMapping.
+        self.firstApplicationErrorRef: Optional[RefType] = None
 
-    def getFirstApplicationErrorRef(self):
+        # This represents the second ApplicationError in the context of the ClientServerApplicationErrorMapping.
+        self.secondApplicationErrorRef: Optional[RefType] = None
+
+    def getFirstApplicationErrorRef(self) -> Optional[RefType]:
+        """
+        This represents the first ApplicationError in the context of the ClientServerApplicationErrorMapping.
+
+        Returns:
+            Optional[RefType]: The first application error reference
+        """
         return self.firstApplicationErrorRef
 
-    def setFirstApplicationErrorRef(self, value):
-        self.firstApplicationErrorRef = value
+    def setFirstApplicationErrorRef(self, value: Optional[RefType]) -> "ClientServerApplicationErrorMapping":
+        """
+        This represents the first ApplicationError in the context of the ClientServerApplicationErrorMapping.
+        A None value is a no-op and does not overwrite an existing firstApplicationErrorRef.
+
+        Args:
+            value: The value to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.firstApplicationErrorRef = value
         return self
 
-    def getSecondApplicationErrorRef(self):
+    def getSecondApplicationErrorRef(self) -> Optional[RefType]:
+        """
+        This represents the second ApplicationError in the context of the ClientServerApplicationErrorMapping.
+
+        Returns:
+            Optional[RefType]: The second application error reference
+        """
         return self.secondApplicationErrorRef
 
-    def setSecondApplicationErrorRef(self, value):
-        self.secondApplicationErrorRef = value
+    def setSecondApplicationErrorRef(self, value: Optional[RefType]) -> "ClientServerApplicationErrorMapping":
+        """
+        This represents the second ApplicationError in the context of the ClientServerApplicationErrorMapping.
+        A None value is a no-op and does not overwrite an existing secondApplicationErrorRef.
+
+        Args:
+            value: The value to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.secondApplicationErrorRef = value
         return self
 
 
