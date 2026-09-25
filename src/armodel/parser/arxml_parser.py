@@ -1071,6 +1071,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
+    CompuGenericMath,
     Compu,
     CompuConst,
     CompuConstContent,
@@ -1093,7 +1094,6 @@ from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import MemoryAllocati
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam, SwGenericAxisParamType
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
-    CompuGenericMath,
     SwBitRepresentation,
     SwCalibrationAccessEnum,
     SwDataDefProps,
