@@ -8,7 +8,7 @@ M2::MSR::Documentation::Chapters (see src/armodel/models/M2/MSR/Documentation/Ch
 """
 
 from __future__ import annotations
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from typing import List, Optional
 

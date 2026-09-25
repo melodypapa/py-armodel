@@ -1,1 +1,1 @@
-from .AtpMixedString import *  # noqa: F403
+from .StereotypeMixins import *  # noqa: F403

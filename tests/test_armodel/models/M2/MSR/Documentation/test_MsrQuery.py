@@ -182,7 +182,7 @@ class TestMsrQueryTopic1:
 
     def test_msr_query_topic1_base_chain(self):
         """MsrQueryTopic1 derives from Paginateable only (spec Base: ARObject, DocumentViewSelectable, Paginateable)."""
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
         from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
 
         assert issubclass(MsrQueryTopic1, Paginateable)
@@ -225,7 +225,7 @@ class TestMsrQueryP1:
 
     def test_msr_query_p1_base_chain(self):
         """MsrQueryP1 derives from Paginateable only (spec Base: ARObject, DocumentViewSelectable, Paginateable)."""
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
         from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
 
         assert issubclass(MsrQueryP1, Paginateable)
@@ -268,7 +268,7 @@ class TestMsrQueryChapter:
 
     def test_msr_query_chapter_base_chain(self):
         """MsrQueryChapter derives from Paginateable only (spec Base: ARObject , DocumentViewSelectable , Paginateable)."""
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
         from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
 
         assert issubclass(MsrQueryChapter, Paginateable)

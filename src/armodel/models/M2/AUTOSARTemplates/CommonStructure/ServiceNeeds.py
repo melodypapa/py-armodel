@@ -5,7 +5,7 @@ services such as NV block management, diagnostic services, cryptographic service
 """
 
 from __future__ import annotations
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from abc import ABC
 from typing import List, Optional, TYPE_CHECKING

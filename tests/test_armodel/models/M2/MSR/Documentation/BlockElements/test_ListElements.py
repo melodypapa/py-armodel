@@ -67,7 +67,7 @@ class TestItem:
 
     def test_item_inheritance(self):
         """Item shall derive from Paginateable (Table 9.9 Base row, most-derived) and carry the VariationPointCapable mixin (XSD 00052 group ITEM carries the VARIATION-POINT element)."""
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
         from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
 
         item = Item()
@@ -134,7 +134,7 @@ class TestARList:
 
     def test_ar_list_inheritance(self):
         """ARList shall derive from Paginateable (Table 9.8 Base row, most-derived) and carry the VariationPointCapable mixin (XSD 00052 group LIST carries the VARIATION-POINT element, mmt.qualifiedName="List.variationPoint" — same convention as the Item sibling)."""
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
         from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
 
         ar_list = ARList()
