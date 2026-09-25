@@ -1649,11 +1649,12 @@ class TestRteEventHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         event = behavior.createAsynchronousServerCallReturnsEvent("ascr")
         element = _snip(
-            "<SHORT-NAME>ascr</SHORT-NAME>" "<EVENT-SOURCE-REF DEST='ASYNCHRONOUS-SERVER-CALL-POINT'>/acp</EVENT-SOURCE-REF>",
+            "<SHORT-NAME>ascr</SHORT-NAME>" "<EVENT-SOURCE-REF DEST='ASYNCHRONOUS-SERVER-CALL-RESULT-POINT'>/acp</EVENT-SOURCE-REF>",
             root_tag="ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT",
         )
         parser.readAsynchronousServerCallReturnsEvent(element, event)
         assert event.getEventSourceRef().getValue() == "/acp"
+        assert event.getEventSourceRef().getDest() == "ASYNCHRONOUS-SERVER-CALL-RESULT-POINT"
 
     def test_readModeSwitchedAckEvent_full(self, parser):
         from armodel.models import ApplicationSwComponentType

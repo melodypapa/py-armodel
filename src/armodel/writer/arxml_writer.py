@@ -3598,11 +3598,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "INIT-EVENT")
             self.setRTEEvent(child_element, event)
 
-    def writeAsynchronousServerCallReturnsEvent(self, element: ET.Element, event: InitEvent):
+    def writeAsynchronousServerCallReturnsEvent(self, element: ET.Element, event: AsynchronousServerCallReturnsEvent):
         if event is not None:
             child_element = ET.SubElement(element, "ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT")
             self.setRTEEvent(child_element, event)
-            self.setChildElementOptionalRefType(child_element, "EVENT-SOURCE-REF", event.getActivationReasonRepresentationRef())
+            self.setChildElementOptionalRefType(child_element, "EVENT-SOURCE-REF", event.getEventSourceRef())
 
     def writeModeSwitchedAckEvent(self, element: ET.Element, event: ModeSwitchedAckEvent):
         if event is not None:

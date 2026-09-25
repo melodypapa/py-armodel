@@ -3,6 +3,8 @@ This module contains classes for representing AUTOSAR RTE events
 in software component internal behavior templates.
 """
 
+from __future__ import annotations
+
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from typing import List, Optional
@@ -46,7 +48,7 @@ class RTEEvent(AtpStructureElement, AbstractEvent, VariationPointCapable, ABC):
         """
         return self.disabledModeIRefs
 
-    def addDisabledModeIRef(self, value: Optional[RModeInAtomicSwcInstanceRef]) -> "RTEEvent":
+    def addDisabledModeIRef(self, value: Optional[RModeInAtomicSwcInstanceRef]) -> RTEEvent:
         """
         Reference to the Modes that disable the Event.
         A None value is a no-op and does not append anything.
@@ -61,7 +63,7 @@ class RTEEvent(AtpStructureElement, AbstractEvent, VariationPointCapable, ABC):
         """
         return self.startOnEventRef
 
-    def setStartOnEventRef(self, value: Optional[RefType]) -> "RTEEvent":
+    def setStartOnEventRef(self, value: Optional[RefType]) -> RTEEvent:
         """
         The referenced RunnableEntity starts when the corresponding RTEEvent is raised.
         A None value is a no-op and does not overwrite an existing startOnEventRef.
@@ -74,38 +76,36 @@ class RTEEvent(AtpStructureElement, AbstractEvent, VariationPointCapable, ABC):
 class AsynchronousServerCallReturnsEvent(RTEEvent):
     """
     This event is raised when an asynchronous server call is finished.
+
+    [constr_1940] Existence of attribute AsynchronousServerCallReturnsEvent.eventSource: For each AsynchronousServerCallReturnsEvent, attribute eventSource shall exist at the time when the contract phase generation is executed.
     """
 
     # AsynchronousServerCallReturnsEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getEventSourceRef            [x] impl  [x] docstring  [ ] test
-    # [ ] setEventSourceRef            [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.10, p.541
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventSourceRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventSourceRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.eventSourceRef: RefType = None
+        # The referenced AsynchronousServerCallResultPoint raises this AsynchronousServerCallReturnsEvent when the asynchronous server call returns.
+        self.eventSourceRef: Optional[RefType] = None
 
-    def getEventSourceRef(self):
+    def getEventSourceRef(self) -> Optional[RefType]:
         """
-        Gets the event source reference.
-
-        Returns:
-            RefType: The event source reference
+        The referenced AsynchronousServerCallResultPoint raises this AsynchronousServerCallReturnsEvent when the asynchronous server call returns.
         """
         return self.eventSourceRef
 
-    def setEventSourceRef(self, value):
+    def setEventSourceRef(self, value: Optional[RefType]) -> AsynchronousServerCallReturnsEvent:
         """
-        Sets the event source reference.
-
-        Args:
-            value: The event source reference to set
-
-        Returns:
-            self for method chaining
+        The referenced AsynchronousServerCallResultPoint raises this AsynchronousServerCallReturnsEvent when the asynchronous server call returns.
+        A None value is a no-op and does not overwrite an existing eventSourceRef.
         """
-        self.eventSourceRef = value
+        if value is not None:
+            self.eventSourceRef = value
         return self
 
 
@@ -255,7 +255,7 @@ class SwcModeSwitchEvent(RTEEvent):
         """
         return self.activation
 
-    def setActivation(self, value: Optional[ModeActivationKind]) -> "SwcModeSwitchEvent":
+    def setActivation(self, value: Optional[ModeActivationKind]) -> SwcModeSwitchEvent:
         """
         Specifies if the event is raised on entering or exiting a specific mode or is raised on the transition between two modes.
         A None value is a no-op and does not overwrite an existing activation.
@@ -264,7 +264,7 @@ class SwcModeSwitchEvent(RTEEvent):
             self.activation = value
         return self
 
-    def addModeIRef(self, value: Optional[RModeInAtomicSwcInstanceRef]) -> "SwcModeSwitchEvent":
+    def addModeIRef(self, value: Optional[RModeInAtomicSwcInstanceRef]) -> SwcModeSwitchEvent:
         """
         The referenced mode or the transition between two modes raises this SwcModeSwitchEvent. InstanceRef implemented by: RModeInAtomicSwc InstanceRef
         A None value is a no-op and does not append anything.
@@ -580,7 +580,7 @@ class WaitPoint(Identifiable):
         """
         return self.timeout
 
-    def setTimeout(self, value: Optional[TimeValue]) -> "WaitPoint":
+    def setTimeout(self, value: Optional[TimeValue]) -> WaitPoint:
         """
         Time in seconds before the WaitPoint times out and the blocking wait call returns with an error indicating the timeout.
         A None value is a no-op and does not overwrite an existing timeout.
@@ -604,7 +604,7 @@ class WaitPoint(Identifiable):
         """
         return self.triggerRef
 
-    def setTriggerRef(self, value: Optional[RefType]) -> "WaitPoint":
+    def setTriggerRef(self, value: Optional[RefType]) -> WaitPoint:
         """
         This is the RTEEvent this WaitPoint is waiting for.
         A None value is a no-op and does not overwrite an existing triggerRef.
