@@ -707,6 +707,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     DataReceiveErrorEvent,
     DataReceivedEvent,
     DataSendCompletedEvent,
+    DataWriteCompletedEvent,
     InitEvent,
     InternalTriggerOccurredEvent,
     ModeSwitchedAckEvent,
@@ -5649,6 +5650,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readRTEEvent(element, event)
         event.setEventSourceRef(self.getChildElementOptionalRefType(element, "EVENT-SOURCE-REF"))
 
+    def readDataWriteCompletedEvent(self, element, event: DataWriteCompletedEvent):
+        # self.logger.debug("Read DataWriteCompletedEvent <%s>" % event.getShortName())
+        self.readRTEEvent(element, event)
+        event.setEventSourceRef(self.getChildElementOptionalRefType(element, "EVENT-SOURCE-REF"))
+
     def readSwcInternalBehaviorEvents(self, element: ET.Element, parent: SwcInternalBehavior):
         for child_element in self.findall(element, "EVENTS/*"):
             tag_name = self.getTagName(child_element)
@@ -5685,6 +5691,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DATA-SEND-COMPLETED-EVENT":
                 event = parent.createDataSendCompletedEvent(self.getShortName(child_element))
                 self.readDataSendCompletedEvent(child_element, event)
+            elif tag_name == "DATA-WRITE-COMPLETED-EVENT":
+                event = parent.createDataWriteCompletedEvent(self.getShortName(child_element))
+                self.readDataWriteCompletedEvent(child_element, event)
             else:
                 self.notImplemented("Unsupported SwcInternalBehavior Event <%s>" % tag_name)
 

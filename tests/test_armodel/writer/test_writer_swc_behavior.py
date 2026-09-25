@@ -399,6 +399,31 @@ class TestWriterRteEvents:
         writer.writeDataSendCompletedEvent(parent, None)
         assert len(parent) == 0
 
+    def test_writeDataWriteCompletedEvent(self, writer):
+        behavior = _make_behavior()
+        event = behavior.createDataWriteCompletedEvent("dwc")
+        event.setEventSourceRef(_ref("/va", "VARIABLE-ACCESS"))
+        parent = _parent()
+        writer.writeDataWriteCompletedEvent(parent, event)
+        evt = parent[0]
+        assert evt.tag == "DATA-WRITE-COMPLETED-EVENT"
+        assert evt.find("EVENT-SOURCE-REF").text == "/va"
+        assert evt.find("EVENT-SOURCE-REF").get("DEST") == "VARIABLE-ACCESS"
+
+    def test_writeDataWriteCompletedEvent_optional_children_omitted(self, writer):
+        behavior = _make_behavior()
+        event = behavior.createDataWriteCompletedEvent("dwc")
+        parent = _parent()
+        writer.writeDataWriteCompletedEvent(parent, event)
+        evt = parent[0]
+        assert evt.tag == "DATA-WRITE-COMPLETED-EVENT"
+        assert evt.find("EVENT-SOURCE-REF") is None
+
+    def test_writeDataWriteCompletedEvent_none(self, writer):
+        parent = _parent()
+        writer.writeDataWriteCompletedEvent(parent, None)
+        assert len(parent) == 0
+
 
 class TestWriterSwcInternalBehaviorEventsDispatch:
     def test_dispatches_all_event_types(self, writer):

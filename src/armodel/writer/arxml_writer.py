@@ -622,6 +622,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     DataReceiveErrorEvent,
     DataReceivedEvent,
     DataSendCompletedEvent,
+    DataWriteCompletedEvent,
     InitEvent,
     InternalTriggerOccurredEvent,
     ModeSwitchedAckEvent,
@@ -3630,6 +3631,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setRTEEvent(child_element, event)
             self.setChildElementOptionalRefType(child_element, "EVENT-SOURCE-REF", event.getEventSourceRef())
 
+    def writeDataWriteCompletedEvent(self, element: ET.Element, event: DataWriteCompletedEvent):
+        if event is not None:
+            child_element = ET.SubElement(element, "DATA-WRITE-COMPLETED-EVENT")
+            self.setRTEEvent(child_element, event)
+            self.setChildElementOptionalRefType(child_element, "EVENT-SOURCE-REF", event.getEventSourceRef())
+
     def writeSwcInternalBehaviorEvents(self, element: ET.Element, parent: SwcInternalBehavior):
         events = parent.getRteEvents()
         if len(events) > 0:
@@ -3658,6 +3665,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeBackgroundEvent(child_element, event)
                 elif isinstance(event, DataSendCompletedEvent):
                     self.writeDataSendCompletedEvent(child_element, event)
+                elif isinstance(event, DataWriteCompletedEvent):
+                    self.writeDataWriteCompletedEvent(child_element, event)
                 else:
                     self.notImplemented("Unsupported Event <%s>" % type(event))
 

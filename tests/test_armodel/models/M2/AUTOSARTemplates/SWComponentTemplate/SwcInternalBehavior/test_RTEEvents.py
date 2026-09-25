@@ -3,6 +3,7 @@ This module contains comprehensive tests for the RTEEvents module in SWComponent
 Tests cover all classes and methods in the RTEEvents.py file to achieve 100% test coverage.
 """
 
+import inspect
 import typing
 
 import pytest
@@ -177,10 +178,18 @@ class TestDataSendCompletedEvent:
 
 
 class TestDataWriteCompletedEvent:
-    """Test class for DataWriteCompletedEvent class."""
+    """Test class for DataWriteCompletedEvent class (Table 7.12)."""
 
-    def test_data_write_completed_event_initialization(self):
-        """Test DataWriteCompletedEvent initialization and methods."""
+    def test_docstring_is_spec_note_verbatim(self):
+        """The class docstring carries the Table 7.12 Note + constr_1942 verbatim."""
+        assert inspect.cleandoc(DataWriteCompletedEvent.__doc__) == (
+            "This event is raised when an implicit write access was successful or an error occurred.\n"
+            "\n"
+            "[constr_1942] Existence of attribute DataWriteCompletedEvent.eventSource: For each DataWriteCompletedEvent, attribute eventSource shall exist at the time when the contract phase generation is executed."
+        )
+
+    def test_initialization(self):
+        """Test DataWriteCompletedEvent initialization defaults."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         event = DataWriteCompletedEvent(ar_root, "TestDataWriteCompletedEvent")
@@ -190,14 +199,32 @@ class TestDataWriteCompletedEvent:
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.eventSourceRef is None
+        assert isinstance(event, RTEEvent)
 
-        # Test eventSourceRef methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+    def test_get_set_eventSourceRef(self):
+        """Test setEventSourceRef/getEventSourceRef round-trip and None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = DataWriteCompletedEvent(ar_root, "TestDataWriteCompletedEvent")
 
-        source_ref = RefType()
-        source_ref.setValue("/Source/Ref")
-        event.setEventSourceRef(source_ref)
-        assert event.getEventSourceRef() == source_ref
+        ref = RefType()
+        ref.setDest("VARIABLE-ACCESS")
+        ref.setValue("/swc/ib/va")
+        assert event.setEventSourceRef(ref) is event
+        assert event.getEventSourceRef() is ref
+        assert event.getEventSourceRef().getDest() == "VARIABLE-ACCESS"
+        assert event.getEventSourceRef().getValue() == "/swc/ib/va"
+
+        event.setEventSourceRef(None)
+        assert event.getEventSourceRef() is ref
+
+    def test_get_type_hints(self):
+        """Test spec-typed annotations resolve at runtime (plain get_type_hints)."""
+        hints = typing.get_type_hints(DataWriteCompletedEvent.setEventSourceRef)
+        assert hints.get("value") == typing.Optional[RefType]
+        assert hints.get("return") is DataWriteCompletedEvent
+
+        assert typing.get_type_hints(DataWriteCompletedEvent.getEventSourceRef).get("return") == typing.Optional[RefType]
 
 
 class TestDataReceivedEvent:
