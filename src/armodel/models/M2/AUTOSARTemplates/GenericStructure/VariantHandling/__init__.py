@@ -1,6 +1,6 @@
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AtpMixedString import AtpMixedString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARNumerical, Identifier, Integer
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
@@ -313,7 +313,7 @@ class PostBuildVariantCondition(ARObject):
         return self
 
 
-class ConditionByFormula(AtpMixedString):
+class ConditionByFormula(ARObject, AtpMixedString):
     """
     This class represents a condition which is computed based on system constants according to the specified expression. The expected result is considered as boolean value. The result of the expression is interpreted as a condition. • "0" represents "false"; • a value other than zero is considered "true"
     """

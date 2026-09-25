@@ -4,7 +4,7 @@ in software component internal behavior templates.
 """
 
 from __future__ import annotations
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from typing import TYPE_CHECKING, Optional
 

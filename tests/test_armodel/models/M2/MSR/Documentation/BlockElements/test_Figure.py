@@ -470,7 +470,7 @@ class TestMlFigure:
 
     def test_ml_figure_base_chain(self):
         """MlFigure derives from Paginateable only (spec Base: ARObject , DocumentViewSelectable , Paginateable)."""
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
         from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
 
         assert issubclass(MlFigure, Paginateable)

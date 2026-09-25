@@ -5,7 +5,7 @@ hierarchies in a flat manner, typically used for code generation purposes.
 """
 
 from typing import List, Optional
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, String

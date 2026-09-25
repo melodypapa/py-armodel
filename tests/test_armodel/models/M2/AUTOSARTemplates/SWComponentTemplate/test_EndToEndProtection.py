@@ -145,7 +145,7 @@ class TestEndToEndProtectionVariablePrototype:
     def test_spec_base_and_instantiation(self):
         """Test the spec Base chain and concrete instantiation."""
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
         prototype = EndToEndProtectionVariablePrototype()
         assert isinstance(prototype, ARObject)

@@ -1744,7 +1744,7 @@ accept VARIATION-POINT in reader/writer (parser warns, writer skips — same gat
 reference in a stamped class's checklist comments means "inherited capability" and
 should be updated to reference the mixin.
 
-## Rule 0021 — `<<atpMixedString>>` stereotype (AtpMixedString mixin) *(added after the atpMixedString support sync, PR #785, 2026-09-24)*
+## Rule 0021 — `<<atpMixedString>>` stereotype (AtpMixedString mixin) *(added after the atpMixedString support sync, PR #785, 2026-09-24; redesigned 2026-09-25 — interface-level mixin in the unified `StereotypeMixins.py` module)*
 
 `<<atpMixedString>>` marks meta-classes whose XML element may carry **unqualified text
 mixed in between the formally defined elements**
@@ -1762,20 +1762,28 @@ L3154). **XSD verification (authoritative, cf. Rule 0015):** the class's
 
 **Implementation convention (never declare a per-class text field):** the class inherits
 the `AtpMixedString` mixin
-(`GenericStructure/GeneralTemplateClasses/AtpMixedString.py` — `mixedString` field +
-`getMixedString`/`setMixedString`, chaining, None no-op; spec refs in the base's header
-comment; accessors have **no spec rows** — stereotype-inherent). Two repo-specific
-traps, both settled in PR #785:
+(`GenericStructure/GeneralTemplateClasses/StereotypeMixins.py`, unified with
+`VariationPointCapable` — `mixedString` field + `getMixedString`/`setMixedString`,
+chaining, None no-op; spec refs in the base's header comment; accessors have **no spec
+rows** — stereotype-inherent). The mixin is **interface-level** (2026-09-25 redesign,
+exact `VariationPointCapable` parity): it derives from `ABC` only — **not** from
+`ARObject` — and has **no `__init__` and no instantiation guard**, so consumers anchor
+their own spec `Base`. Three repo-specific traps, settled in PR #785 + the redesign:
 
-- **MRO bypass:** the repo's `Referrable.__init__` calls `ARObject.__init__` directly
-  (bypassing `super()`), so a mixin `__init__` may never run under combined inheritance.
-  The mixin therefore carries a **class-level default** `mixedString: Optional[str] = None`
-  — do not remove it.
-- **Base order:** when combined with `Referrable`, the mixin goes **second**
-  (`TimingConditionFormula(Referrable, AtpMixedString)`, same for
-  `TDEventOccurrenceExpressionFormula` — MRO `Cls → Referrable → AtpMixedString →
-  ARObject`); when it is the only semantic base it goes first
-  (`ConditionByFormula(AtpMixedString)`, `AttributeValueVariationPoint(AtpMixedString, ABC)`).
+- **MRO bypass (why there is no `__init__`):** the repo's `Referrable.__init__` calls
+  `ARObject.__init__` directly (bypassing `super()`), so a mixin `__init__` may never
+  run under combined inheritance. The mixin therefore carries a **class-level default**
+  `mixedString: Optional[str] = None` as the ONLY initialization — reads fall back to
+  the class attribute until `setMixedString` assigns the instance attribute. Do not
+  remove the default; do not add a mixin `__init__`.
+- **Base order — the consumer anchors `ARObject`:** mixin **after** the
+  ARObject-anchored primary base, `ABC` last. Where the spec Base is `ARObject` itself,
+  name it explicitly: `ConditionByFormula(ARObject, AtpMixedString)` (Table 7.5),
+  `AttributeValueVariationPoint(ARObject, AtpMixedString, ABC)` (Table 7.2). Where the
+  spec Base chain reaches `ARObject` via `Referrable`, keep
+  `TimingConditionFormula(Referrable, AtpMixedString)` (same for
+  `TDEventOccurrenceExpressionFormula` — MRO `Cls → Referrable → ARObject →
+  AtpMixedString`).
 
 **Checklist consequence (Rule 0002):** the class checklist carries **no** rows for the
 text member/accessors; it carries the standard annotation line instead:
