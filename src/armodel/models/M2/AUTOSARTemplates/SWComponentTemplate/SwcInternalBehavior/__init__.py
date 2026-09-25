@@ -6,7 +6,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototy
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstantiationDataDefProps import InstantiationDataDefProps
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PerInstanceMemory import PerInstanceMemory
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, BackgroundEvent
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, BackgroundEvent, DataReceiveErrorEvent
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataSendCompletedEvent
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import ModeSwitchedAckEvent, OperationInvokedEvent, RTEEvent
@@ -752,6 +752,7 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
     # [x] createInitEvent                              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createAsynchronousServerCallReturnsEvent     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createDataReceivedEvent                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDataReceiveErrorEvent                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createSwcModeSwitchEvent                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createInternalTriggerOccurredEvent           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createModeSwitchedAckEvent                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -1050,6 +1051,16 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
             self.addElement(event)
             self.events.append(event)
         return self.getElement(short_name, DataReceivedEvent)
+
+    def createDataReceiveErrorEvent(self, short_name: str) -> DataReceiveErrorEvent:
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
+        if not self.IsElementExists(short_name, DataReceiveErrorEvent):
+            event = DataReceiveErrorEvent(self, short_name)
+            self.addElement(event)
+            self.events.append(event)
+        return self.getElement(short_name, DataReceiveErrorEvent)
 
     def createSwcModeSwitchEvent(self, short_name: str) -> SwcModeSwitchEvent:
         """

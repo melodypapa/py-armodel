@@ -12,7 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeInAtomicSwcInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
     AsynchronousServerCallReturnsEvent,
     BackgroundEvent,
@@ -252,10 +252,10 @@ class TestSwcModeSwitchEvent:
 
 
 class TestDataReceiveErrorEvent:
-    """Test class for DataReceiveErrorEvent class."""
+    """Test class for DataReceiveErrorEvent class (Table 7.14)."""
 
-    def test_data_receive_error_event_initialization(self):
-        """Test DataReceiveErrorEvent initialization and methods."""
+    def test_initialization(self):
+        """Test DataReceiveErrorEvent initialization defaults."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         event = DataReceiveErrorEvent(ar_root, "TestDataReceiveErrorEvent")
@@ -265,13 +265,38 @@ class TestDataReceiveErrorEvent:
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.dataIRef is None
+        assert isinstance(event, RTEEvent)
 
-        # Test dataIRef methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RVariableInAtomicSwcInstanceRef
+    def test_get_set_dataIRef(self):
+        """Test setDataIRef/getDataIRef round-trip and None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = DataReceiveErrorEvent(ar_root, "TestDataReceiveErrorEvent")
 
         iref = RVariableInAtomicSwcInstanceRef()
-        event.setDataIRef(iref)
-        assert event.getDataIRef() == iref
+        context_ref = RefType()
+        context_ref.setDest("R-PORT-PROTOTYPE")
+        context_ref.setValue("/swc/rp")
+        iref.setContextRPortRef(context_ref)
+        target_ref = RefType()
+        target_ref.setDest("VARIABLE-DATA-PROTOTYPE")
+        target_ref.setValue("/swc/de")
+        iref.setTargetDataElementRef(target_ref)
+        assert event.setDataIRef(iref) is event
+        assert event.getDataIRef() is iref
+        assert event.getDataIRef().getContextRPortRef().getValue() == "/swc/rp"
+        assert event.getDataIRef().getTargetDataElementRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+
+        event.setDataIRef(None)
+        assert event.getDataIRef() is iref
+
+    def test_get_type_hints(self):
+        """Test spec-typed annotations resolve at runtime (plain get_type_hints)."""
+        hints = typing.get_type_hints(DataReceiveErrorEvent.setDataIRef)
+        assert hints.get("value") == typing.Optional[RVariableInAtomicSwcInstanceRef]
+        assert hints.get("return") is DataReceiveErrorEvent
+
+        assert typing.get_type_hints(DataReceiveErrorEvent.getDataIRef).get("return") == typing.Optional[RVariableInAtomicSwcInstanceRef]
 
 
 class TestOperationInvokedEvent:

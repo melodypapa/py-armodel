@@ -282,40 +282,37 @@ class SwcModeSwitchEvent(RTEEvent):
 
 class DataReceiveErrorEvent(RTEEvent):
     """
-    This event is raised when the Com layer detects and notifies an error
-    concerning the reception of the referenced VariableDataPrototype.
+    This event is raised when the Com layer detects and notifies an error concerning the reception of the referenced VariableDataPrototype.
+
+    [constr_1944] Existence of attribute DataReceiveErrorEvent.data: For each DataReceiveErrorEvent, attribute data shall exist at the time when the contract phase generation is executed.
     """
 
     # DataReceiveErrorEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataIRef                  [x] impl  [x] docstring  [ ] test
-    # [ ] setDataIRef                  [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.14, p.543
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dataIRef: RVariableInAtomicSwcInstanceRef = None
+        # The referenced VariableDataPrototype raises this DataReceiveErrorEvent when there was an error during the reception. InstanceRef implemented by: RVariableInAtomicSwcInstanceRef
+        self.dataIRef: Optional[RVariableInAtomicSwcInstanceRef] = None
 
-    def getDataIRef(self):
+    def getDataIRef(self) -> Optional[RVariableInAtomicSwcInstanceRef]:
         """
-        Gets the data instance reference.
-
-        Returns:
-            RVariableInAtomicSwcInstanceRef: The data instance reference
+        The referenced VariableDataPrototype raises this DataReceiveErrorEvent when there was an error during the reception. InstanceRef implemented by: RVariableInAtomicSwcInstanceRef
         """
         return self.dataIRef
 
-    def setDataIRef(self, value):
+    def setDataIRef(self, value: Optional[RVariableInAtomicSwcInstanceRef]) -> DataReceiveErrorEvent:
         """
-        Sets the data instance reference.
-
-        Args:
-            value: The data instance reference to set
-
-        Returns:
-            self for method chaining
+        The referenced VariableDataPrototype raises this DataReceiveErrorEvent when there was an error during the reception. InstanceRef implemented by: RVariableInAtomicSwcInstanceRef
+        A None value is a no-op and does not overwrite an existing dataIRef.
         """
-        self.dataIRef = value
+        if value is not None:
+            self.dataIRef = value
         return self
 
 

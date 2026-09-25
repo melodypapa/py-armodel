@@ -237,6 +237,38 @@ class TestWriterRteEvents:
         writer.writeDataReceivedEvent(parent, None)
         assert len(parent) == 0
 
+    def test_writeDataReceiveErrorEvent(self, writer):
+        behavior = _make_behavior()
+        event = behavior.createDataReceiveErrorEvent("dree")
+        iref = RVariableInAtomicSwcInstanceRef()
+        iref.setContextRPortRef(_ref("/rp", "R-PORT-PROTOTYPE"))
+        iref.setTargetDataElementRef(_ref("/de", "VARIABLE-DATA-PROTOTYPE"))
+        event.setDataIRef(iref)
+        parent = _parent()
+        writer.writeDataReceiveErrorEvent(parent, event)
+        evt = parent[0]
+        assert evt.tag == "DATA-RECEIVE-ERROR-EVENT"
+        data_iref = evt.find("DATA-IREF")
+        assert data_iref is not None
+        assert data_iref.find("CONTEXT-R-PORT-REF").text == "/rp"
+        assert data_iref.find("CONTEXT-R-PORT-REF").get("DEST") == "R-PORT-PROTOTYPE"
+        assert data_iref.find("TARGET-DATA-ELEMENT-REF").text == "/de"
+        assert data_iref.find("TARGET-DATA-ELEMENT-REF").get("DEST") == "VARIABLE-DATA-PROTOTYPE"
+
+    def test_writeDataReceiveErrorEvent_optional_children_omitted(self, writer):
+        behavior = _make_behavior()
+        event = behavior.createDataReceiveErrorEvent("dree")
+        parent = _parent()
+        writer.writeDataReceiveErrorEvent(parent, event)
+        evt = parent[0]
+        assert evt.tag == "DATA-RECEIVE-ERROR-EVENT"
+        assert evt.find("DATA-IREF") is None
+
+    def test_writeDataReceiveErrorEvent_none(self, writer):
+        parent = _parent()
+        writer.writeDataReceiveErrorEvent(parent, None)
+        assert len(parent) == 0
+
     def test_writeInternalTriggerOccurredEvent(self, writer):
         behavior = _make_behavior()
         event = behavior.createInternalTriggerOccurredEvent("ito")
@@ -2659,6 +2691,85 @@ class TestAsynchronousServerCallReturnsEventRoundTrip:
             behavior_2 = app_2.getInternalBehavior()
             event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "ascr1")
             assert event_2.getEventSourceRef() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestDataReceiveErrorEventRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a DataReceiveErrorEvent with dataIRef."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataReceiveErrorEvent
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        event = behavior.createDataReceiveErrorEvent("dree1")
+        iref = RVariableInAtomicSwcInstanceRef()
+        iref.setContextRPortRef(_ref("/Pkg/App/rp1", "R-PORT-PROTOTYPE"))
+        iref.setTargetDataElementRef(_ref("/Pkg/App/de1", "VARIABLE-DATA-PROTOTYPE"))
+        event.setDataIRef(iref)
+        event.setStartOnEventRef(_ref("/Pkg/App/Behavior/r1", "RUNNABLE-ENTITY"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "dree1")
+            assert isinstance(event_2, DataReceiveErrorEvent)
+            data_iref = event_2.getDataIRef()
+            assert data_iref is not None
+            assert data_iref.getContextRPortRef().getValue() == "/Pkg/App/rp1"
+            assert data_iref.getContextRPortRef().getDest() == "R-PORT-PROTOTYPE"
+            assert data_iref.getTargetDataElementRef().getValue() == "/Pkg/App/de1"
+            assert data_iref.getTargetDataElementRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+            start_ref = event_2.getStartOnEventRef()
+            assert start_ref is not None
+            assert start_ref.getValue() == "/Pkg/App/Behavior/r1"
+            assert start_ref.getDest() == "RUNNABLE-ENTITY"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a DataReceiveErrorEvent without dataIRef round-trips without the element."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        behavior.createDataReceiveErrorEvent("dree1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            evt = next(e for e in saved.iter() if e.tag.endswith("DATA-RECEIVE-ERROR-EVENT"))
+            assert all(not c.tag.endswith("DATA-IREF") for c in evt)
+            document.clear()
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "dree1")
+            assert event_2.getDataIRef() is None
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

@@ -619,6 +619,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
     AsynchronousServerCallReturnsEvent,
     BackgroundEvent,
+    DataReceiveErrorEvent,
     DataReceivedEvent,
     DataSendCompletedEvent,
     InitEvent,
@@ -3587,6 +3588,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setRTEEvent(child_element, event)
             self.setRVariableInAtomicSwcInstanceRef(child_element, event.dataIRef)
 
+    def writeDataReceiveErrorEvent(self, element: ET.Element, event: DataReceiveErrorEvent):
+        if event is not None:
+            child_element = ET.SubElement(element, "DATA-RECEIVE-ERROR-EVENT")
+            self.setRTEEvent(child_element, event)
+            self.setRVariableInAtomicSwcInstanceRef(child_element, event.getDataIRef())
+
     def writeInternalTriggerOccurredEvent(self, element: ET.Element, event: InternalTriggerOccurredEvent):
         if event is not None:
             child_element = ET.SubElement(element, "INTERNAL-TRIGGER-OCCURRED-EVENT")
@@ -3635,6 +3642,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeSwcModeSwitchEvent(child_element, event)
                 elif isinstance(event, DataReceivedEvent):
                     self.writeDataReceivedEvent(child_element, event)
+                elif isinstance(event, DataReceiveErrorEvent):
+                    self.writeDataReceiveErrorEvent(child_element, event)
                 elif isinstance(event, InternalTriggerOccurredEvent):
                     self.writeInternalTriggerOccurredEvent(child_element, event)
                 elif isinstance(event, InitEvent):

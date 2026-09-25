@@ -704,6 +704,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
     AsynchronousServerCallReturnsEvent,
     BackgroundEvent,
+    DataReceiveErrorEvent,
     DataReceivedEvent,
     DataSendCompletedEvent,
     InitEvent,
@@ -5603,6 +5604,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readRTEEvent(element, event)
         self.readRVariableInAtomicSwcInstanceRef(element, event)
 
+    def readDataReceiveErrorEvent(self, element: ET.Element, event: DataReceiveErrorEvent):
+        # self.logger.debug("Read DataReceiveErrorEvent <%s>" % event.getShortName())
+        self.readRTEEvent(element, event)
+        self.readRVariableInAtomicSwcInstanceRef(element, event)
+
     def readSwcModeSwitchEvent(self, element: ET.Element, event: SwcModeSwitchEvent):
         # self.logger.debug("Read SwcModeSwitchEvent <%s>" % event.getShortName())
         self.readRTEEvent(element, event)
@@ -5654,6 +5660,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DATA-RECEIVED-EVENT":
                 event = parent.createDataReceivedEvent(self.getShortName(child_element))
                 self.readDataReceivedEvent(child_element, event)
+            elif tag_name == "DATA-RECEIVE-ERROR-EVENT":
+                event = parent.createDataReceiveErrorEvent(self.getShortName(child_element))
+                self.readDataReceiveErrorEvent(child_element, event)
             elif tag_name == "INTERNAL-TRIGGER-OCCURRED-EVENT":
                 event = parent.createInternalTriggerOccurredEvent(self.getShortName(child_element))
                 self.readInternalTriggerOccurredEvent(child_element, event)
