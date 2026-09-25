@@ -152,18 +152,17 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 7.12 p.542 citation, release column; __init__ row [—] reader/writer; reader on setter row / writer on getter row; marker deferred to 9b
   - [x] Step 8 — Deviations  [none in scope: 1 attr modeled exactly; Base stamped; DEST enum = sole XSD value VARIABLE-ACCESS; no tracker entries; RteEvents module pep563-clean]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-25: full suite 11943 passed / 0 failed (--no-coverage, baseline 11935 + 8 net new incl. 6 round-trip + pep563 guard fix); ruff clean; black clean on all 7 touched files; integration round-trip green; 9b deferred to batch confirmation (user instruction 2026-09-24)
-- [ ] `InternalTriggerOccurredEvent` — RTEEvent — source TBC (locate table at Step 1)
+- [ ] `InternalTriggerOccurredEvent` — RTEEvent — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.21, p.546
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec — Table 7.21, p.546; Base chain → most-existing stamped `RTEEvent`; sole attr eventSource (InternalTriggeringPoint, 0..1, ref → eventSourceRef, DEST=INTERNAL-TRIGGERING-POINT--SUBTYPES-ENUM per XSD group INTERNAL-TRIGGER-OCCURRED-EVENT); Note verbatim + constr_1950; R4.3.1 Tables 7.23/7.32 = older reproductions
+  - [x] Step 2 — Write model class unit test (Red) — TestInternalTriggerOccurredEvent rewritten to sibling spec-contract form: verbatim Note+constr docstring pin, initialization, get/set + DEST + None no-op, plain get_type_hints pins (2 Red: docstring/hints; None-no-op + init passed — honest)
+  - [x] Step 3 — Implement model class (Green) — Optional[RefType] retype (was bare RefType = None), typed accessors + chaining; None no-op pre-existed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note + constr_1950 verbatim; XSD element documentation verbatim on inline comment + getter + setter (replaced "Gets/Sets the..." paraphrases); 6-column checklist with release column
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — writer (value+DEST, none-guard) and parser (value) tests PRE-EXIST with value asserts; dispatch parametrize + isinstance branches pre-exist — Steps 5/6 honest pass-immediately (model tests were the genuine Reds)
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed: readInternalTriggerOccurredEvent (readRTEEvent + setEventSourceRef) / writeInternalTriggerOccurredEvent (getEventSourceRef via setChildElementOptionalRefType) / factory + checklist row all pre-exist correct
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 7.21 p.546 citation, release column; __init__ row [—] reader/writer; reader on setter row / writer on getter row; marker deferred to 9b
+  - [x] Step 8 — Deviations  [none in scope: 1 attr modeled exactly; Base stamped; DEST enum per XSD; no tracker entries]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-25: full suite 11946 passed / 0 failed (--no-coverage, baseline 11943 + 3 net new); ruff clean; black clean on touched files; integration round-trip green; 9b deferred to batch confirmation (user instruction 2026-09-24)
 - [ ] `OperationInvokedEvent` — RTEEvent — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py
   - [ ] Step 1 — Sync members & description from spec

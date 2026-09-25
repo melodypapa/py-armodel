@@ -465,10 +465,18 @@ class TestTimingEvent:
 
 
 class TestInternalTriggerOccurredEvent:
-    """Test class for InternalTriggerOccurredEvent class."""
+    """Test class for InternalTriggerOccurredEvent class (Table 7.21)."""
 
-    def test_internal_trigger_occurred_event_initialization(self):
-        """Test InternalTriggerOccurredEvent initialization and methods."""
+    def test_docstring_is_spec_note_verbatim(self):
+        """The class docstring carries the Table 7.21 Note + constr_1950 verbatim."""
+        assert inspect.cleandoc(InternalTriggerOccurredEvent.__doc__) == (
+            "This event is raised when the referenced InternalTriggeringPoint has occurred.\n"
+            "\n"
+            "[constr_1950] Existence of attribute InternalTriggerOccurredEvent.eventSource: For each InternalTriggerOccurredEvent, the attribute eventSource shall exist at the time when the RTE is generated."
+        )
+
+    def test_initialization(self):
+        """Test InternalTriggerOccurredEvent initialization defaults."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         event = InternalTriggerOccurredEvent(ar_root, "TestInternalTriggerOccurredEvent")
@@ -478,14 +486,32 @@ class TestInternalTriggerOccurredEvent:
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.eventSourceRef is None
+        assert isinstance(event, RTEEvent)
 
-        # Test eventSourceRef methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+    def test_get_set_eventSourceRef(self):
+        """Test setEventSourceRef/getEventSourceRef round-trip and None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = InternalTriggerOccurredEvent(ar_root, "TestInternalTriggerOccurredEvent")
 
-        source_ref = RefType()
-        source_ref.setValue("/Source/Ref")
-        event.setEventSourceRef(source_ref)
-        assert event.getEventSourceRef() == source_ref
+        ref = RefType()
+        ref.setDest("INTERNAL-TRIGGERING-POINT")
+        ref.setValue("/swc/ib/itp")
+        assert event.setEventSourceRef(ref) is event
+        assert event.getEventSourceRef() is ref
+        assert event.getEventSourceRef().getDest() == "INTERNAL-TRIGGERING-POINT"
+        assert event.getEventSourceRef().getValue() == "/swc/ib/itp"
+
+        event.setEventSourceRef(None)
+        assert event.getEventSourceRef() is ref
+
+    def test_get_type_hints(self):
+        """Test spec-typed annotations resolve at runtime (plain get_type_hints)."""
+        hints = typing.get_type_hints(InternalTriggerOccurredEvent.setEventSourceRef)
+        assert hints.get("value") == typing.Optional[RefType]
+        assert hints.get("return") is InternalTriggerOccurredEvent
+
+        assert typing.get_type_hints(InternalTriggerOccurredEvent.getEventSourceRef).get("return") == typing.Optional[RefType]
 
 
 class TestModeSwitchedAckEvent:
