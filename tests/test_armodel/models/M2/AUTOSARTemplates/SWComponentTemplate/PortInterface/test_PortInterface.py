@@ -1,3 +1,6 @@
+import inspect
+from typing import Optional, get_type_hints
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
@@ -20,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototy
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ApplicationError,
     ArgumentDataPrototype,
+    ClientServerApplicationErrorMapping,
     ClientServerInterface,
     ClientServerInterfaceMapping,
     ClientServerOperation,
@@ -567,3 +571,71 @@ class TestTriggerInterface:
         assert len(triggers) == 2
         assert triggers[0] is trigger1
         assert triggers[1] is trigger2
+
+
+class TestClientServerApplicationErrorMapping:
+    CLASS_NOTE = "This meta-class represents the ability to map ApplicationErrors onto each other."
+    FIRST_ERROR_NOTE = "This represents the first ApplicationError in the context of the ClientServerApplicationErrorMapping."
+    SECOND_ERROR_NOTE = "This represents the second ApplicationError in the context of the ClientServerApplicationErrorMapping."
+
+    def test_initialization(self):
+        """Test ClientServerApplicationErrorMapping initialization defaults (Table 4.25, all attrs 0..1)"""
+        mapping = ClientServerApplicationErrorMapping()
+        assert mapping is not None
+        assert mapping.firstApplicationErrorRef is None
+        assert mapping.secondApplicationErrorRef is None
+
+    def test_base_shape(self):
+        """ClientServerApplicationErrorMapping shall derive from ARObject (Table 4.25 Base row)"""
+        mapping = ClientServerApplicationErrorMapping()
+        assert isinstance(mapping, ARObject)
+
+    def test_get_set_first_application_error_ref(self):
+        """Test firstApplicationErrorRef round-trip, chaining and None no-op (Table 4.25 firstApplicationError)"""
+        mapping = ClientServerApplicationErrorMapping()
+        assert mapping.getFirstApplicationErrorRef() is None
+        test_value = RefType().setValue("/PortInterfaces/ClientServerInterface1/ApplicationError1")
+        assert mapping.setFirstApplicationErrorRef(test_value) is mapping
+        assert mapping.getFirstApplicationErrorRef() is test_value
+        mapping.setFirstApplicationErrorRef(None)
+        assert mapping.getFirstApplicationErrorRef() is test_value
+
+    def test_get_set_second_application_error_ref(self):
+        """Test secondApplicationErrorRef round-trip, chaining and None no-op (Table 4.25 secondApplicationError)"""
+        mapping = ClientServerApplicationErrorMapping()
+        assert mapping.getSecondApplicationErrorRef() is None
+        test_value = RefType().setValue("/PortInterfaces/ClientServerInterface2/ApplicationError2")
+        assert mapping.setSecondApplicationErrorRef(test_value) is mapping
+        assert mapping.getSecondApplicationErrorRef() is test_value
+        mapping.setSecondApplicationErrorRef(None)
+        assert mapping.getSecondApplicationErrorRef() is test_value
+
+    def test_accessor_annotations(self):
+        """Accessors shall carry Optional[RefType] hints; setters shall chain ClientServerApplicationErrorMapping (Table 4.25, 0..1 refs)"""
+        for suffix in ("FirstApplicationErrorRef", "SecondApplicationErrorRef"):
+            getter_hints = get_type_hints(getattr(ClientServerApplicationErrorMapping, "get%s" % suffix))
+            assert getter_hints["return"] == Optional[RefType]
+            setter_hints = get_type_hints(getattr(ClientServerApplicationErrorMapping, "set%s" % suffix))
+            assert setter_hints["value"] == Optional[RefType]
+            assert setter_hints["return"] == ClientServerApplicationErrorMapping
+
+    def test_spec_note(self):
+        """Test the Table 4.25 class note, constr_1238 and per-attribute notes (verbatim from the markdown)"""
+        class_doc = ClientServerApplicationErrorMapping.__doc__.strip()
+        assert self.CLASS_NOTE in class_doc
+        assert "[constr_1238] Scope of mapped ApplicationErrors in the context of a ClientServerOperationMapping:" in class_doc
+        assert ClientServerApplicationErrorMapping.__init__.__doc__ is None
+        init_source = inspect.getsource(ClientServerApplicationErrorMapping.__init__)
+        assert self.FIRST_ERROR_NOTE in init_source
+        assert self.SECOND_ERROR_NOTE in init_source
+        for method, note in (
+            ("getFirstApplicationErrorRef", self.FIRST_ERROR_NOTE),
+            ("setFirstApplicationErrorRef", self.FIRST_ERROR_NOTE),
+            ("getSecondApplicationErrorRef", self.SECOND_ERROR_NOTE),
+            ("setSecondApplicationErrorRef", self.SECOND_ERROR_NOTE),
+        ):
+            doc = getattr(ClientServerApplicationErrorMapping, method).__doc__.strip()
+            assert note in doc, "%s docstring must carry the spec Note verbatim" % method
+            if method.startswith("set"):
+                attr = method[3].lower() + method[4:]
+                assert "A None value is a no-op and does not overwrite an existing %s." % attr in doc

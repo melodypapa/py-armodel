@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    ClientServerApplicationErrorMapping,
     PortInterfaceMappingSet,
 )
 from armodel.parser.arxml_parser import ARXMLParser
@@ -215,3 +216,94 @@ class TestWriteModeInterfaceMappingModeMapping:
         assert mm2.getModeDeclarationMappingSetRef().getDest() == "MODE-DECLARATION-MAPPING-SET"
         assert mm2.getSecondModeGroupRef().getValue() == "/pkg/second"
         assert mm2.getSecondModeGroupRef().getDest() == "MODE-GROUP"
+
+
+class TestWriteClientServerInterfaceMappingErrorMappings:
+    """
+    Test the ERROR-MAPPINGS children of CLIENT-SERVER-INTERFACE-MAPPING —
+    ClientServerApplicationErrorMapping (SWC TPS Table 4.25, all attrs 0..1 refs).
+    """
+
+    @staticmethod
+    def _error_mapping() -> ClientServerApplicationErrorMapping:
+        em = ClientServerApplicationErrorMapping()
+        em.setFirstApplicationErrorRef(RefType().setValue("/ifc1/err1").setDest("APPLICATION-ERROR"))
+        em.setSecondApplicationErrorRef(RefType().setValue("/ifc2/err2").setDest("APPLICATION-ERROR"))
+        return em
+
+    def test_write_error_mappings_field_values(self, writer):
+        """
+        Test that both refs are written with value and DEST, in XSD element
+        order (FIRST-APPLICATION-ERROR-REF, SECOND-APPLICATION-ERROR-REF).
+        """
+        mapping_set = _mapping_set()
+        csim = mapping_set.createClientServerInterfaceMapping("csim")
+        csim.addErrorMapping(self._error_mapping())
+
+        element = ET.Element("PARENT")
+        writer.writePortInterfaceMappingSet(element, mapping_set)
+
+        em_tag = element.find("PORT-INTERFACE-MAPPING-SET/PORT-INTERFACE-MAPPINGS/CLIENT-SERVER-INTERFACE-MAPPING/ERROR-MAPPINGS/CLIENT-SERVER-APPLICATION-ERROR-MAPPING")
+        assert em_tag is not None
+        children = list(em_tag)
+        assert [c.tag for c in children] == [
+            "FIRST-APPLICATION-ERROR-REF",
+            "SECOND-APPLICATION-ERROR-REF",
+        ]
+        assert children[0].text == "/ifc1/err1"
+        assert children[0].attrib["DEST"] == "APPLICATION-ERROR"
+        assert children[1].text == "/ifc2/err2"
+        assert children[1].attrib["DEST"] == "APPLICATION-ERROR"
+
+    def test_write_error_mappings_absent_refs(self, writer):
+        """
+        Test that unset refs emit no elements (0..1) and no ERROR-MAPPINGS
+        wrapper is written when the mapping list is empty.
+        """
+        mapping_set = _mapping_set()
+        csim = mapping_set.createClientServerInterfaceMapping("csim")
+        em = ClientServerApplicationErrorMapping()
+        em.setFirstApplicationErrorRef(RefType().setValue("/ifc1/err1").setDest("APPLICATION-ERROR"))
+        csim.addErrorMapping(em)
+
+        mapping_set.createClientServerInterfaceMapping("csim2")
+
+        element = ET.Element("PARENT")
+        writer.writePortInterfaceMappingSet(element, mapping_set)
+
+        wrapper = element.find("PORT-INTERFACE-MAPPING-SET/PORT-INTERFACE-MAPPINGS")
+        csim_tag = wrapper.find("CLIENT-SERVER-INTERFACE-MAPPING")
+        em_tag = csim_tag.find("ERROR-MAPPINGS/CLIENT-SERVER-APPLICATION-ERROR-MAPPING")
+        assert em_tag is not None
+        assert [c.tag for c in em_tag] == ["FIRST-APPLICATION-ERROR-REF"]
+        assert em_tag.find("FIRST-APPLICATION-ERROR-REF").text == "/ifc1/err1"
+
+        csim2_tag = list(wrapper)[1]
+        assert csim2_tag.find("ERROR-MAPPINGS") is None
+
+    def test_round_trip_field_values(self, writer):
+        """
+        Test write → read round-trip preserves both ref values and DESTs.
+        """
+        mapping_set = _mapping_set()
+        csim = mapping_set.createClientServerInterfaceMapping("csim")
+        csim.addErrorMapping(self._error_mapping())
+
+        parent = ET.Element("PARENT")
+        writer.writeClientServerInterfaceMapping(parent, csim)
+
+        xml_text = ET.tostring(parent, encoding="unicode")
+        reparsed = ET.fromstring(xml_text.replace("PARENT", "PARENT xmlns='%s'" % NS, 1))
+
+        mapping_set2 = _mapping_set()
+        csim2 = mapping_set2.createClientServerInterfaceMapping("csim")
+        ARXMLParser().readClientServerInterfaceMapping(reparsed[0], csim2)
+
+        error_mappings = csim2.getErrorMappings()
+        assert len(error_mappings) == 1
+        em2 = error_mappings[0]
+        assert isinstance(em2, ClientServerApplicationErrorMapping)
+        assert em2.getFirstApplicationErrorRef().getValue() == "/ifc1/err1"
+        assert em2.getFirstApplicationErrorRef().getDest() == "APPLICATION-ERROR"
+        assert em2.getSecondApplicationErrorRef().getValue() == "/ifc2/err2"
+        assert em2.getSecondApplicationErrorRef().getDest() == "APPLICATION-ERROR"

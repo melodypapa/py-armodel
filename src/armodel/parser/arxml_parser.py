@@ -645,6 +645,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicatio
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor, ModeSwitchEventTriggeredActivity, NvBlockDataMapping, NvBlockDescriptor
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ArgumentDataPrototype,
+    ClientServerApplicationErrorMapping,
     ClientServerInterface,
     ClientServerInterfaceMapping,
     ClientServerOperation,
@@ -13709,6 +13710,20 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setFirstOperationRef(self.getChildElementOptionalRefType(element, "FIRST-OPERATION-REF"))
         mapping.setSecondOperationRef(self.getChildElementOptionalRefType(element, "SECOND-OPERATION-REF"))
 
+    def readClientServerApplicationErrorMapping(self, element: ET.Element, mapping: ClientServerApplicationErrorMapping):
+        mapping.setFirstApplicationErrorRef(self.getChildElementOptionalRefType(element, "FIRST-APPLICATION-ERROR-REF"))
+        mapping.setSecondApplicationErrorRef(self.getChildElementOptionalRefType(element, "SECOND-APPLICATION-ERROR-REF"))
+
+    def readClientServerInterfaceMappingErrorMappings(self, element: ET.Element, mapping: ClientServerInterfaceMapping):
+        for child_element in self.findall(element, "ERROR-MAPPINGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "CLIENT-SERVER-APPLICATION-ERROR-MAPPING":
+                error_mapping = ClientServerApplicationErrorMapping()
+                self.readClientServerApplicationErrorMapping(child_element, error_mapping)
+                mapping.addErrorMapping(error_mapping)
+            else:
+                self.notImplemented("Unsupported Error Mapping <%s>" % tag_name)
+
     def readClientServerInterfaceMappingOperationMappings(self, element: ET.Element, mapping: ClientServerInterfaceMapping):
         for child_element in self.findall(element, "OPERATION-MAPPINGS/*"):
             tag_name = self.getTagName(child_element)
@@ -13722,6 +13737,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readClientServerInterfaceMapping(self, element: ET.Element, mapping: ClientServerInterfaceMapping):
         # self.logger.debug("Read ClientServerInterfaceMapping %s" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
+        self.readClientServerInterfaceMappingErrorMappings(element, mapping)
         self.readClientServerInterfaceMappingOperationMappings(element, mapping)
 
     def readModeInterfaceMappingModeMapping(self, element: ET.Element, mapping: ModeInterfaceMapping):

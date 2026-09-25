@@ -566,6 +566,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent imp
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ApplicationError,
     ArgumentDataPrototype,
+    ClientServerApplicationErrorMapping,
     ClientServerInterface,
     ClientServerInterfaceMapping,
     ClientServerOperation,
@@ -11930,6 +11931,21 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "FIRST-OPERATION-REF", mapping.getFirstOperationRef())
         self.setChildElementOptionalRefType(child_element, "SECOND-OPERATION-REF", mapping.getSecondOperationRef())
 
+    def writeClientServerApplicationErrorMapping(self, element: ET.Element, mapping: ClientServerApplicationErrorMapping):
+        child_element = ET.SubElement(element, "CLIENT-SERVER-APPLICATION-ERROR-MAPPING")
+        self.setChildElementOptionalRefType(child_element, "FIRST-APPLICATION-ERROR-REF", mapping.getFirstApplicationErrorRef())
+        self.setChildElementOptionalRefType(child_element, "SECOND-APPLICATION-ERROR-REF", mapping.getSecondApplicationErrorRef())
+
+    def writeClientServerInterfaceMappingErrorMappings(self, element: ET.Element, mapping: ClientServerInterfaceMapping):
+        error_mappings = mapping.getErrorMappings()
+        if len(error_mappings) > 0:
+            child_element = ET.SubElement(element, "ERROR-MAPPINGS")
+            for error_mapping in error_mappings:
+                if isinstance(error_mapping, ClientServerApplicationErrorMapping):
+                    self.writeClientServerApplicationErrorMapping(child_element, error_mapping)
+                else:
+                    self.notImplemented("Unsupported Error Mapping <%s>" % type(error_mapping))
+
     def writeClientServerInterfaceMappingOperationMappings(self, element: ET.Element, mapping: ClientServerInterfaceMapping):
         operation_mappings = mapping.getOperationMappings()
         if len(operation_mappings) > 0:
@@ -11945,6 +11961,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if mapping is not None:
             child_element = ET.SubElement(element, "CLIENT-SERVER-INTERFACE-MAPPING")
             self.writeIdentifiable(child_element, mapping)
+            self.writeClientServerInterfaceMappingErrorMappings(child_element, mapping)
             self.writeClientServerInterfaceMappingOperationMappings(child_element, mapping)
 
     def writeModeInterfaceMappingModeMapping(self, element: ET.Element, mapping: ModeInterfaceMapping):
