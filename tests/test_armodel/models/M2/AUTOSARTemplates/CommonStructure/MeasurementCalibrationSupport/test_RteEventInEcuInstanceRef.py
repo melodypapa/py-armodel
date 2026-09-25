@@ -1,91 +1,71 @@
+import inspect
+import typing
+
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import RteEventInEcuInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
-def make_ref(value: str) -> RefType:
+def make_ref(value, dest):
     ref = RefType()
+    ref.setDest(dest)
     ref.setValue(value)
     return ref
 
 
-class TestRteEventInEcuInstanceRefInitialization:
-    def test_initialization(self):
-        """Test RteEventInEcuInstanceRef __init__ defaults"""
+class TestRteEventInEcuInstanceRefSpec:
+    """Spec contract of RteEventInEcuInstanceRef (XSD-only, AUTOSAR_00052.xsd L100605)."""
+
+    def test_docstring_documents_xsd_derivation(self):
+        """The class docstring documents the XSD-only derivation (no spec Note exists)."""
+        assert "ECU extract" in inspect.cleandoc(RteEventInEcuInstanceRef.__doc__)
+        assert "XSD-only" in inspect.cleandoc(RteEventInEcuInstanceRef.__doc__)
+
+    def test_heritage(self):
+        """Base chain ARObject + AtpInstanceRef (XSD complexType group refs)."""
         iref = RteEventInEcuInstanceRef()
-        assert iref is not None
-        assert iref.baseRef is None
+        assert isinstance(iref, AtpInstanceRef)
+
+    def test_initialization(self):
+        """All 3 own attributes optional (XSD minOccurs=0); base atpDerived fields inherited."""
+        iref = RteEventInEcuInstanceRef()
         assert iref.contextRootCompositionRef is None
         assert iref.contextAtomicComponentRef is None
         assert iref.targetRteEventRef is None
+        # the <<atpDerived>>base association is NOT re-declared on the subclass
+        # (it duplicates the inherited AtpInstanceRef.atpBaseRef)
+        assert not hasattr(iref, "baseRef")
+        assert iref.atpBaseRef is None
 
-
-class TestRteEventInEcuInstanceRefBase:
-    def test_get_set_base_ref(self):
-        """Test setBaseRef returns self and getBaseRef round-trips"""
-        iref = RteEventInEcuInstanceRef()
-        ref = make_ref("/Root")
-        result = iref.setBaseRef(ref)
-        assert result is iref
-        assert iref.getBaseRef() is ref
-
-    def test_set_base_ref_none_is_noop(self):
-        """Test setting a None base ref is a no-op"""
-        iref = RteEventInEcuInstanceRef()
-        ref = make_ref("/Root")
-        iref.setBaseRef(ref)
-        iref.setBaseRef(None)
-        assert iref.getBaseRef() is ref
-
-
-class TestRteEventInEcuInstanceRefContextRootComposition:
     def test_get_set_context_root_composition_ref(self):
-        """Test setContextRootCompositionRef returns self and getContextRootCompositionRef round-trips"""
         iref = RteEventInEcuInstanceRef()
-        ref = make_ref("/Root")
-        result = iref.setContextRootCompositionRef(ref)
-        assert result is iref
+        ref = make_ref("/Root", "ROOT-SW-COMPOSITION-PROTOTYPE")
+        assert iref.setContextRootCompositionRef(ref) is iref
         assert iref.getContextRootCompositionRef() is ref
-
-    def test_set_context_root_composition_ref_none_is_noop(self):
-        """Test setting a None context root composition ref is a no-op"""
-        iref = RteEventInEcuInstanceRef()
-        ref = make_ref("/Root")
-        iref.setContextRootCompositionRef(ref)
         iref.setContextRootCompositionRef(None)
         assert iref.getContextRootCompositionRef() is ref
 
-
-class TestRteEventInEcuInstanceRefContextAtomicComponent:
     def test_get_set_context_atomic_component_ref(self):
-        """Test setContextAtomicComponentRef returns self and getContextAtomicComponentRef round-trips"""
         iref = RteEventInEcuInstanceRef()
-        ref = make_ref("/Root/Comp")
-        result = iref.setContextAtomicComponentRef(ref)
-        assert result is iref
+        ref = make_ref("/Comp", "SW-COMPONENT-PROTOTYPE")
+        assert iref.setContextAtomicComponentRef(ref) is iref
         assert iref.getContextAtomicComponentRef() is ref
-
-    def test_set_context_atomic_component_ref_none_is_noop(self):
-        """Test setting a None context atomic component ref is a no-op"""
-        iref = RteEventInEcuInstanceRef()
-        ref = make_ref("/Root/Comp")
-        iref.setContextAtomicComponentRef(ref)
         iref.setContextAtomicComponentRef(None)
         assert iref.getContextAtomicComponentRef() is ref
 
-
-class TestRteEventInEcuInstanceRefTarget:
     def test_get_set_target_rte_event_ref(self):
-        """Test setTargetRteEventRef returns self and getTargetRteEventRef round-trips"""
         iref = RteEventInEcuInstanceRef()
-        ref = make_ref("/Root/Comp/Evt")
-        result = iref.setTargetRteEventRef(ref)
-        assert result is iref
+        ref = make_ref("/Evt", "RTE-EVENT")
+        assert iref.setTargetRteEventRef(ref) is iref
         assert iref.getTargetRteEventRef() is ref
-
-    def test_set_target_rte_event_ref_none_is_noop(self):
-        """Test setting a None target RTE event ref is a no-op"""
-        iref = RteEventInEcuInstanceRef()
-        ref = make_ref("/Root/Comp/Evt")
-        iref.setTargetRteEventRef(ref)
         iref.setTargetRteEventRef(None)
         assert iref.getTargetRteEventRef() is ref
+
+    def test_get_type_hints(self):
+        """Spec-typed annotations resolve at runtime (plain get_type_hints)."""
+        for accessor in ("setContextRootCompositionRef", "setContextAtomicComponentRef", "setTargetRteEventRef"):
+            hints = typing.get_type_hints(getattr(RteEventInEcuInstanceRef, accessor))
+            assert hints.get("value") == typing.Optional[RefType], accessor
+            assert hints.get("return") is RteEventInEcuInstanceRef, accessor
+        for accessor in ("getContextRootCompositionRef", "getContextAtomicComponentRef", "getTargetRteEventRef"):
+            assert typing.get_type_hints(getattr(RteEventInEcuInstanceRef, accessor)).get("return") == typing.Optional[RefType], accessor

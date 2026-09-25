@@ -20,132 +20,66 @@ if TYPE_CHECKING:
 
 class RteEventInEcuInstanceRef(AtpInstanceRef):
     """
-    Instance reference to an RTE event in the context of an ECU extract.
-    The navigation path begins at the root composition of the ECU extract, passes
-    through the atomic component that contains the RTE event and ends at the RTE
-    event itself.
+    Instance reference to an RTE event in the context of an ECU extract. The navigation path begins at the root composition of the ECU extract, passes through the atomic component that contains the RTE event and ends at the RTE event itself. (XSD-only class: no own spec table in the repo corpus; attributes derived from the XSD group RTE-EVENT-IN-ECU-INSTANCE-REF.)
     """
 
     # RteEventInEcuInstanceRef method parity checklist:
-    # [ ] __init__                         [ ] impl  [ ] docstring  [ ] test
-    # [ ] getBaseRef                       [ ] impl  [ ] docstring  [ ] test
-    # [ ] setBaseRef                       [ ] impl  [ ] docstring  [ ] test
-    # [ ] getContextRootCompositionRef     [ ] impl  [ ] docstring  [ ] test
-    # [ ] setContextRootCompositionRef     [ ] impl  [ ] docstring  [ ] test
-    # [ ] getContextAtomicComponentRef     [ ] impl  [ ] docstring  [ ] test
-    # [ ] setContextAtomicComponentRef     [ ] impl  [ ] docstring  [ ] test
-    # [ ] getTargetRteEventRef             [ ] impl  [ ] docstring  [ ] test
-    # [ ] setTargetRteEventRef             [ ] impl  [ ] docstring  [ ] test
+    # Spec: XSD-only, AUTOSAR_00052.xsd line 100605 (no own table in repo corpus)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextRootCompositionRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextRootCompositionRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextAtomicComponentRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextAtomicComponentRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetRteEventRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetRteEventRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the RteEventInEcuInstanceRef with default values.
-        """
         super().__init__()
 
-        # The base from which the navigation path begins. Stereotypes: atpDerived
-        self.baseRef: Optional[RefType] = None
-
-        # The root composition of the ECU extract that contains the referenced RTE event. Tags: xml.sequenceOffset=20
+        # CONTEXT-ROOT-COMPOSITION-REF (DEST ROOT-SW-COMPOSITION-PROTOTYPE--SUBTYPES-ENUM); xml.sequenceOffset=20
         self.contextRootCompositionRef: Optional[RefType] = None
 
-        # The atomic component in the ECU extract that contains the referenced RTE event. Tags: xml.sequenceOffset=30
+        # CONTEXT-ATOMIC-COMPONENT-REF (DEST SW-COMPONENT-PROTOTYPE--SUBTYPES-ENUM); xml.sequenceOffset=30
         self.contextAtomicComponentRef: Optional[RefType] = None
 
-        # The target RTE event. Tags: xml.sequenceOffset=40
+        # TARGET-RTE-EVENT-REF (DEST RTE-EVENT--SUBTYPES-ENUM); xml.sequenceOffset=40
         self.targetRteEventRef: Optional[RefType] = None
 
-    def getBaseRef(self) -> Optional[RefType]:
-        """
-        Gets the base from which the navigation path begins.
-
-        Returns:
-            RefType referencing the base classifier, or None if not set
-        """
-        return self.baseRef
-
-    def setBaseRef(self, value: Optional[RefType]) -> RteEventInEcuInstanceRef:
-        """
-        Sets the base from which the navigation path begins.
-        A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The base reference to set
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.baseRef = value
-        return self
-
     def getContextRootCompositionRef(self) -> Optional[RefType]:
-        """
-        Gets the reference to the root composition of the ECU extract containing the referenced RTE event.
-
-        Returns:
-            RefType referencing the RootSwCompositionPrototype, or None if not set
-        """
+        """The root composition of the ECU extract that contains the referenced RTE event."""
         return self.contextRootCompositionRef
 
     def setContextRootCompositionRef(self, value: Optional[RefType]) -> RteEventInEcuInstanceRef:
         """
-        Sets the reference to the root composition of the ECU extract containing the referenced RTE event.
-        A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The context root composition reference to set
-
-        Returns:
-            self for method chaining
+        The root composition of the ECU extract that contains the referenced RTE event.
+        A None value is a no-op and does not overwrite an existing contextRootCompositionRef.
         """
         if value is not None:
             self.contextRootCompositionRef = value
         return self
 
     def getContextAtomicComponentRef(self) -> Optional[RefType]:
-        """
-        Gets the reference to the atomic component in the ECU extract containing the referenced RTE event.
-
-        Returns:
-            RefType referencing the SwComponentPrototype, or None if not set
-        """
+        """The atomic component in the ECU extract that contains the referenced RTE event."""
         return self.contextAtomicComponentRef
 
     def setContextAtomicComponentRef(self, value: Optional[RefType]) -> RteEventInEcuInstanceRef:
         """
-        Sets the reference to the atomic component in the ECU extract containing the referenced RTE event.
-        A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The context atomic component reference to set
-
-        Returns:
-            self for method chaining
+        The atomic component in the ECU extract that contains the referenced RTE event.
+        A None value is a no-op and does not overwrite an existing contextAtomicComponentRef.
         """
         if value is not None:
             self.contextAtomicComponentRef = value
         return self
 
     def getTargetRteEventRef(self) -> Optional[RefType]:
-        """
-        Gets the reference to the target RTE event.
-
-        Returns:
-            RefType referencing the RTEEvent, or None if not set
-        """
+        """The target RTE event."""
         return self.targetRteEventRef
 
     def setTargetRteEventRef(self, value: Optional[RefType]) -> RteEventInEcuInstanceRef:
         """
-        Sets the reference to the target RTE event.
-        A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The target RTE event reference to set
-
-        Returns:
-            self for method chaining
+        The target RTE event.
+        A None value is a no-op and does not overwrite an existing targetRteEventRef.
         """
         if value is not None:
             self.targetRteEventRef = value

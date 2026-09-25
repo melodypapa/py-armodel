@@ -174,19 +174,18 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 7.15 p.543 citation, release column; __init__ row [—] reader/writer; reader on setter row / writer on getter row; marker deferred to 9b
   - [x] Step 8 — Deviations  [none in scope: 1 attr modeled exactly; Base stamped; iref type per XSD fixed-concrete P-variant; no tracker entries]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-25: full suite 11949 passed / 0 failed (--no-coverage, baseline 11946 + 3 net new); ruff clean; black clean on touched files; integration round-trip green; 9b deferred to batch confirmation (user instruction 2026-09-24)
-- [ ] `RteEventInEcuInstanceRef` — AtpInstanceRef — source TBC (locate table at Step 1)
+- [ ] `RteEventInEcuInstanceRef` — AtpInstanceRef — XSD-only (verified against BOTH corpora 2026-09-25: appears only in AtpInstanceRef Subclasses rows, no own table in R23-11 or R4.3.1) — AUTOSAR_00052.xsd group RTE-EVENT-IN-ECU-INSTANCE-REF (l.100559) / complexType (l.100605)
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py
-  - note: deviation-tracked in method_deviation_by_class.md + method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - note: deviation-tracked in method_deviation_by_class.md + method_deviation_by_class_v2.md — reviewed; entries were orphan-era observations, superseded by this sync record
+  - [x] Step 1 — Sync members & description from spec — XSD-only derivation: Base = AR-OBJECT + ATP-INSTANCE-REF groups → most-existing stamped `AtpInstanceRef` (Table 5.3, p.174); own group carries CONTEXT-ROOT-COMPOSITION-REF (DEST ROOT-SW-COMPOSITION-PROTOTYPE--SUBTYPES-ENUM), CONTEXT-ATOMIC-COMPONENT-REF (DEST SW-COMPONENT-PROTOTYPE--SUBTYPES-ENUM), TARGET-RTE-EVENT-REF (DEST RTE-EVENT--SUBTYPES-ENUM), all minOccurs=0; `<<atpDerived>>base skipped` ⇒ the subclass's baseRef field DUPLICATED the inherited atpBaseRef — removed per Rule 0001.3; no spec Note exists (group annotation empty) ⇒ docstring documents the XSD derivation honestly (ConcreteTDEventVfb precedent)
+  - [x] Step 2 — Write model class unit test (Red) — test_RteEventInEcuInstanceRef.py rewritten to spec-contract form: XSD-derivation docstring pin, AtpInstanceRef heritage, 3-attr defaults + no-baseRef-duplication pin (hasattr False + inherited atpBaseRef None), per-attr get/set + DEST + None no-op, plain get_type_hints pins (Red: baseRef tests + paraphrase docstrings on removed/kept accessors)
+  - [x] Step 3 — Implement model class (Green) — baseRef field + getBaseRef/setBaseRef removed (duplicate of inherited atpBaseRef); 3 own fields kept with XSD DEST-documented comments; typed accessors + chaining + None no-op
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — no spec Notes exist (XSD annotations empty): class docstring = factual XSD-only derivation; per-attr inline comments name the XSD element + DEST + sequenceOffset; accessors carry the element-name-based sentences (no fabricated Note text); __init__ carries no docstring
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — readRteEventInEcuInstanceRef/writeRteEventInEcuInstanceRef helpers pre-exist correct (3 own elements, no baseRef, value asserts via the McDataAccessDetails RTE-EVENT-IREFS dispatch) — honest pass-immediately
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed: helpers + RTE-EVENT-IREFS wrapper dispatch verified correct on both sides
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, XSD-only citation AUTOSAR_00052.xsd line 100605, release column R23-11; __init__ row [—] reader/writer; reader on setter rows / writer on getter rows; marker deferred to 9b (would be `# XSD verified: AUTOSAR_00052.xsd`)
+  - [x] Step 8 — Deviations  [none in scope: 3 own attrs modeled exactly; baseRef duplication FIXED (Rule 0001.3, not a deviation row); Base stamped; no tracker rows remain]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-25: full suite 11947 passed / 0 failed (--no-coverage, baseline 11949 −2 removed orphan baseRef tests + 8 new spec-contract tests); ruff clean; black clean on touched files; integration round-trip green; 9b deferred to batch confirmation (user instruction 2026-09-24)
 - [ ] `VariableAccessInEcuInstanceRef` — AtpInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md + method_deviation_by_class_v2.md — review entries at Step 1
