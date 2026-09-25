@@ -1021,6 +1021,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     LPlainText,
     LVerbatim,
     MixedContentForLongName,
+    MixedContentForOverviewParagraph,
     MixedContentForParagraph,
     SlParagraph,
     MixedContentForUnitNames,
@@ -1423,6 +1424,24 @@ class ARXMLWriter(AbstractARXMLWriter):
         if content.getSub() is not None:
             element.attrib["SUB"] = content.getSub().getValue()
 
+    def writeMixedContentForOverviewParagraph(self, element: ET.Element, content: MixedContentForOverviewParagraph):
+        self.setBr(element, "BR", content.getBr())
+        if content.getE() is not None:
+            self.setEmphasisText(element, "E", content.getE())
+        if content.getIe() is not None:
+            self.setIndexEntry(element, "IE", content.getIe())
+        if content.getSub() is not None:
+            element.attrib["SUB"] = content.getSub().getValue()
+        if content.getSup() is not None:
+            element.attrib["SUP"] = content.getSup().getValue()
+        self.setChildElementOptionalRefType(element, "TRACE-REF", content.getTraceRef())
+        if content.getTt() is not None:
+            self.setTt(element, "TT", content.getTt())
+        if content.getXref() is not None:
+            self.setXref(element, "XREF", content.getXref())
+        if content.getXrefTarget() is not None:
+            self.setXrefTarget(element, "XREF-TARGET", content.getXrefTarget())
+
     def setSingleLanguageUnitNames(self, element: ET.Element, key: str, name: SingleLanguageUnitNames):
         if name is not None:
             child_element = ET.SubElement(element, key)
@@ -1468,6 +1487,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = self.setLanguageSpecific(element, "L-2", name)
         if name.getBlueprintValue() is not None:
             child_element.attrib["BLUEPRINT-VALUE"] = name.getBlueprintValue()
+        self.writeMixedContentForOverviewParagraph(child_element, name)
 
     def setMultiLanguageOverviewParagraph(self, element: ET.Element, key: str, paragraph: MultiLanguageOverviewParagraph):
         if paragraph is not None:

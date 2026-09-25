@@ -1156,6 +1156,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     LPlainText,
     LVerbatim,
     MixedContentForLongName,
+    MixedContentForOverviewParagraph,
     MixedContentForUnitNames,
     SlParagraph,
 )
@@ -1745,6 +1746,31 @@ class ARXMLParser(AbstractARXMLParser):
         if "SUB" in element.attrib:
             content.setSub(Superscript().setValue(element.attrib["SUB"]))
 
+    def readMixedContentForOverviewParagraph(self, element: ET.Element, content: MixedContentForOverviewParagraph):
+        br = self.getBr(element, "BR")
+        if br is not None:
+            content.setBr(br)
+        emphasis_element = self.find(element, "E")
+        if emphasis_element is not None:
+            content.setE(self.readEmphasisText(emphasis_element))
+        index_element = self.find(element, "IE")
+        if index_element is not None:
+            content.setIe(self.readIndexEntry(index_element))
+        if "SUB" in element.attrib:
+            content.setSub(Superscript().setValue(element.attrib["SUB"]))
+        if "SUP" in element.attrib:
+            content.setSup(Superscript().setValue(element.attrib["SUP"]))
+        content.setTraceRef(self.getChildElementOptionalRefType(element, "TRACE-REF"))
+        tt_element = self.find(element, "TT")
+        if tt_element is not None:
+            content.setTt(self.readTt(tt_element))
+        xref = self.getXref(element, "XREF")
+        if xref is not None:
+            content.setXref(xref)
+        xref_target = self.getXrefTarget(element, "XREF-TARGET")
+        if xref_target is not None:
+            content.setXrefTarget(xref_target)
+
     def readLOverviewParagraph(self, element: ET.Element, paragraph: MultiLanguageOverviewParagraph):
         for child_element in self.findall(element, "L-2"):
             l2 = LOverviewParagraph()
@@ -1754,6 +1780,7 @@ class ARXMLParser(AbstractARXMLParser):
                 l2.setL(child_element.attrib["L"])  # noqa: E741
             if "BLUEPRINT-VALUE" in child_element.attrib:
                 l2.setBlueprintValue(child_element.attrib["BLUEPRINT-VALUE"])
+            self.readMixedContentForOverviewParagraph(child_element, l2)
             paragraph.addL2(l2)
 
     def getMultiLanguageOverviewParagraph(self, element: ET.Element, key: str) -> MultiLanguageOverviewParagraph:
@@ -6305,6 +6332,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readLanguageSpecific(child_element, l2)
             if "BLUEPRINT-VALUE" in child_element.attrib:
                 l2.setBlueprintValue(child_element.attrib["BLUEPRINT-VALUE"])
+            self.readMixedContentForOverviewParagraph(child_element, l2)
             results.append(l2)
         return results
 
