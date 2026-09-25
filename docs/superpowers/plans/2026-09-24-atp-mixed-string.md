@@ -482,34 +482,34 @@ at runtime). User decision: physically unify both mixins into
 - Modify: `.../GeneralTemplateClasses/__init__.py` (star exports)
 - Modify: `src/armodel/models/__init__.py` (star exports)
 
-- [ ] **Step 1: Write the module** — `VariationPointCapable` moved verbatim
+- [x] **Step 1: Write the module** — `VariationPointCapable` moved verbatim
       (TYPE_CHECKING import of `VariationPoint`, class-level default, get/set);
       `AtpMixedString` in its interface-level form (`ABC`, no `ARObject`, no
       `__init__`/guard, class-level default as the only init, accessors verbatim).
       Module imports nothing at runtime except `abc`/`typing`.
-- [ ] **Step 2: Repoint the star exports** — `GeneralTemplateClasses/__init__.py`:
+- [x] **Step 2: Repoint the star exports** — `GeneralTemplateClasses/__init__.py`:
       `from .StereotypeMixins import *  # noqa: F403`; `models/__init__.py`:
       `from armodel.models...GeneralTemplateClasses.StereotypeMixins import *  # noqa: F403`.
-- [ ] **Step 3: Delete the two old modules** (after Task 11 repoints their importers).
-- [ ] **Step 4: Commit** — `feat: unify stereotype mixins into StereotypeMixins.py`.
+- [x] **Step 3: Delete the two old modules** (after Task 11 repoints their importers).
+- [x] **Step 4: Commit** — `feat: unify stereotype mixins into StereotypeMixins.py`.
 
 ### Task 11: Repoint all import sites (mechanical, no re-sorting)
 
 ~116 sites: 80 src + 22 test files importing `VariationPointCapable`, 8 src + 6 test
 importing `AtpMixedString`, plus `arxml_parser.py:443/446` and `arxml_writer.py:335/350`.
 
-- [ ] **Step 1: Sed the module path** in src/ and tests/:
+- [x] **Step 1: Sed the module path** in src/ and tests/:
       `GeneralTemplateClasses.VariationPointCapable` → `GeneralTemplateClasses.StereotypeMixins`,
       `GeneralTemplateClasses.AtpMixedString` → `GeneralTemplateClasses.StereotypeMixins`,
       and the relative `from .VariationPointCapable import *` / `from .AtpMixedString import *`
       forms. Never re-sort imports (repo rule).
-- [ ] **Step 2: Merge duplicate import lines** in the 4 files that imported both mixins
+- [x] **Step 2: Merge duplicate import lines** in the 4 files that imported both mixins
       (parser, writer, `models/__init__.py`, `GeneralTemplateClasses/__init__.py`) — one
       `StereotypeMixins` import each, preserving position (no re-sort).
-- [ ] **Step 3: Verify zero stale references**: grep for
+- [x] **Step 3: Verify zero stale references**: grep for
       `GeneralTemplateClasses.VariationPointCapable`, `GeneralTemplateClasses.AtpMixedString`,
       `from .VariationPointCapable`, `from .AtpMixedString` across src/ tests/ → 0 hits.
-- [ ] **Step 4: Smoke**: `uv run pytest tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure -q --no-cov` green.
+- [x] **Step 4: Smoke**: `uv run pytest tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure -q --no-cov` green.
 
 ### Task 12: Consumer base fixes (ARObject was previously supplied by the mixin)
 
@@ -517,15 +517,15 @@ importing `AtpMixedString`, plus `arxml_parser.py:443/446` and `arxml_writer.py:
 - `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py`
 - `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/VariantHandling/AttributeValueVariationPoints/__init__.py`
 
-- [ ] **Step 1:** `class ConditionByFormula(AtpMixedString):` →
+- [x] **Step 1:** `class ConditionByFormula(AtpMixedString):` →
       `class ConditionByFormula(ARObject, AtpMixedString):` (spec Base = ARObject, Table 7.5).
-- [ ] **Step 2:** `class AttributeValueVariationPoint(AtpMixedString, ABC):` →
+- [x] **Step 2:** `class AttributeValueVariationPoint(AtpMixedString, ABC):` →
       `class AttributeValueVariationPoint(ARObject, AtpMixedString, ABC):` (spec Base, Table 7.2).
-- [ ] **Step 3:** Unchanged by design: `TimingConditionFormula(Referrable, AtpMixedString)`,
+- [x] **Step 3:** Unchanged by design: `TimingConditionFormula(Referrable, AtpMixedString)`,
       `TDEventOccurrenceExpressionFormula(Referrable, AtpMixedString)`, the 9-member AVP subclass
       chain. Verify each changed class's `super().__init__()` chain initializes every field
       exactly once (Rule 0001.2) — the MRO becomes `Cls → ARObject → AtpMixedString → ABC`.
-- [ ] **Step 4:** Run the VariantHandling + Timing test files — green.
+- [x] **Step 4:** Run the VariantHandling + Timing test files — green.
 
 ### Task 13: Tests (Red → Green)
 
@@ -534,7 +534,7 @@ importing `AtpMixedString`, plus `arxml_parser.py:443/446` and `arxml_writer.py:
 - `tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/test_VariationPointCapable.py` (imports only)
 - `tests/test_armodel/parser/test_mixed_string_text.py` (imports only)
 
-- [ ] **Step 1: Rewrite `test_AtpMixedString.py`** — drop `test_abstract_guard`; probe
+- [x] **Step 1: Rewrite `test_AtpMixedString.py`** — drop `test_abstract_guard`; probe
       subclass with no custom `__init__`; keep default/round-trip/None-no-op/whitespace-verbatim
       tests; add interface-shape assertions (`assert not issubclass(AtpMixedString, ARObject)`,
       `assert issubclass(AtpMixedString, ABC)`); add a capability-matrix test class
@@ -542,27 +542,27 @@ importing `AtpMixedString`, plus `arxml_parser.py:443/446` and `arxml_writer.py:
       `ConditionByFormula`, `TimingConditionFormula`, `TDEventOccurrenceExpressionFormula`,
       `NumericalValueVariationPoint`; negatives for the Phase-2 boundary:
       `DocumentationBlock`, `LParagraph`, `MultiLanguageParagraph` must NOT be `AtpMixedString`.
-- [ ] **Step 2: Update imports** in `test_VariationPointCapable.py` +
+- [x] **Step 2: Update imports** in `test_VariationPointCapable.py` +
       `test_mixed_string_text.py` to `StereotypeMixins` (adjust the probe there if it leaned
       on ARObject-via-mixin).
-- [ ] **Step 3: Full targeted run** — mixin tests, VariantHandling, Timing, parser
+- [x] **Step 3: Full targeted run** — mixin tests, VariantHandling, Timing, parser
       test_mixed_string_text — green.
 
 ### Task 14: Rule 0021 (both skill mirrors, byte-identical) + Group8.md notes
 
-- [ ] **Step 1:** `.agents/skills/sync-autosar-class/rules.md` + `.claude/...` — Rule 0021:
+- [x] **Step 1:** `.agents/skills/sync-autosar-class/rules.md` + `.claude/...` — Rule 0021:
       new module path `StereotypeMixins.py`; MRO-bypass bullet rewritten (no `__init__` at all —
       class-level default is the only init); base-order examples updated
       (`ConditionByFormula(ARObject, AtpMixedString)`, `AttributeValueVariationPoint(ARObject, AtpMixedString, ABC)`;
       Referrable combos unchanged); dated redesign note; "mixin does not extend ARObject".
-- [ ] **Step 2:** `docs/plan/sync-todo/Group8.md` — dated notes on the two pending-confirmation
+- [x] **Step 2:** `docs/plan/sync-todo/Group8.md` — dated notes on the two pending-confirmation
       rows whose class statements change (`AttributeValueVariationPoint`, `ConditionByFormula`):
       9b review covers the interface-level shape.
-- [ ] **Step 3: Commit** — `docs: Rule 0021 + Group8 notes for the StereotypeMixins redesign`.
+- [x] **Step 3: Commit** — `docs: Rule 0021 + Group8 notes for the StereotypeMixins redesign`.
 
 ### Task 15: Full gates
 
-- [ ] **Step 1:** `npm run lint` + `npm run black-check` clean.
-- [ ] **Step 2:** `uv run pytest tests/test_armodel/ -q --no-cov` (baseline 11,904) +
+- [x] **Step 1:** `npm run lint` + `npm run black-check` clean.
+- [x] **Step 2:** `uv run pytest tests/test_armodel/ -q --no-cov` (baseline 11,904) +
       integration round-trip `uv run python scripts/run_tests.py --no-coverage`.
-- [ ] **Step 3: Report** — commits, unified module, consumer base fixes, test matrix.
+- [x] **Step 3: Report** — commits, unified module, consumer base fixes, test matrix.
