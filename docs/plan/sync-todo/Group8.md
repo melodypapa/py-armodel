@@ -373,7 +373,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `AbstractNumericalVariationPoint` — AttributeValueVariationPoint abstract subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1)
+- [x] `AbstractNumericalVariationPoint` — AttributeValueVariationPoint abstract subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1) — finished, stamped `# Spec verified: R23-11` (commit: d5c96fd9)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -383,7 +383,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `BooleanValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1)
+- [x] `BooleanValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1) — finished, stamped `# Spec verified: R23-11` (commit: d5c96fd9)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -393,7 +393,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `FloatValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1)
+- [x] `FloatValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1) — finished, stamped `# Spec verified: R23-11` (commit: d5c96fd9)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -403,7 +403,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `IntegerValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1)
+- [x] `IntegerValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1) — finished, stamped `# Spec verified: R23-11` (commit: d5c96fd9)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -413,7 +413,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `LimitValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1)
+- [x] `LimitValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1) — finished, stamped `# Spec verified: R23-11` (commit: d5c96fd9)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -423,7 +423,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `NumericalValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1)
+- [x] `NumericalValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1) — finished, stamped `# Spec verified: R23-11` (commit: d5c96fd9)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -433,7 +433,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `PositiveIntegerValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1)
+- [x] `PositiveIntegerValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1) — finished, stamped `# Spec verified: R23-11` (commit: d5c96fd9)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -443,7 +443,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `TimeValueValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1)
+- [x] `TimeValueValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1) — finished, stamped `# Spec verified: R23-11` (commit: d5c96fd9)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -453,7 +453,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `UnlimitedIntegerValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1)
+- [x] `UnlimitedIntegerValueVariationPoint` — AttributeValueVariationPoint subclass — CP_TPS_SoftwareComponentTemplate (locate at Step 1) — finished, stamped `# Spec verified: R23-11` (commit: d5c96fd9)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

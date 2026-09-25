@@ -454,13 +454,13 @@ Status: **34/34** completed
 
 ## Group8
 
-Status: **5/42** completed
+Status: **15/42** completed
 
 | Class Name                               | Status      | Commit ID |
 | ---------------------------------------- | ----------- | --------- |
 | `BindingTimeEnum`                        | [x] Done    | 53bf1808  |
 | `XmlSpaceEnum`                           | [x] Done    | ec544e79  |
-| `ShortNameFragment`                      | [ ] Pending | N/A       |
+| `ShortNameFragment`                      | [x] Done    | 519d50539       |
 | `MultidimensionalTime`                   | [x] Done    | b572582c1 |
 | `LifeCyclePeriod`                        | [x] Done    | b572582c1 |
 | `BuildActionIoElement`                   | [x] Done    | b572582c1 |
@@ -484,15 +484,15 @@ Status: **5/42** completed
 | `ModeInSwcBswInstanceRef`                | [ ] Pending | N/A       |
 | `ModeInSwcInstanceRef`                   | [ ] Pending | N/A       |
 | `AbstractEnumerationValueVariationPoint` | [ ] Pending | N/A       |
-| `AbstractNumericalVariationPoint`        | [ ] Pending | N/A       |
-| `BooleanValueVariationPoint`             | [ ] Pending | N/A       |
-| `FloatValueVariationPoint`               | [ ] Pending | N/A       |
-| `IntegerValueVariationPoint`             | [ ] Pending | N/A       |
-| `LimitValueVariationPoint`               | [ ] Pending | N/A       |
-| `NumericalValueVariationPoint`           | [ ] Pending | N/A       |
-| `PositiveIntegerValueVariationPoint`     | [ ] Pending | N/A       |
-| `TimeValueValueVariationPoint`           | [ ] Pending | N/A       |
-| `UnlimitedIntegerValueVariationPoint`    | [ ] Pending | N/A       |
+| `AbstractNumericalVariationPoint`        | [x] Done    | d5c96fd9       |
+| `BooleanValueVariationPoint`             | [x] Done    | d5c96fd9       |
+| `FloatValueVariationPoint`               | [x] Done    | d5c96fd9       |
+| `IntegerValueVariationPoint`             | [x] Done    | d5c96fd9       |
+| `LimitValueVariationPoint`               | [x] Done    | d5c96fd9       |
+| `NumericalValueVariationPoint`           | [x] Done    | d5c96fd9       |
+| `PositiveIntegerValueVariationPoint`     | [x] Done    | d5c96fd9       |
+| `TimeValueValueVariationPoint`           | [x] Done    | d5c96fd9       |
+| `UnlimitedIntegerValueVariationPoint`    | [x] Done    | d5c96fd9       |
 | `FormulaExpression`                      | [ ] Pending | N/A       |
 | `BlueprintFormula`                       | [ ] Pending | N/A       |
 | `SwSystemconstDependentFormula`          | [ ] Pending | N/A       |
