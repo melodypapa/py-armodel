@@ -92,7 +92,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-24: BuildActionManifest test files 72 passed (parser+writer Red first: 2 failed on CATEGORY ARLiteral-vs-NameToken, then Green after matched getChildElementOptionalNameToken/setChildElementOptionalNameToken pair); full suite `uv run python scripts/run_tests.py --no-coverage` 11067 passed / 0 failed (baseline 11061 + 6 new); `npm run lint` clean (flake8 E9,F63,F7,F82 + ruff E/F/W/I); `npm run black` + `black-check` clean (1150 files unchanged); 9b by-eye checks done (member order = Table 10.3 displayed order, XML order = XSD group sequence, docstrings verbatim by diff, blank lines between __init__ blocks, PEP 526, no `# type:`); 9b deferred to batch confirmation (user instruction 2026-09-24)
 
-- [ ] `AttributeValueVariationPoint` — ARObject — source TBC (locate table at Step 1)
+- [x] `AttributeValueVariationPoint` — ARObject — finished, stamped `# Spec verified: R23-11` (commit: d5c96fd9)
   - module: M2/AUTOSARTemplates/GenericStructure/VariantHandling/AttributeValueVariationPoints/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - note (2026-09-25 atpMixedString redesign, spec §9): the mixin is now interface-level (`StereotypeMixins.py`, ABC only, no ARObject base, no __init__) — this class's base list is `AttributeValueVariationPoint(ARObject, AtpMixedString, ABC)`; class statement + module changed, members/docstrings/reader-writer unchanged; 9b review below covers the new shape

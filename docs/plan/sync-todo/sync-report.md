@@ -48,7 +48,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `AtpPrototype`                                          | [x] Done    | eb4c4bf3                                 | Group1           |
 | `AtpStructureElement`                                   | [x] Done    | 5eff088f                                 | Group1           |
 | `AtpType`                                               | [x] Done    | 451ad383                                 | Group1           |
-| `AttributeValueVariationPoint`                          | [ ] Pending | N/A                                      | Group8           |
+| `AttributeValueVariationPoint`                          | [x] Done    | d5c96fd9                                      | Group8           |
 | `AutoCollectEnum`                                       | [x] Done    | 75f40055                                 | Group1           |
 | `AutosarDataType`                                       | [x] Done    | a5f99df4                                 | Group1           |
 | `AutosarOperationArgumentInstance`                      | [ ] Pending | N/A                                      | Group8           |

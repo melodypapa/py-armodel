@@ -454,7 +454,7 @@ Status: **34/34** completed
 
 ## Group8
 
-Status: **15/42** completed
+Status: **16/42** completed
 
 | Class Name                               | Status      | Commit ID |
 | ---------------------------------------- | ----------- | --------- |
@@ -464,7 +464,7 @@ Status: **15/42** completed
 | `MultidimensionalTime`                   | [x] Done    | b572582c1 |
 | `LifeCyclePeriod`                        | [x] Done    | b572582c1 |
 | `BuildActionIoElement`                   | [x] Done    | b572582c1 |
-| `AttributeValueVariationPoint`           | [ ] Pending | N/A       |
+| `AttributeValueVariationPoint`           | [x] Done | d5c96fd9       |
 | `ConditionByFormula`                     | [ ] Pending | N/A       |
 | `SwSystemconstValue`                     | [ ] Pending | N/A       |
 | `PostBuildVariantCondition`              | [ ] Pending | N/A       |
