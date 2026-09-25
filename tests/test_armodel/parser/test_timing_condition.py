@@ -50,7 +50,6 @@ class TestReadTimingCondition:
         assert condition.getShortName() == "Cond1"
         formula = condition.getTimingConditionFormula()
         assert isinstance(formula, TimingConditionFormula)
-        assert formula.getShortName() == "Formula1"
         assert formula.getMixedString() == "modeA == 1"
         assert formula.getTimingEventRef().getValue() == "/Pkg/Event"
         assert formula.getTimingEventRef().getDest() == "TIMING-DESCRIPTION-EVENT"

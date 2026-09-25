@@ -47,9 +47,8 @@ class TestTDEventOccurrenceExpression:
         assert len(expression.getArguments()) == 1
 
     def test_set_get_formula(self):
-        parent = self._parent()
         expression = TDEventOccurrenceExpression()
-        formula = TDEventOccurrenceExpressionFormula(parent, "Formula1")
+        formula = TDEventOccurrenceExpressionFormula()
         assert expression.setFormula(formula) is expression
         assert expression.getFormula() is formula
         expression.setFormula(None)

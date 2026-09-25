@@ -951,7 +951,7 @@ class TestDataTypeAndValueSpecHandlers:
         assert cont.getSwValuesPhys() is not None
         assert len(cont.getSwValuesPhys().getVs()) == 1
         assert cont.getSwValuesPhys().getVs()[0].getValue() == "1.0"
-        assert cont.getUnitDisplayName().getValue() == "display"
+        assert cont.getUnitDisplayName().getValue().getValue() == "display"
 
     def test_getSwValueCont_missing_returns_None(self, parser):
         element = _snip("<X/>")

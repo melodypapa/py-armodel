@@ -6,7 +6,12 @@ import typing
 from typing import List
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement, ARPackage
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Float, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARNumerical,
+    Float,
+    RefType,
+    String,  # noqa: F401
+)
 from armodel.models.M2.MSR.AsamHdo.Units import (
     PhysicalDimension,
     SingleLanguageUnitNames,
@@ -118,12 +123,12 @@ class TestSingleLanguageUnitNames:
         """Test that a SingleLanguageUnitNames object can be initialized."""
         single_lang_unit_names = SingleLanguageUnitNames()
         assert single_lang_unit_names is not None
-        assert single_lang_unit_names.getValue() == ""
+        assert single_lang_unit_names.getValue() is None
 
     def test_single_language_unit_names_value(self):
         """Test that a SingleLanguageUnitNames object can carry a value."""
-        single_lang_unit_names = SingleLanguageUnitNames().setValue("m")
-        assert single_lang_unit_names.getValue() == "m"
+        single_lang_unit_names = SingleLanguageUnitNames().setValue(String().setValue("m"))
+        assert single_lang_unit_names.getValue().getValue() == "m"
 
 
 class TestUnit:

@@ -1087,7 +1087,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
 )
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, DataConstrRule, InternalConstrs, PhysConstrs, ScaleConstr, ScaleConstrValidityEnum
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdf, Sdg, SdgContents
-from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit, UnitGroup
+from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, SingleLanguageUnitNames, Unit, UnitGroup
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import MemoryAllocationKeywordPolicyType, MemorySectionType, SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam, SwGenericAxisParamType
@@ -1148,7 +1148,17 @@ from armodel.models.M2.MSR.Documentation.TextModel.InlineAttributeEnums import (
     ShowSeeEnum,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Superscript, Tt, Xdoc, Xfile, Xref, XrefTarget
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LPlainText, LVerbatim, MixedContentForLongName, SlParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
+    LanguageSpecific,
+    LLongName,
+    LOverviewParagraph,
+    LParagraph,
+    LPlainText,
+    LVerbatim,
+    MixedContentForLongName,
+    MixedContentForUnitNames,
+    SlParagraph,
+)
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
 from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
@@ -1714,6 +1724,26 @@ class ARXMLParser(AbstractARXMLParser):
             long_name = SingleLanguageLongName()
             self.readSingleLanguageLongName(child_element, long_name)
         return long_name
+
+    def readSingleLanguageUnitNames(self, element: ET.Element, unit_names: SingleLanguageUnitNames):
+        if element.text is not None:
+            unit_names.setValue(String().setValue(element.text))
+        self.readMixedContentForUnitNames(element, unit_names)
+
+    def getSingleLanguageUnitNames(self, element: ET.Element, key: str) -> SingleLanguageUnitNames:
+        unit_names = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            unit_names = SingleLanguageUnitNames()
+            self.readSingleLanguageUnitNames(child_element, unit_names)
+        return unit_names
+
+    def readMixedContentForUnitNames(self, element: ET.Element, content: MixedContentForUnitNames):
+        self.readARObject(element, content)
+        if "SUP" in element.attrib:
+            content.setSup(Superscript().setValue(element.attrib["SUP"]))
+        if "SUB" in element.attrib:
+            content.setSub(Superscript().setValue(element.attrib["SUB"]))
 
     def readLOverviewParagraph(self, element: ET.Element, paragraph: MultiLanguageOverviewParagraph):
         for child_element in self.findall(element, "L-2"):
@@ -3338,7 +3368,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readAutosarOperationArgumentInstance(child_element, argument)
         formula_element = self.find(element, "FORMULA")
         if formula_element is not None:
-            expression.setFormula(self.readTDEventOccurrenceExpressionFormula(parent, formula_element))
+            expression.setFormula(self.readTDEventOccurrenceExpressionFormula(formula_element))
         for child_element in self.findall(element, "MODES/TIMING-MODE-INSTANCE"):
             mode = expression.createMode(parent, self.getShortName(child_element))
             self.readTimingModeInstance(child_element, mode)
@@ -3347,9 +3377,8 @@ class ARXMLParser(AbstractARXMLParser):
             self.readAutosarVariableInstance(child_element, variable)
         return expression
 
-    def readTDEventOccurrenceExpressionFormula(self, parent, element: ET.Element) -> TDEventOccurrenceExpressionFormula:
-        formula = TDEventOccurrenceExpressionFormula(parent, self.getShortName(element))
-        self.readReferrable(element, formula)
+    def readTDEventOccurrenceExpressionFormula(self, element: ET.Element) -> TDEventOccurrenceExpressionFormula:
+        formula = TDEventOccurrenceExpressionFormula()
         formula.setArgumentRef(self.getChildElementOptionalRefType(element, "ARGUMENT-REF"))
         formula.setEventRef(self.getChildElementOptionalRefType(element, "EVENT-REF"))
         formula.setModeRef(self.getChildElementOptionalRefType(element, "MODE-REF"))
@@ -3358,9 +3387,8 @@ class ARXMLParser(AbstractARXMLParser):
             self.readMixedStringText(element, formula)
         return formula
 
-    def readTimingConditionFormula(self, parent, element: ET.Element) -> TimingConditionFormula:
-        tcf = TimingConditionFormula(parent, self.getShortName(element))
-        self.readReferrable(element, tcf)
+    def readTimingConditionFormula(self, element: ET.Element) -> TimingConditionFormula:
+        tcf = TimingConditionFormula()
         tcf.setTimingArgumentRef(self.getChildElementOptionalRefType(element, "TIMING-ARGUMENT-REF"))
         tcf.setTimingConditionRef(self.getChildElementOptionalRefType(element, "TIMING-CONDITION-REF"))
         tcf.setTimingEventRef(self.getChildElementOptionalRefType(element, "TIMING-EVENT-REF"))
@@ -3374,7 +3402,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, condition)
         formula_element = self.find(element, "TIMING-CONDITION-FORMULA")
         if formula_element is not None:
-            condition.setTimingConditionFormula(self.readTimingConditionFormula(condition, formula_element))
+            condition.setTimingConditionFormula(self.readTimingConditionFormula(formula_element))
 
     def readModeInBswInstanceRef(self, element: ET.Element) -> ModeInBswInstanceRef:
         ref = ModeInBswInstanceRef()
@@ -6794,7 +6822,7 @@ class ARXMLParser(AbstractARXMLParser):
             cont.setUnitRef(self.getChildElementOptionalRefType(child_element, "UNIT-REF"))
             cont.setSwArraysize(self.getValueList(child_element, "SW-ARRAYSIZE"))
             cont.setSwValuesPhys(self.getSwValues(child_element, "SW-VALUES-PHYS"))
-            cont.setUnitDisplayName(self.getChildElementOptionalLiteral(child_element, "UNIT-DISPLAY-NAME"))
+            cont.setUnitDisplayName(self.getSingleLanguageUnitNames(child_element, "UNIT-DISPLAY-NAME"))
         return cont
 
     def readApplicationValueSpecification(self, element: ET.Element, value_spec: ApplicationValueSpecification):
@@ -8151,7 +8179,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readUnit(self, element: ET.Element, unit: Unit):
         self.logger.debug("Read Unit <%s>" % unit.getShortName())
         self.readIdentifiable(element, unit)
-        unit.setDisplayName(self.getChildElementOptionalLiteral(element, "DISPLAY-NAME"))
+        unit.setDisplayName(self.getSingleLanguageUnitNames(element, "DISPLAY-NAME"))
         unit.setFactorSiToUnit(self.getChildElementOptionalFloatValue(element, "FACTOR-SI-TO-UNIT"))
         unit.setOffsetSiToUnit(self.getChildElementOptionalFloatValue(element, "OFFSET-SI-TO-UNIT"))
         unit.setPhysicalDimensionRef(self.getChildElementOptionalRefType(element, "PHYSICAL-DIMENSION-REF"))

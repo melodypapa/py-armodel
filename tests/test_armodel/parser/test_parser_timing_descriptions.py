@@ -46,7 +46,6 @@ def _parent():
 
 class TestReadTDEventOccurrenceExpressionFormula:
     def test_read_full(self, parser):
-        parent = _parent()
         element = ET.fromstring(
             f"<FORMULA xmlns='{NS}'>"
             "TIMEX_count(E1) &gt; 3"
@@ -57,8 +56,7 @@ class TestReadTDEventOccurrenceExpressionFormula:
             "<VARIABLE-REF DEST='AUTOSAR-VARIABLE-INSTANCE'>/AUTOSAR/Var1</VARIABLE-REF>"
             "</FORMULA>"
         )
-        formula = parser.readTDEventOccurrenceExpressionFormula(parent, element)
-        assert formula.getShortName() == "Formula1"
+        formula = parser.readTDEventOccurrenceExpressionFormula(element)
         assert formula.getMixedString() == "TIMEX_count(E1) > 3"
         assert formula.getArgumentRef().getValue() == "/AUTOSAR/OpArg1"
         assert formula.getArgumentRef().getDest() == "AUTOSAR-OPERATION-ARGUMENT-INSTANCE"
@@ -70,10 +68,8 @@ class TestReadTDEventOccurrenceExpressionFormula:
         assert formula.getVariableRef().getDest() == "AUTOSAR-VARIABLE-INSTANCE"
 
     def test_read_minimal(self, parser):
-        parent = _parent()
         element = ET.fromstring(f"<FORMULA xmlns='{NS}'><SHORT-NAME>Formula1</SHORT-NAME></FORMULA>")
-        formula = parser.readTDEventOccurrenceExpressionFormula(parent, element)
-        assert formula.getShortName() == "Formula1"
+        formula = parser.readTDEventOccurrenceExpressionFormula(element)
         assert formula.getMixedString() is None
         assert formula.getArgumentRef() is None
         assert formula.getEventRef() is None
@@ -212,12 +208,12 @@ class TestReadTimingDescriptionEventChain:
 
 class TestReadConcreteTDEventVfb:
     def test_read_td_event_vfb_via_timing_extension(self, parser):
+        parent = _parent()
         """
         The plain <TD-EVENT-VFB> choice member (ConcreteTDEventVfb — the XSD's
         TD-EVENT-VFB--SUBTYPES-ENUM permits the abstract TDEventVfb directly)
         is read through the TIMING-DESCRIPTIONS dispatch with field values.
         """
-        parent = _parent()
         extension = SwcTiming(parent, "Timing")
         element = ET.fromstring(
             f"<SWC-TIMING xmlns='{NS}'>"

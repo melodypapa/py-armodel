@@ -6,6 +6,12 @@ Scope: all 42 classes the R23-11 corpus stereotypes `<<atpMixedString>>`, their 
 current sync state. Use this as the map for fixing wrong parents (Rule 0001.2) and for
 queueing the missing classes.
 
+> **Verification method:** every Base row below was read from the markdown with the
+> `| Class | <<atpMixedString>> <Name> |` header row as the identity anchor (the FMXF
+> and appendix tables render captions AFTER their content block — a bare line-number
+> grep can pick up a neighboring shifted block; 2026-09-25 this misread briefly
+> attributed `ARObject , FormulaExpression` to SingleLanguageUnitNames).
+
 ## Design rules (decided 2026-09-25)
 
 1. **`AtpMixedString` is an interface-level mixin — `AtpMixedString(ABC)` — NOT a
@@ -30,70 +36,130 @@ queueing the missing classes.
    (`[TPS_XMLSPR_00047]` §3.2.4.2); reader `readMixedStringText` → `setMixedString`,
    writer `writeMixedStringText` ← `getMixedString`.
 
-## The mixin and the FormulaExpression family (Python chains)
+## Complete hierarchy — all 42 `<<atpMixedString>>` classes
+
+Legend: ✔ in src, parent correct · ✱ FIXED 2026-09-25 (drift note in checklist) ·
+⚙ re-parent/fix pending · ❑ NOT IN SRC (queued) · secondary bases (multiple
+inheritance) noted in brackets. Every Base row markdown-verified via the class-header
+anchor.
+
+### 1. FormulaExpression family (14)
 
 ```
-AtpMixedString(ABC)                                   ← capability mixin, no ARObject base
+AtpMixedString(ABC)  ← capability mixin (no ARObject base)
 │
-├─ FormulaExpression(ARObject, AtpMixedString, ABC)   ← abstract, FormulaLanguage
-│  │   spec Base: ARObject · FMXF "Table C.5" (pp.73-74, caption-after-content) — STAMPED R23-11
-│  │
-│  └─ SwSystemconstDependentFormula(FormulaExpression, ABC)   ← abstract, VariantHandling
-│     │   spec Base: ARObject , FormulaExpression · GST Table 7.10, p.240 — STAMPED R23-11
-│     │
-│     ├─ ConditionByFormula(SwSystemconstDependentFormula)    ← concrete, VariantHandling
-│     │     spec Base: ARObject , FE , SSCDF · GST Table 7.5, p.231 — Steps 1-8 done, Step 9 re-run pending
-│     │
-│     ├─ AttributeValueVariationPoint(SwSystemconstDependentFormula, ABC)  ← abstract
-│     │     spec Base: ARObject , FE , SSCDF · GST Table 7.2 — STAMPED (re-parent applied 2026-09-25; formal 9b verbatim re-diff owed)
-│     │
-│     ├─ BlueprintFormula(SwSystemconstDependentFormula)      ← NOT YET IN SRC (queued Group8)
-│     │     spec Base: ARObject , FE , SSCDF
-│     │
-│     ├─ FMFormulaByFeaturesAndSwSystemconsts(SwSystemconstDependentFormula)   ← NOT IN SRC (queued)
-│     ├─ FMConditionByFeaturesAndSwSystemconsts(SwSystemconstDependentFormula) ← NOT IN SRC (queued)
-│     └─ (FMConditionByFeaturesAndAttributes / FMFormulaByFeaturesAndAttributes —
-│        FMXF Table 7.1-7.4 blocks are caption-shifted; resolve exact chain at their Step 1)
-│
-├─ CompuGenericMath(FormulaExpression)                ← WRONG TODAY: (ARObject)
-│     spec Base: ARObject , FormulaExpression · CP SWCT — fix pending
-├─ EcucConditionFormula(FormulaExpression)            ← WRONG TODAY: (ARObject)
-│     spec Base: ARObject , FormulaExpression · CP ECUC — fix pending
-├─ EcucParameterDerivationFormula(FormulaExpression)  ← WRONG TODAY: (ARObject)
-│     spec Base: ARObject , FormulaExpression · CP ECUC — fix pending
-├─ TimingConditionFormula(FormulaExpression)          ← WRONG TODAY: (Referrable, AtpMixedString)
-│     spec Base: ARObject , FormulaExpression · CP TimingExtensions Table 3.8, p.35
-│     XSD complexType (00052 L123490): AR-OBJECT + FORMULA-EXPRESSION groups only —
-│     NO SHORT-NAME; dropping Referrable removes parent/short_name (no fixture fallout)
-├─ TDEventOccurrenceExpressionFormula(FormulaExpression)  ← WRONG TODAY: (Referrable, AtpMixedString)
-│     spec Base: ARObject , FormulaExpression · CP TimingExtensions Table 3.51
-└─ SingleLanguageUnitNames(FormulaExpression)         ← WRONG TODAY: (ARLiteral)
-      spec Base: ARObject , FormulaExpression · CP SWCT — fix pending
+└─ FormulaExpression(ARObject, AtpMixedString, ABC)  [abstract · FormulaLanguage] ✔ STAMPED
+   │   Base: ARObject · FMXF Table C.5, pp.73-74 (caption-after-content)
+   │
+   ├─ CompuGenericMath  [concrete · DataDefProperties.py] ✱ FIXED (was ARObject)
+   │     Base: ARObject , FormulaExpression · CP SWCT Table 5.60
+   ├─ EcucConditionFormula  [concrete · ECUCParameterDefTemplate.py] ✱ FIXED (was ARObject)
+   │     Base: ARObject , FormulaExpression · CP ECUC Table 2.43
+   ├─ EcucParameterDerivationFormula  [concrete · ECUCParameterDefTemplate.py] ✱ FIXED (was ARObject)
+   │     Base: ARObject , FormulaExpression · CP ECUC
+   ├─ TimingConditionFormula  [concrete · TimingCondition.py] ✱ FIXED (was Referrable, AtpMixedString)
+   │     Base: ARObject , FormulaExpression · CP TimingExtensions Table 3.8, p.35
+   │     [XSD: no SHORT-NAME — Referrable dropped, parser/writer updated]
+   ├─ TDEventOccurrenceExpressionFormula  [concrete · TDEventOccurrenceExpression.py] ✱ FIXED (was Referrable, AtpMixedString)
+   │     Base: ARObject , FormulaExpression · CP TimingExtensions Table 3.51
+   │
+   └─ SwSystemconstDependentFormula(FormulaExpression, ABC)  [abstract · VariantHandling] ✔ STAMPED
+      │   Base: ARObject , FormulaExpression · GST Table 7.10, p.240
+      │
+      ├─ ConditionByFormula(SwSystemconstDependentFormula)  [concrete] ✔ Steps 1-8 done
+      │     Base: ARObject , FE , SSCDF · GST Table 7.5, p.231 — Step 9 re-run pending
+      ├─ AttributeValueVariationPoint(SwSystemconstDependentFormula, ABC)  [abstract] ✔ STAMPED
+      │   Base: ARObject , FE , SSCDF · GST Table 7.2  (see subtree 2 below)
+      ├─ BlueprintFormula(SwSystemconstDependentFormula)  ❑ queued Group8
+      │   Base: ARObject , FE , SSCDF
+      ├─ FMFormulaByFeaturesAndSwSystemconsts(SwSystemconstDependentFormula)  ❑ queued
+      │   Base: ARObject , FE , SSCDF · FMXF Table 7.3
+      │   │
+      │   └─ FMConditionByFeaturesAndSwSystemconsts  ❑ queued
+      │         Base: ARObject , FMFormulaByFeaturesAndSwSystemconsts , FE , SSCDF · FMXF Table 7.4
+      └─ (AttributeValueVariationPoint subtree — see subtree 2)
 ```
 
-## The non-Formula stereotyped classes
+**FMFormulaByFeaturesAndAttributes branch (direct FormulaExpression children):**
 
-These carry the stereotype directly on a `Base: ARObject` class — they list the mixin
-themselves (`(ARObject, AtpMixedString, ...)`), there is no stereotyped ancestor to
-inherit from.
+```
+FormulaExpression
+│
+├─ FMFormulaByFeaturesAndAttributes  ❑ queued
+│     Base: ARObject , FormulaExpression · FMXF Table 7.1
+│   │
+│   └─ FMConditionByFeaturesAndAttributes  ❑ queued
+│         Base: ARObject , FMFormulaByFeaturesAndAttributes , FormulaExpression · FMXF Table 7.2
+```
+
+### 2. AttributeValueVariationPoint subtree (10)
+
+```
+AttributeValueVariationPoint(SwSystemconstDependentFormula, ABC)  ✔ STAMPED
+│
+├─ AbstractEnumerationValueVariationPoint(., ABC)  ❑ queued Group8
+│     Base: ARObject , AVP , FE , SSCDF
+├─ AbstractNumericalVariationPoint(AVP, ABC)  ✔
+│   │
+│   ├─ NumericalValueVariationPoint  ✔   Base: ARObject , AbstractNumericalVariationPoint , AVP , FE , SSCDF
+│   └─ LimitValueVariationPoint  ✔       Base: ARObject , AbstractNumericalVariationPoint , AVP , FE , SSCDF
+│
+├─ BooleanValueVariationPoint  ✔            Base: ARObject , AVP , FE , SSCDF
+├─ FloatValueVariationPoint  ✔              Base: ARObject , AVP , FE , SSCDF
+├─ IntegerValueVariationPoint  ✔            Base: ARObject , AVP , FE , SSCDF
+├─ PositiveIntegerValueVariationPoint  ✔    Base: ARObject , AVP , FE , SSCDF
+├─ UnlimitedIntegerValueVariationPoint  ✔   Base: ARObject , AVP , FE , SSCDF
+└─ TimeValueValueVariationPoint  ✔          Base: ARObject , AVP , FE , SSCDF
+```
+
+### 3. Direct-mixin classes (Base = plain ARObject, no stereotyped ancestor) (3 + 6)
 
 ```
 AtpMixedString(ABC)
-├─ EcucQueryExpression(ARObject, AtpMixedString)          ← TODAY: (ARObject); mixin pending sync
-│     spec Base: ARObject · CP ECUC Table 2.40 (XSD: group only, no own complexType)
-├─ EmphasisText(ARObject, AtpMixedString)                 ← TODAY: (ARObject)
-│     spec Base: ARObject · MSR DataDictionary (InlineTextElements)
-├─ IndexEntry(ARObject, AtpMixedString)                   ← TODAY: (ARObject)
-│     spec Base: ARObject · MSR DataDictionary (InlineTextElements)
-└─ MixedContentFor*(ARObject, AtpMixedString, ABC)        ← doc-model abstract bases
-   │    spec Base: ARObject (all MixedContentFor* variants)
-   ├─ MixedContentForLongName       — IN SRC (ARObject, ABC); mixin pending
-   ├─ MixedContentForParagraph      — IN SRC (ARObject, ABC); mixin pending
-   ├─ MixedContentForOverviewParagraph — NOT IN SRC
-   ├─ MixedContentForPlainText         — NOT IN SRC
-   ├─ MixedContentForVerbatim          — NOT IN SRC
-   └─ MixedContentForUnitNames         — NOT IN SRC
+│
+├─ EcucQueryExpression(ARObject, AtpMixedString)  ⚙ mixin pending
+│     Base: ARObject · CP ECUC Table 2.40 (XSD: group only, no own complexType)
+├─ EmphasisText(ARObject, AtpMixedString)  ⚙ mixin pending
+│     Base: ARObject · MSR DataDictionary (InlineTextElements)
+├─ IndexEntry(ARObject, AtpMixedString)  ⚙ mixin pending
+│     Base: ARObject · MSR DataDictionary (InlineTextElements)
+│
+└─ MixedContentFor*(ARObject, AtpMixedString, ABC)  ← doc-model abstract bases
+      Base: ARObject (all variants) · GST appendix E / InlineTextModel package
+   │
+   ├─ MixedContentForLongName  ✔ IN SRC (ARObject, ABC) — mixin pending
+   │   │   GST Table 4.9, p.63 — STAMPED
+   │   ├─ LLongName(+ LanguageSpecific)  ✔ chain correct
+   │   └─ SingleLanguageLongName  ✔     GST Table 4.7, p.62 — STAMPED
+   │
+   ├─ MixedContentForParagraph  ✔ IN SRC (ARObject, ABC) — mixin pending
+   │   │   Subclasses: LParagraph, SlParagraph
+   │   ├─ LParagraph(+ LanguageSpecific)  ✔
+   │   └─ SlParagraph  ✔
+   │
+   ├─ MixedContentForOverviewParagraph  ❑ queued Group8
+   │   │   Base: ARObject · InlineTextModel
+   │   ├─ LOverviewParagraph(+ LanguageSpecific)  ⚠ src misses this base
+   │   └─ SlOverviewParagraph  ❑ queued Group8
+   │         Base: ARObject , MixedContentForOverviewParagraph · SingleLanguageData
+   │
+   ├─ MixedContentForPlainText(+ WhitespaceControlled)  ❑ queued Group8
+   │   │   Base: ARObject , WhitespaceControlled · InlineTextModel
+   │   └─ LPlainText(+ LanguageSpecific + WhitespaceControlled)  ⚠ src misses 2 bases
+   │
+   ├─ MixedContentForVerbatim(+ WhitespaceControlled)  ❑ queued Group8
+   │   │   Base: ARObject , WhitespaceControlled · InlineTextModel
+   │   └─ LVerbatim(+ LanguageSpecific + WhitespaceControlled)  ⚠ src misses 2 bases
+   │
+   └─ MixedContentForUnitNames(ARObject, ABC)  ✱ CREATED 2026-09-25 — stamp pending 9b
+       │   Base: ARObject · GST Table E.55, p.456 · attrs: sub/sup (Superscript)
+       └─ SingleLanguageUnitNames  ✱ FIXED 2026-09-25 (was ARLiteral; a brief
+             FormulaExpression re-parent was reverted — caption-shift misread)
+             Base: ARObject , MixedContentForUnitNames · CP SWCT Table 5.80, p.400
 ```
+
+Secondary doc-model bases (NOT stereotyped): `LanguageSpecific(ARObject)` (abstract),
+`WhitespaceControlled(ARObject)` (abstract).
 
 Plain (non-stereotyped) doc-model bases for orientation: `LanguageSpecific(ARObject)`
 (abstract), `WhitespaceControlled(ARObject)` (abstract) — they appear in doc-class Base
@@ -110,6 +176,7 @@ rows but carry no `<<atpMixedString>>` stereotype themselves.
 | `LOverviewParagraph` | ARObject, LanguageSpecific, MixedContentForOverviewParagraph | `(LanguageSpecific)` | ⚠ missing MixedContentForOverviewParagraph base |
 | `LPlainText` | ARObject, LanguageSpecific, MixedContentForPlainText, WhitespaceControlled | `(LanguageSpecific)` | ⚠ missing 2 bases |
 | `LVerbatim` | ARObject, LanguageSpecific, MixedContentForVerbatim, WhitespaceControlled | `(LanguageSpecific)` | ⚠ missing 2 bases |
+| `SingleLanguageUnitNames` | ARObject, MixedContentForUnitNames | `(ARLiteral)` → FIXED: `(MixedContentForUnitNames)` | ✔ re-parented 2026-09-25 (was ARLiteral; a brief FormulaExpression re-parent was reverted — it came from a caption-shift misread) |
 
 ### AttributeValueVariationPoint concrete subclasses (derivation sets → most-derived = AVP)
 
@@ -125,18 +192,19 @@ NOT IN SRC (queued Group8).
 
 ## Findings / action list (priority order)
 
-1. **Wrong parents → re-parent to `FormulaExpression`** (5): `CompuGenericMath`,
+1. ✅ **APPLIED 2026-09-25** — re-parented to `FormulaExpression`: `CompuGenericMath`,
    `EcucConditionFormula`, `EcucParameterDerivationFormula`, `TimingConditionFormula`
-   (drop `Referrable` — XSD-confirmed no SHORT-NAME; parser `getShortName`/`readReferrable`
-   and writer `writeReferrable` go with it), `TDEventOccurrenceExpressionFormula` (same).
-2. **Wrong parent → re-base to `ARLiteral`→? / add mixin**: `SingleLanguageUnitNames`
-   (spec Base `ARObject , FormulaExpression`, currently `(ARLiteral)` — re-parent to
-   FormulaExpression and reconcile the ARLiteral value API at its drift pass).
+   (Referrable dropped incl. parser/writer SHORT-NAME handling), `TDEventOccurrenceExpressionFormula`.
+2. ✅ **APPLIED 2026-09-25** — `SingleLanguageUnitNames` re-parented to the NEW
+   `MixedContentForUnitNames(ARObject, ABC)` (markdown-verified Base row; the earlier
+   FormulaExpression claim was a caption-shift misread and was reverted). Serialization
+   of UNIT-DISPLAY-NAME / DISPLAY-NAME switched from the ARLiteral helpers to the
+   doc-family pattern (text + SUB/SUP attributes), mirroring SingleLanguageLongName.
 3. **Add the mixin** (Base = plain ARObject, stereotyped): `EcucQueryExpression`,
    `EmphasisText`, `IndexEntry`, `MixedContentForLongName`, `MixedContentForParagraph`.
-4. **Missing doc-model bases** (bigger change set): `MixedContentForOverviewParagraph`,
-   `MixedContentForPlainText`, `MixedContentForVerbatim`, `MixedContentForUnitNames`,
-   `SlOverviewParagraph`; re-parent `LOverviewParagraph`/`LPlainText`/`LVerbatim`.
+4. **Missing doc-model bases** (queued in Group8.md): `MixedContentForOverviewParagraph`,
+   `MixedContentForPlainText`, `MixedContentForVerbatim`, `SlOverviewParagraph`;
+   re-parent `LOverviewParagraph`/`LPlainText`/`LVerbatim` once their bases land.
 5. **Queued (unsynced)**: `BlueprintFormula`, `FMConditionByFeaturesAndAttributes`,
    `FMConditionByFeaturesAndSwSystemconsts`, `FMFormulaByFeaturesAndAttributes`,
    `FMFormulaByFeaturesAndSwSystemconsts`, `AbstractEnumerationValueVariationPoint` —

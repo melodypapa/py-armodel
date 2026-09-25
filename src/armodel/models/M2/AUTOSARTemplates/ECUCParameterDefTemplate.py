@@ -7,6 +7,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RegularExpression, String, VerbatimString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.FormulaLanguage import FormulaExpression
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 
 
@@ -1861,7 +1862,7 @@ class EcucAddInfoParamDef(EcucParameterDef):
         super().__init__(parent, short_name)
 
 
-class EcucConditionFormula(ARObject):
+class EcucConditionFormula(FormulaExpression):
     """
     This formula shall yield a boolean expression depending on ecuc queries. Note that the EcucCondition Formula is a mixed string. Therefore, the properties have the upper multiplicity 1.
     """
@@ -1869,6 +1870,7 @@ class EcucConditionFormula(ARObject):
     # EcucConditionFormula method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.43, p.100
     # Spec verified: R23-11
+    # 2026-09-25 drift fix (Rule 0012.3): re-parented to FormulaExpression per spec Base row (most-derived) — see docs/plan/atp_mixed_string_hierarchy.md
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setEcucQueryRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -2176,7 +2178,7 @@ class EcucMultilineStringParamDef(EcucAbstractStringParamDef):
         super().__init__(parent, short_name)
 
 
-class EcucParameterDerivationFormula(ARObject):
+class EcucParameterDerivationFormula(FormulaExpression):
     """
     This formula is intended to specify how an ecu parameter can be derived
     from other information in the Autosar Templates.

@@ -7,9 +7,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     AutosarVariableInstance,
     TDEventOccurrenceExpressionFormula,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Referrable,
-)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -25,12 +22,13 @@ class TestTDEventOccurrenceExpressionFormula:
         document.setARRelease("R23-11")
         return document.createARPackage("AUTOSAR")
 
-    def test_base_is_referrable(self):
-        assert issubclass(TDEventOccurrenceExpressionFormula, Referrable)
+    def test_base_is_formula_expression(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.FormulaLanguage import FormulaExpression
+
+        assert issubclass(TDEventOccurrenceExpressionFormula, FormulaExpression)
 
     def test_initialization_defaults(self):
-        formula = TDEventOccurrenceExpressionFormula(self._parent(), "Formula1")
-        assert formula.getShortName() == "Formula1"
+        formula = TDEventOccurrenceExpressionFormula()
         assert formula.getMixedString() is None
         assert formula.getArgumentRef() is None
         assert formula.getEventRef() is None
@@ -38,19 +36,19 @@ class TestTDEventOccurrenceExpressionFormula:
         assert formula.getVariableRef() is None
 
     def test_set_text(self):
-        formula = TDEventOccurrenceExpressionFormula(self._parent(), "Formula1")
+        formula = TDEventOccurrenceExpressionFormula()
         assert isinstance(formula, AtpMixedString)
         assert formula.setMixedString("TIMEX_count(E1) > 3") is formula
         assert formula.getMixedString() == "TIMEX_count(E1) > 3"
 
     def test_set_text_none_is_no_op(self):
-        formula = TDEventOccurrenceExpressionFormula(self._parent(), "Formula1")
+        formula = TDEventOccurrenceExpressionFormula()
         formula.setMixedString("A && B")
         formula.setMixedString(None)
         assert formula.getMixedString() == "A && B"
 
     def test_get_set_argument_ref(self):
-        formula = TDEventOccurrenceExpressionFormula(self._parent(), "Formula1")
+        formula = TDEventOccurrenceExpressionFormula()
         ref = RefType().setValue("/AUTOSAR/Arg1").setDest("AUTOSAR-OPERATION-ARGUMENT-INSTANCE")
         assert formula.setArgumentRef(ref) is formula
         assert formula.getArgumentRef() is ref
@@ -59,7 +57,7 @@ class TestTDEventOccurrenceExpressionFormula:
         assert formula.getArgumentRef() is ref
 
     def test_get_set_event_ref(self):
-        formula = TDEventOccurrenceExpressionFormula(self._parent(), "Formula1")
+        formula = TDEventOccurrenceExpressionFormula()
         ref = RefType().setValue("/AUTOSAR/TDEvent1").setDest("TD-EVENT-VFB")
         assert formula.setEventRef(ref) is formula
         assert formula.getEventRef() is ref
@@ -68,7 +66,7 @@ class TestTDEventOccurrenceExpressionFormula:
 
     def test_get_set_mode_ref(self):
         parent = self._parent()
-        formula = TDEventOccurrenceExpressionFormula(parent, "Formula1")
+        formula = TDEventOccurrenceExpressionFormula()
         mode = TimingModeInstance(parent, "Mode1")
         mode_ref = RefType().setValue("/AUTOSAR/Mode1").setDest("TIMING-MODE-INSTANCE")
         assert formula.setModeRef(mode_ref) is formula
@@ -79,7 +77,7 @@ class TestTDEventOccurrenceExpressionFormula:
 
     def test_get_set_variable_ref(self):
         parent = self._parent()
-        formula = TDEventOccurrenceExpressionFormula(parent, "Formula1")
+        formula = TDEventOccurrenceExpressionFormula()
         variable = AutosarVariableInstance(parent, "Var1")
         var_ref = RefType().setValue("/AUTOSAR/Var1").setDest("AUTOSAR-VARIABLE-INSTANCE")
         assert formula.setVariableRef(var_ref) is formula

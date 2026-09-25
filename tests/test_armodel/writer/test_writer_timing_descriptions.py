@@ -35,7 +35,7 @@ class TestWriteTDEventOccurrenceExpressionFormula:
         return document.createARPackage("AUTOSAR")
 
     def _build_full(self, parent):
-        formula = TDEventOccurrenceExpressionFormula(parent, "Formula1")
+        formula = TDEventOccurrenceExpressionFormula()
         formula.setMixedString("TIMEX_count(E1) > 3")
         formula.setArgumentRef(RefType().setValue("/AUTOSAR/OpArg1").setDest("AUTOSAR-OPERATION-ARGUMENT-INSTANCE"))
         formula.setEventRef(RefType().setValue("/AUTOSAR/TDEvent1").setDest("TD-EVENT-VFB"))
@@ -50,7 +50,6 @@ class TestWriteTDEventOccurrenceExpressionFormula:
         element = ET.Element("FORMULA")
         ARXMLWriter().writeTDEventOccurrenceExpressionFormula(element, formula)
 
-        assert element.find("SHORT-NAME").text == "Formula1"
         assert element.text == "TIMEX_count(E1) > 3"
         argument_ref = element.find("ARGUMENT-REF")
         assert argument_ref.text == "/AUTOSAR/OpArg1"
@@ -63,13 +62,11 @@ class TestWriteTDEventOccurrenceExpressionFormula:
         assert element.find("VARIABLE-REF").attrib["DEST"] == "AUTOSAR-VARIABLE-INSTANCE"
 
     def test_write_minimal(self):
-        parent = self._parent()
-        formula = TDEventOccurrenceExpressionFormula(parent, "Formula1")
+        formula = TDEventOccurrenceExpressionFormula()
 
         element = ET.Element("FORMULA")
         ARXMLWriter().writeTDEventOccurrenceExpressionFormula(element, formula)
 
-        assert element.find("SHORT-NAME").text == "Formula1"
         assert element.text is None
         assert element.find("ARGUMENT-REF") is None
         assert element.find("EVENT-REF") is None
@@ -88,8 +85,7 @@ class TestWriteTDEventOccurrenceExpressionFormula:
         xml_str = xml_str[:idx] + ' xmlns="http://autosar.org/schema/r4.0"' + xml_str[idx:]
         parsed = ET.fromstring(xml_str)
 
-        formula2 = ARXMLParser().readTDEventOccurrenceExpressionFormula(parent, parsed)
-        assert formula2.getShortName() == "Formula1"
+        formula2 = ARXMLParser().readTDEventOccurrenceExpressionFormula(parsed)
         assert formula2.getMixedString() == "TIMEX_count(E1) > 3"
         assert formula2.getArgumentRef().getValue() == "/AUTOSAR/OpArg1"
         assert formula2.getEventRef().getDest() == "TD-EVENT-VFB"
@@ -109,7 +105,7 @@ class TestWriteTDEventOccurrenceExpression:
         expression.createArgument(parent, "OpArg1")
         expression.createMode(parent, "Mode1")
         expression.createVariable(parent, "Var1")
-        formula = TDEventOccurrenceExpressionFormula(parent, "Formula1")
+        formula = TDEventOccurrenceExpressionFormula()
         formula.setMixedString("TIMEX_count(E1) > 3")
         expression.setFormula(formula)
         return expression
@@ -126,7 +122,6 @@ class TestWriteTDEventOccurrenceExpression:
         assert arguments_tag.find("AUTOSAR-OPERATION-ARGUMENT-INSTANCE/SHORT-NAME").text == "OpArg1"
         formula_tag = element.find("FORMULA")
         assert formula_tag is not None
-        assert formula_tag.find("SHORT-NAME").text == "Formula1"
         modes_tag = element.find("MODES")
         assert modes_tag is not None
         assert modes_tag.find("TIMING-MODE-INSTANCE/SHORT-NAME").text == "Mode1"
@@ -165,6 +160,7 @@ class TestWriteTDEventOccurrenceExpression:
         assert expression2.getVariables()[0].getShortName() == "Var1"
 
     def test_round_trip_argument_instance_iref_values(self):
+        parent = self._parent()
         """
         Round-trip the AUTOSAR-OPERATION-ARGUMENT-INSTANCE inside the ARGUMENTS
         wrapper with a fully populated OPERATION-ARGUMENT-INSTANCE-IREF,
@@ -175,7 +171,6 @@ class TestWriteTDEventOccurrenceExpression:
         CONTEXT-DATA-PROTOTYPE-REF* → TARGET-DATA-PROTOTYPE-REF) and the
         read-back field values.
         """
-        parent = self._parent()
         expression = TDEventOccurrenceExpression()
         argument = expression.createArgument(parent, "OpArg1")
         iref = OperationArgumentInComponentInstanceRef()
@@ -353,13 +348,13 @@ class TestWriteConcreteTDEventVfb:
         return ET.fromstring(xml_str)
 
     def test_write_full(self):
+        parent = self._parent()
         """
         Write the plain <TD-EVENT-VFB> choice member (ConcreteTDEventVfb — the
         XSD's TD-EVENT-VFB--SUBTYPES-ENUM permits the abstract TDEventVfb
         directly) through the TIMING-DESCRIPTIONS wrapper with field values
         and the XSD element order (SHORT-NAME → COMPONENT-IREF).
         """
-        parent = self._parent()
         extension = self._build_full(parent)
 
         element = ET.Element("SWC-TIMING")

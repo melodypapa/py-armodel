@@ -1547,7 +1547,7 @@ class TestSetValueSpecifications:
         sw_values = SwValues()
         sw_values.addV(_numerical(5))
         cont.setSwValuesPhys(sw_values)
-        display_name = SingleLanguageUnitNames().setValue("display")
+        display_name = SingleLanguageUnitNames().setValue(String().setValue("display"))
         cont.setUnitDisplayName(display_name)
         parent = _parent()
         writer.writeSwValueCont(parent, cont)
