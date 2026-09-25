@@ -3586,7 +3586,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if event is not None:
             child_element = ET.SubElement(element, "DATA-RECEIVED-EVENT")
             self.setRTEEvent(child_element, event)
-            self.setRVariableInAtomicSwcInstanceRef(child_element, event.dataIRef)
+            self.setRVariableInAtomicSwcInstanceRef(child_element, event.getDataIRef())
 
     def writeDataReceiveErrorEvent(self, element: ET.Element, event: DataReceiveErrorEvent):
         if event is not None:

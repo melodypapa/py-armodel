@@ -183,10 +183,10 @@ class TestDataWriteCompletedEvent:
 
 
 class TestDataReceivedEvent:
-    """Test class for DataReceivedEvent class."""
+    """Test class for DataReceivedEvent class (Table 7.13)."""
 
-    def test_data_received_event_initialization(self):
-        """Test DataReceivedEvent initialization and methods."""
+    def test_initialization(self):
+        """Test DataReceivedEvent initialization defaults."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         event = DataReceivedEvent(ar_root, "TestDataReceivedEvent")
@@ -196,13 +196,38 @@ class TestDataReceivedEvent:
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.dataIRef is None
+        assert isinstance(event, RTEEvent)
 
-        # Test dataIRef methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RVariableInAtomicSwcInstanceRef
+    def test_get_set_dataIRef(self):
+        """Test setDataIRef/getDataIRef round-trip and None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = DataReceivedEvent(ar_root, "TestDataReceivedEvent")
 
         iref = RVariableInAtomicSwcInstanceRef()
-        event.setDataIRef(iref)
-        assert event.getDataIRef() == iref
+        context_ref = RefType()
+        context_ref.setDest("R-PORT-PROTOTYPE")
+        context_ref.setValue("/swc/rp")
+        iref.setContextRPortRef(context_ref)
+        target_ref = RefType()
+        target_ref.setDest("VARIABLE-DATA-PROTOTYPE")
+        target_ref.setValue("/swc/de")
+        iref.setTargetDataElementRef(target_ref)
+        assert event.setDataIRef(iref) is event
+        assert event.getDataIRef() is iref
+        assert event.getDataIRef().getContextRPortRef().getValue() == "/swc/rp"
+        assert event.getDataIRef().getTargetDataElementRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+
+        event.setDataIRef(None)
+        assert event.getDataIRef() is iref
+
+    def test_get_type_hints(self):
+        """Test spec-typed annotations resolve at runtime (plain get_type_hints)."""
+        hints = typing.get_type_hints(DataReceivedEvent.setDataIRef)
+        assert hints.get("value") == typing.Optional[RVariableInAtomicSwcInstanceRef]
+        assert hints.get("return") is DataReceivedEvent
+
+        assert typing.get_type_hints(DataReceivedEvent.getDataIRef).get("return") == typing.Optional[RVariableInAtomicSwcInstanceRef]
 
 
 class TestSwcModeSwitchEvent:

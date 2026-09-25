@@ -1581,7 +1581,9 @@ class TestRteEventHandlers:
         parser.readDataReceivedEvent(element, event)
         assert event.getDataIRef() is not None
         assert event.getDataIRef().getContextRPortRef().getValue() == "/rport"
+        assert event.getDataIRef().getContextRPortRef().getDest() == "R-PORT-PROTOTYPE"
         assert event.getDataIRef().getTargetDataElementRef().getValue() == "/data"
+        assert event.getDataIRef().getTargetDataElementRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
 
     def test_readDataReceiveErrorEvent_full(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -3561,6 +3563,7 @@ class TestSwcInternalBehaviorEvents:
             "ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT",
             "MODE-SWITCHED-ACK-EVENT",
             "BACKGROUND-EVENT",
+            "DATA-RECEIVED-EVENT",
             "DATA-RECEIVE-ERROR-EVENT",
             "DATA-SEND-COMPLETED-EVENT",
             "SWC-MODE-SWITCH-EVENT",

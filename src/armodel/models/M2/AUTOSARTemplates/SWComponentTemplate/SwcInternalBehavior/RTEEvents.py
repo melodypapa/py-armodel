@@ -190,38 +190,36 @@ class DataWriteCompletedEvent(RTEEvent):
 class DataReceivedEvent(RTEEvent):
     """
     This event is raised when the referenced data element is received.
+
+    [constr_1943] Existence of attribute DataReceivedEvent.data: For each DataReceivedEvent, attribute data shall exist at the time when the contract phase generation is executed.
     """
 
     # DataReceivedEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataIRef                  [x] impl  [x] docstring  [ ] test
-    # [ ] setDataIRef                  [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.13, p.542
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dataIRef: RVariableInAtomicSwcInstanceRef = None
+        # The referenced VariableDataPrototype raises this DataReceivedEvent when the data has been received. InstanceRef implemented by: RVariableInAtomicSwcInstanceRef
+        self.dataIRef: Optional[RVariableInAtomicSwcInstanceRef] = None
 
-    def getDataIRef(self):
+    def getDataIRef(self) -> Optional[RVariableInAtomicSwcInstanceRef]:
         """
-        Gets the data instance reference.
-
-        Returns:
-            RVariableInAtomicSwcInstanceRef: The data instance reference
+        The referenced VariableDataPrototype raises this DataReceivedEvent when the data has been received. InstanceRef implemented by: RVariableInAtomicSwcInstanceRef
         """
         return self.dataIRef
 
-    def setDataIRef(self, value):
+    def setDataIRef(self, value: Optional[RVariableInAtomicSwcInstanceRef]) -> DataReceivedEvent:
         """
-        Sets the data instance reference.
-
-        Args:
-            value: The data instance reference to set
-
-        Returns:
-            self for method chaining
+        The referenced VariableDataPrototype raises this DataReceivedEvent when the data has been received. InstanceRef implemented by: RVariableInAtomicSwcInstanceRef
+        A None value is a no-op and does not overwrite an existing dataIRef.
         """
-        self.dataIRef = value
+        if value is not None:
+            self.dataIRef = value
         return self
 
 

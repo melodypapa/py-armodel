@@ -1,6 +1,6 @@
 import os
 import xml.etree.ElementTree as ET
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, FileInfoComment
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment import (
@@ -5187,7 +5187,7 @@ class ARXMLParser(AbstractARXMLParser):
             operation_iref.setTargetRequiredOperationRef(self.getChildElementOptionalRefType(child_element, "TARGET-REQUIRED-OPERATION-REF"))
             parent.setOperationIRef(operation_iref)
 
-    def readRVariableInAtomicSwcInstanceRef(self, element: ET.Element, parent: DataReceivedEvent):
+    def readRVariableInAtomicSwcInstanceRef(self, element: ET.Element, parent: Union[DataReceivedEvent, DataReceiveErrorEvent]):
         child_element = self.find(element, "DATA-IREF")
         if child_element is not None:
             data_iref = RVariableInAtomicSwcInstanceRef()
