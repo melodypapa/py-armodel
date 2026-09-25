@@ -912,6 +912,55 @@ class TestBswModuleCallPointHandlers:
         assert point.getVariationPoint().getShortLabel().getValue() == "vp1"
 
 
+# ==================== BswDirectCallPoint (R23-11 Table 5.11) ====================
+
+
+class TestBswDirectCallPointHandlers:
+    """Exercise readBswDirectCallPoint and the BSW-DIRECT-CALL-POINT
+    branch of the call point dispatch."""
+
+    def test_readBswDirectCallPoint_sets_refs(self, parser):
+        from armodel.models import BswDirectCallPoint
+
+        point = BswDirectCallPoint(parent=_autosar_root(), short_name="cp")
+        element = _snip(
+            "<SHORT-NAME>cp</SHORT-NAME>"
+            "<CALLED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/mod/Entry</CALLED-ENTRY-REF>"
+            "<CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF DEST='EXCLUSIVE-AREA-NESTING-ORDER'>/mod/Nesting</CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF>",
+            root_tag="BSW-DIRECT-CALL-POINT",
+        )
+        parser.readBswDirectCallPoint(element, point)
+        assert point.getCalledEntryRef().getValue() == "/mod/Entry"
+        assert point.getCalledEntryRef().getDest() == "BSW-MODULE-ENTRY"
+        assert point.getCalledFromWithinExclusiveAreaRef().getValue() == "/mod/Nesting"
+        assert point.getCalledFromWithinExclusiveAreaRef().getDest() == "EXCLUSIVE-AREA-NESTING-ORDER"
+
+    def test_readBswDirectCallPoint_empty(self, parser):
+        from armodel.models import BswDirectCallPoint
+
+        point = BswDirectCallPoint(parent=_autosar_root(), short_name="cp")
+        element = _snip("<SHORT-NAME>cp</SHORT-NAME>", root_tag="BSW-DIRECT-CALL-POINT")
+        parser.readBswDirectCallPoint(element, point)
+        assert point.getCalledEntryRef() is None
+        assert point.getCalledFromWithinExclusiveAreaRef() is None
+
+    def test_readBswModuleEntityCallPoints_direct_call_point_dispatch(self, parser):
+        from armodel.models import BswDirectCallPoint, BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        entity = behavior.createBswSchedulableEntity("e")
+        element = _snip(
+            "<CALL-POINTS>" "<BSW-DIRECT-CALL-POINT>" "<SHORT-NAME>dcp</SHORT-NAME>" "<CALLED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/ent</CALLED-ENTRY-REF>" "</BSW-DIRECT-CALL-POINT>" "</CALL-POINTS>",
+            root_tag="ENTITY",
+        )
+        parser.readBswModuleEntityCallPoints(element, entity)
+        points = entity.getCallPoints()
+        assert len(points) == 1
+        assert isinstance(points[0], BswDirectCallPoint)
+        assert points[0].getShortName() == "dcp"
+        assert points[0].getCalledEntryRef().getValue() == "/ent"
+
+
 # ==================== BSW entities dispatch (Called/Schedulable/Interrupt) ====================
 
 

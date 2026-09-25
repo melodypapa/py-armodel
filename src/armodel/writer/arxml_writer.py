@@ -39,6 +39,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswDataReceivedEvent,
     BswDataReceptionPolicy,
     BswDataSendPolicy,
+    BswDirectCallPoint,
     BswDistinguishedPartition,
     BswOsTaskExecutionEvent,
     BswSchedulerNamePrefix,
@@ -6896,6 +6897,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswModuleCallPoint(child_element, point)
         self.setChildElementOptionalRefType(child_element, "CALLED-ENTRY-REF", point.getCalledEntryRef())
 
+    def writeBswDirectCallPoint(self, element: ET.Element, point: BswDirectCallPoint):
+        child_element = ET.SubElement(element, "BSW-DIRECT-CALL-POINT")
+        self.writeBswModuleCallPoint(child_element, point)
+        self.setChildElementOptionalRefType(child_element, "CALLED-ENTRY-REF", point.getCalledEntryRef())
+        self.setChildElementOptionalRefType(child_element, "CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF", point.getCalledFromWithinExclusiveAreaRef())
+
     def writeBswModuleEntityCallPoints(self, element: ET.Element, entity: BswModuleEntity):
         points = entity.getCallPoints()
         if len(points) > 0:
@@ -6907,6 +6914,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeBswAsynchronousServerCallPoint(child_element, point)
                 elif isinstance(point, BswSynchronousServerCallPoint):
                     self.writeBswSynchronousServerCallPoint(child_element, point)
+                elif isinstance(point, BswDirectCallPoint):
+                    self.writeBswDirectCallPoint(child_element, point)
                 else:
                     self.notImplemented("Unsupported Call Point <%s>" % type(point))
 

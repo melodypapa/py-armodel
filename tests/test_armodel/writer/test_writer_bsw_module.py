@@ -509,6 +509,110 @@ class TestWriterBswModuleCallPointRoundTrip:
         assert point_2.getCalledEntryRef() is None
 
 
+class TestWriterBswDirectCallPoints:
+    def test_direct_call_point(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createBswSchedulableEntity("ent")
+        point = entity.createBswDirectCallPoint("dcp")
+        point.setCalledEntryRef(_ref("/e", "BSW-MODULE-ENTRY"))
+        point.setCalledFromWithinExclusiveAreaRef(_ref("/n", "EXCLUSIVE-AREA-NESTING-ORDER"))
+        parent = _parent()
+        writer.writeBswDirectCallPoint(parent, point)
+        assert parent[0].tag == "BSW-DIRECT-CALL-POINT"
+        entry_ref = parent[0].find("CALLED-ENTRY-REF")
+        assert entry_ref is not None
+        assert entry_ref.text == "/e"
+        assert entry_ref.get("DEST") == "BSW-MODULE-ENTRY"
+        area_ref = parent[0].find("CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF")
+        assert area_ref is not None
+        assert area_ref.text == "/n"
+        assert area_ref.get("DEST") == "EXCLUSIVE-AREA-NESTING-ORDER"
+        tags = [c.tag for c in parent[0]]
+        assert tags.index("CALLED-ENTRY-REF") < tags.index("CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF")
+
+    def test_direct_call_point_empty(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createBswSchedulableEntity("ent")
+        entity.createBswDirectCallPoint("dcp")
+        parent = _parent()
+        writer.writeBswDirectCallPoint(parent, entity.getCallPoints()[0])
+        assert parent[0].tag == "BSW-DIRECT-CALL-POINT"
+        assert parent[0].find("CALLED-ENTRY-REF") is None
+        assert parent[0].find("CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF") is None
+
+    def test_entity_call_points_direct_call_point_dispatch(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createBswSchedulableEntity("ent")
+        entity.createBswDirectCallPoint("dcp").setCalledEntryRef(_ref("/e", "BSW-MODULE-ENTRY"))
+        parent = _parent()
+        writer.writeBswModuleEntityCallPoints(parent, entity)
+        child_tags = [c.tag for c in parent[0]]
+        assert child_tags == ["BSW-DIRECT-CALL-POINT"]
+
+
+class TestWriterBswDirectCallPointRoundTrip:
+    def test_round_trip_direct_call_point(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        entity = behavior.createBswSchedulableEntity("ent")
+        entity.setImplementedEntryRef(_ref("/mod/Entry", "BSW-MODULE-ENTRY"))
+        point = entity.createBswDirectCallPoint("dcp")
+        point.setCalledEntryRef(_ref("/mod/Entry", "BSW-MODULE-ENTRY"))
+        point.setCalledFromWithinExclusiveAreaRef(_ref("/mod/Nesting", "EXCLUSIVE-AREA-NESTING-ORDER"))
+
+        out_file = tmp_path / "dcp_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        entity_2 = behavior_2.getBswSchedulableEntities()[0]
+        points = entity_2.getCallPoints()
+        assert len(points) == 1
+        point_2 = points[0]
+        assert point_2.getShortName() == "dcp"
+        assert point_2.getCalledEntryRef().getValue() == "/mod/Entry"
+        assert point_2.getCalledEntryRef().getDest() == "BSW-MODULE-ENTRY"
+        assert point_2.getCalledFromWithinExclusiveAreaRef().getValue() == "/mod/Nesting"
+        assert point_2.getCalledFromWithinExclusiveAreaRef().getDest() == "EXCLUSIVE-AREA-NESTING-ORDER"
+
+    def test_round_trip_direct_call_point_empty(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        entity = behavior.createBswSchedulableEntity("ent")
+        entity.setImplementedEntryRef(_ref("/mod/Entry", "BSW-MODULE-ENTRY"))
+        entity.createBswDirectCallPoint("dcp")
+
+        out_file = tmp_path / "dcp_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        entity_2 = behavior_2.getBswSchedulableEntities()[0]
+        points = entity_2.getCallPoints()
+        assert len(points) == 1
+        point_2 = points[0]
+        assert point_2.getCalledEntryRef() is None
+        assert point_2.getCalledFromWithinExclusiveAreaRef() is None
+
+
 class TestWriterBswInternalBehaviorSchedulerNamePrefixes:
     def test_scheduler_name_prefixes(self, writer):
         behavior = _make_behavior()

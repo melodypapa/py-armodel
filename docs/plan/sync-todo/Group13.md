@@ -60,15 +60,25 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `BswDirectCallPoint` — BswModuleCallPoint — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - after `BswModuleCallPoint`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 5.11, p.78 (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate).
+    Concrete Class; Base most-derived = `BswModuleCallPoint` (already correct in src).
+    Two attrs, both 0..1 ref → `calledEntryRef` (BswModuleEntry), `calledFromWithinExclusiveAreaRef`
+    (ExclusiveAreaNestingOrder), both `Optional[RefType]`. VP capability inherited from base
+    (no VARIATION-POINT in BSW-DIRECT-CALL-POINT group, AUTOSAR_00052.xsd L9901 — base group
+    ref L9950; Rule 0020). XSD XML order after base groups: CALLED-ENTRY-REF then
+    CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF. Drift: bare `RefType = None` fields, untyped
+    accessors, `__init__` docstring, paraphrased docstrings, glued `__init__` member blocks,
+    old 4-col checklist; NO reader/writer coverage (no read/writeBswDirectCallPoint, no
+    dispatch branch, no createBswDirectCallPoint factory on BswModuleEntity).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12018 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BswSynchronousServerCallPoint` — BswModuleCallPoint — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py

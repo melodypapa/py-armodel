@@ -115,75 +115,52 @@ class BswAsynchronousServerCallPoint(BswModuleCallPoint):
 
 class BswDirectCallPoint(BswModuleCallPoint):
     """
-    Represents a direct call point in a BSW module.
-    This call point is used for direct synchronous calls to BSW module entries.
+    Represents a concrete point in the code from where a BswModuleEntry is called directly, i.e. not via the BSW Scheduler. This information can be used to analyze call tree and resource locking scenarios. It is not needed to configure the BSW Scheduler.
     """
 
     # BswDirectCallPoint method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getCalledEntryRef            [x] impl  [x] docstring  [ ] test
-    # [x] setCalledEntryRef            [x] impl  [x] docstring  [x] test
-    # [ ] getCalledFromWithinExclusiveAreaRef [x] impl  [x] docstring  [ ] test
-    # [x] setCalledFromWithinExclusiveAreaRef [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.11, p.78
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCalledEntryRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCalledEntryRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCalledFromWithinExclusiveAreaRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCalledFromWithinExclusiveAreaRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswDirectCallPoint with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this call point
-            short_name: The unique short name of this call point
-        """
         super().__init__(parent, short_name)
 
-        # Reference to the entry that is called by this direct call point
-        self.calledEntryRef: RefType = None
-        # Reference to an exclusive area from which this call is made
-        self.calledFromWithinExclusiveAreaRef: RefType = None
+        # The BswModuleEntry called at this point.
+        self.calledEntryRef: Optional[RefType] = None
 
-    def getCalledEntryRef(self):
+        # This indicates that the call point is located at the deepest level inside one or more ExclusiveAreas that are nested in the given order.
+        self.calledFromWithinExclusiveAreaRef: Optional[RefType] = None
+
+    def getCalledEntryRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the entry that is called by this direct call point.
-
-        Returns:
-            Reference to the called entry
+        The BswModuleEntry called at this point.
         """
         return self.calledEntryRef
 
-    def setCalledEntryRef(self, value):
+    def setCalledEntryRef(self, value: Optional[RefType]) -> BswDirectCallPoint:
         """
-        Sets the reference to the entry that is called by this direct call point.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The entry reference to set
-
-        Returns:
-            self for method chaining
+        The BswModuleEntry called at this point.
+        A None value is a no-op and does not overwrite an existing calledEntryRef.
         """
         if value is not None:
             self.calledEntryRef = value
         return self
 
-    def getCalledFromWithinExclusiveAreaRef(self):
+    def getCalledFromWithinExclusiveAreaRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the exclusive area from which this call is made.
-
-        Returns:
-            Reference to the exclusive area
+        This indicates that the call point is located at the deepest level inside one or more ExclusiveAreas that are nested in the given order.
         """
         return self.calledFromWithinExclusiveAreaRef
 
-    def setCalledFromWithinExclusiveAreaRef(self, value):
+    def setCalledFromWithinExclusiveAreaRef(self, value: Optional[RefType]) -> BswDirectCallPoint:
         """
-        Sets the reference to the exclusive area from which this call is made.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The exclusive area reference to set
-
-        Returns:
-            self for method chaining
+        This indicates that the call point is located at the deepest level inside one or more ExclusiveAreas that are nested in the given order.
+        A None value is a no-op and does not overwrite an existing calledFromWithinExclusiveAreaRef.
         """
         if value is not None:
             self.calledFromWithinExclusiveAreaRef = value
@@ -434,6 +411,7 @@ class BswModuleEntity(ExecutableEntity, VariationPointCapable, ABC):
     # [x] getCallPoints                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] createBswAsynchronousServerCallPoint [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] createBswSynchronousServerCallPoint [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createBswDirectCallPoint            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getDataReceivePoints         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] createDataReceivePoint       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getDataSendPoints            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -589,6 +567,24 @@ class BswModuleEntity(ExecutableEntity, VariationPointCapable, ABC):
             self.addElement(access)
             self.callPoints.append(access)
         return self.getElement(short_name, BswSynchronousServerCallPoint)
+
+    def createBswDirectCallPoint(self, short_name: str) -> BswDirectCallPoint:
+        """
+        Creates and adds a BswDirectCallPoint to the call points used in the
+        code of this entity. Returns the existing call point if the short name
+        is already present.
+
+        Args:
+            short_name: The short name for the new call point
+
+        Returns:
+            The created BswDirectCallPoint instance
+        """
+        if not self.IsElementExists(short_name, BswDirectCallPoint):
+            access = BswDirectCallPoint(self, short_name)
+            self.addElement(access)
+            self.callPoints.append(access)
+        return self.getElement(short_name, BswDirectCallPoint)
 
     def getDataReceivePoints(self) -> List[BswVariableAccess]:
         """

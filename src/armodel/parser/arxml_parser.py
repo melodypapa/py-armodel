@@ -55,6 +55,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswDataReceivedEvent,
     BswDataReceptionPolicy,
     BswDataSendPolicy,
+    BswDirectCallPoint,
     BswExclusiveAreaPolicy,
     BswExternalTriggerOccurredEvent,
     BswInternalBehavior,
@@ -3931,6 +3932,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBswModuleCallPoint(element, point)
         point.setCalledEntryRef(self.getChildElementOptionalRefType(element, "CALLED-ENTRY-REF"))
 
+    def readBswDirectCallPoint(self, element: ET.Element, point: BswDirectCallPoint):
+        self.readBswModuleCallPoint(element, point)
+        point.setCalledEntryRef(self.getChildElementOptionalRefType(element, "CALLED-ENTRY-REF"))
+        point.setCalledFromWithinExclusiveAreaRef(self.getChildElementOptionalRefType(element, "CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF"))
+
     def readBswModuleEntityCallPoints(self, element: ET.Element, entity: BswModuleEntity):
         for child_element in self.findall(element, "CALL-POINTS/*"):
             tag_name = self.getTagName(child_element)
@@ -3943,6 +3949,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "BSW-SYNCHRONOUS-SERVER-CALL-POINT":
                 point = entity.createBswSynchronousServerCallPoint(self.getShortName(child_element))
                 self.readBswSynchronousServerCallPoint(child_element, point)
+            elif tag_name == "BSW-DIRECT-CALL-POINT":
+                point = entity.createBswDirectCallPoint(self.getShortName(child_element))
+                self.readBswDirectCallPoint(child_element, point)
             else:
                 self.notImplemented("Unsupported Call Point <%s>" % tag_name)
 

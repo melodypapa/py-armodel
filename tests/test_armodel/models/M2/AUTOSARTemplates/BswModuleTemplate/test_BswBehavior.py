@@ -164,7 +164,7 @@ class TestBswDirectCallPoint:
     """Test cases for BswDirectCallPoint class - represents a direct call point in a BSW module."""
 
     def test_initialization(self):
-        """Test initialization of BswDirectCallPoint with proper attributes."""
+        """Test initialization of BswDirectCallPoint with the spec defaults."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         direct_call_point = BswDirectCallPoint(ar_root, "test_direct_call")
@@ -172,40 +172,57 @@ class TestBswDirectCallPoint:
         assert direct_call_point.short_name == "test_direct_call"
         assert direct_call_point.getCalledEntryRef() is None
         assert direct_call_point.getCalledFromWithinExclusiveAreaRef() is None
+        assert direct_call_point.getContextLimitationRefs() == []
 
-    def test_set_called_entry_ref(self):
-        """Test setting and getting the called entry reference for BswDirectCallPoint, including behavior when setting None."""
+    def test_get_set_called_entry_ref(self):
+        """Test setting and getting the called entry reference, including the None no-op."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         direct_call_point = BswDirectCallPoint(ar_root, "test_direct_call")
 
         ref = RefType()
+        ref.setValue("/mod/Entry")
         result = direct_call_point.setCalledEntryRef(ref)
 
         assert result == direct_call_point
         assert direct_call_point.getCalledEntryRef() == ref
 
-        # Setting None should not change the value (based on implementation)
         result = direct_call_point.setCalledEntryRef(None)
         assert result == direct_call_point
-        assert direct_call_point.getCalledEntryRef() == ref  # Value should remain unchanged
+        assert direct_call_point.getCalledEntryRef() == ref
 
-    def test_set_called_from_within_exclusive_area_ref(self):
-        """Test setting and getting the called from within exclusive area reference for BswDirectCallPoint, including behavior when setting None."""
+    def test_get_set_called_from_within_exclusive_area_ref(self):
+        """Test setting and getting the exclusive area reference, including the None no-op."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         direct_call_point = BswDirectCallPoint(ar_root, "test_direct_call")
 
         ref = RefType()
+        ref.setValue("/mod/AreaNesting")
         result = direct_call_point.setCalledFromWithinExclusiveAreaRef(ref)
 
         assert result == direct_call_point
         assert direct_call_point.getCalledFromWithinExclusiveAreaRef() == ref
 
-        # Setting None should not change the value (based on implementation)
         result = direct_call_point.setCalledFromWithinExclusiveAreaRef(None)
         assert result == direct_call_point
-        assert direct_call_point.getCalledFromWithinExclusiveAreaRef() == ref  # Value should remain unchanged
+        assert direct_call_point.getCalledFromWithinExclusiveAreaRef() == ref
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswDirectCallPoint.getCalledEntryRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswDirectCallPoint.setCalledEntryRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswDirectCallPoint
+
+        getter_hints = typing.get_type_hints(BswDirectCallPoint.getCalledFromWithinExclusiveAreaRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswDirectCallPoint.setCalledFromWithinExclusiveAreaRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswDirectCallPoint
 
 
 class TestBswSynchronousServerCallPoint:

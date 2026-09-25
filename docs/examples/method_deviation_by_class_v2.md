@@ -142,6 +142,15 @@ No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 2.1 (p.42, R23-1
 |---|---|---|---|---|---|
 | — *(no deviations)* | — | — | — | - | none (2026-09-25 sync: XSD-only **group** class `BSW-API-OPTIONS` (R23-11 `AUTOSAR_00052.xsd` L9379 = R4.3.1 `AUTOSAR_00044.xsd` L7279, no own table in either corpus); single attr `enableTakeAddress` `Boolean` 0..1 with element `ENABLE-TAKE-ADDRESS`; field/accessors re-typed `Optional[Boolean]` and docstrings rewritten verbatim from the XSD documentation; pre-existing `readBswApiOptions`/`writeBswApiOptions` helpers verified matched and called by all policy subclasses; stamp deferred to batch confirmation) |
 
+## `BswDirectCallPoint`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 78
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviations)* | — | — | — | - | none (2026-09-26 sync: R23-11 Table 5.11 p.78; both attrs 0..1 ref → `calledEntryRef` (BswModuleEntry) + `calledFromWithinExclusiveAreaRef` (ExclusiveAreaNestingOrder), both retyped `Optional[RefType]` from bare `RefType = None`, accessors typed, None no-op kept; Base most-derived `BswModuleCallPoint` (stamped this batch); VP capability inherited from base — no VARIATION-POINT element in XSD group `BSW-DIRECT-CALL-POINT` (AUTOSAR_00052.xsd L9901), arrives via the base group ref L9950 (Rule 0020); reader/writer coverage ADDED this pass — `readBswDirectCallPoint`/`writeBswDirectCallPoint` (wire order `CALLED-ENTRY-REF` then `CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF` per XSD), `BSW-DIRECT-CALL-POINT` dispatch branches in `readBswModuleEntityCallPoints`/`writeBswModuleEntityCallPoints`, `createBswDirectCallPoint` factory on `BswModuleEntity` (5-place pattern, Rule 0001.7); old paraphrased docstrings + `__init__` docstring wiped, rewritten verbatim from the Table 5.11 Notes; stamp deferred to batch confirmation) |
+
 ## `BswModuleCallPoint`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 77
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
