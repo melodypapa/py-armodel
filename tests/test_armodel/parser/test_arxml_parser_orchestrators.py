@@ -2180,7 +2180,7 @@ class TestDataTypeAndCompuHandlers:
             root_tag="UNIT",
         )
         parser.readUnit(element, unit)
-        assert unit.getDisplayName().getValue() == "m/s"
+        assert unit.getDisplayName().getValue().getValue() == "m/s"
 
     def test_readSwBaseType_full(self, parser):
         from armodel.models import SwBaseType

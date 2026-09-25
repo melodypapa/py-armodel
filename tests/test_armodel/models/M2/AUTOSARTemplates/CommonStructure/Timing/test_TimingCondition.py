@@ -31,7 +31,7 @@ class TestTimingCondition:
         parent = self._parent()
         obj = TimingCondition(parent, "Cond1")
 
-        formula = TimingConditionFormula(obj, "Formula1")
+        formula = TimingConditionFormula()
         assert obj.setTimingConditionFormula(formula) is obj
         assert obj.getTimingConditionFormula() is formula
 
@@ -39,7 +39,7 @@ class TestTimingCondition:
         parent = self._parent()
         obj = TimingCondition(parent, "Cond1")
 
-        formula = TimingConditionFormula(obj, "Formula1")
+        formula = TimingConditionFormula()
         obj.setTimingConditionFormula(formula)
         obj.setTimingConditionFormula(None)
         assert obj.getTimingConditionFormula() is formula

@@ -17,7 +17,7 @@ class TestWriteTimingConditionFormula:
         return document.createARPackage("AUTOSAR")
 
     def _build_full(self, parent):
-        tcf = TimingConditionFormula(parent, "Formula1")
+        tcf = TimingConditionFormula()
         tcf.setMixedString("modeActive && eventFired")
         tcf.setTimingArgumentRef(RefType().setValue("/Pkg/Arg").setDest("AUTOSAR-OPERATION-ARGUMENT-INSTANCE"))
         tcf.setTimingConditionRef(RefType().setValue("/Pkg/Cond").setDest("TIMING-CONDITION"))
@@ -33,7 +33,6 @@ class TestWriteTimingConditionFormula:
         element = ET.Element("TIMING-CONDITION-FORMULA")
         ARXMLWriter().writeTimingConditionFormula(element, tcf)
 
-        assert element.find("SHORT-NAME").text == "Formula1"
         assert element.text == "modeActive && eventFired"
         arg_ref = element.find("TIMING-ARGUMENT-REF")
         assert arg_ref is not None
@@ -49,13 +48,11 @@ class TestWriteTimingConditionFormula:
         assert element.find("TIMING-VARIABLE-REF").attrib["DEST"] == "AUTOSAR-VARIABLE-INSTANCE"
 
     def test_write_minimal(self):
-        parent = self._parent()
-        tcf = TimingConditionFormula(parent, "Formula1")
+        tcf = TimingConditionFormula()
 
         element = ET.Element("TIMING-CONDITION-FORMULA")
         ARXMLWriter().writeTimingConditionFormula(element, tcf)
 
-        assert element.find("SHORT-NAME").text == "Formula1"
         assert element.text is None
         assert element.find("TIMING-ARGUMENT-REF") is None
         assert element.find("TIMING-CONDITION-REF") is None
@@ -75,8 +72,7 @@ class TestWriteTimingConditionFormula:
         xml_str = xml_str[:idx] + ' xmlns="http://autosar.org/schema/r4.0"' + xml_str[idx:]
         parsed = ET.fromstring(xml_str)
 
-        tcf2 = ARXMLParser().readTimingConditionFormula(parent, parsed)
-        assert tcf2.getShortName() == "Formula1"
+        tcf2 = ARXMLParser().readTimingConditionFormula(parsed)
         assert tcf2.getMixedString() == "modeActive && eventFired"
         assert tcf2.getTimingArgumentRef().getValue() == "/Pkg/Arg"
         assert tcf2.getTimingArgumentRef().getDest() == "AUTOSAR-OPERATION-ARGUMENT-INSTANCE"

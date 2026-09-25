@@ -971,7 +971,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
 )
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, InternalConstrs, PhysConstrs, ScaleConstr
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg, SdgContents
-from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit, UnitGroup
+from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, SingleLanguageUnitNames, Unit, UnitGroup
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam, SwGenericAxisParamType
@@ -1023,6 +1023,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     MixedContentForLongName,
     MixedContentForParagraph,
     SlParagraph,
+    MixedContentForUnitNames,
 )
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
@@ -1415,6 +1416,19 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element.text = name.getValue().getValue() if name.getValue() is not None else None
         self.writeMixedContentForLongName(child_element, name)
 
+    def writeMixedContentForUnitNames(self, element: ET.Element, content: MixedContentForUnitNames):
+        self.writeARObject(element, content)
+        if content.getSup() is not None:
+            element.attrib["SUP"] = content.getSup().getValue()
+        if content.getSub() is not None:
+            element.attrib["SUB"] = content.getSub().getValue()
+
+    def setSingleLanguageUnitNames(self, element: ET.Element, key: str, name: SingleLanguageUnitNames):
+        if name is not None:
+            child_element = ET.SubElement(element, key)
+            child_element.text = name.getValue().getValue() if name.getValue() is not None else None
+            self.writeMixedContentForUnitNames(child_element, name)
+
     def setEmphasisText(self, element: ET.Element, key: str, emphasis: EmphasisText):
         child_element = ET.SubElement(element, key)
         if emphasis.getColor() is not None:
@@ -1785,7 +1799,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "UNIT-REF", cont.unitRef)
             self.setValueList(child_element, "SW-ARRAYSIZE", cont.swArraysize)
             self.setSwValues(child_element, "SW-VALUES-PHYS", cont.swValuesPhys)
-            self.setChildElementOptionalLiteral(child_element, "UNIT-DISPLAY-NAME", cont.unitDisplayName)
+            self.setSingleLanguageUnitNames(child_element, "UNIT-DISPLAY-NAME", cont.unitDisplayName)
 
     def writeValueSpecification(self, element: ET.Element, value_spec: ValueSpecification):
         if value_spec is not None:
@@ -3517,7 +3531,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("writeUnit %s" % unit.getShortName())
         child_element = ET.SubElement(element, "UNIT")
         self.writeIdentifiable(child_element, unit)
-        self.setChildElementOptionalLiteral(child_element, "DISPLAY-NAME", unit.getDisplayName())
+        self.setSingleLanguageUnitNames(child_element, "DISPLAY-NAME", unit.getDisplayName())
         self.setChildElementOptionalFloatValue(child_element, "FACTOR-SI-TO-UNIT", unit.getFactorSiToUnit())
         self.setChildElementOptionalFloatValue(child_element, "OFFSET-SI-TO-UNIT", unit.getOffsetSiToUnit())
         self.setChildElementOptionalRefType(child_element, "PHYSICAL-DIMENSION-REF", unit.getPhysicalDimensionRef())
@@ -4603,7 +4617,6 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeAutosarVariableInstance(variable_tag, variable)
 
     def writeTDEventOccurrenceExpressionFormula(self, element: ET.Element, formula: TDEventOccurrenceExpressionFormula):
-        self.writeReferrable(element, formula)
         self.setChildElementOptionalRefType(element, "ARGUMENT-REF", formula.getArgumentRef())
         self.setChildElementOptionalRefType(element, "EVENT-REF", formula.getEventRef())
         self.setChildElementOptionalRefType(element, "MODE-REF", formula.getModeRef())
@@ -4613,7 +4626,6 @@ class ARXMLWriter(AbstractARXMLWriter):
             element.text = text
 
     def writeTimingConditionFormula(self, element: ET.Element, tcf: TimingConditionFormula):
-        self.writeReferrable(element, tcf)
         self.setChildElementOptionalRefType(element, "TIMING-ARGUMENT-REF", tcf.getTimingArgumentRef())
         self.setChildElementOptionalRefType(element, "TIMING-CONDITION-REF", tcf.getTimingConditionRef())
         self.setChildElementOptionalRefType(element, "TIMING-EVENT-REF", tcf.getTimingEventRef())

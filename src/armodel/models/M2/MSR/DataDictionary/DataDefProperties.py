@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, List, Optional
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.FormulaLanguage import FormulaExpression
 from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy, SwVariableRefProxy
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
@@ -209,7 +210,7 @@ class SwDataDependencyArgs(ARObject):
         return self
 
 
-class CompuGenericMath(ARObject):
+class CompuGenericMath(FormulaExpression):
     """
     This meta-class represents the ability to specify a generic formula expression.
     """
@@ -217,6 +218,7 @@ class CompuGenericMath(ARObject):
     # CompuGenericMath method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.60, p.374
     # Spec verified: R23-11
+    # 2026-09-25 drift fix (Rule 0012.3): re-parented to FormulaExpression per spec Base row (most-derived) — see docs/plan/atp_mixed_string_hierarchy.md
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getLevel                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer

@@ -6,8 +6,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Float,
     ARNumerical,
     RefType,
-    ARLiteral,
+    String,
 )
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import MixedContentForUnitNames
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 
 
@@ -159,7 +160,7 @@ class PhysicalDimension(ARElement):
         return self
 
 
-class SingleLanguageUnitNames(ARLiteral):
+class SingleLanguageUnitNames(MixedContentForUnitNames):
     """
     This represents the ability to express a display name.
     """
@@ -167,11 +168,33 @@ class SingleLanguageUnitNames(ARLiteral):
     # SingleLanguageUnitNames method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.80, p.400
     # Spec verified: R23-11
+    # 2026-09-25 drift fix (Rule 0012.3): re-parented ARLiteral → MixedContentForUnitNames per the
+    # markdown-verified Base row (ARObject , MixedContentForUnitNames) — see docs/plan/atp_mixed_string_hierarchy.md
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValue                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # value has no spec attribute row (Table 5.80 Attribute column: "-") — it stores the element's mixed text content, mirroring SingleLanguageLongName.value; sub/sup inherited from MixedContentForUnitNames
 
     def __init__(self) -> None:
         super().__init__()
+
+        # The text content of the unit names (the element's mixed text; no spec attribute row).
+        self.value: Optional[String] = None
+
+    def getValue(self) -> Optional[String]:
+        """
+        The text content of the unit names.
+        """
+        return self.value
+
+    def setValue(self, value: Optional[String]) -> "SingleLanguageUnitNames":
+        """
+        The text content of the unit names. A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.value = value
+        return self
 
 
 class Unit(ARElement):

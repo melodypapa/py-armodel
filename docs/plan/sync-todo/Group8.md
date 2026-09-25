@@ -152,6 +152,67 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations  [none open: no naming/type/missing deviation rows — field-to-spec both directions exact (Step 1/Step 3: exactly bindingTime + _text); the three Step 1 findings were fixed in-band and leave no rows: (1) pre-existing 5-column checklist + `# Spec verified: R23-11` stamp rebuilt 6-column with stamp withheld per batch instruction, (2) verbose class docstring + line-wrapped method docstrings wiped → Table 7.5 Note verbatim (class + inline comment incl. Tags + getter + setter with None-no-op sentence), (3) missing <<atpMixedString>> content support added (_text/getText/setText per stamped AVP convention) with reader/writer text wired in Step 6 — Rule 0014: fixed ⇒ no row; v1 tracker (docs/examples/method_deviation_by_class.md) reconciled 2026-09-24: new `## ConditionByFormula` section added (sync record, no-deviation row, stamp-deferred note, mixin-base + FO-FMXF-C.4-mislabel notes) — previously the class appeared only inside the `## VariationPointProxy` section prose (L1156 child-serializers note, accurate; L1180 stale valueAccess claim already superseded by the AVP agent's Resolution Note this batch); v2 tracker has no ConditionByFormula entries (verified by grep); referenced-class findings (not deviations, not blocking): mixin bases FormulaExpression (XSD group L62902 = sequence with only skipped atpDerived associations) and SwSystemconstDependentFormula (XSD group L116360 contributes SYSC-STRING-REF/SYSC-REF to its OWN table — Rule 0001.3 no-flattening) are unmodeled in src and not queued anywhere (same finding already recorded by the AVP row); member types BindingTimeEnum (synced 34fbb1c6, marker deferred), base ARObject (stamped), consumers VariationPoint (queued later in this file, Table 7.4) + VariationPointProxy (stamped Table 7.61) — no missing classes]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-24: target files 74/74 (test_VariantHandling.py 47 + test_arxml_parser_variation_point.py 12 + test_writer_variation_point.py 15, re-run green after black reformat of 2 test files), full suite `uv run python scripts/run_tests.py --no-coverage` 11092 passed / 0 failed (baseline 11078 + 14 net-new: +7 model spec-contract tests, +3 parser tests, +4 writer tests incl. the document-level round-trip); `npm run lint` clean (flake8 E9,F63,F7,F82 + ruff E/F/W/I); `npm run black` reformatted the 2 extended test files (canonical formatting only) + `black-check` clean (1150 files unchanged); 9b blind-spot checks walked: fields↔spec both directions exact (bindingTime + _text), most-derived base ARObject (XSD complexType L21886 abstract="false" composes AR-OBJECT group; mixin groups unmodeled — no flattening), no fabrication, PDF-typed field (BindingTimeEnum), member/accessor/checklist order = markdown displayed order, XML element order N/A for the class itself (XSD element group L21862 empty sequence, single member xml.attribute=true), docstrings verbatim (class Note + attribute Note in inline comment incl. Tags + getter + setter with None-no-op sentence — test-enforced), blank line between __init__ attribute blocks, PEP 526 annotated members, no `# type:`, reader+writer coverage for bindingTime + mixed text via both SW-SYSCOND and CONDITION-ACCESS paths, no open deviations, marker withheld (batch instruction), Rule 0007 non-leaf location per spec Package row; 9b deferred to batch confirmation (user instruction 2026-09-24)
 
+- [ ] `MixedContentForOverviewParagraph` — ARObject (abstract, <<atpMixedString>>) — GST Table E.5x (locate at Step 1)
+  - module: M2/MSR/Documentation/TextModel/LanguageDataModel.py (sibling of MixedContentForLongName/Paragraph)
+  - note (2026-09-25, from the atpMixedString hierarchy audit — docs/plan/atp_mixed_string_hierarchy.md): markdown-verified Base = ARObject; Package M2::MSR::Documentation::TextModel::InlineTextModel; dependency of LOverviewParagraph (currently missing this base) and SlOverviewParagraph
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `MixedContentForPlainText` — ARObject , WhitespaceControlled (abstract, <<atpMixedString>>) — GST Table E.5x (locate at Step 1)
+  - module: M2/MSR/Documentation/TextModel/LanguageDataModel.py (sibling of MixedContentForLongName/Paragraph)
+  - note (2026-09-25, hierarchy audit): markdown-verified Base = ARObject , WhitespaceControlled; Package InlineTextModel; dependency of LPlainText (currently missing this base + WhitespaceControlled)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `MixedContentForVerbatim` — ARObject , WhitespaceControlled (abstract, <<atpMixedString>>) — GST Table E.5x (locate at Step 1)
+  - module: M2/MSR/Documentation/TextModel/LanguageDataModel.py (sibling of MixedContentForLongName/Paragraph)
+  - note (2026-09-25, hierarchy audit): markdown-verified Base = ARObject , WhitespaceControlled; Package InlineTextModel; dependency of LVerbatim (currently missing this base + WhitespaceControlled)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SlOverviewParagraph` — ARObject , MixedContentForOverviewParagraph (<<atpMixedString>>) — GST Table E.5x (locate at Step 1)
+  - module: M2/MSR/Documentation/TextModel/SingleLanguageData.py (sibling of SingleLanguageLongName)
+  - note (2026-09-25, hierarchy audit): markdown-verified Base = ARObject , MixedContentForOverviewParagraph; Package M2::MSR::Documentation::TextModel::SingleLanguageData; NOT IN SRC at all; after MixedContentForOverviewParagraph lands
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SingleLanguageUnitNames` — ARObject , MixedContentForUnitNames (<<atpMixedString>>) — CP SWCT Table 5.80, p.400 — drift re-parent APPLIED 2026-09-25
+  - module: M2/MSR/AsamHdo/Units.py
+  - note (2026-09-25 hierarchy audit): markdown-verified Base = ARObject , MixedContentForUnitNames (Package M2::MSR::Documentation::TextModel::SingleLanguageData) — NOT FormulaExpression (an earlier re-parent to FormulaExpression came from a caption-shift misread and was reverted)
+  - note (2026-09-25 drift fix APPLIED, compressed 9-step): re-parented ARLiteral → MixedContentForUnitNames (new class, GST Table E.55 p.456, sub/sup — created in the same change set); UNIT-DISPLAY-NAME / DISPLAY-NAME serialization switched from ARLiteral helpers to the doc-family pattern (readSingleLanguageUnitNames/setSingleLanguageUnitNames + read/writeMixedContentForUnitNames: text + SUB/SUP attributes, mirror SingleLanguageLongName); value member = mixed text (no spec attribute row); full suite + lint + black green
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `SwSystemconstValue` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py
   - [x] Step 1 — Sync members & description from spec — Table 7.9 (AUTOSAR_FO_TPS_GenericStructureTemplate home doc, p.235 via pdf_page.py); table identity check across the 2 genuine R23-11 reproductions: CP SystemTemplate Table F.129 + FO FMXF Table C.19 — both are caption-placement extraction artifacts, but the actual SwSystemconstValue table content is present in both and byte-identical to home doc 7.9 on every row (Package/Note/Base/Aggregated-by + annotation/swSystemconst/value): F.129's caption sits under the WRONG table body (content below it = the SwSystemconstantValueSet class table; the real SwSystemconstValue meta-rows render above in the F.128 caption zone with the attribute rows between F.128 and F.129), C.19 is caption-only in place (its table body renders ABOVE the caption — unlike the ConditionByFormula C.4 mislabel, C.19's caption text matches its content class); Class-vs-Enumeration header = Class ✓ (concrete — no "(abstract)"; XSD 00052 complexType L116440 abstract="false" mixed="false"); Package M2::AUTOSARTemplates::GenericStructure::VariantHandling ✓ (non-leaf → class in __init__.py per Rule 0007, matches current location); Note verbatim in place; Base ARObject ✓ (XSD complexType L116440 sequence = AR-OBJECT group + SW-SYSTEMCONST-VALUE group + attributeGroup AR-OBJECT — NO mixin groups, unlike AVP/ConditionByFormula); Aggregated by SwSystemconstantValueSet.swSystemconstantValue ✓ (consumer same file; parser readSwSystemconstantValueSetSwSystemconstantValues L11363 / writer writeSwSystemconstantValueSetSwSystemconstantValues L12263); attributes displayed order = annotation (Annotation, *, aggr, Tags: xml.sequenceOffset=30), swSystemconst (SwSystemconst, 1, ref, Tags: xml.sequenceOffset=10), value (Numerical, 1, attr, Stereotypes: atpVariation, Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=20; "Sw Systemconst" spacing in the Note = PDF line-break artifact, XSD documentation L116421 confirms "SwSystemconst" one word — BindingTimeEnum artifact class); naming per Rule 0001.5 verified against stamped precedents: annotation (* aggr → plural) → annotations/getAnnotations/addAnnotation ✓ (Table 7.27 precedent), swSystemconst + ref → swSystemconstRef/getSwSystemconstRef/setSwSystemconstRef ✓ (field base name verbatim + Kind suffix; Table 7.63 compuMethod→compuMethodRef + Table 7.27 variantCriterion→variantCriterionRef precedent), value → getValue/setValue ✓; XSD element group L116398 order SW-SYSTEMCONST-REF(10) → VALUE(20) → ANNOTATIONS(30); VALUE element type = NUMERICAL-VALUE-VARIATION-POINT (group L85733 empty sequence, complexType mixed="true" — value IS the mixed text); shared getChildElementOptionalNumericalValue/setChildElementOptionalNumericalValue pair (element text ↔ ARNumerical) is the repo convention for Numerical attrs; field-to-spec both directions: exactly the 3 spec attrs, member order = markdown displayed order ✓; reader/writer coverage pre-exists (parser readSwSystemconstValue L11357 / writer writeSwSystemconstValue L12259) — Steps 5/6 extend, NOT N/A; findings to fix: (1) value typed `ARNumerical` (non-Optional) on field + accessors vs stamped Optional[X] convention — Step 3; (2) class docstring is the old verbose Package/Base/Attributes form, NO method docstrings/inline comments — Rule 0012 wipe+rewrite Step 4; (3) checklist is the old 4-column no-Spec-line form, all [ ] — rebuild 6-column Step 7; (4) WRITER ELEMENT-ORDER BUG: writeSwSystemconstValue emits ANNOTATIONS before SW-SYSTEMCONST-REF/VALUE vs XSD 10/20/30 — Step 6; tracker review: v1 + v2 have NO SwSystemconstValue/SwSystemconstantValueSet entries (grep verified); referenced classes: base ARObject (stamped), member types Annotation (MSR Documentation, stamped), RefType + ARNumerical (PrimitiveTypes, stamped), consumer SwSystemconstantValueSet (Table 7.25, same file, stamped, shares this module — untouched) — no missing classes

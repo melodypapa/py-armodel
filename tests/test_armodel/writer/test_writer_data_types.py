@@ -31,6 +31,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Numerical,
     PositiveInteger,
     RefType,
+    String,
     VerbatimString,
 )
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
@@ -54,6 +55,7 @@ from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import (
     ScaleConstr,
     ScaleConstrValidityEnum,
 )
+from armodel.models.M2.MSR.AsamHdo.Units import SingleLanguageUnitNames
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual, SwGenericAxisParamType
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import (
     SwCalprmAxis,
@@ -1662,7 +1664,7 @@ class TestUnitWriter:
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Units")
         unit = pkg.createUnit("Metre")
-        unit.setDisplayName(_literal("m"))
+        unit.setDisplayName(SingleLanguageUnitNames().setValue(String().setValue("m")))
         unit.setFactorSiToUnit(_float("1.0"))
         unit.setOffsetSiToUnit(_float("0.0"))
         unit.setPhysicalDimensionRef(_ref("PHYSICAL-DIMENSION", "/pd/length"))

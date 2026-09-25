@@ -6,9 +6,8 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.FormulaLanguage import FormulaExpression
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
@@ -248,7 +247,7 @@ class TimingCondition(Identifiable, VariationPointCapable):
         return self
 
 
-class TimingConditionFormula(Referrable, AtpMixedString):
+class TimingConditionFormula(FormulaExpression):
     """
     A TimingConditionFormula describes a specific dependency. The expression shall be a boolean expression addressing modes, variables, arguments, and/or events.
     """
@@ -256,6 +255,8 @@ class TimingConditionFormula(Referrable, AtpMixedString):
     # TimingConditionFormula method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.8, p.35
     # Spec verified: R23-11
+    # 2026-09-25 drift fix (Rule 0012.3): re-parented to FormulaExpression per spec Base row (most-derived) — see docs/plan/atp_mixed_string_hierarchy.md
+    # (Referrable base dropped — XSD complexType composes AR-OBJECT + FORMULA-EXPRESSION only, no SHORT-NAME)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # getMixedString / setMixedString provided by the AtpMixedString base (mixin) — no spec row (stereotype-inherent)
@@ -270,8 +271,8 @@ class TimingConditionFormula(Referrable, AtpMixedString):
     # [x] getTimingVariableRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setTimingVariableRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
-    def __init__(self, parent, short_name):
-        super().__init__(parent, short_name)
+    def __init__(self):
+        super().__init__()
 
         # This refers to an argument of an operation call.
         self.timingArgumentRef: Optional[RefType] = None

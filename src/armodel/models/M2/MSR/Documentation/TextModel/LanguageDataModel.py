@@ -351,6 +351,61 @@ class MixedContentForLongName(ARObject, ABC):
         return self
 
 
+class MixedContentForUnitNames(ARObject, ABC):
+    """
+    This is the text model for items with subscript and superscripts such as measurement unit designations. It is intended, that such models can easily be transcribed to a plain text model either by using appropriate characters or by transcribing like mˆ2.
+    """
+
+    # MixedContentForUnitNames method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.55, p.456
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element; SUB/SUP serialize as attributes on the consuming element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getSub       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSub       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSup       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSup       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        if type(self) is MixedContentForUnitNames:
+            raise TypeError("MixedContentForUnitNames is an abstract class.")
+
+        super().__init__()
+
+        # This is subscript text. Tags: xml.sequenceOffset=40
+        self.sub: Optional[Superscript] = None
+
+        # This is superscript text. Tags: xml.sequenceOffset=30
+        self.sup: Optional[Superscript] = None
+
+    def getSub(self) -> Optional[Superscript]:
+        """
+        This is subscript text.
+        """
+        return self.sub
+
+    def setSub(self, value: Optional[Superscript]) -> MixedContentForUnitNames:
+        """
+        This is subscript text. A None value is a no-op and does not overwrite an existing sub.
+        """
+        if value is not None:
+            self.sub = value
+        return self
+
+    def getSup(self) -> Optional[Superscript]:
+        """
+        This is superscript text.
+        """
+        return self.sup
+
+    def setSup(self, value: Optional[Superscript]) -> MixedContentForUnitNames:
+        """
+        This is superscript text. A None value is a no-op and does not overwrite an existing sup.
+        """
+        if value is not None:
+            self.sup = value
+        return self
+
+
 class MixedContentForParagraph(ARObject, ABC):
     """
     This mainly represents the text model of a full blown paragraph within a documentation.
