@@ -11,15 +11,11 @@ from abc import ABC
 from typing import List, Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (
-        AutosarParameterRef,
-        AutosarVariableRef,
-    )
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, AREnum, Boolean, ARLiteral
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, AREnum, Boolean
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagRequirementIdString, Integer, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String, TimeValue
@@ -27,126 +23,91 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class RoleBasedDataAssignment(ARObject, VariationPointCapable):
     """
-    Represents a role-based data assignment in AUTOSAR models.
-    This class defines how data elements are assigned based on their role in service interactions.
+    This class specifies an assignment of a role to a particular data object in either • the SwcInternalBehavior of a software component (or in the BswInternalBehavior of a BSW module or BSW cluster) in the context of an AUTOSAR Service or • an NvBlockDescriptor to sort out the assignment of event-based writing strategies to data elements in a PortPrototype. With this assignment, the role of the data can be mapped to a DataPrototype that is used in the context of the definition of a specific ServiceNeeds or NvBlockDescriptor, so that a tool is able to create the correct access or writing strategy.
     """
 
     # RoleBasedDataAssignment method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getRole                      [x] impl  [x] docstring  [ ] test
-    # [ ] setRole                      [x] impl  [x] docstring  [ ] test
-    # [ ] getUsedDataElement           [x] impl  [x] docstring  [ ] test
-    # [ ] setUsedDataElement           [x] impl  [x] docstring  [ ] test
-    # [ ] getUsedParameterElement      [x] impl  [x] docstring  [ ] test
-    # [ ] setUsedParameterElement      [x] impl  [x] docstring  [ ] test
-    # [ ] getUsedPimRef                [x] impl  [x] docstring  [ ] test
-    # [ ] setUsedPimRef                [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.4, p.227 (sibling rendering: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.55, p.607)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRole                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRole                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUsedDataElement      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUsedDataElement      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUsedParameterElement [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUsedParameterElement [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUsedPimRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUsedPimRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the RoleBasedDataAssignment with default values.
-        """
         super().__init__()
 
-        # Role identifier for this data assignment
-        self.role: ARLiteral = None
-        # Used data element reference for this assignment
-        self.usedDataElement: AutosarVariableRef = None
-        # Used parameter element reference for this assignment
-        self.usedParameterElement: AutosarParameterRef = None
-        # Reference to the PIM (Port Interface Mapping) for this assignment
-        self.usedPimRef: RefType = None
+        # This is the role of the assigned data in the given context. Possible values need to be specified on M1 level. Additionally the TPS Software Component Template provides a list of applicable roles for various service dependencies and service use cases in chapter 13 "Service Dependencies and Service Use Cases" (e.g., ramBlock in case of the needs for a permanent RAM block).
+        self.role: Optional[Identifier] = None
 
-    def getRole(self):
+        # The VariableDataPrototype used in this role, e.g. • Permanent RAM Block of an NVRAM Block which shall belong to the same SwcInternalBehavior or BswInternalBehavior. • In the role signalBasedDiagnostics it has to refer to a VariableDataPrototype in a SenderReceiverInterface or a NvDataInterface.
+        self.usedDataElement: Optional[AutosarVariableRef] = None
+
+        # The ParameterDataPrototype used in this role, e.g. • ROM Block of an NVRAM Block. It shall belong to the same SwcInternalBehavior or BswInternalbehavior. • In the role signalBasedDiagnostics it has to refer to a ParameterDataPrototype in a ParameterInterface.
+        self.usedParameterElement: Optional[AutosarParameterRef] = None
+
+        # The (untyped) PerInstanceMemory used in this role (e.g. as a Permanent RAM Block for an NVRAM Block).
+        self.usedPimRef: Optional[RefType] = None
+
+    def getRole(self) -> Optional[Identifier]:
         """
-        Gets the role identifier for this data assignment.
-
-        Returns:
-            ARLiteral: The role identifier
+        This is the role of the assigned data in the given context. Possible values need to be specified on M1 level. Additionally the TPS Software Component Template provides a list of applicable roles for various service dependencies and service use cases in chapter 13 "Service Dependencies and Service Use Cases" (e.g., ramBlock in case of the needs for a permanent RAM block).
         """
         return self.role
 
-    def setRole(self, value):
+    def setRole(self, value: Optional[Identifier]) -> RoleBasedDataAssignment:
         """
-        Sets the role identifier for this data assignment.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The role identifier to set
-
-        Returns:
-            self for method chaining
+        This is the role of the assigned data in the given context. Possible values need to be specified on M1 level. Additionally the TPS Software Component Template provides a list of applicable roles for various service dependencies and service use cases in chapter 13 "Service Dependencies and Service Use Cases" (e.g., ramBlock in case of the needs for a permanent RAM block). A None value is a no-op and does not overwrite an existing role.
         """
-        self.role = value
+        if value is not None:
+            self.role = value
         return self
 
-    def getUsedDataElement(self):
+    def getUsedDataElement(self) -> Optional[AutosarVariableRef]:
         """
-        Gets the used data element reference for this assignment.
-
-        Returns:
-            AutosarVariableRef: The used data element reference
+        The VariableDataPrototype used in this role, e.g. • Permanent RAM Block of an NVRAM Block which shall belong to the same SwcInternalBehavior or BswInternalBehavior. • In the role signalBasedDiagnostics it has to refer to a VariableDataPrototype in a SenderReceiverInterface or a NvDataInterface.
         """
         return self.usedDataElement
 
-    def setUsedDataElement(self, value):
+    def setUsedDataElement(self, value: Optional[AutosarVariableRef]) -> RoleBasedDataAssignment:
         """
-        Sets the used data element reference for this assignment.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The used data element reference to set
-
-        Returns:
-            self for method chaining
+        The VariableDataPrototype used in this role, e.g. • Permanent RAM Block of an NVRAM Block which shall belong to the same SwcInternalBehavior or BswInternalBehavior. • In the role signalBasedDiagnostics it has to refer to a VariableDataPrototype in a SenderReceiverInterface or a NvDataInterface. A None value is a no-op and does not overwrite an existing usedDataElement.
         """
-        self.usedDataElement = value
+        if value is not None:
+            self.usedDataElement = value
         return self
 
-    def getUsedParameterElement(self):
+    def getUsedParameterElement(self) -> Optional[AutosarParameterRef]:
         """
-        Gets the used parameter element reference for this assignment.
-
-        Returns:
-            AutosarParameterRef: The used parameter element reference
+        The ParameterDataPrototype used in this role, e.g. • ROM Block of an NVRAM Block. It shall belong to the same SwcInternalBehavior or BswInternalbehavior. • In the role signalBasedDiagnostics it has to refer to a ParameterDataPrototype in a ParameterInterface.
         """
         return self.usedParameterElement
 
-    def setUsedParameterElement(self, value):
+    def setUsedParameterElement(self, value: Optional[AutosarParameterRef]) -> RoleBasedDataAssignment:
         """
-        Sets the used parameter element reference for this assignment.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The used parameter element reference to set
-
-        Returns:
-            self for method chaining
+        The ParameterDataPrototype used in this role, e.g. • ROM Block of an NVRAM Block. It shall belong to the same SwcInternalBehavior or BswInternalbehavior. • In the role signalBasedDiagnostics it has to refer to a ParameterDataPrototype in a ParameterInterface. A None value is a no-op and does not overwrite an existing usedParameterElement.
         """
-        self.usedParameterElement = value
+        if value is not None:
+            self.usedParameterElement = value
         return self
 
-    def getUsedPimRef(self):
+    def getUsedPimRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the PIM (Port Interface Mapping) for this assignment.
-
-        Returns:
-            RefType: The PIM reference
+        The (untyped) PerInstanceMemory used in this role (e.g. as a Permanent RAM Block for an NVRAM Block).
         """
         return self.usedPimRef
 
-    def setUsedPimRef(self, value):
+    def setUsedPimRef(self, value: Optional[RefType]) -> RoleBasedDataAssignment:
         """
-        Sets the reference to the PIM (Port Interface Mapping) for this assignment.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The PIM reference to set
-
-        Returns:
-            self for method chaining
+        The (untyped) PerInstanceMemory used in this role (e.g. as a Permanent RAM Block for an NVRAM Block). A None value is a no-op and does not overwrite an existing usedPimRef.
         """
-        self.usedPimRef = value
+        if value is not None:
+            self.usedPimRef = value
         return self
 
 
@@ -170,22 +131,21 @@ class ServiceNeeds(Identifiable, ABC):
 
 class RamBlockStatusControlEnum(AREnum):
     """
-    Enumeration for RAM block status control methods in AUTOSAR NV block needs.
-    Defines how the status of RAM blocks is controlled in NV block management.
+    This enumeration type defines options for how the management of the ramBlock status is controlled.
     """
 
     # RamBlockStatusControlEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.1, p.701
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    # Status control through API calls
+    # The ramBlock status is controlled via service interface by usage of the SetRamBlockStatus operation. Tags: atp.EnumerationLiteralIndex=0
     API = "api"
-    # Status control through NV RAM manager
+
+    # The ramBlock status is controlled exclusively by the Nv Ram Manager. Tags: atp.EnumerationLiteralIndex=1
     NV_RAM_MANAGER = "nvRamManager"
 
     def __init__(self):
-        """
-        Initializes the RamBlockStatusControlEnum with all possible values.
-        """
         super().__init__(
             (
                 RamBlockStatusControlEnum.API,
@@ -196,24 +156,24 @@ class RamBlockStatusControlEnum(AREnum):
 
 class NvBlockNeedsReliabilityEnum(AREnum):
     """
-    Enumeration for NV block needs reliability levels in AUTOSAR models.
-    Defines the type of error protection used for NV block management.
+    Reliability against data loss on the non-volatile medium. These requirements give only a relative indication, for example on the required degree of redundancy for storage. They do, however, not specify by which means (e.g. software or hardware) the reliability is actually achieved.
     """
 
     # NvBlockNeedsReliabilityEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.10, p.681
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    # Error correction protection for NV blocks
+    # Errors shall be corrected Tags: atp.EnumerationLiteralIndex=0
     ERROR_CORRECTION = "errorCorrection"
-    # Error detection protection for NV blocks
+
+    # Errors shall be detected Tags: atp.EnumerationLiteralIndex=1
     ERROR_DETECTION = "errorDetection"
-    # No protection for NV blocks
+
+    # Data need not to be handled with protection Tags: atp.EnumerationLiteralIndex=2
     NO_PROTECTION = "noProtection"
 
     def __init__(self):
-        """
-        Initializes the NvBlockNeedsReliabilityEnum with all possible values.
-        """
         super().__init__(
             (
                 NvBlockNeedsReliabilityEnum.ERROR_CORRECTION,
@@ -225,24 +185,24 @@ class NvBlockNeedsReliabilityEnum(AREnum):
 
 class NvBlockNeedsWritingPriorityEnum(AREnum):
     """
-    Enumeration for NV block needs writing priorities in AUTOSAR models.
-    Defines the priority level for writing operations to NV blocks.
+    Specifies the priority of writing this block in case of concurrent requests to write other blocks.
     """
 
     # NvBlockNeedsWritingPriorityEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.9, p.680
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    # High priority for NV block writing
+    # Writing priority is high. Tags: atp.EnumerationLiteralIndex=0
     HIGH = "high"
-    # Low priority for NV block writing
+
+    # Writing priority is low. Tags: atp.EnumerationLiteralIndex=1
     LOW = "low"
-    # Medium priority for NV block writing
+
+    # Writing priority is medium. Tags: atp.EnumerationLiteralIndex=2
     MEDIUM = "medium"
 
     def __init__(self):
-        """
-        Initializes the NvBlockNeedsWritingPriorityEnum with all possible values.
-        """
         super().__init__(
             (
                 NvBlockNeedsWritingPriorityEnum.HIGH,
@@ -254,265 +214,437 @@ class NvBlockNeedsWritingPriorityEnum(AREnum):
 
 class NvBlockNeeds(ServiceNeeds):
     """
-    Represents NV (Non-Volatile) block needs in AUTOSAR models.
-    This class defines requirements for managing non-volatile memory blocks including
-    CRC calculation, write protection, and various storage strategies.
+    Specifies the abstract needs on the configuration of a single NVRAM Block.
+
+    [constr_1308] Existence of NvBlockNeeds.cyclicWritingPeriod: The attribute NvBlockNeeds.cyclicWritingPeriod shall exist if and only if the attribute NvBlockNeeds.storeCyclic exists and its value is set to true.
+
+    [constr_1310] Existence of attributes of meta-class NvBlockNeeds: If in the context of an ApplicationSwComponentType the attribute SwcServiceDependency.serviceNeeds is implemented by an NvBlockNeeds then the following attributes NvBlockNeeds.storeCyclic, NvBlockNeeds.cyclicWritingPeriod, NvBlockNeeds.storeEmergency, NvBlockNeeds.storeImmediate, NvBlockNeeds.storeOnChange shall only exist if in the context of the same SwcServiceDependency a SwcServiceDependency.assignedPort exists that has the attribute role set to the value NvDataPort.
     """
 
     # NvBlockNeeds method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getCalcRamBlockCrc           [x] impl  [ ] docstring  [ ] test
-    # [ ] setCalcRamBlockCrc           [x] impl  [ ] docstring  [ ] test
-    # [ ] getCheckStaticBlockId        [x] impl  [ ] docstring  [ ] test
-    # [ ] setCheckStaticBlockId        [x] impl  [ ] docstring  [ ] test
-    # [ ] getCyclicWritingPeriod       [x] impl  [ ] docstring  [ ] test
-    # [ ] setCyclicWritingPeriod       [x] impl  [ ] docstring  [ ] test
-    # [ ] getNDataSets                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setNDataSets                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getNRomBlocks                [x] impl  [ ] docstring  [ ] test
-    # [ ] setNRomBlocks                [x] impl  [ ] docstring  [ ] test
-    # [ ] getRamBlockStatusControl     [x] impl  [ ] docstring  [ ] test
-    # [ ] setRamBlockStatusControl     [x] impl  [ ] docstring  [ ] test
-    # [ ] getReadonly                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setReadonly                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getReliability               [x] impl  [ ] docstring  [ ] test
-    # [ ] setReliability               [x] impl  [ ] docstring  [ ] test
-    # [ ] getResistantToChangedSw      [x] impl  [ ] docstring  [ ] test
-    # [ ] setResistantToChangedSw      [x] impl  [ ] docstring  [ ] test
-    # [ ] getRestoreAtStart            [x] impl  [ ] docstring  [ ] test
-    # [ ] setRestoreAtStart            [x] impl  [ ] docstring  [ ] test
-    # [ ] getSelectBlockForFirstInitAll [x] impl  [ ] docstring  [ ] test
-    # [ ] setSelectBlockForFirstInitAll [x] impl  [ ] docstring  [ ] test
-    # [ ] getStoreAtShutdown           [x] impl  [ ] docstring  [ ] test
-    # [ ] setStoreAtShutdown           [x] impl  [ ] docstring  [ ] test
-    # [ ] getStoreCyclic               [x] impl  [ ] docstring  [ ] test
-    # [ ] setStoreCyclic               [x] impl  [ ] docstring  [ ] test
-    # [ ] getStoreEmergency            [x] impl  [ ] docstring  [ ] test
-    # [ ] setStoreEmergency            [x] impl  [ ] docstring  [ ] test
-    # [ ] getStoreImmediate            [x] impl  [ ] docstring  [ ] test
-    # [ ] setStoreImmediate            [x] impl  [ ] docstring  [ ] test
-    # [ ] getStoreOnChange             [x] impl  [ ] docstring  [ ] test
-    # [ ] setStoreOnChange             [x] impl  [ ] docstring  [ ] test
-    # [ ] getUseAutoValidationAtShutDown [x] impl  [ ] docstring  [ ] test
-    # [ ] setUseAutoValidationAtShutDown [x] impl  [ ] docstring  [ ] test
-    # [ ] getUseCRCCompMechanism       [x] impl  [ ] docstring  [ ] test
-    # [ ] setUseCRCCompMechanism       [x] impl  [ ] docstring  [ ] test
-    # [ ] getWriteOnlyOnce             [x] impl  [ ] docstring  [ ] test
-    # [ ] setWriteOnlyOnce             [x] impl  [ ] docstring  [ ] test
-    # [ ] getWriteVerification         [x] impl  [ ] docstring  [ ] test
-    # [ ] setWriteVerification         [x] impl  [ ] docstring  [ ] test
-    # [ ] getWritingFrequency          [x] impl  [ ] docstring  [ ] test
-    # [ ] setWritingFrequency          [x] impl  [ ] docstring  [ ] test
-    # [ ] getWritingPriority           [x] impl  [ ] docstring  [ ] test
-    # [ ] setWritingPriority           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.8, p.680 (twin rendering: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.7, p.232)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCalcRamBlockCrc              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCalcRamBlockCrc              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCheckStaticBlockId           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCheckStaticBlockId           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCyclicWritingPeriod          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCyclicWritingPeriod          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNDataSets                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNDataSets                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNRomBlocks                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNRomBlocks                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRamBlockStatusControl        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRamBlockStatusControl        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReadonly                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReadonly                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReliability                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReliability                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResistantToChangedSw         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResistantToChangedSw         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRestoreAtStart               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRestoreAtStart               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSelectBlockForFirstInitAll   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSelectBlockForFirstInitAll   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStoreAtShutdown              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStoreAtShutdown              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStoreCyclic                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStoreCyclic                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStoreEmergency               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStoreEmergency               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStoreImmediate               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStoreImmediate               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStoreOnChange                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStoreOnChange                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUseAutoValidationAtShutDown  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUseAutoValidationAtShutDown  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUseCRCCompMechanism          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUseCRCCompMechanism          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWriteOnlyOnce                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWriteOnlyOnce                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWriteVerification            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWriteVerification            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWritingFrequency             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWritingFrequency             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWritingPriority              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWritingPriority              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the NvBlockNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this NV block needs
-            short_name: The unique short name of this NV block needs
-        """
         super().__init__(parent, short_name)
 
-        # Flag indicating whether to calculate CRC for RAM blocks
-        self.calcRamBlockCrc: Boolean = None
-        # Flag indicating whether to check static block ID
-        self.checkStaticBlockId: Boolean = None
-        # Period for cyclic writing operations
-        self.cyclicWritingPeriod: TimeValue = None
-        # Number of data sets for this NV block
-        self.nDataSets: PositiveInteger = None
-        # Number of ROM blocks for this NV block
-        self.nRomBlocks: PositiveInteger = None
-        # Method for controlling RAM block status
-        self.ramBlockStatusControl: RamBlockStatusControlEnum = None
-        # Flag indicating if this block is read-only
-        self.readonly: Boolean = None
-        # Reliability level for this NV block
-        self.reliability: NvBlockNeedsReliabilityEnum = None
-        # Flag indicating resistance to changed software
-        self.resistantToChangedSw: Boolean = None
-        # Flag indicating whether to restore at start
-        self.restoreAtStart: Boolean = None
-        # Flag indicating whether to select block for first init all
-        self.selectBlockForFirstInitAll: Boolean = None
-        # Flag indicating whether to store at shutdown
-        self.storeAtShutdown: Boolean = None
-        # Flag indicating whether to store cyclically
-        self.storeCyclic: Boolean = None
-        # Flag indicating whether to store in emergency situations
-        self.storeEmergency: Boolean = None
-        # Flag indicating whether to store immediately
-        self.storeImmediate: Boolean = None
-        # Flag indicating whether to store on change
-        self.storeOnChange: Boolean = None
-        # Flag indicating whether to use auto-validation at shutdown
-        self.useAutoValidationAtShutDown: Boolean = None
-        # Flag indicating whether to use CRC comparison mechanism
-        self.useCRCCompMechanism: Boolean = None
-        # Flag indicating whether to write only once
-        self.writeOnlyOnce: Boolean = None
-        # Flag indicating whether to verify writes
-        self.writeVerification: Boolean = None
-        # Frequency for writing operations
-        self.writingFrequency: PositiveInteger = None
-        # Priority for writing operations
-        self.writingPriority: NvBlockNeedsWritingPriorityEnum = None
+        # Defines if CRC (re)calculation for the permanent RAM Block is required.
+        self.calcRamBlockCrc: Optional[Boolean] = None
 
-    def getCalcRamBlockCrc(self):
+        # Defines if the Static Block Id check shall be enabled.
+        self.checkStaticBlockId: Optional[Boolean] = None
+
+        # This represents the period for cyclic writing of NvData to store the associated RAM Block.
+        self.cyclicWritingPeriod: Optional[TimeValue] = None
+
+        # Number of data sets to be provided by the NVRAM manager for this block. This is the total number of ROM Blocks and RAM Blocks.
+        self.nDataSets: Optional[PositiveInteger] = None
+
+        # Number of ROM Blocks to be provided by the NVRAM manager for this block. Please note that these multiple ROM Blocks are given in a contiguous area.
+        self.nRomBlocks: Optional[PositiveInteger] = None
+
+        # This attribute defines how the management of the RAM Block status is controlled.
+        self.ramBlockStatusControl: Optional[RamBlockStatusControlEnum] = None
+
+        # true: data of this NVRAM Block are write protected for normal operation (but protection can be disabled) false: no restriction
+        self.readonly: Optional[Boolean] = None
+
+        # Reliability against data loss on the non-volatile medium.
+        self.reliability: Optional[NvBlockNeedsReliabilityEnum] = None
+
+        # Defines whether an NVRAM Block shall be treated resistant to configuration changes (true) or not (false). For details how to handle initialization in the latter case, please refer to the NVRAM specification.
+        self.resistantToChangedSw: Optional[Boolean] = None
+
+        # Defines whether the associated RAM Block shall be implicitly restored during startup by the basic software.
+        self.restoreAtStart: Optional[Boolean] = None
+
+        # If this attribute is set to true the NvM shall process this block in the NvM_FirstInitAll() function.
+        self.selectBlockForFirstInitAll: Optional[Boolean] = None
+
+        # Defines whether or not the associated RAM Block shall be implicitly stored during shutdown by the basic software.
+        self.storeAtShutdown: Optional[Boolean] = None
+
+        # Defines whether or not the associated RAM Block shall be implicitly stored periodically by the basic software.
+        self.storeCyclic: Optional[Boolean] = None
+
+        # Defines whether or not the associated RAM Block shall be implicitly stored in case of ECU failure (e.g. loss of power) by the basic software. If the attribute storeEmergency is set to true the associated RAM Block shall be configured to have immediate priority.
+        self.storeEmergency: Optional[Boolean] = None
+
+        # Defines whether or not the associated RAM Block shall be implicitly stored immediately during or after execution of the according SW-C RunnableEntity by the basic software.
+        self.storeImmediate: Optional[Boolean] = None
+
+        # This attribute defines whether the associated RAM Block shall be stored immediately if the written value is different to the value stored in the associated RAM Block(s) during or after execution of the according SW-C RunnableEntity.
+        self.storeOnChange: Optional[Boolean] = None
+
+        # If set to true the RAM Block shall be auto validated during shutdown phase.
+        self.useAutoValidationAtShutDown: Optional[Boolean] = None
+
+        # If set to true the CRC of the RAM Block shall be compared during a write job with the CRC which was calculated during the last successful read or write job in order to skip unnecessary NVRAM writings.
+        self.useCRCCompMechanism: Optional[Boolean] = None
+
+        # Defines write protection after first write: true: This block is prevented from being changed/erased or being replaced with the default ROM data after first initialization by the software-component. false: No such restriction.
+        self.writeOnlyOnce: Optional[Boolean] = None
+
+        # Defines if Write Verification shall be enabled for this NVRAM Block.
+        self.writeVerification: Optional[Boolean] = None
+
+        # Provides the amount of updates to this block from the application point of view. It has to be provided in "number of write access per year".
+        self.writingFrequency: Optional[PositiveInteger] = None
+
+        # Requires the priority of writing this block in case of concurrent requests to write other blocks.
+        self.writingPriority: Optional[NvBlockNeedsWritingPriorityEnum] = None
+
+    def getCalcRamBlockCrc(self) -> Optional[Boolean]:
+        """
+        Defines if CRC (re)calculation for the permanent RAM Block is required.
+        """
         return self.calcRamBlockCrc
 
-    def setCalcRamBlockCrc(self, value):
-        self.calcRamBlockCrc = value
+    def setCalcRamBlockCrc(self, value: Optional[Boolean]) -> NvBlockNeeds:
+        """
+        Defines if CRC (re)calculation for the permanent RAM Block is required. A None value is a no-op and does not overwrite an existing calcRamBlockCrc.
+        """
+        if value is not None:
+            self.calcRamBlockCrc = value
         return self
 
-    def getCheckStaticBlockId(self):
+    def getCheckStaticBlockId(self) -> Optional[Boolean]:
+        """
+        Defines if the Static Block Id check shall be enabled.
+        """
         return self.checkStaticBlockId
 
-    def setCheckStaticBlockId(self, value):
-        self.checkStaticBlockId = value
+    def setCheckStaticBlockId(self, value: Optional[Boolean]) -> NvBlockNeeds:
+        """
+        Defines if the Static Block Id check shall be enabled. A None value is a no-op and does not overwrite an existing checkStaticBlockId.
+        """
+        if value is not None:
+            self.checkStaticBlockId = value
         return self
 
-    def getCyclicWritingPeriod(self):
+    def getCyclicWritingPeriod(self) -> Optional[TimeValue]:
+        """
+        This represents the period for cyclic writing of NvData to store the associated RAM Block.
+        """
         return self.cyclicWritingPeriod
 
-    def setCyclicWritingPeriod(self, value):
-        self.cyclicWritingPeriod = value
+    def setCyclicWritingPeriod(self, value: Optional[TimeValue]) -> NvBlockNeeds:
+        """
+        This represents the period for cyclic writing of NvData to store the associated RAM Block. A None value is a no-op and does not overwrite an existing cyclicWritingPeriod.
+        """
+        if value is not None:
+            self.cyclicWritingPeriod = value
         return self
 
-    def getNDataSets(self):
+    def getNDataSets(self) -> Optional[PositiveInteger]:
+        """
+        Number of data sets to be provided by the NVRAM manager for this block. This is the total number of ROM Blocks and RAM Blocks.
+        """
         return self.nDataSets
 
-    def setNDataSets(self, value):
-        self.nDataSets = value
+    def setNDataSets(self, value: Optional[PositiveInteger]) -> NvBlockNeeds:
+        """
+        Number of data sets to be provided by the NVRAM manager for this block. This is the total number of ROM Blocks and RAM Blocks. A None value is a no-op and does not overwrite an existing nDataSets.
+        """
+        if value is not None:
+            self.nDataSets = value
         return self
 
-    def getNRomBlocks(self):
+    def getNRomBlocks(self) -> Optional[PositiveInteger]:
+        """
+        Number of ROM Blocks to be provided by the NVRAM manager for this block. Please note that these multiple ROM Blocks are given in a contiguous area.
+        """
         return self.nRomBlocks
 
-    def setNRomBlocks(self, value):
-        self.nRomBlocks = value
+    def setNRomBlocks(self, value: Optional[PositiveInteger]) -> NvBlockNeeds:
+        """
+        Number of ROM Blocks to be provided by the NVRAM manager for this block. Please note that these multiple ROM Blocks are given in a contiguous area. A None value is a no-op and does not overwrite an existing nRomBlocks.
+        """
+        if value is not None:
+            self.nRomBlocks = value
         return self
 
-    def getRamBlockStatusControl(self):
+    def getRamBlockStatusControl(self) -> Optional[RamBlockStatusControlEnum]:
+        """
+        This attribute defines how the management of the RAM Block status is controlled.
+        """
         return self.ramBlockStatusControl
 
-    def setRamBlockStatusControl(self, value):
-        self.ramBlockStatusControl = value
+    def setRamBlockStatusControl(self, value: Optional[RamBlockStatusControlEnum]) -> NvBlockNeeds:
+        """
+        This attribute defines how the management of the RAM Block status is controlled. A None value is a no-op and does not overwrite an existing ramBlockStatusControl.
+        """
+        if value is not None:
+            self.ramBlockStatusControl = value
         return self
 
-    def getReadonly(self):
+    def getReadonly(self) -> Optional[Boolean]:
+        """
+        true: data of this NVRAM Block are write protected for normal operation (but protection can be disabled) false: no restriction
+        """
         return self.readonly
 
-    def setReadonly(self, value):
-        self.readonly = value
+    def setReadonly(self, value: Optional[Boolean]) -> NvBlockNeeds:
+        """
+        true: data of this NVRAM Block are write protected for normal operation (but protection can be disabled) false: no restriction A None value is a no-op and does not overwrite an existing readonly.
+        """
+        if value is not None:
+            self.readonly = value
         return self
 
-    def getReliability(self):
+    def getReliability(self) -> Optional[NvBlockNeedsReliabilityEnum]:
+        """
+        Reliability against data loss on the non-volatile medium.
+        """
         return self.reliability
 
-    def setReliability(self, value):
-        self.reliability = value
+    def setReliability(self, value: Optional[NvBlockNeedsReliabilityEnum]) -> NvBlockNeeds:
+        """
+        Reliability against data loss on the non-volatile medium. A None value is a no-op and does not overwrite an existing reliability.
+        """
+        if value is not None:
+            self.reliability = value
         return self
 
-    def getResistantToChangedSw(self):
+    def getResistantToChangedSw(self) -> Optional[Boolean]:
+        """
+        Defines whether an NVRAM Block shall be treated resistant to configuration changes (true) or not (false). For details how to handle initialization in the latter case, please refer to the NVRAM specification.
+        """
         return self.resistantToChangedSw
 
-    def setResistantToChangedSw(self, value):
-        self.resistantToChangedSw = value
+    def setResistantToChangedSw(self, value: Optional[Boolean]) -> NvBlockNeeds:
+        """
+        Defines whether an NVRAM Block shall be treated resistant to configuration changes (true) or not (false). For details how to handle initialization in the latter case, please refer to the NVRAM specification. A None value is a no-op and does not overwrite an existing resistantToChangedSw.
+        """
+        if value is not None:
+            self.resistantToChangedSw = value
         return self
 
-    def getRestoreAtStart(self):
+    def getRestoreAtStart(self) -> Optional[Boolean]:
+        """
+        Defines whether the associated RAM Block shall be implicitly restored during startup by the basic software.
+        """
         return self.restoreAtStart
 
-    def setRestoreAtStart(self, value):
-        self.restoreAtStart = value
+    def setRestoreAtStart(self, value: Optional[Boolean]) -> NvBlockNeeds:
+        """
+        Defines whether the associated RAM Block shall be implicitly restored during startup by the basic software. A None value is a no-op and does not overwrite an existing restoreAtStart.
+        """
+        if value is not None:
+            self.restoreAtStart = value
         return self
 
-    def getSelectBlockForFirstInitAll(self):
+    def getSelectBlockForFirstInitAll(self) -> Optional[Boolean]:
+        """
+        If this attribute is set to true the NvM shall process this block in the NvM_FirstInitAll() function.
+        """
         return self.selectBlockForFirstInitAll
 
-    def setSelectBlockForFirstInitAll(self, value):
-        self.selectBlockForFirstInitAll = value
+    def setSelectBlockForFirstInitAll(self, value: Optional[Boolean]) -> NvBlockNeeds:
+        """
+        If this attribute is set to true the NvM shall process this block in the NvM_FirstInitAll() function. A None value is a no-op and does not overwrite an existing selectBlockForFirstInitAll.
+        """
+        if value is not None:
+            self.selectBlockForFirstInitAll = value
         return self
 
-    def getStoreAtShutdown(self):
+    def getStoreAtShutdown(self) -> Optional[Boolean]:
+        """
+        Defines whether or not the associated RAM Block shall be implicitly stored during shutdown by the basic software.
+        """
         return self.storeAtShutdown
 
-    def setStoreAtShutdown(self, value):
-        self.storeAtShutdown = value
+    def setStoreAtShutdown(self, value: Optional[Boolean]) -> NvBlockNeeds:
+        """
+        Defines whether or not the associated RAM Block shall be implicitly stored during shutdown by the basic software. A None value is a no-op and does not overwrite an existing storeAtShutdown.
+        """
+        if value is not None:
+            self.storeAtShutdown = value
         return self
 
-    def getStoreCyclic(self):
+    def getStoreCyclic(self) -> Optional[Boolean]:
+        """
+        Defines whether or not the associated RAM Block shall be implicitly stored periodically by the basic software.
+        """
         return self.storeCyclic
 
-    def setStoreCyclic(self, value):
-        self.storeCyclic = value
+    def setStoreCyclic(self, value: Optional[Boolean]) -> NvBlockNeeds:
+        """
+        Defines whether or not the associated RAM Block shall be implicitly stored periodically by the basic software. A None value is a no-op and does not overwrite an existing storeCyclic.
+        """
+        if value is not None:
+            self.storeCyclic = value
         return self
 
-    def getStoreEmergency(self):
+    def getStoreEmergency(self) -> Optional[Boolean]:
+        """
+        Defines whether or not the associated RAM Block shall be implicitly stored in case of ECU failure (e.g. loss of power) by the basic software. If the attribute storeEmergency is set to true the associated RAM Block shall be configured to have immediate priority.
+        """
         return self.storeEmergency
 
-    def setStoreEmergency(self, value):
-        self.storeEmergency = value
+    def setStoreEmergency(self, value: Optional[Boolean]) -> NvBlockNeeds:
+        """
+        Defines whether or not the associated RAM Block shall be implicitly stored in case of ECU failure (e.g. loss of power) by the basic software. If the attribute storeEmergency is set to true the associated RAM Block shall be configured to have immediate priority. A None value is a no-op and does not overwrite an existing storeEmergency.
+        """
+        if value is not None:
+            self.storeEmergency = value
         return self
 
-    def getStoreImmediate(self):
+    def getStoreImmediate(self) -> Optional[Boolean]:
+        """
+        Defines whether or not the associated RAM Block shall be implicitly stored immediately during or after execution of the according SW-C RunnableEntity by the basic software.
+        """
         return self.storeImmediate
 
-    def setStoreImmediate(self, value):
-        self.storeImmediate = value
+    def setStoreImmediate(self, value: Optional[Boolean]) -> NvBlockNeeds:
+        """
+        Defines whether or not the associated RAM Block shall be implicitly stored immediately during or after execution of the according SW-C RunnableEntity by the basic software. A None value is a no-op and does not overwrite an existing storeImmediate.
+        """
+        if value is not None:
+            self.storeImmediate = value
         return self
 
-    def getStoreOnChange(self):
+    def getStoreOnChange(self) -> Optional[Boolean]:
+        """
+        This attribute defines whether the associated RAM Block shall be stored immediately if the written value is different to the value stored in the associated RAM Block(s) during or after execution of the according SW-C RunnableEntity.
+        """
         return self.storeOnChange
 
-    def setStoreOnChange(self, value):
-        self.storeOnChange = value
+    def setStoreOnChange(self, value: Optional[Boolean]) -> NvBlockNeeds:
+        """
+        This attribute defines whether the associated RAM Block shall be stored immediately if the written value is different to the value stored in the associated RAM Block(s) during or after execution of the according SW-C RunnableEntity. A None value is a no-op and does not overwrite an existing storeOnChange.
+        """
+        if value is not None:
+            self.storeOnChange = value
         return self
 
-    def getUseAutoValidationAtShutDown(self):
+    def getUseAutoValidationAtShutDown(self) -> Optional[Boolean]:
+        """
+        If set to true the RAM Block shall be auto validated during shutdown phase.
+        """
         return self.useAutoValidationAtShutDown
 
-    def setUseAutoValidationAtShutDown(self, value):
-        self.useAutoValidationAtShutDown = value
+    def setUseAutoValidationAtShutDown(self, value: Optional[Boolean]) -> NvBlockNeeds:
+        """
+        If set to true the RAM Block shall be auto validated during shutdown phase. A None value is a no-op and does not overwrite an existing useAutoValidationAtShutDown.
+        """
+        if value is not None:
+            self.useAutoValidationAtShutDown = value
         return self
 
-    def getUseCRCCompMechanism(self):
+    def getUseCRCCompMechanism(self) -> Optional[Boolean]:
+        """
+        If set to true the CRC of the RAM Block shall be compared during a write job with the CRC which was calculated during the last successful read or write job in order to skip unnecessary NVRAM writings.
+        """
         return self.useCRCCompMechanism
 
-    def setUseCRCCompMechanism(self, value):
-        self.useCRCCompMechanism = value
+    def setUseCRCCompMechanism(self, value: Optional[Boolean]) -> NvBlockNeeds:
+        """
+        If set to true the CRC of the RAM Block shall be compared during a write job with the CRC which was calculated during the last successful read or write job in order to skip unnecessary NVRAM writings. A None value is a no-op and does not overwrite an existing useCRCCompMechanism.
+        """
+        if value is not None:
+            self.useCRCCompMechanism = value
         return self
 
-    def getWriteOnlyOnce(self):
+    def getWriteOnlyOnce(self) -> Optional[Boolean]:
+        """
+        Defines write protection after first write: true: This block is prevented from being changed/erased or being replaced with the default ROM data after first initialization by the software-component. false: No such restriction.
+        """
         return self.writeOnlyOnce
 
-    def setWriteOnlyOnce(self, value):
-        self.writeOnlyOnce = value
+    def setWriteOnlyOnce(self, value: Optional[Boolean]) -> NvBlockNeeds:
+        """
+        Defines write protection after first write: true: This block is prevented from being changed/erased or being replaced with the default ROM data after first initialization by the software-component. false: No such restriction. A None value is a no-op and does not overwrite an existing writeOnlyOnce.
+        """
+        if value is not None:
+            self.writeOnlyOnce = value
         return self
 
-    def getWriteVerification(self):
+    def getWriteVerification(self) -> Optional[Boolean]:
+        """
+        Defines if Write Verification shall be enabled for this NVRAM Block.
+        """
         return self.writeVerification
 
-    def setWriteVerification(self, value):
-        self.writeVerification = value
+    def setWriteVerification(self, value: Optional[Boolean]) -> NvBlockNeeds:
+        """
+        Defines if Write Verification shall be enabled for this NVRAM Block. A None value is a no-op and does not overwrite an existing writeVerification.
+        """
+        if value is not None:
+            self.writeVerification = value
         return self
 
-    def getWritingFrequency(self):
+    def getWritingFrequency(self) -> Optional[PositiveInteger]:
+        """
+        Provides the amount of updates to this block from the application point of view. It has to be provided in "number of write access per year".
+        """
         return self.writingFrequency
 
-    def setWritingFrequency(self, value):
-        self.writingFrequency = value
+    def setWritingFrequency(self, value: Optional[PositiveInteger]) -> NvBlockNeeds:
+        """
+        Provides the amount of updates to this block from the application point of view. It has to be provided in "number of write access per year". A None value is a no-op and does not overwrite an existing writingFrequency.
+        """
+        if value is not None:
+            self.writingFrequency = value
         return self
 
-    def getWritingPriority(self):
+    def getWritingPriority(self) -> Optional[NvBlockNeedsWritingPriorityEnum]:
+        """
+        Requires the priority of writing this block in case of concurrent requests to write other blocks.
+        """
         return self.writingPriority
 
-    def setWritingPriority(self, value):
-        self.writingPriority = value
+    def setWritingPriority(self, value: Optional[NvBlockNeedsWritingPriorityEnum]) -> NvBlockNeeds:
+        """
+        Requires the priority of writing this block in case of concurrent requests to write other blocks. A None value is a no-op and does not overwrite an existing writingPriority.
+        """
+        if value is not None:
+            self.writingPriority = value
         return self
 
 
@@ -4404,3 +4536,8 @@ class WarningIndicatorRequestedBitNeeds(ServiceNeeds):
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+
+# Runtime cycle-breaker: SWComponentTemplate.SwcInternalBehavior.__init__ -> ServiceMapping imports this module,
+# so the DataElements import must run after every class above is defined (Rule 0005).
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef, AutosarVariableRef  # noqa: E402

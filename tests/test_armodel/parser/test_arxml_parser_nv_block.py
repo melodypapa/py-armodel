@@ -48,6 +48,50 @@ class TestNvBlockDataMappingHandlers:
         assert mapping.getNvRamBlockElement() is None
         assert mapping.getReadNvData() is None
 
+    def test_read_nv_block_data_mapping_all_elements_field_values(self, parser):
+        """Test that all six Table 11.11 attribute elements are read with their field values."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import NvBlockDataMapping
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarVariableRef
+
+        element = _snip(
+            "<BITFIELD-TEXT-TABLE-MASK-NV-BLOCK-DESCRIPTOR>10</BITFIELD-TEXT-TABLE-MASK-NV-BLOCK-DESCRIPTOR>"
+            "<BITFIELD-TEXT-TABLE-MASK-PORT-PROTOTYPE>32</BITFIELD-TEXT-TABLE-MASK-PORT-PROTOTYPE>"
+            "<NV-RAM-BLOCK-ELEMENT><AUTOSAR-VARIABLE-IREF><PORT-PROTOTYPE-REF DEST='PORT-PROTOTYPE'>/ramPP</PORT-PROTOTYPE-REF></AUTOSAR-VARIABLE-IREF></NV-RAM-BLOCK-ELEMENT>"
+            "<READ-NV-DATA><AUTOSAR-VARIABLE-IREF><PORT-PROTOTYPE-REF DEST='PORT-PROTOTYPE'>/readPP</PORT-PROTOTYPE-REF></AUTOSAR-VARIABLE-IREF></READ-NV-DATA>"
+            "<WRITTEN-NV-DATA><AUTOSAR-VARIABLE-IREF><PORT-PROTOTYPE-REF DEST='PORT-PROTOTYPE'>/writtenPP</PORT-PROTOTYPE-REF></AUTOSAR-VARIABLE-IREF></WRITTEN-NV-DATA>"
+            "<WRITTEN-READ-NV-DATA><AUTOSAR-VARIABLE-IREF><PORT-PROTOTYPE-REF DEST='PORT-PROTOTYPE'>/writtenReadPP</PORT-PROTOTYPE-REF></AUTOSAR-VARIABLE-IREF></WRITTEN-READ-NV-DATA>"
+        )
+        mapping = NvBlockDataMapping()
+        parser.readNvBlockDataMapping(element, mapping)
+
+        assert mapping.getBitfieldTextTableMaskNvBlockDescriptor().getValue() == 10
+        assert mapping.getBitfieldTextTableMaskPortPrototype().getValue() == 32
+        for getter, expected in [
+            (mapping.getNvRamBlockElement, "/ramPP"),
+            (mapping.getReadNvData, "/readPP"),
+            (mapping.getWrittenNvData, "/writtenPP"),
+            (mapping.getWrittenReadNvData, "/writtenReadPP"),
+        ]:
+            ref = getter()
+            assert isinstance(ref, AutosarVariableRef)
+            assert ref.getAutosarVariableIRef().getPortPrototypeRef().getValue() == expected
+
+    def test_read_nv_block_data_mapping_ar_object_attributes(self, parser):
+        """Test that the ARObject base attributes (S checksum, T timestamp) are read (XSD AR-OBJECT attributeGroup)."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import NvBlockDataMapping
+
+        element = ET.fromstring(
+            f"<NV-BLOCK-DATA-MAPPING xmlns='{NS}' S='abc123' T='2024-01-01T12:00:00+00:00'>"
+            "<BITFIELD-TEXT-TABLE-MASK-NV-BLOCK-DESCRIPTOR>10</BITFIELD-TEXT-TABLE-MASK-NV-BLOCK-DESCRIPTOR>"
+            "</NV-BLOCK-DATA-MAPPING>"
+        )
+        mapping = NvBlockDataMapping()
+        parser.readNvBlockDataMapping(element, mapping)
+
+        assert mapping.getChecksum() is not None
+        assert mapping.getChecksum().getValue() == "abc123"
+        assert mapping.getTimestamp() is not None
+
 
 class TestBulkNvDataDescriptorHandlers:
     """Exercise the BulkNvDataDescriptor parser handler."""
@@ -81,6 +125,36 @@ class TestBulkNvDataDescriptorHandlers:
         parser.readBulkNvDataDescriptor(_snip("<SHORT-NAME>BulkDesc</SHORT-NAME>", root_tag="BULK-NV-DATA-DESCRIPTOR"), descriptor)
         assert descriptor.getBulkNvBlock() is None
         assert descriptor.getNvBlockDataMappings() == []
+
+    def test_read_bulk_nv_data_descriptor_field_values(self, parser):
+        """Test that both Table 11.12 attribute elements are read with their field values, one level down."""
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor  # noqa E501
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarVariableRef
+
+        root = AUTOSAR.getInstance().createARPackage("Pkg")
+        descriptor = BulkNvDataDescriptor(root, "BulkDesc")
+        element = ET.fromstring(
+            f"<BULK-NV-DATA-DESCRIPTOR xmlns='{NS}' S='bulkS'>"
+            "<SHORT-NAME>BulkDesc</SHORT-NAME>"
+            "<BULK-NV-BLOCK><VARIABLE-DATA-PROTOTYPE><SHORT-NAME>RamBlock</SHORT-NAME></VARIABLE-DATA-PROTOTYPE></BULK-NV-BLOCK>"
+            "<NV-BLOCK-DATA-MAPPINGS>"
+            "<NV-BLOCK-DATA-MAPPING><READ-NV-DATA><AUTOSAR-VARIABLE-IREF><PORT-PROTOTYPE-REF DEST='PORT-PROTOTYPE'>/readPP</PORT-PROTOTYPE-REF></AUTOSAR-VARIABLE-IREF></READ-NV-DATA></NV-BLOCK-DATA-MAPPING>"
+            "<NV-BLOCK-DATA-MAPPING><WRITTEN-NV-DATA><AUTOSAR-VARIABLE-IREF><PORT-PROTOTYPE-REF DEST='PORT-PROTOTYPE'>/writtenPP</PORT-PROTOTYPE-REF></AUTOSAR-VARIABLE-IREF></WRITTEN-NV-DATA></NV-BLOCK-DATA-MAPPING>"
+            "</NV-BLOCK-DATA-MAPPINGS>"
+            "</BULK-NV-DATA-DESCRIPTOR>"
+        )
+        parser.readBulkNvDataDescriptor(element, descriptor)
+
+        assert descriptor.getBulkNvBlock() is not None
+        assert descriptor.getBulkNvBlock().getShortName() == "RamBlock"
+        mappings = descriptor.getNvBlockDataMappings()
+        assert len(mappings) == 2
+        assert isinstance(mappings[0].getReadNvData(), AutosarVariableRef)
+        assert mappings[0].getReadNvData().getAutosarVariableIRef().getPortPrototypeRef().getValue() == "/readPP"
+        assert mappings[1].getWrittenNvData().getAutosarVariableIRef().getPortPrototypeRef().getValue() == "/writtenPP"
+        assert descriptor.getChecksum() is not None
+        assert descriptor.getChecksum().getValue() == "bulkS"
 
 
 class TestNvBlockDescriptorHandlers:

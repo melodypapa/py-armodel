@@ -19,266 +19,205 @@ if TYPE_CHECKING:
 
 class EndToEndDescription(ARObject):
     """
-    End-to-end protection profile description defining CRC, counter, and
-    data ID configuration for data integrity protection.
+    This meta-class contains information about end-to-end protection. The set of applicable attributes depends on the actual value of the category attribute of EndToEndProtection.
     """
 
     # EndToEndDescription method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCategory                  [x] impl  [x] docstring  [ ] test
-    # [ ] setCategory                  [x] impl  [x] docstring  [ ] test
-    # [ ] getCounterOffset             [x] impl  [x] docstring  [ ] test
-    # [ ] setCounterOffset             [x] impl  [x] docstring  [ ] test
-    # [ ] getCrcOffset                 [x] impl  [x] docstring  [ ] test
-    # [ ] setCrcOffset                 [x] impl  [x] docstring  [ ] test
-    # [ ] getDataIds                   [x] impl  [x] docstring  [ ] test
-    # [ ] addDataId                    [x] impl  [x] docstring  [ ] test
-    # [ ] getDataIdMode                [x] impl  [x] docstring  [ ] test
-    # [ ] setDataIdMode                [x] impl  [x] docstring  [ ] test
-    # [ ] getDataIdNibbleOffset        [x] impl  [x] docstring  [ ] test
-    # [ ] setDataIdNibbleOffset        [x] impl  [x] docstring  [ ] test
-    # [ ] getDataLength                [x] impl  [x] docstring  [ ] test
-    # [ ] setDataLength                [x] impl  [x] docstring  [ ] test
-    # [ ] getMaxDeltaCounterInit       [x] impl  [x] docstring  [ ] test
-    # [ ] setMaxDeltaCounterInit       [x] impl  [x] docstring  [ ] test
-    # [ ] getMaxNoNewOrRepeatedData    [x] impl  [x] docstring  [ ] test
-    # [ ] setMaxNoNewOrRepeatedData    [x] impl  [x] docstring  [ ] test
-    # [ ] getSyncCounterInit           [x] impl  [x] docstring  [ ] test
-    # [ ] setSyncCounterInit           [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.95, p.206 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCategory                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCategory                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCounterOffset             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterOffset             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCrcOffset                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcOffset                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addDataId                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataIds                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDataIdMode                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataIdMode                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataIdNibbleOffset        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataIdNibbleOffset        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataLength                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataLength                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxDeltaCounterInit       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxDeltaCounterInit       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxNoNewOrRepeatedData    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNoNewOrRepeatedData    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncCounterInit           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncCounterInit           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.category: NameToken = None
-        self.counterOffset: PositiveInteger = None
-        self.crcOffset: PositiveInteger = None
+        # The category represents the identification of the concrete E2E profile. The applicable values are specified in a semantic constraint and determine the applicable attributes of EndToEndDescription.
+        self.category: Optional[NameToken] = None
+
+        # Bit offset of Counter from the beginning of the Array representation of the Signal Group/VariableDataPrototype (MSB order, bit numbering: bit 0 is the least important). The offset shall be a multiplicity of 4 and it should be 8 whenever possible. For example, offset 8 means that the counter will take the low nibble of the byte 1, i.e. bits 8 .. 11. If counterOffset is not present the value is defined by the selected profile.
+        self.counterOffset: Optional[PositiveInteger] = None
+
+        # Bit offset of CRC from the beginning of the Array representation of the Signal Group/VariableDataPrototype (MSB order, bit numbering: bit 0 is the least important). The offset shall be a multiplicity of 8 and it should be 0 whenever possible. For example, offset 8 means that the CRC will take the byte 1, i.e. bits 8..15. If crcOffset is not present the value is defined by the selected profile.
+        self.crcOffset: Optional[PositiveInteger] = None
+
+        # This represents a unique numerical identifier. Note: ID is used for protection against masquerading. The details concerning the maximum number of values (this information is specific for each E2E profile) applicable for this attribute are controlled by a semantic constraint that depends on the category of the EndToEndProtection.
         self.dataIds: List[PositiveInteger] = []
-        self.dataIdMode: PositiveInteger = None
-        self.dataIdNibbleOffset: PositiveInteger = None
-        self.dataLength: PositiveInteger = None
-        self.maxDeltaCounterInit: PositiveInteger = None
-        self.maxNoNewOrRepeatedData: int = None
-        self.syncCounterInit: PositiveInteger = None
 
-    def getCategory(self):
+        # There are three inclusion modes how the implicit two-byte Data ID is included in the one-byte CRC: • dataIDMode = 0: Two bytes are included in the CRC (double ID configuration) This is used in variant 1A. • dataIDMode = 1: One of the two bytes byte is included, alternating high and low byte, depending on parity of the counter (alternating ID configuration). For even counter low byte is included; For odd counters the high byte is included. This is used in variant 1B. • dataIDMode = 2: Only low byte is included, high byte is never used. This is applicable if the IDs in a particular system are 8 bits. • dataIdMode = 3: The low byte is included in the implicit CRC calculation, the low nibble of the high byte is transmitted along with the data (i.e. it is explicitly included), the high nibble of the high byte is not used. This is applicable for the IDs up to 12 bits.
+        self.dataIdMode: Optional[PositiveInteger] = None
+
+        # Bit offset of the low nibble of the high byte of Data ID. The applicability of this attribute is controlled by [constr_1261].
+        self.dataIdNibbleOffset: Optional[PositiveInteger] = None
+
+        # This attribute represents the length of the Array representation of the Signal Group/VariableDataPrototype including CRC and Counter in bits.
+        self.dataLength: Optional[PositiveInteger] = None
+
+        # Initial maximum allowed gap between two counter values of two consecutively received valid Data, i.e. how many subsequent lost data is accepted. For example, if the receiver gets Data with counter 1 and MaxDeltaCounterInit is 1, then at the next reception the receiver can accept Counters with values 2 and 3, but not 4. Note that if the receiver does not receive new Data at a consecutive read, then the receiver increments the tolerance by 1.
+        self.maxDeltaCounterInit: Optional[PositiveInteger] = None
+
+        # The maximum amount of missing or repeated Data which the receiver does not expect to exceed under normal communication conditions.
+        self.maxNoNewOrRepeatedData: Optional[PositiveInteger] = None
+
+        # Number of Data required for validating the consistency of the counter that shall be received with a valid counter (i.e. counter within the allowed lock-in range) after the detection of an unexpected behavior of a received counter.
+        self.syncCounterInit: Optional[PositiveInteger] = None
+
+    def getCategory(self) -> Optional[NameToken]:
         """
-        Gets the category of the end-to-end protection profile.
-
-        Returns:
-            NameToken: The category
+        The category represents the identification of the concrete E2E profile. The applicable values are specified in a semantic constraint and determine the applicable attributes of EndToEndDescription.
         """
         return self.category
 
-    def setCategory(self, value):
+    def setCategory(self, value: Optional[NameToken]) -> "EndToEndDescription":
         """
-        Sets the category of the end-to-end protection profile.
-
-        Args:
-            value: The category to set
-
-        Returns:
-            self for method chaining
+        The category represents the identification of the concrete E2E profile. The applicable values are specified in a semantic constraint and determine the applicable attributes of EndToEndDescription. A None value is a no-op and does not overwrite an existing category.
         """
-        self.category = value
+        if value is not None:
+            self.category = value
         return self
 
-    def getCounterOffset(self):
+    def getCounterOffset(self) -> Optional[PositiveInteger]:
         """
-        Gets the counter offset.
-
-        Returns:
-            PositiveInteger: The counter offset
+        Bit offset of Counter from the beginning of the Array representation of the Signal Group/VariableDataPrototype (MSB order, bit numbering: bit 0 is the least important). The offset shall be a multiplicity of 4 and it should be 8 whenever possible. For example, offset 8 means that the counter will take the low nibble of the byte 1, i.e. bits 8 .. 11. If counterOffset is not present the value is defined by the selected profile.
         """
         return self.counterOffset
 
-    def setCounterOffset(self, value):
+    def setCounterOffset(self, value: Optional[PositiveInteger]) -> "EndToEndDescription":
         """
-        Sets the counter offset.
-
-        Args:
-            value: The counter offset to set
-
-        Returns:
-            self for method chaining
+        Bit offset of Counter from the beginning of the Array representation of the Signal Group/VariableDataPrototype (MSB order, bit numbering: bit 0 is the least important). The offset shall be a multiplicity of 4 and it should be 8 whenever possible. For example, offset 8 means that the counter will take the low nibble of the byte 1, i.e. bits 8 .. 11. If counterOffset is not present the value is defined by the selected profile. A None value is a no-op and does not overwrite an existing counterOffset.
         """
-        self.counterOffset = value
+        if value is not None:
+            self.counterOffset = value
         return self
 
-    def getCrcOffset(self):
+    def getCrcOffset(self) -> Optional[PositiveInteger]:
         """
-        Gets the CRC offset.
-
-        Returns:
-            PositiveInteger: The CRC offset
+        Bit offset of CRC from the beginning of the Array representation of the Signal Group/VariableDataPrototype (MSB order, bit numbering: bit 0 is the least important). The offset shall be a multiplicity of 8 and it should be 0 whenever possible. For example, offset 8 means that the CRC will take the byte 1, i.e. bits 8..15. If crcOffset is not present the value is defined by the selected profile.
         """
         return self.crcOffset
 
-    def setCrcOffset(self, value):
+    def setCrcOffset(self, value: Optional[PositiveInteger]) -> "EndToEndDescription":
         """
-        Sets the CRC offset.
-
-        Args:
-            value: The CRC offset to set
-
-        Returns:
-            self for method chaining
+        Bit offset of CRC from the beginning of the Array representation of the Signal Group/VariableDataPrototype (MSB order, bit numbering: bit 0 is the least important). The offset shall be a multiplicity of 8 and it should be 0 whenever possible. For example, offset 8 means that the CRC will take the byte 1, i.e. bits 8..15. If crcOffset is not present the value is defined by the selected profile. A None value is a no-op and does not overwrite an existing crcOffset.
         """
-        self.crcOffset = value
+        if value is not None:
+            self.crcOffset = value
+        return self
+
+    def addDataId(self, value: Optional[PositiveInteger]) -> "EndToEndDescription":
+        """
+        This represents a unique numerical identifier. Note: ID is used for protection against masquerading. The details concerning the maximum number of values (this information is specific for each E2E profile) applicable for this attribute are controlled by a semantic constraint that depends on the category of the EndToEndProtection. A None value is a no-op and does not append to the dataIds.
+        """
+        if value is not None:
+            self.dataIds.append(value)
         return self
 
     def getDataIds(self) -> List[PositiveInteger]:
         """
-        Gets the list of data IDs used for protection against masquerading.
-
-        Returns:
-            List[PositiveInteger]: The list of data IDs
+        This represents a unique numerical identifier. Note: ID is used for protection against masquerading. The details concerning the maximum number of values (this information is specific for each E2E profile) applicable for this attribute are controlled by a semantic constraint that depends on the category of the EndToEndProtection.
         """
-        # return sorted(self.dataIds, key = lambda a: a.getValue())
         return self.dataIds
 
-    def addDataId(self, id: PositiveInteger):
+    def getDataIdMode(self) -> Optional[PositiveInteger]:
         """
-        Adds a data ID.
-
-        Args:
-            id: The data ID to add
-
-        Returns:
-            self for method chaining
-        """
-        self.dataIds.append(id)
-        return self
-
-    def getDataIdMode(self):
-        """
-        Gets the data ID mode.
-
-        Returns:
-            PositiveInteger: The data ID mode
+        There are three inclusion modes how the implicit two-byte Data ID is included in the one-byte CRC: • dataIDMode = 0: Two bytes are included in the CRC (double ID configuration) This is used in variant 1A. • dataIDMode = 1: One of the two bytes byte is included, alternating high and low byte, depending on parity of the counter (alternating ID configuration). For even counter low byte is included; For odd counters the high byte is included. This is used in variant 1B. • dataIDMode = 2: Only low byte is included, high byte is never used. This is applicable if the IDs in a particular system are 8 bits. • dataIdMode = 3: The low byte is included in the implicit CRC calculation, the low nibble of the high byte is transmitted along with the data (i.e. it is explicitly included), the high nibble of the high byte is not used. This is applicable for the IDs up to 12 bits.
         """
         return self.dataIdMode
 
-    def setDataIdMode(self, value):
+    def setDataIdMode(self, value: Optional[PositiveInteger]) -> "EndToEndDescription":
         """
-        Sets the data ID mode.
-
-        Args:
-            value: The data ID mode to set
-
-        Returns:
-            self for method chaining
+        There are three inclusion modes how the implicit two-byte Data ID is included in the one-byte CRC: • dataIDMode = 0: Two bytes are included in the CRC (double ID configuration) This is used in variant 1A. • dataIDMode = 1: One of the two bytes byte is included, alternating high and low byte, depending on parity of the counter (alternating ID configuration). For even counter low byte is included; For odd counters the high byte is included. This is used in variant 1B. • dataIDMode = 2: Only low byte is included, high byte is never used. This is applicable if the IDs in a particular system are 8 bits. • dataIdMode = 3: The low byte is included in the implicit CRC calculation, the low nibble of the high byte is transmitted along with the data (i.e. it is explicitly included), the high nibble of the high byte is not used. This is applicable for the IDs up to 12 bits. A None value is a no-op and does not overwrite an existing dataIdMode.
         """
-        self.dataIdMode = value
+        if value is not None:
+            self.dataIdMode = value
         return self
 
-    def getDataIdNibbleOffset(self):
+    def getDataIdNibbleOffset(self) -> Optional[PositiveInteger]:
         """
-        Gets the bit offset of the low nibble of the high byte of Data ID.
-
-        Returns:
-            PositiveInteger: The data ID nibble offset
+        Bit offset of the low nibble of the high byte of Data ID. The applicability of this attribute is controlled by [constr_1261].
         """
         return self.dataIdNibbleOffset
 
-    def setDataIdNibbleOffset(self, value):
+    def setDataIdNibbleOffset(self, value: Optional[PositiveInteger]) -> "EndToEndDescription":
         """
-        Sets the bit offset of the low nibble of the high byte of Data ID.
-
-        Args:
-            value: The data ID nibble offset to set
-
-        Returns:
-            self for method chaining
+        Bit offset of the low nibble of the high byte of Data ID. The applicability of this attribute is controlled by [constr_1261]. A None value is a no-op and does not overwrite an existing dataIdNibbleOffset.
         """
-        self.dataIdNibbleOffset = value
+        if value is not None:
+            self.dataIdNibbleOffset = value
         return self
 
-    def getDataLength(self):
+    def getDataLength(self) -> Optional[PositiveInteger]:
         """
-        Gets the length of the data including CRC and counter in bits.
-
-        Returns:
-            PositiveInteger: The data length
+        This attribute represents the length of the Array representation of the Signal Group/VariableDataPrototype including CRC and Counter in bits.
         """
         return self.dataLength
 
-    def setDataLength(self, value):
+    def setDataLength(self, value: Optional[PositiveInteger]) -> "EndToEndDescription":
         """
-        Sets the length of the data including CRC and counter in bits.
-
-        Args:
-            value: The data length to set
-
-        Returns:
-            self for method chaining
+        This attribute represents the length of the Array representation of the Signal Group/VariableDataPrototype including CRC and Counter in bits. A None value is a no-op and does not overwrite an existing dataLength.
         """
-        self.dataLength = value
+        if value is not None:
+            self.dataLength = value
         return self
 
-    def getMaxDeltaCounterInit(self):
+    def getMaxDeltaCounterInit(self) -> Optional[PositiveInteger]:
         """
-        Gets the initial maximum allowed gap between two counter values.
-
-        Returns:
-            PositiveInteger: The maximum delta counter
+        Initial maximum allowed gap between two counter values of two consecutively received valid Data, i.e. how many subsequent lost data is accepted. For example, if the receiver gets Data with counter 1 and MaxDeltaCounterInit is 1, then at the next reception the receiver can accept Counters with values 2 and 3, but not 4. Note that if the receiver does not receive new Data at a consecutive read, then the receiver increments the tolerance by 1.
         """
         return self.maxDeltaCounterInit
 
-    def setMaxDeltaCounterInit(self, value):
+    def setMaxDeltaCounterInit(self, value: Optional[PositiveInteger]) -> "EndToEndDescription":
         """
-        Sets the initial maximum allowed gap between two counter values.
-
-        Args:
-            value: The maximum delta counter to set
-
-        Returns:
-            self for method chaining
+        Initial maximum allowed gap between two counter values of two consecutively received valid Data, i.e. how many subsequent lost data is accepted. For example, if the receiver gets Data with counter 1 and MaxDeltaCounterInit is 1, then at the next reception the receiver can accept Counters with values 2 and 3, but not 4. Note that if the receiver does not receive new Data at a consecutive read, then the receiver increments the tolerance by 1. A None value is a no-op and does not overwrite an existing maxDeltaCounterInit.
         """
-        self.maxDeltaCounterInit = value
+        if value is not None:
+            self.maxDeltaCounterInit = value
         return self
 
-    def getMaxNoNewOrRepeatedData(self):
+    def getMaxNoNewOrRepeatedData(self) -> Optional[PositiveInteger]:
         """
-        Gets the maximum amount of missing or repeated data.
-
-        Returns:
-            The maximum amount of missing or repeated data
+        The maximum amount of missing or repeated Data which the receiver does not expect to exceed under normal communication conditions.
         """
         return self.maxNoNewOrRepeatedData
 
-    def setMaxNoNewOrRepeatedData(self, value):
+    def setMaxNoNewOrRepeatedData(self, value: Optional[PositiveInteger]) -> "EndToEndDescription":
         """
-        Sets the maximum amount of missing or repeated data.
-
-        Args:
-            value: The value to set
-
-        Returns:
-            self for method chaining
+        The maximum amount of missing or repeated Data which the receiver does not expect to exceed under normal communication conditions. A None value is a no-op and does not overwrite an existing maxNoNewOrRepeatedData.
         """
-        self.maxNoNewOrRepeatedData = value
+        if value is not None:
+            self.maxNoNewOrRepeatedData = value
         return self
 
-    def getSyncCounterInit(self):
+    def getSyncCounterInit(self) -> Optional[PositiveInteger]:
         """
-        Gets the number of data required for validating counter consistency.
-
-        Returns:
-            PositiveInteger: The sync counter initial value
+        Number of Data required for validating the consistency of the counter that shall be received with a valid counter (i.e. counter within the allowed lock-in range) after the detection of an unexpected behavior of a received counter.
         """
         return self.syncCounterInit
 
-    def setSyncCounterInit(self, value):
+    def setSyncCounterInit(self, value: Optional[PositiveInteger]) -> "EndToEndDescription":
         """
-        Sets the number of data required for validating counter consistency.
-
-        Args:
-            value: The sync counter initial value to set
-
-        Returns:
-            self for method chaining
+        Number of Data required for validating the consistency of the counter that shall be received with a valid counter (i.e. counter within the allowed lock-in range) after the detection of an unexpected behavior of a received counter. A None value is a no-op and does not overwrite an existing syncCounterInit.
         """
-        self.syncCounterInit = value
+        if value is not None:
+            self.syncCounterInit = value
         return self
 
 

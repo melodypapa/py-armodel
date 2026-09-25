@@ -22,25 +22,19 @@ class ReentrancyLevelEnum(AREnum):
 
     # ReentrancyLevelEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.5, p.73
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    # Unlimited concurrent execution of this entity is possible, including
-    # preemption and parallel execution on multi core systems.
-    # Tags: atp.EnumerationLiteralIndex=0
+    # Unlimited concurrent execution of this entity is possible, including preemption and parallel execution on multi core systems. Tags: atp.EnumerationLiteralIndex=0
     MULTICORE_REENTRANT = "multicoreReentrant"
 
-    # Concurrent execution of this entity is not possible.
-    # Tags: atp.EnumerationLiteralIndex=1
+    # Concurrent execution of this entity is not possible. Tags: atp.EnumerationLiteralIndex=1
     NON_REENTRANT = "nonReentrant"
 
-    # Pseudo-concurrent execution (i.e. preemption) of this entity is possible
-    # on single core systems. Tags: atp.EnumerationLiteralIndex=2
+    # Pseudo-concurrent execution (i.e. preemption) of this entity is possible on single core systems. Tags: atp.EnumerationLiteralIndex=2
     SINGLE_CORE_REENTRANT = "singleCoreReentrant"
 
     def __init__(self):
-        """
-        Initializes the ReentrancyLevelEnum with valid values.
-        """
         super().__init__(
             (
                 ReentrancyLevelEnum.MULTICORE_REENTRANT,
@@ -540,25 +534,21 @@ class AbstractEvent(Identifiable, ABC):
 
 class ApiPrincipleEnum(AREnum):
     """
-    Represents the ability to control the granularity of API generation.
+    This enumeration represents the ability to control the granularity of API generation.
     """
 
     # ApiPrincipleEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.18, p.83
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    # The Rte or SchM API is provided for the whole software component / BSW
-    # Module. Tags: atp.EnumerationLiteralIndex=0
+    # The Rte or SchM API is provided for the whole software component / BSW Module Tags: atp.EnumerationLiteralIndex=0
     COMMON = "common"
 
-    # The Rte or SchM API is provided for a specific ExecutableEntity of a
-    # software component / BSW Module. Tags: atp.EnumerationLiteralIndex=1
+    # The Rte or SchM API is provided for a specific ExecutableEntity of a software component / BSW Module Tags: atp.EnumerationLiteralIndex=1
     PER_EXECUTABLE = "perExecutable"
 
     def __init__(self):
-        """
-        Initializes the ApiPrincipleEnum with valid values.
-        """
         super().__init__(
             (
                 ApiPrincipleEnum.COMMON,

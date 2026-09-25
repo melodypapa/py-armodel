@@ -21,7 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import NonqueuedReceiverComSpec, NonqueuedSenderComSpec, NvProvideComSpec, ParameterProvideComSpec, PPortComSpec
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import NvRequireComSpec, ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import RPortComSpec, ServerComSpec
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
     ClientServerAnnotation,
@@ -665,6 +665,8 @@ class AbstractRequiredPortPrototype(PortPrototype):
             if com_spec.getParameterRef() is not None:
                 if com_spec.getParameterRef().getDest() != "PARAMETER-DATA-PROTOTYPE":
                     raise ValueError("Invalid parameter dest of ParameterRequireComSpec.")
+        elif isinstance(com_spec, NvRequireComSpec):
+            pass
         else:
             raise ValueError("Unsupported RPortComSpec <%s>" % type(com_spec))
 

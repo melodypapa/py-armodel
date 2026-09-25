@@ -3,8 +3,10 @@ This module contains comprehensive tests for the ServiceNeeds.py file
 in the AUTOSAR CommonStructure module.
 """
 
+import inspect
 import os
 import tempfile
+import typing
 
 import pytest
 
@@ -78,12 +80,89 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     TransientFault,
     VerificationStatusIndicationModeEnum,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, NameToken, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, NameToken, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef, AutosarVariableRef
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
+RBDA_CLASS_NOTE = (
+    "This class specifies an assignment of a role to a particular data object in either "
+    "• the SwcInternalBehavior of a software component (or in the BswInternalBehavior of a BSW module or BSW cluster) in the context of an AUTOSAR Service or "
+    "• an NvBlockDescriptor to sort out the assignment of event-based writing strategies to data elements in a PortPrototype. "
+    "With this assignment, the role of the data can be mapped to a DataPrototype that is used in the context of the definition of a specific ServiceNeeds or NvBlockDescriptor, so that a tool is able to create the correct access or writing strategy."  # noqa E501
+)
+
+RBDA_ROLE_NOTE = (
+    "This is the role of the assigned data in the given context. "
+    "Possible values need to be specified on M1 level. Additionally the TPS Software Component Template provides a list of applicable roles "
+    'for various service dependencies and service use cases in chapter 13 "Service Dependencies and Service Use Cases" '
+    "(e.g., ramBlock in case of the needs for a permanent RAM block)."  # noqa E501
+)
+
+RBDA_USED_DATA_ELEMENT_NOTE = (
+    "The VariableDataPrototype used in this role, e.g. "
+    "• Permanent RAM Block of an NVRAM Block which shall belong to the same SwcInternalBehavior or BswInternalBehavior. "
+    "• In the role signalBasedDiagnostics it has to refer to a VariableDataPrototype in a SenderReceiverInterface or a NvDataInterface."  # noqa E501
+)
+
+RBDA_USED_PARAMETER_ELEMENT_NOTE = (
+    "The ParameterDataPrototype used in this role, e.g. "
+    "• ROM Block of an NVRAM Block. It shall belong to the same SwcInternalBehavior or BswInternalbehavior. "
+    "• In the role signalBasedDiagnostics it has to refer to a ParameterDataPrototype in a ParameterInterface."  # noqa E501
+)
+
+RBDA_USED_PIM_NOTE = "The (untyped) PerInstanceMemory used in this role (e.g. as a Permanent RAM Block for an NVRAM Block)."
+
 
 class TestRoleBasedDataAssignment:
+    def test_spec_notes_are_verbatim(self):
+        """Test that the class docstring and every accessor docstring is the spec Note verbatim (Table 12.4)"""
+        assert RoleBasedDataAssignment.__doc__.strip() == RBDA_CLASS_NOTE
+        assert RoleBasedDataAssignment.getRole.__doc__.strip() == RBDA_ROLE_NOTE
+        assert RoleBasedDataAssignment.setRole.__doc__.strip() == (RBDA_ROLE_NOTE + " A None value is a no-op and does not overwrite an existing role.")
+        assert RoleBasedDataAssignment.getUsedDataElement.__doc__.strip() == RBDA_USED_DATA_ELEMENT_NOTE
+        assert RoleBasedDataAssignment.setUsedDataElement.__doc__.strip() == (RBDA_USED_DATA_ELEMENT_NOTE + " A None value is a no-op and does not overwrite an existing usedDataElement.")
+        assert RoleBasedDataAssignment.getUsedParameterElement.__doc__.strip() == RBDA_USED_PARAMETER_ELEMENT_NOTE
+        assert RoleBasedDataAssignment.setUsedParameterElement.__doc__.strip() == (
+            RBDA_USED_PARAMETER_ELEMENT_NOTE + " A None value is a no-op and does not overwrite an existing usedParameterElement."
+        )
+        assert RoleBasedDataAssignment.getUsedPimRef.__doc__.strip() == RBDA_USED_PIM_NOTE
+        assert RoleBasedDataAssignment.setUsedPimRef.__doc__.strip() == (RBDA_USED_PIM_NOTE + " A None value is a no-op and does not overwrite an existing usedPimRef.")
+
+    def test_base_shape(self):
+        """Test the base chain, no-arg __init__ and typed accessor signatures"""
+        assert issubclass(RoleBasedDataAssignment, ARObject)
+        assert issubclass(RoleBasedDataAssignment, VariationPointCapable)
+        assignment = RoleBasedDataAssignment()
+        assert assignment.role is None
+        assert assignment.usedDataElement is None
+        assert assignment.usedParameterElement is None
+        assert assignment.usedPimRef is None
+
+        hints = typing.get_type_hints(RoleBasedDataAssignment.getRole)
+        assert hints["return"] == typing.Optional[Identifier]
+        hints = typing.get_type_hints(RoleBasedDataAssignment.setRole)
+        assert hints["value"] == typing.Optional[Identifier]
+        assert hints["return"] is RoleBasedDataAssignment
+        hints = typing.get_type_hints(RoleBasedDataAssignment.getUsedDataElement)
+        assert hints["return"] == typing.Optional[AutosarVariableRef]
+        hints = typing.get_type_hints(RoleBasedDataAssignment.setUsedDataElement)
+        assert hints["value"] == typing.Optional[AutosarVariableRef]
+        assert hints["return"] is RoleBasedDataAssignment
+        hints = typing.get_type_hints(RoleBasedDataAssignment.getUsedParameterElement)
+        assert hints["return"] == typing.Optional[AutosarParameterRef]
+        hints = typing.get_type_hints(RoleBasedDataAssignment.setUsedParameterElement)
+        assert hints["value"] == typing.Optional[AutosarParameterRef]
+        assert hints["return"] is RoleBasedDataAssignment
+        hints = typing.get_type_hints(RoleBasedDataAssignment.getUsedPimRef)
+        assert hints["return"] == typing.Optional[RefType]
+        hints = typing.get_type_hints(RoleBasedDataAssignment.setUsedPimRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert hints["return"] is RoleBasedDataAssignment
+
     def test_initialization(self):
         """Test RoleBasedDataAssignment initialization"""
         assignment = RoleBasedDataAssignment()
@@ -99,48 +178,57 @@ class TestRoleBasedDataAssignment:
         assignment = RoleBasedDataAssignment()
 
         assert assignment.getRole() is None
+        role = Identifier().setValue("ramBlock")
+        assert assignment.setRole(role) is assignment
+        assert assignment.getRole() is role
+        assert isinstance(assignment.getRole(), Identifier)
+        assert assignment.getRole().getValue() == "ramBlock"
 
-        assignment.setRole("TestRole")
-        assert assignment.getRole() == "TestRole"
+        # None is a no-op
+        assignment.setRole(None)
+        assert assignment.getRole() is role
 
     def test_get_set_used_data_element(self):
         """Test getUsedDataElement and setUsedDataElement methods"""
         assignment = RoleBasedDataAssignment()
 
         assert assignment.getUsedDataElement() is None
+        var_ref = AutosarVariableRef()
+        assert assignment.setUsedDataElement(var_ref) is assignment
+        assert assignment.getUsedDataElement() is var_ref
 
-        class MockVariableRef:
-            pass
-
-        var_ref = MockVariableRef()
-        assignment.setUsedDataElement(var_ref)
-        assert assignment.getUsedDataElement() == var_ref
+        # None is a no-op
+        assignment.setUsedDataElement(None)
+        assert assignment.getUsedDataElement() is var_ref
 
     def test_get_set_used_parameter_element(self):
         """Test getUsedParameterElement and setUsedParameterElement methods"""
         assignment = RoleBasedDataAssignment()
 
         assert assignment.getUsedParameterElement() is None
+        param_ref = AutosarParameterRef()
+        assert assignment.setUsedParameterElement(param_ref) is assignment
+        assert assignment.getUsedParameterElement() is param_ref
 
-        class MockParameterRef:
-            pass
-
-        param_ref = MockParameterRef()
-        assignment.setUsedParameterElement(param_ref)
-        assert assignment.getUsedParameterElement() == param_ref
+        # None is a no-op
+        assignment.setUsedParameterElement(None)
+        assert assignment.getUsedParameterElement() is param_ref
 
     def test_get_set_used_pim_ref(self):
         """Test getUsedPimRef and setUsedPimRef methods"""
         assignment = RoleBasedDataAssignment()
 
         assert assignment.getUsedPimRef() is None
+        ref_type = RefType()
+        ref_type.setValue("/Swc/Pim")
+        ref_type.setDest("PER-INSTANCE-MEMORY")
+        assert assignment.setUsedPimRef(ref_type) is assignment
+        assert assignment.getUsedPimRef() is ref_type
+        assert assignment.getUsedPimRef().getValue() == "/Swc/Pim"
 
-        class MockRefType:
-            pass
-
-        ref_type = MockRefType()
-        assignment.setUsedPimRef(ref_type)
-        assert assignment.getUsedPimRef() == ref_type
+        # None is a no-op
+        assignment.setUsedPimRef(None)
+        assert assignment.getUsedPimRef() is ref_type
 
 
 class TestServiceNeeds:
@@ -163,17 +251,45 @@ class TestServiceNeeds:
 
 
 class TestRamBlockStatusControlEnum:
-    def test_initialization(self):
-        """Test RamBlockStatusControlEnum initialization"""
-        enum = RamBlockStatusControlEnum()
-
-        # Enum values are stored in enumValues attribute as a tuple
-        assert enum.enumValues == ("api", "nvRamManager")
-
-    def test_values(self):
-        """Test enum values"""
+    def test_literals(self):
+        """Test RamBlockStatusControlEnum literal values per AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 13.1"""
         assert RamBlockStatusControlEnum.API == "api"
         assert RamBlockStatusControlEnum.NV_RAM_MANAGER == "nvRamManager"
+
+    def test_enum_values(self):
+        """Test the valid enum value set in spec literal order (Table 13.1)"""
+        enum = RamBlockStatusControlEnum()
+        assert enum.getEnumValues() == (
+            RamBlockStatusControlEnum.API,
+            RamBlockStatusControlEnum.NV_RAM_MANAGER,
+        )
+
+    def test_instantiation_set_value(self):
+        """Test enum instantiability and setValue/getValue round-trip per Rule 0011"""
+        enum = RamBlockStatusControlEnum()
+        result = enum.setValue(RamBlockStatusControlEnum.NV_RAM_MANAGER)
+        assert result is enum  # Method chaining
+        assert enum.getValue() == "nvRamManager"
+
+    def test_set_value_none_noop(self):
+        """Test setValue(None) is a no-op"""
+        enum = RamBlockStatusControlEnum()
+        assert enum.setValue(None) is enum
+        assert enum.getValue() == ""  # ARLiteral's empty representation for an unset literal
+        enum.setValue(RamBlockStatusControlEnum.API)
+        enum.setValue(None)
+        assert enum.getValue() == "api"
+
+    def test_validate_enum_value(self):
+        """Test validateEnumValue accepts spec literals and rejects others"""
+        enum = RamBlockStatusControlEnum()
+        assert enum.validateEnumValue("api") is True
+        assert enum.validateEnumValue("nvRamManager") is True
+        assert enum.validateEnumValue("bogus") is False
+
+    def test_spec_note(self):
+        """Test the Table 13.1 class note."""
+        assert RamBlockStatusControlEnum.__doc__.strip() == ("This enumeration type defines options for how the management of the ramBlock status is controlled.")
 
 
 class TestServiceProviderEnum:
@@ -239,313 +355,500 @@ class TestServiceProviderEnum:
 
 
 class TestNvBlockNeedsReliabilityEnum:
-    def test_initialization(self):
-        """Test NvBlockNeedsReliabilityEnum initialization"""
-        enum = NvBlockNeedsReliabilityEnum()
-
-        assert enum.enumValues == ("errorCorrection", "errorDetection", "noProtection")
-
-    def test_values(self):
-        """Test enum values"""
+    def test_literals(self):
+        """Test NvBlockNeedsReliabilityEnum literal values per AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 11.10"""
         assert NvBlockNeedsReliabilityEnum.ERROR_CORRECTION == "errorCorrection"
         assert NvBlockNeedsReliabilityEnum.ERROR_DETECTION == "errorDetection"
         assert NvBlockNeedsReliabilityEnum.NO_PROTECTION == "noProtection"
 
+    def test_enum_values(self):
+        """Test the valid enum value set in spec literal order (Table 11.10)"""
+        enum = NvBlockNeedsReliabilityEnum()
+        assert enum.getEnumValues() == (
+            NvBlockNeedsReliabilityEnum.ERROR_CORRECTION,
+            NvBlockNeedsReliabilityEnum.ERROR_DETECTION,
+            NvBlockNeedsReliabilityEnum.NO_PROTECTION,
+        )
+
+    def test_instantiation_set_value(self):
+        """Test enum instantiability and setValue/getValue round-trip per Rule 0011"""
+        enum = NvBlockNeedsReliabilityEnum()
+        result = enum.setValue(NvBlockNeedsReliabilityEnum.ERROR_DETECTION)
+        assert result is enum  # Method chaining
+        assert enum.getValue() == "errorDetection"
+
+    def test_set_value_none_noop(self):
+        """Test setValue(None) is a no-op"""
+        enum = NvBlockNeedsReliabilityEnum()
+        assert enum.setValue(None) is enum
+        assert enum.getValue() == ""  # ARLiteral's empty representation for an unset literal
+        enum.setValue(NvBlockNeedsReliabilityEnum.NO_PROTECTION)
+        enum.setValue(None)
+        assert enum.getValue() == "noProtection"
+
+    def test_validate_enum_value(self):
+        """Test validateEnumValue accepts spec literals and rejects others"""
+        enum = NvBlockNeedsReliabilityEnum()
+        assert enum.validateEnumValue("errorCorrection") is True
+        assert enum.validateEnumValue("noProtection") is True
+        assert enum.validateEnumValue("bogus") is False
+
+    def test_spec_note(self):
+        """Test the Table 11.10 class note."""
+        assert NvBlockNeedsReliabilityEnum.__doc__.strip() == (
+            "Reliability against data loss on the non-volatile medium. "
+            "These requirements give only a relative indication, for example on the required degree of redundancy for storage. "
+            "They do, however, not specify by which means (e.g. software or hardware) the reliability is actually achieved."
+        )
+
 
 class TestNvBlockNeedsWritingPriorityEnum:
-    def test_initialization(self):
-        """Test NvBlockNeedsWritingPriorityEnum initialization"""
-        enum = NvBlockNeedsWritingPriorityEnum()
-
-        assert enum.enumValues == ("high", "low", "medium")
-
-    def test_values(self):
-        """Test enum values"""
+    def test_literals(self):
+        """Test NvBlockNeedsWritingPriorityEnum literal values per AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 11.9"""
         assert NvBlockNeedsWritingPriorityEnum.HIGH == "high"
         assert NvBlockNeedsWritingPriorityEnum.LOW == "low"
         assert NvBlockNeedsWritingPriorityEnum.MEDIUM == "medium"
 
+    def test_enum_values(self):
+        """Test the valid enum value set in spec literal order (Table 11.9)"""
+        enum = NvBlockNeedsWritingPriorityEnum()
+        assert enum.getEnumValues() == (
+            NvBlockNeedsWritingPriorityEnum.HIGH,
+            NvBlockNeedsWritingPriorityEnum.LOW,
+            NvBlockNeedsWritingPriorityEnum.MEDIUM,
+        )
+
+    def test_instantiation_set_value(self):
+        """Test enum instantiability and setValue/getValue round-trip per Rule 0011"""
+        enum = NvBlockNeedsWritingPriorityEnum()
+        result = enum.setValue(NvBlockNeedsWritingPriorityEnum.LOW)
+        assert result is enum  # Method chaining
+        assert enum.getValue() == "low"
+
+    def test_set_value_none_noop(self):
+        """Test setValue(None) is a no-op"""
+        enum = NvBlockNeedsWritingPriorityEnum()
+        assert enum.setValue(None) is enum
+        assert enum.getValue() == ""  # ARLiteral's empty representation for an unset literal
+        enum.setValue(NvBlockNeedsWritingPriorityEnum.MEDIUM)
+        enum.setValue(None)
+        assert enum.getValue() == "medium"
+
+    def test_validate_enum_value(self):
+        """Test validateEnumValue accepts spec literals and rejects others"""
+        enum = NvBlockNeedsWritingPriorityEnum()
+        assert enum.validateEnumValue("high") is True
+        assert enum.validateEnumValue("medium") is True
+        assert enum.validateEnumValue("bogus") is False
+
+    def test_spec_note(self):
+        """Test the Table 11.9 class note."""
+        assert NvBlockNeedsWritingPriorityEnum.__doc__.strip() == ("Specifies the priority of writing this block in case of concurrent requests to write other blocks.")
+
+
+NVBN_CLASS_NOTE = "Specifies the abstract needs on the configuration of a single NVRAM Block."
+
+NVBN_CONSTRAINT_1308 = (
+    "[constr_1308] Existence of NvBlockNeeds.cyclicWritingPeriod: "
+    "The attribute NvBlockNeeds.cyclicWritingPeriod shall exist if and only if the attribute NvBlockNeeds.storeCyclic exists and its value is set to true."
+)
+
+NVBN_CONSTRAINT_1310 = (
+    "[constr_1310] Existence of attributes of meta-class NvBlockNeeds: "
+    "If in the context of an ApplicationSwComponentType the attribute SwcServiceDependency.serviceNeeds is implemented by an NvBlockNeeds then the following attributes "  # noqa E501
+    "NvBlockNeeds.storeCyclic, NvBlockNeeds.cyclicWritingPeriod, NvBlockNeeds.storeEmergency, NvBlockNeeds.storeImmediate, NvBlockNeeds.storeOnChange "  # noqa E501
+    "shall only exist if in the context of the same SwcServiceDependency a SwcServiceDependency.assignedPort exists that has the attribute role set to the value NvDataPort."  # noqa E501
+)
+
+NVBN_ATTR_NOTES = {
+    "calcRamBlockCrc": "Defines if CRC (re)calculation for the permanent RAM Block is required.",
+    "checkStaticBlockId": "Defines if the Static Block Id check shall be enabled.",
+    "cyclicWritingPeriod": "This represents the period for cyclic writing of NvData to store the associated RAM Block.",
+    "nDataSets": "Number of data sets to be provided by the NVRAM manager for this block. This is the total number of ROM Blocks and RAM Blocks.",
+    "nRomBlocks": "Number of ROM Blocks to be provided by the NVRAM manager for this block. Please note that these multiple ROM Blocks are given in a contiguous area.",
+    "ramBlockStatusControl": "This attribute defines how the management of the RAM Block status is controlled.",
+    "readonly": "true: data of this NVRAM Block are write protected for normal operation (but protection can be disabled) false: no restriction",
+    "reliability": "Reliability against data loss on the non-volatile medium.",
+    "resistantToChangedSw": (
+        "Defines whether an NVRAM Block shall be treated resistant to configuration changes (true) or not (false). "
+        "For details how to handle initialization in the latter case, please refer to the NVRAM specification."
+    ),
+    "restoreAtStart": "Defines whether the associated RAM Block shall be implicitly restored during startup by the basic software.",
+    "selectBlockForFirstInitAll": "If this attribute is set to true the NvM shall process this block in the NvM_FirstInitAll() function.",
+    "storeAtShutdown": "Defines whether or not the associated RAM Block shall be implicitly stored during shutdown by the basic software.",
+    "storeCyclic": "Defines whether or not the associated RAM Block shall be implicitly stored periodically by the basic software.",
+    "storeEmergency": (
+        "Defines whether or not the associated RAM Block shall be implicitly stored in case of ECU failure (e.g. loss of power) by the basic software. "  # noqa E501
+        "If the attribute storeEmergency is set to true the associated RAM Block shall be configured to have immediate priority."
+    ),
+    "storeImmediate": "Defines whether or not the associated RAM Block shall be implicitly stored immediately during or after execution of the according SW-C RunnableEntity by the basic software.",  # noqa E501
+    "storeOnChange": (
+        "This attribute defines whether the associated RAM Block shall be stored immediately if the written value is different to the value stored in the associated RAM Block(s) "  # noqa E501
+        "during or after execution of the according SW-C RunnableEntity."
+    ),
+    "useAutoValidationAtShutDown": "If set to true the RAM Block shall be auto validated during shutdown phase.",
+    "useCRCCompMechanism": (
+        "If set to true the CRC of the RAM Block shall be compared during a write job with the CRC which was calculated during the last successful read or write job "  # noqa E501
+        "in order to skip unnecessary NVRAM writings."
+    ),
+    "writeOnlyOnce": (
+        "Defines write protection after first write: true: This block is prevented from being changed/erased or being replaced with the default ROM data after first initialization by the software-component. false: No such restriction."  # noqa E501
+    ),
+    "writeVerification": "Defines if Write Verification shall be enabled for this NVRAM Block.",
+    "writingFrequency": 'Provides the amount of updates to this block from the application point of view. It has to be provided in "number of write access per year".',
+    "writingPriority": "Requires the priority of writing this block in case of concurrent requests to write other blocks.",
+}
+
+NVBN_FIELD_TYPES = {
+    "calcRamBlockCrc": Boolean,
+    "checkStaticBlockId": Boolean,
+    "cyclicWritingPeriod": TimeValue,
+    "nDataSets": PositiveInteger,
+    "nRomBlocks": PositiveInteger,
+    "ramBlockStatusControl": RamBlockStatusControlEnum,
+    "readonly": Boolean,
+    "reliability": NvBlockNeedsReliabilityEnum,
+    "resistantToChangedSw": Boolean,
+    "restoreAtStart": Boolean,
+    "selectBlockForFirstInitAll": Boolean,
+    "storeAtShutdown": Boolean,
+    "storeCyclic": Boolean,
+    "storeEmergency": Boolean,
+    "storeImmediate": Boolean,
+    "storeOnChange": Boolean,
+    "useAutoValidationAtShutDown": Boolean,
+    "useCRCCompMechanism": Boolean,
+    "writeOnlyOnce": Boolean,
+    "writeVerification": Boolean,
+    "writingFrequency": PositiveInteger,
+    "writingPriority": NvBlockNeedsWritingPriorityEnum,
+}
+
 
 class TestNvBlockNeeds:
+    def test_spec_notes_are_verbatim(self):
+        """Test that the class docstring and every accessor docstring is the spec Note verbatim (Table 11.8)"""
+        assert inspect.cleandoc(NvBlockNeeds.__doc__) == (NVBN_CLASS_NOTE + "\n\n" + NVBN_CONSTRAINT_1308 + "\n\n" + NVBN_CONSTRAINT_1310)
+        for attr, note in NVBN_ATTR_NOTES.items():
+            getter = getattr(NvBlockNeeds, "get" + attr[0].upper() + attr[1:])
+            setter = getattr(NvBlockNeeds, "set" + attr[0].upper() + attr[1:])
+            assert getter.__doc__.strip() == note, attr
+            assert setter.__doc__.strip() == (note + " A None value is a no-op and does not overwrite an existing %s." % attr), attr
+
+    def test_base_shape(self):
+        """Test the base chain and the typed accessor signatures (own attributes only — inherited members are not flattened)"""
+        assert issubclass(NvBlockNeeds, ServiceNeeds)
+        assert issubclass(ServiceNeeds, Identifiable)
+
+        needs = NvBlockNeeds(None, "TestNvBlock")
+        assert needs.getShortName() == "TestNvBlock"
+
+        for attr, field_type in NVBN_FIELD_TYPES.items():
+            getter = getattr(NvBlockNeeds, "get" + attr[0].upper() + attr[1:])
+            setter = getattr(NvBlockNeeds, "set" + attr[0].upper() + attr[1:])
+            hints = typing.get_type_hints(getter)
+            assert hints["return"] == typing.Optional[field_type], attr
+            hints = typing.get_type_hints(setter)
+            assert hints["value"] == typing.Optional[field_type], attr
+            assert hints["return"] is NvBlockNeeds, attr
+
     def test_initialization(self):
         """Test NvBlockNeeds initialization"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block is not None
-        assert nv_block.getShortName() == "TestNvBlock"
-        assert nv_block.calcRamBlockCrc is None
-        assert nv_block.checkStaticBlockId is None
-        assert nv_block.cyclicWritingPeriod is None
-        assert nv_block.nDataSets is None
-        assert nv_block.nRomBlocks is None
-        assert nv_block.ramBlockStatusControl is None
-        assert nv_block.readonly is None
-        assert nv_block.reliability is None
-        assert nv_block.resistantToChangedSw is None
-        assert nv_block.restoreAtStart is None
-        assert nv_block.selectBlockForFirstInitAll is None
-        assert nv_block.storeAtShutdown is None
-        assert nv_block.storeCyclic is None
-        assert nv_block.storeEmergency is None
-        assert nv_block.storeImmediate is None
-        assert nv_block.storeOnChange is None
-        assert nv_block.useAutoValidationAtShutDown is None
-        assert nv_block.useCRCCompMechanism is None
-        assert nv_block.writeOnlyOnce is None
-        assert nv_block.writeVerification is None
-        assert nv_block.writingFrequency is None
-        assert nv_block.writingPriority is None
+        assert needs is not None
+        for attr in NVBN_ATTR_NOTES:
+            assert getattr(needs, attr) is None, attr
 
     def test_get_set_calc_ram_block_crc(self):
         """Test getCalcRamBlockCrc and setCalcRamBlockCrc methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getCalcRamBlockCrc() is None
+        assert needs.getCalcRamBlockCrc() is None
+        value = Boolean().setValue(True)
+        assert needs.setCalcRamBlockCrc(value) is needs
+        assert needs.getCalcRamBlockCrc() is value
 
-        nv_block.setCalcRamBlockCrc(True)
-        assert nv_block.getCalcRamBlockCrc() is True
+        # None is a no-op
+        needs.setCalcRamBlockCrc(None)
+        assert needs.getCalcRamBlockCrc() is value
 
     def test_get_set_check_static_block_id(self):
         """Test getCheckStaticBlockId and setCheckStaticBlockId methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getCheckStaticBlockId() is None
+        assert needs.getCheckStaticBlockId() is None
+        value = Boolean().setValue(False)
+        assert needs.setCheckStaticBlockId(value) is needs
+        assert needs.getCheckStaticBlockId() is value
 
-        nv_block.setCheckStaticBlockId(True)
-        assert nv_block.getCheckStaticBlockId() is True
+        # None is a no-op
+        needs.setCheckStaticBlockId(None)
+        assert needs.getCheckStaticBlockId() is value
 
     def test_get_set_cyclic_writing_period(self):
         """Test getCyclicWritingPeriod and setCyclicWritingPeriod methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getCyclicWritingPeriod() is None
+        assert needs.getCyclicWritingPeriod() is None
+        value = TimeValue().setValue(0.005)
+        assert needs.setCyclicWritingPeriod(value) is needs
+        assert needs.getCyclicWritingPeriod() is value
+        assert needs.getCyclicWritingPeriod().getValue() == 0.005
 
-        class MockTimeValue:
-            pass
-
-        time_value = MockTimeValue()
-        nv_block.setCyclicWritingPeriod(time_value)
-        assert nv_block.getCyclicWritingPeriod() == time_value
+        # None is a no-op
+        needs.setCyclicWritingPeriod(None)
+        assert needs.getCyclicWritingPeriod() is value
 
     def test_get_set_n_data_sets(self):
         """Test getNDataSets and setNDataSets methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getNDataSets() is None
+        assert needs.getNDataSets() is None
+        value = PositiveInteger().setValue("4")
+        assert needs.setNDataSets(value) is needs
+        assert needs.getNDataSets() is value
+        assert needs.getNDataSets().getValue() == 4
 
-        nv_block.setNDataSets(5)
-        assert nv_block.getNDataSets() == 5
+        # None is a no-op
+        needs.setNDataSets(None)
+        assert needs.getNDataSets() is value
 
     def test_get_set_n_rom_blocks(self):
         """Test getNRomBlocks and setNRomBlocks methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getNRomBlocks() is None
+        assert needs.getNRomBlocks() is None
+        value = PositiveInteger().setValue("3")
+        assert needs.setNRomBlocks(value) is needs
+        assert needs.getNRomBlocks() is value
+        assert needs.getNRomBlocks().getValue() == 3
 
-        nv_block.setNRomBlocks(3)
-        assert nv_block.getNRomBlocks() == 3
+        # None is a no-op
+        needs.setNRomBlocks(None)
+        assert needs.getNRomBlocks() is value
 
     def test_get_set_ram_block_status_control(self):
         """Test getRamBlockStatusControl and setRamBlockStatusControl methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getRamBlockStatusControl() is None
+        assert needs.getRamBlockStatusControl() is None
+        value = RamBlockStatusControlEnum().setValue(RamBlockStatusControlEnum.NV_RAM_MANAGER)
+        assert needs.setRamBlockStatusControl(value) is needs
+        assert needs.getRamBlockStatusControl() is value
 
-        enum_val = RamBlockStatusControlEnum.NV_RAM_MANAGER
-        nv_block.setRamBlockStatusControl(enum_val)
-        assert nv_block.getRamBlockStatusControl() == enum_val
+        # None is a no-op
+        needs.setRamBlockStatusControl(None)
+        assert needs.getRamBlockStatusControl() is value
 
     def test_get_set_readonly(self):
         """Test getReadonly and setReadonly methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getReadonly() is None
+        assert needs.getReadonly() is None
+        value = Boolean().setValue(True)
+        assert needs.setReadonly(value) is needs
+        assert needs.getReadonly() is value
 
-        nv_block.setReadonly(True)
-        assert nv_block.getReadonly() is True
+        # None is a no-op
+        needs.setReadonly(None)
+        assert needs.getReadonly() is value
 
     def test_get_set_reliability(self):
         """Test getReliability and setReliability methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getReliability() is None
+        assert needs.getReliability() is None
+        value = NvBlockNeedsReliabilityEnum().setValue(NvBlockNeedsReliabilityEnum.ERROR_DETECTION)
+        assert needs.setReliability(value) is needs
+        assert needs.getReliability() is value
 
-        enum_val = NvBlockNeedsReliabilityEnum.ERROR_DETECTION
-        nv_block.setReliability(enum_val)
-        assert nv_block.getReliability() == enum_val
+        # None is a no-op
+        needs.setReliability(None)
+        assert needs.getReliability() is value
 
     def test_get_set_resistant_to_changed_sw(self):
         """Test getResistantToChangedSw and setResistantToChangedSw methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getResistantToChangedSw() is None
+        assert needs.getResistantToChangedSw() is None
+        value = Boolean().setValue(True)
+        assert needs.setResistantToChangedSw(value) is needs
+        assert needs.getResistantToChangedSw() is value
 
-        nv_block.setResistantToChangedSw(True)
-        assert nv_block.getResistantToChangedSw() is True
+        # None is a no-op
+        needs.setResistantToChangedSw(None)
+        assert needs.getResistantToChangedSw() is value
 
     def test_get_set_restore_at_start(self):
         """Test getRestoreAtStart and setRestoreAtStart methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getRestoreAtStart() is None
+        assert needs.getRestoreAtStart() is None
+        value = Boolean().setValue(False)
+        assert needs.setRestoreAtStart(value) is needs
+        assert needs.getRestoreAtStart() is value
 
-        nv_block.setRestoreAtStart(True)
-        assert nv_block.getRestoreAtStart() is True
+        # None is a no-op
+        needs.setRestoreAtStart(None)
+        assert needs.getRestoreAtStart() is value
 
     def test_get_set_select_block_for_first_init_all(self):
         """Test getSelectBlockForFirstInitAll and setSelectBlockForFirstInitAll methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getSelectBlockForFirstInitAll() is None
+        assert needs.getSelectBlockForFirstInitAll() is None
+        value = Boolean().setValue(True)
+        assert needs.setSelectBlockForFirstInitAll(value) is needs
+        assert needs.getSelectBlockForFirstInitAll() is value
 
-        nv_block.setSelectBlockForFirstInitAll(True)
-        assert nv_block.getSelectBlockForFirstInitAll() is True
+        # None is a no-op
+        needs.setSelectBlockForFirstInitAll(None)
+        assert needs.getSelectBlockForFirstInitAll() is value
 
     def test_get_set_store_at_shutdown(self):
         """Test getStoreAtShutdown and setStoreAtShutdown methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getStoreAtShutdown() is None
+        assert needs.getStoreAtShutdown() is None
+        value = Boolean().setValue(True)
+        assert needs.setStoreAtShutdown(value) is needs
+        assert needs.getStoreAtShutdown() is value
 
-        nv_block.setStoreAtShutdown(True)
-        assert nv_block.getStoreAtShutdown() is True
+        # None is a no-op
+        needs.setStoreAtShutdown(None)
+        assert needs.getStoreAtShutdown() is value
 
     def test_get_set_store_cyclic(self):
         """Test getStoreCyclic and setStoreCyclic methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getStoreCyclic() is None
+        assert needs.getStoreCyclic() is None
+        value = Boolean().setValue(True)
+        assert needs.setStoreCyclic(value) is needs
+        assert needs.getStoreCyclic() is value
 
-        nv_block.setStoreCyclic(True)
-        assert nv_block.getStoreCyclic() is True
+        # None is a no-op
+        needs.setStoreCyclic(None)
+        assert needs.getStoreCyclic() is value
 
     def test_get_set_store_emergency(self):
         """Test getStoreEmergency and setStoreEmergency methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getStoreEmergency() is None
+        assert needs.getStoreEmergency() is None
+        value = Boolean().setValue(True)
+        assert needs.setStoreEmergency(value) is needs
+        assert needs.getStoreEmergency() is value
 
-        nv_block.setStoreEmergency(True)
-        assert nv_block.getStoreEmergency() is True
+        # None is a no-op
+        needs.setStoreEmergency(None)
+        assert needs.getStoreEmergency() is value
 
     def test_get_set_store_immediate(self):
         """Test getStoreImmediate and setStoreImmediate methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getStoreImmediate() is None
+        assert needs.getStoreImmediate() is None
+        value = Boolean().setValue(False)
+        assert needs.setStoreImmediate(value) is needs
+        assert needs.getStoreImmediate() is value
 
-        nv_block.setStoreImmediate(True)
-        assert nv_block.getStoreImmediate() is True
+        # None is a no-op
+        needs.setStoreImmediate(None)
+        assert needs.getStoreImmediate() is value
 
     def test_get_set_store_on_change(self):
         """Test getStoreOnChange and setStoreOnChange methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getStoreOnChange() is None
+        assert needs.getStoreOnChange() is None
+        value = Boolean().setValue(True)
+        assert needs.setStoreOnChange(value) is needs
+        assert needs.getStoreOnChange() is value
 
-        nv_block.setStoreOnChange(True)
-        assert nv_block.getStoreOnChange() is True
+        # None is a no-op
+        needs.setStoreOnChange(None)
+        assert needs.getStoreOnChange() is value
 
     def test_get_set_use_auto_validation_at_shut_down(self):
         """Test getUseAutoValidationAtShutDown and setUseAutoValidationAtShutDown methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getUseAutoValidationAtShutDown() is None
+        assert needs.getUseAutoValidationAtShutDown() is None
+        value = Boolean().setValue(True)
+        assert needs.setUseAutoValidationAtShutDown(value) is needs
+        assert needs.getUseAutoValidationAtShutDown() is value
 
-        nv_block.setUseAutoValidationAtShutDown(True)
-        assert nv_block.getUseAutoValidationAtShutDown() is True
+        # None is a no-op
+        needs.setUseAutoValidationAtShutDown(None)
+        assert needs.getUseAutoValidationAtShutDown() is value
 
     def test_get_set_use_crc_comp_mechanism(self):
         """Test getUseCRCCompMechanism and setUseCRCCompMechanism methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getUseCRCCompMechanism() is None
+        assert needs.getUseCRCCompMechanism() is None
+        value = Boolean().setValue(False)
+        assert needs.setUseCRCCompMechanism(value) is needs
+        assert needs.getUseCRCCompMechanism() is value
 
-        nv_block.setUseCRCCompMechanism(True)
-        assert nv_block.getUseCRCCompMechanism() is True
+        # None is a no-op
+        needs.setUseCRCCompMechanism(None)
+        assert needs.getUseCRCCompMechanism() is value
 
     def test_get_set_write_only_once(self):
         """Test getWriteOnlyOnce and setWriteOnlyOnce methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getWriteOnlyOnce() is None
+        assert needs.getWriteOnlyOnce() is None
+        value = Boolean().setValue(True)
+        assert needs.setWriteOnlyOnce(value) is needs
+        assert needs.getWriteOnlyOnce() is value
 
-        nv_block.setWriteOnlyOnce(True)
-        assert nv_block.getWriteOnlyOnce() is True
+        # None is a no-op
+        needs.setWriteOnlyOnce(None)
+        assert needs.getWriteOnlyOnce() is value
 
     def test_get_set_write_verification(self):
         """Test getWriteVerification and setWriteVerification methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getWriteVerification() is None
+        assert needs.getWriteVerification() is None
+        value = Boolean().setValue(True)
+        assert needs.setWriteVerification(value) is needs
+        assert needs.getWriteVerification() is value
 
-        nv_block.setWriteVerification(True)
-        assert nv_block.getWriteVerification() is True
+        # None is a no-op
+        needs.setWriteVerification(None)
+        assert needs.getWriteVerification() is value
 
     def test_get_set_writing_frequency(self):
         """Test getWritingFrequency and setWritingFrequency methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getWritingFrequency() is None
+        assert needs.getWritingFrequency() is None
+        value = PositiveInteger().setValue("10")
+        assert needs.setWritingFrequency(value) is needs
+        assert needs.getWritingFrequency() is value
+        assert needs.getWritingFrequency().getValue() == 10
 
-        nv_block.setWritingFrequency(10)
-        assert nv_block.getWritingFrequency() == 10
+        # None is a no-op
+        needs.setWritingFrequency(None)
+        assert needs.getWritingFrequency() is value
 
     def test_get_set_writing_priority(self):
         """Test getWritingPriority and setWritingPriority methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
+        needs = NvBlockNeeds(None, "TestNvBlock")
 
-        assert nv_block.getWritingPriority() is None
+        assert needs.getWritingPriority() is None
+        value = NvBlockNeedsWritingPriorityEnum().setValue(NvBlockNeedsWritingPriorityEnum.HIGH)
+        assert needs.setWritingPriority(value) is needs
+        assert needs.getWritingPriority() is value
 
-        enum_val = NvBlockNeedsWritingPriorityEnum.HIGH
-        nv_block.setWritingPriority(enum_val)
-        assert nv_block.getWritingPriority() == enum_val
+        # None is a no-op
+        needs.setWritingPriority(None)
+        assert needs.getWritingPriority() is value
 
 
 class TestServiceDiagnosticRelevanceEnum:

@@ -4,8 +4,11 @@ Tests cover all classes and methods in the EndToEndProtection.py file to achieve
 """
 
 import inspect
+import typing
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import (
     EndToEndDescription,
@@ -17,12 +20,71 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.EndToEndProtection import
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
 
 
-class TestEndToEndDescription:
-    """Test class for EndToEndDescription class."""
+def _field_name(getter_name: str) -> str:
+    name = getter_name[len("get") :]
+    return name[0].lower() + name[1:]
 
-    def test_end_to_end_description_initialization(self):
-        """Test EndToEndDescription initialization and methods."""
+
+class TestEndToEndDescription:
+    """Heritage / API tests for the synced EndToEndDescription (Table 4.95)."""
+
+    def test_spec_notes_are_verbatim(self):
+        expected_notes = {
+            "getCategory": "The category represents the identification of the concrete E2E profile. The applicable values are specified in a semantic constraint and determine the applicable attributes of EndToEndDescription.",
+            "getCounterOffset": "Bit offset of Counter from the beginning of the Array representation of the Signal Group/VariableDataPrototype (MSB order, bit numbering: bit 0 is the least important). The offset shall be a multiplicity of 4 and it should be 8 whenever possible. For example, offset 8 means that the counter will take the low nibble of the byte 1, i.e. bits 8 .. 11. If counterOffset is not present the value is defined by the selected profile.",
+            "getCrcOffset": "Bit offset of CRC from the beginning of the Array representation of the Signal Group/VariableDataPrototype (MSB order, bit numbering: bit 0 is the least important). The offset shall be a multiplicity of 8 and it should be 0 whenever possible. For example, offset 8 means that the CRC will take the byte 1, i.e. bits 8..15. If crcOffset is not present the value is defined by the selected profile.",
+            "getDataIds": "This represents a unique numerical identifier. Note: ID is used for protection against masquerading. The details concerning the maximum number of values (this information is specific for each E2E profile) applicable for this attribute are controlled by a semantic constraint that depends on the category of the EndToEndProtection.",
+            "getDataIdMode": "There are three inclusion modes how the implicit two-byte Data ID is included in the one-byte CRC: • dataIDMode = 0: Two bytes are included in the CRC (double ID configuration) This is used in variant 1A. • dataIDMode = 1: One of the two bytes byte is included, alternating high and low byte, depending on parity of the counter (alternating ID configuration). For even counter low byte is included; For odd counters the high byte is included. This is used in variant 1B. • dataIDMode = 2: Only low byte is included, high byte is never used. This is applicable if the IDs in a particular system are 8 bits. • dataIdMode = 3: The low byte is included in the implicit CRC calculation, the low nibble of the high byte is transmitted along with the data (i.e. it is explicitly included), the high nibble of the high byte is not used. This is applicable for the IDs up to 12 bits.",
+            "getDataIdNibbleOffset": "Bit offset of the low nibble of the high byte of Data ID. The applicability of this attribute is controlled by [constr_1261].",
+            "getDataLength": "This attribute represents the length of the Array representation of the Signal Group/VariableDataPrototype including CRC and Counter in bits.",
+            "getMaxDeltaCounterInit": "Initial maximum allowed gap between two counter values of two consecutively received valid Data, i.e. how many subsequent lost data is accepted. For example, if the receiver gets Data with counter 1 and MaxDeltaCounterInit is 1, then at the next reception the receiver can accept Counters with values 2 and 3, but not 4. Note that if the receiver does not receive new Data at a consecutive read, then the receiver increments the tolerance by 1.",
+            "getMaxNoNewOrRepeatedData": "The maximum amount of missing or repeated Data which the receiver does not expect to exceed under normal communication conditions.",
+            "getSyncCounterInit": "Number of Data required for validating the consistency of the counter that shall be received with a valid counter (i.e. counter within the allowed lock-in range) after the detection of an unexpected behavior of a received counter.",
+        }
+        assert EndToEndDescription.__doc__.strip() == (
+            "This meta-class contains information about end-to-end protection. The set of applicable attributes depends on the actual value of the category attribute of EndToEndProtection."
+        )
+        for getter, note in expected_notes.items():
+            assert getattr(EndToEndDescription, getter).__doc__.strip() == note
+            if getter == "getDataIds":
+                continue
+            setter = getter.replace("get", "set", 1)
+            assert getattr(EndToEndDescription, setter).__doc__.strip() == (note + " A None value is a no-op and does not overwrite an existing %s." % _field_name(getter))
+        assert EndToEndDescription.addDataId.__doc__.strip() == (expected_notes["getDataIds"] + " A None value is a no-op and does not append to the dataIds.")
+
+    def test_base_shape(self):
+        assert EndToEndDescription.__bases__[0] is ARObject
+        signature = inspect.signature(EndToEndDescription.__init__)
+        assert list(signature.parameters.keys()) == ["self"]
+        hints = typing.get_type_hints(EndToEndDescription.setCategory)
+        assert hints.get("value") == Optional[NameToken]
+        assert hints.get("return") is EndToEndDescription
+        hints = typing.get_type_hints(EndToEndDescription.getCategory)
+        assert hints.get("return") == Optional[NameToken]
+        for setter, getter in [
+            ("setCounterOffset", "getCounterOffset"),
+            ("setCrcOffset", "getCrcOffset"),
+            ("setDataIdMode", "getDataIdMode"),
+            ("setDataIdNibbleOffset", "getDataIdNibbleOffset"),
+            ("setDataLength", "getDataLength"),
+            ("setMaxDeltaCounterInit", "getMaxDeltaCounterInit"),
+            ("setMaxNoNewOrRepeatedData", "getMaxNoNewOrRepeatedData"),
+            ("setSyncCounterInit", "getSyncCounterInit"),
+        ]:
+            hints = typing.get_type_hints(getattr(EndToEndDescription, setter))
+            assert hints.get("value") == Optional[PositiveInteger]
+            assert hints.get("return") is EndToEndDescription
+            hints = typing.get_type_hints(getattr(EndToEndDescription, getter))
+            assert hints.get("return") == Optional[PositiveInteger]
+        hints = typing.get_type_hints(EndToEndDescription.addDataId)
+        assert hints.get("value") == Optional[PositiveInteger]
+        assert hints.get("return") is EndToEndDescription
+        hints = typing.get_type_hints(EndToEndDescription.getDataIds)
+        assert hints.get("return") == List[PositiveInteger]
+
+    def test_initialization(self):
         description = EndToEndDescription()
+
         assert description.category is None
         assert description.counterOffset is None
         assert description.crcOffset is None
@@ -34,56 +96,47 @@ class TestEndToEndDescription:
         assert description.maxNoNewOrRepeatedData is None
         assert description.syncCounterInit is None
 
-        # Test setters and getters
+    def test_get_set_scalar_attributes(self):
+        description = EndToEndDescription()
+
         category = NameToken()
-        category.setValue("TestCategory")
-        description.setCategory(category)
-        assert description.getCategory() == category
+        category.setValue("PROFILE1")
+        assert description.setCategory(category) is description
+        assert description.getCategory() is category
+        description.setCategory(None)
+        assert description.getCategory() is category
 
-        counter_offset = PositiveInteger()
-        counter_offset.setValue(5)
-        description.setCounterOffset(counter_offset)
-        assert description.getCounterOffset() == counter_offset
+        for setter, getter, value in [
+            ("setCounterOffset", "getCounterOffset", "5"),
+            ("setCrcOffset", "getCrcOffset", "8"),
+            ("setDataIdMode", "getDataIdMode", "1"),
+            ("setDataIdNibbleOffset", "getDataIdNibbleOffset", "4"),
+            ("setDataLength", "getDataLength", "120"),
+            ("setMaxDeltaCounterInit", "getMaxDeltaCounterInit", "2"),
+            ("setMaxNoNewOrRepeatedData", "getMaxNoNewOrRepeatedData", "3"),
+            ("setSyncCounterInit", "getSyncCounterInit", "3"),
+        ]:
+            numerical = PositiveInteger()
+            numerical.setValue(value)
+            assert getattr(description, setter)(numerical) is description
+            assert getattr(description, getter)() is numerical
+            assert getattr(description, getter)().getValue() == int(value)
+            getattr(description, setter)(None)
+            assert getattr(description, getter)() is numerical
 
-        crc_offset = PositiveInteger()
-        crc_offset.setValue(10)
-        description.setCrcOffset(crc_offset)
-        assert description.getCrcOffset() == crc_offset
+    def test_add_data_id(self):
+        description = EndToEndDescription()
 
-        # Test data IDs methods
-        data_id = PositiveInteger()
-        data_id.setValue(100)
-        description.addDataId(data_id)
-        assert data_id in description.getDataIds()
+        first = PositiveInteger()
+        first.setValue("1")
+        second = PositiveInteger()
+        second.setValue("2")
+        assert description.addDataId(first) is description
+        assert description.addDataId(second) is description
+        assert description.getDataIds() == [first, second]
 
-        data_id_mode = PositiveInteger()
-        data_id_mode.setValue(2)
-        description.setDataIdMode(data_id_mode)
-        assert description.getDataIdMode() == data_id_mode
-
-        data_id_nibble = PositiveInteger()
-        data_id_nibble.setValue(3)
-        description.setDataIdNibbleOffset(data_id_nibble)
-        assert description.getDataIdNibbleOffset() == data_id_nibble
-
-        data_length = PositiveInteger()
-        data_length.setValue(255)
-        description.setDataLength(data_length)
-        assert description.getDataLength() == data_length
-
-        max_delta = PositiveInteger()
-        max_delta.setValue(50)
-        description.setMaxDeltaCounterInit(max_delta)
-        assert description.getMaxDeltaCounterInit() == max_delta
-
-        max_no_new = 100  # int value
-        description.setMaxNoNewOrRepeatedData(max_no_new)
-        assert description.getMaxNoNewOrRepeatedData() == max_no_new
-
-        sync_counter = PositiveInteger()
-        sync_counter.setValue(25)
-        description.setSyncCounterInit(sync_counter)
-        assert description.getSyncCounterInit() == sync_counter
+        description.addDataId(None)
+        assert description.getDataIds() == [first, second]
 
 
 class TestEndToEndProtectionVariablePrototype:

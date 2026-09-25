@@ -232,34 +232,53 @@ class ApplicationRecordDataType(ApplicationCompositeDataType):
 
 class DataTypeMap(ARObject):
     """
-    Maps an application data type to an implementation data type.
+    This class represents the relationship between ApplicationDataType and its implementing AbstractImplementationDataType.
     """
 
     # DataTypeMap method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getApplicationDataTypeRef    [x] impl  [ ] docstring  [ ] test
-    # [ ] setApplicationDataTypeRef    [x] impl  [ ] docstring  [ ] test
-    # [ ] getImplementationDataTypeRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setImplementationDataTypeRef [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.3, p.233
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApplicationDataTypeRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setApplicationDataTypeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getImplementationDataTypeRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImplementationDataTypeRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.applicationDataTypeRef: RefType = None
-        self.implementationDataTypeRef: RefType = None
+        # This is the corresponding ApplicationDataType [constr_1903]
+        self.applicationDataTypeRef: Optional[RefType] = None
 
-    def getApplicationDataTypeRef(self):
+        # This is the corresponding AbstractImplementationDataType. [constr_1904]
+        self.implementationDataTypeRef: Optional[RefType] = None
+
+    def getApplicationDataTypeRef(self) -> Optional[RefType]:
+        """
+        This is the corresponding ApplicationDataType [constr_1903]
+        """
         return self.applicationDataTypeRef
 
-    def setApplicationDataTypeRef(self, value):
-        self.applicationDataTypeRef = value
+    def setApplicationDataTypeRef(self, value: Optional[RefType]) -> "DataTypeMap":
+        """
+        This is the corresponding ApplicationDataType [constr_1903] A None value is a no-op and does not overwrite an existing applicationDataTypeRef.
+        """
+        if value is not None:
+            self.applicationDataTypeRef = value
         return self
 
-    def getImplementationDataTypeRef(self):
+    def getImplementationDataTypeRef(self) -> Optional[RefType]:
+        """
+        This is the corresponding AbstractImplementationDataType. [constr_1904]
+        """
         return self.implementationDataTypeRef
 
-    def setImplementationDataTypeRef(self, value):
-        self.implementationDataTypeRef = value
+    def setImplementationDataTypeRef(self, value: Optional[RefType]) -> "DataTypeMap":
+        """
+        This is the corresponding AbstractImplementationDataType. [constr_1904] A None value is a no-op and does not overwrite an existing implementationDataTypeRef.
+        """
+        if value is not None:
+            self.implementationDataTypeRef = value
         return self
 
 
