@@ -3722,6 +3722,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for props in props_list:
                 if isinstance(props, InstantiationDataDefProps):
                     props_element = ET.SubElement(props_tag, "INSTANTIATION-DATA-DEF-PROPS")
+                    self.writeARObject(props_element, props)
                     self.setAutosarParameterRef(props_element, "PARAMETER-INSTANCE", props.getParameterInstance())
                     self.setSwDataDefProps(props_element, "SW-DATA-DEF-PROPS", props.getSwDataDefProps())
                     self.setAutosarVariableRef(props_element, "VARIABLE-INSTANCE", props.getVariableInstance())
@@ -5727,6 +5728,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for props in props_list:
                 if isinstance(props, InstantiationDataDefProps):
                     child_element = ET.SubElement(props_tag, "INSTANTIATION-DATA-DEF-PROPS")
+                    self.writeARObject(child_element, props)
                     self.setAutosarParameterRef(child_element, "PARAMETER-INSTANCE", props.getParameterInstance())
                     self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", props.getSwDataDefProps())
                     self.setAutosarVariableRef(child_element, "VARIABLE-INSTANCE", props.getVariableInstance())
