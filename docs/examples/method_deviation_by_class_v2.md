@@ -133,6 +133,15 @@ No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 2.1 (p.42, R23-1
 | `variationPointProxies` | `List[VariationPointProxy]` | `variationPointProxy` | ``VariationPointProxy`` | aggr | naming (plural) |
 | `addModeSenderPolicy`/`getModeSenderPolicies` | — | `modeSenderPolicy` | ``BswModeSenderPolicy`` | aggr | **fixed** — previously operated on `modeReceiverPolicies`; now uses `modeSenderPolicies` |
 
+## `BswApiOptions`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf` (upstream document; class XSD-only)  | **XSD:** `AUTOSAR_00052.xsd` line 9379
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviations)* | — | — | — | - | none (2026-09-25 sync: XSD-only **group** class `BSW-API-OPTIONS` (R23-11 `AUTOSAR_00052.xsd` L9379 = R4.3.1 `AUTOSAR_00044.xsd` L7279, no own table in either corpus); single attr `enableTakeAddress` `Boolean` 0..1 with element `ENABLE-TAKE-ADDRESS`; field/accessors re-typed `Optional[Boolean]` and docstrings rewritten verbatim from the XSD documentation; pre-existing `readBswApiOptions`/`writeBswApiOptions` helpers verified matched and called by all policy subclasses; stamp deferred to batch confirmation) |
+
 ## `BswPerInstanceMemoryPolicy`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf` (upstream document; class XSD-only)  | **XSD:** `AUTOSAR_00052.xsd` line 12370
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
@@ -140,7 +149,7 @@ No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 2.1 (p.42, R23-1
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(no deviations)* | — | — | — | - | none (2026-09-17 sync: XSD-only class, complexType `BSW-PER-INSTANCE-MEMORY-POLICY`; attr `arTypedPerInstanceMemory` → `arTypedPerInstanceMemoryRef` RefType 0..1 with full reader/writer coverage incl. VARIATION-POINT; `enableTakeAddress` inherited from `BswApiOptions` — base class itself un-stamped, queued separately) |
+| — *(no deviations)* | — | — | — | - | none (2026-09-17 sync: XSD-only class, complexType `BSW-PER-INSTANCE-MEMORY-POLICY`; attr `arTypedPerInstanceMemory` → `arTypedPerInstanceMemoryRef` RefType 0..1 with full reader/writer coverage incl. VARIATION-POINT; `enableTakeAddress` inherited from `BswApiOptions` — base class synced 2026-09-25 (XSD-only group class, AUTOSAR_00052.xsd L9379; stamp deferred to batch confirmation)) |
 
 ## `BswClientPolicy`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf` (upstream document; class XSD-only)  | **XSD:** `AUTOSAR_00052.xsd` line 9616
@@ -149,7 +158,7 @@ No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 2.1 (p.42, R23-1
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(no deviations)* | — | — | — | - | none (2026-09-17 sync: XSD-only class, complexType `BSW-CLIENT-POLICY`; attr `requiredClientServerEntry` → `requiredClientServerEntryRef` RefType 0..1 with full reader/writer coverage incl. VARIATION-POINT; `enableTakeAddress` inherited from `BswApiOptions` — base class itself un-stamped, queued separately) |
+| — *(no deviations)* | — | — | — | - | none (2026-09-17 sync: XSD-only class, complexType `BSW-CLIENT-POLICY`; attr `requiredClientServerEntry` → `requiredClientServerEntryRef` RefType 0..1 with full reader/writer coverage incl. VARIATION-POINT; `enableTakeAddress` inherited from `BswApiOptions` — base class synced 2026-09-25 (XSD-only group class, AUTOSAR_00052.xsd L9379; stamp deferred to batch confirmation)) |
 
 ## `BswInternalTriggeringPointPolicy`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf` (upstream document; class XSD-only)  | **XSD:** `AUTOSAR_00052.xsd` line 10850
@@ -158,7 +167,7 @@ No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 2.1 (p.42, R23-1
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(no deviations)* | — | — | — | - | none (2026-09-17 sync: XSD-only class, complexType `BSW-INTERNAL-TRIGGERING-POINT-POLICY`; attr `bswInternalTriggeringPoint` → `bswInternalTriggeringPointRef` RefType 0..1 with full reader/writer coverage incl. VARIATION-POINT; `enableTakeAddress` inherited from `BswApiOptions` — base class itself un-stamped, queued separately) |
+| — *(no deviations)* | — | — | — | - | none (2026-09-17 sync: XSD-only class, complexType `BSW-INTERNAL-TRIGGERING-POINT-POLICY`; attr `bswInternalTriggeringPoint` → `bswInternalTriggeringPointRef` RefType 0..1 with full reader/writer coverage incl. VARIATION-POINT; `enableTakeAddress` inherited from `BswApiOptions` — base class synced 2026-09-25 (XSD-only group class, AUTOSAR_00052.xsd L9379; stamp deferred to batch confirmation)) |
 
 ## `BswParameterPolicy`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf` (upstream document; class XSD-only)  | **XSD:** `AUTOSAR_00052.xsd` line 12325
@@ -167,7 +176,7 @@ No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 2.1 (p.42, R23-1
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(no deviations)* | — | — | — | - | none (2026-09-17 sync: XSD-only class, complexType `BSW-PARAMETER-POLICY`; attr `perInstanceParameter` → `perInstanceParameterRef` RefType 0..1 with full reader/writer coverage incl. VARIATION-POINT; `enableTakeAddress` inherited from `BswApiOptions` — base class itself un-stamped, queued separately) |
+| — *(no deviations)* | — | — | — | - | none (2026-09-17 sync: XSD-only class, complexType `BSW-PARAMETER-POLICY`; attr `perInstanceParameter` → `perInstanceParameterRef` RefType 0..1 with full reader/writer coverage incl. VARIATION-POINT; `enableTakeAddress` inherited from `BswApiOptions` — base class synced 2026-09-25 (XSD-only group class, AUTOSAR_00052.xsd L9379; stamp deferred to batch confirmation)) |
 
 ## `BswReleasedTriggerPolicy`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf` (upstream document; class XSD-only)  | **XSD:** `AUTOSAR_00052.xsd` line 12446
@@ -176,7 +185,7 @@ No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 2.1 (p.42, R23-1
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(no deviations)* | — | — | — | - | none (2026-09-17 sync: XSD-only class, complexType `BSW-RELEASED-TRIGGER-POLICY`; attr `releasedTrigger` → `releasedTriggerRef` RefType 0..1 with full reader/writer coverage incl. VARIATION-POINT; `enableTakeAddress` inherited from `BswApiOptions` — base class itself un-stamped, queued separately) |
+| — *(no deviations)* | — | — | — | - | none (2026-09-17 sync: XSD-only class, complexType `BSW-RELEASED-TRIGGER-POLICY`; attr `releasedTrigger` → `releasedTriggerRef` RefType 0..1 with full reader/writer coverage incl. VARIATION-POINT; `enableTakeAddress` inherited from `BswApiOptions` — base class synced 2026-09-25 (XSD-only group class, AUTOSAR_00052.xsd L9379; stamp deferred to batch confirmation)) |
 
 ## `BswDataSendPolicy`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf` (upstream document; class XSD-only)  | **XSD:** `AUTOSAR_00052.xsd` line 9802
@@ -186,7 +195,7 @@ No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 2.1 (p.42, R23-1
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | `proviedeDataRef` | `Optional[RefType]` | `proviedeData` | ``VariableDataPrototype`` | ref | **accepted legacy** — `PROVIEDE-DATA-REF` carries `atp.Status="obsolete"` in R23-11 (old misspelling of providedData); modeled as optional member with full reader/writer coverage for legacy ARXML compatibility, per Rule 0019 combine-case pattern |
-| — *(otherwise no deviations)* | — | — | — | - | none (2026-09-17 sync: XSD-only class, complexType `BSW-DATA-SEND-POLICY`; attr `providedData` → `providedDataRef` RefType 0..1 with full reader/writer coverage incl. VARIATION-POINT; `enableTakeAddress` inherited from `BswApiOptions` — base class itself un-stamped, queued separately) |
+| — *(otherwise no deviations)* | — | — | — | - | none (2026-09-17 sync: XSD-only class, complexType `BSW-DATA-SEND-POLICY`; attr `providedData` → `providedDataRef` RefType 0..1 with full reader/writer coverage incl. VARIATION-POINT; `enableTakeAddress` inherited from `BswApiOptions` — base class synced 2026-09-25 (XSD-only group class, AUTOSAR_00052.xsd L9379; stamp deferred to batch confirmation)) |
 
 ## `FlatMap`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
@@ -1893,7 +1902,6 @@ No deviations — the Table 6.2 attribute column is `-` (zero own attributes; co
 - `SwServiceImplPolicyEnum` (`M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces`)
 - `BswEntryRelationshipEnum` (`M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces`)
 - `BswInterruptCategory` (`M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`)
-- `BswApiOptions` (`M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`)
 - `AbstractAUTOSAR` (`M2::AUTOSARTemplates::AutosarTopLevelStructure`)
 - `AUTOSARDoc` (`M2::AUTOSARTemplates::AutosarTopLevelStructure`)
 - `CryptoKeySlotContent` (`M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::CryptoDeployment::CryptoKeySlotContent`)

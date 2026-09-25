@@ -1323,6 +1323,14 @@ class TestBswReceptionAndApiOptions:
         parser.readBswApiOptions(element, options)
         assert options.getEnableTakeAddress().getValue() is True
 
+    def test_readBswApiOptions_absent_element_leaves_none(self, parser):
+        from armodel.models import BswQueuedDataReceptionPolicy
+
+        options = BswQueuedDataReceptionPolicy()
+        element = _snip("", root_tag="OPTS")
+        parser.readBswApiOptions(element, options)
+        assert options.getEnableTakeAddress() is None
+
     def test_readBswDataReceptionPolicy_sets_ref(self, parser):
         from armodel.models import BswQueuedDataReceptionPolicy
 

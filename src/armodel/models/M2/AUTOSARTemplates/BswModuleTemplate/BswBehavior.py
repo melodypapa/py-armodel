@@ -1844,47 +1844,36 @@ class BswExternalTriggerOccurredEvent(BswScheduleEvent):
 
 class BswApiOptions(ARObject, ABC):
     """
-    Abstract base class for BSW API options.
-    Defines common options for BSW API implementations.
+    This meta-class represents the ability to define options for the definition of the signature of function prototypes.
     """
 
     # BswApiOptions method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getEnableTakeAddress         [x] impl  [x] docstring  [ ] test
-    # [ ] setEnableTakeAddress         [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate (BSW behavior policies), class BswApiOptions, AUTOSAR_00052.xsd line 9379 (XSD-only; no own table in repo corpus)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEnableTakeAddress         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnableTakeAddress         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the BSW API options.
-        Raises TypeError if this abstract class is instantiated directly.
-        """
         if type(self) is BswApiOptions:
             raise TypeError("BswApiOptions is an abstract class.")
 
         super().__init__()
 
-        # Flag indicating whether to enable taking addresses in the API
-        self.enableTakeAddress: Boolean = None
+        # If set to true, the BSW Module is able to use the API reference for deriving a pointer to an object
+        self.enableTakeAddress: Optional[Boolean] = None
 
-    def getEnableTakeAddress(self):
+    def getEnableTakeAddress(self) -> Optional[Boolean]:
         """
-        Gets the enable take address flag.
-
-        Returns:
-            Boolean indicating whether take address is enabled
+        If set to true, the BSW Module is able to use the API reference for deriving a pointer to an object
         """
         return self.enableTakeAddress
 
-    def setEnableTakeAddress(self, value):
+    def setEnableTakeAddress(self, value: Optional[Boolean]) -> BswApiOptions:
         """
-        Sets the enable take address flag.
-        Only sets the value if it is not None.
+        If set to true, the BSW Module is able to use the API reference for deriving a pointer to an object
 
-        Args:
-            value: The boolean value to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing enableTakeAddress.
         """
         if value is not None:
             self.enableTakeAddress = value

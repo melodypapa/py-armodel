@@ -4,6 +4,8 @@ This module tests all the classes in the BswBehavior.py file to ensure 100% cove
 Tests verify initialization, getter/setter methods, and special functionality for each class.
 """
 
+import typing
+
 import pytest
 
 from armodel import AUTOSAR
@@ -1167,30 +1169,36 @@ class TestBswExternalTriggerOccurredEvent:
 class TestBswApiOptions:
     """Test cases for BswApiOptions class - abstract base class for BSW API options."""
 
+    def test_initialization(self):
+        policy = BswQueuedDataReceptionPolicy()
+        assert policy.getEnableTakeAddress() is None
+
     def test_abstract_class_cannot_be_instantiated(self):
         with pytest.raises(TypeError) as err:
             BswApiOptions()
         assert str(err.value) == "BswApiOptions is an abstract class."
 
     def test_get_set_enable_take_address(self):
-        # Test with a concrete implementation that inherits from BswApiOptions
-        # Since BswApiOptions is abstract, we need to use a concrete implementation
+        # BswApiOptions is abstract: exercise the base accessors through a concrete subclass
         policy = BswQueuedDataReceptionPolicy()
+        value = Boolean()
+        value.setValue(True)
 
-        # Initially, enableTakeAddress should be None
-        # (Based on the actual behavior, it might have a default value)
-        _initial_value = policy.getEnableTakeAddress()
-
-        result = policy.setEnableTakeAddress(True)
-
+        result = policy.setEnableTakeAddress(value)
         assert result == policy
-        assert policy.getEnableTakeAddress() is True
+        assert policy.getEnableTakeAddress() == value
 
-        # Now test setting to None (but it will only update if not None)
+        # Setting None is a no-op: the existing value is preserved
         result = policy.setEnableTakeAddress(None)
         assert result == policy
-        # Since the setter only updates if value is not None, it should still be True
-        assert policy.getEnableTakeAddress() is True
+        assert policy.getEnableTakeAddress() == value
+
+        getter_hints = typing.get_type_hints(BswApiOptions.getEnableTakeAddress)
+        assert getter_hints.get("return") == typing.Optional[Boolean]
+
+        setter_hints = typing.get_type_hints(BswApiOptions.setEnableTakeAddress)
+        assert setter_hints.get("value") == typing.Optional[Boolean]
+        assert setter_hints.get("return") is BswApiOptions
 
 
 class TestBswExclusiveAreaPolicy:

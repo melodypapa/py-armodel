@@ -708,6 +708,45 @@ class TestWriterBswModeSenderPolicy:
         assert len(parent) == 0
 
 
+class TestWriterBswApiOptions:
+    def test_write_bsw_api_options_serializes_value(self, writer):
+        policy = BswQueuedDataReceptionPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        parent = _parent()
+        writer.writeBswDataReceptionPolicy(parent, policy)
+        element = parent.find("ENABLE-TAKE-ADDRESS")
+        assert element is not None
+        assert element.text == "true"
+
+    def test_write_bsw_api_options_unset_omits_element(self, writer):
+        policy = BswQueuedDataReceptionPolicy()
+        parent = _parent()
+        writer.writeBswDataReceptionPolicy(parent, policy)
+        assert parent.find("ENABLE-TAKE-ADDRESS") is None
+
+    def test_bsw_api_options_round_trip(self, writer):
+        policy = BswQueuedDataReceptionPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        parent = _parent()
+        writer.writeBswDataReceptionPolicy(parent, policy)
+        xml_text = "".join(ET.tostring(child, encoding="unicode") for child in parent)
+        reloaded = ET.fromstring("<ROOT xmlns='http://autosar.org/schema/r4.0'>%s</ROOT>" % xml_text)
+        parsed = BswQueuedDataReceptionPolicy()
+        ARXMLParser().readBswApiOptions(reloaded, parsed)
+        assert parsed.getEnableTakeAddress() is not None
+        assert parsed.getEnableTakeAddress().getValue() is True
+
+    def test_bsw_api_options_round_trip_unset(self, writer):
+        policy = BswQueuedDataReceptionPolicy()
+        parent = _parent()
+        writer.writeBswDataReceptionPolicy(parent, policy)
+        xml_text = "".join(ET.tostring(child, encoding="unicode") for child in parent)
+        reloaded = ET.fromstring("<ROOT xmlns='http://autosar.org/schema/r4.0'>%s</ROOT>" % xml_text)
+        parsed = BswQueuedDataReceptionPolicy()
+        ARXMLParser().readBswApiOptions(reloaded, parsed)
+        assert parsed.getEnableTakeAddress() is None
+
+
 class TestWriterBswReceptionPolicies:
     def test_queued_data_reception_policy(self, writer):
         policy = BswQueuedDataReceptionPolicy()

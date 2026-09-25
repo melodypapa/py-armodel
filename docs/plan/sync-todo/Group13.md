@@ -18,15 +18,24 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `BswApiOptions` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): XSD-only class — no table in either corpus (R23-11/R4.3.1 markdown
+    greps + full pdf_page.py scan negative; only Base-column mentions). Group-only class:
+    `<xsd:group name="BSW-API-OPTIONS">` AUTOSAR_00052.xsd L9379 (R4.3.1 00044.xsd L7279
+    identical). One attr `enableTakeAddress` (BOOLEAN, 0..1, element ENABLE-TAKE-ADDRESS).
+    Drift found: bare `Boolean` field annotation (→ Optional[Boolean]), untyped accessors,
+    paraphrased docstrings, `__init__` docstring, old 4-col checklist. Base ARObject+ABC
+    correct (abstract guard, 8 concrete policy subclasses). Not VP-capable (no
+    VARIATION-POINT in the group). Reader/writer helpers readBswApiOptions/writeBswApiOptions
+    already exist with matched set/get pairs.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-25 (11997 passed / 0 failed, npm run lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BswModuleCallPoint` — Referrable — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
