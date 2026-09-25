@@ -1,4 +1,6 @@
+from abc import ABC
 from typing import List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.FormulaLanguage import FormulaExpression
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -340,6 +342,55 @@ class ConditionByFormula(ARObject, AtpMixedString):
         """This attribute specifies the point in time when condition may be evaluated at earliest. At this point in time all referenced system constants shall have a value. A None value is a no-op and does not overwrite an existing bindingTime."""
         if value is not None:
             self.bindingTime = value
+        return self
+
+
+class SwSystemconstDependentFormula(AtpMixedString, FormulaExpression, ABC):
+    """
+    This class represents an expression depending on system constants.
+    """
+
+    # SwSystemconstDependentFormula method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.10, p.240
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSyscRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setSyscRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getSyscStringRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setSyscStringRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # getMixedString / setMixedString provided by the AtpMixedString base (mixin) — no spec row (stereotype-inherent)
+
+    def __init__(self):
+        if type(self) is SwSystemconstDependentFormula:
+            raise TypeError("SwSystemconstDependentFormula is an abstract class.")
+
+        super().__init__()
+
+        # This refers to a system constant. The internal (coded) value of the system constant shall be used. Tags: xml.sequenceOffset=50
+        self.syscRef: Optional[RefType] = None
+
+        # syscString indicates that the referenced system constant shall be evaluated as a string according to [TPS_SWCT_01431].
+        self.syscStringRef: Optional[RefType] = None
+
+    def getSyscRef(self) -> Optional[RefType]:
+        """This refers to a system constant. The internal (coded) value of the system constant shall be used."""
+        return self.syscRef
+
+    def setSyscRef(self, value: Optional[RefType]) -> "SwSystemconstDependentFormula":
+        """This refers to a system constant. The internal (coded) value of the system constant shall be used. A None value is a no-op and does not overwrite an existing syscRef."""
+        if value is not None:
+            self.syscRef = value
+        return self
+
+    def getSyscStringRef(self) -> Optional[RefType]:
+        """syscString indicates that the referenced system constant shall be evaluated as a string according to [TPS_SWCT_01431]."""
+        return self.syscStringRef
+
+    def setSyscStringRef(self, value: Optional[RefType]) -> "SwSystemconstDependentFormula":
+        """syscString indicates that the referenced system constant shall be evaluated as a string according to [TPS_SWCT_01431]. A None value is a no-op and does not overwrite an existing syscStringRef."""
+        if value is not None:
+            self.syscStringRef = value
         return self
 
 

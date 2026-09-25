@@ -358,6 +358,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     ConditionByFormula,
+    SwSystemconstDependentFormula,
     PostBuildVariantCondition,
     PostBuildVariantCriterion,
     PostBuildVariantCriterionValue,
@@ -1178,6 +1179,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             text = condition.getMixedString()
             if text is not None:
                 child_element.text = text
+            if isinstance(condition, SwSystemconstDependentFormula):
+                self.writeSwSystemconstDependentFormula(child_element, condition)
+
+    def writeSwSystemconstDependentFormula(self, element: ET.Element, formula: SwSystemconstDependentFormula):
+        self.setChildElementOptionalRefType(element, "SYSC-REF", formula.getSyscRef())
+        self.setChildElementOptionalRefType(element, "SYSC-STRING-REF", formula.getSyscStringRef())
 
     def writePostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition):
         child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CONDITION")
@@ -4391,6 +4398,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         text = avp.getMixedString()
         if text is not None:
             element.text = text
+        if isinstance(avp, SwSystemconstDependentFormula):
+            self.writeSwSystemconstDependentFormula(element, avp)
 
     def writeTimingDescriptionEventChain(self, element: ET.Element, chain: TimingDescriptionEventChain):
         self.writeIdentifiable(element, chain)

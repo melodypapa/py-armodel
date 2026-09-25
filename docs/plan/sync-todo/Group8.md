@@ -121,18 +121,18 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 11981 passed / 0 failed (full suite incl. 5 new model tests + integration round-trip), lint + black-check clean; 9b confirmed 2026-09-25 (user): no-mixin base `FormulaExpression(ARObject, ABC)` and the Stereotypes-suffix accessor handling explicitly approved; stamp written
-- [ ] `SwSystemconstDependentFormula` — abstract <<atpMixedString>> base — FO GST Table 7.10
-  - module: TBC (spec Package M2::AUTOSARTemplates::GenericStructure::VariantHandling — non-leaf → VariantHandling/__init__.py per Rule 0007; confirm at Step 1)
-  - note (2026-09-25, moved ahead of ConditionByFormula — dependency-first, user decision): Table 7.10 (AUTOSAR_FO_TPS_GenericStructureTemplate L6219); abstract, <<atpMixedString>>; Base ARObject, FormulaExpression; Subclasses AttributeValueVariationPoint/BlueprintFormula/ConditionByFormula/FMFormulaByFeaturesAndSwSystemconsts; attrs sysc/syscString (SwSystemconst, 0..1); is the most-derived direct parent of ConditionByFormula per Table 7.5 Base row + §4 prose "ConditionByFormula derives from SwSystemconstDependentFormula"; XSD SW-SYSTEMCONST-DEPENDENT-FORMULA group L116360 contributes SYSC-STRING-REF/SYSC-REF
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `SwSystemconstDependentFormula` — abstract <<atpMixedString>> base — FO GST Table 7.10, p.240 — finished, stamped `# Spec verified: R23-11`
+  - module: M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py (non-leaf package, Rule 0007)
+  - note (2026-09-25 Step 1 resolution): Table 7.10 p.240 (GST top caption — pdf_page.py match). Attrs sysc/syscString (SwSystemconst, 0..1, KIND REF — XSD group L116360 = choice{SYSC-STRING-REF, SYSC-REF}, plain REF + DEST=SW-SYSTEMCONST--SUBTYPES-ENUM) → `syscRef`/`syscStringRef: Optional[RefType]` (Rule 0001.5 Ref suffix), set/get + None no-op. XML-BEARING (real reader/writer) — abstract class owns reusable readSwSystemconstDependentFormula/writeSwSystemconstDependentFormula helpers (Rule 0001.7); composing complexTypes (12): CONDITION-BY-FORMULA, BLUEPRINT-FORMULA, BOOLEAN/FLOAT/INTEGER-VALUE-VARIATION-POINT, LIMIT, 5× DIAGNOSTIC-*-ENUM-VALUE-VARIATION-POINT, FM-CONDITION-BY-FEATURES-AND-SW-SYSTEMCONSTS. Wired this session (isinstance-guarded — inert until AVP/ConditionByFormula re-parent): CONDITION-BY-FORMULA + VALUE-ACCESS family; pending their own rows: BLUEPRINT-FORMULA, FM-CONDITION-…, DIAGNOSTIC-×5. Base shape (AtpMixedString, FormulaExpression, ABC) — mixin first per standing decision, 9b to confirm.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — `SwSystemconstDependentFormula(AtpMixedString, FormulaExpression, ABC)` (mixin first per standing decision), abstract guard, syscRef/syscStringRef Optional[RefType]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — new class; docstrings written verbatim from Table 7.10 (getters drop the Tags suffix, setters carry None-no-op)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 5 tests (read refs / read absent / write refs / write absent / round-trip) in parser+writer variation-point files, direct on probe subclass
+  - [x] Step 6 — Update parser & writer (Green) — readSwSystemconstDependentFormula/writeSwSystemconstDependentFormula helpers; wired isinstance-guarded into read/writeConditionByFormula + read/writeAttributeValueVariationPoint (inert until AVP/ConditionByFormula re-parent)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — none blocking; 8 of 12 composing complexTypes not yet modeled (BlueprintFormula, FM-Condition-…, 5× Diagnostic enum VVPs — pending their rows); guards documented
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: full suite ALL TESTS PASSED (incl. integration round-trip), lint + black-check clean (2 ruff I001 import-sort fixes in test files); 9b confirmed 2026-09-25 (user): (AtpMixedString, FormulaExpression, ABC) base and the guarded wiring explicitly approved; stamp written
 - [ ] `ConditionByFormula` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1

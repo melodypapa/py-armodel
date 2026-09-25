@@ -7,6 +7,7 @@ import typing
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator import (
     BlueprintGenerator,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.FormulaLanguage import FormulaExpression
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
     ARPackage,
@@ -28,6 +29,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
     PostBuildVariantCriterionValue,
     PredefinedVariant,
     SwSystemconstantValueSet,
+    SwSystemconstDependentFormula,
     SwSystemconstValue,
     VariationPoint,
 )
@@ -1118,3 +1120,44 @@ class TestVariationPointSpecContract:
         assert variation_point.getSdg() is sdg
         assert variation_point.getShortLabel() is label
         assert variation_point.getSwSyscond() is syscond
+
+
+class _ConcreteSwSystemconstDependentFormula(SwSystemconstDependentFormula):
+    """Probe subclass — SwSystemconstDependentFormula itself is abstract (spec: abstract)."""
+
+
+class TestSwSystemconstDependentFormula:
+    def test_abstract(self):
+        import pytest
+
+        assert issubclass(SwSystemconstDependentFormula, FormulaExpression)
+        assert issubclass(SwSystemconstDependentFormula, AtpMixedString)
+        with pytest.raises(TypeError):
+            SwSystemconstDependentFormula()
+
+    def test_initialization(self):
+        formula = _ConcreteSwSystemconstDependentFormula()
+        assert formula.getSyscRef() is None
+        assert formula.getSyscStringRef() is None
+
+    def test_set_sysc_ref_round_trip_and_chaining(self):
+        formula = _ConcreteSwSystemconstDependentFormula()
+        ref = RefType()
+        assert formula.setSyscRef(ref) is formula
+        assert formula.getSyscRef() is ref
+        formula.setSyscRef(None)
+        assert formula.getSyscRef() is ref
+
+    def test_set_sysc_string_ref_round_trip_and_chaining(self):
+        formula = _ConcreteSwSystemconstDependentFormula()
+        ref = RefType()
+        assert formula.setSyscStringRef(ref) is formula
+        assert formula.getSyscStringRef() is ref
+        formula.setSyscStringRef(None)
+        assert formula.getSyscStringRef() is ref
+
+    def test_mixed_string_inherited_from_mixin(self):
+        formula = _ConcreteSwSystemconstDependentFormula()
+        assert formula.getMixedString() is None
+        assert formula.setMixedString('sysc == "A"') is formula
+        assert formula.getMixedString() == 'sysc == "A"'

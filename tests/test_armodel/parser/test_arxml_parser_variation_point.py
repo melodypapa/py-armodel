@@ -526,3 +526,70 @@ class TestVariationPointRoundTrip:
         # group anchor.
         criterion2 = document2.find("/Demo/Criterions/Country")
         assert criterion2.getVariationPoint().getShortLabel().getValue() == "VP_Country"
+
+
+class TestReadSwSystemconstDependentFormula:
+    """Table 7.10 (FO GST, p.240) — abstract SwSystemconstDependentFormula owns the
+    reusable SYSC-REF / SYSC-STRING-REF reader helper (XSD group
+    SW-SYSTEMCONST-DEPENDENT-FORMULA, AUTOSAR_00052.xsd L116360)."""
+
+    def test_read_sysc_refs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import SwSystemconstDependentFormula
+
+        class _Probe(SwSystemconstDependentFormula):
+            pass
+
+        element = _snip(
+            "<FORMULA>"
+            '<SYSC-REF DEST="SW-SYSTEMCONST">/Demo/SystemConstants/SY_TURBO</SYSC-REF>'
+            '<SYSC-STRING-REF DEST="SW-SYSTEMCONST">/Demo/SystemConstants/SY_MODE</SYSC-STRING-REF>'
+            "</FORMULA>"
+        ).find("{%s}FORMULA" % NS)
+
+        probe = _Probe()
+        parser.readSwSystemconstDependentFormula(element, probe)
+
+        assert probe.getSyscRef() is not None
+        assert probe.getSyscRef().getValue() == "/Demo/SystemConstants/SY_TURBO"
+        assert probe.getSyscRef().getDest() == "SW-SYSTEMCONST"
+        assert probe.getSyscStringRef() is not None
+        assert probe.getSyscStringRef().getValue() == "/Demo/SystemConstants/SY_MODE"
+        assert probe.getSyscStringRef().getDest() == "SW-SYSTEMCONST"
+
+    def test_read_sysc_refs_absent(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import SwSystemconstDependentFormula
+
+        class _Probe(SwSystemconstDependentFormula):
+            pass
+
+        element = _snip("<FORMULA></FORMULA>").find("{%s}FORMULA" % NS)
+
+        probe = _Probe()
+        parser.readSwSystemconstDependentFormula(element, probe)
+
+        assert probe.getSyscRef() is None
+        assert probe.getSyscStringRef() is None
+
+    def test_read_write_roundtrip(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import SwSystemconstDependentFormula
+
+        class _Probe(SwSystemconstDependentFormula):
+            pass
+
+        probe = _Probe()
+        probe.setSyscRef(RefType().setValue("/Demo/SystemConstants/SY_TURBO").setDest("SW-SYSTEMCONST"))
+        probe.setSyscStringRef(RefType().setValue("/Demo/SystemConstants/SY_MODE").setDest("SW-SYSTEMCONST"))
+
+        import xml.etree.ElementTree as ET
+
+        element = ET.Element("PARENT")
+        ARXMLWriter().writeSwSystemconstDependentFormula(element, probe)
+        namespaced = _snip(ET.tostring(element, encoding="unicode")).find("{%s}PARENT" % NS)
+        reparsed = _Probe()
+        parser.readSwSystemconstDependentFormula(namespaced, reparsed)
+
+        assert reparsed.getSyscRef().getValue() == "/Demo/SystemConstants/SY_TURBO"
+        assert reparsed.getSyscRef().getDest() == "SW-SYSTEMCONST"
+        assert reparsed.getSyscStringRef().getValue() == "/Demo/SystemConstants/SY_MODE"
+        assert reparsed.getSyscStringRef().getDest() == "SW-SYSTEMCONST"

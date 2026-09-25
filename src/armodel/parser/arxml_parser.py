@@ -489,6 +489,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     ConditionByFormula,
+    SwSystemconstDependentFormula,
     PostBuildVariantCondition,
     PostBuildVariantCriterion,
     PostBuildVariantCriterionValue,
@@ -1295,7 +1296,14 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported BINDING-TIME <%s>" % element.attrib["BINDING-TIME"])
         if element.text is not None and element.text.strip() != "":
             self.readMixedStringText(element, condition)
+        if isinstance(condition, SwSystemconstDependentFormula):
+            self.readSwSystemconstDependentFormula(element, condition)
         return condition
+
+    def readSwSystemconstDependentFormula(self, element: ET.Element, formula: SwSystemconstDependentFormula) -> SwSystemconstDependentFormula:
+        formula.setSyscRef(self.getChildElementOptionalRefType(element, "SYSC-REF"))
+        formula.setSyscStringRef(self.getChildElementOptionalRefType(element, "SYSC-STRING-REF"))
+        return formula
 
     def readPostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition) -> PostBuildVariantCondition:
         self.readARObject(element, condition)
@@ -3049,6 +3057,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported INTERVAL-TYPE <%s>" % element.attrib["INTERVAL-TYPE"])
         if element.text is not None and element.text.strip() != "":
             self.readMixedStringText(element, avp)
+        if isinstance(avp, SwSystemconstDependentFormula):
+            self.readSwSystemconstDependentFormula(element, avp)
         return avp
 
     def readTimingDescriptionEventChain(self, element: ET.Element, chain: TimingDescriptionEventChain):
