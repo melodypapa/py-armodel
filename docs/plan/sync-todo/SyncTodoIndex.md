@@ -121,15 +121,15 @@ Status: **45/45** completed
 | `VariableInAtomicSwcInstanceRef`                        | [x] Done | 03690054  |
 | `VariableInAtomicSWCTypeInstanceRef`                    | [x] Done | c8ac9ef7  |
 | `ArVariableInImplementationDataInstanceRef`             | [x] Done | 910009ee  |
-| `DelegationSwConnector`                                 | [x] Done | 7fc79e4b  |
-| `ApplicationPrimitiveDataType`                          | [x] Done | 7fc79e4b  |
-| `ApplicationCompositeDataType`                          | [x] Done | 7fc79e4b  |
-| `ApplicationRecordElement`                              | [x] Done | 7fc79e4b  |
-| `RunnableEntityArgument`                                | [x] Done | 7fc79e4b  |
-| `ExternalTriggeringPointIdent`                          | [x] Done | 7fc79e4b  |
+| `DelegationSwConnector`                                 | [x] Done | 503344170 |
+| `ApplicationPrimitiveDataType`                          | [x] Done | 4a9ccae9b |
+| `ApplicationCompositeDataType`                          | [x] Done | de9d3fe0a |
+| `ApplicationRecordElement`                              | [x] Done | ae4ed7506 |
+| `RunnableEntityArgument`                                | [x] Done | 3857c2a43 |
+| `ExternalTriggeringPointIdent`                          | [x] Done | c04ca0f5b |
 | `PortDefinedArgumentValue`                              | [x] Done | 7fc79e4b  |
-| `CompositionSwComponentType`                            | [x] Done | 7fc79e4b  |
-| `ApplicationRecordDataType`                             | [x] Done | 7fc79e4b  |
+| `CompositionSwComponentType`                            | [x] Done | 6b46fb26a |
+| `ApplicationRecordDataType`                             | [x] Done | 0a06e0fae |
 | `DataTransformationErrorHandlingEnum`                   | [x] Done | 7fc79e4b  |
 | `DataTransformationStatusForwardingEnum`                | [x] Done | 7c676281  |
 | `SwcSupportedFeature`                                   | [x] Done | 7c676281  |
@@ -141,103 +141,104 @@ Status: **45/45** completed
 
 ## Group3
 
-Status: **93/93** completed
+Status: **93/94** completed
 
-| Class Name                             | Status   | Commit ID |
-| -------------------------------------- | -------- | --------- |
-| `ChapterEnumBreak`                     | [x] Done | 20e6ee88  |
-| `KeepWithPreviousEnum`                 | [x] Done | d447cf2a  |
-| `Paginateable`                         | [x] Done | 20e6ee88  |
-| `MultilanguageLongName`                | [x] Done | 87855dea  |
-| `GraphicFitEnum`                       | [x] Done | 5b543a21  |
-| `GraphicNotationEnum`                  | [x] Done | f25e765d  |
-| `Graphic`                              | [x] Done | 06b46f32  |
-| `SingleLanguageLongName`               | [x] Done | 8aaa2657  |
-| `SingleLanguageReferrable`             | [x] Done | a5910c1b  |
-| `MimeTypeString`                       | [x] Done | 01cc23df  |
-| `Url`                                  | [x] Done | 4b96ab8d  |
-| `Br`                                   | [x] Done | c2a85e6f  |
-| `Std`                                  | [x] Done | c53a2408  |
-| `Xdoc`                                 | [x] Done | 294c8aae  |
-| `Xfile`                                | [x] Done | 7038ce55  |
-| `XrefTarget`                           | [x] Done | 8c9df663  |
-| `ResolutionPolicyEnum`                 | [x] Done | f0a74608  |
-| `ShowContentEnum`                      | [x] Done | e89003bb  |
-| `ShowResourceAliasNameEnum`            | [x] Done | 3a68e972  |
-| `ShowResourceCategoryEnum`             | [x] Done | d7cd8c58  |
-| `ShowResourceLongNameEnum`             | [x] Done | 835b8aa1  |
-| `ShowResourceNumberEnum`               | [x] Done | 6f562513  |
-| `ShowResourcePageEnum`                 | [x] Done | 54f4f3e5  |
-| `ShowResourceShortNameEnum`            | [x] Done | e2e2c300  |
-| `ShowResourceTypeEnum`                 | [x] Done | 447709b7  |
-| `ShowSeeEnum`                          | [x] Done | 5d48c2a6  |
-| `Xref`                                 | [x] Done | db2b4fe0  |
-| `MixedContentForParagraph`             | [x] Done | bf9114cb  |
-| `SlParagraph`                          | [x] Done | b7748b3   |
-| `LParagraph`                           | [x] Done | 7fa4a01f  |
-| `FrameEnum`                            | [x] Done | 531991e0  |
-| `AlignEnum`                            | [x] Done | fa74a474  |
-| `ValignEnum`                           | [x] Done | 52d3272b  |
-| `OrientEnum`                           | [x] Done | 9223f504  |
-| `TableSeparatorString`                 | [x] Done | 211031ea  |
-| `NameTokens`                           | [x] Done | c8a3ff50  |
-| `ViewTokens`                           | [x] Done | 82c86af7  |
-| `DocumentViewSelectable`               | [x] Done | ba2c324b  |
-| `Colspec`                              | [x] Done | 2bd0d075  |
-| `Entry`                                | [x] Done | 9005f622  |
-| `Row`                                  | [x] Done | b43b8601  |
-| `Tbody`                                | [x] Done | 004d3f12  |
-| `Tgroup`                               | [x] Done | 278d4674  |
-| `Table`                                | [x] Done | e347fbbf  |
-| `TraceableTable`                       | [x] Done | fa79c73d  |
-| `TopicContent`                         | [x] Done | 6d7e3257  |
-| `MultiLanguageParagraph`               | [x] Done | 77074563  |
-| `AreaEnumNohref`                       | [x] Done | 1d6f8c0a  |
-| `AreaEnumShape`                        | [x] Done | 966320f6  |
-| `Area`                                 | [x] Done | c9f24649  |
-| `Map`                                  | [x] Done | 43ec8ade  |
-| `LGraphic`                             | [x] Done | e4b1acf6  |
-| `MlFigure`                             | [x] Done | 9225ed15  |
-| `MsrQueryResultChapter`                | [x] Done | fb505d35  |
-| `MsrQueryChapter`                      | [x] Done | 50103018  |
-| `MsrQueryResultTopic1`                 | [x] Done | 09314bd3  |
-| `MsrQueryTopic1`                       | [x] Done | a09f0cdf  |
-| `MsrQueryP1`                           | [x] Done | 8da723c4  |
-| `CompuContent`                         | [x] Done | 9f67b3e2  |
-| `CompuConstContent`                    | [x] Done | b473f524  |
-| `CompuConstTextContent`                | [x] Done | 4cb82851  |
-| `CompuConstNumericContent`             | [x] Done | 4b82220e  |
-| `CompuConstFormulaContent`             | [x] Done | 045d6fb5  |
-| `CompuConst`                           | [x] Done | eddddc99  |
-| `CompuScaleContents`                   | [x] Done | 88acf483  |
-| `CompuNominatorDenominator`            | [x] Done | ff6ef186  |
-| `CompuRationalCoeffs`                  | [x] Done | 26100b4c  |
-| `CompuScaleRationalFormula`            | [x] Done | 5a21470c  |
-| `CompuScaleConstantContents`           | [x] Done | 3d859c80  |
-| `Compu`                                | [x] Done | dac94a9f  |
-| `CompuMethod`                          | [x] Done | 135f42e5  |
-| `CompuScale`                           | [x] Done | 057a1039  |
-| `CompuScales`                          | [x] Done | 94d4eed6  |
-| `DataConstrRule`                       | [x] Done | fa640a0d  |
-| `DataConstr`                           | [x] Done | 9927cc9e  |
-| `CompositeValueSpecification`          | [x] Done | cc842d74  |
-| `ArrayValueSpecification`              | [x] Done | b1c7030b  |
-| `RecordValueSpecification`             | [x] Done | b1c7030b  |
-| `CompositeRuleBasedValueArgument`      | [x] Done | 0c916371  |
-| `CompositeRuleBasedValueSpecification` | [x] Done | 13a010bf  |
-| `SwValueCont`                          | [x] Done | 6db47de6  |
-| `SwCalprmAxisSet`                      | [x] Done | 9209b83e  |
-| `SwAxisIndividual`                     | [x] Done | 842e1e42  |
-| `SwAxisGrouped`                        | [x] Done | 12a2e017  |
-| `SwRecordLayoutGroupContent`           | [x] Done | 0f19d490  |
-| `SwGenericAxisParamType`               | [x] Done | 1eacd1a7  |
-| `SwRecordLayoutV`                      | [x] Done | 9c0c3f85  |
-| `SwRecordLayout`                       | [x] Done | f8149880  |
-| `AsamRecordLayoutSemantics`            | [x] Done | 2acaf7a4  |
-| `RecordLayoutIteratorPoint`            | [x] Done | 2acaf7a4  |
-| `SwRecordLayoutGroup`                  | [x] Done | 2acaf7a4  |
-| `GeneralAnnotation`                    | [x] Done | ab2daa77  |
-| `FirewallActionEnum`                   | [x] Done | ab2daa77  |
+| Class Name                             | Status      | Commit ID |
+| -------------------------------------- | ----------- | --------- |
+| `ChapterEnumBreak`                     | [x] Done    | 20e6ee88  |
+| `KeepWithPreviousEnum`                 | [x] Done    | d447cf2a  |
+| `Paginateable`                         | [x] Done    | 20e6ee88  |
+| `MultilanguageLongName`                | [x] Done    | 87855dea  |
+| `GraphicFitEnum`                       | [x] Done    | 5b543a21  |
+| `GraphicNotationEnum`                  | [x] Done    | f25e765d  |
+| `Graphic`                              | [x] Done    | 06b46f32  |
+| `SingleLanguageLongName`               | [x] Done    | 8aaa2657  |
+| `SingleLanguageReferrable`             | [x] Done    | a5910c1b  |
+| `MimeTypeString`                       | [x] Done    | 01cc23df  |
+| `Url`                                  | [x] Done    | 4b96ab8d  |
+| `Br`                                   | [x] Done    | c2a85e6f  |
+| `Std`                                  | [x] Done    | c53a2408  |
+| `Xdoc`                                 | [x] Done    | 294c8aae  |
+| `Xfile`                                | [x] Done    | 7038ce55  |
+| `XrefTarget`                           | [x] Done    | 8c9df663  |
+| `ResolutionPolicyEnum`                 | [x] Done    | f0a74608  |
+| `ShowContentEnum`                      | [x] Done    | e89003bb  |
+| `ShowResourceAliasNameEnum`            | [x] Done    | 3a68e972  |
+| `ShowResourceCategoryEnum`             | [x] Done    | d7cd8c58  |
+| `ShowResourceLongNameEnum`             | [x] Done    | 835b8aa1  |
+| `ShowResourceNumberEnum`               | [x] Done    | 6f562513  |
+| `ShowResourcePageEnum`                 | [x] Done    | 54f4f3e5  |
+| `ShowResourceShortNameEnum`            | [x] Done    | e2e2c300  |
+| `ShowResourceTypeEnum`                 | [x] Done    | 447709b7  |
+| `ShowSeeEnum`                          | [x] Done    | 5d48c2a6  |
+| `Xref`                                 | [x] Done    | db2b4fe0  |
+| `MixedContentForParagraph`             | [x] Done    | bf9114cb  |
+| `SlParagraph`                          | [x] Done    | b7748b3   |
+| `LParagraph`                           | [x] Done    | 7fa4a01f  |
+| `FrameEnum`                            | [x] Done    | 531991e0  |
+| `AlignEnum`                            | [x] Done    | fa74a474  |
+| `ValignEnum`                           | [x] Done    | 52d3272b  |
+| `OrientEnum`                           | [x] Done    | 9223f504  |
+| `TableSeparatorString`                 | [x] Done    | 211031ea  |
+| `NameTokens`                           | [x] Done    | c8a3ff50  |
+| `ViewTokens`                           | [x] Done    | 82c86af7  |
+| `DocumentViewSelectable`               | [x] Done    | ba2c324b  |
+| `Colspec`                              | [x] Done    | 2bd0d075  |
+| `Entry`                                | [x] Done    | 9005f622  |
+| `Row`                                  | [x] Done    | b43b8601  |
+| `Tbody`                                | [x] Done    | 004d3f12  |
+| `Tgroup`                               | [x] Done    | 278d4674  |
+| `Table`                                | [x] Done    | e347fbbf  |
+| `TraceableTable`                       | [x] Done    | fa79c73d  |
+| `TopicContent`                         | [x] Done    | 6d7e3257  |
+| `MultiLanguageParagraph`               | [x] Done    | 77074563  |
+| `AreaEnumNohref`                       | [x] Done    | 1d6f8c0a  |
+| `AreaEnumShape`                        | [x] Done    | 966320f6  |
+| `Area`                                 | [x] Done    | c9f24649  |
+| `Map`                                  | [x] Done    | 43ec8ade  |
+| `LGraphic`                             | [x] Done    | e4b1acf6  |
+| `MlFigure`                             | [x] Done    | 9225ed15  |
+| `MsrQueryResultChapter`                | [x] Done    | fb505d35  |
+| `MsrQueryChapter`                      | [x] Done    | 50103018  |
+| `MsrQueryResultTopic1`                 | [x] Done    | 09314bd3  |
+| `MsrQueryTopic1`                       | [x] Done    | a09f0cdf  |
+| `MsrQueryP1`                           | [x] Done    | 8da723c4  |
+| `CompuContent`                         | [x] Done    | 9f67b3e2  |
+| `CompuConstContent`                    | [x] Done    | b473f524  |
+| `CompuConstTextContent`                | [x] Done    | 4cb82851  |
+| `CompuConstNumericContent`             | [x] Done    | 4b82220e  |
+| `CompuConstFormulaContent`             | [x] Done    | 045d6fb5  |
+| `CompuConst`                           | [x] Done    | eddddc99  |
+| `CompuScaleContents`                   | [x] Done    | 88acf483  |
+| `CompuNominatorDenominator`            | [x] Done    | ff6ef186  |
+| `CompuRationalCoeffs`                  | [x] Done    | 26100b4c  |
+| `CompuScaleRationalFormula`            | [x] Done    | 5a21470c  |
+| `CompuScaleConstantContents`           | [x] Done    | 3d859c80  |
+| `Compu`                                | [x] Done    | dac94a9f  |
+| `CompuMethod`                          | [x] Done    | 135f42e5  |
+| `CompuScale`                           | [x] Done    | 057a1039  |
+| `CompuScales`                          | [x] Done    | 94d4eed6  |
+| `DataConstrRule`                       | [x] Done    | fa640a0d  |
+| `DataConstr`                           | [x] Done    | 9927cc9e  |
+| `CompositeValueSpecification`          | [x] Done    | cc842d74  |
+| `ArrayValueSpecification`              | [x] Done    | b1c7030b  |
+| `RecordValueSpecification`             | [x] Done    | b1c7030b  |
+| `CompositeRuleBasedValueArgument`      | [x] Done    | 0c916371  |
+| `CompositeRuleBasedValueSpecification` | [x] Done    | 13a010bf  |
+| `SwValueCont`                          | [x] Done    | 6db47de6  |
+| `SwCalprmAxisSet`                      | [x] Done    | 9209b83e  |
+| `SwAxisIndividual`                     | [x] Done    | 842e1e42  |
+| `SwAxisGrouped`                        | [x] Done    | 12a2e017  |
+| `SwRecordLayoutGroupContent`           | [x] Done    | 0f19d490  |
+| `SwGenericAxisParamType`               | [x] Done    | 1eacd1a7  |
+| `SwRecordLayoutV`                      | [x] Done    | 9c0c3f85  |
+| `SwRecordLayout`                       | [x] Done    | f8149880  |
+| `AsamRecordLayoutSemantics`            | [x] Done    | 2acaf7a4  |
+| `RecordLayoutIteratorPoint`            | [x] Done    | 2acaf7a4  |
+| `SwRecordLayoutGroup`                  | [x] Done    | 2acaf7a4  |
+| `GeneralAnnotation`                    | [x] Done    | ab2daa77  |
+| `FirewallActionEnum`                   | [x] Done    | ab2daa77  |
+| `CompuGenericMath`                     | [ ] Pending | N/A       |
 
 ## Group4
 
@@ -274,7 +275,7 @@ Status: **35/35** completed
 | `BswMgrNeeds`                           | [x] Done | 628464ed  |
 | `CryptoKeyManagementNeeds`              | [x] Done | dc49a716  |
 | `CryptoServiceJobNeeds`                 | [x] Done | 2ec47467  |
-| `DiagnosticControlNeeds`                | [x] Done | 5c4c0963  |
+| `DiagnosticControlNeeds`                | [x] Done | d0a1134e  |
 | `DiagnosticEventManagerNeeds`           | [x] Done | dc347744  |
 | `DiagnosticRequestFileTransferNeeds`    | [x] Done | f084c432  |
 | `DoIpActivationLineNeeds`               | [x] Done | bf846cce  |
@@ -300,7 +301,7 @@ Status: **70/70** completed
 | `WarningIndicatorRequestedBitNeeds`     | [x] Done | a864fa46  |
 | `OperationInSystemInstanceRef`          | [x] Done | 4e0c3cbe  |
 | `ClientIdDefinition`                    | [x] Done | 8618ec88  |
-| `ClientIdDefinitionSet`                 | [x] Done | 8618ec88  |
+| `ClientIdDefinitionSet`                 | [x] Done | 01759771  |
 | `InterpolationRoutine`                  | [x] Done | 992a894b  |
 | `InterpolationRoutineMapping`           | [x] Done | d00d57b4  |
 | `InterpolationRoutineMappingSet`        | [x] Done | f3152abb  |
@@ -393,7 +394,7 @@ Status: **45/45** completed
 | `SOMEIPMessageTypeEnum`                 | [x] Done | b1630807  |
 | `TlvDataIdDefinition`                   | [x] Done | 27ea0743  |
 | `TlvDataIdDefinitionSet`                | [x] Done | f0c94731  |
-| `SOMEIPTransformationISignalProps`      | [x] Done | c7ab3d96  |
+| `SOMEIPTransformationISignalProps`      | [x] Done | 55ff2098  |
 | `UserDefinedTransformationISignalProps` | [x] Done | 30118276  |
 | `SenderRecCompositeTypeMapping`         | [x] Done | 757aea1d  |
 | `SenderRecArrayTypeMapping`             | [x] Done | 757aea1d  |
@@ -408,11 +409,11 @@ Status: **45/45** completed
 | `NmConfig`                              | [x] Done | 757aea1d  |
 | `IPduMapping`                           | [x] Done | 9c8e10b3  |
 | `PduMappingDefaultValue`                | [x] Done | 9c8e10b3  |
-| `RtePluginProps`                        | [x] Done | eee1722   |
+| `RtePluginProps`                        | [x] Done | ec7fa0b5  |
 
 ## Group7
 
-Status: **33/34** completed
+Status: **34/34** completed
 
 | Class Name                                    | Status   | Commit ID |
 | --------------------------------------------- | -------- | --------- |
@@ -449,38 +450,56 @@ Status: **33/34** completed
 | `DiagnosticEnvironmentalCondition`            | [x] Done | 5bbca5f2  |
 | `DiagnosticAccessPermission`                  | [x] Done | 9cbb4e26  |
 | `FirewallActionEnum`                          | [x] Done | ab2daa77  |
+| `DiagnosticAccessPermission`                  | [x] Done | 9cbb4e26  |
 
 ## Group8
 
-Status: **2/25** completed
+Status: **5/42** completed
 
-| Class Name                         | Status      | Commit ID |
-| ---------------------------------- | ----------- | --------- |
-| `BindingTimeEnum`                  | [x] Done    | 53bf1808  |
-| `XmlSpaceEnum`                     | [x] Done    | ec544e79  |
-| `ShortNameFragment`                | [ ] Pending | N/A       |
-| `MultidimensionalTime`             | [ ] Pending | N/A       |
-| `LifeCyclePeriod`                  | [ ] Pending | N/A       |
-| `BuildActionIoElement`             | [ ] Pending | N/A       |
-| `AttributeValueVariationPoint`     | [ ] Pending | 34fbb1c6  |
-| `ConditionByFormula`               | [ ] Pending | 34fbb1c6  |
-| `SwSystemconstValue`               | [ ] Pending | N/A       |
-| `PostBuildVariantCondition`        | [ ] Pending | N/A       |
-| `PostBuildVariantCriterion`        | [ ] Pending | N/A       |
-| `PostBuildVariantCriterionValue`   | [ ] Pending | N/A       |
-| `OffsetTimingConstraint`           | [ ] Pending | 3dd45559  |
-| `SynchronizationTimingConstraint`  | [ ] Pending | 3dd45559  |
-| `TimingDescriptionEventChain`      | [ ] Pending | N/A       |
-| `AutosarOperationArgumentInstance` | [ ] Pending | N/A       |
-| `ConcreteTDEventVfb`               | [ ] Pending | N/A       |
-| `AtpBlueprint`                     | [ ] Pending | N/A       |
-| `BlueprintGenerator`               | [ ] Pending | N/A       |
-| `BlueprintMapping`                 | [ ] Pending | N/A       |
-| `LifeCycleInfo`                    | [ ] Pending | 699c4597  |
-| `LifeCycleInfoSet`                 | [ ] Pending | 699c4597  |
-| `VariationPoint`                   | [ ] Pending | 5c3e3c4a  |
-| `ModeInSwcBswInstanceRef`          | [ ] Pending | N/A       |
-| `ModeInSwcInstanceRef`             | [ ] Pending | 3a64033f  |
+| Class Name                               | Status      | Commit ID |
+| ---------------------------------------- | ----------- | --------- |
+| `BindingTimeEnum`                        | [x] Done    | 53bf1808  |
+| `XmlSpaceEnum`                           | [x] Done    | ec544e79  |
+| `ShortNameFragment`                      | [ ] Pending | N/A       |
+| `MultidimensionalTime`                   | [x] Done    | b572582c1 |
+| `LifeCyclePeriod`                        | [x] Done    | b572582c1 |
+| `BuildActionIoElement`                   | [x] Done    | b572582c1 |
+| `AttributeValueVariationPoint`           | [ ] Pending | N/A       |
+| `ConditionByFormula`                     | [ ] Pending | N/A       |
+| `SwSystemconstValue`                     | [ ] Pending | N/A       |
+| `PostBuildVariantCondition`              | [ ] Pending | N/A       |
+| `PostBuildVariantCriterion`              | [ ] Pending | N/A       |
+| `PostBuildVariantCriterionValue`         | [ ] Pending | N/A       |
+| `OffsetTimingConstraint`                 | [ ] Pending | N/A       |
+| `SynchronizationTimingConstraint`        | [ ] Pending | N/A       |
+| `TimingDescriptionEventChain`            | [ ] Pending | N/A       |
+| `AutosarOperationArgumentInstance`       | [ ] Pending | N/A       |
+| `ConcreteTDEventVfb`                     | [ ] Pending | N/A       |
+| `AtpBlueprint`                           | [ ] Pending | N/A       |
+| `BlueprintGenerator`                     | [ ] Pending | N/A       |
+| `BlueprintMapping`                       | [ ] Pending | N/A       |
+| `LifeCycleInfo`                          | [ ] Pending | N/A       |
+| `LifeCycleInfoSet`                       | [ ] Pending | N/A       |
+| `VariationPoint`                         | [ ] Pending | N/A       |
+| `ModeInSwcBswInstanceRef`                | [ ] Pending | N/A       |
+| `ModeInSwcInstanceRef`                   | [ ] Pending | N/A       |
+| `AbstractEnumerationValueVariationPoint` | [ ] Pending | N/A       |
+| `AbstractNumericalVariationPoint`        | [ ] Pending | N/A       |
+| `BooleanValueVariationPoint`             | [ ] Pending | N/A       |
+| `FloatValueVariationPoint`               | [ ] Pending | N/A       |
+| `IntegerValueVariationPoint`             | [ ] Pending | N/A       |
+| `LimitValueVariationPoint`               | [ ] Pending | N/A       |
+| `NumericalValueVariationPoint`           | [ ] Pending | N/A       |
+| `PositiveIntegerValueVariationPoint`     | [ ] Pending | N/A       |
+| `TimeValueValueVariationPoint`           | [ ] Pending | N/A       |
+| `UnlimitedIntegerValueVariationPoint`    | [ ] Pending | N/A       |
+| `FormulaExpression`                      | [ ] Pending | N/A       |
+| `BlueprintFormula`                       | [ ] Pending | N/A       |
+| `SwSystemconstDependentFormula`          | [ ] Pending | N/A       |
+| `FMConditionByFeaturesAndAttributes`     | [ ] Pending | N/A       |
+| `FMConditionByFeaturesAndSwSystemconsts` | [ ] Pending | N/A       |
+| `FMFormulaByFeaturesAndAttributes`       | [ ] Pending | N/A       |
+| `FMFormulaByFeaturesAndSwSystemconsts`   | [ ] Pending | N/A       |
 
 ## Group9
 
@@ -780,23 +799,26 @@ Status: **0/18** completed
 
 ## Group19
 
-Status: **0/13** completed
+Status: **0/16** completed
 
-| Class Name                     | Status      | Commit ID |
-| ------------------------------ | ----------- | --------- |
-| `ConfigReferenceValue`         | [ ] Pending | N/A       |
-| `EcucValueCollection`          | [ ] Pending | N/A       |
-| `ModuleConfiguration`          | [ ] Pending | N/A       |
-| `EcucConfigurationClassEnum`   | [ ] Pending | N/A       |
-| `EcucScopeEnum`                | [ ] Pending | N/A       |
-| `EcucDestinationUriDefRefType` | [ ] Pending | N/A       |
-| `EcucBooleanParamDef`          | [ ] Pending | N/A       |
-| `EcucFloatParamDef`            | [ ] Pending | N/A       |
-| `EcucForeignReferenceDef`      | [ ] Pending | N/A       |
-| `EcucLinkerSymbolDef`          | [ ] Pending | N/A       |
-| `EcucReferenceDef`             | [ ] Pending | N/A       |
-| `EcucSymbolicNameReferenceDef` | [ ] Pending | N/A       |
-| `EcucUriReferenceDef`          | [ ] Pending | N/A       |
+| Class Name                       | Status      | Commit ID |
+| -------------------------------- | ----------- | --------- |
+| `ConfigReferenceValue`           | [ ] Pending | N/A       |
+| `EcucValueCollection`            | [ ] Pending | N/A       |
+| `ModuleConfiguration`            | [ ] Pending | N/A       |
+| `EcucConfigurationClassEnum`     | [ ] Pending | N/A       |
+| `EcucScopeEnum`                  | [ ] Pending | N/A       |
+| `EcucDestinationUriDefRefType`   | [ ] Pending | N/A       |
+| `EcucBooleanParamDef`            | [ ] Pending | N/A       |
+| `EcucFloatParamDef`              | [ ] Pending | N/A       |
+| `EcucForeignReferenceDef`        | [ ] Pending | N/A       |
+| `EcucLinkerSymbolDef`            | [ ] Pending | N/A       |
+| `EcucReferenceDef`               | [ ] Pending | N/A       |
+| `EcucSymbolicNameReferenceDef`   | [ ] Pending | N/A       |
+| `EcucUriReferenceDef`            | [ ] Pending | N/A       |
+| `EcucConditionFormula`           | [ ] Pending | N/A       |
+| `EcucParameterDerivationFormula` | [ ] Pending | N/A       |
+| `EcucQueryExpression`            | [ ] Pending | N/A       |
 
 ## Group20
 
@@ -829,11 +851,3 @@ Status: **0/25** completed
 | `MeasuredStackUsage`               | [ ] Pending | N/A       |
 | `RoughEstimateStackUsage`          | [ ] Pending | N/A       |
 | `WorstCaseStackUsage`              | [ ] Pending | N/A       |
-
-## Overall Summary
-
-- **Total Classes:** 688
-- **Completed:** 395
-- **Pending:** 293
-- **Completion Rate:** 395/688 (57.4%)
-- **Groups:** 20
