@@ -1725,11 +1725,12 @@ class TestRteEventHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         event = behavior.createDataSendCompletedEvent("dsc")
         element = _snip(
-            "<SHORT-NAME>dsc</SHORT-NAME>" "<EVENT-SOURCE-REF DEST='DATA-SEND-POINT'>/dsp</EVENT-SOURCE-REF>",
+            "<SHORT-NAME>dsc</SHORT-NAME>" "<EVENT-SOURCE-REF DEST='VARIABLE-ACCESS'>/va</EVENT-SOURCE-REF>",
             root_tag="DATA-SEND-COMPLETED-EVENT",
         )
         parser.readDataSendCompletedEvent(element, event)
-        assert event.getEventSourceRef().getValue() == "/dsp"
+        assert event.getEventSourceRef().getValue() == "/va"
+        assert event.getEventSourceRef().getDest() == "VARIABLE-ACCESS"
 
 
 # ==================== SwComponentType Deep Handlers ====================

@@ -111,40 +111,37 @@ class AsynchronousServerCallReturnsEvent(RTEEvent):
 
 class DataSendCompletedEvent(RTEEvent):
     """
-    This event is raised when the referenced explicit data element has been
-    sent or an error occurred.
+    This event is raised when the referenced explicit data element has been sent or an error occurred.
+
+    [constr_1941] Existence of attribute DataSendCompletedEvent.eventSource: For each DataSendCompletedEvent, attribute eventSource shall exist at the time when the contract phase generation is executed.
     """
 
     # DataSendCompletedEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getEventSourceRef            [x] impl  [x] docstring  [ ] test
-    # [ ] setEventSourceRef            [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.11, p.542
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventSourceRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventSourceRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.eventSourceRef: RefType = None
+        # The referenced VariableAccess raises this DataSendCompletedEvent when the explicit write access was successful or an error occurred.
+        self.eventSourceRef: Optional[RefType] = None
 
-    def getEventSourceRef(self):
+    def getEventSourceRef(self) -> Optional[RefType]:
         """
-        Gets the event source reference.
-
-        Returns:
-            RefType: The event source reference
+        The referenced VariableAccess raises this DataSendCompletedEvent when the explicit write access was successful or an error occurred.
         """
         return self.eventSourceRef
 
-    def setEventSourceRef(self, value):
+    def setEventSourceRef(self, value: Optional[RefType]) -> DataSendCompletedEvent:
         """
-        Sets the event source reference.
-
-        Args:
-            value: The event source reference to set
-
-        Returns:
-            self for method chaining
+        The referenced VariableAccess raises this DataSendCompletedEvent when the explicit write access was successful or an error occurred.
+        A None value is a no-op and does not overwrite an existing eventSourceRef.
         """
-        self.eventSourceRef = value
+        if value is not None:
+            self.eventSourceRef = value
         return self
 
 

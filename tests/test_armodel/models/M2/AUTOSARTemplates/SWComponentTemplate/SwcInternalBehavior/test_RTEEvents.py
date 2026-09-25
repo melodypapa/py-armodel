@@ -135,10 +135,10 @@ class TestAsynchronousServerCallReturnsEvent:
 
 
 class TestDataSendCompletedEvent:
-    """Test class for DataSendCompletedEvent class."""
+    """Test class for DataSendCompletedEvent class (Table 7.11)."""
 
-    def test_data_send_completed_event_initialization(self):
-        """Test DataSendCompletedEvent initialization and methods."""
+    def test_initialization(self):
+        """Test DataSendCompletedEvent initialization defaults."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         event = DataSendCompletedEvent(ar_root, "TestDataSendCompletedEvent")
@@ -148,14 +148,32 @@ class TestDataSendCompletedEvent:
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.eventSourceRef is None
+        assert isinstance(event, RTEEvent)
 
-        # Test eventSourceRef methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+    def test_get_set_eventSourceRef(self):
+        """Test setEventSourceRef/getEventSourceRef round-trip and None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = DataSendCompletedEvent(ar_root, "TestDataSendCompletedEvent")
 
-        source_ref = RefType()
-        source_ref.setValue("/Source/Ref")
-        event.setEventSourceRef(source_ref)
-        assert event.getEventSourceRef() == source_ref
+        ref = RefType()
+        ref.setDest("VARIABLE-ACCESS")
+        ref.setValue("/swc/ib/va")
+        assert event.setEventSourceRef(ref) is event
+        assert event.getEventSourceRef() is ref
+        assert event.getEventSourceRef().getDest() == "VARIABLE-ACCESS"
+        assert event.getEventSourceRef().getValue() == "/swc/ib/va"
+
+        event.setEventSourceRef(None)
+        assert event.getEventSourceRef() is ref
+
+    def test_get_type_hints(self):
+        """Test spec-typed annotations resolve at runtime (plain get_type_hints)."""
+        hints = typing.get_type_hints(DataSendCompletedEvent.setEventSourceRef)
+        assert hints.get("value") == typing.Optional[RefType]
+        assert hints.get("return") is DataSendCompletedEvent
+
+        assert typing.get_type_hints(DataSendCompletedEvent.getEventSourceRef).get("return") == typing.Optional[RefType]
 
 
 class TestDataWriteCompletedEvent:
