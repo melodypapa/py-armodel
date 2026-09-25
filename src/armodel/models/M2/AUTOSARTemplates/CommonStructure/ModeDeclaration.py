@@ -16,15 +16,14 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibration
 
 class ModeActivationKind(AREnum):
     """
-    Kind of mode switch condition used for activation of an event,
-    as further described for each enumeration field.
+    Kind of mode switch condition used for activation of an event, as further described for each enumeration field.
     """
 
     # ModeActivationKind method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.34, p.96
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on BswModeSwitchEvent.activation, SwcModeSwitchEvent.activation
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # On entering the referred mode. Tags: atp.EnumerationLiteralIndex=0
     ON_ENTRY = "onEntry"
@@ -32,14 +31,10 @@ class ModeActivationKind(AREnum):
     # On exiting the referred mode. Tags: atp.EnumerationLiteralIndex=1
     ON_EXIT = "onExit"
 
-    # On transition of the 1st referred mode to the 2nd referred mode.
-    # Tags: atp.EnumerationLiteralIndex=2
+    # On transition of the 1st referred mode to the 2nd referred mode. Tags: atp.EnumerationLiteralIndex=2
     ON_TRANSITION = "onTransition"
 
     def __init__(self):
-        """
-        Initializes the ModeActivationKind with valid values.
-        """
         super().__init__(
             (
                 ModeActivationKind.ON_ENTRY,

@@ -663,26 +663,45 @@ class TestModeErrorBehavior:
 
 
 class TestModeActivationKind:
-    def test_initialization(self):
-        """Test ModeActivationKind initialization"""
-        activation_kind = ModeActivationKind()
-        assert activation_kind.ON_ENTRY == "onEntry"
-        assert activation_kind.ON_EXIT == "onExit"
-        assert activation_kind.ON_TRANSITION == "onTransition"
-        assert "onEntry" in activation_kind.getEnumValues()
-        assert "onExit" in activation_kind.getEnumValues()
-        assert "onTransition" in activation_kind.getEnumValues()
-
-    def test_enum_values(self):
-        """Test ModeActivationKind literal values"""
+    def test_literals(self):
+        """Test ModeActivationKind literal values per AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Table 5.34"""
         assert ModeActivationKind.ON_ENTRY == "onEntry"
         assert ModeActivationKind.ON_EXIT == "onExit"
         assert ModeActivationKind.ON_TRANSITION == "onTransition"
 
-    def test_valid_values(self):
-        """Test ModeActivationKind valid values in __init__"""
+    def test_enum_values(self):
+        """Test the valid enum value set in spec literal order (Table 5.34)"""
         enum = ModeActivationKind()
-        valid_values = [ModeActivationKind.ON_ENTRY, ModeActivationKind.ON_EXIT, ModeActivationKind.ON_TRANSITION]
-        for value in valid_values:
-            enum.setValue(value)
-            assert enum.getText() == value
+        assert enum.getEnumValues() == (
+            ModeActivationKind.ON_ENTRY,
+            ModeActivationKind.ON_EXIT,
+            ModeActivationKind.ON_TRANSITION,
+        )
+
+    def test_instantiation_set_value(self):
+        """Test enum instantiability and setValue/getValue round-trip per Rule 0011"""
+        enum = ModeActivationKind()
+        result = enum.setValue(ModeActivationKind.ON_TRANSITION)
+        assert result is enum  # Method chaining
+        assert enum.getValue() == "onTransition"
+
+    def test_set_value_none_noop(self):
+        """Test setValue(None) is a no-op"""
+        enum = ModeActivationKind()
+        assert enum.setValue(None) is enum
+        assert enum.getValue() == ""  # ARLiteral's empty representation for an unset literal
+        enum.setValue(ModeActivationKind.ON_ENTRY)
+        enum.setValue(None)
+        assert enum.getValue() == "onEntry"
+
+    def test_validate_enum_value(self):
+        """Test validateEnumValue accepts spec literals and rejects others"""
+        enum = ModeActivationKind()
+        assert enum.validateEnumValue("onEntry") is True
+        assert enum.validateEnumValue("onTransition") is True
+        assert enum.validateEnumValue("bogus") is False
+
+    def test_spec_note(self):
+        """Test the Table 5.34 class note."""
+        assert ModeActivationKind.__doc__.strip() == "Kind of mode switch condition used for activation of an event, as further described for each enumeration field."
+        assert ModeActivationKind.__init__.__doc__ is None
