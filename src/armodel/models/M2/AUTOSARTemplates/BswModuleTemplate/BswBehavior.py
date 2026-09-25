@@ -38,52 +38,38 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import M
 
 class BswModuleCallPoint(Referrable, VariationPointCapable, ABC):
     """
-    Represents a call point for a BSW module, which defines how the module can be called.
-    This is an abstract base class for different types of call points.
+    Represents a point at which a BswModuleEntity handles a procedure call into a BswModuleEntry, either directly or via the BSW Scheduler.
     """
 
     # BswModuleCallPoint method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getContextLimitationRefs     [x] impl  [x] docstring  [ ] test
-    # [x] addContextLimitationRef      [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.10, p.77
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addContextLimitationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextLimitationRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswModuleCallPoint with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this call point
-            short_name: The unique short name of this call point
-        """
         if type(self) is BswModuleCallPoint:
             raise TypeError("BswModuleCallPoint is an abstract class.")
         super().__init__(parent, short_name)
 
-        # List of context limitation references that apply to this call point
+        # The existence of this reference indicates that the call point is used only in the context of the referred BswDistinguishedPartitions.
         self.contextLimitationRefs: List[RefType] = []
 
-    def getContextLimitationRefs(self):
+    def addContextLimitationRef(self, value: Optional[RefType]) -> BswModuleCallPoint:
         """
-        Gets the list of context limitation references for this call point.
+        The existence of this reference indicates that the call point is used only in the context of the referred BswDistinguishedPartitions.
+        A None value is a no-op and does not append to the existing contextLimitationRefs.
+        """
+        if value is not None:
+            self.contextLimitationRefs.append(value)
+        return self
 
-        Returns:
-            List of context limitation references
+    def getContextLimitationRefs(self) -> List[RefType]:
+        """
+        The existence of this reference indicates that the call point is used only in the context of the referred BswDistinguishedPartitions.
         """
         return self.contextLimitationRefs
-
-    def addContextLimitationRef(self, value):
-        """
-        Adds a context limitation reference to this call point.
-
-        Args:
-            value: The context limitation reference to add
-
-        Returns:
-            self for method chaining
-        """
-        self.contextLimitationRefs.append(value)
-        return self
 
 
 class BswAsynchronousServerCallPoint(BswModuleCallPoint):

@@ -861,6 +861,57 @@ class TestBswModuleEntityHandlers:
         assert len(entity.getDataSendPoints()) == 1
 
 
+# ==================== BswModuleCallPoint base helper (context limitation refs) ====================
+
+
+class TestBswModuleCallPointHandlers:
+    """Exercise the shared readBswModuleCallPoint helper that the concrete
+    call point subclasses call for the BSW-MODULE-CALL-POINT element group."""
+
+    def test_readBswModuleCallPoint_context_limitation_refs(self, parser):
+        from armodel.models import BswDirectCallPoint
+
+        point = BswDirectCallPoint(parent=_autosar_root(), short_name="cp")
+        element = _snip(
+            "<SHORT-NAME>cp</SHORT-NAME>"
+            "<CONTEXT-LIMITATION-REFS>"
+            "<CONTEXT-LIMITATION-REF DEST='BSW-DISTINGUISHED-PARTITION'>/pkg/part1</CONTEXT-LIMITATION-REF>"
+            "<CONTEXT-LIMITATION-REF DEST='BSW-DISTINGUISHED-PARTITION'>/pkg/part2</CONTEXT-LIMITATION-REF>"
+            "</CONTEXT-LIMITATION-REFS>",
+            root_tag="BSW-DIRECT-CALL-POINT",
+        )
+        parser.readBswModuleCallPoint(element, point)
+        refs = point.getContextLimitationRefs()
+        assert len(refs) == 2
+        assert refs[0].getValue() == "/pkg/part1"
+        assert refs[0].getDest() == "BSW-DISTINGUISHED-PARTITION"
+        assert refs[1].getValue() == "/pkg/part2"
+        assert refs[1].getDest() == "BSW-DISTINGUISHED-PARTITION"
+
+    def test_readBswModuleCallPoint_context_limitation_refs_empty_wrapper(self, parser):
+        from armodel.models import BswDirectCallPoint
+
+        point = BswDirectCallPoint(parent=_autosar_root(), short_name="cp")
+        element = _snip(
+            "<SHORT-NAME>cp</SHORT-NAME>" "<CONTEXT-LIMITATION-REFS/>",
+            root_tag="BSW-DIRECT-CALL-POINT",
+        )
+        parser.readBswModuleCallPoint(element, point)
+        assert point.getContextLimitationRefs() == []
+
+    def test_readBswModuleCallPoint_variation_point(self, parser):
+        from armodel.models import BswDirectCallPoint
+
+        point = BswDirectCallPoint(parent=_autosar_root(), short_name="cp")
+        element = _snip(
+            "<SHORT-NAME>cp</SHORT-NAME>" "<VARIATION-POINT><SHORT-LABEL>vp1</SHORT-LABEL></VARIATION-POINT>",
+            root_tag="BSW-DIRECT-CALL-POINT",
+        )
+        parser.readBswModuleCallPoint(element, point)
+        assert point.getVariationPoint() is not None
+        assert point.getVariationPoint().getShortLabel().getValue() == "vp1"
+
+
 # ==================== BSW entities dispatch (Called/Schedulable/Interrupt) ====================
 
 

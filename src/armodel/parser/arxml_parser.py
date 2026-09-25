@@ -3910,6 +3910,14 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readBswModuleCallPoint(self, element: ET.Element, point: BswModuleCallPoint):
         self.readReferrable(element, point)
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-LIMITATION-REFS/CONTEXT-LIMITATION-REF"):
+            point.addContextLimitationRef(ref)
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(point, VariationPointCapable):
+                point.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
     def readBswAsynchronousServerCallPoint(self, element: ET.Element, point: BswAsynchronousServerCallPoint):
         self.readBswModuleCallPoint(element, point)

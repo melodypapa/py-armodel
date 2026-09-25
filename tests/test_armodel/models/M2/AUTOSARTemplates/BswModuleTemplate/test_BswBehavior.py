@@ -88,6 +88,21 @@ class TestBswModuleCallPoint:
         call_point = BswDirectCallPoint(ar_root, "test_call_point")
 
         assert call_point.short_name == "test_call_point"
+
+    def test_initialization(self):
+        """Test that a concrete subclass initializes its fields with the spec defaults."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        call_point = BswDirectCallPoint(ar_root, "test_call_point")
+
+        assert call_point.getContextLimitationRefs() == []
+
+    def test_get_context_limitation_refs(self):
+        """Test that getContextLimitationRefs returns the field directly."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        call_point = BswDirectCallPoint(ar_root, "test_call_point")
+
         assert call_point.getContextLimitationRefs() == []
 
     def test_add_context_limitation_ref(self):
@@ -97,10 +112,22 @@ class TestBswModuleCallPoint:
         call_point = BswDirectCallPoint(ar_root, "test_call_point")
 
         ref = RefType()
+        ref.setValue("/Partition1")
         result = call_point.addContextLimitationRef(ref)
 
         assert result == call_point
         assert call_point.getContextLimitationRefs() == [ref]
+
+    def test_add_context_limitation_ref_none_no_op(self):
+        """Test that addContextLimitationRef is a no-op on None."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        call_point = BswDirectCallPoint(ar_root, "test_call_point")
+
+        result = call_point.addContextLimitationRef(None)
+
+        assert result == call_point
+        assert call_point.getContextLimitationRefs() == []
 
 
 class TestBswAsynchronousServerCallPoint:

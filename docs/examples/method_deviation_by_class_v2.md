@@ -142,6 +142,15 @@ No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 2.1 (p.42, R23-1
 |---|---|---|---|---|---|
 | — *(no deviations)* | — | — | — | - | none (2026-09-25 sync: XSD-only **group** class `BSW-API-OPTIONS` (R23-11 `AUTOSAR_00052.xsd` L9379 = R4.3.1 `AUTOSAR_00044.xsd` L7279, no own table in either corpus); single attr `enableTakeAddress` `Boolean` 0..1 with element `ENABLE-TAKE-ADDRESS`; field/accessors re-typed `Optional[Boolean]` and docstrings rewritten verbatim from the XSD documentation; pre-existing `readBswApiOptions`/`writeBswApiOptions` helpers verified matched and called by all policy subclasses; stamp deferred to batch confirmation) |
 
+## `BswModuleCallPoint`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 77
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviations)* | — | — | — | - | none (2026-09-26 sync: R23-11 Table 5.10 p.77; single attr `contextLimitation` (BswDistinguishedPartition, `*`, ref) → `contextLimitationRefs: List[RefType]` + `addContextLimitationRef`/`getContextLimitationRefs` (reordered mutator-first, None no-op added, accessors typed); abstract class, Base most-derived `Referrable`, VP-capable via `VariationPointCapable` mixin (Rule 0020 — VARIATION-POINT in XSD group `BSW-MODULE-CALL-POINT`, AUTOSAR_00052.xsd L11283); shared `readBswModuleCallPoint`/`writeBswModuleCallPoint` helpers extended with `CONTEXT-LIMITATION-REFS`/`CONTEXT-LIMITATION-REF` wrapper read/write plus VARIATION-POINT read/write gated on `VariationPointCapable`; old paraphrased docstrings wiped + rewritten verbatim; stamp deferred to batch confirmation) |
+
 ## `BswPerInstanceMemoryPolicy`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf` (upstream document; class XSD-only)  | **XSD:** `AUTOSAR_00052.xsd` line 12370
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`

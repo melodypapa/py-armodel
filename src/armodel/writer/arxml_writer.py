@@ -6873,6 +6873,13 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeBswModuleCallPoint(self, element: ET.Element, point: BswModuleCallPoint):
         self.writeReferrable(element, point)
+        refs = point.getContextLimitationRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "CONTEXT-LIMITATION-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "CONTEXT-LIMITATION-REF", ref)
+        if isinstance(point, VariationPointCapable):
+            self.writeVariationPoint(element, point.getVariationPoint())
 
     def writeBswAsynchronousServerCallPoint(self, element: ET.Element, point: BswAsynchronousServerCallPoint):
         child_element = ET.SubElement(element, "BSW-ASYNCHRONOUS-SERVER-CALL-POINT")

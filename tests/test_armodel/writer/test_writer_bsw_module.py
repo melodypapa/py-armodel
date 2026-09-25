@@ -8,6 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswClientPolicy,
     BswDataSendPolicy,
+    BswDirectCallPoint,
     BswExclusiveAreaPolicy,
     BswInternalTriggeringPointPolicy,
     BswModeReceiverPolicy,
@@ -390,6 +391,122 @@ class TestWriterBswModuleCallPoints:
         parent = _parent()
         writer.writeBswModuleEntityCallPoints(parent, entity)
         assert len(parent) == 0
+
+    def test_context_limitation_refs(self, writer):
+        point = BswDirectCallPoint(parent=AUTOSAR.getInstance(), short_name="cp")
+        point.addContextLimitationRef(_ref("/pkg/part1", "BSW-DISTINGUISHED-PARTITION"))
+        point.addContextLimitationRef(_ref("/pkg/part2", "BSW-DISTINGUISHED-PARTITION"))
+        parent = _parent()
+        writer.writeBswModuleCallPoint(parent, point)
+        wrapper = parent.find("CONTEXT-LIMITATION-REFS")
+        assert wrapper is not None
+        refs = wrapper.findall("CONTEXT-LIMITATION-REF")
+        assert len(refs) == 2
+        assert refs[0].text == "/pkg/part1"
+        assert refs[0].get("DEST") == "BSW-DISTINGUISHED-PARTITION"
+        assert refs[1].text == "/pkg/part2"
+        assert refs[1].get("DEST") == "BSW-DISTINGUISHED-PARTITION"
+
+    def test_context_limitation_refs_empty(self, writer):
+        point = BswDirectCallPoint(parent=AUTOSAR.getInstance(), short_name="cp")
+        parent = _parent()
+        writer.writeBswModuleCallPoint(parent, point)
+        assert parent.find("CONTEXT-LIMITATION-REFS") is None
+
+    def test_variation_point_written_after_refs(self, writer):
+        point = BswDirectCallPoint(parent=AUTOSAR.getInstance(), short_name="cp")
+        point.addContextLimitationRef(_ref("/pkg/part1", "BSW-DISTINGUISHED-PARTITION"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        point.setVariationPoint(variation_point)
+        parent = _parent()
+        writer.writeBswModuleCallPoint(parent, point)
+        tags = [c.tag for c in parent]
+        assert tags.index("CONTEXT-LIMITATION-REFS") < tags.index("VARIATION-POINT")
+        vp = parent.find("VARIATION-POINT")
+        assert vp is not None
+        assert vp.find("SHORT-LABEL").text == "lbl"
+
+    def test_variation_point_none_not_written(self, writer):
+        point = BswDirectCallPoint(parent=AUTOSAR.getInstance(), short_name="cp")
+        parent = _parent()
+        writer.writeBswModuleCallPoint(parent, point)
+        assert parent.find("VARIATION-POINT") is None
+
+
+class TestWriterBswModuleCallPointRoundTrip:
+    def test_round_trip_call_point_context_limitation_refs(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        entity = behavior.createBswSchedulableEntity("ent")
+        entity.setImplementedEntryRef(_ref("/mod/Entry", "BSW-MODULE-ENTRY"))
+        point = entity.createBswAsynchronousServerCallPoint("acp")
+        point.setCalledEntryRef(_ref("/mod/Entry", "BSW-MODULE-ENTRY"))
+        point.addContextLimitationRef(_ref("/Pkg/part1", "BSW-DISTINGUISHED-PARTITION"))
+        point.addContextLimitationRef(_ref("/Pkg/part2", "BSW-DISTINGUISHED-PARTITION"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        point.setVariationPoint(variation_point)
+
+        out_file = tmp_path / "acp_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        entity_2 = behavior_2.getBswSchedulableEntities()[0]
+        assert entity_2.getImplementedEntryRef().getValue() == "/mod/Entry"
+        points = entity_2.getCallPoints()
+        assert len(points) == 1
+        point_2 = points[0]
+        assert point_2.getShortName() == "acp"
+        assert point_2.getCalledEntryRef().getValue() == "/mod/Entry"
+        assert point_2.getCalledEntryRef().getDest() == "BSW-MODULE-ENTRY"
+        refs = point_2.getContextLimitationRefs()
+        assert len(refs) == 2
+        assert refs[0].getValue() == "/Pkg/part1"
+        assert refs[0].getDest() == "BSW-DISTINGUISHED-PARTITION"
+        assert refs[1].getValue() == "/Pkg/part2"
+        assert refs[1].getDest() == "BSW-DISTINGUISHED-PARTITION"
+        assert point_2.getVariationPoint() is not None
+        assert point_2.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_round_trip_call_point_empty(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        entity = behavior.createBswSchedulableEntity("ent")
+        entity.setImplementedEntryRef(_ref("/mod/Entry", "BSW-MODULE-ENTRY"))
+        entity.createBswAsynchronousServerCallPoint("acp")
+
+        out_file = tmp_path / "acp_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        entity_2 = behavior_2.getBswSchedulableEntities()[0]
+        points = entity_2.getCallPoints()
+        assert len(points) == 1
+        point_2 = points[0]
+        assert point_2.getContextLimitationRefs() == []
+        assert point_2.getVariationPoint() is None
+        assert point_2.getCalledEntryRef() is None
 
 
 class TestWriterBswInternalBehaviorSchedulerNamePrefixes:
