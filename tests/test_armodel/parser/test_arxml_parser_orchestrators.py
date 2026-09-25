@@ -1121,6 +1121,27 @@ class TestRunnableEntityOrchestrator:
         parser.readRunnableEntity(element, runnable)
         assert len(list(runnable.getInternalTriggeringPoints())) == 1
 
+    def test_readRunnableEntity_with_internalTriggeringPoint_swImplPolicy(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        runnable = behavior.createRunnableEntity("run")
+        element = _snip(
+            "<SHORT-NAME>run</SHORT-NAME>"
+            "<INTERNAL-TRIGGERING-POINTS>"
+            "<INTERNAL-TRIGGERING-POINT><SHORT-NAME>itp</SHORT-NAME><SW-IMPL-POLICY>QUEUED</SW-IMPL-POLICY></INTERNAL-TRIGGERING-POINT>"
+            "</INTERNAL-TRIGGERING-POINTS>",
+            root_tag="RUNNABLE-ENTITY",
+        )
+        parser.readRunnableEntity(element, runnable)
+        points = list(runnable.getInternalTriggeringPoints())
+        assert len(points) == 1
+        policy = points[0].getSwImplPolicy()
+        assert isinstance(policy, SwImplPolicyEnum)
+        assert policy.getValue() == "queued"
+
     def test_readRunnableEntity_with_modeAccessPoints(self, parser):
         from armodel.models import ApplicationSwComponentType
 
@@ -1169,7 +1190,7 @@ class TestRunnableEntityOrchestrator:
         behavior = swc.createSwcInternalBehavior("bh")
         runnable = behavior.createRunnableEntity("run")
         point = ModeAccessPoint()
-        point.setIdent(ModeAccessPointIdent(point, "map_ident"))
+        point.createIdent("map_ident")
         runnable.addModeAccessPoint(point)
 
         namespace = "http://autosar.org/schema/r4.0"
@@ -1188,6 +1209,95 @@ class TestRunnableEntityOrchestrator:
         assert isinstance(ident, ModeAccessPointIdent)
         assert ident.getShortName() == "map_ident"
 
+    def test_readRunnableEntityModeAccessPoints_with_mode_group_iref(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        runnable = behavior.createRunnableEntity("run")
+        element = _snip(
+            "<SHORT-NAME>run</SHORT-NAME>"
+            "<MODE-ACCESS-POINTS>"
+            "<MODE-ACCESS-POINT>"
+            "<MODE-GROUP-IREF>"
+            "<R-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF>"
+            '<CONTEXT-R-PORT-REF DEST="R-PORT-PROTOTYPE">/swc/rp</CONTEXT-R-PORT-REF>'
+            '<TARGET-MODE-GROUP-REF DEST="MODE-DECLARATION-GROUP-PROTOTYPE">/mg/entry</TARGET-MODE-GROUP-REF>'
+            "</R-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF>"
+            "</MODE-GROUP-IREF>"
+            "</MODE-ACCESS-POINT>"
+            "<MODE-ACCESS-POINT>"
+            "<MODE-GROUP-IREF>"
+            "<P-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF>"
+            '<CONTEXT-P-PORT-REF DEST="P-PORT-PROTOTYPE">/swc/pp</CONTEXT-P-PORT-REF>'
+            '<TARGET-MODE-GROUP-REF DEST="MODE-DECLARATION-GROUP-PROTOTYPE">/mg/exit</TARGET-MODE-GROUP-REF>'
+            "</P-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF>"
+            "</MODE-GROUP-IREF>"
+            "</MODE-ACCESS-POINT>"
+            "</MODE-ACCESS-POINTS>",
+            root_tag="RUNNABLE-ENTITY",
+        )
+        parser.readRunnableEntity(element, runnable)
+        points = runnable.getModeAccessPoints()
+        assert len(points) == 2
+
+        r_iref = points[0].getModeGroupIRef()
+        assert isinstance(r_iref, RModeGroupInAtomicSWCInstanceRef)
+        assert r_iref.getContextRPortRef().getValue() == "/swc/rp"
+        assert r_iref.getContextRPortRef().getDest() == "R-PORT-PROTOTYPE"
+        assert r_iref.getTargetModeGroupRef().getValue() == "/mg/entry"
+
+        p_iref = points[1].getModeGroupIRef()
+        assert isinstance(p_iref, PModeGroupInAtomicSwcInstanceRef)
+        assert p_iref.getContextPPortRef().getValue() == "/swc/pp"
+        assert p_iref.getTargetModeGroupRef().getValue() == "/mg/exit"
+
+    def test_readRunnableEntityModeAccessPoints_round_trip_populated(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeGroupInAtomicSWCInstanceRef
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeAccessPoint
+        from armodel.writer.arxml_writer import ARXMLWriter
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        runnable = behavior.createRunnableEntity("run")
+        point = ModeAccessPoint()
+        point.createIdent("map_ident")
+        iref = RModeGroupInAtomicSWCInstanceRef()
+        context_ref = RefType()
+        context_ref.setValue("/swc/rp")
+        context_ref.setDest("R-PORT-PROTOTYPE")
+        iref.setContextRPortRef(context_ref)
+        target_ref = RefType()
+        target_ref.setValue("/mg/entry")
+        target_ref.setDest("MODE-DECLARATION-GROUP-PROTOTYPE")
+        iref.setTargetModeGroupRef(target_ref)
+        point.setModeGroupIRef(iref)
+        runnable.addModeAccessPoint(point)
+
+        namespace = "http://autosar.org/schema/r4.0"
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeRunnableEntityModeAccessPoints(parent, runnable)
+        inner = ET.tostring(parent).decode("utf-8")
+        container = ET.fromstring(f"<RUNNABLE-ENTITY xmlns='{namespace}'>{inner}</RUNNABLE-ENTITY>")
+        element = container[0]
+
+        recovered = behavior.createRunnableEntity("recovered")
+        parser.readRunnableEntityModeAccessPoints(element, recovered)
+        points = recovered.getModeAccessPoints()
+        assert len(points) == 1
+        recovered_point = points[0]
+        assert recovered_point.getIdent() is not None
+        assert recovered_point.getIdent().getShortName() == "map_ident"
+        recovered_iref = recovered_point.getModeGroupIRef()
+        assert isinstance(recovered_iref, RModeGroupInAtomicSWCInstanceRef)
+        assert recovered_iref.getContextRPortRef().getValue() == "/swc/rp"
+        assert recovered_iref.getContextRPortRef().getDest() == "R-PORT-PROTOTYPE"
+        assert recovered_iref.getTargetModeGroupRef().getValue() == "/mg/entry"
+        assert recovered_iref.getTargetModeGroupRef().getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
+
     def test_readRunnableEntity_with_modeSwitchPoints(self, parser):
         from armodel.models import ApplicationSwComponentType
 
@@ -1200,6 +1310,84 @@ class TestRunnableEntityOrchestrator:
         )
         parser.readRunnableEntity(element, runnable)
         assert len(runnable.getModeSwitchPoints()) == 1
+
+    def test_readRunnableEntityModeSwitchPoints_with_mode_group_iref(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        runnable = behavior.createRunnableEntity("run")
+        element = _snip(
+            "<SHORT-NAME>run</SHORT-NAME>"
+            "<MODE-SWITCH-POINTS>"
+            "<MODE-SWITCH-POINT>"
+            "<SHORT-NAME>msp</SHORT-NAME>"
+            "<MODE-GROUP-IREF>"
+            '<CONTEXT-P-PORT-REF DEST="P-PORT-PROTOTYPE">/swc/pp</CONTEXT-P-PORT-REF>'
+            '<TARGET-MODE-GROUP-REF DEST="MODE-DECLARATION-GROUP-PROTOTYPE">/mg/exit</TARGET-MODE-GROUP-REF>'
+            "</MODE-GROUP-IREF>"
+            "</MODE-SWITCH-POINT>"
+            "</MODE-SWITCH-POINTS>",
+            root_tag="RUNNABLE-ENTITY",
+        )
+        parser.readRunnableEntity(element, runnable)
+        points = runnable.getModeSwitchPoints()
+        assert len(points) == 1
+
+        iref = points[0].getModeGroupIRef()
+        assert isinstance(iref, PModeGroupInAtomicSwcInstanceRef)
+        assert iref.getContextPPortRef().getValue() == "/swc/pp"
+        assert iref.getContextPPortRef().getDest() == "P-PORT-PROTOTYPE"
+        assert iref.getTargetModeGroupRef().getValue() == "/mg/exit"
+        assert iref.getTargetModeGroupRef().getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
+
+    def test_readRunnableEntityModeSwitchPoints_round_trip_populated(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef
+        from armodel.writer.arxml_writer import ARXMLWriter
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        runnable = behavior.createRunnableEntity("run")
+        point = runnable.createModeSwitchPoint("msp")
+        uuid = String()
+        uuid.setValue("DCE:0123-4567")
+        point.setUuid(uuid)
+        point.setCategory("MSP")
+        iref = PModeGroupInAtomicSwcInstanceRef()
+        context_ref = RefType()
+        context_ref.setValue("/swc/pp")
+        context_ref.setDest("P-PORT-PROTOTYPE")
+        iref.setContextPPortRef(context_ref)
+        target_ref = RefType()
+        target_ref.setValue("/mg/exit")
+        target_ref.setDest("MODE-DECLARATION-GROUP-PROTOTYPE")
+        iref.setTargetModeGroupRef(target_ref)
+        point.setModeGroupIRef(iref)
+
+        namespace = "http://autosar.org/schema/r4.0"
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeRunnableEntityModeSwitchPoints(parent, runnable)
+        inner = ET.tostring(parent).decode("utf-8")
+        container = ET.fromstring(f"<RUNNABLE-ENTITY xmlns='{namespace}'>{inner}</RUNNABLE-ENTITY>")
+        element = container[0]
+
+        recovered = behavior.createRunnableEntity("recovered")
+        parser.readRunnableEntityModeSwitchPoints(element, recovered)
+        points = recovered.getModeSwitchPoints()
+        assert len(points) == 1
+        recovered_point = points[0]
+        assert recovered_point.getShortName() == "msp"
+        assert recovered_point.getUuid().getValue() == "DCE:0123-4567"
+        assert recovered_point.getCategory().getValue() == "MSP"
+        recovered_iref = recovered_point.getModeGroupIRef()
+        assert isinstance(recovered_iref, PModeGroupInAtomicSwcInstanceRef)
+        assert recovered_iref.getContextPPortRef().getValue() == "/swc/pp"
+        assert recovered_iref.getContextPPortRef().getDest() == "P-PORT-PROTOTYPE"
+        assert recovered_iref.getTargetModeGroupRef().getValue() == "/mg/exit"
+        assert recovered_iref.getTargetModeGroupRef().getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
 
     def test_readRunnableEntity_with_parameterAccesses(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -1226,6 +1414,68 @@ class TestRunnableEntityOrchestrator:
         )
         parser.readRunnableEntity(element, runnable)
         assert len(runnable.getArguments()) == 1
+
+    def test_readRunnableEntity_with_parameterAccess_full(self, parser):
+        from armodel.models import ApplicationSwComponentType
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        runnable = behavior.createRunnableEntity("run")
+        element = _snip(
+            "<SHORT-NAME>run</SHORT-NAME>"
+            "<PARAMETER-ACCESSS>"
+            "<PARAMETER-ACCESS><SHORT-NAME>pa</SHORT-NAME>"
+            "<ACCESSED-PARAMETER><LOCAL-PARAMETER-REF DEST='PARAMETER-DATA-PROTOTYPE'>/Prm</LOCAL-PARAMETER-REF></ACCESSED-PARAMETER>"
+            "<SW-DATA-DEF-PROPS><SW-DATA-DEF-PROPS-VARIANTS><SW-DATA-DEF-PROPS-CONDITIONAL>"
+            "<SW-CALIBRATION-ACCESS>notAccessible</SW-CALIBRATION-ACCESS>"
+            "</SW-DATA-DEF-PROPS-CONDITIONAL></SW-DATA-DEF-PROPS-VARIANTS></SW-DATA-DEF-PROPS>"
+            "</PARAMETER-ACCESS>"
+            "</PARAMETER-ACCESSS>",
+            root_tag="RUNNABLE-ENTITY",
+        )
+        parser.readRunnableEntity(element, runnable)
+        accesses = runnable.getParameterAccesses()
+        assert len(accesses) == 1
+        access = accesses[0]
+        assert access.getShortName() == "pa"
+        assert access.getAccessedParameter() is not None
+        assert access.getAccessedParameter().getLocalParameterRef().getValue() == "/Prm"
+        assert access.getAccessedParameter().getLocalParameterRef().getDest() == "PARAMETER-DATA-PROTOTYPE"
+        assert access.getSwDataDefProps() is not None
+        assert access.getSwDataDefProps().getSwCalibrationAccess().getValue() == "notAccessible"
+
+    def test_readRunnableEntity_with_dataReadAccess_full(self, parser):
+        from armodel.models import ApplicationSwComponentType
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        runnable = behavior.createRunnableEntity("run")
+        element = _snip(
+            "<SHORT-NAME>run</SHORT-NAME>"
+            "<DATA-READ-ACCESSS>"
+            "<VARIABLE-ACCESS><SHORT-NAME>ra</SHORT-NAME>"
+            "<ACCESSED-VARIABLE>"
+            "<AUTOSAR-VARIABLE-IREF>"
+            "<PORT-PROTOTYPE-REF DEST='R-PORT-PROTOTYPE'>/pp</PORT-PROTOTYPE-REF>"
+            "<TARGET-DATA-PROTOTYPE-REF DEST='VARIABLE-DATA-PROTOTYPE'>/Var</TARGET-DATA-PROTOTYPE-REF>"
+            "</AUTOSAR-VARIABLE-IREF>"
+            "</ACCESSED-VARIABLE>"
+            "<SCOPE>COMMUNICATION-INTRA-PARTITION</SCOPE>"
+            "</VARIABLE-ACCESS>"
+            "</DATA-READ-ACCESSS>",
+            root_tag="RUNNABLE-ENTITY",
+        )
+        parser.readRunnableEntity(element, runnable)
+        accesses = runnable.getDataReadAccesses()
+        assert len(accesses) == 1
+        access = accesses[0]
+        assert access.getShortName() == "ra"
+        assert access.getAccessedVariable() is not None
+        iref = access.getAccessedVariable().getAutosarVariableIRef()
+        assert iref.getPortPrototypeRef().getValue() == "/pp"
+        assert iref.getTargetDataPrototypeRef().getValue() == "/Var"
+        assert access.getScope() is not None
+        assert access.getScope().getValue() == "COMMUNICATION-INTRA-PARTITION"
 
     def test_readRunnableEntity_with_asynchronousServerCallResultPoints(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -1399,11 +1649,12 @@ class TestRteEventHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         event = behavior.createAsynchronousServerCallReturnsEvent("ascr")
         element = _snip(
-            "<SHORT-NAME>ascr</SHORT-NAME>" "<EVENT-SOURCE-REF DEST='ASYNCHRONOUS-SERVER-CALL-POINT'>/acp</EVENT-SOURCE-REF>",
+            "<SHORT-NAME>ascr</SHORT-NAME>" "<EVENT-SOURCE-REF DEST='ASYNCHRONOUS-SERVER-CALL-RESULT-POINT'>/acp</EVENT-SOURCE-REF>",
             root_tag="ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT",
         )
         parser.readAsynchronousServerCallReturnsEvent(element, event)
         assert event.getEventSourceRef().getValue() == "/acp"
+        assert event.getEventSourceRef().getDest() == "ASYNCHRONOUS-SERVER-CALL-RESULT-POINT"
 
     def test_readModeSwitchedAckEvent_full(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -3493,13 +3744,11 @@ class TestReadSenderRecRecordElementMapping:
         )
 
         mapping = SenderRecRecordElementMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec1</APPLICATION-RECORD-ELEMENT-REF>
             <IMPLEMENTATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/Impl/Rec1</IMPLEMENTATION-RECORD-ELEMENT-REF>
             <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
-        """
-        )
+        """)
         parser.readSenderRecRecordElementMapping(element, mapping)
         assert mapping.getApplicationRecordElementRef() is not None
         assert mapping.getApplicationRecordElementRef().getValue() == "/App/Rec1"
@@ -3534,8 +3783,7 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
         )
 
         mapping = SenderRecRecordTypeMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <RECORD-ELEMENT-MAPPINGS>
                 <SENDER-REC-RECORD-ELEMENT-MAPPING>
                     <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec1</APPLICATION-RECORD-ELEMENT-REF>
@@ -3543,8 +3791,7 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
                     <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
                 </SENDER-REC-RECORD-ELEMENT-MAPPING>
             </RECORD-ELEMENT-MAPPINGS>
-        """
-        )
+        """)
         parser.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
         mappings = mapping.getRecordElementMappings()
         assert len(mappings) == 1
@@ -3557,15 +3804,13 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
         )
 
         mapping = SenderRecRecordTypeMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <RECORD-ELEMENT-MAPPINGS>
                 <UNKNOWN-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-MAPPING>
             </RECORD-ELEMENT-MAPPINGS>
-        """
-        )
+        """)
         with pytest.raises(NotImplementedError):
             parser.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
 
@@ -3575,15 +3820,13 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
         )
 
         mapping = SenderRecRecordTypeMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <RECORD-ELEMENT-MAPPINGS>
                 <UNKNOWN-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-MAPPING>
             </RECORD-ELEMENT-MAPPINGS>
-        """
-        )
+        """)
         with caplog.at_level(logging.ERROR):
             warning_parser.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
         assert any("Unsupported RecordElementMapping" in rec.getMessage() for rec in caplog.records)
@@ -3612,8 +3855,7 @@ class TestReadSenderRecRecordTypeMapping:
         )
 
         mapping = SenderRecRecordTypeMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <RECORD-ELEMENT-MAPPINGS>
                 <SENDER-REC-RECORD-ELEMENT-MAPPING>
                     <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec1</APPLICATION-RECORD-ELEMENT-REF>
@@ -3626,8 +3868,7 @@ class TestReadSenderRecRecordTypeMapping:
                     <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S2</SYSTEM-SIGNAL-REF>
                 </SENDER-REC-RECORD-ELEMENT-MAPPING>
             </RECORD-ELEMENT-MAPPINGS>
-        """
-        )
+        """)
         parser.readSenderRecRecordTypeMapping(element, mapping)
         mappings = mapping.getRecordElementMappings()
         assert len(mappings) == 2
@@ -3648,8 +3889,7 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
         )
 
         mapping = SenderReceiverToSignalGroupMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <TYPE-MAPPING>
                 <SENDER-REC-RECORD-TYPE-MAPPING>
                     <RECORD-ELEMENT-MAPPINGS>
@@ -3661,8 +3901,7 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
                     </RECORD-ELEMENT-MAPPINGS>
                 </SENDER-REC-RECORD-TYPE-MAPPING>
             </TYPE-MAPPING>
-        """
-        )
+        """)
         parser.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
         type_mapping = mapping.getTypeMapping()
         assert type_mapping is not None
@@ -3676,15 +3915,13 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
         )
 
         mapping = SenderReceiverToSignalGroupMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <TYPE-MAPPING>
                 <UNKNOWN-TYPE-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-TYPE-MAPPING>
             </TYPE-MAPPING>
-        """
-        )
+        """)
         with pytest.raises(NotImplementedError):
             parser.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
 
@@ -3694,15 +3931,13 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
         )
 
         mapping = SenderReceiverToSignalGroupMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <TYPE-MAPPING>
                 <UNKNOWN-TYPE-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-TYPE-MAPPING>
             </TYPE-MAPPING>
-        """
-        )
+        """)
         with caplog.at_level(logging.ERROR):
             warning_parser.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
         assert any("Unsupported Type Mapping" in rec.getMessage() for rec in caplog.records)
@@ -3727,8 +3962,7 @@ class TestReadSystemMappingDataMappings:
 
     def test_reads_sender_receiver_to_signal_mapping(self, parser):
         mapping = _make_system_mapping()
-        element = _snip(
-            """
+        element = _snip("""
             <DATA-MAPPINGS>
                 <SENDER-RECEIVER-TO-SIGNAL-MAPPING>
                     <COMMUNICATION-DIRECTION>IN</COMMUNICATION-DIRECTION>
@@ -3741,8 +3975,7 @@ class TestReadSystemMappingDataMappings:
                     <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
                 </SENDER-RECEIVER-TO-SIGNAL-MAPPING>
             </DATA-MAPPINGS>
-        """
-        )
+        """)
         parser.readSystemMappingDataMappings(element, mapping)
         data_mappings = mapping.getDataMappings()
         assert len(data_mappings) == 1
@@ -3757,8 +3990,7 @@ class TestReadSystemMappingDataMappings:
 
     def test_reads_sender_receiver_to_signal_group_mapping(self, parser):
         mapping = _make_system_mapping()
-        element = _snip(
-            """
+        element = _snip("""
             <DATA-MAPPINGS>
                 <SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING>
                     <DATA-ELEMENT-IREF>
@@ -3781,8 +4013,7 @@ class TestReadSystemMappingDataMappings:
                     </TYPE-MAPPING>
                 </SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING>
             </DATA-MAPPINGS>
-        """
-        )
+        """)
         parser.readSystemMappingDataMappings(element, mapping)
         data_mappings = mapping.getDataMappings()
         assert len(data_mappings) == 1
@@ -3801,8 +4032,7 @@ class TestReadSystemMappingDataMappings:
 
     def test_reads_both_signal_and_signal_group_mappings(self, parser):
         mapping = _make_system_mapping()
-        element = _snip(
-            """
+        element = _snip("""
             <DATA-MAPPINGS>
                 <SENDER-RECEIVER-TO-SIGNAL-MAPPING>
                     <DATA-ELEMENT-IREF>
@@ -3817,37 +4047,32 @@ class TestReadSystemMappingDataMappings:
                     <SIGNAL-GROUP-REF DEST="SIGNAL-GROUP">/Sig/Group1</SIGNAL-GROUP-REF>
                 </SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING>
             </DATA-MAPPINGS>
-        """
-        )
+        """)
         parser.readSystemMappingDataMappings(element, mapping)
         data_mappings = mapping.getDataMappings()
         assert len(data_mappings) == 2
 
     def test_unsupported_data_mapping_raises(self, parser):
         mapping = _make_system_mapping()
-        element = _snip(
-            """
+        element = _snip("""
             <DATA-MAPPINGS>
                 <UNKNOWN-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-MAPPING>
             </DATA-MAPPINGS>
-        """
-        )
+        """)
         with pytest.raises(NotImplementedError):
             parser.readSystemMappingDataMappings(element, mapping)
 
     def test_unsupported_data_mapping_logs_warning(self, warning_parser, caplog):
         mapping = _make_system_mapping()
-        element = _snip(
-            """
+        element = _snip("""
             <DATA-MAPPINGS>
                 <UNKNOWN-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-MAPPING>
             </DATA-MAPPINGS>
-        """
-        )
+        """)
         with caplog.at_level(logging.ERROR):
             warning_parser.readSystemMappingDataMappings(element, mapping)
         assert any("Unsupported Data Mapping" in rec.getMessage() for rec in caplog.records)

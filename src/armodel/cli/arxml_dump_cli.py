@@ -16,8 +16,8 @@ from armodel.parser import ARXMLParser
 
 
 def show_variable_access(indent: int, variable_access: VariableAccess):
-    if variable_access.getAccessedVariableRef() is not None:
-        accessed_variable_ref = variable_access.getAccessedVariableRef()
+    if variable_access.getAccessedVariable() is not None:
+        accessed_variable_ref = variable_access.getAccessedVariable()
         if accessed_variable_ref.getAutosarVariableInImplDatatype() is not None:
             autosar_variable_in_impl_datatype = accessed_variable_ref.getAutosarVariableInImplDatatype()
             print("%s: %s" % (" " * indent, autosar_variable_in_impl_datatype.getPortPrototypeRef().getValue()))

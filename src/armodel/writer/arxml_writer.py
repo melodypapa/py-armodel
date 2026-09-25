@@ -597,6 +597,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import M
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     AsynchronousServerCallPoint,
+    InternalTriggeringPoint,
     RunnableEntity,
     RunnableEntityArgument,
     SwcExclusiveAreaPolicy,
@@ -1725,7 +1726,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if access is not None:
             child_element = ET.SubElement(element, key)
             self.writeIdentifiable(child_element, access)
-            self.setAutosarVariableRef(child_element, "ACCESSED-VARIABLE", access.getAccessedVariableRef())
+            self.setAutosarVariableRef(child_element, "ACCESSED-VARIABLE", access.getAccessedVariable())
             self.setChildElementOptionalLiteral(child_element, "SCOPE", access.getScope())
 
     def setSwValues(self, element: ET.Element, key: str, sw_values: SwValues):
@@ -3597,11 +3598,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "INIT-EVENT")
             self.setRTEEvent(child_element, event)
 
-    def writeAsynchronousServerCallReturnsEvent(self, element: ET.Element, event: InitEvent):
+    def writeAsynchronousServerCallReturnsEvent(self, element: ET.Element, event: AsynchronousServerCallReturnsEvent):
         if event is not None:
             child_element = ET.SubElement(element, "ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT")
             self.setRTEEvent(child_element, event)
-            self.setChildElementOptionalRefType(child_element, "EVENT-SOURCE-REF", event.getActivationReasonRepresentationRef())
+            self.setChildElementOptionalRefType(child_element, "EVENT-SOURCE-REF", event.getEventSourceRef())
 
     def writeModeSwitchedAckEvent(self, element: ET.Element, event: ModeSwitchedAckEvent):
         if event is not None:
@@ -3852,7 +3853,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeVariableAccess(self, element: ET.Element, access: VariableAccess):
         child_element = ET.SubElement(element, "VARIABLE-ACCESS")
         self.writeIdentifiable(child_element, access)
-        self.setAutosarVariableRef(child_element, "ACCESSED-VARIABLE", access.getAccessedVariableRef())
+        self.setAutosarVariableRef(child_element, "ACCESSED-VARIABLE", access.getAccessedVariable())
+        self.setChildElementOptionalLiteral(child_element, "SCOPE", access.getScope())
 
     def setParameterInAtomicSWCTypeInstanceRef(self, element: ET.Element, key: str, parameter_iref: ParameterInAtomicSWCTypeInstanceRef):
         if parameter_iref is not None:
@@ -3873,6 +3875,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "PARAMETER-ACCESS")
         self.writeIdentifiable(child_element, parameter_access)
         self.setAutosarParameterRef(child_element, "ACCESSED-PARAMETER", parameter_access.getAccessedParameter())
+        self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", parameter_access.getSwDataDefProps())
 
     def writeRunnableEntityParameterAccesses(self, element: ET.Element, entity: RunnableEntity):
         parameter_accesses = entity.getParameterAccesses()
@@ -4136,6 +4139,29 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if trigger is not None:
                     self.writePTriggerInAtomicSwcTypeInstanceRef(child_element, "TRIGGER-IREF", trigger)
 
+    def writeInternalTriggeringPoint(self, element: ET.Element, point: InternalTriggeringPoint):
+        if point is not None:
+            child_element = ET.SubElement(element, "INTERNAL-TRIGGERING-POINT")
+            self.writeIdentifiable(child_element, point)
+            policy = point.getSwImplPolicy()
+            if policy is not None:
+                token = SW_IMPL_POLICY_XML_MAP.get(policy.getValue())
+                if token is None:
+                    self.notImplemented("Unsupported SW-IMPL-POLICY <%s>" % policy.getValue())
+                else:
+                    policy_element = ET.SubElement(child_element, "SW-IMPL-POLICY")
+                    policy_element.text = token
+
+    def writeRunnableEntityInternalTriggeringPoints(self, element: ET.Element, entity: RunnableEntity):
+        points = list(entity.getInternalTriggeringPoints())
+        if len(points) > 0:
+            child_element = ET.SubElement(element, "INTERNAL-TRIGGERING-POINTS")
+            for point in points:
+                if isinstance(point, InternalTriggeringPoint):
+                    self.writeInternalTriggeringPoint(child_element, point)
+                else:
+                    self.notImplemented("Unsupported Internal Triggering Point <%s>" % type(point))
+
     def writeRunnableEntityModeAccessPoints(self, element: ET.Element, entity: RunnableEntity):
         points = entity.getModeAccessPoints()
         if len(points) > 0:
@@ -4147,9 +4173,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported Mode Access Points <%s>" % type(point))
 
     def writeModeSwitchPointModeGroupIRef(self, element: ET.Element, point: ModeSwitchPoint):
-        if point is not None:
+        instance_ref = point.getModeGroupIRef()
+        if instance_ref is not None:
             child_element = ET.SubElement(element, "MODE-GROUP-IREF")
-            instance_ref = point.getModeGroupIRef()
             self.setChildElementOptionalRefType(child_element, "CONTEXT-P-PORT-REF", instance_ref.getContextPPortRef())
             self.setChildElementOptionalRefType(child_element, "TARGET-MODE-GROUP-REF", instance_ref.getTargetModeGroupRef())
 
@@ -4220,6 +4246,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeRunnableEntityModeAccessPoints(child_element, entity)
             self.writeRunnableEntityModeSwitchPoints(child_element, entity)
             self.writeRunnableEntityExternalTriggeringPoints(child_element, entity)
+            self.writeRunnableEntityInternalTriggeringPoints(child_element, entity)
             self.writeRunnableEntityParameterAccesses(child_element, entity)
             self.writeRunnableEntityReadLocalVariables(child_element, entity)
             self.writeRunnableEntityServerCallPoints(child_element, entity)

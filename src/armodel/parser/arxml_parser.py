@@ -677,7 +677,14 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDoc
     SwComponentDocumentation,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import ExternalTriggeringPoint, RunnableEntity, RunnableEntityArgument, SwcExclusiveAreaPolicy, SwcInternalBehavior
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+    ExternalTriggeringPoint,
+    InternalTriggeringPoint,
+    RunnableEntity,
+    RunnableEntityArgument,
+    SwcExclusiveAreaPolicy,
+    SwcInternalBehavior,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AccessCount, AccessCountSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ArVariableInImplementationDataInstanceRef, AutosarVariableRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
@@ -1873,31 +1880,24 @@ class ARXMLParser(AbstractARXMLParser):
 
             if key == "DATA-RECEIVE-POINT-BY-ARGUMENTS":
                 variable_access = parent.createDataReceivePointByArgument(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             elif key == "DATA-RECEIVE-POINT-BY-VALUES":
                 variable_access = parent.createDataReceivePointByValue(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             elif key == "DATA-READ-ACCESSS":
                 variable_access = parent.createDataReadAccess(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             elif key == "DATA-WRITE-ACCESSS":
                 variable_access = parent.createDataWriteAccess(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             elif key == "DATA-SEND-POINTS":
                 variable_access = parent.createDataSendPoint(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             elif key == "WRITTEN-LOCAL-VARIABLES":
                 variable_access = parent.createWrittenLocalVariable(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             elif key == "READ-LOCAL-VARIABLES":
                 variable_access = parent.createReadLocalVariable(short_name)
-                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             else:
                 self.notImplemented("Unsupported Variable Accesss <%s>" % key)
                 supported = False
 
             if supported:
-                self.readIdentifiable(child_element, variable_access)
+                self.readVariableAccess(child_element, variable_access)
 
     def readBswModuleDescriptionImplementedEntryRefs(self, element: ET.Element, parent: BswModuleDescription):
         for child_element in self.findall(element, "PROVIDED-ENTRYS/BSW-MODULE-ENTRY-REF-CONDITIONAL"):
@@ -5162,6 +5162,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readParameterAccess(self, element: ET.Element, access: ParameterAccess):
         self.readIdentifiable(element, access)
         access.setAccessedParameter(self.getAutosarParameterRef(element, "ACCESSED-PARAMETER"))
+        access.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
 
     def readRunnableEntityParameterAccesses(self, element: ET.Element, parent: RunnableEntity):
         for child_element in self.findall(element, "PARAMETER-ACCESSS/PARAMETER-ACCESS"):
@@ -5228,11 +5229,28 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.raiseError("Unsupported server call point type <%s>" % tag_name)
 
+    def readInternalTriggeringPoint(self, element: ET.Element, point: InternalTriggeringPoint):
+        self.readIdentifiable(element, point)
+        literal = self.getChildElementOptionalLiteral(element, "SW-IMPL-POLICY")
+        if literal is not None:
+            camel = None
+            for camel_value, token in SW_IMPL_POLICY_XML_MAP.items():
+                if token == literal.getText():
+                    camel = camel_value
+                    break
+            if camel is not None:
+                point.setSwImplPolicy(SwImplPolicyEnum().setValue(camel))
+            else:
+                self.notImplemented("Unsupported SW-IMPL-POLICY <%s>" % literal.getText())
+
     def readRunnableEntityInternalTriggeringPoints(self, element: ET.Element, parent: RunnableEntity):
-        for child_element in self.findall(element, "INTERNAL-TRIGGERING-POINTS/INTERNAL-TRIGGERING-POINT"):
-            short_name = self.getShortName(child_element)
-            point = parent.createInternalTriggeringPoint(short_name)
-            point.sw_impl_policy = self.getChildElementOptionalLiteral(child_element, "SW-IMPL-POLICY")
+        for child_element in self.findall(element, "INTERNAL-TRIGGERING-POINTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "INTERNAL-TRIGGERING-POINT":
+                point = parent.createInternalTriggeringPoint(self.getShortName(child_element))
+                self.readInternalTriggeringPoint(child_element, point)
+            else:
+                self.notImplemented("Unsupported Internal Triggering Point <%s>" % tag_name)
 
     def readRunnableEntityExternalTriggeringPoints(self, element: ET.Element, parent: RunnableEntity):
         for child_element in self.findall(element, "EXTERNAL-TRIGGERING-POINTS/EXTERNAL-TRIGGERING-POINT"):
@@ -5393,7 +5411,7 @@ class ARXMLParser(AbstractARXMLParser):
             point.setModeGroupIRef(instance_ref)
 
     def readModeSwitchPoint(self, element: ET.Element, point: ModeSwitchPoint):
-        self.readARObject(element, point)
+        self.readIdentifiable(element, point)
         self.readModeSwitchPointModeGroupIRef(element, point)
 
     def readRunnableEntityModeSwitchPoints(self, element: ET.Element, parent: RunnableEntity):
@@ -6658,7 +6676,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readVariableAccess(self, element: ET.Element, access: VariableAccess):
         self.readIdentifiable(element, access)
-        access.setAccessedVariableRef(self.getAutosarVariableRef(element, "ACCESSED-VARIABLE"))
+        access.setAccessedVariable(self.getAutosarVariableRef(element, "ACCESSED-VARIABLE"))
         access.setScope(self.getChildElementOptionalLiteral(element, "SCOPE"))
 
     def getTransformationComSpecProps(self, element: ET.Element) -> Optional[TransformationComSpecProps]:
