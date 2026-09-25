@@ -38,10 +38,12 @@ def _mapping_set(short_name: str = "dtms") -> DataTypeMappingSet:
 
 
 def _parse(parser: ARXMLParser, mapping_set: DataTypeMappingSet, inner: str):
-    element = ET.fromstring(f"""<DATA-TYPE-MAPPING-SET xmlns='{NS}'>
+    element = ET.fromstring(
+        f"""<DATA-TYPE-MAPPING-SET xmlns='{NS}'>
             <SHORT-NAME>dtms</SHORT-NAME>
             {inner}
-        </DATA-TYPE-MAPPING-SET>""")
+        </DATA-TYPE-MAPPING-SET>"""
+    )
     parser.readModeRequestTypeMaps(element, mapping_set)
 
 

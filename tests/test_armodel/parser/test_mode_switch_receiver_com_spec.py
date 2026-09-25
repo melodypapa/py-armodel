@@ -65,14 +65,16 @@ class TestGetModeSwitchReceiverComSpec:
         AUTOSAR.getInstance().setARRelease("R23-11")
         app = ApplicationSwComponentType(parent=_autosar_root(), short_name="App")
         r_port = app.createRPortPrototype("RPort")
-        element = _snip("""
+        element = _snip(
+            """
             <REQUIRED-COM-SPECS>
                 <MODE-SWITCH-RECEIVER-COM-SPEC>
                     <ENHANCED-MODE-API>true</ENHANCED-MODE-API>
                     <MODE-GROUP-REF DEST="MODE-DECLARATION-GROUP-PROTOTYPE">/mdg/Group</MODE-GROUP-REF>
                 </MODE-SWITCH-RECEIVER-COM-SPEC>
             </REQUIRED-COM-SPECS>
-            """)
+            """
+        )
         parser.readRequiredComSpec(element, r_port)
         specs = r_port.getRequiredComSpecs()
         assert len(specs) == 1

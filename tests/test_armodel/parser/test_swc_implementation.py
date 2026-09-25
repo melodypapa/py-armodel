@@ -53,10 +53,12 @@ class TestReadSwcImplementation:
         Test that the BEHAVIOR-REF value and DEST are populated into the behaviorRef field.
         """
         impl = _impl()
-        element = ET.fromstring(f"""<SWC-IMPLEMENTATION xmlns='{NS}'>
+        element = ET.fromstring(
+            f"""<SWC-IMPLEMENTATION xmlns='{NS}'>
                 <SHORT-NAME>Impl1</SHORT-NAME>
                 <BEHAVIOR-REF DEST="SWC-INTERNAL-BEHAVIOR">/Pkg/Behavior</BEHAVIOR-REF>
-            </SWC-IMPLEMENTATION>""")
+            </SWC-IMPLEMENTATION>"""
+        )
 
         parser.readSwcImplementation(element, impl)
 
@@ -70,10 +72,12 @@ class TestReadSwcImplementation:
         Test that the REQUIRED-RTE-VENDOR value is populated into the requiredRTEVendor field.
         """
         impl = _impl()
-        element = ET.fromstring(f"""<SWC-IMPLEMENTATION xmlns='{NS}'>
+        element = ET.fromstring(
+            f"""<SWC-IMPLEMENTATION xmlns='{NS}'>
                 <SHORT-NAME>Impl1</SHORT-NAME>
                 <REQUIRED-RTE-VENDOR>Vector</REQUIRED-RTE-VENDOR>
-            </SWC-IMPLEMENTATION>""")
+            </SWC-IMPLEMENTATION>"""
+        )
 
         parser.readSwcImplementation(element, impl)
 

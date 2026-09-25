@@ -66,7 +66,8 @@ class TestGetParameterRequireComSpec:
         AUTOSAR.getInstance().setARRelease("R23-11")
         app = ApplicationSwComponentType(parent=_autosar_root(), short_name="App")
         r_port = app.createRPortPrototype("RPort")
-        element = _snip("""
+        element = _snip(
+            """
             <REQUIRED-COM-SPECS>
                 <PARAMETER-REQUIRE-COM-SPEC>
                     <INIT-VALUE>
@@ -77,7 +78,8 @@ class TestGetParameterRequireComSpec:
                     <PARAMETER-REF DEST="PARAMETER-DATA-PROTOTYPE">/pkg/ParamInterface/Param</PARAMETER-REF>
                 </PARAMETER-REQUIRE-COM-SPEC>
             </REQUIRED-COM-SPECS>
-            """)
+            """
+        )
         parser.readRequiredComSpec(element, r_port)
         specs = r_port.getRequiredComSpecs()
         assert len(specs) == 1

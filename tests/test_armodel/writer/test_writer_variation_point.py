@@ -23,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
     ConditionByFormula,
     PostBuildVariantCondition,
     PostBuildVariantCriterionValue,
+    SwSystemconstDependentFormula,
     VariationPoint,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
@@ -896,3 +897,41 @@ class TestPostBuildVariantCriterionValueRoundTrip:
         assert len(annotations_2) == 1
         assert isinstance(annotations_2[0], Annotation)
         assert annotations_2[0].getLabel().getL4s()[0].getValue() == "Country is Germany"
+
+
+class _ProbeSwSystemconstDependentFormula(SwSystemconstDependentFormula):
+    """Probe subclass — SwSystemconstDependentFormula itself is abstract."""
+
+
+class TestWriteSwSystemconstDependentFormula:
+    """Table 7.10 (FO GST, p.240) — abstract SwSystemconstDependentFormula owns the
+    reusable SYSC-REF / SYSC-STRING-REF writer helper (XSD group
+    SW-SYSTEMCONST-DEPENDENT-FORMULA, AUTOSAR_00052.xsd L116360)."""
+
+    def _write(self, probe) -> ET.Element:
+        element = ET.Element("PARENT")
+        ARXMLWriter().writeSwSystemconstDependentFormula(element, probe)
+        return element
+
+    def test_write_sysc_refs(self):
+        probe = _ProbeSwSystemconstDependentFormula()
+        probe.setSyscRef(RefType().setValue("/Demo/SystemConstants/SY_TURBO").setDest("SW-SYSTEMCONST"))
+        probe.setSyscStringRef(RefType().setValue("/Demo/SystemConstants/SY_MODE").setDest("SW-SYSTEMCONST"))
+
+        element = self._write(probe)
+
+        sysc = element.find("SYSC-REF")
+        assert sysc is not None
+        assert sysc.text == "/Demo/SystemConstants/SY_TURBO"
+        assert sysc.attrib["DEST"] == "SW-SYSTEMCONST"
+        sysc_string = element.find("SYSC-STRING-REF")
+        assert sysc_string is not None
+        assert sysc_string.text == "/Demo/SystemConstants/SY_MODE"
+        assert sysc_string.attrib["DEST"] == "SW-SYSTEMCONST"
+
+    def test_write_refs_absent_emits_nothing(self):
+        probe = _ProbeSwSystemconstDependentFormula()
+
+        element = self._write(probe)
+
+        assert list(element) == []

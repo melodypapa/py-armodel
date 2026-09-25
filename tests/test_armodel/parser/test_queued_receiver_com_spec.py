@@ -67,13 +67,15 @@ class TestGetQueuedReceiverComSpec:
         AUTOSAR.getInstance().setARRelease("R23-11")
         app = ApplicationSwComponentType(parent=_autosar_root(), short_name="App")
         r_port = app.createRPortPrototype("RPort")
-        element = _snip("""
+        element = _snip(
+            """
             <REQUIRED-COM-SPECS>
                 <QUEUED-RECEIVER-COM-SPEC>
                     <QUEUE-LENGTH>5</QUEUE-LENGTH>
                 </QUEUED-RECEIVER-COM-SPEC>
             </REQUIRED-COM-SPECS>
-            """)
+            """
+        )
         parser.readRequiredComSpec(element, r_port)
         specs = r_port.getRequiredComSpecs()
         assert len(specs) == 1

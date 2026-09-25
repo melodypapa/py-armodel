@@ -26,6 +26,9 @@ class AtpMixedString(ABC):
     # Spec: R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.md, [TPS_GST_00025], section 2.3.1 (R23-11)
     # Serialization: R23-11/AUTOSAR_FO_TPS_XMLSchemaProductionRules.md, [TPS_XMLSPR_00047], section 3.2.4.2 (R23-11)
     # No spec table: stereotype-inherent accessors have no attribute rows ("no spec row" convention).
+    # Deliberately NOT an ARObject child: the stereotype spans >=4 unrelated hierarchies
+    # (FormulaExpression family, ECUC queries, MSR documentation text model, inline text)
+    # and 0 spec Base rows ever list AtpMixedString — it is a capability, not a taxonomy.
     # Columns: impl / docstring / test   ([—] = no spec row)
     # [x] getMixedString    [x] impl  [x] docstring  [x] test
     # [x] setMixedString    [x] impl  [x] docstring  [x] test
