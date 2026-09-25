@@ -360,6 +360,17 @@ class AbstractARXMLParser(ABC):
             results.append(numerical)
         return results
 
+    def getChildElementPositiveIntegerValueList(self, element: ET.Element, key: str) -> List[PositiveInteger]:
+        child_elements = self.findall(element, key)
+        results = []
+        for child_element in child_elements:
+            numerical = PositiveInteger()
+            numerical.setValue(child_element.text)
+            if numerical.getValue() < 0:
+                raise ValueError("Invalid PositiveInteger <%s>" % child_element.text)
+            results.append(numerical)
+        return results
+
     def getChildLimitElement(self, element: ET.Element, key: str) -> Limit:
         child_element = self.find(element, key)
         if child_element is not None:

@@ -3,6 +3,10 @@ This module contains comprehensive tests for the Datatypes module in SWComponent
 Tests cover all classes and methods in the Datatypes.py file to achieve 100% test coverage.
 """
 
+import inspect
+import typing
+from typing import Optional
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
@@ -11,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure impor
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
     ApplicationArrayDataType,
     ApplicationCompositeDataType,
@@ -247,28 +252,61 @@ class TestApplicationRecordDataType:
 
 
 class TestDataTypeMap:
-    """Test class for DataTypeMap class."""
+    """Heritage / API tests for the synced DataTypeMap (Table 5.3)."""
 
-    def test_data_type_map_initialization(self):
-        """Test DataTypeMap initialization and methods."""
+    def test_spec_notes_are_verbatim(self):
+        assert DataTypeMap.__doc__.strip() == ("This class represents the relationship between ApplicationDataType and its implementing AbstractImplementationDataType.")
+        assert DataTypeMap.getApplicationDataTypeRef.__doc__.strip() == ("This is the corresponding ApplicationDataType [constr_1903]")
+        assert DataTypeMap.setApplicationDataTypeRef.__doc__.strip() == (
+            "This is the corresponding ApplicationDataType [constr_1903] A None value is a no-op and does not overwrite an existing applicationDataTypeRef."
+        )
+        assert DataTypeMap.getImplementationDataTypeRef.__doc__.strip() == ("This is the corresponding AbstractImplementationDataType. [constr_1904]")
+        assert DataTypeMap.setImplementationDataTypeRef.__doc__.strip() == (
+            "This is the corresponding AbstractImplementationDataType. [constr_1904] A None value is a no-op and does not overwrite an existing implementationDataTypeRef."
+        )
+
+    def test_base_shape(self):
+        assert DataTypeMap.__bases__[0] is ARObject
+        signature = inspect.signature(DataTypeMap.__init__)
+        assert list(signature.parameters.keys()) == ["self"]
+        hints = typing.get_type_hints(DataTypeMap.setApplicationDataTypeRef)
+        assert hints.get("value") == Optional[RefType]
+        assert hints.get("return") is DataTypeMap
+        hints = typing.get_type_hints(DataTypeMap.setImplementationDataTypeRef)
+        assert hints.get("value") == Optional[RefType]
+        assert hints.get("return") is DataTypeMap
+        hints = typing.get_type_hints(DataTypeMap.getApplicationDataTypeRef)
+        assert hints.get("return") == Optional[RefType]
+        hints = typing.get_type_hints(DataTypeMap.getImplementationDataTypeRef)
+        assert hints.get("return") == Optional[RefType]
+
+    def test_initialization(self):
         data_type_map = DataTypeMap()
 
         assert data_type_map.applicationDataTypeRef is None
         assert data_type_map.implementationDataTypeRef is None
 
-        # Test applicationDataTypeRef methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-
+    def test_get_set_application_data_type_ref(self):
+        data_type_map = DataTypeMap()
         app_ref = RefType()
         app_ref.setValue("/Application/Type")
-        data_type_map.setApplicationDataTypeRef(app_ref)
-        assert data_type_map.getApplicationDataTypeRef() == app_ref
 
-        # Test implementationDataTypeRef methods
+        assert data_type_map.setApplicationDataTypeRef(app_ref) is data_type_map
+        assert data_type_map.getApplicationDataTypeRef() is app_ref
+
+        data_type_map.setApplicationDataTypeRef(None)
+        assert data_type_map.getApplicationDataTypeRef() is app_ref
+
+    def test_get_set_implementation_data_type_ref(self):
+        data_type_map = DataTypeMap()
         impl_ref = RefType()
         impl_ref.setValue("/Implementation/Type")
-        data_type_map.setImplementationDataTypeRef(impl_ref)
-        assert data_type_map.getImplementationDataTypeRef() == impl_ref
+
+        assert data_type_map.setImplementationDataTypeRef(impl_ref) is data_type_map
+        assert data_type_map.getImplementationDataTypeRef() is impl_ref
+
+        data_type_map.setImplementationDataTypeRef(None)
+        assert data_type_map.getImplementationDataTypeRef() is impl_ref
 
 
 class TestDataTypeMappingSet:

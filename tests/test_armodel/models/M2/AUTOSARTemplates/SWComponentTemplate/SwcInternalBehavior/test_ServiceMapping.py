@@ -5,6 +5,7 @@ Tests cover all classes and methods in the ServiceMapping.py file to achieve 100
 
 import os
 import tempfile
+import typing
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
@@ -13,7 +14,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     OperationCycleTypeEnum,
     StorageConditionStatusEnum,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment, RoleBasedPortAssignment, SwcServiceDependency
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -58,31 +61,86 @@ class TestRoleBasedDataTypeAssignment:
         assert assignment.getUsedImplementationDataTypeRef() == ref_type
 
 
+CLASS_NOTE = (
+    "This class specifies an assignment of a role to a particular service port (RPortPrototype or PPortPrototype) of an AtomicSwComponentType. "  # noqa E501
+    "With this assignment, the role of the service port can be mapped to a specific ServiceNeeds element, so that a tool is able to create the correct connector."  # noqa E501
+)
+
+PORT_PROTOTYPE_NOTE = (
+    "Service PortPrototype used in the assigned role. "  # noqa E501
+    "This PortPrototype shall either belong to the same AtomicSwComponentType as the SwcInternalBehavior which owns the ServiceDependency "  # noqa E501
+    "or to the same NvBlockSwComponentType as the NvBlockDescriptor."  # noqa E501
+)
+
+ROLE_NOTE = (
+    "This is the role of the assigned Port in the given context. "  # noqa E501
+    "The value shall be a shortName of the Blueprint of a PortInterface as standardized in the Software Specification of the related AUTOSAR Service."  # noqa E501
+)
+
+
 class TestRoleBasedPortAssignment:
-    """Test class for RoleBasedPortAssignment class."""
+    def test_spec_notes_are_verbatim(self):
+        """Test that the class docstring and every accessor docstring is the spec Note verbatim (Table 7.54)"""
+        assert RoleBasedPortAssignment.__doc__.strip() == CLASS_NOTE
+        assert RoleBasedPortAssignment.getPortPrototypeRef.__doc__.strip() == PORT_PROTOTYPE_NOTE
+        assert RoleBasedPortAssignment.setPortPrototypeRef.__doc__.strip() == (PORT_PROTOTYPE_NOTE + " A None value is a no-op and does not overwrite an existing portPrototypeRef.")
+        assert RoleBasedPortAssignment.getRole.__doc__.strip() == ROLE_NOTE
+        assert RoleBasedPortAssignment.setRole.__doc__.strip() == (ROLE_NOTE + " A None value is a no-op and does not overwrite an existing role.")
 
-    def test_role_based_port_assignment_initialization(self):
-        """Test RoleBasedPortAssignment initialization and methods."""
-        port_assignment = RoleBasedPortAssignment()
+    def test_base_shape(self):
+        """Test the base chain, no-arg __init__ and typed accessor signatures"""
+        assert issubclass(RoleBasedPortAssignment, ARObject)
+        assert issubclass(RoleBasedPortAssignment, VariationPointCapable)
+        assignment = RoleBasedPortAssignment()
+        assert assignment.portPrototypeRef is None
+        assert assignment.role is None
 
-        assert port_assignment.portPrototypeRef is None
-        assert port_assignment.role is None
+        hints = typing.get_type_hints(RoleBasedPortAssignment.getPortPrototypeRef)
+        assert hints["return"] == typing.Optional[RefType]
+        hints = typing.get_type_hints(RoleBasedPortAssignment.setPortPrototypeRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert hints["return"] is RoleBasedPortAssignment
+        hints = typing.get_type_hints(RoleBasedPortAssignment.getRole)
+        assert hints["return"] == typing.Optional[Identifier]
+        hints = typing.get_type_hints(RoleBasedPortAssignment.setRole)
+        assert hints["value"] == typing.Optional[Identifier]
+        assert hints["return"] is RoleBasedPortAssignment
 
-        # Test portPrototypeRef methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+    def test_initialization(self):
+        """Test RoleBasedPortAssignment initialization"""
+        assignment = RoleBasedPortAssignment()
 
+        assert assignment is not None
+        assert assignment.portPrototypeRef is None
+        assert assignment.role is None
+
+    def test_get_set_port_prototype_ref(self):
+        """Test getPortPrototypeRef and setPortPrototypeRef methods"""
+        assignment = RoleBasedPortAssignment()
+
+        assert assignment.getPortPrototypeRef() is None
         port_ref = RefType()
-        port_ref.setValue("/Port/Ref")
-        port_assignment.setPortPrototypeRef(port_ref)
-        assert port_assignment.getPortPrototypeRef() == port_ref
+        port_ref.setValue("/Swc/PortPrototype")
+        assert assignment.setPortPrototypeRef(port_ref) is assignment
+        assert assignment.getPortPrototypeRef() is port_ref
+        assert isinstance(assignment.getPortPrototypeRef(), RefType)
+        assert assignment.getPortPrototypeRef().getValue() == "/Swc/PortPrototype"
+        assignment.setPortPrototypeRef(None)
+        assert assignment.getPortPrototypeRef() is port_ref
 
-        # Test role methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier
+    def test_get_set_role(self):
+        """Test getRole and setRole methods"""
+        assignment = RoleBasedPortAssignment()
 
+        assert assignment.getRole() is None
         role = Identifier()
-        role.setValue("test_role")
-        port_assignment.setRole(role)
-        assert port_assignment.getRole() == role
+        role.setValue("NvMService")
+        assert assignment.setRole(role) is assignment
+        assert assignment.getRole() is role
+        assert isinstance(assignment.getRole(), Identifier)
+        assert assignment.getRole().getValue() == "NvMService"
+        assignment.setRole(None)
+        assert assignment.getRole() is role
 
 
 class TestSwcServiceDependency:

@@ -41,7 +41,9 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     TransmissionModeDefinitionEnum,
     UserDefinedTransformationComSpecProps,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import EndToEndTransformationComSpecProps
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
 class TestHandleInvalidEnum:
@@ -85,25 +87,61 @@ class TestRPortComSpec:
 
 
 class TestCompositeNetworkRepresentation:
-    """Test class for CompositeNetworkRepresentation class."""
+    """Test class for CompositeNetworkRepresentation class (Table 4.74)."""
 
-    def test_composite_network_representation_initialization(self):
-        """Test CompositeNetworkRepresentation initialization and basic methods."""
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings must be the Table 4.74 Notes copied verbatim."""
+        assert CompositeNetworkRepresentation.__doc__.strip() == "This meta-class is used to define the network representation of leaf elements of composite application data types."
+        leaf_element_note = "This represents that leaf element of an application composite data type. " "InstanceRef implemented by: ApplicationCompositeElementInPortInterfaceInstanceRef"
+        assert CompositeNetworkRepresentation.getLeafElementIRef.__doc__.strip() == leaf_element_note
+        assert CompositeNetworkRepresentation.setLeafElementIRef.__doc__.strip() == leaf_element_note + ". A None value is a no-op and does not overwrite an existing leafElementIRef."
+        network_representation_note = (
+            "The SwDataDefProps owned by the CompositeNetworkRepresentation are used to define the network representation " "of the leaf element of an ApplicationCompositeDataType."
+        )
+        assert CompositeNetworkRepresentation.getNetworkRepresentation.__doc__.strip() == network_representation_note
+        assert (
+            CompositeNetworkRepresentation.setNetworkRepresentation.__doc__.strip()
+            == network_representation_note + " A None value is a no-op and does not overwrite an existing networkRepresentation."
+        )
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject — Python base is ARObject; setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(CompositeNetworkRepresentation, ARObject)
+        for name in ("setLeafElementIRef", "setNetworkRepresentation"):
+            assert CompositeNetworkRepresentation.__dict__[name].__annotations__["return"] == "CompositeNetworkRepresentation"
+
+    def test_initialization_defaults(self):
         representation = CompositeNetworkRepresentation()
         assert representation.leafElementIRef is None
         assert representation.networkRepresentation is None
+        assert representation.getLeafElementIRef() is None
+        assert representation.getNetworkRepresentation() is None
 
-        # Test setters and getters
-        ref = RefType()
-        ref.setValue("/Test/Ref")
-        representation.setLeafElementIRef(ref)
-        assert representation.getLeafElementIRef() == ref
+    def test_get_set_leaf_element_iref(self):
+        representation = CompositeNetworkRepresentation()
+        iref = ApplicationCompositeElementInPortInterfaceInstanceRef()
+        root_ref = RefType()
+        root_ref.setValue("/Composite/Root")
+        iref.setRootDataPrototypeRef(root_ref)
+        target_ref = RefType()
+        target_ref.setValue("/Composite/Leaf")
+        iref.setTargetDataPrototypeRef(target_ref)
+        result = representation.setLeafElementIRef(iref)
+        assert result is representation
+        assert representation.getLeafElementIRef() is iref
+        assert representation.getLeafElementIRef().getRootDataPrototypeRef().getValue() == "/Composite/Root"
+        assert representation.getLeafElementIRef().getTargetDataPrototypeRef().getValue() == "/Composite/Leaf"
+        representation.setLeafElementIRef(None)
+        assert representation.getLeafElementIRef() is iref
 
-        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
-
-        sw_data_def = SwDataDefProps()
-        representation.setNetworkRepresentation(sw_data_def)
-        assert representation.getNetworkRepresentation() == sw_data_def
+    def test_get_set_network_representation(self):
+        representation = CompositeNetworkRepresentation()
+        value = SwDataDefProps()
+        result = representation.setNetworkRepresentation(value)
+        assert result is representation
+        assert representation.getNetworkRepresentation() is value
+        representation.setNetworkRepresentation(None)
+        assert representation.getNetworkRepresentation() is value
 
 
 class TestTransmissionAcknowledgementRequest:
@@ -325,74 +363,164 @@ class TestClientComSpec:
 
 
 class TestModeSwitchReceiverComSpec:
-    """Test class for ModeSwitchReceiverComSpec class."""
+    """Test class for ModeSwitchReceiverComSpec class (Table 4.81)."""
 
-    def test_mode_switch_receiver_com_spec_initialization(self):
-        """Test ModeSwitchReceiverComSpec initialization and methods."""
-        receiver = ModeSwitchReceiverComSpec()
-        assert receiver.enhancedModeApi is None
-        assert receiver.modeGroupRef is None
-        assert receiver.supportsAsynchronousModeSwitch is None
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings must be the Table 4.81 Notes copied verbatim."""
+        assert ModeSwitchReceiverComSpec.__doc__.strip() == "Communication attributes of RPortPrototypes with respect to mode communication"
+        enhanced_note = 'This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to "true" the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE.'
+        assert ModeSwitchReceiverComSpec.getEnhancedModeApi.__doc__.strip() == enhanced_note
+        assert ModeSwitchReceiverComSpec.setEnhancedModeApi.__doc__.strip() == enhanced_note + " A None value is a no-op and does not overwrite an existing enhancedModeApi."
+        mode_group_note = "ModeDeclarationGroupPrototype (of the same PortInterface) to which these communication attributes apply. [constr_1896]"
+        assert ModeSwitchReceiverComSpec.getModeGroupRef.__doc__.strip() == mode_group_note
+        assert ModeSwitchReceiverComSpec.setModeGroupRef.__doc__.strip() == mode_group_note + " A None value is a no-op and does not overwrite an existing modeGroupRef."
+        async_note = "This attribute controls the behavior of the corresponding RPortPrototype with respect to the question whether it can deal with asynchronous mode switch requests, i.e. if set to true, the RPortPrototype is able to deal with an asynchronous mode switch request."
+        assert ModeSwitchReceiverComSpec.getSupportsAsynchronousModeSwitch.__doc__.strip() == async_note
+        assert ModeSwitchReceiverComSpec.setSupportsAsynchronousModeSwitch.__doc__.strip() == async_note + " A None value is a no-op and does not overwrite an existing supportsAsynchronousModeSwitch."
 
-        # Test setters and getters
-        api = Boolean()
-        api.setValue(True)
-        receiver.setEnhancedModeApi(api)
-        assert receiver.getEnhancedModeApi() == api
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject + RPortComSpec — Python base is RPortComSpec (most-derived, Table 4.59); setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(ModeSwitchReceiverComSpec, RPortComSpec)
+        assert issubclass(ModeSwitchReceiverComSpec, ARObject)
+        assert ModeSwitchReceiverComSpec.__dict__["setEnhancedModeApi"].__annotations__["return"] == "ModeSwitchReceiverComSpec"
+        assert ModeSwitchReceiverComSpec.__dict__["setModeGroupRef"].__annotations__["return"] == "ModeSwitchReceiverComSpec"
+        assert ModeSwitchReceiverComSpec.__dict__["setSupportsAsynchronousModeSwitch"].__annotations__["return"] == "ModeSwitchReceiverComSpec"
 
-        ref = RefType()
-        ref.setValue("/Test/ModeGroup")
-        receiver.setModeGroupRef(ref)
-        assert receiver.getModeGroupRef() == ref
+    def test_initialization_defaults(self):
+        """Test ModeSwitchReceiverComSpec field defaults."""
+        com_spec = ModeSwitchReceiverComSpec()
+        assert com_spec.enhancedModeApi is None
+        assert com_spec.modeGroupRef is None
+        assert com_spec.supportsAsynchronousModeSwitch is None
 
-        async_mode = Boolean()
-        async_mode.setValue(False)
-        receiver.setSupportsAsynchronousModeSwitch(async_mode)
-        assert receiver.getSupportsAsynchronousModeSwitch() == async_mode
+    def test_get_set_enhanced_mode_api(self):
+        """Test enhancedModeApi accessor pair, chaining and None no-op."""
+        com_spec = ModeSwitchReceiverComSpec()
+        value = Boolean()
+        value.setValue(True)
+        result = com_spec.setEnhancedModeApi(value)
+        assert result is com_spec
+        assert com_spec.getEnhancedModeApi() is value
+        com_spec.setEnhancedModeApi(None)
+        assert com_spec.getEnhancedModeApi() is value
+
+    def test_get_set_mode_group_ref(self):
+        """Test modeGroupRef accessor pair, chaining and None no-op."""
+        com_spec = ModeSwitchReceiverComSpec()
+        value = RefType()
+        value.setValue("/ModeDcl/Group")
+        result = com_spec.setModeGroupRef(value)
+        assert result is com_spec
+        assert com_spec.getModeGroupRef() is value
+        com_spec.setModeGroupRef(None)
+        assert com_spec.getModeGroupRef() is value
+
+    def test_get_set_supports_asynchronous_mode_switch(self):
+        """Test supportsAsynchronousModeSwitch accessor pair, chaining and None no-op."""
+        com_spec = ModeSwitchReceiverComSpec()
+        value = Boolean()
+        value.setValue(False)
+        result = com_spec.setSupportsAsynchronousModeSwitch(value)
+        assert result is com_spec
+        assert com_spec.getSupportsAsynchronousModeSwitch() is value
+        com_spec.setSupportsAsynchronousModeSwitch(None)
+        assert com_spec.getSupportsAsynchronousModeSwitch() is value
 
 
 class TestNvRequireComSpec:
-    """Test class for NvRequireComSpec class."""
+    """Test class for NvRequireComSpec class (Table 4.84)."""
 
-    def test_nv_require_com_spec_initialization(self):
-        """Test NvRequireComSpec initialization and methods."""
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings must be the Table 4.84 Notes copied verbatim."""
+        assert NvRequireComSpec.__doc__.strip() == "Communication attributes of RPortPrototypes with respect to Nv data communication on the required side."
+        init_value_note = "The initial value owned by the NvComSpec"
+        assert NvRequireComSpec.getInitValue.__doc__.strip() == init_value_note
+        assert NvRequireComSpec.setInitValue.__doc__.strip() == init_value_note + " A None value is a no-op and does not overwrite an existing initValue."
+        variable_note = "The VariableDataPrototype the ComSpec applies for. [constr_1899]"
+        assert NvRequireComSpec.getVariableRef.__doc__.strip() == variable_note
+        assert NvRequireComSpec.setVariableRef.__doc__.strip() == variable_note + " A None value is a no-op and does not overwrite an existing variableRef."
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject + RPortComSpec — Python base is RPortComSpec (most-derived, Table 4.59); setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(NvRequireComSpec, RPortComSpec)
+        assert issubclass(NvRequireComSpec, ARObject)
+        assert NvRequireComSpec.__dict__["setInitValue"].__annotations__["return"] == "NvRequireComSpec"
+        assert NvRequireComSpec.__dict__["setVariableRef"].__annotations__["return"] == "NvRequireComSpec"
+
+    def test_initialization_defaults(self):
+        """Test NvRequireComSpec field defaults."""
         nv_req = NvRequireComSpec()
         assert nv_req.initValue is None
         assert nv_req.variableRef is None
 
-        # Test setters and getters
-        from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
+    def test_get_set_init_value(self):
+        """Test initValue accessor pair, chaining and None no-op."""
+        nv_req = NvRequireComSpec()
+        value = TextValueSpecification()
+        result = nv_req.setInitValue(value)
+        assert result is nv_req
+        assert nv_req.getInitValue() is value
+        nv_req.setInitValue(None)
+        assert nv_req.getInitValue() is value
 
-        value_spec = TextValueSpecification()
-        nv_req.setInitValue(value_spec)
-        assert nv_req.getInitValue() == value_spec
-
-        ref = RefType()
-        ref.setValue("/Test/Variable")
-        nv_req.setVariableRef(ref)
-        assert nv_req.getVariableRef() == ref
+    def test_get_set_variable_ref(self):
+        """Test variableRef accessor pair, chaining and None no-op."""
+        nv_req = NvRequireComSpec()
+        value = RefType()
+        value.setValue("/NvDataInterface/Variable")
+        result = nv_req.setVariableRef(value)
+        assert result is nv_req
+        assert nv_req.getVariableRef() is value
+        nv_req.setVariableRef(None)
+        assert nv_req.getVariableRef() is value
 
 
 class TestParameterRequireComSpec:
-    """Test class for ParameterRequireComSpec class."""
+    """Test class for ParameterRequireComSpec class (Table 4.83)."""
 
-    def test_parameter_require_com_spec_initialization(self):
-        """Test ParameterRequireComSpec initialization and methods."""
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings must be the Table 4.83 Notes copied verbatim."""
+        assert ParameterRequireComSpec.__doc__.strip() == '"Communication" specification that applies to parameters on the required side of a connection.'
+        init_value_note = "The initial value applicable for the corresponding ParameterDataPrototype."
+        assert ParameterRequireComSpec.getInitValue.__doc__.strip() == init_value_note
+        assert ParameterRequireComSpec.setInitValue.__doc__.strip() == init_value_note + " A None value is a no-op and does not overwrite an existing initValue."
+        parameter_note = "The ParameterDataPrototype to which the ParameterRequireComSpec applies. [constr_1898]"
+        assert ParameterRequireComSpec.getParameterRef.__doc__.strip() == parameter_note
+        assert ParameterRequireComSpec.setParameterRef.__doc__.strip() == parameter_note + " A None value is a no-op and does not overwrite an existing parameterRef."
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject + RPortComSpec — Python base is RPortComSpec (most-derived, Table 4.59); setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(ParameterRequireComSpec, RPortComSpec)
+        assert issubclass(ParameterRequireComSpec, ARObject)
+        assert ParameterRequireComSpec.__dict__["setInitValue"].__annotations__["return"] == "ParameterRequireComSpec"
+        assert ParameterRequireComSpec.__dict__["setParameterRef"].__annotations__["return"] == "ParameterRequireComSpec"
+
+    def test_initialization_defaults(self):
+        """Test ParameterRequireComSpec field defaults."""
         param_req = ParameterRequireComSpec()
         assert param_req.initValue is None
         assert param_req.parameterRef is None
 
-        # Test setters and getters
-        from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
+    def test_get_set_init_value(self):
+        """Test initValue accessor pair, chaining and None no-op."""
+        param_req = ParameterRequireComSpec()
+        value = TextValueSpecification()
+        result = param_req.setInitValue(value)
+        assert result is param_req
+        assert param_req.getInitValue() is value
+        param_req.setInitValue(None)
+        assert param_req.getInitValue() is value
 
-        value_spec = TextValueSpecification()
-        param_req.setInitValue(value_spec)
-        assert param_req.getInitValue() == value_spec
-
-        ref = RefType()
-        ref.setValue("/Test/Parameter")
-        param_req.setParameterRef(ref)
-        assert param_req.getParameterRef() == ref
+    def test_get_set_parameter_ref(self):
+        """Test parameterRef accessor pair, chaining and None no-op."""
+        param_req = ParameterRequireComSpec()
+        value = RefType()
+        value.setValue("/ParamInterface/Parameter")
+        result = param_req.setParameterRef(value)
+        assert result is param_req
+        assert param_req.getParameterRef() is value
+        param_req.setParameterRef(None)
+        assert param_req.getParameterRef() is value
 
 
 class TestReceiverComSpec:
@@ -512,50 +640,114 @@ class TestReceiverComSpec:
 
 
 class TestModeSwitchedAckRequest:
-    """Test class for ModeSwitchedAckRequest class."""
+    """Test class for ModeSwitchedAckRequest class (Table 4.80)."""
 
-    def test_mode_switched_ack_request_initialization(self):
-        """Test ModeSwitchedAckRequest initialization and methods."""
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings must be the Table 4.80 Notes copied verbatim."""
+        assert ModeSwitchedAckRequest.__doc__.strip() == "Requests acknowledgements that a mode switch has been proceeded successfully"
+        timeout_note = "Number of seconds before an error is reported or in case of allowed redundancy, the value is sent again."
+        assert ModeSwitchedAckRequest.getTimeout.__doc__.strip() == timeout_note
+        assert ModeSwitchedAckRequest.setTimeout.__doc__.strip() == timeout_note + " A None value is a no-op and does not overwrite an existing timeout."
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject — Python base is ARObject; setter return annotation resolves to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(ModeSwitchedAckRequest, ARObject)
+        assert ModeSwitchedAckRequest.__dict__["setTimeout"].__annotations__["return"] == "ModeSwitchedAckRequest"
+
+    def test_initialization_defaults(self):
         ack = ModeSwitchedAckRequest()
         assert ack.timeout is None
+        assert ack.getTimeout() is None
 
-        # Test setters and getters
-        timeout = TimeValue()
-        timeout.setValue(5.0)
-        ack.setTimeout(timeout)
-        assert ack.getTimeout() == timeout
+    def test_get_set_timeout(self):
+        ack = ModeSwitchedAckRequest()
+        value = TimeValue()
+        value.setValue(5.0)
+        result = ack.setTimeout(value)
+        assert result is ack
+        assert ack.getTimeout() is value
+        ack.setTimeout(None)
+        assert ack.getTimeout() is value
 
 
 class TestModeSwitchSenderComSpec:
-    """Test class for ModeSwitchSenderComSpec class."""
+    """Test class for ModeSwitchSenderComSpec class (Table 4.79)."""
 
-    def test_mode_switch_sender_com_spec_initialization(self):
-        """Test ModeSwitchSenderComSpec initialization and methods."""
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings must be the Table 4.79 Notes copied verbatim."""
+        assert ModeSwitchSenderComSpec.__doc__.strip() == "Communication attributes of PPortPrototypes with respect to mode communication"
+        enhanced_note = 'This controls the creation of the enhanced mode API that returns information about the previous mode and the next mode. If set to "true" the enhanced mode API is supposed to be generated. For more details please refer to the SWS_RTE.'
+        assert ModeSwitchSenderComSpec.getEnhancedModeApi.__doc__.strip() == enhanced_note
+        assert ModeSwitchSenderComSpec.setEnhancedModeApi.__doc__.strip() == enhanced_note + " A None value is a no-op and does not overwrite an existing enhancedModeApi."
+        mode_group_note = "ModeDeclarationGroupPrototype (of the same PortInterface) to which these communication attributes apply. [constr_1895]"
+        assert ModeSwitchSenderComSpec.getModeGroupRef.__doc__.strip() == mode_group_note
+        assert ModeSwitchSenderComSpec.setModeGroupRef.__doc__.strip() == mode_group_note + " A None value is a no-op and does not overwrite an existing modeGroupRef."
+        ack_note = "If this aggregation exists an acknowledgement for the successful processing of the mode switch request is required."
+        assert ModeSwitchSenderComSpec.getModeSwitchedAck.__doc__.strip() == ack_note
+        assert ModeSwitchSenderComSpec.setModeSwitchedAck.__doc__.strip() == ack_note + " A None value is a no-op and does not overwrite an existing modeSwitchedAck."
+        queue_note = "Length of call queue on the mode user side. The queue is implemented by the RTE. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed. [constr_1894]"
+        assert ModeSwitchSenderComSpec.getQueueLength.__doc__.strip() == queue_note
+        assert ModeSwitchSenderComSpec.setQueueLength.__doc__.strip() == queue_note + " A None value is a no-op and does not overwrite an existing queueLength."
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject + PPortComSpec — Python base is PPortComSpec (most-derived, Table 4.58); setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(ModeSwitchSenderComSpec, PPortComSpec)
+        assert issubclass(ModeSwitchSenderComSpec, ARObject)
+        assert ModeSwitchSenderComSpec.__dict__["setEnhancedModeApi"].__annotations__["return"] == "ModeSwitchSenderComSpec"
+        assert ModeSwitchSenderComSpec.__dict__["setModeGroupRef"].__annotations__["return"] == "ModeSwitchSenderComSpec"
+        assert ModeSwitchSenderComSpec.__dict__["setModeSwitchedAck"].__annotations__["return"] == "ModeSwitchSenderComSpec"
+        assert ModeSwitchSenderComSpec.__dict__["setQueueLength"].__annotations__["return"] == "ModeSwitchSenderComSpec"
+
+    def test_initialization_defaults(self):
+        """Test ModeSwitchSenderComSpec field defaults."""
         sender = ModeSwitchSenderComSpec()
         assert sender.enhancedModeApi is None
         assert sender.modeGroupRef is None
         assert sender.modeSwitchedAck is None
         assert sender.queueLength is None
 
-        # Test setters and getters
-        api = Boolean()
-        api.setValue(True)
-        sender.setEnhancedModeApi(api)
-        assert sender.getEnhancedModeApi() == api
+    def test_get_set_enhanced_mode_api(self):
+        """Test enhancedModeApi accessor pair, chaining and None no-op."""
+        sender = ModeSwitchSenderComSpec()
+        value = Boolean()
+        value.setValue(True)
+        result = sender.setEnhancedModeApi(value)
+        assert result is sender
+        assert sender.getEnhancedModeApi() is value
+        sender.setEnhancedModeApi(None)
+        assert sender.getEnhancedModeApi() is value
 
-        ref = RefType()
-        ref.setValue("/Test/ModeGroup")
-        sender.setModeGroupRef(ref)
-        assert sender.getModeGroupRef() == ref
+    def test_get_set_mode_group_ref(self):
+        """Test modeGroupRef accessor pair, chaining and None no-op."""
+        sender = ModeSwitchSenderComSpec()
+        value = RefType()
+        value.setValue("/ModeDcl/Group")
+        result = sender.setModeGroupRef(value)
+        assert result is sender
+        assert sender.getModeGroupRef() is value
+        sender.setModeGroupRef(None)
+        assert sender.getModeGroupRef() is value
 
-        ack_request = ModeSwitchedAckRequest()
-        sender.setModeSwitchedAck(ack_request)
-        assert sender.getModeSwitchedAck() == ack_request
+    def test_get_set_mode_switched_ack(self):
+        """Test modeSwitchedAck accessor pair, chaining and None no-op."""
+        sender = ModeSwitchSenderComSpec()
+        value = ModeSwitchedAckRequest()
+        result = sender.setModeSwitchedAck(value)
+        assert result is sender
+        assert sender.getModeSwitchedAck() is value
+        sender.setModeSwitchedAck(None)
+        assert sender.getModeSwitchedAck() is value
 
-        queue_len = PositiveInteger()
-        queue_len.setValue(5)
-        sender.setQueueLength(queue_len)
-        assert sender.getQueueLength() == queue_len
+    def test_get_set_queue_length(self):
+        """Test queueLength accessor pair, chaining and None no-op."""
+        sender = ModeSwitchSenderComSpec()
+        value = PositiveInteger()
+        value.setValue(5)
+        result = sender.setQueueLength(value)
+        assert result is sender
+        assert sender.getQueueLength() is value
+        sender.setQueueLength(None)
+        assert sender.getQueueLength() is value
 
 
 class TestParameterProvideComSpec:
@@ -826,30 +1018,66 @@ class TestServerComSpec:
 
 
 class TestNvProvideComSpec:
-    """Test class for NvProvideComSpec class."""
+    """Test class for NvProvideComSpec class (Table 4.85)."""
 
-    def test_nv_provide_com_spec_initialization(self):
-        """Test NvProvideComSpec initialization and methods."""
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings must be the Table 4.85 Notes copied verbatim."""
+        assert NvProvideComSpec.__doc__.strip() == "Communication attributes of PPortPrototypes with respect to Nv data communication on the provided side."
+        ram_note = "This represents the initial value of the RAM Block that corresponds to the referenced variable."
+        assert NvProvideComSpec.getRamBlockInitValue.__doc__.strip() == ram_note
+        assert NvProvideComSpec.setRamBlockInitValue.__doc__.strip() == ram_note + " A None value is a no-op and does not overwrite an existing ramBlockInitValue."
+        rom_note = "This represents the initial value of the ROM block that corresponds to the referenced variable."
+        assert NvProvideComSpec.getRomBlockInitValue.__doc__.strip() == rom_note
+        assert NvProvideComSpec.setRomBlockInitValue.__doc__.strip() == rom_note + " A None value is a no-op and does not overwrite an existing romBlockInitValue."
+        variable_note = "This represents the variable for which the ComSpec is specified. [constr_1900]"
+        assert NvProvideComSpec.getVariableRef.__doc__.strip() == variable_note
+        assert NvProvideComSpec.setVariableRef.__doc__.strip() == variable_note + " A None value is a no-op and does not overwrite an existing variableRef."
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject + PPortComSpec — Python base is PPortComSpec (most-derived, Table 4.58); setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(NvProvideComSpec, PPortComSpec)
+        assert issubclass(NvProvideComSpec, ARObject)
+        assert NvProvideComSpec.__dict__["setRamBlockInitValue"].__annotations__["return"] == "NvProvideComSpec"
+        assert NvProvideComSpec.__dict__["setRomBlockInitValue"].__annotations__["return"] == "NvProvideComSpec"
+        assert NvProvideComSpec.__dict__["setVariableRef"].__annotations__["return"] == "NvProvideComSpec"
+
+    def test_initialization_defaults(self):
+        """Test NvProvideComSpec field defaults."""
         nv_prov = NvProvideComSpec()
         assert nv_prov.ramBlockInitValue is None
         assert nv_prov.romBlockInitValue is None
         assert nv_prov.variableRef is None
 
-        # Test setters and getters
-        from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
+    def test_get_set_ram_block_init_value(self):
+        """Test ramBlockInitValue accessor pair, chaining and None no-op."""
+        nv_prov = NvProvideComSpec()
+        value = TextValueSpecification()
+        result = nv_prov.setRamBlockInitValue(value)
+        assert result is nv_prov
+        assert nv_prov.getRamBlockInitValue() is value
+        nv_prov.setRamBlockInitValue(None)
+        assert nv_prov.getRamBlockInitValue() is value
 
-        ram_value = TextValueSpecification()
-        nv_prov.setRamBlockInitValue(ram_value)
-        assert nv_prov.getRamBlockInitValue() == ram_value
+    def test_get_set_rom_block_init_value(self):
+        """Test romBlockInitValue accessor pair, chaining and None no-op."""
+        nv_prov = NvProvideComSpec()
+        value = TextValueSpecification()
+        result = nv_prov.setRomBlockInitValue(value)
+        assert result is nv_prov
+        assert nv_prov.getRomBlockInitValue() is value
+        nv_prov.setRomBlockInitValue(None)
+        assert nv_prov.getRomBlockInitValue() is value
 
-        rom_value = TextValueSpecification()
-        nv_prov.setRomBlockInitValue(rom_value)
-        assert nv_prov.getRomBlockInitValue() == rom_value
-
-        ref = RefType()
-        ref.setValue("/Test/Variable")
-        nv_prov.setVariableRef(ref)
-        assert nv_prov.getVariableRef() == ref
+    def test_get_set_variable_ref(self):
+        """Test variableRef accessor pair, chaining and None no-op."""
+        nv_prov = NvProvideComSpec()
+        value = RefType()
+        value.setValue("/NvDataInterface/Variable")
+        result = nv_prov.setVariableRef(value)
+        assert result is nv_prov
+        assert nv_prov.getVariableRef() is value
+        nv_prov.setVariableRef(None)
+        assert nv_prov.getVariableRef() is value
 
 
 class TestNonqueuedReceiverComSpec:
@@ -976,18 +1204,40 @@ class TestHandleTimeoutEnum:
 
 
 class TestQueuedReceiverComSpec:
-    """Test class for QueuedReceiverComSpec class."""
+    """Test class for QueuedReceiverComSpec class (Table 4.63)."""
 
-    def test_queued_receiver_com_spec_initialization(self):
-        """Test QueuedReceiverComSpec initialization and methods."""
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings must be the Table 4.63 Notes copied verbatim."""
+        assert QueuedReceiverComSpec.__doc__.strip() == "Communication attributes specific to queued receiving."
+        queue_length_note = "Length of queue for received events. [constr_1889]"
+        assert QueuedReceiverComSpec.getQueueLength.__doc__.strip() == queue_length_note
+        assert QueuedReceiverComSpec.setQueueLength.__doc__.strip() == queue_length_note + " A None value is a no-op and does not overwrite an existing queueLength."
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject + RPortComSpec + ReceiverComSpec — Python base is ReceiverComSpec (most-derived, Table 4.60); inherited members are not flattened onto the subclass; setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(QueuedReceiverComSpec, ReceiverComSpec)
+        assert issubclass(QueuedReceiverComSpec, RPortComSpec)
+        assert issubclass(QueuedReceiverComSpec, ARObject)
+        assert "dataElementRef" not in QueuedReceiverComSpec.__dict__ and "compositeNetworkRepresentations" not in QueuedReceiverComSpec.__dict__
+        assert QueuedReceiverComSpec.__dict__["setQueueLength"].__annotations__["return"] == "QueuedReceiverComSpec"
+
+    def test_initialization_defaults(self):
+        """Test QueuedReceiverComSpec field defaults, including inherited base members."""
         receiver = QueuedReceiverComSpec()
         assert receiver.queueLength is None
+        assert receiver.compositeNetworkRepresentations == []
+        assert receiver.dataElementRef is None
 
-        # Test setters and getters
-        queue_len = PositiveInteger()
-        queue_len.setValue(5)
-        receiver.setQueueLength(queue_len)
-        assert receiver.getQueueLength() == queue_len
+    def test_get_set_queue_length(self):
+        """Test queueLength accessor pair, chaining and None no-op."""
+        receiver = QueuedReceiverComSpec()
+        value = PositiveInteger()
+        value.setValue("5")
+        result = receiver.setQueueLength(value)
+        assert result is receiver
+        assert receiver.getQueueLength() is value
+        receiver.setQueueLength(None)
+        assert receiver.getQueueLength() is value
 
 
 class TestHandleOutOfRangeEnum:
@@ -1011,3 +1261,56 @@ class TestHandleOutOfRangeEnum:
         assert HandleOutOfRangeEnum.INVALID in values
         assert HandleOutOfRangeEnum.NONE in values
         assert HandleOutOfRangeEnum.SATURATE in values
+
+
+class TestReceptionComSpecProps:
+    """Test class for ReceptionComSpecProps class (Table 4.64)."""
+
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings must be the Table 4.64 Notes copied verbatim."""
+        assert ReceptionComSpecProps.__doc__.strip() == "This meta-class defines a set of reception attributes which the application software is assumed to implement."
+        data_update_period_note = (
+            "This attribute defines the period in which the application shall check for updated data. This attribute is used for the configuration "
+            "of the E2E protection, but may also indicate a general data reception period."
+        )
+        assert ReceptionComSpecProps.getDataUpdatePeriod.__doc__.strip() == data_update_period_note
+        assert ReceptionComSpecProps.setDataUpdatePeriod.__doc__.strip() == data_update_period_note + " A None value is a no-op and does not overwrite an existing dataUpdatePeriod."
+        timeout_note = (
+            "This attribute defines the time interval after which the application shall assume that the to be received data reception has timed out, "
+            "i.e. the respective data has not been received for that amount of time."
+        )
+        assert ReceptionComSpecProps.getTimeout.__doc__.strip() == timeout_note
+        assert ReceptionComSpecProps.setTimeout.__doc__.strip() == timeout_note + " A None value is a no-op and does not overwrite an existing timeout."
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject — Python base is ARObject; setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(ReceptionComSpecProps, ARObject)
+        for name in ("setDataUpdatePeriod", "setTimeout"):
+            assert ReceptionComSpecProps.__dict__[name].__annotations__["return"] == "ReceptionComSpecProps"
+
+    def test_initialization_defaults(self):
+        props = ReceptionComSpecProps()
+        assert props.dataUpdatePeriod is None
+        assert props.timeout is None
+        assert props.getDataUpdatePeriod() is None
+        assert props.getTimeout() is None
+
+    def test_get_set_data_update_period(self):
+        props = ReceptionComSpecProps()
+        value = TimeValue()
+        value.setValue(0.02)
+        result = props.setDataUpdatePeriod(value)
+        assert result is props
+        assert props.getDataUpdatePeriod() is value
+        props.setDataUpdatePeriod(None)
+        assert props.getDataUpdatePeriod() is value
+
+    def test_get_set_timeout(self):
+        props = ReceptionComSpecProps()
+        value = TimeValue()
+        value.setValue(2.5)
+        result = props.setTimeout(value)
+        assert result is props
+        assert props.getTimeout() is value
+        props.setTimeout(None)
+        assert props.getTimeout() is value

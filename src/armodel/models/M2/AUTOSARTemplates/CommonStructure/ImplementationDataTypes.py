@@ -1,11 +1,13 @@
+from __future__ import annotations
+
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, AREnum, ARLiteral, ARNumerical, NameToken, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, AREnum, NameToken, PositiveInteger, String
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import AutosarDataType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ArraySizeHandlingEnum, AutosarDataType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SymbolProps
 
 
@@ -28,97 +30,150 @@ class AbstractImplementationDataTypeElement(AtpStructureElement, ABC):
 
 class ImplementationDataTypeElement(AbstractImplementationDataTypeElement, VariationPointCapable):
     """
-    Element of an implementation data type defining array properties,
-    optional flag, sub-elements, and data definition properties.
+    Declares a data object which is locally aggregated. Such an element can only be used within the scope where it is aggregated. This element either consists of further subElements or it is further defined via its swDataDefProps. There are several use cases within the system of ImplementationDataTypes fur such a local declaration: • It can represent the elements of an array, defining the element type and array size • It can represent an element of a struct, defining its type • It can be the local declaration of a debug element.
     """
 
     # ImplementationDataTypeElement method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getArrayImplPolicy           [x] impl  [ ] docstring  [x] test
-    # [ ] setArrayImplPolicy           [x] impl  [ ] docstring  [x] test
-    # [ ] getArraySize                 [x] impl  [ ] docstring  [x] test
-    # [ ] setArraySize                 [x] impl  [ ] docstring  [x] test
-    # [ ] getArraySizeHandling         [x] impl  [ ] docstring  [x] test
-    # [ ] setArraySizeHandling         [x] impl  [ ] docstring  [x] test
-    # [ ] getArraySizeSemantics        [x] impl  [ ] docstring  [x] test
-    # [ ] setArraySizeSemantics        [x] impl  [ ] docstring  [x] test
-    # [ ] getIsOptional                [x] impl  [ ] docstring  [x] test
-    # [ ] setIsOptional                [x] impl  [ ] docstring  [x] test
-    # [ ] getSwDataDefProps            [x] impl  [ ] docstring  [x] test
-    # [ ] setSwDataDefProps            [x] impl  [ ] docstring  [x] test
-    # [ ] createImplementationDataTypeElement [x] impl  [ ] docstring  [x] test
-    # [ ] getSubElements               [x] impl  [ ] docstring  [x] test
-
-    ARRAY_SIZE_SEMANTICS_FIXED_SIZE = "FIXED-SIZE"
-    ARRAY_SIZE_SEMANTICS_VARIABLE_SIZE = "VARIABLE_SIZE"
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.17, p.270
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArrayImplPolicy                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArrayImplPolicy                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getArraySize                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArraySize                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getArraySizeHandling                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArraySizeHandling                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getArraySizeSemantics                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArraySizeSemantics                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsOptional                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsOptional                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwDataDefProps                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwDataDefProps                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createImplementationDataTypeElement   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubElements                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
-        self.arrayImplPolicy: ARLiteral = None
-        self.arraySize: ARNumerical = None
-        self.arraySizeHandling: ARLiteral = None
-        self.arraySizeSemantics: ARLiteral = None
-        self.isOptional: Boolean = None
-        self.subElements: List[ImplementationDataTypeElement] = []
-        self.swDataDefProps: SwDataDefProps = None
+        # This attribute controls the implementation of the payload of an array. It shall only be used if the enclosing ImplementationDataType constitutes an array.
+        self.arrayImplPolicy: Optional[ArrayImplPolicyEnum] = None
 
-    def getArrayImplPolicy(self) -> ARLiteral:
+        # The existence of this attributes (if bigger than 0) defines the size of an array and declares that this ImplementationDataTypeElement represents the type of each single array element.
+        self.arraySize: Optional[PositiveInteger] = None
+
+        # The way how the size of the array is handled in case of a variable size array.
+        self.arraySizeHandling: Optional[ArraySizeHandlingEnum] = None
+
+        # This attribute controls the meaning of the value of the array size.
+        self.arraySizeSemantics: Optional[ArraySizeSemanticsEnum] = None
+
+        # This attribute represents the ability to declare the enclosing ImplementationDataTypeElement as optional. This means that, at runtime, the ImplementationDataTypeElement may or may not have a valid value and shall therefore be ignored. The underlying runtime software provides means to set the CppImplementationDataTypeElement as not valid at the sending end of a communication and determine its validity at the receiving end.
+        self.isOptional: Optional[Boolean] = None
+
+        # Element of an array, struct, or union in case of a nested declaration (i.e. without using "typedefs"). The aggregation of ImplementionDataTypeElement is subject to variability with the purpose to support the conditional existence of elements inside a ImplementationDataType representing a structure.
+        self.subElements: List[ImplementationDataTypeElement] = []
+
+        # The properties of this ImplementationDataTypeElement.
+        self.swDataDefProps: Optional[SwDataDefProps] = None
+
+    def getArrayImplPolicy(self) -> Optional[ArrayImplPolicyEnum]:
+        """
+        This attribute controls the implementation of the payload of an array. It shall only be used if the enclosing ImplementationDataType constitutes an array.
+        """
         return self.arrayImplPolicy
 
-    def setArrayImplPolicy(self, value: ARLiteral):
+    def setArrayImplPolicy(self, value: Optional[ArrayImplPolicyEnum]) -> ImplementationDataTypeElement:
+        """
+        This attribute controls the implementation of the payload of an array. It shall only be used if the enclosing ImplementationDataType constitutes an array. A None value is a no-op and does not overwrite an existing arrayImplPolicy.
+        """
         if value is not None:
             self.arrayImplPolicy = value
         return self
 
-    def getArraySize(self) -> ARNumerical:
+    def getArraySize(self) -> Optional[PositiveInteger]:
+        """
+        The existence of this attributes (if bigger than 0) defines the size of an array and declares that this ImplementationDataTypeElement represents the type of each single array element.
+        """
         return self.arraySize
 
-    def setArraySize(self, value: ARNumerical):
+    def setArraySize(self, value: Optional[PositiveInteger]) -> ImplementationDataTypeElement:
+        """
+        The existence of this attributes (if bigger than 0) defines the size of an array and declares that this ImplementationDataTypeElement represents the type of each single array element. A None value is a no-op and does not overwrite an existing arraySize.
+        """
         if value is not None:
             self.arraySize = value
         return self
 
-    def getArraySizeHandling(self) -> ARLiteral:
+    def getArraySizeHandling(self) -> Optional[ArraySizeHandlingEnum]:
+        """
+        The way how the size of the array is handled in case of a variable size array.
+        """
         return self.arraySizeHandling
 
-    def setArraySizeHandling(self, value: ARLiteral):
+    def setArraySizeHandling(self, value: Optional[ArraySizeHandlingEnum]) -> ImplementationDataTypeElement:
+        """
+        The way how the size of the array is handled in case of a variable size array. A None value is a no-op and does not overwrite an existing arraySizeHandling.
+        """
         if value is not None:
             self.arraySizeHandling = value
         return self
 
-    def getArraySizeSemantics(self):
+    def getArraySizeSemantics(self) -> Optional[ArraySizeSemanticsEnum]:
+        """
+        This attribute controls the meaning of the value of the array size.
+        """
         return self.arraySizeSemantics
 
-    def setArraySizeSemantics(self, value):
+    def setArraySizeSemantics(self, value: Optional[ArraySizeSemanticsEnum]) -> ImplementationDataTypeElement:
+        """
+        This attribute controls the meaning of the value of the array size. A None value is a no-op and does not overwrite an existing arraySizeSemantics.
+        """
         if value is not None:
             self.arraySizeSemantics = value
         return self
 
-    def getIsOptional(self):
+    def getIsOptional(self) -> Optional[Boolean]:
+        """
+        This attribute represents the ability to declare the enclosing ImplementationDataTypeElement as optional. This means that, at runtime, the ImplementationDataTypeElement may or may not have a valid value and shall therefore be ignored. The underlying runtime software provides means to set the CppImplementationDataTypeElement as not valid at the sending end of a communication and determine its validity at the receiving end.
+        """
         return self.isOptional
 
-    def setIsOptional(self, value):
+    def setIsOptional(self, value: Optional[Boolean]) -> ImplementationDataTypeElement:
+        """
+        This attribute represents the ability to declare the enclosing ImplementationDataTypeElement as optional. This means that, at runtime, the ImplementationDataTypeElement may or may not have a valid value and shall therefore be ignored. The underlying runtime software provides means to set the CppImplementationDataTypeElement as not valid at the sending end of a communication and determine its validity at the receiving end. A None value is a no-op and does not overwrite an existing isOptional.
+        """
         if value is not None:
             self.isOptional = value
         return self
 
-    def getSwDataDefProps(self):
+    def getSwDataDefProps(self) -> Optional[SwDataDefProps]:
+        """
+        The properties of this ImplementationDataTypeElement.
+        """
         return self.swDataDefProps
 
-    def setSwDataDefProps(self, value):
+    def setSwDataDefProps(self, value: Optional[SwDataDefProps]) -> ImplementationDataTypeElement:
+        """
+        The properties of this ImplementationDataTypeElement. A None value is a no-op and does not overwrite an existing swDataDefProps.
+        """
         if value is not None:
             self.swDataDefProps = value
         return self
 
-    def createImplementationDataTypeElement(self, short_name: str) -> "ImplementationDataTypeElement":
+    def createImplementationDataTypeElement(self, short_name: str) -> ImplementationDataTypeElement:
+        """
+        Element of an array, struct, or union in case of a nested declaration (i.e. without using "typedefs"). The aggregation of ImplementionDataTypeElement is subject to variability with the purpose to support the conditional existence of elements inside a ImplementationDataType representing a structure.
+        """
         if not self.IsElementExists(short_name, ImplementationDataTypeElement):
             type_element = ImplementationDataTypeElement(self, short_name)
             self.addElement(type_element)
             self.subElements.append(type_element)
         return self.getElement(short_name, ImplementationDataTypeElement)
 
-    def getSubElements(self) -> List["ImplementationDataTypeElement"]:
+    def getSubElements(self) -> List[ImplementationDataTypeElement]:
+        """
+        Element of an array, struct, or union in case of a nested declaration (i.e. without using "typedefs"). The aggregation of ImplementionDataTypeElement is subject to variability with the purpose to support the conditional existence of elements inside a ImplementationDataType representing a structure.
+        """
         return self.subElements
 
 
@@ -206,7 +261,7 @@ class ImplementationDataType(AbstractImplementationDataType):
         """
         return self.dynamicArraySizeProfile
 
-    def setDynamicArraySizeProfile(self, value: Optional[String]) -> "ImplementationDataType":
+    def setDynamicArraySizeProfile(self, value: Optional[String]) -> ImplementationDataType:
         """
         Sets the profile which the array will follow in case this data type is
         a variable size array. A None value is a no-op and does not overwrite
@@ -233,7 +288,7 @@ class ImplementationDataType(AbstractImplementationDataType):
         """
         return self.isStructWithOptionalElement
 
-    def setIsStructWithOptionalElement(self, value: Optional[Boolean]) -> "ImplementationDataType":
+    def setIsStructWithOptionalElement(self, value: Optional[Boolean]) -> ImplementationDataType:
         """
         Sets the flag indicating whether the ImplementationDataType has been
         created with the intention to define at least one element of the
@@ -314,7 +369,7 @@ class ImplementationDataType(AbstractImplementationDataType):
         """
         return self.typeEmitter
 
-    def setTypeEmitter(self, value: Optional[NameToken]) -> "ImplementationDataType":
+    def setTypeEmitter(self, value: Optional[NameToken]) -> ImplementationDataType:
         """
         Sets the type emitter that controls which part of the AUTOSAR
         toolchain is supposed to trigger data type definitions. A None value is
@@ -330,20 +385,25 @@ class ImplementationDataType(AbstractImplementationDataType):
 
 class ArrayImplPolicyEnum(AREnum):
     """
-    Enumeration for array implementation policy.
+    This meta-class provides values to configure the implementation of the payload part of an array.
     """
 
     # ArrayImplPolicyEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.18, p.276
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    DYNAMIC = "dynamic"
-    STATIC = "static"
+    # This configuration demands the implementation of the payload as an array. Tags: atp.EnumerationLiteralIndex=0
+    PAYLOAD_AS_ARRAY = "payloadAsArray"
+
+    # This configuration demands the implementation of the payload as a pointer to an array. Tags: atp.EnumerationLiteralIndex=1
+    PAYLOAD_AS_POINTER_TO_ARRAY = "payloadAsPointerToArray"
 
     def __init__(self):
         super().__init__(
             (
-                ArrayImplPolicyEnum.DYNAMIC,
-                ArrayImplPolicyEnum.STATIC,
+                ArrayImplPolicyEnum.PAYLOAD_AS_ARRAY,
+                ArrayImplPolicyEnum.PAYLOAD_AS_POINTER_TO_ARRAY,
             )
         )
 

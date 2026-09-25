@@ -16,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
     ARLiteral,
     Boolean,
+    Identifier,
     Integer,
     PositiveInteger,
     RefType,
@@ -1695,7 +1696,7 @@ class TestWriterServiceDependency:
 
     def test_writeRoleBasedDataAssignment(self, writer):
         a = RoleBasedDataAssignment()
-        a.setRole(_literal("r1"))
+        a.setRole(Identifier().setValue("r1"))
         vref = AutosarVariableRef()
         v_iref = VariableInAtomicSWCTypeInstanceRef()
         v_iref.setPortPrototypeRef(_ref("/pp"))
@@ -1731,7 +1732,7 @@ class TestWriterServiceDependency:
         behavior = _make_behavior()
         dep = behavior.createSwcServiceDependency("dep1")
         a = RoleBasedDataAssignment()
-        a.setRole(_literal("r1"))
+        a.setRole(Identifier().setValue("r1"))
         dep.AddAssignedData(a)
         parent = _parent()
         writer.writeSwcServiceDependencyAssignedData(parent, dep)

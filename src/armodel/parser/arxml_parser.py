@@ -1777,7 +1777,6 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             instance_ref = AutosarVariableRef()
             self.readARObject(child_element, instance_ref)
-            instance_ref.setAutosarVariableIRef(self.getVariableInAtomicSWCTypeInstanceRef(self.find(child_element, "AUTOSAR-VARIABLE-IREF")))
             implementation_ref_element = self.find(child_element, "AUTOSAR-VARIABLE-IN-IMPL-DATATYPE")
             if implementation_ref_element is not None:
                 implementation_ref = ArVariableInImplementationDataInstanceRef()
@@ -1787,6 +1786,7 @@ class ARXMLParser(AbstractARXMLParser):
                     implementation_ref.addContextDataPrototypeRef(ref)
                 implementation_ref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(implementation_ref_element, "TARGET-DATA-PROTOTYPE-REF"))
                 instance_ref.setAutosarVariableInImplDatatype(implementation_ref)
+            instance_ref.setAutosarVariableIRef(self.getVariableInAtomicSWCTypeInstanceRef(self.find(child_element, "AUTOSAR-VARIABLE-IREF")))
             instance_ref.setLocalVariableRef(self.getChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF"))
         return instance_ref
 
@@ -1799,6 +1799,7 @@ class ARXMLParser(AbstractARXMLParser):
         return mapping
 
     def readNvBlockDataMapping(self, element: ET.Element, mapping: NvBlockDataMapping):
+        self.readARObject(element, mapping)
         mapping.setBitfieldTextTableMaskNvBlockDescriptor(self.getChildElementOptionalPositiveInteger(element, "BITFIELD-TEXT-TABLE-MASK-NV-BLOCK-DESCRIPTOR"))
         mapping.setBitfieldTextTableMaskPortPrototype(self.getChildElementOptionalPositiveInteger(element, "BITFIELD-TEXT-TABLE-MASK-PORT-PROTOTYPE"))
         mapping.setNvRamBlockElement(self.getAutosarVariableRef(element, "NV-RAM-BLOCK-ELEMENT"))
@@ -1811,9 +1812,8 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "BULK-NV-BLOCK")
         if child_element is not None:
             prototype_element = self.find(child_element, "VARIABLE-DATA-PROTOTYPE")
-            block = VariableDataPrototype(descriptor, self.getShortName(prototype_element))
+            block = descriptor.createBulkNvBlock(self.getShortName(prototype_element))
             self.readVariableDataPrototype(prototype_element, block)
-            descriptor.setBulkNvBlock(block)
         for child_element in self.findall(element, "NV-BLOCK-DATA-MAPPINGS/NV-BLOCK-DATA-MAPPING"):
             mapping = NvBlockDataMapping()
             self.readNvBlockDataMapping(child_element, mapping)
@@ -1850,19 +1850,16 @@ class ARXMLParser(AbstractARXMLParser):
             descriptor.addNvBlockDataMapping(mapping)
         needs_element = self.find(element, "NV-BLOCK-NEEDS")
         if needs_element is not None:
-            needs = NvBlockNeeds(descriptor, self.getShortName(needs_element))
+            needs = descriptor.createNvBlockNeeds(self.getShortName(needs_element))
             self.readNvBlockNeeds(needs_element, needs)
-            descriptor.setNvBlockNeeds(needs)
         ram_block_element = self.find(element, "RAM-BLOCK")
         if ram_block_element is not None:
-            ram_block = VariableDataPrototype(descriptor, self.getShortName(ram_block_element))
+            ram_block = descriptor.createRamBlock(self.getShortName(ram_block_element))
             self.readVariableDataPrototype(ram_block_element, ram_block)
-            descriptor.setRamBlock(ram_block)
         rom_block_element = self.find(element, "ROM-BLOCK")
         if rom_block_element is not None:
-            rom_block = ParameterDataPrototype(descriptor, self.getShortName(rom_block_element))
+            rom_block = descriptor.createRomBlock(self.getShortName(rom_block_element))
             self.readParameterDataPrototype(rom_block_element, rom_block)
-            descriptor.setRomBlock(rom_block)
         descriptor.setSupportDirtyFlag(self.getChildElementOptionalBooleanValue(element, "SUPPORT-DIRTY-FLAG"))
         descriptor.setTimingEventRef(self.getChildElementOptionalRefType(element, "TIMING-EVENT-REF"))
         for child_element in self.findall(element, "WRITING-STRATEGYS/*"):
@@ -2105,7 +2102,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getRoleBasedDataAssignment(self, element: ET.Element) -> RoleBasedDataAssignment:
         assignment = RoleBasedDataAssignment()
-        assignment.setRole(self.getChildElementOptionalLiteral(element, "ROLE"))
+        self.readARObject(element, assignment)
+        assignment.setRole(self.getChildElementOptionalIdentifier(element, "ROLE"))
         assignment.setUsedDataElement(self.getAutosarVariableRef(element, "USED-DATA-ELEMENT"))
         assignment.setUsedParameterElement(self.getAutosarParameterRef(element, "USED-PARAMETER-ELEMENT"))
         assignment.setUsedPimRef(self.getChildElementOptionalRefType(element, "USED-PIM-REF"))
@@ -2113,15 +2111,16 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getModeSwitchEventTriggeredActivity(self, element: ET.Element) -> ModeSwitchEventTriggeredActivity:
         activity = ModeSwitchEventTriggeredActivity()
-        activity.setRole(self.getChildElementOptionalLiteral(element, "ROLE"))
+        self.readARObject(element, activity)
+        activity.setRole(self.getChildElementOptionalIdentifier(element, "ROLE"))
         activity.setSwcModeSwitchEventRef(self.getChildElementOptionalRefType(element, "SWC-MODE-SWITCH-EVENT-REF"))
         return activity
 
     def getRoleBasedPortAssignment(self, element: ET.Element) -> RoleBasedPortAssignment:
         assignment = RoleBasedPortAssignment()
         self.readARObject(element, assignment)
-        assignment.portPrototypeRef = self.getChildElementOptionalRefType(element, "PORT-PROTOTYPE-REF")
-        assignment.role = self.getChildElementOptionalLiteral(element, "ROLE")
+        assignment.setPortPrototypeRef(self.getChildElementOptionalRefType(element, "PORT-PROTOTYPE-REF"))
+        assignment.setRole(self.getChildElementOptionalIdentifier(element, "ROLE"))
         return assignment
 
     def getRoleBasedDataTypeAssignment(self, element: ET.Element) -> RoleBasedDataTypeAssignment:
@@ -2463,17 +2462,20 @@ class ARXMLParser(AbstractARXMLParser):
         self.readServiceNeeds(element, needs)
         needs.setCalcRamBlockCrc(self.getChildElementOptionalBooleanValue(element, "CALC-RAM-BLOCK-CRC"))
         needs.setCheckStaticBlockId(self.getChildElementOptionalBooleanValue(element, "CHECK-STATIC-BLOCK-ID"))
-        needs.setNDataSets(self.getChildElementOptionalNumericalValue(element, "N-DATA-SETS"))
-        needs.setNRomBlocks(self.getChildElementOptionalNumericalValue(element, "N-ROM-BLOCKS"))
+        needs.setCyclicWritingPeriod(self.getChildElementOptionalTimeValue(element, "CYCLIC-WRITING-PERIOD"))
+        needs.setNDataSets(self.getChildElementOptionalPositiveInteger(element, "N-DATA-SETS"))
+        needs.setNRomBlocks(self.getChildElementOptionalPositiveInteger(element, "N-ROM-BLOCKS"))
         needs.setRamBlockStatusControl(self.getChildElementOptionalLiteral(element, "RAM-BLOCK-STATUS-CONTROL"))
         needs.setReadonly(self.getChildElementOptionalBooleanValue(element, "READONLY"))
         needs.setReliability(self.getChildElementOptionalLiteral(element, "RELIABILITY"))
         needs.setResistantToChangedSw(self.getChildElementOptionalBooleanValue(element, "RESISTANT-TO-CHANGED-SW"))
         needs.setRestoreAtStart(self.getChildElementOptionalBooleanValue(element, "RESTORE-AT-START"))
+        needs.setSelectBlockForFirstInitAll(self.getChildElementOptionalBooleanValue(element, "SELECT-BLOCK-FOR-FIRST-INIT-ALL"))
         needs.setStoreAtShutdown(self.getChildElementOptionalBooleanValue(element, "STORE-AT-SHUTDOWN"))
         needs.setStoreCyclic(self.getChildElementOptionalBooleanValue(element, "STORE-CYCLIC"))
         needs.setStoreEmergency(self.getChildElementOptionalBooleanValue(element, "STORE-EMERGENCY"))
         needs.setStoreImmediate(self.getChildElementOptionalBooleanValue(element, "STORE-IMMEDIATE"))
+        needs.setStoreOnChange(self.getChildElementOptionalBooleanValue(element, "STORE-ON-CHANGE"))
         needs.setUseAutoValidationAtShutDown(self.getChildElementOptionalBooleanValue(element, "USE-AUTO-VALIDATION-AT-SHUT-DOWN"))
         needs.setUseCRCCompMechanism(self.getChildElementOptionalBooleanValue(element, "USE-CRC-COMP-MECHANISM"))
         needs.setWriteOnlyOnce(self.getChildElementOptionalBooleanValue(element, "WRITE-ONLY-ONCE"))
@@ -5114,6 +5116,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read SwcImplementation <%s>" % impl.getShortName())
         self.readImplementation(element, impl)
         impl.setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF"))
+        impl.setRequiredRTEVendor(self.getChildElementOptionalString(element, "REQUIRED-RTE-VENDOR"))
         behavior_ref = impl.getBehaviorRef()
         if behavior_ref is not None:
             document = AUTOSAR.getInstance()
@@ -5156,6 +5159,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             parameter = AutosarParameterRef()
+            self.readARObject(child_element, parameter)
             parameter.setAutosarParameterIRef(self.getParameterInAtomicSWCTypeInstanceRef(child_element, "AUTOSAR-PARAMETER-IREF"))
             parameter.setLocalParameterRef(self.getChildElementOptionalRefType(child_element, "LOCAL-PARAMETER-REF"))
         return parameter
@@ -6598,9 +6602,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readImplementationDataTypeElement(self, element: ET.Element, impl_data_type_element: ImplementationDataTypeElement):
         self.readAutosarDataType(element, impl_data_type_element)
+        impl_data_type_element.setArrayImplPolicy(self.getChildElementOptionalLiteral(element, "ARRAY-IMPL-POLICY"))
         impl_data_type_element.setArraySize(self.getChildElementOptionalPositiveInteger(element, "ARRAY-SIZE"))
         impl_data_type_element.setArraySizeHandling(self.getChildElementOptionalLiteral(element, "ARRAY-SIZE-HANDLING"))
         impl_data_type_element.setArraySizeSemantics(self.getChildElementOptionalLiteral(element, "ARRAY-SIZE-SEMANTICS"))
+        impl_data_type_element.setIsOptional(self.getChildElementOptionalBooleanValue(element, "IS-OPTIONAL"))
         self.readImplementationDataTypeSubElements(element, impl_data_type_element)
 
     def readImplementationDataTypeSubElements(self, element: ET.Element, parent: ImplementationDataType):
@@ -6647,6 +6653,7 @@ class ARXMLParser(AbstractARXMLParser):
     def getCompositeNetworkRepresentation(self, element: ET.Element) -> CompositeNetworkRepresentation:
         # self.logger.debug("getCompositeNetworkRepresentation")
         representation = CompositeNetworkRepresentation()
+        self.readARObject(element, representation)
         representation.setLeafElementIRef(self.getApplicationCompositeElementInPortInterfaceInstanceRef(element, "LEAF-ELEMENT-IREF"))
         representation.setNetworkRepresentation(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION"))
         return representation
@@ -6814,9 +6821,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getQueuedReceiverComSpec(self, element: ET.Element) -> QueuedReceiverComSpec:
         com_spec = QueuedReceiverComSpec()
-        self.readARObject(element, com_spec)
         self.readReceiverComSpec(element, com_spec)
-        com_spec.queueLength = self.getChildElementOptionalNumericalValue(element, "QUEUE-LENGTH")
+        com_spec.setQueueLength(self.getChildElementOptionalPositiveInteger(element, "QUEUE-LENGTH"))
         return com_spec
 
     def getModeSwitchReceiverComSpec(self, element: ET.Element) -> ModeSwitchReceiverComSpec:
@@ -7058,14 +7064,17 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             request = ModeSwitchedAckRequest()
+            self.readARObject(child_element, request)
             request.setTimeout(self.getChildElementOptionalTimeValue(child_element, "TIMEOUT"))
         return request
 
     def getModeSwitchSenderComSpec(self, element) -> ModeSwitchSenderComSpec:
         com_spec = ModeSwitchSenderComSpec()
+        self.readPPortComSpec(element, com_spec)
+        com_spec.setEnhancedModeApi(self.getChildElementOptionalBooleanValue(element, "ENHANCED-MODE-API"))
         com_spec.setModeGroupRef(self.getChildElementOptionalRefType(element, "MODE-GROUP-REF"))
         com_spec.setModeSwitchedAck(self.getModeSwitchedAckRequest(element, "MODE-SWITCHED-ACK"))
-        com_spec.setQueueLength(self.getChildElementOptionalNumericalValue(element, "QUEUE-LENGTH"))
+        com_spec.setQueueLength(self.getChildElementOptionalPositiveInteger(element, "QUEUE-LENGTH"))
         return com_spec
 
     def getNvProvideComSpec(self, element: ET.Element) -> NvProvideComSpec:
@@ -7585,8 +7594,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in element.findall("./xmlns:DATA-TYPE-MAPS/xmlns:DATA-TYPE-MAP", self.nsmap):
             data_type_map = DataTypeMap()
             self.readARObject(child_element, data_type_map)
-            data_type_map.applicationDataTypeRef = self.getChildElementOptionalRefType(child_element, "APPLICATION-DATA-TYPE-REF")
-            data_type_map.implementationDataTypeRef = self.getChildElementOptionalRefType(child_element, "IMPLEMENTATION-DATA-TYPE-REF")
+            data_type_map.setApplicationDataTypeRef(self.getChildElementOptionalRefType(child_element, "APPLICATION-DATA-TYPE-REF"))
+            data_type_map.setImplementationDataTypeRef(self.getChildElementOptionalRefType(child_element, "IMPLEMENTATION-DATA-TYPE-REF"))
             parent.addDataTypeMap(data_type_map)
             # add the data type map to global namespace
             document = AUTOSAR.getInstance()
@@ -8136,7 +8145,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readEndToEndDescriptionDataIds(self, element: ET.Element, parent: EndToEndDescription):
         child_element = self.find(element, "DATA-IDS")
         if child_element is not None:
-            for value in self.getChildElementNumericalValueList(child_element, "DATA-ID"):
+            for value in self.getChildElementPositiveIntegerValueList(child_element, "DATA-ID"):
                 parent.addDataId(value)
 
     def getEndToEndDescription(self, element: ET.Element, key: str) -> EndToEndDescription:
@@ -8145,13 +8154,16 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             desc = EndToEndDescription()
             self.readARObject(child_element, desc)
-            desc.setCategory(self.getChildElementOptionalLiteral(child_element, "CATEGORY"))
+            desc.setCategory(self.getChildElementOptionalNameToken(child_element, "CATEGORY"))
             self.readEndToEndDescriptionDataIds(child_element, desc)
             desc.setDataIdMode(self.getChildElementOptionalPositiveInteger(child_element, "DATA-ID-MODE"))
             desc.setDataLength(self.getChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH"))
             desc.setMaxDeltaCounterInit(self.getChildElementOptionalPositiveInteger(child_element, "MAX-DELTA-COUNTER-INIT"))
             desc.setCrcOffset(self.getChildElementOptionalPositiveInteger(child_element, "CRC-OFFSET"))
             desc.setCounterOffset(self.getChildElementOptionalPositiveInteger(child_element, "COUNTER-OFFSET"))
+            desc.setMaxNoNewOrRepeatedData(self.getChildElementOptionalPositiveInteger(child_element, "MAX-NO-NEW-OR-REPEATED-DATA"))
+            desc.setSyncCounterInit(self.getChildElementOptionalPositiveInteger(child_element, "SYNC-COUNTER-INIT"))
+            desc.setDataIdNibbleOffset(self.getChildElementOptionalPositiveInteger(child_element, "DATA-ID-NIBBLE-OFFSET"))
         return desc
 
     def getVariableDataPrototypeInSystemInstanceRef(self, element: ET.Element) -> VariableDataPrototypeInSystemInstanceRef:

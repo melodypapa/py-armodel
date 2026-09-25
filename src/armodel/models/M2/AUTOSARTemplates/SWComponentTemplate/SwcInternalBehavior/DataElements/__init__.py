@@ -184,138 +184,102 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
 
 class AutosarParameterRef(ARObject):
     """
-    A reference to an AUTOSAR parameter.
+    This class represents a reference to a parameter within AUTOSAR which can be one of the following use cases: localParameter: • localParameter which is used as whole (e.g. sharedAxis for curve) autosarVariable: • a parameter provided via PortPrototype which is used as whole (e.g. parameterAccess) • an element inside of a composite local parameter typed by ApplicationDatatype (e.g. sharedAxis for a curve) • an element inside of a composite parameter provided via Port and typed by ApplicationDatatype (e.g. sharedAxis for a curve) autosarParameterInImplDatatype: • an element inside of a composite local parameter typed by ImplementationDatatype • an element inside of a composite parameter provided via PortPrototype and typed by ImplementationDatatype
     """
 
     # AutosarParameterRef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAutosarParameterIRef      [x] impl  [x] docstring  [ ] test
-    # [ ] setAutosarParameterIRef      [x] impl  [x] docstring  [ ] test
-    # [ ] getLocalParameterRef         [x] impl  [x] docstring  [ ] test
-    # [ ] setLocalParameterRef         [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.34, p.317
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAutosarParameterIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAutosarParameterIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLocalParameterRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLocalParameterRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.autosarParameterIRef: ParameterInAtomicSWCTypeInstanceRef = None
-        self.localParameterRef: RefType = None
+        # This instance reference is used if the calibration parameter is either imported via a port or is part of a composite data structure. InstanceRef implemented by: ParameterInAtomicSWCTypeInstanceRef
+        self.autosarParameterIRef: Optional[ParameterInAtomicSWCTypeInstanceRef] = None
 
-    def getAutosarParameterIRef(self):
-        """
-        Gets the AUTOSAR parameter instance reference.
+        # In the majority of cases this reference goes to ParameterDataPrototypes rather than VariableDataPrototypes. Pointing the reference to a VariableDataPrototype is limited to special use cases, e.g. if the AutosarParameterRef is used in the context of an SwAxisGrouped. This reference is used if the arParameter is local to the current component. Of course, it would technically also be feasible to use an InstanceRef for this case. However, the InstanceRef would not have a contextElement (because the current instance is the context). Hence, the local instance is a special case which may provide further optimization. Therefore an explicit reference is provided for this case.
+        self.localParameterRef: Optional[RefType] = None
 
-        Returns:
-            ParameterInAtomicSWCTypeInstanceRef: The AUTOSAR parameter instance
-                reference
-        """
+    def getAutosarParameterIRef(self) -> Optional[ParameterInAtomicSWCTypeInstanceRef]:
+        """This instance reference is used if the calibration parameter is either imported via a port or is part of a composite data structure. InstanceRef implemented by: ParameterInAtomicSWCTypeInstanceRef"""
         return self.autosarParameterIRef
 
-    def setAutosarParameterIRef(self, value):
-        """
-        Sets the AUTOSAR parameter instance reference.
-
-        Args:
-            value: The AUTOSAR parameter instance reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.autosarParameterIRef = value
+    def setAutosarParameterIRef(self, value: Optional[ParameterInAtomicSWCTypeInstanceRef]) -> AutosarParameterRef:
+        """This instance reference is used if the calibration parameter is either imported via a port or is part of a composite data structure. InstanceRef implemented by: ParameterInAtomicSWCTypeInstanceRef. A None value is a no-op and does not overwrite an existing autosarParameterIRef."""
+        if value is not None:
+            self.autosarParameterIRef = value
         return self
 
-    def getLocalParameterRef(self):
-        """
-        Gets the local parameter reference.
-
-        Returns:
-            RefType: The local parameter reference
-        """
+    def getLocalParameterRef(self) -> Optional[RefType]:
+        """In the majority of cases this reference goes to ParameterDataPrototypes rather than VariableDataPrototypes. Pointing the reference to a VariableDataPrototype is limited to special use cases, e.g. if the AutosarParameterRef is used in the context of an SwAxisGrouped. This reference is used if the arParameter is local to the current component. Of course, it would technically also be feasible to use an InstanceRef for this case. However, the InstanceRef would not have a contextElement (because the current instance is the context). Hence, the local instance is a special case which may provide further optimization. Therefore an explicit reference is provided for this case."""
         return self.localParameterRef
 
-    def setLocalParameterRef(self, value):
-        """
-        Sets the local parameter reference.
-
-        Args:
-            value: The local parameter reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.localParameterRef = value
+    def setLocalParameterRef(self, value: Optional[RefType]) -> AutosarParameterRef:
+        """In the majority of cases this reference goes to ParameterDataPrototypes rather than VariableDataPrototypes. Pointing the reference to a VariableDataPrototype is limited to special use cases, e.g. if the AutosarParameterRef is used in the context of an SwAxisGrouped. This reference is used if the arParameter is local to the current component. Of course, it would technically also be feasible to use an InstanceRef for this case. However, the InstanceRef would not have a contextElement (because the current instance is the context). Hence, the local instance is a special case which may provide further optimization. Therefore an explicit reference is provided for this case. A None value is a no-op and does not overwrite an existing localParameterRef."""
+        if value is not None:
+            self.localParameterRef = value
         return self
 
 
 class AutosarVariableRef(ARObject):
     """
-    A reference to a variable used in the context of AUTOSAR software component
-    internal behavior.
+    This class represents a reference to a variable within AUTOSAR which can be one of the following use cases: localVariable: • localVariable which is used as whole (e.g. InterRunnableVariable, inputValue for curve) autosarVariable: • a variable provided via Port which is used as whole (e.g. dataAccesspoints) • an element inside of a composite local variable typed by ApplicationDatatype (e.g. inputValue for a curve) • an element inside of a composite variable provided via Port and typed by ApplicationDatatype (e.g. inputValue for a curve) autosarVariableInImplDatatype: • an element inside of a composite local variable typed by ImplementationDatatype (e.g. nvramData mapping) • an element inside of a composite variable provided via Port and typed by ImplementationDatatype (e.g. inputValue for a curve)
     """
 
     # AutosarVariableRef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAutosarVariableIRef       [x] impl  [x] docstring  [ ] test
-    # [ ] setAutosarVariableIRef       [x] impl  [x] docstring  [ ] test
-    # [ ] getAutosarVariableInImplDatatype [x] impl  [x] docstring  [ ] test
-    # [ ] setAutosarVariableInImplDatatype [x] impl  [ ] docstring  [ ] test
-    # [ ] getLocalVariableRef          [x] impl  [x] docstring  [ ] test
-    # [ ] setLocalVariableRef          [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.33, p.316
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAutosarVariableIRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAutosarVariableIRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAutosarVariableInImplDatatype [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAutosarVariableInImplDatatype [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLocalVariableRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLocalVariableRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.autosarVariableIRef: VariableInAtomicSWCTypeInstanceRef = None
-        self.autosarVariableInImplDatatype: ArVariableInImplementationDataInstanceRef = None
-        self.localVariableRef: VariableInAtomicSWCTypeInstanceRef = None
+        # This references a variable which is provided by a port and/or which is part of a CompositeDataType. InstanceRef implemented by: VariableInAtomicSWCTypeInstanceRef
+        self.autosarVariableIRef: Optional[VariableInAtomicSWCTypeInstanceRef] = None
 
-    def getAutosarVariableIRef(self) -> VariableInAtomicSWCTypeInstanceRef:
-        """
-        Gets the AUTOSAR variable instance reference.
+        # This is used if the target variable is inside of variableDataPrototype typed by an ImplementationDataType.
+        self.autosarVariableInImplDatatype: Optional[ArVariableInImplementationDataInstanceRef] = None
 
-        Returns:
-            VariableInAtomicSWCTypeInstanceRef: The AUTOSAR variable instance reference
-        """
+        # This reference is used if the variable is local to the current component. It would also be possible to use the instance refence here. Such an instance ref would not have a contextElement, since the current instance is the context. But the local instance is a special case which may provide further optimization. Therefore an explicit reference is provided for this case.
+        self.localVariableRef: Optional[RefType] = None
+
+    def getAutosarVariableIRef(self) -> Optional[VariableInAtomicSWCTypeInstanceRef]:
+        """This references a variable which is provided by a port and/or which is part of a CompositeDataType. InstanceRef implemented by: VariableInAtomicSWCTypeInstanceRef"""
         return self.autosarVariableIRef
 
-    def setAutosarVariableIRef(self, value):
-        """
-        Sets the AUTOSAR variable instance reference.
-
-        Args:
-            value: The AUTOSAR variable instance reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.autosarVariableIRef = value
+    def setAutosarVariableIRef(self, value: Optional[VariableInAtomicSWCTypeInstanceRef]) -> AutosarVariableRef:
+        """This references a variable which is provided by a port and/or which is part of a CompositeDataType. InstanceRef implemented by: VariableInAtomicSWCTypeInstanceRef. A None value is a no-op and does not overwrite an existing autosarVariableIRef."""
+        if value is not None:
+            self.autosarVariableIRef = value
         return self
 
-    def getAutosarVariableInImplDatatype(self) -> ArVariableInImplementationDataInstanceRef:
-        """Get the autosarVariableInImplDatatype attribute."""
+    def getAutosarVariableInImplDatatype(self) -> Optional[ArVariableInImplementationDataInstanceRef]:
+        """This is used if the target variable is inside of variableDataPrototype typed by an ImplementationDataType."""
         return self.autosarVariableInImplDatatype
 
-    def setAutosarVariableInImplDatatype(self, value):
-        self.autosarVariableInImplDatatype = value
+    def setAutosarVariableInImplDatatype(self, value: Optional[ArVariableInImplementationDataInstanceRef]) -> AutosarVariableRef:
+        """This is used if the target variable is inside of variableDataPrototype typed by an ImplementationDataType. A None value is a no-op and does not overwrite an existing autosarVariableInImplDatatype."""
+        if value is not None:
+            self.autosarVariableInImplDatatype = value
         return self
 
-    def getLocalVariableRef(self):
-        """
-        Gets the local variable reference.
-
-        Returns:
-            The local variable reference
-        """
+    def getLocalVariableRef(self) -> Optional[RefType]:
+        """This reference is used if the variable is local to the current component. It would also be possible to use the instance refence here. Such an instance ref would not have a contextElement, since the current instance is the context. But the local instance is a special case which may provide further optimization. Therefore an explicit reference is provided for this case."""
         return self.localVariableRef
 
-    def setLocalVariableRef(self, value):
-        """
-        Sets the local variable reference.
-
-        Args:
-            value: The local variable reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.localVariableRef = value
+    def setLocalVariableRef(self, value: Optional[RefType]) -> AutosarVariableRef:
+        """This reference is used if the variable is local to the current component. It would also be possible to use the instance refence here. Such an instance ref would not have a contextElement, since the current instance is the context. But the local instance is a special case which may provide further optimization. Therefore an explicit reference is provided for this case. A None value is a no-op and does not overwrite an existing localVariableRef."""
+        if value is not None:
+            self.localVariableRef = value
         return self

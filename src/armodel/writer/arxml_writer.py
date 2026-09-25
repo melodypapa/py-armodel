@@ -1644,9 +1644,10 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeModeSwitchSenderComSpec(self, element: ET.Element, com_spec: ModeSwitchSenderComSpec):
         child_element = ET.SubElement(element, "MODE-SWITCH-SENDER-COM-SPEC")
         self.writeARObject(child_element, com_spec)
+        self.setChildElementOptionalBooleanValue(child_element, "ENHANCED-MODE-API", com_spec.getEnhancedModeApi())
         self.setChildElementOptionalRefType(child_element, "MODE-GROUP-REF", com_spec.getModeGroupRef())
         self.setModeSwitchedAckRequest(child_element, "MODE-SWITCHED-ACK", com_spec.getModeSwitchedAck())
-        self.setChildElementOptionalNumericalValue(child_element, "QUEUE-LENGTH", com_spec.getQueueLength())
+        self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-LENGTH", com_spec.getQueueLength())
 
     def writeNvProvideComSpec(self, com_specs_tag: ET.Element, com_spec: NvProvideComSpec):
         if com_spec is not None:
@@ -1685,6 +1686,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if representation is not None:
             self.logger.debug("setCompositeNetworkRepresentation")
             child_element = ET.SubElement(element, "COMPOSITE-NETWORK-REPRESENTATION")
+            self.writeARObject(child_element, representation)
             self.setApplicationCompositeElementInPortInterfaceInstanceRef(child_element, "LEAF-ELEMENT-IREF", representation.getLeafElementIRef())
             self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION", representation.getNetworkRepresentation())
 
@@ -1902,7 +1904,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "QUEUED-RECEIVER-COM-SPEC")
         self.writeARObject(child_element, com_spec)
         self.writeReceiverComSpec(child_element, com_spec)
-        self.setChildElementOptionalNumericalValue(child_element, "QUEUE-LENGTH", com_spec.queueLength)
+        self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-LENGTH", com_spec.getQueueLength())
 
     def writeClientComSpec(self, element: ET.Element, com_spec: ClientComSpec):
         self.logger.debug("writeClientComSpec")
@@ -3722,7 +3724,6 @@ class ARXMLWriter(AbstractARXMLWriter):
         if ref is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, ref)
-            self.setVariableInAtomicSWCTypeInstanceRef(child_element, "AUTOSAR-VARIABLE-IREF", ref.getAutosarVariableIRef())
             implementation_ref = ref.getAutosarVariableInImplDatatype()
             if implementation_ref is not None:
                 implementation_element = ET.SubElement(child_element, "AUTOSAR-VARIABLE-IN-IMPL-DATATYPE")
@@ -3731,6 +3732,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for context_ref in implementation_ref.getContextDataPrototypeRefs():
                     self.setChildElementOptionalRefType(implementation_element, "CONTEXT-DATA-PROTOTYPE-REF", context_ref)
                 self.setChildElementOptionalRefType(implementation_element, "TARGET-DATA-PROTOTYPE-REF", implementation_ref.getTargetDataPrototypeRef())
+            self.setVariableInAtomicSWCTypeInstanceRef(child_element, "AUTOSAR-VARIABLE-IREF", ref.getAutosarVariableIRef())
             self.setChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF", ref.getLocalVariableRef())
 
     def writeNvBlockDataMapping(self, element: ET.Element, mapping: NvBlockDataMapping):
@@ -3783,6 +3785,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for props in props_list:
                 if isinstance(props, InstantiationDataDefProps):
                     props_element = ET.SubElement(props_tag, "INSTANTIATION-DATA-DEF-PROPS")
+                    self.writeARObject(props_element, props)
                     self.setAutosarParameterRef(props_element, "PARAMETER-INSTANCE", props.getParameterInstance())
                     self.setSwDataDefProps(props_element, "SW-DATA-DEF-PROPS", props.getSwDataDefProps())
                     self.setAutosarVariableRef(props_element, "VARIABLE-INSTANCE", props.getVariableInstance())
@@ -3825,7 +3828,8 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeModeSwitchEventTriggeredActivity(self, element: ET.Element, activity: ModeSwitchEventTriggeredActivity):
         child_element = ET.SubElement(element, "MODE-SWITCH-EVENT-TRIGGERED-ACTIVITY")
-        self.setChildElementOptionalLiteral(child_element, "ROLE", activity.getRole())
+        self.writeARObject(child_element, activity)
+        self.setChildElementOptionalIdentifier(child_element, "ROLE", activity.getRole())
         self.setChildElementOptionalRefType(child_element, "SWC-MODE-SWITCH-EVENT-REF", activity.getSwcModeSwitchEventRef())
 
     def setComponentInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: ComponentInSystemInstanceRef):
@@ -3877,6 +3881,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setAutosarParameterRef(self, element: ET.Element, key: str, parameter_ref: AutosarParameterRef):
         if parameter_ref is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, parameter_ref)
             self.setParameterInAtomicSWCTypeInstanceRef(child_element, "AUTOSAR-PARAMETER-IREF", parameter_ref.getAutosarParameterIRef())
             self.setChildElementOptionalRefType(child_element, "LOCAL-PARAMETER-REF", parameter_ref.getLocalParameterRef())
 
@@ -5156,7 +5161,8 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeRoleBasedDataAssignment(self, element: ET.Element, assignment: RoleBasedDataAssignment):
         child_element = ET.SubElement(element, "ROLE-BASED-DATA-ASSIGNMENT")
-        self.setChildElementOptionalLiteral(child_element, "ROLE", assignment.role)
+        self.writeARObject(child_element, assignment)
+        self.setChildElementOptionalIdentifier(child_element, "ROLE", assignment.getRole())
         self.setAutosarVariableRef(child_element, "USED-DATA-ELEMENT", assignment.getUsedDataElement())
         self.setAutosarParameterRef(child_element, "USED-PARAMETER-ELEMENT", assignment.getUsedParameterElement())
         self.setChildElementOptionalRefType(child_element, "USED-PIM-REF", assignment.getUsedPimRef())
@@ -5164,8 +5170,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeRoleBasedPortAssignment(self, element: ET.Element, assignment: RoleBasedPortAssignment):
         child_element = ET.SubElement(element, "ROLE-BASED-PORT-ASSIGNMENT")
         self.writeARObject(child_element, assignment)
-        self.setChildElementOptionalRefType(child_element, "PORT-PROTOTYPE-REF", assignment.portPrototypeRef)
-        self.setChildElementOptionalLiteral(child_element, "ROLE", assignment.role)
+        self.setChildElementOptionalRefType(child_element, "PORT-PROTOTYPE-REF", assignment.getPortPrototypeRef())
+        self.setChildElementOptionalIdentifier(child_element, "ROLE", assignment.getRole())
 
     def writeSwcServiceDependencyAssignedData(self, element: ET.Element, dependency: SwcServiceDependency):
         assigned_data = dependency.getAssignedData()
@@ -5210,17 +5216,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeServiceNeeds(child_element, needs)
         self.setChildElementOptionalBooleanValue(child_element, "CALC-RAM-BLOCK-CRC", needs.getCalcRamBlockCrc())
         self.setChildElementOptionalBooleanValue(child_element, "CHECK-STATIC-BLOCK-ID", needs.getCheckStaticBlockId())
-        self.setChildElementOptionalNumericalValue(child_element, "N-DATA-SETS", needs.getNDataSets())
-        self.setChildElementOptionalNumericalValue(child_element, "N-ROM-BLOCKS", needs.getNRomBlocks())
+        self.setChildElementOptionalTimeValue(child_element, "CYCLIC-WRITING-PERIOD", needs.getCyclicWritingPeriod())
+        self.setChildElementOptionalPositiveInteger(child_element, "N-DATA-SETS", needs.getNDataSets())
+        self.setChildElementOptionalPositiveInteger(child_element, "N-ROM-BLOCKS", needs.getNRomBlocks())
         self.setChildElementOptionalLiteral(child_element, "RAM-BLOCK-STATUS-CONTROL", needs.getRamBlockStatusControl())
         self.setChildElementOptionalBooleanValue(child_element, "READONLY", needs.getReadonly())
         self.setChildElementOptionalLiteral(child_element, "RELIABILITY", needs.getReliability())
         self.setChildElementOptionalBooleanValue(child_element, "RESISTANT-TO-CHANGED-SW", needs.getResistantToChangedSw())
         self.setChildElementOptionalBooleanValue(child_element, "RESTORE-AT-START", needs.getRestoreAtStart())
+        self.setChildElementOptionalBooleanValue(child_element, "SELECT-BLOCK-FOR-FIRST-INIT-ALL", needs.getSelectBlockForFirstInitAll())
         self.setChildElementOptionalBooleanValue(child_element, "STORE-AT-SHUTDOWN", needs.getStoreAtShutdown())
         self.setChildElementOptionalBooleanValue(child_element, "STORE-CYCLIC", needs.getStoreCyclic())
         self.setChildElementOptionalBooleanValue(child_element, "STORE-EMERGENCY", needs.getStoreEmergency())
         self.setChildElementOptionalBooleanValue(child_element, "STORE-IMMEDIATE", needs.getStoreImmediate())
+        self.setChildElementOptionalBooleanValue(child_element, "STORE-ON-CHANGE", needs.getStoreOnChange())
         self.setChildElementOptionalBooleanValue(child_element, "USE-AUTO-VALIDATION-AT-SHUT-DOWN", needs.getUseAutoValidationAtShutDown())
         self.setChildElementOptionalBooleanValue(child_element, "USE-CRC-COMP-MECHANISM", needs.getUseCRCCompMechanism())
         self.setChildElementOptionalBooleanValue(child_element, "WRITE-ONLY-ONCE", needs.getWriteOnlyOnce())
@@ -5811,6 +5820,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for props in props_list:
                 if isinstance(props, InstantiationDataDefProps):
                     child_element = ET.SubElement(props_tag, "INSTANTIATION-DATA-DEF-PROPS")
+                    self.writeARObject(child_element, props)
                     self.setAutosarParameterRef(child_element, "PARAMETER-INSTANCE", props.getParameterInstance())
                     self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", props.getSwDataDefProps())
                     self.setAutosarVariableRef(child_element, "VARIABLE-INSTANCE", props.getVariableInstance())
@@ -6529,25 +6539,29 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "SWC-IMPLEMENTATION")
         self.writeImplementation(child_element, impl)
         self.setChildElementOptionalRefType(child_element, "BEHAVIOR-REF", impl.getBehaviorRef())
+        self.setChildElementOptionalString(child_element, "REQUIRED-RTE-VENDOR", impl.getRequiredRTEVendor())
 
     def writeEndToEndDescriptionDataIds(self, element: ET.Element, parent: EndToEndDescription):
         data_ids = parent.getDataIds()
         if len(data_ids) > 0:
             child_element = ET.SubElement(element, "DATA-IDS")
             for data_id in data_ids:
-                self.setChildElementOptionalNumericalValue(child_element, "DATA-ID", data_id)
+                self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID", data_id)
 
     def setEndToEndDescription(self, element: ET.Element, key: str, desc: EndToEndDescription):
         if desc is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, desc)
-            self.setChildElementOptionalLiteral(child_element, "CATEGORY", desc.getCategory())
+            self.setChildElementOptionalNameToken(child_element, "CATEGORY", desc.getCategory())
             self.writeEndToEndDescriptionDataIds(child_element, desc)
             self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID-MODE", desc.getDataIdMode())
             self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", desc.getDataLength())
             self.setChildElementOptionalPositiveInteger(child_element, "MAX-DELTA-COUNTER-INIT", desc.getMaxDeltaCounterInit())
             self.setChildElementOptionalPositiveInteger(child_element, "CRC-OFFSET", desc.getCrcOffset())
             self.setChildElementOptionalPositiveInteger(child_element, "COUNTER-OFFSET", desc.getCounterOffset())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-NO-NEW-OR-REPEATED-DATA", desc.getMaxNoNewOrRepeatedData())
+            self.setChildElementOptionalPositiveInteger(child_element, "SYNC-COUNTER-INIT", desc.getSyncCounterInit())
+            self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID-NIBBLE-OFFSET", desc.getDataIdNibbleOffset())
 
     def setVariableDataPrototypeInSystemInstanceRef(self, element: ET.Element, key: str, instance_ref: VariableDataPrototypeInSystemInstanceRef):
         if instance_ref is not None:
@@ -7639,9 +7653,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("writeImplementationDataTypeElement %s" % impl_data_type_element.getShortName())
         child_element = ET.SubElement(element, "IMPLEMENTATION-DATA-TYPE-ELEMENT")
         self.writeAbstractImplementationDataTypeElement(child_element, impl_data_type_element)
-        self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE", impl_data_type_element.getArraySize())
+        self.setChildElementOptionalLiteral(child_element, "ARRAY-IMPL-POLICY", impl_data_type_element.getArrayImplPolicy())
+        self.setChildElementOptionalPositiveInteger(child_element, "ARRAY-SIZE", impl_data_type_element.getArraySize())
         self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-HANDLING", impl_data_type_element.getArraySizeHandling())
         self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS", impl_data_type_element.getArraySizeSemantics())
+        self.setChildElementOptionalBooleanValue(child_element, "IS-OPTIONAL", impl_data_type_element.getIsOptional())
         self.writeImplementationDataTypeElementSubElements(child_element, impl_data_type_element)
         self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", impl_data_type_element.getSwDataDefProps())
 
