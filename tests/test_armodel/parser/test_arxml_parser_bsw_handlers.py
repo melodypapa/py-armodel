@@ -1510,6 +1510,23 @@ class TestBswReceptionAndApiOptions:
         assert policy.getProvidedModeGroupRef().getValue() == "/mg"
         assert policy.getQueueLength().getValue() == 3
 
+    def test_getBswModeSwitchAckRequest_timeout_value(self, parser):
+        from armodel.models import BswModeSwitchAckRequest
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue
+
+        element = _snip(
+            "<ACK-REQUEST><TIMEOUT>2.5</TIMEOUT></ACK-REQUEST>",
+            root_tag="BSW-MODE-SWITCH-ACK-REQUEST",
+        )
+        request = parser.getBswModeSwitchAckRequest(element, "ACK-REQUEST")
+        assert isinstance(request, BswModeSwitchAckRequest)
+        assert isinstance(request.getTimeout(), TimeValue)
+        assert request.getTimeout().getValue() == 2.5
+
+    def test_getBswModeSwitchAckRequest_absent_returns_none(self, parser):
+        element = _snip("", root_tag="BSW-MODE-SENDER-POLICY")
+        assert parser.getBswModeSwitchAckRequest(element, "ACK-REQUEST") is None
+
     def test_readBswInternalBehaviorModeSenderPolicy_adds_policy(self, parser):
         from armodel.models import BswInternalBehavior
 

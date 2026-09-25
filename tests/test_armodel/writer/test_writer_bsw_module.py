@@ -1100,6 +1100,81 @@ class TestWriterBswModeSenderPolicy:
         writer.writeBswInternalBehaviorIncludedModeDeclarationGroupSets(parent, behavior)
         assert len(parent) == 0
 
+    def test_set_bsw_mode_switch_ack_request_timeout_value(self, writer):
+        ack = BswModeSwitchAckRequest()
+        ack.setTimeout(_time(5.0))
+        parent = _parent()
+        writer.setBswModeSwitchAckRequest(parent, "ACK-REQUEST", ack)
+        assert parent[0].tag == "ACK-REQUEST"
+        timeout_el = parent[0].find("TIMEOUT")
+        assert timeout_el is not None
+        assert timeout_el.text == "5.0"
+
+    def test_set_bsw_mode_switch_ack_request_none_emits_nothing(self, writer):
+        parent = _parent()
+        writer.setBswModeSwitchAckRequest(parent, "ACK-REQUEST", None)
+        assert len(parent) == 0
+
+
+class TestWriterBswModeSwitchAckRequestRoundTrip:
+    def test_round_trip_mode_switch_ack_request(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        policy = BswModeSenderPolicy()
+        policy.setEnhancedModeApi(_bool(True))
+        policy.setQueueLength(_posint(3))
+        ack = BswModeSwitchAckRequest()
+        ack.setTimeout(_time(5.0))
+        policy.setAckRequest(ack)
+        behavior.addModeSenderPolicy(policy)
+
+        out_file = tmp_path / "ack_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policy_2 = behavior_2.getModeSenderPolicies()[0]
+        ack_2 = policy_2.getAckRequest()
+        assert isinstance(ack_2, BswModeSwitchAckRequest)
+        assert isinstance(ack_2.getTimeout(), TimeValue)
+        assert ack_2.getTimeout().getValue() == 5.0
+        assert policy_2.getEnhancedModeApi().value is True
+        assert policy_2.getQueueLength().getValue() == 3
+
+    def test_round_trip_mode_switch_ack_request_empty(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.addModeSenderPolicy(BswModeSenderPolicy())
+
+        out_file = tmp_path / "ack_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        raw = out_file.read_text()
+        assert "ACK-REQUEST" not in raw
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policy_2 = behavior_2.getModeSenderPolicies()[0]
+        assert policy_2.getAckRequest() is None
+
 
 class TestWriterBswApiOptions:
     def test_write_bsw_api_options_serializes_value(self, writer):

@@ -23,7 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Im
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent, ApiPrincipleEnum, ExecutableEntity, InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceDependency, ServiceNeeds
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Float, Boolean
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, String, TimeValue, Identifier
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -1423,44 +1423,35 @@ class BswInternalTriggerOccurredEvent(BswScheduleEvent):
 
 class BswModeSwitchAckRequest(ARObject):
     """
-    Represents an acknowledgment request for a mode switch operation.
-    This is used in BSW modules to handle mode switch acknowledgments.
+    Requests acknowledgements that a mode switch has been processed successfully
     """
 
     # BswModeSwitchAckRequest method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getTimeout                   [x] impl  [x] docstring  [ ] test
-    # [x] setTimeout                   [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.40, p.103
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTimeout  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeout  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the BswModeSwitchAckRequest.
-        """
         super().__init__()
 
-        # Timeout value for the mode switch acknowledgment
-        self.timeout: Float = None
+        # Number of seconds before an error is reported. The attribute timeout shall exist at the time when the configuration of the BSW module is finished (constr_10293).
+        self.timeout: Optional[TimeValue] = None
 
-    def getTimeout(self):
+    def getTimeout(self) -> Optional[TimeValue]:
         """
-        Gets the timeout value for the mode switch acknowledgment.
-
-        Returns:
-            Float representing the timeout value
+        Number of seconds before an error is reported.
         """
         return self.timeout
 
-    def setTimeout(self, value):
+    def setTimeout(self, value: Optional[TimeValue]) -> BswModeSwitchAckRequest:
         """
-        Sets the timeout value for the mode switch acknowledgment.
-
-        Args:
-            value: The timeout value to set
-
-        Returns:
-            self for method chaining
+        Number of seconds before an error is reported.
+        A None value is a no-op and does not overwrite an existing timeout.
         """
-        self.timeout = value
+        if value is not None:
+            self.timeout = value
         return self
 
 

@@ -60,7 +60,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import M
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds, RoleBasedDataAssignment, SymbolicNameProps
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import BswServiceDependencyIdent
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Boolean, Float, Identifier, PositiveInteger, RefType, String, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Boolean, Identifier, PositiveInteger, RefType, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment
@@ -1109,12 +1109,33 @@ class TestBswModeSwitchAckRequest:
     def test_set_timeout(self):
         ack_request = BswModeSwitchAckRequest()
 
-        timeout = Float()
+        timeout = TimeValue()
         timeout.setValue(5.0)
         result = ack_request.setTimeout(timeout)
 
         assert result == ack_request
         assert ack_request.getTimeout() == timeout
+        assert ack_request.getTimeout().getValue() == 5.0
+
+    def test_set_timeout_none_is_noop(self):
+        ack_request = BswModeSwitchAckRequest()
+
+        timeout = TimeValue()
+        timeout.setValue(5.0)
+        ack_request.setTimeout(timeout)
+        result = ack_request.setTimeout(None)
+
+        assert result == ack_request
+        assert ack_request.getTimeout() == timeout
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswModeSwitchAckRequest.getTimeout)
+        assert getter_hints.get("return") == typing.Optional[TimeValue]
+
+        setter_hints = typing.get_type_hints(BswModeSwitchAckRequest.setTimeout)
+        assert setter_hints.get("value") == typing.Optional[TimeValue]
+        assert setter_hints.get("return") is BswModeSwitchAckRequest
 
 
 class TestBswModeSenderPolicy:

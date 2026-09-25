@@ -208,6 +208,20 @@ the aggregation is itself a partial implementation and remains to be wired.
 | `providedModeGroupRef` | `Optional[RefType]` | `providedModeGroup` | `Ref (ModeDeclarationGroupPrototype)` | ref | ok |
 | `queueLength` | `Optional[PositiveInteger]` | `queueLength` | `PositiveInteger` | attr | ok |
 
+## `BswModeSwitchAckRequest`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 103
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `timeout` | `Optional[TimeValue]` | `timeout` | `TimeValue` | attr | ok |
+
+No deviations (2026-09-26 sync, Table 5.40, p.103): bare `Float` field retyped to
+`Optional[TimeValue]`, accessors typed, None no-op added, docstrings rewritten verbatim from the
+markdown Note, 6-column checklist; reader/writer already covered `ACK-REQUEST`/`TIMEOUT` via
+matched get/setBswModeSwitchAckRequest helpers.
+
 ## `BswTriggerDirectImplementation`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 102
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`

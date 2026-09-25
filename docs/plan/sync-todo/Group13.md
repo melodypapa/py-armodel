@@ -138,15 +138,24 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `BswModeSwitchAckRequest` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 5.40, p.103 (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate).
+    Concrete Class; Base most-derived = `ARObject` (already correct in src). One attr `timeout`
+    (TimeValue, 0..1, attr). Not VP-capable (no VARIATION-POINT in BSW-MODE-SWITCH-ACK-REQUEST
+    group, AUTOSAR_00052.xsd L11164/L11180). XSD XML order: TIMEOUT only. Drift: fabricated
+    class docstring, `__init__` docstring, bare `Float` field (→ Optional[TimeValue]), untyped
+    accessors, no None no-op, old 4-col checklist; get/setBswModeSwitchAckRequest reader/writer
+    helpers already exist with TIMEOUT coverage.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Step 6): N/A — get/setBswModeSwitchAckRequest already covered TIMEOUT (AR:TIME-VALUE)
+    with matched names; new tests passed immediately, no parser/writer edit.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12051 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BswQueuedDataReceptionPolicy` — BswDataReceptionPolicy — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
