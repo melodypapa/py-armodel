@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswDirectCallPoint,
     BswExclusiveAreaPolicy,
     BswInternalTriggeringPointPolicy,
+    BswInterruptCategory,
     BswModeReceiverPolicy,
     BswModeSenderPolicy,
     BswModeSwitchAckRequest,
@@ -41,6 +42,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Identifier,
     PositiveInteger,
     RefType,
+    String,
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
@@ -797,13 +799,22 @@ class TestWriterBswInternalBehaviorEntities:
     def test_interrupt_entity(self, writer):
         behavior = _make_behavior()
         entity = behavior.createBswInterruptEntity("ie")
-        entity.setInterruptCategory(_literal("cat1"))
-        entity.setInterruptSource(_literal("src"))
+        entity.setInterruptCategory(BswInterruptCategory().setValue(BswInterruptCategory.CAT1))
+        entity.setInterruptSource(String().setValue("src"))
         parent = _parent()
-        writer.setBswInterruptEntity(parent, entity)
+        writer.writeBswInterruptEntity(parent, entity)
         assert parent[0].tag == "BSW-INTERRUPT-ENTITY"
-        assert parent[0].find("INTERRUPT-CATEGORY").text == "cat1"
+        assert parent[0].find("INTERRUPT-CATEGORY").text == "CAT-1"
         assert parent[0].find("INTERRUPT-SOURCE").text == "src"
+
+    def test_interrupt_entity_empty(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createBswInterruptEntity("ie")
+        parent = _parent()
+        writer.writeBswInterruptEntity(parent, entity)
+        assert parent[0].tag == "BSW-INTERRUPT-ENTITY"
+        assert parent[0].find("INTERRUPT-CATEGORY") is None
+        assert parent[0].find("INTERRUPT-SOURCE") is None
 
     def test_dispatches_all_entity_types(self, writer):
         behavior = _make_behavior()
@@ -845,6 +856,62 @@ class TestWriterBswInternalBehaviorEntities:
         assert parent.find("MANAGED-MODE-GROUPS") is not None
         assert parent.find("ACCESSED-MODE-GROUPS") is not None
         assert parent.find("ISSUED-TRIGGERS") is not None
+
+
+class TestWriterBswInterruptEntityRoundTrip:
+    def test_round_trip_interrupt_entity(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        entity = behavior.createBswInterruptEntity("ie")
+        entity.setImplementedEntryRef(_ref("/mod/Entry", "BSW-MODULE-ENTRY"))
+        entity.setInterruptCategory(BswInterruptCategory().setValue(BswInterruptCategory.CAT2))
+        entity.setInterruptSource(String().setValue("CAN interrupt"))
+
+        out_file = tmp_path / "ie_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        entity_2 = behavior_2.getBswInterruptEntities()[0]
+        assert entity_2.getShortName() == "ie"
+        assert entity_2.getImplementedEntryRef().getValue() == "/mod/Entry"
+        assert isinstance(entity_2.getInterruptCategory(), BswInterruptCategory)
+        assert entity_2.getInterruptCategory().getValue() == "cat2"
+        assert isinstance(entity_2.getInterruptSource(), String)
+        assert entity_2.getInterruptSource().getValue() == "CAN interrupt"
+
+    def test_round_trip_interrupt_entity_empty(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        entity = behavior.createBswInterruptEntity("ie")
+        entity.setImplementedEntryRef(_ref("/mod/Entry", "BSW-MODULE-ENTRY"))
+
+        out_file = tmp_path / "ie_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        entity_2 = behavior_2.getBswInterruptEntities()[0]
+        assert entity_2.getInterruptCategory() is None
+        assert entity_2.getInterruptSource() is None
 
 
 class TestWriterBswEvents:

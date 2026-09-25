@@ -60,7 +60,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import M
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds, RoleBasedDataAssignment, SymbolicNameProps
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import BswServiceDependencyIdent
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Boolean, Float, Identifier, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Boolean, Float, Identifier, PositiveInteger, RefType, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment
@@ -615,27 +615,54 @@ class TestBswInterruptEntity:
         assert entity.getInterruptCategory() is None
         assert entity.getInterruptSource() is None
 
-    def test_set_interrupt_category(self):
+    def test_get_set_interrupt_category(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         entity = BswInterruptEntity(ar_root, "test_interrupt_entity")
 
-        category = BswInterruptCategory()
+        category = BswInterruptCategory().setValue(BswInterruptCategory.CAT2)
         result = entity.setInterruptCategory(category)
 
         assert result == entity
         assert entity.getInterruptCategory() == category
 
-    def test_set_interrupt_source(self):
+        # Setting None should not change the value (based on implementation)
+        result = entity.setInterruptCategory(None)
+        assert result == entity
+        assert entity.getInterruptCategory() == category  # Value should remain unchanged
+
+    def test_get_set_interrupt_source(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         entity = BswInterruptEntity(ar_root, "test_interrupt_entity")
 
-        source = "test_source"
+        source = String().setValue("CAN interrupt")
         result = entity.setInterruptSource(source)
 
         assert result == entity
         assert entity.getInterruptSource() == source
+        assert entity.getInterruptSource().getValue() == "CAN interrupt"
+
+        # Setting None should not change the value (based on implementation)
+        result = entity.setInterruptSource(None)
+        assert result == entity
+        assert entity.getInterruptSource() == source  # Value should remain unchanged
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswInterruptEntity.getInterruptCategory)
+        assert getter_hints.get("return") == typing.Optional[BswInterruptCategory]
+
+        setter_hints = typing.get_type_hints(BswInterruptEntity.setInterruptCategory)
+        assert setter_hints.get("value") == typing.Optional[BswInterruptCategory]
+        assert setter_hints.get("return") is BswInterruptEntity
+
+        getter_hints = typing.get_type_hints(BswInterruptEntity.getInterruptSource)
+        assert getter_hints.get("return") == typing.Optional[String]
+
+        setter_hints = typing.get_type_hints(BswInterruptEntity.setInterruptSource)
+        assert setter_hints.get("value") == typing.Optional[String]
+        assert setter_hints.get("return") is BswInterruptEntity
 
 
 class TestBswEvent:

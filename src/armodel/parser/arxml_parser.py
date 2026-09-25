@@ -62,6 +62,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswInternalTriggeringPoint,
     BswInternalTriggeringPointPolicy,
     BswInternalTriggerOccurredEvent,
+    BswInterruptCategory,
     BswInterruptEntity,
     BswModeManagerErrorEvent,
     BswModeReceiverPolicy,
@@ -1197,6 +1198,11 @@ SW_IMPL_POLICY_XML_MAP = {
     "measurementPoint": "MEASUREMENT-POINT",
     "queued": "QUEUED",
     "standard": "STANDARD",
+}
+
+BSW_INTERRUPT_CATEGORY_XML_MAP = {
+    "cat1": "CAT-1",
+    "cat2": "CAT-2",
 }
 
 
@@ -3977,10 +3983,20 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBswModuleEntity(element, entity)
 
     def readBswInterruptEntity(self, element: ET.Element, entity: BswInterruptEntity):
-        # self.logger.debug("Read BswSchedulableEntity %s" % entity.getShortName())
+        # self.logger.debug("Read BswInterruptEntity %s" % entity.getShortName())
         self.readBswModuleEntity(element, entity)
-        entity.setInterruptCategory(self.getChildElementOptionalLiteral(element, "INTERRUPT-CATEGORY"))
-        entity.setInterruptSource(self.getChildElementOptionalLiteral(element, "INTERRUPT-SOURCE"))
+        literal = self.getChildElementOptionalLiteral(element, "INTERRUPT-CATEGORY")
+        if literal is not None:
+            camel = None
+            for camel_value, token in BSW_INTERRUPT_CATEGORY_XML_MAP.items():
+                if token == literal.getText():
+                    camel = camel_value
+                    break
+            if camel is not None:
+                entity.setInterruptCategory(BswInterruptCategory().setValue(camel))
+            else:
+                self.notImplemented("Unsupported INTERRUPT-CATEGORY <%s>" % literal.getText())
+        entity.setInterruptSource(self.getChildElementOptionalString(element, "INTERRUPT-SOURCE"))
 
     def readBswInternalBehaviorEntities(self, element: ET.Element, behavior: BswInternalBehavior):
         for child_element in self.findall(element, "ENTITYS/*"):

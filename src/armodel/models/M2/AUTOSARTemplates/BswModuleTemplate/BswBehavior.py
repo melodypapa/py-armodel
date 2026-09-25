@@ -774,74 +774,55 @@ class BswInterruptCategory(AREnum):
 
 class BswInterruptEntity(BswModuleEntity):
     """
-    Represents an interrupt entity in a BSW module.
-    This defines how interrupt service routines are handled in the BSW module.
+    BSW module entity, which is designed to be triggered by an interrupt.
     """
 
     # BswInterruptEntity method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getInterruptCategory         [x] impl  [x] docstring  [ ] test
-    # [x] setInterruptCategory         [x] impl  [x] docstring  [x] test
-    # [ ] getInterruptSource           [x] impl  [x] docstring  [ ] test
-    # [x] setInterruptSource           [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.8, p.75
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInterruptCategory  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInterruptCategory  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInterruptSource    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInterruptSource    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswInterruptEntity with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this interrupt entity
-            short_name: The unique short name of this interrupt entity
-        """
         super().__init__(parent, short_name)
 
-        # Category of the interrupt (CAT1 or CAT2)
-        self.interruptCategory: BswInterruptCategory = None
-        # Source identifier for the interrupt
-        self.interruptSource: String = None
+        # Category of the interrupt
+        self.interruptCategory: Optional[BswInterruptCategory] = None
 
-    def getInterruptCategory(self):
+        # Allows a textual documentation of the intended interrupt source.
+        self.interruptSource: Optional[String] = None
+
+    def getInterruptCategory(self) -> Optional[BswInterruptCategory]:
         """
-        Gets the interrupt category for this interrupt entity.
-
-        Returns:
-            The interrupt category (CAT1 or CAT2)
+        Category of the interrupt
         """
         return self.interruptCategory
 
-    def setInterruptCategory(self, value):
+    def setInterruptCategory(self, value: Optional[BswInterruptCategory]) -> BswInterruptEntity:
         """
-        Sets the interrupt category for this interrupt entity.
-
-        Args:
-            value: The interrupt category to set
-
-        Returns:
-            self for method chaining
+        Category of the interrupt
+        A None value is a no-op and does not overwrite an existing interruptCategory.
         """
-        self.interruptCategory = value
+        if value is not None:
+            self.interruptCategory = value
         return self
 
-    def getInterruptSource(self):
+    def getInterruptSource(self) -> Optional[String]:
         """
-        Gets the interrupt source identifier for this interrupt entity.
-
-        Returns:
-            The interrupt source identifier
+        Allows a textual documentation of the intended interrupt source.
         """
         return self.interruptSource
 
-    def setInterruptSource(self, value):
+    def setInterruptSource(self, value: Optional[String]) -> BswInterruptEntity:
         """
-        Sets the interrupt source identifier for this interrupt entity.
-
-        Args:
-            value: The interrupt source identifier to set
-
-        Returns:
-            self for method chaining
+        Allows a textual documentation of the intended interrupt source.
+        A None value is a no-op and does not overwrite an existing interruptSource.
         """
-        self.interruptSource = value
+        if value is not None:
+            self.interruptSource = value
         return self
 
 

@@ -1087,6 +1087,8 @@ class TestBswEntityDispatch:
 
     def test_readBswInterruptEntity_sets_attrs(self, parser):
         from armodel.models import BswModuleDescription
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInterruptCategory
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 
         desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
         behavior = desc.createBswInternalBehavior("bh")
@@ -1094,13 +1096,58 @@ class TestBswEntityDispatch:
         element = _snip(
             "<SHORT-NAME>ie</SHORT-NAME>"
             "<IMPLEMENTED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/ent</IMPLEMENTED-ENTRY-REF>"
-            "<INTERRUPT-CATEGORY>CAT_1</INTERRUPT-CATEGORY>"
+            "<INTERRUPT-CATEGORY>CAT-1</INTERRUPT-CATEGORY>"
             "<INTERRUPT-SOURCE>EXT</INTERRUPT-SOURCE>",
             root_tag="BSW-INTERRUPT-ENTITY",
         )
         parser.readBswInterruptEntity(element, entity)
-        assert entity.getInterruptCategory().getValue() == "CAT_1"
+        assert isinstance(entity.getInterruptCategory(), BswInterruptCategory)
+        assert entity.getInterruptCategory().getValue() == "cat1"
+        assert isinstance(entity.getInterruptSource(), String)
         assert entity.getInterruptSource().getValue() == "EXT"
+
+    def test_readBswInterruptEntity_category_cat2(self, parser):
+        from armodel.models import BswModuleDescription
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInterruptCategory
+
+        desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
+        behavior = desc.createBswInternalBehavior("bh")
+        entity = behavior.createBswInterruptEntity("ie")
+        element = _snip(
+            "<SHORT-NAME>ie</SHORT-NAME>" "<IMPLEMENTED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/ent</IMPLEMENTED-ENTRY-REF>" "<INTERRUPT-CATEGORY>CAT-2</INTERRUPT-CATEGORY>",
+            root_tag="BSW-INTERRUPT-ENTITY",
+        )
+        parser.readBswInterruptEntity(element, entity)
+        assert isinstance(entity.getInterruptCategory(), BswInterruptCategory)
+        assert entity.getInterruptCategory().getValue() == "cat2"
+
+    def test_readBswInterruptEntity_empty(self, parser):
+        from armodel.models import BswModuleDescription
+
+        desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
+        behavior = desc.createBswInternalBehavior("bh")
+        entity = behavior.createBswInterruptEntity("ie")
+        element = _snip(
+            "<SHORT-NAME>ie</SHORT-NAME>" "<IMPLEMENTED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/ent</IMPLEMENTED-ENTRY-REF>",
+            root_tag="BSW-INTERRUPT-ENTITY",
+        )
+        parser.readBswInterruptEntity(element, entity)
+        assert entity.getInterruptCategory() is None
+        assert entity.getInterruptSource() is None
+
+    def test_readBswInterruptEntity_unsupported_category_warns(self, warning_parser, caplog):
+        from armodel.models import BswModuleDescription
+
+        desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
+        behavior = desc.createBswInternalBehavior("bh")
+        entity = behavior.createBswInterruptEntity("ie")
+        element = _snip(
+            "<SHORT-NAME>ie</SHORT-NAME>" "<INTERRUPT-CATEGORY>BOGUS</INTERRUPT-CATEGORY>",
+            root_tag="BSW-INTERRUPT-ENTITY",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readBswInterruptEntity(element, entity)
+        assert any("Unsupported INTERRUPT-CATEGORY" in r.getMessage() for r in caplog.records)
 
     def test_readBswInternalBehaviorEntities_dispatches_all(self, parser):
         from armodel.models import BswModuleDescription

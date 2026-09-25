@@ -1065,6 +1065,11 @@ SW_IMPL_POLICY_XML_MAP = {
     "standard": "STANDARD",
 }
 
+BSW_INTERRUPT_CATEGORY_XML_MAP = {
+    "cat1": "CAT-1",
+    "cat2": "CAT-2",
+}
+
 
 class ARXMLWriter(AbstractARXMLWriter):
     """
@@ -6942,12 +6947,19 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "BSW-SCHEDULABLE-ENTITY")
         self.writeBswModuleEntity(child_element, entity)
 
-    def setBswInterruptEntity(self, element: ET.Element, entity: BswInterruptEntity):
+    def writeBswInterruptEntity(self, element: ET.Element, entity: BswInterruptEntity):
         self.logger.debug("Write BswInterruptEntity <%s>" % entity.getShortName())
         child_element = ET.SubElement(element, "BSW-INTERRUPT-ENTITY")
         self.writeBswModuleEntity(child_element, entity)
-        self.setChildElementOptionalLiteral(child_element, "INTERRUPT-CATEGORY", entity.getInterruptCategory())
-        self.setChildElementOptionalLiteral(child_element, "INTERRUPT-SOURCE", entity.getInterruptSource())
+        category = entity.getInterruptCategory()
+        if category is not None:
+            token = BSW_INTERRUPT_CATEGORY_XML_MAP.get(category.getValue())
+            if token is None:
+                self.notImplemented("Unsupported INTERRUPT-CATEGORY <%s>" % category.getValue())
+            else:
+                category_element = ET.SubElement(child_element, "INTERRUPT-CATEGORY")
+                category_element.text = token
+        self.setChildElementOptionalString(child_element, "INTERRUPT-SOURCE", entity.getInterruptSource())
 
     def writeBswInternalBehaviorEntities(self, element: ET.Element, parent: BswInternalBehavior):
         entities = parent.getBswModuleEntities()
@@ -6959,7 +6971,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(entity, BswSchedulableEntity):
                     self.writeBswSchedulableEntity(child_element, entity)
                 elif isinstance(entity, BswInterruptEntity):
-                    self.setBswInterruptEntity(child_element, entity)
+                    self.writeBswInterruptEntity(child_element, entity)
                 else:
                     self.notImplemented("Unsupported BswModuleEntity <%s>" % type(entity))
 
