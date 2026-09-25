@@ -78,8 +78,7 @@ def _bool(value: bool) -> Boolean:
     return Boolean().setValue(value)
 
 
-def _filled_needs() -> NvBlockNeeds:
-    needs = NvBlockNeeds(None, "nv")
+def _fill_needs(needs: NvBlockNeeds) -> NvBlockNeeds:
     needs.setCalcRamBlockCrc(_bool(True))
     needs.setCheckStaticBlockId(_bool(False))
     needs.setCyclicWritingPeriod(TimeValue().setValue("0.005"))
@@ -103,6 +102,10 @@ def _filled_needs() -> NvBlockNeeds:
     needs.setWritingFrequency(PositiveInteger().setValue("10"))
     needs.setWritingPriority(NvBlockNeedsWritingPriorityEnum().setValue(NvBlockNeedsWritingPriorityEnum.HIGH))
     return needs
+
+
+def _filled_needs() -> NvBlockNeeds:
+    return _fill_needs(NvBlockNeeds(None, "nv"))
 
 
 class TestWriteNvBlockNeeds:
@@ -159,7 +162,7 @@ class TestNvBlockDescriptorDispatch:
     def test_write_nv_block_descriptor_nv_block_needs_field_values(self, writer):
         """Test the NvBlockDescriptor.nvBlockNeeds dispatch emits field values one level down."""
         descriptor = NvBlockDescriptor(None, "desc")
-        descriptor.setNvBlockNeeds(_filled_needs())
+        _fill_needs(descriptor.createNvBlockNeeds("nv"))
 
         parent = ET.Element("ROOT")
         writer.writeNvBlockDescriptor(parent, descriptor)
@@ -227,7 +230,7 @@ class TestWriteReadRoundTrip:
     def test_round_trip_through_nv_block_descriptor(self, writer):
         """Test the NvBlockDescriptor dispatch write → re-parse round-trip with field values."""
         descriptor = NvBlockDescriptor(None, "desc")
-        descriptor.setNvBlockNeeds(_filled_needs())
+        _fill_needs(descriptor.createNvBlockNeeds("nv"))
 
         parent = ET.Element("ROOT")
         writer.writeNvBlockDescriptor(parent, descriptor)

@@ -1815,19 +1815,16 @@ class ARXMLParser(AbstractARXMLParser):
             descriptor.addNvBlockDataMapping(mapping)
         needs_element = self.find(element, "NV-BLOCK-NEEDS")
         if needs_element is not None:
-            needs = NvBlockNeeds(descriptor, self.getShortName(needs_element))
+            needs = descriptor.createNvBlockNeeds(self.getShortName(needs_element))
             self.readNvBlockNeeds(needs_element, needs)
-            descriptor.setNvBlockNeeds(needs)
         ram_block_element = self.find(element, "RAM-BLOCK")
         if ram_block_element is not None:
-            ram_block = VariableDataPrototype(descriptor, self.getShortName(ram_block_element))
+            ram_block = descriptor.createRamBlock(self.getShortName(ram_block_element))
             self.readVariableDataPrototype(ram_block_element, ram_block)
-            descriptor.setRamBlock(ram_block)
         rom_block_element = self.find(element, "ROM-BLOCK")
         if rom_block_element is not None:
-            rom_block = ParameterDataPrototype(descriptor, self.getShortName(rom_block_element))
+            rom_block = descriptor.createRomBlock(self.getShortName(rom_block_element))
             self.readParameterDataPrototype(rom_block_element, rom_block)
-            descriptor.setRomBlock(rom_block)
         descriptor.setSupportDirtyFlag(self.getChildElementOptionalBooleanValue(element, "SUPPORT-DIRTY-FLAG"))
         descriptor.setTimingEventRef(self.getChildElementOptionalRefType(element, "TIMING-EVENT-REF"))
         for child_element in self.findall(element, "WRITING-STRATEGYS/*"):

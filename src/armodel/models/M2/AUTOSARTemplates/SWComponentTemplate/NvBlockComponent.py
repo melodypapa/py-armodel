@@ -1,10 +1,11 @@
+from __future__ import annotations
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import NvBlockNeeds, RoleBasedDataAssignment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarVariableRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstantiationDataDefProps import InstantiationDataDefProps
@@ -194,61 +195,62 @@ class BulkNvDataDescriptor(AtpStructureElement, VariationPointCapable):
 
 
 class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
-    """
-    Specifies the properties of exactly on NVRAM Block.
+    """Specifies the properties of exactly on NVRAM Block.
+
+    [constr_1981] Existence of attribute NvBlockDescriptor.nvBlockNeeds: For each NvBlockDescriptor, attribute nvBlockNeeds shall exist at the time when the RTE is generated.
     """
 
     # NvBlockDescriptor method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.6, p.670
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getClientServerPorts         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addClientServerPort          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getConstantValueMappingRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addConstantValueMappingRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDataTypeMappingRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addDataTypeMappingRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getInstantiationDataDefPropss [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addInstantiationDataDefProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModeSwitchEventTriggeredActivitys [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addModeSwitchEventTriggeredActivity [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNvBlockDataMappings       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addNvBlockDataMapping        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNvBlockNeeds              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNvBlockNeeds              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRamBlock                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRamBlock                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRomBlock                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRomBlock                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSupportDirtyFlag          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSupportDirtyFlag          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimingEventRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimingEventRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getWritingStrategies         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addWritingStrategy           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getClientServerPorts                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addClientServerPort                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConstantValueMappingRefs                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addConstantValueMappingRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataTypeMappingRefs                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDataTypeMappingRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInstantiationDataDefPropss              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addInstantiationDataDefProps               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeSwitchEventTriggeredActivitys       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addModeSwitchEventTriggeredActivity        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNvBlockDataMappings                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addNvBlockDataMapping                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNvBlockNeeds                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createNvBlockNeeds                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRamBlock                                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createRamBlock                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRomBlock                                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createRomBlock                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSupportDirtyFlag                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSupportDirtyFlag                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimingEventRef                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimingEventRef                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWritingStrategies                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addWritingStrategy                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # The RoleBasedPortAssignement defines which client server port of the NvBlockSwComponentType serves for which kind of service or notification. In case of notifications one common callback function is provided by the RTE for each individual kind of notification defined by the "role". The aggregation of RoleBasedPortAssignment is subject to variability with the purpose to support the conditional existence of ports. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=clientServerPort, clientServerPort.variation Point.shortLabel vh.latestBindingTime=preCompileTime
+        # The RoleBasedPortAssignement defines which client server port of the NvBlockSwComponentType serves for which kind of service or notification. In case of notifications one common callback function is provided by the RTE for each individual kind of notification defined by the "role". The aggregation of RoleBasedPortAssignment is subject to variability with the purpose to support the conditional existence of ports.
         self.clientServerPorts: List[RoleBasedPortAssignment] = []
 
-        # Reference to the ConstantSpecificationMapping to be applied for the particular NVRAM Block Stereotypes: atpSplitable Tags: atp.Splitkey=constantValueMapping
+        # Reference to the ConstantSpecificationMapping to be applied for the particular NVRAM Block
         self.constantValueMappingRefs: List[RefType] = []
 
-        # Reference to the DataTypeMapping to be applied for the particular NVRAM Block. Stereotypes: atpSplitable Tags: atp.Splitkey=dataTypeMapping
+        # Reference to the DataTypeMapping to be applied for the particular NVRAM Block.
         self.dataTypeMappingRefs: List[RefType] = []
 
-        # The purpose of InstantiationDataDefProps are the refinement of some data def properties of individual instantiations within the context of a NvBlockSw ComponentType. The aggregation of InstantiationDataDefProps is subject to variability with the purpose to support the conditional existence of ports, component internal memory objects and those attributes. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=instantiationDataDefProps, instantiationData DefProps.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        # The purpose of InstantiationDataDefProps are the refinement of some data def properties of individual instantiations within the context of a NvBlockSwComponentType. The aggregation of InstantiationDataDefProps is subject to variability with the purpose to support the conditional existence of ports, component internal memory objects and those attributes.
         self.instantiationDataDefPropss: List[InstantiationDataDefProps] = []
 
-        # This represents the collection of ModeSwitchEvent TriggeredActivities related to the enclosing NvBlock Descriptor. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=modeSwitchEventTriggeredActivity, mode SwitchEventTriggeredActivity.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        # This represents the collection of ModeSwitchEventTriggeredActivities related to the enclosing NvBlockDescriptor.
         self.modeSwitchEventTriggeredActivitys: List[ModeSwitchEventTriggeredActivity] = []
 
-        # Defines the mapping between the VariableData Prototypes in the NvBlockComponents ports and the VariableDataPrototypes of the RAM Block. The aggregation of NvBlockDataMapping is subject to variability with the purpose to support the conditional existence of nv data ports. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nvBlockDataMapping, nvBlockData Mapping.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        # Defines the mapping between the VariableDataPrototypes in the NvBlockComponents ports and the VariableDataPrototypes of the RAM Block. The aggregation of NvBlockDataMapping is subject to variability with the purpose to support the conditional existence of nv data ports.
         self.nvBlockDataMappings: List[NvBlockDataMapping] = []
 
-        # Specifies the abstract needs on the configuration of the NVRAM Manager for the single NVRAM Block described by this NvBlockDescriptor. In addition, it may define requirements for writing strategies in an implementation of an NvBlockSw ComponentType by the RTE. Please note that the attributes nDataSets and nRom Blocks are not relevant for this aggregation because the RTE will allocate just one block anyway. In a different context, however, they do make sense.
+        # Specifies the abstract needs on the configuration of the NVRAM Manager for the single NVRAM Block described by this NvBlockDescriptor. In addition, it may define requirements for writing strategies in an implementation of an NvBlockSwComponentType by the RTE. Please note that the attributes nDataSets and nRomBlocks are not relevant for this aggregation because the RTE will allocate just one block anyway. In a different context, however, they do make sense.
         self.nvBlockNeeds: Optional[NvBlockNeeds] = None
 
         # Defines the RAM Block of the NVRAM Block provided by NvBlockSwComponentType.
@@ -257,8 +259,8 @@ class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
         # Defines the ROM Block of the NVRAM Block provided by NvBlockSwComponentType.
         self.romBlock: Optional[ParameterDataPrototype] = None
 
-        # Specifies whether calling of NvM functions for writing and/ or status control of potentially modified RAM Blocks to NV memory shall be controlled by the RTE.
-        self.supportDirtyFlag: Optional[bool] = None
+        # Specifies whether calling of NvM functions for writing and/or status control of potentially modified RAM Blocks to NV memory shall be controlled by the RTE.
+        self.supportDirtyFlag: Optional[Boolean] = None
 
         # this reference can be taken to identify the TimingEvent to be used by the RTE for implementing a cyclic writing strategy for this block
         self.timingEventRef: Optional[RefType] = None
@@ -267,337 +269,127 @@ class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
         self.writingStrategies: List[RoleBasedDataAssignment] = []
 
     def getClientServerPorts(self) -> List[RoleBasedPortAssignment]:
-        """
-        Gets the role-based port assignments for the client server ports of the NvBlockSwComponentType.
-
-        The RoleBasedPortAssignement defines which client server port of the NvBlockSwComponentType serves for which kind of service or notification. In case of notifications one common callback function is provided by the RTE for each individual kind of notification defined by the "role". The aggregation of RoleBasedPortAssignment is subject to variability with the purpose to support the conditional existence of ports. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=clientServerPort, clientServerPort.variation Point.shortLabel vh.latestBindingTime=preCompileTime
-
-        Returns:
-            List of RoleBasedPortAssignment instances
-        """
+        """The RoleBasedPortAssignement defines which client server port of the NvBlockSwComponentType serves for which kind of service or notification. In case of notifications one common callback function is provided by the RTE for each individual kind of notification defined by the "role". The aggregation of RoleBasedPortAssignment is subject to variability with the purpose to support the conditional existence of ports."""
         return self.clientServerPorts
 
-    def addClientServerPort(self, value: RoleBasedPortAssignment) -> "NvBlockDescriptor":
-        """
-        Adds a role-based port assignment for a client server port of the NvBlockSwComponentType.
-        A None value is a no-op and does not append anything.
-
-        The RoleBasedPortAssignement defines which client server port of the NvBlockSwComponentType serves for which kind of service or notification. In case of notifications one common callback function is provided by the RTE for each individual kind of notification defined by the "role". The aggregation of RoleBasedPortAssignment is subject to variability with the purpose to support the conditional existence of ports. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=clientServerPort, clientServerPort.variation Point.shortLabel vh.latestBindingTime=preCompileTime
-
-        Args:
-            value: The RoleBasedPortAssignment to add
-
-        Returns:
-            self for method chaining
-        """
+    def addClientServerPort(self, value: Optional[RoleBasedPortAssignment]) -> "NvBlockDescriptor":
+        """The RoleBasedPortAssignement defines which client server port of the NvBlockSwComponentType serves for which kind of service or notification. In case of notifications one common callback function is provided by the RTE for each individual kind of notification defined by the "role". The aggregation of RoleBasedPortAssignment is subject to variability with the purpose to support the conditional existence of ports. A None value is a no-op and does not append anything."""
         if value is not None and value not in self.clientServerPorts:
             self.clientServerPorts.append(value)
         return self
 
     def getConstantValueMappingRefs(self) -> List[RefType]:
-        """
-        Gets the references to the ConstantSpecificationMapping to be applied for the particular NVRAM Block.
-
-        Reference to the ConstantSpecificationMapping to be applied for the particular NVRAM Block Stereotypes: atpSplitable Tags: atp.Splitkey=constantValueMapping
-
-        Returns:
-            List of RefType instances
-        """
+        """Reference to the ConstantSpecificationMapping to be applied for the particular NVRAM Block"""
         return self.constantValueMappingRefs
 
-    def addConstantValueMappingRef(self, value: RefType) -> "NvBlockDescriptor":
-        """
-        Adds a reference to the ConstantSpecificationMapping to be applied for the particular NVRAM Block.
-        A None value is a no-op and does not append anything.
-
-        Reference to the ConstantSpecificationMapping to be applied for the particular NVRAM Block Stereotypes: atpSplitable Tags: atp.Splitkey=constantValueMapping
-
-        Args:
-            value: The RefType to add
-
-        Returns:
-            self for method chaining
-        """
+    def addConstantValueMappingRef(self, value: Optional[RefType]) -> "NvBlockDescriptor":
+        """Reference to the ConstantSpecificationMapping to be applied for the particular NVRAM Block A None value is a no-op and does not append anything."""
         if value is not None and value not in self.constantValueMappingRefs:
             self.constantValueMappingRefs.append(value)
         return self
 
     def getDataTypeMappingRefs(self) -> List[RefType]:
-        """
-        Gets the references to the DataTypeMapping to be applied for the particular NVRAM Block.
-
-        Reference to the DataTypeMapping to be applied for the particular NVRAM Block. Stereotypes: atpSplitable Tags: atp.Splitkey=dataTypeMapping
-
-        Returns:
-            List of RefType instances
-        """
+        """Reference to the DataTypeMapping to be applied for the particular NVRAM Block."""
         return self.dataTypeMappingRefs
 
-    def addDataTypeMappingRef(self, value: RefType) -> "NvBlockDescriptor":
-        """
-        Adds a reference to the DataTypeMapping to be applied for the particular NVRAM Block.
-        A None value is a no-op and does not append anything.
-
-        Reference to the DataTypeMapping to be applied for the particular NVRAM Block. Stereotypes: atpSplitable Tags: atp.Splitkey=dataTypeMapping
-
-        Args:
-            value: The RefType to add
-
-        Returns:
-            self for method chaining
-        """
+    def addDataTypeMappingRef(self, value: Optional[RefType]) -> "NvBlockDescriptor":
+        """Reference to the DataTypeMapping to be applied for the particular NVRAM Block. A None value is a no-op and does not append anything."""
         if value is not None and value not in self.dataTypeMappingRefs:
             self.dataTypeMappingRefs.append(value)
         return self
 
     def getInstantiationDataDefPropss(self) -> List[InstantiationDataDefProps]:
-        """
-        Gets the refinement of some data def properties of individual instantiations within the context of a NvBlockSwComponentType.
-
-        The purpose of InstantiationDataDefProps are the refinement of some data def properties of individual instantiations within the context of a NvBlockSw ComponentType. The aggregation of InstantiationDataDefProps is subject to variability with the purpose to support the conditional existence of ports, component internal memory objects and those attributes. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=instantiationDataDefProps, instantiationData DefProps.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
-
-        Returns:
-            List of InstantiationDataDefProps instances
-        """
+        """The purpose of InstantiationDataDefProps are the refinement of some data def properties of individual instantiations within the context of a NvBlockSwComponentType. The aggregation of InstantiationDataDefProps is subject to variability with the purpose to support the conditional existence of ports, component internal memory objects and those attributes."""
         return self.instantiationDataDefPropss
 
-    def addInstantiationDataDefProps(self, value: InstantiationDataDefProps) -> "NvBlockDescriptor":
-        """
-        Adds a refinement of some data def properties of an instantiation within the context of a NvBlockSwComponentType.
-        A None value is a no-op and does not append anything.
-
-        The purpose of InstantiationDataDefProps are the refinement of some data def properties of individual instantiations within the context of a NvBlockSw ComponentType. The aggregation of InstantiationDataDefProps is subject to variability with the purpose to support the conditional existence of ports, component internal memory objects and those attributes. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=instantiationDataDefProps, instantiationData DefProps.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
-
-        Args:
-            value: The InstantiationDataDefProps to add
-
-        Returns:
-            self for method chaining
-        """
+    def addInstantiationDataDefProps(self, value: Optional[InstantiationDataDefProps]) -> "NvBlockDescriptor":
+        """The purpose of InstantiationDataDefProps are the refinement of some data def properties of individual instantiations within the context of a NvBlockSwComponentType. The aggregation of InstantiationDataDefProps is subject to variability with the purpose to support the conditional existence of ports, component internal memory objects and those attributes. A None value is a no-op and does not append anything."""
         if value is not None and value not in self.instantiationDataDefPropss:
             self.instantiationDataDefPropss.append(value)
         return self
 
-    def getModeSwitchEventTriggeredActivitys(self) -> "List[ModeSwitchEventTriggeredActivity]":
-        """
-        Gets the collection of ModeSwitchEventTriggeredActivities related to the enclosing NvBlockDescriptor.
-
-        This represents the collection of ModeSwitchEvent TriggeredActivities related to the enclosing NvBlock Descriptor. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=modeSwitchEventTriggeredActivity, mode SwitchEventTriggeredActivity.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
-
-        Returns:
-            List of ModeSwitchEventTriggeredActivity instances
-        """
+    def getModeSwitchEventTriggeredActivitys(self) -> List[ModeSwitchEventTriggeredActivity]:
+        """This represents the collection of ModeSwitchEventTriggeredActivities related to the enclosing NvBlockDescriptor."""
         return self.modeSwitchEventTriggeredActivitys
 
-    def addModeSwitchEventTriggeredActivity(self, value: "ModeSwitchEventTriggeredActivity") -> "NvBlockDescriptor":
-        """
-        Adds a ModeSwitchEventTriggeredActivity related to the enclosing NvBlockDescriptor.
-        A None value is a no-op and does not append anything.
-
-        This represents the collection of ModeSwitchEvent TriggeredActivities related to the enclosing NvBlock Descriptor. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=modeSwitchEventTriggeredActivity, mode SwitchEventTriggeredActivity.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
-
-        Args:
-            value: The ModeSwitchEventTriggeredActivity to add
-
-        Returns:
-            self for method chaining
-        """
+    def addModeSwitchEventTriggeredActivity(self, value: Optional[ModeSwitchEventTriggeredActivity]) -> "NvBlockDescriptor":
+        """This represents the collection of ModeSwitchEventTriggeredActivities related to the enclosing NvBlockDescriptor. A None value is a no-op and does not append anything."""
         if value is not None and value not in self.modeSwitchEventTriggeredActivitys:
             self.modeSwitchEventTriggeredActivitys.append(value)
         return self
 
     def getNvBlockDataMappings(self) -> List[NvBlockDataMapping]:
-        """
-        Gets the mappings between the VariableDataPrototypes in the NvBlockComponents ports and the VariableDataPrototypes of the RAM Block.
-
-        Defines the mapping between the VariableData Prototypes in the NvBlockComponents ports and the VariableDataPrototypes of the RAM Block. The aggregation of NvBlockDataMapping is subject to variability with the purpose to support the conditional existence of nv data ports. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nvBlockDataMapping, nvBlockData Mapping.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
-
-        Returns:
-            List of NvBlockDataMapping instances
-        """
+        """Defines the mapping between the VariableDataPrototypes in the NvBlockComponents ports and the VariableDataPrototypes of the RAM Block. The aggregation of NvBlockDataMapping is subject to variability with the purpose to support the conditional existence of nv data ports."""
         return self.nvBlockDataMappings
 
-    def addNvBlockDataMapping(self, value: NvBlockDataMapping) -> "NvBlockDescriptor":
-        """
-        Adds a mapping between the VariableDataPrototypes in the NvBlockComponents ports and the VariableDataPrototypes of the RAM Block.
-        A None value is a no-op and does not append anything.
-
-        Defines the mapping between the VariableData Prototypes in the NvBlockComponents ports and the VariableDataPrototypes of the RAM Block. The aggregation of NvBlockDataMapping is subject to variability with the purpose to support the conditional existence of nv data ports. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nvBlockDataMapping, nvBlockData Mapping.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
-
-        Args:
-            value: The NvBlockDataMapping to add
-
-        Returns:
-            self for method chaining
-        """
+    def addNvBlockDataMapping(self, value: Optional[NvBlockDataMapping]) -> "NvBlockDescriptor":
+        """Defines the mapping between the VariableDataPrototypes in the NvBlockComponents ports and the VariableDataPrototypes of the RAM Block. The aggregation of NvBlockDataMapping is subject to variability with the purpose to support the conditional existence of nv data ports. A None value is a no-op and does not append anything."""
         if value is not None and value not in self.nvBlockDataMappings:
             self.nvBlockDataMappings.append(value)
         return self
 
-    def getNvBlockNeeds(self):
-        """
-        Gets the abstract needs on the configuration of the NVRAM Manager for the single NVRAM Block described by this NvBlockDescriptor.
-
-        Specifies the abstract needs on the configuration of the NVRAM Manager for the single NVRAM Block described by this NvBlockDescriptor. In addition, it may define requirements for writing strategies in an implementation of an NvBlockSw ComponentType by the RTE. Please note that the attributes nDataSets and nRom Blocks are not relevant for this aggregation because the RTE will allocate just one block anyway. In a different context, however, they do make sense.
-
-        Returns:
-            NvBlockNeeds, or None if not set
-        """
+    def getNvBlockNeeds(self) -> Optional[NvBlockNeeds]:
+        """Specifies the abstract needs on the configuration of the NVRAM Manager for the single NVRAM Block described by this NvBlockDescriptor. In addition, it may define requirements for writing strategies in an implementation of an NvBlockSwComponentType by the RTE. Please note that the attributes nDataSets and nRomBlocks are not relevant for this aggregation because the RTE will allocate just one block anyway. In a different context, however, they do make sense."""
         return self.nvBlockNeeds
 
-    def setNvBlockNeeds(self, value) -> "NvBlockDescriptor":
-        """
-        Sets the abstract needs on the configuration of the NVRAM Manager for the single NVRAM Block described by this NvBlockDescriptor.
-        A None value is a no-op and does not overwrite an existing value.
-
-        Specifies the abstract needs on the configuration of the NVRAM Manager for the single NVRAM Block described by this NvBlockDescriptor. In addition, it may define requirements for writing strategies in an implementation of an NvBlockSw ComponentType by the RTE. Please note that the attributes nDataSets and nRom Blocks are not relevant for this aggregation because the RTE will allocate just one block anyway. In a different context, however, they do make sense.
-
-        Args:
-            value: The NvBlockNeeds to set
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.nvBlockNeeds = value
-        return self
+    def createNvBlockNeeds(self, short_name: str) -> NvBlockNeeds:
+        """Specifies the abstract needs on the configuration of the NVRAM Manager for the single NVRAM Block described by this NvBlockDescriptor. In addition, it may define requirements for writing strategies in an implementation of an NvBlockSwComponentType by the RTE. Please note that the attributes nDataSets and nRomBlocks are not relevant for this aggregation because the RTE will allocate just one block anyway. In a different context, however, they do make sense."""
+        if not self.IsElementExists(short_name, NvBlockNeeds):
+            element = NvBlockNeeds(self, short_name)
+            self.addElement(element)
+            self.nvBlockNeeds = element
+        return self.getElement(short_name, NvBlockNeeds)
 
     def getRamBlock(self) -> Optional[VariableDataPrototype]:
-        """
-        Gets the RAM Block of the NVRAM Block provided by NvBlockSwComponentType.
-
-        Defines the RAM Block of the NVRAM Block provided by NvBlockSwComponentType.
-
-        Returns:
-            VariableDataPrototype, or None if not set
-        """
+        """Defines the RAM Block of the NVRAM Block provided by NvBlockSwComponentType."""
         return self.ramBlock
 
-    def setRamBlock(self, value: Optional[VariableDataPrototype]) -> "NvBlockDescriptor":
-        """
-        Sets the RAM Block of the NVRAM Block provided by NvBlockSwComponentType.
-        A None value is a no-op and does not overwrite an existing block.
+    def createRamBlock(self, short_name: str) -> VariableDataPrototype:
+        """Defines the RAM Block of the NVRAM Block provided by NvBlockSwComponentType."""
+        if not self.IsElementExists(short_name, VariableDataPrototype):
+            element = VariableDataPrototype(self, short_name)
+            self.addElement(element)
+            self.ramBlock = element
+        return self.getElement(short_name, VariableDataPrototype)
 
-        Defines the RAM Block of the NVRAM Block provided by NvBlockSwComponentType.
-
-        Args:
-            value: The VariableDataPrototype to set
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.ramBlock = value
-        return self
-
-    def getRomBlock(self):
-        """
-        Gets the ROM Block of the NVRAM Block provided by NvBlockSwComponentType.
-
-        Defines the ROM Block of the NVRAM Block provided by NvBlockSwComponentType.
-
-        Returns:
-            ParameterDataPrototype, or None if not set
-        """
+    def getRomBlock(self) -> Optional[ParameterDataPrototype]:
+        """Defines the ROM Block of the NVRAM Block provided by NvBlockSwComponentType."""
         return self.romBlock
 
-    def setRomBlock(self, value) -> "NvBlockDescriptor":
-        """
-        Sets the ROM Block of the NVRAM Block provided by NvBlockSwComponentType.
-        A None value is a no-op and does not overwrite an existing block.
+    def createRomBlock(self, short_name: str) -> ParameterDataPrototype:
+        """Defines the ROM Block of the NVRAM Block provided by NvBlockSwComponentType."""
+        if not self.IsElementExists(short_name, ParameterDataPrototype):
+            element = ParameterDataPrototype(self, short_name)
+            self.addElement(element)
+            self.romBlock = element
+        return self.getElement(short_name, ParameterDataPrototype)
 
-        Defines the ROM Block of the NVRAM Block provided by NvBlockSwComponentType.
-
-        Args:
-            value: The ParameterDataPrototype to set
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.romBlock = value
-        return self
-
-    def getSupportDirtyFlag(self):
-        """
-        Gets whether calling of NvM functions for writing and/or status control of potentially modified RAM Blocks to NV memory shall be controlled by the RTE.
-
-        Specifies whether calling of NvM functions for writing and/ or status control of potentially modified RAM Blocks to NV memory shall be controlled by the RTE.
-
-        Returns:
-            Boolean, or None if not set
-        """
+    def getSupportDirtyFlag(self) -> Optional[Boolean]:
+        """Specifies whether calling of NvM functions for writing and/or status control of potentially modified RAM Blocks to NV memory shall be controlled by the RTE."""
         return self.supportDirtyFlag
 
-    def setSupportDirtyFlag(self, value) -> "NvBlockDescriptor":
-        """
-        Sets whether calling of NvM functions for writing and/or status control of potentially modified RAM Blocks to NV memory shall be controlled by the RTE.
-        A None value is a no-op and does not overwrite an existing flag.
-
-        Specifies whether calling of NvM functions for writing and/ or status control of potentially modified RAM Blocks to NV memory shall be controlled by the RTE.
-
-        Args:
-            value: The supportDirtyFlag flag to set
-
-        Returns:
-            self for method chaining
-        """
+    def setSupportDirtyFlag(self, value: Optional[Boolean]) -> "NvBlockDescriptor":
+        """Specifies whether calling of NvM functions for writing and/or status control of potentially modified RAM Blocks to NV memory shall be controlled by the RTE. A None value is a no-op and does not overwrite an existing supportDirtyFlag."""
         if value is not None:
             self.supportDirtyFlag = value
         return self
 
-    def getTimingEventRef(self):
-        """
-        Gets the reference to the TimingEvent to be used by the RTE for implementing a cyclic writing strategy for this block.
-
-        this reference can be taken to identify the TimingEvent to be used by the RTE for implementing a cyclic writing strategy for this block
-
-        Returns:
-            RefType, or None if not set
-        """
+    def getTimingEventRef(self) -> Optional[RefType]:
+        """this reference can be taken to identify the TimingEvent to be used by the RTE for implementing a cyclic writing strategy for this block"""
         return self.timingEventRef
 
-    def setTimingEventRef(self, value) -> "NvBlockDescriptor":
-        """
-        Sets the reference to the TimingEvent to be used by the RTE for implementing a cyclic writing strategy for this block.
-        A None value is a no-op and does not overwrite an existing reference.
-
-        this reference can be taken to identify the TimingEvent to be used by the RTE for implementing a cyclic writing strategy for this block
-
-        Args:
-            value: The timingEventRef to set
-
-        Returns:
-            self for method chaining
-        """
+    def setTimingEventRef(self, value: Optional[RefType]) -> "NvBlockDescriptor":
+        """this reference can be taken to identify the TimingEvent to be used by the RTE for implementing a cyclic writing strategy for this block A None value is a no-op and does not overwrite an existing timingEventRef."""
         if value is not None:
             self.timingEventRef = value
         return self
 
     def getWritingStrategies(self) -> List[RoleBasedDataAssignment]:
-        """
-        Gets the writing strategies for an incoming AutosarDataPrototype.
-
-        This attribute allows for assigning a specific writing strategy for an incoming AutosarDataPrototype.
-
-        Returns:
-            List of RoleBasedDataAssignment instances
-        """
+        """This attribute allows for assigning a specific writing strategy for an incoming AutosarDataPrototype."""
         return self.writingStrategies
 
-    def addWritingStrategy(self, value: RoleBasedDataAssignment) -> "NvBlockDescriptor":
-        """
-        Adds a writing strategy for an incoming AutosarDataPrototype.
-        A None value is a no-op and does not append anything.
-
-        This attribute allows for assigning a specific writing strategy for an incoming AutosarDataPrototype.
-
-        Args:
-            value: The RoleBasedDataAssignment to add
-
-        Returns:
-            self for method chaining
-        """
+    def addWritingStrategy(self, value: Optional[RoleBasedDataAssignment]) -> "NvBlockDescriptor":
+        """This attribute allows for assigning a specific writing strategy for an incoming AutosarDataPrototype. A None value is a no-op and does not append anything."""
         if value is not None and value not in self.writingStrategies:
             self.writingStrategies.append(value)
         return self
