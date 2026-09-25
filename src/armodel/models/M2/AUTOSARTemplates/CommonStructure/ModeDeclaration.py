@@ -46,48 +46,48 @@ class ModeActivationKind(AREnum):
 
 class ModeDeclarationGroupPrototypeMapping(ARObject):
     """
-    Represents a mapping between mode declaration group prototypes in AUTOSAR models.
-    This class defines relationships between different mode declaration group prototypes across system boundaries.
+    Defines the mapping of two particular ModeDeclarationGroupPrototypes (in the given context) that are unequally named and/or require a reference to a ModeDeclarationMappingSet in order to become compatible by definition of ModeDeclarationMappings.
     """
 
     # ModeDeclarationGroupPrototypeMapping method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getFirstModeGroupRef         [x] impl  [x] docstring  [x] test
-    # [x] setFirstModeGroupRef         [x] impl  [x] docstring  [x] test
-    # [x] getModeDeclarationMappingSetRef [x] impl  [x] docstring  [x] test
-    # [x] setModeDeclarationMappingSetRef [x] impl  [x] docstring  [x] test
-    # [x] getSecondModeGroupRef        [x] impl  [x] docstring  [x] test
-    # [x] setSecondModeGroupRef        [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.27, p.130
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFirstModeGroupRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFirstModeGroupRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeDeclarationMappingSetRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeDeclarationMappingSetRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondModeGroupRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecondModeGroupRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the ModeDeclarationGroupPrototypeMapping with default values.
-        """
         super().__init__()
 
-        # Reference to the first mode group in the mapping
-        self.firstModeGroupRef: RefType = None
-        # Reference to the mode declaration mapping set
-        self.modeDeclarationMappingSetRef: RefType = None
-        # Reference to the second mode group in the mapping
-        self.secondModeGroupRef: RefType = None
+        # ModeDeclarationGroupPrototype to be mapped.
+        self.firstModeGroupRef: Optional[RefType] = None
 
-    def getFirstModeGroupRef(self):
+        # This represents the available mappings of Mode Declarations in the context ot this ModeDeclarationGroup Prototype.
+        self.modeDeclarationMappingSetRef: Optional[RefType] = None
+
+        # ModeDeclarationGroupPrototype to be mapped.
+        self.secondModeGroupRef: Optional[RefType] = None
+
+    def getFirstModeGroupRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the first mode group in the mapping.
+        ModeDeclarationGroupPrototype to be mapped.
 
         Returns:
-            RefType: The first mode group reference
+            Optional[RefType]: The first mode group reference
         """
         return self.firstModeGroupRef
 
-    def setFirstModeGroupRef(self, value):
+    def setFirstModeGroupRef(self, value: Optional[RefType]) -> "ModeDeclarationGroupPrototypeMapping":
         """
-        Sets the reference to the first mode group in the mapping.
-        Only sets the value if it is not None.
+        ModeDeclarationGroupPrototype to be mapped.
+        A None value is a no-op and does not overwrite an existing firstModeGroupRef.
 
         Args:
-            value: The first mode group reference to set
+            value: The value to set
 
         Returns:
             self for method chaining
@@ -96,22 +96,22 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
             self.firstModeGroupRef = value
         return self
 
-    def getModeDeclarationMappingSetRef(self):
+    def getModeDeclarationMappingSetRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the mode declaration mapping set.
+        This represents the available mappings of Mode Declarations in the context ot this ModeDeclarationGroup Prototype.
 
         Returns:
-            RefType: The mode declaration mapping set reference
+            Optional[RefType]: The mode declaration mapping set reference
         """
         return self.modeDeclarationMappingSetRef
 
-    def setModeDeclarationMappingSetRef(self, value):
+    def setModeDeclarationMappingSetRef(self, value: Optional[RefType]) -> "ModeDeclarationGroupPrototypeMapping":
         """
-        Sets the reference to the mode declaration mapping set.
-        Only sets the value if it is not None.
+        This represents the available mappings of Mode Declarations in the context ot this ModeDeclarationGroup Prototype.
+        A None value is a no-op and does not overwrite an existing modeDeclarationMappingSetRef.
 
         Args:
-            value: The mode declaration mapping set reference to set
+            value: The value to set
 
         Returns:
             self for method chaining
@@ -120,22 +120,22 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
             self.modeDeclarationMappingSetRef = value
         return self
 
-    def getSecondModeGroupRef(self):
+    def getSecondModeGroupRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the second mode group in the mapping.
+        ModeDeclarationGroupPrototype to be mapped.
 
         Returns:
-            RefType: The second mode group reference
+            Optional[RefType]: The second mode group reference
         """
         return self.secondModeGroupRef
 
-    def setSecondModeGroupRef(self, value):
+    def setSecondModeGroupRef(self, value: Optional[RefType]) -> "ModeDeclarationGroupPrototypeMapping":
         """
-        Sets the reference to the second mode group in the mapping.
-        Only sets the value if it is not None.
+        ModeDeclarationGroupPrototype to be mapped.
+        A None value is a no-op and does not overwrite an existing secondModeGroupRef.
 
         Args:
-            value: The second mode group reference to set
+            value: The value to set
 
         Returns:
             self for method chaining

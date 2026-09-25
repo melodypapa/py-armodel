@@ -1,3 +1,6 @@
+import inspect
+from typing import Optional, get_type_hints
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
     ModeActivationKind,
@@ -19,89 +22,82 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibration
 
 
 class TestModeDeclarationGroupPrototypeMapping:
+    CLASS_NOTE = "Defines the mapping of two particular ModeDeclarationGroupPrototypes (in the given context) that are unequally named and/or require a reference to a ModeDeclarationMappingSet in order to become compatible by definition of ModeDeclarationMappings."
+    MODE_GROUP_NOTE = "ModeDeclarationGroupPrototype to be mapped."
+    MODE_DECL_MAPPING_SET_NOTE = "This represents the available mappings of Mode Declarations in the context ot this ModeDeclarationGroup Prototype."
+
     def test_initialization(self):
-        """Test ModeDeclarationGroupPrototypeMapping initialization"""
+        """Test ModeDeclarationGroupPrototypeMapping initialization defaults (Table 4.27, all attrs 0..1)"""
         mapping = ModeDeclarationGroupPrototypeMapping()
         assert mapping is not None
         assert mapping.firstModeGroupRef is None
         assert mapping.modeDeclarationMappingSetRef is None
         assert mapping.secondModeGroupRef is None
 
-    def test_get_first_mode_group_ref(self):
-        """Test getFirstModeGroupRef method"""
+    def test_base_shape(self):
+        """ModeDeclarationGroupPrototypeMapping shall derive from ARObject (Table 4.27 Base row)"""
+        mapping = ModeDeclarationGroupPrototypeMapping()
+        assert isinstance(mapping, ARObject)
+
+    def test_get_set_first_mode_group_ref(self):
+        """Test firstModeGroupRef round-trip, chaining and None no-op (Table 4.27 firstModeGroup)"""
         mapping = ModeDeclarationGroupPrototypeMapping()
         assert mapping.getFirstModeGroupRef() is None
+        test_value = RefType().setValue("/ModeDeclarationGroups/ModeDeclarationGroup1")
+        assert mapping.setFirstModeGroupRef(test_value) is mapping
+        assert mapping.getFirstModeGroupRef() is test_value
+        mapping.setFirstModeGroupRef(None)
+        assert mapping.getFirstModeGroupRef() is test_value
 
-    def test_set_first_mode_group_ref(self):
-        """Test setFirstModeGroupRef method"""
-        mapping = ModeDeclarationGroupPrototypeMapping()
-        test_value = RefType().setValue("ModeGroup1")
-        result = mapping.setFirstModeGroupRef(test_value)
-        assert result is mapping  # Method chaining
-        assert mapping.getFirstModeGroupRef() == test_value
-
-    def test_set_first_mode_group_ref_none(self):
-        """Test setFirstModeGroupRef with None value"""
-        mapping = ModeDeclarationGroupPrototypeMapping()
-        result = mapping.setFirstModeGroupRef(None)
-        assert result is mapping  # Method chaining
-        assert mapping.getFirstModeGroupRef() is None
-
-    def test_get_mode_declaration_mapping_set_ref(self):
-        """Test getModeDeclarationMappingSetRef method"""
+    def test_get_set_mode_declaration_mapping_set_ref(self):
+        """Test modeDeclarationMappingSetRef round-trip, chaining and None no-op (Table 4.27 modeDeclarationMappingSet)"""
         mapping = ModeDeclarationGroupPrototypeMapping()
         assert mapping.getModeDeclarationMappingSetRef() is None
+        test_value = RefType().setValue("/PortInterfaceMappingSets/ModeDeclarationMappingSet1")
+        assert mapping.setModeDeclarationMappingSetRef(test_value) is mapping
+        assert mapping.getModeDeclarationMappingSetRef() is test_value
+        mapping.setModeDeclarationMappingSetRef(None)
+        assert mapping.getModeDeclarationMappingSetRef() is test_value
 
-    def test_set_mode_declaration_mapping_set_ref(self):
-        """Test setModeDeclarationMappingSetRef method"""
-        mapping = ModeDeclarationGroupPrototypeMapping()
-        test_value = RefType().setValue("MappingSetRef")
-        result = mapping.setModeDeclarationMappingSetRef(test_value)
-        assert result is mapping  # Method chaining
-        assert mapping.getModeDeclarationMappingSetRef() == test_value
-
-    def test_set_mode_declaration_mapping_set_ref_none(self):
-        """Test setModeDeclarationMappingSetRef with None value"""
-        mapping = ModeDeclarationGroupPrototypeMapping()
-        result = mapping.setModeDeclarationMappingSetRef(None)
-        assert result is mapping  # Method chaining
-        assert mapping.getModeDeclarationMappingSetRef() is None
-
-    def test_get_second_mode_group_ref(self):
-        """Test getSecondModeGroupRef method"""
+    def test_get_set_second_mode_group_ref(self):
+        """Test secondModeGroupRef round-trip, chaining and None no-op (Table 4.27 secondModeGroup)"""
         mapping = ModeDeclarationGroupPrototypeMapping()
         assert mapping.getSecondModeGroupRef() is None
+        test_value = RefType().setValue("/ModeDeclarationGroups/ModeDeclarationGroup2")
+        assert mapping.setSecondModeGroupRef(test_value) is mapping
+        assert mapping.getSecondModeGroupRef() is test_value
+        mapping.setSecondModeGroupRef(None)
+        assert mapping.getSecondModeGroupRef() is test_value
 
-    def test_set_second_mode_group_ref(self):
-        """Test setSecondModeGroupRef method"""
-        mapping = ModeDeclarationGroupPrototypeMapping()
-        test_value = RefType().setValue("ModeGroup2")
-        result = mapping.setSecondModeGroupRef(test_value)
-        assert result is mapping  # Method chaining
-        assert mapping.getSecondModeGroupRef() == test_value
+    def test_accessor_annotations(self):
+        """Accessors shall carry Optional[RefType] hints; setters shall chain ModeDeclarationGroupPrototypeMapping (Table 4.27, 0..1 refs)"""
+        for suffix in ("FirstModeGroupRef", "ModeDeclarationMappingSetRef", "SecondModeGroupRef"):
+            getter_hints = get_type_hints(getattr(ModeDeclarationGroupPrototypeMapping, "get%s" % suffix))
+            assert getter_hints["return"] == Optional[RefType]
+            setter_hints = get_type_hints(getattr(ModeDeclarationGroupPrototypeMapping, "set%s" % suffix))
+            assert setter_hints["value"] == Optional[RefType]
+            assert setter_hints["return"] == ModeDeclarationGroupPrototypeMapping
 
-    def test_set_second_mode_group_ref_none(self):
-        """Test setSecondModeGroupRef with None value"""
-        mapping = ModeDeclarationGroupPrototypeMapping()
-        result = mapping.setSecondModeGroupRef(None)
-        assert result is mapping  # Method chaining
-        assert mapping.getSecondModeGroupRef() is None
-
-    def test_all_properties(self):
-        """Test setting all properties"""
-        mapping = ModeDeclarationGroupPrototypeMapping()
-
-        ref1 = RefType().setValue("ModeGroup1")
-        ref2 = RefType().setValue("ModeGroup2")
-        set_ref = RefType().setValue("MappingSetRef")
-
-        mapping.setFirstModeGroupRef(ref1)
-        mapping.setSecondModeGroupRef(ref2)
-        mapping.setModeDeclarationMappingSetRef(set_ref)
-
-        assert mapping.getFirstModeGroupRef() == ref1
-        assert mapping.getSecondModeGroupRef() == ref2
-        assert mapping.getModeDeclarationMappingSetRef() == set_ref
+    def test_spec_note(self):
+        """Test the Table 4.27 class note and per-attribute notes (verbatim from the markdown)"""
+        assert ModeDeclarationGroupPrototypeMapping.__doc__.strip() == self.CLASS_NOTE
+        assert ModeDeclarationGroupPrototypeMapping.__init__.__doc__ is None
+        init_source = inspect.getsource(ModeDeclarationGroupPrototypeMapping.__init__)
+        assert self.MODE_GROUP_NOTE in init_source
+        assert self.MODE_DECL_MAPPING_SET_NOTE in init_source
+        for method, note in (
+            ("getFirstModeGroupRef", self.MODE_GROUP_NOTE),
+            ("setFirstModeGroupRef", self.MODE_GROUP_NOTE),
+            ("getModeDeclarationMappingSetRef", self.MODE_DECL_MAPPING_SET_NOTE),
+            ("setModeDeclarationMappingSetRef", self.MODE_DECL_MAPPING_SET_NOTE),
+            ("getSecondModeGroupRef", self.MODE_GROUP_NOTE),
+            ("setSecondModeGroupRef", self.MODE_GROUP_NOTE),
+        ):
+            doc = getattr(ModeDeclarationGroupPrototypeMapping, method).__doc__.strip()
+            assert note in doc, "%s docstring must carry the spec Note verbatim" % method
+            if method.startswith("set"):
+                attr = method[3].lower() + method[4:]
+                assert "A None value is a no-op and does not overwrite an existing %s." % attr in doc
 
 
 class TestModeDeclaration:
