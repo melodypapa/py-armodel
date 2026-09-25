@@ -1201,6 +1201,37 @@ class TestWriterRunnableEntity:
         writer.writeRunnableEntityModeSwitchPoints(parent, entity)
         assert parent.find("MODE-SWITCH-POINTS") is None
 
+    def test_writeRunnableEntityModeSwitchPoints_values(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createRunnableEntity("re1")
+        point = entity.createModeSwitchPoint("msp1")
+        iref = PModeGroupInAtomicSwcInstanceRef()
+        iref.setContextPPortRef(_ref("/pp", "P-PORT-PROTOTYPE"))
+        iref.setTargetModeGroupRef(_ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        point.setModeGroupIRef(iref)
+        parent = _parent()
+        writer.writeRunnableEntityModeSwitchPoints(parent, entity)
+        wrapper = parent.find("MODE-SWITCH-POINTS")
+        point_elem = wrapper.find("MODE-SWITCH-POINT")
+        assert point_elem is not None
+        mode_group_iref = point_elem.find("MODE-GROUP-IREF")
+        assert mode_group_iref is not None
+        context_ref = mode_group_iref.find("CONTEXT-P-PORT-REF")
+        assert context_ref.get("DEST") == "P-PORT-PROTOTYPE"
+        assert context_ref.text == "/pp"
+        target_ref = mode_group_iref.find("TARGET-MODE-GROUP-REF")
+        assert target_ref.get("DEST") == "MODE-DECLARATION-GROUP-PROTOTYPE"
+        assert target_ref.text == "/mg"
+
+    def test_writeRunnableEntityModeSwitchPoints_optional_children_omitted(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createRunnableEntity("re1")
+        entity.createModeSwitchPoint("msp1")
+        parent = _parent()
+        writer.writeRunnableEntityModeSwitchPoints(parent, entity)
+        point_elem = parent.find("MODE-SWITCH-POINTS").find("MODE-SWITCH-POINT")
+        assert point_elem.find("MODE-GROUP-IREF") is None
+
     def test_writeRunnableEntityServerCallPoints(self, writer):
         behavior = _make_behavior()
         entity = behavior.createRunnableEntity("re1")

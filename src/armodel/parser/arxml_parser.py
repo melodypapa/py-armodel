@@ -5411,7 +5411,7 @@ class ARXMLParser(AbstractARXMLParser):
             point.setModeGroupIRef(instance_ref)
 
     def readModeSwitchPoint(self, element: ET.Element, point: ModeSwitchPoint):
-        self.readARObject(element, point)
+        self.readIdentifiable(element, point)
         self.readModeSwitchPointModeGroupIRef(element, point)
 
     def readRunnableEntityModeSwitchPoints(self, element: ET.Element, parent: RunnableEntity):

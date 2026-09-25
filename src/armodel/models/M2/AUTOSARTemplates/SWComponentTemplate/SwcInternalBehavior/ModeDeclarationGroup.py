@@ -70,40 +70,37 @@ class ModeAccessPoint(ARObject, VariationPointCapable):
 
 class ModeSwitchPoint(AbstractAccessPoint, VariationPointCapable):
     """
-    A mode switch point used by a runnable entity to switch the mode
-    of a mode declaration group.
+    A ModeSwitchPoint is required by a RunnableEntity owned a Mode Manager. Its semantics implies the ability to initiate a mode switch.
+
+    [constr_1778] Value of attribute modeSwitchPoint.returnValueProvision: All RunnableEntity.modeSwitchPoint that refer to the same modeGroup shall define the identical value of attribute returnValueProvision at the time when the contract phase generation is executed.
     """
 
     # ModeSwitchPoint method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getModeGroupIRef             [x] impl  [x] docstring  [ ] test
-    # [ ] setModeGroupIRef             [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 9.4, p.633
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getModeGroupIRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeGroupIRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.modeGroupIRef: PModeGroupInAtomicSwcInstanceRef = None
+        # The mode declaration group that is switched by this runnable. InstanceRef implemented by: PModeGroupInAtomicSwcInstanceRef
+        self.modeGroupIRef: Optional[PModeGroupInAtomicSwcInstanceRef] = None
 
-    def getModeGroupIRef(self):
+    def getModeGroupIRef(self) -> Optional[PModeGroupInAtomicSwcInstanceRef]:
         """
-        Gets the mode group instance reference.
-
-        Returns:
-            PModeGroupInAtomicSwcInstanceRef: The mode group instance reference
+        The mode declaration group that is switched by this runnable. InstanceRef implemented by: PModeGroupInAtomicSwcInstanceRef
         """
         return self.modeGroupIRef
 
-    def setModeGroupIRef(self, value):
+    def setModeGroupIRef(self, value: Optional[PModeGroupInAtomicSwcInstanceRef]) -> ModeSwitchPoint:
         """
-        Sets the mode group instance reference.
-
-        Args:
-            value: The mode group instance reference to set
-
-        Returns:
-            self for method chaining
+        The mode declaration group that is switched by this runnable. InstanceRef implemented by: PModeGroupInAtomicSwcInstanceRef
+        A None value is a no-op and does not overwrite an existing modeGroupIRef.
         """
-        self.modeGroupIRef = value
+        if value is not None:
+            self.modeGroupIRef = value
         return self
 
 

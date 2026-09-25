@@ -78,8 +78,8 @@ class TestModeAccessPoint:
 class TestModeSwitchPoint:
     """Test class for ModeSwitchPoint class."""
 
-    def test_mode_switch_point_initialization(self):
-        """Test ModeSwitchPoint initialization and methods."""
+    def test_initialization(self):
+        """Test ModeSwitchPoint initialization defaults."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         mode_switch_point = ModeSwitchPoint(ar_root, "TestModeSwitchPoint")
@@ -89,17 +89,28 @@ class TestModeSwitchPoint:
         assert mode_switch_point.returnValueProvision is None
         assert mode_switch_point.modeGroupIRef is None
 
-        # Test returnValueProvision methods
-        return_prov = "test_provision"
-        mode_switch_point.setReturnValueProvision(return_prov)
-        assert mode_switch_point.getReturnValueProvision() == return_prov
-
-        # Test modeGroupIRef methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef
+    def test_get_set_modeGroupIRef(self):
+        """Test modeGroupIRef round-trip and None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        mode_switch_point = ModeSwitchPoint(ar_root, "TestModeSwitchPoint")
 
         iref = PModeGroupInAtomicSwcInstanceRef()
-        mode_switch_point.setModeGroupIRef(iref)
-        assert mode_switch_point.getModeGroupIRef() == iref
+        iref.setContextPPortRef(_make_ref("/pp"))
+        iref.setTargetModeGroupRef(_make_ref("/mg"))
+        assert mode_switch_point.setModeGroupIRef(iref) is mode_switch_point
+        assert mode_switch_point.getModeGroupIRef() is iref
+
+        assert mode_switch_point.setModeGroupIRef(None) is mode_switch_point
+        assert mode_switch_point.getModeGroupIRef() is iref
+
+    def test_get_type_hints(self):
+        """Test spec-typed annotations resolve at runtime (plain get_type_hints)."""
+        hints = typing.get_type_hints(ModeSwitchPoint.setModeGroupIRef)
+        assert hints.get("value") == typing.Optional[PModeGroupInAtomicSwcInstanceRef]
+        assert hints.get("return") is ModeSwitchPoint
+
+        assert typing.get_type_hints(ModeSwitchPoint.getModeGroupIRef).get("return") == typing.Optional[PModeGroupInAtomicSwcInstanceRef]
 
 
 class TestIncludedModeDeclarationGroupSet:

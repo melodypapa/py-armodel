@@ -1311,6 +1311,84 @@ class TestRunnableEntityOrchestrator:
         parser.readRunnableEntity(element, runnable)
         assert len(runnable.getModeSwitchPoints()) == 1
 
+    def test_readRunnableEntityModeSwitchPoints_with_mode_group_iref(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        runnable = behavior.createRunnableEntity("run")
+        element = _snip(
+            "<SHORT-NAME>run</SHORT-NAME>"
+            "<MODE-SWITCH-POINTS>"
+            "<MODE-SWITCH-POINT>"
+            "<SHORT-NAME>msp</SHORT-NAME>"
+            "<MODE-GROUP-IREF>"
+            '<CONTEXT-P-PORT-REF DEST="P-PORT-PROTOTYPE">/swc/pp</CONTEXT-P-PORT-REF>'
+            '<TARGET-MODE-GROUP-REF DEST="MODE-DECLARATION-GROUP-PROTOTYPE">/mg/exit</TARGET-MODE-GROUP-REF>'
+            "</MODE-GROUP-IREF>"
+            "</MODE-SWITCH-POINT>"
+            "</MODE-SWITCH-POINTS>",
+            root_tag="RUNNABLE-ENTITY",
+        )
+        parser.readRunnableEntity(element, runnable)
+        points = runnable.getModeSwitchPoints()
+        assert len(points) == 1
+
+        iref = points[0].getModeGroupIRef()
+        assert isinstance(iref, PModeGroupInAtomicSwcInstanceRef)
+        assert iref.getContextPPortRef().getValue() == "/swc/pp"
+        assert iref.getContextPPortRef().getDest() == "P-PORT-PROTOTYPE"
+        assert iref.getTargetModeGroupRef().getValue() == "/mg/exit"
+        assert iref.getTargetModeGroupRef().getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
+
+    def test_readRunnableEntityModeSwitchPoints_round_trip_populated(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef
+        from armodel.writer.arxml_writer import ARXMLWriter
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        runnable = behavior.createRunnableEntity("run")
+        point = runnable.createModeSwitchPoint("msp")
+        uuid = String()
+        uuid.setValue("DCE:0123-4567")
+        point.setUuid(uuid)
+        point.setCategory("MSP")
+        iref = PModeGroupInAtomicSwcInstanceRef()
+        context_ref = RefType()
+        context_ref.setValue("/swc/pp")
+        context_ref.setDest("P-PORT-PROTOTYPE")
+        iref.setContextPPortRef(context_ref)
+        target_ref = RefType()
+        target_ref.setValue("/mg/exit")
+        target_ref.setDest("MODE-DECLARATION-GROUP-PROTOTYPE")
+        iref.setTargetModeGroupRef(target_ref)
+        point.setModeGroupIRef(iref)
+
+        namespace = "http://autosar.org/schema/r4.0"
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeRunnableEntityModeSwitchPoints(parent, runnable)
+        inner = ET.tostring(parent).decode("utf-8")
+        container = ET.fromstring(f"<RUNNABLE-ENTITY xmlns='{namespace}'>{inner}</RUNNABLE-ENTITY>")
+        element = container[0]
+
+        recovered = behavior.createRunnableEntity("recovered")
+        parser.readRunnableEntityModeSwitchPoints(element, recovered)
+        points = recovered.getModeSwitchPoints()
+        assert len(points) == 1
+        recovered_point = points[0]
+        assert recovered_point.getShortName() == "msp"
+        assert recovered_point.getUuid().getValue() == "DCE:0123-4567"
+        assert recovered_point.getCategory().getValue() == "MSP"
+        recovered_iref = recovered_point.getModeGroupIRef()
+        assert isinstance(recovered_iref, PModeGroupInAtomicSwcInstanceRef)
+        assert recovered_iref.getContextPPortRef().getValue() == "/swc/pp"
+        assert recovered_iref.getContextPPortRef().getDest() == "P-PORT-PROTOTYPE"
+        assert recovered_iref.getTargetModeGroupRef().getValue() == "/mg/exit"
+        assert recovered_iref.getTargetModeGroupRef().getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
+
     def test_readRunnableEntity_with_parameterAccesses(self, parser):
         from armodel.models import ApplicationSwComponentType
 

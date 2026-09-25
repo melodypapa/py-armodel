@@ -4173,9 +4173,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported Mode Access Points <%s>" % type(point))
 
     def writeModeSwitchPointModeGroupIRef(self, element: ET.Element, point: ModeSwitchPoint):
-        if point is not None:
+        instance_ref = point.getModeGroupIRef()
+        if instance_ref is not None:
             child_element = ET.SubElement(element, "MODE-GROUP-IREF")
-            instance_ref = point.getModeGroupIRef()
             self.setChildElementOptionalRefType(child_element, "CONTEXT-P-PORT-REF", instance_ref.getContextPPortRef())
             self.setChildElementOptionalRefType(child_element, "TARGET-MODE-GROUP-REF", instance_ref.getTargetModeGroupRef())
 
