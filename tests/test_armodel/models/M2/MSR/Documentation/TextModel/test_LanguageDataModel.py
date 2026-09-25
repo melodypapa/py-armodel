@@ -21,6 +21,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     MixedContentForOverviewParagraph,
     MixedContentForParagraph,
     MixedContentForPlainText,
+    MixedContentForVerbatim,
     SlParagraph,
 )
 
@@ -547,16 +548,98 @@ class TestLPlainText:
         assert set(vars(LPlainText()).keys()) == set(vars(_BareLanguageSpecific()).keys())
 
 
+class TestMixedContentForVerbatim:
+    def test_abstract_guard_and_defaults(self):
+        with pytest.raises(TypeError):
+            MixedContentForVerbatim()
+
+        class ConcreteMixedContent(MixedContentForVerbatim):
+            pass
+
+        content = ConcreteMixedContent()
+        assert content.br is None
+        assert content.e is None
+        assert content.tt is None
+        assert content.xref is None
+        assert content.getMixedString() is None
+
+    def test_base_anchoring(self):
+        """Most-derived base anchoring per Table 9.6 Base row ARObject + the <<atpMixedString>> mixin (sibling MCFPT shape; WhitespaceControlled referenced-missing, not yet in src)."""
+        assert MixedContentForVerbatim.__bases__ == (ARObject, AtpMixedString, ABC)
+
+    def test_docstring_verbatim(self):
+        """Docstring must equal the spec Note from Table 9.6 verbatim."""
+        import inspect
+
+        expected = "This is the text model for preformatted (verbatim) text. It mainly consists of attributes which do not change the length on rendering. This class represents multilingual verbatim. Verbatim, sometimes called preformatted text, means that white-space is maintained. When verbatim is rendered in PDF or Online media, it is rendered using a monospaced font while white-space is obeyed. Blanks are rendered as well as newline characters. Even if there are inline elements, the length of the data shall not be influenced by formatting."
+        assert inspect.cleandoc(MixedContentForVerbatim.__doc__) == expected
+
+    def test_typed_getters_and_setters(self):
+        class ConcreteMixedContent(MixedContentForVerbatim):
+            pass
+
+        content = ConcreteMixedContent()
+        values = {
+            "Br": Br(),
+            "E": EmphasisText(),
+            "Tt": Tt(),
+            "Xref": Xref(),
+        }
+        for name, value in values.items():
+            setter = getattr(content, "set" + name)
+            getter = getattr(content, "get" + name)
+            assert setter(value) is content
+            assert getter() is value
+            assert setter(None) is content
+            assert getter() is value
+
+    def test_mixin_accessors(self):
+        """getMixedString/setMixedString are stereotype-inherent (no spec rows) via the AtpMixedString mixin."""
+
+        class ConcreteMixedContent(MixedContentForVerbatim):
+            pass
+
+        content = ConcreteMixedContent()
+        assert content.setMixedString("verbatim text") is content
+        assert content.getMixedString() == "verbatim text"
+        content.setMixedString(None)
+        assert content.getMixedString() == "verbatim text"
+
+    def test_annotation_hints(self):
+        """PDF-typed accessors per Rule 0003 (Table 9.6 rows br/e/tt/xref, all runtime-resolvable types)."""
+        expected_hints = {
+            "Br": Optional[Br],
+            "E": Optional[EmphasisText],
+            "Tt": Optional[Tt],
+            "Xref": Optional[Xref],
+        }
+        for name, expected in expected_hints.items():
+            getter_hints = get_type_hints(getattr(MixedContentForVerbatim, "get" + name))
+            setter_hints = get_type_hints(getattr(MixedContentForVerbatim, "set" + name))
+            assert getter_hints["return"] == expected, name
+            assert setter_hints["value"] == expected, name
+
+
 class TestLVerbatim:
     """Test class for LVerbatim class."""
 
     def test_l_verbatim_base_chain(self):
-        """LVerbatim must extend LanguageSpecific per Table 9.89."""
+        """LVerbatim must extend MixedContentForVerbatim and LanguageSpecific per the Table 9.89 Base row (ARObject , LanguageSpecific , MixedContentForVerbatim , WhitespaceControlled)."""
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
+        assert issubclass(LVerbatim, MixedContentForVerbatim)
         assert issubclass(LVerbatim, LanguageSpecific)
         assert issubclass(LVerbatim, ARObject)
         assert isinstance(LVerbatim(), LVerbatim)
+
+    def test_l_verbatim_inherits_mixed_content_accessors(self):
+        """LVerbatim inherits the Table 9.6 mixed-content accessors from MixedContentForVerbatim (Table 9.89 Base row)."""
+        l_verbatim = LVerbatim()
+        tt = Tt()
+        assert l_verbatim.setTt(tt) is l_verbatim
+        assert l_verbatim.getTt() is tt
+        assert l_verbatim.setTt(None) is l_verbatim
+        assert l_verbatim.getTt() is tt
 
     def test_l_verbatim_initialization(self):
         """Test that an LVerbatim object can be initialized."""
@@ -590,9 +673,9 @@ class TestLVerbatim:
         assert l_verbatim.getValue() == "verbatim text"
 
     def test_l_verbatim_has_no_own_members(self):
-        """Field-to-spec cross-check: Table 9.89 carries no Attribute rows, so LVerbatim adds no fields beyond LanguageSpecific."""
+        """Field-to-spec cross-check: Table 9.89 carries no Attribute rows, so LVerbatim adds no fields beyond its bases (LanguageSpecific l/value + the MixedContentForVerbatim Table 9.6 members)."""
 
-        class _BareLanguageSpecific(LanguageSpecific):
+        class _ReferenceBases(MixedContentForVerbatim, LanguageSpecific):
             pass
 
-        assert set(vars(LVerbatim()).keys()) == set(vars(_BareLanguageSpecific()).keys())
+        assert set(vars(LVerbatim()).keys()) == set(vars(_ReferenceBases()).keys())

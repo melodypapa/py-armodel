@@ -1025,6 +1025,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     MixedContentForParagraph,
     SlParagraph,
     MixedContentForUnitNames,
+    MixedContentForVerbatim,
 )
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
@@ -1441,6 +1442,15 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setXref(element, "XREF", content.getXref())
         if content.getXrefTarget() is not None:
             self.setXrefTarget(element, "XREF-TARGET", content.getXrefTarget())
+
+    def writeMixedContentForVerbatim(self, element: ET.Element, content: MixedContentForVerbatim):
+        self.setBr(element, "BR", content.getBr())
+        if content.getE() is not None:
+            self.setEmphasisText(element, "E", content.getE())
+        if content.getTt() is not None:
+            self.setTt(element, "TT", content.getTt())
+        if content.getXref() is not None:
+            self.setXref(element, "XREF", content.getXref())
 
     def setSingleLanguageUnitNames(self, element: ET.Element, key: str, name: SingleLanguageUnitNames):
         if name is not None:
@@ -2974,7 +2984,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setLVerbatim(child_element, l5)
 
     def setLVerbatim(self, element: ET.Element, text: LVerbatim):
-        self.setLanguageSpecific(element, "L-5", text)
+        child_element = self.setLanguageSpecific(element, "L-5", text)
+        self.writeMixedContentForVerbatim(child_element, text)
 
     def setMsrQueryP2(self, element: ET.Element, msr_query_p2: MsrQueryP2):
         if msr_query_p2 is not None:

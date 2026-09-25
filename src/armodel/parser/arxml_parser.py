@@ -1158,6 +1158,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     MixedContentForLongName,
     MixedContentForOverviewParagraph,
     MixedContentForUnitNames,
+    MixedContentForVerbatim,
     SlParagraph,
 )
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
@@ -1770,6 +1771,20 @@ class ARXMLParser(AbstractARXMLParser):
         xref_target = self.getXrefTarget(element, "XREF-TARGET")
         if xref_target is not None:
             content.setXrefTarget(xref_target)
+
+    def readMixedContentForVerbatim(self, element: ET.Element, content: MixedContentForVerbatim):
+        br = self.getBr(element, "BR")
+        if br is not None:
+            content.setBr(br)
+        emphasis_element = self.find(element, "E")
+        if emphasis_element is not None:
+            content.setE(self.readEmphasisText(emphasis_element))
+        tt_element = self.find(element, "TT")
+        if tt_element is not None:
+            content.setTt(self.readTt(tt_element))
+        xref = self.getXref(element, "XREF")
+        if xref is not None:
+            content.setXref(xref)
 
     def readLOverviewParagraph(self, element: ET.Element, paragraph: MultiLanguageOverviewParagraph):
         for child_element in self.findall(element, "L-2"):
@@ -6353,6 +6368,7 @@ class ARXMLParser(AbstractARXMLParser):
             for l5 in self.findall(child_element, "L-5"):
                 verbatim_l5 = LVerbatim()
                 self.readLanguageSpecific(l5, verbatim_l5)
+                self.readMixedContentForVerbatim(l5, verbatim_l5)
                 verbatim.addL5(verbatim_l5)
         return verbatim
 
