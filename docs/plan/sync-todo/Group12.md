@@ -163,18 +163,17 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 7.21 p.546 citation, release column; __init__ row [—] reader/writer; reader on setter row / writer on getter row; marker deferred to 9b
   - [x] Step 8 — Deviations  [none in scope: 1 attr modeled exactly; Base stamped; DEST enum per XSD; no tracker entries]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-25: full suite 11946 passed / 0 failed (--no-coverage, baseline 11943 + 3 net new); ruff clean; black clean on touched files; integration round-trip green; 9b deferred to batch confirmation (user instruction 2026-09-24)
-- [ ] `OperationInvokedEvent` — RTEEvent — source TBC (locate table at Step 1)
+- [ ] `OperationInvokedEvent` — RTEEvent — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.15, p.543
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec — Table 7.15, p.543; Base chain → most-existing stamped `RTEEvent`; sole attr operation (ClientServerOperation, 0..1, iref → operationIRef, XSD group OPERATION-INVOKED-EVENT single OPERATION-IREF of P-OPERATION-IN-ATOMIC-SWC-INSTANCE-REF); Note verbatim + constr_1945; R4.3.1 Table 7.16 + BSW D.46 = reproductions
+  - [x] Step 2 — Write model class unit test (Red) — TestOperationInvokedEvent rewritten to sibling spec-contract form: verbatim Note+constr docstring pin, initialization, get/set + None no-op, plain get_type_hints pins (3 Red: docstring/None-no-op/hints); POperationInAtomicSwcInstanceRef moved to top-level test import
+  - [x] Step 3 — Implement model class (Green) — Optional[POperationInAtomicSwcInstanceRef] retype (was bare), typed accessors + chaining + None no-op
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note + constr_1945 verbatim; XSD element documentation verbatim on inline comment + getter + setter (replaced "Gets/Sets the..." paraphrases); 6-column checklist with release column
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — writer (value asserts, none-guard) + parser dispatch parametrize + readPOperationIRef coverage pre-exist; model tests were the genuine Reds — honest pass-immediately
+  - [x] Step 6 — Update parser & writer (Green) — writer writeOperationInvokedEvent read the FIELD directly (event.operationIRef) instead of the getter — fixed to getOperationIRef() (convention fix, DataReceivedEvent precedent); reader/factory/dispatch verified correct
+  - [x] Step 7 — Update checklist comment — 6-column parity checklist, Table 7.15 p.543 citation, release column; __init__ row [—] reader/writer; reader on setter row / writer on getter row; marker deferred to 9b
+  - [x] Step 8 — Deviations  [none in scope: 1 attr modeled exactly; Base stamped; iref type per XSD fixed-concrete P-variant; no tracker entries]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-25: full suite 11949 passed / 0 failed (--no-coverage, baseline 11946 + 3 net new); ruff clean; black clean on touched files; integration round-trip green; 9b deferred to batch confirmation (user instruction 2026-09-24)
 - [ ] `RteEventInEcuInstanceRef` — AtpInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md + method_deviation_by_class_v2.md — review entries at Step 1

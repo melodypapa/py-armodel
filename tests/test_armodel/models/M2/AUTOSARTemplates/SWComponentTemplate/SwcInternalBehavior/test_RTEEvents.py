@@ -13,7 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import POperationInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
     AsynchronousServerCallReturnsEvent,
     BackgroundEvent,
@@ -370,10 +370,18 @@ class TestDataReceiveErrorEvent:
 
 
 class TestOperationInvokedEvent:
-    """Test class for OperationInvokedEvent class."""
+    """Test class for OperationInvokedEvent class (Table 7.15)."""
 
-    def test_operation_invoked_event_initialization(self):
-        """Test OperationInvokedEvent initialization and methods."""
+    def test_docstring_is_spec_note_verbatim(self):
+        """The class docstring carries the Table 7.15 Note + constr_1945 verbatim."""
+        assert inspect.cleandoc(OperationInvokedEvent.__doc__) == (
+            "This event is raised when the ClientServerOperation referenced in OperationInvokedEvent.operation shall be invoked.\n"
+            "\n"
+            "[constr_1945] Existence of attribute OperationInvokedEvent.operation: For each OperationInvokedEvent, attribute operation shall exist at the time when the contract phase generation is executed."
+        )
+
+    def test_initialization(self):
+        """Test OperationInvokedEvent initialization defaults."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         event = OperationInvokedEvent(ar_root, "TestOperationInvokedEvent")
@@ -383,13 +391,28 @@ class TestOperationInvokedEvent:
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.operationIRef is None
+        assert isinstance(event, RTEEvent)
 
-        # Test operationIRef methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import POperationInAtomicSwcInstanceRef
+    def test_get_set_operationIRef(self):
+        """Test setOperationIRef/getOperationIRef round-trip and None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = OperationInvokedEvent(ar_root, "TestOperationInvokedEvent")
 
         iref = POperationInAtomicSwcInstanceRef()
-        event.setOperationIRef(iref)
-        assert event.getOperationIRef() == iref
+        assert event.setOperationIRef(iref) is event
+        assert event.getOperationIRef() is iref
+
+        event.setOperationIRef(None)
+        assert event.getOperationIRef() is iref
+
+    def test_get_type_hints(self):
+        """Test spec-typed annotations resolve at runtime (plain get_type_hints)."""
+        hints = typing.get_type_hints(OperationInvokedEvent.setOperationIRef)
+        assert hints.get("value") == typing.Optional[POperationInAtomicSwcInstanceRef]
+        assert hints.get("return") is OperationInvokedEvent
+
+        assert typing.get_type_hints(OperationInvokedEvent.getOperationIRef).get("return") == typing.Optional[POperationInAtomicSwcInstanceRef]
 
 
 class TestInitEvent:

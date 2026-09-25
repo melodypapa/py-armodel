@@ -308,38 +308,32 @@ class DataReceiveErrorEvent(RTEEvent):
 
 class OperationInvokedEvent(RTEEvent):
     """
-    This event is raised when the ClientServerOperation referenced in
-    OperationInvokedEvent.operation shall be invoked.
+    This event is raised when the ClientServerOperation referenced in OperationInvokedEvent.operation shall be invoked.
+
+    [constr_1945] Existence of attribute OperationInvokedEvent.operation: For each OperationInvokedEvent, attribute operation shall exist at the time when the contract phase generation is executed.
     """
 
     # OperationInvokedEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getOperationIRef             [x] impl  [x] docstring  [ ] test
-    # [ ] setOperationIRef             [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.15, p.543
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOperationIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOperationIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.operationIRef: POperationInAtomicSwcInstanceRef = None
+        # This represents the ClientServerOperation which shall be invoked.
+        self.operationIRef: Optional[POperationInAtomicSwcInstanceRef] = None
 
-    def getOperationIRef(self):
-        """
-        Gets the operation instance reference.
-
-        Returns:
-            POperationInAtomicSwcInstanceRef: The operation instance reference
-        """
+    def getOperationIRef(self) -> Optional[POperationInAtomicSwcInstanceRef]:
+        """This represents the ClientServerOperation which shall be invoked."""
         return self.operationIRef
 
-    def setOperationIRef(self, value):
+    def setOperationIRef(self, value: Optional[POperationInAtomicSwcInstanceRef]) -> OperationInvokedEvent:
         """
-        Sets the operation instance reference.
-
-        Args:
-            value: The operation instance reference to set
-
-        Returns:
-            self for method chaining
+        This represents the ClientServerOperation which shall be invoked.
+        A None value is a no-op and does not overwrite an existing operationIRef.
         """
         if value is not None:
             self.operationIRef = value

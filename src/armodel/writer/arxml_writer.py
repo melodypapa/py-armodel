@@ -3566,7 +3566,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if event is not None:
             child_element = ET.SubElement(element, "OPERATION-INVOKED-EVENT")
             self.setRTEEvent(child_element, event)
-            self.setPOperationInAtomicSwcInstanceRef(child_element, "OPERATION-IREF", event.operationIRef)
+            self.setPOperationInAtomicSwcInstanceRef(child_element, "OPERATION-IREF", event.getOperationIRef())
 
     def writeSwcModeSwitchEvent(self, element: ET.Element, event: SwcModeSwitchEvent):
         if event is not None:
