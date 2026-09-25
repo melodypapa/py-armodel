@@ -191,72 +191,65 @@ class ModeDeclaration(AtpStructureElement, AtpBlueprintable, VariationPointCapab
 
 class ModeRequestTypeMap(ARObject):
     """
-    Represents a mapping between mode requests and implementation data types in AUTOSAR models.
-    This class defines how mode requests are mapped to specific implementation data types.
+    Specifies a mapping between a ModeDeclarationGroup and an ImplementationDataType. This ImplementationDataType shall be used to implement the ModeDeclarationGroup.
+
+    [constr_1166] Restrictions of ModeRequestTypeMap: For every ModeDeclarationGroup referenced by a ModeDeclarationGroupPrototype used in a PortPrototype typed by a ModeSwitchInterface a ModeRequestTypeMap shall exist that points to the ModeDeclarationGroup and also to an eligible ImplementationDataType. The ModeRequestTypeMap shall be aggregated by a DataTypeMappingSet which is referenced from the SwcInternalBehavior that is owned by the ApplicationSwComponentType that also owns the PortPrototype.
+
+    [constr_1871] Existence of attribute ModeRequestTypeMap.implementationDataType: For each ModeRequestTypeMap, attribute implementationDataType shall exist at the time when the contract phase generation is executed.
+
+    [constr_1872] Existence of attribute ModeRequestTypeMap.modeGroup: For each ModeRequestTypeMap, attribute modeGroup shall exist at the time when the contract phase generation is executed.
+
+    [constr_1167] ImplementationDataTypes used as ModeRequestTypeMap.implementationDataType: The ImplementationDataType referenced by a ModeRequestTypeMap shall either be of category VALUE or of category TYPE_REFERENCE that in turn references an ImplementationDataType of category VALUE. The baseType referenced by the ImplementationDataType shall have set the value of the attribute BaseTypeDirectDefinition.baseTypeEncoding to NONE. This rule shall be imposed at the time when the contract phase generation is executed.
     """
 
     # ModeRequestTypeMap method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getImplementationDataTypeRef [x] impl  [x] docstring  [x] test
-    # [x] setImplementationDataTypeRef [x] impl  [x] docstring  [x] test
-    # [x] getModeGroupRef              [x] impl  [x] docstring  [x] test
-    # [x] setModeGroupRef              [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.18, p.115
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getImplementationDataTypeRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImplementationDataTypeRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeGroupRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeGroupRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the ModeRequestTypeMap with default values.
-        """
         super().__init__()
 
-        # Reference to the implementation data type for mode requests
-        self.implementationDataTypeRef: RefType = None
-        # Reference to the mode group for this mapping
-        self.modeGroupRef: RefType = None
+        # This is the corresponding AbstractImplementationDataType. It shall be modeled along the idea of an "unsigned integer-like" data type.
+        self.implementationDataTypeRef: Optional[RefType] = None
 
-    def getImplementationDataTypeRef(self):
+        # This is the corresponding ModeDeclarationGroup.
+        self.modeGroupRef: Optional[RefType] = None
+
+    def getImplementationDataTypeRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the implementation data type for mode requests.
-
-        Returns:
-            RefType: The implementation data type reference
+        This is the corresponding AbstractImplementationDataType. It shall be modeled along the idea of an "unsigned integer-like" data type.
         """
         return self.implementationDataTypeRef
 
-    def setImplementationDataTypeRef(self, value):
+    def setImplementationDataTypeRef(self, value: Optional[RefType]) -> "ModeRequestTypeMap":
         """
-        Sets the reference to the implementation data type for mode requests.
-        Only sets the value if it is not None.
+        This is the corresponding AbstractImplementationDataType. It shall be modeled along the idea of an "unsigned integer-like" data type.
 
-        Args:
-            value: The implementation data type reference to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing implementationDataTypeRef.
         """
-        self.implementationDataTypeRef = value
+        if value is not None:
+            self.implementationDataTypeRef = value
         return self
 
-    def getModeGroupRef(self):
+    def getModeGroupRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the mode group for this mapping.
-
-        Returns:
-            RefType: The mode group reference
+        This is the corresponding ModeDeclarationGroup.
         """
         return self.modeGroupRef
 
-    def setModeGroupRef(self, value):
+    def setModeGroupRef(self, value: Optional[RefType]) -> "ModeRequestTypeMap":
         """
-        Sets the reference to the mode group for this mapping.
-        Only sets the value if it is not None.
+        This is the corresponding ModeDeclarationGroup.
 
-        Args:
-            value: The mode group reference to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing modeGroupRef.
         """
-        self.modeGroupRef = value
+        if value is not None:
+            self.modeGroupRef = value
         return self
 
 

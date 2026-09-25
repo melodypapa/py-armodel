@@ -7596,8 +7596,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in element.findall("./xmlns:MODE-REQUEST-TYPE-MAPS/xmlns:MODE-REQUEST-TYPE-MAP", self.nsmap):
             map = ModeRequestTypeMap()
             self.readARObject(child_element, map)
-            map.implementationDataTypeRef = self.getChildElementOptionalRefType(child_element, "IMPLEMENTATION-DATA-TYPE-REF")
-            map.modeGroupRef = self.getChildElementOptionalRefType(child_element, "MODE-GROUP-REF")
+            map.setImplementationDataTypeRef(self.getChildElementOptionalRefType(child_element, "IMPLEMENTATION-DATA-TYPE-REF"))
+            map.setModeGroupRef(self.getChildElementOptionalRefType(child_element, "MODE-GROUP-REF"))
             parent.addModeRequestTypeMap(map)
 
     def readDataTypeMappingSet(self, element: ET.Element, mapping_set: DataTypeMappingSet):

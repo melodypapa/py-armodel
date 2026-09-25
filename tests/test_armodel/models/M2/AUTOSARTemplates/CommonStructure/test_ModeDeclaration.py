@@ -137,51 +137,74 @@ class TestModeDeclaration:
 
 
 class TestModeRequestTypeMap:
+    CLASS_NOTE = "Specifies a mapping between a ModeDeclarationGroup and an ImplementationDataType. This ImplementationDataType shall be used to implement the ModeDeclarationGroup."
+    IMPL_DATA_TYPE_NOTE = 'This is the corresponding AbstractImplementationDataType. It shall be modeled along the idea of an "unsigned integer-like" data type.'
+    MODE_GROUP_NOTE = "This is the corresponding ModeDeclarationGroup."
+
     def test_initialization(self):
-        """Test ModeRequestTypeMap initialization"""
+        """Test ModeRequestTypeMap initialization defaults (Table 4.18, all attrs 0..1)"""
         map_obj = ModeRequestTypeMap()
         assert map_obj is not None
         assert map_obj.implementationDataTypeRef is None
         assert map_obj.modeGroupRef is None
 
-    def test_get_implementation_data_type_ref(self):
-        """Test getImplementationDataTypeRef method"""
+    def test_base_shape(self):
+        """ModeRequestTypeMap shall derive from ARObject (Table 4.18 Base row)"""
+        map_obj = ModeRequestTypeMap()
+        assert isinstance(map_obj, ARObject)
+
+    def test_get_set_implementation_data_type_ref(self):
+        """Test implementationDataTypeRef round-trip, chaining and None no-op (Table 4.18 implementationDataType)"""
         map_obj = ModeRequestTypeMap()
         assert map_obj.getImplementationDataTypeRef() is None
+        test_value = RefType().setValue("/DataTypes/AbstractImplementationDataType1")
+        assert map_obj.setImplementationDataTypeRef(test_value) is map_obj
+        assert map_obj.getImplementationDataTypeRef() is test_value
+        map_obj.setImplementationDataTypeRef(None)
+        assert map_obj.getImplementationDataTypeRef() is test_value
 
-    def test_set_implementation_data_type_ref(self):
-        """Test setImplementationDataTypeRef method"""
-        map_obj = ModeRequestTypeMap()
-        test_value = RefType().setValue("ImplDataTypeRef")
-        result = map_obj.setImplementationDataTypeRef(test_value)
-        assert result is map_obj  # Method chaining
-        assert map_obj.getImplementationDataTypeRef() == test_value
-
-    def test_get_mode_group_ref(self):
-        """Test getModeGroupRef method"""
+    def test_get_set_mode_group_ref(self):
+        """Test modeGroupRef round-trip, chaining and None no-op (Table 4.18 modeGroup)"""
         map_obj = ModeRequestTypeMap()
         assert map_obj.getModeGroupRef() is None
+        test_value = RefType().setValue("/ModeDeclarationGroups/ModeDeclarationGroup1")
+        assert map_obj.setModeGroupRef(test_value) is map_obj
+        assert map_obj.getModeGroupRef() is test_value
+        map_obj.setModeGroupRef(None)
+        assert map_obj.getModeGroupRef() is test_value
 
-    def test_set_mode_group_ref(self):
-        """Test setModeGroupRef method"""
-        map_obj = ModeRequestTypeMap()
-        test_value = RefType().setValue("ModeGroupRef")
-        result = map_obj.setModeGroupRef(test_value)
-        assert result is map_obj  # Method chaining
-        assert map_obj.getModeGroupRef() == test_value
+    def test_accessor_annotations(self):
+        """Accessors shall carry Optional[RefType] hints; setters shall chain ModeRequestTypeMap (Table 4.18, 0..1 refs)"""
+        for suffix in ("ImplementationDataTypeRef", "ModeGroupRef"):
+            getter_hints = get_type_hints(getattr(ModeRequestTypeMap, "get%s" % suffix))
+            assert getter_hints["return"] == Optional[RefType]
+            setter_hints = get_type_hints(getattr(ModeRequestTypeMap, "set%s" % suffix))
+            assert setter_hints["value"] == Optional[RefType]
+            assert setter_hints["return"] == ModeRequestTypeMap
 
-    def test_all_properties(self):
-        """Test setting all properties"""
-        map_obj = ModeRequestTypeMap()
-
-        impl_ref = RefType().setValue("ImplDataTypeRef")
-        group_ref = RefType().setValue("ModeGroupRef")
-
-        map_obj.setImplementationDataTypeRef(impl_ref)
-        map_obj.setModeGroupRef(group_ref)
-
-        assert map_obj.getImplementationDataTypeRef() == impl_ref
-        assert map_obj.getModeGroupRef() == group_ref
+    def test_spec_note(self):
+        """Test the Table 4.18 class note and per-attribute notes (verbatim from the markdown)"""
+        class_doc = ModeRequestTypeMap.__doc__.strip()
+        assert self.CLASS_NOTE in class_doc
+        assert "[constr_1166] Restrictions of ModeRequestTypeMap:" in class_doc
+        assert "[constr_1871] Existence of attribute ModeRequestTypeMap.implementationDataType:" in class_doc
+        assert "[constr_1872] Existence of attribute ModeRequestTypeMap.modeGroup:" in class_doc
+        assert "[constr_1167] ImplementationDataTypes used as ModeRequestTypeMap.implementationDataType:" in class_doc
+        assert ModeRequestTypeMap.__init__.__doc__ is None
+        init_source = inspect.getsource(ModeRequestTypeMap.__init__)
+        assert self.IMPL_DATA_TYPE_NOTE in init_source
+        assert self.MODE_GROUP_NOTE in init_source
+        for method, note in (
+            ("getImplementationDataTypeRef", self.IMPL_DATA_TYPE_NOTE),
+            ("setImplementationDataTypeRef", self.IMPL_DATA_TYPE_NOTE),
+            ("getModeGroupRef", self.MODE_GROUP_NOTE),
+            ("setModeGroupRef", self.MODE_GROUP_NOTE),
+        ):
+            doc = getattr(ModeRequestTypeMap, method).__doc__.strip()
+            assert note in doc, "%s docstring must carry the spec Note verbatim" % method
+            if method.startswith("set"):
+                attr = method[3].lower() + method[4:]
+                assert "A None value is a no-op and does not overwrite an existing %s." % attr in doc
 
 
 class TestModeDeclarationGroup:
