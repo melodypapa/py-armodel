@@ -677,7 +677,14 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDoc
     SwComponentDocumentation,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import ExternalTriggeringPoint, RunnableEntity, RunnableEntityArgument, SwcExclusiveAreaPolicy, SwcInternalBehavior
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+    ExternalTriggeringPoint,
+    InternalTriggeringPoint,
+    RunnableEntity,
+    RunnableEntityArgument,
+    SwcExclusiveAreaPolicy,
+    SwcInternalBehavior,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AccessCount, AccessCountSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ArVariableInImplementationDataInstanceRef, AutosarVariableRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
@@ -5222,11 +5229,28 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.raiseError("Unsupported server call point type <%s>" % tag_name)
 
+    def readInternalTriggeringPoint(self, element: ET.Element, point: InternalTriggeringPoint):
+        self.readIdentifiable(element, point)
+        literal = self.getChildElementOptionalLiteral(element, "SW-IMPL-POLICY")
+        if literal is not None:
+            camel = None
+            for camel_value, token in SW_IMPL_POLICY_XML_MAP.items():
+                if token == literal.getText():
+                    camel = camel_value
+                    break
+            if camel is not None:
+                point.setSwImplPolicy(SwImplPolicyEnum().setValue(camel))
+            else:
+                self.notImplemented("Unsupported SW-IMPL-POLICY <%s>" % literal.getText())
+
     def readRunnableEntityInternalTriggeringPoints(self, element: ET.Element, parent: RunnableEntity):
-        for child_element in self.findall(element, "INTERNAL-TRIGGERING-POINTS/INTERNAL-TRIGGERING-POINT"):
-            short_name = self.getShortName(child_element)
-            point = parent.createInternalTriggeringPoint(short_name)
-            point.sw_impl_policy = self.getChildElementOptionalLiteral(child_element, "SW-IMPL-POLICY")
+        for child_element in self.findall(element, "INTERNAL-TRIGGERING-POINTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "INTERNAL-TRIGGERING-POINT":
+                point = parent.createInternalTriggeringPoint(self.getShortName(child_element))
+                self.readInternalTriggeringPoint(child_element, point)
+            else:
+                self.notImplemented("Unsupported Internal Triggering Point <%s>" % tag_name)
 
     def readRunnableEntityExternalTriggeringPoints(self, element: ET.Element, parent: RunnableEntity):
         for child_element in self.findall(element, "EXTERNAL-TRIGGERING-POINTS/EXTERNAL-TRIGGERING-POINT"):

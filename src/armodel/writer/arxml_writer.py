@@ -597,6 +597,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import M
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     AsynchronousServerCallPoint,
+    InternalTriggeringPoint,
     RunnableEntity,
     RunnableEntityArgument,
     SwcExclusiveAreaPolicy,
@@ -4138,6 +4139,29 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if trigger is not None:
                     self.writePTriggerInAtomicSwcTypeInstanceRef(child_element, "TRIGGER-IREF", trigger)
 
+    def writeInternalTriggeringPoint(self, element: ET.Element, point: InternalTriggeringPoint):
+        if point is not None:
+            child_element = ET.SubElement(element, "INTERNAL-TRIGGERING-POINT")
+            self.writeIdentifiable(child_element, point)
+            policy = point.getSwImplPolicy()
+            if policy is not None:
+                token = SW_IMPL_POLICY_XML_MAP.get(policy.getValue())
+                if token is None:
+                    self.notImplemented("Unsupported SW-IMPL-POLICY <%s>" % policy.getValue())
+                else:
+                    policy_element = ET.SubElement(child_element, "SW-IMPL-POLICY")
+                    policy_element.text = token
+
+    def writeRunnableEntityInternalTriggeringPoints(self, element: ET.Element, entity: RunnableEntity):
+        points = list(entity.getInternalTriggeringPoints())
+        if len(points) > 0:
+            child_element = ET.SubElement(element, "INTERNAL-TRIGGERING-POINTS")
+            for point in points:
+                if isinstance(point, InternalTriggeringPoint):
+                    self.writeInternalTriggeringPoint(child_element, point)
+                else:
+                    self.notImplemented("Unsupported Internal Triggering Point <%s>" % type(point))
+
     def writeRunnableEntityModeAccessPoints(self, element: ET.Element, entity: RunnableEntity):
         points = entity.getModeAccessPoints()
         if len(points) > 0:
@@ -4222,6 +4246,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeRunnableEntityModeAccessPoints(child_element, entity)
             self.writeRunnableEntityModeSwitchPoints(child_element, entity)
             self.writeRunnableEntityExternalTriggeringPoints(child_element, entity)
+            self.writeRunnableEntityInternalTriggeringPoints(child_element, entity)
             self.writeRunnableEntityParameterAccesses(child_element, entity)
             self.writeRunnableEntityReadLocalVariables(child_element, entity)
             self.writeRunnableEntityServerCallPoints(child_element, entity)

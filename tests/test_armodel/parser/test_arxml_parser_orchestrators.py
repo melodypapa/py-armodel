@@ -1121,6 +1121,27 @@ class TestRunnableEntityOrchestrator:
         parser.readRunnableEntity(element, runnable)
         assert len(list(runnable.getInternalTriggeringPoints())) == 1
 
+    def test_readRunnableEntity_with_internalTriggeringPoint_swImplPolicy(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        runnable = behavior.createRunnableEntity("run")
+        element = _snip(
+            "<SHORT-NAME>run</SHORT-NAME>"
+            "<INTERNAL-TRIGGERING-POINTS>"
+            "<INTERNAL-TRIGGERING-POINT><SHORT-NAME>itp</SHORT-NAME><SW-IMPL-POLICY>QUEUED</SW-IMPL-POLICY></INTERNAL-TRIGGERING-POINT>"
+            "</INTERNAL-TRIGGERING-POINTS>",
+            root_tag="RUNNABLE-ENTITY",
+        )
+        parser.readRunnableEntity(element, runnable)
+        points = list(runnable.getInternalTriggeringPoints())
+        assert len(points) == 1
+        policy = points[0].getSwImplPolicy()
+        assert isinstance(policy, SwImplPolicyEnum)
+        assert policy.getValue() == "queued"
+
     def test_readRunnableEntity_with_modeAccessPoints(self, parser):
         from armodel.models import ApplicationSwComponentType
 

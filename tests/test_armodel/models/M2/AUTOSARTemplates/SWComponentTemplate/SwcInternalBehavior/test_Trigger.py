@@ -3,16 +3,21 @@ This module contains comprehensive tests for the Trigger module in SWComponentTe
 Tests cover all classes and methods in the Trigger.py file to achieve 100% test coverage.
 """
 
+import typing
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PTriggerInAtomicSwcTypeInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import RteApiReturnValueProvisionEnum
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import ExternalTriggeringPoint, ExternalTriggeringPointIdent, InternalTriggeringPoint
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 
 
 class TestInternalTriggeringPoint:
     """Test class for InternalTriggeringPoint class."""
 
-    def test_internal_triggering_point_initialization(self):
-        """Test InternalTriggeringPoint initialization and methods."""
+    def test_initialization(self):
+        """Test InternalTriggeringPoint initialization defaults."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         trigger_point = InternalTriggeringPoint(ar_root, "TestInternalTriggeringPoint")
@@ -22,17 +27,37 @@ class TestInternalTriggeringPoint:
         assert trigger_point.returnValueProvision is None
         assert trigger_point.swImplPolicy is None
 
-        # Test returnValueProvision methods
-        return_prov = "test_provision"
-        trigger_point.setReturnValueProvision(return_prov)
-        assert trigger_point.getReturnValueProvision() == return_prov
+    def test_get_set_returnValueProvision(self):
+        """Test the inherited AbstractAccessPoint returnValueProvision accessor."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        trigger_point = InternalTriggeringPoint(ar_root, "TestInternalTriggeringPoint")
 
-        # Test swImplPolicy methods
-        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
+        provision = RteApiReturnValueProvisionEnum().setValue(RteApiReturnValueProvisionEnum.RETURN_VALUE_PROVIDED)
+        assert trigger_point.setReturnValueProvision(provision) is trigger_point
+        assert trigger_point.getReturnValueProvision() is provision
 
-        sw_impl_policy = SwImplPolicyEnum()
-        trigger_point.setSwImplPolicy(sw_impl_policy)
-        assert trigger_point.getSwImplPolicy() == sw_impl_policy
+        assert trigger_point.setReturnValueProvision(None) is trigger_point
+        assert trigger_point.getReturnValueProvision() is provision
+
+    def test_get_set_swImplPolicy(self):
+        """Test swImplPolicy round-trip, None no-op and type hints."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        trigger_point = InternalTriggeringPoint(ar_root, "TestInternalTriggeringPoint")
+
+        policy = SwImplPolicyEnum().setValue(SwImplPolicyEnum.QUEUED)
+        assert trigger_point.setSwImplPolicy(policy) is trigger_point
+        assert trigger_point.getSwImplPolicy() is policy
+        assert trigger_point.getSwImplPolicy().getValue() == "queued"
+
+        assert trigger_point.setSwImplPolicy(None) is trigger_point
+        assert trigger_point.getSwImplPolicy() is policy
+
+        hints = typing.get_type_hints(InternalTriggeringPoint.setSwImplPolicy)
+        assert hints.get("value") == typing.Optional[SwImplPolicyEnum]
+        assert hints.get("return") is InternalTriggeringPoint
+        assert typing.get_type_hints(InternalTriggeringPoint.getSwImplPolicy).get("return") == typing.Optional[SwImplPolicyEnum]
 
 
 class TestExternalTriggeringPoint:
@@ -69,8 +94,6 @@ class TestExternalTriggeringPoint:
 
 
 def _make_ref(value):
-    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-
     ref = RefType()
     ref.setValue(value)
     return ref

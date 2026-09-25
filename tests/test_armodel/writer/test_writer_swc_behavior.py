@@ -61,7 +61,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import (  # noqa E501
     ExternalTriggeringPoint,
 )
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, SwImplPolicyEnum
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -836,6 +836,127 @@ class TestVariableAccessRoundTrip:
             assert va_2.getShortName() == "va1"
             assert va_2.getAccessedVariable() is None
             assert va_2.getScope() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+# ==================== InternalTriggeringPoint writers ====================
+
+
+class TestWriterInternalTriggeringPoint:
+    def test_writeRunnableEntityInternalTriggeringPoints(self, writer):
+        behavior = _make_behavior()
+        runnable = behavior.createRunnableEntity("r1")
+        point = runnable.createInternalTriggeringPoint("itp")
+        point.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.QUEUED))
+        parent = _parent()
+        writer.writeRunnableEntityInternalTriggeringPoints(parent, runnable)
+        wrapper = parent.find("INTERNAL-TRIGGERING-POINTS")
+        assert wrapper is not None
+        itp = wrapper.find("INTERNAL-TRIGGERING-POINT")
+        assert itp is not None
+        assert itp.find("SHORT-NAME").text == "itp"
+        assert itp.find("SW-IMPL-POLICY").text == "QUEUED"
+
+    def test_writeRunnableEntityInternalTriggeringPoints_empty(self, writer):
+        behavior = _make_behavior()
+        runnable = behavior.createRunnableEntity("r1")
+        parent = _parent()
+        writer.writeRunnableEntityInternalTriggeringPoints(parent, runnable)
+        assert parent.find("INTERNAL-TRIGGERING-POINTS") is None
+
+    def test_writeInternalTriggeringPoint(self, writer):
+        behavior = _make_behavior()
+        runnable = behavior.createRunnableEntity("r1")
+        point = runnable.createInternalTriggeringPoint("itp")
+        point.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.STANDARD))
+        parent = _parent()
+        writer.writeInternalTriggeringPoint(parent, point)
+        itp = parent.find("INTERNAL-TRIGGERING-POINT")
+        assert itp is not None
+        assert itp.find("SHORT-NAME").text == "itp"
+        assert itp.find("SW-IMPL-POLICY").text == "STANDARD"
+
+    def test_writeInternalTriggeringPoint_optional_children_omitted(self, writer):
+        behavior = _make_behavior()
+        runnable = behavior.createRunnableEntity("r1")
+        runnable.createInternalTriggeringPoint("itp")
+        parent = _parent()
+        writer.writeInternalTriggeringPoint(parent, list(runnable.getInternalTriggeringPoints())[0])
+        itp = parent.find("INTERNAL-TRIGGERING-POINT")
+        assert itp is not None
+        assert itp.find("SHORT-NAME").text == "itp"
+        assert itp.find("SW-IMPL-POLICY") is None
+
+    def test_writeInternalTriggeringPoint_none(self, writer):
+        parent = _parent()
+        writer.writeInternalTriggeringPoint(parent, None)
+        assert len(parent) == 0
+
+
+class TestInternalTriggeringPointRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of an InternalTriggeringPoint with swImplPolicy."""
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        runnable = behavior.createRunnableEntity("r1")
+        point = runnable.createInternalTriggeringPoint("itp1")
+        point.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.QUEUED))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            itp_2 = list(app_2.getInternalBehavior().getRunnableEntities()[0].getInternalTriggeringPoints())[0]
+            assert itp_2.getShortName() == "itp1"
+            policy = itp_2.getSwImplPolicy()
+            assert isinstance(policy, SwImplPolicyEnum)
+            assert policy.getValue() == "queued"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that an InternalTriggeringPoint without swImplPolicy round-trips without the element."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        runnable = behavior.createRunnableEntity("r1")
+        runnable.createInternalTriggeringPoint("itp1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            assert saved.find(".//INTERNAL-TRIGGERING-POINT/SW-IMPL-POLICY") is None
+            document.clear()
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.elements if e.getShortName() == "App")
+            itp_2 = list(app_2.getInternalBehavior().getRunnableEntities()[0].getInternalTriggeringPoints())[0]
+            assert itp_2.getShortName() == "itp1"
+            assert itp_2.getSwImplPolicy() is None
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
