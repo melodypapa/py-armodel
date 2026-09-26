@@ -3251,6 +3251,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeARObject(formula_element, formula)
                 if formula.getLevel() is not None:
                     formula_element.set("LEVEL", formula.getLevel().value)
+                self.writeMixedStringText(formula_element, formula)
             args = dependency.getSwDataDependencyArgs()
             if args is not None:
                 args_element = ET.SubElement(dependency_element, "SW-DATA-DEPENDENCY-ARGS")

@@ -6738,16 +6738,21 @@ class ARXMLParser(AbstractARXMLParser):
         dependency_element = self.find(element, "SW-DATA-DEPENDENCY")
         if dependency_element is not None:
             dependency = SwDataDependency()
+            self.readARObject(dependency_element, dependency)
             formula_element = self.find(dependency_element, "SW-DATA-DEPENDENCY-FORMULA")
             if formula_element is not None:
                 formula = CompuGenericMath()
+                self.readARObject(formula_element, formula)
+                if formula_element.text is not None and formula_element.text.strip() != "":
+                    self.readMixedStringText(formula_element, formula)
                 level = formula_element.attrib.get("LEVEL")
                 if level is not None:
-                    formula.setLevel(ARLiteral().setValue(level))
+                    formula.setLevel(PrimitiveIdentifier().setValue(level))
                 dependency.setSwDataDependencyFormula(formula)
             args_element = self.find(dependency_element, "SW-DATA-DEPENDENCY-ARGS")
             if args_element is not None:
                 args = SwDataDependencyArgs()
+                self.readARObject(args_element, args)
                 calprm_element = self.find(args_element, "SW-CALPRM-REF-PROXY")
                 if calprm_element is not None:
                     args.setSwCalprmRef(self.readSwCalprmRefProxy(calprm_element))

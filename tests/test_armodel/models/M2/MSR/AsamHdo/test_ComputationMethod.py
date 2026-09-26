@@ -8,6 +8,7 @@ from inspect import cleandoc, getsource
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.FormulaLanguage import FormulaExpression
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -604,11 +605,41 @@ class TestCompuMethod:
 
 
 class TestCompuGenericMath:
-    """Test class for CompuGenericMath class."""
+    """Test class for CompuGenericMath (AUTOSAR_CP_TPS_SoftwareComponentTemplate, Table 5.60)."""
+
+    CLASS_NOTE = "This meta-class represents the ability to specify a generic formula expression."
+    LEVEL_NOTE = "Placeholder to describe an indicator of a language level for the mathematics e.g. INFORMAL, ASAMHDO. May be refined by particular use-cases. Tags: xml.attribute=true"
+    LEVEL_NONE_NOOP = " A None value is a no-op and does not overwrite an existing level."
+
+    def test_compu_generic_math_has_spec_note(self):
+        assert cleandoc(CompuGenericMath.__doc__) == self.CLASS_NOTE
+
+    def test_compu_generic_math_init_has_no_docstring(self):
+        assert CompuGenericMath.__init__.__doc__ is None
+
+    def test_compu_generic_math_base_chain(self):
+        assert issubclass(CompuGenericMath, FormulaExpression)
+        assert issubclass(CompuGenericMath, ARObject)
+        assert issubclass(FormulaExpression, ARObject)
+
+    def test_compu_generic_math_level_is_pep526_annotated(self):
+        source = getsource(CompuGenericMath.__init__)
+        assert "self.level: Optional[PrimitiveIdentifier] = None" in source
+        assert "# type:" not in source
+
+    def test_compu_generic_math_level_inline_comment_matches_spec_note(self):
+        source = getsource(CompuGenericMath.__init__)
+        assert "# " + self.LEVEL_NOTE in source
 
     def test_compu_generic_math_initialization(self):
         compu_generic_math = CompuGenericMath()
         assert compu_generic_math.getLevel() is None
+
+    def test_compu_generic_math_getter_docstring_matches_spec_note(self):
+        assert cleandoc(CompuGenericMath.getLevel.__doc__) == self.LEVEL_NOTE
+
+    def test_compu_generic_math_setter_docstring_matches_spec_note(self):
+        assert cleandoc(CompuGenericMath.setLevel.__doc__) == self.LEVEL_NOTE + self.LEVEL_NONE_NOOP
 
     def test_compu_generic_math_methods(self):
         compu_generic_math = CompuGenericMath()
@@ -616,6 +647,7 @@ class TestCompuGenericMath:
 
         assert compu_generic_math.setLevel(level) == compu_generic_math
         assert compu_generic_math.getLevel() == level
+        assert isinstance(compu_generic_math.getLevel(), PrimitiveIdentifier)
 
     def test_compu_generic_math_none_noop(self):
         compu_generic_math = CompuGenericMath()
