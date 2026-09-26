@@ -469,6 +469,7 @@ Status: **16/42** completed
 | `AttributeValueVariationPoint`           | [x] Done | d5c96fd9       |
 | `ConditionByFormula`                     | [x] Done | 18b494eba |
 | `MixedContentForOverviewParagraph`       | [x] Done | 18b494eba |
+| `WhitespaceControlled`                   | [x] Done    | a78d444af |
 | `MixedContentForPlainText`               | [ ] Deferred | 4b5f87982 |
 | `MixedContentForVerbatim`                | [ ] Deferred | 80ba96366 |
 | `SlOverviewParagraph`                    | [ ] Deferred | 6884fa835 |

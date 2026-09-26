@@ -413,6 +413,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `MimeTypeString`                                        | [x] Done    | 01cc23df                                 | Group3           |
 | `MixedContentForParagraph`                              | [x] Done    | bf9114cb                                 | Group3           |
 | `MixedContentForOverviewParagraph`                      | [x] Done | 18b494eba                               | Group8           |
+| `WhitespaceControlled`                                     | [x] Done    | a78d444af                                | Group8           |
 | `MixedContentForPlainText`                              | [ ] Deferred | 4b5f87982                                | Group8           |
 | `MixedContentForVerbatim`                               | [ ] Deferred | 80ba96366                                | Group8           |
 | `MlFigure`                                              | [x] Done    | 9225ed15                                 | Group3           |
