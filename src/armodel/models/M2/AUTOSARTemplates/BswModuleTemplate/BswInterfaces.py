@@ -565,17 +565,22 @@ class BswModuleClientServerEntry(Referrable, VariationPointCapable):
 
 class BswEntryRelationshipEnum(AREnum):
     """
-    Enumeration for BSW entry relationship types.
-    Defines the type of relationship between two BswModuleEntrys.
+    Define the type of relationship between two BswModuleEntrys.
     """
 
     # BswEntryRelationshipEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.20, p.52
     # (no methods)
 
-    # Describes that the BswModuleEntry referenced as "to" needs to have
-    # the same signature as the "abstract" BswModuleEntry referenced as
-    # "from". Tags: atp.EnumerationLiteralIndex=0
+    # Describes that the BswModuleEntry referenced as "to" needs to have the same signature as the "abstract" BswModuleEntry referenced as "from". Tags: atp.EnumerationLiteralIndex=0
     DERIVED_FROM = "derivedFrom"
+
+    def __init__(self):
+        super().__init__(
+            [
+                BswEntryRelationshipEnum.DERIVED_FROM,
+            ]
+        )
 
 
 class BswEntryRelationship(ARObject):

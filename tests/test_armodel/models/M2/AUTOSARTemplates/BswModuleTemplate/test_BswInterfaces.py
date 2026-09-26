@@ -445,6 +445,23 @@ class TestBswModuleClientServerEntry:
         assert entry.getIsSynchronous() is True  # Should remain unchanged
 
 
+class TestBswEntryRelationshipEnum:
+    """Test the BswEntryRelationshipEnum AREnum (Table 4.20)."""
+
+    def test_instantiation(self):
+        enum = BswEntryRelationshipEnum()
+        assert isinstance(enum, BswEntryRelationshipEnum)
+
+    def test_member_values(self):
+        assert BswEntryRelationshipEnum.DERIVED_FROM == "derivedFrom"
+        assert BswEntryRelationshipEnum().getEnumValues() == [BswEntryRelationshipEnum.DERIVED_FROM]
+
+    def test_set_value(self):
+        enum = BswEntryRelationshipEnum()
+        enum.setValue(BswEntryRelationshipEnum.DERIVED_FROM)
+        assert enum.getValue() == "derivedFrom"
+
+
 class TestBswEntryRelationshipInitialization:
     """Test BswEntryRelationship initialization and default values."""
 

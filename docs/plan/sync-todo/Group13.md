@@ -402,18 +402,32 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     the inline member comment + tracker note.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12302 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `BswEntryRelationshipEnum` — AREnum — source TBC (locate table at Step 1)
+- [ ] `BswEntryRelationshipEnum` — AREnum — R23-11 markdown · Table 4.20 (CP_TPS_BSWModuleDescriptionTemplate), p.52
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
-  - note: deviation-tracked in method_deviation_by_class.md + method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 4.20, p.52. Enumeration; Package
+    M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces; Note = "Define the type of
+    relationship between two BswModuleEntrys." (spec grammar kept verbatim); Aggregated
+    by = BswEntryRelationship.bswEntryRelationshipType. ONE literal: derivedFrom
+    ("Describes that the BswModuleEntry referenced as \"to\" needs to have the same
+    signature as the \"abstract\" BswModuleEntry referenced as \"from\".",
+    atp.EnumerationLiteralIndex=0). XSD BSW-ENTRY-RELATIONSHIP-ENUM --SIMPLE token
+    "derivedFrom" agrees. Drift: fabricated 2-sentence class docstring, NO __init__
+    (AREnum.__init__ requires enum_values → the enum could not be instantiated at all),
+    literal comment wrapped, no Spec/checklist header.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - note (Steps 5/6): N/A for a standalone AREnum — no own XML element; serialized as
+    the attribute value of the consuming class (BswEntryRelationship, next row) and
+    round-tripped there (Rules 0010–0011).
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviations — single literal matches XSD token; the v2 tracker
+    bullet-list mention is a type-list reference, not a deviation row.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12305 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BswEntryRelationship` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
