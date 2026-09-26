@@ -213,6 +213,7 @@ class MixedContentForOverviewParagraph(ARObject, AtpMixedString, ABC):
 
     # MixedContentForOverviewParagraph method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.3, p.290
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element; members serialize on the consuming L-2 element via readMixedContentForOverviewParagraph/writeMixedContentForOverviewParagraph)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBr              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
