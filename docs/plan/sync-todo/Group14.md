@@ -264,19 +264,20 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - note (Step 8): model limitation recorded — XSD wires these attrs as INTEGER-/BOOLEAN-VALUE-VARIATION-POINT (value XOR value+VARIATION-POINT); the model stores the plain value and rw covers that path only (consistent with repo-wide handling); subject to 9b batch review
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12335 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
-- [ ] `SignalServiceTranslationElementProps` — Identifiable — source TBC (locate table at Step 1)
+- [ ] `SignalServiceTranslationElementProps` — Identifiable — R23-11 markdown · Table 6.342 (CP_TPS_SystemTemplate), p.735
   - module: M2/AUTOSARTemplates/CommonStructure/SignalServiceTranslation.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - note (Step 1): Three attrs: element (DataPrototypeReference, 0..1, aggr — wire ELEMENT wrapper with choice DATA-PROTOTYPE-IN-PORT-INTERFACE-REF / IMPLEMENTATION-DATA-TYPE-ELEMENT-IN-PORT-INTERFACE-REF), filter (DataFilter, 0..1, aggr), transmissionTrigger (Boolean, 0..1, attr). Placeholder RESOLVED: DataPrototypeReference family now exists — element typed as DataPrototypeInPortInterfaceRef (TYPE_CHECKING import, nested-quoted annotations); ELEMENT rw added both directions via the existing DataPrototypeInPortInterfaceRef helpers (the ImplDataTypeElement variant hits notImplemented). Drift: class Note + checklist were glued INSIDE the docstring — split; checklist lacked release column; setElement lacked return annotation.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): ELEMENT coverage added (parser + writer via writeDataPrototypeInPortInterfaceRef); filter/transmissionTrigger rw pre-existed.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): model limitation — only the DATA-PROTOTYPE-IN-PORT-INTERFACE-REF choice of the ELEMENT wrapper is supported; the IMPLEMENTATION-DATA-TYPE-ELEMENT variant hits notImplemented; subject to 9b batch review
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12335 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 - [ ] `DiagnosticServiceClass` — DiagnosticCommonElement — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
   - [ ] Step 1 — Sync members & description from spec

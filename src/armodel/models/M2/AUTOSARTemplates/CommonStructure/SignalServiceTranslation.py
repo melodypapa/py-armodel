@@ -8,7 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
 
 if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.CommonStructure.DataPrototypeReference import DataPrototypeReference
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import DataPrototypeInPortInterfaceRef
 
 __all__ = [
     "SignalServiceTranslationControlEnum",
@@ -50,26 +50,24 @@ class SignalServiceTranslationControlEnum(AREnum):
 class SignalServiceTranslationElementProps(Identifiable):
     """
     Defined translation properties for individual mapped elements.
+    """
 
     # SignalServiceTranslationElementProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.342, p.735
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getElement                  [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer
-    # [x] setElement                  [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer
-    # [x] getFilter                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setFilter                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getTransmissionTrigger      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setTransmissionTrigger      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # element: DataPrototypeReference not yet implemented (Rule 0001.10 placeholder) - reader/writer pending
-    """
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getElement                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setElement                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFilter                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFilter                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransmissionTrigger      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransmissionTrigger      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: Identifiable, short_name: str):
         super().__init__(parent, short_name)
 
-        # Reference to the leaf element the SignalService TranslationElementProps apply to.
-        # (DataPrototypeReference class is not yet implemented - placeholder)
-        self.element: Optional["DataPrototypeReference"] = None
+        # Reference to the leaf element the SignalServiceTranslationElementProps apply to.
+        self.element: Optional["DataPrototypeInPortInterfaceRef"] = None
 
         # Defines an optional filter to be applied during translation.
         self.filter: Optional[DataFilter] = None
@@ -77,13 +75,13 @@ class SignalServiceTranslationElementProps(Identifiable):
         # Defines whether the source element (which is mapped to the referenced element) triggers the sending of the respective payload.
         self.transmissionTrigger: Optional[Boolean] = None
 
-    def getElement(self) -> Optional["DataPrototypeReference"]:
+    def getElement(self) -> Optional["DataPrototypeInPortInterfaceRef"]:
         """
         Reference to the leaf element the SignalService TranslationElementProps apply to.
         """
         return self.element
 
-    def setElement(self, value: Optional["DataPrototypeReference"]):
+    def setElement(self, value: Optional["DataPrototypeInPortInterfaceRef"]) -> SignalServiceTranslationElementProps:
         """
         Reference to the leaf element the SignalService TranslationElementProps apply to.
         A None value is a no-op and does not overwrite an existing element.
