@@ -2,6 +2,7 @@
 
 import os
 import tempfile
+import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
@@ -12,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARNumerical,
     Boolean,
     CseCodeType,
+    DateTime,
     DisplayFormatString,
     Float,
     Identifier,
@@ -19,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     NativeDeclarationString,
     PrimitiveIdentifier,
     RefType,
+    String,
     TRefType,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarVariableRef
@@ -225,6 +228,135 @@ class TestDataPrototypeSwDataDefPropsRoundTrip:
             component_2 = document_2.getARPackages()[0].getAtomicSwComponentTypes()[0]
             parameter_2 = component_2.getInternalBehavior().getSharedParameters()[0]
             assert parameter_2.getSwDataDefProps() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestSwDataDependencyFormulaRoundTrip:
+    def _build(self, document, formula=None):
+        pkg = document.createARPackage("AUTOSAR")
+        data_type = pkg.createApplicationPrimitiveDataType("MyType")
+        props = SwDataDefProps()
+        if formula is not None:
+            dependency = SwDataDependency()
+            dependency.setSwDataDependencyFormula(formula)
+            props.setSwDataDependency(dependency)
+        data_type.setSwDataDefProps(props)
+        return data_type
+
+    def test_formula_level_text_and_attributes_round_trip(self):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        formula = CompuGenericMath()
+        formula.setLevel(PrimitiveIdentifier().setValue("INFORMAL"))
+        formula.setMixedString("X1+X2")
+        formula.setChecksum(String().setValue("deadbeef"))
+        formula.setTimestamp(DateTime().setValue("2024-01-01T00:00:00.000Z"))
+        self._build(document, formula)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            written = ET.parse(file_path).getroot()
+            formula_element = next(el for el in written.iter() if el.tag.endswith("SW-DATA-DEPENDENCY-FORMULA"))
+            assert formula_element.get("LEVEL") == "INFORMAL"
+            assert formula_element.text == "X1+X2"
+            assert formula_element.get("S") == "deadbeef"
+            assert formula_element.get("T") == "2024-01-01T00:00:00.000Z"
+
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            data_type_2 = document_2.getARPackages()[0].getApplicationPrimitiveDataTypes()[0]
+            formula_2 = data_type_2.getSwDataDefProps().getSwDataDependency().getSwDataDependencyFormula()
+            assert isinstance(formula_2, CompuGenericMath)
+            assert isinstance(formula_2.getLevel(), PrimitiveIdentifier)
+            assert formula_2.getLevel().getValue() == "INFORMAL"
+            assert formula_2.getMixedString() == "X1+X2"
+            assert formula_2.getChecksum().getValue() == "deadbeef"
+            assert formula_2.getTimestamp().getValue() == "2024-01-01T00:00:00.000Z"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_formula_without_level_round_trip(self):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        formula = CompuGenericMath()
+        formula.setMixedString("X1+X2")
+        self._build(document, formula)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            written = ET.parse(file_path).getroot()
+            formula_element = next(el for el in written.iter() if el.tag.endswith("SW-DATA-DEPENDENCY-FORMULA"))
+            assert formula_element.get("LEVEL") is None
+
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            data_type_2 = document_2.getARPackages()[0].getApplicationPrimitiveDataTypes()[0]
+            formula_2 = data_type_2.getSwDataDefProps().getSwDataDependency().getSwDataDependencyFormula()
+            assert isinstance(formula_2, CompuGenericMath)
+            assert formula_2.getLevel() is None
+            assert formula_2.getMixedString() == "X1+X2"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_formula_without_text_round_trip(self):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        formula = CompuGenericMath()
+        formula.setLevel(PrimitiveIdentifier().setValue("INFORMAL"))
+        self._build(document, formula)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            written = ET.parse(file_path).getroot()
+            formula_element = next(el for el in written.iter() if el.tag.endswith("SW-DATA-DEPENDENCY-FORMULA"))
+            assert formula_element.text is None or formula_element.text.strip() == ""
+
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            data_type_2 = document_2.getARPackages()[0].getApplicationPrimitiveDataTypes()[0]
+            formula_2 = data_type_2.getSwDataDefProps().getSwDataDependency().getSwDataDependencyFormula()
+            assert formula_2.getMixedString() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_props_without_sw_data_dependency_round_trip(self):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        self._build(document, formula=None)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            data_type_2 = document_2.getARPackages()[0].getApplicationPrimitiveDataTypes()[0]
+            props_2 = data_type_2.getSwDataDefProps()
+            assert props_2 is not None
+            assert props_2.getSwDataDependency() is None
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

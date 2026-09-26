@@ -1,5 +1,5 @@
 import xml.etree.cElementTree as ET
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, FileInfoComment
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment import (
@@ -979,7 +979,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
     CompuScales,
 )
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, InternalConstrs, PhysConstrs, ScaleConstr
-from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg, SdgContents
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, SingleLanguageUnitNames, Unit, UnitGroup
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
@@ -1035,6 +1035,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     SlParagraph,
     MixedContentForUnitNames,
     MixedContentForVerbatim,
+    WhitespaceControlled,
 )
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
@@ -1122,9 +1123,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             gid = sd.getGID()
             if gid is not None:
                 sd_tag.attrib["GID"] = gid.getValue()
-            xml_space = sd.getXmlSpace()
-            if xml_space is not None:
-                sd_tag.attrib["{http://www.w3.org/XML/1998/namespace}space"] = xml_space.getValue()
+            self.writeWhitespaceControlled(sd_tag, sd)
             value = sd.getValue()
             if value is not None:
                 sd_tag.text = value.getValue()
@@ -1334,6 +1333,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element.text = specific.getValue()
         return child_element
 
+    def writeWhitespaceControlled(self, element: ET.Element, specific: Union[Sd, WhitespaceControlled]):
+        xml_space = specific.getXmlSpace()
+        if xml_space is not None:
+            element.attrib["{http://www.w3.org/XML/1998/namespace}space"] = xml_space.getValue()
+
     def setLLongName(self, element: ET.Element, name: LLongName):
         child_element = ET.SubElement(element, "L-4")
         if name.getL() is not None:
@@ -1504,7 +1508,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeSlOverviewParagraphContent(self, element: ET.Element, paragraph: SlOverviewParagraph):
         self.writeARObject(element, paragraph)
         self.writeMixedContentForOverviewParagraph(element, paragraph)
-        element.text = paragraph.getValue()
+        element.text = paragraph.getMixedString()
         if paragraph.getL() is not None:
             element.attrib["L"] = paragraph.getL()
 
@@ -1588,7 +1592,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setMultiLanguageOverviewParagraph(child_element, "DESC", caption.getDesc())
 
     def setLPlainText(self, element: ET.Element, text: LPlainText):
-        self.setLanguageSpecific(element, "L-10", text)
+        child_element = self.setLanguageSpecific(element, "L-10", text)
+        self.writeWhitespaceControlled(child_element, text)
 
     def setMultiLanguagePlainText(self, element: ET.Element, key: str, paragraph: MultiLanguagePlainText):
         if paragraph is not None:
@@ -3050,6 +3055,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setLVerbatim(self, element: ET.Element, text: LVerbatim):
         child_element = self.setLanguageSpecific(element, "L-5", text)
+        self.writeWhitespaceControlled(child_element, text)
         self.writeMixedContentForVerbatim(child_element, text)
 
     def setMsrQueryP2(self, element: ET.Element, msr_query_p2: MsrQueryP2):
@@ -3251,6 +3257,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeARObject(formula_element, formula)
                 if formula.getLevel() is not None:
                     formula_element.set("LEVEL", formula.getLevel().value)
+                self.writeMixedStringText(formula_element, formula)
             args = dependency.getSwDataDependencyArgs()
             if args is not None:
                 args_element = ET.SubElement(dependency_element, "SW-DATA-DEPENDENCY-ARGS")

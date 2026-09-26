@@ -1375,7 +1375,7 @@ class VerbatimString(ARLiteral):
 
     Attributes (per Table 4.67):
     - blueprintValue (String, 0..1, attr): Not implemented (atp.Status=draft)
-    - xmlSpace (XmlSpaceEnum, 0..1, attr): Not implemented (missing enum type)
+    - xmlSpace (XmlSpaceEnum, 0..1, attr): Not implemented (deferred to the VerbatimString sync row — XmlSpaceEnum exists since the 2026-09-24 Sd sync; wiring spans the ad-hoc VT/VALUE writer sites)
     """
 
     # VerbatimString method parity checklist:

@@ -105,7 +105,7 @@ class TestReadSlOverviewParagraph:
         assert l2.getValue() == "overview text"
         footnote = l2.getFt()
         assert isinstance(footnote, SlOverviewParagraph)
-        assert footnote.getValue() == "footnote text"
+        assert footnote.getMixedString() == "footnote text"
         assert footnote.getL() == "DE"
         assert isinstance(footnote.getTt(), Tt)
         assert footnote.getTt().getValue().getValue() == "term in footnote"

@@ -456,7 +456,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import AutoCollectEnum, Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,
     Identifiable,
@@ -1171,6 +1171,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     MixedContentForUnitNames,
     MixedContentForVerbatim,
     SlParagraph,
+    WhitespaceControlled,
 )
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
@@ -1258,6 +1259,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readARObject(child_element, sd)
             if "GID" in child_element.attrib:
                 sd.setGID(NameToken().setValue(child_element.attrib["GID"]))
+            self.readWhitespaceControlled(child_element, sd)
             if child_element.text is not None and child_element.text.strip() != "":
                 sd.setValue(VerbatimStringPlain().setValue(child_element.text))
             contents.addSd(sd)
@@ -1833,7 +1835,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readSlOverviewParagraph(self, element: ET.Element, paragraph: SlOverviewParagraph):
         self.readARObject(element, paragraph)
         self.readMixedContentForOverviewParagraph(element, paragraph)
-        paragraph.setValue(element.text or "")
+        self.readMixedStringText(element, paragraph)
         if "L" in element.attrib:
             paragraph.setL(element.attrib["L"])
 
@@ -5924,6 +5926,11 @@ class ARXMLParser(AbstractARXMLParser):
         if "L" in element.attrib:
             specific.setL(element.attrib["L"])  # noqa E741
 
+    def readWhitespaceControlled(self, element: ET.Element, specific: Union[Sd, WhitespaceControlled]):
+        xml_space = element.attrib.get("{http://www.w3.org/XML/1998/namespace}space")
+        if xml_space is not None:
+            specific.setXmlSpace(XmlSpaceEnum().setValue(xml_space))
+
     def getLParagraphs(self, element: ET.Element, key: str) -> List[LParagraph]:
         results = []
         for child_element in self.findall(element, key):
@@ -5954,6 +5961,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, key):
             l10 = LPlainText()
             self.readLanguageSpecific(child_element, l10)
+            self.readWhitespaceControlled(child_element, l10)
             results.append(l10)
         return results
 
@@ -6478,6 +6486,7 @@ class ARXMLParser(AbstractARXMLParser):
             for l5 in self.findall(child_element, "L-5"):
                 verbatim_l5 = LVerbatim()
                 self.readLanguageSpecific(l5, verbatim_l5)
+                self.readWhitespaceControlled(l5, verbatim_l5)
                 self.readMixedContentForVerbatim(l5, verbatim_l5)
                 verbatim.addL5(verbatim_l5)
         return verbatim
@@ -6738,16 +6747,21 @@ class ARXMLParser(AbstractARXMLParser):
         dependency_element = self.find(element, "SW-DATA-DEPENDENCY")
         if dependency_element is not None:
             dependency = SwDataDependency()
+            self.readARObject(dependency_element, dependency)
             formula_element = self.find(dependency_element, "SW-DATA-DEPENDENCY-FORMULA")
             if formula_element is not None:
                 formula = CompuGenericMath()
+                self.readARObject(formula_element, formula)
+                if formula_element.text is not None and formula_element.text.strip() != "":
+                    self.readMixedStringText(formula_element, formula)
                 level = formula_element.attrib.get("LEVEL")
                 if level is not None:
-                    formula.setLevel(ARLiteral().setValue(level))
+                    formula.setLevel(PrimitiveIdentifier().setValue(level))
                 dependency.setSwDataDependencyFormula(formula)
             args_element = self.find(dependency_element, "SW-DATA-DEPENDENCY-ARGS")
             if args_element is not None:
                 args = SwDataDependencyArgs()
+                self.readARObject(args_element, args)
                 calprm_element = self.find(args_element, "SW-CALPRM-REF-PROXY")
                 if calprm_element is not None:
                     args.setSwCalprmRef(self.readSwCalprmRefProxy(calprm_element))

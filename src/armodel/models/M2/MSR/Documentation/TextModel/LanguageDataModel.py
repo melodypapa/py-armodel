@@ -5,6 +5,9 @@ from typing import TYPE_CHECKING, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import (
+    XmlSpaceEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -213,6 +216,7 @@ class MixedContentForOverviewParagraph(ARObject, AtpMixedString, ABC):
 
     # MixedContentForOverviewParagraph method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.3, p.290
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element; members serialize on the consuming L-2 element via readMixedContentForOverviewParagraph/writeMixedContentForOverviewParagraph)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBr              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -951,19 +955,58 @@ class LLongName(MixedContentForLongName, LanguageSpecific):
         return self
 
 
-class MixedContentForPlainText(ARObject, AtpMixedString, ABC):
+class WhitespaceControlled(ARObject, ABC):
+    """
+    This meta-class represents the ability to control the white-space handling e.g. in xml serialization. This is implemented by adding the attribute "space".
+    """
+
+    # WhitespaceControlled method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.7, p.292
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no own XML element; xml:space serializes on the consuming L-10/L-5 elements via readWhitespaceControlled/writeWhitespaceControlled)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getXmlSpace  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setXmlSpace  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        if type(self) is WhitespaceControlled:
+            raise TypeError("WhitespaceControlled is an abstract class.")
+
+        super().__init__()
+
+        # This attribute is used to signal an intention that in that element, white space should be preserved by applications. It is defined according to xml:space as declared by W3C. Tags: xml.attribute=true xml.attributeRef=true xml.enforceMinMultiplicity=true xml.name=space xml.nsPrefix=xml
+        self.xmlSpace: Optional[XmlSpaceEnum] = None
+
+    def getXmlSpace(self) -> Optional[XmlSpaceEnum]:
+        """
+        This attribute is used to signal an intention that in that element, white space should be preserved by applications. It is defined according to xml:space as declared by W3C.
+        """
+        return self.xmlSpace
+
+    def setXmlSpace(self, value: Optional[XmlSpaceEnum]) -> WhitespaceControlled:
+        """
+        This attribute is used to signal an intention that in that element, white space should be preserved by applications. It is defined according to xml:space as declared by W3C. A None value is a no-op and does not overwrite an existing xmlSpace.
+        """
+        if value is not None:
+            self.xmlSpace = value
+        return self
+
+
+class MixedContentForPlainText(WhitespaceControlled, AtpMixedString, ABC):
     """
     This represents a plain text which conceptually is handled as mixed contents. It is modeled as such for symmetry reasons.
     """
 
     # MixedContentForPlainText method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.94, p.349
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no own attributes — Table 9.94 Attribute rows: none; XSD group MIXED-CONTENT-FOR-PLAIN-TEXT
     #  (AUTOSAR_00052.xsd L81507) is an empty sequence, so the class serializes nothing itself —
     #  concrete subclasses (LPlainText) serialize via their own element helpers;
-    #  getMixedString/setMixedString provided by the AtpMixedString base (mixin) — no spec row (stereotype-inherent))
+    #  getMixedString/setMixedString provided by the AtpMixedString base (mixin) — no spec row (stereotype-inherent);
+    #  getXmlSpace/setXmlSpace inherited from the WhitespaceControlled base (Table 9.7) — tracked on that class's checklist)
 
     def __init__(self):
         if type(self) is MixedContentForPlainText:
@@ -972,7 +1015,7 @@ class MixedContentForPlainText(ARObject, AtpMixedString, ABC):
         super().__init__()
 
 
-class LPlainText(MixedContentForPlainText, LanguageSpecific):
+class LPlainText(MixedContentForPlainText, LanguageSpecific, WhitespaceControlled):
     """
     This represents plain string in one particular language. The language is denoted in the attribute l.
     """
@@ -989,13 +1032,14 @@ class LPlainText(MixedContentForPlainText, LanguageSpecific):
         super().__init__()
 
 
-class MixedContentForVerbatim(ARObject, AtpMixedString, ABC):
+class MixedContentForVerbatim(WhitespaceControlled, AtpMixedString, ABC):
     """
     This is the text model for preformatted (verbatim) text. It mainly consists of attributes which do not change the length on rendering. This class represents multilingual verbatim. Verbatim, sometimes called preformatted text, means that white-space is maintained. When verbatim is rendered in PDF or Online media, it is rendered using a monospaced font while white-space is obeyed. Blanks are rendered as well as newline characters. Even if there are inline elements, the length of the data shall not be influenced by formatting.
     """
 
     # MixedContentForVerbatim method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.6, p.292
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element; members serialize on the consuming L-5 element via readMixedContentForVerbatim/writeMixedContentForVerbatim)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBr     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1006,7 +1050,8 @@ class MixedContentForVerbatim(ARObject, AtpMixedString, ABC):
     # [x] setTt     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getXref   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setXref   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # (getMixedString/setMixedString inherited from the AtpMixedString mixin — stereotype-inherent, no spec rows)
+    # (getMixedString/setMixedString inherited from the AtpMixedString mixin — stereotype-inherent, no spec rows;
+    #  getXmlSpace/setXmlSpace inherited from the WhitespaceControlled base (Table 9.7) — tracked on that class's checklist)
 
     def __init__(self):
         if type(self) is MixedContentForVerbatim:
@@ -1083,7 +1128,7 @@ class MixedContentForVerbatim(ARObject, AtpMixedString, ABC):
         return self
 
 
-class LVerbatim(MixedContentForVerbatim, LanguageSpecific):
+class LVerbatim(MixedContentForVerbatim, LanguageSpecific, WhitespaceControlled):
     """
     MixedContentForVerbatim in one particular language. The language is denoted in the attribute l.
     """

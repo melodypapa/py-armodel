@@ -8,6 +8,7 @@ from typing import Optional, get_type_hints
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Superscript, Tt, Xref, XrefTarget
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
@@ -23,6 +24,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     MixedContentForPlainText,
     MixedContentForVerbatim,
     SlParagraph,
+    WhitespaceControlled,
 )
 
 
@@ -442,6 +444,56 @@ class TestLLongName:
         assert l_long_name.getBlueprintValue() == value
 
 
+class TestWhitespaceControlled:
+    """Spec-contract tests for WhitespaceControlled (Table 9.7)."""
+
+    def test_abstract_guard_and_defaults(self):
+        with pytest.raises(TypeError):
+            WhitespaceControlled()
+
+        class ConcreteWhitespace(WhitespaceControlled):
+            pass
+
+        whitespace = ConcreteWhitespace()
+        assert whitespace.getXmlSpace() is None
+
+    def test_base_anchoring(self):
+        """Most-derived base anchoring per Table 9.7 Base row ARObject (no atpMixedString stereotype — XSD group appinfo is atpObject only)."""
+        assert WhitespaceControlled.__bases__ == (ARObject, ABC)
+
+    def test_docstring_verbatim(self):
+        """Docstring must equal the spec Note from Table 9.7 verbatim."""
+        import inspect
+
+        expected = 'This meta-class represents the ability to control the white-space handling e.g. in xml serialization. This is implemented by adding the attribute "space".'
+        assert inspect.cleandoc(WhitespaceControlled.__doc__) == expected
+
+    def test_typed_getter_and_setter(self):
+        """getXmlSpace/setXmlSpace round-trip the XmlSpaceEnum value (Table 9.7 single attribute row xmlSpace, Mult. 1, kind attr)."""
+
+        class ConcreteWhitespace(WhitespaceControlled):
+            pass
+
+        whitespace = ConcreteWhitespace()
+        value = XmlSpaceEnum().setValue(XmlSpaceEnum.PRESERVE)
+        assert whitespace.setXmlSpace(value) is whitespace
+        assert whitespace.getXmlSpace() is value
+        assert whitespace.getXmlSpace().getValue() == "preserve"
+        whitespace.setXmlSpace(None)
+        assert whitespace.getXmlSpace() is value
+
+    def test_has_exact_own_members(self):
+        """Field-to-spec cross-check: Table 9.7 carries exactly one Attribute row (xmlSpace), so the class adds exactly that field beyond the ARObject anchor."""
+
+        class _BareARObject(ARObject):
+            pass
+
+        class ConcreteWhitespace(WhitespaceControlled):
+            pass
+
+        assert set(vars(ConcreteWhitespace()).keys()) == set(vars(_BareARObject()).keys()) | {"xmlSpace"}
+
+
 class TestMixedContentForPlainText:
     def test_abstract_guard_and_defaults(self):
         with pytest.raises(TypeError):
@@ -454,8 +506,10 @@ class TestMixedContentForPlainText:
         assert content.getMixedString() is None
 
     def test_base_anchoring(self):
-        """Most-derived base anchoring per Table 9.94 Base row ARObject + the <<atpMixedString>> mixin (sibling MCFOP shape; WhitespaceControlled referenced-missing, not yet in src)."""
-        assert MixedContentForPlainText.__bases__ == (ARObject, AtpMixedString, ABC)
+        """Most-derived base anchoring per the Table 9.94 Base row `ARObject , WhitespaceControlled` (WhitespaceControlled already derives ARObject) + the <<atpMixedString>> mixin per Rule 0021."""
+        assert MixedContentForPlainText.__bases__ == (WhitespaceControlled, AtpMixedString, ABC)
+        assert issubclass(MixedContentForPlainText, WhitespaceControlled)
+        assert issubclass(MixedContentForPlainText, ARObject)
 
     def test_docstring_verbatim(self):
         """Docstring must equal the spec Note from Table 9.94 verbatim."""
@@ -476,27 +530,43 @@ class TestMixedContentForPlainText:
         content.setMixedString(None)
         assert content.getMixedString() == "plain text"
 
-    def test_has_no_own_members(self):
-        """Field-to-spec cross-check: Table 9.94 carries no Attribute rows, so MixedContentForPlainText adds no fields beyond the ARObject anchor."""
+    def test_inherits_whitespace_controlled_accessors(self):
+        """Table 9.94 Base row names WhitespaceControlled, so the class inherits getXmlSpace/setXmlSpace (the value serializes on the consuming L-10 element, not on this class)."""
 
-        class _BareARObject(ARObject):
+        class ConcreteMixedContent(MixedContentForPlainText):
+            pass
+
+        content = ConcreteMixedContent()
+        assert content.getXmlSpace() is None
+        value = XmlSpaceEnum().setValue(XmlSpaceEnum.PRESERVE)
+        assert content.setXmlSpace(value) is content
+        assert content.getXmlSpace() is value
+        assert content.getXmlSpace().getValue() == "preserve"
+        content.setXmlSpace(None)
+        assert content.getXmlSpace() is value
+
+    def test_has_no_own_members(self):
+        """Field-to-spec cross-check: Table 9.94 carries no Attribute rows, so MixedContentForPlainText adds no fields beyond its declared bases."""
+
+        class _BareBases(WhitespaceControlled, AtpMixedString, ABC):
             pass
 
         class ConcreteMixedContent(MixedContentForPlainText):
             pass
 
-        assert set(vars(ConcreteMixedContent()).keys()) == set(vars(_BareARObject()).keys())
+        assert set(vars(ConcreteMixedContent()).keys()) == set(vars(_BareBases()).keys())
 
 
 class TestLPlainText:
     """Test class for LPlainText class."""
 
     def test_l_plain_text_base_chain(self):
-        """LPlainText must extend MixedContentForPlainText and LanguageSpecific per Table 9.96."""
+        """LPlainText must extend MixedContentForPlainText, LanguageSpecific and WhitespaceControlled per Table 9.96."""
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
         assert issubclass(LPlainText, MixedContentForPlainText)
         assert issubclass(LPlainText, LanguageSpecific)
+        assert issubclass(LPlainText, WhitespaceControlled)
         assert issubclass(LPlainText, ARObject)
         assert isinstance(LPlainText(), LPlainText)
 
@@ -540,12 +610,12 @@ class TestLPlainText:
         assert l_plain_text.getValue() == "plain text"
 
     def test_l_plain_text_has_no_own_members(self):
-        """Field-to-spec cross-check: Table 9.96 carries no Attribute rows, so LPlainText adds no fields beyond LanguageSpecific."""
+        """Field-to-spec cross-check: Table 9.96 carries no own Attribute rows, so LPlainText adds no fields beyond its bases (LanguageSpecific l/value + the WhitespaceControlled xmlSpace)."""
 
         class _BareLanguageSpecific(LanguageSpecific):
             pass
 
-        assert set(vars(LPlainText()).keys()) == set(vars(_BareLanguageSpecific()).keys())
+        assert set(vars(LPlainText()).keys()) == set(vars(_BareLanguageSpecific()).keys()) | {"xmlSpace"}
 
 
 class TestMixedContentForVerbatim:
@@ -564,8 +634,10 @@ class TestMixedContentForVerbatim:
         assert content.getMixedString() is None
 
     def test_base_anchoring(self):
-        """Most-derived base anchoring per Table 9.6 Base row ARObject + the <<atpMixedString>> mixin (sibling MCFPT shape; WhitespaceControlled referenced-missing, not yet in src)."""
-        assert MixedContentForVerbatim.__bases__ == (ARObject, AtpMixedString, ABC)
+        """Most-derived base anchoring per the Table 9.6 Base row ARObject , WhitespaceControlled (WhitespaceControlled already derives ARObject) + the <<atpMixedString>> mixin per Rule 0021."""
+        assert MixedContentForVerbatim.__bases__ == (WhitespaceControlled, AtpMixedString, ABC)
+        assert issubclass(MixedContentForVerbatim, WhitespaceControlled)
+        assert issubclass(MixedContentForVerbatim, ARObject)
 
     def test_docstring_verbatim(self):
         """Docstring must equal the spec Note from Table 9.6 verbatim."""
@@ -605,6 +677,32 @@ class TestMixedContentForVerbatim:
         content.setMixedString(None)
         assert content.getMixedString() == "verbatim text"
 
+    def test_inherits_whitespace_controlled_accessors(self):
+        """Table 9.6 Base row names WhitespaceControlled, so the class inherits getXmlSpace/setXmlSpace (the value serializes on the consuming L-5 element, not on this class)."""
+
+        class ConcreteMixedContent(MixedContentForVerbatim):
+            pass
+
+        content = ConcreteMixedContent()
+        assert content.getXmlSpace() is None
+        value = XmlSpaceEnum().setValue(XmlSpaceEnum.PRESERVE)
+        assert content.setXmlSpace(value) is content
+        assert content.getXmlSpace() is value
+        assert content.getXmlSpace().getValue() == "preserve"
+        content.setXmlSpace(None)
+        assert content.getXmlSpace() is value
+
+    def test_field_to_spec_cross_check(self):
+        """Field-to-spec cross-check: Table 9.6 Attribute rows br/e/tt/xref are this class's own fields (inherited xmlSpace comes from the WhitespaceControlled base)."""
+
+        class _BareBases(WhitespaceControlled, AtpMixedString, ABC):
+            pass
+
+        class ConcreteMixedContent(MixedContentForVerbatim):
+            pass
+
+        assert set(vars(ConcreteMixedContent()).keys()) == set(vars(_BareBases()).keys()) | {"br", "e", "tt", "xref"}
+
     def test_annotation_hints(self):
         """PDF-typed accessors per Rule 0003 (Table 9.6 rows br/e/tt/xref, all runtime-resolvable types)."""
         expected_hints = {
@@ -629,6 +727,7 @@ class TestLVerbatim:
 
         assert issubclass(LVerbatim, MixedContentForVerbatim)
         assert issubclass(LVerbatim, LanguageSpecific)
+        assert issubclass(LVerbatim, WhitespaceControlled)
         assert issubclass(LVerbatim, ARObject)
         assert isinstance(LVerbatim(), LVerbatim)
 
@@ -673,9 +772,9 @@ class TestLVerbatim:
         assert l_verbatim.getValue() == "verbatim text"
 
     def test_l_verbatim_has_no_own_members(self):
-        """Field-to-spec cross-check: Table 9.89 carries no Attribute rows, so LVerbatim adds no fields beyond its bases (LanguageSpecific l/value + the MixedContentForVerbatim Table 9.6 members)."""
+        """Field-to-spec cross-check: Table 9.89 carries no own Attribute rows, so LVerbatim adds no fields beyond its bases (LanguageSpecific l/value + the MixedContentForVerbatim Table 9.6 members + the WhitespaceControlled xmlSpace)."""
 
-        class _ReferenceBases(MixedContentForVerbatim, LanguageSpecific):
+        class _ReferenceBases(MixedContentForVerbatim, LanguageSpecific, WhitespaceControlled):
             pass
 
         assert set(vars(LVerbatim()).keys()) == set(vars(_ReferenceBases()).keys())

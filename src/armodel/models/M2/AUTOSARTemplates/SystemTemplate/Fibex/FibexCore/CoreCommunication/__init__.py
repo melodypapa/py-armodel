@@ -179,6 +179,7 @@ class ContainedIPduCollectionSemanticsEnum(AREnum):
 
     # ContainedIPduCollectionSemanticsEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.40, p.357 (R23-11)
+    # Spec verified: R23-11 (2026-09-26, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on ContainedIPduProps.collectionSemantics
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
