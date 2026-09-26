@@ -41,7 +41,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `AsynchronousServerCallPoint`                           | [x] Done    | 3223dde4                                 | Group2           |
 | `AsynchronousServerCallResultPoint`                     | [x] Done    | 724f490c                                 | Group2           |
 | `AsynchronousServerCallReturnsEvent`                    | [ ] Pending | N/A                                      | Group12          |
-| `AtpBlueprint`                                          | [x] Done    | fc0ebeff                                 | Group1, Group8   |
+| `AtpBlueprint`                                          | [x] Done    | 043de7436                                | Group1, Group8   |
 | `AtpBlueprintMapping`                                   | [x] Done    | 493e272d                                 | Group1           |
 | `AtpBlueprintable`                                      | [x] Done    | b7cf0309                                 | Group1           |
 | `AtpDefinition`                                         | [x] Done    | 38eb1e81                                 | Group1           |

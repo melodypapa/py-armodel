@@ -475,7 +475,7 @@ Status: **16/42** completed
 | `TimingDescriptionEventChain`            | [ ] Pending | N/A       |
 | `AutosarOperationArgumentInstance`       | [ ] Pending | N/A       |
 | `ConcreteTDEventVfb`                     | [ ] Pending | N/A       |
-| `AtpBlueprint`                           | [ ] Pending | N/A       |
+| `AtpBlueprint`                           | [x] Done    | 043de7436 |
 | `BlueprintGenerator`                     | [ ] Pending | N/A       |
 | `BlueprintMapping`                       | [ ] Pending | N/A       |
 | `LifeCycleInfo`                          | [ ] Pending | N/A       |
