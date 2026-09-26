@@ -2,12 +2,14 @@ from __future__ import annotations
 
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.FormulaLanguage import FormulaExpression
 from abc import ABC
 
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARNumerical,
+    PrimitiveIdentifier,
     CIdentifier,
     DisplayFormatString,
     Identifier,
@@ -597,4 +599,39 @@ class CompuMethod(AtpBlueprintable):
         """This is the physical unit of the Physical values for which the CompuMethod applies. Tags: xml.sequenceOffset=30. None leaves the current value unchanged."""
         if value is not None:
             self.unitRef = value
+        return self
+
+
+class CompuGenericMath(FormulaExpression):
+    """
+    This meta-class represents the ability to specify a generic formula expression.
+    """
+
+    # CompuGenericMath method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.60, p.374
+    # Spec verified: R23-11
+    # 2026-09-25 drift fix (Rule 0012.3): re-parented to FormulaExpression per spec Base row (most-derived) — see docs/plan/atp_mixed_string_hierarchy.md
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getLevel                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setLevel                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Placeholder to describe an indicator of a language level for the mathematics e.g. INFORMAL, ASAMHDO. May be refined by particular use-cases.
+        self.level: Optional[PrimitiveIdentifier] = None
+
+    def getLevel(self) -> Optional[PrimitiveIdentifier]:
+        """
+        Placeholder to describe an indicator of a language level for the mathematics e.g. INFORMAL, ASAMHDO. May be refined by particular use-cases.
+        """
+        return self.level
+
+    def setLevel(self, value: Optional[PrimitiveIdentifier]) -> CompuGenericMath:
+        """
+        Placeholder to describe an indicator of a language level for the mathematics e.g. INFORMAL, ASAMHDO. May be refined by particular use-cases. A None value is a no-op and does not overwrite an existing level.
+        """
+        if value is not None:
+            self.level = value
         return self

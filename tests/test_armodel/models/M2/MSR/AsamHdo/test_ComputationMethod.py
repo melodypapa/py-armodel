@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Limit,
     Numerical,
     PositiveUnlimitedInteger,
+    PrimitiveIdentifier,
     RefType,
     String,
 )
@@ -28,6 +29,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
     CompuConstNumericContent,
     CompuConstTextContent,
     CompuContent,
+    CompuGenericMath,
     CompuMethod,
     CompuNominatorDenominator,
     CompuRationalCoeffs,
@@ -599,3 +601,25 @@ class TestCompuMethod:
         """Test that the TEXTTABLE category constant is available."""
         assert hasattr(CompuMethod, "CATEGORY_TEXTTABLE")
         assert CompuMethod.CATEGORY_TEXTTABLE == "TEXTTABLE"
+
+
+class TestCompuGenericMath:
+    """Test class for CompuGenericMath class."""
+
+    def test_compu_generic_math_initialization(self):
+        compu_generic_math = CompuGenericMath()
+        assert compu_generic_math.getLevel() is None
+
+    def test_compu_generic_math_methods(self):
+        compu_generic_math = CompuGenericMath()
+        level = PrimitiveIdentifier().setValue("INFORMAL")
+
+        assert compu_generic_math.setLevel(level) == compu_generic_math
+        assert compu_generic_math.getLevel() == level
+
+    def test_compu_generic_math_none_noop(self):
+        compu_generic_math = CompuGenericMath()
+        level = PrimitiveIdentifier().setValue("INFORMAL")
+        compu_generic_math.setLevel(level)
+        compu_generic_math.setLevel(None)
+        assert compu_generic_math.getLevel() == level

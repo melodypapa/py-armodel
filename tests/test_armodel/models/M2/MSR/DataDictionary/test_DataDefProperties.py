@@ -17,12 +17,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Integer,
     NativeDeclarationString,
     Numerical,
-    PrimitiveIdentifier,
     RefType,
 )
+from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuGenericMath
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
-    CompuGenericMath,
     DisplayPresentationEnum,
     SwBitRepresentation,
     SwCalibrationAccessEnum,
@@ -186,28 +185,6 @@ class TestSwDataDependencyArgs:
         args.setSwCalprmRef(sw_calprm_ref)
         args.setSwCalprmRef(None)
         assert args.getSwCalprmRef() == sw_calprm_ref
-
-
-class TestCompuGenericMath:
-    """Test class for CompuGenericMath class."""
-
-    def test_compu_generic_math_initialization(self):
-        compu_generic_math = CompuGenericMath()
-        assert compu_generic_math.getLevel() is None
-
-    def test_compu_generic_math_methods(self):
-        compu_generic_math = CompuGenericMath()
-        level = PrimitiveIdentifier().setValue("INFORMAL")
-
-        assert compu_generic_math.setLevel(level) == compu_generic_math
-        assert compu_generic_math.getLevel() == level
-
-    def test_compu_generic_math_none_noop(self):
-        compu_generic_math = CompuGenericMath()
-        level = PrimitiveIdentifier().setValue("INFORMAL")
-        compu_generic_math.setLevel(level)
-        compu_generic_math.setLevel(None)
-        assert compu_generic_math.getLevel() == level
 
 
 class TestSwDataDependency:

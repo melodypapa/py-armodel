@@ -593,3 +593,79 @@ class TestReadSwSystemconstDependentFormula:
         assert reparsed.getSyscRef().getDest() == "SW-SYSTEMCONST"
         assert reparsed.getSyscStringRef().getValue() == "/Demo/SystemConstants/SY_MODE"
         assert reparsed.getSyscStringRef().getDest() == "SW-SYSTEMCONST"
+
+
+class TestReadAbstractEnumerationValueVariationPoint:
+    """Table E.2 (FO GST, p.421) — abstract AbstractEnumerationValueVariationPoint owns the
+    reusable BASE / ENUM-TABLE XML-attribute reader helper (XSD attributeGroup
+    ABSTRACT-ENUMERATION-VALUE-VARIATION-POINT, AUTOSAR_00052.xsd L283; the XSD element
+    group L274 is an empty sequence — the class contributes attributes only)."""
+
+    def test_read_base_and_enum_table(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+            Identifier,
+            RefType,
+        )
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
+            AbstractEnumerationValueVariationPoint,
+        )
+
+        class _Probe(AbstractEnumerationValueVariationPoint):
+            pass
+
+        element = _snip('<ENUM-VALUE-VARIATION-POINT BASE="EnumMappingTables" ENUM-TABLE="ActiveComponent/E"></ENUM-VALUE-VARIATION-POINT>').find("{%s}ENUM-VALUE-VARIATION-POINT" % NS)
+
+        probe = _Probe()
+        parser.readAbstractEnumerationValueVariationPoint(element, probe)
+
+        assert probe.getBase() is not None
+        assert isinstance(probe.getBase(), Identifier)
+        assert probe.getBase().getValue() == "EnumMappingTables"
+        assert probe.getEnumTable() is not None
+        assert isinstance(probe.getEnumTable(), RefType)
+        assert probe.getEnumTable().getValue() == "ActiveComponent/E"
+
+    def test_read_attributes_absent_leaves_fields_none(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
+            AbstractEnumerationValueVariationPoint,
+        )
+
+        class _Probe(AbstractEnumerationValueVariationPoint):
+            pass
+
+        element = _snip("<ENUM-VALUE-VARIATION-POINT></ENUM-VALUE-VARIATION-POINT>").find("{%s}ENUM-VALUE-VARIATION-POINT" % NS)
+
+        probe = _Probe()
+        parser.readAbstractEnumerationValueVariationPoint(element, probe)
+
+        assert probe.getBase() is None
+        assert probe.getEnumTable() is None
+
+    def test_read_write_roundtrip(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+            Identifier,
+            RefType,
+        )
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
+            AbstractEnumerationValueVariationPoint,
+        )
+
+        class _Probe(AbstractEnumerationValueVariationPoint):
+            pass
+
+        probe = _Probe()
+        probe.setBase(Identifier().setValue("EnumMappingTables"))
+        probe.setEnumTable(RefType().setValue("ActiveComponent/E"))
+
+        import xml.etree.ElementTree as ET
+
+        element = ET.Element("PARENT")
+        ARXMLWriter().writeAbstractEnumerationValueVariationPoint(element, probe)
+        namespaced = _snip(ET.tostring(element, encoding="unicode")).find("{%s}PARENT" % NS)
+        reparsed = _Probe()
+        parser.readAbstractEnumerationValueVariationPoint(namespaced, reparsed)
+
+        assert reparsed.getBase() is not None
+        assert reparsed.getBase().getValue() == "EnumMappingTables"
+        assert reparsed.getEnumTable() is not None
+        assert reparsed.getEnumTable().getValue() == "ActiveComponent/E"

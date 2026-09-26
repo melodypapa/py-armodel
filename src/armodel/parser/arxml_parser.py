@@ -241,6 +241,13 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation
     SignalServiceTranslationPropsSet,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint, PortPrototypeBlueprintInitValue
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintFormula import BlueprintFormula
+from armodel.models.M2.AUTOSARTemplates.FeatureModelTemplate import (
+    FMConditionByFeaturesAndAttributes,
+    FMConditionByFeaturesAndSwSystemconsts,
+    FMFormulaByFeaturesAndAttributes,
+    FMFormulaByFeaturesAndSwSystemconsts,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator import BlueprintGenerator
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
@@ -467,6 +474,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     CIdentifier,
     DateTime,
+    Identifier,
     Integer,
     IntervalTypeEnum,
     Ip4AddressString,
@@ -501,6 +509,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
     VariationPoint,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
+    AbstractEnumerationValueVariationPoint,
     AttributeValueVariationPoint,
     BooleanValueVariationPoint,
     FloatValueVariationPoint,
@@ -1073,6 +1082,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
+    CompuGenericMath,
     Compu,
     CompuConst,
     CompuConstContent,
@@ -1095,7 +1105,6 @@ from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import MemoryAllocati
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam, SwGenericAxisParamType
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
-    CompuGenericMath,
     SwBitRepresentation,
     SwCalibrationAccessEnum,
     SwDataDefProps,
@@ -1158,12 +1167,14 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     LPlainText,
     LVerbatim,
     MixedContentForLongName,
+    MixedContentForOverviewParagraph,
     MixedContentForUnitNames,
+    MixedContentForVerbatim,
     SlParagraph,
 )
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
-from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
+from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName, SlOverviewParagraph
 from armodel.parser.abstract_arxml_parser import AbstractARXMLParser
 
 #: Mapping between BindingTimeEnum camelCase values and their XML attribute tokens
@@ -1320,6 +1331,43 @@ class ARXMLParser(AbstractARXMLParser):
     def readSwSystemconstDependentFormula(self, element: ET.Element, formula: SwSystemconstDependentFormula) -> SwSystemconstDependentFormula:
         formula.setSyscRef(self.getChildElementOptionalRefType(element, "SYSC-REF"))
         formula.setSyscStringRef(self.getChildElementOptionalRefType(element, "SYSC-STRING-REF"))
+        return formula
+
+    def readBlueprintFormula(self, element: ET.Element, formula: BlueprintFormula) -> BlueprintFormula:
+        self.readARObject(element, formula)
+        if element.text is not None and element.text.strip() != "":
+            self.readMixedStringText(element, formula)
+        formula.setEcucRef(self.getChildElementOptionalRefType(element, "ECUC-REF"))
+        formula.setVerbatim(self.getMultiLanguageVerbatim(element, "VERBATIM"))
+        if isinstance(formula, SwSystemconstDependentFormula):
+            self.readSwSystemconstDependentFormula(element, formula)
+        return formula
+
+    def readFMFormulaByFeaturesAndAttributes(self, element: ET.Element, formula: FMFormulaByFeaturesAndAttributes) -> FMFormulaByFeaturesAndAttributes:
+        formula.setAttributeRef(self.getChildElementOptionalRefType(element, "ATTRIBUTE-REF"))
+        formula.setFeatureRef(self.getChildElementOptionalRefType(element, "FEATURE-REF"))
+        return formula
+
+    def readFMFormulaByFeaturesAndSwSystemconsts(self, element: ET.Element, formula: FMFormulaByFeaturesAndSwSystemconsts) -> FMFormulaByFeaturesAndSwSystemconsts:
+        formula.setFeatureRef(self.getChildElementOptionalRefType(element, "FEATURE-REF"))
+        return formula
+
+    def readFMConditionByFeaturesAndSwSystemconsts(self, element: ET.Element, formula: FMConditionByFeaturesAndSwSystemconsts) -> FMConditionByFeaturesAndSwSystemconsts:
+        self.readARObject(element, formula)
+        if element.text is not None and element.text.strip() != "":
+            self.readMixedStringText(element, formula)
+        if isinstance(formula, FMFormulaByFeaturesAndSwSystemconsts):
+            self.readFMFormulaByFeaturesAndSwSystemconsts(element, formula)
+        if isinstance(formula, SwSystemconstDependentFormula):
+            self.readSwSystemconstDependentFormula(element, formula)
+        return formula
+
+    def readFMConditionByFeaturesAndAttributes(self, element: ET.Element, formula: FMConditionByFeaturesAndAttributes) -> FMConditionByFeaturesAndAttributes:
+        self.readARObject(element, formula)
+        if element.text is not None and element.text.strip() != "":
+            self.readMixedStringText(element, formula)
+        if isinstance(formula, FMFormulaByFeaturesAndAttributes):
+            self.readFMFormulaByFeaturesAndAttributes(element, formula)
         return formula
 
     def readPostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition) -> PostBuildVariantCondition:
@@ -1752,6 +1800,57 @@ class ARXMLParser(AbstractARXMLParser):
         if "SUB" in element.attrib:
             content.setSub(Superscript().setValue(element.attrib["SUB"]))
 
+    def readMixedContentForOverviewParagraph(self, element: ET.Element, content: MixedContentForOverviewParagraph):
+        br = self.getBr(element, "BR")
+        if br is not None:
+            content.setBr(br)
+        ft_element = self.find(element, "FT")
+        if ft_element is not None:
+            footnote = SlOverviewParagraph()
+            self.readSlOverviewParagraph(ft_element, footnote)
+            content.setFt(footnote)
+        emphasis_element = self.find(element, "E")
+        if emphasis_element is not None:
+            content.setE(self.readEmphasisText(emphasis_element))
+        index_element = self.find(element, "IE")
+        if index_element is not None:
+            content.setIe(self.readIndexEntry(index_element))
+        if "SUB" in element.attrib:
+            content.setSub(Superscript().setValue(element.attrib["SUB"]))
+        if "SUP" in element.attrib:
+            content.setSup(Superscript().setValue(element.attrib["SUP"]))
+        content.setTraceRef(self.getChildElementOptionalRefType(element, "TRACE-REF"))
+        tt_element = self.find(element, "TT")
+        if tt_element is not None:
+            content.setTt(self.readTt(tt_element))
+        xref = self.getXref(element, "XREF")
+        if xref is not None:
+            content.setXref(xref)
+        xref_target = self.getXrefTarget(element, "XREF-TARGET")
+        if xref_target is not None:
+            content.setXrefTarget(xref_target)
+
+    def readSlOverviewParagraph(self, element: ET.Element, paragraph: SlOverviewParagraph):
+        self.readARObject(element, paragraph)
+        self.readMixedContentForOverviewParagraph(element, paragraph)
+        paragraph.setValue(element.text or "")
+        if "L" in element.attrib:
+            paragraph.setL(element.attrib["L"])
+
+    def readMixedContentForVerbatim(self, element: ET.Element, content: MixedContentForVerbatim):
+        br = self.getBr(element, "BR")
+        if br is not None:
+            content.setBr(br)
+        emphasis_element = self.find(element, "E")
+        if emphasis_element is not None:
+            content.setE(self.readEmphasisText(emphasis_element))
+        tt_element = self.find(element, "TT")
+        if tt_element is not None:
+            content.setTt(self.readTt(tt_element))
+        xref = self.getXref(element, "XREF")
+        if xref is not None:
+            content.setXref(xref)
+
     def readLOverviewParagraph(self, element: ET.Element, paragraph: MultiLanguageOverviewParagraph):
         for child_element in self.findall(element, "L-2"):
             l2 = LOverviewParagraph()
@@ -1761,6 +1860,7 @@ class ARXMLParser(AbstractARXMLParser):
                 l2.setL(child_element.attrib["L"])  # noqa: E741
             if "BLUEPRINT-VALUE" in child_element.attrib:
                 l2.setBlueprintValue(child_element.attrib["BLUEPRINT-VALUE"])
+            self.readMixedContentForOverviewParagraph(child_element, l2)
             paragraph.addL2(l2)
 
     def getMultiLanguageOverviewParagraph(self, element: ET.Element, key: str) -> MultiLanguageOverviewParagraph:
@@ -3097,6 +3197,13 @@ class ARXMLParser(AbstractARXMLParser):
         if isinstance(avp, SwSystemconstDependentFormula):
             self.readSwSystemconstDependentFormula(element, avp)
         return avp
+
+    def readAbstractEnumerationValueVariationPoint(self, element: ET.Element, obj: AbstractEnumerationValueVariationPoint) -> AbstractEnumerationValueVariationPoint:
+        if "BASE" in element.attrib:
+            obj.setBase(Identifier().setValue(element.attrib["BASE"]))
+        if "ENUM-TABLE" in element.attrib:
+            obj.setEnumTable(RefType().setValue(element.attrib["ENUM-TABLE"]))
+        return obj
 
     def readTimingDescriptionEventChain(self, element: ET.Element, chain: TimingDescriptionEventChain):
         self.readIdentifiable(element, chain)
@@ -6350,6 +6457,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readLanguageSpecific(child_element, l2)
             if "BLUEPRINT-VALUE" in child_element.attrib:
                 l2.setBlueprintValue(child_element.attrib["BLUEPRINT-VALUE"])
+            self.readMixedContentForOverviewParagraph(child_element, l2)
             results.append(l2)
         return results
 
@@ -6370,6 +6478,7 @@ class ARXMLParser(AbstractARXMLParser):
             for l5 in self.findall(child_element, "L-5"):
                 verbatim_l5 = LVerbatim()
                 self.readLanguageSpecific(l5, verbatim_l5)
+                self.readMixedContentForVerbatim(l5, verbatim_l5)
                 verbatim.addL5(verbatim_l5)
         return verbatim
 
@@ -13808,7 +13917,10 @@ class ARXMLParser(AbstractARXMLParser):
             mapping.addDataMapping(item)
 
     def readClientServerOperationMapping(self, element: ET.Element, mapping: ClientServerOperationMapping):
+        for item in self.getDataPrototypeMappings(element, "ARGUMENT-MAPPINGS"):
+            mapping.addArgumentMapping(item)
         mapping.setFirstOperationRef(self.getChildElementOptionalRefType(element, "FIRST-OPERATION-REF"))
+        mapping.setFirstToSecondDataTransformationRef(self.getChildElementOptionalRefType(element, "FIRST-TO-SECOND-DATA-TRANSFORMATION-REF"))
         mapping.setSecondOperationRef(self.getChildElementOptionalRefType(element, "SECOND-OPERATION-REF"))
 
     def readClientServerApplicationErrorMapping(self, element: ET.Element, mapping: ClientServerApplicationErrorMapping):

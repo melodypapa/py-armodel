@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
     VariationPoint,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
+    AbstractEnumerationValueVariationPoint,
     LimitValueVariationPoint,
     NumericalValueVariationPoint,
 )
@@ -935,3 +936,37 @@ class TestWriteSwSystemconstDependentFormula:
         element = self._write(probe)
 
         assert list(element) == []
+
+
+class _ProbeAbstractEnumerationValueVariationPoint(AbstractEnumerationValueVariationPoint):
+    """Probe subclass — AbstractEnumerationValueVariationPoint itself is abstract."""
+
+
+class TestWriteAbstractEnumerationValueVariationPoint:
+    """Table E.2 (FO GST, p.421) — abstract AbstractEnumerationValueVariationPoint owns the
+    reusable BASE / ENUM-TABLE XML-attribute writer helper (XSD attributeGroup
+    ABSTRACT-ENUMERATION-VALUE-VARIATION-POINT, AUTOSAR_00052.xsd L283; the XSD element
+    group L274 is an empty sequence — the class contributes attributes only)."""
+
+    def _write(self, probe) -> ET.Element:
+        element = ET.Element("PARENT")
+        ARXMLWriter().writeAbstractEnumerationValueVariationPoint(element, probe)
+        return element
+
+    def test_write_base_and_enum_table(self):
+        probe = _ProbeAbstractEnumerationValueVariationPoint()
+        probe.setBase(Identifier().setValue("EnumMappingTables"))
+        probe.setEnumTable(RefType().setValue("ActiveComponent/E"))
+
+        element = self._write(probe)
+
+        assert element.attrib["BASE"] == "EnumMappingTables"
+        assert element.attrib["ENUM-TABLE"] == "ActiveComponent/E"
+
+    def test_write_attributes_absent_emits_nothing(self):
+        probe = _ProbeAbstractEnumerationValueVariationPoint()
+
+        element = self._write(probe)
+
+        assert "BASE" not in element.attrib
+        assert "ENUM-TABLE" not in element.attrib

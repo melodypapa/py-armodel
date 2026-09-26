@@ -6,8 +6,10 @@ from typing import Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import SwSystemconstDependentFormula
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Identifier,
     IntervalTypeEnum,
     PrimitiveIdentifier,
+    RefType,
     String,
 )
 
@@ -104,6 +106,57 @@ class AttributeValueVariationPoint(SwSystemconstDependentFormula, ABC):
         """
         if value is not None:
             self.shortLabel = value
+        return self
+
+
+class AbstractEnumerationValueVariationPoint(AttributeValueVariationPoint):
+    """
+    This is an abstract EnumerationValueVariationPoint. It is introduced to support the case that additional attributes are required for particular purposes.
+    """
+
+    # AbstractEnumerationValueVariationPoint method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.2, p.421
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBase        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setBase        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEnumTable   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnumTable   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # getMixedString / setMixedString provided by the AtpMixedString mixin (via FormulaExpression) — no spec row (stereotype-inherent)
+    # base/enumTable serialize as XML attributes (XSD attributeGroup L283) on AEVP-concrete content only;
+    # readAbstractEnumerationValueVariationPoint / writeAbstractEnumerationValueVariationPoint cover them;
+    # the auto-generated {Type}ValueVariationPoint concrete subclasses are not modeled in src.
+
+    def __init__(self):
+        if type(self) is AbstractEnumerationValueVariationPoint:
+            raise TypeError("AbstractEnumerationValueVariationPoint is an abstract class.")
+
+        super().__init__()
+
+        # This attribute reflects the base to be used in context of EnumerationMappingTable for this reference. Tags: xml.attribute=true
+        self.base: Optional[Identifier] = None
+
+        # This represents the assigned enumeration table. Tags: xml.attribute=true
+        self.enumTable: Optional[RefType] = None
+
+    def getBase(self) -> Optional[Identifier]:
+        """This attribute reflects the base to be used in context of EnumerationMappingTable for this reference."""
+        return self.base
+
+    def setBase(self, value: Optional[Identifier]) -> AbstractEnumerationValueVariationPoint:
+        """This attribute reflects the base to be used in context of EnumerationMappingTable for this reference. A None value is a no-op and does not overwrite an existing base."""
+        if value is not None:
+            self.base = value
+        return self
+
+    def getEnumTable(self) -> Optional[RefType]:
+        """This represents the assigned enumeration table."""
+        return self.enumTable
+
+    def setEnumTable(self, value: Optional[RefType]) -> AbstractEnumerationValueVariationPoint:
+        """This represents the assigned enumeration table. A None value is a no-op and does not overwrite an existing enumTable."""
+        if value is not None:
+            self.enumTable = value
         return self
 
 

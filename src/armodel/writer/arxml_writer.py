@@ -213,6 +213,13 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation
     SignalServiceTranslationPropsSet,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint, PortPrototypeBlueprintInitValue
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintFormula import BlueprintFormula
+from armodel.models.M2.AUTOSARTemplates.FeatureModelTemplate import (
+    FMConditionByFeaturesAndAttributes,
+    FMConditionByFeaturesAndSwSystemconsts,
+    FMFormulaByFeaturesAndAttributes,
+    FMFormulaByFeaturesAndSwSystemconsts,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator import BlueprintGenerator
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
@@ -369,6 +376,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
     VariationPoint,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
+    AbstractEnumerationValueVariationPoint,
     AttributeValueVariationPoint,
     BooleanValueVariationPoint,
     FloatValueVariationPoint,
@@ -1022,13 +1030,15 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     LPlainText,
     LVerbatim,
     MixedContentForLongName,
+    MixedContentForOverviewParagraph,
     MixedContentForParagraph,
     SlParagraph,
     MixedContentForUnitNames,
+    MixedContentForVerbatim,
 )
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
-from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
+from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName, SlOverviewParagraph
 from armodel.writer.abstract_arxml_writer import AbstractARXMLWriter
 
 #: Mapping between BindingTimeEnum camelCase values and their XML attribute tokens
@@ -1192,6 +1202,47 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeSwSystemconstDependentFormula(self, element: ET.Element, formula: SwSystemconstDependentFormula):
         self.setChildElementOptionalRefType(element, "SYSC-REF", formula.getSyscRef())
         self.setChildElementOptionalRefType(element, "SYSC-STRING-REF", formula.getSyscStringRef())
+
+    def writeBlueprintFormula(self, element: ET.Element, formula: BlueprintFormula):
+        if formula is not None:
+            child_element = ET.SubElement(element, "BLUEPRINT-FORMULA")
+            self.writeARObject(child_element, formula)
+            text = formula.getMixedString()
+            if text is not None:
+                child_element.text = text
+            self.setChildElementOptionalRefType(child_element, "ECUC-REF", formula.getEcucRef())
+            self.setMultiLanguageVerbatim(child_element, "VERBATIM", formula.getVerbatim())
+            if isinstance(formula, SwSystemconstDependentFormula):
+                self.writeSwSystemconstDependentFormula(child_element, formula)
+
+    def writeFMFormulaByFeaturesAndAttributes(self, element: ET.Element, formula: FMFormulaByFeaturesAndAttributes):
+        self.setChildElementOptionalRefType(element, "ATTRIBUTE-REF", formula.getAttributeRef())
+        self.setChildElementOptionalRefType(element, "FEATURE-REF", formula.getFeatureRef())
+
+    def writeFMFormulaByFeaturesAndSwSystemconsts(self, element: ET.Element, formula: FMFormulaByFeaturesAndSwSystemconsts):
+        self.setChildElementOptionalRefType(element, "FEATURE-REF", formula.getFeatureRef())
+
+    def writeFMConditionByFeaturesAndSwSystemconsts(self, element: ET.Element, formula: FMConditionByFeaturesAndSwSystemconsts, key: str = "FM-SYSCOND"):
+        if formula is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, formula)
+            text = formula.getMixedString()
+            if text is not None:
+                child_element.text = text
+            if isinstance(formula, FMFormulaByFeaturesAndSwSystemconsts):
+                self.writeFMFormulaByFeaturesAndSwSystemconsts(child_element, formula)
+            if isinstance(formula, SwSystemconstDependentFormula):
+                self.writeSwSystemconstDependentFormula(child_element, formula)
+
+    def writeFMConditionByFeaturesAndAttributes(self, element: ET.Element, formula: FMConditionByFeaturesAndAttributes, key: str = "FM-COND"):
+        if formula is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, formula)
+            text = formula.getMixedString()
+            if text is not None:
+                child_element.text = text
+            if isinstance(formula, FMFormulaByFeaturesAndAttributes):
+                self.writeFMFormulaByFeaturesAndAttributes(child_element, formula)
 
     def writePostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition):
         child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CONDITION")
@@ -1429,6 +1480,43 @@ class ARXMLWriter(AbstractARXMLWriter):
         if content.getSub() is not None:
             element.attrib["SUB"] = content.getSub().getValue()
 
+    def writeMixedContentForOverviewParagraph(self, element: ET.Element, content: MixedContentForOverviewParagraph):
+        self.setBr(element, "BR", content.getBr())
+        if content.getFt() is not None:
+            footnote = ET.SubElement(element, "FT")
+            self.writeSlOverviewParagraphContent(footnote, content.getFt())
+        if content.getE() is not None:
+            self.setEmphasisText(element, "E", content.getE())
+        if content.getIe() is not None:
+            self.setIndexEntry(element, "IE", content.getIe())
+        if content.getSub() is not None:
+            element.attrib["SUB"] = content.getSub().getValue()
+        if content.getSup() is not None:
+            element.attrib["SUP"] = content.getSup().getValue()
+        self.setChildElementOptionalRefType(element, "TRACE-REF", content.getTraceRef())
+        if content.getTt() is not None:
+            self.setTt(element, "TT", content.getTt())
+        if content.getXref() is not None:
+            self.setXref(element, "XREF", content.getXref())
+        if content.getXrefTarget() is not None:
+            self.setXrefTarget(element, "XREF-TARGET", content.getXrefTarget())
+
+    def writeSlOverviewParagraphContent(self, element: ET.Element, paragraph: SlOverviewParagraph):
+        self.writeARObject(element, paragraph)
+        self.writeMixedContentForOverviewParagraph(element, paragraph)
+        element.text = paragraph.getValue()
+        if paragraph.getL() is not None:
+            element.attrib["L"] = paragraph.getL()
+
+    def writeMixedContentForVerbatim(self, element: ET.Element, content: MixedContentForVerbatim):
+        self.setBr(element, "BR", content.getBr())
+        if content.getE() is not None:
+            self.setEmphasisText(element, "E", content.getE())
+        if content.getTt() is not None:
+            self.setTt(element, "TT", content.getTt())
+        if content.getXref() is not None:
+            self.setXref(element, "XREF", content.getXref())
+
     def setSingleLanguageUnitNames(self, element: ET.Element, key: str, name: SingleLanguageUnitNames):
         if name is not None:
             child_element = ET.SubElement(element, key)
@@ -1474,6 +1562,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = self.setLanguageSpecific(element, "L-2", name)
         if name.getBlueprintValue() is not None:
             child_element.attrib["BLUEPRINT-VALUE"] = name.getBlueprintValue()
+        self.writeMixedContentForOverviewParagraph(child_element, name)
 
     def setMultiLanguageOverviewParagraph(self, element: ET.Element, key: str, paragraph: MultiLanguageOverviewParagraph):
         if paragraph is not None:
@@ -2960,7 +3049,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setLVerbatim(child_element, l5)
 
     def setLVerbatim(self, element: ET.Element, text: LVerbatim):
-        self.setLanguageSpecific(element, "L-5", text)
+        child_element = self.setLanguageSpecific(element, "L-5", text)
+        self.writeMixedContentForVerbatim(child_element, text)
 
     def setMsrQueryP2(self, element: ET.Element, msr_query_p2: MsrQueryP2):
         if msr_query_p2 is not None:
@@ -4420,6 +4510,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             element.text = text
         if isinstance(avp, SwSystemconstDependentFormula):
             self.writeSwSystemconstDependentFormula(element, avp)
+
+    def writeAbstractEnumerationValueVariationPoint(self, element: ET.Element, obj: AbstractEnumerationValueVariationPoint):
+        base = obj.getBase()
+        if base is not None:
+            element.attrib["BASE"] = base.getValue()
+        enum_table = obj.getEnumTable()
+        if enum_table is not None:
+            element.attrib["ENUM-TABLE"] = enum_table.getValue()
 
     def writeTimingDescriptionEventChain(self, element: ET.Element, chain: TimingDescriptionEventChain):
         self.writeIdentifiable(element, chain)
@@ -12006,7 +12104,9 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeClientServerOperationMapping(self, element: ET.Element, mapping: ClientServerOperationMapping):
         child_element = ET.SubElement(element, "CLIENT-SERVER-OPERATION-MAPPING")
+        self.setDataPrototypeMappings(child_element, "ARGUMENT-MAPPINGS", mapping.getArgumentMappings())
         self.setChildElementOptionalRefType(child_element, "FIRST-OPERATION-REF", mapping.getFirstOperationRef())
+        self.setChildElementOptionalRefType(child_element, "FIRST-TO-SECOND-DATA-TRANSFORMATION-REF", mapping.getFirstToSecondDataTransformationRef())
         self.setChildElementOptionalRefType(child_element, "SECOND-OPERATION-REF", mapping.getSecondOperationRef())
 
     def writeClientServerApplicationErrorMapping(self, element: ET.Element, mapping: ClientServerApplicationErrorMapping):

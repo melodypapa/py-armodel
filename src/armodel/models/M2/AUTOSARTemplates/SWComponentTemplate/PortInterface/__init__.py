@@ -1005,51 +1005,110 @@ class ClientServerApplicationErrorMapping(ARObject):
 
 
 class ClientServerOperationMapping(ARObject):
+    """
+    Defines the mapping of two particular ClientServerOperations in context of two different ClientServerInterfaces.
+
+    [constr_1237] Scope of mapped ClientServerOperations in the context of a ClientServerOperationMapping: All ClientServerOperations referenced by a ClientServerOperationMapping in the role firstOperation shall belong to exactly one ClientServerInterface. All ClientServerOperations referenced by a ClientServerOperationMapping in the role secondOperation shall belong to exactly one other ClientServerInterface. This rule shall be imposed at the time when the RTE is generated.
+
+    [constr_1240] Consistency of ArgumentDataPrototypes within the context of a ClientServerOperationMapping: Unless a ClientServerOperationMapping.firstToSecondDataTransformation exists, for each argument owned by a ClientServerOperationMapping.firstOperation and a ClientServerOperationMapping.secondOperation, a reference in the role ClientServerOperationMapping.argumentMapping.firstDataPrototype or ClientServerOperationMapping.argumentMapping.secondDataPrototype shall exist at the time when the RTE is generated, originated by one of the ClientServerOperationMapping.argumentMappings owned by the mentioned ClientServerOperationMapping.
+
+    [constr_1268] ArgumentDataPrototype.direction shall be preserved in a ClientServerOperationMapping: Within the context of a ClientServerOperationMapping, the value of the argument ArgumentDataPrototype.direction of two mapped ArgumentDataPrototype shall be identical at the time when the RTE is generated.
+
+    [constr_1269] Number of arguments shall be preserved in a ClientServerOperationMapping: Within the context of a ClientServerOperationMapping, the number of arguments of firstOperation and secondOperation shall be identical at the time when the RTE is generated.
+
+    [constr_1270] ArgumentDataPrototype shall be mapped only once in a ClientServerOperationMapping: Within the context of a ClientServerOperationMapping, each argument shall only be referenced once in the role firstDataPrototype or secondDataPrototype at the time when the RTE is generated.
+
+    [constr_1875] Existence of reference ClientServerOperationMapping.firstOperation: For each ClientServerOperationMapping, the reference in the role firstOperation shall exist at the time when the RTE is generated.
+
+    [constr_1876] Existence of reference ClientServerOperationMapping.secondOperation: For each ClientServerOperationMapping, the reference in the role secondOperation shall exist at the time when the RTE is generated.
+    """
+
     # ClientServerOperationMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getArgumentMappings          [x] impl  [ ] docstring  [ ] test
-    # [ ] addArgumentMapping           [x] impl  [ ] docstring  [ ] test
-    # [ ] getFirstOperationRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] setFirstOperationRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] getFirstToSecondDataTransformationRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setFirstToSecondDataTransformationRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getSecondOperationRef        [x] impl  [ ] docstring  [ ] test
-    # [ ] setSecondOperationRef        [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.24, p.129
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addArgumentMapping                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getArgumentMappings                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getFirstOperationRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFirstOperationRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFirstToSecondDataTransformationRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFirstToSecondDataTransformationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondOperationRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecondOperationRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
+        # Defines the mapping of two particular ArgumentDataPrototypes with unequal names or unequal semantic (resolution or range) in context of Operations.
         self.argumentMappings: List["DataPrototypeMapping"] = []
-        self.firstOperationRef: RefType = None
-        self.firstToSecondDataTransformationRef: RefType = None
-        self.secondOperationRef: RefType = None
 
-    def getArgumentMappings(self):
+        # First to-be-mapped ClientServerOperation of a ClientServerInterface.
+        self.firstOperationRef: Optional[RefType] = None
+
+        # This reference indicates that a DataTransformation is intended in the context of the ClientServerOperationMapping.
+        self.firstToSecondDataTransformationRef: Optional[RefType] = None
+
+        # Second to-be-mapped ClientServerOperation of a ClientServerInterface.
+        self.secondOperationRef: Optional[RefType] = None
+
+    def addArgumentMapping(self, value: Optional["DataPrototypeMapping"]) -> "ClientServerOperationMapping":
+        """
+        Defines the mapping of two particular ArgumentDataPrototypes with unequal names or unequal semantic (resolution or range) in context of Operations.
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.argumentMappings.append(value)
+        return self
+
+    def getArgumentMappings(self) -> List["DataPrototypeMapping"]:
+        """
+        Defines the mapping of two particular ArgumentDataPrototypes with unequal names or unequal semantic (resolution or range) in context of Operations.
+        """
         return self.argumentMappings
 
-    def addArgumentMapping(self, value):
-        self.argumentMappings.append(value)
-        return self
-
-    def getFirstOperationRef(self):
+    def getFirstOperationRef(self) -> Optional[RefType]:
+        """
+        First to-be-mapped ClientServerOperation of a ClientServerInterface.
+        """
         return self.firstOperationRef
 
-    def setFirstOperationRef(self, value):
-        self.firstOperationRef = value
+    def setFirstOperationRef(self, value: Optional[RefType]) -> "ClientServerOperationMapping":
+        """
+        First to-be-mapped ClientServerOperation of a ClientServerInterface.
+        A None value is a no-op and does not overwrite an existing firstOperationRef.
+        """
+        if value is not None:
+            self.firstOperationRef = value
         return self
 
-    def getFirstToSecondDataTransformationRef(self):
+    def getFirstToSecondDataTransformationRef(self) -> Optional[RefType]:
+        """
+        This reference indicates that a DataTransformation is intended in the context of the ClientServerOperationMapping.
+        """
         return self.firstToSecondDataTransformationRef
 
-    def setFirstToSecondDataTransformationRef(self, value):
-        self.firstToSecondDataTransformationRef = value
+    def setFirstToSecondDataTransformationRef(self, value: Optional[RefType]) -> "ClientServerOperationMapping":
+        """
+        This reference indicates that a DataTransformation is intended in the context of the ClientServerOperationMapping.
+        A None value is a no-op and does not overwrite an existing firstToSecondDataTransformationRef.
+        """
+        if value is not None:
+            self.firstToSecondDataTransformationRef = value
         return self
 
-    def getSecondOperationRef(self):
+    def getSecondOperationRef(self) -> Optional[RefType]:
+        """
+        Second to-be-mapped ClientServerOperation of a ClientServerInterface.
+        """
         return self.secondOperationRef
 
-    def setSecondOperationRef(self, value):
-        self.secondOperationRef = value
+    def setSecondOperationRef(self, value: Optional[RefType]) -> "ClientServerOperationMapping":
+        """
+        Second to-be-mapped ClientServerOperation of a ClientServerInterface.
+        A None value is a no-op and does not overwrite an existing secondOperationRef.
+        """
+        if value is not None:
+            self.secondOperationRef = value
         return self
 
 
@@ -1512,31 +1571,62 @@ class DataPrototypeMapping(ARObject):
 
 
 class ClientServerInterfaceMapping(PortInterfaceMapping):
+    """
+    Defines the mapping of ClientServerOperations in context of two different ClientServerInterfaces.
+    """
+
     # ClientServerInterfaceMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getErrorMappings             [x] impl  [ ] docstring  [ ] test
-    # [ ] addErrorMapping              [x] impl  [ ] docstring  [ ] test
-    # [ ] getOperationMappings         [x] impl  [ ] docstring  [ ] test
-    # [ ] addOperationMapping          [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.23, p.128 (R23-11)
+    # (R4.3.1 reproduction Table 4.27 p.130 has the same rows. Base row ARObject,
+    # AtpBlueprint, AtpBlueprintable, Identifiable, MultilanguageReferrable,
+    # PortInterfaceMapping, Referrable -> most-derived provided base
+    # PortInterfaceMapping (Table 4.20, stamped; the remaining Base row entries are
+    # its ancestors). XSD 00052 complexType CLIENT-SERVER-INTERFACE-MAPPING
+    # composes AR-OBJECT + REFERRABLE + MULTILANGUAGE-REFERRABLE + IDENTIFIABLE +
+    # ATP-BLUEPRINT + ATP-BLUEPRINTABLE + PORT-INTERFACE-MAPPING + the own group
+    # (line 17251: ERROR-MAPPINGS wrapper before OPERATION-MAPPINGS - matches the
+    # table displayed row order). Aggregated by
+    # PortInterfaceMappingSet.portInterfaceMapping.)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getErrorMappings       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addErrorMapping        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOperationMappings   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addOperationMapping    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # Map two different ApplicationErrors defined in the context of two different ClientServerInterfaces.
         self.errorMappings: List[ClientServerApplicationErrorMapping] = []
+
+        # Mapping of two ClientServerOperations in two different ClientServerInterfaces Stereotypes: atpSplitable Tags: atp.Splitkey=operationMapping
         self.operationMappings: List[ClientServerOperationMapping] = []
 
-    def getErrorMappings(self):
+    def getErrorMappings(self) -> List[ClientServerApplicationErrorMapping]:
+        """
+        Map two different ApplicationErrors defined in the context of two different ClientServerInterfaces.
+        """
         return self.errorMappings
 
-    def addErrorMapping(self, value):
+    def addErrorMapping(self, value: Optional[ClientServerApplicationErrorMapping]) -> "ClientServerInterfaceMapping":
+        """
+        Map two different ApplicationErrors defined in the context of two different ClientServerInterfaces. A None value is a no-op and does not append anything.
+        """
         if value is not None:
             self.errorMappings.append(value)
         return self
 
-    def getOperationMappings(self):
+    def getOperationMappings(self) -> List[ClientServerOperationMapping]:
+        """
+        Mapping of two ClientServerOperations in two different ClientServerInterfaces Stereotypes: atpSplitable Tags: atp.Splitkey=operationMapping
+        """
         return self.operationMappings
 
-    def addOperationMapping(self, value):
+    def addOperationMapping(self, value: Optional[ClientServerOperationMapping]) -> "ClientServerInterfaceMapping":
+        """
+        Mapping of two ClientServerOperations in two different ClientServerInterfaces Stereotypes: atpSplitable Tags: atp.Splitkey=operationMapping. A None value is a no-op and does not append anything.
+        """
         if value is not None:
             self.operationMappings.append(value)
         return self

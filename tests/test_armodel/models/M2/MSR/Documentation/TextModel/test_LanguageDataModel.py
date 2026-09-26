@@ -2,11 +2,14 @@
 This module contains tests for the LanguageDataModel module in MSR.Documentation.TextModel.
 """
 
+from abc import ABC
 from typing import Optional, get_type_hints
 
 import pytest
 
-from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Superscript, Tt
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Superscript, Tt, Xref, XrefTarget
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     LanguageSpecific,
     LEnum,
@@ -15,7 +18,10 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     LParagraph,
     LPlainText,
     LVerbatim,
+    MixedContentForOverviewParagraph,
     MixedContentForParagraph,
+    MixedContentForPlainText,
+    MixedContentForVerbatim,
     SlParagraph,
 )
 
@@ -103,12 +109,20 @@ class TestLOverviewParagraph:
     """Test class for LOverviewParagraph class."""
 
     def test_l_overview_paragraph_base_chain(self):
-        """LOverviewParagraph must extend LanguageSpecific per Table 9.91."""
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-
+        """LOverviewParagraph must extend MixedContentForOverviewParagraph and LanguageSpecific per Table 9.91."""
+        assert issubclass(LOverviewParagraph, MixedContentForOverviewParagraph)
         assert issubclass(LOverviewParagraph, LanguageSpecific)
         assert issubclass(LOverviewParagraph, ARObject)
         assert isinstance(LOverviewParagraph(), LOverviewParagraph)
+
+    def test_l_overview_paragraph_inherits_mixed_content_accessors(self):
+        """LOverviewParagraph inherits the mixed-content accessors from MixedContentForOverviewParagraph (Table 9.91 Base row)."""
+        l_overview_paragraph = LOverviewParagraph()
+        tt = Tt()
+        assert l_overview_paragraph.setTt(tt) is l_overview_paragraph
+        assert l_overview_paragraph.getTt() is tt
+        assert l_overview_paragraph.setTt(None) is l_overview_paragraph
+        assert l_overview_paragraph.getTt() is tt
 
     def test_l_overview_paragraph_initialization(self):
         """Test that an LOverviewParagraph object can be initialized."""
@@ -195,6 +209,97 @@ class TestSlParagraph:
         assert paragraph.getL() == "en"
         assert paragraph.setL(None) is paragraph
         assert paragraph.getL() == "en"
+
+
+class TestMixedContentForOverviewParagraph:
+    def test_abstract_guard_and_defaults(self):
+        with pytest.raises(TypeError):
+            MixedContentForOverviewParagraph()
+
+        class ConcreteMixedContent(MixedContentForOverviewParagraph):
+            pass
+
+        content = ConcreteMixedContent()
+        assert content.br is None
+        assert content.e is None
+        assert content.ft is None
+        assert content.ie is None
+        assert content.sub is None
+        assert content.sup is None
+        assert content.traceRef is None
+        assert content.tt is None
+        assert content.xref is None
+        assert content.xrefTarget is None
+        assert content.getMixedString() is None
+
+    def test_base_anchoring(self):
+        """Most-derived base anchoring per Table 9.3 Base row ARObject + the <<atpMixedString>> mixin (hierarchy doc target shape)."""
+        assert MixedContentForOverviewParagraph.__bases__ == (ARObject, AtpMixedString, ABC)
+
+    def test_docstring_verbatim(self):
+        """Docstring must equal the spec Note from Table 9.3 verbatim."""
+        import inspect
+
+        expected = "This is the text model of a restricted paragraph item within a documentation. " "Such restricted paragraphs are used mainly for overview items, e.g. desc."
+        assert inspect.cleandoc(MixedContentForOverviewParagraph.__doc__) == expected
+
+    def test_typed_getters_and_setters(self):
+        class ConcreteMixedContent(MixedContentForOverviewParagraph):
+            pass
+
+        content = ConcreteMixedContent()
+        values = {
+            "Br": Br(),
+            "E": EmphasisText(),
+            "Ft": object(),
+            "Ie": IndexEntry(),
+            "Sub": Superscript(),
+            "Sup": Superscript(),
+            "TraceRef": object(),
+            "Tt": Tt(),
+            "Xref": Xref(),
+            "XrefTarget": object(),
+        }
+        for name, value in values.items():
+            setter = getattr(content, "set" + name)
+            getter = getattr(content, "get" + name)
+            assert setter(value) is content
+            assert getter() is value
+            assert setter(None) is content
+            assert getter() is value
+
+    def test_mixin_accessors(self):
+        """getMixedString/setMixedString are stereotype-inherent (no spec rows) via the AtpMixedString mixin."""
+
+        class ConcreteMixedContent(MixedContentForOverviewParagraph):
+            pass
+
+        content = ConcreteMixedContent()
+        assert content.setMixedString("overview text") is content
+        assert content.getMixedString() == "overview text"
+        content.setMixedString(None)
+        assert content.getMixedString() == "overview text"
+
+    def test_annotation_hints(self):
+        """PDF-typed accessors per Rule 0003; ft/traceRef carry forward references (SlOverviewParagraph queued, Traceable TYPE_CHECKING-only)."""
+        expected_hints = {
+            "Br": Optional[Br],
+            "E": Optional[EmphasisText],
+            "Ie": Optional[IndexEntry],
+            "Sub": Optional[Superscript],
+            "Sup": Optional[Superscript],
+            "Tt": Optional[Tt],
+            "Xref": Optional[Xref],
+            "XrefTarget": Optional[XrefTarget],
+        }
+        for name, expected in expected_hints.items():
+            getter_hints = get_type_hints(getattr(MixedContentForOverviewParagraph, "get" + name))
+            setter_hints = get_type_hints(getattr(MixedContentForOverviewParagraph, "set" + name))
+            assert getter_hints["return"] == expected, name
+            assert setter_hints["value"] == expected, name
+
+        assert MixedContentForOverviewParagraph.setFt.__annotations__["value"] == "Optional['SlOverviewParagraph']"
+        assert MixedContentForOverviewParagraph.setTraceRef.__annotations__["value"] == "Optional[Traceable]"
 
 
 class TestMixedContentForParagraph:
@@ -337,16 +442,71 @@ class TestLLongName:
         assert l_long_name.getBlueprintValue() == value
 
 
+class TestMixedContentForPlainText:
+    def test_abstract_guard_and_defaults(self):
+        with pytest.raises(TypeError):
+            MixedContentForPlainText()
+
+        class ConcreteMixedContent(MixedContentForPlainText):
+            pass
+
+        content = ConcreteMixedContent()
+        assert content.getMixedString() is None
+
+    def test_base_anchoring(self):
+        """Most-derived base anchoring per Table 9.94 Base row ARObject + the <<atpMixedString>> mixin (sibling MCFOP shape; WhitespaceControlled referenced-missing, not yet in src)."""
+        assert MixedContentForPlainText.__bases__ == (ARObject, AtpMixedString, ABC)
+
+    def test_docstring_verbatim(self):
+        """Docstring must equal the spec Note from Table 9.94 verbatim."""
+        import inspect
+
+        expected = "This represents a plain text which conceptually is handled as mixed contents. " "It is modeled as such for symmetry reasons."
+        assert inspect.cleandoc(MixedContentForPlainText.__doc__) == expected
+
+    def test_mixin_accessors(self):
+        """getMixedString/setMixedString are stereotype-inherent (no spec rows) via the AtpMixedString mixin."""
+
+        class ConcreteMixedContent(MixedContentForPlainText):
+            pass
+
+        content = ConcreteMixedContent()
+        assert content.setMixedString("plain text") is content
+        assert content.getMixedString() == "plain text"
+        content.setMixedString(None)
+        assert content.getMixedString() == "plain text"
+
+    def test_has_no_own_members(self):
+        """Field-to-spec cross-check: Table 9.94 carries no Attribute rows, so MixedContentForPlainText adds no fields beyond the ARObject anchor."""
+
+        class _BareARObject(ARObject):
+            pass
+
+        class ConcreteMixedContent(MixedContentForPlainText):
+            pass
+
+        assert set(vars(ConcreteMixedContent()).keys()) == set(vars(_BareARObject()).keys())
+
+
 class TestLPlainText:
     """Test class for LPlainText class."""
 
     def test_l_plain_text_base_chain(self):
-        """LPlainText must extend LanguageSpecific per Table 9.96."""
+        """LPlainText must extend MixedContentForPlainText and LanguageSpecific per Table 9.96."""
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
+        assert issubclass(LPlainText, MixedContentForPlainText)
         assert issubclass(LPlainText, LanguageSpecific)
         assert issubclass(LPlainText, ARObject)
         assert isinstance(LPlainText(), LPlainText)
+
+    def test_l_plain_text_inherits_mixed_content_accessors(self):
+        """LPlainText inherits the mixed-content accessors from MixedContentForPlainText (Table 9.96 Base row)."""
+        l_plain_text = LPlainText()
+        assert l_plain_text.setMixedString("plain text") is l_plain_text
+        assert l_plain_text.getMixedString() == "plain text"
+        assert l_plain_text.setMixedString(None) is l_plain_text
+        assert l_plain_text.getMixedString() == "plain text"
 
     def test_l_plain_text_initialization(self):
         """Test that an LPlainText object can be initialized."""
@@ -388,16 +548,98 @@ class TestLPlainText:
         assert set(vars(LPlainText()).keys()) == set(vars(_BareLanguageSpecific()).keys())
 
 
+class TestMixedContentForVerbatim:
+    def test_abstract_guard_and_defaults(self):
+        with pytest.raises(TypeError):
+            MixedContentForVerbatim()
+
+        class ConcreteMixedContent(MixedContentForVerbatim):
+            pass
+
+        content = ConcreteMixedContent()
+        assert content.br is None
+        assert content.e is None
+        assert content.tt is None
+        assert content.xref is None
+        assert content.getMixedString() is None
+
+    def test_base_anchoring(self):
+        """Most-derived base anchoring per Table 9.6 Base row ARObject + the <<atpMixedString>> mixin (sibling MCFPT shape; WhitespaceControlled referenced-missing, not yet in src)."""
+        assert MixedContentForVerbatim.__bases__ == (ARObject, AtpMixedString, ABC)
+
+    def test_docstring_verbatim(self):
+        """Docstring must equal the spec Note from Table 9.6 verbatim."""
+        import inspect
+
+        expected = "This is the text model for preformatted (verbatim) text. It mainly consists of attributes which do not change the length on rendering. This class represents multilingual verbatim. Verbatim, sometimes called preformatted text, means that white-space is maintained. When verbatim is rendered in PDF or Online media, it is rendered using a monospaced font while white-space is obeyed. Blanks are rendered as well as newline characters. Even if there are inline elements, the length of the data shall not be influenced by formatting."
+        assert inspect.cleandoc(MixedContentForVerbatim.__doc__) == expected
+
+    def test_typed_getters_and_setters(self):
+        class ConcreteMixedContent(MixedContentForVerbatim):
+            pass
+
+        content = ConcreteMixedContent()
+        values = {
+            "Br": Br(),
+            "E": EmphasisText(),
+            "Tt": Tt(),
+            "Xref": Xref(),
+        }
+        for name, value in values.items():
+            setter = getattr(content, "set" + name)
+            getter = getattr(content, "get" + name)
+            assert setter(value) is content
+            assert getter() is value
+            assert setter(None) is content
+            assert getter() is value
+
+    def test_mixin_accessors(self):
+        """getMixedString/setMixedString are stereotype-inherent (no spec rows) via the AtpMixedString mixin."""
+
+        class ConcreteMixedContent(MixedContentForVerbatim):
+            pass
+
+        content = ConcreteMixedContent()
+        assert content.setMixedString("verbatim text") is content
+        assert content.getMixedString() == "verbatim text"
+        content.setMixedString(None)
+        assert content.getMixedString() == "verbatim text"
+
+    def test_annotation_hints(self):
+        """PDF-typed accessors per Rule 0003 (Table 9.6 rows br/e/tt/xref, all runtime-resolvable types)."""
+        expected_hints = {
+            "Br": Optional[Br],
+            "E": Optional[EmphasisText],
+            "Tt": Optional[Tt],
+            "Xref": Optional[Xref],
+        }
+        for name, expected in expected_hints.items():
+            getter_hints = get_type_hints(getattr(MixedContentForVerbatim, "get" + name))
+            setter_hints = get_type_hints(getattr(MixedContentForVerbatim, "set" + name))
+            assert getter_hints["return"] == expected, name
+            assert setter_hints["value"] == expected, name
+
+
 class TestLVerbatim:
     """Test class for LVerbatim class."""
 
     def test_l_verbatim_base_chain(self):
-        """LVerbatim must extend LanguageSpecific per Table 9.89."""
+        """LVerbatim must extend MixedContentForVerbatim and LanguageSpecific per the Table 9.89 Base row (ARObject , LanguageSpecific , MixedContentForVerbatim , WhitespaceControlled)."""
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
+        assert issubclass(LVerbatim, MixedContentForVerbatim)
         assert issubclass(LVerbatim, LanguageSpecific)
         assert issubclass(LVerbatim, ARObject)
         assert isinstance(LVerbatim(), LVerbatim)
+
+    def test_l_verbatim_inherits_mixed_content_accessors(self):
+        """LVerbatim inherits the Table 9.6 mixed-content accessors from MixedContentForVerbatim (Table 9.89 Base row)."""
+        l_verbatim = LVerbatim()
+        tt = Tt()
+        assert l_verbatim.setTt(tt) is l_verbatim
+        assert l_verbatim.getTt() is tt
+        assert l_verbatim.setTt(None) is l_verbatim
+        assert l_verbatim.getTt() is tt
 
     def test_l_verbatim_initialization(self):
         """Test that an LVerbatim object can be initialized."""
@@ -431,9 +673,9 @@ class TestLVerbatim:
         assert l_verbatim.getValue() == "verbatim text"
 
     def test_l_verbatim_has_no_own_members(self):
-        """Field-to-spec cross-check: Table 9.89 carries no Attribute rows, so LVerbatim adds no fields beyond LanguageSpecific."""
+        """Field-to-spec cross-check: Table 9.89 carries no Attribute rows, so LVerbatim adds no fields beyond its bases (LanguageSpecific l/value + the MixedContentForVerbatim Table 9.6 members)."""
 
-        class _BareLanguageSpecific(LanguageSpecific):
+        class _ReferenceBases(MixedContentForVerbatim, LanguageSpecific):
             pass
 
-        assert set(vars(LVerbatim()).keys()) == set(vars(_BareLanguageSpecific()).keys())
+        assert set(vars(LVerbatim()).keys()) == set(vars(_ReferenceBases()).keys())

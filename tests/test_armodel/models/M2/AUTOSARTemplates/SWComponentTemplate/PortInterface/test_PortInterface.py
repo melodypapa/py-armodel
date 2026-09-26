@@ -1,5 +1,5 @@
 import inspect
-from typing import Optional, get_type_hints
+from typing import List, Optional, get_type_hints
 
 import pytest
 
@@ -27,7 +27,9 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     ClientServerInterface,
     ClientServerInterfaceMapping,
     ClientServerOperation,
+    ClientServerOperationMapping,
     DataInterface,
+    DataPrototypeMapping,
     MetaDataItem,
     MetaDataItemSet,
     ModeInterfaceMapping,
@@ -639,3 +641,196 @@ class TestClientServerApplicationErrorMapping:
             if method.startswith("set"):
                 attr = method[3].lower() + method[4:]
                 assert "A None value is a no-op and does not overwrite an existing %s." % attr in doc
+
+
+class TestClientServerOperationMapping:
+    CLASS_NOTE = "Defines the mapping of two particular ClientServerOperations in context of two different ClientServerInterfaces."
+    ARGUMENT_NOTE = "Defines the mapping of two particular ArgumentDataPrototypes with unequal names or unequal semantic (resolution or range) in context of Operations."
+    FIRST_OP_NOTE = "First to-be-mapped ClientServerOperation of a ClientServerInterface."
+    TRANSFORMATION_NOTE = "This reference indicates that a DataTransformation is intended in the context of the ClientServerOperationMapping."
+    SECOND_OP_NOTE = "Second to-be-mapped ClientServerOperation of a ClientServerInterface."
+    CONSTR_ROWS = (
+        "[constr_1237] Scope of mapped ClientServerOperations in the context of a ClientServerOperationMapping:",
+        "[constr_1240] Consistency of ArgumentDataPrototypes within the context of a ClientServerOperationMapping:",
+        "[constr_1268] ArgumentDataPrototype.direction shall be preserved in a ClientServerOperationMapping:",
+        "[constr_1269] Number of arguments shall be preserved in a ClientServerOperationMapping:",
+        "[constr_1270] ArgumentDataPrototype shall be mapped only once in a ClientServerOperationMapping:",
+        "[constr_1875] Existence of reference ClientServerOperationMapping.firstOperation:",
+        "[constr_1876] Existence of reference ClientServerOperationMapping.secondOperation:",
+    )
+
+    def test_initialization(self):
+        """Test ClientServerOperationMapping initialization defaults (Table 4.24, argumentMapping `*` + 3 refs 0..1)"""
+        mapping = ClientServerOperationMapping()
+        assert mapping is not None
+        assert mapping.argumentMappings == []
+        assert mapping.firstOperationRef is None
+        assert mapping.firstToSecondDataTransformationRef is None
+        assert mapping.secondOperationRef is None
+
+    def test_base_shape(self):
+        """ClientServerOperationMapping shall derive from ARObject (Table 4.24 Base row)"""
+        mapping = ClientServerOperationMapping()
+        assert isinstance(mapping, ARObject)
+
+    def test_add_get_argument_mappings(self):
+        """Test argumentMappings list round-trip, chaining and None no-op (Table 4.24 argumentMapping, `*` aggr)"""
+        mapping = ClientServerOperationMapping()
+        assert mapping.getArgumentMappings() == []
+        item = DataPrototypeMapping()
+        assert mapping.addArgumentMapping(item) is mapping
+        assert mapping.getArgumentMappings() == [item]
+        mapping.addArgumentMapping(None)
+        assert mapping.getArgumentMappings() == [item]
+
+    def test_get_set_first_operation_ref(self):
+        """Test firstOperationRef round-trip, chaining and None no-op (Table 4.24 firstOperation)"""
+        mapping = ClientServerOperationMapping()
+        assert mapping.getFirstOperationRef() is None
+        test_value = RefType().setValue("/PortInterfaces/ClientServerInterface1/Operation1")
+        assert mapping.setFirstOperationRef(test_value) is mapping
+        assert mapping.getFirstOperationRef() is test_value
+        mapping.setFirstOperationRef(None)
+        assert mapping.getFirstOperationRef() is test_value
+
+    def test_get_set_first_to_second_data_transformation_ref(self):
+        """Test firstToSecondDataTransformationRef round-trip, chaining and None no-op (Table 4.24 firstToSecondDataTransformation)"""
+        mapping = ClientServerOperationMapping()
+        assert mapping.getFirstToSecondDataTransformationRef() is None
+        test_value = RefType().setValue("/Transformations/DataTransformation1")
+        assert mapping.setFirstToSecondDataTransformationRef(test_value) is mapping
+        assert mapping.getFirstToSecondDataTransformationRef() is test_value
+        mapping.setFirstToSecondDataTransformationRef(None)
+        assert mapping.getFirstToSecondDataTransformationRef() is test_value
+
+    def test_get_set_second_operation_ref(self):
+        """Test secondOperationRef round-trip, chaining and None no-op (Table 4.24 secondOperation)"""
+        mapping = ClientServerOperationMapping()
+        assert mapping.getSecondOperationRef() is None
+        test_value = RefType().setValue("/PortInterfaces/ClientServerInterface2/Operation2")
+        assert mapping.setSecondOperationRef(test_value) is mapping
+        assert mapping.getSecondOperationRef() is test_value
+        mapping.setSecondOperationRef(None)
+        assert mapping.getSecondOperationRef() is test_value
+
+    def test_accessor_annotations(self):
+        """Accessors shall carry Optional[RefType]/List[DataPrototypeMapping] hints; setters shall chain ClientServerOperationMapping (Table 4.24 mults)"""
+        for suffix in ("FirstOperationRef", "FirstToSecondDataTransformationRef", "SecondOperationRef"):
+            getter_hints = get_type_hints(getattr(ClientServerOperationMapping, "get%s" % suffix))
+            assert getter_hints["return"] == Optional[RefType]
+            setter_hints = get_type_hints(getattr(ClientServerOperationMapping, "set%s" % suffix))
+            assert setter_hints["value"] == Optional[RefType]
+            assert setter_hints["return"] == ClientServerOperationMapping
+        add_hints = get_type_hints(ClientServerOperationMapping.addArgumentMapping)
+        assert add_hints["value"] == Optional[DataPrototypeMapping]
+        assert add_hints["return"] == ClientServerOperationMapping
+        get_hints = get_type_hints(ClientServerOperationMapping.getArgumentMappings)
+        assert get_hints["return"] == List[DataPrototypeMapping]
+
+    def test_spec_note(self):
+        """Test the Table 4.24 class note, constr rows and per-attribute notes (verbatim from the markdown)"""
+        class_doc = ClientServerOperationMapping.__doc__.strip()
+        assert self.CLASS_NOTE in class_doc
+        for constr in self.CONSTR_ROWS:
+            assert constr in class_doc
+        assert ClientServerOperationMapping.__init__.__doc__ is None
+        init_source = inspect.getsource(ClientServerOperationMapping.__init__)
+        for note in (self.ARGUMENT_NOTE, self.FIRST_OP_NOTE, self.TRANSFORMATION_NOTE, self.SECOND_OP_NOTE):
+            assert note in init_source
+        for method, note in (
+            ("getArgumentMappings", self.ARGUMENT_NOTE),
+            ("addArgumentMapping", self.ARGUMENT_NOTE),
+            ("getFirstOperationRef", self.FIRST_OP_NOTE),
+            ("setFirstOperationRef", self.FIRST_OP_NOTE),
+            ("getFirstToSecondDataTransformationRef", self.TRANSFORMATION_NOTE),
+            ("setFirstToSecondDataTransformationRef", self.TRANSFORMATION_NOTE),
+            ("getSecondOperationRef", self.SECOND_OP_NOTE),
+            ("setSecondOperationRef", self.SECOND_OP_NOTE),
+        ):
+            doc = getattr(ClientServerOperationMapping, method).__doc__.strip()
+            assert note in doc, "%s docstring must carry the spec Note verbatim" % method
+            if method.startswith("set"):
+                attr = method[3].lower() + method[4:]
+                assert "A None value is a no-op and does not overwrite an existing %s." % attr in doc
+            if method == "addArgumentMapping":
+                assert "A None value is a no-op and does not append anything." in doc
+
+
+class TestClientServerInterfaceMappingSpecContract:
+    CLASS_NOTE = "Defines the mapping of ClientServerOperations in context of two different ClientServerInterfaces."
+    ERROR_NOTE = "Map two different ApplicationErrors defined in the context of two different ClientServerInterfaces."
+    OPERATION_NOTE = "Mapping of two ClientServerOperations in two different ClientServerInterfaces Stereotypes: atpSplitable Tags: atp.Splitkey=operationMapping"
+
+    def _make(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        return ClientServerInterfaceMapping(ar_root, "cs_interface_mapping")
+
+    def test_initialization(self):
+        """Test ClientServerInterfaceMapping initialization defaults (Table 4.23, two `*` aggr lists)"""
+        mapping = self._make()
+        assert mapping is not None
+        assert mapping.errorMappings == []
+        assert mapping.operationMappings == []
+
+    def test_base_shape(self):
+        """ClientServerInterfaceMapping shall derive from PortInterfaceMapping (Table 4.23 Base row, most-derived provided base)"""
+        mapping = self._make()
+        assert isinstance(mapping, PortInterfaceMapping)
+        assert isinstance(mapping, Referrable)
+        assert isinstance(mapping, MultilanguageReferrable)
+        assert isinstance(mapping, Identifiable)
+        assert isinstance(mapping, AtpBlueprintable)
+        assert isinstance(mapping, ARObject)
+
+    def test_add_get_error_mappings(self):
+        """Test errorMappings list round-trip, chaining and None no-op (Table 4.23 errorMapping, `*` aggr)"""
+        mapping = self._make()
+        assert mapping.getErrorMappings() == []
+        item = ClientServerApplicationErrorMapping()
+        assert mapping.addErrorMapping(item) is mapping
+        assert mapping.getErrorMappings() == [item]
+        mapping.addErrorMapping(None)
+        assert mapping.getErrorMappings() == [item]
+
+    def test_add_get_operation_mappings(self):
+        """Test operationMappings list round-trip, chaining and None no-op (Table 4.23 operationMapping, `*` aggr)"""
+        mapping = self._make()
+        assert mapping.getOperationMappings() == []
+        item = ClientServerOperationMapping()
+        assert mapping.addOperationMapping(item) is mapping
+        assert mapping.getOperationMappings() == [item]
+        mapping.addOperationMapping(None)
+        assert mapping.getOperationMappings() == [item]
+
+    def test_accessor_annotations(self):
+        """Accessors shall carry List[...] hints; adders shall chain ClientServerInterfaceMapping (Table 4.23 mults)"""
+        add_hints = get_type_hints(ClientServerInterfaceMapping.addErrorMapping)
+        assert add_hints["value"] == Optional[ClientServerApplicationErrorMapping]
+        assert add_hints["return"] == ClientServerInterfaceMapping
+        get_hints = get_type_hints(ClientServerInterfaceMapping.getErrorMappings)
+        assert get_hints["return"] == List[ClientServerApplicationErrorMapping]
+        add_hints = get_type_hints(ClientServerInterfaceMapping.addOperationMapping)
+        assert add_hints["value"] == Optional[ClientServerOperationMapping]
+        assert add_hints["return"] == ClientServerInterfaceMapping
+        get_hints = get_type_hints(ClientServerInterfaceMapping.getOperationMappings)
+        assert get_hints["return"] == List[ClientServerOperationMapping]
+
+    def test_spec_note(self):
+        """Test the Table 4.23 class note and per-attribute notes (verbatim from the markdown)"""
+        class_doc = ClientServerInterfaceMapping.__doc__.strip()
+        assert self.CLASS_NOTE in class_doc
+        assert ClientServerInterfaceMapping.__init__.__doc__ is None
+        init_source = inspect.getsource(ClientServerInterfaceMapping.__init__)
+        assert self.ERROR_NOTE in init_source
+        assert self.OPERATION_NOTE in init_source
+        for method, note in (
+            ("getErrorMappings", self.ERROR_NOTE),
+            ("addErrorMapping", self.ERROR_NOTE),
+            ("getOperationMappings", self.OPERATION_NOTE),
+            ("addOperationMapping", self.OPERATION_NOTE),
+        ):
+            doc = getattr(ClientServerInterfaceMapping, method).__doc__.strip()
+            assert note in doc, "%s docstring must carry the spec Note verbatim" % method
+            if method.startswith("add"):
+                assert "A None value is a no-op and does not append anything." in doc

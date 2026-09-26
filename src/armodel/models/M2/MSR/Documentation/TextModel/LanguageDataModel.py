@@ -8,18 +8,24 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import (
+    AtpMixedString,
+)
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import (
+    Br,
     EmphasisText,
     IndexEntry,
     Superscript,
     Tt,
+    Xref,
+    XrefTarget,
 )
 
 if TYPE_CHECKING:
-    from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, Std, Xdoc, Xfile, Xref, XrefTarget
-    from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Superscript, Tt
+    from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import Traceable
+    from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Std, Xdoc, Xfile
+    from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SlOverviewParagraph
     from armodel.models.M2.MSR.Documentation.TextModel.SlParagraph import SlParagraph
-    from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Traceable
 
 
 class LEnum(AREnum):
@@ -200,7 +206,215 @@ class LanguageSpecific(ARObject, ABC):
         return self
 
 
-class LOverviewParagraph(LanguageSpecific):
+class MixedContentForOverviewParagraph(ARObject, AtpMixedString, ABC):
+    """
+    This is the text model of a restricted paragraph item within a documentation. Such restricted paragraphs are used mainly for overview items, e.g. desc.
+    """
+
+    # MixedContentForOverviewParagraph method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.3, p.290
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element; members serialize on the consuming L-2 element via readMixedContentForOverviewParagraph/writeMixedContentForOverviewParagraph)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBr              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBr              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getE               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setE               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFt              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFt              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIe              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIe              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSub             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSub             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSup             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSup             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTraceRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTraceRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTt              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTt              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getXref            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setXref            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getXrefTarget      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setXrefTarget      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (getMixedString/setMixedString inherited from the AtpMixedString mixin — stereotype-inherent, no spec rows)
+
+    def __init__(self):
+        if type(self) is MixedContentForOverviewParagraph:
+            raise TypeError("MixedContentForOverviewParagraph is an abstract class.")
+
+        super().__init__()
+
+        # This element is the same as function here as in a HTML document i.e. it forces a line break.
+        self.br: Optional[Br] = None
+
+        # This is emphasis text. Tags: xml.sequenceOffset=60
+        self.e: Optional[EmphasisText] = None
+
+        # This is a foot note within a paragraph.
+        self.ft: Optional["SlOverviewParagraph"] = None
+
+        # This is an index entry. Tags: xml.sequenceOffset=100
+        self.ie: Optional[IndexEntry] = None
+
+        # This is superscript text. Tags: xml.sequenceOffset=90
+        self.sub: Optional[Superscript] = None
+
+        # This is subscript text. Tags: xml.sequenceOffset=80
+        self.sup: Optional[Superscript] = None
+
+        # This allows to place an arbitrary reference to a traceable object in documentation.
+        self.traceRef: Optional[Traceable] = None
+
+        # This is a technical term. Tags: xml.sequenceOffset=30
+        self.tt: Optional[Tt] = None
+
+        # This is a cross reference. Tags: xml.sequenceOffset=40
+        self.xref: Optional[Xref] = None
+
+        # This element specifies a reference target which can be scattered throughout the text. Tags: xml.sequenceOffset=50
+        self.xrefTarget: Optional[XrefTarget] = None
+
+    def getBr(self) -> Optional[Br]:
+        """
+        This element is the same as function here as in a HTML document i.e. it forces a line break.
+        """
+        return self.br
+
+    def setBr(self, value: Optional[Br]) -> MixedContentForOverviewParagraph:
+        """
+        This element is the same as function here as in a HTML document i.e. it forces a line break. A None value is a no-op and does not overwrite an existing br.
+        """
+        if value is not None:
+            self.br = value
+        return self
+
+    def getE(self) -> Optional[EmphasisText]:
+        """
+        This is emphasis text.
+        """
+        return self.e
+
+    def setE(self, value: Optional[EmphasisText]) -> MixedContentForOverviewParagraph:
+        """
+        This is emphasis text. A None value is a no-op and does not overwrite an existing e.
+        """
+        if value is not None:
+            self.e = value
+        return self
+
+    def getFt(self) -> Optional["SlOverviewParagraph"]:
+        """
+        This is a foot note within a paragraph.
+        """
+        return self.ft
+
+    def setFt(self, value: Optional["SlOverviewParagraph"]) -> MixedContentForOverviewParagraph:
+        """
+        This is a foot note within a paragraph. A None value is a no-op and does not overwrite an existing ft.
+        """
+        if value is not None:
+            self.ft = value
+        return self
+
+    def getIe(self) -> Optional[IndexEntry]:
+        """
+        This is an index entry.
+        """
+        return self.ie
+
+    def setIe(self, value: Optional[IndexEntry]) -> MixedContentForOverviewParagraph:
+        """
+        This is an index entry. A None value is a no-op and does not overwrite an existing ie.
+        """
+        if value is not None:
+            self.ie = value
+        return self
+
+    def getSub(self) -> Optional[Superscript]:
+        """
+        This is superscript text.
+        """
+        return self.sub
+
+    def setSub(self, value: Optional[Superscript]) -> MixedContentForOverviewParagraph:
+        """
+        This is superscript text. A None value is a no-op and does not overwrite an existing sub.
+        """
+        if value is not None:
+            self.sub = value
+        return self
+
+    def getSup(self) -> Optional[Superscript]:
+        """
+        This is subscript text.
+        """
+        return self.sup
+
+    def setSup(self, value: Optional[Superscript]) -> MixedContentForOverviewParagraph:
+        """
+        This is subscript text. A None value is a no-op and does not overwrite an existing sup.
+        """
+        if value is not None:
+            self.sup = value
+        return self
+
+    def getTraceRef(self) -> Optional[Traceable]:
+        """
+        This allows to place an arbitrary reference to a traceable object in documentation.
+        """
+        return self.traceRef
+
+    def setTraceRef(self, value: Optional[Traceable]) -> MixedContentForOverviewParagraph:
+        """
+        This allows to place an arbitrary reference to a traceable object in documentation. A None value is a no-op and does not overwrite an existing traceRef.
+        """
+        if value is not None:
+            self.traceRef = value
+        return self
+
+    def getTt(self) -> Optional[Tt]:
+        """
+        This is a technical term.
+        """
+        return self.tt
+
+    def setTt(self, value: Optional[Tt]) -> MixedContentForOverviewParagraph:
+        """
+        This is a technical term. A None value is a no-op and does not overwrite an existing tt.
+        """
+        if value is not None:
+            self.tt = value
+        return self
+
+    def getXref(self) -> Optional[Xref]:
+        """
+        This is a cross reference.
+        """
+        return self.xref
+
+    def setXref(self, value: Optional[Xref]) -> MixedContentForOverviewParagraph:
+        """
+        This is a cross reference. A None value is a no-op and does not overwrite an existing xref.
+        """
+        if value is not None:
+            self.xref = value
+        return self
+
+    def getXrefTarget(self) -> Optional[XrefTarget]:
+        """
+        This element specifies a reference target which can be scattered throughout the text.
+        """
+        return self.xrefTarget
+
+    def setXrefTarget(self, value: Optional[XrefTarget]) -> MixedContentForOverviewParagraph:
+        """
+        This element specifies a reference target which can be scattered throughout the text. A None value is a no-op and does not overwrite an existing xrefTarget.
+        """
+        if value is not None:
+            self.xrefTarget = value
+        return self
+
+
+class LOverviewParagraph(MixedContentForOverviewParagraph, LanguageSpecific):
     """
     MixedContentForOverviewParagraph in one particular language. The language is denoted in the attribute l.
     """
@@ -737,7 +951,28 @@ class LLongName(MixedContentForLongName, LanguageSpecific):
         return self
 
 
-class LPlainText(LanguageSpecific):
+class MixedContentForPlainText(ARObject, AtpMixedString, ABC):
+    """
+    This represents a plain text which conceptually is handled as mixed contents. It is modeled as such for symmetry reasons.
+    """
+
+    # MixedContentForPlainText method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.94, p.349
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes — Table 9.94 Attribute rows: none; XSD group MIXED-CONTENT-FOR-PLAIN-TEXT
+    #  (AUTOSAR_00052.xsd L81507) is an empty sequence, so the class serializes nothing itself —
+    #  concrete subclasses (LPlainText) serialize via their own element helpers;
+    #  getMixedString/setMixedString provided by the AtpMixedString base (mixin) — no spec row (stereotype-inherent))
+
+    def __init__(self):
+        if type(self) is MixedContentForPlainText:
+            raise TypeError("MixedContentForPlainText is an abstract class.")
+
+        super().__init__()
+
+
+class LPlainText(MixedContentForPlainText, LanguageSpecific):
     """
     This represents plain string in one particular language. The language is denoted in the attribute l.
     """
@@ -754,7 +989,101 @@ class LPlainText(LanguageSpecific):
         super().__init__()
 
 
-class LVerbatim(LanguageSpecific):
+class MixedContentForVerbatim(ARObject, AtpMixedString, ABC):
+    """
+    This is the text model for preformatted (verbatim) text. It mainly consists of attributes which do not change the length on rendering. This class represents multilingual verbatim. Verbatim, sometimes called preformatted text, means that white-space is maintained. When verbatim is rendered in PDF or Online media, it is rendered using a monospaced font while white-space is obeyed. Blanks are rendered as well as newline characters. Even if there are inline elements, the length of the data shall not be influenced by formatting.
+    """
+
+    # MixedContentForVerbatim method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.6, p.292
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element; members serialize on the consuming L-5 element via readMixedContentForVerbatim/writeMixedContentForVerbatim)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBr     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBr     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getE      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setE      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTt     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTt     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getXref   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setXref   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (getMixedString/setMixedString inherited from the AtpMixedString mixin — stereotype-inherent, no spec rows)
+
+    def __init__(self):
+        if type(self) is MixedContentForVerbatim:
+            raise TypeError("MixedContentForVerbatim is an abstract class.")
+
+        super().__init__()
+
+        # This element is the same as function here as in a HTML document i.e. it forces a line break. Tags: xml.sequenceOffset=50
+        self.br: Optional[Br] = None
+
+        # This is emphsized text. Note that in verbatim, the attribute font should not be considered since verbatim is always rendered as monospace font. Tags: xml.sequenceOffset=30
+        self.e: Optional[EmphasisText] = None
+
+        # This represents a technical term in verbatim. Note that it's the responibility of the user not to take a tt that would add additional character to the text (such as SgmlElement).
+        self.tt: Optional[Tt] = None
+
+        # This is a crossreference within a verbatim text. The attributes may disturb the arrangement of the text. It is subject to the author to keep this under control. Tags: xml.sequenceOffset=40
+        self.xref: Optional[Xref] = None
+
+    def getBr(self) -> Optional[Br]:
+        """
+        This element is the same as function here as in a HTML document i.e. it forces a line break.
+        """
+        return self.br
+
+    def setBr(self, value: Optional[Br]) -> MixedContentForVerbatim:
+        """
+        This element is the same as function here as in a HTML document i.e. it forces a line break. A None value is a no-op and does not overwrite an existing br.
+        """
+        if value is not None:
+            self.br = value
+        return self
+
+    def getE(self) -> Optional[EmphasisText]:
+        """
+        This is emphsized text. Note that in verbatim, the attribute font should not be considered since verbatim is always rendered as monospace font.
+        """
+        return self.e
+
+    def setE(self, value: Optional[EmphasisText]) -> MixedContentForVerbatim:
+        """
+        This is emphsized text. Note that in verbatim, the attribute font should not be considered since verbatim is always rendered as monospace font. A None value is a no-op and does not overwrite an existing e.
+        """
+        if value is not None:
+            self.e = value
+        return self
+
+    def getTt(self) -> Optional[Tt]:
+        """
+        This represents a technical term in verbatim. Note that it's the responibility of the user not to take a tt that would add additional character to the text (such as SgmlElement).
+        """
+        return self.tt
+
+    def setTt(self, value: Optional[Tt]) -> MixedContentForVerbatim:
+        """
+        This represents a technical term in verbatim. Note that it's the responibility of the user not to take a tt that would add additional character to the text (such as SgmlElement). A None value is a no-op and does not overwrite an existing tt.
+        """
+        if value is not None:
+            self.tt = value
+        return self
+
+    def getXref(self) -> Optional[Xref]:
+        """
+        This is a crossreference within a verbatim text. The attributes may disturb the arrangement of the text. It is subject to the author to keep this under control.
+        """
+        return self.xref
+
+    def setXref(self, value: Optional[Xref]) -> MixedContentForVerbatim:
+        """
+        This is a crossreference within a verbatim text. The attributes may disturb the arrangement of the text. It is subject to the author to keep this under control. A None value is a no-op and does not overwrite an existing xref.
+        """
+        if value is not None:
+            self.xref = value
+        return self
+
+
+class LVerbatim(MixedContentForVerbatim, LanguageSpecific):
     """
     MixedContentForVerbatim in one particular language. The language is denoted in the attribute l.
     """
@@ -764,8 +1093,11 @@ class LVerbatim(LanguageSpecific):
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no own attributes — Table 9.89 Attribute rows: none; inherited LanguageSpecific accessors
-    #  getL/setL/getValue/setValue are covered by their declaring class checklist; the L-5
-    #  element serializes via the shared stamped setLanguageSpecific/readLanguageSpecific pair)
+    #  getL/setL/getValue/setValue are covered by their declaring class checklist; the Table 9.89
+    #  Base row's MixedContentForVerbatim members (br/e/tt/xref) are covered by their declaring
+    #  class checklist and serialize on this L-5 element via readMixedContentForVerbatim/
+    #  writeMixedContentForVerbatim; the L-5 element also serializes via the shared stamped
+    #  setLanguageSpecific/readLanguageSpecific pair)
 
     def __init__(self):
         super().__init__()
