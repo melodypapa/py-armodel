@@ -4,17 +4,13 @@ in the CommonStructure module. SWC-BSW mapping defines relationships between
 software component entities and basic software module entities for integration purposes.
 """
 
-from typing import List, Optional, TYPE_CHECKING
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef, PTriggerInAtomicSwcTypeInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-
-if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
-        PModeGroupInAtomicSwcInstanceRef,
-        PTriggerInAtomicSwcTypeInstanceRef,
-    )
 
 
 class SwcBswRunnableMapping(ARObject, VariationPointCapable):
@@ -298,48 +294,32 @@ class SwcBswSynchronizedTrigger(ARObject, VariationPointCapable):
 
     # SwcBswSynchronizedTrigger method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.49, p.111
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getBswTriggerRef             [x] impl  [x] docstring  [x] test
-    # [x] setBswTriggerRef             [x] impl  [x] docstring  [x] test
-    # [x] getSwcTriggerIRef            [x] impl  [x] docstring  [x] test
-    # [x] setSwcTriggerIRef            [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBswTriggerRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBswTriggerRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcTriggerIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcTriggerIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the SwcBswSynchronizedTrigger with default values.
-        """
         super().__init__()
 
-        # The BSW Trigger. Referenced BSW trigger shall exist at configuration time (constr_10300).
+        # The BSW Trigger. For each SwcBswSynchronizedTrigger, the reference in the role bswTrigger shall exist at the time when the configuration of the BSW module is finished (constr_10300).
         self.bswTriggerRef: Optional[RefType] = None
 
-        # The SWC Trigger provided by a particular port. InstanceRef implemented by: PTriggerInAtomicSwcTypeInstanceRef.
-        # The referenced SWC trigger shall exist at configuration time (constr_10301).
-        self.swcTriggerIRef: "PTriggerInAtomicSwcTypeInstanceRef" = None
+        # The SWC Trigger provided by a particular port. InstanceRef implemented by: PTriggerInAtomicSwcTypeInstanceRef. For each SwcBswSynchronizedTrigger, the instanceRef in the role swcTrigger shall exist at the time when the configuration of the BSW module is finished (constr_10301).
+        self.swcTriggerIRef: Optional["PTriggerInAtomicSwcTypeInstanceRef"] = None
 
     def getBswTriggerRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the BSW Trigger that is synchronized with the SWC Trigger
-        of a component via this mapping. The referenced BSW Trigger shall exist at the
-        time the BSW module configuration is finished (constr_10300).
-
-        Returns:
-            Optional[RefType]: The BSW trigger reference
+        The BSW Trigger.
         """
         return self.bswTriggerRef
 
     def setBswTriggerRef(self, value: Optional[RefType]) -> "SwcBswSynchronizedTrigger":
         """
-        Sets the reference to the BSW Trigger that is synchronized with the SWC Trigger
-        of a component via this mapping. The referenced BSW Trigger shall exist at the
-        time the BSW module configuration is finished (constr_10300).
-        Only sets the value if it is not None, and returns self for method chaining.
-
-        Args:
-            value: The BSW trigger reference to set
-
-        Returns:
-            self for method chaining
+        The BSW Trigger.
+        A None value is a no-op and does not overwrite an existing bswTriggerRef.
         """
         if value is not None:
             self.bswTriggerRef = value
@@ -347,29 +327,14 @@ class SwcBswSynchronizedTrigger(ARObject, VariationPointCapable):
 
     def getSwcTriggerIRef(self) -> Optional["PTriggerInAtomicSwcTypeInstanceRef"]:
         """
-        Gets the instance reference to the SWC Trigger provided by a particular port
-        that is synchronized with the BSW Trigger via this mapping. InstanceRef is
-        implemented by PTriggerInAtomicSwcTypeInstanceRef. The referenced SWC Trigger
-        shall exist at the time the BSW module configuration is finished (constr_10301).
-
-        Returns:
-            Optional[PTriggerInAtomicSwcTypeInstanceRef]: The SWC trigger instance reference
+        The SWC Trigger provided by a particular port.
         """
         return self.swcTriggerIRef
 
     def setSwcTriggerIRef(self, value: Optional["PTriggerInAtomicSwcTypeInstanceRef"]) -> "SwcBswSynchronizedTrigger":
         """
-        Sets the instance reference to the SWC Trigger provided by a particular port
-        that is synchronized with the BSW Trigger via this mapping. InstanceRef is
-        implemented by PTriggerInAtomicSwcTypeInstanceRef. The referenced SWC Trigger
-        shall exist at the time the BSW module configuration is finished (constr_10301).
-        Only sets the value if it is not None, and returns self for method chaining.
-
-        Args:
-            value: The SWC trigger instance reference to set
-
-        Returns:
-            self for method chaining
+        The SWC Trigger provided by a particular port.
+        A None value is a no-op and does not overwrite an existing swcTriggerIRef.
         """
         if value is not None:
             self.swcTriggerIRef = value

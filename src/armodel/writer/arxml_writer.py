@@ -7762,6 +7762,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "SWC-BSW-SYNCHRONIZED-TRIGGER")
         self.setChildElementOptionalRefType(child_element, "BSW-TRIGGER-REF", trigger.getBswTriggerRef())
         self.writePTriggerInAtomicSwcTypeInstanceRef(child_element, "SWC-TRIGGER-IREF", trigger.getSwcTriggerIRef())
+        self.writeVariationPoint(child_element, trigger.getVariationPoint())
 
     def writeSwcBswSynchronizedTriggers(self, element: ET.Element, parent: SwcBswMapping):
         triggers = parent.getSynchronizedTriggers()

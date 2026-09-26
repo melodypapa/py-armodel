@@ -600,17 +600,30 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - note (Step 8): no deviations — tracker rows already "—"; constr_10336/10337 kept in
     the inline comments (config-time existence constraints).
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12332 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12331 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `SwcBswSynchronizedTrigger` — ARObject — source TBC (locate table at Step 1)
+- [ ] `SwcBswSynchronizedTrigger` — ARObject — R23-11 markdown · Table 5.49 (CP_TPS_BSWModuleDescriptionTemplate), p.111
   - module: M2/AUTOSARTemplates/CommonStructure/SwcBswMapping.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 5.49, p.111. Concrete Class; Base = ARObject
+    (already correct); VP-capable — VARIATION-POINT in OWN XSD group
+    SWC-BSW-SYNCHRONIZED-TRIGGER (seq 10000, atpVariation), mixin kept (Rule 0020). Two
+    attrs: bswTrigger (Trigger, 0..1, ref → BSW-TRIGGER-REF, DEST TRIGGER--SUBTYPES-ENUM,
+    constr_10300), swcTrigger (Trigger, 0..1, iref → SWC-TRIGGER-IREF /
+    PTriggerInAtomicSwcTypeInstanceRef, constr_10301); wire order refs/irefs then VP.
+    Drift: `__init__` docstring, paraphrased docstrings, bare `PTriggerInAtomicSwcTypeInstanceRef = None`
+    field (not Optional), old 4-col checklist; rw helpers existed with matched names but
+    lacked VARIATION-POINT. InstanceRef imports promoted TYPE_CHECKING → runtime
+    (repo cycle-breaker pattern; needed for typing.get_type_hints resolution).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): read/writeSwcBswSynchronizedTrigger existed with matched names;
+    ADDED VARIATION-POINT to both; new type-hint pin test passes.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviations — tracker rows already "—"; constr_10300/10301 kept in
+    the inline comments (config-time existence constraints).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12332 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)

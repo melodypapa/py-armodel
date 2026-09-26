@@ -8140,6 +8140,12 @@ class ARXMLParser(AbstractARXMLParser):
             instance_ref = PTriggerInAtomicSwcTypeInstanceRef()
             self.readPTriggerInAtomicSwcTypeInstanceRef(child_element, instance_ref)
             trigger.setSwcTriggerIRef(instance_ref)
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(trigger, VariationPointCapable):
+                trigger.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
         return trigger
 
     def readSwcBswMappingSwcBswSynchronizedModeGroups(self, element: ET.Element, parent: SwcBswMapping):

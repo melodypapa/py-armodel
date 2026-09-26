@@ -306,6 +306,17 @@ class TestSwcBswSynchronizedModeGroupPrototype:
         assert prototype.getBswModeGroupRef() == bsw_ref
         assert prototype.getSwcModeGroupIRef() == swc_ref
 
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        import typing
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PTriggerInAtomicSwcTypeInstanceRef
+
+        bsw_hints = typing.get_type_hints(SwcBswSynchronizedTrigger.getBswTriggerRef)
+        assert bsw_hints.get("return") == typing.Optional[RefType]
+        iref_hints = typing.get_type_hints(SwcBswSynchronizedTrigger.getSwcTriggerIRef)
+        assert iref_hints.get("return") == typing.Optional[PTriggerInAtomicSwcTypeInstanceRef]
+
 
 class TestSwcBswSynchronizedModeGroupPrototypeAnnotations:
     def test_type_annotations(self):
