@@ -1032,13 +1032,14 @@ class LPlainText(MixedContentForPlainText, LanguageSpecific, WhitespaceControlle
         super().__init__()
 
 
-class MixedContentForVerbatim(ARObject, AtpMixedString, ABC):
+class MixedContentForVerbatim(WhitespaceControlled, AtpMixedString, ABC):
     """
     This is the text model for preformatted (verbatim) text. It mainly consists of attributes which do not change the length on rendering. This class represents multilingual verbatim. Verbatim, sometimes called preformatted text, means that white-space is maintained. When verbatim is rendered in PDF or Online media, it is rendered using a monospaced font while white-space is obeyed. Blanks are rendered as well as newline characters. Even if there are inline elements, the length of the data shall not be influenced by formatting.
     """
 
     # MixedContentForVerbatim method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.6, p.292
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element; members serialize on the consuming L-5 element via readMixedContentForVerbatim/writeMixedContentForVerbatim)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBr     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1049,7 +1050,8 @@ class MixedContentForVerbatim(ARObject, AtpMixedString, ABC):
     # [x] setTt     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getXref   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setXref   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # (getMixedString/setMixedString inherited from the AtpMixedString mixin — stereotype-inherent, no spec rows)
+    # (getMixedString/setMixedString inherited from the AtpMixedString mixin — stereotype-inherent, no spec rows;
+    #  getXmlSpace/setXmlSpace inherited from the WhitespaceControlled base (Table 9.7) — tracked on that class's checklist)
 
     def __init__(self):
         if type(self) is MixedContentForVerbatim:

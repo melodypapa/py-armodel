@@ -634,8 +634,10 @@ class TestMixedContentForVerbatim:
         assert content.getMixedString() is None
 
     def test_base_anchoring(self):
-        """Most-derived base anchoring per Table 9.6 Base row ARObject + the <<atpMixedString>> mixin (sibling MCFPT shape; the WhitespaceControlled re-parent belongs to that class's own queue row)."""
-        assert MixedContentForVerbatim.__bases__ == (ARObject, AtpMixedString, ABC)
+        """Most-derived base anchoring per the Table 9.6 Base row ARObject , WhitespaceControlled (WhitespaceControlled already derives ARObject) + the <<atpMixedString>> mixin per Rule 0021."""
+        assert MixedContentForVerbatim.__bases__ == (WhitespaceControlled, AtpMixedString, ABC)
+        assert issubclass(MixedContentForVerbatim, WhitespaceControlled)
+        assert issubclass(MixedContentForVerbatim, ARObject)
 
     def test_docstring_verbatim(self):
         """Docstring must equal the spec Note from Table 9.6 verbatim."""
@@ -674,6 +676,32 @@ class TestMixedContentForVerbatim:
         assert content.getMixedString() == "verbatim text"
         content.setMixedString(None)
         assert content.getMixedString() == "verbatim text"
+
+    def test_inherits_whitespace_controlled_accessors(self):
+        """Table 9.6 Base row names WhitespaceControlled, so the class inherits getXmlSpace/setXmlSpace (the value serializes on the consuming L-5 element, not on this class)."""
+
+        class ConcreteMixedContent(MixedContentForVerbatim):
+            pass
+
+        content = ConcreteMixedContent()
+        assert content.getXmlSpace() is None
+        value = XmlSpaceEnum().setValue(XmlSpaceEnum.PRESERVE)
+        assert content.setXmlSpace(value) is content
+        assert content.getXmlSpace() is value
+        assert content.getXmlSpace().getValue() == "preserve"
+        content.setXmlSpace(None)
+        assert content.getXmlSpace() is value
+
+    def test_field_to_spec_cross_check(self):
+        """Field-to-spec cross-check: Table 9.6 Attribute rows br/e/tt/xref are this class's own fields (inherited xmlSpace comes from the WhitespaceControlled base)."""
+
+        class _BareBases(WhitespaceControlled, AtpMixedString, ABC):
+            pass
+
+        class ConcreteMixedContent(MixedContentForVerbatim):
+            pass
+
+        assert set(vars(ConcreteMixedContent()).keys()) == set(vars(_BareBases()).keys()) | {"br", "e", "tt", "xref"}
 
     def test_annotation_hints(self):
         """PDF-typed accessors per Rule 0003 (Table 9.6 rows br/e/tt/xref, all runtime-resolvable types)."""
