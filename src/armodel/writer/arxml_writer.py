@@ -7674,8 +7674,11 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if isinstance(dependency, BswModuleDependency):
                     child_element = ET.SubElement(container, "BSW-MODULE-DEPENDENCY")
                     self.writeIdentifiable(child_element, dependency)
-                    self.setChildElementOptionalNumericalValue(child_element, "TARGET-MODULE-ID", dependency.getTargetModuleId())
-                    self.setChildElementOptionalRefType(child_element, "TARGET-MODULE-REF", dependency.getTargetModuleRef())
+                    self.setChildElementOptionalPositiveInteger(child_element, "TARGET-MODULE-ID", dependency.getTargetModuleId())
+                    if dependency.getTargetModuleRef() is not None:
+                        refs_tag = ET.SubElement(child_element, "TARGET-MODULE-REFS")
+                        ref_conditional = ET.SubElement(refs_tag, "BSW-MODULE-DESCRIPTION-REF-CONDITIONAL")
+                        self.setChildElementOptionalRefType(ref_conditional, "BSW-MODULE-DESCRIPTION-REF", dependency.getTargetModuleRef())
                 else:
                     self.notImplemented("Unsupported BswModuleDependency <%s>" % type(dependency))
 

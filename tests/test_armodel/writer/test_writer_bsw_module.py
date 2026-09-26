@@ -814,6 +814,63 @@ class TestWriterBswModuleClientServerEntryRoundTrip:
         assert entry_2.getVariationPoint().getShortLabel().getValue() == "lbl"
 
 
+class TestWriterBswModuleDependencyRoundTrip:
+    def test_round_trip_module_dependency(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        dependency = desc.createBswModuleDependency("dep")
+        dependency.setTargetModuleId(_posint(7))
+        dependency.setTargetModuleRef(_ref("/mod/target", "BSW-MODULE-DESCRIPTION"))
+
+        out_file = tmp_path / "dep_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        raw = out_file.read_text()
+        assert "TARGET-MODULE-REFS" in raw
+        assert "BSW-MODULE-DESCRIPTION-REF-CONDITIONAL" in raw
+        assert "<TARGET-MODULE-REF " not in raw
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        dependency_2 = desc_2.getBswModuleDependencies()[0]
+        assert dependency_2.getShortName() == "dep"
+        assert dependency_2.getTargetModuleId().getValue() == 7
+        assert dependency_2.getTargetModuleRef().getValue() == "/mod/target"
+        assert dependency_2.getTargetModuleRef().getDest() == "BSW-MODULE-DESCRIPTION"
+
+    def test_round_trip_module_dependency_empty(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        desc.createBswModuleDependency("dep")
+
+        out_file = tmp_path / "dep_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        raw = out_file.read_text()
+        assert "TARGET-MODULE-ID" not in raw
+        assert "TARGET-MODULE-REFS" not in raw
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        dependency_2 = desc_2.getBswModuleDependencies()[0]
+        assert dependency_2.getTargetModuleId() is None
+        assert dependency_2.getTargetModuleRef() is None
+
+
 class TestWriterBswSynchronousServerCallPointRoundTrip:
     def test_round_trip_sync_server_call_point(self, tmp_path):
         document = AUTOSAR.getInstance()

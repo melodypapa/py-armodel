@@ -128,55 +128,39 @@ class SwServiceImplPolicyEnum(AREnum):
         super().__init__([SwServiceImplPolicyEnum.INLINE, SwServiceImplPolicyEnum.INLINE_CONDITIONAL, SwServiceImplPolicyEnum.MACRO, SwServiceImplPolicyEnum.STANDARD])
 
 
-class BswModuleDependency(Identifiable, VariationPointCapable):
+class BswModuleDependency(Identifiable):
     """
-    Represents a dependency relationship between BSW modules.
-    This class defines how one BSW module depends on services from another module.
+    This class collects the dependencies of a BSW module or cluster on a certain other BSW module.
     """
 
     # BswModuleDependency method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getTargetModuleId            [x] impl  [x] docstring  [x] test
-    # [x] setTargetModuleId            [x] impl  [x] docstring  [x] test
-    # [x] getTargetModuleRef           [x] impl  [x] docstring  [x] test
-    # [x] setTargetModuleRef           [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.17, p.48
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTargetModuleId   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetModuleId   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetModuleRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetModuleRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BSW module dependency with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this dependency
-            short_name: The unique short name of this dependency
-        """
         super().__init__(parent, short_name)
 
-        # AUTOSAR identifier of the target module; optional as target may be
-        # identified by targetModuleRef instead.
+        # AUTOSAR identifier of the target module of which the dependencies are defined. This information is optional, because the target module may also be identified by targetModuleRef. Tags: xml.sequenceOffset=5
         self.targetModuleId: Optional[PositiveInteger] = None
-        # Reference to the target module; identifies target without needing
-        # its description.
+
+        # Reference to the target module. It is an <<atpUriDef>> because the reference shall be used to identify the target module without actually needing the description of that target module. Stereotypes: atpSplitable; atpUriDef; atpVariation Tags: atp.Splitkey=targetModuleRef.bswModuleDescription, targetModuleRef.variationPoint.shortLabel vh.latestBindingTime=preCompileTime xml.sequenceOffset=7
         self.targetModuleRef: Optional[RefType] = None
 
     def getTargetModuleId(self) -> Optional[PositiveInteger]:
         """
-        Gets the AUTOSAR identifier of the target module.
-
-        Returns:
-            Positive integer representing the target module ID, or None
+        AUTOSAR identifier of the target module of which the dependencies are defined. This information is optional, because the target module may also be identified by targetModuleRef.
         """
         return self.targetModuleId
 
     def setTargetModuleId(self, value: Optional[PositiveInteger]) -> "BswModuleDependency":
         """
-        Sets the AUTOSAR identifier of the target module.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The target module ID to set
-
-        Returns:
-            self for method chaining
+        AUTOSAR identifier of the target module of which the dependencies are defined. This information is optional, because the target module may also be identified by targetModuleRef.
+        A None value is a no-op and does not overwrite an existing targetModuleId.
         """
         if value is not None:
             self.targetModuleId = value
@@ -184,23 +168,14 @@ class BswModuleDependency(Identifiable, VariationPointCapable):
 
     def getTargetModuleRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the target module.
-
-        Returns:
-            RefType to the target module, or None
+        Reference to the target module. It is an <<atpUriDef>> because the reference shall be used to identify the target module without actually needing the description of that target module.
         """
         return self.targetModuleRef
 
     def setTargetModuleRef(self, value: Optional[RefType]) -> "BswModuleDependency":
         """
-        Sets the reference to the target module.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The target module reference to set
-
-        Returns:
-            self for method chaining
+        Reference to the target module. It is an <<atpUriDef>> because the reference shall be used to identify the target module without actually needing the description of that target module.
+        A None value is a no-op and does not overwrite an existing targetModuleRef.
         """
         if value is not None:
             self.targetModuleRef = value

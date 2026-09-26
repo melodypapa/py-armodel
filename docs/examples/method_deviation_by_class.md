@@ -95,6 +95,29 @@ FROM-REF/TO-REF/BSW-ENTRY-RELATIONSHIP-TYPE (XSD token DERIVED-FROM via
 BSW_ENTRY_RELATIONSHIP_XML_MAP; XSD element order FROM-REF, TO-REF, BSW-ENTRY-RELATIONSHIP-TYPE
 per xml.sequenceOffset=5), value-asserting round-trip test.
 
+## `BswModuleDependency`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 48
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `targetModuleId` | `Optional[PositiveInteger]` | `targetModuleId` | `PositiveInteger` | Attr | ok |
+| `targetModuleRef` | `Optional[RefType]` | `targetModuleRef` | `Ref (BswModuleDescription)` | Ref | type (wire many vs py single) — markdown 0..1 wins for the model (Rule 0015); R23-11 XSD wire is TARGET-MODULE-REFS wrapper + unbounded BSW-MODULE-DESCRIPTION-REF-CONDITIONAL items (pureMM.maxOccurs=-1); reader takes the first item, writer writes one |
+
+2026-09-26 sync (Table 4.17, p.48): fabricated class docstring, `__init__` docstring and
+paraphrased docstrings wiped, rewritten verbatim from the markdown Notes (Tags tails kept);
+VariationPointCapable mixin REMOVED — the R23-11 complexType BSW-MODULE-DEPENDENCY has no
+class-level VARIATION-POINT group (the atpVariation stereotype lives on the targetModuleRef
+attribute, expressed via the per-item VP of the REF-CONDITIONAL wrapper, which the single-ref
+model cannot carry); reader/writer REWIRED to the R23-11 wire format
+(TARGET-MODULE-REFS/BSW-MODULE-DESCRIPTION-REF-CONDITIONAL/BSW-MODULE-DESCRIPTION-REF, DEST
+BSW-MODULE-DESCRIPTION; the old bare TARGET-MODULE-REF element does not exist in the R23-11 XSD);
+reader retyped to getChildElementOptionalPositiveInteger (spec type). atp.Status="removed"
+members (requiredEntry seq 10, expectedCallback seq 15, serviceItem seq 20) deliberately not
+modeled and not read/written (R23-11 removal; no fixture carries them). Stamp deferred to batch
+confirmation.
+
 ## `BswModuleClientServerEntry`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 54
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces`

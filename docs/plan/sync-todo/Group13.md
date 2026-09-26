@@ -521,18 +521,35 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     encapsulatedEntryRef/isReentrant rows ok.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12322 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `BswModuleDependency` — Identifiable — source TBC (locate table at Step 1)
+- [ ] `BswModuleDependency` — Identifiable — R23-11 markdown · Table 4.17 (CP_TPS_BSWModuleDescriptionTemplate), p.48
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 4.17, p.48. Concrete Class; Base most-derived =
+    `Identifiable` (already correct in src); NOT VP-capable — the complexType has no
+    class-level VARIATION-POINT group (atpVariation is attribute-level on targetModuleRef via
+    the REF-CONDITIONAL wrapper); src mixin VariationPointCapable REMOVED. Two attrs:
+    targetModuleId (PositiveInteger, 0..1, attr, seq 5), targetModuleRef (BswModuleDescription,
+    0..1, ref, seq 7). R23-11 XSD wire = TARGET-MODULE-REFS wrapper + unbounded
+    BSW-MODULE-DESCRIPTION-REF-CONDITIONAL (markdown 0..1 wins for the model; wire per XSD).
+    requiredEntry/expectedCallback/serviceItem are atp.Status="removed" — not modeled.
+    Drift: fabricated class docstring, `__init__` docstring, paraphrased docstrings, old
+    4-col checklist; reader used generic NumericalValue (not PositiveInteger) and a bare
+    TARGET-MODULE-REF element that does not exist in the R23-11 XSD.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): reader REWIRED (PositiveInteger helper + TARGET-MODULE-REFS wrapper
+    path, first item wins); writer REWIRED (wrapper + conditional item + DEST); new
+    type-hint pins, wrapper-path parser test, and document round-trips (value + empty)
+    pass. No fixture/test used the old wire element.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): ONE accepted model-vs-wire deviation (targetModuleRef "wire many vs py
+    single" — Rule 0015 markdown-wins, tracker row updated); mixin removal + removed-element
+    handling recorded in the tracker note.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12326 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwcBswRunnableMapping` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/SwcBswMapping.py

@@ -161,6 +161,18 @@ class TestBswModuleDependency:
         assert result == dep
         assert dep.getTargetModuleRef() == ref  # Should remain unchanged
 
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswModuleDependency.getTargetModuleId)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+        setter_hints = typing.get_type_hints(BswModuleDependency.setTargetModuleId)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+
+        ref_hints = typing.get_type_hints(BswModuleDependency.getTargetModuleRef)
+        assert ref_hints.get("return") == typing.Optional[RefType]
+        ref_setter_hints = typing.get_type_hints(BswModuleDependency.setTargetModuleRef)
+        assert ref_setter_hints.get("value") == typing.Optional[RefType]
+
 
 class TestBswModuleEntry:
     """Test cases for BswModuleEntry class - represents BSW module entry points."""

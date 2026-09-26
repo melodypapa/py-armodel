@@ -4623,8 +4623,12 @@ class ARXMLParser(AbstractARXMLParser):
             tag_name = self.getTagName(child_element)
             if tag_name == "BSW-MODULE-DEPENDENCY":
                 dependency = parent.createBswModuleDependency(self.getShortName(child_element))
-                dependency.setTargetModuleId(self.getChildElementOptionalNumericalValue(child_element, "TARGET-MODULE-ID"))
-                dependency.setTargetModuleRef(self.getChildElementOptionalRefType(child_element, "TARGET-MODULE-REF"))
+                dependency.setTargetModuleId(self.getChildElementOptionalPositiveInteger(child_element, "TARGET-MODULE-ID"))
+                for ref_conditional in self.findall(child_element, "TARGET-MODULE-REFS/BSW-MODULE-DESCRIPTION-REF-CONDITIONAL"):
+                    ref = self.getChildElementOptionalRefType(ref_conditional, "BSW-MODULE-DESCRIPTION-REF")
+                    if ref is not None:
+                        dependency.setTargetModuleRef(ref)
+                        break
             else:
                 self.notImplemented("Unsupported BswModuleDependency <%s>" % tag_name)
 

@@ -1786,6 +1786,37 @@ class TestBswEntryRelationshipHandlers:
         assert relationship.getBswEntryRelationshipType() is None
 
 
+class TestBswModuleDependencyHandlers:
+    """Exercise the BswModuleDependency wire format (TARGET-MODULE-REFS wrapper)."""
+
+    def test_readBswModuleDescriptionBswModuleDependencies_wrapper_ref(self, parser):
+        from armodel.models import BswModuleDependency, BswModuleDescription
+
+        desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
+        element = _snip(
+            "<BSW-MODULE-DEPENDENCYS>"
+            "<BSW-MODULE-DEPENDENCY>"
+            "<SHORT-NAME>dep</SHORT-NAME>"
+            "<TARGET-MODULE-ID>7</TARGET-MODULE-ID>"
+            "<TARGET-MODULE-REFS>"
+            "<BSW-MODULE-DESCRIPTION-REF-CONDITIONAL>"
+            "<BSW-MODULE-DESCRIPTION-REF DEST='BSW-MODULE-DESCRIPTION'>/mod/target</BSW-MODULE-DESCRIPTION-REF>"
+            "</BSW-MODULE-DESCRIPTION-REF-CONDITIONAL>"
+            "</TARGET-MODULE-REFS>"
+            "</BSW-MODULE-DEPENDENCY>"
+            "</BSW-MODULE-DEPENDENCYS>",
+            root_tag="BSWM",
+        )
+        parser.readBswModuleDescriptionBswModuleDependencies(element, desc)
+        dependencies = desc.getBswModuleDependencies()
+        assert len(dependencies) == 1
+        dependency = dependencies[0]
+        assert isinstance(dependency, BswModuleDependency)
+        assert dependency.getTargetModuleId().getValue() == 7
+        assert dependency.getTargetModuleRef().getValue() == "/mod/target"
+        assert dependency.getTargetModuleRef().getDest() == "BSW-MODULE-DESCRIPTION"
+
+
 class TestBswEntryRelationshipSetHandlers:
     """Exercise readBswEntryRelationshipSet (wrapper + relationship items)."""
 
