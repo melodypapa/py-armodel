@@ -461,19 +461,35 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     "drivedFrom" spec typo kept verbatim in docstrings.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12310 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `BswEntryRelationshipSet` — Identifiable — source TBC (locate table at Step 1)
+- [ ] `BswEntryRelationshipSet` — ARElement — R23-11 markdown · Table 4.18 (CP_TPS_BSWModuleDescriptionTemplate), p.51
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - after `BswEntryRelationship`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 4.18, p.51. Concrete Class; spec Base chain
+    ARObject..Identifiable..CollectableElement..PackageableElement..ARElement (+ AtpBlueprint /
+    AtpBlueprintable, both empty groups — collapsed per the attribute-less-abstract-base
+    precedent) → RE-BASED src `Identifiable` → `ARElement`. Aggregated by ARPackage.element.
+    One attr: bswEntryRelationship (BswEntryRelationship, 0..*, aggr → typed-list field
+    bswEntryRelationships). XSD: BSW-ENTRY-RELATIONSHIPS wrapper (0..1) + unbounded
+    BSW-ENTRY-RELATIONSHIP items after base groups. Drift: `__init__` docstring,
+    paraphrased docstrings, old 4-col checklist; NO reader/writer coverage (no factory,
+    no dispatch, no read/write helpers); tracker `missing` row stale (leaf-file audit).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): ADDED createBswEntryRelationshipSet factory + getBswEntryRelationshipSets
+    getter on ARPackage (bottom late-binding import, createSwcBswMapping pattern);
+    read/writeBswEntryRelationshipSet helpers (wrapper + items via read/writeBswEntryRelationship);
+    ARPackage element dispatch both directions; value-asserting helper tests + full-document
+    round-trip via the factory pass.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): tracker `missing` row RESOLVED (stale leaf-file audit) → ok row
+    (Rule 0001.5 plural naming); base re-base recorded (Identifiable → ARElement);
+    AtpBlueprint/AtpBlueprintable collapse noted for 9b review.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12319 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BswModuleClientServerEntry` — Referrable — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py

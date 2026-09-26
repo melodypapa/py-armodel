@@ -1786,6 +1786,39 @@ class TestBswEntryRelationshipHandlers:
         assert relationship.getBswEntryRelationshipType() is None
 
 
+class TestBswEntryRelationshipSetHandlers:
+    """Exercise readBswEntryRelationshipSet (wrapper + relationship items)."""
+
+    def test_readBswEntryRelationshipSet_adds_relationships(self, parser):
+        from armodel.models import BswEntryRelationshipSet
+
+        entry_set = BswEntryRelationshipSet(parent=_autosar_root(), short_name="set")
+        element = _snip(
+            "<BSW-ENTRY-RELATIONSHIPS>"
+            "<BSW-ENTRY-RELATIONSHIP>"
+            "<FROM-REF DEST='BSW-MODULE-ENTRY'>/mod/abstract</FROM-REF>"
+            "<TO-REF DEST='BSW-MODULE-ENTRY'>/mod/concrete</TO-REF>"
+            "<BSW-ENTRY-RELATIONSHIP-TYPE>DERIVED-FROM</BSW-ENTRY-RELATIONSHIP-TYPE>"
+            "</BSW-ENTRY-RELATIONSHIP>"
+            "</BSW-ENTRY-RELATIONSHIPS>",
+            root_tag="SET",
+        )
+        parser.readBswEntryRelationshipSet(element, entry_set)
+        relationships = entry_set.getBswEntryRelationships()
+        assert len(relationships) == 1
+        assert relationships[0].getFromRef().getValue() == "/mod/abstract"
+        assert relationships[0].getToRef().getValue() == "/mod/concrete"
+        assert relationships[0].getBswEntryRelationshipType().getValue() == "derivedFrom"
+
+    def test_readBswEntryRelationshipSet_absent_wrapper_leaves_empty(self, parser):
+        from armodel.models import BswEntryRelationshipSet
+
+        entry_set = BswEntryRelationshipSet(parent=_autosar_root(), short_name="set")
+        element = _snip("", root_tag="SET")
+        parser.readBswEntryRelationshipSet(element, entry_set)
+        assert entry_set.getBswEntryRelationships() == []
+
+
 class TestBswPerInstanceMemoryPolicyHandlers:
     """Exercise readBswPerInstanceMemoryPolicy and the BswInternalBehavior
     BSW-PER-INSTANCE-MEMORY-POLICYS wrapper."""

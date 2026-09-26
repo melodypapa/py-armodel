@@ -6,12 +6,15 @@ and BswModuleClientServerEntry. These classes represent BSW-specific interface e
 that define dependencies, module entries, and client-server relationships in the AUTOSAR architecture.
 """
 
+import typing
+
 from armodel import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
     BswCallType,
     BswEntryKindEnum,
     BswEntryRelationship,
     BswEntryRelationshipEnum,
+    BswEntryRelationshipSet,
     BswExecutionContext,
     BswModuleClientServerEntry,
     BswModuleDependency,
@@ -443,6 +446,41 @@ class TestBswModuleClientServerEntry:
         result = entry.setIsSynchronous(None)
         assert result == entry
         assert entry.getIsSynchronous() is True  # Should remain unchanged
+
+
+class TestBswEntryRelationshipSet:
+    """Test BswEntryRelationshipSet (Table 4.18)."""
+
+    def _make_set(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        return BswEntryRelationshipSet(ar_root, "test_entry_relationship_set")
+
+    def test_initialization(self):
+        entry_set = self._make_set()
+        assert entry_set.short_name == "test_entry_relationship_set"
+        assert entry_set.getBswEntryRelationships() == []
+
+    def test_add_bsw_entry_relationship(self):
+        entry_set = self._make_set()
+        relationship = BswEntryRelationship()
+        result = entry_set.addBswEntryRelationship(relationship)
+        assert result is entry_set
+        assert entry_set.getBswEntryRelationships() == [relationship]
+
+    def test_add_bsw_entry_relationship_none_is_noop(self):
+        entry_set = self._make_set()
+        entry_set.addBswEntryRelationship(None)
+        assert entry_set.getBswEntryRelationships() == []
+
+    def test_type_annotations(self):
+        """Pin the spec many (0..*) aggregate annotation on the accessors."""
+        getter_hints = typing.get_type_hints(BswEntryRelationshipSet.getBswEntryRelationships)
+        assert getter_hints.get("return") == typing.List[BswEntryRelationship]
+
+        setter_hints = typing.get_type_hints(BswEntryRelationshipSet.addBswEntryRelationship)
+        assert setter_hints.get("value") is BswEntryRelationship
+        assert setter_hints.get("return") is BswEntryRelationshipSet
 
 
 class TestBswEntryRelationshipEnum:

@@ -76,7 +76,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
 )
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import BswServiceDependencyIdent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationship, BswModuleClientServerEntry, BswModuleDependency, BswModuleEntry
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationship, BswEntryRelationshipSet, BswModuleClientServerEntry, BswModuleDependency, BswModuleEntry
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
@@ -7589,6 +7589,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Required Data <%s>" % type(data))
 
+    def writeBswEntryRelationshipSet(self, element: ET.Element, entry_set: BswEntryRelationshipSet):
+        child_element = ET.SubElement(element, "BSW-ENTRY-RELATIONSHIP-SET")
+        self.writeIdentifiable(child_element, entry_set)
+        relationships = entry_set.getBswEntryRelationships()
+        if len(relationships) > 0:
+            relationships_tag = ET.SubElement(child_element, "BSW-ENTRY-RELATIONSHIPS")
+            for relationship in relationships:
+                relationship_element = ET.SubElement(relationships_tag, "BSW-ENTRY-RELATIONSHIP")
+                self.writeBswEntryRelationship(relationship_element, relationship)
+
     def writeBswEntryRelationship(self, element: ET.Element, relationship: BswEntryRelationship):
         self.setChildElementOptionalRefType(element, "FROM-REF", relationship.getFromRef())
         self.setChildElementOptionalRefType(element, "TO-REF", relationship.getToRef())
@@ -13894,6 +13904,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeBswModuleDescription(element, ar_element)
         elif isinstance(ar_element, BswModuleEntry):
             self.writeBswModuleEntry(element, ar_element)
+        elif isinstance(ar_element, BswEntryRelationshipSet):
+            self.writeBswEntryRelationshipSet(element, ar_element)
         elif isinstance(ar_element, SwcBswMapping):
             self.writeSwcBswMapping(element, ar_element)
         elif isinstance(ar_element, BswImplementation):

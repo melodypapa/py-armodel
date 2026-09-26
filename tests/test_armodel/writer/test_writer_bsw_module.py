@@ -32,7 +32,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswVariableAccess,
     RoleBasedBswModuleEntryAssignment,
 )
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationship
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationship, BswEntryRelationshipSet
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import (
     ModeInBswModuleDescriptionInstanceRef,
 )
@@ -78,6 +78,11 @@ def reset_autosar():
 def writer():
     AUTOSAR.getInstance().new()
     return ARXMLWriter()
+
+
+def _writer_ar_root():
+    document = AUTOSAR.getInstance()
+    return document.createARPackage("AUTOSAR")
 
 
 def _parent():
@@ -702,6 +707,60 @@ class TestWriterBswEntryRelationshipRoundTrip:
         assert parsed.getToRef().getValue() == "/mod/concrete"
         assert parsed.getBswEntryRelationshipType() is not None
         assert parsed.getBswEntryRelationshipType().getValue() == "derivedFrom"
+
+
+class TestWriterBswEntryRelationshipSetRoundTrip:
+    def test_write_bsw_entry_relationship_set_structure(self, writer):
+        entry_set = BswEntryRelationshipSet(_writer_ar_root(), "set")
+        relationship = BswEntryRelationship()
+        relationship.setFromRef(_ref("/mod/abstract", "BSW-MODULE-ENTRY"))
+        relationship.setToRef(_ref("/mod/concrete", "BSW-MODULE-ENTRY"))
+        entry_set.addBswEntryRelationship(relationship)
+        parent = _parent()
+        writer.writeBswEntryRelationshipSet(parent, entry_set)
+        set_element = parent[0]
+        assert set_element.tag == "BSW-ENTRY-RELATIONSHIP-SET"
+        wrapper = set_element.find("BSW-ENTRY-RELATIONSHIPS")
+        assert wrapper is not None
+        items = wrapper.findall("BSW-ENTRY-RELATIONSHIP")
+        assert len(items) == 1
+        assert items[0].find("FROM-REF").text == "/mod/abstract"
+        assert items[0].find("TO-REF").text == "/mod/concrete"
+
+    def test_write_bsw_entry_relationship_set_empty_omits_wrapper(self, writer):
+        entry_set = BswEntryRelationshipSet(_writer_ar_root(), "set")
+        parent = _parent()
+        writer.writeBswEntryRelationshipSet(parent, entry_set)
+        assert parent[0].tag == "BSW-ENTRY-RELATIONSHIP-SET"
+        assert parent[0].find("BSW-ENTRY-RELATIONSHIPS") is None
+
+    def test_round_trip_bsw_entry_relationship_set_document(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        entry_set = pkg.createBswEntryRelationshipSet("set")
+        relationship = BswEntryRelationship()
+        relationship.setFromRef(_ref("/mod/abstract", "BSW-MODULE-ENTRY"))
+        relationship.setToRef(_ref("/mod/concrete", "BSW-MODULE-ENTRY"))
+        entry_set.addBswEntryRelationship(relationship)
+
+        out_file = tmp_path / "set_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        pkg_2 = reloaded.getARPackages()[0]
+        set_2 = pkg_2.getBswEntryRelationshipSets()[0]
+        assert isinstance(set_2, BswEntryRelationshipSet)
+        assert set_2.getShortName() == "set"
+        relationships = set_2.getBswEntryRelationships()
+        assert len(relationships) == 1
+        assert relationships[0].getFromRef().getValue() == "/mod/abstract"
+        assert relationships[0].getToRef().getValue() == "/mod/concrete"
 
 
 class TestWriterBswSynchronousServerCallPointRoundTrip:

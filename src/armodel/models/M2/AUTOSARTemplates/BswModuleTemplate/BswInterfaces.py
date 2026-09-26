@@ -10,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, NameToken, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, AREnum
@@ -657,26 +658,19 @@ class BswEntryRelationship(ARObject):
         return self
 
 
-class BswEntryRelationshipSet(Identifiable):
+class BswEntryRelationshipSet(ARElement):
     """
-    Describes a set of relationships between two BswModuleEntrys.
-    Tags: atp.recommendedPackage=BswEntryRelationshipSets
+    Describes a set of relationships between two BswModuleEntrys. Tags: atp.recommendedPackage=BswEntryRelationshipSets
     """
 
     # BswEntryRelationshipSet method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [ ] test
-    # [x] getBswEntryRelationships     [x] impl  [x] docstring  [ ] test
-    # [x] addBswEntryRelationship      [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.18, p.51
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBswEntryRelationships     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addBswEntryRelationship      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswEntryRelationshipSet with a parent and
-        short name.
-
-        Args:
-            parent: The parent ARObject that contains this relationship set
-            short_name: The unique short name of this relationship set
-        """
         super().__init__(parent, short_name)
 
         # Relationship between two BswModuleEntrys.
@@ -684,23 +678,14 @@ class BswEntryRelationshipSet(Identifiable):
 
     def getBswEntryRelationships(self) -> List[BswEntryRelationship]:
         """
-        Gets the list of relationships between BSW entries.
-
-        Returns:
-            List of BswEntryRelationship instances
+        Relationship between two BswModuleEntrys.
         """
         return self.bswEntryRelationships
 
     def addBswEntryRelationship(self, value: BswEntryRelationship) -> "BswEntryRelationshipSet":
         """
-        Adds a relationship between BSW entries. Only adds if value is
-        not None. Returns self for method chaining.
-
-        Args:
-            value: The BswEntryRelationship instance to add
-
-        Returns:
-            self for method chaining
+        Relationship between two BswModuleEntrys.
+        A None value is a no-op and does not modify the existing bswEntryRelationships.
         """
         if value is not None:
             self.bswEntryRelationships.append(value)

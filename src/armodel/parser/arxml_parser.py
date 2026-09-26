@@ -88,7 +88,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
 )
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import BswServiceDependencyIdent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationship, BswEntryRelationshipEnum, BswModuleClientServerEntry, BswModuleEntry
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationship, BswEntryRelationshipEnum, BswEntryRelationshipSet, BswModuleClientServerEntry, BswModuleEntry
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
@@ -4540,6 +4540,13 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readVariableDataPrototype(child_element, data)
             else:
                 self.notImplemented("Unsupported Required Data <%s>" % tag_name)
+
+    def readBswEntryRelationshipSet(self, element: ET.Element, entry_set: BswEntryRelationshipSet):
+        self.readIdentifiable(element, entry_set)
+        for child_element in self.findall(element, "BSW-ENTRY-RELATIONSHIPS/BSW-ENTRY-RELATIONSHIP"):
+            relationship = BswEntryRelationship()
+            self.readBswEntryRelationship(child_element, relationship)
+            entry_set.addBswEntryRelationship(relationship)
 
     def readBswEntryRelationship(self, element: ET.Element, relationship: BswEntryRelationship):
         relationship.setFromRef(self.getChildElementOptionalRefType(element, "FROM-REF"))
@@ -14110,6 +14117,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "BSW-MODULE-ENTRY":
                 entry = parent.createBswModuleEntry(self.getShortName(child_element))
                 self.readBswModuleEntry(child_element, entry)
+            elif tag_name == "BSW-ENTRY-RELATIONSHIP-SET":
+                entry_set = parent.createBswEntryRelationshipSet(self.getShortName(child_element))
+                self.readBswEntryRelationshipSet(child_element, entry_set)
             elif tag_name == "SWC-BSW-MAPPING":
                 mapping = parent.createSwcBswMapping(self.getShortName(child_element))
                 self.readSwcBswMapping(child_element, mapping)

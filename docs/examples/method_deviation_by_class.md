@@ -98,11 +98,21 @@ per xml.sequenceOffset=5), value-asserting round-trip test.
 ## `BswEntryRelationshipSet`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 51
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces/BswEntryRelationshipSet.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `bswEntryRelationship` | `BswEntryRelationship` | — | missing |
+| `bswEntryRelationships` | `List[BswEntryRelationship]` | `bswEntryRelationship` | `BswEntryRelationship` | Aggr (0..*) | ok (Rule 0001.5 plural) |
+
+Deviation resolved (2026-09-26 sync, Table 4.18, p.51): the `missing` row was stale (audited
+against a non-existent leaf file `BswInterfaces/BswEntryRelationshipSet.py`; the member always
+existed in `BswInterfaces.py`) — verified present as a dedicated typed-list field. Base corrected
+`Identifiable` → `ARElement` (spec Base chain ARObject..CollectableElement..PackageableElement..
+ARElement; AtpBlueprint/AtpBlueprintable collapse per the established attribute-less-abstract-base
+precedent). Reader/writer coverage ADDED this sync: createBswEntryRelationshipSet factory +
+getBswEntryRelationshipSets getter on ARPackage, read/writeBswEntryRelationshipSet
+(BSW-ENTRY-RELATIONSHIPS wrapper + BSW-ENTRY-RELATIONSHIP items), ARPackage element dispatch
+both directions, document round-trip test.
 
 ## `BswModuleEntity`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 70
