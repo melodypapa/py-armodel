@@ -953,6 +953,28 @@ class TestDataTypeAndValueSpecHandlers:
         assert cont.getSwValuesPhys().getVs()[0].getValue() == "1.0"
         assert cont.getUnitDisplayName().getValue().getValue() == "display"
 
+    def test_getSwValueCont_display_name_sub_sup(self, parser):
+        element = _snip(
+            "<SW-VALUE-CONT>" "<UNIT-DISPLAY-NAME SUB='2' SUP='n'>m</UNIT-DISPLAY-NAME>" "</SW-VALUE-CONT>",
+            root_tag="PARENT",
+        )
+        cont = parser.getSwValueCont(element)
+        display_name = cont.getUnitDisplayName()
+        assert display_name.getValue().getValue() == "m"
+        assert display_name.getSub().getValue() == "2"
+        assert display_name.getSup().getValue() == "n"
+
+    def test_getSwValueCont_display_name_without_sub_sup(self, parser):
+        element = _snip(
+            "<SW-VALUE-CONT>" "<UNIT-DISPLAY-NAME>m</UNIT-DISPLAY-NAME>" "</SW-VALUE-CONT>",
+            root_tag="PARENT",
+        )
+        cont = parser.getSwValueCont(element)
+        display_name = cont.getUnitDisplayName()
+        assert display_name.getValue().getValue() == "m"
+        assert display_name.getSub() is None
+        assert display_name.getSup() is None
+
     def test_getSwValueCont_missing_returns_None(self, parser):
         element = _snip("<X/>")
         assert parser.getSwValueCont(element) is None
