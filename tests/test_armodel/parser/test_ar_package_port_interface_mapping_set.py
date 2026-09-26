@@ -570,3 +570,51 @@ class TestReadModeInterfaceMapping:
         mim = mapping_set.getPortInterfaceMappings()[0]
         assert mim.getShortName() == "mim"
         assert mim.getModeMapping() is None
+
+
+class TestReadVariableAndParameterInterfaceMapping:
+    """
+    Class-level dispatch test: VARIABLE-AND-PARAMETER-INTERFACE-MAPPING under
+    PORT-INTERFACE-MAPPINGS (SWC TPS Table 4.21) — SHORT-NAME + DATA-MAPPINGS children.
+    """
+
+    def test_read_data_mappings_field_values(self, parser):
+        mapping_set = _mapping_set()
+        _parse(
+            parser,
+            mapping_set,
+            """<PORT-INTERFACE-MAPPINGS>
+                <VARIABLE-AND-PARAMETER-INTERFACE-MAPPING>
+                    <SHORT-NAME>vpm</SHORT-NAME>
+                    <DATA-MAPPINGS>
+                        <DATA-PROTOTYPE-MAPPING>
+                            <FIRST-DATA-PROTOTYPE-REF DEST='VARIABLE-DATA-PROTOTYPE'>/pkg/left</FIRST-DATA-PROTOTYPE-REF>
+                            <SECOND-DATA-PROTOTYPE-REF DEST='VARIABLE-DATA-PROTOTYPE'>/pkg/right</SECOND-DATA-PROTOTYPE-REF>
+                        </DATA-PROTOTYPE-MAPPING>
+                    </DATA-MAPPINGS>
+                </VARIABLE-AND-PARAMETER-INTERFACE-MAPPING>
+            </PORT-INTERFACE-MAPPINGS>""",
+        )
+        mappings = mapping_set.getPortInterfaceMappings()
+        assert len(mappings) == 1
+        vpm = mappings[0]
+        assert isinstance(vpm, VariableAndParameterInterfaceMapping)
+        assert vpm.getShortName() == "vpm"
+        data_mappings = vpm.getDataMappings()
+        assert len(data_mappings) == 1
+        assert data_mappings[0].getFirstDataPrototypeRef().getValue() == "/pkg/left"
+        assert data_mappings[0].getSecondDataPrototypeRef().getValue() == "/pkg/right"
+
+    def test_read_empty_mapping_has_no_data_mappings(self, parser):
+        mapping_set = _mapping_set()
+        _parse(
+            parser,
+            mapping_set,
+            """<PORT-INTERFACE-MAPPINGS>
+                <VARIABLE-AND-PARAMETER-INTERFACE-MAPPING>
+                    <SHORT-NAME>vpm</SHORT-NAME>
+                </VARIABLE-AND-PARAMETER-INTERFACE-MAPPING>
+            </PORT-INTERFACE-MAPPINGS>""",
+        )
+        vpm = mapping_set.getPortInterfaceMappings()[0]
+        assert vpm.getDataMappings() == []

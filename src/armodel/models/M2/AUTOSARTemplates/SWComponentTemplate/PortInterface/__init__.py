@@ -1633,21 +1633,35 @@ class ClientServerInterfaceMapping(PortInterfaceMapping):
 
 
 class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
+    """
+    Defines the mapping of VariableDataPrototypes or ParameterDataPrototypes in context of two different SenderReceiverInterfaces, NvDataInterfaces or ParameterInterfaces.
+    """
+
     # VariableAndParameterInterfaceMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataMappings              [x] impl  [ ] docstring  [ ] test
-    # [ ] addDataMapping               [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.21, p.125 (R23-11; body renders above the caption line)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataMappings    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDataMapping     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # Defines the mapping of two particular VariableDataPrototypes or ParameterDataPrototypes with unequal names and/or unequal semantic (resolution or range) in context of two different SenderReceiverInterfaces, NvDataInterfaces or ParameterInterfaces Stereotypes: atpSplitable Tags: atp.Splitkey=dataMapping
         self.dataMappings: List[DataPrototypeMapping] = []
 
-    def getDataMappings(self):
+    def getDataMappings(self) -> List[DataPrototypeMapping]:
+        """
+        Defines the mapping of two particular VariableDataPrototypes or ParameterDataPrototypes with unequal names and/or unequal semantic (resolution or range) in context of two different SenderReceiverInterfaces, NvDataInterfaces or ParameterInterfaces Stereotypes: atpSplitable Tags: atp.Splitkey=dataMapping
+        """
         return self.dataMappings
 
-    def addDataMapping(self, value):
-        self.dataMappings.append(value)
+    def addDataMapping(self, value: Optional[DataPrototypeMapping]) -> "VariableAndParameterInterfaceMapping":
+        """
+        Defines the mapping of two particular VariableDataPrototypes or ParameterDataPrototypes with unequal names and/or unequal semantic (resolution or range) in context of two different SenderReceiverInterfaces, NvDataInterfaces or ParameterInterfaces Stereotypes: atpSplitable Tags: atp.Splitkey=dataMapping. A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.dataMappings.append(value)
         return self
 
 

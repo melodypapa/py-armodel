@@ -890,3 +890,59 @@ class TestModeInterfaceMappingSpecContract:
             doc = getattr(ModeInterfaceMapping, method).__doc__.strip()
             assert self.MODE_MAPPING_NOTE in doc, "%s docstring must carry the spec Note verbatim" % method
         assert "A None value is a no-op and does not overwrite an existing modeMapping." in ModeInterfaceMapping.setModeMapping.__doc__.strip()
+
+
+class TestVariableAndParameterInterfaceMappingSpecContract:
+    CLASS_NOTE = "Defines the mapping of VariableDataPrototypes or ParameterDataPrototypes in context of two different SenderReceiverInterfaces, NvDataInterfaces or ParameterInterfaces."
+    DATA_MAPPING_NOTE = "Defines the mapping of two particular VariableDataPrototypes or ParameterDataPrototypes with unequal names and/or unequal semantic (resolution or range) in context of two different SenderReceiverInterfaces, NvDataInterfaces or ParameterInterfaces Stereotypes: atpSplitable Tags: atp.Splitkey=dataMapping"
+
+    def _make(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        return VariableAndParameterInterfaceMapping(ar_root, "vapim")
+
+    def test_initialization(self):
+        """Test VariableAndParameterInterfaceMapping initialization defaults (Table 4.21, single `*` aggr)"""
+        mapping = self._make()
+        assert mapping is not None
+        assert mapping.getDataMappings() == []
+
+    def test_base_shape(self):
+        """VariableAndParameterInterfaceMapping shall derive from PortInterfaceMapping (Table 4.21 Base row, most-derived provided base)"""
+        mapping = self._make()
+        assert isinstance(mapping, PortInterfaceMapping)
+        assert isinstance(mapping, Referrable)
+        assert isinstance(mapping, MultilanguageReferrable)
+        assert isinstance(mapping, Identifiable)
+        assert isinstance(mapping, AtpBlueprintable)
+        assert isinstance(mapping, ARObject)
+
+    def test_add_get_data_mappings(self):
+        """Test dataMappings list round-trip, chaining and None no-op (Table 4.21 dataMapping, `*` aggr)"""
+        mapping = self._make()
+        assert mapping.getDataMappings() == []
+        item = DataPrototypeMapping()
+        assert mapping.addDataMapping(item) is mapping
+        assert mapping.getDataMappings() == [item]
+        mapping.addDataMapping(None)
+        assert mapping.getDataMappings() == [item]
+
+    def test_accessor_annotations(self):
+        """Accessors shall carry List[...]/Optional[...] hints; adder shall chain VariableAndParameterInterfaceMapping (Table 4.21 mults)"""
+        add_hints = get_type_hints(VariableAndParameterInterfaceMapping.addDataMapping)
+        assert add_hints["value"] == Optional[DataPrototypeMapping]
+        assert add_hints["return"] == VariableAndParameterInterfaceMapping
+        get_hints = get_type_hints(VariableAndParameterInterfaceMapping.getDataMappings)
+        assert get_hints["return"] == List[DataPrototypeMapping]
+
+    def test_spec_note(self):
+        """Test the Table 4.21 class note and per-attribute note (verbatim from the markdown, mid-word splits de-split per the XSD doc wording)"""
+        class_doc = VariableAndParameterInterfaceMapping.__doc__.strip()
+        assert self.CLASS_NOTE in class_doc
+        assert VariableAndParameterInterfaceMapping.__init__.__doc__ is None
+        init_source = inspect.getsource(VariableAndParameterInterfaceMapping.__init__)
+        assert self.DATA_MAPPING_NOTE in init_source
+        for method in ("getDataMappings", "addDataMapping"):
+            doc = getattr(VariableAndParameterInterfaceMapping, method).__doc__.strip()
+            assert self.DATA_MAPPING_NOTE in doc, "%s docstring must carry the spec Note verbatim" % method
+        assert "A None value is a no-op and does not append anything." in VariableAndParameterInterfaceMapping.addDataMapping.__doc__.strip()
