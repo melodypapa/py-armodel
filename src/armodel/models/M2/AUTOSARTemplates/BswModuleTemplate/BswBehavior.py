@@ -2176,43 +2176,32 @@ class BswDataReceptionPolicy(BswApiOptions, VariationPointCapable, ABC):
 
 class BswQueuedDataReceptionPolicy(BswDataReceptionPolicy):
     """
-    Represents a queued data reception policy in a BSW module.
-    This policy handles data reception using a queue mechanism.
+    Reception policy attributes specific for queued receiving.
     """
 
     # BswQueuedDataReceptionPolicy method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getQueueLength               [x] impl  [x] docstring  [ ] test
-    # [x] setQueueLength               [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.43, p.105
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getQueueLength  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setQueueLength  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the BswQueuedDataReceptionPolicy.
-        """
         super().__init__()
 
-        # Maximum queue length for received data
-        self.queueLength: PositiveInteger = None
+        # Length of queue for received events. The attribute queueLength shall exist at the time when the configuration of the BSW module is finished (constr_10297).
+        self.queueLength: Optional[PositiveInteger] = None
 
-    def getQueueLength(self):
+    def getQueueLength(self) -> Optional[PositiveInteger]:
         """
-        Gets the maximum queue length for received data.
-
-        Returns:
-            Positive integer representing the queue length
+        Length of queue for received events.
         """
         return self.queueLength
 
-    def setQueueLength(self, value):
+    def setQueueLength(self, value: Optional[PositiveInteger]) -> BswQueuedDataReceptionPolicy:
         """
-        Sets the maximum queue length for received data.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The queue length value to set
-
-        Returns:
-            self for method chaining
+        Length of queue for received events.
+        A None value is a no-op and does not overwrite an existing queueLength.
         """
         if value is not None:
             self.queueLength = value

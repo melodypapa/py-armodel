@@ -1225,8 +1225,22 @@ class TestWriterBswReceptionPolicies:
         writer.writeBswQueuedDataReceptionPolicy(parent, policy)
         assert parent[0].tag == "BSW-QUEUED-DATA-RECEPTION-POLICY"
         assert parent[0].find("ENABLE-TAKE-ADDRESS") is not None
-        assert parent[0].find("RECEIVED-DATA-REF") is not None
+        assert parent[0].find("ENABLE-TAKE-ADDRESS").text == "true"
+        received_ref = parent[0].find("RECEIVED-DATA-REF")
+        assert received_ref is not None
+        assert received_ref.text == "/d"
+        assert received_ref.attrib["DEST"] == "VARIABLE-DATA-PROTOTYPE"
         assert parent[0].find("QUEUE-LENGTH") is not None
+        assert parent[0].find("QUEUE-LENGTH").text == "3"
+
+    def test_queued_data_reception_policy_unset_omits_elements(self, writer):
+        policy = BswQueuedDataReceptionPolicy()
+        parent = _parent()
+        writer.writeBswQueuedDataReceptionPolicy(parent, policy)
+        assert parent[0].tag == "BSW-QUEUED-DATA-RECEPTION-POLICY"
+        assert parent[0].find("ENABLE-TAKE-ADDRESS") is None
+        assert parent[0].find("RECEIVED-DATA-REF") is None
+        assert parent[0].find("QUEUE-LENGTH") is None
 
     def test_behavior_reception_policies(self, writer):
         behavior = _make_behavior()
@@ -1243,6 +1257,68 @@ class TestWriterBswReceptionPolicies:
         parent = _parent()
         writer.writeBswInternalBehaviorReceptionPolicies(parent, behavior)
         assert len(parent) == 0
+
+
+class TestWriterBswQueuedDataReceptionPolicyRoundTrip:
+    def test_round_trip_queued_data_reception_policy(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        policy = BswQueuedDataReceptionPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        policy.setReceivedDataRef(_ref("/d", "VARIABLE-DATA-PROTOTYPE"))
+        policy.setQueueLength(_posint(3))
+        behavior.addReceptionPolicy(policy)
+
+        out_file = tmp_path / "reception_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policy_2 = behavior_2.getReceptionPolicies()[0]
+        assert isinstance(policy_2, BswQueuedDataReceptionPolicy)
+        assert policy_2.getEnableTakeAddress().value is True
+        assert policy_2.getReceivedDataRef().getValue() == "/d"
+        assert policy_2.getReceivedDataRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+        assert policy_2.getQueueLength().getValue() == 3
+
+    def test_round_trip_queued_data_reception_policy_unset(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.addReceptionPolicy(BswQueuedDataReceptionPolicy())
+
+        out_file = tmp_path / "reception_unset_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        raw = out_file.read_text()
+        assert "ENABLE-TAKE-ADDRESS" not in raw
+        assert "RECEIVED-DATA-REF" not in raw
+        assert "QUEUE-LENGTH" not in raw
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policy_2 = behavior_2.getReceptionPolicies()[0]
+        assert isinstance(policy_2, BswQueuedDataReceptionPolicy)
+        assert policy_2.getEnableTakeAddress() is None
+        assert policy_2.getReceivedDataRef() is None
+        assert policy_2.getQueueLength() is None
 
     def test_writeBswDataReceptionPolicy_direct(self, writer):
         policy = BswQueuedDataReceptionPolicy()

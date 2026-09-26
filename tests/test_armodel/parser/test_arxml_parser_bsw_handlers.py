@@ -1608,9 +1608,18 @@ class TestBswReceptionAndApiOptions:
         )
         parser.readBswQueuedDataReceptionPolicy(element, policy)
         assert policy.getQueueLength().getValue() == 5
+        assert policy.getReceivedDataRef().getValue() == "/d"
+
+    def test_readBswQueuedDataReceptionPolicy_absent_element_leaves_none(self, parser):
+        from armodel.models import BswQueuedDataReceptionPolicy
+
+        policy = BswQueuedDataReceptionPolicy()
+        element = _snip("", root_tag="P")
+        parser.readBswQueuedDataReceptionPolicy(element, policy)
+        assert policy.getQueueLength() is None
 
     def test_readBswInternalBehaviorReceptionPolicies_adds(self, parser):
-        from armodel.models import BswInternalBehavior
+        from armodel.models import BswInternalBehavior, BswQueuedDataReceptionPolicy
 
         behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
         element = _snip(
@@ -1618,7 +1627,10 @@ class TestBswReceptionAndApiOptions:
             root_tag="BH",
         )
         parser.readBswInternalBehaviorReceptionPolicies(element, behavior)
-        assert len(behavior.getReceptionPolicies()) == 1
+        policies = behavior.getReceptionPolicies()
+        assert len(policies) == 1
+        assert isinstance(policies[0], BswQueuedDataReceptionPolicy)
+        assert policies[0].getQueueLength().getValue() == 1
 
     def test_readBswInternalBehaviorReceptionPolicies_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import BswInternalBehavior

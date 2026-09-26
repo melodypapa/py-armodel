@@ -1691,11 +1691,32 @@ class TestBswQueuedDataReceptionPolicy:
         policy = BswQueuedDataReceptionPolicy()
 
         queue_length = PositiveInteger()
-        queue_length.setValue(5)
+        queue_length.setValue("5")
         result = policy.setQueueLength(queue_length)
 
         assert result == policy
         assert policy.getQueueLength() == queue_length
+        assert policy.getQueueLength().getValue() == 5
+
+    def test_set_queue_length_none_is_noop(self):
+        policy = BswQueuedDataReceptionPolicy()
+
+        queue_length = PositiveInteger()
+        queue_length.setValue("5")
+        policy.setQueueLength(queue_length)
+        result = policy.setQueueLength(None)
+
+        assert result == policy
+        assert policy.getQueueLength() == queue_length
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswQueuedDataReceptionPolicy.getQueueLength)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(BswQueuedDataReceptionPolicy.setQueueLength)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is BswQueuedDataReceptionPolicy
 
 
 class TestBswInternalTriggeringPoint:

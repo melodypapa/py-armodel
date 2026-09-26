@@ -222,6 +222,23 @@ No deviations (2026-09-26 sync, Table 5.40, p.103): bare `Float` field retyped t
 markdown Note, 6-column checklist; reader/writer already covered `ACK-REQUEST`/`TIMEOUT` via
 matched get/setBswModeSwitchAckRequest helpers.
 
+## `BswQueuedDataReceptionPolicy`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 105
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `queueLength` | `Optional[PositiveInteger]` | `queueLength` | `PositiveInteger` | attr | ok |
+
+No deviations (2026-09-26 sync, Table 5.43, p.105): bare `PositiveInteger` field retyped to
+`Optional[PositiveInteger]`, accessors typed, None no-op kept, fabricated class/`__init__`
+docstrings and fake 4-col intake checklist removed, docstrings rewritten verbatim from the
+markdown Note, 6-column checklist; reader/writer already covered the
+`BSW-QUEUED-DATA-RECEPTION-POLICY` wrapper and `QUEUE-LENGTH` via matched
+read/writeBswQueuedDataReceptionPolicy helpers. Base `BswDataReceptionPolicy` itself remains
+unstamped/drifted (own queue row, not this pass).
+
 ## `BswTriggerDirectImplementation`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 102
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`

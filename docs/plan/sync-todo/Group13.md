@@ -159,15 +159,28 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `BswQueuedDataReceptionPolicy` — BswDataReceptionPolicy — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 5.43, p.105 (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate).
+    Concrete Class; Base most-derived = `BswDataReceptionPolicy` (already correct in src).
+    One attr `queueLength` (PositiveInteger, 0..1, attr). Not VP-capable directly —
+    VARIATION-POINT lives in base group BSW-DATA-RECEPTION-POLICY (AUTOSAR_00052.xsd
+    L9727), capability inherited from base mixin (Rule 0020). Own XSD group
+    BSW-QUEUED-DATA-RECEPTION-POLICY L12385: QUEUE-LENGTH (AR:POSITIVE-INTEGER, 0..1);
+    XML order after base groups. Drift: fabricated class docstring, `__init__` docstring,
+    bare `PositiveInteger` field (→ Optional[PositiveInteger]), untyped accessors, fake
+    4-col checklist (removed). read/writeBswQueuedDataReceptionPolicy already cover
+    QUEUE-LENGTH. Base `BswDataReceptionPolicy` itself unstamped/drifted — not this row.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): read/writeBswQueuedDataReceptionPolicy + wrapper dispatch already
+    covered QUEUE-LENGTH with matched set/get names (XSD wire names verified); new
+    value-asserting + full round-trip tests passed immediately, no parser/writer edit.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12057 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BswAsynchronousServerCallReturnsEvent` — BswScheduleEvent — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
