@@ -162,15 +162,45 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `BswDataReceptionPolicy` — (abstract; Table 5.42 renders no Base row — src intake bases BswApiOptions + VariationPointCapable, XSD group-only) — R23-11 markdown · Table 5.42 (CP_TPS_BSWModuleDescriptionTemplate)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py (class EXISTS in src, unstamped — queued per Rule 0016.4 "exists is not a stamp")
   - note (2026-09-26, parent-dependency audit): QUEUED BEFORE its queued child `BswQueuedDataReceptionPolicy` (Rule 0016.5) — Table 5.43 Base row names this class, which was missing from the queue; abstract, group-only in XSD 00052 (group BSW-DATA-RECEPTION-POLICY L9727, single member RECEIVED-DATA-REF → VariableDataPrototype 0..1 ref, constr_10296 existence constr); Table 5.42 has ONE attribute row (receivedData) and renders no Base row — verify Base (incl. whether BswApiOptions belongs per the src intake) at Step 1 against the XSD complexType composition
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 5.42 body renders BEFORE its caption (page-split render,
+    md L2648-2663): Class = BswDataReceptionPolicy (abstract); Package =
+    M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior; Note = "Specifies the
+    reception policy for the referred data in sender-receiver communication over the
+    BSW Scheduler. To be used for inter-partition and/or inter-core communication.";
+    Base = "ARObject, BswApiOptions" → most-derived = BswApiOptions (XSD-only class,
+    group BSW-API-OPTIONS L9379); Subclasses = BswQueuedDataReceptionPolicy;
+    Aggregated by = BswInternalBehavior.receptionPolicy. Attribute rows (after
+    caption): receivedData (VariableDataPrototype, 0..1, ref → receivedDataRef
+    Optional[RefType]), constr_10296. R4.3.1 Table 6.41 p.106 agrees (Mult 1 there;
+    R23-11 0..1 wins). XSD: group-only BSW-DATA-RECEPTION-POLICY L9727 =
+    RECEIVED-DATA-REF (0..1) + VARIATION-POINT (sequenceOffset 10000) → VP-capable,
+    mixin kept (Rule 0020); no complexType of its own — child complexType L12400
+    composes BSW-API-OPTIONS + BSW-DATA-RECEPTION-POLICY + own group, confirming the
+    Base and BswApiOptions intake. Drift: fabricated class docstring, __init__
+    docstring, bare `RefType = None` field, untyped accessors, paraphrased docstrings,
+    stale 3-col checklist, redundant ABC in bases (siblings use
+    `(BswApiOptions, VariationPointCapable)`); read/writeBswDataReceptionPolicy exist
+    and are called by the child helpers but lack VARIATION-POINT coverage.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): read/writeBswDataReceptionPolicy had RECEIVED-DATA-REF +
+    ENABLE-TAKE-ADDRESS (via read/writeBswApiOptions) but lacked VARIATION-POINT
+    (group member 2, sequenceOffset 10000) — added readVariationPoint/writeVariationPoint
+    to both helpers (sibling readBswPerInstanceMemoryPolicy idiom); new VP
+    parser tests + value-asserting full round-trip (enableTakeAddress/receivedDataRef/
+    queueLength/variationPoint short label) pass.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations — all Step-1 drift items fixed (docstrings
+    verbatim, Optional[RefType] field + typed accessors, 6-col checklist); abstract
+    guard kept (ABC); Rule 0020 VP mixin is established convention, not a deviation;
+    R23-11 Mult 0..1 wins over R4.3.1 Table 6.41 Mult 1; constr_10296 is a
+    config-time existence constraint (not a model invariant), recorded here only.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12296 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BswQueuedDataReceptionPolicy` — BswDataReceptionPolicy — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py

@@ -7242,6 +7242,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeBswDataReceptionPolicy(self, element: ET.Element, policy: BswDataReceptionPolicy):
         self.writeBswApiOptions(element, policy)
         self.setChildElementOptionalRefType(element, "RECEIVED-DATA-REF", policy.getReceivedDataRef())
+        self.writeVariationPoint(element, policy.getVariationPoint())
 
     def writeBswQueuedDataReceptionPolicy(self, element: ET.Element, policy: BswQueuedDataReceptionPolicy):
         child_element = ET.SubElement(element, "BSW-QUEUED-DATA-RECEPTION-POLICY")

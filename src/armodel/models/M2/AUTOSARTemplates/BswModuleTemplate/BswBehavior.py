@@ -2060,47 +2060,36 @@ class BswDataSendPolicy(BswApiOptions, VariationPointCapable):
 
 class BswDataReceptionPolicy(BswApiOptions, VariationPointCapable, ABC):
     """
-    Abstract base class for BSW data reception policies.
-    Defines how BSW modules receive data.
+    Specifies the reception policy for the referred data in sender-receiver communication over the BSW Scheduler. To be used for inter-partition and/or inter-core communication.
     """
 
     # BswDataReceptionPolicy method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getReceivedDataRef           [x] impl  [x] docstring  [ ] test
-    # [ ] setReceivedDataRef           [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.42, p.105
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReceivedDataRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReceivedDataRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the BSW data reception policy.
-        Raises TypeError if this abstract class is instantiated directly.
-        """
         if type(self) is BswDataReceptionPolicy:
             raise TypeError("BswDataReceptionPolicy is an abstract class.")
 
         super().__init__()
 
-        # Reference to the data being received
-        self.receivedDataRef: RefType = None
+        # The data received over the BSW Scheduler using this policy.
+        self.receivedDataRef: Optional[RefType] = None
 
-    def getReceivedDataRef(self):
+    def getReceivedDataRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the data being received.
-
-        Returns:
-            Reference to the received data
+        The data received over the BSW Scheduler using this policy.
         """
         return self.receivedDataRef
 
-    def setReceivedDataRef(self, value):
+    def setReceivedDataRef(self, value: Optional[RefType]) -> BswDataReceptionPolicy:
         """
-        Sets the reference to the data being received.
-        Only sets the value if it is not None.
+        The data received over the BSW Scheduler using this policy.
 
-        Args:
-            value: The received data reference to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing receivedDataRef.
         """
         if value is not None:
             self.receivedDataRef = value

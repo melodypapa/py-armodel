@@ -1686,6 +1686,29 @@ class TestBswReceptionAndApiOptions:
         parser.readBswDataReceptionPolicy(element, policy)
         assert policy.getReceivedDataRef().getValue() == "/d"
 
+    def test_readBswDataReceptionPolicy_sets_variation_point(self, parser):
+        from armodel.models import BswQueuedDataReceptionPolicy
+
+        policy = BswQueuedDataReceptionPolicy()
+        element = _snip(
+            "<RECEIVED-DATA-REF DEST='VARIABLE-DATA-PROTOTYPE'>/d</RECEIVED-DATA-REF>" "<VARIATION-POINT><SHORT-LABEL>lbl</SHORT-LABEL></VARIATION-POINT>",
+            root_tag="P",
+        )
+        parser.readBswDataReceptionPolicy(element, policy)
+        assert policy.getVariationPoint() is not None
+        assert policy.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_readBswDataReceptionPolicy_absent_variation_point_leaves_none(self, parser):
+        from armodel.models import BswQueuedDataReceptionPolicy
+
+        policy = BswQueuedDataReceptionPolicy()
+        element = _snip(
+            "<RECEIVED-DATA-REF DEST='VARIABLE-DATA-PROTOTYPE'>/d</RECEIVED-DATA-REF>",
+            root_tag="P",
+        )
+        parser.readBswDataReceptionPolicy(element, policy)
+        assert policy.getVariationPoint() is None
+
     def test_readBswQueuedDataReceptionPolicy_sets_queue_length(self, parser):
         from armodel.models import BswQueuedDataReceptionPolicy
 

@@ -4182,6 +4182,12 @@ class ARXMLParser(AbstractARXMLParser):
     def readBswDataReceptionPolicy(self, element: ET.Element, policy: BswDataReceptionPolicy):
         self.readBswApiOptions(element, policy)
         policy.setReceivedDataRef(self.getChildElementOptionalRefType(element, "RECEIVED-DATA-REF"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(policy, VariationPointCapable):
+                policy.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
     def readBswQueuedDataReceptionPolicy(self, element: ET.Element, policy: BswQueuedDataReceptionPolicy):
         self.readBswDataReceptionPolicy(element, policy)

@@ -1469,6 +1469,27 @@ class TestWriterBswReceptionPolicies:
         assert parent[0].find("ENABLE-TAKE-ADDRESS") is None
         assert parent[0].find("RECEIVED-DATA-REF") is None
         assert parent[0].find("QUEUE-LENGTH") is None
+        assert parent[0].find("VARIATION-POINT") is None
+
+    def test_queued_data_reception_policy_variation_point_round_trip(self, writer):
+        policy = BswQueuedDataReceptionPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        policy.setReceivedDataRef(_ref("/d", "VARIABLE-DATA-PROTOTYPE"))
+        policy.setQueueLength(_posint(3))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        policy.setVariationPoint(variation_point)
+        parent = _parent()
+        writer.writeBswQueuedDataReceptionPolicy(parent, policy)
+        xml_text = "".join(ET.tostring(child, encoding="unicode") for child in parent)
+        reloaded = ET.fromstring("<ROOT xmlns='http://autosar.org/schema/r4.0'>%s</ROOT>" % xml_text)
+        parsed = BswQueuedDataReceptionPolicy()
+        ARXMLParser().readBswQueuedDataReceptionPolicy(reloaded[0], parsed)
+        assert parsed.getEnableTakeAddress().getValue() is True
+        assert parsed.getReceivedDataRef().getValue() == "/d"
+        assert parsed.getQueueLength().getValue() == 3
+        assert parsed.getVariationPoint() is not None
+        assert parsed.getVariationPoint().getShortLabel().getValue() == "lbl"
 
     def test_behavior_reception_policies(self, writer):
         behavior = _make_behavior()

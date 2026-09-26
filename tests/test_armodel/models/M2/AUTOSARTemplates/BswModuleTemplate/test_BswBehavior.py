@@ -1723,19 +1723,45 @@ class TestBswDataReceptionPolicy:
             BswDataReceptionPolicy()
         assert str(err.value) == "BswDataReceptionPolicy is an abstract class."
 
+    def test_initialization(self):
+        policy = BswQueuedDataReceptionPolicy()
+
+        assert policy.getReceivedDataRef() is None
+        assert policy.getEnableTakeAddress() is None
+        assert policy.getVariationPoint() is None
+
     def test_get_set_received_data_ref(self):
         policy = BswQueuedDataReceptionPolicy()
 
         ref = RefType()
+        ref.setValue("/d")
         result = policy.setReceivedDataRef(ref)
 
         assert result == policy
         assert policy.getReceivedDataRef() == ref
+        assert policy.getReceivedDataRef().getValue() == "/d"
 
-        # Setting None should not change the value (based on implementation)
         result = policy.setReceivedDataRef(None)
         assert result == policy
-        assert policy.getReceivedDataRef() == ref  # Value should remain unchanged
+        assert policy.getReceivedDataRef() == ref
+
+    def test_variation_point_capability(self):
+        policy = BswQueuedDataReceptionPolicy()
+
+        variation_point = VariationPoint()
+        result = policy.setVariationPoint(variation_point)
+
+        assert result == policy
+        assert policy.getVariationPoint() is variation_point
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswDataReceptionPolicy.getReceivedDataRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswDataReceptionPolicy.setReceivedDataRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswDataReceptionPolicy
 
 
 class TestBswQueuedDataReceptionPolicy:
