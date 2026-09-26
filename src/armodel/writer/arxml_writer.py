@@ -212,6 +212,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation
     SignalServiceTranslationPropsSet,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint, PortPrototypeBlueprintInitValue
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintFormula import BlueprintFormula
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator import BlueprintGenerator
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
@@ -1189,6 +1190,18 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeSwSystemconstDependentFormula(self, element: ET.Element, formula: SwSystemconstDependentFormula):
         self.setChildElementOptionalRefType(element, "SYSC-REF", formula.getSyscRef())
         self.setChildElementOptionalRefType(element, "SYSC-STRING-REF", formula.getSyscStringRef())
+
+    def writeBlueprintFormula(self, element: ET.Element, formula: BlueprintFormula):
+        if formula is not None:
+            child_element = ET.SubElement(element, "BLUEPRINT-FORMULA")
+            self.writeARObject(child_element, formula)
+            text = formula.getMixedString()
+            if text is not None:
+                child_element.text = text
+            self.setChildElementOptionalRefType(child_element, "ECUC-REF", formula.getEcucRef())
+            self.setMultiLanguageVerbatim(child_element, "VERBATIM", formula.getVerbatim())
+            if isinstance(formula, SwSystemconstDependentFormula):
+                self.writeSwSystemconstDependentFormula(child_element, formula)
 
     def writePostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition):
         child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CONDITION")

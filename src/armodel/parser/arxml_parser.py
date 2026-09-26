@@ -239,6 +239,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation
     SignalServiceTranslationPropsSet,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint, PortPrototypeBlueprintInitValue
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintFormula import BlueprintFormula
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator import BlueprintGenerator
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
@@ -1317,6 +1318,16 @@ class ARXMLParser(AbstractARXMLParser):
     def readSwSystemconstDependentFormula(self, element: ET.Element, formula: SwSystemconstDependentFormula) -> SwSystemconstDependentFormula:
         formula.setSyscRef(self.getChildElementOptionalRefType(element, "SYSC-REF"))
         formula.setSyscStringRef(self.getChildElementOptionalRefType(element, "SYSC-STRING-REF"))
+        return formula
+
+    def readBlueprintFormula(self, element: ET.Element, formula: BlueprintFormula) -> BlueprintFormula:
+        self.readARObject(element, formula)
+        if element.text is not None and element.text.strip() != "":
+            self.readMixedStringText(element, formula)
+        formula.setEcucRef(self.getChildElementOptionalRefType(element, "ECUC-REF"))
+        formula.setVerbatim(self.getMultiLanguageVerbatim(element, "VERBATIM"))
+        if isinstance(formula, SwSystemconstDependentFormula):
+            self.readSwSystemconstDependentFormula(element, formula)
         return formula
 
     def readPostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition) -> PostBuildVariantCondition:

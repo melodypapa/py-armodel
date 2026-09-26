@@ -46,6 +46,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.Memo
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintFormula import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMapping import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortInterfaceBlueprint import *  # noqa: F403
