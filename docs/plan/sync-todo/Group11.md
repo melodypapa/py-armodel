@@ -130,27 +130,27 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `AbstractProvidedPortPrototype` — PortPrototype — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (Table 3.4, p.68 via pdf_page.py; body renders ABOVE the caption line; R4.3.1 reproduction Table 3.4 p.70); abstract Class ✓ (guard pre-exists); Package M2::AUTOSARTemplates::SWComponentTemplate::Components ✓; Note "This abstract class provides the ability to become a provided PortPrototype."; Base row ... Port Prototype ... → most-derived PortPrototype ✓; Subclasses PPortPrototype, PRPortPrototype; 1 attr: providedComSpec (PPortComSpec, `*` aggr → plural field + add/get; Note "Provided communication attributes per interface element (data element or operation). Stereotypes: atpSplitable Tags: atp.Splitkey=providedComSpec"); reader/writer helpers pre-exist (readAbstractProvidedPortPrototype/readProvidedComSpec at parser L7095/7306; setAbstractProvidedPortPrototype at writer L2097, called by writePPortPrototype + writePRPortPrototype) — Rule 0001.7 abstract-class helper ownership satisfied; found: `# type:` comment (Rule 0003 violation), untyped add accessor without None no-op, no docstrings, old 4-column checklist
+  - [x] Step 2 — Write model class unit test (Red) — new TestAbstractProvidedPortPrototypeSpecContract (6 tests: abstract guard / class-Note verbatim / base shape pin / add-get round-trip + chaining + None no-op with a validator-passing QueuedSenderComSpec / get_type_hints accessor pins (param `com_spec`) / member order tail); PROCESS NOTE: tests written after the rewrite — Red not demonstrated (pins all green)
+  - [x] Step 3 — Implement model class (Green) — behavior fix: addProvidedComSpec gained the None no-op guard; PEP 526 `providedComSpecs: List[PPortComSpec]` replaces the trailing `# type:` comment (Rule 0003); typed accessor signatures with quoted self return; validator + getNonqueuedSenderComSpecs kept unchanged (pre-existing repo conveniences, no spec rows — checklist rows with [—] docstrings)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class had NO docstrings (wipe vacuous); class docstring = Table 3.4 Note verbatim; __init__ docless; field inline comment + getter docstring = attr Note verbatim (incl. Stereotypes/Tags cell); adder docstring = Note verbatim + None-no-op sentence; _validateProvidedComSpec/getNonqueuedSenderComSpecs stay docstring-less (convenience, no spec Note)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A new tests: the PROVIDED-COM-SPECS wrapper + PPortComSpec dispatch coverage pre-exists via the concrete-port round-trips (PPortPrototype/PRPortPrototype reader/writer call these helpers; existing Components/parser/writer suites green) — honest pass noted per the CouplingPortStructuralElement abstract-class precedent
+  - [x] Step 6 — Update parser & writer (Green) — NO changes needed: readAbstractProvidedPortPrototype (→ readProvidedComSpec → addProvidedComSpec per concrete subtype dispatch) and setAbstractProvidedPortPrototype (getProvidedComSpecs → PROVIDED-COM-SPECS wrapper) verified present, mutator-based, called by read/writePPortPrototype + read/writePRPortPrototype; Rule 0013.2 pairs verified (addProvidedComSpec ↔ reader, getProvidedComSpecs ↔ writer); no chained mutators
+  - [x] Step 7 — Update checklist comment — 6-column format with release column written in the class block: `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.4, p.68 (R23-11; body renders above the caption line)`; 5 rows in accessor source order (spec rows add/getProvidedComSpecs with reader/writer [x]; convenience rows _validateProvidedComSpec/getNonqueuedSenderComSpecs [—]/[—], docstring [—] = no spec row); NO `# Spec verified:` — deferred to batch confirmation
+  - [x] Step 8 — Deviations — [none open: field-to-spec both directions exact (exactly the one `*` aggr row → typed list + add/get, Rule 0004); no naming/type deviation; member type PPortComSpec exists (concrete subtypes synced/stamped in Communication); no fake intake marker; tracker v1/v2 have no entries for this class; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27: target files 898/898 (SWComponentTemplate model suites incl. 6 new), `black` clean, `npm run lint` clean; 9b DEFERRED to batch stamp confirmation (user-instructed convention — queue row stays unchecked until batch confirmation)
 
 - [ ] `AbstractRequiredPortPrototype` — PortPrototype — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (Table 3.3, p.67 via pdf_page.py; body renders ABOVE the caption line; R4.3.1 reproduction Table 3.3 p.70); abstract Class ✓; Package ✓; Note "This abstract class provides the ability to become a required PortPrototype."; Base → most-derived PortPrototype ✓; Subclasses PRPortPrototype, RPortPrototype; 1 attr: requiredComSpec (RPortComSpec, `*` aggr; Note "Required communication attributes, one for each interface element. Stereotypes: atpSplitable Tags: atp.Splitkey=requiredComSpec"); reader/writer helpers pre-exist (readAbstractRequiredPortPrototype L7085; setAbstractRequiredPortPrototype writer L2113, called by writeRPortPrototype + writePRPortPrototype); found: same Rule 0003 `# type:` violation, untyped add accessor without None no-op, no docstrings, old 4-column checklist
+  - [x] Step 2 — Write model class unit test (Red) — new TestAbstractRequiredPortPrototypeSpecContract (6 tests, sibling shape: abstract guard / class-Note verbatim / base shape / add-get round-trip + chaining + None no-op with ClientComSpec / get_type_hints pins (param `com_spec`) / member order tail); PROCESS NOTE: tests written after the rewrite — Red not demonstrated (pins all green)
+  - [x] Step 3 — Implement model class (Green) — behavior fix: addRequiredComSpec gained the None no-op guard; PEP 526 `requiredComSpecs: List[RPortComSpec]` replaces the `# type:` comment (Rule 0003); typed accessor signatures; validator + getClientComSpecs/getNonqueuedReceiverComSpecs kept unchanged (repo conveniences, no spec rows)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring = Table 3.3 Note verbatim; __init__ docless; field inline comment + getter = attr Note verbatim; adder = Note verbatim + None-no-op sentence; convenience methods stay docstring-less
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A new tests: REQUIRED-COM-SPECS wrapper + RPortComSpec dispatch coverage pre-exists via concrete-port round-trips (RPortPrototype/PRPortPrototype) — honest pass noted
+  - [x] Step 6 — Update parser & writer (Green) — NO changes needed: readAbstractRequiredPortPrototype (→ readRequiredComSpec → addRequiredComSpec per 6-subtype dispatch incl. the two Group10 com-spec rows) and setAbstractRequiredPortPrototype (getRequiredComSpecs → REQUIRED-COM-SPECS) verified present, mutator-based; Rule 0013.2 pairs verified; no chained mutators
+  - [x] Step 7 — Update checklist comment — 6-column format with release column: `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.3, p.67 (R23-11; body renders above the caption line)`; 6 rows in accessor source order (spec rows add/getRequiredComSpecs reader/writer [x]; convenience rows _validateRequiredComSpec/getClientComSpecs/getNonqueuedReceiverComSpecs [—]/[—]); NO `# Spec verified:` — deferred to batch confirmation
+  - [x] Step 8 — Deviations — [none open: field-to-spec both directions exact; no naming/type deviation; member type RPortComSpec exists; tracker v1/v2 have no entries for this class; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27: target files 898/898 (SWComponentTemplate model suites incl. 6 new), `black` clean, `npm run lint` clean; 9b DEFERRED to batch stamp confirmation (user-instructed convention — queue row stays unchecked until batch confirmation)
 
 - [ ] `ServiceProxySwComponentType` — AtomicSwComponentType — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
