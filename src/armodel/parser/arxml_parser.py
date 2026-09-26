@@ -1835,7 +1835,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readSlOverviewParagraph(self, element: ET.Element, paragraph: SlOverviewParagraph):
         self.readARObject(element, paragraph)
         self.readMixedContentForOverviewParagraph(element, paragraph)
-        paragraph.setValue(element.text or "")
+        self.readMixedStringText(element, paragraph)
         if "L" in element.attrib:
             paragraph.setL(element.attrib["L"])
 

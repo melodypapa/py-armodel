@@ -7,10 +7,7 @@ import inspect
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, Tt
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
-    LanguageSpecific,
-    MixedContentForOverviewParagraph,
-)
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import MixedContentForOverviewParagraph
 from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SlOverviewParagraph
 
 
@@ -20,7 +17,6 @@ class TestSlOverviewParagraph:
         paragraph = SlOverviewParagraph()
 
         assert paragraph.l is None
-        assert paragraph.value == ""
         assert paragraph.br is None
         assert paragraph.e is None
         assert paragraph.ft is None
@@ -34,14 +30,13 @@ class TestSlOverviewParagraph:
         assert paragraph.getMixedString() is None
 
     def test_base_chain(self):
-        """Base anchoring per Table E.70 Base row ARObject, MixedContentForOverviewParagraph + LanguageSpecific for the XSD-only L attribute (stamped SlParagraph Table E.71 precedent)."""
-        assert SlOverviewParagraph.__bases__ == (MixedContentForOverviewParagraph, LanguageSpecific)
+        """Base anchoring per Table E.70 Base row ARObject, MixedContentForOverviewParagraph — the XSD-only legacy L attribute is an own optional member (Rule 0019-style combine), NOT an inherited base."""
+        assert SlOverviewParagraph.__bases__ == (MixedContentForOverviewParagraph,)
         assert issubclass(SlOverviewParagraph, ARObject)
         assert issubclass(SlOverviewParagraph, AtpMixedString)
         assert [cls.__name__ for cls in SlOverviewParagraph.__mro__] == [
             "SlOverviewParagraph",
             "MixedContentForOverviewParagraph",
-            "LanguageSpecific",
             "ARObject",
             "AtpMixedString",
             "ABC",
@@ -55,16 +50,16 @@ class TestSlOverviewParagraph:
         )
         assert inspect.cleandoc(SlOverviewParagraph.__doc__) == expected
 
-    def test_has_no_own_members(self):
-        """Field-to-spec cross-check (Rule 0001.3): Table E.70 carries ZERO attribute rows (dash placeholder) — the class adds no fields beyond its bases."""
+    def test_legacy_l_is_the_only_own_member(self):
+        """Field-to-spec cross-check (Rule 0001.3): Table E.70 carries ZERO attribute rows (dash placeholder); the XSD-only legacy L attribute (attributeGroup SL-OVERVIEW-PARAGRAPH, atp.Status="removed") is merged as the single own optional member per Rule 0019."""
 
-        class Reference(MixedContentForOverviewParagraph, LanguageSpecific):
+        class Reference(MixedContentForOverviewParagraph):
             pass
 
-        assert set(vars(SlOverviewParagraph())) == set(vars(Reference()))
+        assert set(vars(SlOverviewParagraph())) - set(vars(Reference())) == {"l"}
 
-    def test_inherited_language_accessors(self):
-        """The XSD-only L attribute (attributeGroup SL-OVERVIEW-PARAGRAPH, atp.Status="removed") rides the inherited LanguageSpecific accessors."""
+    def test_language_accessors(self):
+        """The legacy l accessor semantics mirror the Table 9.97 LanguageSpecific.l row (None no-op)."""
         paragraph = SlOverviewParagraph()
 
         assert paragraph.getL() is None
@@ -73,13 +68,18 @@ class TestSlOverviewParagraph:
         assert paragraph.setL(None) is paragraph
         assert paragraph.getL() == "en"
 
-        assert paragraph.setValue("overview text") is paragraph
-        assert paragraph.getValue() == "overview text"
-        assert paragraph.setValue(None) is paragraph
-        assert paragraph.getValue() == "overview text"
+    def test_mixed_string_accessor(self):
+        """The mixed text rides the AtpMixedString mixin (mixedString) — no LanguageSpecific value member."""
+        paragraph = SlOverviewParagraph()
+
+        assert paragraph.setMixedString("overview text") is paragraph
+        assert paragraph.getMixedString() == "overview text"
+        paragraph.setMixedString(None)
+        assert paragraph.getMixedString() == "overview text"
+        assert not hasattr(paragraph, "value")
 
     def test_inherited_mixed_content_accessors(self):
-        """The Table 9.3 mixed-content accessors and the AtpMixedString mixin are inherited from MixedContentForOverviewParagraph."""
+        """The Table 9.3 mixed-content accessors are inherited from MixedContentForOverviewParagraph."""
         paragraph = SlOverviewParagraph()
         br = Br()
         tt = Tt()
@@ -93,8 +93,3 @@ class TestSlOverviewParagraph:
         assert paragraph.getTt() is tt
         assert paragraph.setTt(None) is paragraph
         assert paragraph.getTt() is tt
-
-        assert paragraph.setMixedString("overview text") is paragraph
-        assert paragraph.getMixedString() == "overview text"
-        paragraph.setMixedString(None)
-        assert paragraph.getMixedString() == "overview text"

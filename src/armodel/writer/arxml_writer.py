@@ -1508,7 +1508,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeSlOverviewParagraphContent(self, element: ET.Element, paragraph: SlOverviewParagraph):
         self.writeARObject(element, paragraph)
         self.writeMixedContentForOverviewParagraph(element, paragraph)
-        element.text = paragraph.getValue()
+        element.text = paragraph.getMixedString()
         if paragraph.getL() is not None:
             element.attrib["L"] = paragraph.getL()
 

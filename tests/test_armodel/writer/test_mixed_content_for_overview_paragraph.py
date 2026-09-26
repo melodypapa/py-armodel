@@ -92,7 +92,7 @@ class TestWriteSlOverviewParagraph:
         """The ft member must be emitted as an FT child element (L XML attribute + text + own mixed content) right after BR, per the MCFP writer precedent and the XSD group element order."""
         footnote = SlOverviewParagraph()
         footnote.setL("DE")
-        footnote.setValue("footnote text")
+        footnote.setMixedString("footnote text")
         footnote.setTt(Tt().setValue(String().setValue("term in footnote")))
         l2 = _build_l2_with_mixed_content()
         l2.setFt(footnote)
@@ -122,7 +122,7 @@ class TestWriteSlOverviewParagraph:
         """Document-level parse -> write -> re-parse must preserve the footnote field values."""
         footnote = SlOverviewParagraph()
         footnote.setL("DE")
-        footnote.setValue("footnote text")
+        footnote.setMixedString("footnote text")
         footnote.setBr(Br())
         footnote.setTt(Tt().setValue(String().setValue("term in footnote")))
         l2 = _build_l2_with_mixed_content()
@@ -141,7 +141,7 @@ class TestWriteSlOverviewParagraph:
         assert reread.getE().getValue().getValue() == "emphasized overview"
         reread_ft = reread.getFt()
         assert isinstance(reread_ft, SlOverviewParagraph)
-        assert reread_ft.getValue() == "footnote text"
+        assert reread_ft.getMixedString() == "footnote text"
         assert reread_ft.getL() == "DE"
         assert isinstance(reread_ft.getBr(), Br)
         assert reread_ft.getTt().getValue().getValue() == "term in footnote"
