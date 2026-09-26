@@ -899,6 +899,15 @@ class TestBswModeManagerErrorEvent:
         assert result is event
         assert event.getModeGroupRef() == ref
 
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswModeManagerErrorEvent.getModeGroupRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswModeManagerErrorEvent.setModeGroupRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswModeManagerErrorEvent
+
 
 class TestBswModeSwitchedAckEvent:
     """Test cases for BswModeSwitchedAckEvent class - represents a mode switched acknowledgement event in a BSW module."""

@@ -178,6 +178,19 @@ the aggregation is itself a partial implementation and remains to be wired.
 |---|---|---|---|---|---|
 | `modeGroupRef` | `Optional[RefType]` | `modeGroup` | `Ref (ModeDeclarationGroupPrototype)` | Ref | ok |
 
+No deviations (2026-09-26 sync, Table 5.33, p.95): bare `RefType` setter parameter retyped to
+`Optional[RefType]` (0..1), fabricated class docstring (constr_4081 text not in this table)
+and `__init__` docstring removed, paraphrased docstrings and the inline comment wiped and
+rewritten verbatim from the markdown Note (constr_10286 appended to the inline comment), old
+4-col checklist replaced by the 6-column checklist; no fake intake marker was present.
+Reader/writer already covered the `MODE-GROUP-REF` element via matched
+read/writeBswModeManagerErrorEvent helpers with dispatch + createBswModeManagerErrorEvent
+factory on BswInternalBehavior; writer reads via the getter (no direct-field-read defect).
+VP capability inherited via the BswEvent mixin (VARIATION-POINT lives in the ancestor
+BSW-EVENT group; Rule 0020). Base drift observed (not this row): `readBswEvent` lacks a
+`readIdentifiable` call while `writeBswEvent` calls `writeIdentifiable`
+(BswEvent/BswScheduleEvent base-owned; both unstamped, no queue rows yet).
+
 ## `BswModeSwitchedAckEvent`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 95
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`

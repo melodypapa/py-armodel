@@ -1189,55 +1189,32 @@ class BswModeSwitchedAckEvent(BswScheduleEvent):
 
 class BswModeManagerErrorEvent(BswScheduleEvent):
     """
-    This represents the ability to react on errors occurring during mode
-    handling. The event can be used to start a BswModuleEntity after an error
-    has been announced by the mode manager. The ModeDeclarationGroupPrototype
-    used by this event shall be referred as BswModuleDescription.providedModeGroup
-    by the same module (constr_4081).
+    This represents the ability to react on errors occurring during mode handling.
     """
 
     # BswModeManagerErrorEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.33, p.95
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getModeGroupRef              [x] impl  [x] docstring  [x] test
-    # [x] setModeGroupRef              [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getModeGroupRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeGroupRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswModeManagerErrorEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
         super().__init__(parent, short_name)
 
-        # This represents the ModeDeclarationGroupPrototype for which the
-        # error behavior of the mode manager applies. The reference in the
-        # role modeGroup shall exist at the time when the configuration of
-        # the BSW module is finished (constr_10286).
+        # This represents the ModeDeclarationGroupPrototype for which the error behavior of the mode manager applies. For each BswModeManagerErrorEvent, the reference in the role modeGroup shall exist at the time when the configuration of the BSW module is finished (constr_10286).
         self.modeGroupRef: Optional[RefType] = None
 
     def getModeGroupRef(self) -> Optional[RefType]:
         """
-        Gets the ModeDeclarationGroupPrototype for which the error behavior
-        of the mode manager applies.
-
-        Returns:
-            The mode group reference
+        This represents the ModeDeclarationGroupPrototype for which the error behavior of the mode manager applies.
         """
         return self.modeGroupRef
 
-    def setModeGroupRef(self, value: RefType) -> BswModeManagerErrorEvent:
+    def setModeGroupRef(self, value: Optional[RefType]) -> BswModeManagerErrorEvent:
         """
-        Sets the ModeDeclarationGroupPrototype for which the error behavior
-        of the mode manager applies. Only sets if value is not None.
-
-        Args:
-            value: The mode group reference to set
-
-        Returns:
-            self for method chaining
+        This represents the ModeDeclarationGroupPrototype for which the error behavior of the mode manager applies.
+        A None value is a no-op and does not overwrite an existing modeGroupRef.
         """
         if value is not None:
             self.modeGroupRef = value

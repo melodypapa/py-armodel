@@ -1462,6 +1462,28 @@ class TestBswInternalBehaviorEventsDetailed:
         parser.readBswModeManagerErrorEvent(element, event)
         assert event.getModeGroupRef().getValue() == "/mg"
 
+    def test_readBswModeManagerErrorEvent_mode_group_ref_dest(self, parser):
+        from armodel.models import BswModeManagerErrorEvent
+
+        event = BswModeManagerErrorEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>" "<MODE-GROUP-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/mg</MODE-GROUP-REF>",
+            root_tag="BSW-MODE-MANAGER-ERROR-EVENT",
+        )
+        parser.readBswModeManagerErrorEvent(element, event)
+        assert event.getModeGroupRef().getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
+
+    def test_readBswModeManagerErrorEvent_absent_mode_group_ref(self, parser):
+        from armodel.models import BswModeManagerErrorEvent
+
+        event = BswModeManagerErrorEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>",
+            root_tag="BSW-MODE-MANAGER-ERROR-EVENT",
+        )
+        parser.readBswModeManagerErrorEvent(element, event)
+        assert event.getModeGroupRef() is None
+
     def test_readBswModeSwitchedAckEvent_sets_mode_group_ref(self, parser):
         from armodel.models import BswModeSwitchedAckEvent
 

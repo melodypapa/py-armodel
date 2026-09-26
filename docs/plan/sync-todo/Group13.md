@@ -270,15 +270,32 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `BswModeManagerErrorEvent` — BswScheduleEvent — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 5.33, p.95 (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate).
+    Concrete Class; Base most-derived = `BswScheduleEvent` (already correct in src). One attr
+    `modeGroup` (ModeDeclarationGroupPrototype, 0..1, ref → `modeGroupRef` Optional[RefType]),
+    constr_10286. Not directly VP-capable — VARIATION-POINT lives in ancestor BSW-EVENT group
+    (AUTOSAR_00052.xsd), capability inherited via BswEvent mixin (Rule 0020). Wire element
+    MODE-GROUP-REF (AR:REF + DEST MODE-DECLARATION-GROUP-PROTOTYPE--SUBTYPES-ENUM; group
+    L11003, complexType L11026). Drift: fabricated class docstring (constr_4081 text not in
+    this table), `__init__` docstring, paraphrased docstrings, bare `RefType` setter param
+    (not Optional), old 4-col checklist. Reader/writer helpers + dispatch + consumer factory
+    already exist with matched set/getModeGroupRef names.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): read/writeBswModeManagerErrorEvent + EVENTS dispatch +
+    createBswModeManagerErrorEvent already cover MODE-GROUP-REF with matched
+    set/getModeGroupRef names (XSD wire name verified, AUTOSAR_00052.xsd L11003); new
+    dest/absent + full round-trip + empty tests passed immediately (after adding the
+    missing BswModeManagerErrorEvent import to the writer test file), no parser/writer
+    edit. Writer reads via getter (SWC-sibling disease absent). Empty round-trip shows
+    no inherited normally-None element emission.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12079 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BswModeSwitchedAckEvent` — BswScheduleEvent — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py

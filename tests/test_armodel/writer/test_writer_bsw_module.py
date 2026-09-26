@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswInternalTriggeringPointPolicy,
     BswInternalTriggerOccurredEvent,
     BswInterruptCategory,
+    BswModeManagerErrorEvent,
     BswModeReceiverPolicy,
     BswModeSenderPolicy,
     BswModeSwitchAckRequest,
@@ -1083,6 +1084,62 @@ class TestWriterBswInternalTriggerOccurredEventRoundTrip:
         event_2 = behavior_2.getBswInternalTriggerOccurredEvents()[0]
         assert isinstance(event_2, BswInternalTriggerOccurredEvent)
         assert event_2.getEventSourceRef() is None
+
+
+class TestWriterBswModeManagerErrorEventRoundTrip:
+    def test_round_trip_mode_manager_error_event(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        event = behavior.createBswModeManagerErrorEvent("mme")
+        event.setModeGroupRef(_ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+
+        out_file = tmp_path / "mme_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        event_2 = behavior_2.getBswModeManagerErrorEvents()[0]
+        assert isinstance(event_2, BswModeManagerErrorEvent)
+        assert event_2.getShortName() == "mme"
+        assert event_2.getModeGroupRef().getValue() == "/mg"
+        assert event_2.getModeGroupRef().getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
+
+    def test_round_trip_mode_manager_error_event_empty(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.createBswModeManagerErrorEvent("mme")
+
+        out_file = tmp_path / "mme_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        raw = out_file.read_text()
+        assert "MODE-GROUP-REF" not in raw
+        assert "STARTS-ON-EVENT-REF" not in raw
+        assert "ACTIVATION-REASON-REPRESENTATION-REF" not in raw
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        event_2 = behavior_2.getBswModeManagerErrorEvents()[0]
+        assert isinstance(event_2, BswModeManagerErrorEvent)
+        assert event_2.getModeGroupRef() is None
 
 
 class TestWriterBswEvents:
