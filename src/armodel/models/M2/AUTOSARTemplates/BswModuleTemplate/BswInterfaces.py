@@ -461,103 +461,73 @@ class BswModuleEntry(AtpBlueprintable):
 
 class BswModuleClientServerEntry(Referrable, VariationPointCapable):
     """
-    Represents a client-server entry in a BSW module.
-    This class defines how BSW modules implement client-server communication patterns.
+    This meta-class represents a single API entry into the BSW module or cluster that has the ability to be called in client-server fashion via the BSW Scheduler. In this regard it is more special than BswModuleEntry and can be seen as a wrapper around the BswModuleEntry to which it refers (property encapsulatedEntry). Tags: atp.recommendedPackage=BswModuleEntrys
     """
 
     # BswModuleClientServerEntry method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getEncapsulatedEntryRef      [x] impl  [x] docstring  [ ] test
-    # [ ] setEncapsulatedEntryRef      [x] impl  [x] docstring  [ ] test
-    # [ ] getIsReentrant               [x] impl  [x] docstring  [ ] test
-    # [ ] setIsReentrant               [x] impl  [x] docstring  [ ] test
-    # [ ] getIsSynchronous             [x] impl  [x] docstring  [ ] test
-    # [ ] setIsSynchronous             [x] impl  [x] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.21, p.54 (R23-11)
+    # Spec: R4.3.1/AUTOSAR_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.22, p.56 (R4.3.1)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEncapsulatedEntryRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEncapsulatedEntryRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsReentrant           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsReentrant           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsSynchronous         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setIsSynchronous         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BSW module client-server entry with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this client-server entry
-            short_name: The unique short name of this client-server entry
-        """
         super().__init__(parent, short_name)
 
-        # Reference to the encapsulated entry that this client-server entry wraps
-        self.encapsulatedEntryRef: RefType = None
-        # Flag indicating if this client-server entry is reentrant
-        self.isReentrant: Boolean = None
-        # Flag indicating if this client-server entry is synchronous
-        self.isSynchronous: Boolean = None
+        # The underlying BswModuleEntry. Tags: xml.sequenceOffset=5
+        self.encapsulatedEntryRef: Optional[RefType] = None
 
-    def getEncapsulatedEntryRef(self):
+        # Reentrancy from the viewpoint of clients invoking the service via the BSW Scheduler: • true: Enables the service to be invoked again, before the service has finished. • false: It is prohibited to invoke the service again before is has finished. Tags: xml.sequenceOffset=10
+        self.isReentrant: Optional[Boolean] = None
+
+        # Synchronicity from the viewpoint of clients invoking the service via the BSW Scheduler: • True: This calls a synchronous service, i.e. the service is completed when the call returns. • False: The service (on semantical level) may not be complete when the call returns. Tags: xml.sequenceOffset=15
+        self.isSynchronous: Optional[Boolean] = None
+
+    def getEncapsulatedEntryRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the encapsulated entry that this client-server entry wraps.
-
-        Returns:
-            RefType to the encapsulated entry
+        The underlying BswModuleEntry.
         """
         return self.encapsulatedEntryRef
 
-    def setEncapsulatedEntryRef(self, value):
+    def setEncapsulatedEntryRef(self, value: Optional[RefType]) -> "BswModuleClientServerEntry":
         """
-        Sets the reference to the encapsulated entry that this client-server entry wraps.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The encapsulated entry reference to set
-
-        Returns:
-            self for method chaining
+        The underlying BswModuleEntry.
+        A None value is a no-op and does not overwrite an existing encapsulatedEntryRef.
         """
         if value is not None:
             self.encapsulatedEntryRef = value
         return self
 
-    def getIsReentrant(self):
+    def getIsReentrant(self) -> Optional[Boolean]:
         """
-        Gets the reentrant flag for this client-server entry.
-
-        Returns:
-            Boolean indicating if this entry is reentrant
+        Reentrancy from the viewpoint of clients invoking the service via the BSW Scheduler: • true: Enables the service to be invoked again, before the service has finished. • false: It is prohibited to invoke the service again before is has finished.
         """
         return self.isReentrant
 
-    def setIsReentrant(self, value):
+    def setIsReentrant(self, value: Optional[Boolean]) -> "BswModuleClientServerEntry":
         """
-        Sets the reentrant flag for this client-server entry.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The reentrant flag to set
-
-        Returns:
-            self for method chaining
+        Reentrancy from the viewpoint of clients invoking the service via the BSW Scheduler: • true: Enables the service to be invoked again, before the service has finished. • false: It is prohibited to invoke the service again before is has finished.
+        A None value is a no-op and does not overwrite an existing isReentrant.
         """
         if value is not None:
             self.isReentrant = value
         return self
 
-    def getIsSynchronous(self):
+    def getIsSynchronous(self) -> Optional[Boolean]:
         """
-        Gets the synchronous flag for this client-server entry.
-
-        Returns:
-            Boolean indicating if this entry is synchronous
+        Synchronicity from the viewpoint of clients invoking the service via the BSW Scheduler: • True: This calls a synchronous service, i.e. the service is completed when the call returns. • False: The service (on semantical level) may not be complete when the call returns.
         """
         return self.isSynchronous
 
-    def setIsSynchronous(self, value):
+    def setIsSynchronous(self, value: Optional[Boolean]) -> "BswModuleClientServerEntry":
         """
-        Sets the synchronous flag for this client-server entry.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The synchronous flag to set
-
-        Returns:
-            self for method chaining
+        Synchronicity from the viewpoint of clients invoking the service via the BSW Scheduler: • True: This calls a synchronous service, i.e. the service is completed when the call returns. • False: The service (on semantical level) may not be complete when the call returns.
+        A None value is a no-op and does not overwrite an existing isSynchronous.
         """
         if value is not None:
             self.isSynchronous = value

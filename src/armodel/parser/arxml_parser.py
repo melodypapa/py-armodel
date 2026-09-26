@@ -4568,6 +4568,12 @@ class ARXMLParser(AbstractARXMLParser):
         entry.setEncapsulatedEntryRef(self.getChildElementOptionalRefType(element, "ENCAPSULATED-ENTRY-REF"))
         entry.setIsReentrant(self.getChildElementOptionalBooleanValue(element, "IS-REENTRANT"))
         entry.setIsSynchronous(self.getChildElementOptionalBooleanValue(element, "IS-SYNCHRONOUS"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(entry, VariationPointCapable):
+                entry.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
     def readBswModuleDescriptionProvidedClientServerEntries(self, element: ET.Element, desc: BswModuleDescription):
         for child_element in self.findall(element, "PROVIDED-CLIENT-SERVER-ENTRYS/*"):

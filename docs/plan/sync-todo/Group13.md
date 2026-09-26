@@ -491,17 +491,35 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     AtpBlueprint/AtpBlueprintable collapse noted for 9b review.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12319 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `BswModuleClientServerEntry` — Referrable — source TBC (locate table at Step 1)
+- [ ] `BswModuleClientServerEntry` — Referrable — R23-11 markdown · Table 4.21 (CP_TPS_BSWModuleDescriptionTemplate), p.54
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 4.21, p.54. Concrete Class; Base most-derived =
+    `Referrable` (already correct in src); VP-capable — VARIATION-POINT is in the OWN XSD
+    group BSW-MODULE-CLIENT-SERVER-ENTRY (AUTOSAR_00052.xsd L11320: ENCAPSULATED-ENTRY-REF,
+    IS-REENTRANT, IS-SYNCHRONOUS, VARIATION-POINT). R23-11 table attrs: encapsulatedEntry
+    (BswModuleEntry, 0..1, ref → encapsulatedEntryRef, seq 5), isReentrant (Boolean, 0..1,
+    attr, seq 10). isSynchronous ABSENT from the R23-11 table but present in R4.3.1 Table
+    5.22 p.56 AND the R23-11 XSD → Rule 0019 legacy member kept (R4.3.1 Note verbatim,
+    release column R4.3.1, dual # Spec: lines). Drift: fabricated class docstring,
+    `__init__` docstring, bare-typed fields (`RefType = None`, `Boolean = None`),
+    untyped accessors, paraphrased docstrings, old 4-col checklist; reader/writer lacked
+    VARIATION-POINT.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): read/writeBswModuleClientServerEntry already covered
+    ENCAPSULATED-ENTRY-REF/IS-REENTRANT/IS-SYNCHRONOUS with matched names; ADDED
+    VARIATION-POINT to both (readVariationPoint/writeVariationPoint); new type-hint pin +
+    value-asserting document round-trips (attrs + VP short label) pass.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): ONE accepted legacy deviation (isSynchronous — Rule 0019 combine case,
+    dual # Spec: lines, mixed release columns) — subject to 9b batch confirmation;
+    encapsulatedEntryRef/isReentrant rows ok.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12322 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BswModuleDependency` — Identifiable — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py

@@ -95,6 +95,23 @@ FROM-REF/TO-REF/BSW-ENTRY-RELATIONSHIP-TYPE (XSD token DERIVED-FROM via
 BSW_ENTRY_RELATIONSHIP_XML_MAP; XSD element order FROM-REF, TO-REF, BSW-ENTRY-RELATIONSHIP-TYPE
 per xml.sequenceOffset=5), value-asserting round-trip test.
 
+## `BswModuleClientServerEntry`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 54
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `encapsulatedEntryRef` | `Optional[RefType]` | `encapsulatedEntry` | `Ref (BswModuleEntry)` | Ref | ok (Rule 0001.5 ref-suffix) |
+| `isReentrant` | `Optional[Boolean]` | `isReentrant` | `Boolean` | Attr | ok |
+| `isSynchronous` | `Optional[Boolean]` | `isSynchronous` | `Boolean` | Attr | legacy (R4.3.1 Table 5.22, p.56) — absent from the R23-11 Table 4.21 attribute rows but retained by the R23-11 XSD itself (IS-SYNCHRONOUS, group BSW-MODULE-CLIENT-SERVER-ENTRY, AUTOSAR_00052.xsd L11320); docstring verbatim from the R4.3.1 Note; removed in R23-11 table |
+
+2026-09-26 sync (Table 4.21, p.54): fabricated class docstring, `__init__` docstring and paraphrased
+docstrings wiped, rewritten verbatim from the R23-11 Notes (the legacy row from the R4.3.1 Note);
+bare-typed fields retyped `Optional[...]` (R4.3.1 Mult 1 for encapsulatedEntry superseded by the
+R23-11 0..1); VARIATION-POINT coverage ADDED to read/writeBswModuleClientServerEntry (own-group
+VP element, AUTOSAR_00052.xsd L11320). Stamp deferred to batch confirmation.
+
 ## `BswEntryRelationshipSet`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 51
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces`

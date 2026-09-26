@@ -302,6 +302,20 @@ class TestBswModuleEntry:
         assert result == entry
         assert entry.getIsSynchronous() is True  # Should remain unchanged
 
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean
+
+        ref_hints = typing.get_type_hints(BswModuleClientServerEntry.getEncapsulatedEntryRef)
+        assert ref_hints.get("return") == typing.Optional[RefType]
+        setter_hints = typing.get_type_hints(BswModuleClientServerEntry.setEncapsulatedEntryRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+
+        reentrant_hints = typing.get_type_hints(BswModuleClientServerEntry.getIsReentrant)
+        assert reentrant_hints.get("return") == typing.Optional[Boolean]
+        sync_hints = typing.get_type_hints(BswModuleClientServerEntry.getIsSynchronous)
+        assert sync_hints.get("return") == typing.Optional[Boolean]
+
     def test_get_return_type(self):
         """Test getter for return type."""
         document = AUTOSAR.getInstance()

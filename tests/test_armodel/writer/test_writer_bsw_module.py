@@ -763,6 +763,57 @@ class TestWriterBswEntryRelationshipSetRoundTrip:
         assert relationships[0].getToRef().getValue() == "/mod/concrete"
 
 
+class TestWriterBswModuleClientServerEntryRoundTrip:
+    def test_round_trip_client_server_entry(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        entry = desc.createProvidedClientServerEntry("cse")
+        entry.setEncapsulatedEntryRef(_ref("/mod/ee", "BSW-MODULE-ENTRY"))
+        entry.setIsReentrant(_bool(True))
+        entry.setIsSynchronous(_bool(False))
+
+        out_file = tmp_path / "cse_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        entry_2 = desc_2.getProvidedClientServerEntries()[0]
+        assert entry_2.getEncapsulatedEntryRef().getValue() == "/mod/ee"
+        assert entry_2.getIsReentrant().getValue() is True
+        assert entry_2.getIsSynchronous().getValue() is False
+
+    def test_round_trip_client_server_entry_variation_point(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        entry = desc.createProvidedClientServerEntry("cse")
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        entry.setVariationPoint(variation_point)
+
+        out_file = tmp_path / "cse_vp_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        entry_2 = desc_2.getProvidedClientServerEntries()[0]
+        assert entry_2.getVariationPoint() is not None
+        assert entry_2.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+
 class TestWriterBswSynchronousServerCallPointRoundTrip:
     def test_round_trip_sync_server_call_point(self, tmp_path):
         document = AUTOSAR.getInstance()
