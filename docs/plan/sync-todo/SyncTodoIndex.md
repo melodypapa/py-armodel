@@ -472,7 +472,7 @@ Status: **22/48** completed
 | `WhitespaceControlled`                   | [x] Done     | a78d444af |
 | `MixedContentForPlainText`               | [x] Done     | 4a95d1d30 |
 | `MixedContentForVerbatim`                | [x] Done     | 74549e6a5 |
-| `SlOverviewParagraph`                    | [ ] Deferred | 6884fa835 |
+| `SlOverviewParagraph`                    | [x] Done     | 951209dba |
 | `SingleLanguageUnitNames`                | [ ] Pending  | N/A       |
 | `SwSystemconstValue`                     | [ ] Pending* | N/A       |
 | `PostBuildVariantCondition`              | [ ] Pending* | N/A       |
