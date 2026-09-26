@@ -663,31 +663,31 @@ Status: **0/25** completed
 
 | Class Name                                 | Status      | Commit ID |
 | ------------------------------------------ | ----------- | --------- |
-| `DiagnosticAudienceEnum`                   | [ ] Pending | N/A       |
-| `DiagnosticClearDtcNotificationEnum`       | [ ] Pending | N/A       |
-| `DiagnosticProcessingStyleEnum`            | [ ] Pending | N/A       |
-| `DiagnosticRoutineTypeEnum`                | [ ] Pending | N/A       |
-| `DiagnosticServiceRequestCallbackTypeEnum` | [ ] Pending | N/A       |
-| `DiagnosticValueAccessEnum`                | [ ] Pending | N/A       |
-| `DtcFormatTypeEnum`                        | [ ] Pending | N/A       |
-| `DtcKindEnum`                              | [ ] Pending | N/A       |
-| `ServiceDiagnosticRelevanceEnum`           | [ ] Pending | N/A       |
-| `DiagnosticCapabilityElement`              | [ ] Pending | N/A       |
-| `DiagnosticCommunicationManagerNeeds`      | [ ] Pending | N/A       |
-| `DiagnosticEventInfoNeeds`                 | [ ] Pending | N/A       |
-| `DiagnosticRoutineNeeds`                   | [ ] Pending | N/A       |
-| `DiagnosticValueNeeds`                     | [ ] Pending | N/A       |
-| `DtcStatusChangeNotificationNeeds`         | [ ] Pending | N/A       |
-| `CryptoServiceNeeds`                       | [ ] Pending | N/A       |
-| `DiagEventDebounceCounterBased`            | [ ] Pending | N/A       |
-| `SignalServiceTranslationElementProps`     | [ ] Pending | N/A       |
+| `DiagnosticAudienceEnum`                   | [ ] Pending* | 5685ad743       |
+| `DiagnosticClearDtcNotificationEnum`       | [ ] Pending* | 28746ce3c       |
+| `DiagnosticProcessingStyleEnum`            | [ ] Pending* | 28746ce3c       |
+| `DiagnosticRoutineTypeEnum`                | [ ] Pending* | 28746ce3c       |
+| `DiagnosticServiceRequestCallbackTypeEnum` | [ ] Pending* | 28746ce3c       |
+| `DiagnosticValueAccessEnum`                | [ ] Pending* | 28746ce3c       |
+| `DtcFormatTypeEnum`                        | [ ] Pending* | 28746ce3c       |
+| `DtcKindEnum`                              | [ ] Pending* | 28746ce3c       |
+| `ServiceDiagnosticRelevanceEnum`           | [ ] Pending* | 28746ce3c       |
+| `DiagnosticCapabilityElement`              | [ ] Pending* | f5ffd3abf       |
+| `DiagnosticCommunicationManagerNeeds`      | [ ] Pending* | 79c639e42       |
+| `DiagnosticEventInfoNeeds`                 | [ ] Pending* | 79c639e42       |
+| `DiagnosticRoutineNeeds`                   | [ ] Pending* | 79c639e42       |
+| `DiagnosticValueNeeds`                     | [ ] Pending* | 79c639e42       |
+| `DtcStatusChangeNotificationNeeds`         | [ ] Pending* | 79c639e42       |
+| `CryptoServiceNeeds`                       | [ ] Pending* | d064592a4       |
+| `DiagEventDebounceCounterBased`            | [ ] Pending* | d064592a4       |
+| `SignalServiceTranslationElementProps`     | [ ] Pending* | 29d09fc62       |
 | `DiagnosticServiceClass`                   | [ ] Pending | N/A       |
 | `DiagnosticJumpToBootLoaderEnum`           | [ ] Pending | N/A       |
 | `DiagnosticLogicalOperatorEnum`            | [ ] Pending | N/A       |
-| `DiagnosticEnvConditionFormulaPart`        | [ ] Pending | N/A       |
-| `DiagnosticEnvConditionFormula`            | [ ] Pending | N/A       |
-| `DiagnosticEnvCompareCondition`            | [ ] Pending | N/A       |
-| `DiagnosticEnvModeElement`                 | [ ] Pending | N/A       |
+| `DiagnosticEnvConditionFormulaPart`        | [ ] Pending* | af255af37       |
+| `DiagnosticEnvConditionFormula`            | [ ] Pending* | af255af37       |
+| `DiagnosticEnvCompareCondition`            | [ ] Pending* | af255af37       |
+| `DiagnosticEnvModeElement`                 | [ ] Pending* | af255af37       |
 
 ## Group15
 
