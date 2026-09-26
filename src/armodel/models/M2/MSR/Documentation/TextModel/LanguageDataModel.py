@@ -5,6 +5,9 @@ from typing import TYPE_CHECKING, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import (
+    XmlSpaceEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -952,6 +955,43 @@ class LLongName(MixedContentForLongName, LanguageSpecific):
         return self
 
 
+class WhitespaceControlled(ARObject, ABC):
+    """
+    This meta-class represents the ability to control the white-space handling e.g. in xml serialization. This is implemented by adding the attribute "space".
+    """
+
+    # WhitespaceControlled method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.7, p.292
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no own XML element; xml:space serializes on the consuming L-10/L-5 elements via readWhitespaceControlled/writeWhitespaceControlled)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getXmlSpace  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setXmlSpace  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        if type(self) is WhitespaceControlled:
+            raise TypeError("WhitespaceControlled is an abstract class.")
+
+        super().__init__()
+
+        # This attribute is used to signal an intention that in that element, white space should be preserved by applications. It is defined according to xml:space as declared by W3C. Tags: xml.attribute=true xml.attributeRef=true xml.enforceMinMultiplicity=true xml.name=space xml.nsPrefix=xml
+        self.xmlSpace: Optional[XmlSpaceEnum] = None
+
+    def getXmlSpace(self) -> Optional[XmlSpaceEnum]:
+        """
+        This attribute is used to signal an intention that in that element, white space should be preserved by applications. It is defined according to xml:space as declared by W3C.
+        """
+        return self.xmlSpace
+
+    def setXmlSpace(self, value: Optional[XmlSpaceEnum]) -> WhitespaceControlled:
+        """
+        This attribute is used to signal an intention that in that element, white space should be preserved by applications. It is defined according to xml:space as declared by W3C. A None value is a no-op and does not overwrite an existing xmlSpace.
+        """
+        if value is not None:
+            self.xmlSpace = value
+        return self
+
+
 class MixedContentForPlainText(ARObject, AtpMixedString, ABC):
     """
     This represents a plain text which conceptually is handled as mixed contents. It is modeled as such for symmetry reasons.
@@ -973,7 +1013,7 @@ class MixedContentForPlainText(ARObject, AtpMixedString, ABC):
         super().__init__()
 
 
-class LPlainText(MixedContentForPlainText, LanguageSpecific):
+class LPlainText(MixedContentForPlainText, LanguageSpecific, WhitespaceControlled):
     """
     This represents plain string in one particular language. The language is denoted in the attribute l.
     """
@@ -1084,7 +1124,7 @@ class MixedContentForVerbatim(ARObject, AtpMixedString, ABC):
         return self
 
 
-class LVerbatim(MixedContentForVerbatim, LanguageSpecific):
+class LVerbatim(MixedContentForVerbatim, LanguageSpecific, WhitespaceControlled):
     """
     MixedContentForVerbatim in one particular language. The language is denoted in the attribute l.
     """
