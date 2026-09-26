@@ -7,7 +7,7 @@ import inspect
 import re
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.FeatureModelTemplate import FMConditionByFeaturesAndAttributes
+from armodel.models.M2.AUTOSARTemplates.FeatureModelTemplate import FMConditionByFeaturesAndAttributes, FMFormulaByFeaturesAndAttributes
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.FormulaLanguage import FormulaExpression
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
@@ -88,12 +88,12 @@ class TestFMConditionByFeaturesAndAttributesSpecContract:
     def test_base_chain(self):
         """
         Rule 0001.2: the spec Base row is ARObject, FMFormulaByFeaturesAndAttributes,
-        FormulaExpression. The most-derived base FMFormulaByFeaturesAndAttributes is
-        not yet in the model (separate sync row) — the class derives from the nearest
-        available ancestor FormulaExpression; the ARObject and AtpMixedString
-        (<<atpMixedString>>) ancestry is in the MRO.
+        FormulaExpression. Re-base applied 2026-09-26 (Rule 0012.3): the most-derived
+        base FMFormulaByFeaturesAndAttributes is now synced (Table 7.1) and is the
+        direct Python base; the ARObject, AtpMixedString (<<atpMixedString>>) and
+        FormulaExpression ancestry stays in the MRO.
         """
-        assert FMConditionByFeaturesAndAttributes.__bases__ == (FormulaExpression,)
+        assert FMConditionByFeaturesAndAttributes.__bases__ == (FMFormulaByFeaturesAndAttributes,)
         for base in (ARObject, AtpMixedString, FormulaExpression):
             assert base in FMConditionByFeaturesAndAttributes.__mro__
 

@@ -10,9 +10,11 @@ NOTE: the Aggregated-by consumers (FMFeatureMapCondition.fmCond, FM-COND at XSD
 line 62309; FMFeatureRelation.restriction and FMFeatureRestriction.restriction,
 RESTRICTION at lines 62523/62560) are all missing from the model — no dispatcher
 exists, so this helper is pinned at element level (BlueprintFormula /
-PostBuildVariantCriterionValue precedent). The FM-FORMULA-BY-FEATURES-AND-ATTRIBUTES
-group members (ATTRIBUTE-REF / FEATURE-REF) belong to the Table 7.1 base class's
-own sync row and are deliberately not read here (Rule 0015 — the PDF table wins).
+PostBuildVariantCriterionValue precedent). Re-base applied 2026-09-26 (Rule
+0012.3): the class now derives from the synced FMFormulaByFeaturesAndAttributes
+(Table 7.1) and its reader composes the base group reader, so the group members
+ATTRIBUTE-REF / FEATURE-REF round-trip too (covered in
+test_parser_fm_formula_by_features_and_attributes.py).
 """
 
 import xml.etree.ElementTree as ET
@@ -52,11 +54,11 @@ class TestReadFMConditionByFeaturesAndAttributes:
 
         assert formula.getMixedString() is None
 
-    def test_read_tolerates_unmodeled_base_group_children(self):
+    def test_read_composes_base_group_children(self):
         """
-        ATTRIBUTE-REF / FEATURE-REF belong to the Table 7.1 base class's own table
-        (separate sync row) and are not modeled on this class — the reader leaves
-        them unread without failing.
+        Re-base applied 2026-09-26 (Rule 0012.3): the ATTRIBUTE-REF / FEATURE-REF
+        members belong to the Table 7.1 base class's own table — the reader now
+        composes the base group reader and populates the inherited ref fields.
         """
         xml = "<FM-COND xmlns='%s'>feature_a" "<FEATURE-REF DEST='FM-FEATURE'>/FMFeatureModels/Model/FeatureA</FEATURE-REF>" "</FM-COND>" % NS
         element = ET.fromstring(xml)
@@ -64,4 +66,5 @@ class TestReadFMConditionByFeaturesAndAttributes:
         formula = ARXMLParser().readFMConditionByFeaturesAndAttributes(element, FMConditionByFeaturesAndAttributes())
 
         assert formula.getMixedString() == "feature_a"
+        assert formula.getFeatureRef().getValue() == "/FMFeatureModels/Model/FeatureA"
         assert formula.getAtpReferences() == []

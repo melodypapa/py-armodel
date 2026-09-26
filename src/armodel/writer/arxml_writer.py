@@ -213,7 +213,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint, PortPrototypeBlueprintInitValue
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintFormula import BlueprintFormula
-from armodel.models.M2.AUTOSARTemplates.FeatureModelTemplate import FMConditionByFeaturesAndAttributes
+from armodel.models.M2.AUTOSARTemplates.FeatureModelTemplate import FMConditionByFeaturesAndAttributes, FMFormulaByFeaturesAndAttributes
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator import BlueprintGenerator
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
@@ -1204,6 +1204,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             if isinstance(formula, SwSystemconstDependentFormula):
                 self.writeSwSystemconstDependentFormula(child_element, formula)
 
+    def writeFMFormulaByFeaturesAndAttributes(self, element: ET.Element, formula: FMFormulaByFeaturesAndAttributes):
+        self.setChildElementOptionalRefType(element, "ATTRIBUTE-REF", formula.getAttributeRef())
+        self.setChildElementOptionalRefType(element, "FEATURE-REF", formula.getFeatureRef())
+
     def writeFMConditionByFeaturesAndAttributes(self, element: ET.Element, formula: FMConditionByFeaturesAndAttributes, key: str = "FM-COND"):
         if formula is not None:
             child_element = ET.SubElement(element, key)
@@ -1211,6 +1215,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             text = formula.getMixedString()
             if text is not None:
                 child_element.text = text
+            if isinstance(formula, FMFormulaByFeaturesAndAttributes):
+                self.writeFMFormulaByFeaturesAndAttributes(child_element, formula)
 
     def writePostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition):
         child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CONDITION")
