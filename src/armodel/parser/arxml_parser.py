@@ -8108,6 +8108,12 @@ class ARXMLParser(AbstractARXMLParser):
             mapping = SwcBswRunnableMapping()
             mapping.setBswEntityRef(self.getChildElementOptionalRefType(child_element, "BSW-ENTITY-REF"))
             mapping.setSwcRunnableRef(self.getChildElementOptionalRefType(child_element, "SWC-RUNNABLE-REF"))
+            variation_point_element = self.find(child_element, "VARIATION-POINT")
+            if variation_point_element is not None:
+                if isinstance(mapping, VariationPointCapable):
+                    mapping.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+                else:
+                    self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(child_element.tag))
             parent.addRunnableMapping(mapping)
 
     def readSwcBswSynchronizedModeGroupPrototype(self, element: ET.Element) -> SwcBswSynchronizedModeGroupPrototype:

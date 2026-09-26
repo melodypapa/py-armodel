@@ -551,17 +551,31 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     handling recorded in the tracker note.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12326 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `SwcBswRunnableMapping` — ARObject — source TBC (locate table at Step 1)
+- [ ] `SwcBswRunnableMapping` — ARObject — R23-11 markdown · Table 5.47 (CP_TPS_BSWModuleDescriptionTemplate), p.110
   - module: M2/AUTOSARTemplates/CommonStructure/SwcBswMapping.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 5.47, p.110. Concrete Class; Base = ARObject
+    (already correct); VP-capable — VARIATION-POINT in OWN XSD group
+    SWC-BSW-RUNNABLE-MAPPING (seq 10000, atpVariation), mixin kept (Rule 0020). Two attrs:
+    bswEntity (BswModuleEntity, 0..1, ref → bswEntityRef, DEST BSW-MODULE-ENTITY--SUBTYPES-ENUM),
+    swcRunnable (RunnableEntity, 0..1, ref → swcRunnableRef, DEST
+    RUNNABLE-ENTITY--SUBTYPES-ENUM); wire order refs then VP. Aggregated by
+    SwcBswMapping.runnableMapping (parent SwcBswMapping stamped). Drift: `__init__`
+    docstring, bare `RefType = None` fields, untyped accessors, setBswEntityRef/
+    setSwcRunnableRef had NO None no-op guard, old 4-col checklist; reader/writer existed
+    with matched names but lacked VARIATION-POINT.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): read/write helpers existed with matched wire names; ADDED
+    VARIATION-POINT to both (parser per-item read in the RUNNABLE-MAPPINGS loop, writer
+    writeVariationPoint); new None no-op + type-hint pin + VP helper round-trip tests pass.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviations — missing None no-op guards were drift, now fixed.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12329 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwcBswSynchronizedModeGroupPrototype` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/SwcBswMapping.py

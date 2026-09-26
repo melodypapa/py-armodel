@@ -19,75 +19,55 @@ if TYPE_CHECKING:
 
 class SwcBswRunnableMapping(ARObject, VariationPointCapable):
     """
-    Represents a mapping between BSW module entities and SWC runnable entities in AUTOSAR models.
-    Maps a BswModuleEntity to a RunnableEntity if it is implemented as part of a BSW
-    module (in the case of an AUTOSAR Service, a Complex Driver or an ECU
-    Abstraction). The mapping can be used by a tool to find relevant information on the
-    behavior, e.g. whether the bswEntity shall be running in interrupt context.
+    Maps a BswModuleEntity to a RunnableEntity if it is implemented as part of a BSW module (in the case of an AUTOSAR Service, a Complex Driver or an ECU Abstraction). The mapping can be used by a tool to find relevant information on the behavior, e.g. whether the bswEntity shall be running in interrupt context.
     """
 
     # SwcBswRunnableMapping method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getBswEntityRef              [x] impl  [x] docstring  [x] test
-    # [x] setBswEntityRef              [x] impl  [x] docstring  [x] test
-    # [x] getSwcRunnableRef            [x] impl  [x] docstring  [x] test
-    # [x] setSwcRunnableRef            [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.47, p.110
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBswEntityRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBswEntityRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcRunnableRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcRunnableRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the SwcBswRunnableMapping with default values.
-        """
         super().__init__()
 
-        # Reference to the BSW module entity in this mapping
-        self.bswEntityRef: RefType = None
-        # Reference to the SWC runnable entity in this mapping
-        self.swcRunnableRef: RefType = None
+        # The mapped BswModuleEntity
+        self.bswEntityRef: Optional[RefType] = None
 
-    def getBswEntityRef(self):
+        # The mapped SWC runnable.
+        self.swcRunnableRef: Optional[RefType] = None
+
+    def getBswEntityRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the BSW module entity in this mapping.
-
-        Returns:
-            RefType: The BSW entity reference
+        The mapped BswModuleEntity
         """
         return self.bswEntityRef
 
-    def setBswEntityRef(self, value):
+    def setBswEntityRef(self, value: Optional[RefType]) -> "SwcBswRunnableMapping":
         """
-        Sets the reference to the BSW module entity in this mapping.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The BSW entity reference to set
-
-        Returns:
-            self for method chaining
+        The mapped BswModuleEntity
+        A None value is a no-op and does not overwrite an existing bswEntityRef.
         """
-        self.bswEntityRef = value
+        if value is not None:
+            self.bswEntityRef = value
         return self
 
-    def getSwcRunnableRef(self):
+    def getSwcRunnableRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the SWC runnable entity in this mapping.
-
-        Returns:
-            RefType: The SWC runnable reference
+        The mapped SWC runnable.
         """
         return self.swcRunnableRef
 
-    def setSwcRunnableRef(self, value):
+    def setSwcRunnableRef(self, value: Optional[RefType]) -> "SwcBswRunnableMapping":
         """
-        Sets the reference to the SWC runnable entity in this mapping.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The SWC runnable reference to set
-
-        Returns:
-            self for method chaining
+        The mapped SWC runnable.
+        A None value is a no-op and does not overwrite an existing swcRunnableRef.
         """
-        self.swcRunnableRef = value
+        if value is not None:
+            self.swcRunnableRef = value
         return self
 
 

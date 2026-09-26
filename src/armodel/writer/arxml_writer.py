@@ -7730,6 +7730,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "SWC-BSW-RUNNABLE-MAPPING")
         self.setChildElementOptionalRefType(child_element, "BSW-ENTITY-REF", mapping.getBswEntityRef())
         self.setChildElementOptionalRefType(child_element, "SWC-RUNNABLE-REF", mapping.getSwcRunnableRef())
+        self.writeVariationPoint(child_element, mapping.getVariationPoint())
 
     def writeSwcBswRunnableMappings(self, element: ET.Element, parent: SwcBswMapping):
         runnable_mappings = parent.getRunnableMappings()
