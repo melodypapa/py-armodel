@@ -342,18 +342,36 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12079 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `BswModeSwitchedAckEvent` — BswScheduleEvent — source TBC (locate table at Step 1)
+- [ ] `BswModeSwitchedAckEvent` — BswScheduleEvent — R23-11 markdown · Table 5.32 (CP_TPS_BSWModuleDescriptionTemplate), p.95
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 5.32, p.95. Concrete Class; Base most-derived =
+    `BswScheduleEvent` (already correct in src). One attr `modeGroup`
+    (ModeDeclarationGroupPrototype, 0..1, ref → `modeGroupRef` Optional[RefType]),
+    constr_10285. Not directly VP-capable — VARIATION-POINT lives in ancestor BSW-EVENT
+    group (AUTOSAR_00052.xsd), capability inherited via BswEvent mixin (Rule 0020). Own
+    group BSW-MODE-SWITCHED-ACK-EVENT L11240 = MODE-GROUP-REF only (DEST
+    MODE-DECLARATION-GROUP-PROTOTYPE--SUBTYPES-ENUM; complexType L11263). Drift:
+    fabricated class docstring (constr_4026 text not in this table), `__init__`
+    docstring, paraphrased docstrings, bare `RefType` setter param (not Optional), old
+    3-col checklist. Reader/writer helpers + EVENTS dispatch + createBswModeSwitchedAckEvent
+    factory already exist with matched set/getModeGroupRef names.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): read/writeBswModeSwitchedAckEvent + EVENTS dispatch + factory already
+    cover MODE-GROUP-REF with matched set/getModeGroupRef names (XSD wire name verified,
+    AUTOSAR_00052.xsd L11240); new type-hint pin + dest/absent full-document round-trip +
+    empty tests passed immediately, no parser/writer edit. Writer reads via getter
+    (SWC-sibling disease absent).
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations — all Step-1 drift fixed; `modeGroupRef` naming is
+    the Rule 0001.5 ref-suffix convention (tracker row stays "ok"); constr_10285 is a
+    config-time existence constraint (inline comment only), recorded in the tracker note.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12299 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BswTimingEvent` — BswScheduleEvent — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py

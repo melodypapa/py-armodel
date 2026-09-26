@@ -1132,55 +1132,32 @@ class BswModeSwitchEvent(BswScheduleEvent):
 
 class BswModeSwitchedAckEvent(BswScheduleEvent):
     """
-    The event is raised after a switch of the referenced mode group has been
-    acknowledged or an error occurs. The referenced mode group shall be
-    provided by this module. The ModeDeclarationGroupPrototype used by this
-    event shall be referred as BswModuleDescription.providedModeGroup by the
-    same module (constr_4026).
+    The event is raised after a switch of the referenced mode group has been acknowledged or an error occurs. The referenced mode group shall be provided by this module.
     """
 
     # BswModeSwitchedAckEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.32, p.95
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getModeGroupRef              [x] impl  [x] docstring  [x] test
-    # [x] setModeGroupRef              [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getModeGroupRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeGroupRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswModeSwitchedAckEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
         super().__init__(parent, short_name)
 
-        # A mode group provided by this module. The acknowledgement of a
-        # switch of this group raises this event. The reference in the role
-        # modeGroup shall exist at the time when the configuration of the BSW
-        # module is finished (constr_10285).
+        # A mode group provided by this module. The acknowledgement of a switch of this group raises this event. For each BswModeSwitchedAckEvent, the reference in the role modeGroup shall exist at the time when the configuration of the BSW module is finished (constr_10285).
         self.modeGroupRef: Optional[RefType] = None
 
     def getModeGroupRef(self) -> Optional[RefType]:
         """
-        Gets the mode group provided by this module. The acknowledgement of a
-        switch of this group raises this event.
-
-        Returns:
-            The mode group reference
+        A mode group provided by this module. The acknowledgement of a switch of this group raises this event.
         """
         return self.modeGroupRef
 
-    def setModeGroupRef(self, value: RefType) -> BswModeSwitchedAckEvent:
+    def setModeGroupRef(self, value: Optional[RefType]) -> BswModeSwitchedAckEvent:
         """
-        Sets the mode group provided by this module. Only sets if value is
-        not None.
-
-        Args:
-            value: The mode group reference to set
-
-        Returns:
-            self for method chaining
+        A mode group provided by this module. The acknowledgement of a switch of this group raises this event.
+        A None value is a no-op and does not overwrite an existing modeGroupRef.
         """
         if value is not None:
             self.modeGroupRef = value

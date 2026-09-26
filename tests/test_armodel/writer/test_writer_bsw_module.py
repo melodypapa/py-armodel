@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswModeReceiverPolicy,
     BswModeSenderPolicy,
     BswModeSwitchAckRequest,
+    BswModeSwitchedAckEvent,
     BswModeSwitchEvent,
     BswParameterPolicy,
     BswPerInstanceMemoryPolicy,
@@ -1139,6 +1140,60 @@ class TestWriterBswModeManagerErrorEventRoundTrip:
         behavior_2 = desc_2.getInternalBehaviors()[0]
         event_2 = behavior_2.getBswModeManagerErrorEvents()[0]
         assert isinstance(event_2, BswModeManagerErrorEvent)
+        assert event_2.getModeGroupRef() is None
+
+
+class TestWriterBswModeSwitchedAckEventRoundTrip:
+    def test_round_trip_mode_switched_ack_event(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        event = behavior.createBswModeSwitchedAckEvent("msa")
+        event.setModeGroupRef(_ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+
+        out_file = tmp_path / "msa_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        event_2 = behavior_2.getBswModeSwitchedAckEvents()[0]
+        assert isinstance(event_2, BswModeSwitchedAckEvent)
+        assert event_2.getShortName() == "msa"
+        assert event_2.getModeGroupRef().getValue() == "/mg"
+        assert event_2.getModeGroupRef().getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
+
+    def test_round_trip_mode_switched_ack_event_empty(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.createBswModeSwitchedAckEvent("msa")
+
+        out_file = tmp_path / "msa_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        raw = out_file.read_text()
+        assert "MODE-GROUP-REF" not in raw
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        event_2 = behavior_2.getBswModeSwitchedAckEvents()[0]
+        assert isinstance(event_2, BswModeSwitchedAckEvent)
         assert event_2.getModeGroupRef() is None
 
 

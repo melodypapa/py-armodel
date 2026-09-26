@@ -200,6 +200,8 @@ BSW-EVENT group; Rule 0020). Base drift observed (not this row): `readBswEvent` 
 |---|---|---|---|---|---|
 | `modeGroupRef` | `Optional[RefType]` | `modeGroup` | `Ref (ModeDeclarationGroupPrototype)` | Ref | ok |
 
+No deviations (2026-09-26 sync, Table 5.32, p.95): fabricated class docstring (constr_4026 text not in this table) and `__init__` docstring wiped, class/attribute docstrings rewritten verbatim from the markdown Note, bare `RefType` setter parameter retyped to `Optional[RefType]` (0..1), old 3-col checklist replaced with the 6-column format; reader/writer already covered the `MODE-GROUP-REF` element via matched read/writeBswModeSwitchedAckEvent helpers + EVENTS dispatch + createBswModeSwitchedAckEvent factory
+
 ## `BswAsynchronousServerCallReturnsEvent`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 98
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`

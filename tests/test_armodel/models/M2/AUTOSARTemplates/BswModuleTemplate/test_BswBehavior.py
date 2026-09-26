@@ -957,6 +957,15 @@ class TestBswModeSwitchedAckEvent:
         assert result is event
         assert event.getModeGroupRef() == ref
 
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswModeSwitchedAckEvent.getModeGroupRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswModeSwitchedAckEvent.setModeGroupRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswModeSwitchedAckEvent
+
 
 class TestBswAsynchronousServerCallReturnsEvent:
     """Test cases for BswAsynchronousServerCallReturnsEvent class - represents the callback event for asynchronous Client-Server communication."""
