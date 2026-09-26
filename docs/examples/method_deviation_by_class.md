@@ -196,6 +196,15 @@ the aggregation is itself a partial implementation and remains to be wired.
 |---|---|---|---|---|---|
 | `eventSourceRef` | `Optional[RefType]` | `eventSource` | `Ref (BswAsynchronousServerCallResultPoint)` | Ref | ok |
 
+No deviations (2026-09-26 sync, Table 5.36, p.98): bare `RefType` setter parameter retyped to
+`Optional[RefType]` (0..1), `__init__` docstring and paraphrased docstrings wiped and rewritten
+verbatim from the markdown Note, 6-column checklist; reader/writer already covered the
+`EVENT-SOURCE-REF` element via matched read/writeBswAsynchronousServerCallReturnsEvent helpers
+with dispatch + createBswAsynchronousServerCallReturnsEvent factory on BswInternalBehavior.
+Base drift observed (not this row): `readBswEvent` lacks a `readIdentifiable` call while
+`writeBswEvent` calls `writeIdentifiable` (BswEvent/BswScheduleEvent base-owned; both
+unstamped, no queue rows yet).
+
 ## `BswModeSenderPolicy`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 102
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`

@@ -997,6 +997,15 @@ class TestBswAsynchronousServerCallReturnsEvent:
         assert result is event
         assert event.getEventSourceRef() == ref
 
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswAsynchronousServerCallReturnsEvent.getEventSourceRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswAsynchronousServerCallReturnsEvent.setEventSourceRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswAsynchronousServerCallReturnsEvent
+
 
 class TestBswTimingEvent:
     """Test cases for BswTimingEvent class - represents a timing event in a BSW module."""

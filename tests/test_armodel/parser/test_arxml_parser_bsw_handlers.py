@@ -1440,6 +1440,28 @@ class TestBswInternalBehaviorEventsDetailed:
         parser.readBswAsynchronousServerCallReturnsEvent(element, event)
         assert event.getEventSourceRef().getValue() == "/cp"
 
+    def test_readBswAsynchronousServerCallReturnsEvent_event_source_ref_dest(self, parser):
+        from armodel.models import BswAsynchronousServerCallReturnsEvent
+
+        event = BswAsynchronousServerCallReturnsEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>" "<EVENT-SOURCE-REF DEST='BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT'>/cp</EVENT-SOURCE-REF>",
+            root_tag="BSW-ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT",
+        )
+        parser.readBswAsynchronousServerCallReturnsEvent(element, event)
+        assert event.getEventSourceRef().getDest() == "BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT"
+
+    def test_readBswAsynchronousServerCallReturnsEvent_absent_event_source_ref(self, parser):
+        from armodel.models import BswAsynchronousServerCallReturnsEvent
+
+        event = BswAsynchronousServerCallReturnsEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>",
+            root_tag="BSW-ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT",
+        )
+        parser.readBswAsynchronousServerCallReturnsEvent(element, event)
+        assert event.getEventSourceRef() is None
+
     def test_readBswInternalBehaviorEvents_dispatches_all_types(self, parser):
         from armodel.models import BswModuleDescription
 

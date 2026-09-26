@@ -1030,45 +1030,27 @@ class BswAsynchronousServerCallReturnsEvent(BswScheduleEvent):
 
     # BswAsynchronousServerCallReturnsEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.36, p.98
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getEventSourceRef            [x] impl  [x] docstring  [x] test
-    # [x] setEventSourceRef            [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventSourceRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventSourceRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswAsynchronousServerCallReturnsEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
         super().__init__(parent, short_name)
 
-        # The call point to be used for retrieving the result. The reference
-        # in the role eventSource shall exist at the time when the
-        # configuration of the BSW module is finished (constr_10288).
+        # The call point to be used for retrieving the result. For each BswAsynchronousServerCallReturnsEvent, the reference in the role eventSource shall exist at the time when the configuration of the BSW module is finished (constr_10288).
         self.eventSourceRef: Optional[RefType] = None
 
     def getEventSourceRef(self) -> Optional[RefType]:
         """
-        Gets the call point to be used for retrieving the result of the
-        asynchronous Client-Server call.
-
-        Returns:
-            The event source reference
+        The call point to be used for retrieving the result.
         """
         return self.eventSourceRef
 
-    def setEventSourceRef(self, value: RefType) -> BswAsynchronousServerCallReturnsEvent:
+    def setEventSourceRef(self, value: Optional[RefType]) -> BswAsynchronousServerCallReturnsEvent:
         """
-        Sets the call point to be used for retrieving the result.
-        Only sets if value is not None.
-
-        Args:
-            value: The event source reference to set
-
-        Returns:
-            self for method chaining
+        The call point to be used for retrieving the result.
+        A None value is a no-op and does not overwrite an existing eventSourceRef.
         """
         if value is not None:
             self.eventSourceRef = value

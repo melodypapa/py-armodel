@@ -185,15 +185,31 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `BswAsynchronousServerCallReturnsEvent` — BswScheduleEvent — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 5.36, p.98 (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate).
+    Concrete Class; Base most-derived = `BswScheduleEvent` (already correct in src). One attr
+    `eventSource` (BswAsynchronousServerCallResultPoint, 0..1, ref → `eventSourceRef`
+    Optional[RefType]). Not directly VP-capable — VARIATION-POINT lives in ancestor BSW-EVENT
+    group (AUTOSAR_00052.xsd), capability inherited via BswEvent mixin (Rule 0020). Wire
+    element EVENT-SOURCE-REF (AR:REF + DEST BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT--SUBTYPES-ENUM).
+    Drift: old 5-col checklist (no release/Columns line), `__init__` docstring, paraphrased
+    docstrings, setter param bare `RefType` (not Optional). Reader/writer helpers + dispatch
+    + consumer factory already exist with matched set/get names.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): read/writeBswAsynchronousServerCallReturnsEvent + EVENTS dispatch +
+    createBswAsynchronousServerCallReturnsEvent already cover EVENT-SOURCE-REF with matched
+    set/get names (XSD wire name verified, AUTOSAR_00052.xsd L9481); new value-asserting +
+    full round-trip + empty tests passed immediately, no parser/writer edit. Empty round-trip
+    shows no inherited normally-None element emission (SWC-sibling disease absent here).
+    Base drift noted (not this row): readBswEvent lacks readIdentifiable while
+    writeBswEvent calls writeIdentifiable (BswEvent/BswScheduleEvent base-owned).
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12062 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BswDataReceivedEvent` — BswScheduleEvent — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
