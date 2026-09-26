@@ -80,3 +80,87 @@ class TestField:
 
         assert result == obj
         assert obj.getHasSetter() == test_value
+
+
+class TestFieldSpecContract:
+    """Spec-contract tests for Field (AUTOSAR_FO_TPS_AbstractPlatformSpecification Table B.9, pp.44-45)."""
+
+    CLASS_NOTE = "This meta-class represents the ability to define a piece of data that can be accessed with read and/or write semantics. It is also possible to generate a notification if the value of the data changes."
+    HAS_GETTER_NOTE = "This attribute controls whether read access is foreseen to this field."
+    HAS_NOTIFIER_NOTE = "This attribute controls whether a notification semantics is foreseen to this field."
+    HAS_SETTER_NOTE = "This attribute controls whether write access is foreseen to this field."
+
+    def _make(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        return Field(ar_root, "field")
+
+    def test_class_note_verbatim(self):
+        import inspect
+
+        assert inspect.cleandoc(Field.__doc__) == self.CLASS_NOTE
+
+    def test_base_shape_and_vp_capability(self):
+        """Most-derived base AutosarDataPrototype per the Table B.9 Base row; VariationPointCapable per the XSD FIELD group VARIATION-POINT anchor (Rule 0020)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AutosarDataPrototype
+
+        field = self._make()
+        assert isinstance(field, AutosarDataPrototype)
+        assert isinstance(field, VariationPointCapable)
+        assert Field.__bases__ == (AutosarDataPrototype, VariationPointCapable)
+
+    def test_get_set_boolean_round_trip(self):
+        """Real Boolean values round-trip; setters chain; None is a no-op (Table B.9, all attrs 0..1)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean
+
+        field = self._make()
+        getter = Boolean().setValue(True)
+        assert field.setHasGetter(getter) is field
+        assert field.getHasGetter() is getter
+        assert field.getHasGetter().getValue() is True
+        assert field.setHasGetter(None) is field
+        assert field.getHasGetter() is getter
+
+        notifier = Boolean().setValue(True)
+        assert field.setHasNotifier(notifier) is field
+        assert field.getHasNotifier() is notifier
+        assert field.setHasNotifier(None) is field
+        assert field.getHasNotifier() is notifier
+
+        setter = Boolean().setValue(True)
+        assert field.setHasSetter(setter) is field
+        assert field.getHasSetter() is setter
+        assert field.setHasSetter(None) is field
+        assert field.getHasSetter() is setter
+
+    def test_accessor_annotations(self):
+        """Accessors shall carry Optional[Boolean]; setters shall chain Field (Table B.9 mults)."""
+        from typing import Optional, get_type_hints
+
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean
+
+        for name in ("HasGetter", "HasNotifier", "HasSetter"):
+            get_hints = get_type_hints(getattr(Field, "get" + name))
+            set_hints = get_type_hints(getattr(Field, "set" + name))
+            assert get_hints["return"] == Optional[Boolean], name
+            assert set_hints["value"] == Optional[Boolean], name
+            assert set_hints["return"] == Field, name
+
+    def test_member_order(self):
+        """Field-to-spec cross-check: exactly the three Table B.9 attribute rows, in displayed order (hasGetter, hasNotifier, hasSetter) after the base attrs."""
+        assert list(vars(self._make()).keys())[-3:] == ["hasGetter", "hasNotifier", "hasSetter"]
+
+    def test_docstrings_verbatim(self):
+        """Member inline comments and accessor docstrings carry the spec Notes verbatim; setters carry the None-no-op sentence."""
+        import inspect
+
+        init_source = inspect.getsource(Field.__init__)
+        assert self.HAS_GETTER_NOTE in init_source
+        assert self.HAS_NOTIFIER_NOTE in init_source
+        assert self.HAS_SETTER_NOTE in init_source
+        for name, note in (("HasGetter", self.HAS_GETTER_NOTE), ("HasNotifier", self.HAS_NOTIFIER_NOTE), ("HasSetter", self.HAS_SETTER_NOTE)):
+            assert getattr(Field, "get" + name).__doc__.strip() == note
+            setter_doc = getattr(Field, "set" + name).__doc__.strip()
+            assert setter_doc == note + " A None value is a no-op and does not overwrite an existing %s." % (name[0].lower() + name[1:])
+        assert Field.__init__.__doc__ is None

@@ -545,6 +545,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototy
     VariableDataPrototype,
 )
 from armodel.models.M2.AUTOSARTemplates.AbstractPlatform import ApplicationDeferredDataType
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.ApplicationDesign.PortInterface import Field
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
     ApplicationArrayDataType,
     ApplicationCompositeDataType,
@@ -12163,6 +12164,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "MODE-INTERFACE-MAPPING")
             self.writeIdentifiable(child_element, mapping)
             self.writeModeInterfaceMappingModeMapping(child_element, mapping)
+
+    def writeFieldContent(self, element: ET.Element, field: Field):
+        self.writeIdentifiable(element, field, write_variation_point=False)
+        self.setChildElementOptionalBooleanValue(element, "HAS-GETTER", field.getHasGetter())
+        self.setChildElementOptionalBooleanValue(element, "HAS-NOTIFIER", field.getHasNotifier())
+        self.setChildElementOptionalBooleanValue(element, "HAS-SETTER", field.getHasSetter())
+        if isinstance(field, VariationPointCapable):
+            self.writeVariationPoint(element, field.getVariationPoint())
 
     def writeTriggerMapping(self, element: ET.Element, trigger_mapping: TriggerMapping):
         self.setChildElementOptionalRefType(element, "FIRST-TRIGGER-REF", trigger_mapping.getFirstTriggerRef())

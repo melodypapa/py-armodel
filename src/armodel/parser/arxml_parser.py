@@ -626,6 +626,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototy
     VariableDataPrototype,
 )
 from armodel.models.M2.AUTOSARTemplates.AbstractPlatform import ApplicationDeferredDataType
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.ApplicationDesign.PortInterface import Field
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
     ApplicationArrayDataType,
     ApplicationCompositeDataType,
@@ -13980,6 +13981,12 @@ class ARXMLParser(AbstractARXMLParser):
         # self.logger.debug("Read ModeInterfaceMapping %s" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
         self.readModeInterfaceMappingModeMapping(element, mapping)
+
+    def readField(self, element: ET.Element, field: Field):
+        self.readIdentifiable(element, field)
+        field.setHasGetter(self.getChildElementOptionalBooleanValue(element, "HAS-GETTER"))
+        field.setHasNotifier(self.getChildElementOptionalBooleanValue(element, "HAS-NOTIFIER"))
+        field.setHasSetter(self.getChildElementOptionalBooleanValue(element, "HAS-SETTER"))
 
     def readTriggerMapping(self, element: ET.Element, trigger_mapping: TriggerMapping):
         trigger_mapping.setFirstTriggerRef(self.getChildElementOptionalRefType(element, "FIRST-TRIGGER-REF"))
