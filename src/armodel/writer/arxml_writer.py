@@ -76,7 +76,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
 )
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import BswServiceDependencyIdent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleDependency, BswModuleEntry
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationship, BswModuleClientServerEntry, BswModuleDependency, BswModuleEntry
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
@@ -1079,6 +1079,10 @@ SW_IMPL_POLICY_XML_MAP = {
 BSW_INTERRUPT_CATEGORY_XML_MAP = {
     "cat1": "CAT-1",
     "cat2": "CAT-2",
+}
+
+BSW_ENTRY_RELATIONSHIP_XML_MAP = {
+    "derivedFrom": "DERIVED-FROM",
 }
 
 
@@ -7584,6 +7588,18 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeVariableDataPrototype(child_element, data)
                 else:
                     self.notImplemented("Unsupported Required Data <%s>" % type(data))
+
+    def writeBswEntryRelationship(self, element: ET.Element, relationship: BswEntryRelationship):
+        self.setChildElementOptionalRefType(element, "FROM-REF", relationship.getFromRef())
+        self.setChildElementOptionalRefType(element, "TO-REF", relationship.getToRef())
+        relationship_type = relationship.getBswEntryRelationshipType()
+        if relationship_type is not None:
+            token = BSW_ENTRY_RELATIONSHIP_XML_MAP.get(relationship_type.getValue())
+            if token is None:
+                self.notImplemented("Unsupported BSW-ENTRY-RELATIONSHIP-TYPE <%s>" % relationship_type.getValue())
+            else:
+                type_element = ET.SubElement(element, "BSW-ENTRY-RELATIONSHIP-TYPE")
+                type_element.text = token
 
     def writeBswModuleClientServerEntry(self, element: ET.Element, entry: BswModuleClientServerEntry):
         if entry is not None:

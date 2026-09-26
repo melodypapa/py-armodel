@@ -1756,6 +1756,36 @@ class TestBswReceptionAndApiOptions:
         assert any("Unsupported Reception Policies" in r.getMessage() for r in caplog.records)
 
 
+class TestBswEntryRelationshipHandlers:
+    """Exercise readBswEntryRelationship (FROM-REF / TO-REF / BSW-ENTRY-RELATIONSHIP-TYPE)."""
+
+    def test_readBswEntryRelationship_sets_refs_and_type(self, parser):
+        from armodel.models import BswEntryRelationship
+
+        relationship = BswEntryRelationship()
+        element = _snip(
+            "<FROM-REF DEST='BSW-MODULE-ENTRY'>/mod/abstract</FROM-REF>"
+            "<TO-REF DEST='BSW-MODULE-ENTRY'>/mod/concrete</TO-REF>"
+            "<BSW-ENTRY-RELATIONSHIP-TYPE>DERIVED-FROM</BSW-ENTRY-RELATIONSHIP-TYPE>",
+            root_tag="REL",
+        )
+        parser.readBswEntryRelationship(element, relationship)
+        assert relationship.getFromRef().getValue() == "/mod/abstract"
+        assert relationship.getToRef().getValue() == "/mod/concrete"
+        assert relationship.getBswEntryRelationshipType() is not None
+        assert relationship.getBswEntryRelationshipType().getValue() == "derivedFrom"
+
+    def test_readBswEntryRelationship_absent_leaves_none(self, parser):
+        from armodel.models import BswEntryRelationship
+
+        relationship = BswEntryRelationship()
+        element = _snip("", root_tag="REL")
+        parser.readBswEntryRelationship(element, relationship)
+        assert relationship.getFromRef() is None
+        assert relationship.getToRef() is None
+        assert relationship.getBswEntryRelationshipType() is None
+
+
 class TestBswPerInstanceMemoryPolicyHandlers:
     """Exercise readBswPerInstanceMemoryPolicy and the BswInternalBehavior
     BSW-PER-INSTANCE-MEMORY-POLICYS wrapper."""

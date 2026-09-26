@@ -77,13 +77,23 @@ kind `TRef` is correctly implemented by `typeTRef`. `variationPoint`/
 ## `BswEntryRelationship`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 51
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces/BswEntryRelationship.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `bswEntryRelationshipType` | `BswEntryRelationshipEnum` | — | missing |
-| — *(missing)* | `—` | `fromRef` | `Ref (BswModuleEntry)` | Ref | missing |
-| — *(missing)* | `—` | `toRef` | `Ref (BswModuleEntry)` | Ref | missing |
+| `bswEntryRelationshipType` | `Optional[BswEntryRelationshipEnum]` | `bswEntryRelationshipType` | `BswEntryRelationshipEnum` | Attr | ok |
+| `fromRef` | `Optional[RefType]` | `from` | `Ref (BswModuleEntry)` | Ref | ok (Rule 0001.5 ref-suffix) |
+| `toRef` | `Optional[RefType]` | `to` | `Ref (BswModuleEntry)` | Ref | ok (Rule 0001.5 ref-suffix) |
+
+Deviations resolved (2026-09-26 sync, Table 4.19, p.51): the three `missing` rows above were
+stale (the classes were audited against non-existent leaf files `BswInterfaces/BswEntryRelationship.py`;
+the members always existed in `BswInterfaces.py`) — all three members verified present and retyped;
+`__init__` docstring and paraphrased docstrings wiped and rewritten verbatim from the markdown Notes
+(the spec's own "drivedFrom" typo kept verbatim); old 4-col checklist replaced with the 6-column
+format. Reader/writer coverage ADDED this sync: read/writeBswEntryRelationship with
+FROM-REF/TO-REF/BSW-ENTRY-RELATIONSHIP-TYPE (XSD token DERIVED-FROM via
+BSW_ENTRY_RELATIONSHIP_XML_MAP; XSD element order FROM-REF, TO-REF, BSW-ENTRY-RELATIONSHIP-TYPE
+per xml.sequenceOffset=5), value-asserting round-trip test.
 
 ## `BswEntryRelationshipSet`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 51

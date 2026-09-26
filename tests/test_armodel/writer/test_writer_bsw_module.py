@@ -32,6 +32,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswVariableAccess,
     RoleBasedBswModuleEntryAssignment,
 )
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationship
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import (
     ModeInBswModuleDescriptionInstanceRef,
 )
@@ -661,6 +662,46 @@ class TestWriterBswSynchronousServerCallPoints:
         writer.writeBswModuleEntityCallPoints(parent, entity)
         child_tags = [c.tag for c in parent[0]]
         assert child_tags == ["BSW-SYNCHRONOUS-SERVER-CALL-POINT"]
+
+
+class TestWriterBswEntryRelationshipRoundTrip:
+    def test_write_bsw_entry_relationship_serializes_members(self, writer):
+        relationship = BswEntryRelationship()
+        relationship.setFromRef(_ref("/mod/abstract", "BSW-MODULE-ENTRY"))
+        relationship.setToRef(_ref("/mod/concrete", "BSW-MODULE-ENTRY"))
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationshipEnum
+
+        relationship.setBswEntryRelationshipType(BswEntryRelationshipEnum().setValue("derivedFrom"))
+        parent = _parent()
+        writer.writeBswEntryRelationship(parent, relationship)
+        assert [child.tag for child in parent] == ["FROM-REF", "TO-REF", "BSW-ENTRY-RELATIONSHIP-TYPE"]
+        assert parent.find("FROM-REF").text == "/mod/abstract"
+        assert parent.find("TO-REF").text == "/mod/concrete"
+        assert parent.find("BSW-ENTRY-RELATIONSHIP-TYPE").text == "DERIVED-FROM"
+
+    def test_write_bsw_entry_relationship_unset_omits_elements(self, writer):
+        relationship = BswEntryRelationship()
+        parent = _parent()
+        writer.writeBswEntryRelationship(parent, relationship)
+        assert len(parent) == 0
+
+    def test_round_trip_bsw_entry_relationship(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationshipEnum
+
+        relationship = BswEntryRelationship()
+        relationship.setFromRef(_ref("/mod/abstract", "BSW-MODULE-ENTRY"))
+        relationship.setToRef(_ref("/mod/concrete", "BSW-MODULE-ENTRY"))
+        relationship.setBswEntryRelationshipType(BswEntryRelationshipEnum().setValue("derivedFrom"))
+        parent = _parent()
+        writer.writeBswEntryRelationship(parent, relationship)
+        xml_text = "".join(ET.tostring(child, encoding="unicode") for child in parent)
+        reloaded = ET.fromstring("<ROOT xmlns='http://autosar.org/schema/r4.0'>%s</ROOT>" % xml_text)
+        parsed = BswEntryRelationship()
+        ARXMLParser().readBswEntryRelationship(reloaded, parsed)
+        assert parsed.getFromRef().getValue() == "/mod/abstract"
+        assert parsed.getToRef().getValue() == "/mod/concrete"
+        assert parsed.getBswEntryRelationshipType() is not None
+        assert parsed.getBswEntryRelationshipType().getValue() == "derivedFrom"
 
 
 class TestWriterBswSynchronousServerCallPointRoundTrip:

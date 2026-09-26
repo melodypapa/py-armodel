@@ -429,19 +429,37 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     bullet-list mention is a type-list reference, not a deviation row.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12305 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `BswEntryRelationship` — ARObject — source TBC (locate table at Step 1)
+- [ ] `BswEntryRelationship` — ARObject — R23-11 markdown · Table 4.19 (CP_TPS_BSWModuleDescriptionTemplate), p.51
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
-  - note: deviation-tracked in method_deviation_by_class.md + method_deviation_by_class_v2.md — review entries at Step 1
   - after `BswEntryRelationshipEnum`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 4.19, p.51. Concrete Class; Base = ARObject
+    (already correct in src). Aggregated by = BswEntryRelationshipSet.bswEntryRelationship.
+    Three attrs in displayed order: bswEntryRelationshipType (BswEntryRelationshipEnum,
+    0..1, attr, xml.sequenceOffset=5), from (BswModuleEntry, 0..1, ref → fromRef), to
+    (BswModuleEntry, 0..1, ref → toRef). XSD wire order: FROM-REF, TO-REF,
+    BSW-ENTRY-RELATIONSHIP-TYPE (token DERIVED-FROM vs literal value "derivedFrom" →
+    BSW_ENTRY_RELATIONSHIP_XML_MAP, SW_IMPL_POLICY idiom). Note: spec/from Note carries
+    the spec's own "drivedFrom" typo — kept verbatim per Rule 0001.4. Drift: `__init__`
+    docstring, paraphrased docstrings, src inline comment had "drivenFrom" (wrong),
+    old 4-col checklist; NO reader/writer coverage (no read/writeBswEntryRelationship).
+    Tracker `missing` rows were stale (audited against non-existent leaf files).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): ADDED readBswEntryRelationship (parser: FROM-REF/TO-REF via
+    getChildElementOptionalRefType + BSW-ENTRY-RELATIONSHIP-TYPE token map) and
+    writeBswEntryRelationship (writer: XSD order, token map); new value-asserting
+    parser tests (refs+token, absent) and writer tests (element order, unset omits,
+    full round-trip) pass.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): tracker `missing` rows RESOLVED (stale audit against non-existent
+    leaf files) — retyped as ok rows (fromRef/toRef = Rule 0001.5 ref-suffix naming);
+    "drivedFrom" spec typo kept verbatim in docstrings.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12310 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BswEntryRelationshipSet` — Identifiable — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py

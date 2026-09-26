@@ -585,47 +585,42 @@ class BswEntryRelationshipEnum(AREnum):
 
 class BswEntryRelationship(ARObject):
     """
-    Describes a relationship between two BswModuleEntrys and the
-    type of relationship.
+    Describes a relationship between two BswModuleEntrys and the type of relationship.
     """
 
     # BswEntryRelationship method parity checklist:
-    # [x] __init__                          [x] impl  [x] docstring  [ ] test
-    # [x] getBswEntryRelationshipType       [x] impl  [x] docstring  [ ] test
-    # [x] setBswEntryRelationshipType       [x] impl  [x] docstring  [ ] test
-    # [x] getFromRef                        [x] impl  [x] docstring  [ ] test
-    # [x] setFromRef                        [x] impl  [x] docstring  [ ] test
-    # [x] getToRef                          [x] impl  [x] docstring  [ ] test
-    # [x] setToRef                          [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.19, p.51
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBswEntryRelationshipType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBswEntryRelationshipType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFromRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFromRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getToRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setToRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the BswEntryRelationship with default values.
-        """
         super().__init__()
 
         # Denotes the type of the relationship.
         self.bswEntryRelationshipType: Optional[BswEntryRelationshipEnum] = None
 
-        # Type of relationship that refers to the abstract BswModuleEntry.
-        # Please notice that in this case the bswEntryRelationshipType
-        # shall be set to drivenFrom.
+        # Type of relationship that refers to the abstract BswModuleEntry. Please notice that in this case the bswEntryRelationshipType shall be set to drivedFrom.
         self.fromRef: Optional[RefType] = None
 
-        # Type of relationship that refers to the concrete BswModuleEntry.
+        # Type of relationship that refers to the concrete BswModuleEntry
         self.toRef: Optional[RefType] = None
 
     def getBswEntryRelationshipType(self) -> Optional[BswEntryRelationshipEnum]:
         """
-        Gets the type of relationship between BSW entries. Denotes the
-        type of the relationship.
+        Denotes the type of the relationship.
         """
         return self.bswEntryRelationshipType
 
     def setBswEntryRelationshipType(self, value: Optional[BswEntryRelationshipEnum]) -> "BswEntryRelationship":
         """
-        Sets the type of relationship between BSW entries. Only sets if
-        value is not None. Returns self for method chaining.
+        Denotes the type of the relationship.
+        A None value is a no-op and does not overwrite an existing bswEntryRelationshipType.
         """
         if value is not None:
             self.bswEntryRelationshipType = value
@@ -633,17 +628,14 @@ class BswEntryRelationship(ARObject):
 
     def getFromRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the abstract BswModuleEntry that is the
-        source of the relationship. When this reference is present, the
-        bswEntryRelationshipType shall be set to drivenFrom.
+        Type of relationship that refers to the abstract BswModuleEntry. Please notice that in this case the bswEntryRelationshipType shall be set to drivedFrom.
         """
         return self.fromRef
 
     def setFromRef(self, value: Optional[RefType]) -> "BswEntryRelationship":
         """
-        Sets the reference to the abstract BswModuleEntry that is the
-        source of the relationship. Only sets if value is not None.
-        Returns self for method chaining.
+        Type of relationship that refers to the abstract BswModuleEntry. Please notice that in this case the bswEntryRelationshipType shall be set to drivedFrom.
+        A None value is a no-op and does not overwrite an existing fromRef.
         """
         if value is not None:
             self.fromRef = value
@@ -651,16 +643,14 @@ class BswEntryRelationship(ARObject):
 
     def getToRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the concrete BswModuleEntry that is the
-        target of the relationship.
+        Type of relationship that refers to the concrete BswModuleEntry
         """
         return self.toRef
 
     def setToRef(self, value: Optional[RefType]) -> "BswEntryRelationship":
         """
-        Sets the reference to the concrete BswModuleEntry that is the
-        target of the relationship. Only sets if value is not None.
-        Returns self for method chaining.
+        Type of relationship that refers to the concrete BswModuleEntry
+        A None value is a no-op and does not overwrite an existing toRef.
         """
         if value is not None:
             self.toRef = value

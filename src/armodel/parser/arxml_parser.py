@@ -88,7 +88,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
 )
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import BswServiceDependencyIdent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleEntry
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationship, BswEntryRelationshipEnum, BswModuleClientServerEntry, BswModuleEntry
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
@@ -1215,6 +1215,10 @@ SW_IMPL_POLICY_XML_MAP = {
 BSW_INTERRUPT_CATEGORY_XML_MAP = {
     "cat1": "CAT-1",
     "cat2": "CAT-2",
+}
+
+BSW_ENTRY_RELATIONSHIP_XML_MAP = {
+    "derivedFrom": "DERIVED-FROM",
 }
 
 
@@ -4536,6 +4540,21 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readVariableDataPrototype(child_element, data)
             else:
                 self.notImplemented("Unsupported Required Data <%s>" % tag_name)
+
+    def readBswEntryRelationship(self, element: ET.Element, relationship: BswEntryRelationship):
+        relationship.setFromRef(self.getChildElementOptionalRefType(element, "FROM-REF"))
+        relationship.setToRef(self.getChildElementOptionalRefType(element, "TO-REF"))
+        literal = self.getChildElementOptionalLiteral(element, "BSW-ENTRY-RELATIONSHIP-TYPE")
+        if literal is not None:
+            camel = None
+            for camel_value, token in BSW_ENTRY_RELATIONSHIP_XML_MAP.items():
+                if token == literal.getText():
+                    camel = camel_value
+                    break
+            if camel is not None:
+                relationship.setBswEntryRelationshipType(BswEntryRelationshipEnum().setValue(camel))
+            else:
+                self.notImplemented("Unsupported BSW-ENTRY-RELATIONSHIP-TYPE <%s>" % literal.getText())
 
     def readBswModuleClientServerEntry(self, element: ET.Element, entry: BswModuleClientServerEntry):
         self.readReferrable(element, entry)
