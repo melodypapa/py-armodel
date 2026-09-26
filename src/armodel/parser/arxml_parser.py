@@ -240,7 +240,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint, PortPrototypeBlueprintInitValue
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintFormula import BlueprintFormula
-from armodel.models.M2.AUTOSARTemplates.FeatureModelTemplate import FMConditionByFeaturesAndAttributes, FMFormulaByFeaturesAndAttributes
+from armodel.models.M2.AUTOSARTemplates.FeatureModelTemplate import FMConditionByFeaturesAndAttributes, FMFormulaByFeaturesAndAttributes, FMFormulaByFeaturesAndSwSystemconsts
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator import BlueprintGenerator
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
@@ -1333,6 +1333,10 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readFMFormulaByFeaturesAndAttributes(self, element: ET.Element, formula: FMFormulaByFeaturesAndAttributes) -> FMFormulaByFeaturesAndAttributes:
         formula.setAttributeRef(self.getChildElementOptionalRefType(element, "ATTRIBUTE-REF"))
+        formula.setFeatureRef(self.getChildElementOptionalRefType(element, "FEATURE-REF"))
+        return formula
+
+    def readFMFormulaByFeaturesAndSwSystemconsts(self, element: ET.Element, formula: FMFormulaByFeaturesAndSwSystemconsts) -> FMFormulaByFeaturesAndSwSystemconsts:
         formula.setFeatureRef(self.getChildElementOptionalRefType(element, "FEATURE-REF"))
         return formula
 

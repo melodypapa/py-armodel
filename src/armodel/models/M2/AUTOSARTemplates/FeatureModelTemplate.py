@@ -1,9 +1,10 @@
 from typing import Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.FormulaLanguage import FormulaExpression
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import SwSystemconstDependentFormula
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
-__all__ = ["FMConditionByFeaturesAndAttributes", "FMFormulaByFeaturesAndAttributes"]
+__all__ = ["FMConditionByFeaturesAndAttributes", "FMFormulaByFeaturesAndAttributes", "FMFormulaByFeaturesAndSwSystemconsts"]
 
 
 class FMFormulaByFeaturesAndAttributes(FormulaExpression):
@@ -108,3 +109,60 @@ class FMConditionByFeaturesAndAttributes(FMFormulaByFeaturesAndAttributes):
 
     def __init__(self):
         super().__init__()
+
+
+class FMFormulaByFeaturesAndSwSystemconsts(SwSystemconstDependentFormula):
+    """An expression that has the syntax of the AUTOSAR formula language and may use references to features or system constants as operands.
+
+    [constr_3667] Multiplicity of FMFormulaByFeaturesAndSwSystemconsts.feature ⎡ For each FMFormulaByFeaturesAndSwSystemconsts the reference in the role feature shall exist. ⎤ ()
+    """
+
+    # FMFormulaByFeaturesAndSwSystemconsts method parity checklist:
+    # Spec: R23-11/AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 7.3, p.63 (R23-11)
+    # (section 7.2.3; R4.3.1 reproduction Table 7.3 has the same rows (p.63,
+    # AUTOSAR_TPS_FeatureModelExchangeFormat.md). XSD 00052 has NO own complexType
+    # - group-only class: group FM-FORMULA-BY-FEATURES-AND-SW-SYSTEMCONSTS
+    # (line 62784, stereotypes atpMixedString,atpObject) is an unbounded 0..*
+    # choice of FEATURE-REF (DEST FM-FEATURE--SUBTYPES-ENUM, required), 0..1 per
+    # the appinfo pureMM minOccurs=0 / maxOccurs=1. The Table 7.3 attribute row
+    # carries no Note column - the member docstring is verbatim from the XSD
+    # group member documentation. The ref target FMFeature is not yet in the
+    # model - the field carries RefType (TlvDataIdDefinition precedent). Base
+    # row ARObject, FormulaExpression, SwSystemconstDependentFormula ->
+    # most-derived provided base SwSystemconstDependentFormula
+    # (BlueprintFormula precedent). Per Rule 0001.7 (abstract XML-bearing bases
+    # own reusable helpers) the class owns the
+    # readFMFormulaByFeaturesAndSwSystemconsts /
+    # writeFMFormulaByFeaturesAndSwSystemconsts helpers; the concrete subclass
+    # FMConditionByFeaturesAndSwSystemconsts (Table 7.4, complexType line 62046
+    # composes this group plus SW-SYSTEMCONST-DEPENDENT-FORMULA) is a later
+    # row and will call them via isinstance dispatch
+    # (readFMConditionByFeaturesAndAttributes precedent) - until then coverage
+    # is pinned at element level by tests/test_armodel/parser/
+    # test_parser_fm_formula_by_features_and_sw_systemconsts.py and
+    # tests/test_armodel/writer/
+    # test_writer_fm_formula_by_features_and_sw_systemconsts.py with a concrete
+    # test vehicle.)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFeatureRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFeatureRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        if type(self) is FMFormulaByFeaturesAndSwSystemconsts:
+            raise TypeError("FMFormulaByFeaturesAndSwSystemconsts is an abstract class.")
+
+        super().__init__()
+
+        # An expression of type FMFormulaByFeaturesAndSwSystemconsts may refer to FMFeatures.
+        self.featureRef: Optional[RefType] = None
+
+    def getFeatureRef(self) -> Optional[RefType]:
+        """An expression of type FMFormulaByFeaturesAndSwSystemconsts may refer to FMFeatures."""
+        return self.featureRef
+
+    def setFeatureRef(self, value: Optional[RefType]) -> "FMFormulaByFeaturesAndSwSystemconsts":
+        """An expression of type FMFormulaByFeaturesAndSwSystemconsts may refer to FMFeatures. A None value is a no-op and does not overwrite an existing featureRef."""
+        if value is not None:
+            self.featureRef = value
+        return self
