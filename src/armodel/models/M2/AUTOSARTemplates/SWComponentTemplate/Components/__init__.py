@@ -778,6 +778,7 @@ class PRPortPrototype(AbstractProvidedPortPrototype, AbstractRequiredPortPrototy
 
     # PRPortPrototype method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.7, p.68 (R23-11)
+    # Spec verified: R23-11 (2026-09-26, user 9b re-confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getProvidedRequiredInterfaceTRef      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11

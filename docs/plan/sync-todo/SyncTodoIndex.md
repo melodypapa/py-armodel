@@ -2,6 +2,8 @@
 
 Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by group, then by appearance order within each group.
 
+Status `*` (or an explicit `Deferred` status) = sync complete (Steps 1–8) but the `# Spec verified:`/`# XSD verified:` stamp is **deferred to a batch 9b user confirmation** (audited 2026-09-26 against the src stamps).
+
 
 ## Group1
 
@@ -17,7 +19,7 @@ Status: **77/77** completed
 | `HwPinGroup`                            | [x] Done | 69afffcc                                 |
 | `HwType`                                | [x] Done | 29f338b3                                 |
 | `HwElement`                             | [x] Done | 8c7f05d4                                 |
-| `FirewallRule`                          | [x] Done | 00d011d4                                 |
+| `FirewallRule`                          | [x] Done*| 00d011d4                                 |
 | `PortInterfaceBlueprintMapping`         | [x] Done | 3ba85998bb8a378d2fc76d8f0aa2eb58ad86d6f4 |
 | `PortPrototypeBlueprintMapping`         | [x] Done | f87babf31beb141ba1f5ea32b1389e6fbc9a8e8d |
 | `BlueprintMappingSet`                   | [x] Done | 3ba85998bb8a378d2fc76d8f0aa2eb58ad86d6f4 |
@@ -129,7 +131,7 @@ Status: **45/45** completed
 | `ExternalTriggeringPointIdent`                          | [x] Done | c04ca0f5b |
 | `PortDefinedArgumentValue`                              | [x] Done | 7fc79e4b  |
 | `CompositionSwComponentType`                            | [x] Done | 6b46fb26a |
-| `ApplicationRecordDataType`                             | [x] Done | 0a06e0fae |
+| `ApplicationRecordDataType`                             | [x] Done*| 0a06e0fae |
 | `DataTransformationErrorHandlingEnum`                   | [x] Done | 7fc79e4b  |
 | `DataTransformationStatusForwardingEnum`                | [x] Done | 7c676281  |
 | `SwcSupportedFeature`                                   | [x] Done | 7c676281  |
@@ -217,7 +219,7 @@ Status: **93/94** completed
 | `Compu`                                | [x] Done    | dac94a9f  |
 | `CompuMethod`                          | [x] Done    | 135f42e5  |
 | `CompuScale`                           | [x] Done    | 057a1039  |
-| `CompuScales`                          | [x] Done    | 94d4eed6  |
+| `CompuScales`                          | [x] Done*| 94d4eed6  |
 | `DataConstrRule`                       | [x] Done    | fa640a0d  |
 | `DataConstr`                           | [x] Done    | 9927cc9e  |
 | `CompositeValueSpecification`          | [x] Done    | cc842d74  |
@@ -328,7 +330,7 @@ Status: **70/70** completed
 | `ConsumedProvidedServiceInstanceGroup`  | [x] Done | fce66955  |
 | `ClientIdRange`                         | [x] Done | fce66955  |
 | `PrivacyLevel`                          | [x] Done | fb222ae5  |
-| `DltArgument`                           | [x] Done | fb222ae5  |
+| `DltArgument`                           | [x] Done*| fb222ae5  |
 | `DltMessage`                            | [x] Done | c42f8ae9  |
 | `DltContext`                            | [x] Done | c42f8ae9  |
 | `DltApplication`                        | [x] Done | c42f8ae9  |
@@ -341,7 +343,7 @@ Status: **70/70** completed
 | `DiagnosticConnection`                  | [x] Done | e96086c1  |
 | `EthernetPhysicalChannel`               | [x] Done | 206cf295  |
 | `FrameTriggering`                       | [x] Done | 206cf295  |
-| `ContainedIPduCollectionSemanticsEnum`  | [x] Done | 206cf295  |
+| `ContainedIPduCollectionSemanticsEnum`  | [x] Done*| 206cf295  |
 | `PduCollectionTriggerEnum`              | [x] Done | 206cf295  |
 | `ContainedIPduProps`                    | [x] Done | 206cf295  |
 | `ModeDrivenTransmissionModeCondition`   | [x] Done | 206cf295  |
@@ -424,9 +426,9 @@ Status: **34/34** completed
 | `HwAttributeValue`                            | [x] Done | 269d34d9  |
 | `HwAttributeLiteralDef`                       | [x] Done | 5d767ace  |
 | `CryptoKeySlot`                               | [x] Done | a02f6175  |
-| `AbstractDoIpLogicAddressProps`               | [x] Done | bbfb9605  |
-| `DoIpLogicTargetAddressProps`                 | [x] Done | 603091fa  |
-| `DoIpLogicTesterAddressProps`                 | [x] Done | 0cca7684  |
+| `AbstractDoIpLogicAddressProps`               | [x] Done*| bbfb9605  |
+| `DoIpLogicTargetAddressProps`                 | [x] Done*| 603091fa  |
+| `DoIpLogicTesterAddressProps`                 | [x] Done*| 0cca7684  |
 | `DoIpTpConfig`                                | [x] Done | ac63e581  |
 | `FirewallRuleProps`                           | [x] Done | 89039bf2  |
 | `IdsPlatformInstantiation`                    | [x] Done | 5d4cc1c4  |
@@ -465,25 +467,30 @@ Status: **16/42** completed
 | `LifeCyclePeriod`                        | [x] Done    | b572582c1 |
 | `BuildActionIoElement`                   | [x] Done    | b572582c1 |
 | `AttributeValueVariationPoint`           | [x] Done | d5c96fd9       |
-| `ConditionByFormula`                     | [ ] Pending | N/A       |
-| `SwSystemconstValue`                     | [ ] Pending | N/A       |
-| `PostBuildVariantCondition`              | [ ] Pending | N/A       |
-| `PostBuildVariantCriterion`              | [ ] Pending | N/A       |
-| `PostBuildVariantCriterionValue`         | [ ] Pending | N/A       |
-| `OffsetTimingConstraint`                 | [ ] Pending | N/A       |
-| `SynchronizationTimingConstraint`        | [ ] Pending | N/A       |
-| `TimingDescriptionEventChain`            | [ ] Pending | N/A       |
-| `AutosarOperationArgumentInstance`       | [ ] Pending | N/A       |
-| `ConcreteTDEventVfb`                     | [ ] Pending | N/A       |
-| `AtpBlueprint`                           | [ ] Pending | N/A       |
-| `BlueprintGenerator`                     | [ ] Pending | N/A       |
-| `BlueprintMapping`                       | [ ] Pending | N/A       |
-| `LifeCycleInfo`                          | [ ] Pending | N/A       |
-| `LifeCycleInfoSet`                       | [ ] Pending | N/A       |
-| `VariationPoint`                         | [ ] Pending | N/A       |
-| `ModeInSwcBswInstanceRef`                | [ ] Pending | N/A       |
-| `ModeInSwcInstanceRef`                   | [ ] Pending | N/A       |
-| `AbstractEnumerationValueVariationPoint` | [ ] Pending | N/A       |
+| `ConditionByFormula`                     | [ ] Pending*| N/A       |
+| `MixedContentForOverviewParagraph`       | [ ] Deferred | ec430fef8 |
+| `MixedContentForPlainText`               | [ ] Deferred | 4b5f87982 |
+| `MixedContentForVerbatim`                | [ ] Deferred | 80ba96366 |
+| `SlOverviewParagraph`                    | [ ] Deferred | 6884fa835 |
+| `SingleLanguageUnitNames`                | [ ] Pending | N/A       |
+| `SwSystemconstValue`                     | [ ] Pending*| N/A       |
+| `PostBuildVariantCondition`              | [ ] Pending*| N/A       |
+| `PostBuildVariantCriterion`              | [ ] Pending*| N/A       |
+| `PostBuildVariantCriterionValue`         | [ ] Pending*| N/A       |
+| `OffsetTimingConstraint`                 | [ ] Pending*| N/A       |
+| `SynchronizationTimingConstraint`        | [ ] Pending*| N/A       |
+| `TimingDescriptionEventChain`            | [ ] Pending*| N/A       |
+| `AutosarOperationArgumentInstance`       | [ ] Pending*| N/A       |
+| `ConcreteTDEventVfb`                     | [ ] Pending*| N/A       |
+| `AtpBlueprint`                           | [x] Done    | 043de7436 |
+| `BlueprintGenerator`                     | [ ] Pending*| N/A       |
+| `BlueprintMapping`                       | [ ] Pending*| N/A       |
+| `LifeCycleInfo`                          | [ ] Pending*| N/A       |
+| `LifeCycleInfoSet`                       | [ ] Pending*| N/A       |
+| `VariationPoint`                         | [ ] Pending*| N/A       |
+| `ModeInSwcBswInstanceRef`                | [ ] Pending*| N/A       |
+| `ModeInSwcInstanceRef`                   | [ ] Pending*| N/A       |
+| `AbstractEnumerationValueVariationPoint` | [ ] Pending*| N/A       |
 | `AbstractNumericalVariationPoint`        | [x] Done    | d5c96fd9       |
 | `BooleanValueVariationPoint`             | [x] Done    | d5c96fd9       |
 | `FloatValueVariationPoint`               | [x] Done    | d5c96fd9       |
@@ -494,12 +501,12 @@ Status: **16/42** completed
 | `TimeValueValueVariationPoint`           | [x] Done    | d5c96fd9       |
 | `UnlimitedIntegerValueVariationPoint`    | [x] Done    | d5c96fd9       |
 | `FormulaExpression`                      | [ ] Pending | N/A       |
-| `BlueprintFormula`                       | [ ] Pending | N/A       |
+| `BlueprintFormula`                       | [ ] Pending*| N/A       |
 | `SwSystemconstDependentFormula`          | [ ] Pending | N/A       |
-| `FMConditionByFeaturesAndAttributes`     | [ ] Pending | N/A       |
-| `FMConditionByFeaturesAndSwSystemconsts` | [ ] Pending | N/A       |
-| `FMFormulaByFeaturesAndAttributes`       | [ ] Pending | N/A       |
-| `FMFormulaByFeaturesAndSwSystemconsts`   | [ ] Pending | N/A       |
+| `FMConditionByFeaturesAndAttributes`     | [ ] Pending*| N/A       |
+| `FMConditionByFeaturesAndSwSystemconsts` | [ ] Pending*| N/A       |
+| `FMFormulaByFeaturesAndAttributes`       | [ ] Pending*| N/A       |
+| `FMFormulaByFeaturesAndSwSystemconsts`   | [ ] Pending*| N/A       |
 
 ## Group9
 
@@ -507,26 +514,26 @@ Status: **0/20** completed
 
 | Class Name                    | Status      | Commit ID |
 | ----------------------------- | ----------- | --------- |
-| `NumericalValueSpecification` | [ ] Pending | N/A       |
-| `TextValueSpecification`      | [ ] Pending | N/A       |
-| `ConstantReference`           | [ ] Pending | N/A       |
-| `ConstantSpecification`       | [ ] Pending | N/A       |
-| `DataFilterTypeEnum`          | [ ] Pending | N/A       |
-| `DataFilter`                  | [ ] Pending | N/A       |
-| `Modification`                | [ ] Pending | N/A       |
-| `ScaleConstrValidityEnum`     | [ ] Pending | N/A       |
-| `UnitGroup`                   | [ ] Pending | N/A       |
-| `SwImplPolicyEnum`            | [ ] Pending | N/A       |
-| `SwSystemconst`               | [ ] Pending | N/A       |
-| `ListEnum`                    | [ ] Pending | N/A       |
-| `Item`                        | [ ] Pending | N/A       |
-| `TopicContentOrMsrQuery`      | [ ] Pending | N/A       |
-| `LOverviewParagraph`          | [ ] Pending | N/A       |
-| `LPlainText`                  | [ ] Pending | N/A       |
-| `LVerbatim`                   | [ ] Pending | N/A       |
-| `ARList`                      | [ ] Pending | N/A       |
-| `ChapterContent`              | [ ] Pending | N/A       |
-| `ChapterModel`                | [ ] Pending | N/A       |
+| `NumericalValueSpecification` | [ ] Pending*| N/A       |
+| `TextValueSpecification`      | [ ] Pending*| N/A       |
+| `ConstantReference`           | [ ] Pending*| N/A       |
+| `ConstantSpecification`       | [ ] Pending*| N/A       |
+| `DataFilterTypeEnum`          | [ ] Pending*| N/A       |
+| `DataFilter`                  | [ ] Pending*| N/A       |
+| `Modification`                | [ ] Pending*| N/A       |
+| `ScaleConstrValidityEnum`     | [ ] Pending*| N/A       |
+| `UnitGroup`                   | [ ] Pending*| N/A       |
+| `SwImplPolicyEnum`            | [ ] Pending*| N/A       |
+| `SwSystemconst`               | [ ] Pending*| N/A       |
+| `ListEnum`                    | [ ] Pending*| N/A       |
+| `Item`                        | [ ] Pending*| N/A       |
+| `TopicContentOrMsrQuery`      | [ ] Pending*| N/A       |
+| `LOverviewParagraph`          | [ ] Pending*| N/A       |
+| `LPlainText`                  | [ ] Pending*| N/A       |
+| `LVerbatim`                   | [ ] Pending*| N/A       |
+| `ARList`                      | [ ] Pending*| N/A       |
+| `ChapterContent`              | [ ] Pending*| N/A       |
+| `ChapterModel`                | [ ] Pending*| N/A       |
 
 ## Group10
 
@@ -534,37 +541,37 @@ Status: **0/31** completed
 
 | Class Name                         | Status      | Commit ID |
 | ---------------------------------- | ----------- | --------- |
-| `DependencyUsageEnum`              | [ ] Pending | N/A       |
-| `ArrayImplPolicyEnum`              | [ ] Pending | N/A       |
-| `ApiPrincipleEnum`                 | [ ] Pending | N/A       |
-| `ReentrancyLevelEnum`              | [ ] Pending | N/A       |
-| `ImplementationProps`              | [ ] Pending | N/A       |
-| `SwcImplementation`                | [ ] Pending | N/A       |
-| `ImplementationDataTypeElement`    | [ ] Pending | N/A       |
-| `ReceptionComSpecProps`            | [ ] Pending | N/A       |
-| `CompositeNetworkRepresentation`   | [ ] Pending | N/A       |
-| `ModeSwitchedAckRequest`           | [ ] Pending | N/A       |
-| `ModeSwitchReceiverComSpec`        | [ ] Pending | N/A       |
-| `ModeSwitchSenderComSpec`          | [ ] Pending | N/A       |
-| `NvProvideComSpec`                 | [ ] Pending | N/A       |
-| `NvRequireComSpec`                 | [ ] Pending | N/A       |
-| `ParameterRequireComSpec`          | [ ] Pending | N/A       |
-| `QueuedReceiverComSpec`            | [ ] Pending | N/A       |
-| `DataTypeMap`                      | [ ] Pending | N/A       |
-| `EndToEndDescription`              | [ ] Pending | N/A       |
-| `ModeSwitchEventTriggeredActivity` | [ ] Pending | N/A       |
-| `AutosarVariableRef`               | [ ] Pending | N/A       |
-| `RoleBasedPortAssignment`          | [ ] Pending | N/A       |
-| `AutosarParameterRef`              | [ ] Pending | N/A       |
-| `NvBlockNeedsReliabilityEnum`      | [ ] Pending | N/A       |
-| `NvBlockNeedsWritingPriorityEnum`  | [ ] Pending | N/A       |
-| `RamBlockStatusControlEnum`        | [ ] Pending | N/A       |
-| `NvBlockDataMapping`               | [ ] Pending | N/A       |
-| `BulkNvDataDescriptor`             | [ ] Pending | N/A       |
-| `RoleBasedDataAssignment`          | [ ] Pending | N/A       |
-| `InstantiationDataDefProps`        | [ ] Pending | N/A       |
-| `NvBlockNeeds`                     | [ ] Pending | N/A       |
-| `NvBlockDescriptor`                | [ ] Pending | N/A       |
+| `DependencyUsageEnum`              | [ ] Pending*| N/A       |
+| `ArrayImplPolicyEnum`              | [ ] Pending*| N/A       |
+| `ApiPrincipleEnum`                 | [ ] Pending*| N/A       |
+| `ReentrancyLevelEnum`              | [ ] Pending*| N/A       |
+| `ImplementationProps`              | [ ] Pending*| N/A       |
+| `SwcImplementation`                | [ ] Pending*| N/A       |
+| `ImplementationDataTypeElement`    | [ ] Pending*| N/A       |
+| `ReceptionComSpecProps`            | [ ] Pending*| N/A       |
+| `CompositeNetworkRepresentation`   | [ ] Pending*| N/A       |
+| `ModeSwitchedAckRequest`           | [ ] Pending*| N/A       |
+| `ModeSwitchReceiverComSpec`        | [ ] Pending*| N/A       |
+| `ModeSwitchSenderComSpec`          | [ ] Pending*| N/A       |
+| `NvProvideComSpec`                 | [ ] Pending*| N/A       |
+| `NvRequireComSpec`                 | [ ] Pending*| N/A       |
+| `ParameterRequireComSpec`          | [ ] Pending*| N/A       |
+| `QueuedReceiverComSpec`            | [ ] Pending*| N/A       |
+| `DataTypeMap`                      | [ ] Pending*| N/A       |
+| `EndToEndDescription`              | [ ] Pending*| N/A       |
+| `ModeSwitchEventTriggeredActivity` | [ ] Pending*| N/A       |
+| `AutosarVariableRef`               | [ ] Pending*| N/A       |
+| `RoleBasedPortAssignment`          | [ ] Pending*| N/A       |
+| `AutosarParameterRef`              | [ ] Pending*| N/A       |
+| `NvBlockNeedsReliabilityEnum`      | [ ] Pending*| N/A       |
+| `NvBlockNeedsWritingPriorityEnum`  | [ ] Pending*| N/A       |
+| `RamBlockStatusControlEnum`        | [ ] Pending*| N/A       |
+| `NvBlockDataMapping`               | [ ] Pending*| N/A       |
+| `BulkNvDataDescriptor`             | [ ] Pending*| N/A       |
+| `RoleBasedDataAssignment`          | [ ] Pending*| N/A       |
+| `InstantiationDataDefProps`        | [ ] Pending*| N/A       |
+| `NvBlockNeeds`                     | [ ] Pending*| N/A       |
+| `NvBlockDescriptor`                | [ ] Pending*| N/A       |
 
 ## Group11
 
@@ -572,12 +579,12 @@ Status: **0/24** completed
 
 | Class Name                             | Status      | Commit ID |
 | -------------------------------------- | ----------- | --------- |
-| `ModeActivationKind`                   | [ ] Pending | N/A       |
-| `ModeDeclarationGroupPrototypeMapping` | [ ] Pending | N/A       |
-| `ModeRequestTypeMap`                   | [ ] Pending | N/A       |
-| `ClientServerApplicationErrorMapping`  | [ ] Pending | N/A       |
-| `ClientServerOperationMapping`         | [ ] Pending | N/A       |
-| `ClientServerInterfaceMapping`         | [ ] Pending | N/A       |
+| `ModeActivationKind`                   | [ ] Pending*| N/A       |
+| `ModeDeclarationGroupPrototypeMapping` | [ ] Pending*| N/A       |
+| `ModeRequestTypeMap`                   | [ ] Pending*| N/A       |
+| `ClientServerApplicationErrorMapping`  | [ ] Pending*| N/A       |
+| `ClientServerOperationMapping`         | [ ] Pending*| N/A       |
+| `ClientServerInterfaceMapping`         | [ ] Pending*| N/A       |
 | `ModeInterfaceMapping`                 | [ ] Pending | N/A       |
 | `VariableAndParameterInterfaceMapping` | [ ] Pending | N/A       |
 | `Field`                                | [ ] Pending | N/A       |
@@ -603,20 +610,20 @@ Status: **0/14** completed
 
 | Class Name                           | Status      | Commit ID |
 | ------------------------------------ | ----------- | --------- |
-| `ParameterAccess`                    | [ ] Pending | N/A       |
-| `VariableAccess`                     | [ ] Pending | N/A       |
-| `InternalTriggeringPoint`            | [ ] Pending | N/A       |
-| `ModeAccessPoint`                    | [ ] Pending | N/A       |
-| `ModeSwitchPoint`                    | [ ] Pending | N/A       |
-| `AsynchronousServerCallReturnsEvent` | [ ] Pending | N/A       |
-| `DataReceiveErrorEvent`              | [ ] Pending | N/A       |
-| `DataReceivedEvent`                  | [ ] Pending | N/A       |
-| `DataSendCompletedEvent`             | [ ] Pending | N/A       |
-| `DataWriteCompletedEvent`            | [ ] Pending | N/A       |
-| `InternalTriggerOccurredEvent`       | [ ] Pending | N/A       |
-| `OperationInvokedEvent`              | [ ] Pending | N/A       |
-| `RteEventInEcuInstanceRef`           | [ ] Pending | N/A       |
-| `VariableAccessInEcuInstanceRef`     | [ ] Pending | N/A       |
+| `ParameterAccess`                    | [ ] Pending*| N/A       |
+| `VariableAccess`                     | [ ] Pending*| N/A       |
+| `InternalTriggeringPoint`            | [ ] Pending*| N/A       |
+| `ModeAccessPoint`                    | [ ] Pending*| N/A       |
+| `ModeSwitchPoint`                    | [ ] Pending*| N/A       |
+| `AsynchronousServerCallReturnsEvent` | [ ] Pending*| N/A       |
+| `DataReceiveErrorEvent`              | [ ] Pending*| N/A       |
+| `DataReceivedEvent`                  | [ ] Pending*| N/A       |
+| `DataSendCompletedEvent`             | [ ] Pending*| N/A       |
+| `DataWriteCompletedEvent`            | [ ] Pending*| N/A       |
+| `InternalTriggerOccurredEvent`       | [ ] Pending*| N/A       |
+| `OperationInvokedEvent`              | [ ] Pending*| N/A       |
+| `RteEventInEcuInstanceRef`           | [ ] Pending*| N/A       |
+| `VariableAccessInEcuInstanceRef`     | [ ] Pending*| N/A       |
 
 ## Group13
 
@@ -624,18 +631,18 @@ Status: **0/22** completed
 
 | Class Name                              | Status      | Commit ID |
 | --------------------------------------- | ----------- | --------- |
-| `BswApiOptions`                         | [ ] Pending | N/A       |
-| `BswModuleCallPoint`                    | [ ] Pending | N/A       |
-| `BswDirectCallPoint`                    | [ ] Pending | N/A       |
-| `BswSynchronousServerCallPoint`         | [ ] Pending | N/A       |
-| `BswInternalTriggeringPoint`            | [ ] Pending | N/A       |
-| `BswInterruptEntity`                    | [ ] Pending | N/A       |
-| `BswModeSwitchAckRequest`               | [ ] Pending | N/A       |
-| `BswQueuedDataReceptionPolicy`          | [ ] Pending | N/A       |
-| `BswAsynchronousServerCallReturnsEvent` | [ ] Pending | N/A       |
-| `BswDataReceivedEvent`                  | [ ] Pending | N/A       |
-| `BswInternalTriggerOccurredEvent`       | [ ] Pending | N/A       |
-| `BswModeManagerErrorEvent`              | [ ] Pending | N/A       |
+| `BswApiOptions`                         | [ ] Pending*| N/A       |
+| `BswModuleCallPoint`                    | [ ] Pending*| N/A       |
+| `BswDirectCallPoint`                    | [ ] Pending*| N/A       |
+| `BswSynchronousServerCallPoint`         | [ ] Pending*| N/A       |
+| `BswInternalTriggeringPoint`            | [ ] Pending*| N/A       |
+| `BswInterruptEntity`                    | [ ] Pending*| N/A       |
+| `BswModeSwitchAckRequest`               | [ ] Pending*| N/A       |
+| `BswQueuedDataReceptionPolicy`          | [ ] Pending*| N/A       |
+| `BswAsynchronousServerCallReturnsEvent` | [ ] Pending*| N/A       |
+| `BswDataReceivedEvent`                  | [ ] Pending*| N/A       |
+| `BswInternalTriggerOccurredEvent`       | [ ] Pending*| N/A       |
+| `BswModeManagerErrorEvent`              | [ ] Pending*| N/A       |
 | `BswModeSwitchedAckEvent`               | [ ] Pending | N/A       |
 | `BswTimingEvent`                        | [ ] Pending | N/A       |
 | `BswEntryRelationshipEnum`              | [ ] Pending | N/A       |
@@ -685,7 +692,7 @@ Status: **0/23** completed
 | Class Name                             | Status      | Commit ID |
 | -------------------------------------- | ----------- | --------- |
 | `CommunicationDirectionType`           | [ ] Pending | N/A       |
-| `ContainedIPduCollectionSemanticsEnum` | [ ] Pending | N/A       |
+| `ContainedIPduCollectionSemanticsEnum` | [ ] Pending*| N/A       |
 | `TransferPropertyEnum`                 | [ ] Pending | N/A       |
 | `MultiplexedPart`                      | [ ] Pending | N/A       |
 | `DynamicPart`                          | [ ] Pending | N/A       |
@@ -844,7 +851,7 @@ Status: **0/25** completed
 | `HardwareConfiguration`            | [ ] Pending | N/A       |
 | `SoftwareContext`                  | [ ] Pending | N/A       |
 | `DltApplication`                   | [ ] Pending | N/A       |
-| `DltArgument`                      | [ ] Pending | N/A       |
+| `DltArgument`                      | [ ] Pending*| N/A       |
 | `DltContext`                       | [ ] Pending | N/A       |
 | `SoAdRoutingGroup`                 | [ ] Pending | N/A       |
 | `StackUsage`                       | [ ] Pending | N/A       |

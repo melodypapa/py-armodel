@@ -76,6 +76,8 @@ class AtpBlueprint(Identifiable, ABC):
 
     # AtpBlueprint method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.11, p.305 (R23-11)
+    # Spec verified: R23-11 (2026-09-26, user 9b re-confirmation accepting the
+    # concrete-BlueprintPolicy-subclass placeholder — see the trailing note)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addBlueprintPolicy  [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
@@ -86,13 +88,15 @@ class AtpBlueprint(Identifiable, ABC):
     # caption p.424) one caption early. XSD 00052: AtpBlueprint is group-only
     # (ATP-BLUEPRINT, L6652) = abstract verified; its SHORT-NAME-PATTERN member carries
     # atp.Status="removed" and is absent from the PDF table (not modeled, Rule 0015).
-    # Marker withheld: the blueprintPolicy aggregation's reader/writer rows stay [ ]
-    # because the concrete XML-bearing BlueprintPolicy subclasses (BlueprintPolicyList,
-    # BlueprintPolicyNotModifiable, BlueprintPolicySingle) are not yet synced AND not
-    # queued — they own the BLUEPRINT-POLICY-LIST/-NOT-MODIFIABLE/-SINGLE elements (and
-    # thus the attributeName coverage); no readAtpBlueprint/writeAtpBlueprint helper
-    # exists for the same reason. BlueprintPolicy itself is implemented (R23-11 Table
-    # C.18); only the subtypes' sync unblocks these rows and the stamp.
+    # Stamped 2026-09-26 by user 9b re-confirmation, which accepted the outstanding
+    # Rule 0001.10 deviation: the blueprintPolicy aggregation's reader/writer rows
+    # stay [ ] because the concrete XML-bearing BlueprintPolicy subclasses
+    # (BlueprintPolicyList, BlueprintPolicyNotModifiable, BlueprintPolicySingle) are
+    # still not synced AND not queued — they own the BLUEPRINT-POLICY-LIST/
+    # -NOT-MODIFIABLE/-SINGLE elements (and thus the attributeName coverage); no
+    # readAtpBlueprint/writeAtpBlueprint helper exists for the same reason.
+    # BlueprintPolicy itself is implemented (R23-11 Table C.18); only the subtypes'
+    # sync unblocks those rows.
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpBlueprint:
