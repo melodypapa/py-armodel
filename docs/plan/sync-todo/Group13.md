@@ -213,15 +213,30 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `BswDataReceivedEvent` — BswScheduleEvent — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 5.37, p.99 (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate).
+    Concrete Class; Base most-derived = `BswScheduleEvent` (already correct in src). One attr
+    `data` (VariableDataPrototype, 0..1, ref → `dataRef` Optional[RefType]). Not directly
+    VP-capable — VARIATION-POINT lives in ancestor BSW-EVENT group (AUTOSAR_00052.xsd),
+    capability inherited via BswEvent mixin (Rule 0020). Wire element DATA-REF (AR:REF + DEST
+    VARIABLE-DATA-PROTOTYPE--SUBTYPES-ENUM; group L9684, complexType L9707). Drift: fabricated
+    class docstring, `__init__` docstring, paraphrased docstrings, bare `RefType` field (not
+    Optional), untyped accessors, no None no-op, stale 4-col checklist with unchecked
+    getDataRef row. Reader/writer helpers + dispatch + consumer factory already exist with
+    matched set/getDataRef names; writer reads via getter (SWC-sibling disease absent).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): read/writeBswDataReceivedEvent + EVENTS dispatch + createBswDataReceivedEvent
+    already cover DATA-REF with matched set/getDataRef names (XSD wire name verified,
+    AUTOSAR_00052.xsd L9684); new value-asserting + full round-trip + empty tests passed
+    immediately, no parser/writer edit. Writer reads via getter (SWC-sibling disease absent).
+    Empty round-trip shows no inherited normally-None element emission.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12068 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BswInternalTriggerOccurredEvent` — BswScheduleEvent — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py

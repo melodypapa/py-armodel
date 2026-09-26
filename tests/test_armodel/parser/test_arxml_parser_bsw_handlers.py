@@ -1363,6 +1363,28 @@ class TestBswInternalBehaviorEventsDetailed:
         parser.readBswDataReceivedEvent(element, event)
         assert event.getDataRef().getValue() == "/d"
 
+    def test_readBswDataReceivedEvent_data_ref_dest(self, parser):
+        from armodel.models import BswDataReceivedEvent
+
+        event = BswDataReceivedEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>" "<DATA-REF DEST='VARIABLE-DATA-PROTOTYPE'>/d</DATA-REF>",
+            root_tag="BSW-DATA-RECEIVED-EVENT",
+        )
+        parser.readBswDataReceivedEvent(element, event)
+        assert event.getDataRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+
+    def test_readBswDataReceivedEvent_absent_data_ref(self, parser):
+        from armodel.models import BswDataReceivedEvent
+
+        event = BswDataReceivedEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>",
+            root_tag="BSW-DATA-RECEIVED-EVENT",
+        )
+        parser.readBswDataReceivedEvent(element, event)
+        assert event.getDataRef() is None
+
     def test_readBswInternalTriggerOccurredEvent_sets_source_ref(self, parser):
         from armodel.models import BswInternalTriggerOccurredEvent
 

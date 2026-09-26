@@ -8,6 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswAsynchronousServerCallReturnsEvent,
     BswClientPolicy,
+    BswDataReceivedEvent,
     BswDataSendPolicy,
     BswDirectCallPoint,
     BswExclusiveAreaPolicy,
@@ -969,6 +970,62 @@ class TestWriterBswAsynchronousServerCallReturnsEventRoundTrip:
         event_2 = behavior_2.getBswAsynchronousServerCallReturnsEvents()[0]
         assert isinstance(event_2, BswAsynchronousServerCallReturnsEvent)
         assert event_2.getEventSourceRef() is None
+
+
+class TestWriterBswDataReceivedEventRoundTrip:
+    def test_round_trip_data_received_event(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        event = behavior.createBswDataReceivedEvent("dre")
+        event.setDataRef(_ref("/d", "VARIABLE-DATA-PROTOTYPE"))
+
+        out_file = tmp_path / "dre_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        event_2 = behavior_2.getBswDataReceivedEvents()[0]
+        assert isinstance(event_2, BswDataReceivedEvent)
+        assert event_2.getShortName() == "dre"
+        assert event_2.getDataRef().getValue() == "/d"
+        assert event_2.getDataRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+
+    def test_round_trip_data_received_event_empty(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.createBswDataReceivedEvent("dre")
+
+        out_file = tmp_path / "dre_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        raw = out_file.read_text()
+        assert "DATA-REF" not in raw
+        assert "STARTS-ON-EVENT-REF" not in raw
+        assert "ACTIVATION-REASON-REPRESENTATION-REF" not in raw
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        event_2 = behavior_2.getBswDataReceivedEvents()[0]
+        assert isinstance(event_2, BswDataReceivedEvent)
+        assert event_2.getDataRef() is None
 
 
 class TestWriterBswEvents:

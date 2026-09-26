@@ -1083,6 +1083,26 @@ class TestBswDataReceivedEvent:
         assert result == event
         assert event.getDataRef() == ref
 
+    def test_set_data_ref_none_no_op(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswDataReceivedEvent(ar_root, "test_data_received_event")
+
+        ref = RefType()
+        event.setDataRef(ref)
+        event.setDataRef(None)
+
+        assert event.getDataRef() == ref
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswDataReceivedEvent.getDataRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswDataReceivedEvent.setDataRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswDataReceivedEvent
+
 
 class TestBswInternalTriggerOccurredEvent:
     """Test cases for BswInternalTriggerOccurredEvent class - represents an internal trigger occurred event in a BSW module."""

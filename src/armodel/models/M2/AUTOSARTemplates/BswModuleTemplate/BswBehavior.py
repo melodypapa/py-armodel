@@ -1311,48 +1311,35 @@ class BswTimingEvent(BswScheduleEvent):
 
 class BswDataReceivedEvent(BswScheduleEvent):
     """
-    Represents an event that is triggered when data is received by a BSW module.
-    This event handles data reception from other modules or communication interfaces.
+    This event is thrown on reception of the referenced data via Sender-Receiver-Communication over the BSW Scheduler.
     """
 
     # BswDataReceivedEvent method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getDataRef                   [x] impl  [x] docstring  [ ] test
-    # [x] setDataRef                   [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.37, p.99
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswDataReceivedEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
         super().__init__(parent, short_name)
 
-        # Reference to the data that was received to trigger this event
-        self.dataRef: RefType = None
+        # The received data. For each BswDataReceivedEvent, the reference in the role data shall exist at the time when the configuration of the BSW module is finished (constr_10289).
+        self.dataRef: Optional[RefType] = None
 
-    def getDataRef(self):
+    def getDataRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the data that was received to trigger this event.
-
-        Returns:
-            Reference to the received data
+        The received data.
         """
         return self.dataRef
 
-    def setDataRef(self, value):
+    def setDataRef(self, value: Optional[RefType]) -> BswDataReceivedEvent:
         """
-        Sets the reference to the data that was received to trigger this event.
-
-        Args:
-            value: The data reference to set
-
-        Returns:
-            self for method chaining
+        The received data.
+        A None value is a no-op and does not overwrite an existing dataRef.
         """
-        self.dataRef = value
+        if value is not None:
+            self.dataRef = value
         return self
 
 

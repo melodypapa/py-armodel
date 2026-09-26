@@ -205,6 +205,26 @@ Base drift observed (not this row): `readBswEvent` lacks a `readIdentifiable` ca
 `writeBswEvent` calls `writeIdentifiable` (BswEvent/BswScheduleEvent base-owned; both
 unstamped, no queue rows yet).
 
+## `BswDataReceivedEvent`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 99
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `dataRef` | `Optional[RefType]` | `data` | `Ref (VariableDataPrototype)` | Ref | ok |
+
+No deviations (2026-09-26 sync, Table 5.37, p.99): bare `RefType` field/setter parameter
+retyped to `Optional[RefType]` (0..1), missing None no-op on the setter added, `__init__`
+docstring and paraphrased docstrings wiped and rewritten verbatim from the markdown Note,
+stale 4-col checklist (unchecked getDataRef row) replaced by the 6-column checklist; no
+fake intake marker was present. Reader/writer already covered the `DATA-REF` element via
+matched read/writeBswDataReceivedEvent helpers with dispatch + createBswDataReceivedEvent
+factory on BswInternalBehavior; writer reads via the getter (no direct-field-read defect).
+Base drift observed (not this row): `readBswEvent` lacks a `readIdentifiable` call while
+`writeBswEvent` calls `writeIdentifiable` (BswEvent/BswScheduleEvent base-owned; both
+unstamped, no queue rows yet).
+
 ## `BswModeSenderPolicy`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 102
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
