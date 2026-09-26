@@ -509,3 +509,37 @@ class TestWriteClientServerInterfaceMapping:
         assert read_back.getErrorMappings()[0].getFirstApplicationErrorRef().getValue() == "/Ifc1/E1"
         assert len(read_back.getOperationMappings()) == 1
         assert read_back.getOperationMappings()[0].getSecondOperationRef().getValue() == "/Ifc2/Op2"
+
+
+class TestWriteModeInterfaceMapping:
+    """
+    Class-level writer test: MODE-INTERFACE-MAPPING emits SHORT-NAME then
+    MODE-MAPPING (SWC TPS Table 4.26 / XSD group MODE-INTERFACE-MAPPING order).
+    """
+
+    def test_write_field_values_in_xsd_order(self, writer):
+        mapping_set = _mapping_set()
+        mim = mapping_set.createModeInterfaceMapping("mim")
+        mm = ModeDeclarationGroupPrototypeMapping()
+        mm.setFirstModeGroupRef(RefType().setValue("/pkg/first").setDest("MODE-GROUP"))
+        mim.setModeMapping(mm)
+
+        element = ET.Element("PARENT")
+        writer.writePortInterfaceMappingSet(element, mapping_set)
+
+        mim_tag = element.find("PORT-INTERFACE-MAPPING-SET/PORT-INTERFACE-MAPPINGS/MODE-INTERFACE-MAPPING")
+        assert mim_tag is not None
+        assert mim_tag.find("SHORT-NAME").text == "mim"
+        children = [c.tag for c in mim_tag]
+        assert children.index("SHORT-NAME") < children.index("MODE-MAPPING")
+
+    def test_write_empty_mapping_omits_mode_mapping(self, writer):
+        mapping_set = _mapping_set()
+        mapping_set.createModeInterfaceMapping("mim")
+
+        element = ET.Element("PARENT")
+        writer.writePortInterfaceMappingSet(element, mapping_set)
+
+        mim_tag = element.find("PORT-INTERFACE-MAPPING-SET/PORT-INTERFACE-MAPPINGS/MODE-INTERFACE-MAPPING")
+        assert mim_tag is not None
+        assert mim_tag.find("MODE-MAPPING") is None

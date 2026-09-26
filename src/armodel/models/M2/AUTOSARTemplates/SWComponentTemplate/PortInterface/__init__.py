@@ -1652,20 +1652,33 @@ class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
 
 
 class ModeInterfaceMapping(PortInterfaceMapping):
+    """
+    Defines the mapping of ModeDeclarationGroupPrototypes in context of two different ModeInterfaces.
+    """
+
     # ModeInterfaceMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getModeMapping               [x] impl  [ ] docstring  [ ] test
-    # [ ] setModeMapping               [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.26, p.130 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getModeMapping  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeMapping  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.modeMapping: ModeDeclarationGroupPrototypeMapping = None
+        # Mapping of two ModeDeclarationGroupPrototypes in two different ModeInterfaces
+        self.modeMapping: Optional[ModeDeclarationGroupPrototypeMapping] = None
 
-    def getModeMapping(self):
+    def getModeMapping(self) -> Optional[ModeDeclarationGroupPrototypeMapping]:
+        """
+        Mapping of two ModeDeclarationGroupPrototypes in two different ModeInterfaces
+        """
         return self.modeMapping
 
-    def setModeMapping(self, value):
+    def setModeMapping(self, value: Optional[ModeDeclarationGroupPrototypeMapping]) -> "ModeInterfaceMapping":
+        """
+        Mapping of two ModeDeclarationGroupPrototypes in two different ModeInterfaces. A None value is a no-op and does not overwrite an existing modeMapping.
+        """
         if value is not None:
             self.modeMapping = value
         return self

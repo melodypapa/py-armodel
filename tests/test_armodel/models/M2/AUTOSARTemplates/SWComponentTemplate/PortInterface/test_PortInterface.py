@@ -5,6 +5,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextValueSpecification
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototypeMapping
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceProviderEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
@@ -834,3 +835,58 @@ class TestClientServerInterfaceMappingSpecContract:
             assert note in doc, "%s docstring must carry the spec Note verbatim" % method
             if method.startswith("add"):
                 assert "A None value is a no-op and does not append anything." in doc
+
+
+class TestModeInterfaceMappingSpecContract:
+    CLASS_NOTE = "Defines the mapping of ModeDeclarationGroupPrototypes in context of two different ModeInterfaces."
+    MODE_MAPPING_NOTE = "Mapping of two ModeDeclarationGroupPrototypes in two different ModeInterfaces"
+
+    def _make(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        return ModeInterfaceMapping(ar_root, "mode_interface_mapping")
+
+    def test_initialization(self):
+        """Test ModeInterfaceMapping initialization defaults (Table 4.26, single 0..1 aggr)"""
+        mapping = self._make()
+        assert mapping is not None
+        assert mapping.getModeMapping() is None
+
+    def test_base_shape(self):
+        """ModeInterfaceMapping shall derive from PortInterfaceMapping (Table 4.26 Base row, most-derived provided base)"""
+        mapping = self._make()
+        assert isinstance(mapping, PortInterfaceMapping)
+        assert isinstance(mapping, Referrable)
+        assert isinstance(mapping, MultilanguageReferrable)
+        assert isinstance(mapping, Identifiable)
+        assert isinstance(mapping, AtpBlueprintable)
+        assert isinstance(mapping, ARObject)
+
+    def test_get_set_mode_mapping(self):
+        """Test modeMapping round-trip, chaining and None no-op (Table 4.26 modeMapping, 0..1 aggr)"""
+        mapping = self._make()
+        item = ModeDeclarationGroupPrototypeMapping()
+        assert mapping.setModeMapping(item) is mapping
+        assert mapping.getModeMapping() is item
+        assert mapping.setModeMapping(None) is mapping
+        assert mapping.getModeMapping() is item
+
+    def test_accessor_annotations(self):
+        """Accessors shall carry Optional[ModeDeclarationGroupPrototypeMapping]; setter shall chain ModeInterfaceMapping (Table 4.26 mult)"""
+        set_hints = get_type_hints(ModeInterfaceMapping.setModeMapping)
+        assert set_hints["value"] == Optional[ModeDeclarationGroupPrototypeMapping]
+        assert set_hints["return"] == ModeInterfaceMapping
+        get_hints = get_type_hints(ModeInterfaceMapping.getModeMapping)
+        assert get_hints["return"] == Optional[ModeDeclarationGroupPrototypeMapping]
+
+    def test_spec_note(self):
+        """Test the Table 4.26 class note and per-attribute note (verbatim from the markdown)"""
+        class_doc = ModeInterfaceMapping.__doc__.strip()
+        assert self.CLASS_NOTE in class_doc
+        assert ModeInterfaceMapping.__init__.__doc__ is None
+        init_source = inspect.getsource(ModeInterfaceMapping.__init__)
+        assert self.MODE_MAPPING_NOTE in init_source
+        for method in ("getModeMapping", "setModeMapping"):
+            doc = getattr(ModeInterfaceMapping, method).__doc__.strip()
+            assert self.MODE_MAPPING_NOTE in doc, "%s docstring must carry the spec Note verbatim" % method
+        assert "A None value is a no-op and does not overwrite an existing modeMapping." in ModeInterfaceMapping.setModeMapping.__doc__.strip()

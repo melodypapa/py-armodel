@@ -521,3 +521,52 @@ class TestReadClientServerInterfaceMapping:
         csim = mapping_set.getPortInterfaceMappings()[0]
         assert csim.getErrorMappings() == []
         assert csim.getOperationMappings() == []
+
+
+class TestReadModeInterfaceMapping:
+    """
+    Class-level dispatch test: MODE-INTERFACE-MAPPING under PORT-INTERFACE-MAPPINGS
+    (SWC TPS Table 4.26) — SHORT-NAME + MODE-MAPPING child.
+    """
+
+    def test_read_full_field_values(self, parser):
+        mapping_set = _mapping_set()
+        _parse(
+            parser,
+            mapping_set,
+            """<PORT-INTERFACE-MAPPINGS>
+                <MODE-INTERFACE-MAPPING>
+                    <SHORT-NAME>mim</SHORT-NAME>
+                    <MODE-MAPPING>
+                        <FIRST-MODE-GROUP-REF DEST='MODE-GROUP'>/pkg/first</FIRST-MODE-GROUP-REF>
+                        <SECOND-MODE-GROUP-REF DEST='MODE-GROUP'>/pkg/second</SECOND-MODE-GROUP-REF>
+                    </MODE-MAPPING>
+                </MODE-INTERFACE-MAPPING>
+            </PORT-INTERFACE-MAPPINGS>""",
+        )
+        mappings = mapping_set.getPortInterfaceMappings()
+        assert len(mappings) == 1
+        mim = mappings[0]
+        assert isinstance(mim, ModeInterfaceMapping)
+        assert mim.getShortName() == "mim"
+        mm = mim.getModeMapping()
+        assert isinstance(mm, ModeDeclarationGroupPrototypeMapping)
+        assert mm.getFirstModeGroupRef().getValue() == "/pkg/first"
+        assert mm.getFirstModeGroupRef().getDest() == "MODE-GROUP"
+        assert mm.getSecondModeGroupRef().getValue() == "/pkg/second"
+        assert mm.getSecondModeGroupRef().getDest() == "MODE-GROUP"
+
+    def test_read_empty_mapping_has_no_mode_mapping(self, parser):
+        mapping_set = _mapping_set()
+        _parse(
+            parser,
+            mapping_set,
+            """<PORT-INTERFACE-MAPPINGS>
+                <MODE-INTERFACE-MAPPING>
+                    <SHORT-NAME>mim</SHORT-NAME>
+                </MODE-INTERFACE-MAPPING>
+            </PORT-INTERFACE-MAPPINGS>""",
+        )
+        mim = mapping_set.getPortInterfaceMappings()[0]
+        assert mim.getShortName() == "mim"
+        assert mim.getModeMapping() is None
