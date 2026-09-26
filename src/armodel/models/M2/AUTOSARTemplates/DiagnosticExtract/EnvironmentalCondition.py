@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional
 
@@ -31,6 +33,46 @@ class DiagnosticLogicalOperatorEnum(AREnum):
         )
 
 
+class DiagnosticCompareTypeEnum(AREnum):
+    """
+    Enumeration for the type of a comparison of values usually expressed by the following operators: ==, !=, <, <=, >, >=
+    """
+
+    # DiagnosticCompareTypeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.40, p.83
+    # (no methods)
+
+    # equal Tags: atp.EnumerationLiteralIndex=0
+    IS_EQUAL = "isEqual"
+
+    # not equal Tags: atp.EnumerationLiteralIndex=1
+    IS_NOT_EQUAL = "isNotEqual"
+
+    # less than Tags: atp.EnumerationLiteralIndex=2
+    IS_LESS_THAN = "isLessThan"
+
+    # less than or equal Tags: atp.EnumerationLiteralIndex=3
+    IS_LESS_OR_EQUAL = "isLessOrEqual"
+
+    # greater than Tags: atp.EnumerationLiteralIndex=4
+    IS_GREATER_THAN = "isGreaterThan"
+
+    # greater than or equal Tags: atp.EnumerationLiteralIndex=5
+    IS_GREATER_OR_EQUAL = "isGreaterOrEqual"
+
+    def __init__(self):
+        super().__init__(
+            (
+                DiagnosticCompareTypeEnum.IS_EQUAL,
+                DiagnosticCompareTypeEnum.IS_NOT_EQUAL,
+                DiagnosticCompareTypeEnum.IS_LESS_THAN,
+                DiagnosticCompareTypeEnum.IS_LESS_OR_EQUAL,
+                DiagnosticCompareTypeEnum.IS_GREATER_THAN,
+                DiagnosticCompareTypeEnum.IS_GREATER_OR_EQUAL,
+            )
+        )
+
+
 class DiagnosticEnvConditionFormulaPart(ARObject, ABC):
     """A DiagnosticEnvConditionFormulaPart can either be a atomic condition, e.g. a DiagnosticEnvCompareCondition, or a DiagnosticEnvConditionFormula, again, which allows arbitrary nesting."""
 
@@ -43,6 +85,43 @@ class DiagnosticEnvConditionFormulaPart(ARObject, ABC):
         if type(self) is DiagnosticEnvConditionFormulaPart:
             raise TypeError("DiagnosticEnvConditionFormulaPart is an abstract class.")
         super().__init__()
+
+
+class DiagnosticEnvCompareCondition(DiagnosticEnvConditionFormulaPart, ABC):
+    """
+    DiagnosticCompareConditions are atomic conditions. They are based on the idea of a comparison at runtime of some variable data with something constant. The type of the comparison (==, !=, <, <=, ...) is specified in DiagnosticCompareCondition.compareType.
+    """
+
+    # DiagnosticEnvCompareCondition method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.39, p.82
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCompareType    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCompareType    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        if type(self) is DiagnosticEnvCompareCondition:
+            raise TypeError("DiagnosticEnvCompareCondition is an abstract class.")
+
+        super().__init__()
+
+        # This attributes represents the concrete type of the comparison.
+        self.compareType: Optional[DiagnosticCompareTypeEnum] = None
+
+    def getCompareType(self) -> Optional[DiagnosticCompareTypeEnum]:
+        """
+        This attributes represents the concrete type of the comparison.
+        """
+        return self.compareType
+
+    def setCompareType(self, value: Optional[DiagnosticCompareTypeEnum]) -> DiagnosticEnvCompareCondition:
+        """
+        This attributes represents the concrete type of the comparison.
+        A None value is a no-op and does not overwrite an existing compareType.
+        """
+        if value is not None:
+            self.compareType = value
+        return self
 
 
 class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
@@ -77,7 +156,7 @@ class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
         """
         return self.nrcValue
 
-    def setNrcValue(self, value: Optional[PositiveInteger]):
+    def setNrcValue(self, value: Optional[PositiveInteger]) -> DiagnosticEnvConditionFormula:
         """
         This attribute represents the concrete NRC value that shall be returned if the condition fails.
 
@@ -93,7 +172,7 @@ class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
         """
         return self.op
 
-    def setOp(self, value: Optional[DiagnosticLogicalOperatorEnum]):
+    def setOp(self, value: Optional[DiagnosticLogicalOperatorEnum]) -> DiagnosticEnvConditionFormula:
         """
         This attribute represents the concrete operator (supported operators: and, or) of the condition formula.
 
@@ -109,7 +188,7 @@ class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
         """
         return self.parts
 
-    def addPart(self, part: Optional[DiagnosticEnvConditionFormulaPart]):
+    def addPart(self, part: Optional[DiagnosticEnvConditionFormulaPart]) -> DiagnosticEnvConditionFormula:
         """
         This aggregation represents the collection of formula parts that can be combined by logical operators.
 
@@ -124,7 +203,7 @@ class DiagnosticEnvModeElement(Referrable, ABC):
     """All ModeDeclarations that are referenced in a DiagnosticEnvModeCondition shall be defined as a DiagnosticEnvModeElement of this DiagnosticEnvironmentalCondition. This concept keeps the ARXML clean: It avoids that the DiagnosticEnvConditionFormula is cluttered by lengthy InstanceRef definitions. Furthermore, it allows that an InstanceRef only needs to be defined once and can be used multiple times in the different DiagnosticEnvModeConditions."""
 
     # DiagnosticEnvModeElement method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.44, p.83
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.44, p.89
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 

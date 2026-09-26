@@ -376,7 +376,13 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration impor
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticJumpToBootLoaderEnum, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import DiagnosticEnvConditionFormula, DiagnosticEnvironmentalCondition, DiagnosticLogicalOperatorEnum
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import (
+    DiagnosticCompareTypeEnum,
+    DiagnosticEnvCompareCondition,
+    DiagnosticEnvConditionFormula,
+    DiagnosticEnvironmentalCondition,
+    DiagnosticLogicalOperatorEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
     ConfigReferenceValue,
@@ -1228,6 +1234,20 @@ BSW_INTERRUPT_CATEGORY_XML_MAP = {
 
 BSW_ENTRY_RELATIONSHIP_XML_MAP = {
     "derivedFrom": "DERIVED-FROM",
+}
+
+DIAGNOSTIC_LOGICAL_OPERATOR_XML_MAP = {
+    "logicalAnd": "LOGICAL-AND",
+    "logicalOr": "LOGICAL-OR",
+}
+
+DIAGNOSTIC_COMPARE_TYPE_XML_MAP = {
+    "isEqual": "IS-EQUAL",
+    "isNotEqual": "IS-NOT-EQUAL",
+    "isLessThan": "IS-LESS-THAN",
+    "isLessOrEqual": "IS-LESS-OR-EQUAL",
+    "isGreaterThan": "IS-GREATER-THAN",
+    "isGreaterOrEqual": "IS-GREATER-OR-EQUAL",
 }
 
 DIAGNOSTIC_AUDIENCE_XML_MAP = {
@@ -10142,6 +10162,10 @@ class ARXMLParser(AbstractARXMLParser):
         security_level.setSecurityDelayTime(self.getChildElementOptionalTimeValue(element, "SECURITY-DELAY-TIME"))
         security_level.setSeedSize(self.getChildElementOptionalPositiveInteger(element, "SEED-SIZE"))
 
+    def readDiagnosticEnvCompareCondition(self, element: ET.Element, condition: DiagnosticEnvCompareCondition):
+        self.readARObject(element, condition)
+        condition.setCompareType(self._readEnumToken(element, "COMPARE-TYPE", DiagnosticCompareTypeEnum, DIAGNOSTIC_COMPARE_TYPE_XML_MAP))
+
     def readDiagnosticEnvConditionFormula(self, element: ET.Element, formula: DiagnosticEnvConditionFormula):
         self.readARObject(element, formula)
         formula.setNrcValue(self.getChildElementOptionalPositiveInteger(element, "NRC-VALUE"))
@@ -10150,6 +10174,8 @@ class ARXMLParser(AbstractARXMLParser):
             e = DiagnosticLogicalOperatorEnum()
             e.setValue(op.getValue())
             formula.setOp(e)
+        # NOTE: DiagnosticLogicalOperatorEnum stores the XSD wire tokens (LOGICAL-AND/LOGICAL-OR)
+        # as literal values (pre-existing sync decision), so OP needs no token map.
         parts_element = self.find(element, "PARTS")
         if parts_element is not None:
             for child_element in parts_element:

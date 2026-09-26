@@ -11,6 +11,8 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import (
+    DiagnosticCompareTypeEnum,
+    DiagnosticEnvCompareCondition,
     DiagnosticEnvConditionFormula,
     DiagnosticEnvConditionFormulaPart,
     DiagnosticEnvironmentalCondition,
@@ -270,3 +272,66 @@ class Test_DiagnosticLogicalOperatorEnum:
         values = DiagnosticLogicalOperatorEnum().getEnumValues()
         assert values.index(DiagnosticLogicalOperatorEnum.LOGICAL_AND) == 0
         assert values.index(DiagnosticLogicalOperatorEnum.LOGICAL_OR) == 1
+
+
+class Test_DiagnosticCompareTypeEnum:
+    """Test cases for DiagnosticCompareTypeEnum (Table 4.40, p.83)."""
+
+    def test_instantiation_and_values(self):
+        enum = DiagnosticCompareTypeEnum()
+        assert enum.getEnumValues() == (
+            DiagnosticCompareTypeEnum.IS_EQUAL,
+            DiagnosticCompareTypeEnum.IS_NOT_EQUAL,
+            DiagnosticCompareTypeEnum.IS_LESS_THAN,
+            DiagnosticCompareTypeEnum.IS_LESS_OR_EQUAL,
+            DiagnosticCompareTypeEnum.IS_GREATER_THAN,
+            DiagnosticCompareTypeEnum.IS_GREATER_OR_EQUAL,
+        )
+        assert DiagnosticCompareTypeEnum.IS_EQUAL == "isEqual"
+
+
+class Test_DiagnosticEnvCompareCondition:
+    """Test cases for DiagnosticEnvCompareCondition (Table 4.39, p.82)."""
+
+    def test_is_abstract(self):
+        with pytest.raises(TypeError):
+            DiagnosticEnvCompareCondition()
+
+    def test_concrete_subclass_get_set_compare_type(self):
+        class _ConcreteCompareCondition(DiagnosticEnvCompareCondition):
+            pass
+
+        condition = _ConcreteCompareCondition()
+        compare_type = DiagnosticCompareTypeEnum().setValue(DiagnosticCompareTypeEnum.IS_GREATER_THAN)
+        result = condition.setCompareType(compare_type)
+        assert result is condition
+        assert condition.getCompareType() == compare_type
+        assert condition.setCompareType(None) is condition
+        assert condition.getCompareType() == compare_type
+
+    def test_compare_condition_round_trips_inside_formula(self):
+        import xml.etree.cElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+        from armodel.writer.arxml_writer import ARXMLWriter
+
+        class _ConcreteCompareCondition(DiagnosticEnvCompareCondition):
+            pass
+
+        formula = DiagnosticEnvConditionFormula()
+        condition = _ConcreteCompareCondition()
+        condition.setCompareType(DiagnosticCompareTypeEnum().setValue(DiagnosticCompareTypeEnum.IS_EQUAL))
+        formula.addPart(condition)
+
+        # NOTE: the XSD formula PARTS choice wires only the CONCRETE condition elements
+        # (DIAGNOSTIC-ENV-DATA-CONDITION etc.); the abstract CompareCondition has no own
+        # element, so the reusable helpers are exercised directly here.
+        parent = ET.Element("DIAGNOSTIC-ENV-COMPARE-CONDITION")
+        ARXMLWriter().writeDiagnosticEnvCompareCondition(parent, condition)
+        assert parent.find("COMPARE-TYPE").text == "IS-EQUAL"
+
+        xml_text = ET.tostring(parent, encoding="unicode")
+        reloaded = ET.fromstring("<ROOT xmlns='http://autosar.org/schema/r4.0'>%s</ROOT>" % xml_text)
+        parsed = _ConcreteCompareCondition()
+        ARXMLParser().readDiagnosticEnvCompareCondition(reloaded[0], parsed)
+        assert parsed.getCompareType().getValue() == "isEqual"

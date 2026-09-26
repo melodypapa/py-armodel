@@ -260,7 +260,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration impor
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import DiagnosticEnvConditionFormula, DiagnosticEnvironmentalCondition
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import DiagnosticEnvCompareCondition, DiagnosticEnvConditionFormula, DiagnosticEnvironmentalCondition
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
     ConfigReferenceValue,
@@ -1083,6 +1083,20 @@ BSW_INTERRUPT_CATEGORY_XML_MAP = {
 
 BSW_ENTRY_RELATIONSHIP_XML_MAP = {
     "derivedFrom": "DERIVED-FROM",
+}
+
+DIAGNOSTIC_LOGICAL_OPERATOR_XML_MAP = {
+    "logicalAnd": "LOGICAL-AND",
+    "logicalOr": "LOGICAL-OR",
+}
+
+DIAGNOSTIC_COMPARE_TYPE_XML_MAP = {
+    "isEqual": "IS-EQUAL",
+    "isNotEqual": "IS-NOT-EQUAL",
+    "isLessThan": "IS-LESS-THAN",
+    "isLessOrEqual": "IS-LESS-OR-EQUAL",
+    "isGreaterThan": "IS-GREATER-THAN",
+    "isGreaterOrEqual": "IS-GREATER-OR-EQUAL",
 }
 
 DIAGNOSTIC_AUDIENCE_XML_MAP = {
@@ -13132,6 +13146,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(child_element, "NUM-FAILED-SECURITY-ACCESS", security_level.getNumFailedSecurityAccess())
         self.setChildElementOptionalTimeValue(child_element, "SECURITY-DELAY-TIME", security_level.getSecurityDelayTime())
         self.setChildElementOptionalPositiveInteger(child_element, "SEED-SIZE", security_level.getSeedSize())
+
+    def writeDiagnosticEnvCompareCondition(self, element: ET.Element, condition: DiagnosticEnvCompareCondition):
+        self.writeARObject(element, condition)
+        self._writeEnumToken(element, "COMPARE-TYPE", condition.getCompareType(), DIAGNOSTIC_COMPARE_TYPE_XML_MAP)
 
     def writeDiagnosticEnvConditionFormula(self, element: ET.Element, formula: DiagnosticEnvConditionFormula):
         self.writeARObject(element, formula)
