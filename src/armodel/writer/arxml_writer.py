@@ -1085,6 +1085,14 @@ BSW_ENTRY_RELATIONSHIP_XML_MAP = {
     "derivedFrom": "DERIVED-FROM",
 }
 
+DIAGNOSTIC_AUDIENCE_XML_MAP = {
+    "aftermarket": "AFTERMARKET",
+    "afterSales": "AFTER-SALES",
+    "development": "DEVELOPMENT",
+    "manufacturing": "MANUFACTURING",
+    "supplier": "SUPPLIER",
+}
+
 
 class ARXMLWriter(AbstractARXMLWriter):
     """
@@ -5385,6 +5393,20 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeDiagnosticCapabilityElement(self, element: ET.Element, needs: DiagnosticCapabilityElement):
         self.writeServiceNeeds(element, needs)
+        if not isinstance(needs, DiagnosticCapabilityElement):
+            return
+        audiences = needs.getAudiences()
+        if len(audiences) > 0:
+            audiences_tag = ET.SubElement(element, "AUDIENCES")
+            for audience in audiences:
+                token = DIAGNOSTIC_AUDIENCE_XML_MAP.get(audience.getValue())
+                if token is None:
+                    self.notImplemented("Unsupported AUDIENCE <%s>" % audience.getValue())
+                else:
+                    audience_element = ET.SubElement(audiences_tag, "AUDIENCE")
+                    audience_element.text = token
+        self.setChildElementOptionalLiteral(element, "DIAG-REQUIREMENT", needs.getDiagRequirement())
+        self.setChildElementOptionalPositiveInteger(element, "SECURITY-ACCESS-LEVEL", needs.getSecurityAccessLevel())
 
     def writeDiagnosticCommunicationManagerNeeds(self, element: ET.Element, needs: DiagnosticCommunicationManagerNeeds):
         child_element = ET.SubElement(element, "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS")

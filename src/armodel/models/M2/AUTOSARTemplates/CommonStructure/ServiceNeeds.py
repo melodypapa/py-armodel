@@ -837,106 +837,78 @@ class DiagnosticServiceRequestCallbackTypeEnum(AREnum):
 
 class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     """
-    Abstract base class for diagnostic capability elements in AUTOSAR models.
-    This class defines common properties for diagnostic capabilities including audiences, requirements, and security access levels.
+    This class identifies the capability to provide generic information about diagnostic capabilities
     """
 
     # DiagnosticCapabilityElement method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getAudiences                 [x] impl  [x] docstring  [ ] test
-    # [ ] addAudience                  [x] impl  [x] docstring  [ ] test
-    # [ ] getDiagRequirement           [x] impl  [x] docstring  [ ] test
-    # [ ] setDiagRequirement           [x] impl  [x] docstring  [ ] test
-    # [ ] getSecurityAccessLevel       [x] impl  [x] docstring  [ ] test
-    # [ ] setSecurityAccessLevel       [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.15, p.753
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAudiences             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addAudience              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDiagRequirement       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagRequirement       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecurityAccessLevel   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecurityAccessLevel   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticCapabilityElement with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic capability element
-            short_name: The unique short name of this diagnostic capability element
-        """
         if type(self) is DiagnosticCapabilityElement:
             raise TypeError("DiagnosticCapabilityElement is an abstract class.")
 
         super().__init__(parent, short_name)
 
-        # List of audiences for this diagnostic capability
+        # This specifies the intended audience for the diagnostic object. Note that this is not only for the documentation but also subsequent audience specific implementation.
         self.audiences: List[DiagnosticAudienceEnum] = []
-        # Diagnostic requirement ID string for this capability
-        self.diagRequirement: DiagRequirementIdString = None
-        # Security access level for this diagnostic capability
-        self.securityAccessLevel: PositiveInteger = None
 
-    def getAudiences(self):
+        # This denotes the requirement identifier to which the object can be linked to. Note that with the implementation of a generic tracing concept in AUTOSAR this attribute might become obsolete.
+        self.diagRequirement: Optional[DiagRequirementIdString] = None
+
+        # This attribute denotes the level of security which is touched by the diagnostic object. The higher the level the more relevance for the security exists. This level shall be mapped to the security level in the ECU.
+        self.securityAccessLevel: Optional[PositiveInteger] = None
+
+    def getAudiences(self) -> List[DiagnosticAudienceEnum]:
         """
-        Gets the list of audiences for this diagnostic capability.
-
-        Returns:
-            List of DiagnosticAudienceEnum instances
+        This specifies the intended audience for the diagnostic object. Note that this is not only for the documentation but also subsequent audience specific implementation.
         """
         return self.audiences
 
-    def addAudience(self, value):
+    def addAudience(self, value: Optional[DiagnosticAudienceEnum]) -> DiagnosticCapabilityElement:
         """
-        Adds an audience to this diagnostic capability.
-
-        Args:
-            value: The diagnostic audience to add
-
-        Returns:
-            self for method chaining
+        This specifies the intended audience for the diagnostic object. Note that this is not only for the documentation but also subsequent audience specific implementation.
+        A None value is a no-op and does not modify the existing audiences.
         """
-        self.audiences.append(value)
+        if value is not None:
+            self.audiences.append(value)
         return self
 
-    def getDiagRequirement(self):
+    def getDiagRequirement(self) -> Optional[DiagRequirementIdString]:
         """
-        Gets the diagnostic requirement ID string for this capability.
-
-        Returns:
-            DiagRequirementIdString: The diagnostic requirement
+        This denotes the requirement identifier to which the object can be linked to. Note that with the implementation of a generic tracing concept in AUTOSAR this attribute might become obsolete.
         """
         return self.diagRequirement
 
-    def setDiagRequirement(self, value):
+    def setDiagRequirement(self, value: Optional[DiagRequirementIdString]) -> DiagnosticCapabilityElement:
         """
-        Sets the diagnostic requirement ID string for this capability.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The diagnostic requirement to set
-
-        Returns:
-            self for method chaining
+        This denotes the requirement identifier to which the object can be linked to. Note that with the implementation of a generic tracing concept in AUTOSAR this attribute might become obsolete.
+        A None value is a no-op and does not overwrite an existing diagRequirement.
         """
-        self.diagRequirement = value
+        if value is not None:
+            self.diagRequirement = value
         return self
 
-    def getSecurityAccessLevel(self):
+    def getSecurityAccessLevel(self) -> Optional[PositiveInteger]:
         """
-        Gets the security access level for this diagnostic capability.
-
-        Returns:
-            PositiveInteger: The security access level
+        This attribute denotes the level of security which is touched by the diagnostic object. The higher the level the more relevance for the security exists. This level shall be mapped to the security level in the ECU.
         """
         return self.securityAccessLevel
 
-    def setSecurityAccessLevel(self, value):
+    def setSecurityAccessLevel(self, value: Optional[PositiveInteger]) -> DiagnosticCapabilityElement:
         """
-        Sets the security access level for this diagnostic capability.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The security access level to set
-
-        Returns:
-            self for method chaining
+        This attribute denotes the level of security which is touched by the diagnostic object. The higher the level the more relevance for the security exists. This level shall be mapped to the security level in the ECU.
+        A None value is a no-op and does not overwrite an existing securityAccessLevel.
         """
-        self.securityAccessLevel = value
+        if value is not None:
+            self.securityAccessLevel = value
         return self
 
 

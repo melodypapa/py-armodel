@@ -143,20 +143,29 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - note (Step 8): no deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12333 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
-- [ ] `DiagnosticCapabilityElement` — ServiceNeeds — source TBC (locate table at Step 1)
+- [ ] `DiagnosticCapabilityElement` — ServiceNeeds — R23-11 markdown · Table 13.15 (CP_TPS_SoftwareComponentTemplate), p.753
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - after `DiagnosticAudienceEnum`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - note (Step 1): R23-11 markdown Table 13.15, p.753. ABSTRACT Class; Base most-derived =
+    `ServiceNeeds` (already correct); not VP-capable per own XSD group. Three attrs:
+    audience (DiagnosticAudienceEnum, *, attr → AUDIENCES/AUDIENCE wrapper items, token
+    map DIAGNOSTIC_AUDIENCE_XML_MAP), diagRequirement (DiagRequirementIdString, 0..1,
+    attr), securityAccessLevel (PositiveInteger, 0..1, attr). Drift: fabricated class
+    docstring, __init__ docstring, bare-typed fields, untyped accessors, old 4-col
+    checklist; read/writeDiagnosticCapabilityElement covered ONLY the ServiceNeeds base —
+    all three attrs were DROPPED on round-trip for the whole subclass family.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): ADDED AUDIENCES/DIAG-REQUIREMENT/SECURITY-ACCESS-LEVEL to both
+    helpers (isinstance-guarded: the helper is shared by non-capability classes);
+    value-asserting round-trip via DiagnosticCommunicationManagerNeeds + absent case pass.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12335 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 - [ ] `DiagnosticCommunicationManagerNeeds` — DiagnosticCapabilityElement — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - after `DiagnosticServiceRequestCallbackTypeEnum`

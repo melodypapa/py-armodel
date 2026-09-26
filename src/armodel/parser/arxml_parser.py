@@ -88,6 +88,8 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
 )
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import BswServiceDependencyIdent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticAudienceEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagRequirementIdString
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationship, BswEntryRelationshipEnum, BswEntryRelationshipSet, BswModuleClientServerEntry, BswModuleEntry
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
@@ -1219,6 +1221,14 @@ BSW_INTERRUPT_CATEGORY_XML_MAP = {
 
 BSW_ENTRY_RELATIONSHIP_XML_MAP = {
     "derivedFrom": "DERIVED-FROM",
+}
+
+DIAGNOSTIC_AUDIENCE_XML_MAP = {
+    "aftermarket": "AFTERMARKET",
+    "afterSales": "AFTER-SALES",
+    "development": "DEVELOPMENT",
+    "manufacturing": "MANUFACTURING",
+    "supplier": "SUPPLIER",
 }
 
 
@@ -2638,6 +2648,23 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDiagnosticCapabilityElement(self, element: ET.Element, needs: DiagnosticCapabilityElement):
         self.readServiceNeeds(element, needs)
+        if not isinstance(needs, DiagnosticCapabilityElement):
+            return
+        for audience_element in self.findall(element, "AUDIENCES/AUDIENCE"):
+            token = audience_element.text
+            camel = None
+            for camel_value, map_token in DIAGNOSTIC_AUDIENCE_XML_MAP.items():
+                if map_token == token:
+                    camel = camel_value
+                    break
+            if camel is not None:
+                needs.addAudience(DiagnosticAudienceEnum().setValue(camel))
+            else:
+                self.notImplemented("Unsupported AUDIENCE <%s>" % token)
+        req_element = self.find(element, "DIAG-REQUIREMENT")
+        if req_element is not None:
+            needs.setDiagRequirement(DiagRequirementIdString().setValue(req_element.text))
+        needs.setSecurityAccessLevel(self.getChildElementOptionalPositiveInteger(element, "SECURITY-ACCESS-LEVEL"))
 
     def readObdInfoServiceNeeds(self, element: ET.Element, needs: ObdInfoServiceNeeds):
         self.readDiagnosticCapabilityElement(element, needs)
