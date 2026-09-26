@@ -861,6 +861,197 @@ class TestBswModuleEntityHandlers:
         assert len(entity.getDataSendPoints()) == 1
 
 
+# ==================== BswModuleCallPoint base helper (context limitation refs) ====================
+
+
+class TestBswModuleCallPointHandlers:
+    """Exercise the shared readBswModuleCallPoint helper that the concrete
+    call point subclasses call for the BSW-MODULE-CALL-POINT element group."""
+
+    def test_readBswModuleCallPoint_context_limitation_refs(self, parser):
+        from armodel.models import BswDirectCallPoint
+
+        point = BswDirectCallPoint(parent=_autosar_root(), short_name="cp")
+        element = _snip(
+            "<SHORT-NAME>cp</SHORT-NAME>"
+            "<CONTEXT-LIMITATION-REFS>"
+            "<CONTEXT-LIMITATION-REF DEST='BSW-DISTINGUISHED-PARTITION'>/pkg/part1</CONTEXT-LIMITATION-REF>"
+            "<CONTEXT-LIMITATION-REF DEST='BSW-DISTINGUISHED-PARTITION'>/pkg/part2</CONTEXT-LIMITATION-REF>"
+            "</CONTEXT-LIMITATION-REFS>",
+            root_tag="BSW-DIRECT-CALL-POINT",
+        )
+        parser.readBswModuleCallPoint(element, point)
+        refs = point.getContextLimitationRefs()
+        assert len(refs) == 2
+        assert refs[0].getValue() == "/pkg/part1"
+        assert refs[0].getDest() == "BSW-DISTINGUISHED-PARTITION"
+        assert refs[1].getValue() == "/pkg/part2"
+        assert refs[1].getDest() == "BSW-DISTINGUISHED-PARTITION"
+
+    def test_readBswModuleCallPoint_context_limitation_refs_empty_wrapper(self, parser):
+        from armodel.models import BswDirectCallPoint
+
+        point = BswDirectCallPoint(parent=_autosar_root(), short_name="cp")
+        element = _snip(
+            "<SHORT-NAME>cp</SHORT-NAME>" "<CONTEXT-LIMITATION-REFS/>",
+            root_tag="BSW-DIRECT-CALL-POINT",
+        )
+        parser.readBswModuleCallPoint(element, point)
+        assert point.getContextLimitationRefs() == []
+
+    def test_readBswModuleCallPoint_variation_point(self, parser):
+        from armodel.models import BswDirectCallPoint
+
+        point = BswDirectCallPoint(parent=_autosar_root(), short_name="cp")
+        element = _snip(
+            "<SHORT-NAME>cp</SHORT-NAME>" "<VARIATION-POINT><SHORT-LABEL>vp1</SHORT-LABEL></VARIATION-POINT>",
+            root_tag="BSW-DIRECT-CALL-POINT",
+        )
+        parser.readBswModuleCallPoint(element, point)
+        assert point.getVariationPoint() is not None
+        assert point.getVariationPoint().getShortLabel().getValue() == "vp1"
+
+
+# ==================== BswDirectCallPoint (R23-11 Table 5.11) ====================
+
+
+class TestBswDirectCallPointHandlers:
+    """Exercise readBswDirectCallPoint and the BSW-DIRECT-CALL-POINT
+    branch of the call point dispatch."""
+
+    def test_readBswDirectCallPoint_sets_refs(self, parser):
+        from armodel.models import BswDirectCallPoint
+
+        point = BswDirectCallPoint(parent=_autosar_root(), short_name="cp")
+        element = _snip(
+            "<SHORT-NAME>cp</SHORT-NAME>"
+            "<CALLED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/mod/Entry</CALLED-ENTRY-REF>"
+            "<CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF DEST='EXCLUSIVE-AREA-NESTING-ORDER'>/mod/Nesting</CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF>",
+            root_tag="BSW-DIRECT-CALL-POINT",
+        )
+        parser.readBswDirectCallPoint(element, point)
+        assert point.getCalledEntryRef().getValue() == "/mod/Entry"
+        assert point.getCalledEntryRef().getDest() == "BSW-MODULE-ENTRY"
+        assert point.getCalledFromWithinExclusiveAreaRef().getValue() == "/mod/Nesting"
+        assert point.getCalledFromWithinExclusiveAreaRef().getDest() == "EXCLUSIVE-AREA-NESTING-ORDER"
+
+    def test_readBswDirectCallPoint_empty(self, parser):
+        from armodel.models import BswDirectCallPoint
+
+        point = BswDirectCallPoint(parent=_autosar_root(), short_name="cp")
+        element = _snip("<SHORT-NAME>cp</SHORT-NAME>", root_tag="BSW-DIRECT-CALL-POINT")
+        parser.readBswDirectCallPoint(element, point)
+        assert point.getCalledEntryRef() is None
+        assert point.getCalledFromWithinExclusiveAreaRef() is None
+
+    def test_readBswModuleEntityCallPoints_direct_call_point_dispatch(self, parser):
+        from armodel.models import BswDirectCallPoint, BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        entity = behavior.createBswSchedulableEntity("e")
+        element = _snip(
+            "<CALL-POINTS>" "<BSW-DIRECT-CALL-POINT>" "<SHORT-NAME>dcp</SHORT-NAME>" "<CALLED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/ent</CALLED-ENTRY-REF>" "</BSW-DIRECT-CALL-POINT>" "</CALL-POINTS>",
+            root_tag="ENTITY",
+        )
+        parser.readBswModuleEntityCallPoints(element, entity)
+        points = entity.getCallPoints()
+        assert len(points) == 1
+        assert isinstance(points[0], BswDirectCallPoint)
+        assert points[0].getShortName() == "dcp"
+        assert points[0].getCalledEntryRef().getValue() == "/ent"
+
+
+# ==================== BswSynchronousServerCallPoint (R23-11 Table 5.12) ====================
+
+
+class TestBswSynchronousServerCallPointHandlers:
+    """Exercise readBswSynchronousServerCallPoint and the BSW-SYNCHRONOUS-SERVER-CALL-POINT
+    branch of the call point dispatch."""
+
+    def test_readBswSynchronousServerCallPoint_sets_refs(self, parser):
+        from armodel.models import BswSynchronousServerCallPoint
+
+        point = BswSynchronousServerCallPoint(parent=_autosar_root(), short_name="cp")
+        element = _snip(
+            "<SHORT-NAME>cp</SHORT-NAME>"
+            "<CALLED-ENTRY-REF DEST='BSW-MODULE-CLIENT-SERVER-ENTRY'>/mod/Entry</CALLED-ENTRY-REF>"
+            "<CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF DEST='EXCLUSIVE-AREA-NESTING-ORDER'>/mod/Nesting</CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF>",
+            root_tag="BSW-SYNCHRONOUS-SERVER-CALL-POINT",
+        )
+        parser.readBswSynchronousServerCallPoint(element, point)
+        assert point.getCalledEntryRef().getValue() == "/mod/Entry"
+        assert point.getCalledEntryRef().getDest() == "BSW-MODULE-CLIENT-SERVER-ENTRY"
+        assert point.getCalledFromWithinExclusiveAreaRef().getValue() == "/mod/Nesting"
+        assert point.getCalledFromWithinExclusiveAreaRef().getDest() == "EXCLUSIVE-AREA-NESTING-ORDER"
+
+    def test_readBswSynchronousServerCallPoint_empty(self, parser):
+        from armodel.models import BswSynchronousServerCallPoint
+
+        point = BswSynchronousServerCallPoint(parent=_autosar_root(), short_name="cp")
+        element = _snip("<SHORT-NAME>cp</SHORT-NAME>", root_tag="BSW-SYNCHRONOUS-SERVER-CALL-POINT")
+        parser.readBswSynchronousServerCallPoint(element, point)
+        assert point.getCalledEntryRef() is None
+        assert point.getCalledFromWithinExclusiveAreaRef() is None
+
+    def test_readBswModuleEntityCallPoints_sync_server_call_point_dispatch(self, parser):
+        from armodel.models import BswInternalBehavior, BswSynchronousServerCallPoint
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        entity = behavior.createBswSchedulableEntity("e")
+        element = _snip(
+            "<CALL-POINTS>"
+            "<BSW-SYNCHRONOUS-SERVER-CALL-POINT>"
+            "<SHORT-NAME>scp</SHORT-NAME>"
+            "<CALLED-ENTRY-REF DEST='BSW-MODULE-CLIENT-SERVER-ENTRY'>/ent</CALLED-ENTRY-REF>"
+            "</BSW-SYNCHRONOUS-SERVER-CALL-POINT>"
+            "</CALL-POINTS>",
+            root_tag="ENTITY",
+        )
+        parser.readBswModuleEntityCallPoints(element, entity)
+        points = entity.getCallPoints()
+        assert len(points) == 1
+        assert isinstance(points[0], BswSynchronousServerCallPoint)
+        assert points[0].getShortName() == "scp"
+        assert points[0].getCalledEntryRef().getValue() == "/ent"
+
+
+class TestBswInternalTriggeringPointHandlers:
+    """Exercise readBswInternalTriggeringPoint SW-IMPL-POLICY and VARIATION-POINT coverage."""
+
+    def test_readBswInternalTriggeringPoint_sets_policy(self, parser):
+        from armodel.models import BswInternalTriggeringPoint
+
+        point = BswInternalTriggeringPoint(parent=_autosar_root(), short_name="tp")
+        element = _snip(
+            "<SHORT-NAME>tp</SHORT-NAME>" "<SW-IMPL-POLICY>QUEUED</SW-IMPL-POLICY>",
+            root_tag="BSW-INTERNAL-TRIGGERING-POINT",
+        )
+        parser.readBswInternalTriggeringPoint(element, point)
+        assert point.getSwImplPolicy() is not None
+        assert point.getSwImplPolicy().getValue() == "queued"
+
+    def test_readBswInternalTriggeringPoint_reads_variation_point(self, parser):
+        from armodel.models import BswInternalTriggeringPoint
+
+        point = BswInternalTriggeringPoint(parent=_autosar_root(), short_name="tp")
+        element = _snip(
+            "<SHORT-NAME>tp</SHORT-NAME>" "<VARIATION-POINT><SHORT-LABEL>lbl</SHORT-LABEL></VARIATION-POINT>",
+            root_tag="BSW-INTERNAL-TRIGGERING-POINT",
+        )
+        parser.readBswInternalTriggeringPoint(element, point)
+        assert point.getVariationPoint() is not None
+        assert point.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_readBswInternalTriggeringPoint_empty(self, parser):
+        from armodel.models import BswInternalTriggeringPoint
+
+        point = BswInternalTriggeringPoint(parent=_autosar_root(), short_name="tp")
+        element = _snip("<SHORT-NAME>tp</SHORT-NAME>", root_tag="BSW-INTERNAL-TRIGGERING-POINT")
+        parser.readBswInternalTriggeringPoint(element, point)
+        assert point.getSwImplPolicy() is None
+        assert point.getVariationPoint() is None
+
+
 # ==================== BSW entities dispatch (Called/Schedulable/Interrupt) ====================
 
 
@@ -896,6 +1087,8 @@ class TestBswEntityDispatch:
 
     def test_readBswInterruptEntity_sets_attrs(self, parser):
         from armodel.models import BswModuleDescription
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInterruptCategory
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 
         desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
         behavior = desc.createBswInternalBehavior("bh")
@@ -903,13 +1096,58 @@ class TestBswEntityDispatch:
         element = _snip(
             "<SHORT-NAME>ie</SHORT-NAME>"
             "<IMPLEMENTED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/ent</IMPLEMENTED-ENTRY-REF>"
-            "<INTERRUPT-CATEGORY>CAT_1</INTERRUPT-CATEGORY>"
+            "<INTERRUPT-CATEGORY>CAT-1</INTERRUPT-CATEGORY>"
             "<INTERRUPT-SOURCE>EXT</INTERRUPT-SOURCE>",
             root_tag="BSW-INTERRUPT-ENTITY",
         )
         parser.readBswInterruptEntity(element, entity)
-        assert entity.getInterruptCategory().getValue() == "CAT_1"
+        assert isinstance(entity.getInterruptCategory(), BswInterruptCategory)
+        assert entity.getInterruptCategory().getValue() == "cat1"
+        assert isinstance(entity.getInterruptSource(), String)
         assert entity.getInterruptSource().getValue() == "EXT"
+
+    def test_readBswInterruptEntity_category_cat2(self, parser):
+        from armodel.models import BswModuleDescription
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInterruptCategory
+
+        desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
+        behavior = desc.createBswInternalBehavior("bh")
+        entity = behavior.createBswInterruptEntity("ie")
+        element = _snip(
+            "<SHORT-NAME>ie</SHORT-NAME>" "<IMPLEMENTED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/ent</IMPLEMENTED-ENTRY-REF>" "<INTERRUPT-CATEGORY>CAT-2</INTERRUPT-CATEGORY>",
+            root_tag="BSW-INTERRUPT-ENTITY",
+        )
+        parser.readBswInterruptEntity(element, entity)
+        assert isinstance(entity.getInterruptCategory(), BswInterruptCategory)
+        assert entity.getInterruptCategory().getValue() == "cat2"
+
+    def test_readBswInterruptEntity_empty(self, parser):
+        from armodel.models import BswModuleDescription
+
+        desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
+        behavior = desc.createBswInternalBehavior("bh")
+        entity = behavior.createBswInterruptEntity("ie")
+        element = _snip(
+            "<SHORT-NAME>ie</SHORT-NAME>" "<IMPLEMENTED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/ent</IMPLEMENTED-ENTRY-REF>",
+            root_tag="BSW-INTERRUPT-ENTITY",
+        )
+        parser.readBswInterruptEntity(element, entity)
+        assert entity.getInterruptCategory() is None
+        assert entity.getInterruptSource() is None
+
+    def test_readBswInterruptEntity_unsupported_category_warns(self, warning_parser, caplog):
+        from armodel.models import BswModuleDescription
+
+        desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
+        behavior = desc.createBswInternalBehavior("bh")
+        entity = behavior.createBswInterruptEntity("ie")
+        element = _snip(
+            "<SHORT-NAME>ie</SHORT-NAME>" "<INTERRUPT-CATEGORY>BOGUS</INTERRUPT-CATEGORY>",
+            root_tag="BSW-INTERRUPT-ENTITY",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readBswInterruptEntity(element, entity)
+        assert any("Unsupported INTERRUPT-CATEGORY" in r.getMessage() for r in caplog.records)
 
     def test_readBswInternalBehaviorEntities_dispatches_all(self, parser):
         from armodel.models import BswModuleDescription
@@ -1125,6 +1363,28 @@ class TestBswInternalBehaviorEventsDetailed:
         parser.readBswDataReceivedEvent(element, event)
         assert event.getDataRef().getValue() == "/d"
 
+    def test_readBswDataReceivedEvent_data_ref_dest(self, parser):
+        from armodel.models import BswDataReceivedEvent
+
+        event = BswDataReceivedEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>" "<DATA-REF DEST='VARIABLE-DATA-PROTOTYPE'>/d</DATA-REF>",
+            root_tag="BSW-DATA-RECEIVED-EVENT",
+        )
+        parser.readBswDataReceivedEvent(element, event)
+        assert event.getDataRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+
+    def test_readBswDataReceivedEvent_absent_data_ref(self, parser):
+        from armodel.models import BswDataReceivedEvent
+
+        event = BswDataReceivedEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>",
+            root_tag="BSW-DATA-RECEIVED-EVENT",
+        )
+        parser.readBswDataReceivedEvent(element, event)
+        assert event.getDataRef() is None
+
     def test_readBswInternalTriggerOccurredEvent_sets_source_ref(self, parser):
         from armodel.models import BswInternalTriggerOccurredEvent
 
@@ -1135,6 +1395,28 @@ class TestBswInternalBehaviorEventsDetailed:
         )
         parser.readBswInternalTriggerOccurredEvent(element, event)
         assert event.getEventSourceRef().getValue() == "/s"
+
+    def test_readBswInternalTriggerOccurredEvent_event_source_ref_dest(self, parser):
+        from armodel.models import BswInternalTriggerOccurredEvent
+
+        event = BswInternalTriggerOccurredEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>" "<EVENT-SOURCE-REF DEST='BSW-INTERNAL-TRIGGERING-POINT'>/s</EVENT-SOURCE-REF>",
+            root_tag="BSW-INTERNAL-TRIGGER-OCCURRED-EVENT",
+        )
+        parser.readBswInternalTriggerOccurredEvent(element, event)
+        assert event.getEventSourceRef().getDest() == "BSW-INTERNAL-TRIGGERING-POINT"
+
+    def test_readBswInternalTriggerOccurredEvent_absent_source_ref(self, parser):
+        from armodel.models import BswInternalTriggerOccurredEvent
+
+        event = BswInternalTriggerOccurredEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>",
+            root_tag="BSW-INTERNAL-TRIGGER-OCCURRED-EVENT",
+        )
+        parser.readBswInternalTriggerOccurredEvent(element, event)
+        assert event.getEventSourceRef() is None
 
     def test_readBswBackgroundEvent_minimal(self, parser):
         from armodel.models import BswBackgroundEvent
@@ -1180,6 +1462,28 @@ class TestBswInternalBehaviorEventsDetailed:
         parser.readBswModeManagerErrorEvent(element, event)
         assert event.getModeGroupRef().getValue() == "/mg"
 
+    def test_readBswModeManagerErrorEvent_mode_group_ref_dest(self, parser):
+        from armodel.models import BswModeManagerErrorEvent
+
+        event = BswModeManagerErrorEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>" "<MODE-GROUP-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/mg</MODE-GROUP-REF>",
+            root_tag="BSW-MODE-MANAGER-ERROR-EVENT",
+        )
+        parser.readBswModeManagerErrorEvent(element, event)
+        assert event.getModeGroupRef().getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
+
+    def test_readBswModeManagerErrorEvent_absent_mode_group_ref(self, parser):
+        from armodel.models import BswModeManagerErrorEvent
+
+        event = BswModeManagerErrorEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>",
+            root_tag="BSW-MODE-MANAGER-ERROR-EVENT",
+        )
+        parser.readBswModeManagerErrorEvent(element, event)
+        assert event.getModeGroupRef() is None
+
     def test_readBswModeSwitchedAckEvent_sets_mode_group_ref(self, parser):
         from armodel.models import BswModeSwitchedAckEvent
 
@@ -1201,6 +1505,28 @@ class TestBswInternalBehaviorEventsDetailed:
         )
         parser.readBswAsynchronousServerCallReturnsEvent(element, event)
         assert event.getEventSourceRef().getValue() == "/cp"
+
+    def test_readBswAsynchronousServerCallReturnsEvent_event_source_ref_dest(self, parser):
+        from armodel.models import BswAsynchronousServerCallReturnsEvent
+
+        event = BswAsynchronousServerCallReturnsEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>" "<EVENT-SOURCE-REF DEST='BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT'>/cp</EVENT-SOURCE-REF>",
+            root_tag="BSW-ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT",
+        )
+        parser.readBswAsynchronousServerCallReturnsEvent(element, event)
+        assert event.getEventSourceRef().getDest() == "BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT"
+
+    def test_readBswAsynchronousServerCallReturnsEvent_absent_event_source_ref(self, parser):
+        from armodel.models import BswAsynchronousServerCallReturnsEvent
+
+        event = BswAsynchronousServerCallReturnsEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>",
+            root_tag="BSW-ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT",
+        )
+        parser.readBswAsynchronousServerCallReturnsEvent(element, event)
+        assert event.getEventSourceRef() is None
 
     def test_readBswInternalBehaviorEvents_dispatches_all_types(self, parser):
         from armodel.models import BswModuleDescription
@@ -1272,6 +1598,23 @@ class TestBswReceptionAndApiOptions:
         assert policy.getProvidedModeGroupRef().getValue() == "/mg"
         assert policy.getQueueLength().getValue() == 3
 
+    def test_getBswModeSwitchAckRequest_timeout_value(self, parser):
+        from armodel.models import BswModeSwitchAckRequest
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue
+
+        element = _snip(
+            "<ACK-REQUEST><TIMEOUT>2.5</TIMEOUT></ACK-REQUEST>",
+            root_tag="BSW-MODE-SWITCH-ACK-REQUEST",
+        )
+        request = parser.getBswModeSwitchAckRequest(element, "ACK-REQUEST")
+        assert isinstance(request, BswModeSwitchAckRequest)
+        assert isinstance(request.getTimeout(), TimeValue)
+        assert request.getTimeout().getValue() == 2.5
+
+    def test_getBswModeSwitchAckRequest_absent_returns_none(self, parser):
+        element = _snip("", root_tag="BSW-MODE-SENDER-POLICY")
+        assert parser.getBswModeSwitchAckRequest(element, "ACK-REQUEST") is None
+
     def test_readBswInternalBehaviorModeSenderPolicy_adds_policy(self, parser):
         from armodel.models import BswInternalBehavior
 
@@ -1323,6 +1666,14 @@ class TestBswReceptionAndApiOptions:
         parser.readBswApiOptions(element, options)
         assert options.getEnableTakeAddress().getValue() is True
 
+    def test_readBswApiOptions_absent_element_leaves_none(self, parser):
+        from armodel.models import BswQueuedDataReceptionPolicy
+
+        options = BswQueuedDataReceptionPolicy()
+        element = _snip("", root_tag="OPTS")
+        parser.readBswApiOptions(element, options)
+        assert options.getEnableTakeAddress() is None
+
     def test_readBswDataReceptionPolicy_sets_ref(self, parser):
         from armodel.models import BswQueuedDataReceptionPolicy
 
@@ -1345,9 +1696,18 @@ class TestBswReceptionAndApiOptions:
         )
         parser.readBswQueuedDataReceptionPolicy(element, policy)
         assert policy.getQueueLength().getValue() == 5
+        assert policy.getReceivedDataRef().getValue() == "/d"
+
+    def test_readBswQueuedDataReceptionPolicy_absent_element_leaves_none(self, parser):
+        from armodel.models import BswQueuedDataReceptionPolicy
+
+        policy = BswQueuedDataReceptionPolicy()
+        element = _snip("", root_tag="P")
+        parser.readBswQueuedDataReceptionPolicy(element, policy)
+        assert policy.getQueueLength() is None
 
     def test_readBswInternalBehaviorReceptionPolicies_adds(self, parser):
-        from armodel.models import BswInternalBehavior
+        from armodel.models import BswInternalBehavior, BswQueuedDataReceptionPolicy
 
         behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
         element = _snip(
@@ -1355,7 +1715,10 @@ class TestBswReceptionAndApiOptions:
             root_tag="BH",
         )
         parser.readBswInternalBehaviorReceptionPolicies(element, behavior)
-        assert len(behavior.getReceptionPolicies()) == 1
+        policies = behavior.getReceptionPolicies()
+        assert len(policies) == 1
+        assert isinstance(policies[0], BswQueuedDataReceptionPolicy)
+        assert policies[0].getQueueLength().getValue() == 1
 
     def test_readBswInternalBehaviorReceptionPolicies_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import BswInternalBehavior

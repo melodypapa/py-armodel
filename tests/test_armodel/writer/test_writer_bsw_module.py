@@ -6,10 +6,16 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswAsynchronousServerCallReturnsEvent,
     BswClientPolicy,
+    BswDataReceivedEvent,
     BswDataSendPolicy,
+    BswDirectCallPoint,
     BswExclusiveAreaPolicy,
     BswInternalTriggeringPointPolicy,
+    BswInternalTriggerOccurredEvent,
+    BswInterruptCategory,
+    BswModeManagerErrorEvent,
     BswModeReceiverPolicy,
     BswModeSenderPolicy,
     BswModeSwitchAckRequest,
@@ -40,6 +46,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Identifier,
     PositiveInteger,
     RefType,
+    String,
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
@@ -52,6 +59,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     IncludedModeDeclarationGroupSet,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -391,6 +399,330 @@ class TestWriterBswModuleCallPoints:
         writer.writeBswModuleEntityCallPoints(parent, entity)
         assert len(parent) == 0
 
+    def test_context_limitation_refs(self, writer):
+        point = BswDirectCallPoint(parent=AUTOSAR.getInstance(), short_name="cp")
+        point.addContextLimitationRef(_ref("/pkg/part1", "BSW-DISTINGUISHED-PARTITION"))
+        point.addContextLimitationRef(_ref("/pkg/part2", "BSW-DISTINGUISHED-PARTITION"))
+        parent = _parent()
+        writer.writeBswModuleCallPoint(parent, point)
+        wrapper = parent.find("CONTEXT-LIMITATION-REFS")
+        assert wrapper is not None
+        refs = wrapper.findall("CONTEXT-LIMITATION-REF")
+        assert len(refs) == 2
+        assert refs[0].text == "/pkg/part1"
+        assert refs[0].get("DEST") == "BSW-DISTINGUISHED-PARTITION"
+        assert refs[1].text == "/pkg/part2"
+        assert refs[1].get("DEST") == "BSW-DISTINGUISHED-PARTITION"
+
+    def test_context_limitation_refs_empty(self, writer):
+        point = BswDirectCallPoint(parent=AUTOSAR.getInstance(), short_name="cp")
+        parent = _parent()
+        writer.writeBswModuleCallPoint(parent, point)
+        assert parent.find("CONTEXT-LIMITATION-REFS") is None
+
+    def test_variation_point_written_after_refs(self, writer):
+        point = BswDirectCallPoint(parent=AUTOSAR.getInstance(), short_name="cp")
+        point.addContextLimitationRef(_ref("/pkg/part1", "BSW-DISTINGUISHED-PARTITION"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        point.setVariationPoint(variation_point)
+        parent = _parent()
+        writer.writeBswModuleCallPoint(parent, point)
+        tags = [c.tag for c in parent]
+        assert tags.index("CONTEXT-LIMITATION-REFS") < tags.index("VARIATION-POINT")
+        vp = parent.find("VARIATION-POINT")
+        assert vp is not None
+        assert vp.find("SHORT-LABEL").text == "lbl"
+
+    def test_variation_point_none_not_written(self, writer):
+        point = BswDirectCallPoint(parent=AUTOSAR.getInstance(), short_name="cp")
+        parent = _parent()
+        writer.writeBswModuleCallPoint(parent, point)
+        assert parent.find("VARIATION-POINT") is None
+
+
+class TestWriterBswModuleCallPointRoundTrip:
+    def test_round_trip_call_point_context_limitation_refs(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        entity = behavior.createBswSchedulableEntity("ent")
+        entity.setImplementedEntryRef(_ref("/mod/Entry", "BSW-MODULE-ENTRY"))
+        point = entity.createBswAsynchronousServerCallPoint("acp")
+        point.setCalledEntryRef(_ref("/mod/Entry", "BSW-MODULE-ENTRY"))
+        point.addContextLimitationRef(_ref("/Pkg/part1", "BSW-DISTINGUISHED-PARTITION"))
+        point.addContextLimitationRef(_ref("/Pkg/part2", "BSW-DISTINGUISHED-PARTITION"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        point.setVariationPoint(variation_point)
+
+        out_file = tmp_path / "acp_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        entity_2 = behavior_2.getBswSchedulableEntities()[0]
+        assert entity_2.getImplementedEntryRef().getValue() == "/mod/Entry"
+        points = entity_2.getCallPoints()
+        assert len(points) == 1
+        point_2 = points[0]
+        assert point_2.getShortName() == "acp"
+        assert point_2.getCalledEntryRef().getValue() == "/mod/Entry"
+        assert point_2.getCalledEntryRef().getDest() == "BSW-MODULE-ENTRY"
+        refs = point_2.getContextLimitationRefs()
+        assert len(refs) == 2
+        assert refs[0].getValue() == "/Pkg/part1"
+        assert refs[0].getDest() == "BSW-DISTINGUISHED-PARTITION"
+        assert refs[1].getValue() == "/Pkg/part2"
+        assert refs[1].getDest() == "BSW-DISTINGUISHED-PARTITION"
+        assert point_2.getVariationPoint() is not None
+        assert point_2.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_round_trip_call_point_empty(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        entity = behavior.createBswSchedulableEntity("ent")
+        entity.setImplementedEntryRef(_ref("/mod/Entry", "BSW-MODULE-ENTRY"))
+        entity.createBswAsynchronousServerCallPoint("acp")
+
+        out_file = tmp_path / "acp_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        entity_2 = behavior_2.getBswSchedulableEntities()[0]
+        points = entity_2.getCallPoints()
+        assert len(points) == 1
+        point_2 = points[0]
+        assert point_2.getContextLimitationRefs() == []
+        assert point_2.getVariationPoint() is None
+        assert point_2.getCalledEntryRef() is None
+
+
+class TestWriterBswDirectCallPoints:
+    def test_direct_call_point(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createBswSchedulableEntity("ent")
+        point = entity.createBswDirectCallPoint("dcp")
+        point.setCalledEntryRef(_ref("/e", "BSW-MODULE-ENTRY"))
+        point.setCalledFromWithinExclusiveAreaRef(_ref("/n", "EXCLUSIVE-AREA-NESTING-ORDER"))
+        parent = _parent()
+        writer.writeBswDirectCallPoint(parent, point)
+        assert parent[0].tag == "BSW-DIRECT-CALL-POINT"
+        entry_ref = parent[0].find("CALLED-ENTRY-REF")
+        assert entry_ref is not None
+        assert entry_ref.text == "/e"
+        assert entry_ref.get("DEST") == "BSW-MODULE-ENTRY"
+        area_ref = parent[0].find("CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF")
+        assert area_ref is not None
+        assert area_ref.text == "/n"
+        assert area_ref.get("DEST") == "EXCLUSIVE-AREA-NESTING-ORDER"
+        tags = [c.tag for c in parent[0]]
+        assert tags.index("CALLED-ENTRY-REF") < tags.index("CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF")
+
+    def test_direct_call_point_empty(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createBswSchedulableEntity("ent")
+        entity.createBswDirectCallPoint("dcp")
+        parent = _parent()
+        writer.writeBswDirectCallPoint(parent, entity.getCallPoints()[0])
+        assert parent[0].tag == "BSW-DIRECT-CALL-POINT"
+        assert parent[0].find("CALLED-ENTRY-REF") is None
+        assert parent[0].find("CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF") is None
+
+    def test_entity_call_points_direct_call_point_dispatch(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createBswSchedulableEntity("ent")
+        entity.createBswDirectCallPoint("dcp").setCalledEntryRef(_ref("/e", "BSW-MODULE-ENTRY"))
+        parent = _parent()
+        writer.writeBswModuleEntityCallPoints(parent, entity)
+        child_tags = [c.tag for c in parent[0]]
+        assert child_tags == ["BSW-DIRECT-CALL-POINT"]
+
+
+class TestWriterBswDirectCallPointRoundTrip:
+    def test_round_trip_direct_call_point(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        entity = behavior.createBswSchedulableEntity("ent")
+        entity.setImplementedEntryRef(_ref("/mod/Entry", "BSW-MODULE-ENTRY"))
+        point = entity.createBswDirectCallPoint("dcp")
+        point.setCalledEntryRef(_ref("/mod/Entry", "BSW-MODULE-ENTRY"))
+        point.setCalledFromWithinExclusiveAreaRef(_ref("/mod/Nesting", "EXCLUSIVE-AREA-NESTING-ORDER"))
+
+        out_file = tmp_path / "dcp_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        entity_2 = behavior_2.getBswSchedulableEntities()[0]
+        points = entity_2.getCallPoints()
+        assert len(points) == 1
+        point_2 = points[0]
+        assert point_2.getShortName() == "dcp"
+        assert point_2.getCalledEntryRef().getValue() == "/mod/Entry"
+        assert point_2.getCalledEntryRef().getDest() == "BSW-MODULE-ENTRY"
+        assert point_2.getCalledFromWithinExclusiveAreaRef().getValue() == "/mod/Nesting"
+        assert point_2.getCalledFromWithinExclusiveAreaRef().getDest() == "EXCLUSIVE-AREA-NESTING-ORDER"
+
+    def test_round_trip_direct_call_point_empty(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        entity = behavior.createBswSchedulableEntity("ent")
+        entity.setImplementedEntryRef(_ref("/mod/Entry", "BSW-MODULE-ENTRY"))
+        entity.createBswDirectCallPoint("dcp")
+
+        out_file = tmp_path / "dcp_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        entity_2 = behavior_2.getBswSchedulableEntities()[0]
+        points = entity_2.getCallPoints()
+        assert len(points) == 1
+        point_2 = points[0]
+        assert point_2.getCalledEntryRef() is None
+        assert point_2.getCalledFromWithinExclusiveAreaRef() is None
+
+
+class TestWriterBswSynchronousServerCallPoints:
+    def test_sync_server_call_point(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createBswSchedulableEntity("ent")
+        point = entity.createBswSynchronousServerCallPoint("scp")
+        point.setCalledEntryRef(_ref("/e", "BSW-MODULE-CLIENT-SERVER-ENTRY"))
+        point.setCalledFromWithinExclusiveAreaRef(_ref("/n", "EXCLUSIVE-AREA-NESTING-ORDER"))
+        parent = _parent()
+        writer.writeBswSynchronousServerCallPoint(parent, point)
+        assert parent[0].tag == "BSW-SYNCHRONOUS-SERVER-CALL-POINT"
+        entry_ref = parent[0].find("CALLED-ENTRY-REF")
+        assert entry_ref is not None
+        assert entry_ref.text == "/e"
+        assert entry_ref.get("DEST") == "BSW-MODULE-CLIENT-SERVER-ENTRY"
+        area_ref = parent[0].find("CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF")
+        assert area_ref is not None
+        assert area_ref.text == "/n"
+        assert area_ref.get("DEST") == "EXCLUSIVE-AREA-NESTING-ORDER"
+        tags = [c.tag for c in parent[0]]
+        assert tags.index("CALLED-ENTRY-REF") < tags.index("CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF")
+
+    def test_sync_server_call_point_empty(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createBswSchedulableEntity("ent")
+        entity.createBswSynchronousServerCallPoint("scp")
+        parent = _parent()
+        writer.writeBswSynchronousServerCallPoint(parent, entity.getCallPoints()[0])
+        assert parent[0].tag == "BSW-SYNCHRONOUS-SERVER-CALL-POINT"
+        assert parent[0].find("CALLED-ENTRY-REF") is None
+        assert parent[0].find("CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF") is None
+
+    def test_entity_call_points_sync_server_call_point_dispatch(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createBswSchedulableEntity("ent")
+        entity.createBswSynchronousServerCallPoint("scp").setCalledEntryRef(_ref("/e", "BSW-MODULE-CLIENT-SERVER-ENTRY"))
+        parent = _parent()
+        writer.writeBswModuleEntityCallPoints(parent, entity)
+        child_tags = [c.tag for c in parent[0]]
+        assert child_tags == ["BSW-SYNCHRONOUS-SERVER-CALL-POINT"]
+
+
+class TestWriterBswSynchronousServerCallPointRoundTrip:
+    def test_round_trip_sync_server_call_point(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        entity = behavior.createBswSchedulableEntity("ent")
+        entity.setImplementedEntryRef(_ref("/mod/Entry", "BSW-MODULE-ENTRY"))
+        point = entity.createBswSynchronousServerCallPoint("scp")
+        point.setCalledEntryRef(_ref("/mod/Entry", "BSW-MODULE-CLIENT-SERVER-ENTRY"))
+        point.setCalledFromWithinExclusiveAreaRef(_ref("/mod/Nesting", "EXCLUSIVE-AREA-NESTING-ORDER"))
+
+        out_file = tmp_path / "scp_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        entity_2 = behavior_2.getBswSchedulableEntities()[0]
+        points = entity_2.getCallPoints()
+        assert len(points) == 1
+        point_2 = points[0]
+        assert point_2.getShortName() == "scp"
+        assert point_2.getCalledEntryRef().getValue() == "/mod/Entry"
+        assert point_2.getCalledEntryRef().getDest() == "BSW-MODULE-CLIENT-SERVER-ENTRY"
+        assert point_2.getCalledFromWithinExclusiveAreaRef().getValue() == "/mod/Nesting"
+        assert point_2.getCalledFromWithinExclusiveAreaRef().getDest() == "EXCLUSIVE-AREA-NESTING-ORDER"
+
+    def test_round_trip_sync_server_call_point_empty(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        entity = behavior.createBswSchedulableEntity("ent")
+        entity.setImplementedEntryRef(_ref("/mod/Entry", "BSW-MODULE-ENTRY"))
+        entity.createBswSynchronousServerCallPoint("scp")
+
+        out_file = tmp_path / "scp_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        entity_2 = behavior_2.getBswSchedulableEntities()[0]
+        points = entity_2.getCallPoints()
+        assert len(points) == 1
+        point_2 = points[0]
+        assert point_2.getCalledEntryRef() is None
+        assert point_2.getCalledFromWithinExclusiveAreaRef() is None
+
 
 class TestWriterBswInternalBehaviorSchedulerNamePrefixes:
     def test_scheduler_name_prefixes(self, writer):
@@ -471,13 +803,22 @@ class TestWriterBswInternalBehaviorEntities:
     def test_interrupt_entity(self, writer):
         behavior = _make_behavior()
         entity = behavior.createBswInterruptEntity("ie")
-        entity.setInterruptCategory(_literal("cat1"))
-        entity.setInterruptSource(_literal("src"))
+        entity.setInterruptCategory(BswInterruptCategory().setValue(BswInterruptCategory.CAT1))
+        entity.setInterruptSource(String().setValue("src"))
         parent = _parent()
-        writer.setBswInterruptEntity(parent, entity)
+        writer.writeBswInterruptEntity(parent, entity)
         assert parent[0].tag == "BSW-INTERRUPT-ENTITY"
-        assert parent[0].find("INTERRUPT-CATEGORY").text == "cat1"
+        assert parent[0].find("INTERRUPT-CATEGORY").text == "CAT-1"
         assert parent[0].find("INTERRUPT-SOURCE").text == "src"
+
+    def test_interrupt_entity_empty(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createBswInterruptEntity("ie")
+        parent = _parent()
+        writer.writeBswInterruptEntity(parent, entity)
+        assert parent[0].tag == "BSW-INTERRUPT-ENTITY"
+        assert parent[0].find("INTERRUPT-CATEGORY") is None
+        assert parent[0].find("INTERRUPT-SOURCE") is None
 
     def test_dispatches_all_entity_types(self, writer):
         behavior = _make_behavior()
@@ -519,6 +860,286 @@ class TestWriterBswInternalBehaviorEntities:
         assert parent.find("MANAGED-MODE-GROUPS") is not None
         assert parent.find("ACCESSED-MODE-GROUPS") is not None
         assert parent.find("ISSUED-TRIGGERS") is not None
+
+
+class TestWriterBswInterruptEntityRoundTrip:
+    def test_round_trip_interrupt_entity(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        entity = behavior.createBswInterruptEntity("ie")
+        entity.setImplementedEntryRef(_ref("/mod/Entry", "BSW-MODULE-ENTRY"))
+        entity.setInterruptCategory(BswInterruptCategory().setValue(BswInterruptCategory.CAT2))
+        entity.setInterruptSource(String().setValue("CAN interrupt"))
+
+        out_file = tmp_path / "ie_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        entity_2 = behavior_2.getBswInterruptEntities()[0]
+        assert entity_2.getShortName() == "ie"
+        assert entity_2.getImplementedEntryRef().getValue() == "/mod/Entry"
+        assert isinstance(entity_2.getInterruptCategory(), BswInterruptCategory)
+        assert entity_2.getInterruptCategory().getValue() == "cat2"
+        assert isinstance(entity_2.getInterruptSource(), String)
+        assert entity_2.getInterruptSource().getValue() == "CAN interrupt"
+
+    def test_round_trip_interrupt_entity_empty(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        entity = behavior.createBswInterruptEntity("ie")
+        entity.setImplementedEntryRef(_ref("/mod/Entry", "BSW-MODULE-ENTRY"))
+
+        out_file = tmp_path / "ie_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        entity_2 = behavior_2.getBswInterruptEntities()[0]
+        assert entity_2.getInterruptCategory() is None
+        assert entity_2.getInterruptSource() is None
+
+
+class TestWriterBswAsynchronousServerCallReturnsEventRoundTrip:
+    def test_round_trip_asynchronous_server_call_returns_event(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        event = behavior.createBswAsynchronousServerCallReturnsEvent("ascr")
+        event.setEventSourceRef(_ref("/cp", "BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT"))
+
+        out_file = tmp_path / "ascr_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        event_2 = behavior_2.getBswAsynchronousServerCallReturnsEvents()[0]
+        assert isinstance(event_2, BswAsynchronousServerCallReturnsEvent)
+        assert event_2.getShortName() == "ascr"
+        assert event_2.getEventSourceRef().getValue() == "/cp"
+        assert event_2.getEventSourceRef().getDest() == "BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT"
+
+    def test_round_trip_asynchronous_server_call_returns_event_empty(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.createBswAsynchronousServerCallReturnsEvent("ascr")
+
+        out_file = tmp_path / "ascr_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        raw = out_file.read_text()
+        assert "EVENT-SOURCE-REF" not in raw
+        assert "STARTS-ON-EVENT-REF" not in raw
+        assert "ACTIVATION-REASON-REPRESENTATION-REF" not in raw
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        event_2 = behavior_2.getBswAsynchronousServerCallReturnsEvents()[0]
+        assert isinstance(event_2, BswAsynchronousServerCallReturnsEvent)
+        assert event_2.getEventSourceRef() is None
+
+
+class TestWriterBswDataReceivedEventRoundTrip:
+    def test_round_trip_data_received_event(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        event = behavior.createBswDataReceivedEvent("dre")
+        event.setDataRef(_ref("/d", "VARIABLE-DATA-PROTOTYPE"))
+
+        out_file = tmp_path / "dre_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        event_2 = behavior_2.getBswDataReceivedEvents()[0]
+        assert isinstance(event_2, BswDataReceivedEvent)
+        assert event_2.getShortName() == "dre"
+        assert event_2.getDataRef().getValue() == "/d"
+        assert event_2.getDataRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+
+    def test_round_trip_data_received_event_empty(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.createBswDataReceivedEvent("dre")
+
+        out_file = tmp_path / "dre_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        raw = out_file.read_text()
+        assert "DATA-REF" not in raw
+        assert "STARTS-ON-EVENT-REF" not in raw
+        assert "ACTIVATION-REASON-REPRESENTATION-REF" not in raw
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        event_2 = behavior_2.getBswDataReceivedEvents()[0]
+        assert isinstance(event_2, BswDataReceivedEvent)
+        assert event_2.getDataRef() is None
+
+
+class TestWriterBswInternalTriggerOccurredEventRoundTrip:
+    def test_round_trip_internal_trigger_occurred_event(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        event = behavior.createBswInternalTriggerOccurredEvent("ito")
+        event.setEventSourceRef(_ref("/s", "BSW-INTERNAL-TRIGGERING-POINT"))
+
+        out_file = tmp_path / "ito_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        event_2 = behavior_2.getBswInternalTriggerOccurredEvents()[0]
+        assert isinstance(event_2, BswInternalTriggerOccurredEvent)
+        assert event_2.getShortName() == "ito"
+        assert event_2.getEventSourceRef().getValue() == "/s"
+        assert event_2.getEventSourceRef().getDest() == "BSW-INTERNAL-TRIGGERING-POINT"
+
+    def test_round_trip_internal_trigger_occurred_event_empty(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.createBswInternalTriggerOccurredEvent("ito")
+
+        out_file = tmp_path / "ito_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        raw = out_file.read_text()
+        assert "EVENT-SOURCE-REF" not in raw
+        assert "STARTS-ON-EVENT-REF" not in raw
+        assert "ACTIVATION-REASON-REPRESENTATION-REF" not in raw
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        event_2 = behavior_2.getBswInternalTriggerOccurredEvents()[0]
+        assert isinstance(event_2, BswInternalTriggerOccurredEvent)
+        assert event_2.getEventSourceRef() is None
+
+
+class TestWriterBswModeManagerErrorEventRoundTrip:
+    def test_round_trip_mode_manager_error_event(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        event = behavior.createBswModeManagerErrorEvent("mme")
+        event.setModeGroupRef(_ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+
+        out_file = tmp_path / "mme_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        event_2 = behavior_2.getBswModeManagerErrorEvents()[0]
+        assert isinstance(event_2, BswModeManagerErrorEvent)
+        assert event_2.getShortName() == "mme"
+        assert event_2.getModeGroupRef().getValue() == "/mg"
+        assert event_2.getModeGroupRef().getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
+
+    def test_round_trip_mode_manager_error_event_empty(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.createBswModeManagerErrorEvent("mme")
+
+        out_file = tmp_path / "mme_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        raw = out_file.read_text()
+        assert "MODE-GROUP-REF" not in raw
+        assert "STARTS-ON-EVENT-REF" not in raw
+        assert "ACTIVATION-REASON-REPRESENTATION-REF" not in raw
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        event_2 = behavior_2.getBswModeManagerErrorEvents()[0]
+        assert isinstance(event_2, BswModeManagerErrorEvent)
+        assert event_2.getModeGroupRef() is None
 
 
 class TestWriterBswEvents:
@@ -707,6 +1328,120 @@ class TestWriterBswModeSenderPolicy:
         writer.writeBswInternalBehaviorIncludedModeDeclarationGroupSets(parent, behavior)
         assert len(parent) == 0
 
+    def test_set_bsw_mode_switch_ack_request_timeout_value(self, writer):
+        ack = BswModeSwitchAckRequest()
+        ack.setTimeout(_time(5.0))
+        parent = _parent()
+        writer.setBswModeSwitchAckRequest(parent, "ACK-REQUEST", ack)
+        assert parent[0].tag == "ACK-REQUEST"
+        timeout_el = parent[0].find("TIMEOUT")
+        assert timeout_el is not None
+        assert timeout_el.text == "5.0"
+
+    def test_set_bsw_mode_switch_ack_request_none_emits_nothing(self, writer):
+        parent = _parent()
+        writer.setBswModeSwitchAckRequest(parent, "ACK-REQUEST", None)
+        assert len(parent) == 0
+
+
+class TestWriterBswModeSwitchAckRequestRoundTrip:
+    def test_round_trip_mode_switch_ack_request(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        policy = BswModeSenderPolicy()
+        policy.setEnhancedModeApi(_bool(True))
+        policy.setQueueLength(_posint(3))
+        ack = BswModeSwitchAckRequest()
+        ack.setTimeout(_time(5.0))
+        policy.setAckRequest(ack)
+        behavior.addModeSenderPolicy(policy)
+
+        out_file = tmp_path / "ack_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policy_2 = behavior_2.getModeSenderPolicies()[0]
+        ack_2 = policy_2.getAckRequest()
+        assert isinstance(ack_2, BswModeSwitchAckRequest)
+        assert isinstance(ack_2.getTimeout(), TimeValue)
+        assert ack_2.getTimeout().getValue() == 5.0
+        assert policy_2.getEnhancedModeApi().value is True
+        assert policy_2.getQueueLength().getValue() == 3
+
+    def test_round_trip_mode_switch_ack_request_empty(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.addModeSenderPolicy(BswModeSenderPolicy())
+
+        out_file = tmp_path / "ack_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        raw = out_file.read_text()
+        assert "ACK-REQUEST" not in raw
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policy_2 = behavior_2.getModeSenderPolicies()[0]
+        assert policy_2.getAckRequest() is None
+
+
+class TestWriterBswApiOptions:
+    def test_write_bsw_api_options_serializes_value(self, writer):
+        policy = BswQueuedDataReceptionPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        parent = _parent()
+        writer.writeBswDataReceptionPolicy(parent, policy)
+        element = parent.find("ENABLE-TAKE-ADDRESS")
+        assert element is not None
+        assert element.text == "true"
+
+    def test_write_bsw_api_options_unset_omits_element(self, writer):
+        policy = BswQueuedDataReceptionPolicy()
+        parent = _parent()
+        writer.writeBswDataReceptionPolicy(parent, policy)
+        assert parent.find("ENABLE-TAKE-ADDRESS") is None
+
+    def test_bsw_api_options_round_trip(self, writer):
+        policy = BswQueuedDataReceptionPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        parent = _parent()
+        writer.writeBswDataReceptionPolicy(parent, policy)
+        xml_text = "".join(ET.tostring(child, encoding="unicode") for child in parent)
+        reloaded = ET.fromstring("<ROOT xmlns='http://autosar.org/schema/r4.0'>%s</ROOT>" % xml_text)
+        parsed = BswQueuedDataReceptionPolicy()
+        ARXMLParser().readBswApiOptions(reloaded, parsed)
+        assert parsed.getEnableTakeAddress() is not None
+        assert parsed.getEnableTakeAddress().getValue() is True
+
+    def test_bsw_api_options_round_trip_unset(self, writer):
+        policy = BswQueuedDataReceptionPolicy()
+        parent = _parent()
+        writer.writeBswDataReceptionPolicy(parent, policy)
+        xml_text = "".join(ET.tostring(child, encoding="unicode") for child in parent)
+        reloaded = ET.fromstring("<ROOT xmlns='http://autosar.org/schema/r4.0'>%s</ROOT>" % xml_text)
+        parsed = BswQueuedDataReceptionPolicy()
+        ARXMLParser().readBswApiOptions(reloaded, parsed)
+        assert parsed.getEnableTakeAddress() is None
+
 
 class TestWriterBswReceptionPolicies:
     def test_queued_data_reception_policy(self, writer):
@@ -718,8 +1453,22 @@ class TestWriterBswReceptionPolicies:
         writer.writeBswQueuedDataReceptionPolicy(parent, policy)
         assert parent[0].tag == "BSW-QUEUED-DATA-RECEPTION-POLICY"
         assert parent[0].find("ENABLE-TAKE-ADDRESS") is not None
-        assert parent[0].find("RECEIVED-DATA-REF") is not None
+        assert parent[0].find("ENABLE-TAKE-ADDRESS").text == "true"
+        received_ref = parent[0].find("RECEIVED-DATA-REF")
+        assert received_ref is not None
+        assert received_ref.text == "/d"
+        assert received_ref.attrib["DEST"] == "VARIABLE-DATA-PROTOTYPE"
         assert parent[0].find("QUEUE-LENGTH") is not None
+        assert parent[0].find("QUEUE-LENGTH").text == "3"
+
+    def test_queued_data_reception_policy_unset_omits_elements(self, writer):
+        policy = BswQueuedDataReceptionPolicy()
+        parent = _parent()
+        writer.writeBswQueuedDataReceptionPolicy(parent, policy)
+        assert parent[0].tag == "BSW-QUEUED-DATA-RECEPTION-POLICY"
+        assert parent[0].find("ENABLE-TAKE-ADDRESS") is None
+        assert parent[0].find("RECEIVED-DATA-REF") is None
+        assert parent[0].find("QUEUE-LENGTH") is None
 
     def test_behavior_reception_policies(self, writer):
         behavior = _make_behavior()
@@ -736,6 +1485,68 @@ class TestWriterBswReceptionPolicies:
         parent = _parent()
         writer.writeBswInternalBehaviorReceptionPolicies(parent, behavior)
         assert len(parent) == 0
+
+
+class TestWriterBswQueuedDataReceptionPolicyRoundTrip:
+    def test_round_trip_queued_data_reception_policy(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        policy = BswQueuedDataReceptionPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        policy.setReceivedDataRef(_ref("/d", "VARIABLE-DATA-PROTOTYPE"))
+        policy.setQueueLength(_posint(3))
+        behavior.addReceptionPolicy(policy)
+
+        out_file = tmp_path / "reception_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policy_2 = behavior_2.getReceptionPolicies()[0]
+        assert isinstance(policy_2, BswQueuedDataReceptionPolicy)
+        assert policy_2.getEnableTakeAddress().value is True
+        assert policy_2.getReceivedDataRef().getValue() == "/d"
+        assert policy_2.getReceivedDataRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+        assert policy_2.getQueueLength().getValue() == 3
+
+    def test_round_trip_queued_data_reception_policy_unset(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.addReceptionPolicy(BswQueuedDataReceptionPolicy())
+
+        out_file = tmp_path / "reception_unset_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        raw = out_file.read_text()
+        assert "ENABLE-TAKE-ADDRESS" not in raw
+        assert "RECEIVED-DATA-REF" not in raw
+        assert "QUEUE-LENGTH" not in raw
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policy_2 = behavior_2.getReceptionPolicies()[0]
+        assert isinstance(policy_2, BswQueuedDataReceptionPolicy)
+        assert policy_2.getEnableTakeAddress() is None
+        assert policy_2.getReceivedDataRef() is None
+        assert policy_2.getQueueLength() is None
 
     def test_writeBswDataReceptionPolicy_direct(self, writer):
         policy = BswQueuedDataReceptionPolicy()
@@ -1063,6 +1874,65 @@ class TestWriterBswInternalTriggeringPointPolicyRoundTrip:
         assert len(policies) == 1
         assert policies[0].getBswInternalTriggeringPointRef() is None
         assert policies[0].getEnableTakeAddress() is None
+
+
+class TestWriterBswInternalTriggeringPointRoundTrip:
+    def test_round_trip_internal_triggering_point(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        point = behavior.createBswInternalTriggeringPoint("tp")
+        point.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.QUEUED))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        point.setVariationPoint(variation_point)
+
+        out_file = tmp_path / "itp_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        points = behavior_2.getInternalTriggeringPoints()
+        assert len(points) == 1
+        point_2 = points[0]
+        assert point_2.getShortName() == "tp"
+        assert point_2.getSwImplPolicy() is not None
+        assert point_2.getSwImplPolicy().getValue() == "queued"
+        assert point_2.getVariationPoint() is not None
+        assert point_2.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_round_trip_internal_triggering_point_empty(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.createBswInternalTriggeringPoint("tp")
+
+        out_file = tmp_path / "itp_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        points = behavior_2.getInternalTriggeringPoints()
+        assert len(points) == 1
+        point_2 = points[0]
+        assert point_2.getSwImplPolicy() is None
+        assert point_2.getVariationPoint() is None
 
 
 class TestWriterBswParameterPolicies:
@@ -1547,9 +2417,46 @@ class TestWriterBswInternalTriggeringPoints:
     def test_internal_triggering_point(self, writer):
         behavior = _make_behavior()
         point = behavior.createBswInternalTriggeringPoint("itp")
+        point.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.QUEUED))
         parent = _parent()
         writer.writeBswInternalTriggeringPoint(parent, point)
         assert parent[0].tag == "BSW-INTERNAL-TRIGGERING-POINT"
+        policy_element = parent[0].find("SW-IMPL-POLICY")
+        assert policy_element is not None
+        assert policy_element.text == "QUEUED"
+        vp = parent[0].find("VARIATION-POINT")
+        assert vp is None
+
+    def test_internal_triggering_point_variation_point(self, writer):
+        behavior = _make_behavior()
+        point = behavior.createBswInternalTriggeringPoint("itp")
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        point.setVariationPoint(variation_point)
+        parent = _parent()
+        writer.writeBswInternalTriggeringPoint(parent, point)
+        assert parent[0].find("VARIATION-POINT") is not None
+
+    def test_internal_triggering_point_element_order(self, writer):
+        behavior = _make_behavior()
+        point = behavior.createBswInternalTriggeringPoint("itp")
+        point.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.STANDARD))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        point.setVariationPoint(variation_point)
+        parent = _parent()
+        writer.writeBswInternalTriggeringPoint(parent, point)
+        tags = [c.tag for c in parent[0]]
+        assert tags.index("SW-IMPL-POLICY") < tags.index("VARIATION-POINT")
+
+    def test_internal_triggering_point_empty(self, writer):
+        behavior = _make_behavior()
+        behavior.createBswInternalTriggeringPoint("itp")
+        parent = _parent()
+        writer.writeBswInternalTriggeringPoint(parent, behavior.getInternalTriggeringPoints()[0])
+        assert parent[0].tag == "BSW-INTERNAL-TRIGGERING-POINT"
+        assert parent[0].find("SW-IMPL-POLICY") is None
+        assert parent[0].find("VARIATION-POINT") is None
 
     def test_behavior_internal_triggering_points(self, writer):
         behavior = _make_behavior()
