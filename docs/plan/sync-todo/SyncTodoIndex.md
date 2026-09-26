@@ -219,7 +219,7 @@ Status: **93/94** completed
 | `Compu`                                | [x] Done    | dac94a9f  |
 | `CompuMethod`                          | [x] Done    | 135f42e5  |
 | `CompuScale`                           | [x] Done    | 057a1039  |
-| `CompuScales`                          | [x] Done*| 94d4eed6  |
+| `CompuScales`                          | [x] Done | 64d125ffa |
 | `DataConstrRule`                       | [x] Done    | fa640a0d  |
 | `DataConstr`                           | [x] Done    | 9927cc9e  |
 | `CompositeValueSpecification`          | [x] Done    | cc842d74  |
@@ -330,7 +330,7 @@ Status: **70/70** completed
 | `ConsumedProvidedServiceInstanceGroup`  | [x] Done | fce66955  |
 | `ClientIdRange`                         | [x] Done | fce66955  |
 | `PrivacyLevel`                          | [x] Done | fb222ae5  |
-| `DltArgument`                           | [x] Done*| fb222ae5  |
+| `DltArgument`                           | [x] Done | 64d125ffa |
 | `DltMessage`                            | [x] Done | c42f8ae9  |
 | `DltContext`                            | [x] Done | c42f8ae9  |
 | `DltApplication`                        | [x] Done | c42f8ae9  |
@@ -343,7 +343,7 @@ Status: **70/70** completed
 | `DiagnosticConnection`                  | [x] Done | e96086c1  |
 | `EthernetPhysicalChannel`               | [x] Done | 206cf295  |
 | `FrameTriggering`                       | [x] Done | 206cf295  |
-| `ContainedIPduCollectionSemanticsEnum`  | [x] Done*| 206cf295  |
+| `ContainedIPduCollectionSemanticsEnum`  | [x] Done | 64d125ffa |
 | `PduCollectionTriggerEnum`              | [x] Done | 206cf295  |
 | `ContainedIPduProps`                    | [x] Done | 206cf295  |
 | `ModeDrivenTransmissionModeCondition`   | [x] Done | 206cf295  |
@@ -426,9 +426,9 @@ Status: **34/34** completed
 | `HwAttributeValue`                            | [x] Done | 269d34d9  |
 | `HwAttributeLiteralDef`                       | [x] Done | 5d767ace  |
 | `CryptoKeySlot`                               | [x] Done | a02f6175  |
-| `AbstractDoIpLogicAddressProps`               | [x] Done*| bbfb9605  |
-| `DoIpLogicTargetAddressProps`                 | [x] Done*| 603091fa  |
-| `DoIpLogicTesterAddressProps`                 | [x] Done*| 0cca7684  |
+| `AbstractDoIpLogicAddressProps`               | [x] Done | 64d125ffa |
+| `DoIpLogicTargetAddressProps`                 | [x] Done | 64d125ffa |
+| `DoIpLogicTesterAddressProps`                 | [x] Done | 64d125ffa |
 | `DoIpTpConfig`                                | [x] Done | ac63e581  |
 | `FirewallRuleProps`                           | [x] Done | 89039bf2  |
 | `IdsPlatformInstantiation`                    | [x] Done | 5d4cc1c4  |
@@ -692,7 +692,7 @@ Status: **0/23** completed
 | Class Name                             | Status      | Commit ID |
 | -------------------------------------- | ----------- | --------- |
 | `CommunicationDirectionType`           | [ ] Pending | N/A       |
-| `ContainedIPduCollectionSemanticsEnum` | [ ] Pending*| N/A       |
+| `ContainedIPduCollectionSemanticsEnum` | [ ] Pending | N/A       |
 | `TransferPropertyEnum`                 | [ ] Pending | N/A       |
 | `MultiplexedPart`                      | [ ] Pending | N/A       |
 | `DynamicPart`                          | [ ] Pending | N/A       |
@@ -851,7 +851,7 @@ Status: **0/25** completed
 | `HardwareConfiguration`            | [ ] Pending | N/A       |
 | `SoftwareContext`                  | [ ] Pending | N/A       |
 | `DltApplication`                   | [ ] Pending | N/A       |
-| `DltArgument`                      | [ ] Pending*| N/A       |
+| `DltArgument`                      | [ ] Pending | N/A       |
 | `DltContext`                       | [ ] Pending | N/A       |
 | `SoAdRoutingGroup`                 | [ ] Pending | N/A       |
 | `StackUsage`                       | [ ] Pending | N/A       |

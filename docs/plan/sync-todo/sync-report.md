@@ -11,7 +11,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ARObject`                                              | [x] Done    | 78ae363c                                 | Group1           |
 | `ARPackage`                                             | [x] Done    | 36064817                                 | Group1           |
 | `AUTOSAR`                                               | [x] Done    | 74f4d3c8                                 | Group1           |
-| `AbstractDoIpLogicAddressProps`                         | [x] Deferred| bbfb9605                                 | Group7           |
+| `AbstractDoIpLogicAddressProps`                         | [x] Done    | 64d125ffa                                | Group7           |
 | `AbstractEnumerationValueVariationPoint`                | [ ] Deferred| N/A                                      | Group8           |
 | `AbstractEthernetFrame`                                 | [x] Done    | ef0708e2                                 | Group6           |
 | `AbstractImplementationDataType`                        | [x] Done    | 9b5379d3                                 | Group1           |
@@ -149,7 +149,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CompuScaleConstantContents`                            | [x] Done    | 3d859c80                                 | Group3           |
 | `CompuScaleContents`                                    | [x] Done    | 88acf483                                 | Group3           |
 | `CompuScaleRationalFormula`                             | [x] Done    | 5a21470c                                 | Group3           |
-| `CompuScales`                                           | [x] Deferred| 94d4eed6                                 | Group3           |
+| `CompuScales`                                           | [x] Done    | 64d125ffa                                | Group3           |
 | `ConcreteTDEventVfb`                                    | [ ] Deferred| N/A                                      | Group8           |
 | `ConditionByFormula`                                    | [ ] Deferred| N/A                                      | Group8           |
 | `ConfigReferenceValue`                                  | [ ] Pending | N/A                                      | Group19          |
@@ -157,7 +157,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ConstantSpecification`                                 | [ ] Deferred| N/A                                      | Group9           |
 | `ConstantSpecificationMappingSet`                       | [x] Done    | 8e5acbb2b1853163dc88ea0376143c58056eaccf | Group1           |
 | `ConsumedProvidedServiceInstanceGroup`                  | [x] Done    | fce66955                                 | Group5           |
-| `ContainedIPduCollectionSemanticsEnum`                  | [x] Deferred| 206cf295                                 | Group5, Group15  |
+| `ContainedIPduCollectionSemanticsEnum`                  | [x] Done    | 64d125ffa                                | Group5, Group15  |
 | `ContainedIPduProps`                                    | [x] Done    | 206cf295                                 | Group5           |
 | `CouplingPortAbstractShaper`                            | [ ] Pending | N/A                                      | Group16          |
 | `CouplingPortScheduler`                                 | [x] Done    | 7617e250                                 | Group6           |
@@ -240,7 +240,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticValueNeeds`                                  | [ ] Pending | N/A                                      | Group14          |
 | `DiagnosticsCommunicationSecurityNeeds`                 | [x] Done    | d24a6663                                 | Group4           |
 | `DltApplication`                                        | [x] Done    | c42f8ae9                                 | Group5, Group20  |
-| `DltArgument`                                           | [x] Deferred| fb222ae5                                 | Group5, Group20  |
+| `DltArgument`                                           | [x] Done    | 64d125ffa                                | Group5, Group20  |
 | `DltConfig`                                             | [x] Done    | f1eb819e                                 | Group5           |
 | `DltContext`                                            | [x] Done    | c42f8ae9                                 | Group5, Group20  |
 | `DltDefaultTraceStateEnum`                              | [x] Done    | f1eb819e                                 | Group5           |
@@ -255,8 +255,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DoIpGidSynchronizationNeeds`                           | [x] Done    | c64cb631                                 | Group4, Group4   |
 | `DoIpInterface`                                         | [x] Done    | c53a7feb                                 | Group5           |
 | `DoIpLogicAddress`                                      | [ ] Pending | N/A                                      | Group20          |
-| `DoIpLogicTargetAddressProps`                           | [x] Deferred| 603091fa                                 | Group7           |
-| `DoIpLogicTesterAddressProps`                           | [x] Deferred| 0cca7684                                 | Group7           |
+| `DoIpLogicTargetAddressProps`                           | [x] Done    | 64d125ffa                                | Group7           |
+| `DoIpLogicTesterAddressProps`                           | [x] Done    | 64d125ffa                                | Group7           |
 | `DoIpPowerModeStatusNeeds`                              | [x] Done    | 4350642e                                 | Group5           |
 | `DoIpRoutingActivation`                                 | [x] Done    | c53a7feb                                 | Group5           |
 | `DoIpRule`                                              | [ ] Pending | N/A                                      | Group20          |

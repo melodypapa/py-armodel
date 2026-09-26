@@ -127,7 +127,7 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 7 — Update checklist comment — 6-column parity checklist present, `# Spec: AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf, Table B.5, p.58`, release column R23-11, no marker (stamp deferred)
   - [x] Step 8 — Deviations — none: the clean Table B.5 pass confirms the a02f6175 class state (the XSD-built member types CryptoObjectTypeEnum/CryptoKeySlotTypeEnum/CryptoKeySlotAllowedModification/CryptoKeySlotContentAllowedUsage verified genuinely XSD-only and stand, unchanged); no drift found in any step — this re-sync is a verification-only record
   - [x] Step 9 — Verify (9a) + confirm (9b) — confirmed by user
-- [x] `AbstractDoIpLogicAddressProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.208) — commit: bbfb9605
+- [x] `AbstractDoIpLogicAddressProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.208) — **stamped `# Spec verified: R23-11` 2026-09-26** (user 9b re-confirmation — stamp commit: 64d125ffa) — commit: bbfb9605
   - [x] Step 1 — Sync members & description from spec — Table 6.208 p.556: abstract, Package DoIP, no attributes, Base ARObject/Identifiable/MultilanguageReferrable/Referrable, Aggregated by DoIpLogicAddress.doIpLogicAddressProps
   - [x] Step 2 — Write model class unit test (Red) — test_DoIP.py Test_AbstractDoIpLogicAddressProps: abstract raise, verbatim docstring, init doc None, base accessors via concrete subclass (docstring check failed as expected)
   - [x] Step 3 — Implement model class (Green) — class shape already correct (Identifiable + ABC, abstract guard); no members per table
@@ -136,8 +136,8 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 6 — Update parser & writer (Green) — N/A: no own XML element; concrete subclasses serialize inside read/writeDoIpLogicAddress
   - [x] Step 7 — Update checklist comment — 6-col parity checklist, reader/writer [—]
   - [x] Step 8 — Deviations — none
-  - [x] Step 9 — Verify (9a) + confirm (9b) — confirmed by user
-- [x] `DoIpLogicTargetAddressProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.209) — commit: 603091fa
+  - [x] Step 9 — Verify (9a) + confirm (9b) — confirmed by user — **stamp written 2026-09-26 (`# Spec verified: R23-11`, stamp commit: 64d125ffa)**
+- [x] `DoIpLogicTargetAddressProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.209) — **stamped `# Spec verified: R23-11` 2026-09-26** (user 9b re-confirmation — stamp commit: 64d125ffa) — commit: 603091fa
   - [x] Step 1 — Sync members & description from spec — Table 6.209 p.556: concrete, Base AbstractDoIpLogicAddressProps, no attributes, Note text taken from XSD documentation (markdown splits "DoIpLogic TargetAddress" at line wrap)
   - [x] Step 2 — Write model class unit test (Red) — test_DoIP.py Test_DoIpLogicTargetAddressProps: inheritance, verbatim docstring, defaults, init doc None (docstring check failed as expected)
   - [x] Step 3 — Implement model class (Green) — no own members per table; base class already correct
@@ -146,8 +146,8 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 6 — Update parser & writer (Green) — readDoIpLogicAddressProps/writeDoIpLogicAddressProps (DO-IP-LOGIC-TARGET-ADDRESS-PROPS branch) called from read/writeDoIpLogicAddress
   - [x] Step 7 — Update checklist comment — 6-col parity checklist, reader/writer [—] on __init__ row (element content is inherited Identifiable only; dispatch covered in parser/writer tests)
   - [x] Step 8 — Deviations — none
-  - [x] Step 9 — Verify (9a) + confirm (9b) — confirmed by user
-- [x] `DoIpLogicTesterAddressProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.210) — commit: 0cca7684
+  - [x] Step 9 — Verify (9a) + confirm (9b) — confirmed by user — **stamp written 2026-09-26 (`# Spec verified: R23-11`, stamp commit: 64d125ffa)**
+- [x] `DoIpLogicTesterAddressProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.210) — **stamped `# Spec verified: R23-11` 2026-09-26** (user 9b re-confirmation — stamp commit: 64d125ffa) — commit: 0cca7684
   - [x] Step 1 — Sync members & description from spec — Table 6.210 p.557: concrete, Base AbstractDoIpLogicAddressProps, 1 attribute doIpTesterRoutingActivation (DoIpRoutingActivation, *, ref); Note text from XSD documentation
   - [x] Step 2 — Write model class unit test (Red) — test_DoIP.py Test_DoIpLogicTesterAddressProps: inheritance, verbatim docstring, defaults, member order, add accessor None no-op + returns self (4 failed as expected)
   - [x] Step 3 — Implement model class (Green) — singular doIpTesterRoutingActivationRef get/set (naming deviation vs Rule 0001.5) replaced with doIpTesterRoutingActivationRefs list + addDoIpTesterRoutingActivationRef/getDoIpTesterRoutingActivationRefs
@@ -156,7 +156,7 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [x] Step 6 — Update parser & writer (Green) — DO-IP-LOGIC-TESTER-ADDRESS-PROPS branch in read/writeDoIpLogicAddressProps (getChildElementRefTypeList / setChildElementOptionalRefType)
   - [x] Step 7 — Update checklist comment — 6-col parity checklist, reader [x] on add row, writer [x] on get row
   - [x] Step 8 — Deviations — none remaining (old singular accessor rename was to-fix, fixed in Step 3)
-  - [x] Step 9 — Verify (9a) + confirm (9b) — confirmed by user
+  - [x] Step 9 — Verify (9a) + confirm (9b) — confirmed by user — **stamp written 2026-09-26 (`# Spec verified: R23-11`, stamp commit: 64d125ffa)**
 - [x] `DoIpTpConfig` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.205 · after the DoIp props classes) — commit: ac63e581
   - [x] Step 1 — Sync members & description from spec — Table 6.205 p.555: Base chain to TpConfig; attributes doIpLogicAddress (DoIpLogicAddress, *, aggr) + tpConnection (DoIpTpConnection, *, aggr); Note text from XSD documentation ("Tags: atp.recommendedPackage=TpConfigs" is appinfo metadata, dropped from docstring per repo precedent)
   - [x] Step 2 — Write model class unit test (Red) — test_TransportProtocols.py Test_DoIpTpConfig: inheritance, verbatim docstring, defaults, member order, createDoIpLogicAddress duplicate-returns-existing, addTpConnection None no-op (docstring check failed as expected)
