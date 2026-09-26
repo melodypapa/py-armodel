@@ -506,8 +506,10 @@ class TestMixedContentForPlainText:
         assert content.getMixedString() is None
 
     def test_base_anchoring(self):
-        """Most-derived base anchoring per Table 9.94 Base row ARObject + the <<atpMixedString>> mixin (sibling MCFOP shape; the WhitespaceControlled re-parent belongs to that class's own queue row)."""
-        assert MixedContentForPlainText.__bases__ == (ARObject, AtpMixedString, ABC)
+        """Most-derived base anchoring per the Table 9.94 Base row `ARObject , WhitespaceControlled` (WhitespaceControlled already derives ARObject) + the <<atpMixedString>> mixin per Rule 0021."""
+        assert MixedContentForPlainText.__bases__ == (WhitespaceControlled, AtpMixedString, ABC)
+        assert issubclass(MixedContentForPlainText, WhitespaceControlled)
+        assert issubclass(MixedContentForPlainText, ARObject)
 
     def test_docstring_verbatim(self):
         """Docstring must equal the spec Note from Table 9.94 verbatim."""
@@ -528,16 +530,31 @@ class TestMixedContentForPlainText:
         content.setMixedString(None)
         assert content.getMixedString() == "plain text"
 
-    def test_has_no_own_members(self):
-        """Field-to-spec cross-check: Table 9.94 carries no Attribute rows, so MixedContentForPlainText adds no fields beyond the ARObject anchor."""
+    def test_inherits_whitespace_controlled_accessors(self):
+        """Table 9.94 Base row names WhitespaceControlled, so the class inherits getXmlSpace/setXmlSpace (the value serializes on the consuming L-10 element, not on this class)."""
 
-        class _BareARObject(ARObject):
+        class ConcreteMixedContent(MixedContentForPlainText):
+            pass
+
+        content = ConcreteMixedContent()
+        assert content.getXmlSpace() is None
+        value = XmlSpaceEnum().setValue(XmlSpaceEnum.PRESERVE)
+        assert content.setXmlSpace(value) is content
+        assert content.getXmlSpace() is value
+        assert content.getXmlSpace().getValue() == "preserve"
+        content.setXmlSpace(None)
+        assert content.getXmlSpace() is value
+
+    def test_has_no_own_members(self):
+        """Field-to-spec cross-check: Table 9.94 carries no Attribute rows, so MixedContentForPlainText adds no fields beyond its declared bases."""
+
+        class _BareBases(WhitespaceControlled, AtpMixedString, ABC):
             pass
 
         class ConcreteMixedContent(MixedContentForPlainText):
             pass
 
-        assert set(vars(ConcreteMixedContent()).keys()) == set(vars(_BareARObject()).keys())
+        assert set(vars(ConcreteMixedContent()).keys()) == set(vars(_BareBases()).keys())
 
 
 class TestLPlainText:

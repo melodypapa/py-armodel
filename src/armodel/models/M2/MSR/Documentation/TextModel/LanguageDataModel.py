@@ -992,19 +992,21 @@ class WhitespaceControlled(ARObject, ABC):
         return self
 
 
-class MixedContentForPlainText(ARObject, AtpMixedString, ABC):
+class MixedContentForPlainText(WhitespaceControlled, AtpMixedString, ABC):
     """
     This represents a plain text which conceptually is handled as mixed contents. It is modeled as such for symmetry reasons.
     """
 
     # MixedContentForPlainText method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.94, p.349
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no own attributes — Table 9.94 Attribute rows: none; XSD group MIXED-CONTENT-FOR-PLAIN-TEXT
     #  (AUTOSAR_00052.xsd L81507) is an empty sequence, so the class serializes nothing itself —
     #  concrete subclasses (LPlainText) serialize via their own element helpers;
-    #  getMixedString/setMixedString provided by the AtpMixedString base (mixin) — no spec row (stereotype-inherent))
+    #  getMixedString/setMixedString provided by the AtpMixedString base (mixin) — no spec row (stereotype-inherent);
+    #  getXmlSpace/setXmlSpace inherited from the WhitespaceControlled base (Table 9.7) — tracked on that class's checklist)
 
     def __init__(self):
         if type(self) is MixedContentForPlainText:
