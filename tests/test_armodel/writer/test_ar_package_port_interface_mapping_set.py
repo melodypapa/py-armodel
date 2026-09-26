@@ -16,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ClientServerApplicationErrorMapping,
+    ClientServerInterfaceMapping,
     ClientServerOperationMapping,
     DataPrototypeMapping,
     PortInterfaceMappingSet,
@@ -431,3 +432,80 @@ class TestWriteClientServerInterfaceMappingOperationMappings:
         assert om2.getFirstToSecondDataTransformationRef().getDest() == "DATA-TRANSFORMATION"
         assert om2.getSecondOperationRef().getValue() == "/ifc2/op2"
         assert om2.getSecondOperationRef().getDest() == "CLIENT-SERVER-OPERATION"
+
+
+class TestWriteClientServerInterfaceMapping:
+    """Class-level orchestrator (Table 4.23): wrappers in XSD order, SHORT-NAME, omission when empty, round-trip."""
+
+    def _make_mapping(self):
+        mapping_set = _mapping_set()
+        csim = mapping_set.createClientServerInterfaceMapping("csim")
+
+        error_mapping = ClientServerApplicationErrorMapping()
+        first_error = RefType()
+        first_error.setDest("APPLICATION-ERROR")
+        first_error.setValue("/Ifc1/E1")
+        error_mapping.setFirstApplicationErrorRef(first_error)
+        second_error = RefType()
+        second_error.setDest("APPLICATION-ERROR")
+        second_error.setValue("/Ifc2/E2")
+        error_mapping.setSecondApplicationErrorRef(second_error)
+        csim.addErrorMapping(error_mapping)
+
+        operation_mapping = ClientServerOperationMapping()
+        first_op = RefType()
+        first_op.setDest("CLIENT-SERVER-OPERATION")
+        first_op.setValue("/Ifc1/Op1")
+        operation_mapping.setFirstOperationRef(first_op)
+        second_op = RefType()
+        second_op.setDest("CLIENT-SERVER-OPERATION")
+        second_op.setValue("/Ifc2/Op2")
+        operation_mapping.setSecondOperationRef(second_op)
+        csim.addOperationMapping(operation_mapping)
+        return mapping_set, csim
+
+    def test_write_field_values_in_xsd_order(self, writer):
+        _, csim = self._make_mapping()
+
+        element = ET.Element("PARENT")
+        ARXMLWriter().writeClientServerInterfaceMapping(element, csim)
+
+        written = element.find("CLIENT-SERVER-INTERFACE-MAPPING")
+        assert written is not None
+        assert written.find("SHORT-NAME").text == "csim"
+        children = [child.tag for child in written]
+        assert children.index("ERROR-MAPPINGS") < children.index("OPERATION-MAPPINGS")
+        assert written.find("ERROR-MAPPINGS/CLIENT-SERVER-APPLICATION-ERROR-MAPPING/FIRST-APPLICATION-ERROR-REF").text == "/Ifc1/E1"
+        assert written.find("ERROR-MAPPINGS/CLIENT-SERVER-APPLICATION-ERROR-MAPPING/SECOND-APPLICATION-ERROR-REF").text == "/Ifc2/E2"
+        assert written.find("OPERATION-MAPPINGS/CLIENT-SERVER-OPERATION-MAPPING/FIRST-OPERATION-REF").text == "/Ifc1/Op1"
+        assert written.find("OPERATION-MAPPINGS/CLIENT-SERVER-OPERATION-MAPPING/SECOND-OPERATION-REF").text == "/Ifc2/Op2"
+
+    def test_write_empty_mapping_omits_wrappers(self, writer):
+        mapping_set = _mapping_set()
+        csim = mapping_set.createClientServerInterfaceMapping("csim")
+
+        element = ET.Element("PARENT")
+        ARXMLWriter().writeClientServerInterfaceMapping(element, csim)
+
+        written = element.find("CLIENT-SERVER-INTERFACE-MAPPING")
+        assert written is not None
+        assert written.find("ERROR-MAPPINGS") is None
+        assert written.find("OPERATION-MAPPINGS") is None
+
+    def test_round_trip_field_values(self, writer):
+        mapping_set, _ = self._make_mapping()
+
+        element = ET.Element("PARENT")
+        ARXMLWriter().writeClientServerInterfaceMapping(element, mapping_set.getPortInterfaceMappings()[0])
+
+        xml_str = ET.tostring(element).decode().replace("<PARENT>", "<PARENT xmlns='%s'>" % NS, 1)
+        reparsed = ET.fromstring(xml_str)
+
+        read_back = ClientServerInterfaceMapping(mapping_set, "csim")
+        ARXMLParser().readClientServerInterfaceMapping(reparsed.find("{%s}CLIENT-SERVER-INTERFACE-MAPPING" % NS), read_back)
+
+        assert read_back.getShortName() == "csim"
+        assert len(read_back.getErrorMappings()) == 1
+        assert read_back.getErrorMappings()[0].getFirstApplicationErrorRef().getValue() == "/Ifc1/E1"
+        assert len(read_back.getOperationMappings()) == 1
+        assert read_back.getOperationMappings()[0].getSecondOperationRef().getValue() == "/Ifc2/Op2"

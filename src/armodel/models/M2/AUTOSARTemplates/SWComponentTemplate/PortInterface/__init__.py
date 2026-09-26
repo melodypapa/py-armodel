@@ -1571,31 +1571,62 @@ class DataPrototypeMapping(ARObject):
 
 
 class ClientServerInterfaceMapping(PortInterfaceMapping):
+    """
+    Defines the mapping of ClientServerOperations in context of two different ClientServerInterfaces.
+    """
+
     # ClientServerInterfaceMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getErrorMappings             [x] impl  [ ] docstring  [ ] test
-    # [ ] addErrorMapping              [x] impl  [ ] docstring  [ ] test
-    # [ ] getOperationMappings         [x] impl  [ ] docstring  [ ] test
-    # [ ] addOperationMapping          [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.23, p.128 (R23-11)
+    # (R4.3.1 reproduction Table 4.27 p.130 has the same rows. Base row ARObject,
+    # AtpBlueprint, AtpBlueprintable, Identifiable, MultilanguageReferrable,
+    # PortInterfaceMapping, Referrable -> most-derived provided base
+    # PortInterfaceMapping (Table 4.20, stamped; the remaining Base row entries are
+    # its ancestors). XSD 00052 complexType CLIENT-SERVER-INTERFACE-MAPPING
+    # composes AR-OBJECT + REFERRABLE + MULTILANGUAGE-REFERRABLE + IDENTIFIABLE +
+    # ATP-BLUEPRINT + ATP-BLUEPRINTABLE + PORT-INTERFACE-MAPPING + the own group
+    # (line 17251: ERROR-MAPPINGS wrapper before OPERATION-MAPPINGS - matches the
+    # table displayed row order). Aggregated by
+    # PortInterfaceMappingSet.portInterfaceMapping.)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getErrorMappings       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addErrorMapping        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOperationMappings   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addOperationMapping    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # Map two different ApplicationErrors defined in the context of two different ClientServerInterfaces.
         self.errorMappings: List[ClientServerApplicationErrorMapping] = []
+
+        # Mapping of two ClientServerOperations in two different ClientServerInterfaces Stereotypes: atpSplitable Tags: atp.Splitkey=operationMapping
         self.operationMappings: List[ClientServerOperationMapping] = []
 
-    def getErrorMappings(self):
+    def getErrorMappings(self) -> List[ClientServerApplicationErrorMapping]:
+        """
+        Map two different ApplicationErrors defined in the context of two different ClientServerInterfaces.
+        """
         return self.errorMappings
 
-    def addErrorMapping(self, value):
+    def addErrorMapping(self, value: Optional[ClientServerApplicationErrorMapping]) -> "ClientServerInterfaceMapping":
+        """
+        Map two different ApplicationErrors defined in the context of two different ClientServerInterfaces. A None value is a no-op and does not append anything.
+        """
         if value is not None:
             self.errorMappings.append(value)
         return self
 
-    def getOperationMappings(self):
+    def getOperationMappings(self) -> List[ClientServerOperationMapping]:
+        """
+        Mapping of two ClientServerOperations in two different ClientServerInterfaces Stereotypes: atpSplitable Tags: atp.Splitkey=operationMapping
+        """
         return self.operationMappings
 
-    def addOperationMapping(self, value):
+    def addOperationMapping(self, value: Optional[ClientServerOperationMapping]) -> "ClientServerInterfaceMapping":
+        """
+        Mapping of two ClientServerOperations in two different ClientServerInterfaces Stereotypes: atpSplitable Tags: atp.Splitkey=operationMapping. A None value is a no-op and does not append anything.
+        """
         if value is not None:
             self.operationMappings.append(value)
         return self

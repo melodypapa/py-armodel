@@ -463,3 +463,61 @@ class TestReadClientServerInterfaceMappingOperationMappings:
         )
 
         assert mapping_set.getPortInterfaceMappings()[0].getOperationMappings() == []
+
+
+class TestReadClientServerInterfaceMapping:
+    """Class-level orchestrator (Table 4.23): both wrappers in XSD order, SHORT-NAME, omission when empty."""
+
+    def test_read_full_field_values(self, parser):
+        element = ET.fromstring(
+            f"""<PORT-INTERFACE-MAPPING-SET xmlns='{NS}'>
+                <SHORT-NAME>pims</SHORT-NAME>
+                <PORT-INTERFACE-MAPPINGS>
+                    <CLIENT-SERVER-INTERFACE-MAPPING>
+                        <SHORT-NAME>csim</SHORT-NAME>
+                        <ERROR-MAPPINGS>
+                            <CLIENT-SERVER-APPLICATION-ERROR-MAPPING>
+                                <FIRST-APPLICATION-ERROR-REF DEST="APPLICATION-ERROR">/Ifc1/E1</FIRST-APPLICATION-ERROR-REF>
+                                <SECOND-APPLICATION-ERROR-REF DEST="APPLICATION-ERROR">/Ifc2/E2</SECOND-APPLICATION-ERROR-REF>
+                            </CLIENT-SERVER-APPLICATION-ERROR-MAPPING>
+                        </ERROR-MAPPINGS>
+                        <OPERATION-MAPPINGS>
+                            <CLIENT-SERVER-OPERATION-MAPPING>
+                                <FIRST-OPERATION-REF DEST="CLIENT-SERVER-OPERATION">/Ifc1/Op1</FIRST-OPERATION-REF>
+                                <SECOND-OPERATION-REF DEST="CLIENT-SERVER-OPERATION">/Ifc2/Op2</SECOND-OPERATION-REF>
+                            </CLIENT-SERVER-OPERATION-MAPPING>
+                        </OPERATION-MAPPINGS>
+                    </CLIENT-SERVER-INTERFACE-MAPPING>
+                </PORT-INTERFACE-MAPPINGS>
+            </PORT-INTERFACE-MAPPING-SET>"""
+        )
+        mapping_set = _mapping_set()
+        parser.readPortInterfaceMappingSet(element, mapping_set)
+
+        assert len(mapping_set.getPortInterfaceMappings()) == 1
+        csim = mapping_set.getPortInterfaceMappings()[0]
+        assert csim.getShortName() == "csim"
+        assert len(csim.getErrorMappings()) == 1
+        assert csim.getErrorMappings()[0].getFirstApplicationErrorRef().getValue() == "/Ifc1/E1"
+        assert csim.getErrorMappings()[0].getSecondApplicationErrorRef().getValue() == "/Ifc2/E2"
+        assert len(csim.getOperationMappings()) == 1
+        assert csim.getOperationMappings()[0].getFirstOperationRef().getValue() == "/Ifc1/Op1"
+        assert csim.getOperationMappings()[0].getSecondOperationRef().getValue() == "/Ifc2/Op2"
+
+    def test_read_wrappers_omitted_when_empty(self, parser):
+        element = ET.fromstring(
+            f"""<PORT-INTERFACE-MAPPING-SET xmlns='{NS}'>
+                <SHORT-NAME>pims</SHORT-NAME>
+                <PORT-INTERFACE-MAPPINGS>
+                    <CLIENT-SERVER-INTERFACE-MAPPING>
+                        <SHORT-NAME>csim</SHORT-NAME>
+                    </CLIENT-SERVER-INTERFACE-MAPPING>
+                </PORT-INTERFACE-MAPPINGS>
+            </PORT-INTERFACE-MAPPING-SET>"""
+        )
+        mapping_set = _mapping_set()
+        parser.readPortInterfaceMappingSet(element, mapping_set)
+
+        csim = mapping_set.getPortInterfaceMappings()[0]
+        assert csim.getErrorMappings() == []
+        assert csim.getOperationMappings() == []
