@@ -3653,7 +3653,6 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setRModeInAtomicSwcInstanceRef(self, element: ET.Element, key: str, iref: RModeInAtomicSwcInstanceRef):
         child_element = ET.SubElement(element, key)
         self.writeARObject(child_element, iref)
-        self.setChildElementOptionalRefType(child_element, "BASE", iref.getBaseRef())
         self.setChildElementOptionalRefType(child_element, "CONTEXT-PORT-REF", iref.getContextPortRef())
         self.setChildElementOptionalRefType(child_element, "CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF", iref.getContextModeDeclarationGroupPrototypeRef())  # noqa E501
         self.setChildElementOptionalRefType(child_element, "TARGET-MODE-DECLARATION-REF", iref.getTargetModeDeclarationRef())

@@ -12,235 +12,42 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 
 class ModeGroupInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
-    """
-    Abstract base class for mode group instance references within an atomic
-    software component type.
-    """
-
     # ModeGroupInAtomicSwcInstanceRef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getBaseRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setBaseRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getContextPortRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setContextPortRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] getTargetRef                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setTargetRef                 [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.24, p.961 (R23-11; body renders above the caption line)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseRef          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setBaseRef          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextPortRef   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setContextPortRef   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTargetRef        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setTargetRef        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
-
         if type(self) is ModeGroupInAtomicSwcInstanceRef:
             raise TypeError("ModeGroupInAtomicSwcInstanceRef is an abstract class.")
 
         super().__init__()
 
-        self.baseRef: RefType = None
-        self.contextPortRef: RefType = None
-        self.targetRef: RefType = None
-
-    def getBaseRef(self):
-        return self.baseRef
-
-    def setBaseRef(self, value):
-        self.baseRef = value
-        return self
-
-    def getContextPortRef(self):
-        return self.contextPortRef
-
-    def setContextPortRef(self, value):
-        self.contextPortRef = value
-        return self
-
-    def getTargetRef(self):
-        return self.targetRef
-
-    def setTargetRef(self, value):
-        self.targetRef = value
-        return self
-
-
-class PModeGroupInAtomicSwcInstanceRef(ModeGroupInAtomicSwcInstanceRef):
-    """
-    Instance reference to a mode group in an atomic software component
-    through a PPortPrototype.
-    """
-
-    # PModeGroupInAtomicSwcInstanceRef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getContextPPortRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setContextPPortRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] getTargetModeGroupRef        [x] impl  [ ] docstring  [ ] test
-    # [ ] setTargetModeGroupRef        [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        super().__init__()
-
-        self.contextPPortRef: RefType = None
-        self.targetModeGroupRef: RefType = None
-
-    def getContextPPortRef(self):
-        return self.contextPPortRef
-
-    def setContextPPortRef(self, value):
-        self.contextPPortRef = value
-        return self
-
-    def getTargetModeGroupRef(self):
-        return self.targetModeGroupRef
-
-    def setTargetModeGroupRef(self, value):
-        self.targetModeGroupRef = value
-        return self
-
-
-class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
-    """
-    Instance reference to a mode group in an atomic software component
-    through an RPortPrototype.
-    """
-
-    # RModeGroupInAtomicSWCInstanceRef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getContextRPortRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setContextRPortRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] getTargetModeGroupRef        [x] impl  [ ] docstring  [ ] test
-    # [ ] setTargetModeGroupRef        [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        super().__init__()
-
-        self.contextRPortRef: RefType = None
-        self.targetModeGroupRef: RefType = None
-
-    def getContextRPortRef(self):
-        return self.contextRPortRef
-
-    def setContextRPortRef(self, value):
-        self.contextRPortRef = value
-        return self
-
-    def getTargetModeGroupRef(self):
-        return self.targetModeGroupRef
-
-    def setTargetModeGroupRef(self, value):
-        self.targetModeGroupRef = value
-        return self
-
-
-class RModeInAtomicSwcInstanceRef(AtpInstanceRef):
-    """
-    Instance reference to a mode declaration in an atomic software component
-    through an RPortPrototype.
-    """
-
-    # RModeInAtomicSwcInstanceRef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getBaseRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setBaseRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getContextModeDeclarationGroupPrototypeRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setContextModeDeclarationGroupPrototypeRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getContextPortRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setContextPortRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] getTargetModeDeclarationRef  [x] impl  [ ] docstring  [ ] test
-    # [ ] setTargetModeDeclarationRef  [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        super().__init__()
-
-        self.baseRef: RefType = None
-        self.contextModeDeclarationGroupPrototypeRef: RefType = None
-        self.contextPortRef: RefType = None
-        self.targetModeDeclarationRef: RefType = None
-
-    def getBaseRef(self):
-        return self.baseRef
-
-    def setBaseRef(self, value):
-        self.baseRef = value
-        return self
-
-    def getContextModeDeclarationGroupPrototypeRef(self):
-        return self.contextModeDeclarationGroupPrototypeRef
-
-    def setContextModeDeclarationGroupPrototypeRef(self, value):
-        self.contextModeDeclarationGroupPrototypeRef = value
-        return self
-
-    def getContextPortRef(self):
-        return self.contextPortRef
-
-    def setContextPortRef(self, value):
-        self.contextPortRef = value
-        return self
-
-    def getTargetModeDeclarationRef(self):
-        return self.targetModeDeclarationRef
-
-    def setTargetModeDeclarationRef(self, value):
-        self.targetModeDeclarationRef = value
-        return self
-
-
-class TriggerInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
-    """
-    Abstract base class for instance references to a Trigger in an atomic
-    software component type, referencing the trigger through a port of the
-    atomic SWC (concretized by PTriggerInAtomicSwcTypeInstanceRef and
-    RTriggerInAtomicSwcInstanceRef).
-    """
-
-    # TriggerInAtomicSwcInstanceRef method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.5, p.944
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getBaseRef                   [x] impl  [x] docstring  [x] test
-    # [x] setBaseRef                   [x] impl  [x] docstring  [x] test
-    # [x] getContextPortRef            [x] impl  [x] docstring  [x] test
-    # [x] setContextPortRef            [x] impl  [x] docstring  [x] test
-    # [x] getTargetRef                 [x] impl  [x] docstring  [x] test
-    # [x] setTargetRef                 [x] impl  [x] docstring  [x] test
-
-    def __init__(self):
-        """
-        Initializes the TriggerInAtomicSwcInstanceRef with default values.
-        """
-        if type(self) is TriggerInAtomicSwcInstanceRef:
-            raise TypeError("TriggerInAtomicSwcInstanceRef is an abstract class.")
-
-        super().__init__()
-
-        # The AtomicSwComponentType in which the referenced Trigger lives.
-        # Stereotypes: atpDerived (derived attribute, no XML element).
+        # Stereotypes: atpDerived Tags: xml.sequenceOffset=10
         self.baseRef: Optional[RefType] = None
 
-        # The context port through which the referenced Trigger is reached.
-        # Stereotypes: atpAbstract (concretized by the subclasses' contextPPort/contextRPort).
+        # Stereotypes: atpAbstract Tags: xml.sequenceOffset=20
         self.contextPortRef: Optional[RefType] = None
 
-        # The Trigger that is referenced through the context port.
-        # Stereotypes: atpAbstract (concretized by the subclasses' targetTrigger).
+        # Stereotypes: atpAbstract Tags: xml.sequenceOffset=30
         self.targetRef: Optional[RefType] = None
 
     def getBaseRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the AtomicSwComponentType in which the referenced
-        Trigger lives. Derived attribute (atpDerived), so it has no XML element.
-
-        Returns:
-            Optional[RefType]: The atomic SWC reference
+        Stereotypes: atpDerived Tags: xml.sequenceOffset=10
         """
         return self.baseRef
 
-    def setBaseRef(self, value: Optional[RefType]) -> "TriggerInAtomicSwcInstanceRef":
+    def setBaseRef(self, value: Optional[RefType]) -> "ModeGroupInAtomicSwcInstanceRef":
         """
-        Sets the reference to the AtomicSwComponentType in which the referenced
-        Trigger lives. Only sets the value if it is not None, and returns self
-        for method chaining.
-
-        Args:
-            value: The atomic SWC reference to set
-
-        Returns:
-            self for method chaining
+        Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        A None value is a no-op and does not overwrite an existing baseRef.
         """
         if value is not None:
             self.baseRef = value
@@ -248,25 +55,14 @@ class TriggerInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
 
     def getContextPortRef(self) -> Optional[RefType]:
         """
-        Gets the context port through which the referenced Trigger is reached.
-        Abstract attribute (atpAbstract), concretized by the subclasses.
-
-        Returns:
-            Optional[RefType]: The context port reference
+        Stereotypes: atpAbstract Tags: xml.sequenceOffset=20
         """
         return self.contextPortRef
 
-    def setContextPortRef(self, value: Optional[RefType]) -> "TriggerInAtomicSwcInstanceRef":
+    def setContextPortRef(self, value: Optional[RefType]) -> "ModeGroupInAtomicSwcInstanceRef":
         """
-        Sets the context port through which the referenced Trigger is reached.
-        Only sets the value if it is not None, and returns self for method
-        chaining.
-
-        Args:
-            value: The context port reference to set
-
-        Returns:
-            self for method chaining
+        Stereotypes: atpAbstract Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing contextPortRef.
         """
         if value is not None:
             self.contextPortRef = value
@@ -274,24 +70,277 @@ class TriggerInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
 
     def getTargetRef(self) -> Optional[RefType]:
         """
-        Gets the Trigger that is referenced through the context port. Abstract
-        attribute (atpAbstract), concretized by the subclasses' targetTrigger.
+        Stereotypes: atpAbstract Tags: xml.sequenceOffset=30
+        """
+        return self.targetRef
 
-        Returns:
-            Optional[RefType]: The target trigger reference
+    def setTargetRef(self, value: Optional[RefType]) -> "ModeGroupInAtomicSwcInstanceRef":
+        """
+        Stereotypes: atpAbstract Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing targetRef.
+        """
+        if value is not None:
+            self.targetRef = value
+        return self
+
+
+class PModeGroupInAtomicSwcInstanceRef(ModeGroupInAtomicSwcInstanceRef):
+    # PModeGroupInAtomicSwcInstanceRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.12, p.949 (R23-11; body renders above the caption line)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextPPortRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextPPortRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetModeGroupRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetModeGroupRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Tags: xml.sequenceOffset=20
+        self.contextPPortRef: Optional[RefType] = None
+
+        # Tags: xml.sequenceOffset=30
+        self.targetModeGroupRef: Optional[RefType] = None
+
+    def getContextPPortRef(self) -> Optional[RefType]:
+        """
+        Tags: xml.sequenceOffset=20
+        """
+        return self.contextPPortRef
+
+    def setContextPPortRef(self, value: Optional[RefType]) -> "PModeGroupInAtomicSwcInstanceRef":
+        """
+        Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing contextPPortRef.
+        """
+        if value is not None:
+            self.contextPPortRef = value
+        return self
+
+    def getTargetModeGroupRef(self) -> Optional[RefType]:
+        """
+        Tags: xml.sequenceOffset=30
+        """
+        return self.targetModeGroupRef
+
+    def setTargetModeGroupRef(self, value: Optional[RefType]) -> "PModeGroupInAtomicSwcInstanceRef":
+        """
+        Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing targetModeGroupRef.
+        """
+        if value is not None:
+            self.targetModeGroupRef = value
+        return self
+
+
+class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
+    # RModeGroupInAtomicSWCInstanceRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.11, p.948 (R23-11; body renders above the caption line)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextRPortRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextRPortRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetModeGroupRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetModeGroupRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Tags: xml.sequenceOffset=20
+        self.contextRPortRef: Optional[RefType] = None
+
+        # Tags: xml.sequenceOffset=30
+        self.targetModeGroupRef: Optional[RefType] = None
+
+    def getContextRPortRef(self) -> Optional[RefType]:
+        """
+        Tags: xml.sequenceOffset=20
+        """
+        return self.contextRPortRef
+
+    def setContextRPortRef(self, value: Optional[RefType]) -> "RModeGroupInAtomicSWCInstanceRef":
+        """
+        Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing contextRPortRef.
+        """
+        if value is not None:
+            self.contextRPortRef = value
+        return self
+
+    def getTargetModeGroupRef(self) -> Optional[RefType]:
+        """
+        Tags: xml.sequenceOffset=30
+        """
+        return self.targetModeGroupRef
+
+    def setTargetModeGroupRef(self, value: Optional[RefType]) -> "RModeGroupInAtomicSWCInstanceRef":
+        """
+        Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing targetModeGroupRef.
+        """
+        if value is not None:
+            self.targetModeGroupRef = value
+        return self
+
+
+class RModeInAtomicSwcInstanceRef(AtpInstanceRef):
+    # RModeInAtomicSwcInstanceRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.3, p.943 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                    [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseRef                                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setBaseRef                                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextPortRef                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextPortRef                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextModeDeclarationGroupPrototypeRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextModeDeclarationGroupPrototypeRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetModeDeclarationRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetModeDeclarationRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        self.baseRef: Optional[RefType] = None
+
+        # Tags: xml.sequenceOffset=20
+        self.contextPortRef: Optional[RefType] = None
+
+        # Tags: xml.sequenceOffset=30
+        self.contextModeDeclarationGroupPrototypeRef: Optional[RefType] = None
+
+        # Tags: xml.sequenceOffset=40
+        self.targetModeDeclarationRef: Optional[RefType] = None
+
+    def getBaseRef(self) -> Optional[RefType]:
+        """
+        Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        """
+        return self.baseRef
+
+    def setBaseRef(self, value: Optional[RefType]) -> "RModeInAtomicSwcInstanceRef":
+        """
+        Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        A None value is a no-op and does not overwrite an existing baseRef.
+        """
+        if value is not None:
+            self.baseRef = value
+        return self
+
+    def getContextPortRef(self) -> Optional[RefType]:
+        """
+        Tags: xml.sequenceOffset=20
+        """
+        return self.contextPortRef
+
+    def setContextPortRef(self, value: Optional[RefType]) -> "RModeInAtomicSwcInstanceRef":
+        """
+        Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing contextPortRef.
+        """
+        if value is not None:
+            self.contextPortRef = value
+        return self
+
+    def getContextModeDeclarationGroupPrototypeRef(self) -> Optional[RefType]:
+        """
+        Tags: xml.sequenceOffset=30
+        """
+        return self.contextModeDeclarationGroupPrototypeRef
+
+    def setContextModeDeclarationGroupPrototypeRef(self, value: Optional[RefType]) -> "RModeInAtomicSwcInstanceRef":
+        """
+        Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing contextModeDeclarationGroupPrototypeRef.
+        """
+        if value is not None:
+            self.contextModeDeclarationGroupPrototypeRef = value
+        return self
+
+    def getTargetModeDeclarationRef(self) -> Optional[RefType]:
+        """
+        Tags: xml.sequenceOffset=40
+        """
+        return self.targetModeDeclarationRef
+
+    def setTargetModeDeclarationRef(self, value: Optional[RefType]) -> "RModeInAtomicSwcInstanceRef":
+        """
+        Tags: xml.sequenceOffset=40
+        A None value is a no-op and does not overwrite an existing targetModeDeclarationRef.
+        """
+        if value is not None:
+            self.targetModeDeclarationRef = value
+        return self
+
+
+class TriggerInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
+    # TriggerInAtomicSwcInstanceRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.5, p.945 (R23-11; body renders above the caption line)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseRef          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setBaseRef          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextPortRef   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setContextPortRef   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTargetRef        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setTargetRef        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        if type(self) is TriggerInAtomicSwcInstanceRef:
+            raise TypeError("TriggerInAtomicSwcInstanceRef is an abstract class.")
+
+        super().__init__()
+
+        # Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        self.baseRef: Optional[RefType] = None
+
+        # Stereotypes: atpAbstract Tags: xml.sequenceOffset=20
+        self.contextPortRef: Optional[RefType] = None
+
+        # Stereotypes: atpAbstract Tags: xml.sequenceOffset=30
+        self.targetRef: Optional[RefType] = None
+
+    def getBaseRef(self) -> Optional[RefType]:
+        """
+        Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        """
+        return self.baseRef
+
+    def setBaseRef(self, value: Optional[RefType]) -> "TriggerInAtomicSwcInstanceRef":
+        """
+        Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        A None value is a no-op and does not overwrite an existing baseRef.
+        """
+        if value is not None:
+            self.baseRef = value
+        return self
+
+    def getContextPortRef(self) -> Optional[RefType]:
+        """
+        Stereotypes: atpAbstract Tags: xml.sequenceOffset=20
+        """
+        return self.contextPortRef
+
+    def setContextPortRef(self, value: Optional[RefType]) -> "TriggerInAtomicSwcInstanceRef":
+        """
+        Stereotypes: atpAbstract Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing contextPortRef.
+        """
+        if value is not None:
+            self.contextPortRef = value
+        return self
+
+    def getTargetRef(self) -> Optional[RefType]:
+        """
+        Stereotypes: atpAbstract Tags: xml.sequenceOffset=30
         """
         return self.targetRef
 
     def setTargetRef(self, value: Optional[RefType]) -> "TriggerInAtomicSwcInstanceRef":
         """
-        Sets the Trigger that is referenced through the context port. Only sets
-        the value if it is not None, and returns self for method chaining.
-
-        Args:
-            value: The target trigger reference to set
-
-        Returns:
-            self for method chaining
+        Stereotypes: atpAbstract Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing targetRef.
         """
         if value is not None:
             self.targetRef = value
@@ -299,53 +348,34 @@ class TriggerInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
 
 
 class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
-    """
-    Instance reference to a Trigger in an atomic software component type
-    through a provided port (PPortPrototype), used e.g. by
-    SwcBswSynchronizedTrigger.swcTrigger.
-    """
-
     # PTriggerInAtomicSwcTypeInstanceRef method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.7, p.946
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getContextPPortRef           [x] impl  [x] docstring  [x] test
-    # [x] setContextPPortRef           [x] impl  [x] docstring  [x] test
-    # [x] getTargetTriggerRef          [x] impl  [x] docstring  [x] test
-    # [x] setTargetTriggerRef          [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.7, p.946 (R23-11; body renders above the caption line)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextPPortRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextPPortRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetTriggerRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetTriggerRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the PTriggerInAtomicSwcTypeInstanceRef with default values.
-        """
         super().__init__()
 
-        # The provided port (PPortPrototype) through which the Trigger is referenced.
+        # Tags: xml.sequenceOffset=20
         self.contextPPortRef: Optional[RefType] = None
 
-        # The Trigger that is referenced through the provided port.
+        # Tags: xml.sequenceOffset=30
         self.targetTriggerRef: Optional[RefType] = None
 
     def getContextPPortRef(self) -> Optional[RefType]:
         """
-        Gets the provided port (PPortPrototype) through which the referenced
-        Trigger is reached.
-
-        Returns:
-            Optional[RefType]: The provided port reference
+        Tags: xml.sequenceOffset=20
         """
         return self.contextPPortRef
 
     def setContextPPortRef(self, value: Optional[RefType]) -> "PTriggerInAtomicSwcTypeInstanceRef":
         """
-        Sets the provided port (PPortPrototype) through which the referenced
-        Trigger is reached. Only sets the value if it is not None, and returns
-        self for method chaining.
-
-        Args:
-            value: The provided port reference to set
-
-        Returns:
-            self for method chaining
+        Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing contextPPortRef.
         """
         if value is not None:
             self.contextPPortRef = value
@@ -353,23 +383,14 @@ class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
 
     def getTargetTriggerRef(self) -> Optional[RefType]:
         """
-        Gets the Trigger that is referenced through the provided port.
-
-        Returns:
-            Optional[RefType]: The target trigger reference
+        Tags: xml.sequenceOffset=30
         """
         return self.targetTriggerRef
 
     def setTargetTriggerRef(self, value: Optional[RefType]) -> "PTriggerInAtomicSwcTypeInstanceRef":
         """
-        Sets the Trigger that is referenced through the provided port. Only
-        sets the value if it is not None, and returns self for method chaining.
-
-        Args:
-            value: The target trigger reference to set
-
-        Returns:
-            self for method chaining
+        Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing targetTriggerRef.
         """
         if value is not None:
             self.targetTriggerRef = value
@@ -450,36 +471,52 @@ class VariableInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
 
 
 class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
-    """
-    Instance reference to a variable in an atomic software component
-    through an RPortPrototype.
-    """
-
     # RVariableInAtomicSwcInstanceRef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getContextRPortRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setContextRPortRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] getTargetDataElementRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] setTargetDataElementRef      [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.2, p.943 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextRPortRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextRPortRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetDataElementRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetDataElementRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.contextRPortRef: RefType = None
-        self.targetDataElementRef: RefType = None
+        # Tags: xml.sequenceOffset=20
+        self.contextRPortRef: Optional[RefType] = None
 
-    def getContextRPortRef(self):
+        # Tags: xml.sequenceOffset=30
+        self.targetDataElementRef: Optional[RefType] = None
+
+    def getContextRPortRef(self) -> Optional[RefType]:
+        """
+        Tags: xml.sequenceOffset=20
+        """
         return self.contextRPortRef
 
-    def setContextRPortRef(self, value):
-        self.contextRPortRef = value
+    def setContextRPortRef(self, value: Optional[RefType]) -> "RVariableInAtomicSwcInstanceRef":
+        """
+        Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing contextRPortRef.
+        """
+        if value is not None:
+            self.contextRPortRef = value
         return self
 
-    def getTargetDataElementRef(self):
+    def getTargetDataElementRef(self) -> Optional[RefType]:
+        """
+        Tags: xml.sequenceOffset=30
+        """
         return self.targetDataElementRef
 
-    def setTargetDataElementRef(self, value):
-        self.targetDataElementRef = value
+    def setTargetDataElementRef(self, value: Optional[RefType]) -> "RVariableInAtomicSwcInstanceRef":
+        """
+        Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing targetDataElementRef.
+        """
+        if value is not None:
+            self.targetDataElementRef = value
         return self
 
 
@@ -540,19 +577,16 @@ class InnerPortGroupInCompositionInstanceRef(AtpInstanceRef):
 
 
 class OperationInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
-    """
-    Abstract base class for operation instance references within an atomic
-    software component type.
-    """
-
     # OperationInAtomicSwcInstanceRef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getBaseRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setBaseRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getContextPortRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setContextPortRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] getTargetOperationRef        [x] impl  [ ] docstring  [ ] test
-    # [ ] setTargetOperationRef        [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.8, p.946 (R23-11; body renders below the caption line)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseRef                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setBaseRef                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextPortRef         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setContextPortRef         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTargetOperationRef     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setTargetOperationRef     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is OperationInAtomicSwcInstanceRef:
@@ -560,95 +594,156 @@ class OperationInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
 
         super().__init__()
 
-        self.baseRef: RefType = None
-        self.contextPortRef: RefType = None
-        self.targetOperationRef: RefType = None
+        # Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        self.baseRef: Optional[RefType] = None
 
-    def getBaseRef(self):
+        # Stereotypes: atpAbstract Tags: xml.sequenceOffset=20
+        self.contextPortRef: Optional[RefType] = None
+
+        # Stereotypes: atpAbstract Tags: xml.sequenceOffset=30
+        self.targetOperationRef: Optional[RefType] = None
+
+    def getBaseRef(self) -> Optional[RefType]:
+        """
+        Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        """
         return self.baseRef
 
-    def setBaseRef(self, value):
-        self.baseRef = value
+    def setBaseRef(self, value: Optional[RefType]) -> "OperationInAtomicSwcInstanceRef":
+        """
+        Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        A None value is a no-op and does not overwrite an existing baseRef.
+        """
+        if value is not None:
+            self.baseRef = value
         return self
 
-    def getContextPortRef(self):
+    def getContextPortRef(self) -> Optional[RefType]:
+        """
+        Stereotypes: atpAbstract Tags: xml.sequenceOffset=20
+        """
         return self.contextPortRef
 
-    def setContextPortRef(self, value):
-        self.contextPortRef = value
+    def setContextPortRef(self, value: Optional[RefType]) -> "OperationInAtomicSwcInstanceRef":
+        """
+        Stereotypes: atpAbstract Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing contextPortRef.
+        """
+        if value is not None:
+            self.contextPortRef = value
         return self
 
-    def getTargetOperationRef(self):
+    def getTargetOperationRef(self) -> Optional[RefType]:
+        """
+        Stereotypes: atpAbstract Tags: xml.sequenceOffset=30
+        """
         return self.targetOperationRef
 
-    def setTargetOperationRef(self, value):
-        self.targetOperationRef = value
+    def setTargetOperationRef(self, value: Optional[RefType]) -> "OperationInAtomicSwcInstanceRef":
+        """
+        Stereotypes: atpAbstract Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing targetOperationRef.
+        """
+        if value is not None:
+            self.targetOperationRef = value
         return self
 
 
 class POperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
-    """
-    Instance reference to a provided operation in an atomic software
-    component through a PPortPrototype.
-    """
-
     # POperationInAtomicSwcInstanceRef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getContextPPortRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setContextPPortRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] getTargetProvidedOperationRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setTargetProvidedOperationRef [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.10, p.948 (R23-11; body renders above the caption line)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextPPortRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextPPortRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetProvidedOperationRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetProvidedOperationRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.contextPPortRef: RefType = None
-        self.targetProvidedOperationRef: RefType = None
+        # Tags: xml.sequenceOffset=20
+        self.contextPPortRef: Optional[RefType] = None
 
-    def getContextPPortRef(self):
+        # Tags: xml.sequenceOffset=30
+        self.targetProvidedOperationRef: Optional[RefType] = None
+
+    def getContextPPortRef(self) -> Optional[RefType]:
+        """
+        Tags: xml.sequenceOffset=20
+        """
         return self.contextPPortRef
 
-    def setContextPPortRef(self, value):
-        self.contextPPortRef = value
+    def setContextPPortRef(self, value: Optional[RefType]) -> "POperationInAtomicSwcInstanceRef":
+        """
+        Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing contextPPortRef.
+        """
+        if value is not None:
+            self.contextPPortRef = value
         return self
 
-    def getTargetProvidedOperationRef(self):
+    def getTargetProvidedOperationRef(self) -> Optional[RefType]:
+        """
+        Tags: xml.sequenceOffset=30
+        """
         return self.targetProvidedOperationRef
 
-    def setTargetProvidedOperationRef(self, value):
-        self.targetProvidedOperationRef = value
+    def setTargetProvidedOperationRef(self, value: Optional[RefType]) -> "POperationInAtomicSwcInstanceRef":
+        """
+        Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing targetProvidedOperationRef.
+        """
+        if value is not None:
+            self.targetProvidedOperationRef = value
         return self
 
 
 class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
-    """
-    Instance reference to a required operation in an atomic software
-    component through an RPortPrototype.
-    """
-
     # ROperationInAtomicSwcInstanceRef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getContextRPortRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setContextRPortRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] getTargetRequiredOperationRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setTargetRequiredOperationRef [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.9, p.947 (R23-11; body renders above the caption line)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextRPortRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextRPortRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetRequiredOperationRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetRequiredOperationRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.contextRPortRef: RefType = None
-        self.targetRequiredOperationRef: RefType = None
+        # Tags: xml.sequenceOffset=20
+        self.contextRPortRef: Optional[RefType] = None
 
-    def getContextRPortRef(self):
+        # Tags: xml.sequenceOffset=30
+        self.targetRequiredOperationRef: Optional[RefType] = None
+
+    def getContextRPortRef(self) -> Optional[RefType]:
+        """
+        Tags: xml.sequenceOffset=20
+        """
         return self.contextRPortRef
 
-    def setContextRPortRef(self, value):
-        self.contextRPortRef = value
+    def setContextRPortRef(self, value: Optional[RefType]) -> "ROperationInAtomicSwcInstanceRef":
+        """
+        Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing contextRPortRef.
+        """
+        if value is not None:
+            self.contextRPortRef = value
         return self
 
-    def getTargetRequiredOperationRef(self):
+    def getTargetRequiredOperationRef(self) -> Optional[RefType]:
+        """
+        Tags: xml.sequenceOffset=30
+        """
         return self.targetRequiredOperationRef
 
-    def setTargetRequiredOperationRef(self, value):
-        self.targetRequiredOperationRef = value
+    def setTargetRequiredOperationRef(self, value: Optional[RefType]) -> "ROperationInAtomicSwcInstanceRef":
+        """
+        Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing targetRequiredOperationRef.
+        """
+        if value is not None:
+            self.targetRequiredOperationRef = value
         return self
