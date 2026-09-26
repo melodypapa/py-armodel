@@ -1031,17 +1031,17 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [Spec line now cites XSD l.136671/136683 + consumer Tables 6.234/6.235; arbitration note recorded in the class checklist; six columns + R23-11 retained]
   - [x] Step 8 — Deviations  [arbitrated: row's stated deviation (BLOCK/ALLOW order) does not exist against the authoritative tags; keeping BLOCK=0/ALLOW=1 means the literal Tags comments stay verbatim — reordering would have forced fabricating non-verbatim tag values; wire values unchanged in XML either way]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a run at batch level; 9b: user-confirmed batch stamp 2026-09-24; marker `# XSD verified: AUTOSAR_00052.xsd` written]
-- [ ] `CompuGenericMath` — already verified (# Spec verified: R23-11, DataDefProperties.py; spec table CP SWCT Table 5.60 p.374; reader arxml_parser.py readSwDataDependency LEVEL + writer getLevel; re-parent drift fix to FormulaExpression in 359ba3db2) — row closed 2026-09-26 via already-verified short-circuit, no sync needed (old 5-column checklist gains release column on next drift pass, Rule 0012.3); 2026-09-26 location drift fix (Rule 0007, user-directed): class moved DataDefProperties.py → M2/MSR/AsamHdo/ComputationMethod.py per spec Package row M2::MSR::AsamHdo::ComputationMethod (commit 1de6c0ef2)
-  - note (2026-09-26): row RE-OPENED — the short-circuit was never backed by a 9-step run (Steps 1–9 all `[ ]`, index/report say `[ ] Pending`) and the stamp was found removed from the working tree; full 9-step re-sync now queued in `docs/plan/sync-todo/CompuGenericMath.md` (user gate: "run the full 9-steps again and verify everything")
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `CompuGenericMath` — already verified (# Spec verified: R23-11, DataDefProperties.py; spec table CP SWCT Table 5.60 p.374; reader arxml_parser.py readSwDataDependency LEVEL + writer getLevel; re-parent drift fix to FormulaExpression in 359ba3db2) — row closed 2026-09-26 via already-verified short-circuit, no sync needed (old 5-column checklist gains release column on next drift pass, Rule 0012.3); 2026-09-26 location drift fix (Rule 0007, user-directed): class moved DataDefProperties.py → M2/MSR/AsamHdo/ComputationMethod.py per spec Package row M2::MSR::AsamHdo::ComputationMethod (commit 1de6c0ef2); 2026-09-26 **RE-SYNCED — short-circuit superseded** by full 9-step run (user gate: "run the full 9-steps again and verify everything"): G1–G5 fixed (LEVEL typed PrimitiveIdentifier, atpMixedString text round-trips, readARObject S/T symmetry, verbatim Tags tail, 6-col checklist), deviation-tracker entry added — verified R23-11 (commit 4dd42b2d4)
+  - note (2026-09-26): row RE-OPENED — the short-circuit was never backed by a 9-step run (Steps 1–9 all `[ ]`, index/report say `[ ] Pending`) and the stamp was found removed from the working tree; full 9-step re-sync now queued in `docs/plan/sync-todo/CompuGenericMath.md` (user gate: "run the full 9-steps again and verify everything") — DONE, evidence in the queue file
+  - [x] Step 1 — Sync members & description from spec [Table 5.60 p.374 + XSD 00052 exact agreement; G1–G5 recorded]
+  - [x] Step 2 — Write model class unit test (Red) [TestCompuGenericMath 10 tests; honest Red 3 failed/66 passed]
+  - [x] Step 3 — Implement model class (Green) [model already spec-compliant — no code change; 69 total]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) [wipe verified `__doc__ is None` ×4, then verbatim from markdown; diff-verified all exact]
+  - [x] Step 5 — Write reader/writer round-trip test (Red) [new parser test file + writer formula round-trip class; Red 5 failed/8 passed = exactly G1/G2/G3]
+  - [x] Step 6 — Update parser & writer (Green) [readARObject ×3 + strip-guarded readMixedStringText + PrimitiveIdentifier; writeMixedStringText; full suite 12268 green]
+  - [x] Step 7 — Update checklist comment [6-column release format, rows R23-11; no stamp here]
+  - [x] Step 8 — Deviations — none [tracker entry `method_deviation_by_class.md`; no missing referenced classes]
+  - [x] Step 9 — Verify (9a) + confirm (9b) [9a: 12268 tests + flake8 + ruff + black-check + set-based script + 11 integration round-trips green; 9b: 14-item Rule 0006.1 checklist user-confirmed 2026-09-26; stamp `# Spec verified: R23-11` written (commit 4dd42b2d4)]
 
 
 ## Pending 16.4 resolution (NEW — not in src)

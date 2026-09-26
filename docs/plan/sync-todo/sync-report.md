@@ -141,7 +141,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CompuConstNumericContent`                              | [x] Done    | 4b82220e                                 | Group3           |
 | `CompuConstTextContent`                                 | [x] Done    | 4cb82851                                 | Group3           |
 | `CompuContent`                                          | [x] Done    | 9f67b3e2                                 | Group3           |
-| `CompuGenericMath`                                      | [ ] Pending | N/A                                      | Group3           |
+| `CompuGenericMath`                                      | [x] Done    | 4dd42b2d                                 | Group3           |
 | `CompuMethod`                                           | [x] Done    | 135f42e5                                 | Group3           |
 | `CompuNominatorDenominator`                             | [x] Done    | ff6ef186                                 | Group3           |
 | `CompuRationalCoeffs`                                   | [x] Done    | 26100b4c                                 | Group3           |

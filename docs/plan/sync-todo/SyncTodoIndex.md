@@ -240,7 +240,7 @@ Status: **93/94** completed
 | `SwRecordLayoutGroup`                  | [x] Done    | 2acaf7a4  |
 | `GeneralAnnotation`                    | [x] Done    | ab2daa77  |
 | `FirewallActionEnum`                   | [x] Done    | ab2daa77  |
-| `CompuGenericMath`                     | [ ] Pending | N/A       |
+| `CompuGenericMath`                     | [x] Done    | 4dd42b2d       |
 
 ## Group4
 
