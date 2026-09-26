@@ -456,7 +456,7 @@ Status: **34/34** completed
 
 ## Group8
 
-Status: **21/48** completed
+Status: **22/48** completed
 
 | Class Name                               | Status       | Commit ID |
 | ---------------------------------------- | ------------ | --------- |
@@ -471,7 +471,7 @@ Status: **21/48** completed
 | `MixedContentForOverviewParagraph`       | [x] Done     | 18b494eba |
 | `WhitespaceControlled`                   | [x] Done     | a78d444af |
 | `MixedContentForPlainText`               | [x] Done     | 4a95d1d30 |
-| `MixedContentForVerbatim`                | [ ] Deferred | 80ba96366 |
+| `MixedContentForVerbatim`                | [x] Done     | 74549e6a5 |
 | `SlOverviewParagraph`                    | [ ] Deferred | 6884fa835 |
 | `SingleLanguageUnitNames`                | [ ] Pending  | N/A       |
 | `SwSystemconstValue`                     | [ ] Pending* | N/A       |

@@ -415,7 +415,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `MixedContentForOverviewParagraph`                      | [x] Done | 18b494eba                               | Group8           |
 | `WhitespaceControlled`                                     | [x] Done    | a78d444af                                | Group8           |
 | `MixedContentForPlainText`                              | [x] Done     | 4a95d1d30                                | Group8           |
-| `MixedContentForVerbatim`                               | [ ] Deferred | 80ba96366                                | Group8           |
+| `MixedContentForVerbatim`                               | [x] Done     | 74549e6a5                                | Group8           |
 | `MlFigure`                                              | [x] Done    | 9225ed15                                 | Group3           |
 | `ModeAccessPoint`                                       | [ ] Deferred| N/A                                      | Group12          |
 | `ModeAccessPointIdent`                                  | [x] Done    | 918013a6                                 | Group1           |
