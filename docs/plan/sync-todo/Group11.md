@@ -152,17 +152,8 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — [none open: field-to-spec both directions exact; no naming/type deviation; member type RPortComSpec exists; tracker v1/v2 have no entries for this class; no open deviations]
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27: target files 898/898 (SWComponentTemplate model suites incl. 6 new), `black` clean, `npm run lint` clean; 9b DEFERRED to batch stamp confirmation (user-instructed convention — queue row stays unchecked until batch confirmation)
 
-- [ ] `ServiceProxySwComponentType` — AtomicSwComponentType — source TBC (locate table at Step 1)
+- [x] `ServiceProxySwComponentType` — AtomicSwComponentType — source TBC (locate table at Step 1) — **already verified (short-circuit, Group11 header rule): `# Spec verified: R23-11` marker present in src (Components/__init__.py, `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.3, p.661`); quick deviation check clean — Base most-derived AtomicSwComponentType, Table 11.3 carries zero attribute rows (`-` dash placeholder) → no own members, full multi-paragraph Note matches the class docstring, ARPackage.element consumer wiring pre-exists**
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `ModeGroupInAtomicSwcInstanceRef` — AtpInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py
