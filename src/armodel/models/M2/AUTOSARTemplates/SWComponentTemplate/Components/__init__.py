@@ -628,7 +628,7 @@ class AbstractProvidedPortPrototype(PortPrototype):
         else:
             raise ValueError("Unsupported com spec")
 
-    def addProvidedComSpec(self, com_spec: Optional[PPortComSpec]) -> "AbstractProvidedPortPrototype":
+    def addProvidedComSpec(self, com_spec: Optional[PPortComSpec]) -> AbstractProvidedPortPrototype:
         """
         Provided communication attributes per interface element (data element or operation). Stereotypes: atpSplitable Tags: atp.Splitkey=providedComSpec. A None value is a no-op and does not append anything.
         """
@@ -692,7 +692,7 @@ class AbstractRequiredPortPrototype(PortPrototype):
         else:
             raise ValueError("Unsupported RPortComSpec <%s>" % type(com_spec))
 
-    def addRequiredComSpec(self, com_spec: Optional[RPortComSpec]) -> "AbstractRequiredPortPrototype":
+    def addRequiredComSpec(self, com_spec: Optional[RPortComSpec]) -> AbstractRequiredPortPrototype:
         """
         Required communication attributes, one for each interface element. Stereotypes: atpSplitable Tags: atp.Splitkey=requiredComSpec. A None value is a no-op and does not append anything.
         """
