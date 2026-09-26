@@ -1092,6 +1092,42 @@ DIAGNOSTIC_AUDIENCE_XML_MAP = {
     "manufacturing": "MANUFACTURING",
     "supplier": "SUPPLIER",
 }
+DIAGNOSTIC_SERVICE_REQUEST_CALLBACK_TYPE_XML_MAP = {
+    "requestCallbackTypeManufacturer": "REQUEST-CALLBACK-TYPE-MANUFACTURER",
+    "requestCallbackTypeSupplier": "REQUEST-CALLBACK-TYPE-SUPPLIER",
+}
+
+DIAGNOSTIC_ROUTINE_TYPE_XML_MAP = {
+    "asynchronous": "ASYNCHRONOUS",
+    "synchronous": "SYNCHRONOUS",
+}
+
+DIAGNOSTIC_VALUE_ACCESS_XML_MAP = {
+    "readOnly": "READ-ONLY",
+    "readWrite": "READ-WRITE",
+    "writeOnly": "WRITE-ONLY",
+}
+
+DIAGNOSTIC_PROCESSING_STYLE_XML_MAP = {
+    "processingStyleAsynchronous": "PROCESSING-STYLE-ASYNCHRONOUS",
+    "processingStyleAsynchronousWithError": "PROCESSING-STYLE-ASYNCHRONOUS-WITH-ERROR",
+    "processingStyleSynchronous": "PROCESSING-STYLE-SYNCHRONOUS",
+}
+
+DIAGNOSTIC_CLEAR_DTC_NOTIFICATION_XML_MAP = {
+    "start": "START",
+    "finish": "FINISH",
+}
+
+DTC_FORMAT_TYPE_XML_MAP = {
+    "j1939": "J-1939",
+    "obd": "OBD",
+}
+
+DTC_KIND_XML_MAP = {
+    "emissionRelatedDtc": "EMISSION-RELATED-DTC",
+    "nonEmmissionRelatedDtc": "NON-EMMISSION-RELATED-DTC",
+}
 
 
 class ARXMLWriter(AbstractARXMLWriter):
@@ -5408,11 +5444,21 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(element, "DIAG-REQUIREMENT", needs.getDiagRequirement())
         self.setChildElementOptionalPositiveInteger(element, "SECURITY-ACCESS-LEVEL", needs.getSecurityAccessLevel())
 
+    def _writeEnumToken(self, element: ET.Element, tag: str, value, token_map: dict):
+        if value is None:
+            return
+        token = token_map.get(value.getValue())
+        if token is None:
+            self.notImplemented("Unsupported %s <%s>" % (tag, value.getValue()))
+        else:
+            value_element = ET.SubElement(element, tag)
+            value_element.text = token
+
     def writeDiagnosticCommunicationManagerNeeds(self, element: ET.Element, needs: DiagnosticCommunicationManagerNeeds):
         child_element = ET.SubElement(element, "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS")
         self.logger.debug("write DiagnosticCommunicationManagerNeeds %s" % needs.getShortName())
         self.writeDiagnosticCapabilityElement(child_element, needs)
-        self.setChildElementOptionalLiteral(child_element, "SERVICE-REQUEST-CALLBACK-TYPE", needs.getServiceRequestCallbackType())
+        self._writeEnumToken(child_element, "SERVICE-REQUEST-CALLBACK-TYPE", needs.getServiceRequestCallbackType(), DIAGNOSTIC_SERVICE_REQUEST_CALLBACK_TYPE_XML_MAP)
 
     def writeDiagnosticComponentNeeds(self, element: ET.Element, needs: DiagnosticComponentNeeds):
         child_element = ET.SubElement(element, "DIAGNOSTIC-COMPONENT-NEEDS")
@@ -5438,7 +5484,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-ROUTINE-NEEDS")
         self.logger.debug("write DiagnosticRoutineNeeds %s" % needs.getShortName())
         self.writeDiagnosticCapabilityElement(child_element, needs)
-        self.setChildElementOptionalLiteral(child_element, "DIAG-ROUTINE-TYPE", needs.getDiagRoutineType())
+        self._writeEnumToken(child_element, "DIAG-ROUTINE-TYPE", needs.getDiagRoutineType(), DIAGNOSTIC_ROUTINE_TYPE_XML_MAP)
         self.setChildElementOptionalIntegerValue(child_element, "RID-NUMBER", needs.getRidNumber())
 
     def writeDiagnosticValueNeeds(self, element: ET.Element, needs: DiagnosticValueNeeds):
@@ -5446,10 +5492,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("write DiagnosticValueNeeds %s" % needs.getShortName())
         self.writeDiagnosticCapabilityElement(child_element, needs)
         self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", needs.getDataLength())
-        self.setChildElementOptionalLiteral(child_element, "DIAGNOSTIC-VALUE-ACCESS", needs.getDiagnosticValueAccess())
+        self._writeEnumToken(child_element, "DIAGNOSTIC-VALUE-ACCESS", needs.getDiagnosticValueAccess(), DIAGNOSTIC_VALUE_ACCESS_XML_MAP)
         self.setChildElementOptionalIntegerValue(child_element, "DID-NUMBER", needs.getDidNumber())
         self.setChildElementOptionalBooleanValue(child_element, "FIXED-LENGTH", needs.getFixedLength())
-        self.setChildElementOptionalLiteral(child_element, "PROCESSING-STYLE", needs.getProcessingStyle())
+        self._writeEnumToken(child_element, "PROCESSING-STYLE", needs.getProcessingStyle(), DIAGNOSTIC_PROCESSING_STYLE_XML_MAP)
 
     def writeObdInfoServiceNeeds(self, element: ET.Element, needs: ObdInfoServiceNeeds):
         child_element = ET.SubElement(element, "OBD-INFO-SERVICE-NEEDS")
@@ -5590,7 +5636,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         # self.logger.debug("Write DiagnosticEventNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-INFO-NEEDS")
         self.writeDiagnosticCapabilityElement(child_element, needs)
-        self.setChildElementOptionalLiteral(child_element, "DTC-KIND", needs.getDtcKind())
+        self._writeEnumToken(child_element, "DTC-KIND", needs.getDtcKind(), DTC_KIND_XML_MAP)
+        self.setChildElementOptionalPositiveInteger(child_element, "OBD-DTC-NUMBER", needs.getObdDtcNumber())
         self.setChildElementOptionalPositiveInteger(child_element, "UDS-DTC-NUMBER", needs.getUdsDtcNumber())
 
     def writeDiagnosticIoControlNeeds(self, element: ET.Element, needs: DiagnosticIoControlNeeds):
@@ -5692,7 +5739,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         # self.logger.debug("Write DtcStatusChangeNotificationNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS")
         self.writeDiagnosticCapabilityElement(child_element, needs)
-        self.setChildElementOptionalLiteral(child_element, "DTC-FORMAT-TYPE", needs.getDtcFormatType())
+        self._writeEnumToken(child_element, "DTC-FORMAT-TYPE", needs.getDtcFormatType(), DTC_FORMAT_TYPE_XML_MAP)
+        self._writeEnumToken(child_element, "NOTIFICATION-TIME", needs.getNotificationTime(), DIAGNOSTIC_CLEAR_DTC_NOTIFICATION_XML_MAP)
 
     def writeDltUserNeeds(self, element: ET.Element, needs: DtcStatusChangeNotificationNeeds):
         # self.logger.debug("Write DtcStatusChangeNotificationNeeds %s" % needs.getShortName())

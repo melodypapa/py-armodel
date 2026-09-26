@@ -166,79 +166,76 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - note (Step 8): no deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12335 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
-- [ ] `DiagnosticCommunicationManagerNeeds` — DiagnosticCapabilityElement — source TBC (locate table at Step 1)
+- [ ] `DiagnosticCommunicationManagerNeeds` — DiagnosticCapabilityElement — R23-11 markdown · Table 13.34 (CP_TPS_SoftwareComponentTemplate), p.777
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - after `DiagnosticServiceRequestCallbackTypeEnum`
-  - after `DiagnosticCapabilityElement`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `DiagnosticEventInfoNeeds` — DiagnosticCapabilityElement — source TBC (locate table at Step 1)
+  - note (Step 1): One attr serviceRequestCallbackType (DiagnosticServiceRequestCallbackTypeEnum, 0..1, attr; wire SERVICE-REQUEST-CALLBACK-TYPE, token REQUEST-CALLBACK-TYPE-MANUFACTURER/SUPPLIER via DIAGNOSTIC_SERVICE_REQUEST_CALLBACK_TYPE_XML_MAP). Drift: fabricated docstring, __init__ docstring, bare-typed field, untyped accessors, old checklist; reader read generic Literal (not spec enum).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): reader converted to _readEnumToken (typed enum), writer to _writeEnumToken; orchestrator test updated from fabricated token 'callback' to spec token.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12335 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+- [ ] `DiagnosticEventInfoNeeds` — DiagnosticCapabilityElement — R23-11 markdown · Table 13.23 (CP_TPS_SoftwareComponentTemplate), p.761
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - after `DtcKindEnum`
-  - after `DiagnosticCapabilityElement`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `DiagnosticRoutineNeeds` — DiagnosticCapabilityElement — source TBC (locate table at Step 1)
+  - note (Step 1): R23-11 attrs: obdDtcNumber, udsDtcNumber (PositiveInteger, 0..1). dtcKind (DtcKindEnum) ABSENT from R23-11 table, present in R4.3.1 → Rule 0019 legacy member kept (R4.3.1 Note verbatim, release column R4.3.1, dual Spec lines). Writer was MISSING OBD-DTC-NUMBER emission entirely — added.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): rw converted to typed enums; OBD-DTC-NUMBER coverage added both directions; writer test updated to spec token EMISSION-RELATED-DTC.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): ONE accepted legacy deviation (dtcKind — Rule 0019, dual Spec lines) — subject to 9b batch confirmation
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12335 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+- [ ] `DiagnosticRoutineNeeds` — DiagnosticCapabilityElement — R23-11 markdown · Table 13.36 (CP_TPS_SoftwareComponentTemplate), p.778
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - after `DiagnosticRoutineTypeEnum`
-  - after `DiagnosticCapabilityElement`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `DiagnosticValueNeeds` — DiagnosticCapabilityElement — source TBC (locate table at Step 1)
+  - note (Step 1): R23-11 attr: diagRoutineType (DiagnosticRoutineTypeEnum, 0..1; wire DIAG-ROUTINE-TYPE). ridNumber ABSENT from R23-11 table, present in R4.3.1 → Rule 0019 legacy member (Note verbatim incl. spec's 'the a function' typo). Field renamed RidNumber → ridNumber (lowerCamel per spec member name).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): rw converted to typed enums (DIAG-ROUTINE-TYPE); RID-NUMBER rw pre-existed.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): ONE accepted legacy deviation (ridNumber — Rule 0019); RidNumber→ridNumber rename recorded
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12335 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+- [ ] `DiagnosticValueNeeds` — DiagnosticCapabilityElement — R23-11 markdown · Table 13.39 (CP_TPS_SoftwareComponentTemplate), p.780
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - after `DiagnosticProcessingStyleEnum`
-  - after `DiagnosticValueAccessEnum`
-  - after `DiagnosticCapabilityElement`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `DtcStatusChangeNotificationNeeds` — DiagnosticCapabilityElement — source TBC (locate table at Step 1)
+  - note (Step 1): R23-11 attrs: dataLength (PositiveInteger), diagnosticValueAccess (DiagnosticValueAccessEnum), fixedLength (Boolean), processingStyle (DiagnosticProcessingStyleEnum), all 0..1. didNumber ABSENT from R23-11 table, present in R4.3.1 → Rule 0019 legacy member. Field renamed DidNumber → didNumber; type corrected Integer → PositiveInteger (R4.3.1 row).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): DIAGNOSTIC-VALUE-ACCESS + PROCESSING-STYLE converted to typed enum tokens; writer tests updated from fabricated 'read'/'asynchronous' to spec tokens.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): ONE accepted legacy deviation (didNumber — Rule 0019); DidNumber→didNumber rename + type fix recorded
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12335 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+- [ ] `DtcStatusChangeNotificationNeeds` — DiagnosticCapabilityElement — R23-11 markdown · Table 13.32 (CP_TPS_SoftwareComponentTemplate), p.776
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - after `DiagnosticClearDtcNotificationEnum`
-  - after `DtcFormatTypeEnum`
-  - after `DiagnosticCapabilityElement`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - note (Step 1): R23-11 attr: notificationTime (DiagnosticClearDtcNotificationEnum, 0..1; wire NOTIFICATION-TIME). dtcFormatType ABSENT from R23-11 table, present in R4.3.1 → Rule 0019 legacy member (j1939/obd). Writer was MISSING NOTIFICATION-TIME emission entirely — added.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): rw converted to typed enums (DTC-FORMAT-TYPE, NOTIFICATION-TIME); NOTIFICATION-TIME coverage added both directions.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): ONE accepted legacy deviation (dtcFormatType — Rule 0019) — subject to 9b batch confirmation
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12335 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 - [ ] `CryptoServiceNeeds` — ServiceNeeds — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - [ ] Step 1 — Sync members & description from spec

@@ -197,6 +197,13 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DoIpPowerModeStatusNeeds,
     DoIpRoutingActivationAuthenticationNeeds,
     DoIpRoutingActivationConfirmationNeeds,
+    DiagnosticClearDtcNotificationEnum,
+    DiagnosticProcessingStyleEnum,
+    DiagnosticRoutineTypeEnum,
+    DiagnosticServiceRequestCallbackTypeEnum,
+    DiagnosticValueAccessEnum,
+    DtcFormatTypeEnum,
+    DtcKindEnum,
     DtcStatusChangeNotificationNeeds,
     EcuStateMgrUserNeeds,
     ErrorTracerNeeds,
@@ -1229,6 +1236,42 @@ DIAGNOSTIC_AUDIENCE_XML_MAP = {
     "development": "DEVELOPMENT",
     "manufacturing": "MANUFACTURING",
     "supplier": "SUPPLIER",
+}
+DIAGNOSTIC_SERVICE_REQUEST_CALLBACK_TYPE_XML_MAP = {
+    "requestCallbackTypeManufacturer": "REQUEST-CALLBACK-TYPE-MANUFACTURER",
+    "requestCallbackTypeSupplier": "REQUEST-CALLBACK-TYPE-SUPPLIER",
+}
+
+DIAGNOSTIC_ROUTINE_TYPE_XML_MAP = {
+    "asynchronous": "ASYNCHRONOUS",
+    "synchronous": "SYNCHRONOUS",
+}
+
+DIAGNOSTIC_VALUE_ACCESS_XML_MAP = {
+    "readOnly": "READ-ONLY",
+    "readWrite": "READ-WRITE",
+    "writeOnly": "WRITE-ONLY",
+}
+
+DIAGNOSTIC_PROCESSING_STYLE_XML_MAP = {
+    "processingStyleAsynchronous": "PROCESSING-STYLE-ASYNCHRONOUS",
+    "processingStyleAsynchronousWithError": "PROCESSING-STYLE-ASYNCHRONOUS-WITH-ERROR",
+    "processingStyleSynchronous": "PROCESSING-STYLE-SYNCHRONOUS",
+}
+
+DIAGNOSTIC_CLEAR_DTC_NOTIFICATION_XML_MAP = {
+    "start": "START",
+    "finish": "FINISH",
+}
+
+DTC_FORMAT_TYPE_XML_MAP = {
+    "j1939": "J-1939",
+    "obd": "OBD",
+}
+
+DTC_KIND_XML_MAP = {
+    "emissionRelatedDtc": "EMISSION-RELATED-DTC",
+    "nonEmmissionRelatedDtc": "NON-EMMISSION-RELATED-DTC",
 }
 
 
@@ -2731,10 +2774,20 @@ class ARXMLParser(AbstractARXMLParser):
         self.readServiceNeeds(element, needs)
         needs.setUseSmartSensorApi(self.getChildElementOptionalBooleanValue(element, "USE-SMART-SENSOR-API"))
 
+    def _readEnumToken(self, element: ET.Element, tag: str, enum_cls, token_map: dict):
+        literal = self.getChildElementOptionalLiteral(element, tag)
+        if literal is None:
+            return None
+        for camel_value, token in token_map.items():
+            if token == literal.getText():
+                return enum_cls().setValue(camel_value)
+        self.notImplemented("Unsupported %s <%s>" % (tag, literal.getText()))
+        return None
+
     def readDiagnosticCommunicationManagerNeeds(self, element: ET.Element, needs: DiagnosticCommunicationManagerNeeds):
         # self.logger.debug("Read DiagnosticCommunicationManagerNeeds <%s>" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
-        needs.setServiceRequestCallbackType(self.getChildElementOptionalLiteral(element, "SERVICE-REQUEST-CALLBACK-TYPE"))
+        needs.setServiceRequestCallbackType(self._readEnumToken(element, "SERVICE-REQUEST-CALLBACK-TYPE", DiagnosticServiceRequestCallbackTypeEnum, DIAGNOSTIC_SERVICE_REQUEST_CALLBACK_TYPE_XML_MAP))
 
     def readDiagnosticComponentNeeds(self, element: ET.Element, needs: DiagnosticComponentNeeds):
         self.readDiagnosticCapabilityElement(element, needs)
@@ -2751,17 +2804,17 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticRoutineNeeds(self, element: ET.Element, needs: DiagnosticRoutineNeeds):
         # self.logger.debug("Read DiagnosticRoutineNeeds %s" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
-        needs.setDiagRoutineType(self.getChildElementOptionalLiteral(element, "DIAG-ROUTINE-TYPE"))
+        needs.setDiagRoutineType(self._readEnumToken(element, "DIAG-ROUTINE-TYPE", DiagnosticRoutineTypeEnum, DIAGNOSTIC_ROUTINE_TYPE_XML_MAP))
         needs.setRidNumber(self.getChildElementOptionalIntegerValue(element, "RID-NUMBER"))
 
     def readDiagnosticValueNeeds(self, element: ET.Element, needs: DiagnosticValueNeeds):
         # self.logger.debug("Read DiagnosticValueNeeds %s" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
         needs.setDataLength(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH"))
-        needs.setDiagnosticValueAccess(self.getChildElementOptionalLiteral(element, "DIAGNOSTIC-VALUE-ACCESS"))
+        needs.setDiagnosticValueAccess(self._readEnumToken(element, "DIAGNOSTIC-VALUE-ACCESS", DiagnosticValueAccessEnum, DIAGNOSTIC_VALUE_ACCESS_XML_MAP))
         needs.setDidNumber(self.getChildElementOptionalIntegerValue(element, "DID-NUMBER"))
         needs.setFixedLength(self.getChildElementOptionalBooleanValue(element, "FIXED-LENGTH"))
-        needs.setProcessingStyle(self.getChildElementOptionalLiteral(element, "PROCESSING-STYLE"))
+        needs.setProcessingStyle(self._readEnumToken(element, "PROCESSING-STYLE", DiagnosticProcessingStyleEnum, DIAGNOSTIC_PROCESSING_STYLE_XML_MAP))
 
     def readDiagEventDebounceCounterBased(self, element: ET.Element, algorithm: DiagEventDebounceCounterBased):
         self.readDiagnosticCapabilityElement(element, algorithm)
@@ -2802,7 +2855,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticEventInfoNeeds(self, element: ET.Element, needs: DiagnosticEventInfoNeeds):
         # self.logger.debug("Read DiagnosticEventInfoNeeds <%s>" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
-        needs.setDtcKind(self.getChildElementOptionalLiteral(element, "DTC-KIND"))
+        needs.setDtcKind(self._readEnumToken(element, "DTC-KIND", DtcKindEnum, DTC_KIND_XML_MAP))
+        needs.setObdDtcNumber(self.getChildElementOptionalPositiveInteger(element, "OBD-DTC-NUMBER"))
         needs.setUdsDtcNumber(self.getChildElementOptionalPositiveInteger(element, "UDS-DTC-NUMBER"))
 
     def readDiagnosticIoControlNeeds(self, element: ET.Element, needs: DiagnosticIoControlNeeds):
@@ -2877,7 +2931,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readDtcStatusChangeNotificationNeeds(self, element: ET.Element, needs: DtcStatusChangeNotificationNeeds):
         # self.logger.debug("Read DtcStatusChangeNotificationNeeds %s" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
-        needs.setDtcFormatType(self.getChildElementOptionalLiteral(element, "DTC-FORMAT-TYPE"))
+        needs.setDtcFormatType(self._readEnumToken(element, "DTC-FORMAT-TYPE", DtcFormatTypeEnum, DTC_FORMAT_TYPE_XML_MAP))
+        needs.setNotificationTime(self._readEnumToken(element, "NOTIFICATION-TIME", DiagnosticClearDtcNotificationEnum, DIAGNOSTIC_CLEAR_DTC_NOTIFICATION_XML_MAP))
 
     def readDltUserNeeds(self, element: ET.Element, needs: DltUserNeeds):
         # self.logger.debug("Read DltUserNeeds %s" % needs.getShortName())

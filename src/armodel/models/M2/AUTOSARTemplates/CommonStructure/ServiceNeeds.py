@@ -938,124 +938,90 @@ class DiagnosticRoutineTypeEnum(AREnum):
 
 class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
     """
-    Represents diagnostic communication manager needs in AUTOSAR models.
-    This class defines requirements for the diagnostic communication manager including callback types.
+    Specifies the general needs on the configuration of the Diagnostic Communication Manager (Dcm) which are not related to a particular item (e.g. a PID or DiagnosticRoutineNeeds). The main use case is the mapping of service ports to the Dcm which are not related to a particular item.
     """
 
     # DiagnosticCommunicationManagerNeeds method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getServiceRequestCallbackType [x] impl  [x] docstring  [ ] test
-    # [ ] setServiceRequestCallbackType [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.34, p.777
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getServiceRequestCallbackType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceRequestCallbackType   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticCommunicationManagerNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic communication manager needs
-            short_name: The unique short name of this diagnostic communication manager needs
-        """
         super().__init__(parent, short_name)
 
-        # Type of service request callback for this diagnostic communication manager
-        self.serviceRequestCallbackType: DiagnosticServiceRequestCallbackTypeEnum = None
+        # This represents the ability to define whether the usage of PortInterface ServiceRequestNotification has the characteristics of being initiated by a manufacturer or by a supplier.
+        self.serviceRequestCallbackType: Optional[DiagnosticServiceRequestCallbackTypeEnum] = None
 
-    def getServiceRequestCallbackType(self):
+    def getServiceRequestCallbackType(self) -> Optional[DiagnosticServiceRequestCallbackTypeEnum]:
         """
-        Gets the type of service request callback for this diagnostic communication manager.
-
-        Returns:
-            DiagnosticServiceRequestCallbackTypeEnum: The service request callback type
+        This represents the ability to define whether the usage of PortInterface ServiceRequestNotification has the characteristics of being initiated by a manufacturer or by a supplier.
         """
         return self.serviceRequestCallbackType
 
-    def setServiceRequestCallbackType(self, value):
+    def setServiceRequestCallbackType(self, value: Optional[DiagnosticServiceRequestCallbackTypeEnum]) -> DiagnosticCommunicationManagerNeeds:
         """
-        Sets the type of service request callback for this diagnostic communication manager.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The service request callback type to set
-
-        Returns:
-            self for method chaining
+        This represents the ability to define whether the usage of PortInterface ServiceRequestNotification has the characteristics of being initiated by a manufacturer or by a supplier.
+        A None value is a no-op and does not overwrite an existing serviceRequestCallbackType.
         """
-        self.serviceRequestCallbackType = value
+        if value is not None:
+            self.serviceRequestCallbackType = value
         return self
 
 
 class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     """
-    Represents diagnostic routine needs in AUTOSAR models.
-    This class defines requirements for diagnostic routines including their execution type and RID number.
+    Specifies the general needs on the configuration of the Diagnostic Communication Manager (Dcm) which are not related to a particular item (e.g. a PID). The main use case is the mapping of service ports to the Dcm which are not related to a particular item.
     """
 
     # DiagnosticRoutineNeeds method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getDiagRoutineType           [x] impl  [x] docstring  [ ] test
-    # [ ] setDiagRoutineType           [x] impl  [x] docstring  [ ] test
-    # [ ] getRidNumber                 [x] impl  [x] docstring  [ ] test
-    # [ ] setRidNumber                 [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.36, p.778 (R23-11)
+    # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf (R4.3.1)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagRoutineType       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagRoutineType       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRidNumber             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setRidNumber             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticRoutineNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic routine needs
-            short_name: The unique short name of this diagnostic routine needs
-        """
         super().__init__(parent, short_name)
 
-        # Type of diagnostic routine (synchronous or asynchronous)
-        self.diagRoutineType: DiagnosticRoutineTypeEnum = None
-        # RID (Routine ID) number for this diagnostic routine
-        self.RidNumber: PositiveInteger = None
+        # This denotes the type of diagnostic routine which is implemented by the referenced server port.
+        self.diagRoutineType: Optional[DiagnosticRoutineTypeEnum] = None
 
-    def getDiagRoutineType(self):
+        # This represents a routine identifier for the diagnostic routine. This allows to predefine the RID number if the a function developer has received a particular requirement from the OEM or from a standardization body.
+        self.ridNumber: Optional[PositiveInteger] = None
+
+    def getDiagRoutineType(self) -> Optional[DiagnosticRoutineTypeEnum]:
         """
-        Gets the type of diagnostic routine (synchronous or asynchronous).
-
-        Returns:
-            DiagnosticRoutineTypeEnum: The diagnostic routine type
+        This denotes the type of diagnostic routine which is implemented by the referenced server port.
         """
         return self.diagRoutineType
 
-    def setDiagRoutineType(self, value):
+    def setDiagRoutineType(self, value: Optional[DiagnosticRoutineTypeEnum]) -> DiagnosticRoutineNeeds:
         """
-        Sets the type of diagnostic routine (synchronous or asynchronous).
-        Only sets the value if it is not None.
-
-        Args:
-            value: The diagnostic routine type to set
-
-        Returns:
-            self for method chaining
+        This denotes the type of diagnostic routine which is implemented by the referenced server port.
+        A None value is a no-op and does not overwrite an existing diagRoutineType.
         """
-        self.diagRoutineType = value
+        if value is not None:
+            self.diagRoutineType = value
         return self
 
-    def getRidNumber(self):
+    def getRidNumber(self) -> Optional[PositiveInteger]:
         """
-        Gets the RID (Routine ID) number for this diagnostic routine.
-
-        Returns:
-            PositiveInteger: The RID number
+        This represents a routine identifier for the diagnostic routine. This allows to predefine the RID number if the a function developer has received a particular requirement from the OEM or from a standardization body.
         """
-        return self.RidNumber
+        return self.ridNumber
 
-    def setRidNumber(self, value):
+    def setRidNumber(self, value: Optional[PositiveInteger]) -> DiagnosticRoutineNeeds:
         """
-        Sets the RID (Routine ID) number for this diagnostic routine.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The RID number to set
-
-        Returns:
-            self for method chaining
+        This represents a routine identifier for the diagnostic routine. This allows to predefine the RID number if the a function developer has received a particular requirement from the OEM or from a standardization body.
+        A None value is a no-op and does not overwrite an existing ridNumber.
         """
-        self.RidNumber = value
+        if value is not None:
+            self.ridNumber = value
         return self
 
 
@@ -1117,157 +1083,116 @@ class DiagnosticProcessingStyleEnum(AREnum):
 
 class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     """
-    Represents diagnostic value needs in AUTOSAR models.
-    This class defines requirements for diagnostic values including access permissions, length, and processing style.
+    Specifies the general needs on the configuration of the Diagnostic Communication Manager (DCM) which are not related to a particular item (e.g. a PID). The main use case is the mapping of service ports to the DCM which are not related to a particular item. In the case of using a sender receiver communicated value, the related value shall be taken via assigned Data in the role "signalBasedDiagnostics". In case of using a client/server communicated value, the related value shall be communicated via the port referenced by assignedPort. The details of this communication (e.g. appropriate naming conventions) are specified in the related software specifications (SWS).
     """
 
     # DiagnosticValueNeeds method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getDataLength                [x] impl  [x] docstring  [ ] test
-    # [ ] setDataLength                [x] impl  [x] docstring  [ ] test
-    # [ ] getDiagnosticValueAccess     [x] impl  [x] docstring  [ ] test
-    # [ ] setDiagnosticValueAccess     [x] impl  [x] docstring  [ ] test
-    # [ ] getDidNumber                 [x] impl  [x] docstring  [ ] test
-    # [ ] setDidNumber                 [x] impl  [x] docstring  [ ] test
-    # [ ] getFixedLength               [x] impl  [x] docstring  [ ] test
-    # [ ] setFixedLength               [x] impl  [x] docstring  [ ] test
-    # [ ] getProcessingStyle           [x] impl  [x] docstring  [ ] test
-    # [ ] setProcessingStyle           [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.39, p.780 (R23-11)
+    # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf (R4.3.1)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataLength                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataLength                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDiagnosticValueAccess     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticValueAccess     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDidNumber                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setDidNumber                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getFixedLength               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFixedLength               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProcessingStyle           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProcessingStyle           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticValueNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic value needs
-            short_name: The unique short name of this diagnostic value needs
-        """
         super().__init__(parent, short_name)
 
-        # Data length for this diagnostic value
-        self.dataLength: PositiveInteger = None
-        # Access permissions for this diagnostic value
-        self.diagnosticValueAccess: DiagnosticValueAccessEnum = None
-        # DID (Data ID) number for this diagnostic value
-        self.DidNumber: Integer = None
-        # Flag indicating if this diagnostic value has fixed length
-        self.fixedLength: Boolean = None
-        # Processing style for this diagnostic value
-        self.processingStyle: DiagnosticProcessingStyleEnum = None
+        # This attribute is applicable only if the DiagnosticValueNeeds is aggregated within a BswModuleDependency. This attribute represents the length of data (in bytes) provided for this particular PID signal.
+        self.dataLength: Optional[PositiveInteger] = None
 
-    def getDataLength(self):
+        # This attribute is applicable only if the DiagnosticValueNeeds is aggregated within a BswModuleDependency. This attribute controls whether the data can be read and written or whether it is to be handled read-only.
+        self.diagnosticValueAccess: Optional[DiagnosticValueAccessEnum] = None
+
+        # This represents a Data identifier for the diagnostic value. This allows to predefine the DID number if the responsible function developer has received a particular requirement from the OEM or from a standardization body.
+        self.didNumber: Optional[PositiveInteger] = None
+
+        # This attribute is applicable only if the DiagnosticValueNeeds is aggregated within a BswModuleDependency. This attribute controls whether the data length of the data is fixed.
+        self.fixedLength: Optional[Boolean] = None
+
+        # This attribute controls whether interaction requires the software-component to react synchronously on a request or whether it processes the request in background but still the DCM has to issue the call again to eventually obtain the result of the request.
+        self.processingStyle: Optional[DiagnosticProcessingStyleEnum] = None
+
+    def getDataLength(self) -> Optional[PositiveInteger]:
         """
-        Gets the data length for this diagnostic value.
-
-        Returns:
-            PositiveInteger: The data length
+        This attribute is applicable only if the DiagnosticValueNeeds is aggregated within a BswModuleDependency. This attribute represents the length of data (in bytes) provided for this particular PID signal.
         """
         return self.dataLength
 
-    def setDataLength(self, value):
+    def setDataLength(self, value: Optional[PositiveInteger]) -> DiagnosticValueNeeds:
         """
-        Sets the data length for this diagnostic value.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The data length to set
-
-        Returns:
-            self for method chaining
+        This attribute is applicable only if the DiagnosticValueNeeds is aggregated within a BswModuleDependency. This attribute represents the length of data (in bytes) provided for this particular PID signal.
+        A None value is a no-op and does not overwrite an existing dataLength.
         """
-        self.dataLength = value
+        if value is not None:
+            self.dataLength = value
         return self
 
-    def getDiagnosticValueAccess(self):
+    def getDiagnosticValueAccess(self) -> Optional[DiagnosticValueAccessEnum]:
         """
-        Gets the access permissions for this diagnostic value.
-
-        Returns:
-            DiagnosticValueAccessEnum: The diagnostic value access permissions
+        This attribute is applicable only if the DiagnosticValueNeeds is aggregated within a BswModuleDependency. This attribute controls whether the data can be read and written or whether it is to be handled read-only.
         """
         return self.diagnosticValueAccess
 
-    def setDiagnosticValueAccess(self, value):
+    def setDiagnosticValueAccess(self, value: Optional[DiagnosticValueAccessEnum]) -> DiagnosticValueNeeds:
         """
-        Sets the access permissions for this diagnostic value.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The diagnostic value access permissions to set
-
-        Returns:
-            self for method chaining
+        This attribute is applicable only if the DiagnosticValueNeeds is aggregated within a BswModuleDependency. This attribute controls whether the data can be read and written or whether it is to be handled read-only.
+        A None value is a no-op and does not overwrite an existing diagnosticValueAccess.
         """
-        self.diagnosticValueAccess = value
+        if value is not None:
+            self.diagnosticValueAccess = value
         return self
 
-    def getDidNumber(self):
+    def getDidNumber(self) -> Optional[PositiveInteger]:
         """
-        Gets the DID (Data ID) number for this diagnostic value.
-
-        Returns:
-            Integer: The DID number
+        This represents a Data identifier for the diagnostic value. This allows to predefine the DID number if the responsible function developer has received a particular requirement from the OEM or from a standardization body.
         """
-        return self.DidNumber
+        return self.didNumber
 
-    def setDidNumber(self, value):
+    def setDidNumber(self, value: Optional[PositiveInteger]) -> DiagnosticValueNeeds:
         """
-        Sets the DID (Data ID) number for this diagnostic value.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The DID number to set
-
-        Returns:
-            self for method chaining
+        This represents a Data identifier for the diagnostic value. This allows to predefine the DID number if the responsible function developer has received a particular requirement from the OEM or from a standardization body.
+        A None value is a no-op and does not overwrite an existing didNumber.
         """
-        self.DidNumber = value
+        if value is not None:
+            self.didNumber = value
         return self
 
-    def getFixedLength(self):
+    def getFixedLength(self) -> Optional[Boolean]:
         """
-        Gets the flag indicating if this diagnostic value has fixed length.
-
-        Returns:
-            Boolean: The fixed length flag
+        This attribute is applicable only if the DiagnosticValueNeeds is aggregated within a BswModuleDependency. This attribute controls whether the data length of the data is fixed.
         """
         return self.fixedLength
 
-    def setFixedLength(self, value):
+    def setFixedLength(self, value: Optional[Boolean]) -> DiagnosticValueNeeds:
         """
-        Sets the flag indicating if this diagnostic value has fixed length.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The fixed length flag to set
-
-        Returns:
-            self for method chaining
+        This attribute is applicable only if the DiagnosticValueNeeds is aggregated within a BswModuleDependency. This attribute controls whether the data length of the data is fixed.
+        A None value is a no-op and does not overwrite an existing fixedLength.
         """
-        self.fixedLength = value
+        if value is not None:
+            self.fixedLength = value
         return self
 
-    def getProcessingStyle(self):
+    def getProcessingStyle(self) -> Optional[DiagnosticProcessingStyleEnum]:
         """
-        Gets the processing style for this diagnostic value.
-
-        Returns:
-            DiagnosticProcessingStyleEnum: The processing style
+        This attribute controls whether interaction requires the software-component to react synchronously on a request or whether it processes the request in background but still the DCM has to issue the call again to eventually obtain the result of the request.
         """
         return self.processingStyle
 
-    def setProcessingStyle(self, value):
+    def setProcessingStyle(self, value: Optional[DiagnosticProcessingStyleEnum]) -> DiagnosticValueNeeds:
         """
-        Sets the processing style for this diagnostic value.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The processing style to set
-
-        Returns:
-            self for method chaining
+        This attribute controls whether interaction requires the software-component to react synchronously on a request or whether it processes the request in background but still the DCM has to issue the call again to eventually obtain the result of the request.
+        A None value is a no-op and does not overwrite an existing processingStyle.
         """
-        self.processingStyle = value
+        if value is not None:
+            self.processingStyle = value
         return self
 
 
@@ -1504,103 +1429,73 @@ class DtcKindEnum(AREnum):
 
 class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     """
-    Represents diagnostic event information needs in AUTOSAR models.
-    This class defines requirements for diagnostic events including DTC information and numbering schemes.
+    This meta-class represents the needs of a software-component interested to get information regarding specific DTCs.
     """
 
     # DiagnosticEventInfoNeeds method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getDtcKind                   [x] impl  [x] docstring  [ ] test
-    # [ ] setDtcKind                   [x] impl  [x] docstring  [ ] test
-    # [ ] getObdDtcNumber              [x] impl  [x] docstring  [ ] test
-    # [ ] setObdDtcNumber              [x] impl  [x] docstring  [ ] test
-    # [ ] getUdsDtcNumber              [x] impl  [x] docstring  [ ] test
-    # [ ] setUdsDtcNumber              [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.23, p.761 (R23-11)
+    # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf (R4.3.1)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDtcKind         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setDtcKind         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getObdDtcNumber    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setObdDtcNumber    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUdsDtcNumber    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUdsDtcNumber    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticEventInfoNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic event information needs
-            short_name: The unique short name of this diagnostic event information needs
-        """
         super().__init__(parent, short_name)
 
-        # Type of diagnostic trouble code (DTC) for this event
-        self.dtcKind: DtcKindEnum = None
-        # OBD (On-Board Diagnostics) DTC number for this event
-        self.obdDtcNumber: PositiveInteger = None
-        # UDS (Unified Diagnostic Services) DTC number for this event
-        self.udsDtcNumber: PositiveInteger = None
+        # This attribute indicates the kind of the diagnostic event according to the SWS Diagnostic Event Manger for which the DiagnosticInfo is requested. This attribute applies for the UDS diagnostics use case.
+        self.dtcKind: Optional[DtcKindEnum] = None
 
-    def getDtcKind(self):
+        # This represents a reasonable Diagnostic Trouble Code. This allows to predefine the Diagnostic Trouble Code, e.g. if the function developer has received a particular requirement from the OEM or from a standardization body. This attribute applies for the OBD diagnostics use case.
+        self.obdDtcNumber: Optional[PositiveInteger] = None
+
+        # This represents a reasonable Diagnostic Trouble Code. This allows to predefine the Diagnostic Trouble Code, e.g. if the function developer has received a particular requirement from the OEM or from a standardization body. This attribute applies for the UDS diagnostics use case.
+        self.udsDtcNumber: Optional[PositiveInteger] = None
+
+    def getDtcKind(self) -> Optional[DtcKindEnum]:
         """
-        Gets the type of diagnostic trouble code (DTC) for this event.
-
-        Returns:
-            DtcKindEnum: The DTC kind
+        This attribute indicates the kind of the diagnostic event according to the SWS Diagnostic Event Manger for which the DiagnosticInfo is requested. This attribute applies for the UDS diagnostics use case.
         """
         return self.dtcKind
 
-    def setDtcKind(self, value):
+    def setDtcKind(self, value: Optional[DtcKindEnum]) -> DiagnosticEventInfoNeeds:
         """
-        Sets the type of diagnostic trouble code (DTC) for this event.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The DTC kind to set
-
-        Returns:
-            self for method chaining
+        This attribute indicates the kind of the diagnostic event according to the SWS Diagnostic Event Manger for which the DiagnosticInfo is requested. This attribute applies for the UDS diagnostics use case.
+        A None value is a no-op and does not overwrite an existing dtcKind.
         """
         if value is not None:
             self.dtcKind = value
         return self
 
-    def getObdDtcNumber(self):
+    def getObdDtcNumber(self) -> Optional[PositiveInteger]:
         """
-        Gets the OBD (On-Board Diagnostics) DTC number for this event.
-
-        Returns:
-            PositiveInteger: The OBD DTC number
+        This represents a reasonable Diagnostic Trouble Code. This allows to predefine the Diagnostic Trouble Code, e.g. if the function developer has received a particular requirement from the OEM or from a standardization body. This attribute applies for the OBD diagnostics use case.
         """
         return self.obdDtcNumber
 
-    def setObdDtcNumber(self, value):
+    def setObdDtcNumber(self, value: Optional[PositiveInteger]) -> DiagnosticEventInfoNeeds:
         """
-        Sets the OBD (On-Board Diagnostics) DTC number for this event.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The OBD DTC number to set
-
-        Returns:
-            self for method chaining
+        This represents a reasonable Diagnostic Trouble Code. This allows to predefine the Diagnostic Trouble Code, e.g. if the function developer has received a particular requirement from the OEM or from a standardization body. This attribute applies for the OBD diagnostics use case.
+        A None value is a no-op and does not overwrite an existing obdDtcNumber.
         """
         if value is not None:
             self.obdDtcNumber = value
         return self
 
-    def getUdsDtcNumber(self):
+    def getUdsDtcNumber(self) -> Optional[PositiveInteger]:
         """
-        Gets the UDS (Unified Diagnostic Services) DTC number for this event.
-
-        Returns:
-            PositiveInteger: The UDS DTC number
+        This represents a reasonable Diagnostic Trouble Code. This allows to predefine the Diagnostic Trouble Code, e.g. if the function developer has received a particular requirement from the OEM or from a standardization body. This attribute applies for the UDS diagnostics use case.
         """
         return self.udsDtcNumber
 
-    def setUdsDtcNumber(self, value):
+    def setUdsDtcNumber(self, value: Optional[PositiveInteger]) -> DiagnosticEventInfoNeeds:
         """
-        Sets the UDS (Unified Diagnostic Services) DTC number for this event.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The UDS DTC number to set
-
-        Returns:
-            self for method chaining
+        This represents a reasonable Diagnostic Trouble Code. This allows to predefine the Diagnostic Trouble Code, e.g. if the function developer has received a particular requirement from the OEM or from a standardization body. This attribute applies for the UDS diagnostics use case.
+        A None value is a no-op and does not overwrite an existing udsDtcNumber.
         """
         if value is not None:
             self.udsDtcNumber = value
@@ -1657,76 +1552,53 @@ class DtcFormatTypeEnum(AREnum):
 
 class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
     """
-    Represents DTC status change notification needs in AUTOSAR models.
-    This class defines requirements for notifications when DTC status changes occur.
+    This meta-class represents the needs of a software-component interested to get information regarding any DTC status change.
     """
 
     # DtcStatusChangeNotificationNeeds method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getDtcFormatType             [x] impl  [x] docstring  [ ] test
-    # [ ] setDtcFormatType             [x] impl  [x] docstring  [ ] test
-    # [ ] getNotificationTime          [x] impl  [x] docstring  [ ] test
-    # [ ] setNotificationTime          [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.32, p.776 (R23-11)
+    # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf (R4.3.1)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDtcFormatType      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setDtcFormatType      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getNotificationTime   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNotificationTime   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
-        """
-        Initializes the DtcStatusChangeNotificationNeeds with a parent and short name.
-        Note: This is an extension for AUTOSAR 4.3.1.
-
-        Args:
-            parent: The parent ARObject that contains this DTC status change notification needs
-            short_name: The unique short name of this DTC status change notification needs
-        """
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # Format type for DTC used in notifications
-        self.dtcFormatType: DtcFormatTypeEnum = None
-        # Notification timing for when DTCs are cleared
-        self.notificationTime: DiagnosticClearDtcNotificationEnum = None
+        # This attribute specifies the DTC format.
+        self.dtcFormatType: Optional[DtcFormatTypeEnum] = None
 
-    def getDtcFormatType(self):
+        # This attribute determines the time when the notification about the DTC operation shall be executed. This attribute is only relevant for the configuration of the ClearDtcNotification.
+        self.notificationTime: Optional[DiagnosticClearDtcNotificationEnum] = None
+
+    def getDtcFormatType(self) -> Optional[DtcFormatTypeEnum]:
         """
-        Gets the format type for DTC used in notifications.
-
-        Returns:
-            DtcFormatTypeEnum: The DTC format type
+        This attribute specifies the DTC format.
         """
         return self.dtcFormatType
 
-    def setDtcFormatType(self, value):
+    def setDtcFormatType(self, value: Optional[DtcFormatTypeEnum]) -> DtcStatusChangeNotificationNeeds:
         """
-        Sets the format type for DTC used in notifications.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The DTC format type to set
-
-        Returns:
-            self for method chaining
+        This attribute specifies the DTC format.
+        A None value is a no-op and does not overwrite an existing dtcFormatType.
         """
         if value is not None:
             self.dtcFormatType = value
         return self
 
-    def getNotificationTime(self):
+    def getNotificationTime(self) -> Optional[DiagnosticClearDtcNotificationEnum]:
         """
-        Gets the notification timing for when DTCs are cleared.
-
-        Returns:
-            DiagnosticClearDtcNotificationEnum: The notification timing
+        This attribute determines the time when the notification about the DTC operation shall be executed. This attribute is only relevant for the configuration of the ClearDtcNotification.
         """
         return self.notificationTime
 
-    def setNotificationTime(self, value):
+    def setNotificationTime(self, value: Optional[DiagnosticClearDtcNotificationEnum]) -> DtcStatusChangeNotificationNeeds:
         """
-        Sets the notification timing for when DTCs are cleared.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The notification timing to set
-
-        Returns:
-            self for method chaining
+        This attribute determines the time when the notification about the DTC operation shall be executed. This attribute is only relevant for the configuration of the ClearDtcNotification.
+        A None value is a no-op and does not overwrite an existing notificationTime.
         """
         if value is not None:
             self.notificationTime = value

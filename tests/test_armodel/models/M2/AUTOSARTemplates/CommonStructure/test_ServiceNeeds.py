@@ -1085,7 +1085,7 @@ class TestDiagnosticRoutineNeeds:
         assert diag_routine.diagRequirement is None
         assert diag_routine.securityAccessLevel is None
         assert diag_routine.diagRoutineType is None
-        assert diag_routine.RidNumber is None
+        assert diag_routine.ridNumber is None
 
     def test_get_set_diag_routine_type(self):
         """Test getDiagRoutineType and setDiagRoutineType methods"""
@@ -1108,9 +1108,13 @@ class TestDiagnosticRoutineNeeds:
 
         assert diag_routine.getRidNumber() is None
 
-        result = diag_routine.setRidNumber(1234)
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+
+        rid = PositiveInteger()
+        rid.setValue(1234)
+        result = diag_routine.setRidNumber(rid)
         assert result is diag_routine
-        assert diag_routine.getRidNumber() == 1234
+        assert diag_routine.getRidNumber() == rid
 
     def test_get_set_audiences(self):
         """Test getAudiences and addAudience methods"""
@@ -1192,7 +1196,7 @@ class TestDiagnosticValueNeeds:
         assert diag_value.securityAccessLevel is None
         assert diag_value.dataLength is None
         assert diag_value.diagnosticValueAccess is None
-        assert diag_value.DidNumber is None
+        assert diag_value.didNumber is None
         assert diag_value.fixedLength is None
         assert diag_value.processingStyle is None
 

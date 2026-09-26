@@ -1892,19 +1892,23 @@ class TestWriterServiceNeeds:
         dep = behavior.createSwcServiceDependency("dep1")
         needs = dep.createDiagnosticValueNeeds("dvn1")
         needs.setDataLength(_posint(8))
-        needs.setDiagnosticValueAccess(_literal("read"))
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticValueAccessEnum
+
+        needs.setDiagnosticValueAccess(DiagnosticValueAccessEnum().setValue("readWrite"))
         needs.setDidNumber(_int("32"))
         needs.setFixedLength(_bool(True))
-        needs.setProcessingStyle(_literal("asynchronous"))
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticProcessingStyleEnum
+
+        needs.setProcessingStyle(DiagnosticProcessingStyleEnum().setValue("processingStyleSynchronous"))
         parent = _parent()
         writer.writeDiagnosticValueNeeds(parent, needs)
         elem = parent.find("DIAGNOSTIC-VALUE-NEEDS")
         assert elem is not None
         assert elem.find("DATA-LENGTH").text == "8"
-        assert elem.find("DIAGNOSTIC-VALUE-ACCESS").text == "read"
+        assert elem.find("DIAGNOSTIC-VALUE-ACCESS").text == "READ-WRITE"
         assert elem.find("DID-NUMBER").text == "32"
         assert elem.find("FIXED-LENGTH").text == "true"
-        assert elem.find("PROCESSING-STYLE").text == "asynchronous"
+        assert elem.find("PROCESSING-STYLE").text == "PROCESSING-STYLE-SYNCHRONOUS"
 
     def test_writeDiagnosticEventNeeds_with_algorithm(self, writer):
         behavior = _make_behavior()
@@ -2003,13 +2007,15 @@ class TestWriterServiceNeeds:
         behavior = _make_behavior()
         dep = behavior.createSwcServiceDependency("dep1")
         needs = dep.createDiagnosticEventInfoNeeds("dei1")
-        needs.setDtcKind(_literal("UDS_DTC"))
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DtcKindEnum
+
+        needs.setDtcKind(DtcKindEnum().setValue("emissionRelatedDtc"))
         needs.setUdsDtcNumber(_posint("64"))
         parent = _parent()
         writer.writeDiagnosticEventInfoNeeds(parent, needs)
         elem = parent.find("DIAGNOSTIC-EVENT-INFO-NEEDS")
         assert elem is not None
-        assert elem.find("DTC-KIND").text == "UDS_DTC"
+        assert elem.find("DTC-KIND").text == "EMISSION-RELATED-DTC"
         assert elem.find("UDS-DTC-NUMBER").text == "64"
 
     def test_writeDiagnosticIoControlNeeds(self, writer):
@@ -2053,7 +2059,9 @@ class TestWriterServiceNeeds:
         behavior = _make_behavior()
         dep = behavior.createSwcServiceDependency("dep1")
         needs = dep.createDtcStatusChangeNotificationNeeds("dsc1")
-        needs.setDtcFormatType(_literal("UDS"))
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DtcFormatTypeEnum
+
+        needs.setDtcFormatType(DtcFormatTypeEnum().setValue("obd"))
         parent = _parent()
         writer.writeDtcStatusChangeNotificationNeeds(parent, needs)
         elem = parent.find("DTC-STATUS-CHANGE-NOTIFICATION-NEEDS")
