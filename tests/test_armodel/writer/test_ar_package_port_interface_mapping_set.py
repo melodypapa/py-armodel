@@ -16,6 +16,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ClientServerApplicationErrorMapping,
+    ClientServerOperationMapping,
+    DataPrototypeMapping,
     PortInterfaceMappingSet,
 )
 from armodel.parser.arxml_parser import ARXMLParser
@@ -307,3 +309,125 @@ class TestWriteClientServerInterfaceMappingErrorMappings:
         assert em2.getFirstApplicationErrorRef().getDest() == "APPLICATION-ERROR"
         assert em2.getSecondApplicationErrorRef().getValue() == "/ifc2/err2"
         assert em2.getSecondApplicationErrorRef().getDest() == "APPLICATION-ERROR"
+
+
+class TestWriteClientServerInterfaceMappingOperationMappings:
+    """
+    Test the OPERATION-MAPPINGS children of CLIENT-SERVER-INTERFACE-MAPPING —
+    ClientServerOperationMapping (SWC TPS Table 4.24; argumentMapping `*` aggr
+    under the ARGUMENT-MAPPINGS wrapper + three 0..1 refs).
+    """
+
+    @staticmethod
+    def _argument_mapping(first: str, second: str) -> DataPrototypeMapping:
+        am = DataPrototypeMapping()
+        am.setFirstDataPrototypeRef(RefType().setValue(first).setDest("ARGUMENT-DATA-PROTOTYPE"))
+        am.setSecondDataPrototypeRef(RefType().setValue(second).setDest("ARGUMENT-DATA-PROTOTYPE"))
+        return am
+
+    @staticmethod
+    def _operation_mapping() -> ClientServerOperationMapping:
+        om = ClientServerOperationMapping()
+        om.addArgumentMapping(TestWriteClientServerInterfaceMappingOperationMappings._argument_mapping("/ifc1/op1/arg1", "/ifc2/op2/arg2"))
+        om.setFirstOperationRef(RefType().setValue("/ifc1/op1").setDest("CLIENT-SERVER-OPERATION"))
+        om.setFirstToSecondDataTransformationRef(RefType().setValue("/pkg/trans1").setDest("DATA-TRANSFORMATION"))
+        om.setSecondOperationRef(RefType().setValue("/ifc2/op2").setDest("CLIENT-SERVER-OPERATION"))
+        return om
+
+    def test_write_operation_mapping_field_values(self, writer):
+        """
+        Test that the ARGUMENT-MAPPINGS items and all three refs are written with
+        value and DEST, in XSD element order (ARGUMENT-MAPPINGS, FIRST-OPERATION-REF,
+        FIRST-TO-SECOND-DATA-TRANSFORMATION-REF, SECOND-OPERATION-REF).
+        """
+        mapping_set = _mapping_set()
+        csim = mapping_set.createClientServerInterfaceMapping("csim")
+        csim.addOperationMapping(self._operation_mapping())
+
+        element = ET.Element("PARENT")
+        writer.writePortInterfaceMappingSet(element, mapping_set)
+
+        om_tag = element.find("PORT-INTERFACE-MAPPING-SET/PORT-INTERFACE-MAPPINGS/CLIENT-SERVER-INTERFACE-MAPPING/OPERATION-MAPPINGS/CLIENT-SERVER-OPERATION-MAPPING")
+        assert om_tag is not None
+        children = [c.tag for c in om_tag]
+        assert children == [
+            "ARGUMENT-MAPPINGS",
+            "FIRST-OPERATION-REF",
+            "FIRST-TO-SECOND-DATA-TRANSFORMATION-REF",
+            "SECOND-OPERATION-REF",
+        ]
+        items = om_tag.find("ARGUMENT-MAPPINGS").findall("DATA-PROTOTYPE-MAPPING")
+        assert len(items) == 1
+        assert items[0].find("FIRST-DATA-PROTOTYPE-REF").text == "/ifc1/op1/arg1"
+        assert items[0].find("FIRST-DATA-PROTOTYPE-REF").attrib["DEST"] == "ARGUMENT-DATA-PROTOTYPE"
+        assert items[0].find("SECOND-DATA-PROTOTYPE-REF").text == "/ifc2/op2/arg2"
+        assert om_tag.find("FIRST-OPERATION-REF").text == "/ifc1/op1"
+        assert om_tag.find("FIRST-OPERATION-REF").attrib["DEST"] == "CLIENT-SERVER-OPERATION"
+        assert om_tag.find("FIRST-TO-SECOND-DATA-TRANSFORMATION-REF").text == "/pkg/trans1"
+        assert om_tag.find("FIRST-TO-SECOND-DATA-TRANSFORMATION-REF").attrib["DEST"] == "DATA-TRANSFORMATION"
+        assert om_tag.find("SECOND-OPERATION-REF").text == "/ifc2/op2"
+        assert om_tag.find("SECOND-OPERATION-REF").attrib["DEST"] == "CLIENT-SERVER-OPERATION"
+
+    def test_write_operation_mappings_absent_refs(self, writer):
+        """
+        Test that unset refs emit no elements (0..1), no ARGUMENT-MAPPINGS wrapper
+        is written when the list is empty, and no OPERATION-MAPPINGS wrapper is
+        written when the mapping list is empty.
+        """
+        mapping_set = _mapping_set()
+        csim = mapping_set.createClientServerInterfaceMapping("csim")
+        om = ClientServerOperationMapping()
+        om.setFirstOperationRef(RefType().setValue("/ifc1/op1").setDest("CLIENT-SERVER-OPERATION"))
+        csim.addOperationMapping(om)
+
+        mapping_set.createClientServerInterfaceMapping("csim2")
+
+        element = ET.Element("PARENT")
+        writer.writePortInterfaceMappingSet(element, mapping_set)
+
+        wrapper = element.find("PORT-INTERFACE-MAPPING-SET/PORT-INTERFACE-MAPPINGS")
+        csim_tag = wrapper.find("CLIENT-SERVER-INTERFACE-MAPPING")
+        om_tag = csim_tag.find("OPERATION-MAPPINGS/CLIENT-SERVER-OPERATION-MAPPING")
+        assert om_tag is not None
+        assert [c.tag for c in om_tag] == ["FIRST-OPERATION-REF"]
+        assert om_tag.find("ARGUMENT-MAPPINGS") is None
+        assert om_tag.find("FIRST-OPERATION-REF").text == "/ifc1/op1"
+
+        csim2_tag = list(wrapper)[1]
+        assert csim2_tag.find("OPERATION-MAPPINGS") is None
+
+    def test_round_trip_field_values(self, writer):
+        """
+        Test write → read round-trip preserves the argument mappings and all
+        three ref values and DESTs.
+        """
+        mapping_set = _mapping_set()
+        csim = mapping_set.createClientServerInterfaceMapping("csim")
+        csim.addOperationMapping(self._operation_mapping())
+
+        parent = ET.Element("PARENT")
+        writer.writeClientServerInterfaceMapping(parent, csim)
+
+        xml_text = ET.tostring(parent, encoding="unicode")
+        reparsed = ET.fromstring(xml_text.replace("PARENT", "PARENT xmlns='%s'" % NS, 1))
+
+        mapping_set2 = _mapping_set()
+        csim2 = mapping_set2.createClientServerInterfaceMapping("csim")
+        ARXMLParser().readClientServerInterfaceMapping(reparsed[0], csim2)
+
+        operation_mappings = csim2.getOperationMappings()
+        assert len(operation_mappings) == 1
+        om2 = operation_mappings[0]
+        assert isinstance(om2, ClientServerOperationMapping)
+        argument_mappings = om2.getArgumentMappings()
+        assert len(argument_mappings) == 1
+        assert isinstance(argument_mappings[0], DataPrototypeMapping)
+        assert argument_mappings[0].getFirstDataPrototypeRef().getValue() == "/ifc1/op1/arg1"
+        assert argument_mappings[0].getFirstDataPrototypeRef().getDest() == "ARGUMENT-DATA-PROTOTYPE"
+        assert argument_mappings[0].getSecondDataPrototypeRef().getValue() == "/ifc2/op2/arg2"
+        assert om2.getFirstOperationRef().getValue() == "/ifc1/op1"
+        assert om2.getFirstOperationRef().getDest() == "CLIENT-SERVER-OPERATION"
+        assert om2.getFirstToSecondDataTransformationRef().getValue() == "/pkg/trans1"
+        assert om2.getFirstToSecondDataTransformationRef().getDest() == "DATA-TRANSFORMATION"
+        assert om2.getSecondOperationRef().getValue() == "/ifc2/op2"
+        assert om2.getSecondOperationRef().getDest() == "CLIENT-SERVER-OPERATION"

@@ -12065,7 +12065,9 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeClientServerOperationMapping(self, element: ET.Element, mapping: ClientServerOperationMapping):
         child_element = ET.SubElement(element, "CLIENT-SERVER-OPERATION-MAPPING")
+        self.setDataPrototypeMappings(child_element, "ARGUMENT-MAPPINGS", mapping.getArgumentMappings())
         self.setChildElementOptionalRefType(child_element, "FIRST-OPERATION-REF", mapping.getFirstOperationRef())
+        self.setChildElementOptionalRefType(child_element, "FIRST-TO-SECOND-DATA-TRANSFORMATION-REF", mapping.getFirstToSecondDataTransformationRef())
         self.setChildElementOptionalRefType(child_element, "SECOND-OPERATION-REF", mapping.getSecondOperationRef())
 
     def writeClientServerApplicationErrorMapping(self, element: ET.Element, mapping: ClientServerApplicationErrorMapping):

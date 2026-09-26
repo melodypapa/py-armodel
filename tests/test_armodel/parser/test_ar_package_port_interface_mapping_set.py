@@ -13,6 +13,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import M
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ClientServerApplicationErrorMapping,
     ClientServerInterfaceMapping,
+    ClientServerOperationMapping,
+    DataPrototypeMapping,
     ModeInterfaceMapping,
     PortInterfaceMappingSet,
     VariableAndParameterInterfaceMapping,
@@ -319,3 +321,145 @@ class TestReadClientServerInterfaceMappingErrorMappings:
         )
 
         assert mapping_set.getPortInterfaceMappings()[0].getErrorMappings() == []
+
+
+class TestReadClientServerInterfaceMappingOperationMappings:
+    """
+    Test the OPERATION-MAPPINGS children of CLIENT-SERVER-INTERFACE-MAPPING —
+    ClientServerOperationMapping (SWC TPS Table 4.24; argumentMapping `*` aggr
+    under the ARGUMENT-MAPPINGS wrapper + three 0..1 refs).
+    """
+
+    def test_read_operation_mapping_field_values(self, parser):
+        """
+        Test that the ARGUMENT-MAPPINGS items and all three refs populate the
+        mapping with value and DEST preserved, in XSD element order.
+        """
+        mapping_set = _mapping_set()
+        _parse(
+            parser,
+            mapping_set,
+            """<PORT-INTERFACE-MAPPINGS>
+                <CLIENT-SERVER-INTERFACE-MAPPING>
+                    <SHORT-NAME>csim</SHORT-NAME>
+                    <OPERATION-MAPPINGS>
+                        <CLIENT-SERVER-OPERATION-MAPPING>
+                            <ARGUMENT-MAPPINGS>
+                                <DATA-PROTOTYPE-MAPPING>
+                                    <FIRST-DATA-PROTOTYPE-REF DEST='ARGUMENT-DATA-PROTOTYPE'>/ifc1/op1/arg1</FIRST-DATA-PROTOTYPE-REF>
+                                    <SECOND-DATA-PROTOTYPE-REF DEST='ARGUMENT-DATA-PROTOTYPE'>/ifc2/op2/arg2</SECOND-DATA-PROTOTYPE-REF>
+                                </DATA-PROTOTYPE-MAPPING>
+                                <DATA-PROTOTYPE-MAPPING>
+                                    <FIRST-DATA-PROTOTYPE-REF DEST='ARGUMENT-DATA-PROTOTYPE'>/ifc1/op1/arg3</FIRST-DATA-PROTOTYPE-REF>
+                                    <SECOND-DATA-PROTOTYPE-REF DEST='ARGUMENT-DATA-PROTOTYPE'>/ifc2/op2/arg4</SECOND-DATA-PROTOTYPE-REF>
+                                </DATA-PROTOTYPE-MAPPING>
+                            </ARGUMENT-MAPPINGS>
+                            <FIRST-OPERATION-REF DEST='CLIENT-SERVER-OPERATION'>/ifc1/op1</FIRST-OPERATION-REF>
+                            <FIRST-TO-SECOND-DATA-TRANSFORMATION-REF DEST='DATA-TRANSFORMATION'>/pkg/trans1</FIRST-TO-SECOND-DATA-TRANSFORMATION-REF>
+                            <SECOND-OPERATION-REF DEST='CLIENT-SERVER-OPERATION'>/ifc2/op2</SECOND-OPERATION-REF>
+                        </CLIENT-SERVER-OPERATION-MAPPING>
+                    </OPERATION-MAPPINGS>
+                </CLIENT-SERVER-INTERFACE-MAPPING>
+            </PORT-INTERFACE-MAPPINGS>""",
+        )
+
+        csim = mapping_set.getPortInterfaceMappings()[0]
+        assert isinstance(csim, ClientServerInterfaceMapping)
+        operation_mappings = csim.getOperationMappings()
+        assert len(operation_mappings) == 1
+        om = operation_mappings[0]
+        assert isinstance(om, ClientServerOperationMapping)
+        argument_mappings = om.getArgumentMappings()
+        assert len(argument_mappings) == 2
+        assert all(isinstance(am, DataPrototypeMapping) for am in argument_mappings)
+        assert argument_mappings[0].getFirstDataPrototypeRef().getValue() == "/ifc1/op1/arg1"
+        assert argument_mappings[0].getFirstDataPrototypeRef().getDest() == "ARGUMENT-DATA-PROTOTYPE"
+        assert argument_mappings[0].getSecondDataPrototypeRef().getValue() == "/ifc2/op2/arg2"
+        assert argument_mappings[1].getFirstDataPrototypeRef().getValue() == "/ifc1/op1/arg3"
+        assert argument_mappings[1].getSecondDataPrototypeRef().getValue() == "/ifc2/op2/arg4"
+        assert om.getFirstOperationRef().getValue() == "/ifc1/op1"
+        assert om.getFirstOperationRef().getDest() == "CLIENT-SERVER-OPERATION"
+        assert om.getFirstToSecondDataTransformationRef().getValue() == "/pkg/trans1"
+        assert om.getFirstToSecondDataTransformationRef().getDest() == "DATA-TRANSFORMATION"
+        assert om.getSecondOperationRef().getValue() == "/ifc2/op2"
+        assert om.getSecondOperationRef().getDest() == "CLIENT-SERVER-OPERATION"
+
+    def test_read_multiple_operation_mappings_document_order(self, parser):
+        """
+        Test that multiple CLIENT-SERVER-OPERATION-MAPPING items are appended in
+        document order with their ref field values.
+        """
+        mapping_set = _mapping_set()
+        _parse(
+            parser,
+            mapping_set,
+            """<PORT-INTERFACE-MAPPINGS>
+                <CLIENT-SERVER-INTERFACE-MAPPING>
+                    <SHORT-NAME>csim</SHORT-NAME>
+                    <OPERATION-MAPPINGS>
+                        <CLIENT-SERVER-OPERATION-MAPPING>
+                            <FIRST-OPERATION-REF DEST='CLIENT-SERVER-OPERATION'>/ifc1/opA</FIRST-OPERATION-REF>
+                            <FIRST-TO-SECOND-DATA-TRANSFORMATION-REF DEST='DATA-TRANSFORMATION'>/pkg/transA</FIRST-TO-SECOND-DATA-TRANSFORMATION-REF>
+                            <SECOND-OPERATION-REF DEST='CLIENT-SERVER-OPERATION'>/ifc2/opB</SECOND-OPERATION-REF>
+                        </CLIENT-SERVER-OPERATION-MAPPING>
+                        <CLIENT-SERVER-OPERATION-MAPPING>
+                            <FIRST-OPERATION-REF DEST='CLIENT-SERVER-OPERATION'>/ifc3/opC</FIRST-OPERATION-REF>
+                            <FIRST-TO-SECOND-DATA-TRANSFORMATION-REF DEST='DATA-TRANSFORMATION'>/pkg/transC</FIRST-TO-SECOND-DATA-TRANSFORMATION-REF>
+                            <SECOND-OPERATION-REF DEST='CLIENT-SERVER-OPERATION'>/ifc4/opD</SECOND-OPERATION-REF>
+                        </CLIENT-SERVER-OPERATION-MAPPING>
+                    </OPERATION-MAPPINGS>
+                </CLIENT-SERVER-INTERFACE-MAPPING>
+            </PORT-INTERFACE-MAPPINGS>""",
+        )
+
+        operation_mappings = mapping_set.getPortInterfaceMappings()[0].getOperationMappings()
+        assert [om.getFirstOperationRef().getValue() for om in operation_mappings] == ["/ifc1/opA", "/ifc3/opC"]
+        assert [om.getFirstToSecondDataTransformationRef().getValue() for om in operation_mappings] == ["/pkg/transA", "/pkg/transC"]
+        assert [om.getSecondOperationRef().getValue() for om in operation_mappings] == ["/ifc2/opB", "/ifc4/opD"]
+        assert all(om.getArgumentMappings() == [] for om in operation_mappings)
+
+    def test_read_operation_mapping_absent_refs(self, parser):
+        """
+        Test that omitted ref elements stay None (0..1) and an
+        OPERATION-MAPPINGS wrapper without ARGUMENT-MAPPINGS yields an empty
+        argument mapping list.
+        """
+        mapping_set = _mapping_set()
+        _parse(
+            parser,
+            mapping_set,
+            """<PORT-INTERFACE-MAPPINGS>
+                <CLIENT-SERVER-INTERFACE-MAPPING>
+                    <SHORT-NAME>csim</SHORT-NAME>
+                    <OPERATION-MAPPINGS>
+                        <CLIENT-SERVER-OPERATION-MAPPING>
+                            <FIRST-OPERATION-REF DEST='CLIENT-SERVER-OPERATION'>/ifc1/op1</FIRST-OPERATION-REF>
+                        </CLIENT-SERVER-OPERATION-MAPPING>
+                    </OPERATION-MAPPINGS>
+                </CLIENT-SERVER-INTERFACE-MAPPING>
+            </PORT-INTERFACE-MAPPINGS>""",
+        )
+
+        om = mapping_set.getPortInterfaceMappings()[0].getOperationMappings()[0]
+        assert om.getFirstOperationRef().getValue() == "/ifc1/op1"
+        assert om.getFirstToSecondDataTransformationRef() is None
+        assert om.getSecondOperationRef() is None
+        assert om.getArgumentMappings() == []
+
+    def test_read_no_operation_mappings(self, parser):
+        """
+        Test that a CLIENT-SERVER-INTERFACE-MAPPING without OPERATION-MAPPINGS
+        leaves the operation mapping list empty.
+        """
+        mapping_set = _mapping_set()
+        _parse(
+            parser,
+            mapping_set,
+            """<PORT-INTERFACE-MAPPINGS>
+                <CLIENT-SERVER-INTERFACE-MAPPING>
+                    <SHORT-NAME>csim</SHORT-NAME>
+                </CLIENT-SERVER-INTERFACE-MAPPING>
+            </PORT-INTERFACE-MAPPINGS>""",
+        )
+
+        assert mapping_set.getPortInterfaceMappings()[0].getOperationMappings() == []

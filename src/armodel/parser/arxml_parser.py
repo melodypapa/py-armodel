@@ -13872,7 +13872,10 @@ class ARXMLParser(AbstractARXMLParser):
             mapping.addDataMapping(item)
 
     def readClientServerOperationMapping(self, element: ET.Element, mapping: ClientServerOperationMapping):
+        for item in self.getDataPrototypeMappings(element, "ARGUMENT-MAPPINGS"):
+            mapping.addArgumentMapping(item)
         mapping.setFirstOperationRef(self.getChildElementOptionalRefType(element, "FIRST-OPERATION-REF"))
+        mapping.setFirstToSecondDataTransformationRef(self.getChildElementOptionalRefType(element, "FIRST-TO-SECOND-DATA-TRANSFORMATION-REF"))
         mapping.setSecondOperationRef(self.getChildElementOptionalRefType(element, "SECOND-OPERATION-REF"))
 
     def readClientServerApplicationErrorMapping(self, element: ET.Element, mapping: ClientServerApplicationErrorMapping):
