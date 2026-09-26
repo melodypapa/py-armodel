@@ -236,30 +236,34 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - note (Step 8): ONE accepted legacy deviation (dtcFormatType — Rule 0019) — subject to 9b batch confirmation
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12335 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
-- [ ] `CryptoServiceNeeds` — ServiceNeeds — source TBC (locate table at Step 1)
+- [ ] `CryptoServiceNeeds` — ServiceNeeds — R23-11 markdown · Table 13.9 (CP_TPS_SoftwareComponentTemplate), p.733
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `DiagEventDebounceCounterBased` — DiagEventDebounceAlgorithm — source TBC (locate table at Step 1)
+  - note (Step 1): Four attrs: algorithmFamily (String), algorithmMode (String), cryptoKeyDescription (String), maximumKeyLength (PositiveInteger), all 0..1; wire ALGORITHM-FAMILY/ALGORITHM-MODE/CRYPTO-KEY-DESCRIPTION/MAXIMUM-KEY-LENGTH. Drift: fabricated docstring, bare-typed fields, untyped accessors, old checklist; reader covered only MAXIMUM-KEY-LENGTH, writer likewise — 3 String attrs added to both.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): ALGORITHM-FAMILY/ALGORITHM-MODE/CRYPTO-KEY-DESCRIPTION added both directions (getChildElementOptionalString/setChildElementOptionalString)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12335 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+- [ ] `DiagEventDebounceCounterBased` — DiagEventDebounceAlgorithm — R23-11 markdown · Table 12.33 (CP_TPS_BSWModuleDescriptionTemplate), p.260
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - note (Step 1): Nine attrs (0..1 each): counterBasedFdcThresholdStorageValue (Integer), counterDecrementStepSize (Integer), counterFailedThreshold (Integer), counterIncrementStepSize (Integer), counterJumpDown (Boolean — src wrongly Integer), counterJumpDownValue (Integer), counterJumpUp (Boolean — src wrongly Integer), counterJumpUpValue (Integer), counterPassedThreshold (Integer); wire names = UPPER-KEBAB per XSD group DIAG-EVENT-DEBOUNCE-COUNTER-BASED (INTEGER-VALUE-VARIATION-POINT/BOOLEAN-VALUE-VARIATION-POINT types — only the plain value path is modeled; the VP-bearing variant is not, see Step 8). Drift: fabricated docstring, bare-typed fields, untyped accessors, old checklist; reader read NOTHING of the 9 attrs, writer had NO implementation (empty helper).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): reader: all 9 elements added; writer: all 9 elements added in XSD order.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): model limitation recorded — XSD wires these attrs as INTEGER-/BOOLEAN-VALUE-VARIATION-POINT (value XOR value+VARIATION-POINT); the model stores the plain value and rw covers that path only (consistent with repo-wide handling); subject to 9b batch review
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12335 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 - [ ] `SignalServiceTranslationElementProps` — Identifiable — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/SignalServiceTranslation.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1

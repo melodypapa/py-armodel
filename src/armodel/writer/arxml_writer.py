@@ -5590,7 +5590,15 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setDiagEventDebounceCounterBased(self, element: ET.Element, algorithm: DiagEventDebounceCounterBased):
         child_element = ET.SubElement(element, "DIAG-EVENT-DEBOUNCE-COUNTER-BASED")
-        self.writeDiagnosticCapabilityElement(child_element, algorithm)
+        self.setChildElementOptionalIntegerValue(child_element, "COUNTER-BASED-FDC-THRESHOLD-STORAGE-VALUE", algorithm.getCounterBasedFdcThresholdStorageValue())
+        self.setChildElementOptionalIntegerValue(child_element, "COUNTER-DECREMENT-STEP-SIZE", algorithm.getCounterDecrementStepSize())
+        self.setChildElementOptionalIntegerValue(child_element, "COUNTER-FAILED-THRESHOLD", algorithm.getCounterFailedThreshold())
+        self.setChildElementOptionalIntegerValue(child_element, "COUNTER-INCREMENT-STEP-SIZE", algorithm.getCounterIncrementStepSize())
+        self.setChildElementOptionalBooleanValue(child_element, "COUNTER-JUMP-DOWN", algorithm.getCounterJumpDown())
+        self.setChildElementOptionalIntegerValue(child_element, "COUNTER-JUMP-DOWN-VALUE", algorithm.getCounterJumpDownValue())
+        self.setChildElementOptionalBooleanValue(child_element, "COUNTER-JUMP-UP", algorithm.getCounterJumpUp())
+        self.setChildElementOptionalIntegerValue(child_element, "COUNTER-JUMP-UP-VALUE", algorithm.getCounterJumpUpValue())
+        self.setChildElementOptionalIntegerValue(child_element, "COUNTER-PASSED-THRESHOLD", algorithm.getCounterPassedThreshold())
 
     def setDiagEventDebounceMonitorInternal(self, element: ET.Element, algorithm: DiagEventDebounceMonitorInternal):
         child_element = ET.SubElement(element, "DIAG-EVENT-DEBOUNCE-MONITOR-INTERNAL")
@@ -5728,6 +5736,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         # self.logger.debug("Write CryptoServiceNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "CRYPTO-SERVICE-NEEDS")
         self.writeServiceNeeds(child_element, needs)
+        self.setChildElementOptionalString(child_element, "ALGORITHM-FAMILY", needs.getAlgorithmFamily())
+        self.setChildElementOptionalString(child_element, "ALGORITHM-MODE", needs.getAlgorithmMode())
+        self.setChildElementOptionalString(child_element, "CRYPTO-KEY-DESCRIPTION", needs.getCryptoKeyDescription())
         self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-KEY-LENGTH", needs.getMaximumKeyLength())
 
     def writeEcuStateMgrUserNeeds(self, element: ET.Element, needs: EcuStateMgrUserNeeds):

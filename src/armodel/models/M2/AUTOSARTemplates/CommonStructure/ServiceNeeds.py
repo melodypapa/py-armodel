@@ -1216,121 +1216,195 @@ class DiagEventDebounceAlgorithm(Identifiable, ABC):
 
 class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     """
-    Represents a counter-based diagnostic event debounce algorithm in AUTOSAR models.
-    This class defines debounce algorithms based on counters that increment/decrement to detect fault conditions.
+    This meta-class represents the ability to indicate that the counter-based debounce algorithm shall be used by the DEM for this diagnostic monitor. This is related to set the ECUC choice container DemDebounceAlgorithmClass to DemDebounceCounterBased.
     """
 
     # DiagEventDebounceCounterBased method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getCounterBasedFdcThresholdStorageValue [x] impl  [ ] docstring  [ ] test
-    # [ ] setCounterBasedFdcThresholdStorageValue [x] impl  [ ] docstring  [ ] test
-    # [ ] getCounterDecrementStepSize  [x] impl  [ ] docstring  [ ] test
-    # [ ] setCounterDecrementStepSize  [x] impl  [ ] docstring  [ ] test
-    # [ ] getCounterFailedThreshold    [x] impl  [ ] docstring  [ ] test
-    # [ ] setCounterFailedThreshold    [x] impl  [ ] docstring  [ ] test
-    # [ ] getCounterIncrementStepSize  [x] impl  [ ] docstring  [ ] test
-    # [ ] setCounterIncrementStepSize  [x] impl  [ ] docstring  [ ] test
-    # [ ] getCounterJumpDown           [x] impl  [ ] docstring  [ ] test
-    # [ ] setCounterJumpDown           [x] impl  [ ] docstring  [ ] test
-    # [ ] getCounterJumpDownValue      [x] impl  [ ] docstring  [ ] test
-    # [ ] setCounterJumpDownValue      [x] impl  [ ] docstring  [ ] test
-    # [ ] getCounterJumpUp             [x] impl  [ ] docstring  [ ] test
-    # [ ] setCounterJumpUp             [x] impl  [ ] docstring  [ ] test
-    # [ ] getCounterJumpUpValue        [x] impl  [ ] docstring  [ ] test
-    # [ ] setCounterJumpUpValue        [x] impl  [ ] docstring  [ ] test
-    # [ ] getCounterPassedThreshold    [x] impl  [ ] docstring  [ ] test
-    # [ ] setCounterPassedThreshold    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.33, p.260
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCounterBasedFdcThresholdStorageValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterBasedFdcThresholdStorageValue [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCounterDecrementStepSize             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterDecrementStepSize             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCounterFailedThreshold               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterFailedThreshold               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCounterIncrementStepSize             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterIncrementStepSize             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCounterJumpDown                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterJumpDown                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCounterJumpDownValue                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterJumpDownValue                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCounterJumpUp                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterJumpUp                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCounterJumpUpValue                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterJumpUpValue                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCounterPassedThreshold               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterPassedThreshold               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagEventDebounceCounterBased with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this counter-based debounce algorithm
-            short_name: The unique short name of this counter-based debounce algorithm
-        """
         super().__init__(parent, short_name)
 
-        # Counter-based FDC (Fault Detection Counter) threshold storage value
-        self.counterBasedFdcThresholdStorageValue: Integer = None
-        # Counter decrement step size for this debounce algorithm
-        self.counterDecrementStepSize: Integer = None
-        # Counter threshold for failed state detection
-        self.counterFailedThreshold: Integer = None
-        # Counter increment step size for this debounce algorithm
-        self.counterIncrementStepSize: Integer = None
-        # Counter value to jump down to when conditions are met
-        self.counterJumpDown: Integer = None
-        # Value to set counter to when jumping down
-        self.counterJumpDownValue: Integer = None
-        # Counter value to jump up to when conditions are met
-        self.counterJumpUp: Integer = None
-        # Value to set counter to when jumping up
-        self.counterJumpUpValue: Integer = None
-        # Counter threshold for passed state detection
-        self.counterPassedThreshold: Integer = None
+        # Threshold to allocate an event memory entry and to capture the Freeze Frame.
+        self.counterBasedFdcThresholdStorageValue: Optional[Integer] = None
 
-    def getCounterBasedFdcThresholdStorageValue(self):
+        # This value shall be taken to decrement the internal debounce counter. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.counterDecrementStepSize: Optional[Integer] = None
+
+        # This value defines the event-specific limit that indicates the "failed" counter status. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.counterFailedThreshold: Optional[Integer] = None
+
+        # This value shall be taken to increment the internal debounce counter. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.counterIncrementStepSize: Optional[Integer] = None
+
+        # This value activates or deactivates the counter jump-down behavior. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.counterJumpDown: Optional[Boolean] = None
+
+        # This value represents the initial value of the internal debounce counter if the counting direction changes from incrementing to decrementing. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.counterJumpDownValue: Optional[Integer] = None
+
+        # This value activates or deactivates the counter jump-up behavior. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.counterJumpUp: Optional[Boolean] = None
+
+        # This value represents the initial value of the internal debounce counter if the counting direction changes from decrementing to incrementing. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.counterJumpUpValue: Optional[Integer] = None
+
+        # This value defines the event-specific limit that indicates the "passed" counter status. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.counterPassedThreshold: Optional[Integer] = None
+
+    def getCounterBasedFdcThresholdStorageValue(self) -> Optional[Integer]:
+        """
+        Threshold to allocate an event memory entry and to capture the Freeze Frame.
+        """
         return self.counterBasedFdcThresholdStorageValue
 
-    def setCounterBasedFdcThresholdStorageValue(self, value):
-        self.counterBasedFdcThresholdStorageValue = value
+    def setCounterBasedFdcThresholdStorageValue(self, value: Optional[Integer]) -> DiagEventDebounceCounterBased:
+        """
+        Threshold to allocate an event memory entry and to capture the Freeze Frame.
+        A None value is a no-op and does not overwrite an existing counterBasedFdcThresholdStorageValue.
+        """
+        if value is not None:
+            self.counterBasedFdcThresholdStorageValue = value
         return self
 
-    def getCounterDecrementStepSize(self):
+    def getCounterDecrementStepSize(self) -> Optional[Integer]:
+        """
+        This value shall be taken to decrement the internal debounce counter.
+        """
         return self.counterDecrementStepSize
 
-    def setCounterDecrementStepSize(self, value):
-        self.counterDecrementStepSize = value
+    def setCounterDecrementStepSize(self, value: Optional[Integer]) -> DiagEventDebounceCounterBased:
+        """
+        This value shall be taken to decrement the internal debounce counter.
+        A None value is a no-op and does not overwrite an existing counterDecrementStepSize.
+        """
+        if value is not None:
+            self.counterDecrementStepSize = value
         return self
 
-    def getCounterFailedThreshold(self):
+    def getCounterFailedThreshold(self) -> Optional[Integer]:
+        """
+        This value defines the event-specific limit that indicates the "failed" counter status.
+        """
         return self.counterFailedThreshold
 
-    def setCounterFailedThreshold(self, value):
-        self.counterFailedThreshold = value
+    def setCounterFailedThreshold(self, value: Optional[Integer]) -> DiagEventDebounceCounterBased:
+        """
+        This value defines the event-specific limit that indicates the "failed" counter status.
+        A None value is a no-op and does not overwrite an existing counterFailedThreshold.
+        """
+        if value is not None:
+            self.counterFailedThreshold = value
         return self
 
-    def getCounterIncrementStepSize(self):
+    def getCounterIncrementStepSize(self) -> Optional[Integer]:
+        """
+        This value shall be taken to increment the internal debounce counter.
+        """
         return self.counterIncrementStepSize
 
-    def setCounterIncrementStepSize(self, value):
-        self.counterIncrementStepSize = value
+    def setCounterIncrementStepSize(self, value: Optional[Integer]) -> DiagEventDebounceCounterBased:
+        """
+        This value shall be taken to increment the internal debounce counter.
+        A None value is a no-op and does not overwrite an existing counterIncrementStepSize.
+        """
+        if value is not None:
+            self.counterIncrementStepSize = value
         return self
 
-    def getCounterJumpDown(self):
+    def getCounterJumpDown(self) -> Optional[Boolean]:
+        """
+        This value activates or deactivates the counter jump-down behavior.
+        """
         return self.counterJumpDown
 
-    def setCounterJumpDown(self, value):
-        self.counterJumpDown = value
+    def setCounterJumpDown(self, value: Optional[Boolean]) -> DiagEventDebounceCounterBased:
+        """
+        This value activates or deactivates the counter jump-down behavior.
+        A None value is a no-op and does not overwrite an existing counterJumpDown.
+        """
+        if value is not None:
+            self.counterJumpDown = value
         return self
 
-    def getCounterJumpDownValue(self):
+    def getCounterJumpDownValue(self) -> Optional[Integer]:
+        """
+        This value represents the initial value of the internal debounce counter if the counting direction changes from incrementing to decrementing.
+        """
         return self.counterJumpDownValue
 
-    def setCounterJumpDownValue(self, value):
-        self.counterJumpDownValue = value
+    def setCounterJumpDownValue(self, value: Optional[Integer]) -> DiagEventDebounceCounterBased:
+        """
+        This value represents the initial value of the internal debounce counter if the counting direction changes from incrementing to decrementing.
+        A None value is a no-op and does not overwrite an existing counterJumpDownValue.
+        """
+        if value is not None:
+            self.counterJumpDownValue = value
         return self
 
-    def getCounterJumpUp(self):
+    def getCounterJumpUp(self) -> Optional[Boolean]:
+        """
+        This value activates or deactivates the counter jump-up behavior.
+        """
         return self.counterJumpUp
 
-    def setCounterJumpUp(self, value):
-        self.counterJumpUp = value
+    def setCounterJumpUp(self, value: Optional[Boolean]) -> DiagEventDebounceCounterBased:
+        """
+        This value activates or deactivates the counter jump-up behavior.
+        A None value is a no-op and does not overwrite an existing counterJumpUp.
+        """
+        if value is not None:
+            self.counterJumpUp = value
         return self
 
-    def getCounterJumpUpValue(self):
+    def getCounterJumpUpValue(self) -> Optional[Integer]:
+        """
+        This value represents the initial value of the internal debounce counter if the counting direction changes from decrementing to incrementing.
+        """
         return self.counterJumpUpValue
 
-    def setCounterJumpUpValue(self, value):
-        self.counterJumpUpValue = value
+    def setCounterJumpUpValue(self, value: Optional[Integer]) -> DiagEventDebounceCounterBased:
+        """
+        This value represents the initial value of the internal debounce counter if the counting direction changes from decrementing to incrementing.
+        A None value is a no-op and does not overwrite an existing counterJumpUpValue.
+        """
+        if value is not None:
+            self.counterJumpUpValue = value
         return self
 
-    def getCounterPassedThreshold(self):
+    def getCounterPassedThreshold(self) -> Optional[Integer]:
+        """
+        This value defines the event-specific limit that indicates the "passed" counter status.
+        """
         return self.counterPassedThreshold
 
-    def setCounterPassedThreshold(self, value):
-        self.counterPassedThreshold = value
+    def setCounterPassedThreshold(self, value: Optional[Integer]) -> DiagEventDebounceCounterBased:
+        """
+        This value defines the event-specific limit that indicates the "passed" counter status.
+        A None value is a no-op and does not overwrite an existing counterPassedThreshold.
+        """
+        if value is not None:
+            self.counterPassedThreshold = value
         return self
 
 
@@ -1837,130 +1911,95 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
 
 class CryptoServiceNeeds(ServiceNeeds):
     """
-    Represents cryptographic service needs in AUTOSAR models.
-    This class defines requirements for cryptographic services including algorithm information and key management.
+    Specifies the needs on the configuration of the CryptoServiceManager for one ConfigID (see Specification AUTOSAR_SWS_CSM.doc). An instance of this class is used to find out which ports of a software-component belong to this ConfigID.
     """
 
     # CryptoServiceNeeds method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getAlgorithmFamily           [x] impl  [x] docstring  [ ] test
-    # [ ] setAlgorithmFamily           [x] impl  [x] docstring  [ ] test
-    # [ ] getAlgorithmMode             [x] impl  [x] docstring  [ ] test
-    # [ ] setAlgorithmMode             [x] impl  [x] docstring  [ ] test
-    # [ ] getCryptoKeyDescription      [x] impl  [x] docstring  [ ] test
-    # [ ] setCryptoKeyDescription      [x] impl  [x] docstring  [ ] test
-    # [ ] getMaximumKeyLength          [x] impl  [x] docstring  [ ] test
-    # [ ] setMaximumKeyLength          [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.9, p.733
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAlgorithmFamily       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAlgorithmFamily       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAlgorithmMode         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAlgorithmMode         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCryptoKeyDescription  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCryptoKeyDescription  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaximumKeyLength      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaximumKeyLength      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the CryptoServiceNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this cryptographic service needs
-            short_name: The unique short name of this cryptographic service needs
-        """
         super().__init__(parent, short_name)
 
-        # Algorithm family used by this cryptographic service
-        self.algorithmFamily: String = None
-        # Algorithm mode used by this cryptographic service
-        self.algorithmMode: String = None
-        # Description of the cryptographic key used by this service
-        self.cryptoKeyDescription: String = None
-        # Maximum length of keys supported by this cryptographic service
-        self.maximumKeyLength: PositiveInteger = None
+        # This attribute represents a description of the family (e.g. AES) of crypto algorithm implemented by the crypto service use case.
+        self.algorithmFamily: Optional[String] = None
 
-    def getAlgorithmFamily(self):
+        # This meta-class has the ability to represent a crypto service use case.
+        self.algorithmMode: Optional[String] = None
+
+        # This attribute allows for a verbal description of the applicable cryptographic key. The goal is to pass a hint for the integrator about how to treat the corresponding service use case.
+        self.cryptoKeyDescription: Optional[String] = None
+
+        # The maximum length of a cryptographic key, that is used by the software-component or module for this configuration. Unit: bit.
+        self.maximumKeyLength: Optional[PositiveInteger] = None
+
+    def getAlgorithmFamily(self) -> Optional[String]:
         """
-        Gets the algorithm family used by this cryptographic service.
-
-        Returns:
-            String: The algorithm family
+        This attribute represents a description of the family (e.g. AES) of crypto algorithm implemented by the crypto service use case.
         """
         return self.algorithmFamily
 
-    def setAlgorithmFamily(self, value):
+    def setAlgorithmFamily(self, value: Optional[String]) -> CryptoServiceNeeds:
         """
-        Sets the algorithm family used by this cryptographic service.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The algorithm family to set
-
-        Returns:
-            self for method chaining
+        This attribute represents a description of the family (e.g. AES) of crypto algorithm implemented by the crypto service use case.
+        A None value is a no-op and does not overwrite an existing algorithmFamily.
         """
-        self.algorithmFamily = value
+        if value is not None:
+            self.algorithmFamily = value
         return self
 
-    def getAlgorithmMode(self):
+    def getAlgorithmMode(self) -> Optional[String]:
         """
-        Gets the algorithm mode used by this cryptographic service.
-
-        Returns:
-            String: The algorithm mode
+        This meta-class has the ability to represent a crypto service use case.
         """
         return self.algorithmMode
 
-    def setAlgorithmMode(self, value):
+    def setAlgorithmMode(self, value: Optional[String]) -> CryptoServiceNeeds:
         """
-        Sets the algorithm mode used by this cryptographic service.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The algorithm mode to set
-
-        Returns:
-            self for method chaining
+        This meta-class has the ability to represent a crypto service use case.
+        A None value is a no-op and does not overwrite an existing algorithmMode.
         """
-        self.algorithmMode = value
+        if value is not None:
+            self.algorithmMode = value
         return self
 
-    def getCryptoKeyDescription(self):
+    def getCryptoKeyDescription(self) -> Optional[String]:
         """
-        Gets the description of the cryptographic key used by this service.
-
-        Returns:
-            String: The cryptographic key description
+        This attribute allows for a verbal description of the applicable cryptographic key. The goal is to pass a hint for the integrator about how to treat the corresponding service use case.
         """
         return self.cryptoKeyDescription
 
-    def setCryptoKeyDescription(self, value):
+    def setCryptoKeyDescription(self, value: Optional[String]) -> CryptoServiceNeeds:
         """
-        Sets the description of the cryptographic key used by this service.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The cryptographic key description to set
-
-        Returns:
-            self for method chaining
+        This attribute allows for a verbal description of the applicable cryptographic key. The goal is to pass a hint for the integrator about how to treat the corresponding service use case.
+        A None value is a no-op and does not overwrite an existing cryptoKeyDescription.
         """
-        self.cryptoKeyDescription = value
+        if value is not None:
+            self.cryptoKeyDescription = value
         return self
 
-    def getMaximumKeyLength(self):
+    def getMaximumKeyLength(self) -> Optional[PositiveInteger]:
         """
-        Gets the maximum length of keys supported by this cryptographic service.
-
-        Returns:
-            PositiveInteger: The maximum key length
+        The maximum length of a cryptographic key, that is used by the software-component or module for this configuration. Unit: bit.
         """
         return self.maximumKeyLength
 
-    def setMaximumKeyLength(self, value):
+    def setMaximumKeyLength(self, value: Optional[PositiveInteger]) -> CryptoServiceNeeds:
         """
-        Sets the maximum length of keys supported by this cryptographic service.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The maximum key length to set
-
-        Returns:
-            self for method chaining
+        The maximum length of a cryptographic key, that is used by the software-component or module for this configuration. Unit: bit.
+        A None value is a no-op and does not overwrite an existing maximumKeyLength.
         """
-        self.maximumKeyLength = value
+        if value is not None:
+            self.maximumKeyLength = value
         return self
 
 
