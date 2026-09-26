@@ -51,6 +51,7 @@ class SlOverviewParagraph(MixedContentForOverviewParagraph, LanguageSpecific):
 
     # SlOverviewParagraph method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.70, p.464
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no own attributes — Table E.70 Attribute rows: none (dash placeholder); the XSD-only
