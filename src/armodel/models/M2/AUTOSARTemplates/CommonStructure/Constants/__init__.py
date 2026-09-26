@@ -328,6 +328,8 @@ class ArrayValueSpecification(CompositeValueSpecification):
 
     # ArrayValueSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.111, p.434
+    # Spec verified: R23-11 (2026-09-26, user 9b re-confirmation accepting the
+    # `element` singular backing-field naming deviation — see Step 8 of its tracker row)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addElement                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
