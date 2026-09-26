@@ -39,6 +39,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswDataReceivedEvent,
     BswDataReceptionPolicy,
     BswDataSendPolicy,
+    BswDirectCallPoint,
     BswDistinguishedPartition,
     BswOsTaskExecutionEvent,
     BswSchedulerNamePrefix,
@@ -1062,6 +1063,11 @@ SW_IMPL_POLICY_XML_MAP = {
     "measurementPoint": "MEASUREMENT-POINT",
     "queued": "QUEUED",
     "standard": "STANDARD",
+}
+
+BSW_INTERRUPT_CATEGORY_XML_MAP = {
+    "cat1": "CAT-1",
+    "cat2": "CAT-2",
 }
 
 
@@ -6873,6 +6879,13 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeBswModuleCallPoint(self, element: ET.Element, point: BswModuleCallPoint):
         self.writeReferrable(element, point)
+        refs = point.getContextLimitationRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "CONTEXT-LIMITATION-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "CONTEXT-LIMITATION-REF", ref)
+        if isinstance(point, VariationPointCapable):
+            self.writeVariationPoint(element, point.getVariationPoint())
 
     def writeBswAsynchronousServerCallPoint(self, element: ET.Element, point: BswAsynchronousServerCallPoint):
         child_element = ET.SubElement(element, "BSW-ASYNCHRONOUS-SERVER-CALL-POINT")
@@ -6888,6 +6901,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "BSW-SYNCHRONOUS-SERVER-CALL-POINT")
         self.writeBswModuleCallPoint(child_element, point)
         self.setChildElementOptionalRefType(child_element, "CALLED-ENTRY-REF", point.getCalledEntryRef())
+        self.setChildElementOptionalRefType(child_element, "CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF", point.getCalledFromWithinExclusiveAreaRef())
+
+    def writeBswDirectCallPoint(self, element: ET.Element, point: BswDirectCallPoint):
+        child_element = ET.SubElement(element, "BSW-DIRECT-CALL-POINT")
+        self.writeBswModuleCallPoint(child_element, point)
+        self.setChildElementOptionalRefType(child_element, "CALLED-ENTRY-REF", point.getCalledEntryRef())
+        self.setChildElementOptionalRefType(child_element, "CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF", point.getCalledFromWithinExclusiveAreaRef())
 
     def writeBswModuleEntityCallPoints(self, element: ET.Element, entity: BswModuleEntity):
         points = entity.getCallPoints()
@@ -6900,6 +6920,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeBswAsynchronousServerCallPoint(child_element, point)
                 elif isinstance(point, BswSynchronousServerCallPoint):
                     self.writeBswSynchronousServerCallPoint(child_element, point)
+                elif isinstance(point, BswDirectCallPoint):
+                    self.writeBswDirectCallPoint(child_element, point)
                 else:
                     self.notImplemented("Unsupported Call Point <%s>" % type(point))
 
@@ -6925,12 +6947,19 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "BSW-SCHEDULABLE-ENTITY")
         self.writeBswModuleEntity(child_element, entity)
 
-    def setBswInterruptEntity(self, element: ET.Element, entity: BswInterruptEntity):
+    def writeBswInterruptEntity(self, element: ET.Element, entity: BswInterruptEntity):
         self.logger.debug("Write BswInterruptEntity <%s>" % entity.getShortName())
         child_element = ET.SubElement(element, "BSW-INTERRUPT-ENTITY")
         self.writeBswModuleEntity(child_element, entity)
-        self.setChildElementOptionalLiteral(child_element, "INTERRUPT-CATEGORY", entity.getInterruptCategory())
-        self.setChildElementOptionalLiteral(child_element, "INTERRUPT-SOURCE", entity.getInterruptSource())
+        category = entity.getInterruptCategory()
+        if category is not None:
+            token = BSW_INTERRUPT_CATEGORY_XML_MAP.get(category.getValue())
+            if token is None:
+                self.notImplemented("Unsupported INTERRUPT-CATEGORY <%s>" % category.getValue())
+            else:
+                category_element = ET.SubElement(child_element, "INTERRUPT-CATEGORY")
+                category_element.text = token
+        self.setChildElementOptionalString(child_element, "INTERRUPT-SOURCE", entity.getInterruptSource())
 
     def writeBswInternalBehaviorEntities(self, element: ET.Element, parent: BswInternalBehavior):
         entities = parent.getBswModuleEntities()
@@ -6942,7 +6971,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(entity, BswSchedulableEntity):
                     self.writeBswSchedulableEntity(child_element, entity)
                 elif isinstance(entity, BswInterruptEntity):
-                    self.setBswInterruptEntity(child_element, entity)
+                    self.writeBswInterruptEntity(child_element, entity)
                 else:
                     self.notImplemented("Unsupported BswModuleEntity <%s>" % type(entity))
 
@@ -7223,7 +7252,17 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeBswInternalTriggeringPoint(self, element: ET.Element, point: BswInternalTriggeringPoint):
         child_element = ET.SubElement(element, "BSW-INTERNAL-TRIGGERING-POINT")
-        self.writeIdentifiable(child_element, point)
+        self.writeIdentifiable(child_element, point, write_variation_point=False)
+        policy = point.getSwImplPolicy()
+        if policy is not None:
+            token = SW_IMPL_POLICY_XML_MAP.get(policy.getValue())
+            if token is None:
+                self.notImplemented("Unsupported SW-IMPL-POLICY <%s>" % policy.getValue())
+            else:
+                policy_element = ET.SubElement(child_element, "SW-IMPL-POLICY")
+                policy_element.text = token
+        if isinstance(point, VariationPointCapable):
+            self.writeVariationPoint(child_element, point.getVariationPoint())
 
     def writeBswInternalBehaviorInternalTriggeringPoints(self, element: ET.Element, behavior: BswInternalBehavior):
         points = behavior.getInternalTriggeringPoints()

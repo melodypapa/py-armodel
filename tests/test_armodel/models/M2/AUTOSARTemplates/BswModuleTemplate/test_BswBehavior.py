@@ -4,6 +4,8 @@ This module tests all the classes in the BswBehavior.py file to ensure 100% cove
 Tests verify initialization, getter/setter methods, and special functionality for each class.
 """
 
+import typing
+
 import pytest
 
 from armodel import AUTOSAR
@@ -58,7 +60,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import M
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds, RoleBasedDataAssignment, SymbolicNameProps
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import BswServiceDependencyIdent
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Boolean, Float, Identifier, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Boolean, Identifier, PositiveInteger, RefType, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment
@@ -86,6 +88,21 @@ class TestBswModuleCallPoint:
         call_point = BswDirectCallPoint(ar_root, "test_call_point")
 
         assert call_point.short_name == "test_call_point"
+
+    def test_initialization(self):
+        """Test that a concrete subclass initializes its fields with the spec defaults."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        call_point = BswDirectCallPoint(ar_root, "test_call_point")
+
+        assert call_point.getContextLimitationRefs() == []
+
+    def test_get_context_limitation_refs(self):
+        """Test that getContextLimitationRefs returns the field directly."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        call_point = BswDirectCallPoint(ar_root, "test_call_point")
+
         assert call_point.getContextLimitationRefs() == []
 
     def test_add_context_limitation_ref(self):
@@ -95,10 +112,22 @@ class TestBswModuleCallPoint:
         call_point = BswDirectCallPoint(ar_root, "test_call_point")
 
         ref = RefType()
+        ref.setValue("/Partition1")
         result = call_point.addContextLimitationRef(ref)
 
         assert result == call_point
         assert call_point.getContextLimitationRefs() == [ref]
+
+    def test_add_context_limitation_ref_none_no_op(self):
+        """Test that addContextLimitationRef is a no-op on None."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        call_point = BswDirectCallPoint(ar_root, "test_call_point")
+
+        result = call_point.addContextLimitationRef(None)
+
+        assert result == call_point
+        assert call_point.getContextLimitationRefs() == []
 
 
 class TestBswAsynchronousServerCallPoint:
@@ -135,7 +164,7 @@ class TestBswDirectCallPoint:
     """Test cases for BswDirectCallPoint class - represents a direct call point in a BSW module."""
 
     def test_initialization(self):
-        """Test initialization of BswDirectCallPoint with proper attributes."""
+        """Test initialization of BswDirectCallPoint with the spec defaults."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         direct_call_point = BswDirectCallPoint(ar_root, "test_direct_call")
@@ -143,46 +172,64 @@ class TestBswDirectCallPoint:
         assert direct_call_point.short_name == "test_direct_call"
         assert direct_call_point.getCalledEntryRef() is None
         assert direct_call_point.getCalledFromWithinExclusiveAreaRef() is None
+        assert direct_call_point.getContextLimitationRefs() == []
 
-    def test_set_called_entry_ref(self):
-        """Test setting and getting the called entry reference for BswDirectCallPoint, including behavior when setting None."""
+    def test_get_set_called_entry_ref(self):
+        """Test setting and getting the called entry reference, including the None no-op."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         direct_call_point = BswDirectCallPoint(ar_root, "test_direct_call")
 
         ref = RefType()
+        ref.setValue("/mod/Entry")
         result = direct_call_point.setCalledEntryRef(ref)
 
         assert result == direct_call_point
         assert direct_call_point.getCalledEntryRef() == ref
 
-        # Setting None should not change the value (based on implementation)
         result = direct_call_point.setCalledEntryRef(None)
         assert result == direct_call_point
-        assert direct_call_point.getCalledEntryRef() == ref  # Value should remain unchanged
+        assert direct_call_point.getCalledEntryRef() == ref
 
-    def test_set_called_from_within_exclusive_area_ref(self):
-        """Test setting and getting the called from within exclusive area reference for BswDirectCallPoint, including behavior when setting None."""
+    def test_get_set_called_from_within_exclusive_area_ref(self):
+        """Test setting and getting the exclusive area reference, including the None no-op."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         direct_call_point = BswDirectCallPoint(ar_root, "test_direct_call")
 
         ref = RefType()
+        ref.setValue("/mod/AreaNesting")
         result = direct_call_point.setCalledFromWithinExclusiveAreaRef(ref)
 
         assert result == direct_call_point
         assert direct_call_point.getCalledFromWithinExclusiveAreaRef() == ref
 
-        # Setting None should not change the value (based on implementation)
         result = direct_call_point.setCalledFromWithinExclusiveAreaRef(None)
         assert result == direct_call_point
-        assert direct_call_point.getCalledFromWithinExclusiveAreaRef() == ref  # Value should remain unchanged
+        assert direct_call_point.getCalledFromWithinExclusiveAreaRef() == ref
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswDirectCallPoint.getCalledEntryRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswDirectCallPoint.setCalledEntryRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswDirectCallPoint
+
+        getter_hints = typing.get_type_hints(BswDirectCallPoint.getCalledFromWithinExclusiveAreaRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswDirectCallPoint.setCalledFromWithinExclusiveAreaRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswDirectCallPoint
 
 
 class TestBswSynchronousServerCallPoint:
-    """Test cases for BswSynchronousServerCallPoint class - represents a synchronous server call point in a BSW module."""
+    """Test cases for BswSynchronousServerCallPoint class - represents a synchronous procedure call point via the BSW Scheduler."""
 
     def test_initialization(self):
+        """Test initialization of BswSynchronousServerCallPoint with the spec defaults."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         sync_call_point = BswSynchronousServerCallPoint(ar_root, "test_sync_call")
@@ -190,38 +237,57 @@ class TestBswSynchronousServerCallPoint:
         assert sync_call_point.short_name == "test_sync_call"
         assert sync_call_point.getCalledEntryRef() is None
         assert sync_call_point.getCalledFromWithinExclusiveAreaRef() is None
+        assert sync_call_point.getContextLimitationRefs() == []
 
-    def test_set_called_entry_ref(self):
+    def test_get_set_called_entry_ref(self):
+        """Test setting and getting the called entry reference, including the None no-op."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         sync_call_point = BswSynchronousServerCallPoint(ar_root, "test_sync_call")
 
         ref = RefType()
+        ref.setValue("/mod/ClientServerEntry")
         result = sync_call_point.setCalledEntryRef(ref)
 
         assert result == sync_call_point
         assert sync_call_point.getCalledEntryRef() == ref
 
-        # Setting None should not change the value (based on implementation)
         result = sync_call_point.setCalledEntryRef(None)
         assert result == sync_call_point
-        assert sync_call_point.getCalledEntryRef() == ref  # Value should remain unchanged
+        assert sync_call_point.getCalledEntryRef() == ref
 
-    def test_set_called_from_within_exclusive_area_ref(self):
+    def test_get_set_called_from_within_exclusive_area_ref(self):
+        """Test setting and getting the exclusive area reference, including the None no-op."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         sync_call_point = BswSynchronousServerCallPoint(ar_root, "test_sync_call")
 
         ref = RefType()
+        ref.setValue("/mod/AreaNesting")
         result = sync_call_point.setCalledFromWithinExclusiveAreaRef(ref)
 
         assert result == sync_call_point
         assert sync_call_point.getCalledFromWithinExclusiveAreaRef() == ref
 
-        # Setting None should not change the value (based on implementation)
         result = sync_call_point.setCalledFromWithinExclusiveAreaRef(None)
         assert result == sync_call_point
-        assert sync_call_point.getCalledFromWithinExclusiveAreaRef() == ref  # Value should remain unchanged
+        assert sync_call_point.getCalledFromWithinExclusiveAreaRef() == ref
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswSynchronousServerCallPoint.getCalledEntryRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswSynchronousServerCallPoint.setCalledEntryRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswSynchronousServerCallPoint
+
+        getter_hints = typing.get_type_hints(BswSynchronousServerCallPoint.getCalledFromWithinExclusiveAreaRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswSynchronousServerCallPoint.setCalledFromWithinExclusiveAreaRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswSynchronousServerCallPoint
 
 
 class TestBswAsynchronousServerCallResultPoint:
@@ -549,27 +615,54 @@ class TestBswInterruptEntity:
         assert entity.getInterruptCategory() is None
         assert entity.getInterruptSource() is None
 
-    def test_set_interrupt_category(self):
+    def test_get_set_interrupt_category(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         entity = BswInterruptEntity(ar_root, "test_interrupt_entity")
 
-        category = BswInterruptCategory()
+        category = BswInterruptCategory().setValue(BswInterruptCategory.CAT2)
         result = entity.setInterruptCategory(category)
 
         assert result == entity
         assert entity.getInterruptCategory() == category
 
-    def test_set_interrupt_source(self):
+        # Setting None should not change the value (based on implementation)
+        result = entity.setInterruptCategory(None)
+        assert result == entity
+        assert entity.getInterruptCategory() == category  # Value should remain unchanged
+
+    def test_get_set_interrupt_source(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         entity = BswInterruptEntity(ar_root, "test_interrupt_entity")
 
-        source = "test_source"
+        source = String().setValue("CAN interrupt")
         result = entity.setInterruptSource(source)
 
         assert result == entity
         assert entity.getInterruptSource() == source
+        assert entity.getInterruptSource().getValue() == "CAN interrupt"
+
+        # Setting None should not change the value (based on implementation)
+        result = entity.setInterruptSource(None)
+        assert result == entity
+        assert entity.getInterruptSource() == source  # Value should remain unchanged
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswInterruptEntity.getInterruptCategory)
+        assert getter_hints.get("return") == typing.Optional[BswInterruptCategory]
+
+        setter_hints = typing.get_type_hints(BswInterruptEntity.setInterruptCategory)
+        assert setter_hints.get("value") == typing.Optional[BswInterruptCategory]
+        assert setter_hints.get("return") is BswInterruptEntity
+
+        getter_hints = typing.get_type_hints(BswInterruptEntity.getInterruptSource)
+        assert getter_hints.get("return") == typing.Optional[String]
+
+        setter_hints = typing.get_type_hints(BswInterruptEntity.setInterruptSource)
+        assert setter_hints.get("value") == typing.Optional[String]
+        assert setter_hints.get("return") is BswInterruptEntity
 
 
 class TestBswEvent:
@@ -806,6 +899,15 @@ class TestBswModeManagerErrorEvent:
         assert result is event
         assert event.getModeGroupRef() == ref
 
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswModeManagerErrorEvent.getModeGroupRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswModeManagerErrorEvent.setModeGroupRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswModeManagerErrorEvent
+
 
 class TestBswModeSwitchedAckEvent:
     """Test cases for BswModeSwitchedAckEvent class - represents a mode switched acknowledgement event in a BSW module."""
@@ -904,6 +1006,15 @@ class TestBswAsynchronousServerCallReturnsEvent:
         assert result is event
         assert event.getEventSourceRef() == ref
 
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswAsynchronousServerCallReturnsEvent.getEventSourceRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswAsynchronousServerCallReturnsEvent.setEventSourceRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswAsynchronousServerCallReturnsEvent
+
 
 class TestBswTimingEvent:
     """Test cases for BswTimingEvent class - represents a timing event in a BSW module."""
@@ -981,6 +1092,26 @@ class TestBswDataReceivedEvent:
         assert result == event
         assert event.getDataRef() == ref
 
+    def test_set_data_ref_none_no_op(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswDataReceivedEvent(ar_root, "test_data_received_event")
+
+        ref = RefType()
+        event.setDataRef(ref)
+        event.setDataRef(None)
+
+        assert event.getDataRef() == ref
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswDataReceivedEvent.getDataRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswDataReceivedEvent.setDataRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswDataReceivedEvent
+
 
 class TestBswInternalTriggerOccurredEvent:
     """Test cases for BswInternalTriggerOccurredEvent class - represents an internal trigger occurred event in a BSW module."""
@@ -1004,6 +1135,27 @@ class TestBswInternalTriggerOccurredEvent:
         assert result == event
         assert event.getEventSourceRef() == ref
 
+    def test_set_event_source_ref_none_no_op(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswInternalTriggerOccurredEvent(ar_root, "test_internal_trigger_event")
+
+        ref = RefType()
+        event.setEventSourceRef(ref)
+        result = event.setEventSourceRef(None)
+
+        assert result == event
+        assert event.getEventSourceRef() == ref
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswInternalTriggerOccurredEvent.getEventSourceRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswInternalTriggerOccurredEvent.setEventSourceRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswInternalTriggerOccurredEvent
+
 
 class TestBswModeSwitchAckRequest:
     """Test cases for BswModeSwitchAckRequest class - represents a mode switch acknowledgment request in a BSW module."""
@@ -1016,12 +1168,33 @@ class TestBswModeSwitchAckRequest:
     def test_set_timeout(self):
         ack_request = BswModeSwitchAckRequest()
 
-        timeout = Float()
+        timeout = TimeValue()
         timeout.setValue(5.0)
         result = ack_request.setTimeout(timeout)
 
         assert result == ack_request
         assert ack_request.getTimeout() == timeout
+        assert ack_request.getTimeout().getValue() == 5.0
+
+    def test_set_timeout_none_is_noop(self):
+        ack_request = BswModeSwitchAckRequest()
+
+        timeout = TimeValue()
+        timeout.setValue(5.0)
+        ack_request.setTimeout(timeout)
+        result = ack_request.setTimeout(None)
+
+        assert result == ack_request
+        assert ack_request.getTimeout() == timeout
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswModeSwitchAckRequest.getTimeout)
+        assert getter_hints.get("return") == typing.Optional[TimeValue]
+
+        setter_hints = typing.get_type_hints(BswModeSwitchAckRequest.setTimeout)
+        assert setter_hints.get("value") == typing.Optional[TimeValue]
+        assert setter_hints.get("return") is BswModeSwitchAckRequest
 
 
 class TestBswModeSenderPolicy:
@@ -1167,30 +1340,36 @@ class TestBswExternalTriggerOccurredEvent:
 class TestBswApiOptions:
     """Test cases for BswApiOptions class - abstract base class for BSW API options."""
 
+    def test_initialization(self):
+        policy = BswQueuedDataReceptionPolicy()
+        assert policy.getEnableTakeAddress() is None
+
     def test_abstract_class_cannot_be_instantiated(self):
         with pytest.raises(TypeError) as err:
             BswApiOptions()
         assert str(err.value) == "BswApiOptions is an abstract class."
 
     def test_get_set_enable_take_address(self):
-        # Test with a concrete implementation that inherits from BswApiOptions
-        # Since BswApiOptions is abstract, we need to use a concrete implementation
+        # BswApiOptions is abstract: exercise the base accessors through a concrete subclass
         policy = BswQueuedDataReceptionPolicy()
+        value = Boolean()
+        value.setValue(True)
 
-        # Initially, enableTakeAddress should be None
-        # (Based on the actual behavior, it might have a default value)
-        _initial_value = policy.getEnableTakeAddress()
-
-        result = policy.setEnableTakeAddress(True)
-
+        result = policy.setEnableTakeAddress(value)
         assert result == policy
-        assert policy.getEnableTakeAddress() is True
+        assert policy.getEnableTakeAddress() == value
 
-        # Now test setting to None (but it will only update if not None)
+        # Setting None is a no-op: the existing value is preserved
         result = policy.setEnableTakeAddress(None)
         assert result == policy
-        # Since the setter only updates if value is not None, it should still be True
-        assert policy.getEnableTakeAddress() is True
+        assert policy.getEnableTakeAddress() == value
+
+        getter_hints = typing.get_type_hints(BswApiOptions.getEnableTakeAddress)
+        assert getter_hints.get("return") == typing.Optional[Boolean]
+
+        setter_hints = typing.get_type_hints(BswApiOptions.setEnableTakeAddress)
+        assert setter_hints.get("value") == typing.Optional[Boolean]
+        assert setter_hints.get("return") is BswApiOptions
 
 
 class TestBswExclusiveAreaPolicy:
@@ -1571,15 +1750,36 @@ class TestBswQueuedDataReceptionPolicy:
         policy = BswQueuedDataReceptionPolicy()
 
         queue_length = PositiveInteger()
-        queue_length.setValue(5)
+        queue_length.setValue("5")
         result = policy.setQueueLength(queue_length)
 
         assert result == policy
         assert policy.getQueueLength() == queue_length
+        assert policy.getQueueLength().getValue() == 5
+
+    def test_set_queue_length_none_is_noop(self):
+        policy = BswQueuedDataReceptionPolicy()
+
+        queue_length = PositiveInteger()
+        queue_length.setValue("5")
+        policy.setQueueLength(queue_length)
+        result = policy.setQueueLength(None)
+
+        assert result == policy
+        assert policy.getQueueLength() == queue_length
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswQueuedDataReceptionPolicy.getQueueLength)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(BswQueuedDataReceptionPolicy.setQueueLength)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is BswQueuedDataReceptionPolicy
 
 
 class TestBswInternalTriggeringPoint:
-    """Test cases for BswInternalTriggeringPoint class - represents an internal triggering point in a BSW module."""
+    """Test cases for BswInternalTriggeringPoint class - represents the activation point for one or more BswInternalTriggerOccurredEvents."""
 
     def test_initialization(self):
         document = AUTOSAR.getInstance()
@@ -1594,7 +1794,7 @@ class TestBswInternalTriggeringPoint:
         ar_root = document.createARPackage("AUTOSAR")
         point = BswInternalTriggeringPoint(ar_root, "test_internal_triggering_point")
 
-        policy = SwImplPolicyEnum()
+        policy = SwImplPolicyEnum().setValue(SwImplPolicyEnum.QUEUED)
         result = point.setSwImplPolicy(policy)
 
         assert result == point
@@ -1604,6 +1804,15 @@ class TestBswInternalTriggeringPoint:
         result = point.setSwImplPolicy(None)
         assert result == point
         assert point.getSwImplPolicy() == policy  # Value should remain unchanged
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswInternalTriggeringPoint.getSwImplPolicy)
+        assert getter_hints.get("return") == typing.Optional[SwImplPolicyEnum]
+
+        setter_hints = typing.get_type_hints(BswInternalTriggeringPoint.setSwImplPolicy)
+        assert setter_hints.get("value") == typing.Optional[SwImplPolicyEnum]
+        assert setter_hints.get("return") is BswInternalTriggeringPoint
 
 
 class TestBswInternalBehavior:

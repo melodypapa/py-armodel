@@ -23,7 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Im
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent, ApiPrincipleEnum, ExecutableEntity, InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceDependency, ServiceNeeds
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Float, Boolean
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, String, TimeValue, Identifier
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -38,52 +38,38 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import M
 
 class BswModuleCallPoint(Referrable, VariationPointCapable, ABC):
     """
-    Represents a call point for a BSW module, which defines how the module can be called.
-    This is an abstract base class for different types of call points.
+    Represents a point at which a BswModuleEntity handles a procedure call into a BswModuleEntry, either directly or via the BSW Scheduler.
     """
 
     # BswModuleCallPoint method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getContextLimitationRefs     [x] impl  [x] docstring  [ ] test
-    # [x] addContextLimitationRef      [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.10, p.77
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addContextLimitationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextLimitationRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswModuleCallPoint with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this call point
-            short_name: The unique short name of this call point
-        """
         if type(self) is BswModuleCallPoint:
             raise TypeError("BswModuleCallPoint is an abstract class.")
         super().__init__(parent, short_name)
 
-        # List of context limitation references that apply to this call point
+        # The existence of this reference indicates that the call point is used only in the context of the referred BswDistinguishedPartitions.
         self.contextLimitationRefs: List[RefType] = []
 
-    def getContextLimitationRefs(self):
+    def addContextLimitationRef(self, value: Optional[RefType]) -> BswModuleCallPoint:
         """
-        Gets the list of context limitation references for this call point.
+        The existence of this reference indicates that the call point is used only in the context of the referred BswDistinguishedPartitions.
+        A None value is a no-op and does not append to the existing contextLimitationRefs.
+        """
+        if value is not None:
+            self.contextLimitationRefs.append(value)
+        return self
 
-        Returns:
-            List of context limitation references
+    def getContextLimitationRefs(self) -> List[RefType]:
+        """
+        The existence of this reference indicates that the call point is used only in the context of the referred BswDistinguishedPartitions.
         """
         return self.contextLimitationRefs
-
-    def addContextLimitationRef(self, value):
-        """
-        Adds a context limitation reference to this call point.
-
-        Args:
-            value: The context limitation reference to add
-
-        Returns:
-            self for method chaining
-        """
-        self.contextLimitationRefs.append(value)
-        return self
 
 
 class BswAsynchronousServerCallPoint(BswModuleCallPoint):
@@ -129,75 +115,52 @@ class BswAsynchronousServerCallPoint(BswModuleCallPoint):
 
 class BswDirectCallPoint(BswModuleCallPoint):
     """
-    Represents a direct call point in a BSW module.
-    This call point is used for direct synchronous calls to BSW module entries.
+    Represents a concrete point in the code from where a BswModuleEntry is called directly, i.e. not via the BSW Scheduler. This information can be used to analyze call tree and resource locking scenarios. It is not needed to configure the BSW Scheduler.
     """
 
     # BswDirectCallPoint method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getCalledEntryRef            [x] impl  [x] docstring  [ ] test
-    # [x] setCalledEntryRef            [x] impl  [x] docstring  [x] test
-    # [ ] getCalledFromWithinExclusiveAreaRef [x] impl  [x] docstring  [ ] test
-    # [x] setCalledFromWithinExclusiveAreaRef [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.11, p.78
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCalledEntryRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCalledEntryRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCalledFromWithinExclusiveAreaRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCalledFromWithinExclusiveAreaRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswDirectCallPoint with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this call point
-            short_name: The unique short name of this call point
-        """
         super().__init__(parent, short_name)
 
-        # Reference to the entry that is called by this direct call point
-        self.calledEntryRef: RefType = None
-        # Reference to an exclusive area from which this call is made
-        self.calledFromWithinExclusiveAreaRef: RefType = None
+        # The BswModuleEntry called at this point.
+        self.calledEntryRef: Optional[RefType] = None
 
-    def getCalledEntryRef(self):
+        # This indicates that the call point is located at the deepest level inside one or more ExclusiveAreas that are nested in the given order.
+        self.calledFromWithinExclusiveAreaRef: Optional[RefType] = None
+
+    def getCalledEntryRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the entry that is called by this direct call point.
-
-        Returns:
-            Reference to the called entry
+        The BswModuleEntry called at this point.
         """
         return self.calledEntryRef
 
-    def setCalledEntryRef(self, value):
+    def setCalledEntryRef(self, value: Optional[RefType]) -> BswDirectCallPoint:
         """
-        Sets the reference to the entry that is called by this direct call point.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The entry reference to set
-
-        Returns:
-            self for method chaining
+        The BswModuleEntry called at this point.
+        A None value is a no-op and does not overwrite an existing calledEntryRef.
         """
         if value is not None:
             self.calledEntryRef = value
         return self
 
-    def getCalledFromWithinExclusiveAreaRef(self):
+    def getCalledFromWithinExclusiveAreaRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the exclusive area from which this call is made.
-
-        Returns:
-            Reference to the exclusive area
+        This indicates that the call point is located at the deepest level inside one or more ExclusiveAreas that are nested in the given order.
         """
         return self.calledFromWithinExclusiveAreaRef
 
-    def setCalledFromWithinExclusiveAreaRef(self, value):
+    def setCalledFromWithinExclusiveAreaRef(self, value: Optional[RefType]) -> BswDirectCallPoint:
         """
-        Sets the reference to the exclusive area from which this call is made.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The exclusive area reference to set
-
-        Returns:
-            self for method chaining
+        This indicates that the call point is located at the deepest level inside one or more ExclusiveAreas that are nested in the given order.
+        A None value is a no-op and does not overwrite an existing calledFromWithinExclusiveAreaRef.
         """
         if value is not None:
             self.calledFromWithinExclusiveAreaRef = value
@@ -206,75 +169,52 @@ class BswDirectCallPoint(BswModuleCallPoint):
 
 class BswSynchronousServerCallPoint(BswModuleCallPoint):
     """
-    Represents a synchronous server call point in a BSW module.
-    This call point is used when the server operation is executed synchronously.
+    Represents a synchronous procedure call point via the BSW Scheduler.
     """
 
     # BswSynchronousServerCallPoint method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getCalledEntryRef            [x] impl  [x] docstring  [ ] test
-    # [x] setCalledEntryRef            [x] impl  [x] docstring  [x] test
-    # [ ] getCalledFromWithinExclusiveAreaRef [x] impl  [x] docstring  [ ] test
-    # [x] setCalledFromWithinExclusiveAreaRef [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.12, p.79
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCalledEntryRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCalledEntryRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCalledFromWithinExclusiveAreaRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCalledFromWithinExclusiveAreaRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswSynchronousServerCallPoint with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this call point
-            short_name: The unique short name of this call point
-        """
         super().__init__(parent, short_name)
 
-        # Reference to the entry that is called by this synchronous call point
-        self.calledEntryRef: RefType = None
-        # Reference to an exclusive area from which this call is made
-        self.calledFromWithinExclusiveAreaRef: RefType = None
+        # The entry to be called.
+        self.calledEntryRef: Optional[RefType] = None
 
-    def getCalledEntryRef(self):
+        # This indicates that the call point is located at the deepest level inside one or more ExclusiveAreas that are nested in the given order.
+        self.calledFromWithinExclusiveAreaRef: Optional[RefType] = None
+
+    def getCalledEntryRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the entry that is called by this synchronous call point.
-
-        Returns:
-            Reference to the called entry
+        The entry to be called.
         """
         return self.calledEntryRef
 
-    def setCalledEntryRef(self, value):
+    def setCalledEntryRef(self, value: Optional[RefType]) -> BswSynchronousServerCallPoint:
         """
-        Sets the reference to the entry that is called by this synchronous call point.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The entry reference to set
-
-        Returns:
-            self for method chaining
+        The entry to be called.
+        A None value is a no-op and does not overwrite an existing calledEntryRef.
         """
         if value is not None:
             self.calledEntryRef = value
         return self
 
-    def getCalledFromWithinExclusiveAreaRef(self):
+    def getCalledFromWithinExclusiveAreaRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the exclusive area from which this call is made.
-
-        Returns:
-            Reference to the exclusive area
+        This indicates that the call point is located at the deepest level inside one or more ExclusiveAreas that are nested in the given order.
         """
         return self.calledFromWithinExclusiveAreaRef
 
-    def setCalledFromWithinExclusiveAreaRef(self, value):
+    def setCalledFromWithinExclusiveAreaRef(self, value: Optional[RefType]) -> BswSynchronousServerCallPoint:
         """
-        Sets the reference to the exclusive area from which this call is made.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The exclusive area reference to set
-
-        Returns:
-            self for method chaining
+        This indicates that the call point is located at the deepest level inside one or more ExclusiveAreas that are nested in the given order.
+        A None value is a no-op and does not overwrite an existing calledFromWithinExclusiveAreaRef.
         """
         if value is not None:
             self.calledFromWithinExclusiveAreaRef = value
@@ -448,6 +388,7 @@ class BswModuleEntity(ExecutableEntity, VariationPointCapable, ABC):
     # [x] getCallPoints                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] createBswAsynchronousServerCallPoint [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] createBswSynchronousServerCallPoint [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createBswDirectCallPoint            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getDataReceivePoints         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] createDataReceivePoint       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getDataSendPoints            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -603,6 +544,24 @@ class BswModuleEntity(ExecutableEntity, VariationPointCapable, ABC):
             self.addElement(access)
             self.callPoints.append(access)
         return self.getElement(short_name, BswSynchronousServerCallPoint)
+
+    def createBswDirectCallPoint(self, short_name: str) -> BswDirectCallPoint:
+        """
+        Creates and adds a BswDirectCallPoint to the call points used in the
+        code of this entity. Returns the existing call point if the short name
+        is already present.
+
+        Args:
+            short_name: The short name for the new call point
+
+        Returns:
+            The created BswDirectCallPoint instance
+        """
+        if not self.IsElementExists(short_name, BswDirectCallPoint):
+            access = BswDirectCallPoint(self, short_name)
+            self.addElement(access)
+            self.callPoints.append(access)
+        return self.getElement(short_name, BswDirectCallPoint)
 
     def getDataReceivePoints(self) -> List[BswVariableAccess]:
         """
@@ -815,74 +774,55 @@ class BswInterruptCategory(AREnum):
 
 class BswInterruptEntity(BswModuleEntity):
     """
-    Represents an interrupt entity in a BSW module.
-    This defines how interrupt service routines are handled in the BSW module.
+    BSW module entity, which is designed to be triggered by an interrupt.
     """
 
     # BswInterruptEntity method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getInterruptCategory         [x] impl  [x] docstring  [ ] test
-    # [x] setInterruptCategory         [x] impl  [x] docstring  [x] test
-    # [ ] getInterruptSource           [x] impl  [x] docstring  [ ] test
-    # [x] setInterruptSource           [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.8, p.75
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInterruptCategory  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInterruptCategory  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInterruptSource    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInterruptSource    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswInterruptEntity with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this interrupt entity
-            short_name: The unique short name of this interrupt entity
-        """
         super().__init__(parent, short_name)
 
-        # Category of the interrupt (CAT1 or CAT2)
-        self.interruptCategory: BswInterruptCategory = None
-        # Source identifier for the interrupt
-        self.interruptSource: String = None
+        # Category of the interrupt
+        self.interruptCategory: Optional[BswInterruptCategory] = None
 
-    def getInterruptCategory(self):
+        # Allows a textual documentation of the intended interrupt source.
+        self.interruptSource: Optional[String] = None
+
+    def getInterruptCategory(self) -> Optional[BswInterruptCategory]:
         """
-        Gets the interrupt category for this interrupt entity.
-
-        Returns:
-            The interrupt category (CAT1 or CAT2)
+        Category of the interrupt
         """
         return self.interruptCategory
 
-    def setInterruptCategory(self, value):
+    def setInterruptCategory(self, value: Optional[BswInterruptCategory]) -> BswInterruptEntity:
         """
-        Sets the interrupt category for this interrupt entity.
-
-        Args:
-            value: The interrupt category to set
-
-        Returns:
-            self for method chaining
+        Category of the interrupt
+        A None value is a no-op and does not overwrite an existing interruptCategory.
         """
-        self.interruptCategory = value
+        if value is not None:
+            self.interruptCategory = value
         return self
 
-    def getInterruptSource(self):
+    def getInterruptSource(self) -> Optional[String]:
         """
-        Gets the interrupt source identifier for this interrupt entity.
-
-        Returns:
-            The interrupt source identifier
+        Allows a textual documentation of the intended interrupt source.
         """
         return self.interruptSource
 
-    def setInterruptSource(self, value):
+    def setInterruptSource(self, value: Optional[String]) -> BswInterruptEntity:
         """
-        Sets the interrupt source identifier for this interrupt entity.
-
-        Args:
-            value: The interrupt source identifier to set
-
-        Returns:
-            self for method chaining
+        Allows a textual documentation of the intended interrupt source.
+        A None value is a no-op and does not overwrite an existing interruptSource.
         """
-        self.interruptSource = value
+        if value is not None:
+            self.interruptSource = value
         return self
 
 
@@ -1090,45 +1030,27 @@ class BswAsynchronousServerCallReturnsEvent(BswScheduleEvent):
 
     # BswAsynchronousServerCallReturnsEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.36, p.98
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getEventSourceRef            [x] impl  [x] docstring  [x] test
-    # [x] setEventSourceRef            [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventSourceRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventSourceRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswAsynchronousServerCallReturnsEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
         super().__init__(parent, short_name)
 
-        # The call point to be used for retrieving the result. The reference
-        # in the role eventSource shall exist at the time when the
-        # configuration of the BSW module is finished (constr_10288).
+        # The call point to be used for retrieving the result. For each BswAsynchronousServerCallReturnsEvent, the reference in the role eventSource shall exist at the time when the configuration of the BSW module is finished (constr_10288).
         self.eventSourceRef: Optional[RefType] = None
 
     def getEventSourceRef(self) -> Optional[RefType]:
         """
-        Gets the call point to be used for retrieving the result of the
-        asynchronous Client-Server call.
-
-        Returns:
-            The event source reference
+        The call point to be used for retrieving the result.
         """
         return self.eventSourceRef
 
-    def setEventSourceRef(self, value: RefType) -> BswAsynchronousServerCallReturnsEvent:
+    def setEventSourceRef(self, value: Optional[RefType]) -> BswAsynchronousServerCallReturnsEvent:
         """
-        Sets the call point to be used for retrieving the result.
-        Only sets if value is not None.
-
-        Args:
-            value: The event source reference to set
-
-        Returns:
-            self for method chaining
+        The call point to be used for retrieving the result.
+        A None value is a no-op and does not overwrite an existing eventSourceRef.
         """
         if value is not None:
             self.eventSourceRef = value
@@ -1267,55 +1189,32 @@ class BswModeSwitchedAckEvent(BswScheduleEvent):
 
 class BswModeManagerErrorEvent(BswScheduleEvent):
     """
-    This represents the ability to react on errors occurring during mode
-    handling. The event can be used to start a BswModuleEntity after an error
-    has been announced by the mode manager. The ModeDeclarationGroupPrototype
-    used by this event shall be referred as BswModuleDescription.providedModeGroup
-    by the same module (constr_4081).
+    This represents the ability to react on errors occurring during mode handling.
     """
 
     # BswModeManagerErrorEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.33, p.95
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getModeGroupRef              [x] impl  [x] docstring  [x] test
-    # [x] setModeGroupRef              [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getModeGroupRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeGroupRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswModeManagerErrorEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
         super().__init__(parent, short_name)
 
-        # This represents the ModeDeclarationGroupPrototype for which the
-        # error behavior of the mode manager applies. The reference in the
-        # role modeGroup shall exist at the time when the configuration of
-        # the BSW module is finished (constr_10286).
+        # This represents the ModeDeclarationGroupPrototype for which the error behavior of the mode manager applies. For each BswModeManagerErrorEvent, the reference in the role modeGroup shall exist at the time when the configuration of the BSW module is finished (constr_10286).
         self.modeGroupRef: Optional[RefType] = None
 
     def getModeGroupRef(self) -> Optional[RefType]:
         """
-        Gets the ModeDeclarationGroupPrototype for which the error behavior
-        of the mode manager applies.
-
-        Returns:
-            The mode group reference
+        This represents the ModeDeclarationGroupPrototype for which the error behavior of the mode manager applies.
         """
         return self.modeGroupRef
 
-    def setModeGroupRef(self, value: RefType) -> BswModeManagerErrorEvent:
+    def setModeGroupRef(self, value: Optional[RefType]) -> BswModeManagerErrorEvent:
         """
-        Sets the ModeDeclarationGroupPrototype for which the error behavior
-        of the mode manager applies. Only sets if value is not None.
-
-        Args:
-            value: The mode group reference to set
-
-        Returns:
-            self for method chaining
+        This represents the ModeDeclarationGroupPrototype for which the error behavior of the mode manager applies.
+        A None value is a no-op and does not overwrite an existing modeGroupRef.
         """
         if value is not None:
             self.modeGroupRef = value
@@ -1389,138 +1288,103 @@ class BswTimingEvent(BswScheduleEvent):
 
 class BswDataReceivedEvent(BswScheduleEvent):
     """
-    Represents an event that is triggered when data is received by a BSW module.
-    This event handles data reception from other modules or communication interfaces.
+    This event is thrown on reception of the referenced data via Sender-Receiver-Communication over the BSW Scheduler.
     """
 
     # BswDataReceivedEvent method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getDataRef                   [x] impl  [x] docstring  [ ] test
-    # [x] setDataRef                   [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.37, p.99
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswDataReceivedEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
         super().__init__(parent, short_name)
 
-        # Reference to the data that was received to trigger this event
-        self.dataRef: RefType = None
+        # The received data. For each BswDataReceivedEvent, the reference in the role data shall exist at the time when the configuration of the BSW module is finished (constr_10289).
+        self.dataRef: Optional[RefType] = None
 
-    def getDataRef(self):
+    def getDataRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the data that was received to trigger this event.
-
-        Returns:
-            Reference to the received data
+        The received data.
         """
         return self.dataRef
 
-    def setDataRef(self, value):
+    def setDataRef(self, value: Optional[RefType]) -> BswDataReceivedEvent:
         """
-        Sets the reference to the data that was received to trigger this event.
-
-        Args:
-            value: The data reference to set
-
-        Returns:
-            self for method chaining
+        The received data.
+        A None value is a no-op and does not overwrite an existing dataRef.
         """
-        self.dataRef = value
+        if value is not None:
+            self.dataRef = value
         return self
 
 
 class BswInternalTriggerOccurredEvent(BswScheduleEvent):
     """
-    Represents an event that is triggered by an internal trigger in a BSW module.
-    This event occurs when a BSW module internally generates a trigger.
+    A BswEvent, which can happen sporadically. The event is activated by explicit calls from the module to the BSW Scheduler. The main purpose for such an event is to cause a context switch, e.g. from an ISR context into a task context. Activation and switching are handled within the same module or cluster only.
     """
 
     # BswInternalTriggerOccurredEvent method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getEventSourceRef            [x] impl  [x] docstring  [ ] test
-    # [x] setEventSourceRef            [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.29, p.91
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventSourceRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventSourceRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswInternalTriggerOccurredEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
         super().__init__(parent, short_name)
 
-        # Reference to the event source that triggered this event
-        self.eventSourceRef: RefType = None
+        # The activation point is the source of this event. For each BswInternalTriggerOccurredEvent, the reference in the role eventSource shall exist at the time when the configuration of the BSW module is finished (constr_10282).
+        self.eventSourceRef: Optional[RefType] = None
 
-    def getEventSourceRef(self):
+    def getEventSourceRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the event source that triggered this event.
-
-        Returns:
-            Reference to the event source
+        The activation point is the source of this event.
         """
         return self.eventSourceRef
 
-    def setEventSourceRef(self, value):
+    def setEventSourceRef(self, value: Optional[RefType]) -> BswInternalTriggerOccurredEvent:
         """
-        Sets the reference to the event source that triggered this event.
-
-        Args:
-            value: The event source reference to set
-
-        Returns:
-            self for method chaining
+        The activation point is the source of this event.
+        A None value is a no-op and does not overwrite an existing eventSourceRef.
         """
-        self.eventSourceRef = value
+        if value is not None:
+            self.eventSourceRef = value
         return self
 
 
 class BswModeSwitchAckRequest(ARObject):
     """
-    Represents an acknowledgment request for a mode switch operation.
-    This is used in BSW modules to handle mode switch acknowledgments.
+    Requests acknowledgements that a mode switch has been processed successfully
     """
 
     # BswModeSwitchAckRequest method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getTimeout                   [x] impl  [x] docstring  [ ] test
-    # [x] setTimeout                   [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.40, p.103
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTimeout  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeout  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the BswModeSwitchAckRequest.
-        """
         super().__init__()
 
-        # Timeout value for the mode switch acknowledgment
-        self.timeout: Float = None
+        # Number of seconds before an error is reported. The attribute timeout shall exist at the time when the configuration of the BSW module is finished (constr_10293).
+        self.timeout: Optional[TimeValue] = None
 
-    def getTimeout(self):
+    def getTimeout(self) -> Optional[TimeValue]:
         """
-        Gets the timeout value for the mode switch acknowledgment.
-
-        Returns:
-            Float representing the timeout value
+        Number of seconds before an error is reported.
         """
         return self.timeout
 
-    def setTimeout(self, value):
+    def setTimeout(self, value: Optional[TimeValue]) -> BswModeSwitchAckRequest:
         """
-        Sets the timeout value for the mode switch acknowledgment.
-
-        Args:
-            value: The timeout value to set
-
-        Returns:
-            self for method chaining
+        Number of seconds before an error is reported.
+        A None value is a no-op and does not overwrite an existing timeout.
         """
-        self.timeout = value
+        if value is not None:
+            self.timeout = value
         return self
 
 
@@ -1844,47 +1708,36 @@ class BswExternalTriggerOccurredEvent(BswScheduleEvent):
 
 class BswApiOptions(ARObject, ABC):
     """
-    Abstract base class for BSW API options.
-    Defines common options for BSW API implementations.
+    This meta-class represents the ability to define options for the definition of the signature of function prototypes.
     """
 
     # BswApiOptions method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getEnableTakeAddress         [x] impl  [x] docstring  [ ] test
-    # [ ] setEnableTakeAddress         [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate (BSW behavior policies), class BswApiOptions, AUTOSAR_00052.xsd line 9379 (XSD-only; no own table in repo corpus)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEnableTakeAddress         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnableTakeAddress         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the BSW API options.
-        Raises TypeError if this abstract class is instantiated directly.
-        """
         if type(self) is BswApiOptions:
             raise TypeError("BswApiOptions is an abstract class.")
 
         super().__init__()
 
-        # Flag indicating whether to enable taking addresses in the API
-        self.enableTakeAddress: Boolean = None
+        # If set to true, the BSW Module is able to use the API reference for deriving a pointer to an object
+        self.enableTakeAddress: Optional[Boolean] = None
 
-    def getEnableTakeAddress(self):
+    def getEnableTakeAddress(self) -> Optional[Boolean]:
         """
-        Gets the enable take address flag.
-
-        Returns:
-            Boolean indicating whether take address is enabled
+        If set to true, the BSW Module is able to use the API reference for deriving a pointer to an object
         """
         return self.enableTakeAddress
 
-    def setEnableTakeAddress(self, value):
+    def setEnableTakeAddress(self, value: Optional[Boolean]) -> BswApiOptions:
         """
-        Sets the enable take address flag.
-        Only sets the value if it is not None.
+        If set to true, the BSW Module is able to use the API reference for deriving a pointer to an object
 
-        Args:
-            value: The boolean value to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing enableTakeAddress.
         """
         if value is not None:
             self.enableTakeAddress = value
@@ -2256,43 +2109,32 @@ class BswDataReceptionPolicy(BswApiOptions, VariationPointCapable, ABC):
 
 class BswQueuedDataReceptionPolicy(BswDataReceptionPolicy):
     """
-    Represents a queued data reception policy in a BSW module.
-    This policy handles data reception using a queue mechanism.
+    Reception policy attributes specific for queued receiving.
     """
 
     # BswQueuedDataReceptionPolicy method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getQueueLength               [x] impl  [x] docstring  [ ] test
-    # [x] setQueueLength               [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.43, p.105
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getQueueLength  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setQueueLength  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the BswQueuedDataReceptionPolicy.
-        """
         super().__init__()
 
-        # Maximum queue length for received data
-        self.queueLength: PositiveInteger = None
+        # Length of queue for received events. The attribute queueLength shall exist at the time when the configuration of the BSW module is finished (constr_10297).
+        self.queueLength: Optional[PositiveInteger] = None
 
-    def getQueueLength(self):
+    def getQueueLength(self) -> Optional[PositiveInteger]:
         """
-        Gets the maximum queue length for received data.
-
-        Returns:
-            Positive integer representing the queue length
+        Length of queue for received events.
         """
         return self.queueLength
 
-    def setQueueLength(self, value):
+    def setQueueLength(self, value: Optional[PositiveInteger]) -> BswQueuedDataReceptionPolicy:
         """
-        Sets the maximum queue length for received data.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The queue length value to set
-
-        Returns:
-            self for method chaining
+        Length of queue for received events.
+        A None value is a no-op and does not overwrite an existing queueLength.
         """
         if value is not None:
             self.queueLength = value
@@ -2301,47 +2143,32 @@ class BswQueuedDataReceptionPolicy(BswDataReceptionPolicy):
 
 class BswInternalTriggeringPoint(Identifiable, VariationPointCapable):
     """
-    Represents an internal triggering point in a BSW module's internal behavior.
-    This is used to define points from which triggers can be issued internally.
+    Represents the activation point for one or more BswInternalTriggerOccurredEvents.
     """
 
     # BswInternalTriggeringPoint method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getSwImplPolicy              [x] impl  [x] docstring  [ ] test
-    # [x] setSwImplPolicy              [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.28, p.91
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwImplPolicy   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwImplPolicy   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswInternalTriggeringPoint with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this triggering point
-            short_name: The unique short name of this triggering point
-        """
         super().__init__(parent, short_name)
 
-        # Software implementation policy for this triggering point
-        self.swImplPolicy: SwImplPolicyEnum = None
+        # This attribute, when set to value queued, specifies a queued processing of the internal trigger event.
+        self.swImplPolicy: Optional[SwImplPolicyEnum] = None
 
-    def getSwImplPolicy(self):
+    def getSwImplPolicy(self) -> Optional[SwImplPolicyEnum]:
         """
-        Gets the software implementation policy for this triggering point.
-
-        Returns:
-            SwImplPolicyEnum value
+        This attribute, when set to value queued, specifies a queued processing of the internal trigger event.
         """
         return self.swImplPolicy
 
-    def setSwImplPolicy(self, value):
+    def setSwImplPolicy(self, value: Optional[SwImplPolicyEnum]) -> BswInternalTriggeringPoint:
         """
-        Sets the software implementation policy for this triggering point.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The SwImplPolicyEnum value to set
-
-        Returns:
-            self for method chaining
+        This attribute, when set to value queued, specifies a queued processing of the internal trigger event.
+        A None value is a no-op and does not overwrite an existing swImplPolicy.
         """
         if value is not None:
             self.swImplPolicy = value

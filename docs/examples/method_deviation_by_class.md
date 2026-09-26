@@ -178,6 +178,19 @@ the aggregation is itself a partial implementation and remains to be wired.
 |---|---|---|---|---|---|
 | `modeGroupRef` | `Optional[RefType]` | `modeGroup` | `Ref (ModeDeclarationGroupPrototype)` | Ref | ok |
 
+No deviations (2026-09-26 sync, Table 5.33, p.95): bare `RefType` setter parameter retyped to
+`Optional[RefType]` (0..1), fabricated class docstring (constr_4081 text not in this table)
+and `__init__` docstring removed, paraphrased docstrings and the inline comment wiped and
+rewritten verbatim from the markdown Note (constr_10286 appended to the inline comment), old
+4-col checklist replaced by the 6-column checklist; no fake intake marker was present.
+Reader/writer already covered the `MODE-GROUP-REF` element via matched
+read/writeBswModeManagerErrorEvent helpers with dispatch + createBswModeManagerErrorEvent
+factory on BswInternalBehavior; writer reads via the getter (no direct-field-read defect).
+VP capability inherited via the BswEvent mixin (VARIATION-POINT lives in the ancestor
+BSW-EVENT group; Rule 0020). Base drift observed (not this row): `readBswEvent` lacks a
+`readIdentifiable` call while `writeBswEvent` calls `writeIdentifiable`
+(BswEvent/BswScheduleEvent base-owned; both unstamped, no queue rows yet).
+
 ## `BswModeSwitchedAckEvent`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 95
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
@@ -196,6 +209,59 @@ the aggregation is itself a partial implementation and remains to be wired.
 |---|---|---|---|---|---|
 | `eventSourceRef` | `Optional[RefType]` | `eventSource` | `Ref (BswAsynchronousServerCallResultPoint)` | Ref | ok |
 
+No deviations (2026-09-26 sync, Table 5.36, p.98): bare `RefType` setter parameter retyped to
+`Optional[RefType]` (0..1), `__init__` docstring and paraphrased docstrings wiped and rewritten
+verbatim from the markdown Note, 6-column checklist; reader/writer already covered the
+`EVENT-SOURCE-REF` element via matched read/writeBswAsynchronousServerCallReturnsEvent helpers
+with dispatch + createBswAsynchronousServerCallReturnsEvent factory on BswInternalBehavior.
+Base drift observed (not this row): `readBswEvent` lacks a `readIdentifiable` call while
+`writeBswEvent` calls `writeIdentifiable` (BswEvent/BswScheduleEvent base-owned; both
+unstamped, no queue rows yet).
+
+## `BswDataReceivedEvent`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 99
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `dataRef` | `Optional[RefType]` | `data` | `Ref (VariableDataPrototype)` | Ref | ok |
+
+No deviations (2026-09-26 sync, Table 5.37, p.99): bare `RefType` field/setter parameter
+retyped to `Optional[RefType]` (0..1), missing None no-op on the setter added, `__init__`
+docstring and paraphrased docstrings wiped and rewritten verbatim from the markdown Note,
+stale 4-col checklist (unchecked getDataRef row) replaced by the 6-column checklist; no
+fake intake marker was present. Reader/writer already covered the `DATA-REF` element via
+matched read/writeBswDataReceivedEvent helpers with dispatch + createBswDataReceivedEvent
+factory on BswInternalBehavior; writer reads via the getter (no direct-field-read defect).
+Base drift observed (not this row): `readBswEvent` lacks a `readIdentifiable` call while
+`writeBswEvent` calls `writeIdentifiable` (BswEvent/BswScheduleEvent base-owned; both
+unstamped, no queue rows yet).
+
+## `BswInternalTriggerOccurredEvent`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 91
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `eventSourceRef` | `Optional[RefType]` | `eventSource` | `Ref (BswInternalTriggeringPoint)` | Ref | ok |
+
+No deviations (2026-09-26 sync, Table 5.29, p.91): bare `RefType` field retyped to
+`Optional[RefType]` (0..1), accessors typed, missing None no-op on the setter added,
+fabricated class docstring and `__init__` docstring removed, paraphrased docstrings and
+the fabricated inline comment wiped and rewritten verbatim from the markdown Note
+(constr_10282 appended to the inline comment), stale 3-col checklist (unchecked
+getEventSourceRef row) replaced by the 6-column checklist; no fake intake marker was
+present. Reader/writer already covered the `EVENT-SOURCE-REF` element via matched
+read/writeBswInternalTriggerOccurredEvent helpers with dispatch +
+createBswInternalTriggerOccurredEvent factory on BswInternalBehavior; writer reads via
+the getter (no direct-field-read defect). VP capability inherited via the BswEvent mixin
+(VARIATION-POINT lives in the ancestor BSW-EVENT group; Rule 0020). Base drift observed
+(not this row): `readBswEvent` lacks a `readIdentifiable` call while `writeBswEvent`
+calls `writeIdentifiable` (BswEvent/BswScheduleEvent base-owned; both unstamped, no
+queue rows yet).
+
 ## `BswModeSenderPolicy`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 102
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
@@ -207,6 +273,37 @@ the aggregation is itself a partial implementation and remains to be wired.
 | `enhancedModeApi` | `Optional[Boolean]` | `enhancedModeApi` | `Boolean` | attr | ok |
 | `providedModeGroupRef` | `Optional[RefType]` | `providedModeGroup` | `Ref (ModeDeclarationGroupPrototype)` | ref | ok |
 | `queueLength` | `Optional[PositiveInteger]` | `queueLength` | `PositiveInteger` | attr | ok |
+
+## `BswModeSwitchAckRequest`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 103
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `timeout` | `Optional[TimeValue]` | `timeout` | `TimeValue` | attr | ok |
+
+No deviations (2026-09-26 sync, Table 5.40, p.103): bare `Float` field retyped to
+`Optional[TimeValue]`, accessors typed, None no-op added, docstrings rewritten verbatim from the
+markdown Note, 6-column checklist; reader/writer already covered `ACK-REQUEST`/`TIMEOUT` via
+matched get/setBswModeSwitchAckRequest helpers.
+
+## `BswQueuedDataReceptionPolicy`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 105
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `queueLength` | `Optional[PositiveInteger]` | `queueLength` | `PositiveInteger` | attr | ok |
+
+No deviations (2026-09-26 sync, Table 5.43, p.105): bare `PositiveInteger` field retyped to
+`Optional[PositiveInteger]`, accessors typed, None no-op kept, fabricated class/`__init__`
+docstrings and fake 4-col intake checklist removed, docstrings rewritten verbatim from the
+markdown Note, 6-column checklist; reader/writer already covered the
+`BSW-QUEUED-DATA-RECEPTION-POLICY` wrapper and `QUEUE-LENGTH` via matched
+read/writeBswQueuedDataReceptionPolicy helpers. Base `BswDataReceptionPolicy` itself remains
+unstamped/drifted (own queue row, not this pass).
 
 ## `BswTriggerDirectImplementation`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 102

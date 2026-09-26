@@ -55,12 +55,14 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswDataReceivedEvent,
     BswDataReceptionPolicy,
     BswDataSendPolicy,
+    BswDirectCallPoint,
     BswExclusiveAreaPolicy,
     BswExternalTriggerOccurredEvent,
     BswInternalBehavior,
     BswInternalTriggeringPoint,
     BswInternalTriggeringPointPolicy,
     BswInternalTriggerOccurredEvent,
+    BswInterruptCategory,
     BswInterruptEntity,
     BswModeManagerErrorEvent,
     BswModeReceiverPolicy,
@@ -1196,6 +1198,11 @@ SW_IMPL_POLICY_XML_MAP = {
     "measurementPoint": "MEASUREMENT-POINT",
     "queued": "QUEUED",
     "standard": "STANDARD",
+}
+
+BSW_INTERRUPT_CATEGORY_XML_MAP = {
+    "cat1": "CAT-1",
+    "cat2": "CAT-2",
 }
 
 
@@ -3910,6 +3917,14 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readBswModuleCallPoint(self, element: ET.Element, point: BswModuleCallPoint):
         self.readReferrable(element, point)
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-LIMITATION-REFS/CONTEXT-LIMITATION-REF"):
+            point.addContextLimitationRef(ref)
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(point, VariationPointCapable):
+                point.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
     def readBswAsynchronousServerCallPoint(self, element: ET.Element, point: BswAsynchronousServerCallPoint):
         self.readBswModuleCallPoint(element, point)
@@ -3922,6 +3937,12 @@ class ARXMLParser(AbstractARXMLParser):
     def readBswSynchronousServerCallPoint(self, element: ET.Element, point: BswSynchronousServerCallPoint):
         self.readBswModuleCallPoint(element, point)
         point.setCalledEntryRef(self.getChildElementOptionalRefType(element, "CALLED-ENTRY-REF"))
+        point.setCalledFromWithinExclusiveAreaRef(self.getChildElementOptionalRefType(element, "CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF"))
+
+    def readBswDirectCallPoint(self, element: ET.Element, point: BswDirectCallPoint):
+        self.readBswModuleCallPoint(element, point)
+        point.setCalledEntryRef(self.getChildElementOptionalRefType(element, "CALLED-ENTRY-REF"))
+        point.setCalledFromWithinExclusiveAreaRef(self.getChildElementOptionalRefType(element, "CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF"))
 
     def readBswModuleEntityCallPoints(self, element: ET.Element, entity: BswModuleEntity):
         for child_element in self.findall(element, "CALL-POINTS/*"):
@@ -3935,6 +3956,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "BSW-SYNCHRONOUS-SERVER-CALL-POINT":
                 point = entity.createBswSynchronousServerCallPoint(self.getShortName(child_element))
                 self.readBswSynchronousServerCallPoint(child_element, point)
+            elif tag_name == "BSW-DIRECT-CALL-POINT":
+                point = entity.createBswDirectCallPoint(self.getShortName(child_element))
+                self.readBswDirectCallPoint(child_element, point)
             else:
                 self.notImplemented("Unsupported Call Point <%s>" % tag_name)
 
@@ -3959,10 +3983,20 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBswModuleEntity(element, entity)
 
     def readBswInterruptEntity(self, element: ET.Element, entity: BswInterruptEntity):
-        # self.logger.debug("Read BswSchedulableEntity %s" % entity.getShortName())
+        # self.logger.debug("Read BswInterruptEntity %s" % entity.getShortName())
         self.readBswModuleEntity(element, entity)
-        entity.setInterruptCategory(self.getChildElementOptionalLiteral(element, "INTERRUPT-CATEGORY"))
-        entity.setInterruptSource(self.getChildElementOptionalLiteral(element, "INTERRUPT-SOURCE"))
+        literal = self.getChildElementOptionalLiteral(element, "INTERRUPT-CATEGORY")
+        if literal is not None:
+            camel = None
+            for camel_value, token in BSW_INTERRUPT_CATEGORY_XML_MAP.items():
+                if token == literal.getText():
+                    camel = camel_value
+                    break
+            if camel is not None:
+                entity.setInterruptCategory(BswInterruptCategory().setValue(camel))
+            else:
+                self.notImplemented("Unsupported INTERRUPT-CATEGORY <%s>" % literal.getText())
+        entity.setInterruptSource(self.getChildElementOptionalString(element, "INTERRUPT-SOURCE"))
 
     def readBswInternalBehaviorEntities(self, element: ET.Element, behavior: BswInternalBehavior):
         for child_element in self.findall(element, "ENTITYS/*"):
@@ -4255,6 +4289,17 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readBswInternalTriggeringPoint(self, element: ET.Element, point: BswInternalTriggeringPoint):
         self.readIdentifiable(element, point)
+        literal = self.getChildElementOptionalLiteral(element, "SW-IMPL-POLICY")
+        if literal is not None:
+            camel = None
+            for camel_value, token in SW_IMPL_POLICY_XML_MAP.items():
+                if token == literal.getText():
+                    camel = camel_value
+                    break
+            if camel is not None:
+                point.setSwImplPolicy(SwImplPolicyEnum().setValue(camel))
+            else:
+                self.notImplemented("Unsupported SW-IMPL-POLICY <%s>" % literal.getText())
 
     def readBswInternalBehaviorInternalTriggeringPoints(self, element: ET.Element, behavior: BswInternalBehavior):
         for child_element in self.findall(element, "INTERNAL-TRIGGERING-POINTS/*"):
