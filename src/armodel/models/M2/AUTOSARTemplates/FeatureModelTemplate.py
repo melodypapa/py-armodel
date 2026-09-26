@@ -4,7 +4,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.FormulaLanguage import 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import SwSystemconstDependentFormula
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
-__all__ = ["FMConditionByFeaturesAndAttributes", "FMFormulaByFeaturesAndAttributes", "FMFormulaByFeaturesAndSwSystemconsts"]
+__all__ = ["FMConditionByFeaturesAndAttributes", "FMConditionByFeaturesAndSwSystemconsts", "FMFormulaByFeaturesAndAttributes", "FMFormulaByFeaturesAndSwSystemconsts"]
 
 
 class FMFormulaByFeaturesAndAttributes(FormulaExpression):
@@ -166,3 +166,50 @@ class FMFormulaByFeaturesAndSwSystemconsts(SwSystemconstDependentFormula):
         if value is not None:
             self.featureRef = value
         return self
+
+
+class FMConditionByFeaturesAndSwSystemconsts(FMFormulaByFeaturesAndSwSystemconsts):
+    """A boolean expression that has the syntax of the AUTOSAR formula language and may use references to features or system constants as operands.
+
+    [TPS_FMDT_00050] The result of FMConditionByFeaturesAndSwSystemconsts is interpreted as a boolean value. The result of a formula of class FMConditionByFeaturesAndSwSystemconsts shall be interpreted as a boolean value.
+    """
+
+    # FMConditionByFeaturesAndSwSystemconsts method parity checklist:
+    # Spec: R23-11/AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 7.4, p.63 (R23-11)
+    # (section 7.2.4; R4.3.1 reproduction Table 7.4 has the same rows (p.63,
+    # AUTOSAR_TPS_FeatureModelExchangeFormat.md). Concrete Class
+    # <<atpMixedString>>; XSD 00052 complexType FM-CONDITION-BY-FEATURES-AND-
+    # SW-SYSTEMCONSTS line 62046 (mixed, abstract="false") composes AR-OBJECT +
+    # FORMULA-EXPRESSION + SW-SYSTEMCONST-DEPENDENT-FORMULA +
+    # FM-FORMULA-BY-FEATURES-AND-SW-SYSTEMCONSTS + the own empty group
+    # (line 62037); attributeGroup AR-OBJECT. Table 7.4 declares NO attribute
+    # rows (dash placeholder) - the class models zero own members; the
+    # FEATURE-REF member belongs to the Table 7.3 base's own table and the
+    # SYSC-REF / SYSC-STRING-REF members to the stamped
+    # SwSystemconstDependentFormula (Table 7.10) - both composed via
+    # isinstance dispatch. Base row ARObject,
+    # FMFormulaByFeaturesAndSwSystemconsts, FormulaExpression,
+    # SwSystemconstDependentFormula (markdown mid-word split de-split) ->
+    # most-derived provided base FMFormulaByFeaturesAndSwSystemconsts
+    # (Table 7.3, synced 597c42cdb). Aggregated by
+    # FMFeatureMapAssertion.fmSyscond (FM-SYSCOND, XSD L62276) - the consumer
+    # FMFeatureMapAssertion is not yet modeled, so no live dispatcher exists;
+    # coverage is the class's own helper pair
+    # readFMConditionByFeaturesAndSwSystemconsts /
+    # writeFMConditionByFeaturesAndSwSystemconsts (wire key FM-SYSCOND),
+    # pinned at element level by tests/test_armodel/parser/
+    # test_parser_fm_condition_by_features_and_sw_systemconsts.py and
+    # tests/test_armodel/writer/
+    # test_writer_fm_condition_by_features_and_sw_systemconsts.py
+    # (BlueprintFormula / FMConditionByFeaturesAndAttributes precedent).)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no methods - Table 7.4 declares no attribute rows; getMixedString /
+    # setMixedString provided by the AtpMixedString mixin, get/setFeatureRef
+    # inherited from FMFormulaByFeaturesAndSwSystemconsts (Table 7.3), and
+    # get/setSyscRef + get/setSyscStringRef inherited from
+    # SwSystemconstDependentFormula (Table 7.10, stamped) - no Table 7.4 rows;
+    # the class-level reader/writer coverage lives in the own helper pair.)
+
+    def __init__(self):
+        super().__init__()

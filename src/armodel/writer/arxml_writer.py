@@ -213,7 +213,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint, PortPrototypeBlueprintInitValue
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintFormula import BlueprintFormula
-from armodel.models.M2.AUTOSARTemplates.FeatureModelTemplate import FMConditionByFeaturesAndAttributes, FMFormulaByFeaturesAndAttributes, FMFormulaByFeaturesAndSwSystemconsts
+from armodel.models.M2.AUTOSARTemplates.FeatureModelTemplate import (
+    FMConditionByFeaturesAndAttributes,
+    FMConditionByFeaturesAndSwSystemconsts,
+    FMFormulaByFeaturesAndAttributes,
+    FMFormulaByFeaturesAndSwSystemconsts,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator import BlueprintGenerator
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
@@ -1210,6 +1215,18 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeFMFormulaByFeaturesAndSwSystemconsts(self, element: ET.Element, formula: FMFormulaByFeaturesAndSwSystemconsts):
         self.setChildElementOptionalRefType(element, "FEATURE-REF", formula.getFeatureRef())
+
+    def writeFMConditionByFeaturesAndSwSystemconsts(self, element: ET.Element, formula: FMConditionByFeaturesAndSwSystemconsts, key: str = "FM-SYSCOND"):
+        if formula is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, formula)
+            text = formula.getMixedString()
+            if text is not None:
+                child_element.text = text
+            if isinstance(formula, FMFormulaByFeaturesAndSwSystemconsts):
+                self.writeFMFormulaByFeaturesAndSwSystemconsts(child_element, formula)
+            if isinstance(formula, SwSystemconstDependentFormula):
+                self.writeSwSystemconstDependentFormula(child_element, formula)
 
     def writeFMConditionByFeaturesAndAttributes(self, element: ET.Element, formula: FMConditionByFeaturesAndAttributes, key: str = "FM-COND"):
         if formula is not None:

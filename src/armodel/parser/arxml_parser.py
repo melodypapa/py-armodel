@@ -240,7 +240,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint, PortPrototypeBlueprintInitValue
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintFormula import BlueprintFormula
-from armodel.models.M2.AUTOSARTemplates.FeatureModelTemplate import FMConditionByFeaturesAndAttributes, FMFormulaByFeaturesAndAttributes, FMFormulaByFeaturesAndSwSystemconsts
+from armodel.models.M2.AUTOSARTemplates.FeatureModelTemplate import (
+    FMConditionByFeaturesAndAttributes,
+    FMConditionByFeaturesAndSwSystemconsts,
+    FMFormulaByFeaturesAndAttributes,
+    FMFormulaByFeaturesAndSwSystemconsts,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator import BlueprintGenerator
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
@@ -1338,6 +1343,16 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readFMFormulaByFeaturesAndSwSystemconsts(self, element: ET.Element, formula: FMFormulaByFeaturesAndSwSystemconsts) -> FMFormulaByFeaturesAndSwSystemconsts:
         formula.setFeatureRef(self.getChildElementOptionalRefType(element, "FEATURE-REF"))
+        return formula
+
+    def readFMConditionByFeaturesAndSwSystemconsts(self, element: ET.Element, formula: FMConditionByFeaturesAndSwSystemconsts) -> FMConditionByFeaturesAndSwSystemconsts:
+        self.readARObject(element, formula)
+        if element.text is not None and element.text.strip() != "":
+            self.readMixedStringText(element, formula)
+        if isinstance(formula, FMFormulaByFeaturesAndSwSystemconsts):
+            self.readFMFormulaByFeaturesAndSwSystemconsts(element, formula)
+        if isinstance(formula, SwSystemconstDependentFormula):
+            self.readSwSystemconstDependentFormula(element, formula)
         return formula
 
     def readFMConditionByFeaturesAndAttributes(self, element: ET.Element, formula: FMConditionByFeaturesAndAttributes) -> FMConditionByFeaturesAndAttributes:
