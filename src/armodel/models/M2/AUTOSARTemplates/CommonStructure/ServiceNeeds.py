@@ -779,28 +779,29 @@ class ServiceDependency(ARObject, ABC):
 
 class DiagnosticAudienceEnum(AREnum):
     """
-    Enumeration for diagnostic audiences in AUTOSAR models.
-    Defines the target audience for diagnostic information and services.
+    The possible values of the intended audience for a diagnostic object.
     """
 
     # DiagnosticAudienceEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.17, p.754
+    # (no methods)
 
-    # Diagnostic information for aftermarket use
+    # The object is for free aftermarket service organizations. Tags: atp.EnumerationLiteralIndex=1
     AFTER_MARKET = "aftermarket"
-    # Diagnostic information for after-sales use
+
+    # The object is relevant for the OEM after-sales organization. Tags: atp.EnumerationLiteralIndex=2
     AFTER_SALES = "afterSales"
-    # Diagnostic information for development use
+
+    # The object is relevant for engineering only. Tags: atp.EnumerationLiteralIndex=3
     DEVELOPMENT = "development"
-    # Diagnostic information for manufacturing use
+
+    # The object is relevant for manufacturing. Tags: atp.EnumerationLiteralIndex=4
     MANUFACTURING = "manufacturing"
-    # Diagnostic information for supplier use
+
+    # The object is relevant for the ECU-supplier aftermarket organization. Tags: atp.EnumerationLiteralIndex=5
     SUPPLIER = "supplier"
 
     def __init__(self):
-        """
-        Initializes the DiagnosticAudienceEnum with all possible values.
-        """
         super().__init__(
             (
                 DiagnosticAudienceEnum.AFTER_MARKET,
