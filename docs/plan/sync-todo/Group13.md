@@ -577,18 +577,30 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (Step 8): no deviations — missing None no-op guards were drift, now fixed.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12329 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `SwcBswSynchronizedModeGroupPrototype` — ARObject — source TBC (locate table at Step 1)
+- [ ] `SwcBswSynchronizedModeGroupPrototype` — ARObject — R23-11 markdown · Table 5.48 (CP_TPS_BSWModuleDescriptionTemplate), p.111
   - module: M2/AUTOSARTemplates/CommonStructure/SwcBswMapping.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 5.48, p.111. Concrete Class; Base = ARObject
+    (already correct); VP-capable — VARIATION-POINT in OWN XSD group
+    SWC-BSW-SYNCHRONIZED-MODE-GROUP-PROTOTYPE (seq 10000, atpVariation), mixin kept
+    (Rule 0020). Two attrs: bswModeGroup (ModeDeclarationGroupPrototype, 0..1, ref →
+    BSW-MODE-GROUP-REF, constr_10336), swcModeGroup (ModeDeclarationGroupPrototype, 0..1,
+    iref → SWC-MODE-GROUP-IREF / PModeGroupInAtomicSwcInstanceRef, constr_10337); wire
+    order refs/irefs then VP. Old checklist page claim "p.162" was WRONG (pdf_page: p.111).
+    Drift: `__init__` docstring, untyped-old checklists, paraphrased docstrings; rw
+    helpers existed with matched names but lacked VARIATION-POINT.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): read/writeSwcBswSynchronizedModeGroupPrototype existed with matched
+    names; ADDED VARIATION-POINT to both; new None no-op + type-hint pin tests pass.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviations — tracker rows already "—"; constr_10336/10337 kept in
+    the inline comments (config-time existence constraints).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12332 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwcBswSynchronizedTrigger` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/SwcBswMapping.py

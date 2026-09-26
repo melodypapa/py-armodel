@@ -7746,6 +7746,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "SWC-BSW-SYNCHRONIZED-MODE-GROUP-PROTOTYPE")
         self.setChildElementOptionalRefType(child_element, "BSW-MODE-GROUP-REF", mode_group.getBswModeGroupRef())
         self.setPModeGroupInAtomicSwcInstanceRef(child_element, "SWC-MODE-GROUP-IREF", mode_group.getSwcModeGroupIRef())
+        self.writeVariationPoint(child_element, mode_group.getVariationPoint())
 
     def writeSwcBswSynchronizedModeGroups(self, element: ET.Element, parent: SwcBswMapping):
         mode_groups = parent.getSynchronizedModeGroups()

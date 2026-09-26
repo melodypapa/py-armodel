@@ -307,6 +307,25 @@ class TestSwcBswSynchronizedModeGroupPrototype:
         assert prototype.getSwcModeGroupIRef() == swc_ref
 
 
+class TestSwcBswSynchronizedModeGroupPrototypeAnnotations:
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        import typing
+
+        bsw_hints = typing.get_type_hints(SwcBswSynchronizedModeGroupPrototype.getBswModeGroupRef)
+        assert bsw_hints.get("return") == typing.Optional[RefType]
+        bsw_setter = typing.get_type_hints(SwcBswSynchronizedModeGroupPrototype.setBswModeGroupRef)
+        assert bsw_setter.get("value") == typing.Optional[RefType]
+        assert bsw_setter.get("return") is SwcBswSynchronizedModeGroupPrototype
+
+    def test_none_is_noop(self):
+        prototype = SwcBswSynchronizedModeGroupPrototype()
+        ref = RefType().setValue("/BSW/ModeGroup")
+        prototype.setBswModeGroupRef(ref)
+        assert prototype.setBswModeGroupRef(None) is prototype
+        assert prototype.getBswModeGroupRef() == ref
+
+
 class TestSwcBswSynchronizedTrigger:
     def test_initialization(self):
         """Test SwcBswSynchronizedTrigger initialization"""

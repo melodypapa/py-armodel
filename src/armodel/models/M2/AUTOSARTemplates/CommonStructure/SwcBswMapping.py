@@ -243,44 +243,33 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject, VariationPointCapable):
     """
 
     # SwcBswSynchronizedModeGroupPrototype method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.48, p.162
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getBswModeGroupRef           [x] impl  [x] docstring  [x] test
-    # [x] setBswModeGroupRef           [x] impl  [x] docstring  [x] test
-    # [x] getSwcModeGroupIRef          [x] impl  [x] docstring  [x] test
-    # [x] setSwcModeGroupIRef          [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.48, p.111
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBswModeGroupRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBswModeGroupRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcModeGroupIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcModeGroupIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the SwcBswSynchronizedModeGroupPrototype with default values.
-        """
         super().__init__()
 
-        # The BSW mode group prototype. Referenced BSW mode group prototype shall exist at configuration time (constr_10336).
+        # The BSW mode group prototype. For each SwcBswSynchronizedModeGroupPrototype, the reference in the role bswModeGroup shall exist at the time when the configuration of the BSW module is finished (constr_10336).
         self.bswModeGroupRef: Optional[RefType] = None
 
-        # The SWC mode group prototype provided by a particular port. Referenced SWC mode group shall exist at configuration time (constr_10337).
+        # The SWC mode group prototype provided by a particular port. InstanceRef implemented by: PModeGroupInAtomicSwcInstanceRef. For each SwcBswSynchronizedModeGroupPrototype, the instanceRef in the role swcModeGroup shall exist at the time when the configuration of the BSW module is finished (constr_10337).
         self.swcModeGroupIRef: Optional["PModeGroupInAtomicSwcInstanceRef"] = None
 
     def getBswModeGroupRef(self) -> Optional[RefType]:
         """
-        Gets the BSW mode group prototype reference.
-
-        Returns:
-            Optional[RefType]: The BSW mode group prototype reference
+        The BSW mode group prototype.
         """
         return self.bswModeGroupRef
 
     def setBswModeGroupRef(self, value: Optional[RefType]) -> "SwcBswSynchronizedModeGroupPrototype":
         """
-        Sets the BSW mode group prototype reference.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The BSW mode group prototype reference to set
-
-        Returns:
-            self for method chaining
+        The BSW mode group prototype.
+        A None value is a no-op and does not overwrite an existing bswModeGroupRef.
         """
         if value is not None:
             self.bswModeGroupRef = value
@@ -288,23 +277,14 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject, VariationPointCapable):
 
     def getSwcModeGroupIRef(self) -> Optional["PModeGroupInAtomicSwcInstanceRef"]:
         """
-        Gets the SWC mode group instance reference.
-
-        Returns:
-            Optional[PModeGroupInAtomicSwcInstanceRef]: The SWC mode group instance reference
+        The SWC mode group prototype provided by a particular port.
         """
         return self.swcModeGroupIRef
 
     def setSwcModeGroupIRef(self, value: Optional["PModeGroupInAtomicSwcInstanceRef"]) -> "SwcBswSynchronizedModeGroupPrototype":
         """
-        Sets the SWC mode group instance reference.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The SWC mode group instance reference to set
-
-        Returns:
-            self for method chaining
+        The SWC mode group prototype provided by a particular port.
+        A None value is a no-op and does not overwrite an existing swcModeGroupIRef.
         """
         if value is not None:
             self.swcModeGroupIRef = value
