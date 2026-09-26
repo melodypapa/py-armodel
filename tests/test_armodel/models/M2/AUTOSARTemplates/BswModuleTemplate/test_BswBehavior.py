@@ -1078,6 +1078,17 @@ class TestBswTimingEvent:
 
         assert event.periodMs == 2500  # 2.5 * 1000
 
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue
+
+        getter_hints = typing.get_type_hints(BswTimingEvent.getPeriod)
+        assert getter_hints.get("return") == typing.Optional[TimeValue]
+
+        setter_hints = typing.get_type_hints(BswTimingEvent.setPeriod)
+        assert setter_hints.get("value") == typing.Optional[TimeValue]
+        assert setter_hints.get("return") is BswTimingEvent
+
 
 class TestBswDataReceivedEvent:
     """Test cases for BswDataReceivedEvent class - represents a data received event in a BSW module."""

@@ -159,6 +159,8 @@ the aggregation is itself a partial implementation and remains to be wired.
 | `period` | `Optional[TimeValue]` | `period` | `TimeValue` | Attr | ok |
 | `periodMs` | `Optional[int]` (property) | — *(not in spec)* | — | — | added convenience property (ms from the `TimeValue` `period`, mirroring `ExecutableEntity.minimumStartIntervalMs`) |
 
+No deviations beyond the recorded convenience property (2026-09-26 sync, Table 5.25, p.89): fabricated class docstring extension (BswScheduler/OS-timer sentence not in this table) and `__init__` docstring wiped, class/attribute docstrings rewritten verbatim from the markdown Note with constr_10281/constr_4043 recorded in the inline member comment, bare `TimeValue` setter parameter retyped to `Optional[TimeValue]` (0..1), old 3-col checklist replaced with the 6-column format (periodMs row marked "convenience, no spec row"); reader/writer already covered the `PERIOD` element via matched read/writeBswTimingEvent helpers + EVENTS dispatch + createBswTimingEvent factory
+
 ## `BswModeSwitchEvent`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 94
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`

@@ -373,18 +373,34 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     config-time existence constraint (inline comment only), recorded in the tracker note.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12299 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `BswTimingEvent` — BswScheduleEvent — source TBC (locate table at Step 1)
+- [ ] `BswTimingEvent` — BswScheduleEvent — R23-11 markdown · Table 5.25 (CP_TPS_BSWModuleDescriptionTemplate), p.89
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 5.25, p.89. Concrete Class; Base most-derived =
+    `BswScheduleEvent` (already correct in src). One attr `period` (TimeValue, 0..1, attr;
+    Note "Requirement for the time period (in seconds) by which this event is
+    triggered."), constr_10281 (existence) + constr_4043 (>0). Not directly VP-capable —
+    VARIATION-POINT lives in ancestor BSW-EVENT group, capability inherited via BswEvent
+    mixin (Rule 0020). Own group BSW-TIMING-EVENT (PERIOD, AR:TIME-VALUE, 0..1) only.
+    Drift: fabricated class docstring extension, `__init__` docstring, paraphrased
+    docstrings, bare `TimeValue` setter param (not Optional), old 3-col checklist.
+    `periodMs` property = tracker-recorded convenience extra (not in spec, kept).
+    Reader/writer helpers + dispatch + factory already exist with matched set/getPeriod.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): read/writeBswTimingEvent + EVENTS dispatch + createBswTimingEvent
+    already cover PERIOD with matched set/getPeriod names; new type-hint pin +
+    full-document round-trip (value + empty) tests passed immediately, no parser/writer
+    edit. Writer reads via getter (SWC-sibling disease absent).
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no new deviations — `periodMs` stays as the tracker-recorded
+    convenience property (checklist row marked); constr_10281/constr_4043 recorded in
+    the inline member comment + tracker note.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12302 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BswEntryRelationshipEnum` — AREnum — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py

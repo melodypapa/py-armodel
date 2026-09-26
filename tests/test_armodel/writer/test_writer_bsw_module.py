@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswReleasedTriggerPolicy,
     BswServiceDependency,
     BswServiceDependencyIdent,
+    BswTimingEvent,
     BswTriggerDirectImplementation,
     BswVariableAccess,
     RoleBasedBswModuleEntryAssignment,
@@ -1195,6 +1196,59 @@ class TestWriterBswModeSwitchedAckEventRoundTrip:
         event_2 = behavior_2.getBswModeSwitchedAckEvents()[0]
         assert isinstance(event_2, BswModeSwitchedAckEvent)
         assert event_2.getModeGroupRef() is None
+
+
+class TestWriterBswTimingEventRoundTrip:
+    def test_round_trip_timing_event(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        event = behavior.createBswTimingEvent("te")
+        event.setPeriod(_time(0.5))
+
+        out_file = tmp_path / "te_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        event_2 = behavior_2.getBswTimingEvents()[0]
+        assert isinstance(event_2, BswTimingEvent)
+        assert event_2.getShortName() == "te"
+        assert event_2.getPeriod().getValue() == 0.5
+
+    def test_round_trip_timing_event_empty(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.createBswTimingEvent("te")
+
+        out_file = tmp_path / "te_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        raw = out_file.read_text()
+        assert "<PERIOD>" not in raw
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        event_2 = behavior_2.getBswTimingEvents()[0]
+        assert isinstance(event_2, BswTimingEvent)
+        assert event_2.getPeriod() is None
 
 
 class TestWriterBswEvents:

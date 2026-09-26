@@ -1200,51 +1200,33 @@ class BswModeManagerErrorEvent(BswScheduleEvent):
 
 class BswTimingEvent(BswScheduleEvent):
     """
-    A recurring BswEvent driven by a time period. The event is triggered by
-    the BswScheduler via the OS timer at the configured period.
+    A recurring BswEvent driven by a time period.
     """
 
     # BswTimingEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.25, p.89
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getPeriod                    [x] impl  [x] docstring  [x] test
-    # [x] setPeriod                    [x] impl  [x] docstring  [x] test
-    # [x] periodMs                     [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPeriod   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPeriod   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] periodMs    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  (convenience, no spec row)
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswTimingEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
         super().__init__(parent, short_name)
 
-        # Requirement for the time period (in seconds) by which this event is
-        # triggered. Shall be greater than 0.
+        # Requirement for the time period (in seconds) by which this event is triggered. For each BswTimingEvent, the attribute period shall exist at the time when the configuration of the BSW module is finished (constr_10281). BswTimingEvent.period shall be greater than 0 (constr_4043).
         self.period: Optional[TimeValue] = None
 
     def getPeriod(self) -> Optional[TimeValue]:
         """
-        Gets the requirement for the time period (in seconds) by which this
-        event is triggered.
-
-        Returns:
-            The period as a TimeValue, or None if not set
+        Requirement for the time period (in seconds) by which this event is triggered.
         """
         return self.period
 
-    def setPeriod(self, value: TimeValue) -> BswTimingEvent:
+    def setPeriod(self, value: Optional[TimeValue]) -> BswTimingEvent:
         """
-        Sets the time period (in seconds) by which this event is triggered.
-        Only sets if value is not None.
-
-        Args:
-            value: The period to set
-
-        Returns:
-            self for method chaining
+        Requirement for the time period (in seconds) by which this event is triggered.
+        A None value is a no-op and does not overwrite an existing period.
         """
         if value is not None:
             self.period = value
