@@ -225,6 +225,30 @@ Base drift observed (not this row): `readBswEvent` lacks a `readIdentifiable` ca
 `writeBswEvent` calls `writeIdentifiable` (BswEvent/BswScheduleEvent base-owned; both
 unstamped, no queue rows yet).
 
+## `BswInternalTriggerOccurredEvent`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 91
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `eventSourceRef` | `Optional[RefType]` | `eventSource` | `Ref (BswInternalTriggeringPoint)` | Ref | ok |
+
+No deviations (2026-09-26 sync, Table 5.29, p.91): bare `RefType` field retyped to
+`Optional[RefType]` (0..1), accessors typed, missing None no-op on the setter added,
+fabricated class docstring and `__init__` docstring removed, paraphrased docstrings and
+the fabricated inline comment wiped and rewritten verbatim from the markdown Note
+(constr_10282 appended to the inline comment), stale 3-col checklist (unchecked
+getEventSourceRef row) replaced by the 6-column checklist; no fake intake marker was
+present. Reader/writer already covered the `EVENT-SOURCE-REF` element via matched
+read/writeBswInternalTriggerOccurredEvent helpers with dispatch +
+createBswInternalTriggerOccurredEvent factory on BswInternalBehavior; writer reads via
+the getter (no direct-field-read defect). VP capability inherited via the BswEvent mixin
+(VARIATION-POINT lives in the ancestor BSW-EVENT group; Rule 0020). Base drift observed
+(not this row): `readBswEvent` lacks a `readIdentifiable` call while `writeBswEvent`
+calls `writeIdentifiable` (BswEvent/BswScheduleEvent base-owned; both unstamped, no
+queue rows yet).
+
 ## `BswModeSenderPolicy`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 102
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`

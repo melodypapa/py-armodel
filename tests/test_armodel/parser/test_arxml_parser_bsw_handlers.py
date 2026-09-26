@@ -1396,6 +1396,28 @@ class TestBswInternalBehaviorEventsDetailed:
         parser.readBswInternalTriggerOccurredEvent(element, event)
         assert event.getEventSourceRef().getValue() == "/s"
 
+    def test_readBswInternalTriggerOccurredEvent_event_source_ref_dest(self, parser):
+        from armodel.models import BswInternalTriggerOccurredEvent
+
+        event = BswInternalTriggerOccurredEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>" "<EVENT-SOURCE-REF DEST='BSW-INTERNAL-TRIGGERING-POINT'>/s</EVENT-SOURCE-REF>",
+            root_tag="BSW-INTERNAL-TRIGGER-OCCURRED-EVENT",
+        )
+        parser.readBswInternalTriggerOccurredEvent(element, event)
+        assert event.getEventSourceRef().getDest() == "BSW-INTERNAL-TRIGGERING-POINT"
+
+    def test_readBswInternalTriggerOccurredEvent_absent_source_ref(self, parser):
+        from armodel.models import BswInternalTriggerOccurredEvent
+
+        event = BswInternalTriggerOccurredEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>",
+            root_tag="BSW-INTERNAL-TRIGGER-OCCURRED-EVENT",
+        )
+        parser.readBswInternalTriggerOccurredEvent(element, event)
+        assert event.getEventSourceRef() is None
+
     def test_readBswBackgroundEvent_minimal(self, parser):
         from armodel.models import BswBackgroundEvent
 

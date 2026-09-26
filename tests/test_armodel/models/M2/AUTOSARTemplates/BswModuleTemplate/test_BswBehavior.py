@@ -1126,6 +1126,27 @@ class TestBswInternalTriggerOccurredEvent:
         assert result == event
         assert event.getEventSourceRef() == ref
 
+    def test_set_event_source_ref_none_no_op(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswInternalTriggerOccurredEvent(ar_root, "test_internal_trigger_event")
+
+        ref = RefType()
+        event.setEventSourceRef(ref)
+        result = event.setEventSourceRef(None)
+
+        assert result == event
+        assert event.getEventSourceRef() == ref
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswInternalTriggerOccurredEvent.getEventSourceRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswInternalTriggerOccurredEvent.setEventSourceRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswInternalTriggerOccurredEvent
+
 
 class TestBswModeSwitchAckRequest:
     """Test cases for BswModeSwitchAckRequest class - represents a mode switch acknowledgment request in a BSW module."""

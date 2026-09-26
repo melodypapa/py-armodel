@@ -1345,48 +1345,35 @@ class BswDataReceivedEvent(BswScheduleEvent):
 
 class BswInternalTriggerOccurredEvent(BswScheduleEvent):
     """
-    Represents an event that is triggered by an internal trigger in a BSW module.
-    This event occurs when a BSW module internally generates a trigger.
+    A BswEvent, which can happen sporadically. The event is activated by explicit calls from the module to the BSW Scheduler. The main purpose for such an event is to cause a context switch, e.g. from an ISR context into a task context. Activation and switching are handled within the same module or cluster only.
     """
 
     # BswInternalTriggerOccurredEvent method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getEventSourceRef            [x] impl  [x] docstring  [ ] test
-    # [x] setEventSourceRef            [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.29, p.91
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventSourceRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventSourceRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswInternalTriggerOccurredEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
         super().__init__(parent, short_name)
 
-        # Reference to the event source that triggered this event
-        self.eventSourceRef: RefType = None
+        # The activation point is the source of this event. For each BswInternalTriggerOccurredEvent, the reference in the role eventSource shall exist at the time when the configuration of the BSW module is finished (constr_10282).
+        self.eventSourceRef: Optional[RefType] = None
 
-    def getEventSourceRef(self):
+    def getEventSourceRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the event source that triggered this event.
-
-        Returns:
-            Reference to the event source
+        The activation point is the source of this event.
         """
         return self.eventSourceRef
 
-    def setEventSourceRef(self, value):
+    def setEventSourceRef(self, value: Optional[RefType]) -> BswInternalTriggerOccurredEvent:
         """
-        Sets the reference to the event source that triggered this event.
-
-        Args:
-            value: The event source reference to set
-
-        Returns:
-            self for method chaining
+        The activation point is the source of this event.
+        A None value is a no-op and does not overwrite an existing eventSourceRef.
         """
-        self.eventSourceRef = value
+        if value is not None:
+            self.eventSourceRef = value
         return self
 
 
