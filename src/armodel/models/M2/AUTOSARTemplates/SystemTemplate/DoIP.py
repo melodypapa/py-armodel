@@ -19,6 +19,7 @@ class AbstractDoIpLogicAddressProps(Identifiable, ABC):
 
     # AbstractDoIpLogicAddressProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.208, p.556
+    # Spec verified: R23-11 (2026-09-26, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -36,6 +37,7 @@ class DoIpLogicTargetAddressProps(AbstractDoIpLogicAddressProps):
 
     # DoIpLogicTargetAddressProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.209, p.556
+    # Spec verified: R23-11 (2026-09-26, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -50,6 +52,7 @@ class DoIpLogicTesterAddressProps(AbstractDoIpLogicAddressProps):
 
     # DoIpLogicTesterAddressProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.210, p.557
+    # Spec verified: R23-11 (2026-09-26, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addDoIpTesterRoutingActivationRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
