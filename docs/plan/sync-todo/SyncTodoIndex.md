@@ -143,7 +143,7 @@ Status: **45/45** completed
 
 ## Group3
 
-Status: **93/94** completed
+Status: **94/94** completed
 
 | Class Name                             | Status   | Commit ID |
 | -------------------------------------- | -------- | --------- |
@@ -456,7 +456,7 @@ Status: **34/34** completed
 
 ## Group8
 
-Status: **22/48** completed
+Status: **26/49** completed
 
 | Class Name                               | Status       | Commit ID |
 | ---------------------------------------- | ------------ | --------- |
@@ -467,13 +467,16 @@ Status: **22/48** completed
 | `LifeCyclePeriod`                        | [x] Done     | b572582c1 |
 | `BuildActionIoElement`                   | [x] Done     | b572582c1 |
 | `AttributeValueVariationPoint`           | [x] Done     | d5c96fd9  |
+| `FormulaExpression`                      | [x] Done     | 88ed82bed |
+| `SwSystemconstDependentFormula`          | [x] Done     | f05e21d49 |
 | `ConditionByFormula`                     | [x] Done     | 18b494eba |
 | `MixedContentForOverviewParagraph`       | [x] Done     | 18b494eba |
 | `WhitespaceControlled`                   | [x] Done     | a78d444af |
 | `MixedContentForPlainText`               | [x] Done     | 4a95d1d30 |
 | `MixedContentForVerbatim`                | [x] Done     | 74549e6a5 |
 | `SlOverviewParagraph`                    | [x] Done     | 951209dba |
-| `SingleLanguageUnitNames`                | [ ] Pending  | N/A       |
+| `MixedContentForUnitNames`               | [ ] Pending  | N/A       |
+| `SingleLanguageUnitNames`                | [x] Done     | N/A       |
 | `SwSystemconstValue`                     | [ ] Pending* | N/A       |
 | `PostBuildVariantCondition`              | [ ] Pending* | N/A       |
 | `PostBuildVariantCriterion`              | [ ] Pending* | N/A       |
@@ -501,9 +504,7 @@ Status: **22/48** completed
 | `PositiveIntegerValueVariationPoint`     | [x] Done     | d5c96fd9  |
 | `TimeValueValueVariationPoint`           | [x] Done     | d5c96fd9  |
 | `UnlimitedIntegerValueVariationPoint`    | [x] Done     | d5c96fd9  |
-| `FormulaExpression`                      | [ ] Pending  | N/A       |
 | `BlueprintFormula`                       | [ ] Pending* | N/A       |
-| `SwSystemconstDependentFormula`          | [ ] Pending  | N/A       |
 | `FMConditionByFeaturesAndAttributes`     | [ ] Pending* | N/A       |
 | `FMConditionByFeaturesAndSwSystemconsts` | [ ] Pending* | N/A       |
 | `FMFormulaByFeaturesAndAttributes`       | [ ] Pending* | N/A       |
@@ -628,7 +629,7 @@ Status: **0/14** completed
 
 ## Group13
 
-Status: **0/22** completed
+Status: **0/23** completed
 
 | Class Name                              | Status       | Commit ID |
 | --------------------------------------- | ------------ | --------- |
@@ -639,6 +640,7 @@ Status: **0/22** completed
 | `BswInternalTriggeringPoint`            | [ ] Pending* | N/A       |
 | `BswInterruptEntity`                    | [ ] Pending* | N/A       |
 | `BswModeSwitchAckRequest`               | [ ] Pending* | N/A       |
+| `BswDataReceptionPolicy`                | [ ] Pending  | N/A       |
 | `BswQueuedDataReceptionPolicy`          | [ ] Pending* | N/A       |
 | `BswAsynchronousServerCallReturnsEvent` | [ ] Pending* | N/A       |
 | `BswDataReceivedEvent`                  | [ ] Pending* | N/A       |
@@ -657,7 +659,7 @@ Status: **0/22** completed
 
 ## Group14
 
-Status: **0/24** completed
+Status: **0/25** completed
 
 | Class Name                                 | Status      | Commit ID |
 | ------------------------------------------ | ----------- | --------- |
@@ -684,6 +686,7 @@ Status: **0/24** completed
 | `DiagnosticLogicalOperatorEnum`            | [ ] Pending | N/A       |
 | `DiagnosticEnvConditionFormulaPart`        | [ ] Pending | N/A       |
 | `DiagnosticEnvConditionFormula`            | [ ] Pending | N/A       |
+| `DiagnosticEnvCompareCondition`            | [ ] Pending | N/A       |
 | `DiagnosticEnvModeElement`                 | [ ] Pending | N/A       |
 
 ## Group15
