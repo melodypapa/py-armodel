@@ -151,7 +151,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CompuScaleRationalFormula`                             | [x] Done    | 5a21470c                                 | Group3           |
 | `CompuScales`                                           | [x] Done    | 64d125ffa                                | Group3           |
 | `ConcreteTDEventVfb`                                    | [ ] Deferred| N/A                                      | Group8           |
-| `ConditionByFormula`                                    | [ ] Deferred| N/A                                      | Group8           |
+| `ConditionByFormula`                                    | [x] Done | 18b494eba                               | Group8           |
 | `ConfigReferenceValue`                                  | [ ] Pending | N/A                                      | Group19          |
 | `ConstantReference`                                     | [ ] Deferred| N/A                                      | Group9           |
 | `ConstantSpecification`                                 | [ ] Deferred| N/A                                      | Group9           |
@@ -412,7 +412,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `MetaDataItemSet`                                       | [x] Done    | e69a0252                                 | Group2           |
 | `MimeTypeString`                                        | [x] Done    | 01cc23df                                 | Group3           |
 | `MixedContentForParagraph`                              | [x] Done    | bf9114cb                                 | Group3           |
-| `MixedContentForOverviewParagraph`                      | [ ] Deferred | ec430fef8                                | Group8           |
+| `MixedContentForOverviewParagraph`                      | [x] Done | 18b494eba                               | Group8           |
 | `MixedContentForPlainText`                              | [ ] Deferred | 4b5f87982                                | Group8           |
 | `MixedContentForVerbatim`                               | [ ] Deferred | 80ba96366                                | Group8           |
 | `MlFigure`                                              | [x] Done    | 9225ed15                                 | Group3           |

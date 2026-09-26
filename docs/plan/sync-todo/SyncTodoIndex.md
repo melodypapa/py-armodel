@@ -467,8 +467,8 @@ Status: **16/42** completed
 | `LifeCyclePeriod`                        | [x] Done    | b572582c1 |
 | `BuildActionIoElement`                   | [x] Done    | b572582c1 |
 | `AttributeValueVariationPoint`           | [x] Done | d5c96fd9       |
-| `ConditionByFormula`                     | [ ] Pending*| N/A       |
-| `MixedContentForOverviewParagraph`       | [ ] Deferred | ec430fef8 |
+| `ConditionByFormula`                     | [x] Done | 18b494eba |
+| `MixedContentForOverviewParagraph`       | [x] Done | 18b494eba |
 | `MixedContentForPlainText`               | [ ] Deferred | 4b5f87982 |
 | `MixedContentForVerbatim`                | [ ] Deferred | 80ba96366 |
 | `SlOverviewParagraph`                    | [ ] Deferred | 6884fa835 |
