@@ -650,13 +650,11 @@ class NvBlockNeeds(ServiceNeeds):
 
 class ServiceDiagnosticRelevanceEnum(AREnum):
     """
-    This enumeration provides values to describe the diagnostic relevance of a
-    SwcServiceDependency (specifically if the aggregated ServiceNeeds itself
-    does not indicate a relevance for diagnostics).
+    This enumeration provides values to describe the diagnostic relevance of a SwcServiceDependency (specifically if the aggregated ServiceNeeds itself does not indicate a relevance for diagnostics).
     """
 
     # ServiceDiagnosticRelevanceEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.58, p.655
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.58, p.609
     # (no methods)
 
     # This value indicates that a relevance for diagnostics does not exist. Tags: atp.EnumerationLiteralIndex=0
@@ -815,22 +813,20 @@ class DiagnosticAudienceEnum(AREnum):
 
 class DiagnosticServiceRequestCallbackTypeEnum(AREnum):
     """
-    Enumeration for diagnostic service request callback types in AUTOSAR models.
-    Defines who handles diagnostic service request callbacks (manufacturer or supplier).
+    This represents the ability to define whether a Service Request Notification was used in the role of a manufacturer or a supplier.
     """
 
     # DiagnosticServiceRequestCallbackTypeEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.35, p.780
+    # (no methods)
 
-    # Callback type handled by manufacturer
+    # This represents the case that the usage of PortInterface ServiceRequestNotification has the characteristics of being used by a manufacturer. Tags: atp.EnumerationLiteralIndex=0
     REQUEST_CALLBACK_TYPE_MANUFACTURER = "requestCallbackTypeManufacturer"
-    # Callback type handled by supplier
+
+    # This represents the case that the usage of PortInterface ServiceRequestNotification has the characteristics of being used by a supplier. Tags: atp.EnumerationLiteralIndex=1
     REQUEST_CALLBACK_TYPE_SUPPLIER = "requestCallbackTypeSupplier"
 
     def __init__(self):
-        """
-        Initializes the DiagnosticServiceRequestCallbackTypeEnum with all possible values.
-        """
         super().__init__(
             (
                 DiagnosticServiceRequestCallbackTypeEnum.REQUEST_CALLBACK_TYPE_MANUFACTURER,
@@ -946,22 +942,20 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
 
 class DiagnosticRoutineTypeEnum(AREnum):
     """
-    Enumeration for diagnostic routine types in AUTOSAR models.
-    Defines whether diagnostic routines are executed synchronously or asynchronously.
+    This enumerator specifies the different types of diagnostic routines.
     """
 
     # DiagnosticRoutineTypeEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.25, p.247
+    # (no methods)
 
-    # Asynchronous diagnostic routine
+    # This indicates that the diagnostic server is not blocked while the diagnostic routine is running. Tags: atp.EnumerationLiteralIndex=0
     ASYNCHRONOUS = "asynchronous"
-    # Synchronous diagnostic routine
+
+    # This indicates that the diagnostic routine blocks the diagnostic server in the ECU while the routine is running. Tags: atp.EnumerationLiteralIndex=1
     SYNCHRONOUS = "synchronous"
 
     def __init__(self):
-        """
-        Initializes the DiagnosticRoutineTypeEnum with all possible values.
-        """
         super().__init__(
             (
                 DiagnosticRoutineTypeEnum.ASYNCHRONOUS,
@@ -1095,24 +1089,23 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
 
 class DiagnosticValueAccessEnum(AREnum):
     """
-    Enumeration for diagnostic value access types in AUTOSAR models.
-    Defines the access permissions for diagnostic values (read, write, or read-write).
+    Defines the access of the configured diagnostic current values which will be used by the Dem or Dcm module.
     """
 
     # DiagnosticValueAccessEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.22, p.246
+    # (no methods)
 
-    # Read-only access for diagnostic values
+    # The access to the data element is limited to read-only. This is typically used to read-out diagnostic information (e.g. current values). Tags: atp.EnumerationLiteralIndex=0
     READ_ONLY = "readOnly"
-    # Read-write access for diagnostic values
+
+    # The value of the diagnostic data element is classified as configurable (read and write access is possible). Tags: atp.EnumerationLiteralIndex=1
     READ_WRITE = "readWrite"
-    # Write-only access for diagnostic values
+
+    # The access to the data element is limited to write-only. This supports the use case where the Dcm just writes data to the application software without the intention to read it back, Tags: atp.EnumerationLiteralIndex=2
     WRITE_ONLY = "writeOnly"
 
     def __init__(self):
-        """
-        Initializes the DiagnosticValueAccessEnum with all possible values.
-        """
         super().__init__(
             (
                 DiagnosticValueAccessEnum.READ_ONLY,
@@ -1124,24 +1117,23 @@ class DiagnosticValueAccessEnum(AREnum):
 
 class DiagnosticProcessingStyleEnum(AREnum):
     """
-    Enumeration for diagnostic processing styles in AUTOSAR models.
-    Defines how diagnostic processing is handled (synchronously, asynchronously, etc.).
+    This meta-class represents the ability to define the processing style of diagnostic requests.
     """
 
     # DiagnosticProcessingStyleEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.23, p.247
+    # (no methods)
 
-    # Asynchronous processing style for diagnostics
+    # The software-component processes the request in background but still the Dcm has to issue the call again to eventually obtain the result of the request. Tags: atp.EnumerationLiteralIndex=0
     PROCESSING_STYLE_ASYNCHRONOUS = "processingStyleAsynchronous"
-    # Asynchronous processing style with error handling for diagnostics
+
+    # The software-component processes the request in background but still the Dcm has to issue the call again to eventually obtain the result of the request or handle error code. Tags: atp.EnumerationLiteralIndex=1
     PROCESSING_STYLE_ASYNCHRONOUS_WITH_ERROR = "processingStyleAsynchronousWithError"
-    # Synchronous processing style for diagnostics
+
+    # The software-component is supposed to react synchronously on the request. Tags: atp.EnumerationLiteralIndex=2
     PROCESSING_STYLE_SYNCHRONOUS = "processingStyleSynchronous"
 
     def __init__(self):
-        """
-        Initializes the DiagnosticProcessingStyleEnum with all possible values.
-        """
         super().__init__(
             (
                 DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS,
@@ -1516,18 +1508,26 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
 
 class DtcKindEnum(AREnum):
     """
-    Enumeration for DTC (Diagnostic Trouble Code) kinds in AUTOSAR models.
-    Defines the type of diagnostic trouble codes used (currently empty as per specification).
+    This enumeration defines the possible kinds of diagnostic monitors regarding the OBD relevance.
     """
 
     # DtcKindEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf, Table 13.16, p.760 (R4.3.1)
+    # (no methods)
+
+    # This indicates that the monitor reports a OBD-relevant malfunction. Tags: atp.EnumerationValue=0
+    EMISSION_RELATED_DTC = "emissionRelatedDtc"
+
+    # This indicates that the monitor reports a non-OBD-relevant malfunction. Tags: atp.EnumerationValue=1
+    NON_EMMISSION_RELATED_DTC = "nonEmmissionRelatedDtc"
 
     def __init__(self):
-        """
-        Initializes the DtcKindEnum with empty values list.
-        """
-        super().__init__([])
+        super().__init__(
+            (
+                DtcKindEnum.EMISSION_RELATED_DTC,
+                DtcKindEnum.NON_EMMISSION_RELATED_DTC,
+            )
+        )
 
 
 class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
@@ -1637,34 +1637,50 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
 
 class DiagnosticClearDtcNotificationEnum(AREnum):
     """
-    Enumeration for diagnostic clear DTC notification types in AUTOSAR models.
-    Defines the timing for notification when DTCs are cleared (currently empty as per specification).
+    This enumeration supports the specification of the time when the ClearDtcNotification callback is supposed to be executed.
     """
 
     # DiagnosticClearDtcNotificationEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.33, p.776
+    # (no methods)
+
+    # The ClearDtcCallback shall be executed when the DTC operation starts. Tags: atp.EnumerationLiteralIndex=0
+    START = "start"
+
+    # The ClearDtcCallback shall be executed when the DTC operation finishes. Tags: atp.EnumerationLiteralIndex=1
+    FINISH = "finish"
 
     def __init__(self):
-        """
-        Initializes the DiagnosticClearDtcNotificationEnum with empty values list.
-        """
-        super().__init__([])
+        super().__init__(
+            (
+                DiagnosticClearDtcNotificationEnum.START,
+                DiagnosticClearDtcNotificationEnum.FINISH,
+            )
+        )
 
 
 class DtcFormatTypeEnum(AREnum):
     """
-    Enumeration for DTC format types in AUTOSAR models.
-    Defines the format used for diagnostic trouble codes (currently empty as per specification).
+    This enumeration specifies the DTC format.
     """
 
     # DtcFormatTypeEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf, Table 13.30, p.770 (R4.3.1)
+    # (no methods)
+
+    # Defines the J1939 DTC format. Tags: atp.EnumerationValue=0
+    J1939 = "j1939"
+
+    # Defines the OBD DTC format. Tags: atp.EnumerationValue=1
+    OBD = "obd"
 
     def __init__(self):
-        """
-        Initializes the DtcFormatTypeEnum with empty values list.
-        """
-        super().__init__([])
+        super().__init__(
+            (
+                DtcFormatTypeEnum.J1939,
+                DtcFormatTypeEnum.OBD,
+            )
+        )
 
 
 class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):

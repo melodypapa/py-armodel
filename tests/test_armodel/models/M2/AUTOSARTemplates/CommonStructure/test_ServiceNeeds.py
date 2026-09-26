@@ -1619,10 +1619,14 @@ class TestDiagEventDebounceTimeBased:
 
 class TestDtcKindEnum:
     def test_initialization(self):
-        """Test DtcKindEnum initialization"""
+        """Test DtcKindEnum initialization (R4.3.1 Table 13.16 literals)"""
         enum = DtcKindEnum()
 
-        assert enum.enumValues == []
+        assert enum.enumValues == ("emissionRelatedDtc", "nonEmmissionRelatedDtc")
+
+    def test_member_values(self):
+        assert DtcKindEnum.EMISSION_RELATED_DTC == "emissionRelatedDtc"
+        assert DtcKindEnum.NON_EMMISSION_RELATED_DTC == "nonEmmissionRelatedDtc"
 
 
 class TestDiagnosticEventInfoNeeds:
@@ -1718,18 +1722,18 @@ class TestDiagnosticEventInfoNeeds:
 
 class TestDiagnosticClearDtcNotificationEnum:
     def test_initialization(self):
-        """Test DiagnosticClearDtcNotificationEnum initialization"""
+        """Test DiagnosticClearDtcNotificationEnum initialization (Table 13.33 literals)"""
         enum = DiagnosticClearDtcNotificationEnum()
 
-        assert enum.enumValues == []
+        assert enum.enumValues == ("start", "finish")
 
 
 class TestDtcFormatTypeEnum:
     def test_initialization(self):
-        """Test DtcFormatTypeEnum initialization"""
+        """Test DtcFormatTypeEnum initialization (R4.3.1 Table 13.30 literals)"""
         enum = DtcFormatTypeEnum()
 
-        assert enum.enumValues == []
+        assert enum.enumValues == ("j1939", "obd")
 
 
 class TestDtcStatusChangeNotificationNeeds:

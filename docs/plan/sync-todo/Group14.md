@@ -31,110 +31,118 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - note (Step 8): no deviations — literal values match spec; existing tests pin values/order
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12331 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
-- [ ] `DiagnosticClearDtcNotificationEnum` — AREnum — source TBC (locate table at Step 1)
+- [ ] `DiagnosticClearDtcNotificationEnum` — AREnum — R23-11 markdown · Table 13.33 (CP_TPS_SoftwareComponentTemplate), p.776
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `DiagnosticProcessingStyleEnum` — AREnum — source TBC (locate table at Step 1)
+  - note (Step 1): Note = "This enumeration supports the specification of the time when the ClearDtcNotification callback is supposed to be executed." Literals: start(0), finish(1). src was an EMPTY stub (super().__init__([]), fabricated docstring) — literals added; empty-pinning test updated to spec.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - note (Steps 5/6): N/A — standalone AREnum, serialized as attribute value on the consuming class (Rules 0010-0011)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12333 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+- [ ] `DiagnosticProcessingStyleEnum` — AREnum — R23-11 markdown · Table 12.23 (CP_TPS_BSWModuleDescriptionTemplate), p.247
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `DiagnosticRoutineTypeEnum` — AREnum — source TBC (locate table at Step 1)
+  - note (Step 1): Note = "This meta-class represents the ability to define the processing style of diagnostic requests." Literals: processingStyleAsynchronous(0), processingStyleAsynchronousWithError(1), processingStyleSynchronous(2) — values matched src. Drift: fabricated docstring/comments, __init__ docstring, old checklist.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - note (Steps 5/6): N/A — standalone AREnum, serialized as attribute value on the consuming class (Rules 0010-0011)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12333 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+- [ ] `DiagnosticRoutineTypeEnum` — AREnum — R23-11 markdown · Table 12.25 (CP_TPS_BSWModuleDescriptionTemplate), p.247
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `DiagnosticServiceRequestCallbackTypeEnum` — AREnum — source TBC (locate table at Step 1)
+  - note (Step 1): Note = "This enumerator specifies the different types of diagnostic routines." Literals: asynchronous(0), synchronous(1) — values matched src. Drift: fabricated docstring/comments, __init__ docstring, old checklist.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - note (Steps 5/6): N/A — standalone AREnum, serialized as attribute value on the consuming class (Rules 0010-0011)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12333 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+- [ ] `DiagnosticServiceRequestCallbackTypeEnum` — AREnum — R23-11 markdown · Table 13.35 (CP_TPS_SoftwareComponentTemplate), p.780
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `DiagnosticValueAccessEnum` — AREnum — source TBC (locate table at Step 1)
+  - note (Step 1): Note = "This represents the ability to define whether a Service Request Notification was used in the role of a manufacturer or a supplier." Literals: requestCallbackTypeManufacturer(0), requestCallbackTypeSupplier(1) — values matched src. Drift: fabricated docstring/comments, __init__ docstring, old checklist.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - note (Steps 5/6): N/A — standalone AREnum, serialized as attribute value on the consuming class (Rules 0010-0011)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12333 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+- [ ] `DiagnosticValueAccessEnum` — AREnum — R23-11 markdown · Table 12.22 (CP_TPS_BSWModuleDescriptionTemplate), p.246
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `DtcFormatTypeEnum` — AREnum — source TBC (locate table at Step 1)
+  - note (Step 1): Note = "Defines the access of the configured diagnostic current values which will be used by the Dem or Dcm module." Literals: readOnly(0), readWrite(1), writeOnly(2 — spec Note cell itself ends with a stray comma before Tags; kept verbatim) — values matched src. Drift: fabricated docstring/comments, __init__ docstring, old checklist.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - note (Steps 5/6): N/A — standalone AREnum, serialized as attribute value on the consuming class (Rules 0010-0011)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12333 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+- [ ] `DtcFormatTypeEnum` — AREnum — R4.3.1 markdown · Table 13.30 (AUTOSAR_TPS_SoftwareComponentTemplate), p.770 (R4.3.1 fallback — no R23-11 table)
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `DtcKindEnum` — AREnum — source TBC (locate table at Step 1)
+  - note (Step 1): R4.3.1-only class (R23-11 markdown + pdf_page scan negative) → release R4.3.1. Note = "This enumeration specifies the DTC format." Literals: j1939(0), obd(1) (atp.EnumerationValue tags). src was an EMPTY stub — literals added; empty-pinning test updated to spec.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - note (Steps 5/6): N/A — standalone AREnum, serialized as attribute value on the consuming class (Rules 0010-0011)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviations; R4.3.1 provenance recorded in the Spec line (marker deferred to batch)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12333 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+- [ ] `DtcKindEnum` — AREnum — R4.3.1 markdown · Table 13.16 (AUTOSAR_TPS_SoftwareComponentTemplate), p.760 (R4.3.1 fallback — no R23-11 table)
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
-- [ ] `ServiceDiagnosticRelevanceEnum` — AREnum — source TBC (locate table at Step 1)
+  - note (Step 1): R4.3.1-only class → release R4.3.1. Note = "This enumeration defines the possible kinds of diagnostic monitors regarding the OBD relevance." Literals: emissionRelatedDtc(0), nonEmmissionRelatedDtc(1) (de-split from "nonEmmis- sionRelated Dtc"; double-m spelling per spec). src was an EMPTY stub — literals added; empty-pinning test updated to spec.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - note (Steps 5/6): N/A — standalone AREnum, serialized as attribute value on the consuming class (Rules 0010-0011)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviations; R4.3.1 provenance recorded in the Spec line (marker deferred to batch)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12333 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+- [ ] `ServiceDiagnosticRelevanceEnum` — AREnum — R23-11 markdown · Table 7.58 (CP_TPS_SoftwareComponentTemplate), p.609
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - note: deviation-tracked in method_deviation_by_class.md + method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - note (Step 1): Note = "This enumeration provides values to describe the diagnostic relevance of a SwcServiceDependency (specifically if the aggregated ServiceNeeds itself does not indicate a relevance for diagnostics)." Literals: isNotRelevant(0), isRelevant(1) — values matched src. Drift: fabricated docstring/comments, __init__ docstring, old checklist.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - note (Steps 5/6): N/A — standalone AREnum, serialized as attribute value on the consuming class (Rules 0010-0011)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12333 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 - [ ] `DiagnosticCapabilityElement` — ServiceNeeds — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
