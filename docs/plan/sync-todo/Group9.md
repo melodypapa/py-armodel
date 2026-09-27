@@ -318,3 +318,31 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - note: Step 8 (2026-09-24) — NO standing spec deviations: no placeholders, no missing members (table = 3 attrs chapter/chapterContent/topic1, all modeled verbatim with correct types — referenced classes ChapterOrMsrQuery/ChapterContent/TopicOrMsrQuery all present and stamped), no naming deviations (all three are plain aggr role names; Ref/TRef/IRef/`*`-pluralization rules n/a — no ref kinds, no `*` mults in this table, all 0..1), no type deviations; base closure faithful (ARObject most-derived per table + XSD AR-OBJECT-only chain — no flattening); member/accessor order = displayed row order (accessors aligned in Step 3), checklist in source order, writer XML element order = XSD group CHAPTER-MODEL order; reader+writer coverage complete for all three attrs; the orphan intake's spurious `# Spec verified: R23-11` line (a stamp carried without a 9b pass) was removed at Step 7 per Rule 0006.1; tracker reconciliation COMPLETE — grep finds NO ChapterModel entry in docs/examples/method_deviation_by_class.md (no `## ChapterModel` section) nor in method_deviation_by_class_v2.md (not in the stale appendix either), so both files are correctly left untouched; `# Spec verified:` stamp WITHHELD pending 9b batch confirmation (Rule 0012.1)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-24: target tests 59/59 (mirror test_Chapters.py 37 incl. the 9 new TestChapterModel tests + new parser test_chapter_model.py 4 + new writer test_chapter_model.py 4 + prior-row neighbors test_chapter_content.py 3+4 and test_topic_content_or_msr_query.py 3+4), full suite `uv run python scripts/run_tests.py --no-coverage` 11519 passed/0 failed (prior-row baseline 11503 + 16 net-new: 9 model + 3 parser + 4 writer), integration round-trip (29 ARXML) green inside the suite, npm run lint (flake8+ruff) clean after removing one unused variable in the new model test, npm run black reformatted 2 test files (implicit string concats joined at the 200-char setting) then black-check clean 1186 files unchanged; 9b deferred to batch confirmation (user instruction 2026-09-24); 9b CONFIRMED by user 2026-09-27 (chat confirmation) — stamp `# Spec verified: R23-11 (2026-09-27, user 9b confirmation)` written after the Spec line in the class block in Chapters.py (stale deferral NOTE removed); 9a re-gate on the stamped tree: targeted chapter tests 67/67, full suite 12430 passed / 0 failed, `npm run lint` clean, black-check clean → feat commit d3d61c9b2
+
+- [ ] `GeneralParameter` — Identifiable — source TBC (locate table at Step 1) — XSD-only (no own table in repo corpus)
+  - module: M2/MSR/Documentation/BlockElements/GerneralParameters.py
+  - after `ChapterModel`
+  - note: queued 2026-09-27 — ChapterModel member-type closure audit (user request, user confirmed the gap): ChapterContent.prms (Table 9.60 first attribute row, unmodeled) → Prms.prm (Table 9.74, 1..* aggr) → GeneralParameter; XSD grounding AUTOSAR_00052.xsd complexType GENERAL-PARAMETER (XSD-only citation form). The class body already exists in an UNCOMMITTED parallel working-tree edit (GerneralParameters.py untracked as of queue time, incl. the XSD-only member family PrmChar/PrmCharContents/PrmCharNumericalValue/PrmCharAbsTol/PrmCharMinTypMax/PrmCharNumericalContents/PrmCharTextualContents) — the 9-step pass must VERIFY against spec/XSD and add the missing test/reader/writer coverage, not assume completeness; no parser/writer consume path exists as of queue time (grep: 0 hits both sides). CAUTION: a parallel session holds uncommitted src edits on these exact files and the package import is transiently broken (circular import via the new Chapters→GerneralParameters edge) — coordinate before implementing.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `Prms` — Paginateable — source TBC (locate table at Step 1)
+  - module: M2/MSR/Documentation/BlockElements/GerneralParameters.py
+  - after `GeneralParameter`
+  - note: queued 2026-09-27 — ChapterModel member-type closure audit (user request, user confirmed the gap): Table 9.60 ChapterContent first attribute row prms (type Prms, aggr) is unmodeled on the parent (the ChapterContent row's Step 8 recorded the Rule 0001.10 deferral 2026-09-24) — this row's Step 6 wires the PRMS consume path AND completes the parent-side ChapterContent.prms field/accessors + checklist rows (drift fix recorded on the ChapterContent row and in the tracker); spec grounding Table 9.74 (prm: GeneralParameter 1..* aggr — meta rows render above the caption per the corpus caption-split artifact); class body exists uncommitted in the parallel working-tree edit — same verify-not-assume caution as GeneralParameter.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
