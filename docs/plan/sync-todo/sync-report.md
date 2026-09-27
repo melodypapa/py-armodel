@@ -506,8 +506,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PortPrototypeBlueprintInitValue`                       | [x] Done    | 57509a2e                                 | Group7           |
 | `PortPrototypeBlueprintMapping`                         | [x] Done    | f87babf31beb141ba1f5ea32b1389e6fbc9a8e8d | Group1           |
 | `PositiveIntegerValueVariationPoint`                    | [x] Done    | d5c96fd9                                 | Group8           |
-| `PostBuildVariantCondition`                             | [ ] Deferred| N/A                                      | Group8           |
-| `PostBuildVariantCriterion`                             | [ ] Deferred| N/A                                      | Group8           |
+| `PostBuildVariantCondition`                             | [x] Done    | 5333bec02                                | Group8           |
+| `PostBuildVariantCriterion`                             | [x] Done    | 5333bec02                                | Group8           |
 | `PostBuildVariantCriterionValue`                        | [ ] Deferred| N/A                                      | Group8           |
 | `PrivacyLevel`                                          | [x] Done    | fb222ae5                                 | Group5           |
 | `ProgramminglanguageEnum`                               | [x] Done    | be79d799                                 | Group1           |
@@ -603,7 +603,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SwRecordLayoutV`                                       | [x] Done    | 9c0c3f85                                 | Group3           |
 | `SwSystemconst`                                         | [ ] Deferred| N/A                                      | Group9           |
 | `SwSystemconstDependentFormula`                         | [x] Done    | f05e21d49                                | Group8           |
-| `SwSystemconstValue`                                    | [ ] Deferred| N/A                                      | Group8           |
+| `SwSystemconstValue`                                    | [x] Done    | 5333bec02                                | Group8           |
 | `SwValueCont`                                           | [x] Done    | 6db47de6                                 | Group3           |
 | `SwcBswMapping`                                         | [x] Done    | 58b2c68a                                 | Group1           |
 | `SwcBswRunnableMapping`                                 | [ ] Pending* | c52cece66                                      | Group13          |
