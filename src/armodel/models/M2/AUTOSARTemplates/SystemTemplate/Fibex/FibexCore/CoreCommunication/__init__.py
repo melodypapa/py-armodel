@@ -981,8 +981,10 @@ class TransferPropertyEnum(AREnum):
     """
 
     # TransferPropertyEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.15, p.327
-    # (no methods)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.15, p.327 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ISignalToIPduMapping.transferProperty
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # If the signal has the TransferProperty pending, then the function Com_SendSignal shall not perform a transmission of the IPdu associated with the signal. Tags: atp.EnumerationLiteralIndex=0
     PENDING = "pending"
