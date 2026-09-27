@@ -38,6 +38,7 @@ class PrmCharNumericalValue(ARObject, ABC):
 
     # PrmCharNumericalValue method parity checklist:
     # Spec: AUTOSAR_00052.xsd, group PRM-CHAR-NUMERICAL-VALUE l.93890 (XSD-only; group-only in both XSDs — no complexType; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd (2026-09-28, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
