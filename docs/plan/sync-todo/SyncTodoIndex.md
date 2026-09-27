@@ -456,7 +456,7 @@ Status: **34/34** completed
 
 ## Group8
 
-Status: **41/49** completed
+Status: **42/49** completed
 
 | Class Name                               | Status       | Commit ID |
 | ---------------------------------------- | ------------ | --------- |
@@ -493,7 +493,7 @@ Status: **41/49** completed
 | `LifeCycleInfoSet`                       | [x] Done     | 11bd9cd84 |
 | `VariationPoint`                         | [x] Done     | d4fce975d |
 | `ModeInSwcBswInstanceRef`                | [x] Done     | 71ca6a541 |
-| `ModeInSwcInstanceRef`                   | [ ] Pending* | N/A       |
+| `ModeInSwcInstanceRef`                   | [x] Done     | 70dcc2697 |
 | `AbstractEnumerationValueVariationPoint` | [ ] Pending* | N/A       |
 | `AbstractNumericalVariationPoint`        | [x] Done     | d5c96fd9  |
 | `BooleanValueVariationPoint`             | [x] Done     | d5c96fd9  |
