@@ -312,7 +312,10 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     L74941) — Ipv4Rule/Ipv6Rule not in the codebase: reported missing per Rule
     0001.10, class kept instantiable as the aggregation placeholder (abstract
     TypeError guard + five-place dispatch deferred to the subtype sync; the
-    guard now would crash the existing placeholder reader path). No
+    guard now would crash the existing placeholder reader path).
+    Resolved 2026-09-27: both subtypes synced (see the addendum rows) — dispatch
+    is per concrete subtype in read/writeFirewallRule (no TypeError guard added;
+    the instantiable placeholder remains the bare-childless fallback). No
     VARIATION-POINT → not VP-capable. Upstream doc:
     AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform). Drift: stale
     placeholder docstring "Configuration of rules on the Network Layer"
@@ -337,6 +340,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     `networkLayerRule | Ipv4Rule | missing` stays — it refers to the concrete
     subtype Ipv4Rule, which is still not implemented (missing referenced
     classes: Ipv4Rule, Ipv6Rule, reported per Rule 0001.10).
+    Resolved 2026-09-27: Ipv4Rule/Ipv6Rule synced — see the addendum rows.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12479 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TransportLayerRule` — ARObject — source TBC (locate table at Step 1)
@@ -379,6 +383,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     `transportLayerRule | TcpRule | missing` stays — it refers to the concrete
     subtype TcpRule, which is still not implemented (missing referenced
     classes: TcpRule, UdpRule, reported per Rule 0001.10).
+    Resolved 2026-09-27: TcpRule/UdpRule synced — see the addendum rows.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12488 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `PayloadBytePatternRule` — ARObject — source TBC (locate table at Step 1)
@@ -946,7 +951,9 @@ networkLayerRule type column) were queued at the end of this addendum per user a
 both classes ARE XSD-defined in 00052 under the dashed spellings IPV-4-RULE (group L74389,
 complexType L74485) / IPV-6-RULE (group L74941, complexType L75007); the rows below are
 amended to XSD-only per Rule 0015 (markdown ECUC-mapping appendix demoted to supplementary
-evidence) and the classes synced (stamps deferred to the batch 9b). The `... | missing`
+evidence) and the classes synced (stamps deferred to the batch 9b); their member type
+IcmpRule was also queued (Rule 0001.10, supersedes the earlier "not queued" decision — it
+is XSD-defined as ICMP-RULE, 00052 complexType L67721) and synced. The `... | missing`
 tracker rows they motivated (`networkLayerRule | Ipv4Rule | missing`,
 `transportLayerRule | TcpRule | missing`) are resolved — the classes landed.
 
