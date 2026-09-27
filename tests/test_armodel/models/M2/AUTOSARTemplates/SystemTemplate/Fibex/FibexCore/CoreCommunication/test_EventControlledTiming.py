@@ -13,7 +13,9 @@ def _ref():
     return ref
 
 
-CLASS_NOTE = """Specification of a event driven sending behavior. The PDU is sent n (numberOfRepeat + 1) times separated by the repetitionPeriod. If numberOfRepeats = 0, then the Pdu is sent just once."""
+CLASS_NOTE = (
+    """Specification of a event driven sending behavior. The PDU is sent n (numberOfRepeat + 1) times separated by the repetitionPeriod. If numberOfRepeats = 0, then the Pdu is sent just once."""
+)
 
 
 class TestEventControlledTiming:
@@ -41,7 +43,18 @@ class TestEventControlledTiming:
 
     def test_accessor_docstrings_verbatim(self):
         obj = EventControlledTiming()
-        assert inspect.cleandoc(obj.getNumberOfRepetitions.__doc__) == 'Defines the number of repetitions for the Direct/N-Times transmission mode and the event driven part of Mixed transmission mode.'
-        assert inspect.cleandoc(obj.setNumberOfRepetitions.__doc__).split("\n")[0] == 'Defines the number of repetitions for the Direct/N-Times transmission mode and the event driven part of Mixed transmission mode.'
-        assert inspect.cleandoc(obj.getRepetitionPeriod.__doc__) == 'The repetitionPeriod specifies the time in seconds that elapses before the pdu can be sent the next time (Minimum repeat gap between two pdus). The repetition Period is optional in case that no repetitions are configured.'
-        assert inspect.cleandoc(obj.setRepetitionPeriod.__doc__).split("\n")[0] == 'The repetitionPeriod specifies the time in seconds that elapses before the pdu can be sent the next time (Minimum repeat gap between two pdus). The repetition Period is optional in case that no repetitions are configured.'
+        assert (
+            inspect.cleandoc(obj.getNumberOfRepetitions.__doc__) == "Defines the number of repetitions for the Direct/N-Times transmission mode and the event driven part of Mixed transmission mode."
+        )
+        assert (
+            inspect.cleandoc(obj.setNumberOfRepetitions.__doc__).split("\n")[0]
+            == "Defines the number of repetitions for the Direct/N-Times transmission mode and the event driven part of Mixed transmission mode."
+        )
+        assert (
+            inspect.cleandoc(obj.getRepetitionPeriod.__doc__)
+            == "The repetitionPeriod specifies the time in seconds that elapses before the pdu can be sent the next time (Minimum repeat gap between two pdus). The repetition Period is optional in case that no repetitions are configured."
+        )
+        assert (
+            inspect.cleandoc(obj.setRepetitionPeriod.__doc__).split("\n")[0]
+            == "The repetitionPeriod specifies the time in seconds that elapses before the pdu can be sent the next time (Minimum repeat gap between two pdus). The repetition Period is optional in case that no repetitions are configured."
+        )

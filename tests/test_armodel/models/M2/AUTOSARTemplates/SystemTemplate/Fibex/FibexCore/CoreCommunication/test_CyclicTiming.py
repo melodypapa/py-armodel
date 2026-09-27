@@ -42,7 +42,13 @@ class TestCyclicTiming:
 
     def test_accessor_docstrings_verbatim(self):
         obj = CyclicTiming()
-        assert inspect.cleandoc(obj.getTimeOffset.__doc__) == 'This attribute specifies the time until first transmission of this I-PDU. This attribute defines the time between Com_ IpduGroupStart and the first transmission of the cyclic part of this transmission request for this I-PDU.'
-        assert inspect.cleandoc(obj.setTimeOffset.__doc__).split("\n")[0] == 'This attribute specifies the time until first transmission of this I-PDU. This attribute defines the time between Com_ IpduGroupStart and the first transmission of the cyclic part of this transmission request for this I-PDU.'
-        assert inspect.cleandoc(obj.getTimePeriod.__doc__) == 'Period of the repetition of cyclic transmissions.'
-        assert inspect.cleandoc(obj.setTimePeriod.__doc__).split("\n")[0] == 'Period of the repetition of cyclic transmissions.'
+        assert (
+            inspect.cleandoc(obj.getTimeOffset.__doc__)
+            == "This attribute specifies the time until first transmission of this I-PDU. This attribute defines the time between Com_ IpduGroupStart and the first transmission of the cyclic part of this transmission request for this I-PDU."
+        )
+        assert (
+            inspect.cleandoc(obj.setTimeOffset.__doc__).split("\n")[0]
+            == "This attribute specifies the time until first transmission of this I-PDU. This attribute defines the time between Com_ IpduGroupStart and the first transmission of the cyclic part of this transmission request for this I-PDU."
+        )
+        assert inspect.cleandoc(obj.getTimePeriod.__doc__) == "Period of the repetition of cyclic transmissions."
+        assert inspect.cleandoc(obj.setTimePeriod.__doc__).split("\n")[0] == "Period of the repetition of cyclic transmissions."

@@ -1168,7 +1168,7 @@ class InitialSdDelayConfig(ARObject):
         """
         return self.initialDelayMaxValue
 
-    def setInitialDelayMaxValue(self, value: Optional[TimeValue]) -> "InitialSdDelayConfig":
+    def setInitialDelayMaxValue(self, value: Optional[TimeValue]) -> InitialSdDelayConfig:
         """
         Max Value in seconds to delay randomly the first offer (if aggregated by SdServerConfig) or the transmission of a find message (if aggregated by SdClientConfig).
         A None value is a no-op and does not overwrite an existing initialDelayMaxValue.
@@ -1183,7 +1183,7 @@ class InitialSdDelayConfig(ARObject):
         """
         return self.initialDelayMinValue
 
-    def setInitialDelayMinValue(self, value: Optional[TimeValue]) -> "InitialSdDelayConfig":
+    def setInitialDelayMinValue(self, value: Optional[TimeValue]) -> InitialSdDelayConfig:
         """
         Min Value in seconds to delay randomly the first offer or the transmission of a find message (if aggregated by Sd ClientConfig).
         A None value is a no-op and does not overwrite an existing initialDelayMinValue.
@@ -1198,7 +1198,7 @@ class InitialSdDelayConfig(ARObject):
         """
         return self.initialRepetitionsBaseDelay
 
-    def setInitialRepetitionsBaseDelay(self, value: Optional[TimeValue]) -> "InitialSdDelayConfig":
+    def setInitialRepetitionsBaseDelay(self, value: Optional[TimeValue]) -> InitialSdDelayConfig:
         """
         The base delay for offer repetitions (if aggregated by Sd ServerConfig) or find repetitions (if aggregated by Sd ClientConfig). Successive find messages have an exponential back off delay.
         A None value is a no-op and does not overwrite an existing initialRepetitionsBaseDelay.
@@ -1213,7 +1213,7 @@ class InitialSdDelayConfig(ARObject):
         """
         return self.initialRepetitionsMax
 
-    def setInitialRepetitionsMax(self, value: Optional[PositiveInteger]) -> "InitialSdDelayConfig":
+    def setInitialRepetitionsMax(self, value: Optional[PositiveInteger]) -> InitialSdDelayConfig:
         """
         Describes the maximum amount of offer repetitions (if aggregated by SdServerConfig) or the maximum amount of find repetitions (if aggregated by SdClientConfig).
         A None value is a no-op and does not overwrite an existing initialRepetitionsMax.
@@ -1939,7 +1939,7 @@ class Ipv4Configuration(NetworkEndpointAddress):
         """
         return self.assignmentPriority
 
-    def setAssignmentPriority(self, value: Optional[PositiveInteger]) -> "Ipv4Configuration":
+    def setAssignmentPriority(self, value: Optional[PositiveInteger]) -> Ipv4Configuration:
         """
         Priority of assignment (1 is highest). If a new address from an assignment method with a higher priority is available, it overwrites the IP address previously assigned by an assignment method with a lower priority.
         A None value is a no-op and does not overwrite an existing assignmentPriority.
@@ -1954,7 +1954,7 @@ class Ipv4Configuration(NetworkEndpointAddress):
         """
         return self.defaultGateway
 
-    def setDefaultGateway(self, value: Optional[Ip4AddressString]) -> "Ipv4Configuration":
+    def setDefaultGateway(self, value: Optional[Ip4AddressString]) -> Ipv4Configuration:
         """
         IP address of the default gateway.
         A None value is a no-op and does not overwrite an existing defaultGateway.
@@ -1969,7 +1969,7 @@ class Ipv4Configuration(NetworkEndpointAddress):
         """
         return self.dnsServerAddresses
 
-    def addDnsServerAddress(self, value: Optional[Ip4AddressString]) -> "Ipv4Configuration":
+    def addDnsServerAddress(self, value: Optional[Ip4AddressString]) -> Ipv4Configuration:
         """
         IP addresses of preconfigured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
         A None value is a no-op and is not appended to dnsServerAddresses.
@@ -1984,7 +1984,7 @@ class Ipv4Configuration(NetworkEndpointAddress):
         """
         return self.ipAddressKeepBehavior
 
-    def setIpAddressKeepBehavior(self, value: Optional[IpAddressKeepEnum]) -> "Ipv4Configuration":
+    def setIpAddressKeepBehavior(self, value: Optional[IpAddressKeepEnum]) -> Ipv4Configuration:
         """
         Defines the lifetime of a dynamically fetched IP address.
         A None value is a no-op and does not overwrite an existing ipAddressKeepBehavior.
@@ -1999,7 +1999,7 @@ class Ipv4Configuration(NetworkEndpointAddress):
         """
         return self.ipv4Address
 
-    def setIpv4Address(self, value: Optional[Ip4AddressString]) -> "Ipv4Configuration":
+    def setIpv4Address(self, value: Optional[Ip4AddressString]) -> Ipv4Configuration:
         """
         IPv4 Address. Notation: 255.255.255.255. The IP Address shall be declared in case the ipv4AddressSource is FIXED and thus no auto-configuration mechanism is used.
         A None value is a no-op and does not overwrite an existing ipv4Address.
@@ -2014,7 +2014,7 @@ class Ipv4Configuration(NetworkEndpointAddress):
         """
         return self.ipv4AddressSource
 
-    def setIpv4AddressSource(self, value: Optional[Ipv4AddressSourceEnum]) -> "Ipv4Configuration":
+    def setIpv4AddressSource(self, value: Optional[Ipv4AddressSourceEnum]) -> Ipv4Configuration:
         """
         Defines how the node obtains its IP address.
         A None value is a no-op and does not overwrite an existing ipv4AddressSource.
@@ -2029,7 +2029,7 @@ class Ipv4Configuration(NetworkEndpointAddress):
         """
         return self.networkMask
 
-    def setNetworkMask(self, value: Optional[Ip4AddressString]) -> "Ipv4Configuration":
+    def setNetworkMask(self, value: Optional[Ip4AddressString]) -> Ipv4Configuration:
         """
         Network mask. Notation 255.255.255.255
         A None value is a no-op and does not overwrite an existing networkMask.
@@ -2044,7 +2044,7 @@ class Ipv4Configuration(NetworkEndpointAddress):
         """
         return self.ttl
 
-    def setTtl(self, value: Optional[PositiveInteger]) -> "Ipv4Configuration":
+    def setTtl(self, value: Optional[PositiveInteger]) -> Ipv4Configuration:
         """
         Lifespan of data (0..255). The purpose of the TimeToLive field is to avoid a situation in which an undeliverable datagram keeps circulating on a system.
         A None value is a no-op and does not overwrite an existing ttl.
@@ -2806,7 +2806,7 @@ class IPSecConfig(ARObject):
         """
         return self.ipSecConfigPropsRef
 
-    def setIpSecConfigPropsRef(self, value: Optional[RefType]) -> "IPSecConfig":
+    def setIpSecConfigPropsRef(self, value: Optional[RefType]) -> IPSecConfig:
         """
         Global IPsec configuration settings that are valid for all IPSecRules that are defined on the NetworkEndpoint.
         A None value is a no-op and does not overwrite an existing ipSecConfigPropsRef.
@@ -2860,7 +2860,7 @@ class NetworkEndpoint(Identifiable):
         """
         return self.fullyQualifiedDomainName
 
-    def setFullyQualifiedDomainName(self, value: Optional[String]) -> "NetworkEndpoint":
+    def setFullyQualifiedDomainName(self, value: Optional[String]) -> NetworkEndpoint:
         """
         Defines the fully qualified domain name (FQDN) e.g. some.example.host.
         A None value is a no-op and does not overwrite an existing fullyQualifiedDomainName.
@@ -2875,7 +2875,7 @@ class NetworkEndpoint(Identifiable):
         """
         return self.infrastructureServices
 
-    def setInfrastructureServices(self, value: Optional[InfrastructureServices]) -> "NetworkEndpoint":
+    def setInfrastructureServices(self, value: Optional[InfrastructureServices]) -> NetworkEndpoint:
         """
         Defines the network infrastructure services provided or consumed.
         A None value is a no-op and does not overwrite an existing infrastructureServices.
@@ -2890,7 +2890,7 @@ class NetworkEndpoint(Identifiable):
         """
         return self.ipSecConfig
 
-    def setIpSecConfig(self, value: Optional[IPSecConfig]) -> "NetworkEndpoint":
+    def setIpSecConfig(self, value: Optional[IPSecConfig]) -> NetworkEndpoint:
         """
         Optional IPSec configuration that provides security services for IP packets.
         A None value is a no-op and does not overwrite an existing ipSecConfig.
@@ -2905,7 +2905,7 @@ class NetworkEndpoint(Identifiable):
         """
         return self.networkEndpointAddresses
 
-    def addNetworkEndpointAddress(self, value: Optional[NetworkEndpointAddress]) -> "NetworkEndpoint":
+    def addNetworkEndpointAddress(self, value: Optional[NetworkEndpointAddress]) -> NetworkEndpoint:
         """
         Definition of a Network Address. Tags: xml.namePlural=NETWORK-ENDPOINT-ADDRESSES
         A None value is a no-op and is not appended to networkEndpointAddresses.
@@ -2920,7 +2920,7 @@ class NetworkEndpoint(Identifiable):
         """
         return self.priority
 
-    def setPriority(self, value: Optional[PositiveInteger]) -> "NetworkEndpoint":
+    def setPriority(self, value: Optional[PositiveInteger]) -> NetworkEndpoint:
         """
         Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
         A None value is a no-op and does not overwrite an existing priority.

@@ -1156,7 +1156,7 @@ class SdServerConfig(ARObject):
         """
         return self.capabilityRecords
 
-    def addCapabilityRecord(self, value: Optional[TagWithOptionalValue]) -> "SdServerConfig":
+    def addCapabilityRecord(self, value: Optional[TagWithOptionalValue]) -> SdServerConfig:
         """
         A sequence of records to store arbitrary name/value pairs conveying additional information about the named service. Capability records shall only be existing if the respective SdServerConfig is composed by a ProvidedServiceInstance (see constr_3259).
         A None value is a no-op and is not appended to capabilityRecords.
@@ -1171,7 +1171,7 @@ class SdServerConfig(ARObject):
         """
         return self.initialOfferBehavior
 
-    def setInitialOfferBehavior(self, value: Optional[InitialSdDelayConfig]) -> "SdServerConfig":
+    def setInitialOfferBehavior(self, value: Optional[InitialSdDelayConfig]) -> SdServerConfig:
         """
         Controls offer behavior of the server.
         A None value is a no-op and does not overwrite an existing initialOfferBehavior.
@@ -1186,7 +1186,7 @@ class SdServerConfig(ARObject):
         """
         return self.offerCyclicDelay
 
-    def setOfferCyclicDelay(self, value: Optional[TimeValue]) -> "SdServerConfig":
+    def setOfferCyclicDelay(self, value: Optional[TimeValue]) -> SdServerConfig:
         """
         Optional attribute to define cyclic offers. Cyclic offer is active, if the delay is set (in seconds).
         A None value is a no-op and does not overwrite an existing offerCyclicDelay.
@@ -1201,7 +1201,7 @@ class SdServerConfig(ARObject):
         """
         return self.requestResponseDelay
 
-    def setRequestResponseDelay(self, value: Optional[RequestResponseDelay]) -> "SdServerConfig":
+    def setRequestResponseDelay(self, value: Optional[RequestResponseDelay]) -> SdServerConfig:
         """
         Maximum/Minimum allowable response delay to entries received by multicast in seconds.
         A None value is a no-op and does not overwrite an existing requestResponseDelay.
@@ -1216,7 +1216,7 @@ class SdServerConfig(ARObject):
         """
         return self.serverServiceMajorVersion
 
-    def setServerServiceMajorVersion(self, value: Optional[PositiveInteger]) -> "SdServerConfig":
+    def setServerServiceMajorVersion(self, value: Optional[PositiveInteger]) -> SdServerConfig:
         """
         Major version number of the Service.
         A None value is a no-op and does not overwrite an existing serverServiceMajorVersion.
@@ -1231,7 +1231,7 @@ class SdServerConfig(ARObject):
         """
         return self.serverServiceMinorVersion
 
-    def setServerServiceMinorVersion(self, value: Optional[PositiveInteger]) -> "SdServerConfig":
+    def setServerServiceMinorVersion(self, value: Optional[PositiveInteger]) -> SdServerConfig:
         """
         Minor version number of the Service.
         A None value is a no-op and does not overwrite an existing serverServiceMinorVersion.
@@ -1246,7 +1246,7 @@ class SdServerConfig(ARObject):
         """
         return self.ttl
 
-    def setTtl(self, value: Optional[PositiveInteger]) -> "SdServerConfig":
+    def setTtl(self, value: Optional[PositiveInteger]) -> SdServerConfig:
         """
         Time to live. Shall be a positive value (sInt32).
         A None value is a no-op and does not overwrite an existing ttl.
@@ -2054,7 +2054,7 @@ class RequestResponseDelay(ARObject):
         """
         return self.maxValue
 
-    def setMaxValue(self, value: Optional[TimeValue]) -> "RequestResponseDelay":
+    def setMaxValue(self, value: Optional[TimeValue]) -> RequestResponseDelay:
         """
         Maximum allowable response delay to entries received by multicast in seconds.
         A None value is a no-op and does not overwrite an existing maxValue.
@@ -2069,7 +2069,7 @@ class RequestResponseDelay(ARObject):
         """
         return self.minValue
 
-    def setMinValue(self, value: Optional[TimeValue]) -> "RequestResponseDelay":
+    def setMinValue(self, value: Optional[TimeValue]) -> RequestResponseDelay:
         """
         Minimum allowable response delay to entries received by multicast in seconds.
         A None value is a no-op and does not overwrite an existing minValue.
