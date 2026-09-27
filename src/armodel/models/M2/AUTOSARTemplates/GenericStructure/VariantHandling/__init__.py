@@ -24,6 +24,7 @@ class PostBuildVariantCriterion(ARElement):
 
     # PostBuildVariantCriterion method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.63, p.614
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCompuMethodRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -184,6 +185,7 @@ class SwSystemconstValue(ARObject):
 
     # SwSystemconstValue method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.9, p.235
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAnnotations       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -277,6 +279,7 @@ class PostBuildVariantCondition(ARObject):
 
     # PostBuildVariantCondition method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.6, p.232
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getMatchingCriterionRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
