@@ -514,7 +514,7 @@ Status: **49/50** completed
 
 ## Group9
 
-Status: **12/20** completed
+Status: **13/20** completed
 
 | Class Name                    | Status       | Commit ID |
 | ----------------------------- | ------------ | --------- |
@@ -530,7 +530,7 @@ Status: **12/20** completed
 | `SwImplPolicyEnum`            | [x] Done     | d6945a4c8 |
 | `SwSystemconst`               | [x] Done     | 984387dd0 |
 | `ListEnum`                    | [x] Done     | 0623068af |
-| `Item`                        | [ ] Pending* | N/A       |
+| `Item`                        | [x] Done     | cf8b43c36 |
 | `TopicContentOrMsrQuery`      | [ ] Pending* | N/A       |
 | `LOverviewParagraph`          | [ ] Pending* | N/A       |
 | `LPlainText`                  | [ ] Pending* | N/A       |

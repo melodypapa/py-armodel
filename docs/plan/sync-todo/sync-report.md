@@ -380,7 +380,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `IpAddressKeepEnum`                                     | [ ] Pending | N/A                                      | Group16          |
 | `Ipv4Configuration`                                     | [ ] Pending | N/A                                      | Group16          |
 | `Ipv6AddressSourceEnum`                                 | [ ] Pending | N/A                                      | Group16          |
-| `Item`                                                  | [ ] Deferred| N/A                                      | Group9           |
+| `Item`                                                  | [x] Done    | cf8b43c36                                | Group9           |
 | `J1939Cluster`                                          | [x] Done    | 44a70c32                                 | Group5           |
 | `J1939DcmDm19Support`                                   | [x] Done    | 60f87670                                 | Group5           |
 | `J1939NmCluster`                                        | [x] Done    | 9c8e10b3                                 | Group6           |
