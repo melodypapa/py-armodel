@@ -514,7 +514,7 @@ Status: **49/50** completed
 
 ## Group9
 
-Status: **14/20** completed
+Status: **15/20** completed
 
 | Class Name                    | Status       | Commit ID |
 | ----------------------------- | ------------ | --------- |
@@ -532,7 +532,7 @@ Status: **14/20** completed
 | `ListEnum`                    | [x] Done     | 0623068af |
 | `Item`                        | [x] Done     | cf8b43c36 |
 | `TopicContentOrMsrQuery`      | [x] Done     | N/A       |
-| `LOverviewParagraph`          | [ ] Pending* | N/A       |
+| `LOverviewParagraph`          | [x] Done     | 764ef1c58 |
 | `LPlainText`                  | [ ] Pending* | N/A       |
 | `LVerbatim`                   | [ ] Pending* | N/A       |
 | `ARList`                      | [ ] Pending* | N/A       |

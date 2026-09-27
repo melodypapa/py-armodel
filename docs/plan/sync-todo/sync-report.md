@@ -392,7 +392,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `Keyword`                                               | [x] Done    | 4ed5a2fe                                 | Group7           |
 | `KeywordSet`                                            | [x] Done    | a6a1d31c                                 | Group7           |
 | `LGraphic`                                              | [x] Done    | e4b1acf6                                 | Group3           |
-| `LOverviewParagraph`                                    | [ ] Deferred| N/A                                      | Group9           |
+| `LOverviewParagraph`                                    | [x] Done    | 764ef1c58                                | Group9           |
 | `LParagraph`                                            | [x] Done    | 7fa4a01f                                 | Group3           |
 | `LPlainText`                                            | [ ] Deferred| N/A                                      | Group9           |
 | `LVerbatim`                                             | [ ] Deferred| N/A                                      | Group9           |
