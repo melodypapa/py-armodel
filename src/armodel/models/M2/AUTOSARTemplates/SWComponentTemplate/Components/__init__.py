@@ -588,19 +588,26 @@ class PortPrototype(AtpPrototype, AtpBlueprintable, VariationPointCapable, ABC):
 
 
 class AbstractProvidedPortPrototype(PortPrototype):
+    """
+    This abstract class provides the ability to become a provided PortPrototype.
+    """
+
     # AbstractProvidedPortPrototype method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] _validateProvidedComSpec     [x] impl  [ ] docstring  [ ] test
-    # [ ] addProvidedComSpec           [x] impl  [ ] docstring  [ ] test
-    # [ ] getProvidedComSpecs          [x] impl  [ ] docstring  [ ] test
-    # [ ] getNonqueuedSenderComSpecs   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.4, p.68 (R23-11; body renders above the caption line)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addProvidedComSpec           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProvidedComSpecs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] _validateProvidedComSpec     [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNonqueuedSenderComSpecs   [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractProvidedPortPrototype:
             raise TypeError("AbstractProvidedPortPrototype is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.providedComSpecs = []  # type: List[PPortComSpec]
+        # Provided communication attributes per interface element (data element or operation). Stereotypes: atpSplitable Tags: atp.Splitkey=providedComSpec
+        self.providedComSpecs: List[PPortComSpec] = []
 
     def _validateProvidedComSpec(self, com_spec: PPortComSpec):
         if isinstance(com_spec, NonqueuedSenderComSpec):
@@ -621,11 +628,19 @@ class AbstractProvidedPortPrototype(PortPrototype):
         else:
             raise ValueError("Unsupported com spec")
 
-    def addProvidedComSpec(self, com_spec):
-        self._validateProvidedComSpec(com_spec)
-        self.providedComSpecs.append(com_spec)
+    def addProvidedComSpec(self, com_spec: Optional[PPortComSpec]) -> AbstractProvidedPortPrototype:
+        """
+        Provided communication attributes per interface element (data element or operation). Stereotypes: atpSplitable Tags: atp.Splitkey=providedComSpec. A None value is a no-op and does not append anything.
+        """
+        if com_spec is not None:
+            self._validateProvidedComSpec(com_spec)
+            self.providedComSpecs.append(com_spec)
+        return self
 
     def getProvidedComSpecs(self) -> List[PPortComSpec]:
+        """
+        Provided communication attributes per interface element (data element or operation). Stereotypes: atpSplitable Tags: atp.Splitkey=providedComSpec
+        """
         return self.providedComSpecs
 
     def getNonqueuedSenderComSpecs(self) -> List[NonqueuedSenderComSpec]:
@@ -633,20 +648,27 @@ class AbstractProvidedPortPrototype(PortPrototype):
 
 
 class AbstractRequiredPortPrototype(PortPrototype):
+    """
+    This abstract class provides the ability to become a required PortPrototype.
+    """
+
     # AbstractRequiredPortPrototype method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] _validateRequiredComSpec     [x] impl  [ ] docstring  [ ] test
-    # [ ] addRequiredComSpec           [x] impl  [ ] docstring  [ ] test
-    # [ ] getRequiredComSpecs          [x] impl  [ ] docstring  [ ] test
-    # [ ] getClientComSpecs            [x] impl  [ ] docstring  [ ] test
-    # [ ] getNonqueuedReceiverComSpecs [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.3, p.67 (R23-11; body renders above the caption line)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addRequiredComSpec           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequiredComSpecs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] _validateRequiredComSpec     [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getClientComSpecs            [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNonqueuedReceiverComSpecs [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractRequiredPortPrototype:
             raise TypeError("AbstractRequiredPortPrototype is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.requiredComSpecs = []  # type: List[RPortComSpec]
+        # Required communication attributes, one for each interface element. Stereotypes: atpSplitable Tags: atp.Splitkey=requiredComSpec
+        self.requiredComSpecs: List[RPortComSpec] = []
 
     def _validateRequiredComSpec(self, com_spec: RPortComSpec):
         if isinstance(com_spec, ClientComSpec):
@@ -670,11 +692,19 @@ class AbstractRequiredPortPrototype(PortPrototype):
         else:
             raise ValueError("Unsupported RPortComSpec <%s>" % type(com_spec))
 
-    def addRequiredComSpec(self, com_spec: RPortComSpec):
-        self._validateRequiredComSpec(com_spec)
-        self.requiredComSpecs.append(com_spec)
+    def addRequiredComSpec(self, com_spec: Optional[RPortComSpec]) -> AbstractRequiredPortPrototype:
+        """
+        Required communication attributes, one for each interface element. Stereotypes: atpSplitable Tags: atp.Splitkey=requiredComSpec. A None value is a no-op and does not append anything.
+        """
+        if com_spec is not None:
+            self._validateRequiredComSpec(com_spec)
+            self.requiredComSpecs.append(com_spec)
+        return self
 
     def getRequiredComSpecs(self) -> List[RPortComSpec]:
+        """
+        Required communication attributes, one for each interface element. Stereotypes: atpSplitable Tags: atp.Splitkey=requiredComSpec
+        """
         return self.requiredComSpecs
 
     def getClientComSpecs(self) -> List[ClientComSpec]:

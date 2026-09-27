@@ -93,225 +93,216 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `ModeInterfaceMapping` — PortInterfaceMapping — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
   - after `ModeDeclarationGroupPrototypeMapping`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (Table 4.26, p.130 via pdf_page.py, clean top-caption render; R4.3.1 reproduction Table 4.30 p.132); concrete Class; Package M2::AUTOSARTemplates::SWComponentTemplate::PortInterface ✓ (matches current file); Note "Defines the mapping of ModeDeclarationGroupPrototypes in context of two different ModeInterfaces."; Base row ARObject, AtpBlueprint, AtpBlueprintable, Identifiable, MultilanguageReferrable, PortInterfaceMapping, Referrable → most-derived provided base PortInterfaceMapping ✓; Aggregated by PortInterfaceMappingSet.portInterfaceMapping (dispatch pre-exists); 1 attr: modeMapping (ModeDeclarationGroupPrototypeMapping — "ModeDeclarationGroup PrototypeMapping" space = line-break artifact, 0..1 aggr → Optional member + get/set, non-Identifiable child → setter shape); XSD group MODE-INTERFACE-MAPPING (L82770) = single MODE-MAPPING element = table displayed order; field-to-spec both directions exact; found: bare (non-Optional) annotation, untyped accessors, NO docstrings, old 4-column checklist
+  - [x] Step 2 — Write model class unit test (Red) — new TestModeInterfaceMappingSpecContract (5 tests in test_PortInterface.py: initialization defaults / base shape pin (PortInterfaceMapping/Referrable/MultilanguageReferrable/Identifiable/AtpBlueprintable/ARObject) / get-set round-trip + chaining + None no-op / get_type_hints accessor pins / spec Note verbatim incl. `__init__.__doc__ is None` + inline comment source asserts); PROCESS NOTE: tests written immediately after a no-behavior-change annotation/docstring rewrite — Red not demonstrated (behavior pins all green); the pins now enforce the spec contract
+  - [x] Step 3 — Implement model class (Green) — no behavior change (None-no-op setter pre-existed); fixes = PEP 526 `Optional[ModeDeclarationGroupPrototypeMapping]` annotation on field + typed accessor signatures, setter returns "ModeInterfaceMapping" (quoted self-reference, module has no future-annotations — sibling convention); class block replaced with Table 4.26 Note + checklist at Step 7
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class had NO docstrings/member comments (wipe vacuous); class docstring = Table 4.26 Note verbatim; __init__ docless; field inline comment + getter docstring = attr Note verbatim ("Mapping of two ModeDeclarationGroupPrototypes in two different ModeInterfaces" — no trailing period in spec, kept); setter docstring = Note verbatim + None-no-op sentence
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — modeMapping wrapper coverage pre-exists and is thorough (TestReadModeInterfaceMappingModeMapping / TestWriteModeInterfaceMappingModeMapping incl. round-trip — added by the ModeDeclarationGroupPrototypeMapping row); ADDED the missing class-level dispatch pins: parser TestReadModeInterfaceMapping (full SHORT-NAME + modeMapping field values; empty mapping → modeMapping None) + writer TestWriteModeInterfaceMapping (SHORT-NAME before MODE-MAPPING order; empty omits MODE-MAPPING) in the paired mapping-set files; born-green honest pass (coverage pre-existed, behaved spec-correctly)
+  - [x] Step 6 — Update parser & writer (Green) — NO changes needed: readModeInterfaceMapping → readModeInterfaceMappingModeMapping (find MODE-MAPPING → setter) and writeModeInterfaceMapping (getModeMapping → MODE-MAPPING child) verified present, mutator-based, XSD order; dispatch in read/writePortInterfaceMappingSet covers MODE-INTERFACE-MAPPING; Rule 0013.2 pairs verified (setModeMapping ↔ reader, getModeMapping ↔ writer, no cross pairs, no chained mutators)
+  - [x] Step 7 — Update checklist comment — 6-column format with release column written in the class block: `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.26, p.130 (R23-11)`; 3 rows in accessor source order (__init__ [—]/[—], getModeMapping writer [x], setModeMapping reader [x]) verified against the readModeInterfaceMappingModeMapping/writeModeInterfaceMapping call sites; NO `# Spec verified:` — deferred to batch confirmation
+  - [x] Step 8 — Deviations — [none open: field-to-spec both directions exact (exactly the one 0..1 aggr row → Optional member, Rule 0001.5/0001.6); no naming/type deviation; member type ModeDeclarationGroupPrototypeMapping exists and is synced (Table 4.27, steps complete awaiting batch 9b — member satisfied per Rule 0001.10 "exists with content"); no fake intake marker; tracker v1/v2 have no entries for this class; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27: target files 94/94 (test_PortInterface.py 59 incl. 5 new + parser mapping-set incl. 2 new + writer mapping-set incl. 2 new), `black` clean, `npm run lint` clean; 9b DEFERRED to batch stamp confirmation (user-instructed convention — queue row stays unchecked until batch confirmation)
 
 - [ ] `VariableAndParameterInterfaceMapping` — PortInterfaceMapping — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (Table 4.21, p.125 via pdf_page.py; body renders ABOVE the caption line — caption-trailing artifact family, attribute-continuation table sits below the caption); concrete Class; Package M2::AUTOSARTemplates::SWComponentTemplate::PortInterface ✓; Note "Defines the mapping of VariableDataPrototypes or ParameterDataPrototypes in context of two different SenderReceiverInterfaces, NvDataInterfaces or ParameterInterfaces." (XSD group doc L129584 confirms de-splits); Base row ARObject, AtpBlueprint, AtpBlueprintable, Identifiable, MultilanguageReferrable, PortInterfaceMapping Referrable (missing comma = markdown artifact) → most-derived provided base PortInterfaceMapping ✓; Aggregated by PortInterfaceMappingSet.portInterfaceMapping; 1 attr: dataMapping (DataPrototypeMapping, `*` aggr → plural field + add/get; Note carries atpSplitable + atp.Splitkey=dataMapping; mid-word splits "VariableData Prototypes"/"Nv DataInterfaces" de-split per XSD doc L129591); XSD group VARIABLE-AND-PARAMETER-INTERFACE-MAPPING (L129579) = single DATA-MAPPINGS wrapper = table displayed order; found: untyped accessors, NO docstrings, NO None no-op guard on addDataMapping, old 4-column checklist
+  - [x] Step 2 — Write model class unit test (Red) — new TestVariableAndParameterInterfaceMappingSpecContract (5 tests in test_PortInterface.py: initialization defaults / base shape pin / add-get round-trip + chaining + None no-op / get_type_hints accessor pins / spec Note verbatim incl. `__init__.__doc__ is None` + inline comment source asserts); PROCESS NOTE: tests written immediately after a no-behavior-change annotation/docstring rewrite — Red not demonstrated (behavior pins all green)
+  - [x] Step 3 — Implement model class (Green) — behavior fix: addDataMapping gained the None no-op guard (`if value is not None`) it lacked; typed accessor signatures (List return / Optional value / quoted self return per module convention); class block replaced with Table 4.21 Note + checklist at Step 7
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class had NO docstrings/member comments (wipe vacuous); class docstring = Table 4.21 Note verbatim; __init__ docless; field inline comment + getter docstring = attr Note verbatim (de-split, Stereotypes/Tags cell kept); adder docstring = Note verbatim + None-no-op sentence
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — ADDED class-level dispatch pins: parser TestReadVariableAndParameterInterfaceMapping (DATA-MAPPINGS/DATA-PROTOTYPE-MAPPING first/second refs field values; empty mapping → dataMappings []) + writer TestWriteVariableAndParameterInterfaceMapping (SHORT-NAME before DATA-MAPPINGS order + ref values; empty omits DATA-MAPPINGS) in the paired mapping-set files; set-level SHORT-NAME dispatch coverage pre-existed (TestReadPortInterfaceMappingSet/TestWritePortInterfaceMappingSet); born-green honest pass for reader/writer values (coverage pre-existed, mutator-based)
+  - [x] Step 6 — Update parser & writer (Green) — NO changes needed: readVariableAndParameterInterfaceMapping (readIdentifiable + getDataPrototypeMappings("DATA-MAPPINGS") → addDataMapping) and writeVariableAndParameterInterfaceMapping (writeIdentifiable + setDataPrototypeMappings("DATA-MAPPINGS", getDataMappings())) verified present, mutator-based, wrapper only when non-empty; Rule 0013.2 pairs verified (addDataMapping ↔ reader, getDataMappings ↔ writer, no cross pairs, no chained mutators)
+  - [x] Step 7 — Update checklist comment — 6-column format with release column written in the class block: `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.21, p.125 (R23-11; body renders above the caption line)`; 3 rows in accessor source order (__init__ [—]/[—], getDataMappings writer [x], addDataMapping reader [x]) verified against the readVariableAndParameterInterfaceMapping/writeVariableAndParameterInterfaceMapping call sites; NO `# Spec verified:` — deferred to batch confirmation
+  - [x] Step 8 — Deviations — [none open: field-to-spec both directions exact (exactly the one `*` aggr row → typed list + add/get, Rule 0004); no naming/type deviation; member type DataPrototypeMapping exists and is synced (Table 4.22, stamped); no fake intake marker; tracker v1/v2 have no entries for this class; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27: target files 175/175 (PortInterface model tests incl. 5 new + parser mapping-set incl. 2 new + writer mapping-set incl. 2 new), `black` clean, `npm run lint` clean; 9b DEFERRED to batch stamp confirmation (user-instructed convention — queue row stays unchecked until batch confirmation)
 
 - [ ] `Field` — AutosarDataPrototype — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/ApplicationDesign/PortInterface/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (Table B.9, pp.44-45 — AUTOSAR_FO_TPS_AbstractPlatformSpecification, body renders ABOVE the caption line; caption "Table B.9: Field" located p.45 via pypdf direct scan, pdf_page.py top-caption regex reports no match for the same caption-trailing artifact class as FormulaExpression C.5); concrete Class; Package M2::AUTOSARTemplates::AdaptivePlatform::ApplicationDesign::PortInterface ✓ (matches current file); Note "This meta-class represents the ability to define a piece of data that can be accessed with read and/or write semantics. It is also possible to generate a notification if the value of the data changes."; Base row ARObject, AtpFeature, AtpPrototype, AutosarDataPrototype, DataPrototype, Identifiable, Multilanguage Referrable (space artifact), Referrable → most-derived existing base AutosarDataPrototype ✓ (XSD complexType FIELD L58691 derivation set ends AUTOSAR-DATA-PROTOTYPE); VARIATION-POINT anchor present in the XSD FIELD group (after HAS-SETTER) → VariationPointCapable inheritance verified correct per Rule 0020; Aggregated by ApplicationInterface.attribute, AtpClassifier.atpFeature (draft), ServiceInterface.field — only ApplicationInterface exists in src (AbstractPlatform module, itself unwired); attrs in displayed order: hasGetter (Boolean 0..1 attr → HAS-GETTER), hasNotifier (→ HAS-NOTIFIER), hasSetter (→ HAS-SETTER); old member comments were TRUNCATED paraphrases ("...foreseen to." missing "this field") — Step 4; found: old verbose class docstring with Sources block, untyped/Optional-less accessors, no None no-ops, no docstrings, blank-line Rule 0008 violations (glued attribute blocks), old 4-column checklist
+  - [x] Step 2 — Write model class unit test (Red) — extended the auto-generated TestField file with TestFieldSpecContract (6 tests: class-Note verbatim via inspect.cleandoc / base shape + VariationPointCapable pin / real Boolean round-trip + chaining + None no-op ×3 / get_type_hints Optional[Boolean] + Field-return pins / member order tail / docstrings-verbatim incl. setter None-no-op sentences); PROCESS NOTE: tests written after the model rewrite — Red not demonstrated for the docstring/typing surface (behavior pins all green)
+  - [x] Step 3 — Implement model class (Green) — whole class block replaced: PEP 526 Optional[Boolean] + typed accessor signatures + setter None-no-op guards + return self; blank line between the 3 attribute blocks (Rule 0008 fixed); base/mixins unchanged (AutosarDataPrototype, VariationPointCapable)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — old verbose class docstring (line-wrapped paraphrase + "Sources:" block) WIPED → Table B.9 Note verbatim single line; truncated member comments → full attribute Notes verbatim ("...foreseen to this field."); getter docstrings = Note verbatim; setter docstrings = Note verbatim + None-no-op sentence; __init__ docless
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — NO Field XML coverage existed AT ALL (parser/writer had zero HAS-GETTER/HAS-NOTIFIER/HAS-SETTER wiring): new parser test file test_adaptive_field.py (TestReadField: HAS-* booleans values incl. true/false; absent flags → None; SHORT-NAME) + new writer test file test_adaptive_field.py (TestWriteField: SHORT-NAME + HAS-* in XSD group order; absent flags omit elements; write→parse round-trip field values); RED WAS REAL for the helpers (readField/writeFieldContent did not exist before Step 6 of this pass — implemented in the same pass, tests written against the spec first)
+  - [x] Step 6 — Update parser & writer (Green) — coverage ADDED: readField (arxml_parser.py, after readModeInterfaceMapping: readIdentifiable + getChildElementOptionalBooleanValue ×3 → setHasGetter/setHasNotifier/setHasSetter) + writeFieldContent (arxml_writer.py, before writeTriggerMapping: writeIdentifiable(write_variation_point=False) + setChildElementOptionalBooleanValue ×3 + explicit writeVariationPoint LAST — matching the XSD FIELD group element order HAS-GETTER → HAS-NOTIFIER → HAS-SETTER → VARIATION-POINT); Field import added to both files (adjacent line, no re-sort); VP-capable serialization gated by isinstance(VariationPointCapable) (inert on plain Fields); Rule 0013.2 pairs verified (setHas* ↔ readField, getHas* ↔ writeFieldContent, no cross pairs, no chained mutators); CONSUMER WIRING NOTE: the Aggregated-by consumer ApplicationInterface (AbstractPlatform module) has NO parser/writer dispatch of its own yet — ATTRIBUTES/FIELD wiring lands with the ApplicationInterface row (same queue-order convention as PrivacyLevel/DltArgument aggregator wiring; not a Field deviation — its helpers ship reusable)
+  - [x] Step 7 — Update checklist comment — 6-column format with release column written in the class block: `# Spec: AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf, Table B.9, pp.44-45 (R23-11; body renders above the caption line, caption on p.45)`; 7 rows in accessor source order (__init__ [—]/[—]; get/setHasGetter, get/setHasNotifier, get/setHasSetter — reader [x] on setter rows, writer [x] on getter rows); NO `# Spec verified:` — deferred to batch confirmation
+  - [x] Step 8 — Deviations — [none open: field-to-spec both directions exact (exactly the three 0..1 Boolean attr rows); no naming/type deviation (hasGetter/hasNotifier/hasSetter verbatim); base = most-derived AutosarDataPrototype + VariationPointCapable per XSD anchor (Rule 0020), no flattening (subclass declares only its own 3 attrs); no Rule 0001.10 placeholders (Boolean stamped); tracker review: tracker entries are auto-generated intake listings only — nothing stale to reconcile; consumer ApplicationInterface wiring = queue-order note above, NOT an open deviation; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27: target files 99/99 (AdaptivePlatform model tests incl. 6 new + test_adaptive_field.py 3 parser + 3 writer new), `black` clean, `npm run lint` clean; 9b DEFERRED to batch stamp confirmation (user-instructed convention — queue row stays unchecked until batch confirmation)
 
 - [ ] `AbstractProvidedPortPrototype` — PortPrototype — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (Table 3.4, p.68 via pdf_page.py; body renders ABOVE the caption line; R4.3.1 reproduction Table 3.4 p.70); abstract Class ✓ (guard pre-exists); Package M2::AUTOSARTemplates::SWComponentTemplate::Components ✓; Note "This abstract class provides the ability to become a provided PortPrototype."; Base row ... Port Prototype ... → most-derived PortPrototype ✓; Subclasses PPortPrototype, PRPortPrototype; 1 attr: providedComSpec (PPortComSpec, `*` aggr → plural field + add/get; Note "Provided communication attributes per interface element (data element or operation). Stereotypes: atpSplitable Tags: atp.Splitkey=providedComSpec"); reader/writer helpers pre-exist (readAbstractProvidedPortPrototype/readProvidedComSpec at parser L7095/7306; setAbstractProvidedPortPrototype at writer L2097, called by writePPortPrototype + writePRPortPrototype) — Rule 0001.7 abstract-class helper ownership satisfied; found: `# type:` comment (Rule 0003 violation), untyped add accessor without None no-op, no docstrings, old 4-column checklist
+  - [x] Step 2 — Write model class unit test (Red) — new TestAbstractProvidedPortPrototypeSpecContract (6 tests: abstract guard / class-Note verbatim / base shape pin / add-get round-trip + chaining + None no-op with a validator-passing QueuedSenderComSpec / get_type_hints accessor pins (param `com_spec`) / member order tail); PROCESS NOTE: tests written after the rewrite — Red not demonstrated (pins all green)
+  - [x] Step 3 — Implement model class (Green) — behavior fix: addProvidedComSpec gained the None no-op guard; PEP 526 `providedComSpecs: List[PPortComSpec]` replaces the trailing `# type:` comment (Rule 0003); typed accessor signatures with quoted self return; validator + getNonqueuedSenderComSpecs kept unchanged (pre-existing repo conveniences, no spec rows — checklist rows with [—] docstrings)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class had NO docstrings (wipe vacuous); class docstring = Table 3.4 Note verbatim; __init__ docless; field inline comment + getter docstring = attr Note verbatim (incl. Stereotypes/Tags cell); adder docstring = Note verbatim + None-no-op sentence; _validateProvidedComSpec/getNonqueuedSenderComSpecs stay docstring-less (convenience, no spec Note)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A new tests: the PROVIDED-COM-SPECS wrapper + PPortComSpec dispatch coverage pre-exists via the concrete-port round-trips (PPortPrototype/PRPortPrototype reader/writer call these helpers; existing Components/parser/writer suites green) — honest pass noted per the CouplingPortStructuralElement abstract-class precedent
+  - [x] Step 6 — Update parser & writer (Green) — NO changes needed: readAbstractProvidedPortPrototype (→ readProvidedComSpec → addProvidedComSpec per concrete subtype dispatch) and setAbstractProvidedPortPrototype (getProvidedComSpecs → PROVIDED-COM-SPECS wrapper) verified present, mutator-based, called by read/writePPortPrototype + read/writePRPortPrototype; Rule 0013.2 pairs verified (addProvidedComSpec ↔ reader, getProvidedComSpecs ↔ writer); no chained mutators
+  - [x] Step 7 — Update checklist comment — 6-column format with release column written in the class block: `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.4, p.68 (R23-11; body renders above the caption line)`; 5 rows in accessor source order (spec rows add/getProvidedComSpecs with reader/writer [x]; convenience rows _validateProvidedComSpec/getNonqueuedSenderComSpecs [—]/[—], docstring [—] = no spec row); NO `# Spec verified:` — deferred to batch confirmation
+  - [x] Step 8 — Deviations — [none open: field-to-spec both directions exact (exactly the one `*` aggr row → typed list + add/get, Rule 0004); no naming/type deviation; member type PPortComSpec exists (concrete subtypes synced/stamped in Communication); no fake intake marker; tracker v1/v2 have no entries for this class; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27: target files 898/898 (SWComponentTemplate model suites incl. 6 new), `black` clean, `npm run lint` clean; 9b DEFERRED to batch stamp confirmation (user-instructed convention — queue row stays unchecked until batch confirmation)
 
 - [ ] `AbstractRequiredPortPrototype` — PortPrototype — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (Table 3.3, p.67 via pdf_page.py; body renders ABOVE the caption line; R4.3.1 reproduction Table 3.3 p.70); abstract Class ✓; Package ✓; Note "This abstract class provides the ability to become a required PortPrototype."; Base → most-derived PortPrototype ✓; Subclasses PRPortPrototype, RPortPrototype; 1 attr: requiredComSpec (RPortComSpec, `*` aggr; Note "Required communication attributes, one for each interface element. Stereotypes: atpSplitable Tags: atp.Splitkey=requiredComSpec"); reader/writer helpers pre-exist (readAbstractRequiredPortPrototype L7085; setAbstractRequiredPortPrototype writer L2113, called by writeRPortPrototype + writePRPortPrototype); found: same Rule 0003 `# type:` violation, untyped add accessor without None no-op, no docstrings, old 4-column checklist
+  - [x] Step 2 — Write model class unit test (Red) — new TestAbstractRequiredPortPrototypeSpecContract (6 tests, sibling shape: abstract guard / class-Note verbatim / base shape / add-get round-trip + chaining + None no-op with ClientComSpec / get_type_hints pins (param `com_spec`) / member order tail); PROCESS NOTE: tests written after the rewrite — Red not demonstrated (pins all green)
+  - [x] Step 3 — Implement model class (Green) — behavior fix: addRequiredComSpec gained the None no-op guard; PEP 526 `requiredComSpecs: List[RPortComSpec]` replaces the `# type:` comment (Rule 0003); typed accessor signatures; validator + getClientComSpecs/getNonqueuedReceiverComSpecs kept unchanged (repo conveniences, no spec rows)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring = Table 3.3 Note verbatim; __init__ docless; field inline comment + getter = attr Note verbatim; adder = Note verbatim + None-no-op sentence; convenience methods stay docstring-less
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A new tests: REQUIRED-COM-SPECS wrapper + RPortComSpec dispatch coverage pre-exists via concrete-port round-trips (RPortPrototype/PRPortPrototype) — honest pass noted
+  - [x] Step 6 — Update parser & writer (Green) — NO changes needed: readAbstractRequiredPortPrototype (→ readRequiredComSpec → addRequiredComSpec per 6-subtype dispatch incl. the two Group10 com-spec rows) and setAbstractRequiredPortPrototype (getRequiredComSpecs → REQUIRED-COM-SPECS) verified present, mutator-based; Rule 0013.2 pairs verified; no chained mutators
+  - [x] Step 7 — Update checklist comment — 6-column format with release column: `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.3, p.67 (R23-11; body renders above the caption line)`; 6 rows in accessor source order (spec rows add/getRequiredComSpecs reader/writer [x]; convenience rows _validateRequiredComSpec/getClientComSpecs/getNonqueuedReceiverComSpecs [—]/[—]); NO `# Spec verified:` — deferred to batch confirmation
+  - [x] Step 8 — Deviations — [none open: field-to-spec both directions exact; no naming/type deviation; member type RPortComSpec exists; tracker v1/v2 have no entries for this class; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27: target files 898/898 (SWComponentTemplate model suites incl. 6 new), `black` clean, `npm run lint` clean; 9b DEFERRED to batch stamp confirmation (user-instructed convention — queue row stays unchecked until batch confirmation)
 
-- [ ] `ServiceProxySwComponentType` — AtomicSwComponentType — source TBC (locate table at Step 1)
+- [x] `ServiceProxySwComponentType` — AtomicSwComponentType — source TBC (locate table at Step 1) — **already verified (short-circuit, Group11 header rule): `# Spec verified: R23-11` marker present in src (Components/__init__.py, `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.3, p.661`); quick deviation check clean — Base most-derived AtomicSwComponentType, Table 11.3 carries zero attribute rows (`-` dash placeholder) → no own members, full multi-paragraph Note matches the class docstring, ARPackage.element consumer wiring pre-exists**
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `ModeGroupInAtomicSwcInstanceRef` — AtpInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (Table D.24, p.961 (abstract; body renders above the caption line); page via pypdf caption scan — pdf_page.py top-caption regex no match for this caption-placement artifact family); abstract per table header where present; Base most-derived AtpInstanceRef; Note cell EMPTY → no class docstring (Rule 0012); attrs base (atpDerived, 10) / contextPort (atpAbstract, 20) / target (atpAbstract, 30) — all fields-only, no XML (XSD group MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF L82514 empty sequence); field-to-spec both directions exact; intake findings: bare non-Optional annotations, untyped accessors, no None no-ops, fabricated class docstring
+  - [x] Step 2 — Write model class unit test (Red) — covered by the new family contract suite test_InstanceRefs_family.py (abstract guards / AtpInstanceRef base anchoring / per-class defaults / per-class Optional[RefType] accessor + None-no-op pins / empty-Note no-docstring pin); PROCESS NOTE: tests written after the uniform rewrite — Red not demonstrated (pins all green)
+  - [x] Step 3 — Implement model class (Green) — no behavior change (accessor semantics preserved); PEP 526 Optional[RefType] + blank-line Rule 0008; typed accessors with quoted self returns; setter None no-ops added; checklist 6-column with release column
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring WIPED (Note cell empty → none, __init__ docless); member inline comments + accessor docstrings = Stereotypes/Tags cells verbatim (PortInCompositionTypeInstanceRef D.14 stamped-family convention); setters append None-no-op sentences
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by the family contract suite accessor/None-no-op pins; XML-side coverage verified via existing consumer wiring (parser readRModeInAtomicSwcInstanceRef/readRVariableInAtomicSwcInstanceRef/readROperationInAtomicSwcInstanceRef dispatch helpers; writer setRModeInAtomicSwcInstanceRef/setPOperationInAtomicSwcInstanceRef + consumer emissions) — born-green honest pass
+  - [x] Step 6 — Update parser & writer (Green) — NO changes needed except one Rule 0014 fix: writer setRModeInAtomicSwcInstanceRef emitted an undefined BASE element (base is atpDerived — no BASE element in the R-MODE-IN-ATOMIC-SWC-INSTANCE-REF XSD group) — BASE emission REMOVED, suites green after; Rule 0013.2 pairs verified (setXxxRef ↔ reader, getXxxRef ↔ writer), no chained mutators
+  - [x] Step 7 — Update checklist comment — 6-column format with release column R23-11 written in the class block; rows in accessor source order; reader [x]/writer [x] only on serialized refs (consumer dispatch), [—] for atpDerived/atpAbstract fields; NO `# Spec verified:` — deferred to batch confirmation
+  - [x] Step 8 — Deviations — [fixed in-pass ⇒ no open rows: fabricated docstrings wiped, Rule 0003/0008 shape fixes, writer BASE emission removed (Rule 0014); trackers v1/v2 have no entries for this class; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27: SWComponentTemplate model suites + parser/writer suites 6643/6643 green (incl. new test_InstanceRefs_family.py), `black` clean, `npm run lint` clean; 9b DEFERRED to batch stamp confirmation (user-instructed convention — queue row stays unchecked until batch confirmation)
 
 - [ ] `OperationInAtomicSwcInstanceRef` — AtpInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (Table D.8, p.946 (abstract); page via pypdf caption scan — pdf_page.py top-caption regex no match for this caption-placement artifact family); abstract per table header where present; Base most-derived AtpInstanceRef; Note cell EMPTY → no class docstring (Rule 0012); attrs base (atpDerived, 10) / contextPort (atpAbstract, 20) / targetOperation (atpAbstract, 30) — all fields-only (XSD group L87008 empty sequence); field-to-spec both directions exact; intake findings: bare non-Optional annotations, untyped accessors, no None no-ops, fabricated class docstring
+  - [x] Step 2 — Write model class unit test (Red) — covered by the new family contract suite test_InstanceRefs_family.py (abstract guards / AtpInstanceRef base anchoring / per-class defaults / per-class Optional[RefType] accessor + None-no-op pins / empty-Note no-docstring pin); PROCESS NOTE: tests written after the uniform rewrite — Red not demonstrated (pins all green)
+  - [x] Step 3 — Implement model class (Green) — no behavior change (accessor semantics preserved); PEP 526 Optional[RefType] + blank-line Rule 0008; typed accessors with quoted self returns; setter None no-ops added; checklist 6-column with release column
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring WIPED (Note cell empty → none, __init__ docless); member inline comments + accessor docstrings = Stereotypes/Tags cells verbatim (PortInCompositionTypeInstanceRef D.14 stamped-family convention); setters append None-no-op sentences
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by the family contract suite accessor/None-no-op pins; XML-side coverage verified via existing consumer wiring (parser readRModeInAtomicSwcInstanceRef/readRVariableInAtomicSwcInstanceRef/readROperationInAtomicSwcInstanceRef dispatch helpers; writer setRModeInAtomicSwcInstanceRef/setPOperationInAtomicSwcInstanceRef + consumer emissions) — born-green honest pass
+  - [x] Step 6 — Update parser & writer (Green) — NO changes needed except one Rule 0014 fix: writer setRModeInAtomicSwcInstanceRef emitted an undefined BASE element (base is atpDerived — no BASE element in the R-MODE-IN-ATOMIC-SWC-INSTANCE-REF XSD group) — BASE emission REMOVED, suites green after; Rule 0013.2 pairs verified (setXxxRef ↔ reader, getXxxRef ↔ writer), no chained mutators
+  - [x] Step 7 — Update checklist comment — 6-column format with release column R23-11 written in the class block; rows in accessor source order; reader [x]/writer [x] only on serialized refs (consumer dispatch), [—] for atpDerived/atpAbstract fields; NO `# Spec verified:` — deferred to batch confirmation
+  - [x] Step 8 — Deviations — [fixed in-pass ⇒ no open rows: fabricated docstrings wiped, Rule 0003/0008 shape fixes, writer BASE emission removed (Rule 0014); trackers v1/v2 have no entries for this class; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27: SWComponentTemplate model suites + parser/writer suites 6643/6643 green (incl. new test_InstanceRefs_family.py), `black` clean, `npm run lint` clean; 9b DEFERRED to batch stamp confirmation (user-instructed convention — queue row stays unchecked until batch confirmation)
 
 - [ ] `RModeInAtomicSwcInstanceRef` — AtpInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (Table D.3, p.943 (concrete); page via pypdf caption scan — pdf_page.py top-caption regex no match for this caption-placement artifact family); abstract per table header where present; Base most-derived AtpInstanceRef; Note cell EMPTY → no class docstring (Rule 0012); attrs base (atpDerived, 10, fields-only) / contextPort (20) / contextModeDeclarationGroupPrototype (30) / targetModeDeclaration (40) — three serialized (XSD group L95083); consumers RTEEvent.disabledMode + SwcModeSwitchEvent.mode; field-to-spec both directions exact; intake findings: bare non-Optional annotations, untyped accessors, no None no-ops, fabricated class docstring
+  - [x] Step 2 — Write model class unit test (Red) — covered by the new family contract suite test_InstanceRefs_family.py (abstract guards / AtpInstanceRef base anchoring / per-class defaults / per-class Optional[RefType] accessor + None-no-op pins / empty-Note no-docstring pin); PROCESS NOTE: tests written after the uniform rewrite — Red not demonstrated (pins all green)
+  - [x] Step 3 — Implement model class (Green) — no behavior change (accessor semantics preserved); PEP 526 Optional[RefType] + blank-line Rule 0008; typed accessors with quoted self returns; setter None no-ops added; checklist 6-column with release column
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring WIPED (Note cell empty → none, __init__ docless); member inline comments + accessor docstrings = Stereotypes/Tags cells verbatim (PortInCompositionTypeInstanceRef D.14 stamped-family convention); setters append None-no-op sentences
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by the family contract suite accessor/None-no-op pins; XML-side coverage verified via existing consumer wiring (parser readRModeInAtomicSwcInstanceRef/readRVariableInAtomicSwcInstanceRef/readROperationInAtomicSwcInstanceRef dispatch helpers; writer setRModeInAtomicSwcInstanceRef/setPOperationInAtomicSwcInstanceRef + consumer emissions) — born-green honest pass
+  - [x] Step 6 — Update parser & writer (Green) — NO changes needed except one Rule 0014 fix: writer setRModeInAtomicSwcInstanceRef emitted an undefined BASE element (base is atpDerived — no BASE element in the R-MODE-IN-ATOMIC-SWC-INSTANCE-REF XSD group) — BASE emission REMOVED, suites green after; Rule 0013.2 pairs verified (setXxxRef ↔ reader, getXxxRef ↔ writer), no chained mutators
+  - [x] Step 7 — Update checklist comment — 6-column format with release column R23-11 written in the class block; rows in accessor source order; reader [x]/writer [x] only on serialized refs (consumer dispatch), [—] for atpDerived/atpAbstract fields; NO `# Spec verified:` — deferred to batch confirmation
+  - [x] Step 8 — Deviations — [fixed in-pass ⇒ no open rows: fabricated docstrings wiped, Rule 0003/0008 shape fixes, writer BASE emission removed (Rule 0014); trackers v1/v2 have no entries for this class; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27: SWComponentTemplate model suites + parser/writer suites 6643/6643 green (incl. new test_InstanceRefs_family.py), `black` clean, `npm run lint` clean; 9b DEFERRED to batch stamp confirmation (user-instructed convention — queue row stays unchecked until batch confirmation)
 
 - [ ] `TriggerInAtomicSwcInstanceRef` — AtpInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (Table D.5, p.945 (abstract); page via pypdf caption scan — pdf_page.py top-caption regex no match for this caption-placement artifact family); abstract per table header where present; Base most-derived AtpInstanceRef; Note cell EMPTY → no class docstring (Rule 0012); attrs base (atpDerived, 10) / contextPort (atpAbstract, 20) / target (atpAbstract, 30) — all fields-only (XSD group L126351 empty sequence); field-to-spec both directions exact; intake findings: bare non-Optional annotations, untyped accessors, no None no-ops, fabricated class docstring
+  - [x] Step 2 — Write model class unit test (Red) — covered by the new family contract suite test_InstanceRefs_family.py (abstract guards / AtpInstanceRef base anchoring / per-class defaults / per-class Optional[RefType] accessor + None-no-op pins / empty-Note no-docstring pin); PROCESS NOTE: tests written after the uniform rewrite — Red not demonstrated (pins all green)
+  - [x] Step 3 — Implement model class (Green) — no behavior change (accessor semantics preserved); PEP 526 Optional[RefType] + blank-line Rule 0008; typed accessors with quoted self returns; setter None no-ops added; checklist 6-column with release column
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring WIPED (Note cell empty → none, __init__ docless); member inline comments + accessor docstrings = Stereotypes/Tags cells verbatim (PortInCompositionTypeInstanceRef D.14 stamped-family convention); setters append None-no-op sentences
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by the family contract suite accessor/None-no-op pins; XML-side coverage verified via existing consumer wiring (parser readRModeInAtomicSwcInstanceRef/readRVariableInAtomicSwcInstanceRef/readROperationInAtomicSwcInstanceRef dispatch helpers; writer setRModeInAtomicSwcInstanceRef/setPOperationInAtomicSwcInstanceRef + consumer emissions) — born-green honest pass
+  - [x] Step 6 — Update parser & writer (Green) — NO changes needed except one Rule 0014 fix: writer setRModeInAtomicSwcInstanceRef emitted an undefined BASE element (base is atpDerived — no BASE element in the R-MODE-IN-ATOMIC-SWC-INSTANCE-REF XSD group) — BASE emission REMOVED, suites green after; Rule 0013.2 pairs verified (setXxxRef ↔ reader, getXxxRef ↔ writer), no chained mutators
+  - [x] Step 7 — Update checklist comment — 6-column format with release column R23-11 written in the class block; rows in accessor source order; reader [x]/writer [x] only on serialized refs (consumer dispatch), [—] for atpDerived/atpAbstract fields; NO `# Spec verified:` — deferred to batch confirmation
+  - [x] Step 8 — Deviations — [fixed in-pass ⇒ no open rows: fabricated docstrings wiped, Rule 0003/0008 shape fixes, writer BASE emission removed (Rule 0014); trackers v1/v2 have no entries for this class; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27: SWComponentTemplate model suites + parser/writer suites 6643/6643 green (incl. new test_InstanceRefs_family.py), `black` clean, `npm run lint` clean; 9b DEFERRED to batch stamp confirmation (user-instructed convention — queue row stays unchecked until batch confirmation)
 
 - [ ] `PModeGroupInAtomicSwcInstanceRef` — ModeGroupInAtomicSwcInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - after `ModeGroupInAtomicSwcInstanceRef`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (Table D.12, p.949; page via pypdf caption scan — pdf_page.py top-caption regex no match for this caption-placement artifact family); abstract per table header where present; Base most-derived AtpInstanceRef; Note cell EMPTY → no class docstring (Rule 0012); attrs contextPPort (20) / targetModeGroup (30) — serialized (XSD group L87312); consumers per Aggregated-by row ModeAccessPoint.modeGroup, ModeSwitchPoint.modeGroup, SwcBswSynchronizedModeGroupPrototype.swcModeGroup, SwcModeManagerErrorEvent.modeGroup; field-to-spec both directions exact; intake findings: bare non-Optional annotations, untyped accessors, no None no-ops, fabricated class docstring
+  - [x] Step 2 — Write model class unit test (Red) — covered by the new family contract suite test_InstanceRefs_family.py (abstract guards / AtpInstanceRef base anchoring / per-class defaults / per-class Optional[RefType] accessor + None-no-op pins / empty-Note no-docstring pin); PROCESS NOTE: tests written after the uniform rewrite — Red not demonstrated (pins all green)
+  - [x] Step 3 — Implement model class (Green) — no behavior change (accessor semantics preserved); PEP 526 Optional[RefType] + blank-line Rule 0008; typed accessors with quoted self returns; setter None no-ops added; checklist 6-column with release column
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring WIPED (Note cell empty → none, __init__ docless); member inline comments + accessor docstrings = Stereotypes/Tags cells verbatim (PortInCompositionTypeInstanceRef D.14 stamped-family convention); setters append None-no-op sentences
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by the family contract suite accessor/None-no-op pins; XML-side coverage verified via existing consumer wiring (parser readRModeInAtomicSwcInstanceRef/readRVariableInAtomicSwcInstanceRef/readROperationInAtomicSwcInstanceRef dispatch helpers; writer setRModeInAtomicSwcInstanceRef/setPOperationInAtomicSwcInstanceRef + consumer emissions) — born-green honest pass
+  - [x] Step 6 — Update parser & writer (Green) — NO changes needed except one Rule 0014 fix: writer setRModeInAtomicSwcInstanceRef emitted an undefined BASE element (base is atpDerived — no BASE element in the R-MODE-IN-ATOMIC-SWC-INSTANCE-REF XSD group) — BASE emission REMOVED, suites green after; Rule 0013.2 pairs verified (setXxxRef ↔ reader, getXxxRef ↔ writer), no chained mutators
+  - [x] Step 7 — Update checklist comment — 6-column format with release column R23-11 written in the class block; rows in accessor source order; reader [x]/writer [x] only on serialized refs (consumer dispatch), [—] for atpDerived/atpAbstract fields; NO `# Spec verified:` — deferred to batch confirmation
+  - [x] Step 8 — Deviations — [fixed in-pass ⇒ no open rows: fabricated docstrings wiped, Rule 0003/0008 shape fixes, writer BASE emission removed (Rule 0014); trackers v1/v2 have no entries for this class; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27: SWComponentTemplate model suites + parser/writer suites 6643/6643 green (incl. new test_InstanceRefs_family.py), `black` clean, `npm run lint` clean; 9b DEFERRED to batch stamp confirmation (user-instructed convention — queue row stays unchecked until batch confirmation)
 
 - [ ] `RModeGroupInAtomicSWCInstanceRef` — ModeGroupInAtomicSwcInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py
   - after `ModeGroupInAtomicSwcInstanceRef`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (Table D.11, p.948; page via pypdf caption scan — pdf_page.py top-caption regex no match for this caption-placement artifact family); abstract per table header where present; Base most-derived AtpInstanceRef; Note cell EMPTY → no class docstring (Rule 0012); attrs contextRPort (20) / targetModeGroup (30) — serialized (XSD group L95036); consumer ModeAccessPoint.modeGroup; field-to-spec both directions exact; intake findings: bare non-Optional annotations, untyped accessors, no None no-ops, fabricated class docstring
+  - [x] Step 2 — Write model class unit test (Red) — covered by the new family contract suite test_InstanceRefs_family.py (abstract guards / AtpInstanceRef base anchoring / per-class defaults / per-class Optional[RefType] accessor + None-no-op pins / empty-Note no-docstring pin); PROCESS NOTE: tests written after the uniform rewrite — Red not demonstrated (pins all green)
+  - [x] Step 3 — Implement model class (Green) — no behavior change (accessor semantics preserved); PEP 526 Optional[RefType] + blank-line Rule 0008; typed accessors with quoted self returns; setter None no-ops added; checklist 6-column with release column
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring WIPED (Note cell empty → none, __init__ docless); member inline comments + accessor docstrings = Stereotypes/Tags cells verbatim (PortInCompositionTypeInstanceRef D.14 stamped-family convention); setters append None-no-op sentences
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by the family contract suite accessor/None-no-op pins; XML-side coverage verified via existing consumer wiring (parser readRModeInAtomicSwcInstanceRef/readRVariableInAtomicSwcInstanceRef/readROperationInAtomicSwcInstanceRef dispatch helpers; writer setRModeInAtomicSwcInstanceRef/setPOperationInAtomicSwcInstanceRef + consumer emissions) — born-green honest pass
+  - [x] Step 6 — Update parser & writer (Green) — NO changes needed except one Rule 0014 fix: writer setRModeInAtomicSwcInstanceRef emitted an undefined BASE element (base is atpDerived — no BASE element in the R-MODE-IN-ATOMIC-SWC-INSTANCE-REF XSD group) — BASE emission REMOVED, suites green after; Rule 0013.2 pairs verified (setXxxRef ↔ reader, getXxxRef ↔ writer), no chained mutators
+  - [x] Step 7 — Update checklist comment — 6-column format with release column R23-11 written in the class block; rows in accessor source order; reader [x]/writer [x] only on serialized refs (consumer dispatch), [—] for atpDerived/atpAbstract fields; NO `# Spec verified:` — deferred to batch confirmation
+  - [x] Step 8 — Deviations — [fixed in-pass ⇒ no open rows: fabricated docstrings wiped, Rule 0003/0008 shape fixes, writer BASE emission removed (Rule 0014); trackers v1/v2 have no entries for this class; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27: SWComponentTemplate model suites + parser/writer suites 6643/6643 green (incl. new test_InstanceRefs_family.py), `black` clean, `npm run lint` clean; 9b DEFERRED to batch stamp confirmation (user-instructed convention — queue row stays unchecked until batch confirmation)
 
 - [ ] `POperationInAtomicSwcInstanceRef` — OperationInAtomicSwcInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py
   - after `OperationInAtomicSwcInstanceRef`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (Table D.10, p.948; page via pypdf caption scan — pdf_page.py top-caption regex no match for this caption-placement artifact family); abstract per table header where present; Base most-derived AtpInstanceRef; Note cell EMPTY → no class docstring (Rule 0012); attrs contextPPort (20) / targetProvidedOperation (30) — serialized; consumers OperationInvokedEvent.operation + TransformerHardErrorEvent.operation; field-to-spec both directions exact; intake findings: bare non-Optional annotations, untyped accessors, no None no-ops, fabricated class docstring
+  - [x] Step 2 — Write model class unit test (Red) — covered by the new family contract suite test_InstanceRefs_family.py (abstract guards / AtpInstanceRef base anchoring / per-class defaults / per-class Optional[RefType] accessor + None-no-op pins / empty-Note no-docstring pin); PROCESS NOTE: tests written after the uniform rewrite — Red not demonstrated (pins all green)
+  - [x] Step 3 — Implement model class (Green) — no behavior change (accessor semantics preserved); PEP 526 Optional[RefType] + blank-line Rule 0008; typed accessors with quoted self returns; setter None no-ops added; checklist 6-column with release column
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring WIPED (Note cell empty → none, __init__ docless); member inline comments + accessor docstrings = Stereotypes/Tags cells verbatim (PortInCompositionTypeInstanceRef D.14 stamped-family convention); setters append None-no-op sentences
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by the family contract suite accessor/None-no-op pins; XML-side coverage verified via existing consumer wiring (parser readRModeInAtomicSwcInstanceRef/readRVariableInAtomicSwcInstanceRef/readROperationInAtomicSwcInstanceRef dispatch helpers; writer setRModeInAtomicSwcInstanceRef/setPOperationInAtomicSwcInstanceRef + consumer emissions) — born-green honest pass
+  - [x] Step 6 — Update parser & writer (Green) — NO changes needed except one Rule 0014 fix: writer setRModeInAtomicSwcInstanceRef emitted an undefined BASE element (base is atpDerived — no BASE element in the R-MODE-IN-ATOMIC-SWC-INSTANCE-REF XSD group) — BASE emission REMOVED, suites green after; Rule 0013.2 pairs verified (setXxxRef ↔ reader, getXxxRef ↔ writer), no chained mutators
+  - [x] Step 7 — Update checklist comment — 6-column format with release column R23-11 written in the class block; rows in accessor source order; reader [x]/writer [x] only on serialized refs (consumer dispatch), [—] for atpDerived/atpAbstract fields; NO `# Spec verified:` — deferred to batch confirmation
+  - [x] Step 8 — Deviations — [fixed in-pass ⇒ no open rows: fabricated docstrings wiped, Rule 0003/0008 shape fixes, writer BASE emission removed (Rule 0014); trackers v1/v2 have no entries for this class; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27: SWComponentTemplate model suites + parser/writer suites 6643/6643 green (incl. new test_InstanceRefs_family.py), `black` clean, `npm run lint` clean; 9b DEFERRED to batch stamp confirmation (user-instructed convention — queue row stays unchecked until batch confirmation)
 
 - [ ] `ROperationInAtomicSwcInstanceRef` — OperationInAtomicSwcInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py
   - after `OperationInAtomicSwcInstanceRef`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (Table D.9, p.947; page via pypdf caption scan — pdf_page.py top-caption regex no match for this caption-placement artifact family); abstract per table header where present; Base most-derived AtpInstanceRef; Note cell EMPTY → no class docstring (Rule 0012); attrs contextRPort (20) / targetRequiredOperation (30) — serialized; consumer ServerCallPoint.operation; field-to-spec both directions exact; intake findings: bare non-Optional annotations, untyped accessors, no None no-ops, fabricated class docstring
+  - [x] Step 2 — Write model class unit test (Red) — covered by the new family contract suite test_InstanceRefs_family.py (abstract guards / AtpInstanceRef base anchoring / per-class defaults / per-class Optional[RefType] accessor + None-no-op pins / empty-Note no-docstring pin); PROCESS NOTE: tests written after the uniform rewrite — Red not demonstrated (pins all green)
+  - [x] Step 3 — Implement model class (Green) — no behavior change (accessor semantics preserved); PEP 526 Optional[RefType] + blank-line Rule 0008; typed accessors with quoted self returns; setter None no-ops added; checklist 6-column with release column
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring WIPED (Note cell empty → none, __init__ docless); member inline comments + accessor docstrings = Stereotypes/Tags cells verbatim (PortInCompositionTypeInstanceRef D.14 stamped-family convention); setters append None-no-op sentences
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by the family contract suite accessor/None-no-op pins; XML-side coverage verified via existing consumer wiring (parser readRModeInAtomicSwcInstanceRef/readRVariableInAtomicSwcInstanceRef/readROperationInAtomicSwcInstanceRef dispatch helpers; writer setRModeInAtomicSwcInstanceRef/setPOperationInAtomicSwcInstanceRef + consumer emissions) — born-green honest pass
+  - [x] Step 6 — Update parser & writer (Green) — NO changes needed except one Rule 0014 fix: writer setRModeInAtomicSwcInstanceRef emitted an undefined BASE element (base is atpDerived — no BASE element in the R-MODE-IN-ATOMIC-SWC-INSTANCE-REF XSD group) — BASE emission REMOVED, suites green after; Rule 0013.2 pairs verified (setXxxRef ↔ reader, getXxxRef ↔ writer), no chained mutators
+  - [x] Step 7 — Update checklist comment — 6-column format with release column R23-11 written in the class block; rows in accessor source order; reader [x]/writer [x] only on serialized refs (consumer dispatch), [—] for atpDerived/atpAbstract fields; NO `# Spec verified:` — deferred to batch confirmation
+  - [x] Step 8 — Deviations — [fixed in-pass ⇒ no open rows: fabricated docstrings wiped, Rule 0003/0008 shape fixes, writer BASE emission removed (Rule 0014); trackers v1/v2 have no entries for this class; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27: SWComponentTemplate model suites + parser/writer suites 6643/6643 green (incl. new test_InstanceRefs_family.py), `black` clean, `npm run lint` clean; 9b DEFERRED to batch stamp confirmation (user-instructed convention — queue row stays unchecked until batch confirmation)
 
 - [ ] `RVariableInAtomicSwcInstanceRef` — VariableInAtomicSwcInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (Table D.2, p.943; page via pypdf caption scan — pdf_page.py top-caption regex no match for this caption-placement artifact family); abstract per table header where present; Base most-derived AtpInstanceRef; Note cell EMPTY → no class docstring (Rule 0012); attrs contextRPort (20) / targetDataElement (30) — serialized; consumers DataReceivedEvent.data + DataReceiveErrorEvent.data; field-to-spec both directions exact; intake findings: bare non-Optional annotations, untyped accessors, no None no-ops, fabricated class docstring
+  - [x] Step 2 — Write model class unit test (Red) — covered by the new family contract suite test_InstanceRefs_family.py (abstract guards / AtpInstanceRef base anchoring / per-class defaults / per-class Optional[RefType] accessor + None-no-op pins / empty-Note no-docstring pin); PROCESS NOTE: tests written after the uniform rewrite — Red not demonstrated (pins all green)
+  - [x] Step 3 — Implement model class (Green) — no behavior change (accessor semantics preserved); PEP 526 Optional[RefType] + blank-line Rule 0008; typed accessors with quoted self returns; setter None no-ops added; checklist 6-column with release column
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring WIPED (Note cell empty → none, __init__ docless); member inline comments + accessor docstrings = Stereotypes/Tags cells verbatim (PortInCompositionTypeInstanceRef D.14 stamped-family convention); setters append None-no-op sentences
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by the family contract suite accessor/None-no-op pins; XML-side coverage verified via existing consumer wiring (parser readRModeInAtomicSwcInstanceRef/readRVariableInAtomicSwcInstanceRef/readROperationInAtomicSwcInstanceRef dispatch helpers; writer setRModeInAtomicSwcInstanceRef/setPOperationInAtomicSwcInstanceRef + consumer emissions) — born-green honest pass
+  - [x] Step 6 — Update parser & writer (Green) — NO changes needed except one Rule 0014 fix: writer setRModeInAtomicSwcInstanceRef emitted an undefined BASE element (base is atpDerived — no BASE element in the R-MODE-IN-ATOMIC-SWC-INSTANCE-REF XSD group) — BASE emission REMOVED, suites green after; Rule 0013.2 pairs verified (setXxxRef ↔ reader, getXxxRef ↔ writer), no chained mutators
+  - [x] Step 7 — Update checklist comment — 6-column format with release column R23-11 written in the class block; rows in accessor source order; reader [x]/writer [x] only on serialized refs (consumer dispatch), [—] for atpDerived/atpAbstract fields; NO `# Spec verified:` — deferred to batch confirmation
+  - [x] Step 8 — Deviations — [fixed in-pass ⇒ no open rows: fabricated docstrings wiped, Rule 0003/0008 shape fixes, writer BASE emission removed (Rule 0014); trackers v1/v2 have no entries for this class; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27: SWComponentTemplate model suites + parser/writer suites 6643/6643 green (incl. new test_InstanceRefs_family.py), `black` clean, `npm run lint` clean; 9b DEFERRED to batch stamp confirmation (user-instructed convention — queue row stays unchecked until batch confirmation)
 
 - [ ] `PTriggerInAtomicSwcTypeInstanceRef` — TriggerInAtomicSwcInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - after `TriggerInAtomicSwcInstanceRef`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (Table D.7, p.946; page via pypdf caption scan — pdf_page.py top-caption regex no match for this caption-placement artifact family); abstract per table header where present; Base most-derived AtpInstanceRef; Note cell EMPTY → no class docstring (Rule 0012); attrs contextPPort (20) / targetTrigger (30) — serialized; consumers ExternalTriggeringPoint.trigger + SwcBswSynchronizedTrigger.swcTrigger; field-to-spec both directions exact; intake findings: bare non-Optional annotations, untyped accessors, no None no-ops, fabricated class docstring
+  - [x] Step 2 — Write model class unit test (Red) — covered by the new family contract suite test_InstanceRefs_family.py (abstract guards / AtpInstanceRef base anchoring / per-class defaults / per-class Optional[RefType] accessor + None-no-op pins / empty-Note no-docstring pin); PROCESS NOTE: tests written after the uniform rewrite — Red not demonstrated (pins all green)
+  - [x] Step 3 — Implement model class (Green) — no behavior change (accessor semantics preserved); PEP 526 Optional[RefType] + blank-line Rule 0008; typed accessors with quoted self returns; setter None no-ops added; checklist 6-column with release column
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring WIPED (Note cell empty → none, __init__ docless); member inline comments + accessor docstrings = Stereotypes/Tags cells verbatim (PortInCompositionTypeInstanceRef D.14 stamped-family convention); setters append None-no-op sentences
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by the family contract suite accessor/None-no-op pins; XML-side coverage verified via existing consumer wiring (parser readRModeInAtomicSwcInstanceRef/readRVariableInAtomicSwcInstanceRef/readROperationInAtomicSwcInstanceRef dispatch helpers; writer setRModeInAtomicSwcInstanceRef/setPOperationInAtomicSwcInstanceRef + consumer emissions) — born-green honest pass
+  - [x] Step 6 — Update parser & writer (Green) — NO changes needed except one Rule 0014 fix: writer setRModeInAtomicSwcInstanceRef emitted an undefined BASE element (base is atpDerived — no BASE element in the R-MODE-IN-ATOMIC-SWC-INSTANCE-REF XSD group) — BASE emission REMOVED, suites green after; Rule 0013.2 pairs verified (setXxxRef ↔ reader, getXxxRef ↔ writer), no chained mutators
+  - [x] Step 7 — Update checklist comment — 6-column format with release column R23-11 written in the class block; rows in accessor source order; reader [x]/writer [x] only on serialized refs (consumer dispatch), [—] for atpDerived/atpAbstract fields; NO `# Spec verified:` — deferred to batch confirmation
+  - [x] Step 8 — Deviations — [fixed in-pass ⇒ no open rows: fabricated docstrings wiped, Rule 0003/0008 shape fixes, writer BASE emission removed (Rule 0014); trackers v1/v2 have no entries for this class; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27: SWComponentTemplate model suites + parser/writer suites 6643/6643 green (incl. new test_InstanceRefs_family.py), `black` clean, `npm run lint` clean; 9b DEFERRED to batch stamp confirmation (user-instructed convention — queue row stays unchecked until batch confirmation)
 
 - [ ] `PPortInCompositionInstanceRef` — PortInCompositionTypeInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Composition/InstanceRefs.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table D.15, p.951 (R23-11; page via pypdf caption scan); checklist already 6-column complete in src (all rows [x], per-row release R23-11, empty-Note [—] docstring convention); verified field-to-spec exact (contextComponent 20 / targetPPort 30), Base + PortInCompositionTypeInstanceRef (Table D.14, stamped); consumer wiring (AssemblySwConnector.provider / DelegationSwConnector.innerPort) verified; no changes needed — the class was already fully synced in a previous pass (this pass = queue-row closure via verify)
+  - [x] Step 2 — Write model class unit test (Red) — covered by the family contract suite pins (defaults / Optional[RefType] accessors / None no-ops); born-green
+  - [x] Step 3 — Implement model class (Green) — NO changes needed (already spec-shaped)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — already correct (empty-Note convention)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — consumer wiring verified, born-green
+  - [x] Step 6 — Update parser & writer (Green) — NO changes needed
+  - [x] Step 7 — Update checklist comment — already 6-column with release column; NO `# Spec verified:` — deferred to batch confirmation
+  - [x] Step 8 — Deviations — [none open; trackers have no entries; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27: SWComponentTemplate model suites + parser/writer suites 6643/6643 green (incl. new test_InstanceRefs_family.py), `black` clean, `npm run lint` clean; 9b DEFERRED to batch stamp confirmation (user-instructed convention — queue row stays unchecked until batch confirmation)
 
 - [ ] `RPortInCompositionInstanceRef` — PortInCompositionTypeInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Composition/InstanceRefs.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table D.16, p.951 (R23-11; page via pypdf caption scan); checklist already 6-column complete in src; verified field-to-spec exact (contextComponent 20 / targetRPort 30; FO GST Table E.66 p.460 reproduction identical), Base + PortInCompositionTypeInstanceRef (stamped); consumer wiring verified; no changes needed — the class was already fully synced in a previous pass (this pass = queue-row closure via verify)
+  - [x] Step 2 — Write model class unit test (Red) — covered by the family contract suite pins (defaults / Optional[RefType] accessors / None no-ops); born-green
+  - [x] Step 3 — Implement model class (Green) — NO changes needed (already spec-shaped)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — already correct (empty-Note convention)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — consumer wiring verified, born-green
+  - [x] Step 6 — Update parser & writer (Green) — NO changes needed
+  - [x] Step 7 — Update checklist comment — already 6-column with release column; NO `# Spec verified:` — deferred to batch confirmation
+  - [x] Step 8 — Deviations — [none open; trackers have no entries; no open deviations]
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27: SWComponentTemplate model suites + parser/writer suites 6643/6643 green (incl. new test_InstanceRefs_family.py), `black` clean, `npm run lint` clean; 9b DEFERRED to batch stamp confirmation (user-instructed convention — queue row stays unchecked until batch confirmation)

@@ -509,3 +509,76 @@ class TestWriteClientServerInterfaceMapping:
         assert read_back.getErrorMappings()[0].getFirstApplicationErrorRef().getValue() == "/Ifc1/E1"
         assert len(read_back.getOperationMappings()) == 1
         assert read_back.getOperationMappings()[0].getSecondOperationRef().getValue() == "/Ifc2/Op2"
+
+
+class TestWriteModeInterfaceMapping:
+    """
+    Class-level writer test: MODE-INTERFACE-MAPPING emits SHORT-NAME then
+    MODE-MAPPING (SWC TPS Table 4.26 / XSD group MODE-INTERFACE-MAPPING order).
+    """
+
+    def test_write_field_values_in_xsd_order(self, writer):
+        mapping_set = _mapping_set()
+        mim = mapping_set.createModeInterfaceMapping("mim")
+        mm = ModeDeclarationGroupPrototypeMapping()
+        mm.setFirstModeGroupRef(RefType().setValue("/pkg/first").setDest("MODE-GROUP"))
+        mim.setModeMapping(mm)
+
+        element = ET.Element("PARENT")
+        writer.writePortInterfaceMappingSet(element, mapping_set)
+
+        mim_tag = element.find("PORT-INTERFACE-MAPPING-SET/PORT-INTERFACE-MAPPINGS/MODE-INTERFACE-MAPPING")
+        assert mim_tag is not None
+        assert mim_tag.find("SHORT-NAME").text == "mim"
+        children = [c.tag for c in mim_tag]
+        assert children.index("SHORT-NAME") < children.index("MODE-MAPPING")
+
+    def test_write_empty_mapping_omits_mode_mapping(self, writer):
+        mapping_set = _mapping_set()
+        mapping_set.createModeInterfaceMapping("mim")
+
+        element = ET.Element("PARENT")
+        writer.writePortInterfaceMappingSet(element, mapping_set)
+
+        mim_tag = element.find("PORT-INTERFACE-MAPPING-SET/PORT-INTERFACE-MAPPINGS/MODE-INTERFACE-MAPPING")
+        assert mim_tag is not None
+        assert mim_tag.find("MODE-MAPPING") is None
+
+
+class TestWriteVariableAndParameterInterfaceMapping:
+    """
+    Class-level writer test: VARIABLE-AND-PARAMETER-INTERFACE-MAPPING emits
+    SHORT-NAME then DATA-MAPPINGS (SWC TPS Table 4.21 / XSD group order).
+    """
+
+    def test_write_data_mappings_field_values(self, writer):
+        mapping_set = _mapping_set()
+        vpm = mapping_set.createVariableAndParameterInterfaceMapping("vpm")
+        dpm = DataPrototypeMapping()
+        dpm.setFirstDataPrototypeRef(RefType().setValue("/pkg/left").setDest("VARIABLE-DATA-PROTOTYPE"))
+        dpm.setSecondDataPrototypeRef(RefType().setValue("/pkg/right").setDest("VARIABLE-DATA-PROTOTYPE"))
+        vpm.addDataMapping(dpm)
+
+        element = ET.Element("PARENT")
+        writer.writePortInterfaceMappingSet(element, mapping_set)
+
+        vpm_tag = element.find("PORT-INTERFACE-MAPPING-SET/PORT-INTERFACE-MAPPINGS/VARIABLE-AND-PARAMETER-INTERFACE-MAPPING")
+        assert vpm_tag is not None
+        assert vpm_tag.find("SHORT-NAME").text == "vpm"
+        children = [c.tag for c in vpm_tag]
+        assert children.index("SHORT-NAME") < children.index("DATA-MAPPINGS")
+        dpms = vpm_tag.findall("DATA-MAPPINGS/DATA-PROTOTYPE-MAPPING")
+        assert len(dpms) == 1
+        assert dpms[0].find("FIRST-DATA-PROTOTYPE-REF").text == "/pkg/left"
+        assert dpms[0].find("SECOND-DATA-PROTOTYPE-REF").text == "/pkg/right"
+
+    def test_write_empty_mapping_omits_data_mappings(self, writer):
+        mapping_set = _mapping_set()
+        mapping_set.createVariableAndParameterInterfaceMapping("vpm")
+
+        element = ET.Element("PARENT")
+        writer.writePortInterfaceMappingSet(element, mapping_set)
+
+        vpm_tag = element.find("PORT-INTERFACE-MAPPING-SET/PORT-INTERFACE-MAPPINGS/VARIABLE-AND-PARAMETER-INTERFACE-MAPPING")
+        assert vpm_tag is not None
+        assert vpm_tag.find("DATA-MAPPINGS") is None

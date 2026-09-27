@@ -1633,39 +1633,66 @@ class ClientServerInterfaceMapping(PortInterfaceMapping):
 
 
 class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
+    """
+    Defines the mapping of VariableDataPrototypes or ParameterDataPrototypes in context of two different SenderReceiverInterfaces, NvDataInterfaces or ParameterInterfaces.
+    """
+
     # VariableAndParameterInterfaceMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataMappings              [x] impl  [ ] docstring  [ ] test
-    # [ ] addDataMapping               [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.21, p.125 (R23-11; body renders above the caption line)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataMappings    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDataMapping     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # Defines the mapping of two particular VariableDataPrototypes or ParameterDataPrototypes with unequal names and/or unequal semantic (resolution or range) in context of two different SenderReceiverInterfaces, NvDataInterfaces or ParameterInterfaces Stereotypes: atpSplitable Tags: atp.Splitkey=dataMapping
         self.dataMappings: List[DataPrototypeMapping] = []
 
-    def getDataMappings(self):
+    def getDataMappings(self) -> List[DataPrototypeMapping]:
+        """
+        Defines the mapping of two particular VariableDataPrototypes or ParameterDataPrototypes with unequal names and/or unequal semantic (resolution or range) in context of two different SenderReceiverInterfaces, NvDataInterfaces or ParameterInterfaces Stereotypes: atpSplitable Tags: atp.Splitkey=dataMapping
+        """
         return self.dataMappings
 
-    def addDataMapping(self, value):
-        self.dataMappings.append(value)
+    def addDataMapping(self, value: Optional[DataPrototypeMapping]) -> "VariableAndParameterInterfaceMapping":
+        """
+        Defines the mapping of two particular VariableDataPrototypes or ParameterDataPrototypes with unequal names and/or unequal semantic (resolution or range) in context of two different SenderReceiverInterfaces, NvDataInterfaces or ParameterInterfaces Stereotypes: atpSplitable Tags: atp.Splitkey=dataMapping. A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.dataMappings.append(value)
         return self
 
 
 class ModeInterfaceMapping(PortInterfaceMapping):
+    """
+    Defines the mapping of ModeDeclarationGroupPrototypes in context of two different ModeInterfaces.
+    """
+
     # ModeInterfaceMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getModeMapping               [x] impl  [ ] docstring  [ ] test
-    # [ ] setModeMapping               [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.26, p.130 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getModeMapping  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeMapping  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.modeMapping: ModeDeclarationGroupPrototypeMapping = None
+        # Mapping of two ModeDeclarationGroupPrototypes in two different ModeInterfaces
+        self.modeMapping: Optional[ModeDeclarationGroupPrototypeMapping] = None
 
-    def getModeMapping(self):
+    def getModeMapping(self) -> Optional[ModeDeclarationGroupPrototypeMapping]:
+        """
+        Mapping of two ModeDeclarationGroupPrototypes in two different ModeInterfaces
+        """
         return self.modeMapping
 
-    def setModeMapping(self, value):
+    def setModeMapping(self, value: Optional[ModeDeclarationGroupPrototypeMapping]) -> "ModeInterfaceMapping":
+        """
+        Mapping of two ModeDeclarationGroupPrototypes in two different ModeInterfaces. A None value is a no-op and does not overwrite an existing modeMapping.
+        """
         if value is not None:
             self.modeMapping = value
         return self

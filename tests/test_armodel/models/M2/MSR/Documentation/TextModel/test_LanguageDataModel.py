@@ -22,6 +22,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     MixedContentForOverviewParagraph,
     MixedContentForParagraph,
     MixedContentForPlainText,
+    MixedContentForUnitNames,
     MixedContentForVerbatim,
     SlParagraph,
     WhitespaceControlled,
@@ -778,3 +779,59 @@ class TestLVerbatim:
             pass
 
         assert set(vars(LVerbatim()).keys()) == set(vars(_ReferenceBases()).keys())
+
+
+class TestMixedContentForUnitNames:
+    def test_abstract_guard_and_defaults(self):
+        with pytest.raises(TypeError):
+            MixedContentForUnitNames()
+
+        class ConcreteUnitNamesContent(MixedContentForUnitNames):
+            pass
+
+        content = ConcreteUnitNamesContent()
+        assert content.sub is None
+        assert content.sup is None
+
+    def test_base_anchoring(self):
+        """Most-derived base per the Table E.55 Base row ARObject; the <<atpMixedString>> stereotype is recorded in the checklist comment (FormulaExpression no-mixin precedent)."""
+        assert MixedContentForUnitNames.__bases__ == (ARObject, ABC)
+
+    def test_docstring_verbatim(self):
+        """Docstring must equal the spec Note from Table E.55 verbatim."""
+        import inspect
+
+        expected = "This is the text model for items with subscript and superscripts such as measurement unit designations. It is intended, that such models can easily be transcribed to a plain text model either by using appropriate characters or by transcribing like mˆ2."
+        assert inspect.cleandoc(MixedContentForUnitNames.__doc__) == expected
+
+    def test_get_set_sub_sup(self):
+        class ConcreteUnitNamesContent(MixedContentForUnitNames):
+            pass
+
+        content = ConcreteUnitNamesContent()
+        sub = Superscript().setValue("2")
+        sup = Superscript().setValue("n")
+        assert content.setSub(sub) is content
+        assert content.getSub() is sub
+        assert content.setSup(sup) is content
+        assert content.getSup() is sup
+        assert content.setSub(None) is content
+        assert content.getSub() is sub
+        assert content.setSup(None) is content
+        assert content.getSup() is sup
+
+    def test_annotation_hints(self):
+        """PDF-typed accessors per Rule 0003: sub/sup are 1..1 Superscript attrs, optional members per repo convention."""
+        expected_hints = {
+            "Sub": Optional[Superscript],
+            "Sup": Optional[Superscript],
+        }
+        for name, expected in expected_hints.items():
+            getter_hints = get_type_hints(getattr(MixedContentForUnitNames, "get" + name))
+            setter_hints = get_type_hints(getattr(MixedContentForUnitNames, "set" + name))
+            assert getter_hints["return"] == expected, name
+            assert setter_hints["value"] == expected, name
+
+    def test_member_order(self):
+        """Field-to-spec cross-check: exactly the two Table E.55 attribute rows, in displayed order (sub then sup) after the ARObject base attrs."""
+        assert list(vars(type("ConcreteUnitNamesContent", (MixedContentForUnitNames,), {})()).keys())[-2:] == ["sub", "sup"]

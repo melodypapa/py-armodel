@@ -67,6 +67,7 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     ValueList,
 )
 from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy, SwVariableRefProxy
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Superscript
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -1677,3 +1678,70 @@ class TestUnitWriter:
         assert child.find("FACTOR-SI-TO-UNIT").text == "1.0"
         assert child.find("OFFSET-SI-TO-UNIT").text == "0.0"
         assert child.find("PHYSICAL-DIMENSION-REF").text == "/pd/length"
+
+    def test_write_unit_display_name_sub_sup(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Units")
+        unit = pkg.createUnit("Metre")
+        names = SingleLanguageUnitNames().setValue(String().setValue("m"))
+        names.setSub(Superscript().setValue("2"))
+        names.setSup(Superscript().setValue("n"))
+        unit.setDisplayName(names)
+
+        parent = _parent()
+        writer.writeUnit(parent, unit)
+
+        child = parent[0]
+        display_name = child.find("DISPLAY-NAME")
+        assert display_name.text == "m"
+        assert display_name.attrib["SUB"] == "2"
+        assert display_name.attrib["SUP"] == "n"
+
+    def test_write_unit_display_name_without_sub_sup_omits_attribs(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Units")
+        unit = pkg.createUnit("Second")
+        unit.setDisplayName(SingleLanguageUnitNames().setValue(String().setValue("s")))
+
+        parent = _parent()
+        writer.writeUnit(parent, unit)
+
+        display_name = parent[0].find("DISPLAY-NAME")
+        assert display_name.text == "s"
+        assert "SUB" not in display_name.attrib
+        assert "SUP" not in display_name.attrib
+
+    def test_unit_display_name_round_trip(self):
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR as _AUTOSAR
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        _AUTOSAR.getInstance().setARRelease("R23-11")
+        document = _AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("AUTOSAR")
+        unit = pkg.createUnit("Metre")
+        names = SingleLanguageUnitNames().setValue(String().setValue("m"))
+        names.setSub(Superscript().setValue("2"))
+        names.setSup(Superscript().setValue("n"))
+        unit.setDisplayName(names)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = _AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            unit_2 = document_2.getARPackages()[0].getUnits()[0]
+            names_2 = unit_2.getDisplayName()
+            assert names_2 is not None
+            assert names_2.getValue().getValue() == "m"
+            assert names_2.getSub().getValue() == "2"
+            assert names_2.getSup().getValue() == "n"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)

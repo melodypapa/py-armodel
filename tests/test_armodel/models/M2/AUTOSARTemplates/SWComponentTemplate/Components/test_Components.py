@@ -2,6 +2,8 @@
 This module contains tests for the Components subdirectory in SWComponentTemplate.
 """
 
+from typing import List
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
@@ -28,6 +30,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     ServerComSpec,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    AbstractProvidedPortPrototype,
+    AbstractRequiredPortPrototype,
     ApplicationSwComponentType,
     AtomicSwComponentType,
     ComplexDeviceDriverSwComponentType,
@@ -812,3 +816,113 @@ class TestSymbolProps:
         Test that the class docstring is the Table 5.21 Note copied verbatim.
         """
         assert (SymbolProps.__doc__ or "").strip() == self.NOTE
+
+
+class TestAbstractProvidedPortPrototypeSpecContract:
+    """Spec-contract tests for AbstractProvidedPortPrototype (SWC TPS Table 3.4, p.68)."""
+
+    CLASS_NOTE = "This abstract class provides the ability to become a provided PortPrototype."
+    COM_SPEC_NOTE = "Provided communication attributes per interface element (data element or operation). Stereotypes: atpSplitable Tags: atp.Splitkey=providedComSpec"
+
+    def _make(self, name="pp"):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+
+        class _Concrete(AbstractProvidedPortPrototype):
+            pass
+
+        return _Concrete(ar_root, name)
+
+    def test_abstract_guard(self):
+        with pytest.raises(TypeError):
+            AbstractProvidedPortPrototype(None, "abstract")
+
+    def test_class_note_verbatim(self):
+        import inspect
+
+        assert inspect.cleandoc(AbstractProvidedPortPrototype.__doc__) == self.CLASS_NOTE
+
+    def test_base_shape(self):
+        """Most-derived base PortPrototype per the Table 3.4 Base row."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PortPrototype
+
+        assert issubclass(AbstractProvidedPortPrototype, PortPrototype)
+
+    def test_add_get_provided_com_specs(self):
+        """Test providedComSpecs list round-trip, chaining and None no-op (Table 3.4 providedComSpec, `*` aggr)."""
+        port = self._make()
+        assert port.getProvidedComSpecs() == []
+        com_spec = QueuedSenderComSpec()
+        assert port.addProvidedComSpec(com_spec) is port
+        assert port.getProvidedComSpecs() == [com_spec]
+        port.addProvidedComSpec(None)
+        assert port.getProvidedComSpecs() == [com_spec]
+
+    def test_accessor_annotations(self):
+        """addProvidedComSpec carries Optional[PPortComSpec] and chains; getProvidedComSpecs returns List[PPortComSpec] (Table 3.4 mults)."""
+        from typing import Optional, get_type_hints
+
+        add_hints = get_type_hints(AbstractProvidedPortPrototype.addProvidedComSpec)
+        assert add_hints["com_spec"] == Optional[PPortComSpec]
+        assert add_hints["return"] == AbstractProvidedPortPrototype
+        get_hints = get_type_hints(AbstractProvidedPortPrototype.getProvidedComSpecs)
+        assert get_hints["return"] == List[PPortComSpec]
+
+    def test_member_order(self):
+        """Exactly the one Table 3.4 attribute row after the base attrs."""
+        assert list(vars(self._make()).keys())[-1:] == ["providedComSpecs"]
+
+
+class TestAbstractRequiredPortPrototypeSpecContract:
+    """Spec-contract tests for AbstractRequiredPortPrototype (SWC TPS Table 3.3, p.67)."""
+
+    CLASS_NOTE = "This abstract class provides the ability to become a required PortPrototype."
+    COM_SPEC_NOTE = "Required communication attributes, one for each interface element. Stereotypes: atpSplitable Tags: atp.Splitkey=requiredComSpec"
+
+    def _make(self, name="rp"):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+
+        class _Concrete(AbstractRequiredPortPrototype):
+            pass
+
+        return _Concrete(ar_root, name)
+
+    def test_abstract_guard(self):
+        with pytest.raises(TypeError):
+            AbstractRequiredPortPrototype(None, "abstract")
+
+    def test_class_note_verbatim(self):
+        import inspect
+
+        assert inspect.cleandoc(AbstractRequiredPortPrototype.__doc__) == self.CLASS_NOTE
+
+    def test_base_shape(self):
+        """Most-derived base PortPrototype per the Table 3.3 Base row."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PortPrototype
+
+        assert issubclass(AbstractRequiredPortPrototype, PortPrototype)
+
+    def test_add_get_required_com_specs(self):
+        """Test requiredComSpecs list round-trip, chaining and None no-op (Table 3.3 requiredComSpec, `*` aggr)."""
+        port = self._make()
+        assert port.getRequiredComSpecs() == []
+        com_spec = ClientComSpec()
+        assert port.addRequiredComSpec(com_spec) is port
+        assert port.getRequiredComSpecs() == [com_spec]
+        port.addRequiredComSpec(None)
+        assert port.getRequiredComSpecs() == [com_spec]
+
+    def test_accessor_annotations(self):
+        """addRequiredComSpec carries Optional[RPortComSpec] and chains; getRequiredComSpecs returns List[RPortComSpec] (Table 3.3 mults)."""
+        from typing import Optional, get_type_hints
+
+        add_hints = get_type_hints(AbstractRequiredPortPrototype.addRequiredComSpec)
+        assert add_hints["com_spec"] == Optional[RPortComSpec]
+        assert add_hints["return"] == AbstractRequiredPortPrototype
+        get_hints = get_type_hints(AbstractRequiredPortPrototype.getRequiredComSpecs)
+        assert get_hints["return"] == List[RPortComSpec]
+
+    def test_member_order(self):
+        """Exactly the one Table 3.3 attribute row after the base attrs."""
+        assert list(vars(self._make()).keys())[-1:] == ["requiredComSpecs"]
