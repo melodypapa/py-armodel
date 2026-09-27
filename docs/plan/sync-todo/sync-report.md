@@ -457,7 +457,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `NmClusterCoupling`                                     | [x] Done    | 9c8e10b3                                 | Group6           |
 | `NmConfig`                                              | [x] Done    | 757aea1d                                 | Group6           |
 | `NmEcu`                                                 | [ ] Pending | N/A                                      | Group18          |
-| `NumericalValueSpecification`                           | [ ] Deferred| N/A                                      | Group9           |
+| `NumericalValueSpecification`                           | [x] Done    | b16a36915                                | Group9           |
 | `NumericalValueVariationPoint`                          | [x] Done    | d5c96fd9                                 | Group8           |
 | `NvBlockDataMapping`                                    | [ ] Deferred| N/A                                      | Group10          |
 | `NvBlockDescriptor`                                     | [ ] Deferred| N/A                                      | Group10          |

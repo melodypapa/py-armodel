@@ -514,11 +514,11 @@ Status: **49/50** completed
 
 ## Group9
 
-Status: **0/20** completed
+Status: **1/20** completed
 
 | Class Name                    | Status       | Commit ID |
 | ----------------------------- | ------------ | --------- |
-| `NumericalValueSpecification` | [ ] Pending* | N/A       |
+| `NumericalValueSpecification` | [x] Done     | b16a36915 |
 | `TextValueSpecification`      | [ ] Pending* | N/A       |
 | `ConstantReference`           | [ ] Pending* | N/A       |
 | `ConstantSpecification`       | [ ] Pending* | N/A       |
