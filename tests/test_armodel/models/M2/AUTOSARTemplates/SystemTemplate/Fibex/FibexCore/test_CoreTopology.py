@@ -315,8 +315,8 @@ class Test_FibexCoreTopology:
         """Test CommunicationDirectionType enum functionality."""
         enum = CommunicationDirectionType()
         assert enum is not None
-        assert CommunicationDirectionType.ENUM_IN in enum.getEnumValues()
-        assert CommunicationDirectionType.ENUM_OUT in enum.getEnumValues()
+        assert CommunicationDirectionType.IN in enum.getEnumValues()
+        assert CommunicationDirectionType.OUT in enum.getEnumValues()
 
     def test_CommConnectorPort(self):
         """Test CommConnectorPort abstract class instantiation."""
@@ -335,7 +335,7 @@ class Test_FibexCoreTopology:
 
         # Test setter/getter methods with method chaining - with actual value
         direction = CommunicationDirectionType()
-        direction.setValue(CommunicationDirectionType.ENUM_IN)
+        direction.setValue(CommunicationDirectionType.IN)
         assert port == port.setCommunicationDirection(direction)
         assert port.getCommunicationDirection() == direction
 

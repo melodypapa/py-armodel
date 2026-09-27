@@ -2722,18 +2722,23 @@ class SecureCommunicationFreshnessProps(Identifiable):
 
 class CommunicationDirectionType(AREnum):
     """
-    Enumeration defining communication direction types,
-    specifying whether communication is inbound or outbound.
+    Describes the communication direction.
     """
 
     # CommunicationDirectionType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.33, p.351 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on CommConnectorPort.communicationDirection, IEEE1722TpConnection.communicationDirection, IPSecRule.direction, ISignalIPduGroup.communicationDirection
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    ENUM_IN = "in"
-    ENUM_OUT = "out"
+    # Reception (Input) Tags: atp.EnumerationLiteralIndex=0
+    IN = "in"
+
+    # Transmission (Output) Tags: atp.EnumerationLiteralIndex=1
+    OUT = "out"
 
     def __init__(self):
-        super().__init__([CommunicationDirectionType.ENUM_IN, CommunicationDirectionType.ENUM_OUT])
+        super().__init__([CommunicationDirectionType.IN, CommunicationDirectionType.OUT])
 
 
 class FramePort(CommConnectorPort):

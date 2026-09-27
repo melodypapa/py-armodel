@@ -57,7 +57,7 @@ class TestFramePort:
         assert port.getCommunicationDirection() is None
 
         direction = CommunicationDirectionType()
-        direction.setValue(CommunicationDirectionType.ENUM_OUT)
+        direction.setValue(CommunicationDirectionType.OUT)
         assert port == port.setCommunicationDirection(direction)
         assert port.getCommunicationDirection() == direction
 

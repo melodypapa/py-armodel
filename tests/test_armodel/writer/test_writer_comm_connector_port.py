@@ -55,7 +55,7 @@ def _namespaced(element: ET.Element) -> ET.Element:
 def _full_port() -> FramePort:
     port = FramePort(_parent(), "fp")
     direction = CommunicationDirectionType()
-    direction.setValue(CommunicationDirectionType.ENUM_IN)
+    direction.setValue(CommunicationDirectionType.IN)
     port.setCommunicationDirection(direction)
     return port
 
@@ -111,7 +111,7 @@ class TestCommConnectorPort:
         connector = CanCommunicationConnector(_parent(), "conn")
         connector.createFramePort("fp")
         direction = CommunicationDirectionType()
-        direction.setValue(CommunicationDirectionType.ENUM_OUT)
+        direction.setValue(CommunicationDirectionType.OUT)
         connector.getEcuCommPortInstances()[0].setCommunicationDirection(direction)
 
         parent = ET.Element("PARENT")
@@ -136,7 +136,7 @@ class TestCommConnectorPort:
     def test_ipdu_port_round_trip(self, writer, parser):
         port = IPduPort(MockParent(), "ip")
         direction = CommunicationDirectionType()
-        direction.setValue(CommunicationDirectionType.ENUM_OUT)
+        direction.setValue(CommunicationDirectionType.OUT)
         port.setCommunicationDirection(direction)
         processing = IPduSignalProcessingEnum()
         processing.setValue(IPduSignalProcessingEnum.ENUM_DEFERRED)
