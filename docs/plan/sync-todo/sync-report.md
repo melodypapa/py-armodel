@@ -674,7 +674,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `UdpNmNode`                                             | [ ] Pending | N/A                                      | Group18          |
 | `UdpProps`                                              | [x] Done    | ecb15e90                                 | Group5           |
 | `UdpTp`                                                 | [ ] Pending | N/A                                      | Group16          |
-| `UnitGroup`                                             | [ ] Deferred| N/A                                      | Group9           |
+| `UnitGroup`                                             | [x] Done    | e7fdb07f2                                | Group9           |
 | `UnlimitedIntegerValueVariationPoint`                   | [x] Done    | d5c96fd9                                 | Group8           |
 | `Url`                                                   | [x] Done    | 4b96ab8d                                 | Group3           |
 | `UserDefinedIPdu`                                       | [ ] Pending | N/A                                      | Group15          |
