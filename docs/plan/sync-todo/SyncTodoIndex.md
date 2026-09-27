@@ -514,7 +514,7 @@ Status: **49/50** completed
 
 ## Group9
 
-Status: **13/20** completed
+Status: **14/20** completed
 
 | Class Name                    | Status       | Commit ID |
 | ----------------------------- | ------------ | --------- |
@@ -531,7 +531,7 @@ Status: **13/20** completed
 | `SwSystemconst`               | [x] Done     | 984387dd0 |
 | `ListEnum`                    | [x] Done     | 0623068af |
 | `Item`                        | [x] Done     | cf8b43c36 |
-| `TopicContentOrMsrQuery`      | [ ] Pending* | N/A       |
+| `TopicContentOrMsrQuery`      | [x] Done     | N/A       |
 | `LOverviewParagraph`          | [ ] Pending* | N/A       |
 | `LPlainText`                  | [ ] Pending* | N/A       |
 | `LVerbatim`                   | [ ] Pending* | N/A       |

@@ -650,7 +650,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TlvDataIdDefinition`                                   | [x] Done    | 27ea0743                                 | Group6           |
 | `TlvDataIdDefinitionSet`                                | [x] Done    | f0c94731                                 | Group6           |
 | `TopicContent`                                          | [x] Done    | 6d7e3257                                 | Group3           |
-| `TopicContentOrMsrQuery`                                | [ ] Deferred| N/A                                      | Group9           |
+| `TopicContentOrMsrQuery`                                | [x] Done    | N/A                                      | Group9           |
 | `TpAddress`                                             | [ ] Pending | N/A                                      | Group18          |
 | `TpPort`                                                | [ ] Pending | N/A                                      | Group16          |
 | `TraceableTable`                                        | [x] Done    | fa79c73d                                 | Group3           |
