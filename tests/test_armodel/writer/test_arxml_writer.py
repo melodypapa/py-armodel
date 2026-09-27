@@ -486,7 +486,7 @@ class TestARXMLWriterLanguageSpecificMethods:
         parent = ET.Element("parent")
 
         name = SingleLanguageLongName()
-        name.setValue(String().setValue("Long name"))
+        name.setMixedString("Long name")
 
         writer.setSingleLanguageLongName(parent, "LONG-NAME-1", name)
 
@@ -501,7 +501,7 @@ class TestARXMLWriterLanguageSpecificMethods:
         parent = ET.Element("parent")
 
         name = SingleLanguageLongName()
-        name.setValue(String().setValue("Engine"))
+        name.setMixedString("Engine")
         writer.setSingleLanguageLongName(parent, "LONG-NAME-1", name)
 
         # The writer emits un-namespaced tags; wrap in the AUTOSAR NS so the
@@ -510,7 +510,7 @@ class TestARXMLWriterLanguageSpecificMethods:
         wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % ET.tostring(written, encoding="unicode"))
         reparsed = ARXMLParser().getSingleLanguageLongName(wrapped, "LONG-NAME-1")
         assert reparsed is not None
-        assert reparsed.getValue().getValue() == "Engine"
+        assert reparsed.getMixedString() == "Engine"
 
     def test_set_single_language_long_name_inline_roundtrip(self):
         """SUP/SUB attributes and E/IE/TT inline elements survive a round-trip."""
@@ -518,7 +518,7 @@ class TestARXMLWriterLanguageSpecificMethods:
         parent = ET.Element("parent")
 
         name = SingleLanguageLongName()
-        name.setValue(String().setValue("Engine"))
+        name.setMixedString("Engine")
         name.setSup(Superscript().setValue("2"))
         name.setSub(Superscript().setValue("3"))
         name.setE(EmphasisText().setValue(String().setValue("bold")))
@@ -529,7 +529,7 @@ class TestARXMLWriterLanguageSpecificMethods:
         written = parent.find("LONG-NAME-1")
         wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % ET.tostring(written, encoding="unicode"))
         reparsed = ARXMLParser().getSingleLanguageLongName(wrapped, "LONG-NAME-1")
-        assert reparsed.getValue().getValue() == "Engine"
+        assert reparsed.getMixedString() == "Engine"
         assert reparsed.getSup().getValue() == "2"
         assert reparsed.getSub().getValue() == "3"
         assert reparsed.getE().getValue().getValue() == "bold"
@@ -542,7 +542,7 @@ class TestARXMLWriterLanguageSpecificMethods:
         parent = ET.Element("parent")
 
         name = SingleLanguageLongName()
-        name.setValue(String().setValue("Plain"))
+        name.setMixedString("Plain")
         writer.setSingleLanguageLongName(parent, "LONG-NAME-1", name)
 
         written = parent.find("LONG-NAME-1")
@@ -553,7 +553,7 @@ class TestARXMLWriterLanguageSpecificMethods:
 
         wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % ET.tostring(written, encoding="unicode"))
         reparsed = ARXMLParser().getSingleLanguageLongName(wrapped, "LONG-NAME-1")
-        assert reparsed.getValue().getValue() == "Plain"
+        assert reparsed.getMixedString() == "Plain"
         assert reparsed.getE() is None
         assert reparsed.getIe() is None
         assert reparsed.getTt() is None
@@ -641,7 +641,7 @@ class TestARXMLWriterLanguageSpecificMethods:
 
         obj = ConcreteSingleLanguageReferrable(AUTOSAR.getInstance(), "sl")
         name = SingleLanguageLongName()
-        name.setValue(String().setValue("MyLong"))
+        name.setMixedString("MyLong")
         obj.setLongName1(name)
         writer.writeSingleLanguageReferrable(parent, obj)
 
@@ -657,7 +657,7 @@ class TestARXMLWriterLanguageSpecificMethods:
         reparsed = ConcreteSingleLanguageReferrable(AUTOSAR.getInstance(), "sl")
         ARXMLParser().readSingleLanguageReferrable(wrapped, reparsed)
         assert reparsed.getLongName1() is not None
-        assert reparsed.getLongName1().getValue().getValue() == "MyLong"
+        assert reparsed.getLongName1().getMixedString() == "MyLong"
 
     def test_write_single_language_referrable_without_long_name1(self):
         """No LONG-NAME-1 element is emitted when longName1 is None."""

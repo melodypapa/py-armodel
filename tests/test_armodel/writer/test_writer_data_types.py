@@ -31,7 +31,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Numerical,
     PositiveInteger,
     RefType,
-    String,
     VerbatimString,
 )
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
@@ -1665,7 +1664,7 @@ class TestUnitWriter:
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Units")
         unit = pkg.createUnit("Metre")
-        unit.setDisplayName(SingleLanguageUnitNames().setValue(String().setValue("m")))
+        unit.setDisplayName(SingleLanguageUnitNames().setMixedString("m"))
         unit.setFactorSiToUnit(_float("1.0"))
         unit.setOffsetSiToUnit(_float("0.0"))
         unit.setPhysicalDimensionRef(_ref("PHYSICAL-DIMENSION", "/pd/length"))
@@ -1683,7 +1682,7 @@ class TestUnitWriter:
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Units")
         unit = pkg.createUnit("Metre")
-        names = SingleLanguageUnitNames().setValue(String().setValue("m"))
+        names = SingleLanguageUnitNames().setMixedString("m")
         names.setSub(Superscript().setValue("2"))
         names.setSup(Superscript().setValue("n"))
         unit.setDisplayName(names)
@@ -1701,7 +1700,7 @@ class TestUnitWriter:
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Units")
         unit = pkg.createUnit("Second")
-        unit.setDisplayName(SingleLanguageUnitNames().setValue(String().setValue("s")))
+        unit.setDisplayName(SingleLanguageUnitNames().setMixedString("s"))
 
         parent = _parent()
         writer.writeUnit(parent, unit)
@@ -1723,7 +1722,7 @@ class TestUnitWriter:
         document.clear()
         pkg = document.createARPackage("AUTOSAR")
         unit = pkg.createUnit("Metre")
-        names = SingleLanguageUnitNames().setValue(String().setValue("m"))
+        names = SingleLanguageUnitNames().setMixedString("m")
         names.setSub(Superscript().setValue("2"))
         names.setSup(Superscript().setValue("n"))
         unit.setDisplayName(names)
@@ -1739,7 +1738,7 @@ class TestUnitWriter:
             unit_2 = document_2.getARPackages()[0].getUnits()[0]
             names_2 = unit_2.getDisplayName()
             assert names_2 is not None
-            assert names_2.getValue().getValue() == "m"
+            assert names_2.getMixedString() == "m"
             assert names_2.getSub().getValue() == "2"
             assert names_2.getSup().getValue() == "n"
         finally:

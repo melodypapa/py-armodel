@@ -1537,7 +1537,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setSingleLanguageLongName(self, element: ET.Element, key: str, name: SingleLanguageLongName):
         child_element = ET.SubElement(element, key)
-        child_element.text = name.getValue().getValue() if name.getValue() is not None else None
+        self.writeMixedStringText(child_element, name)
         self.writeMixedContentForLongName(child_element, name)
 
     def writeMixedContentForUnitNames(self, element: ET.Element, content: MixedContentForUnitNames):
@@ -1587,7 +1587,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setSingleLanguageUnitNames(self, element: ET.Element, key: str, name: SingleLanguageUnitNames):
         if name is not None:
             child_element = ET.SubElement(element, key)
-            child_element.text = name.getValue().getValue() if name.getValue() is not None else None
+            self.writeMixedStringText(child_element, name)
             self.writeMixedContentForUnitNames(child_element, name)
 
     def setEmphasisText(self, element: ET.Element, key: str, emphasis: EmphasisText):

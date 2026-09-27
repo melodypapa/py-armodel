@@ -55,7 +55,7 @@ class TestXdoc:
 
     def test_xdoc_inherited_long_name(self):
         xdoc = Xdoc(None, "XDOC")
-        long_name = SingleLanguageLongName().setValue(String().setValue("Document"))
+        long_name = SingleLanguageLongName().setMixedString("Document")
 
         assert xdoc.setLongName1(long_name) is xdoc
         assert xdoc.getLongName1() is long_name

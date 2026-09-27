@@ -123,12 +123,12 @@ class TestSingleLanguageUnitNames:
         """Test that a SingleLanguageUnitNames object can be initialized."""
         single_lang_unit_names = SingleLanguageUnitNames()
         assert single_lang_unit_names is not None
-        assert single_lang_unit_names.getValue() is None
+        assert single_lang_unit_names.getMixedString() is None
 
-    def test_single_language_unit_names_value(self):
-        """Test that a SingleLanguageUnitNames object can carry a value."""
-        single_lang_unit_names = SingleLanguageUnitNames().setValue(String().setValue("m"))
-        assert single_lang_unit_names.getValue().getValue() == "m"
+    def test_single_language_unit_names_mixed_string(self):
+        """Test that a SingleLanguageUnitNames object can carry the mixed text (AtpMixedString mixin)."""
+        single_lang_unit_names = SingleLanguageUnitNames().setMixedString("m")
+        assert single_lang_unit_names.getMixedString() == "m"
 
 
 class TestUnit:
