@@ -508,7 +508,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PositiveIntegerValueVariationPoint`                    | [x] Done    | d5c96fd9                                 | Group8           |
 | `PostBuildVariantCondition`                             | [x] Done    | 5333bec02                                | Group8           |
 | `PostBuildVariantCriterion`                             | [x] Done    | 5333bec02                                | Group8           |
-| `PostBuildVariantCriterionValue`                        | [ ] Deferred| N/A                                      | Group8           |
+| `PostBuildVariantCriterionValue`                        | [x] Done    | 8af1088fd                                | Group8           |
 | `PrivacyLevel`                                          | [x] Done    | fb222ae5                                 | Group5           |
 | `ProgramminglanguageEnum`                               | [x] Done    | be79d799                                 | Group1           |
 | `QueuedReceiverComSpec`                                 | [ ] Deferred| N/A                                      | Group10          |

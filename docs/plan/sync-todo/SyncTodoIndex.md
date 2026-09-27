@@ -456,7 +456,7 @@ Status: **34/34** completed
 
 ## Group8
 
-Status: **32/49** completed
+Status: **33/49** completed
 
 | Class Name                               | Status       | Commit ID |
 | ---------------------------------------- | ------------ | --------- |
@@ -480,7 +480,7 @@ Status: **32/49** completed
 | `SwSystemconstValue`                     | [x] Done     | 5333bec02 |
 | `PostBuildVariantCondition`              | [x] Done     | 5333bec02 |
 | `PostBuildVariantCriterion`              | [x] Done     | 5333bec02 |
-| `PostBuildVariantCriterionValue`         | [ ] Pending* | N/A       |
+| `PostBuildVariantCriterionValue`         | [x] Done     | 8af1088fd |
 | `OffsetTimingConstraint`                 | [x] Done     | e305e80e2 |
 | `SynchronizationTimingConstraint`        | [x] Done     | e305e80e2 |
 | `TimingDescriptionEventChain`            | [x] Done     | ea1a75e5b |
