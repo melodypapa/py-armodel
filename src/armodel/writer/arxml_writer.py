@@ -76,7 +76,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
 )
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import BswServiceDependencyIdent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleDependency, BswModuleEntry
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationship, BswEntryRelationshipSet, BswModuleClientServerEntry, BswModuleDependency, BswModuleEntry
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
@@ -260,7 +260,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration impor
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import DiagnosticEnvConditionFormula, DiagnosticEnvironmentalCondition
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import DiagnosticEnvCompareCondition, DiagnosticEnvConditionFormula, DiagnosticEnvironmentalCondition
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
     ConfigReferenceValue,
@@ -1079,6 +1079,68 @@ SW_IMPL_POLICY_XML_MAP = {
 BSW_INTERRUPT_CATEGORY_XML_MAP = {
     "cat1": "CAT-1",
     "cat2": "CAT-2",
+}
+
+BSW_ENTRY_RELATIONSHIP_XML_MAP = {
+    "derivedFrom": "DERIVED-FROM",
+}
+
+DIAGNOSTIC_LOGICAL_OPERATOR_XML_MAP = {
+    "logicalAnd": "LOGICAL-AND",
+    "logicalOr": "LOGICAL-OR",
+}
+
+DIAGNOSTIC_COMPARE_TYPE_XML_MAP = {
+    "isEqual": "IS-EQUAL",
+    "isNotEqual": "IS-NOT-EQUAL",
+    "isLessThan": "IS-LESS-THAN",
+    "isLessOrEqual": "IS-LESS-OR-EQUAL",
+    "isGreaterThan": "IS-GREATER-THAN",
+    "isGreaterOrEqual": "IS-GREATER-OR-EQUAL",
+}
+
+DIAGNOSTIC_AUDIENCE_XML_MAP = {
+    "aftermarket": "AFTERMARKET",
+    "afterSales": "AFTER-SALES",
+    "development": "DEVELOPMENT",
+    "manufacturing": "MANUFACTURING",
+    "supplier": "SUPPLIER",
+}
+DIAGNOSTIC_SERVICE_REQUEST_CALLBACK_TYPE_XML_MAP = {
+    "requestCallbackTypeManufacturer": "REQUEST-CALLBACK-TYPE-MANUFACTURER",
+    "requestCallbackTypeSupplier": "REQUEST-CALLBACK-TYPE-SUPPLIER",
+}
+
+DIAGNOSTIC_ROUTINE_TYPE_XML_MAP = {
+    "asynchronous": "ASYNCHRONOUS",
+    "synchronous": "SYNCHRONOUS",
+}
+
+DIAGNOSTIC_VALUE_ACCESS_XML_MAP = {
+    "readOnly": "READ-ONLY",
+    "readWrite": "READ-WRITE",
+    "writeOnly": "WRITE-ONLY",
+}
+
+DIAGNOSTIC_PROCESSING_STYLE_XML_MAP = {
+    "processingStyleAsynchronous": "PROCESSING-STYLE-ASYNCHRONOUS",
+    "processingStyleAsynchronousWithError": "PROCESSING-STYLE-ASYNCHRONOUS-WITH-ERROR",
+    "processingStyleSynchronous": "PROCESSING-STYLE-SYNCHRONOUS",
+}
+
+DIAGNOSTIC_CLEAR_DTC_NOTIFICATION_XML_MAP = {
+    "start": "START",
+    "finish": "FINISH",
+}
+
+DTC_FORMAT_TYPE_XML_MAP = {
+    "j1939": "J-1939",
+    "obd": "OBD",
+}
+
+DTC_KIND_XML_MAP = {
+    "emissionRelatedDtc": "EMISSION-RELATED-DTC",
+    "nonEmmissionRelatedDtc": "NON-EMMISSION-RELATED-DTC",
 }
 
 
@@ -5381,12 +5443,36 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeDiagnosticCapabilityElement(self, element: ET.Element, needs: DiagnosticCapabilityElement):
         self.writeServiceNeeds(element, needs)
+        if not isinstance(needs, DiagnosticCapabilityElement):
+            return
+        audiences = needs.getAudiences()
+        if len(audiences) > 0:
+            audiences_tag = ET.SubElement(element, "AUDIENCES")
+            for audience in audiences:
+                token = DIAGNOSTIC_AUDIENCE_XML_MAP.get(audience.getValue())
+                if token is None:
+                    self.notImplemented("Unsupported AUDIENCE <%s>" % audience.getValue())
+                else:
+                    audience_element = ET.SubElement(audiences_tag, "AUDIENCE")
+                    audience_element.text = token
+        self.setChildElementOptionalLiteral(element, "DIAG-REQUIREMENT", needs.getDiagRequirement())
+        self.setChildElementOptionalPositiveInteger(element, "SECURITY-ACCESS-LEVEL", needs.getSecurityAccessLevel())
+
+    def _writeEnumToken(self, element: ET.Element, tag: str, value, token_map: dict):
+        if value is None:
+            return
+        token = token_map.get(value.getValue())
+        if token is None:
+            self.notImplemented("Unsupported %s <%s>" % (tag, value.getValue()))
+        else:
+            value_element = ET.SubElement(element, tag)
+            value_element.text = token
 
     def writeDiagnosticCommunicationManagerNeeds(self, element: ET.Element, needs: DiagnosticCommunicationManagerNeeds):
         child_element = ET.SubElement(element, "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS")
         self.logger.debug("write DiagnosticCommunicationManagerNeeds %s" % needs.getShortName())
         self.writeDiagnosticCapabilityElement(child_element, needs)
-        self.setChildElementOptionalLiteral(child_element, "SERVICE-REQUEST-CALLBACK-TYPE", needs.getServiceRequestCallbackType())
+        self._writeEnumToken(child_element, "SERVICE-REQUEST-CALLBACK-TYPE", needs.getServiceRequestCallbackType(), DIAGNOSTIC_SERVICE_REQUEST_CALLBACK_TYPE_XML_MAP)
 
     def writeDiagnosticComponentNeeds(self, element: ET.Element, needs: DiagnosticComponentNeeds):
         child_element = ET.SubElement(element, "DIAGNOSTIC-COMPONENT-NEEDS")
@@ -5412,7 +5498,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-ROUTINE-NEEDS")
         self.logger.debug("write DiagnosticRoutineNeeds %s" % needs.getShortName())
         self.writeDiagnosticCapabilityElement(child_element, needs)
-        self.setChildElementOptionalLiteral(child_element, "DIAG-ROUTINE-TYPE", needs.getDiagRoutineType())
+        self._writeEnumToken(child_element, "DIAG-ROUTINE-TYPE", needs.getDiagRoutineType(), DIAGNOSTIC_ROUTINE_TYPE_XML_MAP)
         self.setChildElementOptionalIntegerValue(child_element, "RID-NUMBER", needs.getRidNumber())
 
     def writeDiagnosticValueNeeds(self, element: ET.Element, needs: DiagnosticValueNeeds):
@@ -5420,10 +5506,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("write DiagnosticValueNeeds %s" % needs.getShortName())
         self.writeDiagnosticCapabilityElement(child_element, needs)
         self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", needs.getDataLength())
-        self.setChildElementOptionalLiteral(child_element, "DIAGNOSTIC-VALUE-ACCESS", needs.getDiagnosticValueAccess())
+        self._writeEnumToken(child_element, "DIAGNOSTIC-VALUE-ACCESS", needs.getDiagnosticValueAccess(), DIAGNOSTIC_VALUE_ACCESS_XML_MAP)
         self.setChildElementOptionalIntegerValue(child_element, "DID-NUMBER", needs.getDidNumber())
         self.setChildElementOptionalBooleanValue(child_element, "FIXED-LENGTH", needs.getFixedLength())
-        self.setChildElementOptionalLiteral(child_element, "PROCESSING-STYLE", needs.getProcessingStyle())
+        self._writeEnumToken(child_element, "PROCESSING-STYLE", needs.getProcessingStyle(), DIAGNOSTIC_PROCESSING_STYLE_XML_MAP)
 
     def writeObdInfoServiceNeeds(self, element: ET.Element, needs: ObdInfoServiceNeeds):
         child_element = ET.SubElement(element, "OBD-INFO-SERVICE-NEEDS")
@@ -5518,7 +5604,15 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setDiagEventDebounceCounterBased(self, element: ET.Element, algorithm: DiagEventDebounceCounterBased):
         child_element = ET.SubElement(element, "DIAG-EVENT-DEBOUNCE-COUNTER-BASED")
-        self.writeDiagnosticCapabilityElement(child_element, algorithm)
+        self.setChildElementOptionalIntegerValue(child_element, "COUNTER-BASED-FDC-THRESHOLD-STORAGE-VALUE", algorithm.getCounterBasedFdcThresholdStorageValue())
+        self.setChildElementOptionalIntegerValue(child_element, "COUNTER-DECREMENT-STEP-SIZE", algorithm.getCounterDecrementStepSize())
+        self.setChildElementOptionalIntegerValue(child_element, "COUNTER-FAILED-THRESHOLD", algorithm.getCounterFailedThreshold())
+        self.setChildElementOptionalIntegerValue(child_element, "COUNTER-INCREMENT-STEP-SIZE", algorithm.getCounterIncrementStepSize())
+        self.setChildElementOptionalBooleanValue(child_element, "COUNTER-JUMP-DOWN", algorithm.getCounterJumpDown())
+        self.setChildElementOptionalIntegerValue(child_element, "COUNTER-JUMP-DOWN-VALUE", algorithm.getCounterJumpDownValue())
+        self.setChildElementOptionalBooleanValue(child_element, "COUNTER-JUMP-UP", algorithm.getCounterJumpUp())
+        self.setChildElementOptionalIntegerValue(child_element, "COUNTER-JUMP-UP-VALUE", algorithm.getCounterJumpUpValue())
+        self.setChildElementOptionalIntegerValue(child_element, "COUNTER-PASSED-THRESHOLD", algorithm.getCounterPassedThreshold())
 
     def setDiagEventDebounceMonitorInternal(self, element: ET.Element, algorithm: DiagEventDebounceMonitorInternal):
         child_element = ET.SubElement(element, "DIAG-EVENT-DEBOUNCE-MONITOR-INTERNAL")
@@ -5564,7 +5658,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         # self.logger.debug("Write DiagnosticEventNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-INFO-NEEDS")
         self.writeDiagnosticCapabilityElement(child_element, needs)
-        self.setChildElementOptionalLiteral(child_element, "DTC-KIND", needs.getDtcKind())
+        self._writeEnumToken(child_element, "DTC-KIND", needs.getDtcKind(), DTC_KIND_XML_MAP)
+        self.setChildElementOptionalPositiveInteger(child_element, "OBD-DTC-NUMBER", needs.getObdDtcNumber())
         self.setChildElementOptionalPositiveInteger(child_element, "UDS-DTC-NUMBER", needs.getUdsDtcNumber())
 
     def writeDiagnosticIoControlNeeds(self, element: ET.Element, needs: DiagnosticIoControlNeeds):
@@ -5655,6 +5750,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         # self.logger.debug("Write CryptoServiceNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "CRYPTO-SERVICE-NEEDS")
         self.writeServiceNeeds(child_element, needs)
+        self.setChildElementOptionalString(child_element, "ALGORITHM-FAMILY", needs.getAlgorithmFamily())
+        self.setChildElementOptionalString(child_element, "ALGORITHM-MODE", needs.getAlgorithmMode())
+        self.setChildElementOptionalString(child_element, "CRYPTO-KEY-DESCRIPTION", needs.getCryptoKeyDescription())
         self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-KEY-LENGTH", needs.getMaximumKeyLength())
 
     def writeEcuStateMgrUserNeeds(self, element: ET.Element, needs: EcuStateMgrUserNeeds):
@@ -5666,7 +5764,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         # self.logger.debug("Write DtcStatusChangeNotificationNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS")
         self.writeDiagnosticCapabilityElement(child_element, needs)
-        self.setChildElementOptionalLiteral(child_element, "DTC-FORMAT-TYPE", needs.getDtcFormatType())
+        self._writeEnumToken(child_element, "DTC-FORMAT-TYPE", needs.getDtcFormatType(), DTC_FORMAT_TYPE_XML_MAP)
+        self._writeEnumToken(child_element, "NOTIFICATION-TIME", needs.getNotificationTime(), DIAGNOSTIC_CLEAR_DTC_NOTIFICATION_XML_MAP)
 
     def writeDltUserNeeds(self, element: ET.Element, needs: DtcStatusChangeNotificationNeeds):
         # self.logger.debug("Write DtcStatusChangeNotificationNeeds %s" % needs.getShortName())
@@ -7242,6 +7341,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeBswDataReceptionPolicy(self, element: ET.Element, policy: BswDataReceptionPolicy):
         self.writeBswApiOptions(element, policy)
         self.setChildElementOptionalRefType(element, "RECEIVED-DATA-REF", policy.getReceivedDataRef())
+        self.writeVariationPoint(element, policy.getVariationPoint())
 
     def writeBswQueuedDataReceptionPolicy(self, element: ET.Element, policy: BswQueuedDataReceptionPolicy):
         child_element = ET.SubElement(element, "BSW-QUEUED-DATA-RECEPTION-POLICY")
@@ -7584,6 +7684,28 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Required Data <%s>" % type(data))
 
+    def writeBswEntryRelationshipSet(self, element: ET.Element, entry_set: BswEntryRelationshipSet):
+        child_element = ET.SubElement(element, "BSW-ENTRY-RELATIONSHIP-SET")
+        self.writeIdentifiable(child_element, entry_set)
+        relationships = entry_set.getBswEntryRelationships()
+        if len(relationships) > 0:
+            relationships_tag = ET.SubElement(child_element, "BSW-ENTRY-RELATIONSHIPS")
+            for relationship in relationships:
+                relationship_element = ET.SubElement(relationships_tag, "BSW-ENTRY-RELATIONSHIP")
+                self.writeBswEntryRelationship(relationship_element, relationship)
+
+    def writeBswEntryRelationship(self, element: ET.Element, relationship: BswEntryRelationship):
+        self.setChildElementOptionalRefType(element, "FROM-REF", relationship.getFromRef())
+        self.setChildElementOptionalRefType(element, "TO-REF", relationship.getToRef())
+        relationship_type = relationship.getBswEntryRelationshipType()
+        if relationship_type is not None:
+            token = BSW_ENTRY_RELATIONSHIP_XML_MAP.get(relationship_type.getValue())
+            if token is None:
+                self.notImplemented("Unsupported BSW-ENTRY-RELATIONSHIP-TYPE <%s>" % relationship_type.getValue())
+            else:
+                type_element = ET.SubElement(element, "BSW-ENTRY-RELATIONSHIP-TYPE")
+                type_element.text = token
+
     def writeBswModuleClientServerEntry(self, element: ET.Element, entry: BswModuleClientServerEntry):
         if entry is not None:
             child_element = ET.SubElement(element, "BSW-MODULE-CLIENT-SERVER-ENTRY")
@@ -7591,6 +7713,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "ENCAPSULATED-ENTRY-REF", entry.getEncapsulatedEntryRef())
             self.setChildElementOptionalBooleanValue(child_element, "IS-REENTRANT", entry.getIsReentrant())
             self.setChildElementOptionalBooleanValue(child_element, "IS-SYNCHRONOUS", entry.getIsSynchronous())
+            self.writeVariationPoint(child_element, entry.getVariationPoint())
 
     def writeBswModuleDescriptionProvidedClientServerEntries(self, element: ET.Element, desc: BswModuleDescription):
         entries = desc.getProvidedClientServerEntries()
@@ -7646,8 +7769,11 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if isinstance(dependency, BswModuleDependency):
                     child_element = ET.SubElement(container, "BSW-MODULE-DEPENDENCY")
                     self.writeIdentifiable(child_element, dependency)
-                    self.setChildElementOptionalNumericalValue(child_element, "TARGET-MODULE-ID", dependency.getTargetModuleId())
-                    self.setChildElementOptionalRefType(child_element, "TARGET-MODULE-REF", dependency.getTargetModuleRef())
+                    self.setChildElementOptionalPositiveInteger(child_element, "TARGET-MODULE-ID", dependency.getTargetModuleId())
+                    if dependency.getTargetModuleRef() is not None:
+                        refs_tag = ET.SubElement(child_element, "TARGET-MODULE-REFS")
+                        ref_conditional = ET.SubElement(refs_tag, "BSW-MODULE-DESCRIPTION-REF-CONDITIONAL")
+                        self.setChildElementOptionalRefType(ref_conditional, "BSW-MODULE-DESCRIPTION-REF", dependency.getTargetModuleRef())
                 else:
                     self.notImplemented("Unsupported BswModuleDependency <%s>" % type(dependency))
 
@@ -7699,6 +7825,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "SWC-BSW-RUNNABLE-MAPPING")
         self.setChildElementOptionalRefType(child_element, "BSW-ENTITY-REF", mapping.getBswEntityRef())
         self.setChildElementOptionalRefType(child_element, "SWC-RUNNABLE-REF", mapping.getSwcRunnableRef())
+        self.writeVariationPoint(child_element, mapping.getVariationPoint())
 
     def writeSwcBswRunnableMappings(self, element: ET.Element, parent: SwcBswMapping):
         runnable_mappings = parent.getRunnableMappings()
@@ -7714,6 +7841,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "SWC-BSW-SYNCHRONIZED-MODE-GROUP-PROTOTYPE")
         self.setChildElementOptionalRefType(child_element, "BSW-MODE-GROUP-REF", mode_group.getBswModeGroupRef())
         self.setPModeGroupInAtomicSwcInstanceRef(child_element, "SWC-MODE-GROUP-IREF", mode_group.getSwcModeGroupIRef())
+        self.writeVariationPoint(child_element, mode_group.getVariationPoint())
 
     def writeSwcBswSynchronizedModeGroups(self, element: ET.Element, parent: SwcBswMapping):
         mode_groups = parent.getSynchronizedModeGroups()
@@ -7729,6 +7857,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "SWC-BSW-SYNCHRONIZED-TRIGGER")
         self.setChildElementOptionalRefType(child_element, "BSW-TRIGGER-REF", trigger.getBswTriggerRef())
         self.writePTriggerInAtomicSwcTypeInstanceRef(child_element, "SWC-TRIGGER-IREF", trigger.getSwcTriggerIRef())
+        self.writeVariationPoint(child_element, trigger.getVariationPoint())
 
     def writeSwcBswSynchronizedTriggers(self, element: ET.Element, parent: SwcBswMapping):
         triggers = parent.getSynchronizedTriggers()
@@ -13018,6 +13147,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(child_element, "SECURITY-DELAY-TIME", security_level.getSecurityDelayTime())
         self.setChildElementOptionalPositiveInteger(child_element, "SEED-SIZE", security_level.getSeedSize())
 
+    def writeDiagnosticEnvCompareCondition(self, element: ET.Element, condition: DiagnosticEnvCompareCondition):
+        self.writeARObject(element, condition)
+        self._writeEnumToken(element, "COMPARE-TYPE", condition.getCompareType(), DIAGNOSTIC_COMPARE_TYPE_XML_MAP)
+
     def writeDiagnosticEnvConditionFormula(self, element: ET.Element, formula: DiagnosticEnvConditionFormula):
         self.writeARObject(element, formula)
         self.setChildElementOptionalPositiveInteger(element, "NRC-VALUE", formula.getNrcValue())
@@ -13877,6 +14010,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeBswModuleDescription(element, ar_element)
         elif isinstance(ar_element, BswModuleEntry):
             self.writeBswModuleEntry(element, ar_element)
+        elif isinstance(ar_element, BswEntryRelationshipSet):
+            self.writeBswEntryRelationshipSet(element, ar_element)
         elif isinstance(ar_element, SwcBswMapping):
             self.writeSwcBswMapping(element, ar_element)
         elif isinstance(ar_element, BswImplementation):

@@ -53,6 +53,35 @@ class TestSwcBswRunnableMapping:
         assert mapping.getBswEntityRef() == bsw_ref
         assert mapping.getSwcRunnableRef() == swc_ref
 
+    def test_none_is_noop(self):
+        """Setting None must not overwrite existing refs."""
+        mapping = SwcBswRunnableMapping()
+        bsw_ref = RefType().setValue("BswEntityRef")
+        swc_ref = RefType().setValue("SwcRunnableRef")
+        mapping.setBswEntityRef(bsw_ref)
+        mapping.setSwcRunnableRef(swc_ref)
+
+        assert mapping.setBswEntityRef(None) is mapping
+        assert mapping.getBswEntityRef() == bsw_ref
+        assert mapping.setSwcRunnableRef(None) is mapping
+        assert mapping.getSwcRunnableRef() == swc_ref
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        import typing
+
+        bsw_hints = typing.get_type_hints(SwcBswRunnableMapping.getBswEntityRef)
+        assert bsw_hints.get("return") == typing.Optional[RefType]
+        bsw_setter = typing.get_type_hints(SwcBswRunnableMapping.setBswEntityRef)
+        assert bsw_setter.get("value") == typing.Optional[RefType]
+        assert bsw_setter.get("return") is SwcBswRunnableMapping
+
+        swc_hints = typing.get_type_hints(SwcBswRunnableMapping.getSwcRunnableRef)
+        assert swc_hints.get("return") == typing.Optional[RefType]
+        swc_setter = typing.get_type_hints(SwcBswRunnableMapping.setSwcRunnableRef)
+        assert swc_setter.get("value") == typing.Optional[RefType]
+        assert swc_setter.get("return") is SwcBswRunnableMapping
+
 
 class TestSwcBswMapping:
     def test_spec_shape_and_notes(self):
@@ -276,6 +305,36 @@ class TestSwcBswSynchronizedModeGroupPrototype:
         assert result is prototype
         assert prototype.getBswModeGroupRef() == bsw_ref
         assert prototype.getSwcModeGroupIRef() == swc_ref
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        import typing
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PTriggerInAtomicSwcTypeInstanceRef
+
+        bsw_hints = typing.get_type_hints(SwcBswSynchronizedTrigger.getBswTriggerRef)
+        assert bsw_hints.get("return") == typing.Optional[RefType]
+        iref_hints = typing.get_type_hints(SwcBswSynchronizedTrigger.getSwcTriggerIRef)
+        assert iref_hints.get("return") == typing.Optional[PTriggerInAtomicSwcTypeInstanceRef]
+
+
+class TestSwcBswSynchronizedModeGroupPrototypeAnnotations:
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        import typing
+
+        bsw_hints = typing.get_type_hints(SwcBswSynchronizedModeGroupPrototype.getBswModeGroupRef)
+        assert bsw_hints.get("return") == typing.Optional[RefType]
+        bsw_setter = typing.get_type_hints(SwcBswSynchronizedModeGroupPrototype.setBswModeGroupRef)
+        assert bsw_setter.get("value") == typing.Optional[RefType]
+        assert bsw_setter.get("return") is SwcBswSynchronizedModeGroupPrototype
+
+    def test_none_is_noop(self):
+        prototype = SwcBswSynchronizedModeGroupPrototype()
+        ref = RefType().setValue("/BSW/ModeGroup")
+        prototype.setBswModeGroupRef(ref)
+        assert prototype.setBswModeGroupRef(None) is prototype
+        assert prototype.getBswModeGroupRef() == ref
 
 
 class TestSwcBswSynchronizedTrigger:

@@ -162,15 +162,45 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `BswDataReceptionPolicy` — (abstract; Table 5.42 renders no Base row — src intake bases BswApiOptions + VariationPointCapable, XSD group-only) — R23-11 markdown · Table 5.42 (CP_TPS_BSWModuleDescriptionTemplate)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py (class EXISTS in src, unstamped — queued per Rule 0016.4 "exists is not a stamp")
   - note (2026-09-26, parent-dependency audit): QUEUED BEFORE its queued child `BswQueuedDataReceptionPolicy` (Rule 0016.5) — Table 5.43 Base row names this class, which was missing from the queue; abstract, group-only in XSD 00052 (group BSW-DATA-RECEPTION-POLICY L9727, single member RECEIVED-DATA-REF → VariableDataPrototype 0..1 ref, constr_10296 existence constr); Table 5.42 has ONE attribute row (receivedData) and renders no Base row — verify Base (incl. whether BswApiOptions belongs per the src intake) at Step 1 against the XSD complexType composition
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 5.42 body renders BEFORE its caption (page-split render,
+    md L2648-2663): Class = BswDataReceptionPolicy (abstract); Package =
+    M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior; Note = "Specifies the
+    reception policy for the referred data in sender-receiver communication over the
+    BSW Scheduler. To be used for inter-partition and/or inter-core communication.";
+    Base = "ARObject, BswApiOptions" → most-derived = BswApiOptions (XSD-only class,
+    group BSW-API-OPTIONS L9379); Subclasses = BswQueuedDataReceptionPolicy;
+    Aggregated by = BswInternalBehavior.receptionPolicy. Attribute rows (after
+    caption): receivedData (VariableDataPrototype, 0..1, ref → receivedDataRef
+    Optional[RefType]), constr_10296. R4.3.1 Table 6.41 p.106 agrees (Mult 1 there;
+    R23-11 0..1 wins). XSD: group-only BSW-DATA-RECEPTION-POLICY L9727 =
+    RECEIVED-DATA-REF (0..1) + VARIATION-POINT (sequenceOffset 10000) → VP-capable,
+    mixin kept (Rule 0020); no complexType of its own — child complexType L12400
+    composes BSW-API-OPTIONS + BSW-DATA-RECEPTION-POLICY + own group, confirming the
+    Base and BswApiOptions intake. Drift: fabricated class docstring, __init__
+    docstring, bare `RefType = None` field, untyped accessors, paraphrased docstrings,
+    stale 3-col checklist, redundant ABC in bases (siblings use
+    `(BswApiOptions, VariationPointCapable)`); read/writeBswDataReceptionPolicy exist
+    and are called by the child helpers but lack VARIATION-POINT coverage.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): read/writeBswDataReceptionPolicy had RECEIVED-DATA-REF +
+    ENABLE-TAKE-ADDRESS (via read/writeBswApiOptions) but lacked VARIATION-POINT
+    (group member 2, sequenceOffset 10000) — added readVariationPoint/writeVariationPoint
+    to both helpers (sibling readBswPerInstanceMemoryPolicy idiom); new VP
+    parser tests + value-asserting full round-trip (enableTakeAddress/receivedDataRef/
+    queueLength/variationPoint short label) pass.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations — all Step-1 drift items fixed (docstrings
+    verbatim, Optional[RefType] field + typed accessors, 6-col checklist); abstract
+    guard kept (ABC); Rule 0020 VP mixin is established convention, not a deviation;
+    R23-11 Mult 0..1 wins over R4.3.1 Table 6.41 Mult 1; constr_10296 is a
+    config-time existence constraint (not a model invariant), recorded here only.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12296 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BswQueuedDataReceptionPolicy` — BswDataReceptionPolicy — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
@@ -312,132 +342,288 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12079 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `BswModeSwitchedAckEvent` — BswScheduleEvent — source TBC (locate table at Step 1)
+- [ ] `BswModeSwitchedAckEvent` — BswScheduleEvent — R23-11 markdown · Table 5.32 (CP_TPS_BSWModuleDescriptionTemplate), p.95
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 5.32, p.95. Concrete Class; Base most-derived =
+    `BswScheduleEvent` (already correct in src). One attr `modeGroup`
+    (ModeDeclarationGroupPrototype, 0..1, ref → `modeGroupRef` Optional[RefType]),
+    constr_10285. Not directly VP-capable — VARIATION-POINT lives in ancestor BSW-EVENT
+    group (AUTOSAR_00052.xsd), capability inherited via BswEvent mixin (Rule 0020). Own
+    group BSW-MODE-SWITCHED-ACK-EVENT L11240 = MODE-GROUP-REF only (DEST
+    MODE-DECLARATION-GROUP-PROTOTYPE--SUBTYPES-ENUM; complexType L11263). Drift:
+    fabricated class docstring (constr_4026 text not in this table), `__init__`
+    docstring, paraphrased docstrings, bare `RefType` setter param (not Optional), old
+    3-col checklist. Reader/writer helpers + EVENTS dispatch + createBswModeSwitchedAckEvent
+    factory already exist with matched set/getModeGroupRef names.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): read/writeBswModeSwitchedAckEvent + EVENTS dispatch + factory already
+    cover MODE-GROUP-REF with matched set/getModeGroupRef names (XSD wire name verified,
+    AUTOSAR_00052.xsd L11240); new type-hint pin + dest/absent full-document round-trip +
+    empty tests passed immediately, no parser/writer edit. Writer reads via getter
+    (SWC-sibling disease absent).
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations — all Step-1 drift fixed; `modeGroupRef` naming is
+    the Rule 0001.5 ref-suffix convention (tracker row stays "ok"); constr_10285 is a
+    config-time existence constraint (inline comment only), recorded in the tracker note.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12299 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `BswTimingEvent` — BswScheduleEvent — source TBC (locate table at Step 1)
+- [ ] `BswTimingEvent` — BswScheduleEvent — R23-11 markdown · Table 5.25 (CP_TPS_BSWModuleDescriptionTemplate), p.89
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 5.25, p.89. Concrete Class; Base most-derived =
+    `BswScheduleEvent` (already correct in src). One attr `period` (TimeValue, 0..1, attr;
+    Note "Requirement for the time period (in seconds) by which this event is
+    triggered."), constr_10281 (existence) + constr_4043 (>0). Not directly VP-capable —
+    VARIATION-POINT lives in ancestor BSW-EVENT group, capability inherited via BswEvent
+    mixin (Rule 0020). Own group BSW-TIMING-EVENT (PERIOD, AR:TIME-VALUE, 0..1) only.
+    Drift: fabricated class docstring extension, `__init__` docstring, paraphrased
+    docstrings, bare `TimeValue` setter param (not Optional), old 3-col checklist.
+    `periodMs` property = tracker-recorded convenience extra (not in spec, kept).
+    Reader/writer helpers + dispatch + factory already exist with matched set/getPeriod.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): read/writeBswTimingEvent + EVENTS dispatch + createBswTimingEvent
+    already cover PERIOD with matched set/getPeriod names; new type-hint pin +
+    full-document round-trip (value + empty) tests passed immediately, no parser/writer
+    edit. Writer reads via getter (SWC-sibling disease absent).
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no new deviations — `periodMs` stays as the tracker-recorded
+    convenience property (checklist row marked); constr_10281/constr_4043 recorded in
+    the inline member comment + tracker note.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12302 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `BswEntryRelationshipEnum` — AREnum — source TBC (locate table at Step 1)
+- [ ] `BswEntryRelationshipEnum` — AREnum — R23-11 markdown · Table 4.20 (CP_TPS_BSWModuleDescriptionTemplate), p.52
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
-  - note: deviation-tracked in method_deviation_by_class.md + method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 4.20, p.52. Enumeration; Package
+    M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces; Note = "Define the type of
+    relationship between two BswModuleEntrys." (spec grammar kept verbatim); Aggregated
+    by = BswEntryRelationship.bswEntryRelationshipType. ONE literal: derivedFrom
+    ("Describes that the BswModuleEntry referenced as \"to\" needs to have the same
+    signature as the \"abstract\" BswModuleEntry referenced as \"from\".",
+    atp.EnumerationLiteralIndex=0). XSD BSW-ENTRY-RELATIONSHIP-ENUM --SIMPLE token
+    "derivedFrom" agrees. Drift: fabricated 2-sentence class docstring, NO __init__
+    (AREnum.__init__ requires enum_values → the enum could not be instantiated at all),
+    literal comment wrapped, no Spec/checklist header.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - note (Steps 5/6): N/A for a standalone AREnum — no own XML element; serialized as
+    the attribute value of the consuming class (BswEntryRelationship, next row) and
+    round-tripped there (Rules 0010–0011).
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviations — single literal matches XSD token; the v2 tracker
+    bullet-list mention is a type-list reference, not a deviation row.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12305 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `BswEntryRelationship` — ARObject — source TBC (locate table at Step 1)
+- [ ] `BswEntryRelationship` — ARObject — R23-11 markdown · Table 4.19 (CP_TPS_BSWModuleDescriptionTemplate), p.51
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
-  - note: deviation-tracked in method_deviation_by_class.md + method_deviation_by_class_v2.md — review entries at Step 1
   - after `BswEntryRelationshipEnum`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 4.19, p.51. Concrete Class; Base = ARObject
+    (already correct in src). Aggregated by = BswEntryRelationshipSet.bswEntryRelationship.
+    Three attrs in displayed order: bswEntryRelationshipType (BswEntryRelationshipEnum,
+    0..1, attr, xml.sequenceOffset=5), from (BswModuleEntry, 0..1, ref → fromRef), to
+    (BswModuleEntry, 0..1, ref → toRef). XSD wire order: FROM-REF, TO-REF,
+    BSW-ENTRY-RELATIONSHIP-TYPE (token DERIVED-FROM vs literal value "derivedFrom" →
+    BSW_ENTRY_RELATIONSHIP_XML_MAP, SW_IMPL_POLICY idiom). Note: spec/from Note carries
+    the spec's own "drivedFrom" typo — kept verbatim per Rule 0001.4. Drift: `__init__`
+    docstring, paraphrased docstrings, src inline comment had "drivenFrom" (wrong),
+    old 4-col checklist; NO reader/writer coverage (no read/writeBswEntryRelationship).
+    Tracker `missing` rows were stale (audited against non-existent leaf files).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): ADDED readBswEntryRelationship (parser: FROM-REF/TO-REF via
+    getChildElementOptionalRefType + BSW-ENTRY-RELATIONSHIP-TYPE token map) and
+    writeBswEntryRelationship (writer: XSD order, token map); new value-asserting
+    parser tests (refs+token, absent) and writer tests (element order, unset omits,
+    full round-trip) pass.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): tracker `missing` rows RESOLVED (stale audit against non-existent
+    leaf files) — retyped as ok rows (fromRef/toRef = Rule 0001.5 ref-suffix naming);
+    "drivedFrom" spec typo kept verbatim in docstrings.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12310 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `BswEntryRelationshipSet` — Identifiable — source TBC (locate table at Step 1)
+- [ ] `BswEntryRelationshipSet` — ARElement — R23-11 markdown · Table 4.18 (CP_TPS_BSWModuleDescriptionTemplate), p.51
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - after `BswEntryRelationship`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 4.18, p.51. Concrete Class; spec Base chain
+    ARObject..Identifiable..CollectableElement..PackageableElement..ARElement (+ AtpBlueprint /
+    AtpBlueprintable, both empty groups — collapsed per the attribute-less-abstract-base
+    precedent) → RE-BASED src `Identifiable` → `ARElement`. Aggregated by ARPackage.element.
+    One attr: bswEntryRelationship (BswEntryRelationship, 0..*, aggr → typed-list field
+    bswEntryRelationships). XSD: BSW-ENTRY-RELATIONSHIPS wrapper (0..1) + unbounded
+    BSW-ENTRY-RELATIONSHIP items after base groups. Drift: `__init__` docstring,
+    paraphrased docstrings, old 4-col checklist; NO reader/writer coverage (no factory,
+    no dispatch, no read/write helpers); tracker `missing` row stale (leaf-file audit).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): ADDED createBswEntryRelationshipSet factory + getBswEntryRelationshipSets
+    getter on ARPackage (bottom late-binding import, createSwcBswMapping pattern);
+    read/writeBswEntryRelationshipSet helpers (wrapper + items via read/writeBswEntryRelationship);
+    ARPackage element dispatch both directions; value-asserting helper tests + full-document
+    round-trip via the factory pass.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): tracker `missing` row RESOLVED (stale leaf-file audit) → ok row
+    (Rule 0001.5 plural naming); base re-base recorded (Identifiable → ARElement);
+    AtpBlueprint/AtpBlueprintable collapse noted for 9b review.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12319 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `BswModuleClientServerEntry` — Referrable — source TBC (locate table at Step 1)
+- [ ] `BswModuleClientServerEntry` — Referrable — R23-11 markdown · Table 4.21 (CP_TPS_BSWModuleDescriptionTemplate), p.54
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 4.21, p.54. Concrete Class; Base most-derived =
+    `Referrable` (already correct in src); VP-capable — VARIATION-POINT is in the OWN XSD
+    group BSW-MODULE-CLIENT-SERVER-ENTRY (AUTOSAR_00052.xsd L11320: ENCAPSULATED-ENTRY-REF,
+    IS-REENTRANT, IS-SYNCHRONOUS, VARIATION-POINT). R23-11 table attrs: encapsulatedEntry
+    (BswModuleEntry, 0..1, ref → encapsulatedEntryRef, seq 5), isReentrant (Boolean, 0..1,
+    attr, seq 10). isSynchronous ABSENT from the R23-11 table but present in R4.3.1 Table
+    5.22 p.56 AND the R23-11 XSD → Rule 0019 legacy member kept (R4.3.1 Note verbatim,
+    release column R4.3.1, dual # Spec: lines). Drift: fabricated class docstring,
+    `__init__` docstring, bare-typed fields (`RefType = None`, `Boolean = None`),
+    untyped accessors, paraphrased docstrings, old 4-col checklist; reader/writer lacked
+    VARIATION-POINT.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): read/writeBswModuleClientServerEntry already covered
+    ENCAPSULATED-ENTRY-REF/IS-REENTRANT/IS-SYNCHRONOUS with matched names; ADDED
+    VARIATION-POINT to both (readVariationPoint/writeVariationPoint); new type-hint pin +
+    value-asserting document round-trips (attrs + VP short label) pass.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): ONE accepted legacy deviation (isSynchronous — Rule 0019 combine case,
+    dual # Spec: lines, mixed release columns) — subject to 9b batch confirmation;
+    encapsulatedEntryRef/isReentrant rows ok.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12322 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `BswModuleDependency` — Identifiable — source TBC (locate table at Step 1)
+- [ ] `BswModuleDependency` — Identifiable — R23-11 markdown · Table 4.17 (CP_TPS_BSWModuleDescriptionTemplate), p.48
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 4.17, p.48. Concrete Class; Base most-derived =
+    `Identifiable` (already correct in src); NOT VP-capable — the complexType has no
+    class-level VARIATION-POINT group (atpVariation is attribute-level on targetModuleRef via
+    the REF-CONDITIONAL wrapper); src mixin VariationPointCapable REMOVED. Two attrs:
+    targetModuleId (PositiveInteger, 0..1, attr, seq 5), targetModuleRef (BswModuleDescription,
+    0..1, ref, seq 7). R23-11 XSD wire = TARGET-MODULE-REFS wrapper + unbounded
+    BSW-MODULE-DESCRIPTION-REF-CONDITIONAL (markdown 0..1 wins for the model; wire per XSD).
+    requiredEntry/expectedCallback/serviceItem are atp.Status="removed" — not modeled.
+    Drift: fabricated class docstring, `__init__` docstring, paraphrased docstrings, old
+    4-col checklist; reader used generic NumericalValue (not PositiveInteger) and a bare
+    TARGET-MODULE-REF element that does not exist in the R23-11 XSD.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): reader REWIRED (PositiveInteger helper + TARGET-MODULE-REFS wrapper
+    path, first item wins); writer REWIRED (wrapper + conditional item + DEST); new
+    type-hint pins, wrapper-path parser test, and document round-trips (value + empty)
+    pass. No fixture/test used the old wire element.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): ONE accepted model-vs-wire deviation (targetModuleRef "wire many vs py
+    single" — Rule 0015 markdown-wins, tracker row updated); mixin removal + removed-element
+    handling recorded in the tracker note.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12326 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `SwcBswRunnableMapping` — ARObject — source TBC (locate table at Step 1)
+- [ ] `SwcBswRunnableMapping` — ARObject — R23-11 markdown · Table 5.47 (CP_TPS_BSWModuleDescriptionTemplate), p.110
   - module: M2/AUTOSARTemplates/CommonStructure/SwcBswMapping.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 5.47, p.110. Concrete Class; Base = ARObject
+    (already correct); VP-capable — VARIATION-POINT in OWN XSD group
+    SWC-BSW-RUNNABLE-MAPPING (seq 10000, atpVariation), mixin kept (Rule 0020). Two attrs:
+    bswEntity (BswModuleEntity, 0..1, ref → bswEntityRef, DEST BSW-MODULE-ENTITY--SUBTYPES-ENUM),
+    swcRunnable (RunnableEntity, 0..1, ref → swcRunnableRef, DEST
+    RUNNABLE-ENTITY--SUBTYPES-ENUM); wire order refs then VP. Aggregated by
+    SwcBswMapping.runnableMapping (parent SwcBswMapping stamped). Drift: `__init__`
+    docstring, bare `RefType = None` fields, untyped accessors, setBswEntityRef/
+    setSwcRunnableRef had NO None no-op guard, old 4-col checklist; reader/writer existed
+    with matched names but lacked VARIATION-POINT.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): read/write helpers existed with matched wire names; ADDED
+    VARIATION-POINT to both (parser per-item read in the RUNNABLE-MAPPINGS loop, writer
+    writeVariationPoint); new None no-op + type-hint pin + VP helper round-trip tests pass.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviations — missing None no-op guards were drift, now fixed.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12329 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `SwcBswSynchronizedModeGroupPrototype` — ARObject — source TBC (locate table at Step 1)
+- [ ] `SwcBswSynchronizedModeGroupPrototype` — ARObject — R23-11 markdown · Table 5.48 (CP_TPS_BSWModuleDescriptionTemplate), p.111
   - module: M2/AUTOSARTemplates/CommonStructure/SwcBswMapping.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 5.48, p.111. Concrete Class; Base = ARObject
+    (already correct); VP-capable — VARIATION-POINT in OWN XSD group
+    SWC-BSW-SYNCHRONIZED-MODE-GROUP-PROTOTYPE (seq 10000, atpVariation), mixin kept
+    (Rule 0020). Two attrs: bswModeGroup (ModeDeclarationGroupPrototype, 0..1, ref →
+    BSW-MODE-GROUP-REF, constr_10336), swcModeGroup (ModeDeclarationGroupPrototype, 0..1,
+    iref → SWC-MODE-GROUP-IREF / PModeGroupInAtomicSwcInstanceRef, constr_10337); wire
+    order refs/irefs then VP. Old checklist page claim "p.162" was WRONG (pdf_page: p.111).
+    Drift: `__init__` docstring, untyped-old checklists, paraphrased docstrings; rw
+    helpers existed with matched names but lacked VARIATION-POINT.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): read/writeSwcBswSynchronizedModeGroupPrototype existed with matched
+    names; ADDED VARIATION-POINT to both; new None no-op + type-hint pin tests pass.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviations — tracker rows already "—"; constr_10336/10337 kept in
+    the inline comments (config-time existence constraints).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12331 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `SwcBswSynchronizedTrigger` — ARObject — source TBC (locate table at Step 1)
+- [ ] `SwcBswSynchronizedTrigger` — ARObject — R23-11 markdown · Table 5.49 (CP_TPS_BSWModuleDescriptionTemplate), p.111
   - module: M2/AUTOSARTemplates/CommonStructure/SwcBswMapping.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): R23-11 markdown Table 5.49, p.111. Concrete Class; Base = ARObject
+    (already correct); VP-capable — VARIATION-POINT in OWN XSD group
+    SWC-BSW-SYNCHRONIZED-TRIGGER (seq 10000, atpVariation), mixin kept (Rule 0020). Two
+    attrs: bswTrigger (Trigger, 0..1, ref → BSW-TRIGGER-REF, DEST TRIGGER--SUBTYPES-ENUM,
+    constr_10300), swcTrigger (Trigger, 0..1, iref → SWC-TRIGGER-IREF /
+    PTriggerInAtomicSwcTypeInstanceRef, constr_10301); wire order refs/irefs then VP.
+    Drift: `__init__` docstring, paraphrased docstrings, bare `PTriggerInAtomicSwcTypeInstanceRef = None`
+    field (not Optional), old 4-col checklist; rw helpers existed with matched names but
+    lacked VARIATION-POINT. InstanceRef imports promoted TYPE_CHECKING → runtime
+    (repo cycle-breaker pattern; needed for typing.get_type_hints resolution).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): read/writeSwcBswSynchronizedTrigger existed with matched names;
+    ADDED VARIATION-POINT to both; new type-hint pin test passes.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviations — tracker rows already "—"; constr_10300/10301 kept in
+    the inline comments (config-time existence constraints).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12332 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)

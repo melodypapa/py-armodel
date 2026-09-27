@@ -43,7 +43,7 @@ class DiagnosticJumpToBootLoaderEnum(AREnum):
     """This enumeration contains the options for jumping to a boot loader."""
 
     # DiagnosticJumpToBootLoaderEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.31, p.75
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.31, p.74
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on DiagnosticSession.jumpToBootLoader
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11

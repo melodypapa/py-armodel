@@ -419,12 +419,12 @@ class TestServiceNeedsHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         dependency = behavior.createSwcServiceDependency("dep")
         element = _snip(
-            "<SHORT-NAME>diagNeeds</SHORT-NAME>" "<SERVICE-REQUEST-CALLBACK-TYPE>callback</SERVICE-REQUEST-CALLBACK-TYPE>",
+            "<SHORT-NAME>diagNeeds</SHORT-NAME>" "<SERVICE-REQUEST-CALLBACK-TYPE>REQUEST-CALLBACK-TYPE-MANUFACTURER</SERVICE-REQUEST-CALLBACK-TYPE>",
             root_tag="DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS",
         )
         needs = dependency.createDiagnosticCommunicationManagerNeeds("diagNeeds")
         parser.readDiagnosticCommunicationManagerNeeds(element, needs)
-        assert needs.getServiceRequestCallbackType().getValue() == "callback"
+        assert needs.getServiceRequestCallbackType().getValue() == "requestCallbackTypeManufacturer"
 
     def test_readDiagnosticRoutineNeeds_sets_ridNumber(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -433,7 +433,7 @@ class TestServiceNeedsHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         dependency = behavior.createSwcServiceDependency("dep")
         element = _snip(
-            "<SHORT-NAME>routineNeeds</SHORT-NAME>" "<DIAG-ROUTINE-TYPE>routine</DIAG-ROUTINE-TYPE>" "<RID-NUMBER>0x0100</RID-NUMBER>",
+            "<SHORT-NAME>routineNeeds</SHORT-NAME>" "<DIAG-ROUTINE-TYPE>ASYNCHRONOUS</DIAG-ROUTINE-TYPE>" "<RID-NUMBER>0x0100</RID-NUMBER>",
             root_tag="DIAGNOSTIC-ROUTINE-NEEDS",
         )
         needs = dependency.createDiagnosticRoutineNeeds("routineNeeds")
@@ -447,7 +447,7 @@ class TestServiceNeedsHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         dependency = behavior.createSwcServiceDependency("dep")
         element = _snip(
-            "<SHORT-NAME>valueNeeds</SHORT-NAME>" "<DATA-LENGTH>8</DATA-LENGTH>" "<DIAGNOSTIC-VALUE-ACCESS>read</DIAGNOSTIC-VALUE-ACCESS>" "<DID-NUMBER>0xF190</DID-NUMBER>",
+            "<SHORT-NAME>valueNeeds</SHORT-NAME>" "<DATA-LENGTH>8</DATA-LENGTH>" "<DIAGNOSTIC-VALUE-ACCESS>READ-WRITE</DIAGNOSTIC-VALUE-ACCESS>" "<DID-NUMBER>0xF190</DID-NUMBER>",
             root_tag="DIAGNOSTIC-VALUE-NEEDS",
         )
         needs = dependency.createDiagnosticValueNeeds("valueNeeds")
@@ -486,12 +486,12 @@ class TestServiceNeedsHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         dependency = behavior.createSwcServiceDependency("dep")
         element = _snip(
-            "<SHORT-NAME>eventInfoNeeds</SHORT-NAME>" "<DTC-KIND>kind</DTC-KIND>" "<UDS-DTC-NUMBER>0x5678</UDS-DTC-NUMBER>",
+            "<SHORT-NAME>eventInfoNeeds</SHORT-NAME>" "<DTC-KIND>EMISSION-RELATED-DTC</DTC-KIND>" "<UDS-DTC-NUMBER>0x5678</UDS-DTC-NUMBER>",
             root_tag="DIAGNOSTIC-EVENT-INFO-NEEDS",
         )
         needs = dependency.createDiagnosticEventInfoNeeds("eventInfoNeeds")
         parser.readDiagnosticEventInfoNeeds(element, needs)
-        assert needs.getDtcKind().getValue() == "kind"
+        assert needs.getDtcKind().getValue() == "emissionRelatedDtc"
 
     def test_readDiagnosticIoControlNeeds_sets_currentValueRef(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -542,12 +542,12 @@ class TestServiceNeedsHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         dependency = behavior.createSwcServiceDependency("dep")
         element = _snip(
-            "<SHORT-NAME>dtcNeeds</SHORT-NAME>" "<DTC-FORMAT-TYPE>format</DTC-FORMAT-TYPE>",
+            "<SHORT-NAME>dtcNeeds</SHORT-NAME>" "<DTC-FORMAT-TYPE>OBD</DTC-FORMAT-TYPE>",
             root_tag="DTC-STATUS-CHANGE-NOTIFICATION-NEEDS",
         )
         needs = dependency.createDtcStatusChangeNotificationNeeds("dtcNeeds")
         parser.readDtcStatusChangeNotificationNeeds(element, needs)
-        assert needs.getDtcFormatType().getValue() == "format"
+        assert needs.getDtcFormatType().getValue() == "obd"
 
     def test_readDiagnosticComponentNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType

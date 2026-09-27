@@ -1686,6 +1686,29 @@ class TestBswReceptionAndApiOptions:
         parser.readBswDataReceptionPolicy(element, policy)
         assert policy.getReceivedDataRef().getValue() == "/d"
 
+    def test_readBswDataReceptionPolicy_sets_variation_point(self, parser):
+        from armodel.models import BswQueuedDataReceptionPolicy
+
+        policy = BswQueuedDataReceptionPolicy()
+        element = _snip(
+            "<RECEIVED-DATA-REF DEST='VARIABLE-DATA-PROTOTYPE'>/d</RECEIVED-DATA-REF>" "<VARIATION-POINT><SHORT-LABEL>lbl</SHORT-LABEL></VARIATION-POINT>",
+            root_tag="P",
+        )
+        parser.readBswDataReceptionPolicy(element, policy)
+        assert policy.getVariationPoint() is not None
+        assert policy.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_readBswDataReceptionPolicy_absent_variation_point_leaves_none(self, parser):
+        from armodel.models import BswQueuedDataReceptionPolicy
+
+        policy = BswQueuedDataReceptionPolicy()
+        element = _snip(
+            "<RECEIVED-DATA-REF DEST='VARIABLE-DATA-PROTOTYPE'>/d</RECEIVED-DATA-REF>",
+            root_tag="P",
+        )
+        parser.readBswDataReceptionPolicy(element, policy)
+        assert policy.getVariationPoint() is None
+
     def test_readBswQueuedDataReceptionPolicy_sets_queue_length(self, parser):
         from armodel.models import BswQueuedDataReceptionPolicy
 
@@ -1731,6 +1754,100 @@ class TestBswReceptionAndApiOptions:
         with caplog.at_level(logging.ERROR):
             warning_parser.readBswInternalBehaviorReceptionPolicies(element, behavior)
         assert any("Unsupported Reception Policies" in r.getMessage() for r in caplog.records)
+
+
+class TestBswEntryRelationshipHandlers:
+    """Exercise readBswEntryRelationship (FROM-REF / TO-REF / BSW-ENTRY-RELATIONSHIP-TYPE)."""
+
+    def test_readBswEntryRelationship_sets_refs_and_type(self, parser):
+        from armodel.models import BswEntryRelationship
+
+        relationship = BswEntryRelationship()
+        element = _snip(
+            "<FROM-REF DEST='BSW-MODULE-ENTRY'>/mod/abstract</FROM-REF>"
+            "<TO-REF DEST='BSW-MODULE-ENTRY'>/mod/concrete</TO-REF>"
+            "<BSW-ENTRY-RELATIONSHIP-TYPE>DERIVED-FROM</BSW-ENTRY-RELATIONSHIP-TYPE>",
+            root_tag="REL",
+        )
+        parser.readBswEntryRelationship(element, relationship)
+        assert relationship.getFromRef().getValue() == "/mod/abstract"
+        assert relationship.getToRef().getValue() == "/mod/concrete"
+        assert relationship.getBswEntryRelationshipType() is not None
+        assert relationship.getBswEntryRelationshipType().getValue() == "derivedFrom"
+
+    def test_readBswEntryRelationship_absent_leaves_none(self, parser):
+        from armodel.models import BswEntryRelationship
+
+        relationship = BswEntryRelationship()
+        element = _snip("", root_tag="REL")
+        parser.readBswEntryRelationship(element, relationship)
+        assert relationship.getFromRef() is None
+        assert relationship.getToRef() is None
+        assert relationship.getBswEntryRelationshipType() is None
+
+
+class TestBswModuleDependencyHandlers:
+    """Exercise the BswModuleDependency wire format (TARGET-MODULE-REFS wrapper)."""
+
+    def test_readBswModuleDescriptionBswModuleDependencies_wrapper_ref(self, parser):
+        from armodel.models import BswModuleDependency, BswModuleDescription
+
+        desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
+        element = _snip(
+            "<BSW-MODULE-DEPENDENCYS>"
+            "<BSW-MODULE-DEPENDENCY>"
+            "<SHORT-NAME>dep</SHORT-NAME>"
+            "<TARGET-MODULE-ID>7</TARGET-MODULE-ID>"
+            "<TARGET-MODULE-REFS>"
+            "<BSW-MODULE-DESCRIPTION-REF-CONDITIONAL>"
+            "<BSW-MODULE-DESCRIPTION-REF DEST='BSW-MODULE-DESCRIPTION'>/mod/target</BSW-MODULE-DESCRIPTION-REF>"
+            "</BSW-MODULE-DESCRIPTION-REF-CONDITIONAL>"
+            "</TARGET-MODULE-REFS>"
+            "</BSW-MODULE-DEPENDENCY>"
+            "</BSW-MODULE-DEPENDENCYS>",
+            root_tag="BSWM",
+        )
+        parser.readBswModuleDescriptionBswModuleDependencies(element, desc)
+        dependencies = desc.getBswModuleDependencies()
+        assert len(dependencies) == 1
+        dependency = dependencies[0]
+        assert isinstance(dependency, BswModuleDependency)
+        assert dependency.getTargetModuleId().getValue() == 7
+        assert dependency.getTargetModuleRef().getValue() == "/mod/target"
+        assert dependency.getTargetModuleRef().getDest() == "BSW-MODULE-DESCRIPTION"
+
+
+class TestBswEntryRelationshipSetHandlers:
+    """Exercise readBswEntryRelationshipSet (wrapper + relationship items)."""
+
+    def test_readBswEntryRelationshipSet_adds_relationships(self, parser):
+        from armodel.models import BswEntryRelationshipSet
+
+        entry_set = BswEntryRelationshipSet(parent=_autosar_root(), short_name="set")
+        element = _snip(
+            "<BSW-ENTRY-RELATIONSHIPS>"
+            "<BSW-ENTRY-RELATIONSHIP>"
+            "<FROM-REF DEST='BSW-MODULE-ENTRY'>/mod/abstract</FROM-REF>"
+            "<TO-REF DEST='BSW-MODULE-ENTRY'>/mod/concrete</TO-REF>"
+            "<BSW-ENTRY-RELATIONSHIP-TYPE>DERIVED-FROM</BSW-ENTRY-RELATIONSHIP-TYPE>"
+            "</BSW-ENTRY-RELATIONSHIP>"
+            "</BSW-ENTRY-RELATIONSHIPS>",
+            root_tag="SET",
+        )
+        parser.readBswEntryRelationshipSet(element, entry_set)
+        relationships = entry_set.getBswEntryRelationships()
+        assert len(relationships) == 1
+        assert relationships[0].getFromRef().getValue() == "/mod/abstract"
+        assert relationships[0].getToRef().getValue() == "/mod/concrete"
+        assert relationships[0].getBswEntryRelationshipType().getValue() == "derivedFrom"
+
+    def test_readBswEntryRelationshipSet_absent_wrapper_leaves_empty(self, parser):
+        from armodel.models import BswEntryRelationshipSet
+
+        entry_set = BswEntryRelationshipSet(parent=_autosar_root(), short_name="set")
+        element = _snip("", root_tag="SET")
+        parser.readBswEntryRelationshipSet(element, entry_set)
+        assert entry_set.getBswEntryRelationships() == []
 
 
 class TestBswPerInstanceMemoryPolicyHandlers:

@@ -6,12 +6,15 @@ and BswModuleClientServerEntry. These classes represent BSW-specific interface e
 that define dependencies, module entries, and client-server relationships in the AUTOSAR architecture.
 """
 
+import typing
+
 from armodel import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
     BswCallType,
     BswEntryKindEnum,
     BswEntryRelationship,
     BswEntryRelationshipEnum,
+    BswEntryRelationshipSet,
     BswExecutionContext,
     BswModuleClientServerEntry,
     BswModuleDependency,
@@ -158,6 +161,18 @@ class TestBswModuleDependency:
         assert result == dep
         assert dep.getTargetModuleRef() == ref  # Should remain unchanged
 
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswModuleDependency.getTargetModuleId)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+        setter_hints = typing.get_type_hints(BswModuleDependency.setTargetModuleId)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+
+        ref_hints = typing.get_type_hints(BswModuleDependency.getTargetModuleRef)
+        assert ref_hints.get("return") == typing.Optional[RefType]
+        ref_setter_hints = typing.get_type_hints(BswModuleDependency.setTargetModuleRef)
+        assert ref_setter_hints.get("value") == typing.Optional[RefType]
+
 
 class TestBswModuleEntry:
     """Test cases for BswModuleEntry class - represents BSW module entry points."""
@@ -298,6 +313,20 @@ class TestBswModuleEntry:
         result = entry.setIsSynchronous(None)
         assert result == entry
         assert entry.getIsSynchronous() is True  # Should remain unchanged
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean
+
+        ref_hints = typing.get_type_hints(BswModuleClientServerEntry.getEncapsulatedEntryRef)
+        assert ref_hints.get("return") == typing.Optional[RefType]
+        setter_hints = typing.get_type_hints(BswModuleClientServerEntry.setEncapsulatedEntryRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+
+        reentrant_hints = typing.get_type_hints(BswModuleClientServerEntry.getIsReentrant)
+        assert reentrant_hints.get("return") == typing.Optional[Boolean]
+        sync_hints = typing.get_type_hints(BswModuleClientServerEntry.getIsSynchronous)
+        assert sync_hints.get("return") == typing.Optional[Boolean]
 
     def test_get_return_type(self):
         """Test getter for return type."""
@@ -443,6 +472,58 @@ class TestBswModuleClientServerEntry:
         result = entry.setIsSynchronous(None)
         assert result == entry
         assert entry.getIsSynchronous() is True  # Should remain unchanged
+
+
+class TestBswEntryRelationshipSet:
+    """Test BswEntryRelationshipSet (Table 4.18)."""
+
+    def _make_set(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        return BswEntryRelationshipSet(ar_root, "test_entry_relationship_set")
+
+    def test_initialization(self):
+        entry_set = self._make_set()
+        assert entry_set.short_name == "test_entry_relationship_set"
+        assert entry_set.getBswEntryRelationships() == []
+
+    def test_add_bsw_entry_relationship(self):
+        entry_set = self._make_set()
+        relationship = BswEntryRelationship()
+        result = entry_set.addBswEntryRelationship(relationship)
+        assert result is entry_set
+        assert entry_set.getBswEntryRelationships() == [relationship]
+
+    def test_add_bsw_entry_relationship_none_is_noop(self):
+        entry_set = self._make_set()
+        entry_set.addBswEntryRelationship(None)
+        assert entry_set.getBswEntryRelationships() == []
+
+    def test_type_annotations(self):
+        """Pin the spec many (0..*) aggregate annotation on the accessors."""
+        getter_hints = typing.get_type_hints(BswEntryRelationshipSet.getBswEntryRelationships)
+        assert getter_hints.get("return") == typing.List[BswEntryRelationship]
+
+        setter_hints = typing.get_type_hints(BswEntryRelationshipSet.addBswEntryRelationship)
+        assert setter_hints.get("value") is BswEntryRelationship
+        assert setter_hints.get("return") is BswEntryRelationshipSet
+
+
+class TestBswEntryRelationshipEnum:
+    """Test the BswEntryRelationshipEnum AREnum (Table 4.20)."""
+
+    def test_instantiation(self):
+        enum = BswEntryRelationshipEnum()
+        assert isinstance(enum, BswEntryRelationshipEnum)
+
+    def test_member_values(self):
+        assert BswEntryRelationshipEnum.DERIVED_FROM == "derivedFrom"
+        assert BswEntryRelationshipEnum().getEnumValues() == [BswEntryRelationshipEnum.DERIVED_FROM]
+
+    def test_set_value(self):
+        enum = BswEntryRelationshipEnum()
+        enum.setValue(BswEntryRelationshipEnum.DERIVED_FROM)
+        assert enum.getValue() == "derivedFrom"
 
 
 class TestBswEntryRelationshipInitialization:

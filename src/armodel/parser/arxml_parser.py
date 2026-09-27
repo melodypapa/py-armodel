@@ -88,7 +88,9 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
 )
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import BswServiceDependencyIdent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleEntry
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticAudienceEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagRequirementIdString
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationship, BswEntryRelationshipEnum, BswEntryRelationshipSet, BswModuleClientServerEntry, BswModuleEntry
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
@@ -195,6 +197,13 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DoIpPowerModeStatusNeeds,
     DoIpRoutingActivationAuthenticationNeeds,
     DoIpRoutingActivationConfirmationNeeds,
+    DiagnosticClearDtcNotificationEnum,
+    DiagnosticProcessingStyleEnum,
+    DiagnosticRoutineTypeEnum,
+    DiagnosticServiceRequestCallbackTypeEnum,
+    DiagnosticValueAccessEnum,
+    DtcFormatTypeEnum,
+    DtcKindEnum,
     DtcStatusChangeNotificationNeeds,
     EcuStateMgrUserNeeds,
     ErrorTracerNeeds,
@@ -367,7 +376,13 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration impor
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticAccessPermission, DiagnosticAuthRoleProxy, DiagnosticJumpToBootLoaderEnum, DiagnosticSecurityLevel, DiagnosticSession
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import DiagnosticEnvConditionFormula, DiagnosticEnvironmentalCondition, DiagnosticLogicalOperatorEnum
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import (
+    DiagnosticCompareTypeEnum,
+    DiagnosticEnvCompareCondition,
+    DiagnosticEnvConditionFormula,
+    DiagnosticEnvironmentalCondition,
+    DiagnosticLogicalOperatorEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     BooleanValue,
     ConfigReferenceValue,
@@ -1215,6 +1230,68 @@ SW_IMPL_POLICY_XML_MAP = {
 BSW_INTERRUPT_CATEGORY_XML_MAP = {
     "cat1": "CAT-1",
     "cat2": "CAT-2",
+}
+
+BSW_ENTRY_RELATIONSHIP_XML_MAP = {
+    "derivedFrom": "DERIVED-FROM",
+}
+
+DIAGNOSTIC_LOGICAL_OPERATOR_XML_MAP = {
+    "logicalAnd": "LOGICAL-AND",
+    "logicalOr": "LOGICAL-OR",
+}
+
+DIAGNOSTIC_COMPARE_TYPE_XML_MAP = {
+    "isEqual": "IS-EQUAL",
+    "isNotEqual": "IS-NOT-EQUAL",
+    "isLessThan": "IS-LESS-THAN",
+    "isLessOrEqual": "IS-LESS-OR-EQUAL",
+    "isGreaterThan": "IS-GREATER-THAN",
+    "isGreaterOrEqual": "IS-GREATER-OR-EQUAL",
+}
+
+DIAGNOSTIC_AUDIENCE_XML_MAP = {
+    "aftermarket": "AFTERMARKET",
+    "afterSales": "AFTER-SALES",
+    "development": "DEVELOPMENT",
+    "manufacturing": "MANUFACTURING",
+    "supplier": "SUPPLIER",
+}
+DIAGNOSTIC_SERVICE_REQUEST_CALLBACK_TYPE_XML_MAP = {
+    "requestCallbackTypeManufacturer": "REQUEST-CALLBACK-TYPE-MANUFACTURER",
+    "requestCallbackTypeSupplier": "REQUEST-CALLBACK-TYPE-SUPPLIER",
+}
+
+DIAGNOSTIC_ROUTINE_TYPE_XML_MAP = {
+    "asynchronous": "ASYNCHRONOUS",
+    "synchronous": "SYNCHRONOUS",
+}
+
+DIAGNOSTIC_VALUE_ACCESS_XML_MAP = {
+    "readOnly": "READ-ONLY",
+    "readWrite": "READ-WRITE",
+    "writeOnly": "WRITE-ONLY",
+}
+
+DIAGNOSTIC_PROCESSING_STYLE_XML_MAP = {
+    "processingStyleAsynchronous": "PROCESSING-STYLE-ASYNCHRONOUS",
+    "processingStyleAsynchronousWithError": "PROCESSING-STYLE-ASYNCHRONOUS-WITH-ERROR",
+    "processingStyleSynchronous": "PROCESSING-STYLE-SYNCHRONOUS",
+}
+
+DIAGNOSTIC_CLEAR_DTC_NOTIFICATION_XML_MAP = {
+    "start": "START",
+    "finish": "FINISH",
+}
+
+DTC_FORMAT_TYPE_XML_MAP = {
+    "j1939": "J-1939",
+    "obd": "OBD",
+}
+
+DTC_KIND_XML_MAP = {
+    "emissionRelatedDtc": "EMISSION-RELATED-DTC",
+    "nonEmmissionRelatedDtc": "NON-EMMISSION-RELATED-DTC",
 }
 
 
@@ -2634,6 +2711,23 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDiagnosticCapabilityElement(self, element: ET.Element, needs: DiagnosticCapabilityElement):
         self.readServiceNeeds(element, needs)
+        if not isinstance(needs, DiagnosticCapabilityElement):
+            return
+        for audience_element in self.findall(element, "AUDIENCES/AUDIENCE"):
+            token = audience_element.text
+            camel = None
+            for camel_value, map_token in DIAGNOSTIC_AUDIENCE_XML_MAP.items():
+                if map_token == token:
+                    camel = camel_value
+                    break
+            if camel is not None:
+                needs.addAudience(DiagnosticAudienceEnum().setValue(camel))
+            else:
+                self.notImplemented("Unsupported AUDIENCE <%s>" % token)
+        req_element = self.find(element, "DIAG-REQUIREMENT")
+        if req_element is not None:
+            needs.setDiagRequirement(DiagRequirementIdString().setValue(req_element.text))
+        needs.setSecurityAccessLevel(self.getChildElementOptionalPositiveInteger(element, "SECURITY-ACCESS-LEVEL"))
 
     def readObdInfoServiceNeeds(self, element: ET.Element, needs: ObdInfoServiceNeeds):
         self.readDiagnosticCapabilityElement(element, needs)
@@ -2700,10 +2794,20 @@ class ARXMLParser(AbstractARXMLParser):
         self.readServiceNeeds(element, needs)
         needs.setUseSmartSensorApi(self.getChildElementOptionalBooleanValue(element, "USE-SMART-SENSOR-API"))
 
+    def _readEnumToken(self, element: ET.Element, tag: str, enum_cls, token_map: dict):
+        literal = self.getChildElementOptionalLiteral(element, tag)
+        if literal is None:
+            return None
+        for camel_value, token in token_map.items():
+            if token == literal.getText():
+                return enum_cls().setValue(camel_value)
+        self.notImplemented("Unsupported %s <%s>" % (tag, literal.getText()))
+        return None
+
     def readDiagnosticCommunicationManagerNeeds(self, element: ET.Element, needs: DiagnosticCommunicationManagerNeeds):
         # self.logger.debug("Read DiagnosticCommunicationManagerNeeds <%s>" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
-        needs.setServiceRequestCallbackType(self.getChildElementOptionalLiteral(element, "SERVICE-REQUEST-CALLBACK-TYPE"))
+        needs.setServiceRequestCallbackType(self._readEnumToken(element, "SERVICE-REQUEST-CALLBACK-TYPE", DiagnosticServiceRequestCallbackTypeEnum, DIAGNOSTIC_SERVICE_REQUEST_CALLBACK_TYPE_XML_MAP))
 
     def readDiagnosticComponentNeeds(self, element: ET.Element, needs: DiagnosticComponentNeeds):
         self.readDiagnosticCapabilityElement(element, needs)
@@ -2720,20 +2824,28 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticRoutineNeeds(self, element: ET.Element, needs: DiagnosticRoutineNeeds):
         # self.logger.debug("Read DiagnosticRoutineNeeds %s" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
-        needs.setDiagRoutineType(self.getChildElementOptionalLiteral(element, "DIAG-ROUTINE-TYPE"))
+        needs.setDiagRoutineType(self._readEnumToken(element, "DIAG-ROUTINE-TYPE", DiagnosticRoutineTypeEnum, DIAGNOSTIC_ROUTINE_TYPE_XML_MAP))
         needs.setRidNumber(self.getChildElementOptionalIntegerValue(element, "RID-NUMBER"))
 
     def readDiagnosticValueNeeds(self, element: ET.Element, needs: DiagnosticValueNeeds):
         # self.logger.debug("Read DiagnosticValueNeeds %s" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
         needs.setDataLength(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH"))
-        needs.setDiagnosticValueAccess(self.getChildElementOptionalLiteral(element, "DIAGNOSTIC-VALUE-ACCESS"))
+        needs.setDiagnosticValueAccess(self._readEnumToken(element, "DIAGNOSTIC-VALUE-ACCESS", DiagnosticValueAccessEnum, DIAGNOSTIC_VALUE_ACCESS_XML_MAP))
         needs.setDidNumber(self.getChildElementOptionalIntegerValue(element, "DID-NUMBER"))
         needs.setFixedLength(self.getChildElementOptionalBooleanValue(element, "FIXED-LENGTH"))
-        needs.setProcessingStyle(self.getChildElementOptionalLiteral(element, "PROCESSING-STYLE"))
+        needs.setProcessingStyle(self._readEnumToken(element, "PROCESSING-STYLE", DiagnosticProcessingStyleEnum, DIAGNOSTIC_PROCESSING_STYLE_XML_MAP))
 
     def readDiagEventDebounceCounterBased(self, element: ET.Element, algorithm: DiagEventDebounceCounterBased):
-        self.readDiagnosticCapabilityElement(element, algorithm)
+        algorithm.setCounterBasedFdcThresholdStorageValue(self.getChildElementOptionalIntegerValue(element, "COUNTER-BASED-FDC-THRESHOLD-STORAGE-VALUE"))
+        algorithm.setCounterDecrementStepSize(self.getChildElementOptionalIntegerValue(element, "COUNTER-DECREMENT-STEP-SIZE"))
+        algorithm.setCounterFailedThreshold(self.getChildElementOptionalIntegerValue(element, "COUNTER-FAILED-THRESHOLD"))
+        algorithm.setCounterIncrementStepSize(self.getChildElementOptionalIntegerValue(element, "COUNTER-INCREMENT-STEP-SIZE"))
+        algorithm.setCounterJumpDown(self.getChildElementOptionalBooleanValue(element, "COUNTER-JUMP-DOWN"))
+        algorithm.setCounterJumpDownValue(self.getChildElementOptionalIntegerValue(element, "COUNTER-JUMP-DOWN-VALUE"))
+        algorithm.setCounterJumpUp(self.getChildElementOptionalBooleanValue(element, "COUNTER-JUMP-UP"))
+        algorithm.setCounterJumpUpValue(self.getChildElementOptionalIntegerValue(element, "COUNTER-JUMP-UP-VALUE"))
+        algorithm.setCounterPassedThreshold(self.getChildElementOptionalIntegerValue(element, "COUNTER-PASSED-THRESHOLD"))
 
     def readDiagEventDebounceMonitorInternal(self, element: ET.Element, algorithm: DiagEventDebounceMonitorInternal):
         self.readDiagnosticCapabilityElement(element, algorithm)
@@ -2771,7 +2883,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticEventInfoNeeds(self, element: ET.Element, needs: DiagnosticEventInfoNeeds):
         # self.logger.debug("Read DiagnosticEventInfoNeeds <%s>" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
-        needs.setDtcKind(self.getChildElementOptionalLiteral(element, "DTC-KIND"))
+        needs.setDtcKind(self._readEnumToken(element, "DTC-KIND", DtcKindEnum, DTC_KIND_XML_MAP))
+        needs.setObdDtcNumber(self.getChildElementOptionalPositiveInteger(element, "OBD-DTC-NUMBER"))
         needs.setUdsDtcNumber(self.getChildElementOptionalPositiveInteger(element, "UDS-DTC-NUMBER"))
 
     def readDiagnosticIoControlNeeds(self, element: ET.Element, needs: DiagnosticIoControlNeeds):
@@ -2837,6 +2950,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readCryptoServiceNeeds(self, element: ET.Element, needs: CryptoServiceNeeds):
         # self.logger.debug("Read CryptoServiceNeeds <%s>" % needs.getShortName())
         self.readServiceNeeds(element, needs)
+        needs.setAlgorithmFamily(self.getChildElementOptionalString(element, "ALGORITHM-FAMILY"))
+        needs.setAlgorithmMode(self.getChildElementOptionalString(element, "ALGORITHM-MODE"))
+        needs.setCryptoKeyDescription(self.getChildElementOptionalString(element, "CRYPTO-KEY-DESCRIPTION"))
         needs.setMaximumKeyLength(self.getChildElementOptionalPositiveInteger(element, "MAXIMUM-KEY-LENGTH"))
 
     def readEcuStateMgrUserNeeds(self, element: ET.Element, needs: EcuStateMgrUserNeeds):
@@ -2846,7 +2962,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readDtcStatusChangeNotificationNeeds(self, element: ET.Element, needs: DtcStatusChangeNotificationNeeds):
         # self.logger.debug("Read DtcStatusChangeNotificationNeeds %s" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
-        needs.setDtcFormatType(self.getChildElementOptionalLiteral(element, "DTC-FORMAT-TYPE"))
+        needs.setDtcFormatType(self._readEnumToken(element, "DTC-FORMAT-TYPE", DtcFormatTypeEnum, DTC_FORMAT_TYPE_XML_MAP))
+        needs.setNotificationTime(self._readEnumToken(element, "NOTIFICATION-TIME", DiagnosticClearDtcNotificationEnum, DIAGNOSTIC_CLEAR_DTC_NOTIFICATION_XML_MAP))
 
     def readDltUserNeeds(self, element: ET.Element, needs: DltUserNeeds):
         # self.logger.debug("Read DltUserNeeds %s" % needs.getShortName())
@@ -4182,6 +4299,12 @@ class ARXMLParser(AbstractARXMLParser):
     def readBswDataReceptionPolicy(self, element: ET.Element, policy: BswDataReceptionPolicy):
         self.readBswApiOptions(element, policy)
         policy.setReceivedDataRef(self.getChildElementOptionalRefType(element, "RECEIVED-DATA-REF"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(policy, VariationPointCapable):
+                policy.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
     def readBswQueuedDataReceptionPolicy(self, element: ET.Element, policy: BswQueuedDataReceptionPolicy):
         self.readBswDataReceptionPolicy(element, policy)
@@ -4531,11 +4654,39 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Required Data <%s>" % tag_name)
 
+    def readBswEntryRelationshipSet(self, element: ET.Element, entry_set: BswEntryRelationshipSet):
+        self.readIdentifiable(element, entry_set)
+        for child_element in self.findall(element, "BSW-ENTRY-RELATIONSHIPS/BSW-ENTRY-RELATIONSHIP"):
+            relationship = BswEntryRelationship()
+            self.readBswEntryRelationship(child_element, relationship)
+            entry_set.addBswEntryRelationship(relationship)
+
+    def readBswEntryRelationship(self, element: ET.Element, relationship: BswEntryRelationship):
+        relationship.setFromRef(self.getChildElementOptionalRefType(element, "FROM-REF"))
+        relationship.setToRef(self.getChildElementOptionalRefType(element, "TO-REF"))
+        literal = self.getChildElementOptionalLiteral(element, "BSW-ENTRY-RELATIONSHIP-TYPE")
+        if literal is not None:
+            camel = None
+            for camel_value, token in BSW_ENTRY_RELATIONSHIP_XML_MAP.items():
+                if token == literal.getText():
+                    camel = camel_value
+                    break
+            if camel is not None:
+                relationship.setBswEntryRelationshipType(BswEntryRelationshipEnum().setValue(camel))
+            else:
+                self.notImplemented("Unsupported BSW-ENTRY-RELATIONSHIP-TYPE <%s>" % literal.getText())
+
     def readBswModuleClientServerEntry(self, element: ET.Element, entry: BswModuleClientServerEntry):
         self.readReferrable(element, entry)
         entry.setEncapsulatedEntryRef(self.getChildElementOptionalRefType(element, "ENCAPSULATED-ENTRY-REF"))
         entry.setIsReentrant(self.getChildElementOptionalBooleanValue(element, "IS-REENTRANT"))
         entry.setIsSynchronous(self.getChildElementOptionalBooleanValue(element, "IS-SYNCHRONOUS"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(entry, VariationPointCapable):
+                entry.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
     def readBswModuleDescriptionProvidedClientServerEntries(self, element: ET.Element, desc: BswModuleDescription):
         for child_element in self.findall(element, "PROVIDED-CLIENT-SERVER-ENTRYS/*"):
@@ -4585,8 +4736,12 @@ class ARXMLParser(AbstractARXMLParser):
             tag_name = self.getTagName(child_element)
             if tag_name == "BSW-MODULE-DEPENDENCY":
                 dependency = parent.createBswModuleDependency(self.getShortName(child_element))
-                dependency.setTargetModuleId(self.getChildElementOptionalNumericalValue(child_element, "TARGET-MODULE-ID"))
-                dependency.setTargetModuleRef(self.getChildElementOptionalRefType(child_element, "TARGET-MODULE-REF"))
+                dependency.setTargetModuleId(self.getChildElementOptionalPositiveInteger(child_element, "TARGET-MODULE-ID"))
+                for ref_conditional in self.findall(child_element, "TARGET-MODULE-REFS/BSW-MODULE-DESCRIPTION-REF-CONDITIONAL"):
+                    ref = self.getChildElementOptionalRefType(ref_conditional, "BSW-MODULE-DESCRIPTION-REF")
+                    if ref is not None:
+                        dependency.setTargetModuleRef(ref)
+                        break
             else:
                 self.notImplemented("Unsupported BswModuleDependency <%s>" % tag_name)
 
@@ -8066,6 +8221,12 @@ class ARXMLParser(AbstractARXMLParser):
             mapping = SwcBswRunnableMapping()
             mapping.setBswEntityRef(self.getChildElementOptionalRefType(child_element, "BSW-ENTITY-REF"))
             mapping.setSwcRunnableRef(self.getChildElementOptionalRefType(child_element, "SWC-RUNNABLE-REF"))
+            variation_point_element = self.find(child_element, "VARIATION-POINT")
+            if variation_point_element is not None:
+                if isinstance(mapping, VariationPointCapable):
+                    mapping.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+                else:
+                    self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(child_element.tag))
             parent.addRunnableMapping(mapping)
 
     def readSwcBswSynchronizedModeGroupPrototype(self, element: ET.Element) -> SwcBswSynchronizedModeGroupPrototype:
@@ -8076,6 +8237,12 @@ class ARXMLParser(AbstractARXMLParser):
             instance_ref = PModeGroupInAtomicSwcInstanceRef()
             self.readPModeGroupInAtomicSWCInstanceRef(child_element, instance_ref)
             mode_group.setSwcModeGroupIRef(instance_ref)
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(mode_group, VariationPointCapable):
+                mode_group.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
         return mode_group
 
     def readSwcBswSynchronizedTrigger(self, element: ET.Element) -> SwcBswSynchronizedTrigger:
@@ -8086,6 +8253,12 @@ class ARXMLParser(AbstractARXMLParser):
             instance_ref = PTriggerInAtomicSwcTypeInstanceRef()
             self.readPTriggerInAtomicSwcTypeInstanceRef(child_element, instance_ref)
             trigger.setSwcTriggerIRef(instance_ref)
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(trigger, VariationPointCapable):
+                trigger.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
         return trigger
 
     def readSwcBswMappingSwcBswSynchronizedModeGroups(self, element: ET.Element, parent: SwcBswMapping):
@@ -9989,6 +10162,10 @@ class ARXMLParser(AbstractARXMLParser):
         security_level.setSecurityDelayTime(self.getChildElementOptionalTimeValue(element, "SECURITY-DELAY-TIME"))
         security_level.setSeedSize(self.getChildElementOptionalPositiveInteger(element, "SEED-SIZE"))
 
+    def readDiagnosticEnvCompareCondition(self, element: ET.Element, condition: DiagnosticEnvCompareCondition):
+        self.readARObject(element, condition)
+        condition.setCompareType(self._readEnumToken(element, "COMPARE-TYPE", DiagnosticCompareTypeEnum, DIAGNOSTIC_COMPARE_TYPE_XML_MAP))
+
     def readDiagnosticEnvConditionFormula(self, element: ET.Element, formula: DiagnosticEnvConditionFormula):
         self.readARObject(element, formula)
         formula.setNrcValue(self.getChildElementOptionalPositiveInteger(element, "NRC-VALUE"))
@@ -9997,6 +10174,8 @@ class ARXMLParser(AbstractARXMLParser):
             e = DiagnosticLogicalOperatorEnum()
             e.setValue(op.getValue())
             formula.setOp(e)
+        # NOTE: DiagnosticLogicalOperatorEnum stores the XSD wire tokens (LOGICAL-AND/LOGICAL-OR)
+        # as literal values (pre-existing sync decision), so OP needs no token map.
         parts_element = self.find(element, "PARTS")
         if parts_element is not None:
             for child_element in parts_element:
@@ -14085,6 +14264,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "BSW-MODULE-ENTRY":
                 entry = parent.createBswModuleEntry(self.getShortName(child_element))
                 self.readBswModuleEntry(child_element, entry)
+            elif tag_name == "BSW-ENTRY-RELATIONSHIP-SET":
+                entry_set = parent.createBswEntryRelationshipSet(self.getShortName(child_element))
+                self.readBswEntryRelationshipSet(child_element, entry_set)
             elif tag_name == "SWC-BSW-MAPPING":
                 mapping = parent.createSwcBswMapping(self.getShortName(child_element))
                 self.readSwcBswMapping(child_element, mapping)

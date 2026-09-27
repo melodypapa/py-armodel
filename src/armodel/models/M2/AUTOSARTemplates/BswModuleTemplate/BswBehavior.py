@@ -1132,55 +1132,32 @@ class BswModeSwitchEvent(BswScheduleEvent):
 
 class BswModeSwitchedAckEvent(BswScheduleEvent):
     """
-    The event is raised after a switch of the referenced mode group has been
-    acknowledged or an error occurs. The referenced mode group shall be
-    provided by this module. The ModeDeclarationGroupPrototype used by this
-    event shall be referred as BswModuleDescription.providedModeGroup by the
-    same module (constr_4026).
+    The event is raised after a switch of the referenced mode group has been acknowledged or an error occurs. The referenced mode group shall be provided by this module.
     """
 
     # BswModeSwitchedAckEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.32, p.95
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getModeGroupRef              [x] impl  [x] docstring  [x] test
-    # [x] setModeGroupRef              [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getModeGroupRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeGroupRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswModeSwitchedAckEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
         super().__init__(parent, short_name)
 
-        # A mode group provided by this module. The acknowledgement of a
-        # switch of this group raises this event. The reference in the role
-        # modeGroup shall exist at the time when the configuration of the BSW
-        # module is finished (constr_10285).
+        # A mode group provided by this module. The acknowledgement of a switch of this group raises this event. For each BswModeSwitchedAckEvent, the reference in the role modeGroup shall exist at the time when the configuration of the BSW module is finished (constr_10285).
         self.modeGroupRef: Optional[RefType] = None
 
     def getModeGroupRef(self) -> Optional[RefType]:
         """
-        Gets the mode group provided by this module. The acknowledgement of a
-        switch of this group raises this event.
-
-        Returns:
-            The mode group reference
+        A mode group provided by this module. The acknowledgement of a switch of this group raises this event.
         """
         return self.modeGroupRef
 
-    def setModeGroupRef(self, value: RefType) -> BswModeSwitchedAckEvent:
+    def setModeGroupRef(self, value: Optional[RefType]) -> BswModeSwitchedAckEvent:
         """
-        Sets the mode group provided by this module. Only sets if value is
-        not None.
-
-        Args:
-            value: The mode group reference to set
-
-        Returns:
-            self for method chaining
+        A mode group provided by this module. The acknowledgement of a switch of this group raises this event.
+        A None value is a no-op and does not overwrite an existing modeGroupRef.
         """
         if value is not None:
             self.modeGroupRef = value
@@ -1223,51 +1200,33 @@ class BswModeManagerErrorEvent(BswScheduleEvent):
 
 class BswTimingEvent(BswScheduleEvent):
     """
-    A recurring BswEvent driven by a time period. The event is triggered by
-    the BswScheduler via the OS timer at the configured period.
+    A recurring BswEvent driven by a time period.
     """
 
     # BswTimingEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.25, p.89
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getPeriod                    [x] impl  [x] docstring  [x] test
-    # [x] setPeriod                    [x] impl  [x] docstring  [x] test
-    # [x] periodMs                     [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPeriod   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPeriod   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] periodMs    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11  (convenience, no spec row)
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswTimingEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
         super().__init__(parent, short_name)
 
-        # Requirement for the time period (in seconds) by which this event is
-        # triggered. Shall be greater than 0.
+        # Requirement for the time period (in seconds) by which this event is triggered. For each BswTimingEvent, the attribute period shall exist at the time when the configuration of the BSW module is finished (constr_10281). BswTimingEvent.period shall be greater than 0 (constr_4043).
         self.period: Optional[TimeValue] = None
 
     def getPeriod(self) -> Optional[TimeValue]:
         """
-        Gets the requirement for the time period (in seconds) by which this
-        event is triggered.
-
-        Returns:
-            The period as a TimeValue, or None if not set
+        Requirement for the time period (in seconds) by which this event is triggered.
         """
         return self.period
 
-    def setPeriod(self, value: TimeValue) -> BswTimingEvent:
+    def setPeriod(self, value: Optional[TimeValue]) -> BswTimingEvent:
         """
-        Sets the time period (in seconds) by which this event is triggered.
-        Only sets if value is not None.
-
-        Args:
-            value: The period to set
-
-        Returns:
-            self for method chaining
+        Requirement for the time period (in seconds) by which this event is triggered.
+        A None value is a no-op and does not overwrite an existing period.
         """
         if value is not None:
             self.period = value
@@ -2060,47 +2019,36 @@ class BswDataSendPolicy(BswApiOptions, VariationPointCapable):
 
 class BswDataReceptionPolicy(BswApiOptions, VariationPointCapable, ABC):
     """
-    Abstract base class for BSW data reception policies.
-    Defines how BSW modules receive data.
+    Specifies the reception policy for the referred data in sender-receiver communication over the BSW Scheduler. To be used for inter-partition and/or inter-core communication.
     """
 
     # BswDataReceptionPolicy method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getReceivedDataRef           [x] impl  [x] docstring  [ ] test
-    # [ ] setReceivedDataRef           [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.42, p.105
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReceivedDataRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReceivedDataRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the BSW data reception policy.
-        Raises TypeError if this abstract class is instantiated directly.
-        """
         if type(self) is BswDataReceptionPolicy:
             raise TypeError("BswDataReceptionPolicy is an abstract class.")
 
         super().__init__()
 
-        # Reference to the data being received
-        self.receivedDataRef: RefType = None
+        # The data received over the BSW Scheduler using this policy.
+        self.receivedDataRef: Optional[RefType] = None
 
-    def getReceivedDataRef(self):
+    def getReceivedDataRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the data being received.
-
-        Returns:
-            Reference to the received data
+        The data received over the BSW Scheduler using this policy.
         """
         return self.receivedDataRef
 
-    def setReceivedDataRef(self, value):
+    def setReceivedDataRef(self, value: Optional[RefType]) -> BswDataReceptionPolicy:
         """
-        Sets the reference to the data being received.
-        Only sets the value if it is not None.
+        The data received over the BSW Scheduler using this policy.
 
-        Args:
-            value: The received data reference to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing receivedDataRef.
         """
         if value is not None:
             self.receivedDataRef = value

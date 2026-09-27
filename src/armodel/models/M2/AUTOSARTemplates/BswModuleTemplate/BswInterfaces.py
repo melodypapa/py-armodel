@@ -10,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, NameToken, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, AREnum
@@ -127,55 +128,39 @@ class SwServiceImplPolicyEnum(AREnum):
         super().__init__([SwServiceImplPolicyEnum.INLINE, SwServiceImplPolicyEnum.INLINE_CONDITIONAL, SwServiceImplPolicyEnum.MACRO, SwServiceImplPolicyEnum.STANDARD])
 
 
-class BswModuleDependency(Identifiable, VariationPointCapable):
+class BswModuleDependency(Identifiable):
     """
-    Represents a dependency relationship between BSW modules.
-    This class defines how one BSW module depends on services from another module.
+    This class collects the dependencies of a BSW module or cluster on a certain other BSW module.
     """
 
     # BswModuleDependency method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getTargetModuleId            [x] impl  [x] docstring  [x] test
-    # [x] setTargetModuleId            [x] impl  [x] docstring  [x] test
-    # [x] getTargetModuleRef           [x] impl  [x] docstring  [x] test
-    # [x] setTargetModuleRef           [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.17, p.48
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTargetModuleId   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetModuleId   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetModuleRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetModuleRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BSW module dependency with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this dependency
-            short_name: The unique short name of this dependency
-        """
         super().__init__(parent, short_name)
 
-        # AUTOSAR identifier of the target module; optional as target may be
-        # identified by targetModuleRef instead.
+        # AUTOSAR identifier of the target module of which the dependencies are defined. This information is optional, because the target module may also be identified by targetModuleRef. Tags: xml.sequenceOffset=5
         self.targetModuleId: Optional[PositiveInteger] = None
-        # Reference to the target module; identifies target without needing
-        # its description.
+
+        # Reference to the target module. It is an <<atpUriDef>> because the reference shall be used to identify the target module without actually needing the description of that target module. Stereotypes: atpSplitable; atpUriDef; atpVariation Tags: atp.Splitkey=targetModuleRef.bswModuleDescription, targetModuleRef.variationPoint.shortLabel vh.latestBindingTime=preCompileTime xml.sequenceOffset=7
         self.targetModuleRef: Optional[RefType] = None
 
     def getTargetModuleId(self) -> Optional[PositiveInteger]:
         """
-        Gets the AUTOSAR identifier of the target module.
-
-        Returns:
-            Positive integer representing the target module ID, or None
+        AUTOSAR identifier of the target module of which the dependencies are defined. This information is optional, because the target module may also be identified by targetModuleRef.
         """
         return self.targetModuleId
 
     def setTargetModuleId(self, value: Optional[PositiveInteger]) -> "BswModuleDependency":
         """
-        Sets the AUTOSAR identifier of the target module.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The target module ID to set
-
-        Returns:
-            self for method chaining
+        AUTOSAR identifier of the target module of which the dependencies are defined. This information is optional, because the target module may also be identified by targetModuleRef.
+        A None value is a no-op and does not overwrite an existing targetModuleId.
         """
         if value is not None:
             self.targetModuleId = value
@@ -183,23 +168,14 @@ class BswModuleDependency(Identifiable, VariationPointCapable):
 
     def getTargetModuleRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the target module.
-
-        Returns:
-            RefType to the target module, or None
+        Reference to the target module. It is an <<atpUriDef>> because the reference shall be used to identify the target module without actually needing the description of that target module.
         """
         return self.targetModuleRef
 
     def setTargetModuleRef(self, value: Optional[RefType]) -> "BswModuleDependency":
         """
-        Sets the reference to the target module.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The target module reference to set
-
-        Returns:
-            self for method chaining
+        Reference to the target module. It is an <<atpUriDef>> because the reference shall be used to identify the target module without actually needing the description of that target module.
+        A None value is a no-op and does not overwrite an existing targetModuleRef.
         """
         if value is not None:
             self.targetModuleRef = value
@@ -460,103 +436,73 @@ class BswModuleEntry(AtpBlueprintable):
 
 class BswModuleClientServerEntry(Referrable, VariationPointCapable):
     """
-    Represents a client-server entry in a BSW module.
-    This class defines how BSW modules implement client-server communication patterns.
+    This meta-class represents a single API entry into the BSW module or cluster that has the ability to be called in client-server fashion via the BSW Scheduler. In this regard it is more special than BswModuleEntry and can be seen as a wrapper around the BswModuleEntry to which it refers (property encapsulatedEntry). Tags: atp.recommendedPackage=BswModuleEntrys
     """
 
     # BswModuleClientServerEntry method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getEncapsulatedEntryRef      [x] impl  [x] docstring  [ ] test
-    # [ ] setEncapsulatedEntryRef      [x] impl  [x] docstring  [ ] test
-    # [ ] getIsReentrant               [x] impl  [x] docstring  [ ] test
-    # [ ] setIsReentrant               [x] impl  [x] docstring  [ ] test
-    # [ ] getIsSynchronous             [x] impl  [x] docstring  [ ] test
-    # [ ] setIsSynchronous             [x] impl  [x] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.21, p.54 (R23-11)
+    # Spec: R4.3.1/AUTOSAR_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.22, p.56 (R4.3.1)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEncapsulatedEntryRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEncapsulatedEntryRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsReentrant           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsReentrant           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsSynchronous         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setIsSynchronous         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BSW module client-server entry with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this client-server entry
-            short_name: The unique short name of this client-server entry
-        """
         super().__init__(parent, short_name)
 
-        # Reference to the encapsulated entry that this client-server entry wraps
-        self.encapsulatedEntryRef: RefType = None
-        # Flag indicating if this client-server entry is reentrant
-        self.isReentrant: Boolean = None
-        # Flag indicating if this client-server entry is synchronous
-        self.isSynchronous: Boolean = None
+        # The underlying BswModuleEntry. Tags: xml.sequenceOffset=5
+        self.encapsulatedEntryRef: Optional[RefType] = None
 
-    def getEncapsulatedEntryRef(self):
+        # Reentrancy from the viewpoint of clients invoking the service via the BSW Scheduler: • true: Enables the service to be invoked again, before the service has finished. • false: It is prohibited to invoke the service again before is has finished. Tags: xml.sequenceOffset=10
+        self.isReentrant: Optional[Boolean] = None
+
+        # Synchronicity from the viewpoint of clients invoking the service via the BSW Scheduler: • True: This calls a synchronous service, i.e. the service is completed when the call returns. • False: The service (on semantical level) may not be complete when the call returns. Tags: xml.sequenceOffset=15
+        self.isSynchronous: Optional[Boolean] = None
+
+    def getEncapsulatedEntryRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the encapsulated entry that this client-server entry wraps.
-
-        Returns:
-            RefType to the encapsulated entry
+        The underlying BswModuleEntry.
         """
         return self.encapsulatedEntryRef
 
-    def setEncapsulatedEntryRef(self, value):
+    def setEncapsulatedEntryRef(self, value: Optional[RefType]) -> "BswModuleClientServerEntry":
         """
-        Sets the reference to the encapsulated entry that this client-server entry wraps.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The encapsulated entry reference to set
-
-        Returns:
-            self for method chaining
+        The underlying BswModuleEntry.
+        A None value is a no-op and does not overwrite an existing encapsulatedEntryRef.
         """
         if value is not None:
             self.encapsulatedEntryRef = value
         return self
 
-    def getIsReentrant(self):
+    def getIsReentrant(self) -> Optional[Boolean]:
         """
-        Gets the reentrant flag for this client-server entry.
-
-        Returns:
-            Boolean indicating if this entry is reentrant
+        Reentrancy from the viewpoint of clients invoking the service via the BSW Scheduler: • true: Enables the service to be invoked again, before the service has finished. • false: It is prohibited to invoke the service again before is has finished.
         """
         return self.isReentrant
 
-    def setIsReentrant(self, value):
+    def setIsReentrant(self, value: Optional[Boolean]) -> "BswModuleClientServerEntry":
         """
-        Sets the reentrant flag for this client-server entry.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The reentrant flag to set
-
-        Returns:
-            self for method chaining
+        Reentrancy from the viewpoint of clients invoking the service via the BSW Scheduler: • true: Enables the service to be invoked again, before the service has finished. • false: It is prohibited to invoke the service again before is has finished.
+        A None value is a no-op and does not overwrite an existing isReentrant.
         """
         if value is not None:
             self.isReentrant = value
         return self
 
-    def getIsSynchronous(self):
+    def getIsSynchronous(self) -> Optional[Boolean]:
         """
-        Gets the synchronous flag for this client-server entry.
-
-        Returns:
-            Boolean indicating if this entry is synchronous
+        Synchronicity from the viewpoint of clients invoking the service via the BSW Scheduler: • True: This calls a synchronous service, i.e. the service is completed when the call returns. • False: The service (on semantical level) may not be complete when the call returns.
         """
         return self.isSynchronous
 
-    def setIsSynchronous(self, value):
+    def setIsSynchronous(self, value: Optional[Boolean]) -> "BswModuleClientServerEntry":
         """
-        Sets the synchronous flag for this client-server entry.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The synchronous flag to set
-
-        Returns:
-            self for method chaining
+        Synchronicity from the viewpoint of clients invoking the service via the BSW Scheduler: • True: This calls a synchronous service, i.e. the service is completed when the call returns. • False: The service (on semantical level) may not be complete when the call returns.
+        A None value is a no-op and does not overwrite an existing isSynchronous.
         """
         if value is not None:
             self.isSynchronous = value
@@ -565,62 +511,62 @@ class BswModuleClientServerEntry(Referrable, VariationPointCapable):
 
 class BswEntryRelationshipEnum(AREnum):
     """
-    Enumeration for BSW entry relationship types.
-    Defines the type of relationship between two BswModuleEntrys.
+    Define the type of relationship between two BswModuleEntrys.
     """
 
     # BswEntryRelationshipEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.20, p.52
     # (no methods)
 
-    # Describes that the BswModuleEntry referenced as "to" needs to have
-    # the same signature as the "abstract" BswModuleEntry referenced as
-    # "from". Tags: atp.EnumerationLiteralIndex=0
+    # Describes that the BswModuleEntry referenced as "to" needs to have the same signature as the "abstract" BswModuleEntry referenced as "from". Tags: atp.EnumerationLiteralIndex=0
     DERIVED_FROM = "derivedFrom"
+
+    def __init__(self):
+        super().__init__(
+            [
+                BswEntryRelationshipEnum.DERIVED_FROM,
+            ]
+        )
 
 
 class BswEntryRelationship(ARObject):
     """
-    Describes a relationship between two BswModuleEntrys and the
-    type of relationship.
+    Describes a relationship between two BswModuleEntrys and the type of relationship.
     """
 
     # BswEntryRelationship method parity checklist:
-    # [x] __init__                          [x] impl  [x] docstring  [ ] test
-    # [x] getBswEntryRelationshipType       [x] impl  [x] docstring  [ ] test
-    # [x] setBswEntryRelationshipType       [x] impl  [x] docstring  [ ] test
-    # [x] getFromRef                        [x] impl  [x] docstring  [ ] test
-    # [x] setFromRef                        [x] impl  [x] docstring  [ ] test
-    # [x] getToRef                          [x] impl  [x] docstring  [ ] test
-    # [x] setToRef                          [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.19, p.51
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBswEntryRelationshipType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBswEntryRelationshipType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFromRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFromRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getToRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setToRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the BswEntryRelationship with default values.
-        """
         super().__init__()
 
         # Denotes the type of the relationship.
         self.bswEntryRelationshipType: Optional[BswEntryRelationshipEnum] = None
 
-        # Type of relationship that refers to the abstract BswModuleEntry.
-        # Please notice that in this case the bswEntryRelationshipType
-        # shall be set to drivenFrom.
+        # Type of relationship that refers to the abstract BswModuleEntry. Please notice that in this case the bswEntryRelationshipType shall be set to drivedFrom.
         self.fromRef: Optional[RefType] = None
 
-        # Type of relationship that refers to the concrete BswModuleEntry.
+        # Type of relationship that refers to the concrete BswModuleEntry
         self.toRef: Optional[RefType] = None
 
     def getBswEntryRelationshipType(self) -> Optional[BswEntryRelationshipEnum]:
         """
-        Gets the type of relationship between BSW entries. Denotes the
-        type of the relationship.
+        Denotes the type of the relationship.
         """
         return self.bswEntryRelationshipType
 
     def setBswEntryRelationshipType(self, value: Optional[BswEntryRelationshipEnum]) -> "BswEntryRelationship":
         """
-        Sets the type of relationship between BSW entries. Only sets if
-        value is not None. Returns self for method chaining.
+        Denotes the type of the relationship.
+        A None value is a no-op and does not overwrite an existing bswEntryRelationshipType.
         """
         if value is not None:
             self.bswEntryRelationshipType = value
@@ -628,17 +574,14 @@ class BswEntryRelationship(ARObject):
 
     def getFromRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the abstract BswModuleEntry that is the
-        source of the relationship. When this reference is present, the
-        bswEntryRelationshipType shall be set to drivenFrom.
+        Type of relationship that refers to the abstract BswModuleEntry. Please notice that in this case the bswEntryRelationshipType shall be set to drivedFrom.
         """
         return self.fromRef
 
     def setFromRef(self, value: Optional[RefType]) -> "BswEntryRelationship":
         """
-        Sets the reference to the abstract BswModuleEntry that is the
-        source of the relationship. Only sets if value is not None.
-        Returns self for method chaining.
+        Type of relationship that refers to the abstract BswModuleEntry. Please notice that in this case the bswEntryRelationshipType shall be set to drivedFrom.
+        A None value is a no-op and does not overwrite an existing fromRef.
         """
         if value is not None:
             self.fromRef = value
@@ -646,42 +589,33 @@ class BswEntryRelationship(ARObject):
 
     def getToRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the concrete BswModuleEntry that is the
-        target of the relationship.
+        Type of relationship that refers to the concrete BswModuleEntry
         """
         return self.toRef
 
     def setToRef(self, value: Optional[RefType]) -> "BswEntryRelationship":
         """
-        Sets the reference to the concrete BswModuleEntry that is the
-        target of the relationship. Only sets if value is not None.
-        Returns self for method chaining.
+        Type of relationship that refers to the concrete BswModuleEntry
+        A None value is a no-op and does not overwrite an existing toRef.
         """
         if value is not None:
             self.toRef = value
         return self
 
 
-class BswEntryRelationshipSet(Identifiable):
+class BswEntryRelationshipSet(ARElement):
     """
-    Describes a set of relationships between two BswModuleEntrys.
-    Tags: atp.recommendedPackage=BswEntryRelationshipSets
+    Describes a set of relationships between two BswModuleEntrys. Tags: atp.recommendedPackage=BswEntryRelationshipSets
     """
 
     # BswEntryRelationshipSet method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [ ] test
-    # [x] getBswEntryRelationships     [x] impl  [x] docstring  [ ] test
-    # [x] addBswEntryRelationship      [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.18, p.51
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBswEntryRelationships     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addBswEntryRelationship      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswEntryRelationshipSet with a parent and
-        short name.
-
-        Args:
-            parent: The parent ARObject that contains this relationship set
-            short_name: The unique short name of this relationship set
-        """
         super().__init__(parent, short_name)
 
         # Relationship between two BswModuleEntrys.
@@ -689,23 +623,14 @@ class BswEntryRelationshipSet(Identifiable):
 
     def getBswEntryRelationships(self) -> List[BswEntryRelationship]:
         """
-        Gets the list of relationships between BSW entries.
-
-        Returns:
-            List of BswEntryRelationship instances
+        Relationship between two BswModuleEntrys.
         """
         return self.bswEntryRelationships
 
     def addBswEntryRelationship(self, value: BswEntryRelationship) -> "BswEntryRelationshipSet":
         """
-        Adds a relationship between BSW entries. Only adds if value is
-        not None. Returns self for method chaining.
-
-        Args:
-            value: The BswEntryRelationship instance to add
-
-        Returns:
-            self for method chaining
+        Relationship between two BswModuleEntrys.
+        A None value is a no-op and does not modify the existing bswEntryRelationships.
         """
         if value is not None:
             self.bswEntryRelationships.append(value)

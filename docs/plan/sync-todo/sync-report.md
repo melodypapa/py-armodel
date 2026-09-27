@@ -69,12 +69,12 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BswAsynchronousServerCallReturnsEvent`                 | [ ] Deferred| N/A                                      | Group13          |
 | `BswClientPolicy`                                       | [x] Done    | 31418241                                 | Group4           |
 | `BswDataReceivedEvent`                                  | [ ] Deferred| N/A                                      | Group13          |
-| `BswDataReceptionPolicy`                                | [ ] Pending | N/A                                      | Group13          |
+| `BswDataReceptionPolicy`                                | [ ] Pending* | 7e3a2541a                                      | Group13          |
 | `BswDataSendPolicy`                                     | [x] Done    | ccacff4a                                 | Group4           |
 | `BswDirectCallPoint`                                    | [ ] Deferred| N/A                                      | Group13          |
-| `BswEntryRelationship`                                  | [ ] Pending | N/A                                      | Group13          |
-| `BswEntryRelationshipEnum`                              | [ ] Pending | N/A                                      | Group13          |
-| `BswEntryRelationshipSet`                               | [ ] Pending | N/A                                      | Group13          |
+| `BswEntryRelationship`                                  | [ ] Pending* | 75c651734                                      | Group13          |
+| `BswEntryRelationshipEnum`                              | [ ] Pending* | 994c3903c                                      | Group13          |
+| `BswEntryRelationshipSet`                               | [ ] Pending* | a4d57abd3                                      | Group13          |
 | `BswInternalBehavior`                                   | [x] Done    | 89a72317                                 | Group4           |
 | `BswInternalTriggerOccurredEvent`                       | [ ] Deferred| N/A                                      | Group13          |
 | `BswInternalTriggeringPoint`                            | [ ] Deferred| N/A                                      | Group13          |
@@ -83,16 +83,16 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BswMgrNeeds`                                           | [x] Done    | 628464ed                                 | Group4           |
 | `BswModeManagerErrorEvent`                              | [ ] Deferred| N/A                                      | Group13          |
 | `BswModeSwitchAckRequest`                               | [ ] Deferred| N/A                                      | Group13          |
-| `BswModeSwitchedAckEvent`                               | [ ] Pending | N/A                                      | Group13          |
+| `BswModeSwitchedAckEvent`                               | [ ] Pending* | 160eae8f2                                      | Group13          |
 | `BswModuleCallPoint`                                    | [ ] Deferred| N/A                                      | Group13          |
-| `BswModuleClientServerEntry`                            | [ ] Pending | N/A                                      | Group13          |
-| `BswModuleDependency`                                   | [ ] Pending | N/A                                      | Group13          |
+| `BswModuleClientServerEntry`                            | [ ] Pending* | e69bc46ba                                      | Group13          |
+| `BswModuleDependency`                                   | [ ] Pending* | 1ca038b14                                      | Group13          |
 | `BswParameterPolicy`                                    | [x] Done    | eceaef92                                 | Group4           |
 | `BswPerInstanceMemoryPolicy`                            | [x] Done    | b89ad783                                 | Group4           |
 | `BswQueuedDataReceptionPolicy`                          | [ ] Deferred| N/A                                      | Group13          |
 | `BswReleasedTriggerPolicy`                              | [x] Done    | 04498e5b                                 | Group4           |
 | `BswSynchronousServerCallPoint`                         | [ ] Deferred| N/A                                      | Group13          |
-| `BswTimingEvent`                                        | [ ] Pending | N/A                                      | Group13          |
+| `BswTimingEvent`                                        | [ ] Pending* | 1a0a0619b                                      | Group13          |
 | `BuildAction`                                           | [x] Done    | 6c9ef66b                                 | Group1           |
 | `BuildActionEntity`                                     | [x] Done    | d7717e73                                 | Group1           |
 | `BuildActionEnvironment`                                | [x] Done    | 2311c875                                 | Group1           |
@@ -176,7 +176,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CryptoServiceCertificate`                              | [x] Done    | 757aea1d                                 | Group6           |
 | `CryptoServiceJobNeeds`                                 | [x] Done    | 2ec47467                                 | Group4           |
 | `CryptoServiceMapping`                                  | [x] Done    | 757aea1d                                 | Group6           |
-| `CryptoServiceNeeds`                                    | [ ] Pending | N/A                                      | Group14          |
+| `CryptoServiceNeeds`                                    | [ ] Pending* | d064592a4                                      | Group14          |
 | `CryptoServicePrimitive`                                | [x] Done    | b609d72d                                 | Group6           |
 | `CryptoSignatureScheme`                                 | [x] Done    | 1eaeb580                                 | Group6           |
 | `CycleCounter`                                          | [x] Done    | 75683a2e                                 | Group5           |
@@ -206,40 +206,40 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DependencyOnArtifact`                                  | [x] Done    | 25211e56                                 | Group1           |
 | `DependencyUsageEnum`                                   | [ ] Deferred| N/A                                      | Group10          |
 | `DiagEventDebounceAlgorithm`                            | [x] Done    | 4f246ae6                                 | Group4           |
-| `DiagEventDebounceCounterBased`                         | [ ] Pending | N/A                                      | Group14          |
+| `DiagEventDebounceCounterBased`                         | [ ] Pending* | d064592a4                                      | Group14          |
 | `DiagEventDebounceMonitorInternal`                      | [x] Done    | 103cfd43                                 | Group4           |
 | `DiagnosticAccessPermission`                            | [x] Done    | 9cbb4e26                                 | Group7, Group7   |
-| `DiagnosticAudienceEnum`                                | [ ] Pending | N/A                                      | Group14          |
+| `DiagnosticAudienceEnum`                                | [ ] Pending* | 5685ad743                                      | Group14          |
 | `DiagnosticAuthRoleProxy`                               | [x] Done    | 4579b43f                                 | Group7           |
-| `DiagnosticCapabilityElement`                           | [ ] Pending | N/A                                      | Group14          |
-| `DiagnosticClearDtcNotificationEnum`                    | [ ] Pending | N/A                                      | Group14          |
+| `DiagnosticCapabilityElement`                           | [ ] Pending* | f5ffd3abf                                      | Group14          |
+| `DiagnosticClearDtcNotificationEnum`                    | [ ] Pending* | 28746ce3c                                      | Group14          |
 | `DiagnosticCommonElement`                               | [x] Done    | e0d022b1                                 | Group7           |
-| `DiagnosticCommunicationManagerNeeds`                   | [ ] Pending | N/A                                      | Group14          |
+| `DiagnosticCommunicationManagerNeeds`                   | [ ] Pending* | 79c639e42                                      | Group14          |
 | `DiagnosticComponentNeeds`                              | [x] Done    | 5c4c0963                                 | Group4           |
 | `DiagnosticConnection`                                  | [x] Done    | e96086c1                                 | Group5           |
 | `DiagnosticControlNeeds`                                | [x] Done    | d0a1134e                                 | Group4, Group4   |
-| `DiagnosticEnvCompareCondition`                         | [ ] Pending | N/A                                      | Group14          |
-| `DiagnosticEnvConditionFormula`                         | [ ] Pending | N/A                                      | Group14          |
-| `DiagnosticEnvConditionFormulaPart`                     | [ ] Pending | N/A                                      | Group14          |
-| `DiagnosticEnvModeElement`                              | [ ] Pending | N/A                                      | Group14          |
+| `DiagnosticEnvCompareCondition`                         | [ ] Pending* | af255af37                                      | Group14          |
+| `DiagnosticEnvConditionFormula`                         | [ ] Pending* | af255af37                                      | Group14          |
+| `DiagnosticEnvConditionFormulaPart`                     | [ ] Pending* | af255af37                                      | Group14          |
+| `DiagnosticEnvModeElement`                              | [ ] Pending* | af255af37                                      | Group14          |
 | `DiagnosticEnvironmentalCondition`                      | [x] Done    | 5bbca5f2                                 | Group7           |
-| `DiagnosticEventInfoNeeds`                              | [ ] Pending | N/A                                      | Group14          |
+| `DiagnosticEventInfoNeeds`                              | [ ] Pending* | 79c639e42                                      | Group14          |
 | `DiagnosticEventManagerNeeds`                           | [x] Done    | dc347744                                 | Group4, Group4   |
 | `DiagnosticJumpToBootLoaderEnum`                        | [ ] Pending | N/A                                      | Group14          |
 | `DiagnosticLogicalOperatorEnum`                         | [ ] Pending | N/A                                      | Group14          |
-| `DiagnosticProcessingStyleEnum`                         | [ ] Pending | N/A                                      | Group14          |
+| `DiagnosticProcessingStyleEnum`                         | [ ] Pending* | 28746ce3c                                      | Group14          |
 | `DiagnosticRequestFileTransferNeeds`                    | [x] Done    | f084c432                                 | Group4, Group4   |
-| `DiagnosticRoutineNeeds`                                | [ ] Pending | N/A                                      | Group14          |
-| `DiagnosticRoutineTypeEnum`                             | [ ] Pending | N/A                                      | Group14          |
+| `DiagnosticRoutineNeeds`                                | [ ] Pending* | 79c639e42                                      | Group14          |
+| `DiagnosticRoutineTypeEnum`                             | [ ] Pending* | 28746ce3c                                      | Group14          |
 | `DiagnosticSecurityLevel`                               | [x] Done    | f2da1338                                 | Group7           |
 | `DiagnosticServiceClass`                                | [ ] Pending | N/A                                      | Group14          |
 | `DiagnosticServiceInstance`                             | [x] Done    | 6b514727                                 | Group7           |
-| `DiagnosticServiceRequestCallbackTypeEnum`              | [ ] Pending | N/A                                      | Group14          |
+| `DiagnosticServiceRequestCallbackTypeEnum`              | [ ] Pending* | 28746ce3c                                      | Group14          |
 | `DiagnosticServiceTable`                                | [x] Done    | 9bd6fada                                 | Group7           |
 | `DiagnosticSession`                                     | [x] Done    | 06d4e49a                                 | Group7           |
 | `DiagnosticUploadDownloadNeeds`                         | [x] Done    | fe8a0a1a                                 | Group4           |
-| `DiagnosticValueAccessEnum`                             | [ ] Pending | N/A                                      | Group14          |
-| `DiagnosticValueNeeds`                                  | [ ] Pending | N/A                                      | Group14          |
+| `DiagnosticValueAccessEnum`                             | [ ] Pending* | 28746ce3c                                      | Group14          |
+| `DiagnosticValueNeeds`                                  | [ ] Pending* | 79c639e42                                      | Group14          |
 | `DiagnosticsCommunicationSecurityNeeds`                 | [x] Done    | d24a6663                                 | Group4           |
 | `DltApplication`                                        | [x] Done    | c42f8ae9                                 | Group5, Group20  |
 | `DltArgument`                                           | [x] Done    | 64d125ffa                                | Group5, Group20  |
@@ -265,9 +265,9 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DoIpTpConfig`                                          | [x] Done    | ac63e581                                 | Group7           |
 | `DoIpTpConnection`                                      | [ ] Pending | N/A                                      | Group20          |
 | `DocumentViewSelectable`                                | [x] Done    | ba2c324b                                 | Group3           |
-| `DtcFormatTypeEnum`                                     | [ ] Pending | N/A                                      | Group14          |
-| `DtcKindEnum`                                           | [ ] Pending | N/A                                      | Group14          |
-| `DtcStatusChangeNotificationNeeds`                      | [ ] Pending | N/A                                      | Group14          |
+| `DtcFormatTypeEnum`                                     | [ ] Pending* | 28746ce3c                                      | Group14          |
+| `DtcKindEnum`                                           | [ ] Pending* | 28746ce3c                                      | Group14          |
+| `DtcStatusChangeNotificationNeeds`                      | [ ] Pending* | 79c639e42                                      | Group14          |
 | `DynamicPart`                                           | [ ] Pending | N/A                                      | Group15          |
 | `DynamicPartAlternative`                                | [x] Done    | 206cf295                                 | Group5           |
 | `ECUMapping`                                            | [x] Done    | 34bb50d7                                 | Group7           |
@@ -556,7 +556,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SenderReceiverToSignalGroupMapping`                    | [ ] Pending | N/A                                      | Group17          |
 | `SenderReceiverToSignalMapping`                         | [ ] Pending | N/A                                      | Group17          |
 | `ServerCallPoint`                                       | [x] Done    | 774620a3                                 | Group2           |
-| `ServiceDiagnosticRelevanceEnum`                        | [ ] Pending | N/A                                      | Group14          |
+| `ServiceDiagnosticRelevanceEnum`                        | [ ] Pending* | 28746ce3c                                      | Group14          |
 | `ServiceNeeds`                                          | [x] Done    | 5fd6271d                                 | Group4           |
 | `ServiceProxySwComponentType`                           | [ ] Pending | N/A                                      | Group11          |
 | `ShortNameFragment`                                     | [x] Done    | 519d50539                                | Group8           |
@@ -569,7 +569,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ShowResourceShortNameEnum`                             | [x] Done    | e2e2c300                                 | Group3           |
 | `ShowResourceTypeEnum`                                  | [x] Done    | 447709b7                                 | Group3           |
 | `ShowSeeEnum`                                           | [x] Done    | 5d48c2a6                                 | Group3           |
-| `SignalServiceTranslationElementProps`                  | [ ] Pending | N/A                                      | Group14          |
+| `SignalServiceTranslationElementProps`                  | [ ] Pending* | 29d09fc62                                      | Group14          |
 | `SingleLanguageLongName`                                | [x] Done    | 8aaa2657                                 | Group3           |
 | `SingleLanguageReferrable`                              | [x] Done    | a5910c1b                                 | Group3           |
 | `SingleLanguageUnitNames`                               | [x] Done    | N/A                                      | Group8           |
@@ -606,9 +606,9 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SwSystemconstValue`                                    | [ ] Deferred| N/A                                      | Group8           |
 | `SwValueCont`                                           | [x] Done    | 6db47de6                                 | Group3           |
 | `SwcBswMapping`                                         | [x] Done    | 58b2c68a                                 | Group1           |
-| `SwcBswRunnableMapping`                                 | [ ] Pending | N/A                                      | Group13          |
-| `SwcBswSynchronizedModeGroupPrototype`                  | [ ] Pending | N/A                                      | Group13          |
-| `SwcBswSynchronizedTrigger`                             | [ ] Pending | N/A                                      | Group13          |
+| `SwcBswRunnableMapping`                                 | [ ] Pending* | c52cece66                                      | Group13          |
+| `SwcBswSynchronizedModeGroupPrototype`                  | [ ] Pending* | 659c2bf17                                      | Group13          |
+| `SwcBswSynchronizedTrigger`                             | [ ] Pending* | 6b4b9d6d1                                      | Group13          |
 | `SwcImplementation`                                     | [ ] Deferred| N/A                                      | Group10          |
 | `SwcInternalBehavior`                                   | [x] Done    | 4043dc01                                 | Group2           |
 | `SwcSupportedFeature`                                   | [x] Done    | 7c676281                                 | Group2           |

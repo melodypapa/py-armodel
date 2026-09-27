@@ -650,13 +650,11 @@ class NvBlockNeeds(ServiceNeeds):
 
 class ServiceDiagnosticRelevanceEnum(AREnum):
     """
-    This enumeration provides values to describe the diagnostic relevance of a
-    SwcServiceDependency (specifically if the aggregated ServiceNeeds itself
-    does not indicate a relevance for diagnostics).
+    This enumeration provides values to describe the diagnostic relevance of a SwcServiceDependency (specifically if the aggregated ServiceNeeds itself does not indicate a relevance for diagnostics).
     """
 
     # ServiceDiagnosticRelevanceEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.58, p.655
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.58, p.609
     # (no methods)
 
     # This value indicates that a relevance for diagnostics does not exist. Tags: atp.EnumerationLiteralIndex=0
@@ -779,28 +777,29 @@ class ServiceDependency(ARObject, ABC):
 
 class DiagnosticAudienceEnum(AREnum):
     """
-    Enumeration for diagnostic audiences in AUTOSAR models.
-    Defines the target audience for diagnostic information and services.
+    The possible values of the intended audience for a diagnostic object.
     """
 
     # DiagnosticAudienceEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.17, p.754
+    # (no methods)
 
-    # Diagnostic information for aftermarket use
+    # The object is for free aftermarket service organizations. Tags: atp.EnumerationLiteralIndex=1
     AFTER_MARKET = "aftermarket"
-    # Diagnostic information for after-sales use
+
+    # The object is relevant for the OEM after-sales organization. Tags: atp.EnumerationLiteralIndex=2
     AFTER_SALES = "afterSales"
-    # Diagnostic information for development use
+
+    # The object is relevant for engineering only. Tags: atp.EnumerationLiteralIndex=3
     DEVELOPMENT = "development"
-    # Diagnostic information for manufacturing use
+
+    # The object is relevant for manufacturing. Tags: atp.EnumerationLiteralIndex=4
     MANUFACTURING = "manufacturing"
-    # Diagnostic information for supplier use
+
+    # The object is relevant for the ECU-supplier aftermarket organization. Tags: atp.EnumerationLiteralIndex=5
     SUPPLIER = "supplier"
 
     def __init__(self):
-        """
-        Initializes the DiagnosticAudienceEnum with all possible values.
-        """
         super().__init__(
             (
                 DiagnosticAudienceEnum.AFTER_MARKET,
@@ -814,22 +813,20 @@ class DiagnosticAudienceEnum(AREnum):
 
 class DiagnosticServiceRequestCallbackTypeEnum(AREnum):
     """
-    Enumeration for diagnostic service request callback types in AUTOSAR models.
-    Defines who handles diagnostic service request callbacks (manufacturer or supplier).
+    This represents the ability to define whether a Service Request Notification was used in the role of a manufacturer or a supplier.
     """
 
     # DiagnosticServiceRequestCallbackTypeEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.35, p.780
+    # (no methods)
 
-    # Callback type handled by manufacturer
+    # This represents the case that the usage of PortInterface ServiceRequestNotification has the characteristics of being used by a manufacturer. Tags: atp.EnumerationLiteralIndex=0
     REQUEST_CALLBACK_TYPE_MANUFACTURER = "requestCallbackTypeManufacturer"
-    # Callback type handled by supplier
+
+    # This represents the case that the usage of PortInterface ServiceRequestNotification has the characteristics of being used by a supplier. Tags: atp.EnumerationLiteralIndex=1
     REQUEST_CALLBACK_TYPE_SUPPLIER = "requestCallbackTypeSupplier"
 
     def __init__(self):
-        """
-        Initializes the DiagnosticServiceRequestCallbackTypeEnum with all possible values.
-        """
         super().__init__(
             (
                 DiagnosticServiceRequestCallbackTypeEnum.REQUEST_CALLBACK_TYPE_MANUFACTURER,
@@ -840,127 +837,97 @@ class DiagnosticServiceRequestCallbackTypeEnum(AREnum):
 
 class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     """
-    Abstract base class for diagnostic capability elements in AUTOSAR models.
-    This class defines common properties for diagnostic capabilities including audiences, requirements, and security access levels.
+    This class identifies the capability to provide generic information about diagnostic capabilities
     """
 
     # DiagnosticCapabilityElement method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getAudiences                 [x] impl  [x] docstring  [ ] test
-    # [ ] addAudience                  [x] impl  [x] docstring  [ ] test
-    # [ ] getDiagRequirement           [x] impl  [x] docstring  [ ] test
-    # [ ] setDiagRequirement           [x] impl  [x] docstring  [ ] test
-    # [ ] getSecurityAccessLevel       [x] impl  [x] docstring  [ ] test
-    # [ ] setSecurityAccessLevel       [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.15, p.753
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAudiences             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addAudience              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDiagRequirement       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagRequirement       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecurityAccessLevel   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecurityAccessLevel   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticCapabilityElement with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic capability element
-            short_name: The unique short name of this diagnostic capability element
-        """
         if type(self) is DiagnosticCapabilityElement:
             raise TypeError("DiagnosticCapabilityElement is an abstract class.")
 
         super().__init__(parent, short_name)
 
-        # List of audiences for this diagnostic capability
+        # This specifies the intended audience for the diagnostic object. Note that this is not only for the documentation but also subsequent audience specific implementation.
         self.audiences: List[DiagnosticAudienceEnum] = []
-        # Diagnostic requirement ID string for this capability
-        self.diagRequirement: DiagRequirementIdString = None
-        # Security access level for this diagnostic capability
-        self.securityAccessLevel: PositiveInteger = None
 
-    def getAudiences(self):
+        # This denotes the requirement identifier to which the object can be linked to. Note that with the implementation of a generic tracing concept in AUTOSAR this attribute might become obsolete.
+        self.diagRequirement: Optional[DiagRequirementIdString] = None
+
+        # This attribute denotes the level of security which is touched by the diagnostic object. The higher the level the more relevance for the security exists. This level shall be mapped to the security level in the ECU.
+        self.securityAccessLevel: Optional[PositiveInteger] = None
+
+    def getAudiences(self) -> List[DiagnosticAudienceEnum]:
         """
-        Gets the list of audiences for this diagnostic capability.
-
-        Returns:
-            List of DiagnosticAudienceEnum instances
+        This specifies the intended audience for the diagnostic object. Note that this is not only for the documentation but also subsequent audience specific implementation.
         """
         return self.audiences
 
-    def addAudience(self, value):
+    def addAudience(self, value: Optional[DiagnosticAudienceEnum]) -> DiagnosticCapabilityElement:
         """
-        Adds an audience to this diagnostic capability.
-
-        Args:
-            value: The diagnostic audience to add
-
-        Returns:
-            self for method chaining
+        This specifies the intended audience for the diagnostic object. Note that this is not only for the documentation but also subsequent audience specific implementation.
+        A None value is a no-op and does not modify the existing audiences.
         """
-        self.audiences.append(value)
+        if value is not None:
+            self.audiences.append(value)
         return self
 
-    def getDiagRequirement(self):
+    def getDiagRequirement(self) -> Optional[DiagRequirementIdString]:
         """
-        Gets the diagnostic requirement ID string for this capability.
-
-        Returns:
-            DiagRequirementIdString: The diagnostic requirement
+        This denotes the requirement identifier to which the object can be linked to. Note that with the implementation of a generic tracing concept in AUTOSAR this attribute might become obsolete.
         """
         return self.diagRequirement
 
-    def setDiagRequirement(self, value):
+    def setDiagRequirement(self, value: Optional[DiagRequirementIdString]) -> DiagnosticCapabilityElement:
         """
-        Sets the diagnostic requirement ID string for this capability.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The diagnostic requirement to set
-
-        Returns:
-            self for method chaining
+        This denotes the requirement identifier to which the object can be linked to. Note that with the implementation of a generic tracing concept in AUTOSAR this attribute might become obsolete.
+        A None value is a no-op and does not overwrite an existing diagRequirement.
         """
-        self.diagRequirement = value
+        if value is not None:
+            self.diagRequirement = value
         return self
 
-    def getSecurityAccessLevel(self):
+    def getSecurityAccessLevel(self) -> Optional[PositiveInteger]:
         """
-        Gets the security access level for this diagnostic capability.
-
-        Returns:
-            PositiveInteger: The security access level
+        This attribute denotes the level of security which is touched by the diagnostic object. The higher the level the more relevance for the security exists. This level shall be mapped to the security level in the ECU.
         """
         return self.securityAccessLevel
 
-    def setSecurityAccessLevel(self, value):
+    def setSecurityAccessLevel(self, value: Optional[PositiveInteger]) -> DiagnosticCapabilityElement:
         """
-        Sets the security access level for this diagnostic capability.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The security access level to set
-
-        Returns:
-            self for method chaining
+        This attribute denotes the level of security which is touched by the diagnostic object. The higher the level the more relevance for the security exists. This level shall be mapped to the security level in the ECU.
+        A None value is a no-op and does not overwrite an existing securityAccessLevel.
         """
-        self.securityAccessLevel = value
+        if value is not None:
+            self.securityAccessLevel = value
         return self
 
 
 class DiagnosticRoutineTypeEnum(AREnum):
     """
-    Enumeration for diagnostic routine types in AUTOSAR models.
-    Defines whether diagnostic routines are executed synchronously or asynchronously.
+    This enumerator specifies the different types of diagnostic routines.
     """
 
     # DiagnosticRoutineTypeEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.25, p.247
+    # (no methods)
 
-    # Asynchronous diagnostic routine
+    # This indicates that the diagnostic server is not blocked while the diagnostic routine is running. Tags: atp.EnumerationLiteralIndex=0
     ASYNCHRONOUS = "asynchronous"
-    # Synchronous diagnostic routine
+
+    # This indicates that the diagnostic routine blocks the diagnostic server in the ECU while the routine is running. Tags: atp.EnumerationLiteralIndex=1
     SYNCHRONOUS = "synchronous"
 
     def __init__(self):
-        """
-        Initializes the DiagnosticRoutineTypeEnum with all possible values.
-        """
         super().__init__(
             (
                 DiagnosticRoutineTypeEnum.ASYNCHRONOUS,
@@ -971,147 +938,112 @@ class DiagnosticRoutineTypeEnum(AREnum):
 
 class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
     """
-    Represents diagnostic communication manager needs in AUTOSAR models.
-    This class defines requirements for the diagnostic communication manager including callback types.
+    Specifies the general needs on the configuration of the Diagnostic Communication Manager (Dcm) which are not related to a particular item (e.g. a PID or DiagnosticRoutineNeeds). The main use case is the mapping of service ports to the Dcm which are not related to a particular item.
     """
 
     # DiagnosticCommunicationManagerNeeds method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getServiceRequestCallbackType [x] impl  [x] docstring  [ ] test
-    # [ ] setServiceRequestCallbackType [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.34, p.777
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getServiceRequestCallbackType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceRequestCallbackType   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticCommunicationManagerNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic communication manager needs
-            short_name: The unique short name of this diagnostic communication manager needs
-        """
         super().__init__(parent, short_name)
 
-        # Type of service request callback for this diagnostic communication manager
-        self.serviceRequestCallbackType: DiagnosticServiceRequestCallbackTypeEnum = None
+        # This represents the ability to define whether the usage of PortInterface ServiceRequestNotification has the characteristics of being initiated by a manufacturer or by a supplier.
+        self.serviceRequestCallbackType: Optional[DiagnosticServiceRequestCallbackTypeEnum] = None
 
-    def getServiceRequestCallbackType(self):
+    def getServiceRequestCallbackType(self) -> Optional[DiagnosticServiceRequestCallbackTypeEnum]:
         """
-        Gets the type of service request callback for this diagnostic communication manager.
-
-        Returns:
-            DiagnosticServiceRequestCallbackTypeEnum: The service request callback type
+        This represents the ability to define whether the usage of PortInterface ServiceRequestNotification has the characteristics of being initiated by a manufacturer or by a supplier.
         """
         return self.serviceRequestCallbackType
 
-    def setServiceRequestCallbackType(self, value):
+    def setServiceRequestCallbackType(self, value: Optional[DiagnosticServiceRequestCallbackTypeEnum]) -> DiagnosticCommunicationManagerNeeds:
         """
-        Sets the type of service request callback for this diagnostic communication manager.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The service request callback type to set
-
-        Returns:
-            self for method chaining
+        This represents the ability to define whether the usage of PortInterface ServiceRequestNotification has the characteristics of being initiated by a manufacturer or by a supplier.
+        A None value is a no-op and does not overwrite an existing serviceRequestCallbackType.
         """
-        self.serviceRequestCallbackType = value
+        if value is not None:
+            self.serviceRequestCallbackType = value
         return self
 
 
 class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     """
-    Represents diagnostic routine needs in AUTOSAR models.
-    This class defines requirements for diagnostic routines including their execution type and RID number.
+    Specifies the general needs on the configuration of the Diagnostic Communication Manager (Dcm) which are not related to a particular item (e.g. a PID). The main use case is the mapping of service ports to the Dcm which are not related to a particular item.
     """
 
     # DiagnosticRoutineNeeds method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getDiagRoutineType           [x] impl  [x] docstring  [ ] test
-    # [ ] setDiagRoutineType           [x] impl  [x] docstring  [ ] test
-    # [ ] getRidNumber                 [x] impl  [x] docstring  [ ] test
-    # [ ] setRidNumber                 [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.36, p.778 (R23-11)
+    # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf (R4.3.1)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagRoutineType       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagRoutineType       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRidNumber             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setRidNumber             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticRoutineNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic routine needs
-            short_name: The unique short name of this diagnostic routine needs
-        """
         super().__init__(parent, short_name)
 
-        # Type of diagnostic routine (synchronous or asynchronous)
-        self.diagRoutineType: DiagnosticRoutineTypeEnum = None
-        # RID (Routine ID) number for this diagnostic routine
-        self.RidNumber: PositiveInteger = None
+        # This denotes the type of diagnostic routine which is implemented by the referenced server port.
+        self.diagRoutineType: Optional[DiagnosticRoutineTypeEnum] = None
 
-    def getDiagRoutineType(self):
+        # This represents a routine identifier for the diagnostic routine. This allows to predefine the RID number if the a function developer has received a particular requirement from the OEM or from a standardization body.
+        self.ridNumber: Optional[PositiveInteger] = None
+
+    def getDiagRoutineType(self) -> Optional[DiagnosticRoutineTypeEnum]:
         """
-        Gets the type of diagnostic routine (synchronous or asynchronous).
-
-        Returns:
-            DiagnosticRoutineTypeEnum: The diagnostic routine type
+        This denotes the type of diagnostic routine which is implemented by the referenced server port.
         """
         return self.diagRoutineType
 
-    def setDiagRoutineType(self, value):
+    def setDiagRoutineType(self, value: Optional[DiagnosticRoutineTypeEnum]) -> DiagnosticRoutineNeeds:
         """
-        Sets the type of diagnostic routine (synchronous or asynchronous).
-        Only sets the value if it is not None.
-
-        Args:
-            value: The diagnostic routine type to set
-
-        Returns:
-            self for method chaining
+        This denotes the type of diagnostic routine which is implemented by the referenced server port.
+        A None value is a no-op and does not overwrite an existing diagRoutineType.
         """
-        self.diagRoutineType = value
+        if value is not None:
+            self.diagRoutineType = value
         return self
 
-    def getRidNumber(self):
+    def getRidNumber(self) -> Optional[PositiveInteger]:
         """
-        Gets the RID (Routine ID) number for this diagnostic routine.
-
-        Returns:
-            PositiveInteger: The RID number
+        This represents a routine identifier for the diagnostic routine. This allows to predefine the RID number if the a function developer has received a particular requirement from the OEM or from a standardization body.
         """
-        return self.RidNumber
+        return self.ridNumber
 
-    def setRidNumber(self, value):
+    def setRidNumber(self, value: Optional[PositiveInteger]) -> DiagnosticRoutineNeeds:
         """
-        Sets the RID (Routine ID) number for this diagnostic routine.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The RID number to set
-
-        Returns:
-            self for method chaining
+        This represents a routine identifier for the diagnostic routine. This allows to predefine the RID number if the a function developer has received a particular requirement from the OEM or from a standardization body.
+        A None value is a no-op and does not overwrite an existing ridNumber.
         """
-        self.RidNumber = value
+        if value is not None:
+            self.ridNumber = value
         return self
 
 
 class DiagnosticValueAccessEnum(AREnum):
     """
-    Enumeration for diagnostic value access types in AUTOSAR models.
-    Defines the access permissions for diagnostic values (read, write, or read-write).
+    Defines the access of the configured diagnostic current values which will be used by the Dem or Dcm module.
     """
 
     # DiagnosticValueAccessEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.22, p.246
+    # (no methods)
 
-    # Read-only access for diagnostic values
+    # The access to the data element is limited to read-only. This is typically used to read-out diagnostic information (e.g. current values). Tags: atp.EnumerationLiteralIndex=0
     READ_ONLY = "readOnly"
-    # Read-write access for diagnostic values
+
+    # The value of the diagnostic data element is classified as configurable (read and write access is possible). Tags: atp.EnumerationLiteralIndex=1
     READ_WRITE = "readWrite"
-    # Write-only access for diagnostic values
+
+    # The access to the data element is limited to write-only. This supports the use case where the Dcm just writes data to the application software without the intention to read it back, Tags: atp.EnumerationLiteralIndex=2
     WRITE_ONLY = "writeOnly"
 
     def __init__(self):
-        """
-        Initializes the DiagnosticValueAccessEnum with all possible values.
-        """
         super().__init__(
             (
                 DiagnosticValueAccessEnum.READ_ONLY,
@@ -1123,24 +1055,23 @@ class DiagnosticValueAccessEnum(AREnum):
 
 class DiagnosticProcessingStyleEnum(AREnum):
     """
-    Enumeration for diagnostic processing styles in AUTOSAR models.
-    Defines how diagnostic processing is handled (synchronously, asynchronously, etc.).
+    This meta-class represents the ability to define the processing style of diagnostic requests.
     """
 
     # DiagnosticProcessingStyleEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.23, p.247
+    # (no methods)
 
-    # Asynchronous processing style for diagnostics
+    # The software-component processes the request in background but still the Dcm has to issue the call again to eventually obtain the result of the request. Tags: atp.EnumerationLiteralIndex=0
     PROCESSING_STYLE_ASYNCHRONOUS = "processingStyleAsynchronous"
-    # Asynchronous processing style with error handling for diagnostics
+
+    # The software-component processes the request in background but still the Dcm has to issue the call again to eventually obtain the result of the request or handle error code. Tags: atp.EnumerationLiteralIndex=1
     PROCESSING_STYLE_ASYNCHRONOUS_WITH_ERROR = "processingStyleAsynchronousWithError"
-    # Synchronous processing style for diagnostics
+
+    # The software-component is supposed to react synchronously on the request. Tags: atp.EnumerationLiteralIndex=2
     PROCESSING_STYLE_SYNCHRONOUS = "processingStyleSynchronous"
 
     def __init__(self):
-        """
-        Initializes the DiagnosticProcessingStyleEnum with all possible values.
-        """
         super().__init__(
             (
                 DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS,
@@ -1152,157 +1083,116 @@ class DiagnosticProcessingStyleEnum(AREnum):
 
 class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     """
-    Represents diagnostic value needs in AUTOSAR models.
-    This class defines requirements for diagnostic values including access permissions, length, and processing style.
+    Specifies the general needs on the configuration of the Diagnostic Communication Manager (DCM) which are not related to a particular item (e.g. a PID). The main use case is the mapping of service ports to the DCM which are not related to a particular item. In the case of using a sender receiver communicated value, the related value shall be taken via assigned Data in the role "signalBasedDiagnostics". In case of using a client/server communicated value, the related value shall be communicated via the port referenced by assignedPort. The details of this communication (e.g. appropriate naming conventions) are specified in the related software specifications (SWS).
     """
 
     # DiagnosticValueNeeds method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getDataLength                [x] impl  [x] docstring  [ ] test
-    # [ ] setDataLength                [x] impl  [x] docstring  [ ] test
-    # [ ] getDiagnosticValueAccess     [x] impl  [x] docstring  [ ] test
-    # [ ] setDiagnosticValueAccess     [x] impl  [x] docstring  [ ] test
-    # [ ] getDidNumber                 [x] impl  [x] docstring  [ ] test
-    # [ ] setDidNumber                 [x] impl  [x] docstring  [ ] test
-    # [ ] getFixedLength               [x] impl  [x] docstring  [ ] test
-    # [ ] setFixedLength               [x] impl  [x] docstring  [ ] test
-    # [ ] getProcessingStyle           [x] impl  [x] docstring  [ ] test
-    # [ ] setProcessingStyle           [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.39, p.780 (R23-11)
+    # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf (R4.3.1)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataLength                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataLength                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDiagnosticValueAccess     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticValueAccess     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDidNumber                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setDidNumber                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getFixedLength               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFixedLength               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProcessingStyle           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProcessingStyle           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticValueNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic value needs
-            short_name: The unique short name of this diagnostic value needs
-        """
         super().__init__(parent, short_name)
 
-        # Data length for this diagnostic value
-        self.dataLength: PositiveInteger = None
-        # Access permissions for this diagnostic value
-        self.diagnosticValueAccess: DiagnosticValueAccessEnum = None
-        # DID (Data ID) number for this diagnostic value
-        self.DidNumber: Integer = None
-        # Flag indicating if this diagnostic value has fixed length
-        self.fixedLength: Boolean = None
-        # Processing style for this diagnostic value
-        self.processingStyle: DiagnosticProcessingStyleEnum = None
+        # This attribute is applicable only if the DiagnosticValueNeeds is aggregated within a BswModuleDependency. This attribute represents the length of data (in bytes) provided for this particular PID signal.
+        self.dataLength: Optional[PositiveInteger] = None
 
-    def getDataLength(self):
+        # This attribute is applicable only if the DiagnosticValueNeeds is aggregated within a BswModuleDependency. This attribute controls whether the data can be read and written or whether it is to be handled read-only.
+        self.diagnosticValueAccess: Optional[DiagnosticValueAccessEnum] = None
+
+        # This represents a Data identifier for the diagnostic value. This allows to predefine the DID number if the responsible function developer has received a particular requirement from the OEM or from a standardization body.
+        self.didNumber: Optional[PositiveInteger] = None
+
+        # This attribute is applicable only if the DiagnosticValueNeeds is aggregated within a BswModuleDependency. This attribute controls whether the data length of the data is fixed.
+        self.fixedLength: Optional[Boolean] = None
+
+        # This attribute controls whether interaction requires the software-component to react synchronously on a request or whether it processes the request in background but still the DCM has to issue the call again to eventually obtain the result of the request.
+        self.processingStyle: Optional[DiagnosticProcessingStyleEnum] = None
+
+    def getDataLength(self) -> Optional[PositiveInteger]:
         """
-        Gets the data length for this diagnostic value.
-
-        Returns:
-            PositiveInteger: The data length
+        This attribute is applicable only if the DiagnosticValueNeeds is aggregated within a BswModuleDependency. This attribute represents the length of data (in bytes) provided for this particular PID signal.
         """
         return self.dataLength
 
-    def setDataLength(self, value):
+    def setDataLength(self, value: Optional[PositiveInteger]) -> DiagnosticValueNeeds:
         """
-        Sets the data length for this diagnostic value.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The data length to set
-
-        Returns:
-            self for method chaining
+        This attribute is applicable only if the DiagnosticValueNeeds is aggregated within a BswModuleDependency. This attribute represents the length of data (in bytes) provided for this particular PID signal.
+        A None value is a no-op and does not overwrite an existing dataLength.
         """
-        self.dataLength = value
+        if value is not None:
+            self.dataLength = value
         return self
 
-    def getDiagnosticValueAccess(self):
+    def getDiagnosticValueAccess(self) -> Optional[DiagnosticValueAccessEnum]:
         """
-        Gets the access permissions for this diagnostic value.
-
-        Returns:
-            DiagnosticValueAccessEnum: The diagnostic value access permissions
+        This attribute is applicable only if the DiagnosticValueNeeds is aggregated within a BswModuleDependency. This attribute controls whether the data can be read and written or whether it is to be handled read-only.
         """
         return self.diagnosticValueAccess
 
-    def setDiagnosticValueAccess(self, value):
+    def setDiagnosticValueAccess(self, value: Optional[DiagnosticValueAccessEnum]) -> DiagnosticValueNeeds:
         """
-        Sets the access permissions for this diagnostic value.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The diagnostic value access permissions to set
-
-        Returns:
-            self for method chaining
+        This attribute is applicable only if the DiagnosticValueNeeds is aggregated within a BswModuleDependency. This attribute controls whether the data can be read and written or whether it is to be handled read-only.
+        A None value is a no-op and does not overwrite an existing diagnosticValueAccess.
         """
-        self.diagnosticValueAccess = value
+        if value is not None:
+            self.diagnosticValueAccess = value
         return self
 
-    def getDidNumber(self):
+    def getDidNumber(self) -> Optional[PositiveInteger]:
         """
-        Gets the DID (Data ID) number for this diagnostic value.
-
-        Returns:
-            Integer: The DID number
+        This represents a Data identifier for the diagnostic value. This allows to predefine the DID number if the responsible function developer has received a particular requirement from the OEM or from a standardization body.
         """
-        return self.DidNumber
+        return self.didNumber
 
-    def setDidNumber(self, value):
+    def setDidNumber(self, value: Optional[PositiveInteger]) -> DiagnosticValueNeeds:
         """
-        Sets the DID (Data ID) number for this diagnostic value.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The DID number to set
-
-        Returns:
-            self for method chaining
+        This represents a Data identifier for the diagnostic value. This allows to predefine the DID number if the responsible function developer has received a particular requirement from the OEM or from a standardization body.
+        A None value is a no-op and does not overwrite an existing didNumber.
         """
-        self.DidNumber = value
+        if value is not None:
+            self.didNumber = value
         return self
 
-    def getFixedLength(self):
+    def getFixedLength(self) -> Optional[Boolean]:
         """
-        Gets the flag indicating if this diagnostic value has fixed length.
-
-        Returns:
-            Boolean: The fixed length flag
+        This attribute is applicable only if the DiagnosticValueNeeds is aggregated within a BswModuleDependency. This attribute controls whether the data length of the data is fixed.
         """
         return self.fixedLength
 
-    def setFixedLength(self, value):
+    def setFixedLength(self, value: Optional[Boolean]) -> DiagnosticValueNeeds:
         """
-        Sets the flag indicating if this diagnostic value has fixed length.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The fixed length flag to set
-
-        Returns:
-            self for method chaining
+        This attribute is applicable only if the DiagnosticValueNeeds is aggregated within a BswModuleDependency. This attribute controls whether the data length of the data is fixed.
+        A None value is a no-op and does not overwrite an existing fixedLength.
         """
-        self.fixedLength = value
+        if value is not None:
+            self.fixedLength = value
         return self
 
-    def getProcessingStyle(self):
+    def getProcessingStyle(self) -> Optional[DiagnosticProcessingStyleEnum]:
         """
-        Gets the processing style for this diagnostic value.
-
-        Returns:
-            DiagnosticProcessingStyleEnum: The processing style
+        This attribute controls whether interaction requires the software-component to react synchronously on a request or whether it processes the request in background but still the DCM has to issue the call again to eventually obtain the result of the request.
         """
         return self.processingStyle
 
-    def setProcessingStyle(self, value):
+    def setProcessingStyle(self, value: Optional[DiagnosticProcessingStyleEnum]) -> DiagnosticValueNeeds:
         """
-        Sets the processing style for this diagnostic value.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The processing style to set
-
-        Returns:
-            self for method chaining
+        This attribute controls whether interaction requires the software-component to react synchronously on a request or whether it processes the request in background but still the DCM has to issue the call again to eventually obtain the result of the request.
+        A None value is a no-op and does not overwrite an existing processingStyle.
         """
-        self.processingStyle = value
+        if value is not None:
+            self.processingStyle = value
         return self
 
 
@@ -1326,121 +1216,195 @@ class DiagEventDebounceAlgorithm(Identifiable, ABC):
 
 class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     """
-    Represents a counter-based diagnostic event debounce algorithm in AUTOSAR models.
-    This class defines debounce algorithms based on counters that increment/decrement to detect fault conditions.
+    This meta-class represents the ability to indicate that the counter-based debounce algorithm shall be used by the DEM for this diagnostic monitor. This is related to set the ECUC choice container DemDebounceAlgorithmClass to DemDebounceCounterBased.
     """
 
     # DiagEventDebounceCounterBased method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getCounterBasedFdcThresholdStorageValue [x] impl  [ ] docstring  [ ] test
-    # [ ] setCounterBasedFdcThresholdStorageValue [x] impl  [ ] docstring  [ ] test
-    # [ ] getCounterDecrementStepSize  [x] impl  [ ] docstring  [ ] test
-    # [ ] setCounterDecrementStepSize  [x] impl  [ ] docstring  [ ] test
-    # [ ] getCounterFailedThreshold    [x] impl  [ ] docstring  [ ] test
-    # [ ] setCounterFailedThreshold    [x] impl  [ ] docstring  [ ] test
-    # [ ] getCounterIncrementStepSize  [x] impl  [ ] docstring  [ ] test
-    # [ ] setCounterIncrementStepSize  [x] impl  [ ] docstring  [ ] test
-    # [ ] getCounterJumpDown           [x] impl  [ ] docstring  [ ] test
-    # [ ] setCounterJumpDown           [x] impl  [ ] docstring  [ ] test
-    # [ ] getCounterJumpDownValue      [x] impl  [ ] docstring  [ ] test
-    # [ ] setCounterJumpDownValue      [x] impl  [ ] docstring  [ ] test
-    # [ ] getCounterJumpUp             [x] impl  [ ] docstring  [ ] test
-    # [ ] setCounterJumpUp             [x] impl  [ ] docstring  [ ] test
-    # [ ] getCounterJumpUpValue        [x] impl  [ ] docstring  [ ] test
-    # [ ] setCounterJumpUpValue        [x] impl  [ ] docstring  [ ] test
-    # [ ] getCounterPassedThreshold    [x] impl  [ ] docstring  [ ] test
-    # [ ] setCounterPassedThreshold    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.33, p.260
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCounterBasedFdcThresholdStorageValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterBasedFdcThresholdStorageValue [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCounterDecrementStepSize             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterDecrementStepSize             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCounterFailedThreshold               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterFailedThreshold               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCounterIncrementStepSize             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterIncrementStepSize             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCounterJumpDown                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterJumpDown                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCounterJumpDownValue                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterJumpDownValue                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCounterJumpUp                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterJumpUp                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCounterJumpUpValue                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterJumpUpValue                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCounterPassedThreshold               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterPassedThreshold               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagEventDebounceCounterBased with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this counter-based debounce algorithm
-            short_name: The unique short name of this counter-based debounce algorithm
-        """
         super().__init__(parent, short_name)
 
-        # Counter-based FDC (Fault Detection Counter) threshold storage value
-        self.counterBasedFdcThresholdStorageValue: Integer = None
-        # Counter decrement step size for this debounce algorithm
-        self.counterDecrementStepSize: Integer = None
-        # Counter threshold for failed state detection
-        self.counterFailedThreshold: Integer = None
-        # Counter increment step size for this debounce algorithm
-        self.counterIncrementStepSize: Integer = None
-        # Counter value to jump down to when conditions are met
-        self.counterJumpDown: Integer = None
-        # Value to set counter to when jumping down
-        self.counterJumpDownValue: Integer = None
-        # Counter value to jump up to when conditions are met
-        self.counterJumpUp: Integer = None
-        # Value to set counter to when jumping up
-        self.counterJumpUpValue: Integer = None
-        # Counter threshold for passed state detection
-        self.counterPassedThreshold: Integer = None
+        # Threshold to allocate an event memory entry and to capture the Freeze Frame.
+        self.counterBasedFdcThresholdStorageValue: Optional[Integer] = None
 
-    def getCounterBasedFdcThresholdStorageValue(self):
+        # This value shall be taken to decrement the internal debounce counter. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.counterDecrementStepSize: Optional[Integer] = None
+
+        # This value defines the event-specific limit that indicates the "failed" counter status. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.counterFailedThreshold: Optional[Integer] = None
+
+        # This value shall be taken to increment the internal debounce counter. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.counterIncrementStepSize: Optional[Integer] = None
+
+        # This value activates or deactivates the counter jump-down behavior. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.counterJumpDown: Optional[Boolean] = None
+
+        # This value represents the initial value of the internal debounce counter if the counting direction changes from incrementing to decrementing. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.counterJumpDownValue: Optional[Integer] = None
+
+        # This value activates or deactivates the counter jump-up behavior. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.counterJumpUp: Optional[Boolean] = None
+
+        # This value represents the initial value of the internal debounce counter if the counting direction changes from decrementing to incrementing. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.counterJumpUpValue: Optional[Integer] = None
+
+        # This value defines the event-specific limit that indicates the "passed" counter status. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.counterPassedThreshold: Optional[Integer] = None
+
+    def getCounterBasedFdcThresholdStorageValue(self) -> Optional[Integer]:
+        """
+        Threshold to allocate an event memory entry and to capture the Freeze Frame.
+        """
         return self.counterBasedFdcThresholdStorageValue
 
-    def setCounterBasedFdcThresholdStorageValue(self, value):
-        self.counterBasedFdcThresholdStorageValue = value
+    def setCounterBasedFdcThresholdStorageValue(self, value: Optional[Integer]) -> DiagEventDebounceCounterBased:
+        """
+        Threshold to allocate an event memory entry and to capture the Freeze Frame.
+        A None value is a no-op and does not overwrite an existing counterBasedFdcThresholdStorageValue.
+        """
+        if value is not None:
+            self.counterBasedFdcThresholdStorageValue = value
         return self
 
-    def getCounterDecrementStepSize(self):
+    def getCounterDecrementStepSize(self) -> Optional[Integer]:
+        """
+        This value shall be taken to decrement the internal debounce counter.
+        """
         return self.counterDecrementStepSize
 
-    def setCounterDecrementStepSize(self, value):
-        self.counterDecrementStepSize = value
+    def setCounterDecrementStepSize(self, value: Optional[Integer]) -> DiagEventDebounceCounterBased:
+        """
+        This value shall be taken to decrement the internal debounce counter.
+        A None value is a no-op and does not overwrite an existing counterDecrementStepSize.
+        """
+        if value is not None:
+            self.counterDecrementStepSize = value
         return self
 
-    def getCounterFailedThreshold(self):
+    def getCounterFailedThreshold(self) -> Optional[Integer]:
+        """
+        This value defines the event-specific limit that indicates the "failed" counter status.
+        """
         return self.counterFailedThreshold
 
-    def setCounterFailedThreshold(self, value):
-        self.counterFailedThreshold = value
+    def setCounterFailedThreshold(self, value: Optional[Integer]) -> DiagEventDebounceCounterBased:
+        """
+        This value defines the event-specific limit that indicates the "failed" counter status.
+        A None value is a no-op and does not overwrite an existing counterFailedThreshold.
+        """
+        if value is not None:
+            self.counterFailedThreshold = value
         return self
 
-    def getCounterIncrementStepSize(self):
+    def getCounterIncrementStepSize(self) -> Optional[Integer]:
+        """
+        This value shall be taken to increment the internal debounce counter.
+        """
         return self.counterIncrementStepSize
 
-    def setCounterIncrementStepSize(self, value):
-        self.counterIncrementStepSize = value
+    def setCounterIncrementStepSize(self, value: Optional[Integer]) -> DiagEventDebounceCounterBased:
+        """
+        This value shall be taken to increment the internal debounce counter.
+        A None value is a no-op and does not overwrite an existing counterIncrementStepSize.
+        """
+        if value is not None:
+            self.counterIncrementStepSize = value
         return self
 
-    def getCounterJumpDown(self):
+    def getCounterJumpDown(self) -> Optional[Boolean]:
+        """
+        This value activates or deactivates the counter jump-down behavior.
+        """
         return self.counterJumpDown
 
-    def setCounterJumpDown(self, value):
-        self.counterJumpDown = value
+    def setCounterJumpDown(self, value: Optional[Boolean]) -> DiagEventDebounceCounterBased:
+        """
+        This value activates or deactivates the counter jump-down behavior.
+        A None value is a no-op and does not overwrite an existing counterJumpDown.
+        """
+        if value is not None:
+            self.counterJumpDown = value
         return self
 
-    def getCounterJumpDownValue(self):
+    def getCounterJumpDownValue(self) -> Optional[Integer]:
+        """
+        This value represents the initial value of the internal debounce counter if the counting direction changes from incrementing to decrementing.
+        """
         return self.counterJumpDownValue
 
-    def setCounterJumpDownValue(self, value):
-        self.counterJumpDownValue = value
+    def setCounterJumpDownValue(self, value: Optional[Integer]) -> DiagEventDebounceCounterBased:
+        """
+        This value represents the initial value of the internal debounce counter if the counting direction changes from incrementing to decrementing.
+        A None value is a no-op and does not overwrite an existing counterJumpDownValue.
+        """
+        if value is not None:
+            self.counterJumpDownValue = value
         return self
 
-    def getCounterJumpUp(self):
+    def getCounterJumpUp(self) -> Optional[Boolean]:
+        """
+        This value activates or deactivates the counter jump-up behavior.
+        """
         return self.counterJumpUp
 
-    def setCounterJumpUp(self, value):
-        self.counterJumpUp = value
+    def setCounterJumpUp(self, value: Optional[Boolean]) -> DiagEventDebounceCounterBased:
+        """
+        This value activates or deactivates the counter jump-up behavior.
+        A None value is a no-op and does not overwrite an existing counterJumpUp.
+        """
+        if value is not None:
+            self.counterJumpUp = value
         return self
 
-    def getCounterJumpUpValue(self):
+    def getCounterJumpUpValue(self) -> Optional[Integer]:
+        """
+        This value represents the initial value of the internal debounce counter if the counting direction changes from decrementing to incrementing.
+        """
         return self.counterJumpUpValue
 
-    def setCounterJumpUpValue(self, value):
-        self.counterJumpUpValue = value
+    def setCounterJumpUpValue(self, value: Optional[Integer]) -> DiagEventDebounceCounterBased:
+        """
+        This value represents the initial value of the internal debounce counter if the counting direction changes from decrementing to incrementing.
+        A None value is a no-op and does not overwrite an existing counterJumpUpValue.
+        """
+        if value is not None:
+            self.counterJumpUpValue = value
         return self
 
-    def getCounterPassedThreshold(self):
+    def getCounterPassedThreshold(self) -> Optional[Integer]:
+        """
+        This value defines the event-specific limit that indicates the "passed" counter status.
+        """
         return self.counterPassedThreshold
 
-    def setCounterPassedThreshold(self, value):
-        self.counterPassedThreshold = value
+    def setCounterPassedThreshold(self, value: Optional[Integer]) -> DiagEventDebounceCounterBased:
+        """
+        This value defines the event-specific limit that indicates the "passed" counter status.
+        A None value is a no-op and does not overwrite an existing counterPassedThreshold.
+        """
+        if value is not None:
+            self.counterPassedThreshold = value
         return self
 
 
@@ -1515,119 +1479,97 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
 
 class DtcKindEnum(AREnum):
     """
-    Enumeration for DTC (Diagnostic Trouble Code) kinds in AUTOSAR models.
-    Defines the type of diagnostic trouble codes used (currently empty as per specification).
+    This enumeration defines the possible kinds of diagnostic monitors regarding the OBD relevance.
     """
 
     # DtcKindEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf, Table 13.16, p.760 (R4.3.1)
+    # (no methods)
+
+    # This indicates that the monitor reports a OBD-relevant malfunction. Tags: atp.EnumerationValue=0
+    EMISSION_RELATED_DTC = "emissionRelatedDtc"
+
+    # This indicates that the monitor reports a non-OBD-relevant malfunction. Tags: atp.EnumerationValue=1
+    NON_EMMISSION_RELATED_DTC = "nonEmmissionRelatedDtc"
 
     def __init__(self):
-        """
-        Initializes the DtcKindEnum with empty values list.
-        """
-        super().__init__([])
+        super().__init__(
+            (
+                DtcKindEnum.EMISSION_RELATED_DTC,
+                DtcKindEnum.NON_EMMISSION_RELATED_DTC,
+            )
+        )
 
 
 class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     """
-    Represents diagnostic event information needs in AUTOSAR models.
-    This class defines requirements for diagnostic events including DTC information and numbering schemes.
+    This meta-class represents the needs of a software-component interested to get information regarding specific DTCs.
     """
 
     # DiagnosticEventInfoNeeds method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getDtcKind                   [x] impl  [x] docstring  [ ] test
-    # [ ] setDtcKind                   [x] impl  [x] docstring  [ ] test
-    # [ ] getObdDtcNumber              [x] impl  [x] docstring  [ ] test
-    # [ ] setObdDtcNumber              [x] impl  [x] docstring  [ ] test
-    # [ ] getUdsDtcNumber              [x] impl  [x] docstring  [ ] test
-    # [ ] setUdsDtcNumber              [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.23, p.761 (R23-11)
+    # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf (R4.3.1)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDtcKind         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setDtcKind         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getObdDtcNumber    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setObdDtcNumber    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUdsDtcNumber    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUdsDtcNumber    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticEventInfoNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic event information needs
-            short_name: The unique short name of this diagnostic event information needs
-        """
         super().__init__(parent, short_name)
 
-        # Type of diagnostic trouble code (DTC) for this event
-        self.dtcKind: DtcKindEnum = None
-        # OBD (On-Board Diagnostics) DTC number for this event
-        self.obdDtcNumber: PositiveInteger = None
-        # UDS (Unified Diagnostic Services) DTC number for this event
-        self.udsDtcNumber: PositiveInteger = None
+        # This attribute indicates the kind of the diagnostic event according to the SWS Diagnostic Event Manger for which the DiagnosticInfo is requested. This attribute applies for the UDS diagnostics use case.
+        self.dtcKind: Optional[DtcKindEnum] = None
 
-    def getDtcKind(self):
+        # This represents a reasonable Diagnostic Trouble Code. This allows to predefine the Diagnostic Trouble Code, e.g. if the function developer has received a particular requirement from the OEM or from a standardization body. This attribute applies for the OBD diagnostics use case.
+        self.obdDtcNumber: Optional[PositiveInteger] = None
+
+        # This represents a reasonable Diagnostic Trouble Code. This allows to predefine the Diagnostic Trouble Code, e.g. if the function developer has received a particular requirement from the OEM or from a standardization body. This attribute applies for the UDS diagnostics use case.
+        self.udsDtcNumber: Optional[PositiveInteger] = None
+
+    def getDtcKind(self) -> Optional[DtcKindEnum]:
         """
-        Gets the type of diagnostic trouble code (DTC) for this event.
-
-        Returns:
-            DtcKindEnum: The DTC kind
+        This attribute indicates the kind of the diagnostic event according to the SWS Diagnostic Event Manger for which the DiagnosticInfo is requested. This attribute applies for the UDS diagnostics use case.
         """
         return self.dtcKind
 
-    def setDtcKind(self, value):
+    def setDtcKind(self, value: Optional[DtcKindEnum]) -> DiagnosticEventInfoNeeds:
         """
-        Sets the type of diagnostic trouble code (DTC) for this event.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The DTC kind to set
-
-        Returns:
-            self for method chaining
+        This attribute indicates the kind of the diagnostic event according to the SWS Diagnostic Event Manger for which the DiagnosticInfo is requested. This attribute applies for the UDS diagnostics use case.
+        A None value is a no-op and does not overwrite an existing dtcKind.
         """
         if value is not None:
             self.dtcKind = value
         return self
 
-    def getObdDtcNumber(self):
+    def getObdDtcNumber(self) -> Optional[PositiveInteger]:
         """
-        Gets the OBD (On-Board Diagnostics) DTC number for this event.
-
-        Returns:
-            PositiveInteger: The OBD DTC number
+        This represents a reasonable Diagnostic Trouble Code. This allows to predefine the Diagnostic Trouble Code, e.g. if the function developer has received a particular requirement from the OEM or from a standardization body. This attribute applies for the OBD diagnostics use case.
         """
         return self.obdDtcNumber
 
-    def setObdDtcNumber(self, value):
+    def setObdDtcNumber(self, value: Optional[PositiveInteger]) -> DiagnosticEventInfoNeeds:
         """
-        Sets the OBD (On-Board Diagnostics) DTC number for this event.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The OBD DTC number to set
-
-        Returns:
-            self for method chaining
+        This represents a reasonable Diagnostic Trouble Code. This allows to predefine the Diagnostic Trouble Code, e.g. if the function developer has received a particular requirement from the OEM or from a standardization body. This attribute applies for the OBD diagnostics use case.
+        A None value is a no-op and does not overwrite an existing obdDtcNumber.
         """
         if value is not None:
             self.obdDtcNumber = value
         return self
 
-    def getUdsDtcNumber(self):
+    def getUdsDtcNumber(self) -> Optional[PositiveInteger]:
         """
-        Gets the UDS (Unified Diagnostic Services) DTC number for this event.
-
-        Returns:
-            PositiveInteger: The UDS DTC number
+        This represents a reasonable Diagnostic Trouble Code. This allows to predefine the Diagnostic Trouble Code, e.g. if the function developer has received a particular requirement from the OEM or from a standardization body. This attribute applies for the UDS diagnostics use case.
         """
         return self.udsDtcNumber
 
-    def setUdsDtcNumber(self, value):
+    def setUdsDtcNumber(self, value: Optional[PositiveInteger]) -> DiagnosticEventInfoNeeds:
         """
-        Sets the UDS (Unified Diagnostic Services) DTC number for this event.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The UDS DTC number to set
-
-        Returns:
-            self for method chaining
+        This represents a reasonable Diagnostic Trouble Code. This allows to predefine the Diagnostic Trouble Code, e.g. if the function developer has received a particular requirement from the OEM or from a standardization body. This attribute applies for the UDS diagnostics use case.
+        A None value is a no-op and does not overwrite an existing udsDtcNumber.
         """
         if value is not None:
             self.udsDtcNumber = value
@@ -1636,108 +1578,101 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
 
 class DiagnosticClearDtcNotificationEnum(AREnum):
     """
-    Enumeration for diagnostic clear DTC notification types in AUTOSAR models.
-    Defines the timing for notification when DTCs are cleared (currently empty as per specification).
+    This enumeration supports the specification of the time when the ClearDtcNotification callback is supposed to be executed.
     """
 
     # DiagnosticClearDtcNotificationEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.33, p.776
+    # (no methods)
+
+    # The ClearDtcCallback shall be executed when the DTC operation starts. Tags: atp.EnumerationLiteralIndex=0
+    START = "start"
+
+    # The ClearDtcCallback shall be executed when the DTC operation finishes. Tags: atp.EnumerationLiteralIndex=1
+    FINISH = "finish"
 
     def __init__(self):
-        """
-        Initializes the DiagnosticClearDtcNotificationEnum with empty values list.
-        """
-        super().__init__([])
+        super().__init__(
+            (
+                DiagnosticClearDtcNotificationEnum.START,
+                DiagnosticClearDtcNotificationEnum.FINISH,
+            )
+        )
 
 
 class DtcFormatTypeEnum(AREnum):
     """
-    Enumeration for DTC format types in AUTOSAR models.
-    Defines the format used for diagnostic trouble codes (currently empty as per specification).
+    This enumeration specifies the DTC format.
     """
 
     # DtcFormatTypeEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf, Table 13.30, p.770 (R4.3.1)
+    # (no methods)
+
+    # Defines the J1939 DTC format. Tags: atp.EnumerationValue=0
+    J1939 = "j1939"
+
+    # Defines the OBD DTC format. Tags: atp.EnumerationValue=1
+    OBD = "obd"
 
     def __init__(self):
-        """
-        Initializes the DtcFormatTypeEnum with empty values list.
-        """
-        super().__init__([])
+        super().__init__(
+            (
+                DtcFormatTypeEnum.J1939,
+                DtcFormatTypeEnum.OBD,
+            )
+        )
 
 
 class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
     """
-    Represents DTC status change notification needs in AUTOSAR models.
-    This class defines requirements for notifications when DTC status changes occur.
+    This meta-class represents the needs of a software-component interested to get information regarding any DTC status change.
     """
 
     # DtcStatusChangeNotificationNeeds method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getDtcFormatType             [x] impl  [x] docstring  [ ] test
-    # [ ] setDtcFormatType             [x] impl  [x] docstring  [ ] test
-    # [ ] getNotificationTime          [x] impl  [x] docstring  [ ] test
-    # [ ] setNotificationTime          [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.32, p.776 (R23-11)
+    # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf (R4.3.1)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDtcFormatType      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setDtcFormatType      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getNotificationTime   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNotificationTime   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
-        """
-        Initializes the DtcStatusChangeNotificationNeeds with a parent and short name.
-        Note: This is an extension for AUTOSAR 4.3.1.
-
-        Args:
-            parent: The parent ARObject that contains this DTC status change notification needs
-            short_name: The unique short name of this DTC status change notification needs
-        """
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # Format type for DTC used in notifications
-        self.dtcFormatType: DtcFormatTypeEnum = None
-        # Notification timing for when DTCs are cleared
-        self.notificationTime: DiagnosticClearDtcNotificationEnum = None
+        # This attribute specifies the DTC format.
+        self.dtcFormatType: Optional[DtcFormatTypeEnum] = None
 
-    def getDtcFormatType(self):
+        # This attribute determines the time when the notification about the DTC operation shall be executed. This attribute is only relevant for the configuration of the ClearDtcNotification.
+        self.notificationTime: Optional[DiagnosticClearDtcNotificationEnum] = None
+
+    def getDtcFormatType(self) -> Optional[DtcFormatTypeEnum]:
         """
-        Gets the format type for DTC used in notifications.
-
-        Returns:
-            DtcFormatTypeEnum: The DTC format type
+        This attribute specifies the DTC format.
         """
         return self.dtcFormatType
 
-    def setDtcFormatType(self, value):
+    def setDtcFormatType(self, value: Optional[DtcFormatTypeEnum]) -> DtcStatusChangeNotificationNeeds:
         """
-        Sets the format type for DTC used in notifications.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The DTC format type to set
-
-        Returns:
-            self for method chaining
+        This attribute specifies the DTC format.
+        A None value is a no-op and does not overwrite an existing dtcFormatType.
         """
         if value is not None:
             self.dtcFormatType = value
         return self
 
-    def getNotificationTime(self):
+    def getNotificationTime(self) -> Optional[DiagnosticClearDtcNotificationEnum]:
         """
-        Gets the notification timing for when DTCs are cleared.
-
-        Returns:
-            DiagnosticClearDtcNotificationEnum: The notification timing
+        This attribute determines the time when the notification about the DTC operation shall be executed. This attribute is only relevant for the configuration of the ClearDtcNotification.
         """
         return self.notificationTime
 
-    def setNotificationTime(self, value):
+    def setNotificationTime(self, value: Optional[DiagnosticClearDtcNotificationEnum]) -> DtcStatusChangeNotificationNeeds:
         """
-        Sets the notification timing for when DTCs are cleared.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The notification timing to set
-
-        Returns:
-            self for method chaining
+        This attribute determines the time when the notification about the DTC operation shall be executed. This attribute is only relevant for the configuration of the ClearDtcNotification.
+        A None value is a no-op and does not overwrite an existing notificationTime.
         """
         if value is not None:
             self.notificationTime = value
@@ -1976,130 +1911,95 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
 
 class CryptoServiceNeeds(ServiceNeeds):
     """
-    Represents cryptographic service needs in AUTOSAR models.
-    This class defines requirements for cryptographic services including algorithm information and key management.
+    Specifies the needs on the configuration of the CryptoServiceManager for one ConfigID (see Specification AUTOSAR_SWS_CSM.doc). An instance of this class is used to find out which ports of a software-component belong to this ConfigID.
     """
 
     # CryptoServiceNeeds method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getAlgorithmFamily           [x] impl  [x] docstring  [ ] test
-    # [ ] setAlgorithmFamily           [x] impl  [x] docstring  [ ] test
-    # [ ] getAlgorithmMode             [x] impl  [x] docstring  [ ] test
-    # [ ] setAlgorithmMode             [x] impl  [x] docstring  [ ] test
-    # [ ] getCryptoKeyDescription      [x] impl  [x] docstring  [ ] test
-    # [ ] setCryptoKeyDescription      [x] impl  [x] docstring  [ ] test
-    # [ ] getMaximumKeyLength          [x] impl  [x] docstring  [ ] test
-    # [ ] setMaximumKeyLength          [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.9, p.733
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAlgorithmFamily       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAlgorithmFamily       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAlgorithmMode         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAlgorithmMode         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCryptoKeyDescription  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCryptoKeyDescription  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaximumKeyLength      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaximumKeyLength      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the CryptoServiceNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this cryptographic service needs
-            short_name: The unique short name of this cryptographic service needs
-        """
         super().__init__(parent, short_name)
 
-        # Algorithm family used by this cryptographic service
-        self.algorithmFamily: String = None
-        # Algorithm mode used by this cryptographic service
-        self.algorithmMode: String = None
-        # Description of the cryptographic key used by this service
-        self.cryptoKeyDescription: String = None
-        # Maximum length of keys supported by this cryptographic service
-        self.maximumKeyLength: PositiveInteger = None
+        # This attribute represents a description of the family (e.g. AES) of crypto algorithm implemented by the crypto service use case.
+        self.algorithmFamily: Optional[String] = None
 
-    def getAlgorithmFamily(self):
+        # This meta-class has the ability to represent a crypto service use case.
+        self.algorithmMode: Optional[String] = None
+
+        # This attribute allows for a verbal description of the applicable cryptographic key. The goal is to pass a hint for the integrator about how to treat the corresponding service use case.
+        self.cryptoKeyDescription: Optional[String] = None
+
+        # The maximum length of a cryptographic key, that is used by the software-component or module for this configuration. Unit: bit.
+        self.maximumKeyLength: Optional[PositiveInteger] = None
+
+    def getAlgorithmFamily(self) -> Optional[String]:
         """
-        Gets the algorithm family used by this cryptographic service.
-
-        Returns:
-            String: The algorithm family
+        This attribute represents a description of the family (e.g. AES) of crypto algorithm implemented by the crypto service use case.
         """
         return self.algorithmFamily
 
-    def setAlgorithmFamily(self, value):
+    def setAlgorithmFamily(self, value: Optional[String]) -> CryptoServiceNeeds:
         """
-        Sets the algorithm family used by this cryptographic service.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The algorithm family to set
-
-        Returns:
-            self for method chaining
+        This attribute represents a description of the family (e.g. AES) of crypto algorithm implemented by the crypto service use case.
+        A None value is a no-op and does not overwrite an existing algorithmFamily.
         """
-        self.algorithmFamily = value
+        if value is not None:
+            self.algorithmFamily = value
         return self
 
-    def getAlgorithmMode(self):
+    def getAlgorithmMode(self) -> Optional[String]:
         """
-        Gets the algorithm mode used by this cryptographic service.
-
-        Returns:
-            String: The algorithm mode
+        This meta-class has the ability to represent a crypto service use case.
         """
         return self.algorithmMode
 
-    def setAlgorithmMode(self, value):
+    def setAlgorithmMode(self, value: Optional[String]) -> CryptoServiceNeeds:
         """
-        Sets the algorithm mode used by this cryptographic service.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The algorithm mode to set
-
-        Returns:
-            self for method chaining
+        This meta-class has the ability to represent a crypto service use case.
+        A None value is a no-op and does not overwrite an existing algorithmMode.
         """
-        self.algorithmMode = value
+        if value is not None:
+            self.algorithmMode = value
         return self
 
-    def getCryptoKeyDescription(self):
+    def getCryptoKeyDescription(self) -> Optional[String]:
         """
-        Gets the description of the cryptographic key used by this service.
-
-        Returns:
-            String: The cryptographic key description
+        This attribute allows for a verbal description of the applicable cryptographic key. The goal is to pass a hint for the integrator about how to treat the corresponding service use case.
         """
         return self.cryptoKeyDescription
 
-    def setCryptoKeyDescription(self, value):
+    def setCryptoKeyDescription(self, value: Optional[String]) -> CryptoServiceNeeds:
         """
-        Sets the description of the cryptographic key used by this service.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The cryptographic key description to set
-
-        Returns:
-            self for method chaining
+        This attribute allows for a verbal description of the applicable cryptographic key. The goal is to pass a hint for the integrator about how to treat the corresponding service use case.
+        A None value is a no-op and does not overwrite an existing cryptoKeyDescription.
         """
-        self.cryptoKeyDescription = value
+        if value is not None:
+            self.cryptoKeyDescription = value
         return self
 
-    def getMaximumKeyLength(self):
+    def getMaximumKeyLength(self) -> Optional[PositiveInteger]:
         """
-        Gets the maximum length of keys supported by this cryptographic service.
-
-        Returns:
-            PositiveInteger: The maximum key length
+        The maximum length of a cryptographic key, that is used by the software-component or module for this configuration. Unit: bit.
         """
         return self.maximumKeyLength
 
-    def setMaximumKeyLength(self, value):
+    def setMaximumKeyLength(self, value: Optional[PositiveInteger]) -> CryptoServiceNeeds:
         """
-        Sets the maximum length of keys supported by this cryptographic service.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The maximum key length to set
-
-        Returns:
-            self for method chaining
+        The maximum length of a cryptographic key, that is used by the software-component or module for this configuration. Unit: bit.
+        A None value is a no-op and does not overwrite an existing maximumKeyLength.
         """
-        self.maximumKeyLength = value
+        if value is not None:
+            self.maximumKeyLength = value
         return self
 
 

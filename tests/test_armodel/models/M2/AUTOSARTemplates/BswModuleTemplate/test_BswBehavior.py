@@ -957,6 +957,15 @@ class TestBswModeSwitchedAckEvent:
         assert result is event
         assert event.getModeGroupRef() == ref
 
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswModeSwitchedAckEvent.getModeGroupRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswModeSwitchedAckEvent.setModeGroupRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswModeSwitchedAckEvent
+
 
 class TestBswAsynchronousServerCallReturnsEvent:
     """Test cases for BswAsynchronousServerCallReturnsEvent class - represents the callback event for asynchronous Client-Server communication."""
@@ -1068,6 +1077,17 @@ class TestBswTimingEvent:
         event.setPeriod(period)
 
         assert event.periodMs == 2500  # 2.5 * 1000
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue
+
+        getter_hints = typing.get_type_hints(BswTimingEvent.getPeriod)
+        assert getter_hints.get("return") == typing.Optional[TimeValue]
+
+        setter_hints = typing.get_type_hints(BswTimingEvent.setPeriod)
+        assert setter_hints.get("value") == typing.Optional[TimeValue]
+        assert setter_hints.get("return") is BswTimingEvent
 
 
 class TestBswDataReceivedEvent:
@@ -1723,19 +1743,45 @@ class TestBswDataReceptionPolicy:
             BswDataReceptionPolicy()
         assert str(err.value) == "BswDataReceptionPolicy is an abstract class."
 
+    def test_initialization(self):
+        policy = BswQueuedDataReceptionPolicy()
+
+        assert policy.getReceivedDataRef() is None
+        assert policy.getEnableTakeAddress() is None
+        assert policy.getVariationPoint() is None
+
     def test_get_set_received_data_ref(self):
         policy = BswQueuedDataReceptionPolicy()
 
         ref = RefType()
+        ref.setValue("/d")
         result = policy.setReceivedDataRef(ref)
 
         assert result == policy
         assert policy.getReceivedDataRef() == ref
+        assert policy.getReceivedDataRef().getValue() == "/d"
 
-        # Setting None should not change the value (based on implementation)
         result = policy.setReceivedDataRef(None)
         assert result == policy
-        assert policy.getReceivedDataRef() == ref  # Value should remain unchanged
+        assert policy.getReceivedDataRef() == ref
+
+    def test_variation_point_capability(self):
+        policy = BswQueuedDataReceptionPolicy()
+
+        variation_point = VariationPoint()
+        result = policy.setVariationPoint(variation_point)
+
+        assert result == policy
+        assert policy.getVariationPoint() is variation_point
+
+    def test_type_annotations(self):
+        """Pin the spec 0..1 optional annotations on the accessors."""
+        getter_hints = typing.get_type_hints(BswDataReceptionPolicy.getReceivedDataRef)
+        assert getter_hints.get("return") == typing.Optional[RefType]
+
+        setter_hints = typing.get_type_hints(BswDataReceptionPolicy.setReceivedDataRef)
+        assert setter_hints.get("value") == typing.Optional[RefType]
+        assert setter_hints.get("return") is BswDataReceptionPolicy
 
 
 class TestBswQueuedDataReceptionPolicy:

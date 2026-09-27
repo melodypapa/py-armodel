@@ -134,6 +134,35 @@ class TestSwcBswMappingWriter:
         assert child.find("BSW-ENTITY-REF") is None
         assert child.find("SWC-RUNNABLE-REF") is None
 
+    def test_set_swc_bsw_runnable_mapping_variation_point(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+
+        mapping = SwcBswRunnableMapping()
+        variation_point = VariationPoint()
+        label = ARLiteral()
+        label.setValue("lbl")
+        variation_point.setShortLabel(label)
+        mapping.setVariationPoint(variation_point)
+
+        parent = _parent()
+        writer.setSwcBswRunnableMapping(parent, mapping)
+
+        child = parent[0]
+        vp_element = child.find("VARIATION-POINT")
+        assert vp_element is not None
+        assert vp_element.find("SHORT-LABEL").text == "lbl"
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        xml_text = ET.tostring(child, encoding="unicode")
+        reloaded = ET.fromstring("<ROOT xmlns='http://autosar.org/schema/r4.0'><RUNNABLE-MAPPINGS>%s</RUNNABLE-MAPPINGS></ROOT>" % xml_text)
+        holder = AUTOSAR.getInstance().createARPackage("Pkg2").createSwcBswMapping("Map2")
+        ARXMLParser().readSwcBswMappingSwcBswRunnableMappings(reloaded, holder)
+        parsed = holder.getRunnableMappings()[0]
+        assert parsed.getVariationPoint() is not None
+        assert parsed.getVariationPoint().getShortLabel().getValue() == "lbl"
+
     def test_write_swc_bsw_runnable_mappings(self, writer):
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")

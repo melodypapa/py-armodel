@@ -77,22 +77,82 @@ kind `TRef` is correctly implemented by `typeTRef`. `variationPoint`/
 ## `BswEntryRelationship`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 51
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces/BswEntryRelationship.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `bswEntryRelationshipType` | `BswEntryRelationshipEnum` | — | missing |
-| — *(missing)* | `—` | `fromRef` | `Ref (BswModuleEntry)` | Ref | missing |
-| — *(missing)* | `—` | `toRef` | `Ref (BswModuleEntry)` | Ref | missing |
+| `bswEntryRelationshipType` | `Optional[BswEntryRelationshipEnum]` | `bswEntryRelationshipType` | `BswEntryRelationshipEnum` | Attr | ok |
+| `fromRef` | `Optional[RefType]` | `from` | `Ref (BswModuleEntry)` | Ref | ok (Rule 0001.5 ref-suffix) |
+| `toRef` | `Optional[RefType]` | `to` | `Ref (BswModuleEntry)` | Ref | ok (Rule 0001.5 ref-suffix) |
+
+Deviations resolved (2026-09-26 sync, Table 4.19, p.51): the three `missing` rows above were
+stale (the classes were audited against non-existent leaf files `BswInterfaces/BswEntryRelationship.py`;
+the members always existed in `BswInterfaces.py`) — all three members verified present and retyped;
+`__init__` docstring and paraphrased docstrings wiped and rewritten verbatim from the markdown Notes
+(the spec's own "drivedFrom" typo kept verbatim); old 4-col checklist replaced with the 6-column
+format. Reader/writer coverage ADDED this sync: read/writeBswEntryRelationship with
+FROM-REF/TO-REF/BSW-ENTRY-RELATIONSHIP-TYPE (XSD token DERIVED-FROM via
+BSW_ENTRY_RELATIONSHIP_XML_MAP; XSD element order FROM-REF, TO-REF, BSW-ENTRY-RELATIONSHIP-TYPE
+per xml.sequenceOffset=5), value-asserting round-trip test.
+
+## `BswModuleDependency`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 48
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `targetModuleId` | `Optional[PositiveInteger]` | `targetModuleId` | `PositiveInteger` | Attr | ok |
+| `targetModuleRef` | `Optional[RefType]` | `targetModuleRef` | `Ref (BswModuleDescription)` | Ref | type (wire many vs py single) — markdown 0..1 wins for the model (Rule 0015); R23-11 XSD wire is TARGET-MODULE-REFS wrapper + unbounded BSW-MODULE-DESCRIPTION-REF-CONDITIONAL items (pureMM.maxOccurs=-1); reader takes the first item, writer writes one |
+
+2026-09-26 sync (Table 4.17, p.48): fabricated class docstring, `__init__` docstring and
+paraphrased docstrings wiped, rewritten verbatim from the markdown Notes (Tags tails kept);
+VariationPointCapable mixin REMOVED — the R23-11 complexType BSW-MODULE-DEPENDENCY has no
+class-level VARIATION-POINT group (the atpVariation stereotype lives on the targetModuleRef
+attribute, expressed via the per-item VP of the REF-CONDITIONAL wrapper, which the single-ref
+model cannot carry); reader/writer REWIRED to the R23-11 wire format
+(TARGET-MODULE-REFS/BSW-MODULE-DESCRIPTION-REF-CONDITIONAL/BSW-MODULE-DESCRIPTION-REF, DEST
+BSW-MODULE-DESCRIPTION; the old bare TARGET-MODULE-REF element does not exist in the R23-11 XSD);
+reader retyped to getChildElementOptionalPositiveInteger (spec type). atp.Status="removed"
+members (requiredEntry seq 10, expectedCallback seq 15, serviceItem seq 20) deliberately not
+modeled and not read/written (R23-11 removal; no fixture carries them). Stamp deferred to batch
+confirmation.
+
+## `BswModuleClientServerEntry`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 54
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `encapsulatedEntryRef` | `Optional[RefType]` | `encapsulatedEntry` | `Ref (BswModuleEntry)` | Ref | ok (Rule 0001.5 ref-suffix) |
+| `isReentrant` | `Optional[Boolean]` | `isReentrant` | `Boolean` | Attr | ok |
+| `isSynchronous` | `Optional[Boolean]` | `isSynchronous` | `Boolean` | Attr | legacy (R4.3.1 Table 5.22, p.56) — absent from the R23-11 Table 4.21 attribute rows but retained by the R23-11 XSD itself (IS-SYNCHRONOUS, group BSW-MODULE-CLIENT-SERVER-ENTRY, AUTOSAR_00052.xsd L11320); docstring verbatim from the R4.3.1 Note; removed in R23-11 table |
+
+2026-09-26 sync (Table 4.21, p.54): fabricated class docstring, `__init__` docstring and paraphrased
+docstrings wiped, rewritten verbatim from the R23-11 Notes (the legacy row from the R4.3.1 Note);
+bare-typed fields retyped `Optional[...]` (R4.3.1 Mult 1 for encapsulatedEntry superseded by the
+R23-11 0..1); VARIATION-POINT coverage ADDED to read/writeBswModuleClientServerEntry (own-group
+VP element, AUTOSAR_00052.xsd L11320). Stamp deferred to batch confirmation.
 
 ## `BswEntryRelationshipSet`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 51
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces/BswEntryRelationshipSet.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `bswEntryRelationship` | `BswEntryRelationship` | — | missing |
+| `bswEntryRelationships` | `List[BswEntryRelationship]` | `bswEntryRelationship` | `BswEntryRelationship` | Aggr (0..*) | ok (Rule 0001.5 plural) |
+
+Deviation resolved (2026-09-26 sync, Table 4.18, p.51): the `missing` row was stale (audited
+against a non-existent leaf file `BswInterfaces/BswEntryRelationshipSet.py`; the member always
+existed in `BswInterfaces.py`) — verified present as a dedicated typed-list field. Base corrected
+`Identifiable` → `ARElement` (spec Base chain ARObject..CollectableElement..PackageableElement..
+ARElement; AtpBlueprint/AtpBlueprintable collapse per the established attribute-less-abstract-base
+precedent). Reader/writer coverage ADDED this sync: createBswEntryRelationshipSet factory +
+getBswEntryRelationshipSets getter on ARPackage, read/writeBswEntryRelationshipSet
+(BSW-ENTRY-RELATIONSHIPS wrapper + BSW-ENTRY-RELATIONSHIP items), ARPackage element dispatch
+both directions, document round-trip test.
 
 ## `BswModuleEntity`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 70
@@ -159,6 +219,8 @@ the aggregation is itself a partial implementation and remains to be wired.
 | `period` | `Optional[TimeValue]` | `period` | `TimeValue` | Attr | ok |
 | `periodMs` | `Optional[int]` (property) | — *(not in spec)* | — | — | added convenience property (ms from the `TimeValue` `period`, mirroring `ExecutableEntity.minimumStartIntervalMs`) |
 
+No deviations beyond the recorded convenience property (2026-09-26 sync, Table 5.25, p.89): fabricated class docstring extension (BswScheduler/OS-timer sentence not in this table) and `__init__` docstring wiped, class/attribute docstrings rewritten verbatim from the markdown Note with constr_10281/constr_4043 recorded in the inline member comment, bare `TimeValue` setter parameter retyped to `Optional[TimeValue]` (0..1), old 3-col checklist replaced with the 6-column format (periodMs row marked "convenience, no spec row"); reader/writer already covered the `PERIOD` element via matched read/writeBswTimingEvent helpers + EVENTS dispatch + createBswTimingEvent factory
+
 ## `BswModeSwitchEvent`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 94
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
@@ -199,6 +261,8 @@ BSW-EVENT group; Rule 0020). Base drift observed (not this row): `readBswEvent` 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | `modeGroupRef` | `Optional[RefType]` | `modeGroup` | `Ref (ModeDeclarationGroupPrototype)` | Ref | ok |
+
+No deviations (2026-09-26 sync, Table 5.32, p.95): fabricated class docstring (constr_4026 text not in this table) and `__init__` docstring wiped, class/attribute docstrings rewritten verbatim from the markdown Note, bare `RefType` setter parameter retyped to `Optional[RefType]` (0..1), old 3-col checklist replaced with the 6-column format; reader/writer already covered the `MODE-GROUP-REF` element via matched read/writeBswModeSwitchedAckEvent helpers + EVENTS dispatch + createBswModeSwitchedAckEvent factory
 
 ## `BswAsynchronousServerCallReturnsEvent`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 98

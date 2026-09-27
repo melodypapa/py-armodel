@@ -17,6 +17,8 @@ by ``conftest.py``; helper functions (``_snip``, ``_autosar_root``) live in
 import logging
 from unittest.mock import MagicMock
 
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticAudienceEnum
+from armodel.writer.arxml_writer import ARXMLWriter
 from tests.test_armodel.parser._helpers import _autosar_root, _snip
 
 
@@ -295,3 +297,61 @@ class TestDiagEventDebounceAlgorithm:
         with caplog.at_level(logging.ERROR):
             warning_parser.readDiagEventDebounceAlgorithm(element, needs)
         assert any("Unsupported DiagEventDebounceAlgorithm" in r.getMessage() for r in caplog.records)
+
+
+class TestDiagnosticCapabilityElementHandlers:
+    """Round-trip the capability-element attributes (AUDIENCES / DIAG-REQUIREMENT / SECURITY-ACCESS-LEVEL)."""
+
+    def test_capability_element_attributes_round_trip(self):
+        import xml.etree.cElementTree as ET
+
+        from armodel.models import DiagnosticCommunicationManagerNeeds
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+            DiagRequirementIdString,
+            PositiveInteger,
+        )
+        from armodel.parser.arxml_parser import ARXMLParser
+        from armodel.writer.arxml_writer import ARXMLWriter
+
+        needs = DiagnosticCommunicationManagerNeeds(parent=_autosar_root(), short_name="cmn")
+        needs.addAudience(DiagnosticAudienceEnum().setValue("development"))
+        needs.addAudience(DiagnosticAudienceEnum().setValue("afterSales"))
+        needs.setDiagRequirement(DiagRequirementIdString().setValue("REQ-42"))
+        needs.setSecurityAccessLevel(PositiveInteger().setValue(2))
+
+        parent = ET.Element("ROOT")
+        ARXMLWriter().writeDiagnosticCapabilityElement(parent, needs)
+        assert parent.find("AUDIENCES") is not None
+        audiences = parent.findall("AUDIENCES/AUDIENCE")
+        assert [a.text for a in audiences] == ["DEVELOPMENT", "AFTER-SALES"]
+        assert parent.find("DIAG-REQUIREMENT").text == "REQ-42"
+        assert parent.find("SECURITY-ACCESS-LEVEL").text == "2"
+
+        xml_text = "".join(ET.tostring(child, encoding="unicode") for child in parent)
+        reloaded = ET.fromstring("<ROOT xmlns='http://autosar.org/schema/r4.0'>%s</ROOT>" % xml_text)
+        parsed = DiagnosticCommunicationManagerNeeds(parent=_autosar_root(), short_name="cmn2")
+        ARXMLParser().readDiagnosticCapabilityElement(reloaded, parsed)
+        assert [a.getValue() for a in parsed.getAudiences()] == ["development", "afterSales"]
+        assert parsed.getDiagRequirement().getValue() == "REQ-42"
+        assert parsed.getSecurityAccessLevel().getValue() == 2
+
+    def test_capability_element_absent_attributes(self):
+        import xml.etree.cElementTree as ET
+
+        from armodel.models import DiagnosticCommunicationManagerNeeds
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        needs = DiagnosticCommunicationManagerNeeds(parent=_autosar_root(), short_name="cmn")
+        parent = ET.Element("ROOT")
+        ARXMLWriter().writeDiagnosticCapabilityElement(parent, needs)
+        assert parent.find("AUDIENCES") is None
+        assert parent.find("DIAG-REQUIREMENT") is None
+        assert parent.find("SECURITY-ACCESS-LEVEL") is None
+
+        xml_text = "".join(ET.tostring(child, encoding="unicode") for child in parent)
+        reloaded = ET.fromstring("<ROOT xmlns='http://autosar.org/schema/r4.0'>%s</ROOT>" % xml_text)
+        parsed = DiagnosticCommunicationManagerNeeds(parent=_autosar_root(), short_name="cmn2")
+        ARXMLParser().readDiagnosticCapabilityElement(reloaded, parsed)
+        assert parsed.getAudiences() == []
+        assert parsed.getDiagRequirement() is None
+        assert parsed.getSecurityAccessLevel() is None

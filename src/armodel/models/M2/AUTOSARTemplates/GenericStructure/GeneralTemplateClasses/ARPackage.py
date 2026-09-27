@@ -715,6 +715,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(mapping)
         return self.getElement(short_name, SwcBswMapping)
 
+    def createBswEntryRelationshipSet(self, short_name: str) -> BswEntryRelationshipSet:
+
+        if not self.IsElementExists(short_name, BswEntryRelationshipSet):
+            entry_set = BswEntryRelationshipSet(self, short_name)
+            self.addElement(entry_set)
+        return self.getElement(short_name, BswEntryRelationshipSet)
+
     def createFirewallRule(self, short_name: str) -> FirewallRule:
         """
         Creates a FirewallRule element in this package.
@@ -1725,6 +1732,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
 
         return list(filter(lambda a: isinstance(a, SwcBswMapping), self.elements))
 
+    def getBswEntryRelationshipSets(self) -> List[BswEntryRelationshipSet]:
+
+        return list(filter(lambda a: isinstance(a, BswEntryRelationshipSet), self.elements))
+
     def getMcFunctions(self) -> List[McFunction]:
         """
         Gets the McFunction elements contained in this package.
@@ -1961,6 +1972,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.AdaptiveModuleImplementation import PlatformModuleEthernetEndpointConfiguration  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import FirewallRule, StateDependentFirewall  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationshipSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification  # noqa: E402
