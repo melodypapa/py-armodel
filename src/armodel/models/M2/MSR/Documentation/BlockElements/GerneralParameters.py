@@ -55,6 +55,7 @@ class PrmCharAbsTol(PrmCharNumericalValue):
 
     # PrmCharAbsTol method parity checklist:
     # Spec: AUTOSAR_00052.xsd, complexType PRM-CHAR-ABS-TOL l.93791, group l.93769 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd (2026-09-28, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] setAbs    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
