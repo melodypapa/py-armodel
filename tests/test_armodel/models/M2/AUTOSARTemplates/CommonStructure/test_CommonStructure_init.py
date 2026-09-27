@@ -30,8 +30,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
-    ARNumerical,
     Identifier,
+    Numerical,
     PositiveInteger,
     RefType,
     VerbatimString,
@@ -331,7 +331,7 @@ class TestRuleArguments:
     def test_get_set_v(self):
         """Test setV/getV round-trip with a numerical value"""
         arguments = RuleArguments()
-        v = ARNumerical()
+        v = Numerical()
         v.setValue("1.5")
         result = arguments.setV(v)
         assert result is arguments
@@ -340,7 +340,7 @@ class TestRuleArguments:
     def test_set_v_none_noop(self):
         """Test setV(None) is a no-op and does not overwrite an existing value"""
         arguments = RuleArguments()
-        v = ARNumerical()
+        v = Numerical()
         v.setValue("1.5")
         arguments.setV(v)
         result = arguments.setV(None)
@@ -350,7 +350,7 @@ class TestRuleArguments:
     def test_get_set_vf(self):
         """Test setVf/getVf round-trip with a numerical value"""
         arguments = RuleArguments()
-        vf = ARNumerical()
+        vf = Numerical()
         vf.setValue("2.5")
         result = arguments.setVf(vf)
         assert result is arguments
@@ -359,7 +359,7 @@ class TestRuleArguments:
     def test_set_vf_none_noop(self):
         """Test setVf(None) is a no-op and does not overwrite an existing value"""
         arguments = RuleArguments()
-        vf = ARNumerical()
+        vf = Numerical()
         vf.setValue("2.5")
         arguments.setVf(vf)
         result = arguments.setVf(None)
@@ -419,7 +419,7 @@ class TestNumericalOrText:
     def test_get_set_vf(self):
         """Test setVf/getVf round-trip with a numerical value"""
         not_text = NumericalOrText()
-        vf = ARNumerical()
+        vf = Numerical()
         vf.setValue("1.5")
         result = not_text.setVf(vf)
         assert result is not_text
@@ -428,7 +428,7 @@ class TestNumericalOrText:
     def test_set_vf_none_noop(self):
         """Test setVf(None) is a no-op and does not overwrite an existing value"""
         not_text = NumericalOrText()
-        vf = ARNumerical()
+        vf = Numerical()
         vf.setValue("1.5")
         not_text.setVf(vf)
         result = not_text.setVf(None)
@@ -765,7 +765,7 @@ class TestNumericalValueSpecification:
     def test_set_value(self):
         """Test setValue method"""
         spec = NumericalValueSpecification()
-        test_value = ARNumerical()
+        test_value = Numerical()
         test_value.setValue(42)
         result = spec.setValue(test_value)
         assert result is spec

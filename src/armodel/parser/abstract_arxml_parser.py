@@ -10,7 +10,6 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
-    ARNumerical,
     ARType,
     Boolean,
     CseCodeType,
@@ -297,11 +296,11 @@ class AbstractARXMLParser(ABC):
             return int(m.group(1), 16)
         return int(value)
 
-    def getChildElementOptionalNumericalValue(self, element: ET.Element, key: str) -> ARNumerical:
+    def getChildElementOptionalNumericalValue(self, element: ET.Element, key: str) -> Numerical:
         child_element = self.find(element, key)
         if child_element is None:
             return None
-        numerical = ARNumerical()
+        numerical = Numerical()
         self.readARType(child_element, numerical)
         if "SHORT-LABEL" in child_element.attrib:
             numerical.setShortLabel(child_element.attrib["SHORT-LABEL"])
@@ -351,11 +350,11 @@ class AbstractARXMLParser(ABC):
         numerical.setValue(child_element.text)
         return numerical
 
-    def getChildElementNumericalValueList(self, element: ET.Element, key: str) -> List[ARNumerical]:
+    def getChildElementNumericalValueList(self, element: ET.Element, key: str) -> List[Numerical]:
         child_elements = self.findall(element, key)
         results = []
         for child_element in child_elements:
-            numerical = ARNumerical()
+            numerical = Numerical()
             numerical.setValue(child_element.text)
             results.append(numerical)
         return results

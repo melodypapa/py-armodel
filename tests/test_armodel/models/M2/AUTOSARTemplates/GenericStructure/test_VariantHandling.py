@@ -589,7 +589,7 @@ class TestSwSystemconstValueSpecContract:
     def test_value_typed_optional_numerical(self):
         """
         Test that value (Table 7.9: Numerical, 1, attr) is typed Optional[Numerical]
-        (the stamped PrimitiveTypes Numerical class, Table E.58 — not the ARNumerical ARType).
+        (the stamped PrimitiveTypes Numerical class, Table E.58 — not the Numerical ARType).
         """
         getter_hints = typing.get_type_hints(SwSystemconstValue.getValue)
         assert getter_hints.get("return") == typing.Optional[Numerical]

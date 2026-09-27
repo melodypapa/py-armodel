@@ -8,10 +8,10 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
     ARLiteral,
-    ARNumerical,
     Boolean,
     Float,
     Integer,
+    Numerical,
     PositiveInteger,
     RefType,
     TimeValue,
@@ -97,7 +97,7 @@ def _bool(val=True):
 
 
 def _numerical(val=1):
-    n = ARNumerical()
+    n = Numerical()
     n.setValue(val)
     return n
 

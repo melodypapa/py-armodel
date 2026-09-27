@@ -60,7 +60,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import M
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds, RoleBasedDataAssignment, SymbolicNameProps
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import BswServiceDependencyIdent
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Boolean, Identifier, PositiveInteger, RefType, String, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, Numerical, PositiveInteger, RefType, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment
@@ -1283,7 +1283,7 @@ class TestBswModeSenderPolicy:
     def test_get_set_queue_length(self):
         policy = BswModeSenderPolicy()
 
-        length = ARNumerical()
+        length = Numerical()
         length.setValue(10)
         result = policy.setQueueLength(length)
 
@@ -1293,7 +1293,7 @@ class TestBswModeSenderPolicy:
     def test_set_queue_length_none_is_noop(self):
         policy = BswModeSenderPolicy()
 
-        length = ARNumerical()
+        length = Numerical()
         length.setValue(10)
         policy.setQueueLength(length)
         policy.setQueueLength(None)

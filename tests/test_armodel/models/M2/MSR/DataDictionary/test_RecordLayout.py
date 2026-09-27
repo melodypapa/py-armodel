@@ -4,7 +4,7 @@ This module contains tests for the RecordLayout module in MSR.DataDictionary.
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Identifier, Integer, NameToken, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Identifier, Integer, NameToken, Numerical, RefType
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import (
     AsamRecordLayoutSemantics,
     AxisIndexType,
@@ -162,7 +162,7 @@ class TestSwRecordLayoutV:
     def test_sw_record_layout_v_sw_record_layout_v_axis_methods(self):
         """Test the swRecordLayoutVAxis getter and setter."""
         sw_record_layout_v = SwRecordLayoutV()
-        axis = ARNumerical()
+        axis = Numerical()
 
         result = sw_record_layout_v.setSwRecordLayoutVAxis(axis)
         assert sw_record_layout_v.getSwRecordLayoutVAxis() == axis
@@ -171,7 +171,7 @@ class TestSwRecordLayoutV:
     def test_sw_record_layout_v_sw_record_layout_v_fix_value_methods(self):
         """Test the swRecordLayoutVFixValue getter and setter."""
         sw_record_layout_v = SwRecordLayoutV()
-        fix_value = ARNumerical()
+        fix_value = Numerical()
 
         result = sw_record_layout_v.setSwRecordLayoutVFixValue(fix_value)
         assert sw_record_layout_v.getSwRecordLayoutVFixValue() == fix_value
@@ -202,8 +202,8 @@ class TestSwRecordLayoutV:
             "setDesc": MultiLanguageOverviewParagraph(),
             "setShortLabel": ARLiteral().setValue("label"),
             "setSwGenericAxisParamTypeRef": RefType().setValue("/axis"),
-            "setSwRecordLayoutVAxis": ARNumerical().setValue(1),
-            "setSwRecordLayoutVFixValue": ARNumerical().setValue(255),
+            "setSwRecordLayoutVAxis": Numerical().setValue(1),
+            "setSwRecordLayoutVFixValue": Numerical().setValue(255),
             "setSwRecordLayoutVIndex": ARLiteral().setValue("idx"),
             "setSwRecordLayoutVProp": ARLiteral().setValue("VALUE"),
         }

@@ -46,9 +46,9 @@ class TestReadTextTableMapping:
         value_pairs = mapping.getValuePairs()
         assert len(value_pairs) == 2
         assert isinstance(value_pairs[0], TextTableValuePair)
-        assert value_pairs[0].getFirstValue().getValue() == "1"
-        assert value_pairs[0].getSecondValue().getValue() == "2"
-        assert value_pairs[1].getFirstValue().getValue() == "3"
+        assert value_pairs[0].getFirstValue().getValue() == 1.0
+        assert value_pairs[0].getSecondValue().getValue() == 2.0
+        assert value_pairs[1].getFirstValue().getValue() == 3.0
         assert value_pairs[1].getSecondValue() is None
 
     def test_read_absent_value_pairs(self, parser):

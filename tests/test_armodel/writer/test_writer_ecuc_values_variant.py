@@ -32,7 +32,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
     ARLiteral,
-    ARNumerical,
     Boolean,
     Float,
     Numerical,
@@ -89,7 +88,7 @@ def _literal(value):
 
 
 def _numerical(value):
-    n = ARNumerical()
+    n = Numerical()
     n.setValue(str(value))
     return n
 

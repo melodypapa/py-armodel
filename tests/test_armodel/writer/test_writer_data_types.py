@@ -20,7 +20,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
-    ARNumerical,
     Boolean,
     Float,
     Identifier,
@@ -101,7 +100,7 @@ def _literal(text):
 
 
 def _numerical(text):
-    num = ARNumerical()
+    num = Numerical()
     num.value = text
     return num
 
@@ -863,7 +862,7 @@ class TestWriteCompuScaleWriter:
         scale = CompuScale()
         scale.setShortLabel(_literal("Low"))
         scale.setSymbol(_literal("LOW"))
-        mask = ARNumerical()
+        mask = Numerical()
         mask.value = "255"
         scale.setMask(mask)
         lower = Limit()
@@ -1300,7 +1299,7 @@ class TestRecordValueSpecificationWriter:
         rec = RecordValueSpecification()
         num = NumericalValueSpecification()
         num.setShortLabel(_literal("N"))
-        nv = ARNumerical()
+        nv = Numerical()
         nv.value = "5"
         num.setValue(nv)
         rec.addField(num)
@@ -1344,7 +1343,7 @@ class TestRecordValueSpecificationWriter:
         arr.setShortLabel(_literal("Arr"))
         nv = NumericalValueSpecification()
         nv.setShortLabel(_literal("Item"))
-        val = ARNumerical()
+        val = Numerical()
         val.value = "1"
         nv.setValue(val)
         arr.addElement(nv)
@@ -1421,7 +1420,7 @@ class TestConstantSpecificationWriter:
 
         nv = NumericalValueSpecification()
         nv.setShortLabel(_literal("Init"))
-        val = ARNumerical()
+        val = Numerical()
         val.value = "10"
         nv.setValue(val)
         spec.setValueSpec(nv)

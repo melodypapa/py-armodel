@@ -2,7 +2,7 @@ import typing
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import ConstantSpecification, NumericalValueSpecification, ValueSpecification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical
 
 
 class TestConstantSpecification:
@@ -34,7 +34,7 @@ class TestConstantSpecification:
         """Specification of an expression leading to a value for this constant."""
         spec = ConstantSpecification(None, "MyConstant")
         value_spec = NumericalValueSpecification()
-        numerical = ARNumerical()
+        numerical = Numerical()
         numerical.setValue("3.14")
         value_spec.setValue(numerical)
         result = spec.setValueSpec(value_spec)
@@ -46,7 +46,7 @@ class TestConstantSpecification:
         """Specification of an expression leading to a value for this constant."""
         spec = ConstantSpecification(None, "MyConstant")
         value_spec = NumericalValueSpecification()
-        numerical = ARNumerical()
+        numerical = Numerical()
         numerical.setValue("3.14")
         value_spec.setValue(numerical)
         spec.setValueSpec(value_spec)

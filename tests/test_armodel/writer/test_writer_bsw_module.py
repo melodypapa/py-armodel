@@ -43,10 +43,10 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
     ARLiteral,
-    ARNumerical,
     Boolean,
     CIdentifier,
     Identifier,
+    Numerical,
     PositiveInteger,
     RefType,
     String,
@@ -110,7 +110,7 @@ def _bool(value):
 
 
 def _numerical(value):
-    n = ARNumerical()
+    n = Numerical()
     n.setValue(str(value))
     return n
 
@@ -3308,7 +3308,7 @@ class TestSwServiceArgRoundTrip:
         argument = entry.createArgument("arg1")
         argument.setDirection(ArgumentDirectionEnum().setValue(ArgumentDirectionEnum.IN))
         array_size = ValueList()
-        array_size.setV(ARNumerical().setValue("4"))
+        array_size.setV(Numerical().setValue("4"))
         argument.setSwArraysize(array_size)
         props = SwDataDefProps()
         props.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.STANDARD))
@@ -3345,7 +3345,7 @@ class TestSwServiceArgRoundTrip:
             argument_2 = arguments[0]
             assert argument_2.getShortName() == "arg1"
             assert argument_2.getDirection().getValue() == "in"
-            assert argument_2.getSwArraysize().getV().getValue() == "4"
+            assert argument_2.getSwArraysize().getV().getValue() == 4.0
             assert argument_2.getSwDataDefProps().getSwImplPolicy().getValue() == "standard"
             return_type_2 = entry_2.getReturnType()
             assert return_type_2 is not None

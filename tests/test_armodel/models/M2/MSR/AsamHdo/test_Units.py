@@ -7,8 +7,8 @@ from typing import List
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement, ARPackage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARNumerical,
     Float,
+    Numerical,
     RefType,
     String,  # noqa: F401
 )
@@ -41,7 +41,7 @@ class TestPhysicalDimension:
     def test_physical_dimension_current_exp_methods(self):
         """Test the currentExp getter and setter including None no-op."""
         physical_dimension = self._make()
-        exp_value = ARNumerical()
+        exp_value = Numerical()
 
         result = physical_dimension.setCurrentExp(exp_value)
         assert physical_dimension.getCurrentExp() == exp_value
@@ -52,7 +52,7 @@ class TestPhysicalDimension:
     def test_physical_dimension_length_exp_methods(self):
         """Test the lengthExp getter and setter including None no-op."""
         physical_dimension = self._make()
-        exp_value = ARNumerical()
+        exp_value = Numerical()
 
         result = physical_dimension.setLengthExp(exp_value)
         assert physical_dimension.getLengthExp() == exp_value
@@ -63,7 +63,7 @@ class TestPhysicalDimension:
     def test_physical_dimension_luminous_intensity_exp_methods(self):
         """Test the luminousIntensityExp getter and setter including None no-op."""
         physical_dimension = self._make()
-        exp_value = ARNumerical()
+        exp_value = Numerical()
 
         result = physical_dimension.setLuminousIntensityExp(exp_value)
         assert physical_dimension.getLuminousIntensityExp() == exp_value
@@ -74,7 +74,7 @@ class TestPhysicalDimension:
     def test_physical_dimension_mass_exp_methods(self):
         """Test the massExp getter and setter including None no-op."""
         physical_dimension = self._make()
-        exp_value = ARNumerical()
+        exp_value = Numerical()
 
         result = physical_dimension.setMassExp(exp_value)
         assert physical_dimension.getMassExp() == exp_value
@@ -85,7 +85,7 @@ class TestPhysicalDimension:
     def test_physical_dimension_molar_amount_exp_methods(self):
         """Test the molarAmountExp getter and setter including None no-op."""
         physical_dimension = self._make()
-        exp_value = ARNumerical()
+        exp_value = Numerical()
 
         result = physical_dimension.setMolarAmountExp(exp_value)
         assert physical_dimension.getMolarAmountExp() == exp_value
@@ -96,7 +96,7 @@ class TestPhysicalDimension:
     def test_physical_dimension_temperature_exp_methods(self):
         """Test the temperatureExp getter and setter including None no-op."""
         physical_dimension = self._make()
-        exp_value = ARNumerical()
+        exp_value = Numerical()
 
         result = physical_dimension.setTemperatureExp(exp_value)
         assert physical_dimension.getTemperatureExp() == exp_value
@@ -107,7 +107,7 @@ class TestPhysicalDimension:
     def test_physical_dimension_time_exp_methods(self):
         """Test the timeExp getter and setter including None no-op."""
         physical_dimension = self._make()
-        exp_value = ARNumerical()
+        exp_value = Numerical()
 
         result = physical_dimension.setTimeExp(exp_value)
         assert physical_dimension.getTimeExp() == exp_value

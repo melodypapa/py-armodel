@@ -86,9 +86,9 @@ class TestPortInterfaceAndCompuHandlers:
         element = _snip("<VF>42</VF>", root_tag="PARENT")
         content = parser.getCompuConstContent(element)
         assert isinstance(content, CompuConstFormulaContent)
-        from armodel.models import ARNumerical
+        from armodel.models import Numerical
 
-        assert isinstance(content.getVf(), ARNumerical)
+        assert isinstance(content.getVf(), Numerical)
         assert content.getVf().getValue() == 42
 
     def test_getCompuConstContent_V_branch(self, parser):
@@ -560,7 +560,7 @@ class TestAdminDataAndReferrableHandlers:
             root_tag="CLIENT-ID-DEFINITION",
         )
         parser.readClientIdDefinition(element, id_definition)
-        assert id_definition.getClientId().getValue() == "5"
+        assert id_definition.getClientId().getValue() == 5.0
         iref = id_definition.getClientServerOperationIRef()
         assert iref is not None
         assert iref.getContextPortRef().getValue() == "/port"
@@ -573,7 +573,7 @@ class TestAdminDataAndReferrableHandlers:
         id_definition = ClientIdDefinition(parent=_autosar_root(), short_name="CID1")
         element = _snip("<CLIENT-ID>7</CLIENT-ID>", root_tag="CLIENT-ID-DEFINITION")
         parser.readClientIdDefinition(element, id_definition)
-        assert id_definition.getClientId().getValue() == "7"
+        assert id_definition.getClientId().getValue() == 7.0
         assert id_definition.getClientServerOperationIRef() is None
 
     def test_readClientIdDefinition_empty(self, parser):
@@ -600,9 +600,9 @@ class TestAdminDataAndReferrableHandlers:
         definitions = id_definition_set.getClientIdDefinitions()
         assert len(definitions) == 2
         assert definitions[0].getShortName() == "CID1"
-        assert definitions[0].getClientId().getValue() == "5"
+        assert definitions[0].getClientId().getValue() == 5.0
         assert definitions[1].getShortName() == "CID2"
-        assert definitions[1].getClientId().getValue() == "7"
+        assert definitions[1].getClientId().getValue() == 7.0
 
     def test_readClientIdDefinitionSet_empty_wrapper(self, parser):
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet
@@ -947,10 +947,10 @@ class TestDataTypeAndValueSpecHandlers:
         assert cont is not None
         assert cont.getUnitRef().getValue() == "/u"
         assert cont.getSwArraysize() is not None
-        assert cont.getSwArraysize().getV().getValue() == "2"
+        assert cont.getSwArraysize().getV().getValue() == 2.0
         assert cont.getSwValuesPhys() is not None
         assert len(cont.getSwValuesPhys().getVs()) == 1
-        assert cont.getSwValuesPhys().getVs()[0].getValue() == "1.0"
+        assert cont.getSwValuesPhys().getVs()[0].getValue() == 1.0
         assert cont.getUnitDisplayName().getMixedString() == "display"
 
     def test_getSwValueCont_display_name_sub_sup(self, parser):

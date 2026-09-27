@@ -9,7 +9,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AlignmentType,
-    ARNumerical,
     Boolean,
     DisplayFormatString,
     Float,
@@ -393,7 +392,7 @@ class TestSwDataDefProps:
 
     def test_sw_data_def_props_sw_intended_resolution_methods(self):
         sw_data_def_props = SwDataDefProps()
-        resolution = ARNumerical().setValue("0.01")
+        resolution = Numerical().setValue("0.01")
         result = sw_data_def_props.setSwIntendedResolution(resolution)
         assert sw_data_def_props.getSwIntendedResolution() == resolution
         assert result == sw_data_def_props
@@ -442,14 +441,14 @@ class TestSwDataDefProps:
 
     def test_sw_data_def_props_sw_value_block_size_methods(self):
         sw_data_def_props = SwDataDefProps()
-        block_size = ARNumerical().setValue("10")
+        block_size = Numerical().setValue("10")
         result = sw_data_def_props.setSwValueBlockSize(block_size)
         assert sw_data_def_props.getSwValueBlockSize() == block_size
         assert result == sw_data_def_props
 
     def test_sw_data_def_props_sw_value_block_size_mults_methods(self):
         sw_data_def_props = SwDataDefProps()
-        mult = ARNumerical().setValue("2")
+        mult = Numerical().setValue("2")
         result = sw_data_def_props.addSwValueBlockSizeMult(mult)
         assert mult in sw_data_def_props.getSwValueBlockSizeMults()
         assert result == sw_data_def_props

@@ -745,7 +745,7 @@ class TestSwSystemconstantValueSetParser:
         assert value.getSwSystemconstRef().getValue() == "/Constants/MySystemConstant"
         assert value.getSwSystemconstRef().getDest() == "SW-SYSTEMCONST"
         assert value.getValue() is not None
-        assert value.getValue().getValue() == "42"
+        assert value.getValue().getValue() == 42
 
     def test_read_sw_systemconstant_value_set_with_annotation(self, parser):
         """Test parsing SW-SYSTEMCONST-VALUE annotations."""

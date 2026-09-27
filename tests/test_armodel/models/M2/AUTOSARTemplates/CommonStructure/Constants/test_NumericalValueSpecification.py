@@ -1,7 +1,7 @@
 import typing
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NumericalValueSpecification, ValueSpecification
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Identifier
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, Numerical
 
 
 class TestNumericalValueSpecification:
@@ -18,11 +18,11 @@ class TestNumericalValueSpecification:
         assert spec.shortLabel is None
 
     def test_value_annotation_is_optional(self):
-        """value is a Numerical (0..1) attribute — the accessor hints must be Optional[ARNumerical]."""
+        """value is a Numerical (0..1) attribute — the accessor hints must be Optional[Numerical]."""
         hints = typing.get_type_hints(NumericalValueSpecification.getValue)
-        assert hints["return"] == typing.Optional[ARNumerical]
+        assert hints["return"] == typing.Optional[Numerical]
         hints = typing.get_type_hints(NumericalValueSpecification.setValue)
-        assert hints["value"] == typing.Optional[ARNumerical]
+        assert hints["value"] == typing.Optional[Numerical]
 
     def test_get_value(self):
         """This is the value itself. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"""
@@ -32,7 +32,7 @@ class TestNumericalValueSpecification:
     def test_set_value(self):
         """This is the value itself. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"""
         spec = NumericalValueSpecification()
-        numerical = ARNumerical()
+        numerical = Numerical()
         numerical.setValue("3.14")
         result = spec.setValue(numerical)
         assert result is spec
@@ -42,7 +42,7 @@ class TestNumericalValueSpecification:
     def test_set_value_none(self):
         """This is the value itself. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"""
         spec = NumericalValueSpecification()
-        numerical = ARNumerical()
+        numerical = Numerical()
         numerical.setValue("3.14")
         spec.setValue(numerical)
         result = spec.setValue(None)

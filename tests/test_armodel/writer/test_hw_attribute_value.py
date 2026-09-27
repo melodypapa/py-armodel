@@ -101,7 +101,7 @@ def test_round_trip_preserves_all_values():
     assert parsed.getAnnotation().getAnnotationOrigin().getValue() == "origin text"
     assert parsed.getHwAttributeDefRef().getValue() == "/Hw/Cat/AttrDef"
     assert parsed.getHwAttributeDefRef().getDest() == "HW-ATTRIBUTE-DEF"
-    assert parsed.getV().getValue() == "4.2"
+    assert parsed.getV().getValue() == 4.2
     assert parsed.getVt().getValue() == "some textual value"
     assert [child.tag.split("}")[-1] for child in root[0][0]] == ["ANNOTATION", "HW-ATTRIBUTE-DEF-REF", "V", "VT", "VARIATION-POINT"]
     assert parsed.getVariationPoint().getShortLabel().getValue() == "vp1"

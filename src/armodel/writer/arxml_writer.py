@@ -358,7 +358,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
-    ARNumerical,
+    Numerical,
     Limit,
     PositiveInteger,
     RefType,
@@ -3279,7 +3279,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalIntegerValue(child_element, "BIT-POSITION", bit_representation.getBitPosition())
             self.setChildElementOptionalIntegerValue(child_element, "NUMBER-OF-BITS", bit_representation.getNumberOfBits())
 
-    def setSwValueBlockSizeMults(self, element: ET.Element, mults: List[ARNumerical]):
+    def setSwValueBlockSizeMults(self, element: ET.Element, mults: List[Numerical]):
         if len(mults) > 0:
             mults_element = ET.SubElement(element, "SW-VALUE-BLOCK-SIZE-MULTS")
             for mult in mults:

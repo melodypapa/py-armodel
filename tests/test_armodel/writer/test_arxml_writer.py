@@ -20,7 +20,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable, ShortNameFragment, SingleLanguageReferrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
-    ARNumerical,
     DateTime,
     DisplayFormatString,
     Float,
@@ -946,7 +945,7 @@ class TestARXMLWriterValueSpecMethods:
         rule.setValue("FILL_UNTIL_END")
         rule_based.setRule(rule)
         argument = RuleArguments()
-        v = ARNumerical()
+        v = Numerical()
         v.setValue(1)
         argument.setV(v)
         rule_based.addArgument(argument)
@@ -1163,7 +1162,7 @@ class TestARXMLWriterSwCalprmAxisMethods:
         param_type_ref.setDest("SW-GENERIC-AXIS-PARAM-TYPE")
         param_type_ref.setValue("/axis/types/fixed/shift")
         param.setSwGenericAxisParamTypeRef(param_type_ref)
-        vf1 = ARNumerical()
+        vf1 = Numerical()
         vf1.setValue("1.5")
         param.addVf(vf1)
         generic.addSwGenericAxisParam(param)
@@ -1400,7 +1399,7 @@ class TestSwSystemconstantValueSetRoundTrip:
         assert ref.getDest() == "SW-SYSTEMCONST"
         numerical = value.getValue()
         assert isinstance(numerical, Numerical)
-        assert numerical.getValue() == "42"
+        assert numerical.getValue() == 42
         annotations = value.getAnnotations()
         assert len(annotations) == 1
         assert annotations[0].getAnnotationOrigin().getValue() == "variant-manager"
