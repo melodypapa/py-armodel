@@ -514,7 +514,7 @@ Status: **49/50** completed
 
 ## Group9
 
-Status: **20/29** completed
+Status: **21/29** completed
 
 | Class Name                    | Status       | Commit ID |
 | ----------------------------- | ------------ | --------- |
@@ -538,7 +538,7 @@ Status: **20/29** completed
 | `ARList`                      | [x] Done     | 2151ca030 |
 | `ChapterContent`              | [x] Done     | dee07d0a3 |
 | `ChapterModel`                | [x] Done     | d3d61c9b2 |
-| `PrmCharContents`             | [ ] Pending* | a3cf04c73 |
+| `PrmCharContents`             | [x] Done     | a3cf04c73 |
 | `PrmCharNumericalValue`       | [ ] Pending* | a3cf04c73 |
 | `PrmCharAbsTol`               | [ ] Pending* | a3cf04c73 |
 | `PrmCharMinTypMax`            | [ ] Pending* | a3cf04c73 |

@@ -518,7 +518,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PrivacyLevel`                                          | [x] Done    | fb222ae5                                 | Group5           |
 | `PrmChar`                                               | [ ] Deferred| a3cf04c73                                | Group9           |
 | `PrmCharAbsTol`                                         | [ ] Deferred| a3cf04c73                                | Group9           |
-| `PrmCharContents`                                       | [ ] Deferred| a3cf04c73                                | Group9           |
+| `PrmCharContents`                                       | [x] Done    | a3cf04c73                                | Group9           |
 | `PrmCharMinTypMax`                                      | [ ] Deferred| a3cf04c73                                | Group9           |
 | `PrmCharNumericalContents`                              | [ ] Deferred| a3cf04c73                                | Group9           |
 | `PrmCharNumericalValue`                                 | [ ] Deferred| a3cf04c73                                | Group9           |
