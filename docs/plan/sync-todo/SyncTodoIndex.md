@@ -456,7 +456,7 @@ Status: **34/34** completed
 
 ## Group8
 
-Status: **31/49** completed
+Status: **32/49** completed
 
 | Class Name                               | Status       | Commit ID |
 | ---------------------------------------- | ------------ | --------- |
@@ -483,7 +483,7 @@ Status: **31/49** completed
 | `PostBuildVariantCriterionValue`         | [ ] Pending* | N/A       |
 | `OffsetTimingConstraint`                 | [x] Done     | e305e80e2 |
 | `SynchronizationTimingConstraint`        | [x] Done     | e305e80e2 |
-| `TimingDescriptionEventChain`            | [ ] Pending* | N/A       |
+| `TimingDescriptionEventChain`            | [x] Done     | ea1a75e5b |
 | `AutosarOperationArgumentInstance`       | [ ] Pending* | N/A       |
 | `ConcreteTDEventVfb`                     | [ ] Pending* | N/A       |
 | `AtpBlueprint`                           | [x] Done     | 043de7436 |

@@ -639,7 +639,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TimeSyncServerConfiguration`                           | [ ] Pending | N/A                                      | Group16          |
 | `TimeSynchronization`                                   | [ ] Pending | N/A                                      | Group16          |
 | `TimeValueValueVariationPoint`                          | [x] Done    | d5c96fd9                                 | Group8           |
-| `TimingDescriptionEventChain`                           | [ ] Deferred| N/A                                      | Group8           |
+| `TimingDescriptionEventChain`                           | [x] Done    | ea1a75e5b                                | Group8           |
 | `TlsCryptoCipherSuite`                                  | [x] Done    | 67315ec0                                 | Group6           |
 | `TlsCryptoCipherSuiteProps`                             | [x] Done    | 648b40ac                                 | Group6           |
 | `TlsCryptoServiceMapping`                               | [x] Done    | 67315ec0                                 | Group6           |
