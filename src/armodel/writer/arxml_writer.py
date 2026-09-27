@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     FirewallRuleProps,
     IcmpRule,
     Ipv4Rule,
+    Ipv6Rule,
     PayloadBytePatternRule,
     PayloadBytePatternRulePart,
     SomeipProtocolRule,
@@ -14345,6 +14346,19 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "TTL-MAX", rule.getTtlMax())
         self.setChildElementOptionalPositiveInteger(element, "TTL-MIN", rule.getTtlMin())
 
+    def writeIpv6Rule(self, element: ET.Element, rule: Ipv6Rule):
+        self.setChildElementOptionalLiteral(element, "DESTINATION-IP-ADDRESS", rule.getDestinationIpAddress())
+        self.setChildElementOptionalLiteral(element, "DESTINATION-NETWORK-MASK", rule.getDestinationNetworkMask())
+        self.setChildElementOptionalPositiveInteger(element, "FLOW-LABEL", rule.getFlowLabel())
+        self.setChildElementOptionalPositiveInteger(element, "HOP-LIMIT", rule.getHopLimit())
+        if rule.getIcmpRule() is not None:
+            icmp_rule_tag = ET.SubElement(element, "ICMP-RULE")
+            self.writeIcmpRule(icmp_rule_tag, rule.getIcmpRule())
+        self.setChildElementOptionalPositiveInteger(element, "NEXT-HEADER", rule.getNextHeader())
+        self.setChildElementOptionalLiteral(element, "SOURCE-IP-ADDRESS", rule.getSourceIpAddress())
+        self.setChildElementOptionalLiteral(element, "SOURCE-NETWORK-MASK", rule.getSourceNetworkMask())
+        self.setChildElementOptionalPositiveInteger(element, "TRAFFIC-CLASS", rule.getTrafficClass())
+
     def writeFirewallRule(self, element: ET.Element, rule: FirewallRule):
         self.logger.debug("Write FirewallRule %s" % rule.getShortName())
         rule_tag = ET.SubElement(element, "FIREWALL-RULE")
@@ -14364,6 +14378,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                 network_layer_rule_tag = ET.SubElement(rule_tag, "NETWORK-LAYER-RULE")
                 ipv4_rule_tag = ET.SubElement(network_layer_rule_tag, "IPV-4-RULE")
                 self.writeIpv4Rule(ipv4_rule_tag, network_layer_rule)
+            elif isinstance(network_layer_rule, Ipv6Rule):
+                network_layer_rule_tag = ET.SubElement(rule_tag, "NETWORK-LAYER-RULE")
+                ipv6_rule_tag = ET.SubElement(network_layer_rule_tag, "IPV-6-RULE")
+                self.writeIpv6Rule(ipv6_rule_tag, network_layer_rule)
             else:
                 ET.SubElement(rule_tag, "NETWORK-LAYER-RULE")
         payload_rules = rule.getPayloadBytePatternRules()

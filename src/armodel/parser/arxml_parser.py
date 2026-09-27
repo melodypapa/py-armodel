@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     FirewallRuleProps,
     IcmpRule,
     Ipv4Rule,
+    Ipv6Rule,
     NetworkLayerRule,
     PayloadBytePatternRule,
     PayloadBytePatternRulePart,
@@ -14733,6 +14734,37 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setTtlMax(self.getChildElementOptionalPositiveInteger(element, "TTL-MAX"))
         rule.setTtlMin(self.getChildElementOptionalPositiveInteger(element, "TTL-MIN"))
 
+    def readIpv6Rule(self, element: ET.Element, rule: Ipv6Rule):
+        destination_ip_address = self.getChildElementOptionalLiteral(element, "DESTINATION-IP-ADDRESS")
+        if destination_ip_address is not None:
+            ip6_address = Ip6AddressString()
+            ip6_address.setValue(destination_ip_address.getValue())
+            rule.setDestinationIpAddress(ip6_address)
+        destination_network_mask = self.getChildElementOptionalLiteral(element, "DESTINATION-NETWORK-MASK")
+        if destination_network_mask is not None:
+            ip6_address = Ip6AddressString()
+            ip6_address.setValue(destination_network_mask.getValue())
+            rule.setDestinationNetworkMask(ip6_address)
+        rule.setFlowLabel(self.getChildElementOptionalPositiveInteger(element, "FLOW-LABEL"))
+        rule.setHopLimit(self.getChildElementOptionalPositiveInteger(element, "HOP-LIMIT"))
+        child = self.find(element, "ICMP-RULE")
+        if child is not None:
+            icmp_rule = IcmpRule()
+            self.readIcmpRule(child, icmp_rule)
+            rule.setIcmpRule(icmp_rule)
+        rule.setNextHeader(self.getChildElementOptionalPositiveInteger(element, "NEXT-HEADER"))
+        source_ip_address = self.getChildElementOptionalLiteral(element, "SOURCE-IP-ADDRESS")
+        if source_ip_address is not None:
+            ip6_address = Ip6AddressString()
+            ip6_address.setValue(source_ip_address.getValue())
+            rule.setSourceIpAddress(ip6_address)
+        source_network_mask = self.getChildElementOptionalLiteral(element, "SOURCE-NETWORK-MASK")
+        if source_network_mask is not None:
+            ip6_address = Ip6AddressString()
+            ip6_address.setValue(source_network_mask.getValue())
+            rule.setSourceNetworkMask(ip6_address)
+        rule.setTrafficClass(self.getChildElementOptionalPositiveInteger(element, "TRAFFIC-CLASS"))
+
     def readFirewallRule(self, element: ET.Element, rule: FirewallRule):
         self.readIdentifiable(element, rule)
         rule.setBucketSize(self.getChildElementOptionalPositiveInteger(element, "BUCKET-SIZE"))
@@ -14755,6 +14787,10 @@ class ARXMLParser(AbstractARXMLParser):
             if ipv4_rule is not None:
                 rule_obj = Ipv4Rule()
                 self.readIpv4Rule(ipv4_rule, rule_obj)
+                rule.setNetworkLayerRule(rule_obj)
+            elif self.find(child, "IPV-6-RULE") is not None:
+                rule_obj = Ipv6Rule()
+                self.readIpv6Rule(self.find(child, "IPV-6-RULE"), rule_obj)
                 rule.setNetworkLayerRule(rule_obj)
             else:
                 rule.setNetworkLayerRule(NetworkLayerRule())

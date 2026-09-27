@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Ip4AddressString, MacAddressString, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Ip4AddressString, Ip6AddressString, MacAddressString, PositiveInteger, RefType
 
 __all__ = [
     "FirewallActionEnum",
@@ -14,6 +14,7 @@ __all__ = [
     "DoIpRule",
     "IcmpRule",
     "Ipv4Rule",
+    "Ipv6Rule",
     "NetworkLayerRule",
     "PayloadBytePatternRule",
     "PayloadBytePatternRulePart",
@@ -208,9 +209,9 @@ class NetworkLayerRule(ARObject):
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class NetworkLayerRule, AUTOSAR_00052.xsd line 84252 (XSD-only; no own table in repo corpus)
     # (abstract class: the NETWORK-LAYER-RULE group is an empty sequence with no
     #  complexType; the FirewallRule.networkLayerRule element carries a choice of
-    #  the concrete subtypes Ipv4Rule (synced, IPV-4-RULE dispatch) and Ipv6Rule
-    #  (not yet implemented) — the class stays instantiable as the aggregation
-    #  placeholder per Rule 0001.10 and dispatch is per concrete subtype)
+    #  the concrete subtypes Ipv4Rule/Ipv6Rule (both synced, IPV-4-RULE/IPV-6-RULE
+    #  dispatch) — the class stays instantiable as the aggregation placeholder per
+    #  Rule 0001.10 and dispatch is per concrete subtype)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -545,6 +546,180 @@ class Ipv4Rule(NetworkLayerRule):
         """
         if value is not None:
             self.ttlMin = value
+        return self
+
+
+class Ipv6Rule(NetworkLayerRule):
+    """Configuration of filter rules on IPv6 level. Tags: atp.Status=candidate"""
+
+    # Ipv6Rule method parity checklist:
+    # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class Ipv6Rule, AUTOSAR_00052.xsd line 75007 (XSD-only; no own table in repo corpus)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationIpAddress  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationIpAddress  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDestinationNetworkMask  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationNetworkMask  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFlowLabel             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFlowLabel             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHopLimit              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHopLimit              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIcmpRule              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIcmpRule              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNextHeader            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNextHeader            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceIpAddress       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceIpAddress       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceNetworkMask     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceNetworkMask     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTrafficClass          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTrafficClass          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Filter to match packets with the destination IPv6 address.
+        self.destinationIpAddress: Optional[Ip6AddressString] = None
+
+        # Filter to match packets with the destination IPv6 address range. The destinationIpAddress with the destinationNetworkMask defines the MAC address range.
+        self.destinationNetworkMask: Optional[Ip6AddressString] = None
+
+        # Filter to match packets with a defined flow label.
+        self.flowLabel: Optional[PositiveInteger] = None
+
+        # Filter to match packets with a minimum hop limit.
+        self.hopLimit: Optional[PositiveInteger] = None
+
+        # Configuration of filter rules for ICMP (Internet Control Message Protocol).
+        self.icmpRule: Optional[IcmpRule] = None
+
+        # Filter to match packets with a defined type of an extension header.
+        self.nextHeader: Optional[PositiveInteger] = None
+
+        # Filter to match packets with the source IPv6 address.
+        self.sourceIpAddress: Optional[Ip6AddressString] = None
+
+        # Filter to match packets with the source IPv6 address range. The sourceIpAddress with the sourceNetworkMask defines the IP address range.
+        self.sourceNetworkMask: Optional[Ip6AddressString] = None
+
+        # Filter to match packets with a defined traffic class or priority.
+        self.trafficClass: Optional[PositiveInteger] = None
+
+    def getDestinationIpAddress(self) -> Optional[Ip6AddressString]:
+        """Filter to match packets with the destination IPv6 address."""
+        return self.destinationIpAddress
+
+    def setDestinationIpAddress(self, value: Optional[Ip6AddressString]) -> "Ipv6Rule":
+        """
+        Filter to match packets with the destination IPv6 address.
+        A None value is a no-op and does not overwrite an existing destinationIpAddress.
+        """
+        if value is not None:
+            self.destinationIpAddress = value
+        return self
+
+    def getDestinationNetworkMask(self) -> Optional[Ip6AddressString]:
+        """Filter to match packets with the destination IPv6 address range. The destinationIpAddress with the destinationNetworkMask defines the MAC address range."""
+        return self.destinationNetworkMask
+
+    def setDestinationNetworkMask(self, value: Optional[Ip6AddressString]) -> "Ipv6Rule":
+        """
+        Filter to match packets with the destination IPv6 address range. The destinationIpAddress with the destinationNetworkMask defines the MAC address range.
+        A None value is a no-op and does not overwrite an existing destinationNetworkMask.
+        """
+        if value is not None:
+            self.destinationNetworkMask = value
+        return self
+
+    def getFlowLabel(self) -> Optional[PositiveInteger]:
+        """Filter to match packets with a defined flow label."""
+        return self.flowLabel
+
+    def setFlowLabel(self, value: Optional[PositiveInteger]) -> "Ipv6Rule":
+        """
+        Filter to match packets with a defined flow label.
+        A None value is a no-op and does not overwrite an existing flowLabel.
+        """
+        if value is not None:
+            self.flowLabel = value
+        return self
+
+    def getHopLimit(self) -> Optional[PositiveInteger]:
+        """Filter to match packets with a minimum hop limit."""
+        return self.hopLimit
+
+    def setHopLimit(self, value: Optional[PositiveInteger]) -> "Ipv6Rule":
+        """
+        Filter to match packets with a minimum hop limit.
+        A None value is a no-op and does not overwrite an existing hopLimit.
+        """
+        if value is not None:
+            self.hopLimit = value
+        return self
+
+    def getIcmpRule(self) -> Optional[IcmpRule]:
+        """Configuration of filter rules for ICMP (Internet Control Message Protocol)."""
+        return self.icmpRule
+
+    def setIcmpRule(self, value: Optional[IcmpRule]) -> "Ipv6Rule":
+        """
+        Configuration of filter rules for ICMP (Internet Control Message Protocol).
+        A None value is a no-op and does not overwrite an existing icmpRule.
+        """
+        if value is not None:
+            self.icmpRule = value
+        return self
+
+    def getNextHeader(self) -> Optional[PositiveInteger]:
+        """Filter to match packets with a defined type of an extension header."""
+        return self.nextHeader
+
+    def setNextHeader(self, value: Optional[PositiveInteger]) -> "Ipv6Rule":
+        """
+        Filter to match packets with a defined type of an extension header.
+        A None value is a no-op and does not overwrite an existing nextHeader.
+        """
+        if value is not None:
+            self.nextHeader = value
+        return self
+
+    def getSourceIpAddress(self) -> Optional[Ip6AddressString]:
+        """Filter to match packets with the source IPv6 address."""
+        return self.sourceIpAddress
+
+    def setSourceIpAddress(self, value: Optional[Ip6AddressString]) -> "Ipv6Rule":
+        """
+        Filter to match packets with the source IPv6 address.
+        A None value is a no-op and does not overwrite an existing sourceIpAddress.
+        """
+        if value is not None:
+            self.sourceIpAddress = value
+        return self
+
+    def getSourceNetworkMask(self) -> Optional[Ip6AddressString]:
+        """Filter to match packets with the source IPv6 address range. The sourceIpAddress with the sourceNetworkMask defines the IP address range."""
+        return self.sourceNetworkMask
+
+    def setSourceNetworkMask(self, value: Optional[Ip6AddressString]) -> "Ipv6Rule":
+        """
+        Filter to match packets with the source IPv6 address range. The sourceIpAddress with the sourceNetworkMask defines the IP address range.
+        A None value is a no-op and does not overwrite an existing sourceNetworkMask.
+        """
+        if value is not None:
+            self.sourceNetworkMask = value
+        return self
+
+    def getTrafficClass(self) -> Optional[PositiveInteger]:
+        """Filter to match packets with a defined traffic class or priority."""
+        return self.trafficClass
+
+    def setTrafficClass(self, value: Optional[PositiveInteger]) -> "Ipv6Rule":
+        """
+        Filter to match packets with a defined traffic class or priority.
+        A None value is a no-op and does not overwrite an existing trafficClass.
+        """
+        if value is not None:
+            self.trafficClass = value
         return self
 
 

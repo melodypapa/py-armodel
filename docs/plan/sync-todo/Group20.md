@@ -1094,30 +1094,38 @@ tracker rows they motivated (`networkLayerRule | Ipv4Rule | missing`,
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12713 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `Ipv6Rule` — NetworkLayerRule (TBC at Step 1) — R23-11 markdown ECUC-mapping appendix (no table, no XSD)
+- [x] `Ipv6Rule` — NetworkLayerRule — XSD-only (00052 complexType L75007)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
-  - note: PDF Table 6.236 networkLayerRule family (tracker row names Ipv4Rule; Ipv6Rule is
-    the IPv6 sibling in the same ECU container family FirewallNetworkLayer*FilterConfig);
-    queued per user arbitration 2026-09-27 ("Enqueue both") — NON-STANDARD source: members
-    derived from the R23-11 markdown ECUC-mapping appendix (AUTOSAR_CP_TPS_SystemTemplate.md
-    L48463+). No class table in either corpus, IPV6-RULE absent from 00052/00044 XSDs →
-    Rule 0015 deviation documented at Step 8; regular stamp not possible — marker decision
-    arbitrated at 9b.
-  - note (Step 1): member evidence (mmt.qualifiedName paths): trafficClass (L48463),
-    flowLabel (L48479), hopLimit (L48502), sourceIpAddress (L47781/L47867),
-    destinationIpAddress (L47736/L47871), sourceNetworkMask (L47824/L47828 context),
-    destinationNetworkMask (L47740) — descriptions only, TYPES TBC at Step 1 (no
-    checksumVerification: IPv6 has no header checksum). No Base row in any corpus: same
-    candidate-base arbitration as Ipv4Rule.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: source premise corrected 2026-09-27 — the earlier NON-STANDARD claim was WRONG:
+    the class IS XSD-defined as the dashed spelling IPV-6-RULE (00052 group L74941,
+    complexType L75007), missed by the audit; amended to XSD-only per Rule 0015
+  - note (Step 1): XSD 00052 group IPV-6-RULE L74941 + complexType L75007; class Note
+    "Configuration of filter rules on IPv6 level."; atp.Status=candidate, atpObject;
+    sequence = AR-OBJECT + NETWORK-LAYER-RULE + IPV-6-RULE → base NetworkLayerRule;
+    own members (verified L74948-L75003) destinationIpAddress (IP6-ADDRESS-STRING 0..1),
+    destinationNetworkMask (IP6-ADDRESS-STRING 0..1), flowLabel (POSITIVE-INTEGER 0..1),
+    hopLimit (POSITIVE-INTEGER 0..1), icmpRule (ICMP-RULE 0..1), nextHeader
+    (POSITIVE-INTEGER 0..1), sourceIpAddress (IP6-ADDRESS-STRING 0..1), sourceNetworkMask
+    (IP6-ADDRESS-STRING 0..1), trafficClass (POSITIVE-INTEGER 0..1) — 9 members. No table
+    in either corpus — Rule 0015 XSD-only.
+  - note (Step 8): no deviations. destinationNetworkMask's XSD Note literally says the
+    address pair "defines the MAC address range" — copied verbatim per Rule 0001 (spec
+    text is authoritative even where it looks like a spec typo; XSD L74957). Member order
+    follows the XSD sequence; multi-line XSD notes joined with single spaces per corpus
+    convention. The class never appears standalone — the writer emits
+    NETWORK-LAYER-RULE/IPV-6-RULE and the parser dispatches on the IPV-6-RULE child
+    (bare NETWORK-LAYER-RULE fallback kept for the abstract NetworkLayerRule placeholder);
+    checklist reader/writer columns are attributed to the setter/getter rows per the
+    IcmpRule precedent.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12728 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [x] `UdpRule` — TransportLayerRule — XSD-only (00052 complexType L127875)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
