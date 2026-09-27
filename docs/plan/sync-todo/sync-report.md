@@ -516,6 +516,13 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PostBuildVariantCriterion`                             | [x] Done    | 5333bec02                                | Group8           |
 | `PostBuildVariantCriterionValue`                        | [x] Done    | 8af1088fd                                | Group8           |
 | `PrivacyLevel`                                          | [x] Done    | fb222ae5                                 | Group5           |
+| `PrmChar`                                               | [ ] Deferred| a3cf04c73                                | Group9           |
+| `PrmCharAbsTol`                                         | [ ] Deferred| a3cf04c73                                | Group9           |
+| `PrmCharContents`                                       | [ ] Deferred| a3cf04c73                                | Group9           |
+| `PrmCharMinTypMax`                                      | [ ] Deferred| a3cf04c73                                | Group9           |
+| `PrmCharNumericalContents`                              | [ ] Deferred| a3cf04c73                                | Group9           |
+| `PrmCharNumericalValue`                                 | [ ] Deferred| a3cf04c73                                | Group9           |
+| `PrmCharTextualContents`                                | [ ] Deferred| a3cf04c73                                | Group9           |
 | `Prms`                                                  | [ ] Deferred| a3cf04c73                                | Group9           |
 | `ProgramminglanguageEnum`                               | [x] Done    | be79d799                                 | Group1           |
 | `QueuedReceiverComSpec`                                 | [ ] Deferred| N/A                                      | Group10          |
