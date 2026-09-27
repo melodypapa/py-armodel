@@ -53,7 +53,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `AttributeValueVariationPoint`                          | [x] Done    | d5c96fd9                                 | Group8           |
 | `AutoCollectEnum`                                       | [x] Done    | 75f40055                                 | Group1           |
 | `AutosarDataType`                                       | [x] Done    | a5f99df4                                 | Group1           |
-| `AutosarOperationArgumentInstance`                      | [ ] Deferred| N/A                                      | Group8           |
+| `AutosarOperationArgumentInstance`                      | [x] Done    | b8cce0057                                | Group8           |
 | `AutosarParameterRef`                                   | [ ] Deferred| N/A                                      | Group10          |
 | `AutosarVariableRef`                                    | [ ] Deferred| N/A                                      | Group10          |
 | `BackgroundEvent`                                       | [x] Done    | 27b88a94                                 | Group2           |
