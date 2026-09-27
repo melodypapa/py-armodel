@@ -194,6 +194,21 @@ def resolve_row(g, name, checked, header_line, block, stamped, cur_index, cur_re
     return {"name": name, "commit": commit, "status": status}
 
 
+REPORT_STATUS_ORDER = ("[x] Done", "[x] Deferred", "[x] Retired", "[ ] Deferred", "[ ] Pending")
+
+
+def report_status(statuses):
+    if any(s == "Retired" for s in statuses):
+        return "[x] Retired"
+    if any(s == "Done" for s in statuses):
+        return "[x] Done"
+    if any(s == "Done*" for s in statuses):
+        return "[x] Deferred"
+    if any(s == "Pending*" for s in statuses):
+        return "[ ] Deferred"
+    return "[ ] Pending"
+
+
 def build(parsed, stamped, cur_index, cur_report, name_groups):
     resolved = {}
     for g in GROUPS:
@@ -226,22 +241,25 @@ def build(parsed, stamped, cur_index, cur_report, name_groups):
                 order.append(r["name"])
             merged[r["name"]].append((g, r))
 
+    status_counts = Counter(report_status([r["status"] for _, r in merged[name]]) for name in order)
+    total = len(order)
+
     rep_lines = list(REPORT_INTRO)
+    rep_lines.append("## Summary")
+    rep_lines.append("")
+    rep_lines.append(f"**{total} classes total**")
+    rep_lines.append("")
+    rep_lines.append("| Status | Classes | Percent |")
+    rep_lines.append("| --- | --- | --- |")
+    for s in REPORT_STATUS_ORDER:
+        n = status_counts.get(s, 0)
+        rep_lines.append(f"| {s} | {n} | {n / total:.1%} |")
+    rep_lines.append("")
     rep_lines.append("| {c1:<55} | {c2:<12}| {c3:<40} | {c4:<16} |".format(c1="Class Name", c2="Status", c3="Commit ID", c4="Groups"))
     rep_lines.append("| " + "-" * 55 + " | " + "-" * 12 + "| " + "-" * 40 + " | " + "-" * 16 + " |")
     for name in sorted(order):
         entries = merged[name]
-        statuses = [r["status"] for _, r in entries]
-        if any(s == "Retired" for s in statuses):
-            status = "[x] Retired"
-        elif any(s == "Done" for s in statuses):
-            status = "[x] Done"
-        elif any(s == "Done*" for s in statuses):
-            status = "[x] Deferred"
-        elif any(s == "Pending*" for s in statuses):
-            status = "[ ] Deferred"
-        else:
-            status = "[ ] Pending"
+        status = report_status([r["status"] for _, r in entries])
         commit = "N/A"
         for _, r in entries:
             if r["commit"] != "N/A":

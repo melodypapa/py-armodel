@@ -4,6 +4,18 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 **Status legend:** `[x] Done` = 9-step sync complete AND `# Spec verified:`/`# XSD verified:` stamped in src · `[x]`/`[ ] Deferred` = sync complete (Steps 1–8 green) but the stamp is **deferred to a batch 9b user confirmation** · `[ ] Pending` = sync not yet complete. (Deferred set audited 2026-09-27 against the src stamps.)
 
+## Summary
+
+**715 classes total**
+
+| Status | Classes | Percent |
+| --- | --- | --- |
+| [x] Done | 457 | 63.9% |
+| [x] Deferred | 11 | 1.5% |
+| [x] Retired | 1 | 0.1% |
+| [ ] Deferred | 144 | 20.1% |
+| [ ] Pending | 102 | 14.3% |
+
 | Class Name                                              | Status      | Commit ID                                | Groups           |
 | ------------------------------------------------------- | ------------| ---------------------------------------- | ---------------- |
 | `ARElement`                                             | [x] Done    | 61c85fa7                                 | Group1           |
