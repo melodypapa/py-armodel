@@ -10054,6 +10054,8 @@ class ARXMLParser(AbstractARXMLParser):
             recovery.setBorCounterL1ToL2(self.getChildElementOptionalPositiveInteger(child_element, "BOR-COUNTER-L-1-TO-L-2"))
             recovery.setBorTimeL1(self.getChildElementOptionalTimeValue(child_element, "BOR-TIME-L-1"))
             recovery.setBorTimeL2(self.getChildElementOptionalTimeValue(child_element, "BOR-TIME-L-2"))
+            recovery.setBorTimeTxEnsured(self.getChildElementOptionalTimeValue(child_element, "BOR-TIME-TX-ENSURED"))
+            recovery.setMainFunctionPeriod(self.getChildElementOptionalTimeValue(child_element, "MAIN-FUNCTION-PERIOD"))
         return recovery
 
     def readAbstractCanCluster(self, element: ET.Element, cluster: AbstractCanCluster):

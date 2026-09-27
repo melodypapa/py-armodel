@@ -1,6 +1,8 @@
 # This module contains AUTOSAR System Template classes for CAN topology
 # It defines CAN controllers, connectors, and their configuration attributes
 
+from __future__ import annotations
+
 from abc import ABC
 from typing import Optional
 
@@ -64,7 +66,7 @@ class CanControllerFdConfiguration(ARObject):
         """
         return self.paddingValue
 
-    def setPaddingValue(self, value: Optional[PositiveInteger]) -> "CanControllerFdConfiguration":
+    def setPaddingValue(self, value: Optional[PositiveInteger]) -> CanControllerFdConfiguration:
         """
         Specifies the value which is used to pad unused data in CAN FD frames which are bigger than 8 byte if the length of a Pdu which was requested to be sent does not match the allowed DLC values of CAN FD.
         A None value is a no-op and does not overwrite an existing paddingValue.
@@ -79,7 +81,7 @@ class CanControllerFdConfiguration(ARObject):
         """
         return self.propSeg
 
-    def setPropSeg(self, value: Optional[PositiveInteger]) -> "CanControllerFdConfiguration":
+    def setPropSeg(self, value: Optional[PositiveInteger]) -> CanControllerFdConfiguration:
         """
         Specifies propagation delay in time quantas.
         A None value is a no-op and does not overwrite an existing propSeg.
@@ -94,7 +96,7 @@ class CanControllerFdConfiguration(ARObject):
         """
         return self.sspOffset
 
-    def setSspOffset(self, value: Optional[PositiveInteger]) -> "CanControllerFdConfiguration":
+    def setSspOffset(self, value: Optional[PositiveInteger]) -> CanControllerFdConfiguration:
         """
         Specifies the Transmitter Delay Compensation Offset in minimum time quanta. Transmitter Delay Compensation Offset is used to adjust the position of the Secondary Sample Point (SSP), relative to the beginning of the received bit. If this parameter is configured, the Transmitter Delay Compensation is done by measurement of the CAN controller. If not specified Transmitter Delay Compensation is disabled.
         A None value is a no-op and does not overwrite an existing sspOffset.
@@ -109,7 +111,7 @@ class CanControllerFdConfiguration(ARObject):
         """
         return self.syncJumpWidth
 
-    def setSyncJumpWidth(self, value: Optional[PositiveInteger]) -> "CanControllerFdConfiguration":
+    def setSyncJumpWidth(self, value: Optional[PositiveInteger]) -> CanControllerFdConfiguration:
         """
         Specifies the synchronization jump width for the controller in time quantas.
         A None value is a no-op and does not overwrite an existing syncJumpWidth.
@@ -124,7 +126,7 @@ class CanControllerFdConfiguration(ARObject):
         """
         return self.timeSeg1
 
-    def setTimeSeg1(self, value: Optional[PositiveInteger]) -> "CanControllerFdConfiguration":
+    def setTimeSeg1(self, value: Optional[PositiveInteger]) -> CanControllerFdConfiguration:
         """
         Specifies phase segment 1 in time quantas.
         A None value is a no-op and does not overwrite an existing timeSeg1.
@@ -139,7 +141,7 @@ class CanControllerFdConfiguration(ARObject):
         """
         return self.timeSeg2
 
-    def setTimeSeg2(self, value: Optional[PositiveInteger]) -> "CanControllerFdConfiguration":
+    def setTimeSeg2(self, value: Optional[PositiveInteger]) -> CanControllerFdConfiguration:
         """
         Specifies phase segment 2 in time quantas.
         A None value is a no-op and does not overwrite an existing timeSeg2.
@@ -154,7 +156,7 @@ class CanControllerFdConfiguration(ARObject):
         """
         return self.txBitRateSwitch
 
-    def setTxBitRateSwitch(self, value: Optional[Boolean]) -> "CanControllerFdConfiguration":
+    def setTxBitRateSwitch(self, value: Optional[Boolean]) -> CanControllerFdConfiguration:
         """
         Specifies if the bit rate switching shall be used for transmissions. TRUE: CAN FD frames shall be sent with bit rate switching. FALSE: CAN FD frames shall be sent without bit rate switching.
         A None value is a no-op and does not overwrite an existing txBitRateSwitch.
@@ -355,7 +357,7 @@ class CanControllerXlConfiguration(ARObject):
         """Specifies if error signaling shall be enabled. This is not possible when the transceiver is switched to PWM mode (trcvPwmModeEnabled set to TRUE). TRUE: Error signaling shall be enabled. FALSE: Error signaling shall be disabled."""
         return self.errorSignalingEnabled
 
-    def setErrorSignalingEnabled(self, value: Optional[Boolean]) -> "CanControllerXlConfiguration":
+    def setErrorSignalingEnabled(self, value: Optional[Boolean]) -> CanControllerXlConfiguration:
         """Specifies if error signaling shall be enabled. This is not possible when the transceiver is switched to PWM mode (trcvPwmModeEnabled set to TRUE). TRUE: Error signaling shall be enabled. FALSE: Error signaling shall be disabled.
         A None value is a no-op and does not overwrite an existing errorSignalingEnabled."""
         if value is not None:
@@ -366,7 +368,7 @@ class CanControllerXlConfiguration(ARObject):
         """Specifies propagation delay in time quantas."""
         return self.propSeg
 
-    def setPropSeg(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfiguration":
+    def setPropSeg(self, value: Optional[PositiveInteger]) -> CanControllerXlConfiguration:
         """Specifies propagation delay in time quantas.
         A None value is a no-op and does not overwrite an existing propSeg."""
         if value is not None:
@@ -377,7 +379,7 @@ class CanControllerXlConfiguration(ARObject):
         """Specifies the PWM long phase length."""
         return self.pwmL
 
-    def setPwmL(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfiguration":
+    def setPwmL(self, value: Optional[PositiveInteger]) -> CanControllerXlConfiguration:
         """Specifies the PWM long phase length.
         A None value is a no-op and does not overwrite an existing pwmL."""
         if value is not None:
@@ -388,7 +390,7 @@ class CanControllerXlConfiguration(ARObject):
         """Specifies the PWM time offset."""
         return self.pwmO
 
-    def setPwmO(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfiguration":
+    def setPwmO(self, value: Optional[PositiveInteger]) -> CanControllerXlConfiguration:
         """Specifies the PWM time offset.
         A None value is a no-op and does not overwrite an existing pwmO."""
         if value is not None:
@@ -399,7 +401,7 @@ class CanControllerXlConfiguration(ARObject):
         """Specifies the PWM short phase length."""
         return self.pwmS
 
-    def setPwmS(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfiguration":
+    def setPwmS(self, value: Optional[PositiveInteger]) -> CanControllerXlConfiguration:
         """Specifies the PWM short phase length.
         A None value is a no-op and does not overwrite an existing pwmS."""
         if value is not None:
@@ -410,7 +412,7 @@ class CanControllerXlConfiguration(ARObject):
         """Specifies the Transmitter Delay Compensation Offset in minimum time quanta. Transmitter Delay Compensation Offset is used to adjust the position of the Secondary Sample Point (SSP), relative to the beginning of the received bit. If this parameter is configured, the Transmitter Delay Compensation is done by measurement of the CAN controller. If not specified Transmitter Delay Compensation is disabled."""
         return self.sspOffset
 
-    def setSspOffset(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfiguration":
+    def setSspOffset(self, value: Optional[PositiveInteger]) -> CanControllerXlConfiguration:
         """Specifies the Transmitter Delay Compensation Offset in minimum time quanta. Transmitter Delay Compensation Offset is used to adjust the position of the Secondary Sample Point (SSP), relative to the beginning of the received bit. If this parameter is configured, the Transmitter Delay Compensation is done by measurement of the CAN controller. If not specified Transmitter Delay Compensation is disabled.
         A None value is a no-op and does not overwrite an existing sspOffset."""
         if value is not None:
@@ -421,7 +423,7 @@ class CanControllerXlConfiguration(ARObject):
         """Specifies the synchronization jump width for the controller in time quantas."""
         return self.syncJumpWidth
 
-    def setSyncJumpWidth(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfiguration":
+    def setSyncJumpWidth(self, value: Optional[PositiveInteger]) -> CanControllerXlConfiguration:
         """Specifies the synchronization jump width for the controller in time quantas.
         A None value is a no-op and does not overwrite an existing syncJumpWidth."""
         if value is not None:
@@ -432,7 +434,7 @@ class CanControllerXlConfiguration(ARObject):
         """Specifies phase segment 1 in time quantas."""
         return self.timeSeg1
 
-    def setTimeSeg1(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfiguration":
+    def setTimeSeg1(self, value: Optional[PositiveInteger]) -> CanControllerXlConfiguration:
         """Specifies phase segment 1 in time quantas.
         A None value is a no-op and does not overwrite an existing timeSeg1."""
         if value is not None:
@@ -443,7 +445,7 @@ class CanControllerXlConfiguration(ARObject):
         """Specifies phase segment 2 in time quantas."""
         return self.timeSeg2
 
-    def setTimeSeg2(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfiguration":
+    def setTimeSeg2(self, value: Optional[PositiveInteger]) -> CanControllerXlConfiguration:
         """Specifies phase segment 2 in time quantas.
         A None value is a no-op and does not overwrite an existing timeSeg2."""
         if value is not None:
@@ -454,7 +456,7 @@ class CanControllerXlConfiguration(ARObject):
         """Specifies if the transceiver shall be set to the PWM mode. TRUE: The transceiver shall be switched to PWM mode. FALSE: The transceiver shall work in classic CAN mode."""
         return self.trcvPwmModeEnabled
 
-    def setTrcvPwmModeEnabled(self, value: Optional[Boolean]) -> "CanControllerXlConfiguration":
+    def setTrcvPwmModeEnabled(self, value: Optional[Boolean]) -> CanControllerXlConfiguration:
         """Specifies if the transceiver shall be set to the PWM mode. TRUE: The transceiver shall be switched to PWM mode. FALSE: The transceiver shall work in classic CAN mode.
         A None value is a no-op and does not overwrite an existing trcvPwmModeEnabled."""
         if value is not None:
@@ -558,7 +560,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         """Specifies if error signaling shall be enabled. This is not possible when the transceiver is switched to PWM mode (trcvPwmModeEnabled set to TRUE). TRUE: Error signaling shall be enabled. FALSE: Error signaling shall be disabled."""
         return self.errorSignalingEnabled
 
-    def setErrorSignalingEnabled(self, value: Optional[Boolean]) -> "CanControllerXlConfigurationRequirements":
+    def setErrorSignalingEnabled(self, value: Optional[Boolean]) -> CanControllerXlConfigurationRequirements:
         """Specifies if error signaling shall be enabled. This is not possible when the transceiver is switched to PWM mode (trcvPwmModeEnabled set to TRUE). TRUE: Error signaling shall be enabled. FALSE: Error signaling shall be disabled.
         A None value is a no-op and does not overwrite an existing errorSignalingEnabled."""
         if value is not None:
@@ -569,7 +571,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         """Maximum number of time quanta in the bit time."""
         return self.maxNumberOfTimeQuantaPerBit
 
-    def setMaxNumberOfTimeQuantaPerBit(self, value: Optional[Integer]) -> "CanControllerXlConfigurationRequirements":
+    def setMaxNumberOfTimeQuantaPerBit(self, value: Optional[Integer]) -> CanControllerXlConfigurationRequirements:
         """Maximum number of time quanta in the bit time.
         A None value is a no-op and does not overwrite an existing maxNumberOfTimeQuantaPerBit."""
         if value is not None:
@@ -580,7 +582,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         """Specifies the maximum PWM long phase length."""
         return self.maxPwmL
 
-    def setMaxPwmL(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfigurationRequirements":
+    def setMaxPwmL(self, value: Optional[PositiveInteger]) -> CanControllerXlConfigurationRequirements:
         """Specifies the maximum PWM long phase length.
         A None value is a no-op and does not overwrite an existing maxPwmL."""
         if value is not None:
@@ -591,7 +593,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         """Specifies the minimum PWM time offset."""
         return self.maxPwmO
 
-    def setMaxPwmO(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfigurationRequirements":
+    def setMaxPwmO(self, value: Optional[PositiveInteger]) -> CanControllerXlConfigurationRequirements:
         """Specifies the minimum PWM time offset.
         A None value is a no-op and does not overwrite an existing maxPwmO."""
         if value is not None:
@@ -602,7 +604,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         """Specifies the maximum PWM short phase length."""
         return self.maxPwmS
 
-    def setMaxPwmS(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfigurationRequirements":
+    def setMaxPwmS(self, value: Optional[PositiveInteger]) -> CanControllerXlConfigurationRequirements:
         """Specifies the maximum PWM short phase length.
         A None value is a no-op and does not overwrite an existing maxPwmS."""
         if value is not None:
@@ -613,7 +615,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         """The max. value of the sample point as a percentage of the total bit time."""
         return self.maxSamplePoint
 
-    def setMaxSamplePoint(self, value: Optional[Float]) -> "CanControllerXlConfigurationRequirements":
+    def setMaxSamplePoint(self, value: Optional[Float]) -> CanControllerXlConfigurationRequirements:
         """The max. value of the sample point as a percentage of the total bit time.
         A None value is a no-op and does not overwrite an existing maxSamplePoint."""
         if value is not None:
@@ -624,7 +626,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         """The max. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors."""
         return self.maxSyncJumpWidth
 
-    def setMaxSyncJumpWidth(self, value: Optional[Float]) -> "CanControllerXlConfigurationRequirements":
+    def setMaxSyncJumpWidth(self, value: Optional[Float]) -> CanControllerXlConfigurationRequirements:
         """The max. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors.
         A None value is a no-op and does not overwrite an existing maxSyncJumpWidth."""
         if value is not None:
@@ -635,7 +637,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         """Specifies the maximum Transceiver Delay Compensation Offset in seconds. If not specified Transceiver Delay Compensation is disabled."""
         return self.maxTrcvDelayCompensationOffset
 
-    def setMaxTrcvDelayCompensationOffset(self, value: Optional[TimeValue]) -> "CanControllerXlConfigurationRequirements":
+    def setMaxTrcvDelayCompensationOffset(self, value: Optional[TimeValue]) -> CanControllerXlConfigurationRequirements:
         """Specifies the maximum Transceiver Delay Compensation Offset in seconds. If not specified Transceiver Delay Compensation is disabled.
         A None value is a no-op and does not overwrite an existing maxTrcvDelayCompensationOffset."""
         if value is not None:
@@ -646,7 +648,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         """Minimum number of time quantas in the bit time."""
         return self.minNumberOfTimeQuantaPerBit
 
-    def setMinNumberOfTimeQuantaPerBit(self, value: Optional[Integer]) -> "CanControllerXlConfigurationRequirements":
+    def setMinNumberOfTimeQuantaPerBit(self, value: Optional[Integer]) -> CanControllerXlConfigurationRequirements:
         """Minimum number of time quantas in the bit time.
         A None value is a no-op and does not overwrite an existing minNumberOfTimeQuantaPerBit."""
         if value is not None:
@@ -657,7 +659,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         """Specifies the minimum PWM long phase length."""
         return self.minPwmL
 
-    def setMinPwmL(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfigurationRequirements":
+    def setMinPwmL(self, value: Optional[PositiveInteger]) -> CanControllerXlConfigurationRequirements:
         """Specifies the minimum PWM long phase length.
         A None value is a no-op and does not overwrite an existing minPwmL."""
         if value is not None:
@@ -668,7 +670,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         """Specifies the maximum PWM time offset."""
         return self.minPwmO
 
-    def setMinPwmO(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfigurationRequirements":
+    def setMinPwmO(self, value: Optional[PositiveInteger]) -> CanControllerXlConfigurationRequirements:
         """Specifies the maximum PWM time offset.
         A None value is a no-op and does not overwrite an existing minPwmO."""
         if value is not None:
@@ -679,7 +681,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         """Specifies the minimum PWM short phase length."""
         return self.minPwmS
 
-    def setMinPwmS(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfigurationRequirements":
+    def setMinPwmS(self, value: Optional[PositiveInteger]) -> CanControllerXlConfigurationRequirements:
         """Specifies the minimum PWM short phase length.
         A None value is a no-op and does not overwrite an existing minPwmS."""
         if value is not None:
@@ -690,7 +692,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         """The min. value of the sample point as a percentage of the total bit time."""
         return self.minSamplePoint
 
-    def setMinSamplePoint(self, value: Optional[Float]) -> "CanControllerXlConfigurationRequirements":
+    def setMinSamplePoint(self, value: Optional[Float]) -> CanControllerXlConfigurationRequirements:
         """The min. value of the sample point as a percentage of the total bit time.
         A None value is a no-op and does not overwrite an existing minSamplePoint."""
         if value is not None:
@@ -701,7 +703,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         """The min. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors."""
         return self.minSyncJumpWidth
 
-    def setMinSyncJumpWidth(self, value: Optional[Float]) -> "CanControllerXlConfigurationRequirements":
+    def setMinSyncJumpWidth(self, value: Optional[Float]) -> CanControllerXlConfigurationRequirements:
         """The min. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors.
         A None value is a no-op and does not overwrite an existing minSyncJumpWidth."""
         if value is not None:
@@ -712,7 +714,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         """Specifies the minimum Transceiver Delay Compensation Offset in seconds. If not specified Transmitter Delay Compensation is disabled."""
         return self.minTrcvDelayCompensationOffset
 
-    def setMinTrcvDelayCompensationOffset(self, value: Optional[TimeValue]) -> "CanControllerXlConfigurationRequirements":
+    def setMinTrcvDelayCompensationOffset(self, value: Optional[TimeValue]) -> CanControllerXlConfigurationRequirements:
         """Specifies the minimum Transceiver Delay Compensation Offset in seconds. If not specified Transmitter Delay Compensation is disabled.
         A None value is a no-op and does not overwrite an existing minTrcvDelayCompensationOffset."""
         if value is not None:
@@ -723,7 +725,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         """Specifies if the transceiver shall be set to the PWM mode. TRUE: The transceiver shall be switched to PWM mode. FALSE: The transceiver shall work in classic CAN mode."""
         return self.trcvPwmModeEnabled
 
-    def setTrcvPwmModeEnabled(self, value: Optional[Boolean]) -> "CanControllerXlConfigurationRequirements":
+    def setTrcvPwmModeEnabled(self, value: Optional[Boolean]) -> CanControllerXlConfigurationRequirements:
         """Specifies if the transceiver shall be set to the PWM mode. TRUE: The transceiver shall be switched to PWM mode. FALSE: The transceiver shall work in classic CAN mode.
         A None value is a no-op and does not overwrite an existing trcvPwmModeEnabled."""
         if value is not None:
@@ -770,7 +772,7 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
         """Bit timing related configuration of a CAN controller for payload and CRC of a CanFD frame. If this element exists the controller supports CanFD frames and the ECU developer shall take these values for the configuration of the CanFD controller."""
         return self.canControllerFdAttributes
 
-    def setCanControllerFdAttributes(self, value: Optional[CanControllerFdConfiguration]) -> "AbstractCanCommunicationControllerAttributes":
+    def setCanControllerFdAttributes(self, value: Optional[CanControllerFdConfiguration]) -> AbstractCanCommunicationControllerAttributes:
         """Bit timing related configuration of a CAN controller for payload and CRC of a CanFD frame. If this element exists the controller supports CanFD frames and the ECU developer shall take these values for the configuration of the CanFD controller.
         A None value is a no-op and does not overwrite an existing canControllerFdAttributes."""
         if value is not None:
@@ -781,7 +783,7 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
         """Additional CanFD ranges of the bit timing related configuration of a CanFD controller. If this element exists the controller supports CanFD frames and the ECU developer shall take these ranges as requirements for the configuration of the CanFD controller."""
         return self.canControllerFdRequirements
 
-    def setCanControllerFdRequirements(self, value: Optional[CanControllerFdConfigurationRequirements]) -> "AbstractCanCommunicationControllerAttributes":
+    def setCanControllerFdRequirements(self, value: Optional[CanControllerFdConfigurationRequirements]) -> AbstractCanCommunicationControllerAttributes:
         """Additional CanFD ranges of the bit timing related configuration of a CanFD controller. If this element exists the controller supports CanFD frames and the ECU developer shall take these ranges as requirements for the configuration of the CanFD controller.
         A None value is a no-op and does not overwrite an existing canControllerFdRequirements."""
         if value is not None:
@@ -792,7 +794,7 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
         """Bit timing related configuration of a CAN controller for payload and CRC of a CanXL frame. If this element exists the controller supports CanXL frames and the ECU developer shall take these values for the configuration of the CanXL controller."""
         return self.canControllerXlAttributes
 
-    def setCanControllerXlAttributes(self, value: Optional[CanControllerXlConfiguration]) -> "AbstractCanCommunicationControllerAttributes":
+    def setCanControllerXlAttributes(self, value: Optional[CanControllerXlConfiguration]) -> AbstractCanCommunicationControllerAttributes:
         """Bit timing related configuration of a CAN controller for payload and CRC of a CanXL frame. If this element exists the controller supports CanXL frames and the ECU developer shall take these values for the configuration of the CanXL controller.
         A None value is a no-op and does not overwrite an existing canControllerXlAttributes."""
         if value is not None:
@@ -803,7 +805,7 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
         """Additional CanXL ranges of the bit timing related configuration of a CanXL controller. If this element exists the controller supports CanXL frames and the ECU developer shall take these ranges as requirements for the configuration of the CanXL controller."""
         return self.canControllerXlRequirements
 
-    def setCanControllerXlRequirements(self, value: Optional[CanControllerXlConfigurationRequirements]) -> "AbstractCanCommunicationControllerAttributes":
+    def setCanControllerXlRequirements(self, value: Optional[CanControllerXlConfigurationRequirements]) -> AbstractCanCommunicationControllerAttributes:
         """Additional CanXL ranges of the bit timing related configuration of a CanXL controller. If this element exists the controller supports CanXL frames and the ECU developer shall take these ranges as requirements for the configuration of the CanXL controller.
         A None value is a no-op and does not overwrite an existing canControllerXlRequirements."""
         if value is not None:
@@ -912,7 +914,7 @@ class AbstractCanCommunicationController(CommunicationController, ABC):
         """
         return self.canControllerAttributes
 
-    def setCanControllerAttributes(self, value: Optional[AbstractCanCommunicationControllerAttributes]) -> "AbstractCanCommunicationController":
+    def setCanControllerAttributes(self, value: Optional[AbstractCanCommunicationControllerAttributes]) -> AbstractCanCommunicationController:
         """
         CAN Bit Timing configuration
         A None value is a no-op and does not overwrite an existing canControllerAttributes.
@@ -1129,7 +1131,7 @@ class CanXlProps(ARElement):
         """
         return self.canBaudrate
 
-    def setCanBaudrate(self, value: Optional[PositiveInteger]) -> "CanXlProps":
+    def setCanBaudrate(self, value: Optional[PositiveInteger]) -> CanXlProps:
         """
         Specifies the data segment CAN 2.0 baud rate of the CAN XL controller in bits/s.
         A None value is a no-op and does not overwrite an existing canBaudrate.
@@ -1144,7 +1146,7 @@ class CanXlProps(ARElement):
         """
         return self.canConfig
 
-    def setCanConfig(self, value: Optional[CanControllerConfiguration]) -> "CanXlProps":
+    def setCanConfig(self, value: Optional[CanControllerConfiguration]) -> CanXlProps:
         """
         CAN 2.0 configuration parameters for the CAN XL controller.
         A None value is a no-op and does not overwrite an existing canConfig.
@@ -1159,7 +1161,7 @@ class CanXlProps(ARElement):
         """
         return self.canFdBaudrate
 
-    def setCanFdBaudrate(self, value: Optional[PositiveInteger]) -> "CanXlProps":
+    def setCanFdBaudrate(self, value: Optional[PositiveInteger]) -> CanXlProps:
         """
         Specifies the data segment CAN FD baud rate of the CAN XL controller in bits/s.
         A None value is a no-op and does not overwrite an existing canFdBaudrate.
@@ -1174,7 +1176,7 @@ class CanXlProps(ARElement):
         """
         return self.canFdConfig
 
-    def setCanFdConfig(self, value: Optional[CanControllerFdConfiguration]) -> "CanXlProps":
+    def setCanFdConfig(self, value: Optional[CanControllerFdConfiguration]) -> CanXlProps:
         """
         CAN FD configuration parameters for the CAN XL controller.
         A None value is a no-op and does not overwrite an existing canFdConfig.
@@ -1189,7 +1191,7 @@ class CanXlProps(ARElement):
         """
         return self.canXlBaudrate
 
-    def setCanXlBaudrate(self, value: Optional[PositiveInteger]) -> "CanXlProps":
+    def setCanXlBaudrate(self, value: Optional[PositiveInteger]) -> CanXlProps:
         """
         Specifies the data segment CAN XL baud rate of the CAN XL controller in bits/s.
         A None value is a no-op and does not overwrite an existing canXlBaudrate.
@@ -1204,7 +1206,7 @@ class CanXlProps(ARElement):
         """
         return self.canXlConfig
 
-    def setCanXlConfig(self, value: Optional[CanControllerXlConfiguration]) -> "CanXlProps":
+    def setCanXlConfig(self, value: Optional[CanControllerXlConfiguration]) -> CanXlProps:
         """
         CAN XL configuration parameters for the CAN XL controller.
         A None value is a no-op and does not overwrite an existing canXlConfig.
@@ -1219,7 +1221,7 @@ class CanXlProps(ARElement):
         """
         return self.canXlConfigReqs
 
-    def setCanXlConfigReqs(self, value: Optional[CanControllerXlConfigurationRequirements]) -> "CanXlProps":
+    def setCanXlConfigReqs(self, value: Optional[CanControllerXlConfigurationRequirements]) -> CanXlProps:
         """
         CAN XL configuration parameter requirements for the CAN XL controller.
         A None value is a no-op and does not overwrite an existing canXlConfigReqs.
@@ -1231,69 +1233,113 @@ class CanXlProps(ARElement):
 
 class CanClusterBusOffRecovery(ARObject):
     """
-    Defines bus off recovery properties for CAN clusters,
-    specifying timing and counter configurations for
-    CAN controller recovery after bus off conditions.
+    This element contains the attributes that are used to configure the CAN bus off monitoring / recovery at system level.
     """
 
     # CanClusterBusOffRecovery method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getBorCounterL1ToL2          [x] impl  [ ] docstring  [ ] test
-    # [ ] setBorCounterL1ToL2          [x] impl  [ ] docstring  [ ] test
-    # [ ] getBorTimeL1                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setBorTimeL1                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getBorTimeL2                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setBorTimeL2                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getBorTimeTxEnsured          [x] impl  [ ] docstring  [ ] test
-    # [ ] setBorTimeTxEnsured          [x] impl  [ ] docstring  [ ] test
-    # [ ] getMainFunctionPeriod        [x] impl  [ ] docstring  [ ] test
-    # [ ] setMainFunctionPeriod        [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.10, p.63
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBorCounterL1ToL2            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBorCounterL1ToL2            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBorTimeL1                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBorTimeL1                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBorTimeL2                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBorTimeL2                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBorTimeTxEnsured            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBorTimeTxEnsured            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMainFunctionPeriod          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMainFunctionPeriod          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.borCounterL1ToL2: PositiveInteger = None
-        self.borTimeL1: TimeValue = None
-        self.borTimeL2: TimeValue = None
-        self.borTimeTxEnsured: TimeValue = None
-        self.mainFunctionPeriod: TimeValue = None
+        # This threshold defines the count of bus-offs until the bus-off recovery switches from level 1 (short recovery time) to level 2 (long recovery time).
+        self.borCounterL1ToL2: Optional[PositiveInteger] = None
 
-    def getBorCounterL1ToL2(self):
+        # This attribute defines the duration of the bus-off recovery time in level 1 (short recovery time) in seconds.
+        self.borTimeL1: Optional[TimeValue] = None
+
+        # This attribute defines the duration of the bus-off recovery time in level 2 (long recovery time) in seconds.
+        self.borTimeL2: Optional[TimeValue] = None
+
+        # This attribute defines the duration of the bus-off event check in seconds.
+        self.borTimeTxEnsured: Optional[TimeValue] = None
+
+        # This attribute defines the cycle time of the function Can SM_MainFunction in seconds.
+        self.mainFunctionPeriod: Optional[TimeValue] = None
+
+    def getBorCounterL1ToL2(self) -> Optional[PositiveInteger]:
+        """
+        This threshold defines the count of bus-offs until the bus-off recovery switches from level 1 (short recovery time) to level 2 (long recovery time).
+        """
         return self.borCounterL1ToL2
 
-    def setBorCounterL1ToL2(self, value):
+    def setBorCounterL1ToL2(self, value: Optional[PositiveInteger]) -> CanClusterBusOffRecovery:
+        """
+        This threshold defines the count of bus-offs until the bus-off recovery switches from level 1 (short recovery time) to level 2 (long recovery time).
+        A None value is a no-op and does not overwrite an existing borCounterL1ToL2.
+        """
         if value is not None:
             self.borCounterL1ToL2 = value
         return self
 
-    def getBorTimeL1(self):
+    def getBorTimeL1(self) -> Optional[TimeValue]:
+        """
+        This attribute defines the duration of the bus-off recovery time in level 1 (short recovery time) in seconds.
+        """
         return self.borTimeL1
 
-    def setBorTimeL1(self, value):
+    def setBorTimeL1(self, value: Optional[TimeValue]) -> CanClusterBusOffRecovery:
+        """
+        This attribute defines the duration of the bus-off recovery time in level 1 (short recovery time) in seconds.
+        A None value is a no-op and does not overwrite an existing borTimeL1.
+        """
         if value is not None:
             self.borTimeL1 = value
         return self
 
-    def getBorTimeL2(self):
+    def getBorTimeL2(self) -> Optional[TimeValue]:
+        """
+        This attribute defines the duration of the bus-off recovery time in level 2 (long recovery time) in seconds.
+        """
         return self.borTimeL2
 
-    def setBorTimeL2(self, value):
+    def setBorTimeL2(self, value: Optional[TimeValue]) -> CanClusterBusOffRecovery:
+        """
+        This attribute defines the duration of the bus-off recovery time in level 2 (long recovery time) in seconds.
+        A None value is a no-op and does not overwrite an existing borTimeL2.
+        """
         if value is not None:
             self.borTimeL2 = value
         return self
 
-    def getBorTimeTxEnsured(self):
+    def getBorTimeTxEnsured(self) -> Optional[TimeValue]:
+        """
+        This attribute defines the duration of the bus-off event check in seconds.
+        """
         return self.borTimeTxEnsured
 
-    def setBorTimeTxEnsured(self, value):
+    def setBorTimeTxEnsured(self, value: Optional[TimeValue]) -> CanClusterBusOffRecovery:
+        """
+        This attribute defines the duration of the bus-off event check in seconds.
+        A None value is a no-op and does not overwrite an existing borTimeTxEnsured.
+        """
         if value is not None:
             self.borTimeTxEnsured = value
         return self
 
-    def getMainFunctionPeriod(self):
+    def getMainFunctionPeriod(self) -> Optional[TimeValue]:
+        """
+        This attribute defines the cycle time of the function Can SM_MainFunction in seconds.
+        """
         return self.mainFunctionPeriod
 
-    def setMainFunctionPeriod(self, value):
+    def setMainFunctionPeriod(self, value: Optional[TimeValue]) -> CanClusterBusOffRecovery:
+        """
+        This attribute defines the cycle time of the function Can SM_MainFunction in seconds.
+        A None value is a no-op and does not overwrite an existing mainFunctionPeriod.
+        """
         if value is not None:
             self.mainFunctionPeriod = value
         return self
@@ -1337,7 +1383,7 @@ class J1939Cluster(AbstractCanCluster):
         """
         return self.networkId
 
-    def setNetworkId(self, value: Optional[PositiveInteger]) -> "J1939Cluster":
+    def setNetworkId(self, value: Optional[PositiveInteger]) -> J1939Cluster:
         """
         This represents the network ID for the J1939 cluster.
         A None value is a no-op and does not overwrite an existing networkId.
@@ -1352,7 +1398,7 @@ class J1939Cluster(AbstractCanCluster):
         """
         return self.request2Support
 
-    def setRequest2Support(self, value: Optional[Boolean]) -> "J1939Cluster":
+    def setRequest2Support(self, value: Optional[Boolean]) -> J1939Cluster:
         """
         Enables support for the Request2 PGN (RQST2).
         A None value is a no-op and does not overwrite an existing request2Support.
@@ -1371,7 +1417,7 @@ class J1939Cluster(AbstractCanCluster):
         """
         return self.usesAddressArbitration
 
-    def setUsesAddressArbitration(self, value: Optional[Boolean]) -> "J1939Cluster":
+    def setUsesAddressArbitration(self, value: Optional[Boolean]) -> J1939Cluster:
         """
         Defines whether the nodes attached to this channel use an initial address claim, and whether they react to contending address claims of other nodes.
 

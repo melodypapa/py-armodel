@@ -10150,6 +10150,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "BOR-COUNTER-L-1-TO-L-2", recovery.getBorCounterL1ToL2())
             self.setChildElementOptionalTimeValue(child_element, "BOR-TIME-L-1", recovery.getBorTimeL1())
             self.setChildElementOptionalTimeValue(child_element, "BOR-TIME-L-2", recovery.getBorTimeL2())
+            self.setChildElementOptionalTimeValue(child_element, "BOR-TIME-TX-ENSURED", recovery.getBorTimeTxEnsured())
+            self.setChildElementOptionalTimeValue(child_element, "MAIN-FUNCTION-PERIOD", recovery.getMainFunctionPeriod())
 
     def writeAbstractCanCluster(self, element: ET.Element, cluster: AbstractCanCluster):
         self.setCanClusterBusOffRecovery(element, "BUS-OFF-RECOVERY", cluster.getBusOffRecovery())
