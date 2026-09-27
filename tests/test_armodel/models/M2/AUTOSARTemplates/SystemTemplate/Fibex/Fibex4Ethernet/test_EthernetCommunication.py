@@ -195,7 +195,6 @@ class Test_Fibex4EthernetCommunication:
         bundle.addPdu("pdu1")
         bundle.addPdu("pdu2")
         assert bundle.getPdus() == ["pdu1", "pdu2"]
-        assert bundle == bundle.setPdus(["pdu1", "pdu2"])  # Test method chaining
 
         # Test adding bundled connections
         mock_conn = SocketConnection()

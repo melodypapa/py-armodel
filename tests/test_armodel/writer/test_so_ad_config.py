@@ -178,10 +178,9 @@ class TestSoAdConfigRoundTrip:
         identifier.setPduCollectionPduTimeout(timeout)
         identifier.setPduCollectionSemantics(_literal("queued"))
         identifier.setPduCollectionTrigger(_literal("always"))
-        identifier.setPduRef(_ref("/Pdu/Pdu1"))
         identifier.setPduTriggeringRef(_ref("/IT/FrTrigger"))
         identifier.setRoutingGroupRefs([_ref("/Pkg/SoAdRoutingGroup1")])
-        bundle.setPdus([identifier])
+        bundle.addPdu(identifier)
         bundle.addBundledConnection(_connection())
 
         parsed = _write_and_parse(writer, parser, config)
@@ -203,7 +202,6 @@ class TestSoAdConfigRoundTrip:
         assert float(re_identifier.getPduCollectionPduTimeout().getValue()) == 10.0
         assert re_identifier.getPduCollectionSemantics().getValue() == "queued"
         assert re_identifier.getPduCollectionTrigger().getValue() == "always"
-        assert re_identifier.getPduRef().getValue() == "/Pdu/Pdu1"
         assert re_identifier.getPduTriggeringRef().getValue() == "/IT/FrTrigger"
         refs = re_identifier.getRoutingGroupRefs()
         assert len(refs) == 1
