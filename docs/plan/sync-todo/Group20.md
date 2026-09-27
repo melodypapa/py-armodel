@@ -232,7 +232,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DltApplication` — Identifiable — source TBC (locate table at Step 1)
+- [x] `DltApplication` — Identifiable — already verified (# Spec verified: R23-11, LogAndTraceExtract.py)
   - module: M2/AUTOSARTemplates/LogAndTraceExtract.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -244,7 +244,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DltArgument` — Identifiable — source TBC (locate table at Step 1)
+- [x] `DltArgument` — Identifiable — already verified (# Spec verified: R23-11, LogAndTraceExtract.py)
   - module: M2/AUTOSARTemplates/LogAndTraceExtract.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -256,7 +256,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DltContext` — ARElement — source TBC (locate table at Step 1)
+- [x] `DltContext` — ARElement — already verified (# Spec verified: R23-11, LogAndTraceExtract.py)
   - module: M2/AUTOSARTemplates/LogAndTraceExtract.py
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
