@@ -9,6 +9,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import XmlSpaceEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Superscript, Tt, Xref, XrefTarget
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
@@ -144,22 +145,22 @@ class TestLOverviewParagraph:
     def test_l_overview_paragraph_blueprint_value_methods(self):
         """Test the blueprintValue getter and setter (Table 9.91 attribute row)."""
         l_overview_paragraph = LOverviewParagraph()
-        value = "This is the overview text."
+        value = String().setValue("This is the overview text.")
 
         result = l_overview_paragraph.setBlueprintValue(value)
-        assert l_overview_paragraph.getBlueprintValue() == value
+        assert l_overview_paragraph.getBlueprintValue() is value
         assert result == l_overview_paragraph
 
         l_overview_paragraph.setBlueprintValue(None)
-        assert l_overview_paragraph.getBlueprintValue() == value
+        assert l_overview_paragraph.getBlueprintValue() is value
 
     def test_l_overview_paragraph_blueprint_value_annotation_is_optional(self):
-        """Accessors must carry Optional[str] hints per Rule 0003 and chain via LOverviewParagraph."""
+        """Accessors must carry Optional[String] hints per Rule 0003 and chain via LOverviewParagraph."""
         getter_hints = get_type_hints(LOverviewParagraph.getBlueprintValue)
         setter_hints = get_type_hints(LOverviewParagraph.setBlueprintValue)
 
-        assert getter_hints["return"] == Optional[str]
-        assert setter_hints["value"] == Optional[str]
+        assert getter_hints["return"] == Optional[String]
+        assert setter_hints["value"] == Optional[String]
         assert setter_hints["return"] == LOverviewParagraph
 
 

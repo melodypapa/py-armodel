@@ -2,6 +2,7 @@
 
 import xml.etree.ElementTree as ET
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from armodel.parser.arxml_parser import ARXMLParser
@@ -12,7 +13,7 @@ def _build_l_overview_paragraph() -> LOverviewParagraph:
     l2 = LOverviewParagraph()
     l2.setL("EN")
     l2.setValue("overview text")
-    l2.setBlueprintValue("blueprint documentation")
+    l2.setBlueprintValue(String().setValue("blueprint documentation"))
     return l2
 
 
@@ -55,4 +56,5 @@ class TestLOverviewParagraphWriter:
         assert isinstance(l2, LOverviewParagraph)
         assert l2.getL() == "EN"
         assert l2.getValue() == "overview text"
-        assert l2.getBlueprintValue() == "blueprint documentation"
+        assert isinstance(l2.getBlueprintValue(), String)
+        assert l2.getBlueprintValue().getValue() == "blueprint documentation"

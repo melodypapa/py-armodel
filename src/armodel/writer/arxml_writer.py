@@ -1627,7 +1627,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setLOverviewParagraph(self, element: ET.Element, name: LOverviewParagraph):
         child_element = self.setLanguageSpecific(element, "L-2", name)
         if name.getBlueprintValue() is not None:
-            child_element.attrib["BLUEPRINT-VALUE"] = name.getBlueprintValue()
+            child_element.attrib["BLUEPRINT-VALUE"] = name.getBlueprintValue().getValue()
         self.writeMixedContentForOverviewParagraph(child_element, name)
 
     def setMultiLanguageOverviewParagraph(self, element: ET.Element, key: str, paragraph: MultiLanguageOverviewParagraph):

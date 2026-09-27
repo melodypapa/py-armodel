@@ -2,6 +2,7 @@
 
 import xml.etree.ElementTree as ET
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph
 from armodel.parser.arxml_parser import ARXMLParser
 
@@ -23,7 +24,8 @@ class TestLOverviewParagraphParser:
         assert paragraph is not None
         l2 = paragraph.getL2s()[0]
         assert isinstance(l2, LOverviewParagraph)
-        assert l2.getBlueprintValue() == "blueprint documentation"
+        assert isinstance(l2.getBlueprintValue(), String)
+        assert l2.getBlueprintValue().getValue() == "blueprint documentation"
         assert l2.getValue() == "overview text"
         assert l2.getL() == "EN"
 
@@ -39,7 +41,7 @@ class TestLOverviewParagraphParser:
         l2s = parser.getLOverviewParagraphs(element, "L-2")
 
         assert len(l2s) == 1
-        assert l2s[0].getBlueprintValue() == "blueprint documentation"
+        assert l2s[0].getBlueprintValue().getValue() == "blueprint documentation"
         assert l2s[0].getValue() == "overview text"
 
     def test_read_l2_without_blueprint_value(self):

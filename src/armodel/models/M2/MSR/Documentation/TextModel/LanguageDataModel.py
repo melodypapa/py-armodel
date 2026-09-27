@@ -4,6 +4,7 @@ from abc import ABC
 from typing import TYPE_CHECKING, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    String,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import (
     XmlSpaceEnum,
@@ -437,15 +438,15 @@ class LOverviewParagraph(MixedContentForOverviewParagraph, LanguageSpecific):
         super().__init__()
 
         # This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
-        self.blueprintValue: Optional[str] = None
+        self.blueprintValue: Optional[String] = None
 
-    def getBlueprintValue(self) -> Optional[str]:
+    def getBlueprintValue(self) -> Optional[String]:
         """
         This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
         """
         return self.blueprintValue
 
-    def setBlueprintValue(self, value: Optional[str]) -> LOverviewParagraph:
+    def setBlueprintValue(self, value: Optional[String]) -> LOverviewParagraph:
         """
         This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
 

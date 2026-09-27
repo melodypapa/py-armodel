@@ -1937,7 +1937,7 @@ class ARXMLParser(AbstractARXMLParser):
             if "L" in child_element.attrib:
                 l2.setL(child_element.attrib["L"])  # noqa: E741
             if "BLUEPRINT-VALUE" in child_element.attrib:
-                l2.setBlueprintValue(child_element.attrib["BLUEPRINT-VALUE"])
+                l2.setBlueprintValue(String().setValue(child_element.attrib["BLUEPRINT-VALUE"]))
             self.readMixedContentForOverviewParagraph(child_element, l2)
             paragraph.addL2(l2)
 
@@ -6618,7 +6618,7 @@ class ARXMLParser(AbstractARXMLParser):
             l2 = LOverviewParagraph()
             self.readLanguageSpecific(child_element, l2)
             if "BLUEPRINT-VALUE" in child_element.attrib:
-                l2.setBlueprintValue(child_element.attrib["BLUEPRINT-VALUE"])
+                l2.setBlueprintValue(String().setValue(child_element.attrib["BLUEPRINT-VALUE"]))
             self.readMixedContentForOverviewParagraph(child_element, l2)
             results.append(l2)
         return results
