@@ -1,3 +1,4 @@
+import inspect
 import typing
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -65,7 +66,7 @@ class TestSoAdRoutingGroup:
         group = SoAdRoutingGroup(MockParent(), "RG1")
 
         assert group.getEventGroupControlType.__doc__ == SPEC_ATTRIBUTE_NOTE
-        assert group.setEventGroupControlType.__doc__ == ("\n        " + SPEC_ATTRIBUTE_NOTE + "\n        A None value is a no-op and does not overwrite an existing eventGroupControlType.\n        ")
+        assert inspect.cleandoc(group.setEventGroupControlType.__doc__) == (SPEC_ATTRIBUTE_NOTE + "\nA None value is a no-op and does not overwrite an existing eventGroupControlType.")
 
     def test_type_hints_resolve_to_spec_types(self):
         getter_hints = typing.get_type_hints(SoAdRoutingGroup.getEventGroupControlType)
