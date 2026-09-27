@@ -4,6 +4,7 @@ from abc import ABC
 from typing import TYPE_CHECKING, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    String,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import (
     XmlSpaceEnum,
@@ -425,6 +426,7 @@ class LOverviewParagraph(MixedContentForOverviewParagraph, LanguageSpecific):
 
     # LOverviewParagraph method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.91, p.348
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBlueprintValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -437,15 +439,15 @@ class LOverviewParagraph(MixedContentForOverviewParagraph, LanguageSpecific):
         super().__init__()
 
         # This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
-        self.blueprintValue: Optional[str] = None
+        self.blueprintValue: Optional[String] = None
 
-    def getBlueprintValue(self) -> Optional[str]:
+    def getBlueprintValue(self) -> Optional[String]:
         """
         This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
         """
         return self.blueprintValue
 
-    def setBlueprintValue(self, value: Optional[str]) -> LOverviewParagraph:
+    def setBlueprintValue(self, value: Optional[String]) -> LOverviewParagraph:
         """
         This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
 
@@ -1020,13 +1022,14 @@ class MixedContentForPlainText(WhitespaceControlled, AtpMixedString, ABC):
         super().__init__()
 
 
-class LPlainText(MixedContentForPlainText, LanguageSpecific, WhitespaceControlled):
+class LPlainText(MixedContentForPlainText, LanguageSpecific):
     """
     This represents plain string in one particular language. The language is denoted in the attribute l.
     """
 
     # LPlainText method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.96, p.349
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no own attributes — Table 9.96 Attribute rows: none; inherited LanguageSpecific accessors
@@ -1133,13 +1136,14 @@ class MixedContentForVerbatim(WhitespaceControlled, AtpMixedString, ABC):
         return self
 
 
-class LVerbatim(MixedContentForVerbatim, LanguageSpecific, WhitespaceControlled):
+class LVerbatim(MixedContentForVerbatim, LanguageSpecific):
     """
     MixedContentForVerbatim in one particular language. The language is denoted in the attribute l.
     """
 
     # LVerbatim method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.89, p.347
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no own attributes — Table 9.89 Attribute rows: none; inherited LanguageSpecific accessors

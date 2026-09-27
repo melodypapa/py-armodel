@@ -32,6 +32,7 @@ class SwImplPolicyEnum(AREnum):
 
     # SwImplPolicyEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.45, p.336
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on SwDataDefProps.swImplPolicy (SW-IMPL-POLICY element; consumers: SwDataDefProps, InternalTriggeringPoint, Trigger, BswInternalTriggeringPoint)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11

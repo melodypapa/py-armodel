@@ -970,6 +970,75 @@ class Limit(ARObject):
         return self
 
 
+class Ref(ARLiteral):
+    """
+    This primitive denotes a name based reference. For detailed syntax see the xsd.pattern. • first slash (relative or absolute reference) [optional] • Identifier [required] • a sequence of slashes and Identifiers [optional] This primitive is used by the meta-model tools to create the references.
+
+    Tags:
+        * xml.xsd.customType=REF
+        * xml.xsd.pattern=/?[a-zA-Z][a-zA-Z0-9_]{0,127}(/[a-zA-Z][a-zA-Z0-9_]{0,127})*
+        * xml.xsd.type=string
+    """
+
+    # Ref method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.35, p.318
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBase            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setBase            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBlueprintValue  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setBlueprintValue  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIndex           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setIndex           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # value (the reference path) rides ARLiteral/ARType — no spec row (primitive content);
+    # base/blueprintValue/index serialize on AR:REF element content only (XSD attributeGroup REF, AUTOSAR_00052.xsd L96322);
+    # the sole src consumer of this class is AbstractEnumerationValueVariationPoint.enumTableRef, typed AR:REF--SIMPLE
+    # (value-only, AUTOSAR_00052.xsd L96364) → no reader/writer carrier exists yet.
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute reflects the base to be used for this reference. Tags: xml.attribute=true
+        self.base: Optional[Identifier] = None
+
+        # This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
+        self.blueprintValue: Optional[String] = None
+
+        # This attribute supports the use case to point on specific elements in an array. This is in particular required if arrays are used to implement particular data objects. The counting of array indices starts with the value 0, i.e. the index of the first array element is 0. Tags: xml.attribute=true
+        self.index: Optional[PositiveInteger] = None
+
+    def getBase(self) -> Optional[Identifier]:
+        """This attribute reflects the base to be used for this reference."""
+        return self.base
+
+    def setBase(self, value: Optional[Identifier]) -> "Ref":
+        """This attribute reflects the base to be used for this reference. A None value is a no-op and does not overwrite an existing base."""
+        if value is not None:
+            self.base = value
+        return self
+
+    def getBlueprintValue(self) -> Optional[String]:
+        """This represents a description that documents how the value shall be defined when deriving objects from the blueprint."""
+        return self.blueprintValue
+
+    def setBlueprintValue(self, value: Optional[String]) -> "Ref":
+        """This represents a description that documents how the value shall be defined when deriving objects from the blueprint. A None value is a no-op and does not overwrite an existing blueprintValue."""
+        if value is not None:
+            self.blueprintValue = value
+        return self
+
+    def getIndex(self) -> Optional[PositiveInteger]:
+        """This attribute supports the use case to point on specific elements in an array. This is in particular required if arrays are used to implement particular data objects. The counting of array indices starts with the value 0, i.e. the index of the first array element is 0."""
+        return self.index
+
+    def setIndex(self, value: Optional[PositiveInteger]) -> "Ref":
+        """This attribute supports the use case to point on specific elements in an array. This is in particular required if arrays are used to implement particular data objects. The counting of array indices starts with the value 0, i.e. the index of the first array element is 0. A None value is a no-op and does not overwrite an existing index."""
+        if value is not None:
+            self.index = value
+        return self
+
+
 class RefType(ARObject):
     """
     Represents a reference type in AUTOSAR models.

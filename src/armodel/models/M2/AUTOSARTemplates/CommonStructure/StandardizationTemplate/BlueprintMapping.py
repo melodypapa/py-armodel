@@ -17,6 +17,7 @@ class BlueprintMapping(AtpBlueprintMapping):
 
     # BlueprintMapping method parity checklist:
     # Spec: R23-11/AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table C.17, p.163 (R23-11)
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBlueprintRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

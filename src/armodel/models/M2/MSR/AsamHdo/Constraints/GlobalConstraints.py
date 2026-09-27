@@ -151,6 +151,7 @@ class ScaleConstrValidityEnum(AREnum):
 
     # ScaleConstrValidityEnum method parity checklist:
     # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf, Table 5.95, p.417
+    # Spec verified: R4.3.1 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on ScaleConstr.validity (VALIDITY attribute)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1

@@ -287,7 +287,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDHeaderIdRange,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (
-    ConcreteTDEventVfb,
     TDEventModeDeclaration,
     TDEventModeDeclarationTypeEnum,
     TDEventOperation,
@@ -355,7 +354,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.OffsetConstraint import OffsetTimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationPointConstraint import SynchronizationPointConstraint
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTiming import (
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTimingConstraint import (
     EventOccurrenceKindEnum,
     SynchronizationTimingConstraint,
     SynchronizationTypeEnum,
@@ -507,6 +506,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Numerical,
     PositiveInteger,
     PrimitiveIdentifier,
+    Ref,
     RefType,
     ReferrableSubtypesEnum,
     SectionInitializationPolicyType,
@@ -1143,6 +1143,15 @@ from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
 from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Colspec, Entry, Row, Table, Tbody, Tgroup, Url
+from armodel.models.M2.MSR.Documentation.BlockElements.GerneralParameters import (
+    GeneralParameter,
+    PrmChar,
+    PrmCharAbsTol,
+    PrmCharMinTypMax,
+    PrmCharNumericalContents,
+    PrmCharTextualContents,
+    Prms,
+)
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Area, AreaEnumNohref, AreaEnumShape, Graphic, GraphicFitEnum, GraphicNotationEnum, LGraphic, Map, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, FloatEnum, FrameEnum, OrientEnum, PgwideEnum, TableSeparatorString, ValignEnum
@@ -1943,7 +1952,7 @@ class ARXMLParser(AbstractARXMLParser):
             if "L" in child_element.attrib:
                 l2.setL(child_element.attrib["L"])  # noqa: E741
             if "BLUEPRINT-VALUE" in child_element.attrib:
-                l2.setBlueprintValue(child_element.attrib["BLUEPRINT-VALUE"])
+                l2.setBlueprintValue(String().setValue(child_element.attrib["BLUEPRINT-VALUE"]))
             self.readMixedContentForOverviewParagraph(child_element, l2)
             paragraph.addL2(l2)
 
@@ -3326,7 +3335,7 @@ class ARXMLParser(AbstractARXMLParser):
         if "BASE" in element.attrib:
             obj.setBase(Identifier().setValue(element.attrib["BASE"]))
         if "ENUM-TABLE" in element.attrib:
-            obj.setEnumTable(RefType().setValue(element.attrib["ENUM-TABLE"]))
+            obj.setEnumTableRef(Ref().setValue(element.attrib["ENUM-TABLE"]))
         return obj
 
     def readTimingDescriptionEventChain(self, element: ET.Element, chain: TimingDescriptionEventChain):
@@ -3421,7 +3430,7 @@ class ARXMLParser(AbstractARXMLParser):
                 event = TDEventVfbReference(extension, short_name)
                 self.readTDEventVfbReference(child_element, event)
             elif tag_name == "TD-EVENT-VFB":
-                event = ConcreteTDEventVfb(extension, short_name)
+                event = TDEventVfb(extension, short_name)
                 self.readTDEventVfb(child_element, event)
             elif tag_name == "TD-EVENT-VARIABLE-DATA-PROTOTYPE":
                 event = TDEventVariableDataPrototype(extension, short_name)
@@ -6630,7 +6639,7 @@ class ARXMLParser(AbstractARXMLParser):
             l2 = LOverviewParagraph()
             self.readLanguageSpecific(child_element, l2)
             if "BLUEPRINT-VALUE" in child_element.attrib:
-                l2.setBlueprintValue(child_element.attrib["BLUEPRINT-VALUE"])
+                l2.setBlueprintValue(String().setValue(child_element.attrib["BLUEPRINT-VALUE"]))
             self.readMixedContentForOverviewParagraph(child_element, l2)
             results.append(l2)
         return results
@@ -7619,7 +7628,72 @@ class ARXMLParser(AbstractARXMLParser):
         topic_content_or_msr_query = self.readTopicContentOrMsrQuery(element, chapter_content)
         if topic_content_or_msr_query is not None:
             chapter_content.setTopicContent(topic_content_or_msr_query)
+        prms_element = self.find(element, "PRMS")
+        if prms_element is not None:
+            chapter_content.setPrms(self.readPrms(prms_element, chapter_content))
         return chapter_content
+
+    def readPrms(self, element: ET.Element, parent: ARObject) -> Prms:
+        prms = Prms()
+        self.readPaginateable(element, prms)
+        label = self.getMultilanguageLongName(element, "LABEL")
+        if label is not None:
+            prms.setLabel(label)
+        for prm_element in self.findall(element, "PRM"):
+            prm = GeneralParameter(prms, self.getShortName(prm_element))
+            self.readGeneralParameter(prm_element, prm)
+            prms.addPrm(prm)
+        return prms
+
+    def readGeneralParameter(self, element: ET.Element, prm: GeneralParameter) -> GeneralParameter:
+        self.readIdentifiable(element, prm)
+        for prm_char_element in self.findall(element, "PRM-CHAR"):
+            prm.addPrmChar(self.readPrmChar(prm_char_element))
+        return prm
+
+    def readPrmChar(self, element: ET.Element) -> PrmChar:
+        prm_char = PrmChar()
+        prm_char.setCond(self.getDocumentationBlock(element, "COND"))
+        abs_element = self.find(element, "ABS")
+        min_element = self.find(element, "MIN")
+        text_element = self.find(element, "TEXT")
+        if abs_element is not None or min_element is not None or self.find(element, "PRM-UNIT") is not None:
+            numerical = PrmCharNumericalContents()
+            if abs_element is not None or self.find(element, "TOL") is not None:
+                numerical.setAbsTol(self.readPrmCharAbsTol(element))
+            if min_element is not None or self.find(element, "TYP") is not None or self.find(element, "MAX") is not None:
+                numerical.setMinTypMax(self.readPrmCharMinTypMax(element))
+            numerical.setPrmUnit(self.getSingleLanguageUnitNames(element, "PRM-UNIT"))
+            prm_char.setNumericalContents(numerical)
+        if text_element is not None:
+            textual = PrmCharTextualContents()
+            textual.setText(String().setValue(text_element.text))
+            prm_char.setTextualContents(textual)
+        prm_char.setRemark(self.getDocumentationBlock(element, "REMARK"))
+        return prm_char
+
+    def readPrmCharAbsTol(self, element: ET.Element) -> PrmCharAbsTol:
+        abs_tol = PrmCharAbsTol()
+        abs_element = self.find(element, "ABS")
+        if abs_element is not None:
+            abs_tol.setAbs(Numerical().setValue(abs_element.text))
+        tol_element = self.find(element, "TOL")
+        if tol_element is not None:
+            abs_tol.setTol(Numerical().setValue(tol_element.text))
+        return abs_tol
+
+    def readPrmCharMinTypMax(self, element: ET.Element) -> PrmCharMinTypMax:
+        min_typ_max = PrmCharMinTypMax()
+        min_element = self.find(element, "MIN")
+        if min_element is not None:
+            min_typ_max.setMin(Numerical().setValue(min_element.text))
+        typ_element = self.find(element, "TYP")
+        if typ_element is not None:
+            min_typ_max.setTyp(Numerical().setValue(typ_element.text))
+        max_element = self.find(element, "MAX")
+        if max_element is not None:
+            min_typ_max.setMax(Numerical().setValue(max_element.text))
+        return min_typ_max
 
     def readTopicContentOrMsrQuery(self, element: ET.Element, parent: ARObject) -> "TopicContentOrMsrQuery":
         result = None

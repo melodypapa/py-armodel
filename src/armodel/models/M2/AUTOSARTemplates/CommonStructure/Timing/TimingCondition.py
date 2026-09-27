@@ -23,6 +23,7 @@ class ModeInSwcBswInstanceRef(ARObject, ABC):
 
     # ModeInSwcBswInstanceRef method parity checklist:
     # Spec: AUTOSAR_00052.xsd line 82683, group MODE-IN-SWC-BSW-INSTANCE-REF (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -102,6 +103,7 @@ class ModeInSwcInstanceRef(AtpInstanceRef, ModeInSwcBswInstanceRef):
 
     # ModeInSwcInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.12, p.39
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element; `base` is an
     #          atpDerived association XSD-skipped in group MODE-IN-SWC-INSTANCE-REF — field kept per the
     #          PDF table, no XML element to read or write)

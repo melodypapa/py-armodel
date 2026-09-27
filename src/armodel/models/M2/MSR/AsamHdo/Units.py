@@ -170,10 +170,14 @@ class SingleLanguageUnitNames(MixedContentForUnitNames):
     # 2026-09-25 drift fix (Rule 0012.3): re-parented ARLiteral → MixedContentForUnitNames per the
     # markdown-verified Base row (ARObject , MixedContentForUnitNames) — see docs/plan/atp_mixed_string_hierarchy.md
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # (zero own members — Table 5.80 Attribute column "-": sub/sup inherited from MixedContentForUnitNames;
     #  2026-09-27 unification: the mixed text rides the AtpMixedString mixin (mixedString) inherited from
     #  MixedContentForUnitNames — SlOverviewParagraph/LVerbatim shape; the concrete `value` member and
     #  getValue/setValue are removed; stereotype-inherent, no spec row)
+
+    def __init__(self):
+        super().__init__()
 
 
 class Unit(ARElement):
@@ -274,6 +278,7 @@ class UnitGroup(ARElement):
 
     # UnitGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.81, p.402
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getUnitRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

@@ -12,6 +12,7 @@ class FMFormulaByFeaturesAndAttributes(FormulaExpression):
 
     # FMFormulaByFeaturesAndAttributes method parity checklist:
     # Spec: R23-11/AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 7.1, p.61 (R23-11)
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # (section 7.2.1; R4.3.1 reproduction Table 7.1 has the same rows (p.61,
     # AUTOSAR_TPS_FeatureModelExchangeFormat.md line 1757). XSD 00052 has NO own
     # complexType — group-only class: group FM-FORMULA-BY-FEATURES-AND-ATTRIBUTES
@@ -76,6 +77,7 @@ class FMConditionByFeaturesAndAttributes(FMFormulaByFeaturesAndAttributes):
 
     # FMConditionByFeaturesAndAttributes method parity checklist:
     # Spec: R23-11/AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 7.2, p.62 (R23-11)
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # (section 7.2.2; R4.3.1 reproduction Table 7.2 has the same rows (p.62, AUTOSAR_TPS_
     # FeatureModelExchangeFormat.md line 1780). XSD 00052 group FM-CONDITION-BY-FEATURES-
     # AND-ATTRIBUTES line 62013 is an empty sequence; complexType line 62022
@@ -119,6 +121,7 @@ class FMFormulaByFeaturesAndSwSystemconsts(SwSystemconstDependentFormula):
 
     # FMFormulaByFeaturesAndSwSystemconsts method parity checklist:
     # Spec: R23-11/AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 7.3, p.63 (R23-11)
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # (section 7.2.3; R4.3.1 reproduction Table 7.3 has the same rows (p.63,
     # AUTOSAR_TPS_FeatureModelExchangeFormat.md). XSD 00052 has NO own complexType
     # - group-only class: group FM-FORMULA-BY-FEATURES-AND-SW-SYSTEMCONSTS
@@ -176,6 +179,7 @@ class FMConditionByFeaturesAndSwSystemconsts(FMFormulaByFeaturesAndSwSystemconst
 
     # FMConditionByFeaturesAndSwSystemconsts method parity checklist:
     # Spec: R23-11/AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf, Table 7.4, p.63 (R23-11)
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # (section 7.2.4; R4.3.1 reproduction Table 7.4 has the same rows (p.63,
     # AUTOSAR_TPS_FeatureModelExchangeFormat.md). Concrete Class
     # <<atpMixedString>>; XSD 00052 complexType FM-CONDITION-BY-FEATURES-AND-

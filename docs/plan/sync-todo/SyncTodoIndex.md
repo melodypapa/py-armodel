@@ -2,7 +2,7 @@
 
 Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by group, then by appearance order within each group.
 
-Status `*` (or an explicit `Deferred` status) = sync complete (Steps 1–8) but the `# Spec verified:`/`# XSD verified:` stamp is **deferred to a batch 9b user confirmation** (audited 2026-09-26 against the src stamps).
+Status `*` (or an explicit `Deferred` status) = sync complete (Steps 1–8) but the `# Spec verified:`/`# XSD verified:` stamp is **deferred to a batch 9b user confirmation** (audited 2026-09-27 against the src stamps).
 
 
 ## Group1
@@ -143,7 +143,7 @@ Status: **45/45** completed
 
 ## Group3
 
-Status: **94/94** completed
+Status: **95/95** completed
 
 | Class Name                             | Status   | Commit ID |
 | -------------------------------------- | -------- | --------- |
@@ -241,6 +241,7 @@ Status: **94/94** completed
 | `GeneralAnnotation`                    | [x] Done | ab2daa77  |
 | `FirewallActionEnum`                   | [x] Done | ab2daa77  |
 | `CompuGenericMath`                     | [x] Done | 4dd42b2d  |
+| `Ref`                                  | [x] Done | 0518a7bca |
 
 ## Group4
 
@@ -456,86 +457,96 @@ Status: **34/34** completed
 
 ## Group8
 
-Status: **26/49** completed
+Status: **49/50** completed
 
-| Class Name                               | Status       | Commit ID |
-| ---------------------------------------- | ------------ | --------- |
-| `BindingTimeEnum`                        | [x] Done     | 53bf1808  |
-| `XmlSpaceEnum`                           | [x] Done     | ec544e79  |
-| `ShortNameFragment`                      | [x] Done     | 519d50539 |
-| `MultidimensionalTime`                   | [x] Done     | b572582c1 |
-| `LifeCyclePeriod`                        | [x] Done     | b572582c1 |
-| `BuildActionIoElement`                   | [x] Done     | b572582c1 |
-| `AttributeValueVariationPoint`           | [x] Done     | d5c96fd9  |
-| `FormulaExpression`                      | [x] Done     | 88ed82bed |
-| `SwSystemconstDependentFormula`          | [x] Done     | f05e21d49 |
-| `ConditionByFormula`                     | [x] Done     | 18b494eba |
-| `MixedContentForOverviewParagraph`       | [x] Done     | 18b494eba |
-| `WhitespaceControlled`                   | [x] Done     | a78d444af |
-| `MixedContentForPlainText`               | [x] Done     | 4a95d1d30 |
-| `MixedContentForVerbatim`                | [x] Done     | 74549e6a5 |
-| `SlOverviewParagraph`                    | [x] Done     | 951209dba |
-| `MixedContentForUnitNames`               | [x] Done     | 3d47eb65c |
-| `SingleLanguageUnitNames`                | [x] Done     | N/A       |
-| `SwSystemconstValue`                     | [ ] Pending* | N/A       |
-| `PostBuildVariantCondition`              | [ ] Pending* | N/A       |
-| `PostBuildVariantCriterion`              | [ ] Pending* | N/A       |
-| `PostBuildVariantCriterionValue`         | [ ] Pending* | N/A       |
-| `OffsetTimingConstraint`                 | [ ] Pending* | N/A       |
-| `SynchronizationTimingConstraint`        | [ ] Pending* | N/A       |
-| `TimingDescriptionEventChain`            | [ ] Pending* | N/A       |
-| `AutosarOperationArgumentInstance`       | [ ] Pending* | N/A       |
-| `ConcreteTDEventVfb`                     | [ ] Pending* | N/A       |
-| `AtpBlueprint`                           | [x] Done     | 043de7436 |
-| `BlueprintGenerator`                     | [ ] Pending* | N/A       |
-| `BlueprintMapping`                       | [ ] Pending* | N/A       |
-| `LifeCycleInfo`                          | [ ] Pending* | N/A       |
-| `LifeCycleInfoSet`                       | [ ] Pending* | N/A       |
-| `VariationPoint`                         | [ ] Pending* | N/A       |
-| `ModeInSwcBswInstanceRef`                | [ ] Pending* | N/A       |
-| `ModeInSwcInstanceRef`                   | [ ] Pending* | N/A       |
-| `AbstractEnumerationValueVariationPoint` | [ ] Pending* | N/A       |
-| `AbstractNumericalVariationPoint`        | [x] Done     | d5c96fd9  |
-| `BooleanValueVariationPoint`             | [x] Done     | d5c96fd9  |
-| `FloatValueVariationPoint`               | [x] Done     | d5c96fd9  |
-| `IntegerValueVariationPoint`             | [x] Done     | d5c96fd9  |
-| `LimitValueVariationPoint`               | [x] Done     | d5c96fd9  |
-| `NumericalValueVariationPoint`           | [x] Done     | d5c96fd9  |
-| `PositiveIntegerValueVariationPoint`     | [x] Done     | d5c96fd9  |
-| `TimeValueValueVariationPoint`           | [x] Done     | d5c96fd9  |
-| `UnlimitedIntegerValueVariationPoint`    | [x] Done     | d5c96fd9  |
-| `BlueprintFormula`                       | [ ] Pending* | N/A       |
-| `FMConditionByFeaturesAndAttributes`     | [ ] Pending* | N/A       |
-| `FMConditionByFeaturesAndSwSystemconsts` | [ ] Pending* | N/A       |
-| `FMFormulaByFeaturesAndAttributes`       | [ ] Pending* | N/A       |
-| `FMFormulaByFeaturesAndSwSystemconsts`   | [ ] Pending* | N/A       |
+| Class Name                               | Status      | Commit ID |
+| ---------------------------------------- | ----------- | --------- |
+| `BindingTimeEnum`                        | [x] Done    | 53bf1808  |
+| `XmlSpaceEnum`                           | [x] Done    | ec544e79  |
+| `ShortNameFragment`                      | [x] Done    | 519d50539 |
+| `MultidimensionalTime`                   | [x] Done    | b572582c1 |
+| `LifeCyclePeriod`                        | [x] Done    | b572582c1 |
+| `BuildActionIoElement`                   | [x] Done    | b572582c1 |
+| `AttributeValueVariationPoint`           | [x] Done    | d5c96fd9  |
+| `FormulaExpression`                      | [x] Done    | 88ed82bed |
+| `SwSystemconstDependentFormula`          | [x] Done    | f05e21d49 |
+| `ConditionByFormula`                     | [x] Done    | 18b494eba |
+| `MixedContentForOverviewParagraph`       | [x] Done    | 18b494eba |
+| `WhitespaceControlled`                   | [x] Done    | a78d444af |
+| `MixedContentForPlainText`               | [x] Done    | 4a95d1d30 |
+| `MixedContentForVerbatim`                | [x] Done    | 74549e6a5 |
+| `SlOverviewParagraph`                    | [x] Done    | 951209dba |
+| `MixedContentForUnitNames`               | [x] Done    | 3d47eb65c |
+| `SingleLanguageUnitNames`                | [x] Done    | d42795c16 |
+| `SwSystemconstValue`                     | [x] Done    | 5333bec02 |
+| `PostBuildVariantCondition`              | [x] Done    | 5333bec02 |
+| `PostBuildVariantCriterion`              | [x] Done    | 5333bec02 |
+| `PostBuildVariantCriterionValue`         | [x] Done    | 8af1088fd |
+| `OffsetTimingConstraint`                 | [x] Done    | e305e80e2 |
+| `SynchronizationTimingConstraint`        | [x] Done    | e305e80e2 |
+| `TimingDescriptionEventChain`            | [x] Done    | ea1a75e5b |
+| `AutosarOperationArgumentInstance`       | [x] Done    | b8cce0057 |
+| `TDEventVfb`                             | [x] Done    | 18eb225f4 |
+| `ConcreteTDEventVfb`                     | [x] Retired | f032ea574 |
+| `AtpBlueprint`                           | [x] Done    | 043de7436 |
+| `BlueprintGenerator`                     | [x] Done    | 246fc9845 |
+| `BlueprintMapping`                       | [x] Done    | a6fa7b8c1 |
+| `LifeCycleInfo`                          | [x] Done    | 5836e6eb0 |
+| `LifeCycleInfoSet`                       | [x] Done    | 11bd9cd84 |
+| `VariationPoint`                         | [x] Done    | d4fce975d |
+| `ModeInSwcBswInstanceRef`                | [x] Done    | 71ca6a541 |
+| `ModeInSwcInstanceRef`                   | [x] Done    | 70dcc2697 |
+| `AbstractEnumerationValueVariationPoint` | [x] Done    | 0518a7bca |
+| `AbstractNumericalVariationPoint`        | [x] Done    | d5c96fd9  |
+| `BooleanValueVariationPoint`             | [x] Done    | d5c96fd9  |
+| `FloatValueVariationPoint`               | [x] Done    | d5c96fd9  |
+| `IntegerValueVariationPoint`             | [x] Done    | d5c96fd9  |
+| `LimitValueVariationPoint`               | [x] Done    | d5c96fd9  |
+| `NumericalValueVariationPoint`           | [x] Done    | d5c96fd9  |
+| `PositiveIntegerValueVariationPoint`     | [x] Done    | d5c96fd9  |
+| `TimeValueValueVariationPoint`           | [x] Done    | d5c96fd9  |
+| `UnlimitedIntegerValueVariationPoint`    | [x] Done    | d5c96fd9  |
+| `BlueprintFormula`                       | [x] Done    | 6d8ace028 |
+| `FMConditionByFeaturesAndAttributes`     | [x] Done    | d69232bdf |
+| `FMConditionByFeaturesAndSwSystemconsts` | [x] Done    | d69232bdf |
+| `FMFormulaByFeaturesAndAttributes`       | [x] Done    | d69232bdf |
+| `FMFormulaByFeaturesAndSwSystemconsts`   | [x] Done    | d69232bdf |
 
 ## Group9
 
-Status: **0/20** completed
+Status: **19/29** completed
 
 | Class Name                    | Status       | Commit ID |
 | ----------------------------- | ------------ | --------- |
-| `NumericalValueSpecification` | [ ] Pending* | N/A       |
-| `TextValueSpecification`      | [ ] Pending* | N/A       |
-| `ConstantReference`           | [ ] Pending* | N/A       |
-| `ConstantSpecification`       | [ ] Pending* | N/A       |
-| `DataFilterTypeEnum`          | [ ] Pending* | N/A       |
-| `DataFilter`                  | [ ] Pending* | N/A       |
-| `Modification`                | [ ] Pending* | N/A       |
-| `ScaleConstrValidityEnum`     | [ ] Pending* | N/A       |
-| `UnitGroup`                   | [ ] Pending* | N/A       |
-| `SwImplPolicyEnum`            | [ ] Pending* | N/A       |
-| `SwSystemconst`               | [ ] Pending* | N/A       |
-| `ListEnum`                    | [ ] Pending* | N/A       |
-| `Item`                        | [ ] Pending* | N/A       |
-| `TopicContentOrMsrQuery`      | [ ] Pending* | N/A       |
-| `LOverviewParagraph`          | [ ] Pending* | N/A       |
-| `LPlainText`                  | [ ] Pending* | N/A       |
-| `LVerbatim`                   | [ ] Pending* | N/A       |
-| `ARList`                      | [ ] Pending* | N/A       |
+| `NumericalValueSpecification` | [x] Done     | b16a36915 |
+| `TextValueSpecification`      | [x] Done     | 81588f449 |
+| `ConstantReference`           | [x] Done     | 4853348ea |
+| `ConstantSpecification`       | [x] Done     | 265721a76 |
+| `DataFilterTypeEnum`          | [x] Done     | b59bd6ebb |
+| `DataFilter`                  | [x] Done     | ed2a073e7 |
+| `Modification`                | [x] Done     | 008307967 |
+| `ScaleConstrValidityEnum`     | [x] Done     | 1bc8904ee |
+| `UnitGroup`                   | [x] Done     | e7fdb07f2 |
+| `SwImplPolicyEnum`            | [x] Done     | d6945a4c8 |
+| `SwSystemconst`               | [x] Done     | 984387dd0 |
+| `ListEnum`                    | [x] Done     | 0623068af |
+| `Item`                        | [x] Done     | cf8b43c36 |
+| `TopicContentOrMsrQuery`      | [x] Done     | 460218682 |
+| `LOverviewParagraph`          | [x] Done     | 764ef1c58 |
+| `LPlainText`                  | [x] Done     | 1de91de48 |
+| `LVerbatim`                   | [x] Done     | d616f3d1e |
+| `ARList`                      | [x] Done     | 2151ca030 |
 | `ChapterContent`              | [ ] Pending* | N/A       |
-| `ChapterModel`                | [ ] Pending* | N/A       |
+| `ChapterModel`                | [x] Done     | d3d61c9b2 |
+| `PrmCharContents`             | [ ] Pending* | a3cf04c73 |
+| `PrmCharNumericalValue`       | [ ] Pending* | a3cf04c73 |
+| `PrmCharAbsTol`               | [ ] Pending* | a3cf04c73 |
+| `PrmCharMinTypMax`            | [ ] Pending* | a3cf04c73 |
+| `PrmCharNumericalContents`    | [ ] Pending* | a3cf04c73 |
+| `PrmCharTextualContents`      | [ ] Pending* | a3cf04c73 |
+| `PrmChar`                     | [ ] Pending* | a3cf04c73 |
+| `GeneralParameter`            | [ ] Pending* | a3cf04c73 |
+| `Prms`                        | [ ] Pending* | a3cf04c73 |
 
 ## Group10
 
@@ -588,7 +599,7 @@ Status: **1/24** completed
 | `ClientServerOperationMapping`         | [ ] Pending* | N/A       |
 | `ClientServerInterfaceMapping`         | [ ] Pending* | N/A       |
 | `ModeInterfaceMapping`                 | [ ] Pending* | 883237559 |
-| `VariableAndParameterInterfaceMapping`| [ ] Pending* | de2d5fe91 |
+| `VariableAndParameterInterfaceMapping` | [ ] Pending* | de2d5fe91 |
 | `Field`                                | [ ] Pending* | 413d1a4b6 |
 | `AbstractProvidedPortPrototype`        | [ ] Pending* | fb7a835f9 |
 | `AbstractRequiredPortPrototype`        | [ ] Pending* | fb7a835f9 |
@@ -640,54 +651,54 @@ Status: **0/23** completed
 | `BswInternalTriggeringPoint`            | [ ] Pending* | N/A       |
 | `BswInterruptEntity`                    | [ ] Pending* | N/A       |
 | `BswModeSwitchAckRequest`               | [ ] Pending* | N/A       |
-| `BswDataReceptionPolicy`                | [ ] Pending  | N/A       |
+| `BswDataReceptionPolicy`                | [ ] Pending* | 7e3a2541a |
 | `BswQueuedDataReceptionPolicy`          | [ ] Pending* | N/A       |
 | `BswAsynchronousServerCallReturnsEvent` | [ ] Pending* | N/A       |
 | `BswDataReceivedEvent`                  | [ ] Pending* | N/A       |
 | `BswInternalTriggerOccurredEvent`       | [ ] Pending* | N/A       |
 | `BswModeManagerErrorEvent`              | [ ] Pending* | N/A       |
-| `BswModeSwitchedAckEvent`               | [ ] Pending  | N/A       |
-| `BswTimingEvent`                        | [ ] Pending  | N/A       |
-| `BswEntryRelationshipEnum`              | [ ] Pending  | N/A       |
-| `BswEntryRelationship`                  | [ ] Pending  | N/A       |
-| `BswEntryRelationshipSet`               | [ ] Pending  | N/A       |
-| `BswModuleClientServerEntry`            | [ ] Pending  | N/A       |
-| `BswModuleDependency`                   | [ ] Pending  | N/A       |
-| `SwcBswRunnableMapping`                 | [ ] Pending  | N/A       |
-| `SwcBswSynchronizedModeGroupPrototype`  | [ ] Pending  | N/A       |
-| `SwcBswSynchronizedTrigger`             | [ ] Pending  | N/A       |
+| `BswModeSwitchedAckEvent`               | [ ] Pending* | 160eae8f2 |
+| `BswTimingEvent`                        | [ ] Pending* | 1a0a0619b |
+| `BswEntryRelationshipEnum`              | [ ] Pending* | 994c3903c |
+| `BswEntryRelationship`                  | [ ] Pending* | 75c651734 |
+| `BswEntryRelationshipSet`               | [ ] Pending* | a4d57abd3 |
+| `BswModuleClientServerEntry`            | [ ] Pending* | e69bc46ba |
+| `BswModuleDependency`                   | [ ] Pending* | 1ca038b14 |
+| `SwcBswRunnableMapping`                 | [ ] Pending* | c52cece66 |
+| `SwcBswSynchronizedModeGroupPrototype`  | [ ] Pending* | 659c2bf17 |
+| `SwcBswSynchronizedTrigger`             | [ ] Pending* | 6b4b9d6d1 |
 
 ## Group14
 
-Status: **0/25** completed
+Status: **2/25** completed
 
-| Class Name                                 | Status      | Commit ID |
-| ------------------------------------------ | ----------- | --------- |
-| `DiagnosticAudienceEnum`                   | [ ] Pending* | 5685ad743       |
-| `DiagnosticClearDtcNotificationEnum`       | [ ] Pending* | 28746ce3c       |
-| `DiagnosticProcessingStyleEnum`            | [ ] Pending* | 28746ce3c       |
-| `DiagnosticRoutineTypeEnum`                | [ ] Pending* | 28746ce3c       |
-| `DiagnosticServiceRequestCallbackTypeEnum` | [ ] Pending* | 28746ce3c       |
-| `DiagnosticValueAccessEnum`                | [ ] Pending* | 28746ce3c       |
-| `DtcFormatTypeEnum`                        | [ ] Pending* | 28746ce3c       |
-| `DtcKindEnum`                              | [ ] Pending* | 28746ce3c       |
-| `ServiceDiagnosticRelevanceEnum`           | [ ] Pending* | 28746ce3c       |
-| `DiagnosticCapabilityElement`              | [ ] Pending* | f5ffd3abf       |
-| `DiagnosticCommunicationManagerNeeds`      | [ ] Pending* | 79c639e42       |
-| `DiagnosticEventInfoNeeds`                 | [ ] Pending* | 79c639e42       |
-| `DiagnosticRoutineNeeds`                   | [ ] Pending* | 79c639e42       |
-| `DiagnosticValueNeeds`                     | [ ] Pending* | 79c639e42       |
-| `DtcStatusChangeNotificationNeeds`         | [ ] Pending* | 79c639e42       |
-| `CryptoServiceNeeds`                       | [ ] Pending* | d064592a4       |
-| `DiagEventDebounceCounterBased`            | [ ] Pending* | d064592a4       |
-| `SignalServiceTranslationElementProps`     | [ ] Pending* | 29d09fc62       |
-| `DiagnosticServiceClass`                   | [ ] Pending | N/A       |
-| `DiagnosticJumpToBootLoaderEnum`           | [ ] Pending | N/A       |
-| `DiagnosticLogicalOperatorEnum`            | [ ] Pending | N/A       |
-| `DiagnosticEnvConditionFormulaPart`        | [ ] Pending* | af255af37       |
-| `DiagnosticEnvConditionFormula`            | [ ] Pending* | af255af37       |
-| `DiagnosticEnvCompareCondition`            | [ ] Pending* | af255af37       |
-| `DiagnosticEnvModeElement`                 | [ ] Pending* | af255af37       |
+| Class Name                                 | Status       | Commit ID |
+| ------------------------------------------ | ------------ | --------- |
+| `DiagnosticAudienceEnum`                   | [ ] Pending* | 5685ad743 |
+| `DiagnosticClearDtcNotificationEnum`       | [ ] Pending* | 28746ce3c |
+| `DiagnosticProcessingStyleEnum`            | [ ] Pending* | 28746ce3c |
+| `DiagnosticRoutineTypeEnum`                | [ ] Pending* | 28746ce3c |
+| `DiagnosticServiceRequestCallbackTypeEnum` | [ ] Pending* | 28746ce3c |
+| `DiagnosticValueAccessEnum`                | [ ] Pending* | 28746ce3c |
+| `DtcFormatTypeEnum`                        | [ ] Pending* | 28746ce3c |
+| `DtcKindEnum`                              | [ ] Pending* | 28746ce3c |
+| `ServiceDiagnosticRelevanceEnum`           | [ ] Pending* | 28746ce3c |
+| `DiagnosticCapabilityElement`              | [ ] Pending* | f5ffd3abf |
+| `DiagnosticCommunicationManagerNeeds`      | [ ] Pending* | 79c639e42 |
+| `DiagnosticEventInfoNeeds`                 | [ ] Pending* | 79c639e42 |
+| `DiagnosticRoutineNeeds`                   | [ ] Pending* | 79c639e42 |
+| `DiagnosticValueNeeds`                     | [ ] Pending* | 79c639e42 |
+| `DtcStatusChangeNotificationNeeds`         | [ ] Pending* | 79c639e42 |
+| `CryptoServiceNeeds`                       | [ ] Pending* | d064592a4 |
+| `DiagEventDebounceCounterBased`            | [ ] Pending* | d064592a4 |
+| `SignalServiceTranslationElementProps`     | [ ] Pending* | 29d09fc62 |
+| `DiagnosticServiceClass`                   | [x] Done*    | N/A       |
+| `DiagnosticJumpToBootLoaderEnum`           | [ ] Pending* | N/A       |
+| `DiagnosticLogicalOperatorEnum`            | [ ] Pending* | N/A       |
+| `DiagnosticEnvConditionFormulaPart`        | [x] Done*    | af255af37 |
+| `DiagnosticEnvConditionFormula`            | [ ] Pending* | af255af37 |
+| `DiagnosticEnvCompareCondition`            | [ ] Pending* | af255af37 |
+| `DiagnosticEnvModeElement`                 | [ ] Pending* | af255af37 |
 
 ## Group15
 
@@ -833,10 +844,10 @@ Status: **0/16** completed
 
 ## Group20
 
-Status: **29/32** completed
+Status: **10/32** completed
 
-| Class Name                         | Status      | Commit ID |
-| ---------------------------------- | ----------- | --------- |
+| Class Name                         | Status       | Commit ID |
+| ---------------------------------- | ------------ | --------- |
 | `DoIpLogicAddress`                 | [ ] Pending* | a5671c229 |
 | `DoIpTpConnection`                 | [ ] Pending* | 0abdd0dba |
 | `CryptoKeySlotTypeEnum`            | [ ] Pending* | 4ea5cb5b4 |
@@ -854,18 +865,18 @@ Status: **29/32** completed
 | `SectionNamePrefix`                | [ ] Pending* | 0e2648263 |
 | `HardwareConfiguration`            | [ ] Pending* | 35bfb17b7 |
 | `SoftwareContext`                  | [ ] Pending* | 23884479e |
-| `DltApplication`                   | [x] Done     | c42f8ae9 |
+| `DltApplication`                   | [x] Done     | c42f8ae9  |
 | `DltArgument`                      | [x] Done     | 64d125ffa |
-| `DltContext`                       | [x] Done     | c42f8ae9 |
+| `DltContext`                       | [x] Done     | c42f8ae9  |
 | `SoAdRoutingGroup`                 | [ ] Pending* | 89363ebe2 |
 | `StackUsage`                       | [ ] Pending* | 9ce364e24 |
 | `MeasuredStackUsage`               | [ ] Pending* | adc2e5eeb |
 | `RoughEstimateStackUsage`          | [ ] Pending* | 3db474b11 |
 | `WorstCaseStackUsage`              | [ ] Pending* | a0cbd41d0 |
-| `MacAddressString`                | [ ] Pending* | 1fd0b0060 |
-| `PayloadBytePatternRulePart`      | [ ] Pending* | 8c72c7170 |
-| `TcpRule`                         | [ ] Pending* | d3902d0e6 |
-| `Ipv4Rule`                        | [ ] Pending* | b4096068d |
-| `Ipv6Rule`                        | [ ] Pending* | 18ee06b97 |
-| `UdpRule`                         | [ ] Pending* | 29cbfb7bb |
-| `IcmpRule`                        | [ ] Pending* | 5ddaf1cf9 |
+| `MacAddressString`                 | [x] Done*    | 1fd0b0060 |
+| `PayloadBytePatternRulePart`       | [x] Done*    | 8c72c7170 |
+| `TcpRule`                          | [x] Done*    | d3902d0e6 |
+| `IcmpRule`                         | [x] Done*    | 5ddaf1cf9 |
+| `Ipv4Rule`                         | [x] Done*    | b4096068d |
+| `Ipv6Rule`                         | [x] Done*    | 18ee06b97 |
+| `UdpRule`                          | [x] Done*    | 29cbfb7bb |

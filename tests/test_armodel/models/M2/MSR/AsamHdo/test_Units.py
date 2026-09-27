@@ -120,9 +120,12 @@ class TestSingleLanguageUnitNames:
     """Test class for SingleLanguageUnitNames class."""
 
     def test_single_language_unit_names_initialization(self):
-        """Test that a SingleLanguageUnitNames object can be initialized."""
+        """Test that a SingleLanguageUnitNames object can be initialized with its own __init__ (zero own members — Table 5.80 Attribute column "-")."""
         single_lang_unit_names = SingleLanguageUnitNames()
         assert single_lang_unit_names is not None
+        assert SingleLanguageUnitNames.__init__.__qualname__ == "SingleLanguageUnitNames.__init__"
+        assert single_lang_unit_names.sub is None
+        assert single_lang_unit_names.sup is None
         assert single_lang_unit_names.getMixedString() is None
 
     def test_single_language_unit_names_mixed_string(self):

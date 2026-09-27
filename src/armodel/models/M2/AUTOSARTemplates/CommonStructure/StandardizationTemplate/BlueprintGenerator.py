@@ -12,6 +12,7 @@ class BlueprintGenerator(ARObject):
 
     # BlueprintGenerator method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.12, pp.424-425 (R23-11)
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # (appendix E caption-shift: the table body renders ABOVE the caption — main
     # fragment incl. the expression row on p.424, introduction continuation + caption
     # on p.425; no numeric main table exists in R23-11 and the R4.3.1 corpus has no
