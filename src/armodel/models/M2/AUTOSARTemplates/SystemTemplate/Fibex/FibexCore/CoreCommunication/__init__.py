@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import HandleOutOfRangeEnum
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import HandleInvalidEnum
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataTypePolicyEnum
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import TransformationISignalProps
 
@@ -486,66 +487,115 @@ class ISignalGroup(FibexElement):
 
 class ISignalIPduGroup(FibexElement):
     """
-    Defines a group of Interaction Protocol Data Units (IPDUs) based on interaction signals,
-    specifying communication direction, mode, and references to contained
-    IPDU groups and individual IPDUs.
+    The AUTOSAR COM Layer is able to start and to stop sending and receiving configurable groups of I-Pdus during runtime. An ISignalIPduGroup contains either ISignalIPdus or ISignalIPduGroups. Tags: atp.recommendedPackage=ISignaliPduGroup
     """
 
     # ISignalIPduGroup method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCommunicationDirection    [x] impl  [ ] docstring  [ ] test
-    # [ ] setCommunicationDirection    [x] impl  [ ] docstring  [ ] test
-    # [ ] getCommunicationMode         [x] impl  [ ] docstring  [ ] test
-    # [ ] setCommunicationMode         [x] impl  [ ] docstring  [ ] test
-    # [ ] getContainedISignalIPduGroupRefs [x] impl  [ ] docstring  [ ] test
-    # [ ] addContainedISignalIPduGroupRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalIPduRefs           [x] impl  [ ] docstring  [ ] test
-    # [ ] addISignalIPduRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmPduRefs                 [x] impl  [ ] docstring  [ ] test
-    # [ ] addNmPduRef                  [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.32, p.351 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationDirection        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationDirection        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCommunicationMode             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationMode             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContainedISignalIPduGroupRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContainedISignalIPduGroupRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getISignalIPduRefs               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addISignalIPduRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmPduRefs                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addNmPduRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.communicationDirection = None
-        self.communicationMode = None
-        self.containedISignalIPduGroupRefs = []
-        self.iSignalIPduRefs = []
-        self.nmPduRefs = []
+        # This attribute determines in which direction IPdus that are contained in this IPduGroup will be transmitted (communication direction can be either In or Out).
+        self.communicationDirection: Optional[CommunicationDirectionType] = None
 
-    def getCommunicationDirection(self):
+        # This attribute defines the use-case for this ISignalIPduGroup (e.g. diagnostic, debugging etc.). For example, in a diagnostic mode all IPdus - which are not involved in diagnostic - are disabled. The use cases are not limited to a fixed enumeration and can be specified as a string.
+        self.communicationMode: Optional[String] = None
+
+        # An I-Pdu group can be included in other I-Pdu groups. Contained I-Pdu groups shall not be referenced by the EcuInstance.
+        self.containedISignalIPduGroupRefs: List[RefType] = []
+
+        # Reference to a set of Signal I-Pdus, which are contained in the ISignal I-Pdu Group. atpVariation: The content of a ISignal I-Pdu group can vary (->vehicle modes). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalIPdu.iSignalIPdu, iSignalIPdu.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.iSignalIPduRefs: List[RefType] = []
+
+        # Reference to a set of NmPdus with NmUserData, which are contained in the ISignalIPduGroup. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmPdu.nmPdu, nmPdu.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.nmPduRefs: List[RefType] = []
+
+    def getCommunicationDirection(self) -> Optional[CommunicationDirectionType]:
+        """
+        This attribute determines in which direction IPdus that are contained in this IPduGroup will be transmitted (communication direction can be either In or Out).
+        """
         return self.communicationDirection
 
-    def setCommunicationDirection(self, value):
-        self.communicationDirection = value
+    def setCommunicationDirection(self, value: Optional[CommunicationDirectionType]) -> ISignalIPduGroup:
+        """
+        This attribute determines in which direction IPdus that are contained in this IPduGroup will be transmitted (communication direction can be either In or Out).
+        A None value is a no-op and does not overwrite an existing communicationDirection.
+        """
+        if value is not None:
+            self.communicationDirection = value
         return self
 
-    def getCommunicationMode(self):
+    def getCommunicationMode(self) -> Optional[String]:
+        """
+        This attribute defines the use-case for this ISignalIPduGroup (e.g. diagnostic, debugging etc.). For example, in a diagnostic mode all IPdus - which are not involved in diagnostic - are disabled. The use cases are not limited to a fixed enumeration and can be specified as a string.
+        """
         return self.communicationMode
 
-    def setCommunicationMode(self, value):
-        self.communicationMode = value
+    def setCommunicationMode(self, value: Optional[String]) -> ISignalIPduGroup:
+        """
+        This attribute defines the use-case for this ISignalIPduGroup (e.g. diagnostic, debugging etc.). For example, in a diagnostic mode all IPdus - which are not involved in diagnostic - are disabled. The use cases are not limited to a fixed enumeration and can be specified as a string.
+        A None value is a no-op and does not overwrite an existing communicationMode.
+        """
+        if value is not None:
+            self.communicationMode = value
         return self
 
-    def getContainedISignalIPduGroupRefs(self):
+    def getContainedISignalIPduGroupRefs(self) -> List[RefType]:
+        """
+        An I-Pdu group can be included in other I-Pdu groups. Contained I-Pdu groups shall not be referenced by the EcuInstance.
+        """
         return self.containedISignalIPduGroupRefs
 
-    def addContainedISignalIPduGroupRef(self, value):
-        self.containedISignalIPduGroupRefs.append(value)
+    def addContainedISignalIPduGroupRef(self, value: Optional[RefType]) -> ISignalIPduGroup:
+        """
+        An I-Pdu group can be included in other I-Pdu groups. Contained I-Pdu groups shall not be referenced by the EcuInstance.
+        A None value is a no-op and is not appended to containedISignalIPduGroupRefs.
+        """
+        if value is not None:
+            self.containedISignalIPduGroupRefs.append(value)
         return self
 
-    def getISignalIPduRefs(self):
+    def getISignalIPduRefs(self) -> List[RefType]:
+        """
+        Reference to a set of Signal I-Pdus, which are contained in the ISignal I-Pdu Group. atpVariation: The content of a ISignal I-Pdu group can vary (->vehicle modes). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalIPdu.iSignalIPdu, iSignalIPdu.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.iSignalIPduRefs
 
-    def addISignalIPduRef(self, value):
-        self.iSignalIPduRefs.append(value)
+    def addISignalIPduRef(self, value: Optional[RefType]) -> ISignalIPduGroup:
+        """
+        Reference to a set of Signal I-Pdus, which are contained in the ISignal I-Pdu Group. atpVariation: The content of a ISignal I-Pdu group can vary (->vehicle modes). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalIPdu.iSignalIPdu, iSignalIPdu.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and is not appended to iSignalIPduRefs.
+        """
+        if value is not None:
+            self.iSignalIPduRefs.append(value)
         return self
 
-    def getNmPduRefs(self):
+    def getNmPduRefs(self) -> List[RefType]:
+        """
+        Reference to a set of NmPdus with NmUserData, which are contained in the ISignalIPduGroup. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmPdu.nmPdu, nmPdu.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.nmPduRefs
 
-    def addNmPduRef(self, value):
-        self.nmPduRefs.append(value)
+    def addNmPduRef(self, value: Optional[RefType]) -> ISignalIPduGroup:
+        """
+        Reference to a set of NmPdus with NmUserData, which are contained in the ISignalIPduGroup. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmPdu.nmPdu, nmPdu.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and is not appended to nmPduRefs.
+        """
+        if value is not None:
+            self.nmPduRefs.append(value)
         return self
 
 
@@ -883,93 +933,182 @@ class SecureCommunicationProps(ARObject):
         return self
 
 
+class SecuredPduHeaderEnum(AREnum):
+    """
+    Defines the header which will be inserted into the SecuredIPdu.
+    """
+
+    # SecuredPduHeaderEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.43, p.369 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on SecuredIPdu.useSecuredPduHeader
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # No header included in the SecuredPdu. Tags: atp.EnumerationLiteralIndex=0
+    NO_HEADER = "noHeader"
+
+    # 8 Bit Secured I-PDU Header included in the Secured I-PDU. Tags: atp.EnumerationLiteralIndex=1
+    SECURED_PDU_HEADER08_BIT = "securedPduHeader08Bit"
+
+    # 16 Bit Secured I-PDU Header included in the Secured I-PDU. Tags: atp.EnumerationLiteralIndex=2
+    SECURED_PDU_HEADER16_BIT = "securedPduHeader16Bit"
+
+    # 32 Bit Secured I-PDU Header included in the Secured I-PDU. Tags: atp.EnumerationLiteralIndex=3
+    SECURED_PDU_HEADER32_BIT = "securedPduHeader32Bit"
+
+    def __init__(self):
+        super().__init__([SecuredPduHeaderEnum.NO_HEADER, SecuredPduHeaderEnum.SECURED_PDU_HEADER08_BIT, SecuredPduHeaderEnum.SECURED_PDU_HEADER16_BIT, SecuredPduHeaderEnum.SECURED_PDU_HEADER32_BIT])
+
+
 class SecuredIPdu(IPdu):
     """
-    Represents a secured Interaction Protocol Data Unit (IPDU) with
-    authentication, integrity protection, and other security properties
-    for protected communication.
+    If useAsCryptographicPdu is not set or set to false this IPdu contains the payload of an Authentic IPdu supplemented by additional Authentication Information (Freshness Counter and an Authenticator). If useAsCryptographicPdu is set to true this IPdu contains the Authenticator for a payload that is transported in a separate message. The separate Authentic IPdu is described by the Pdu that is referenced with the payload reference from this SecuredIPdu. Tags: atp.recommendedPackage=Pdus
     """
 
     # SecuredIPdu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAuthenticationPropsRef    [x] impl  [ ] docstring  [ ] test
-    # [ ] setAuthenticationPropsRef    [x] impl  [ ] docstring  [ ] test
-    # [ ] getDynamicRuntimeLengthHandling [x] impl  [ ] docstring  [ ] test
-    # [ ] setDynamicRuntimeLengthHandling [x] impl  [ ] docstring  [ ] test
-    # [ ] getFreshnessPropsRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] setFreshnessPropsRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] getPayloadRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] setPayloadRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] getSecureCommunicationProps  [x] impl  [ ] docstring  [ ] test
-    # [ ] setSecureCommunicationProps  [x] impl  [ ] docstring  [ ] test
-    # [ ] getUseAsCryptographicIPdu    [x] impl  [ ] docstring  [ ] test
-    # [ ] setUseAsCryptographicIPdu    [x] impl  [ ] docstring  [ ] test
-    # [ ] getUseSecuredPduHeader       [x] impl  [ ] docstring  [ ] test
-    # [ ] setUseSecuredPduHeader       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.42, p.368 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAuthenticationPropsRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthenticationPropsRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDynamicRuntimeLengthHandling [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDynamicRuntimeLengthHandling [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFreshnessPropsRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFreshnessPropsRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPayloadRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPayloadRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecureCommunicationProps     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecureCommunicationProps     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUseAsCryptographicIPdu       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUseAsCryptographicIPdu       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUseSecuredPduHeader          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUseSecuredPduHeader          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.authenticationPropsRef: RefType = None
-        self.dynamicRuntimeLengthHandling: Boolean = None
-        self.freshnessPropsRef: RefType = None
-        self.payloadRef: RefType = None
-        self.secureCommunicationProps: SecureCommunicationProps = None
-        self.useAsCryptographicIPdu: Boolean = None
-        self.useSecuredPduHeader = None
+        # Reference to authentication properties that are valid for this SecuredIPdu.
+        self.authenticationPropsRef: Optional[RefType] = None
 
-    def getAuthenticationPropsRef(self):
+        # Defines whether the length information for handling this SecuredIPdu with SecuredIPdu.useSecuredPdu Header=noHeader is taken from the configuration or from the actually provided length information during runtime. true: SecuredIPdu length information is taken from the actually provided length information during runtime. false: SecuredIPdu length information is taken from the configuration.
+        self.dynamicRuntimeLengthHandling: Optional[Boolean] = None
+
+        # Reference to freshness properties that are valid for this SecuredIPdu.
+        self.freshnessPropsRef: Optional[RefType] = None
+
+        # Reference to a Pdu that will be protected against unauthorized manipulation and replay attacks.
+        self.payloadRef: Optional[RefType] = None
+
+        # Specific configuration properties for this SecuredIPdu.
+        self.secureCommunicationProps: Optional[SecureCommunicationProps] = None
+
+        # If this attribute is set to true the SecuredIPdu contains the Authentication Information for an AuthenticIPdu that is transmitted in a separate message. The AuthenticIPdu contains the original payload, i.e. the secured data. If this attribute is set to false this SecuredIPdu contains the payload of an Authentic IPdu supplemented by additional Authentication Information.
+        self.useAsCryptographicIPdu: Optional[Boolean] = None
+
+        # This attribute defines the size of the header which is inserted into the SecuredIPdu. If this attribute is set to anything but noHeader, the SecuredIPdu contains the Secured I-PDU Header to indicate the length of the AuthenticIPdu. The AuthenticIPdu contains the original payload, i.e. the secured data.
+        self.useSecuredPduHeader: Optional[SecuredPduHeaderEnum] = None
+
+    def getAuthenticationPropsRef(self) -> Optional[RefType]:
+        """
+        Reference to authentication properties that are valid for this SecuredIPdu.
+        """
         return self.authenticationPropsRef
 
-    def setAuthenticationPropsRef(self, value):
+    def setAuthenticationPropsRef(self, value: Optional[RefType]) -> SecuredIPdu:
+        """
+        Reference to authentication properties that are valid for this SecuredIPdu.
+        A None value is a no-op and does not overwrite an existing authenticationPropsRef.
+        """
         if value is not None:
             self.authenticationPropsRef = value
         return self
 
-    def getDynamicRuntimeLengthHandling(self):
+    def getDynamicRuntimeLengthHandling(self) -> Optional[Boolean]:
+        """
+        Defines whether the length information for handling this SecuredIPdu with SecuredIPdu.useSecuredPdu Header=noHeader is taken from the configuration or from the actually provided length information during runtime. true: SecuredIPdu length information is taken from the actually provided length information during runtime. false: SecuredIPdu length information is taken from the configuration.
+        """
         return self.dynamicRuntimeLengthHandling
 
-    def setDynamicRuntimeLengthHandling(self, value):
+    def setDynamicRuntimeLengthHandling(self, value: Optional[Boolean]) -> SecuredIPdu:
+        """
+        Defines whether the length information for handling this SecuredIPdu with SecuredIPdu.useSecuredPdu Header=noHeader is taken from the configuration or from the actually provided length information during runtime. true: SecuredIPdu length information is taken from the actually provided length information during runtime. false: SecuredIPdu length information is taken from the configuration.
+        A None value is a no-op and does not overwrite an existing dynamicRuntimeLengthHandling.
+        """
         if value is not None:
             self.dynamicRuntimeLengthHandling = value
         return self
 
-    def getFreshnessPropsRef(self):
+    def getFreshnessPropsRef(self) -> Optional[RefType]:
+        """
+        Reference to freshness properties that are valid for this SecuredIPdu.
+        """
         return self.freshnessPropsRef
 
-    def setFreshnessPropsRef(self, value):
+    def setFreshnessPropsRef(self, value: Optional[RefType]) -> SecuredIPdu:
+        """
+        Reference to freshness properties that are valid for this SecuredIPdu.
+        A None value is a no-op and does not overwrite an existing freshnessPropsRef.
+        """
         if value is not None:
             self.freshnessPropsRef = value
         return self
 
-    def getPayloadRef(self):
+    def getPayloadRef(self) -> Optional[RefType]:
+        """
+        Reference to a Pdu that will be protected against unauthorized manipulation and replay attacks.
+        """
         return self.payloadRef
 
-    def setPayloadRef(self, value):
+    def setPayloadRef(self, value: Optional[RefType]) -> SecuredIPdu:
+        """
+        Reference to a Pdu that will be protected against unauthorized manipulation and replay attacks.
+        A None value is a no-op and does not overwrite an existing payloadRef.
+        """
         if value is not None:
             self.payloadRef = value
         return self
 
-    def getSecureCommunicationProps(self):
+    def getSecureCommunicationProps(self) -> Optional[SecureCommunicationProps]:
+        """
+        Specific configuration properties for this SecuredIPdu.
+        """
         return self.secureCommunicationProps
 
-    def setSecureCommunicationProps(self, value):
+    def setSecureCommunicationProps(self, value: Optional[SecureCommunicationProps]) -> SecuredIPdu:
+        """
+        Specific configuration properties for this SecuredIPdu.
+        A None value is a no-op and does not overwrite an existing secureCommunicationProps.
+        """
         if value is not None:
             self.secureCommunicationProps = value
         return self
 
-    def getUseAsCryptographicIPdu(self):
+    def getUseAsCryptographicIPdu(self) -> Optional[Boolean]:
+        """
+        If this attribute is set to true the SecuredIPdu contains the Authentication Information for an AuthenticIPdu that is transmitted in a separate message. The AuthenticIPdu contains the original payload, i.e. the secured data. If this attribute is set to false this SecuredIPdu contains the payload of an Authentic IPdu supplemented by additional Authentication Information.
+        """
         return self.useAsCryptographicIPdu
 
-    def setUseAsCryptographicIPdu(self, value):
+    def setUseAsCryptographicIPdu(self, value: Optional[Boolean]) -> SecuredIPdu:
+        """
+        If this attribute is set to true the SecuredIPdu contains the Authentication Information for an AuthenticIPdu that is transmitted in a separate message. The AuthenticIPdu contains the original payload, i.e. the secured data. If this attribute is set to false this SecuredIPdu contains the payload of an Authentic IPdu supplemented by additional Authentication Information.
+        A None value is a no-op and does not overwrite an existing useAsCryptographicIPdu.
+        """
         if value is not None:
             self.useAsCryptographicIPdu = value
         return self
 
-    def getUseSecuredPduHeader(self):
+    def getUseSecuredPduHeader(self) -> Optional[SecuredPduHeaderEnum]:
+        """
+        This attribute defines the size of the header which is inserted into the SecuredIPdu. If this attribute is set to anything but noHeader, the SecuredIPdu contains the Secured I-PDU Header to indicate the length of the AuthenticIPdu. The AuthenticIPdu contains the original payload, i.e. the secured data.
+        """
         return self.useSecuredPduHeader
 
-    def setUseSecuredPduHeader(self, value):
+    def setUseSecuredPduHeader(self, value: Optional[SecuredPduHeaderEnum]) -> SecuredIPdu:
+        """
+        This attribute defines the size of the header which is inserted into the SecuredIPdu. If this attribute is set to anything but noHeader, the SecuredIPdu contains the Secured I-PDU Header to indicate the length of the AuthenticIPdu. The AuthenticIPdu contains the original payload, i.e. the secured data.
+        A None value is a no-op and does not overwrite an existing useSecuredPduHeader.
+        """
         if value is not None:
             self.useSecuredPduHeader = value
         return self
@@ -981,8 +1120,10 @@ class TransferPropertyEnum(AREnum):
     """
 
     # TransferPropertyEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.15, p.327
-    # (no methods)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.15, p.327 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ISignalToIPduMapping.transferProperty
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # If the signal has the TransferProperty pending, then the function Com_SendSignal shall not perform a transmission of the IPdu associated with the signal. Tags: atp.EnumerationLiteralIndex=0
     PENDING = "pending"
@@ -1939,36 +2080,55 @@ class FrameTriggering(Identifiable, VariationPointCapable, ABC):
 
 class SystemSignal(ARElement):
     """
-    Represents a system signal in the AUTOSAR system, defining
-    dynamic length properties and physical properties for
-    system-level signal communication.
+    The system signal represents the communication system's view of data exchanged between SW components which reside on different ECUs. The system signals allow to represent this communication in a flattened structure, with exactly one system signal defined for each data element prototype sent and received by connected SW component instances. Tags: atp.recommendedPackage=SystemSignals
     """
 
     # SystemSignal method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDynamicLength             [x] impl  [ ] docstring  [ ] test
-    # [ ] setDynamicLength             [x] impl  [ ] docstring  [ ] test
-    # [ ] getPhysicalProps             [x] impl  [ ] docstring  [ ] test
-    # [ ] setPhysicalProps             [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.23, p.218 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDynamicLength  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDynamicLength  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPhysicalProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPhysicalProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dynamicLength: Boolean = None
-        self.physicalProps: SwDataDefProps = None
+        # The length of dynamic length signals is variable in run-time. Only a maximum length of such a signal is specified in the configuration (attribute length in ISignal element).
+        self.dynamicLength: Optional[Boolean] = None
 
-    def getDynamicLength(self):
+        # Specification of the physical representation. Stereotypes: atpSplitable Tags: atp.Splitkey=physicalProps
+        self.physicalProps: Optional[SwDataDefProps] = None
+
+    def getDynamicLength(self) -> Optional[Boolean]:
+        """
+        The length of dynamic length signals is variable in run-time. Only a maximum length of such a signal is specified in the configuration (attribute length in ISignal element).
+        """
         return self.dynamicLength
 
-    def setDynamicLength(self, value):
-        self.dynamicLength = value
+    def setDynamicLength(self, value: Optional[Boolean]) -> SystemSignal:
+        """
+        The length of dynamic length signals is variable in run-time. Only a maximum length of such a signal is specified in the configuration (attribute length in ISignal element).
+        A None value is a no-op and does not overwrite an existing dynamicLength.
+        """
+        if value is not None:
+            self.dynamicLength = value
         return self
 
-    def getPhysicalProps(self):
+    def getPhysicalProps(self) -> Optional[SwDataDefProps]:
+        """
+        Specification of the physical representation. Stereotypes: atpSplitable Tags: atp.Splitkey=physicalProps
+        """
         return self.physicalProps
 
-    def setPhysicalProps(self, value):
-        self.physicalProps = value
+    def setPhysicalProps(self, value: Optional[SwDataDefProps]) -> SystemSignal:
+        """
+        Specification of the physical representation. Stereotypes: atpSplitable Tags: atp.Splitkey=physicalProps
+        A None value is a no-op and does not overwrite an existing physicalProps.
+        """
+        if value is not None:
+            self.physicalProps = value
         return self
 
 
@@ -2101,47 +2261,73 @@ class ISignalTriggering(Identifiable, VariationPointCapable):
 
 class SegmentPosition(ARObject):
     """
-    Defines the position of a segment within a communication element,
-    specifying byte order, length, and position properties for
-    segmented communication.
+    The StaticPart and the DynamicPart can be separated in multiple segments within the multiplexed PDU. The ISignalIPdus are copied bit by bit into the MultiplexedIPdu. If the space of the first segment is 5 bits large than the first 5 bits of the ISignalIPdu are copied into this first segment and so on.
     """
 
     # SegmentPosition method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getSegmentByteOrder          [x] impl  [ ] docstring  [ ] test
-    # [ ] setSegmentByteOrder          [x] impl  [ ] docstring  [ ] test
-    # [ ] getSegmentLength             [x] impl  [ ] docstring  [ ] test
-    # [ ] setSegmentLength             [x] impl  [ ] docstring  [ ] test
-    # [ ] getSegmentPosition           [x] impl  [ ] docstring  [ ] test
-    # [ ] setSegmentPosition           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.77, p.412 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSegmentByteOrder [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSegmentByteOrder [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSegmentLength    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSegmentLength    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSegmentPosition  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSegmentPosition  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.segmentByteOrder: ByteOrderEnum = None
-        self.segmentLength: Integer = None
-        self.segmentPosition: Integer = None
+        # This attribute defines the order of the bytes of the segment and the packing into the MultiplexedIPdu. Please consider that [constr_3247] and [constr_3224] are restricting the usage of this attribute.
+        self.segmentByteOrder: Optional[ByteOrderEnum] = None
 
-    def getSegmentByteOrder(self):
+        # Data Length of the segment in bits.
+        self.segmentLength: Optional[Integer] = None
+
+        # Segments bit position relatively to the beginning of a multiplexed IPdu. Note that the absolute position of the segment in the MultiplexedIPdu is determined by the definition of the segmentByteOrder attribute of the SegmentPosition. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the IPdu. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the IPdu. In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
+        self.segmentPosition: Optional[Integer] = None
+
+    def getSegmentByteOrder(self) -> Optional[ByteOrderEnum]:
+        """
+        This attribute defines the order of the bytes of the segment and the packing into the MultiplexedIPdu. Please consider that [constr_3247] and [constr_3224] are restricting the usage of this attribute.
+        """
         return self.segmentByteOrder
 
-    def setSegmentByteOrder(self, value):
+    def setSegmentByteOrder(self, value: Optional[ByteOrderEnum]) -> SegmentPosition:
+        """
+        This attribute defines the order of the bytes of the segment and the packing into the MultiplexedIPdu. Please consider that [constr_3247] and [constr_3224] are restricting the usage of this attribute.
+        A None value is a no-op and does not overwrite an existing segmentByteOrder.
+        """
         if value is not None:
             self.segmentByteOrder = value
         return self
 
-    def getSegmentLength(self):
+    def getSegmentLength(self) -> Optional[Integer]:
+        """
+        Data Length of the segment in bits.
+        """
         return self.segmentLength
 
-    def setSegmentLength(self, value):
+    def setSegmentLength(self, value: Optional[Integer]) -> SegmentPosition:
+        """
+        Data Length of the segment in bits.
+        A None value is a no-op and does not overwrite an existing segmentLength.
+        """
         if value is not None:
             self.segmentLength = value
         return self
 
-    def getSegmentPosition(self):
+    def getSegmentPosition(self) -> Optional[Integer]:
+        """
+        Segments bit position relatively to the beginning of a multiplexed IPdu. Note that the absolute position of the segment in the MultiplexedIPdu is determined by the definition of the segmentByteOrder attribute of the SegmentPosition. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the IPdu. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the IPdu. In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
+        """
         return self.segmentPosition
 
-    def setSegmentPosition(self, value):
+    def setSegmentPosition(self, value: Optional[Integer]) -> SegmentPosition:
+        """
+        Segments bit position relatively to the beginning of a multiplexed IPdu. Note that the absolute position of the segment in the MultiplexedIPdu is determined by the definition of the segmentByteOrder attribute of the SegmentPosition. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the IPdu. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the IPdu. In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
+        A None value is a no-op and does not overwrite an existing segmentPosition.
+        """
         if value is not None:
             self.segmentPosition = value
         return self
@@ -2149,15 +2335,17 @@ class SegmentPosition(ARObject):
 
 class MultiplexedPart(ARObject, ABC):
     """
-    Abstract base class for multiplexed communication parts, defining
-    common properties for dynamic and static multiplexed communication
-    segments including segment positions.
+    The StaticPart and the DynamicPart have common properties. Both can be separated in multiple segments within the multiplexed PDU.
+
+    [constr_9181] Existence of MultiplexedPart.segmentPosition: For each MultiplexedPart the aggregation of SegmentPosition in role segmentPosition shall exist at the time when the System Description is complete.
     """
 
     # MultiplexedPart method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getSegmentPositions          [x] impl  [ ] docstring  [ ] test
-    # [ ] addSegmentPosition           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.76, p.411 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSegmentPositions  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSegmentPosition   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is MultiplexedPart:
@@ -2165,12 +2353,20 @@ class MultiplexedPart(ARObject, ABC):
 
         super().__init__()
 
-        self.segmentPositions = []  # type: List[SegmentPosition]
+        # The StaticPart and the DynamicPart can be separated in multiple segments within the multiplexed PDU. Therefore the StaticPart and the DynamicPart can contain multiple SegmentPositions.
+        self.segmentPositions: List[SegmentPosition] = []
 
-    def getSegmentPositions(self):
+    def getSegmentPositions(self) -> List[SegmentPosition]:
+        """
+        The StaticPart and the DynamicPart can be separated in multiple segments within the multiplexed PDU. Therefore the StaticPart and the DynamicPart can contain multiple SegmentPositions.
+        """
         return self.segmentPositions
 
-    def addSegmentPosition(self, value):
+    def addSegmentPosition(self, value: Optional[SegmentPosition]) -> MultiplexedPart:
+        """
+        The StaticPart and the DynamicPart can be separated in multiple segments within the multiplexed PDU. Therefore the StaticPart and the DynamicPart can contain multiple SegmentPositions.
+        A None value is a no-op and is not appended to segmentPositions.
+        """
         if value is not None:
             self.segmentPositions.append(value)
         return self
@@ -2296,117 +2492,236 @@ class DynamicPartAlternative(ARObject):
 
 class DynamicPart(MultiplexedPart, VariationPointCapable):
     """
-    Defines a dynamic part of multiplexed communication, specifying
-    alternatives for variable segments in multiplexed communication
-    based on selector field values.
+    Dynamic part of a multiplexed I-Pdu. Reserved space which is used to transport varying SignalIPdus at the same position, controlled by the corresponding selectorFieldCode.
     """
 
     # DynamicPart method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDynamicPartAlternatives   [x] impl  [ ] docstring  [ ] test
-    # [ ] addDynamicPartAlternative    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.74, p.410 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDynamicPartAlternatives  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDynamicPartAlternative   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.dynamicPartAlternatives = []  # type: List[DynamicPartAlternative]
+        # Com IPdu alternatives that are transmitted in the Dynamic Part of the MultiplexedIPdu.
+        self.dynamicPartAlternatives: List[DynamicPartAlternative] = []
 
-    def getDynamicPartAlternatives(self):
+    def getDynamicPartAlternatives(self) -> List[DynamicPartAlternative]:
+        """
+        Com IPdu alternatives that are transmitted in the Dynamic Part of the MultiplexedIPdu.
+        """
         return self.dynamicPartAlternatives
 
-    def addDynamicPartAlternative(self, value):
+    def addDynamicPartAlternative(self, value: Optional[DynamicPartAlternative]) -> DynamicPart:
+        """
+        Com IPdu alternatives that are transmitted in the Dynamic Part of the MultiplexedIPdu.
+        A None value is a no-op and is not appended to dynamicPartAlternatives.
+        """
         if value is not None:
             self.dynamicPartAlternatives.append(value)
         return self
 
 
+class TriggerMode(AREnum):
+    """
+    IPduM can be configured to send a transmission request for the new multiplexed I-PDU to the PDU-Router because of conditions/ modes.
+    """
+
+    # TriggerMode method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.71, p.408 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on MultiplexedIPdu.triggerMode
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # IPduM sends a transmission request to the PduR if a dynamic part is received. Tags: atp.EnumerationLiteralIndex=0
+    DYNAMIC_PART_TRIGGER = "dynamicPartTrigger"
+
+    # IPduM does not trigger transmission because of receiving anything of this IPdu in case of Trigger Transmit. Tags: atp.EnumerationLiteralIndex=1
+    NONE = "none"
+
+    # IPduM sends a transmission request to the PduR if a static or dynamic part is received. Tags: atp.EnumerationLiteralIndex=2
+    STATIC_OR_DYNAMIC_PART_TRIGGER = "staticOrDynamicPartTrigger"
+
+    # IPduM sends a transmission request to the PduR if a static part is received. Tags: atp.EnumerationLiteralIndex=3
+    STATIC_PART_TRIGGER = "staticPartTrigger"
+
+    def __init__(self):
+        super().__init__([TriggerMode.DYNAMIC_PART_TRIGGER, TriggerMode.NONE, TriggerMode.STATIC_OR_DYNAMIC_PART_TRIGGER, TriggerMode.STATIC_PART_TRIGGER])
+
+
 class MultiplexedIPdu(IPdu):
     """
-    Represents a multiplexed Interaction Protocol Data Unit (IPDU)
-    with dynamic and static parts, defining selector field properties
-    and trigger modes for multiplexed communication.
+    A MultiplexedPdu (i.e. NOT a COM I-PDU) contains a DynamicPart, an optional StaticPart and a selector Field. In case of multiplexing this IPdu is routed between the Pdu Multiplexer and the Interface Layer. A multiplexer is used to define variable parts within an IPdu that may carry different signals. The receivers of such a IPdu can determine which signalPdus are transmitted by evaluating the selector field, which carries a unique selector code for each sub-part. Tags: atp.recommendedPackage=Pdus
+
     """
 
     # MultiplexedIPdu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDynamicPart               [x] impl  [ ] docstring  [ ] test
-    # [ ] setDynamicPart               [x] impl  [ ] docstring  [ ] test
-    # [ ] getSelectorFieldByteOrder    [x] impl  [ ] docstring  [ ] test
-    # [ ] setSelectorFieldByteOrder    [x] impl  [ ] docstring  [ ] test
-    # [ ] getSelectorFieldLength       [x] impl  [ ] docstring  [ ] test
-    # [ ] setSelectorFieldLength       [x] impl  [ ] docstring  [ ] test
-    # [ ] getSelectorFieldStartPosition [x] impl  [ ] docstring  [ ] test
-    # [ ] setSelectorFieldStartPosition [x] impl  [ ] docstring  [ ] test
-    # [ ] getStaticPart                [x] impl  [ ] docstring  [ ] test
-    # [ ] setStaticPart                [x] impl  [ ] docstring  [ ] test
-    # [ ] getTriggerMode               [x] impl  [ ] docstring  [ ] test
-    # [ ] setTriggerMode               [x] impl  [ ] docstring  [ ] test
-    # [ ] getUnusedBitPattern          [x] impl  [ ] docstring  [ ] test
-    # [ ] setUnusedBitPattern          [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.72, p.410 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDynamicPart         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDynamicPart         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSelectorFieldByteOrder [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSelectorFieldByteOrder [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSelectorFieldLength [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSelectorFieldLength [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSelectorFieldStartPosition [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSelectorFieldStartPosition [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStaticPart          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStaticPart          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTriggerMode         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTriggerMode         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUnusedBitPattern    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUnusedBitPattern    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dynamicPart = None  # type: DynamicPart
-        self.selectorFieldByteOrder = None  # type: ByteOrderEnum
-        self.selectorFieldLength = None  # type: Integer
-        self.selectorFieldStartPosition = None  # type: Integer
-        self.staticPart = None  # type: StaticPart
-        self.triggerMode = None  # type: TriggerMode
-        self.unusedBitPattern = None  # type: Integer
+        # According to the value of the selector field some parts of the IPdu have a different layout. In a complete System Description a MultiplexedIPdu shall contain a Dynamic Part. The following use cases support the multiplicity to be 0..1: • If a MultiplexedIPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedIPdu doesn't need to be described in the System Extract/ Ecu Extract. • If a MultiplexedIPdu is received by an ECU which is only interested in the static part of the MultiplexedIPdu then the dynamicPart does not need to be described in the System Extract/Ecu Extract. atpVariation: Content of a multiplexed PDU can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dynamicPart, dynamicPart.variation Point.shortLabel vh.latestBindingTime=postBuild
 
-    def getDynamicPart(self):
+        self.dynamicPart: Optional[DynamicPart] = None
+
+        # This attribute defines the order of the bytes of the selector Field and the packing into the MultiplexedIPdu. Please consider that [constr_3247] and [constr_3223] are restricting the usage of this attribute. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        self.selectorFieldByteOrder: Optional[ByteOrderEnum] = None
+
+        # The size in bits of the selector field shall be configurable in a range of 1-16 bits. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        self.selectorFieldLength: Optional[Integer] = None
+
+        # This parameter is necessary to describe the position of the selector field within the IPdu. Note that the absolute position of the selectorField in the MultiplexedIPdu is determined by the definition of the selectorFieldByteOrder attribute of the Multiplexed Pdu. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the IPdu. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the IPdu. In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        self.selectorFieldStartPosition: Optional[Integer] = None
+
+        # The static part of the multiplexed IPdu is the same regardless of the selector field. The static part is optional. atpVariation: Content of a multiplexed PDU can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticPart, staticPart.variationPoint.short Label vh.latestBindingTime=postBuild
+
+        self.staticPart: Optional[StaticPart] = None
+
+        # IPduM can be configured to send a transmission request for the new multiplexed IPdu to the PDU-Router because of the trigger conditions/ modes that are described in the TriggerMode enumeration. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        self.triggerMode: Optional[TriggerMode] = None
+
+        # AUTOSAR COM and AUTOSAR IPDUM are filling not used areas of an IPdu with this bit-pattern. This attribute is mandatory to avoid undefined behavior. This byte-pattern will be repeated throughout the IPdu. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        self.unusedBitPattern: Optional[Integer] = None
+
+    def getDynamicPart(self) -> Optional[DynamicPart]:
+        """
+        According to the value of the selector field some parts of the IPdu have a different layout. In a complete System Description a MultiplexedIPdu shall contain a Dynamic Part. The following use cases support the multiplicity to be 0..1: • If a MultiplexedIPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedIPdu doesn't need to be described in the System Extract/ Ecu Extract. • If a MultiplexedIPdu is received by an ECU which is only interested in the static part of the MultiplexedIPdu then the dynamicPart does not need to be described in the System Extract/Ecu Extract. atpVariation: Content of a multiplexed PDU can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dynamicPart, dynamicPart.variation Point.shortLabel vh.latestBindingTime=postBuild
+
+        """
         return self.dynamicPart
 
-    def setDynamicPart(self, value):
+    def setDynamicPart(self, value: Optional[DynamicPart]) -> MultiplexedIPdu:
+        """
+        According to the value of the selector field some parts of the IPdu have a different layout. In a complete System Description a MultiplexedIPdu shall contain a Dynamic Part. The following use cases support the multiplicity to be 0..1: • If a MultiplexedIPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedIPdu doesn't need to be described in the System Extract/ Ecu Extract. • If a MultiplexedIPdu is received by an ECU which is only interested in the static part of the MultiplexedIPdu then the dynamicPart does not need to be described in the System Extract/Ecu Extract. atpVariation: Content of a multiplexed PDU can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dynamicPart, dynamicPart.variation Point.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not overwrite an existing dynamicPart.
+        """
         if value is not None:
             self.dynamicPart = value
         return self
 
-    def getSelectorFieldByteOrder(self):
+    def getSelectorFieldByteOrder(self) -> Optional[ByteOrderEnum]:
+        """
+        This attribute defines the order of the bytes of the selector Field and the packing into the MultiplexedIPdu. Please consider that [constr_3247] and [constr_3223] are restricting the usage of this attribute. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        """
         return self.selectorFieldByteOrder
 
-    def setSelectorFieldByteOrder(self, value):
+    def setSelectorFieldByteOrder(self, value: Optional[ByteOrderEnum]) -> MultiplexedIPdu:
+        """
+        This attribute defines the order of the bytes of the selector Field and the packing into the MultiplexedIPdu. Please consider that [constr_3247] and [constr_3223] are restricting the usage of this attribute. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        A None value is a no-op and does not overwrite an existing selectorFieldByteOrder.
+        """
         if value is not None:
             self.selectorFieldByteOrder = value
         return self
 
-    def getSelectorFieldLength(self):
+    def getSelectorFieldLength(self) -> Optional[Integer]:
+        """
+        The size in bits of the selector field shall be configurable in a range of 1-16 bits. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        """
         return self.selectorFieldLength
 
-    def setSelectorFieldLength(self, value):
+    def setSelectorFieldLength(self, value: Optional[Integer]) -> MultiplexedIPdu:
+        """
+        The size in bits of the selector field shall be configurable in a range of 1-16 bits. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        A None value is a no-op and does not overwrite an existing selectorFieldLength.
+        """
         if value is not None:
             self.selectorFieldLength = value
         return self
 
-    def getSelectorFieldStartPosition(self):
+    def getSelectorFieldStartPosition(self) -> Optional[Integer]:
+        """
+        This parameter is necessary to describe the position of the selector field within the IPdu. Note that the absolute position of the selectorField in the MultiplexedIPdu is determined by the definition of the selectorFieldByteOrder attribute of the Multiplexed Pdu. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the IPdu. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the IPdu. In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        """
         return self.selectorFieldStartPosition
 
-    def setSelectorFieldStartPosition(self, value):
+    def setSelectorFieldStartPosition(self, value: Optional[Integer]) -> MultiplexedIPdu:
+        """
+        This parameter is necessary to describe the position of the selector field within the IPdu. Note that the absolute position of the selectorField in the MultiplexedIPdu is determined by the definition of the selectorFieldByteOrder attribute of the Multiplexed Pdu. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the IPdu. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the IPdu. In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        A None value is a no-op and does not overwrite an existing selectorFieldStartPosition.
+        """
         if value is not None:
             self.selectorFieldStartPosition = value
         return self
 
-    def getStaticPart(self):
+    def getStaticPart(self) -> Optional[StaticPart]:
+        """
+        The static part of the multiplexed IPdu is the same regardless of the selector field. The static part is optional. atpVariation: Content of a multiplexed PDU can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticPart, staticPart.variationPoint.short Label vh.latestBindingTime=postBuild
+
+        """
         return self.staticPart
 
-    def setStaticPart(self, value):
+    def setStaticPart(self, value: Optional[StaticPart]) -> MultiplexedIPdu:
+        """
+        The static part of the multiplexed IPdu is the same regardless of the selector field. The static part is optional. atpVariation: Content of a multiplexed PDU can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticPart, staticPart.variationPoint.short Label vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not overwrite an existing staticPart.
+        """
         if value is not None:
             self.staticPart = value
         return self
 
-    def getTriggerMode(self):
+    def getTriggerMode(self) -> Optional[TriggerMode]:
+        """
+        IPduM can be configured to send a transmission request for the new multiplexed IPdu to the PDU-Router because of the trigger conditions/ modes that are described in the TriggerMode enumeration. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        """
         return self.triggerMode
 
-    def setTriggerMode(self, value):
+    def setTriggerMode(self, value: Optional[TriggerMode]) -> MultiplexedIPdu:
+        """
+        IPduM can be configured to send a transmission request for the new multiplexed IPdu to the PDU-Router because of the trigger conditions/ modes that are described in the TriggerMode enumeration. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        A None value is a no-op and does not overwrite an existing triggerMode.
+        """
         if value is not None:
             self.triggerMode = value
         return self
 
-    def getUnusedBitPattern(self):
+    def getUnusedBitPattern(self) -> Optional[Integer]:
+        """
+        AUTOSAR COM and AUTOSAR IPDUM are filling not used areas of an IPdu with this bit-pattern. This attribute is mandatory to avoid undefined behavior. This byte-pattern will be repeated throughout the IPdu. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        """
         return self.unusedBitPattern
 
-    def setUnusedBitPattern(self, value):
+    def setUnusedBitPattern(self, value: Optional[Integer]) -> MultiplexedIPdu:
+        """
+        AUTOSAR COM and AUTOSAR IPDUM are filling not used areas of an IPdu with this bit-pattern. This attribute is mandatory to avoid undefined behavior. This byte-pattern will be repeated throughout the IPdu. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        A None value is a no-op and does not overwrite an existing unusedBitPattern.
+        """
         if value is not None:
             self.unusedBitPattern = value
         return self
@@ -2508,59 +2823,69 @@ class SecureCommunicationPropsSet(FibexElement):
 
 class UserDefinedPdu(Pdu):
     """
-    Allows to describe PDU-based communication over Complex Communication Drivers.
-
-    If a new BSW module is added above the BusIf (e.g. a new Nm module) then this
-    Pdu element shall be used to describe the communication.
-
-    Requirements:
-        atp.recommendedPackage=Pdus
-
-    Attributes:
-
-    * cddType (String): Optional attribute that defines the CDD (Complex
-      Device Driver) that transmits or receives the UserDefinedPdu. If
-      several CDDs are defined this attribute is used to distinguish
-      between them.
+    UserDefinedPdu allows to describe PDU-based communication over Complex Drivers. If a new BSW module is added above the BusIf (e.g. a new Nm module) then this Pdu element shall be used to describe the communication. Tags: atp.recommendedPackage=Pdus
     """
 
     # UserDefinedPdu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCddType                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setCddType                   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.27, p.345 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCddType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCddType   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        self.cddType: String = None
 
-    def getCddType(self):
+        # This attribute defines the CDD that transmits or receives the UserDefinedIPdu. If several CDDs are defined this attribute is used to distinguish between them.
+        self.cddType: Optional[String] = None
+
+    def getCddType(self) -> Optional[String]:
+        """
+        This attribute defines the CDD that transmits or receives the UserDefinedIPdu. If several CDDs are defined this attribute is used to distinguish between them.
+        """
         return self.cddType
 
-    def setCddType(self, value):
-        self.cddType = value
+    def setCddType(self, value: Optional[String]) -> UserDefinedPdu:
+        """
+        This attribute defines the CDD that transmits or receives the UserDefinedIPdu. If several CDDs are defined this attribute is used to distinguish between them.
+        A None value is a no-op and does not overwrite an existing cddType.
+        """
+        if value is not None:
+            self.cddType = value
         return self
 
 
 class UserDefinedIPdu(IPdu):
     """
-    Represents a user-defined Interaction Protocol Data Unit (IPDU) that allows for custom
-    interaction-based communication patterns defined by the user rather than following standard IPDU types.
+    UserDefinedIPdu allows to describe PDU-based communication over Complex Drivers. If a new BSW module is added above the PduR (e.g. a Diagnostic Service ) then this IPdu element shall be used to describe the communication. Tags: atp.recommendedPackage=Pdus
     """
 
     # UserDefinedIPdu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCddType                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setCddType                   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.28, p.346 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCddType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCddType   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        self.cddType: ARLiteral = None
 
-    def getCddType(self):
+        # This attribute defines the CDD that transmits or receives the UserDefinedPdu. If several CDDs are defined this attribute is used to distinguish between them.
+        self.cddType: Optional[String] = None
+
+    def getCddType(self) -> Optional[String]:
+        """
+        This attribute defines the CDD that transmits or receives the UserDefinedPdu. If several CDDs are defined this attribute is used to distinguish between them.
+        """
         return self.cddType
 
-    def setCddType(self, value):
-        self.cddType = value
+    def setCddType(self, value: Optional[String]) -> UserDefinedIPdu:
+        """
+        This attribute defines the CDD that transmits or receives the UserDefinedPdu. If several CDDs are defined this attribute is used to distinguish between them.
+        A None value is a no-op and does not overwrite an existing cddType.
+        """
+        if value is not None:
+            self.cddType = value
         return self
 
 
@@ -2722,18 +3047,23 @@ class SecureCommunicationFreshnessProps(Identifiable):
 
 class CommunicationDirectionType(AREnum):
     """
-    Enumeration defining communication direction types,
-    specifying whether communication is inbound or outbound.
+    Describes the communication direction.
     """
 
     # CommunicationDirectionType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.33, p.351 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on CommConnectorPort.communicationDirection, IEEE1722TpConnection.communicationDirection, IPSecRule.direction, ISignalIPduGroup.communicationDirection
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    ENUM_IN = "in"
-    ENUM_OUT = "out"
+    # Reception (Input) Tags: atp.EnumerationLiteralIndex=0
+    IN = "in"
+
+    # Transmission (Output) Tags: atp.EnumerationLiteralIndex=1
+    OUT = "out"
 
     def __init__(self):
-        super().__init__([CommunicationDirectionType.ENUM_IN, CommunicationDirectionType.ENUM_OUT])
+        super().__init__([CommunicationDirectionType.IN, CommunicationDirectionType.OUT])
 
 
 class FramePort(CommConnectorPort):
@@ -2874,69 +3204,113 @@ class IPduPort(CommConnectorPort):
 
 class ISignalPort(CommConnectorPort):
     """
-    Represents an interaction signal port for communication connectors,
-    handling interaction signal communication with filtering,
-    timeout, and validity handling properties.
+    Connectors reception or send port on the referenced channel referenced by an ISignalTriggering. If different timeouts or DataFilters for ISignals need to be specified several ISignalPorts may be created.
     """
 
     # ISignalPort method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataFilter                [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataFilter                [x] impl  [ ] docstring  [ ] test
-    # [ ] getDdsQosProfileRef          [x] impl  [ ] docstring  [ ] test
-    # [ ] setDdsQosProfileRef          [x] impl  [ ] docstring  [ ] test
-    # [ ] getFirstTimeout              [x] impl  [ ] docstring  [ ] test
-    # [ ] setFirstTimeout              [x] impl  [ ] docstring  [ ] test
-    # [ ] getHandleInvalid             [x] impl  [ ] docstring  [ ] test
-    # [ ] setHandleInvalid             [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeout                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeout                   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.5, p.306 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataFilter       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataFilter       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsQosProfileRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsQosProfileRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFirstTimeout     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFirstTimeout     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHandleInvalid    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHandleInvalid    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeout          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeout          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dataFilter: DataFilter = None
-        self.ddsQosProfileRef: RefType = None
-        self.firstTimeout: TimeValue = None
-        self.handleInvalid = None
-        self.timeout: TimeValue = None
+        # Optional specification of a signal COM filter at the receiver side in case that the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy system signals. If a full DataMapping exist for the SystemSignal this information may be available from a configured ReceiverComSpec. In this case the ReceiverComSpec overrides this optional specification.
+        self.dataFilter: Optional[DataFilter] = None
 
-    def getDataFilter(self):
+        # Reference to the DDS Qos profile used for this ISignal. Tags: atp.Status=candidate
+        self.ddsQosProfileRef: Optional[RefType] = None
+
+        # • ISignalPort with communicationDirection = in: Optional first timeout value in seconds for the reception of the ISignal. • ISignalPort with communicationDirection = out: Optional first timeout value in seconds for transmission deadline monitoring.
+        self.firstTimeout: Optional[TimeValue] = None
+
+        # This attribute defines how invalidation is applied to the ISignals received in the context of this ISignalPort.
+        self.handleInvalid: Optional[HandleInvalidEnum] = None
+
+        # • ISignalPort with communicationDirection = in: Optional timeout value in seconds for the reception of the ISignal. The attribute value is used to configure the Com Timeout in the COM module. The RTE ignores this attribute. The timeout can also be specified with the NonqueuedReceiverComSpec.aliveTimeout attribute. If a full DataMapping exists for the SystemSignal and the value is available in the configured ReceiverComSpec, then the timeout value in the ReceiverComSpec overrides this optional timeout specification during the creation of the Base Ecu Configuration of the COM module. • ISignalPort with communicationDirection = out: Optional timeout value in seconds for the transmission of the ISignal. The attribute value is used to configure the ComTimeout in the COM module. The RTE ignores this attribute. The timeout can also be specified with the ender ComSpec.transmissionAcknowledge.timeout attribute. If a full DataMapping exists for the SystemSignal and the value is available in the configured SenderComSpec, then the timeout value in the SenderComSpec overrides this optional timeout specification during the creation of the Base Ecu Configuration of the COM module. This attribute can be used in the following cases: • legacy signal where the System Description doesn't use a complete Software Component Description (VFB View) and where the DataMapping is missing. • bus monitoring use cases in which the DataMapping is ignored.
+        self.timeout: Optional[TimeValue] = None
+
+    def getDataFilter(self) -> Optional[DataFilter]:
+        """
+        Optional specification of a signal COM filter at the receiver side in case that the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy system signals. If a full DataMapping exist for the SystemSignal this information may be available from a configured ReceiverComSpec. In this case the ReceiverComSpec overrides this optional specification.
+        """
         return self.dataFilter
 
-    def setDataFilter(self, value):
+    def setDataFilter(self, value: Optional[DataFilter]) -> ISignalPort:
+        """
+        Optional specification of a signal COM filter at the receiver side in case that the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy system signals. If a full DataMapping exist for the SystemSignal this information may be available from a configured ReceiverComSpec. In this case the ReceiverComSpec overrides this optional specification.
+        A None value is a no-op and does not overwrite an existing dataFilter.
+        """
         if value is not None:
             self.dataFilter = value
         return self
 
-    def getDdsQosProfileRef(self):
+    def getDdsQosProfileRef(self) -> Optional[RefType]:
+        """
+        Reference to the DDS Qos profile used for this ISignal. Tags: atp.Status=candidate
+        """
         return self.ddsQosProfileRef
 
-    def setDdsQosProfileRef(self, value):
+    def setDdsQosProfileRef(self, value: Optional[RefType]) -> ISignalPort:
+        """
+        Reference to the DDS Qos profile used for this ISignal. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing ddsQosProfileRef.
+        """
         if value is not None:
             self.ddsQosProfileRef = value
         return self
 
-    def getFirstTimeout(self):
+    def getFirstTimeout(self) -> Optional[TimeValue]:
+        """
+        • ISignalPort with communicationDirection = in: Optional first timeout value in seconds for the reception of the ISignal. • ISignalPort with communicationDirection = out: Optional first timeout value in seconds for transmission deadline monitoring.
+        """
         return self.firstTimeout
 
-    def setFirstTimeout(self, value):
+    def setFirstTimeout(self, value: Optional[TimeValue]) -> ISignalPort:
+        """
+        • ISignalPort with communicationDirection = in: Optional first timeout value in seconds for the reception of the ISignal. • ISignalPort with communicationDirection = out: Optional first timeout value in seconds for transmission deadline monitoring.
+        A None value is a no-op and does not overwrite an existing firstTimeout.
+        """
         if value is not None:
             self.firstTimeout = value
         return self
 
-    def getHandleInvalid(self):
+    def getHandleInvalid(self) -> Optional[HandleInvalidEnum]:
+        """
+        This attribute defines how invalidation is applied to the ISignals received in the context of this ISignalPort.
+        """
         return self.handleInvalid
 
-    def setHandleInvalid(self, value):
+    def setHandleInvalid(self, value: Optional[HandleInvalidEnum]) -> ISignalPort:
+        """
+        This attribute defines how invalidation is applied to the ISignals received in the context of this ISignalPort.
+        A None value is a no-op and does not overwrite an existing handleInvalid.
+        """
         if value is not None:
             self.handleInvalid = value
         return self
 
-    def getTimeout(self):
+    def getTimeout(self) -> Optional[TimeValue]:
+        """
+        • ISignalPort with communicationDirection = in: Optional timeout value in seconds for the reception of the ISignal. The attribute value is used to configure the Com Timeout in the COM module. The RTE ignores this attribute. The timeout can also be specified with the NonqueuedReceiverComSpec.aliveTimeout attribute. If a full DataMapping exists for the SystemSignal and the value is available in the configured ReceiverComSpec, then the timeout value in the ReceiverComSpec overrides this optional timeout specification during the creation of the Base Ecu Configuration of the COM module. • ISignalPort with communicationDirection = out: Optional timeout value in seconds for the transmission of the ISignal. The attribute value is used to configure the ComTimeout in the COM module. The RTE ignores this attribute. The timeout can also be specified with the ender ComSpec.transmissionAcknowledge.timeout attribute. If a full DataMapping exists for the SystemSignal and the value is available in the configured SenderComSpec, then the timeout value in the SenderComSpec overrides this optional timeout specification during the creation of the Base Ecu Configuration of the COM module. This attribute can be used in the following cases: • legacy signal where the System Description doesn't use a complete Software Component Description (VFB View) and where the DataMapping is missing. • bus monitoring use cases in which the DataMapping is ignored.
+        """
         return self.timeout
 
-    def setTimeout(self, value):
+    def setTimeout(self, value: Optional[TimeValue]) -> ISignalPort:
+        """
+        • ISignalPort with communicationDirection = in: Optional timeout value in seconds for the reception of the ISignal. The attribute value is used to configure the Com Timeout in the COM module. The RTE ignores this attribute. The timeout can also be specified with the NonqueuedReceiverComSpec.aliveTimeout attribute. If a full DataMapping exists for the SystemSignal and the value is available in the configured ReceiverComSpec, then the timeout value in the ReceiverComSpec overrides this optional timeout specification during the creation of the Base Ecu Configuration of the COM module. • ISignalPort with communicationDirection = out: Optional timeout value in seconds for the transmission of the ISignal. The attribute value is used to configure the ComTimeout in the COM module. The RTE ignores this attribute. The timeout can also be specified with the ender ComSpec.transmissionAcknowledge.timeout attribute. If a full DataMapping exists for the SystemSignal and the value is available in the configured SenderComSpec, then the timeout value in the SenderComSpec overrides this optional timeout specification during the creation of the Base Ecu Configuration of the COM module. This attribute can be used in the following cases: • legacy signal where the System Description doesn't use a complete Software Component Description (VFB View) and where the DataMapping is missing. • bus monitoring use cases in which the DataMapping is ignored.
+        A None value is a no-op and does not overwrite an existing timeout.
+        """
         if value is not None:
             self.timeout = value
         return self

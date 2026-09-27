@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     FramePort,
     IPduPort,
     IPduSignalProcessingEnum,
+    ISignalPort,
 )
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -55,7 +56,7 @@ def _namespaced(element: ET.Element) -> ET.Element:
 def _full_port() -> FramePort:
     port = FramePort(_parent(), "fp")
     direction = CommunicationDirectionType()
-    direction.setValue(CommunicationDirectionType.ENUM_IN)
+    direction.setValue(CommunicationDirectionType.IN)
     port.setCommunicationDirection(direction)
     return port
 
@@ -111,7 +112,7 @@ class TestCommConnectorPort:
         connector = CanCommunicationConnector(_parent(), "conn")
         connector.createFramePort("fp")
         direction = CommunicationDirectionType()
-        direction.setValue(CommunicationDirectionType.ENUM_OUT)
+        direction.setValue(CommunicationDirectionType.OUT)
         connector.getEcuCommPortInstances()[0].setCommunicationDirection(direction)
 
         parent = ET.Element("PARENT")
@@ -136,7 +137,7 @@ class TestCommConnectorPort:
     def test_ipdu_port_round_trip(self, writer, parser):
         port = IPduPort(MockParent(), "ip")
         direction = CommunicationDirectionType()
-        direction.setValue(CommunicationDirectionType.ENUM_OUT)
+        direction.setValue(CommunicationDirectionType.OUT)
         port.setCommunicationDirection(direction)
         processing = IPduSignalProcessingEnum()
         processing.setValue(IPduSignalProcessingEnum.ENUM_DEFERRED)
@@ -194,3 +195,83 @@ class TestCommConnectorPort:
 
         xml_text = ET.tostring(parent, encoding="unicode")
         assert "KEY-ID" not in xml_text
+
+
+# ==================== ISignalPort (Table 6.5, p.306) ====================
+
+
+def _full_isignal_port() -> ISignalPort:
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter, DataFilterTypeEnum
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import HandleInvalidEnum
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignalPort
+
+    port = ISignalPort(_parent(), "isp")
+    data_filter = DataFilter()
+    data_filter.setDataFilterType(DataFilterTypeEnum().setValue(DataFilterTypeEnum.ALWAYS))
+    port.setDataFilter(data_filter)
+    ref = RefType()
+    ref.dest = "DDS-CP-QOS-PROFILE"
+    ref.value = "/profiles/p1"
+    port.setDdsQosProfileRef(ref)
+    first_timeout = TimeValue()
+    first_timeout.value = 5.0
+    port.setFirstTimeout(first_timeout)
+    port.setHandleInvalid(HandleInvalidEnum().setValue(HandleInvalidEnum.KEEP))
+    timeout = TimeValue()
+    timeout.value = 1.0
+    port.setTimeout(timeout)
+    return port
+
+
+class TestISignalPort:
+    def test_write_isignal_port_full(self, writer):
+        parent = ET.Element("PARENT")
+        writer.writeISignalPort(parent, _full_isignal_port())
+
+        tag = parent.find("I-SIGNAL-PORT")
+        assert tag is not None
+        assert tag.find("SHORT-NAME") is not None
+
+        data_filter = tag.find("DATA-FILTER")
+        assert data_filter is not None
+        assert data_filter.find("DATA-FILTER-TYPE").text == "ALWAYS"
+
+        ref = tag.find("DDS-QOS-PROFILE-REF")
+        assert ref is not None
+        assert ref.get("DEST") == "DDS-CP-QOS-PROFILE"
+        assert ref.text == "/profiles/p1"
+
+        assert tag.find("FIRST-TIMEOUT").text == "5.0"
+        assert tag.find("HANDLE-INVALID").text == "keep"
+        assert tag.find("TIMEOUT").text == "1.0"
+
+        children = [child.tag for child in tag if child.tag in ("DATA-FILTER", "DDS-QOS-PROFILE-REF", "FIRST-TIMEOUT", "HANDLE-INVALID", "TIMEOUT")]
+        assert children == ["DATA-FILTER", "DDS-QOS-PROFILE-REF", "FIRST-TIMEOUT", "HANDLE-INVALID", "TIMEOUT"]
+
+    def test_write_isignal_port_empty(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignalPort
+
+        parent = ET.Element("PARENT")
+        writer.writeISignalPort(parent, ISignalPort(_parent(), "isp"))
+
+        tag = parent.find("I-SIGNAL-PORT")
+        assert tag is not None
+        assert tag.find("DATA-FILTER") is None
+        assert tag.find("DDS-QOS-PROFILE-REF") is None
+        assert tag.find("FIRST-TIMEOUT") is None
+        assert tag.find("HANDLE-INVALID") is None
+        assert tag.find("TIMEOUT") is None
+
+    def test_isignal_port_round_trip(self, writer):
+        parser = ARXMLParser()
+        parent = ET.Element("PARENT")
+        writer.writeISignalPort(parent, _full_isignal_port())
+
+        port = _full_isignal_port().__class__(_parent(), "isp2")
+        parser.readISignalPort(_namespaced(parent.find("I-SIGNAL-PORT")), port)
+        assert port.getDataFilter().getDataFilterType().getValue() == "ALWAYS"
+        assert port.getDdsQosProfileRef().getValue() == "/profiles/p1"
+        assert port.getFirstTimeout().getValue() == 5.0
+        assert port.getHandleInvalid().getValue() == "keep"
+        assert port.getTimeout().getValue() == 1.0

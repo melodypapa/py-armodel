@@ -10,16 +10,16 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class IPv6ExtHeaderFilterList(Identifiable):
     """
-    White list for the filtering of IPv6 extension headers.
+    Permitted list for the filtering of IPv6 extension headers.
     """
 
     # IPv6ExtHeaderFilterList method parity checklist:
-    # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.129, p.325
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.121, p.456 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
-    # [x] getAllowedIPv6ExtHeaders  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
-    # [x] addAllowedIPv6ExtHeader   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
-    # (reader/writer N/A: consumed as ref target on SocketConnection.allowedIPv6ExtHeaders)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAllowedIPv6ExtHeaders  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAllowedIPv6ExtHeader   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (reader/writer N/A: consumed as ref target via ALLOWED-I-PV-6-EXT-HEADERS-REF; prior R4.3.1 sync Table 6.129 p.325 upgraded per Rule 0016.3)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

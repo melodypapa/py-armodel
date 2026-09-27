@@ -126,7 +126,6 @@ class Test_Fibex4EthernetCommunication:
         assert identifier.getPduCollectionPduTimeout() is None
         assert identifier.getPduCollectionSemantics() is None
         assert identifier.getPduCollectionTrigger() is None
-        assert identifier.getPduRef() is None
         assert identifier.getPduTriggeringRef() is None
         assert identifier.getRoutingGroupRefs() == []
 
@@ -146,10 +145,6 @@ class Test_Fibex4EthernetCommunication:
         identifier.setPduCollectionTrigger("trigger")
         assert identifier.getPduCollectionTrigger() == "trigger"
         assert identifier == identifier.setPduCollectionTrigger("trigger")  # Test method chaining
-
-        identifier.setPduRef("pdu_ref")
-        assert identifier.getPduRef() == "pdu_ref"
-        assert identifier == identifier.setPduRef("pdu_ref")  # Test method chaining
 
         identifier.setPduTriggeringRef("trigger_ref")
         assert identifier.getPduTriggeringRef() == "trigger_ref"
@@ -197,9 +192,9 @@ class Test_Fibex4EthernetCommunication:
         assert bundle.getUdpChecksumHandling() == "udp_handling"
         assert bundle == bundle.setUdpChecksumHandling("udp_handling")  # Test method chaining
 
-        bundle.setPdus(["pdu1", "pdu2"])
+        bundle.addPdu("pdu1")
+        bundle.addPdu("pdu2")
         assert bundle.getPdus() == ["pdu1", "pdu2"]
-        assert bundle == bundle.setPdus(["pdu1", "pdu2"])  # Test method chaining
 
         # Test adding bundled connections
         mock_conn = SocketConnection()

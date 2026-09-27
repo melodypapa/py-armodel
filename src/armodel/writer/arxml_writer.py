@@ -8859,10 +8859,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "SECURED-I-PDU")
         self.writeIPdu(child_element, i_pdu)
         self.setChildElementOptionalRefType(child_element, "AUTHENTICATION-PROPS-REF", i_pdu.getAuthenticationPropsRef())
+        self.setChildElementOptionalBooleanValue(child_element, "DYNAMIC-RUNTIME-LENGTH-HANDLING", i_pdu.getDynamicRuntimeLengthHandling())
         self.setChildElementOptionalRefType(child_element, "FRESHNESS-PROPS-REF", i_pdu.getFreshnessPropsRef())
         self.setChildElementOptionalRefType(child_element, "PAYLOAD-REF", i_pdu.getPayloadRef())
         self.setSecureCommunicationProps(child_element, "SECURE-COMMUNICATION-PROPS", i_pdu.getSecureCommunicationProps())
         self.setChildElementOptionalBooleanValue(child_element, "USE-AS-CRYPTOGRAPHIC-I-PDU", i_pdu.getUseAsCryptographicIPdu())
+        self.setChildElementOptionalLiteral(child_element, "USE-SECURED-PDU-HEADER", i_pdu.getUseSecuredPduHeader())
 
     def writeTpConfig(self, element: ET.Element, config: TpConfig):
         self.writeIdentifiable(element, config)
@@ -9551,7 +9553,6 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalTimeValue(child_element, "PDU-COLLECTION-PDU-TIMEOUT", identifier.getPduCollectionPduTimeout())
             self.setChildElementOptionalLiteral(child_element, "PDU-COLLECTION-SEMANTICS", identifier.getPduCollectionSemantics())
             self.setChildElementOptionalLiteral(child_element, "PDU-COLLECTION-TRIGGER", identifier.getPduCollectionTrigger())
-            self.setChildElementOptionalRefType(child_element, "PDU-REF", identifier.getPduRef())
             self.setChildElementOptionalRefType(child_element, "PDU-TRIGGERING-REF", identifier.getPduTriggeringRef())
             routing_group_refs = identifier.getRoutingGroupRefs()
             if len(routing_group_refs) > 0:
@@ -9654,6 +9655,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(child_element, "KEEP-ALIVE-TIME", tp.getKeepAliveTime())
         self.setChildElementOptionalBooleanValue(child_element, "KEEP-ALIVES", tp.getKeepAlives())
         self.setChildElementOptionalLiteral(child_element, "NAGLES-ALGORITHM", tp.getNaglesAlgorithm())
+        self.setChildElementOptionalPositiveInteger(child_element, "RECEIVE-WINDOW-MIN", tp.getReceiveWindowMin())
+        self.setChildElementOptionalTimeValue(child_element, "TCP-RETRANSMISSION-TIMEOUT", tp.getTcpRetransmissionTimeout())
         self.setTpPort(child_element, "TCP-TP-PORT", tp.getTcpTpPort())
 
     def writeGenericTp(self, element: ET.Element, tp: GenericTp):
@@ -10904,6 +10907,10 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeISignalPort(self, element: ET.Element, port: ISignalPort):
         child_element = ET.SubElement(element, "I-SIGNAL-PORT")
         self.writeCommConnectorPort(child_element, port)
+        self.setDataFilter(child_element, "DATA-FILTER", port.getDataFilter())
+        self.setChildElementOptionalRefType(child_element, "DDS-QOS-PROFILE-REF", port.getDdsQosProfileRef())
+        self.setChildElementOptionalTimeValue(child_element, "FIRST-TIMEOUT", port.getFirstTimeout())
+        self.setChildElementOptionalLiteral(child_element, "HANDLE-INVALID", port.getHandleInvalid())
         self.setChildElementOptionalTimeValue(child_element, "TIMEOUT", port.getTimeout())
 
     def writeCommunicationConnectorEcuCommPortInstances(self, element: ET.Element, connector: CommunicationConnector):
@@ -13038,6 +13045,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             for pdu_ref in pdu_refs:
                 ref_conditional_tag = ET.SubElement(pdu_refs_tag, "I-SIGNAL-I-PDU-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(ref_conditional_tag, "I-SIGNAL-I-PDU-REF", pdu_ref)
+        nm_pdu_refs = group.getNmPduRefs()
+        if len(nm_pdu_refs) > 0:
+            nm_pdu_refs_tag = ET.SubElement(child_element, "NM-PDUS")
+            for nm_pdu_ref in nm_pdu_refs:
+                ref_conditional_tag = ET.SubElement(nm_pdu_refs_tag, "NM-PDU-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(ref_conditional_tag, "NM-PDU-REF", nm_pdu_ref)
 
     def writePdurIPduGroup(self, element: ET.Element, group: PdurIPduGroup):
         self.logger.debug("Set PdurIPduGroup %s" % group.getShortName())

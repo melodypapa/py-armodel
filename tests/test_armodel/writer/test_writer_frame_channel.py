@@ -1203,7 +1203,6 @@ class TestWriteSocketConnection:
         ident.setHeaderId(_pos_int("100"))
         ident.setPduCollectionSemantics(_literal("LAST"))
         ident.setPduCollectionTrigger(_literal("TRIGGER"))
-        ident.setPduRef(_ref("PDU", "/pdu"))
         ident.setPduTriggeringRef(_ref("PDU-TRIGGERING", "/pt"))
         parent = _parent()
         writer.setSocketConnectionIpduIdentifier(parent, ident)
@@ -1212,7 +1211,6 @@ class TestWriteSocketConnection:
         assert tag.find("HEADER-ID").text == "100"
         assert tag.find("PDU-COLLECTION-SEMANTICS").text == "LAST"
         assert tag.find("PDU-COLLECTION-TRIGGER").text == "TRIGGER"
-        assert tag.find("PDU-REF") is not None
         assert tag.find("PDU-TRIGGERING-REF") is not None
 
     def test_set_socket_connection_pdus_empty(self, writer):

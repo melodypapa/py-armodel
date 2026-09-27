@@ -39,13 +39,13 @@ class Test_FibexCoreTiming:
         assert condition.getISignalInIPduRef() == "signal_ref"
         assert result == condition  # Test method chaining
 
-        # Test setting None values
+        # Test setting None values (None is a no-op per the spec sync)
         result = condition.setDataFilter(None)
-        assert condition.getDataFilter() is None
+        assert condition.getDataFilter() == filter_obj
         assert result == condition  # Test method chaining
 
         result = condition.setISignalInIPduRef(None)
-        assert condition.getISignalInIPduRef() is None
+        assert condition.getISignalInIPduRef() == "signal_ref"
         assert result == condition  # Test method chaining
 
     def test_TimeRangeType(self):
@@ -69,11 +69,11 @@ class Test_FibexCoreTiming:
 
         # Test setting None values
         result = time_range.setTolerance(None)
-        assert time_range.getTolerance() is None
+        assert time_range.getTolerance() == "tolerance_val"
         assert result == time_range  # Test method chaining
 
         result = time_range.setValue(None)
-        assert time_range.getValue() is None
+        assert time_range.getValue() == "time_val"
         assert result == time_range  # Test method chaining
 
     def test_CyclicTiming(self):
@@ -98,11 +98,11 @@ class Test_FibexCoreTiming:
 
         # Test setting None values
         result = timing.setTimeOffset(None)
-        assert timing.getTimeOffset() is None
+        assert timing.getTimeOffset() == time_range
         assert result == timing  # Test method chaining
 
         result = timing.setTimePeriod(None)
-        assert timing.getTimePeriod() is None
+        assert timing.getTimePeriod() == time_range
         assert result == timing  # Test method chaining
 
     def test_EventControlledTiming(self):
@@ -127,11 +127,11 @@ class Test_FibexCoreTiming:
 
         # Test setting None values
         result = timing.setNumberOfRepetitions(None)
-        assert timing.getNumberOfRepetitions() is None
+        assert timing.getNumberOfRepetitions() == 5
         assert result == timing  # Test method chaining
 
         result = timing.setRepetitionPeriod(None)
-        assert timing.getRepetitionPeriod() is None
+        assert timing.getRepetitionPeriod() == time_range
         assert result == timing  # Test method chaining
 
     def test_TransmissionModeTiming(self):
@@ -157,11 +157,11 @@ class Test_FibexCoreTiming:
 
         # Test setting None values
         result = timing.setCyclicTiming(None)
-        assert timing.getCyclicTiming() is None
+        assert timing.getCyclicTiming() == cyclic_timing
         assert result == timing  # Test method chaining
 
         result = timing.setEventControlledTiming(None)
-        assert timing.getEventControlledTiming() is None
+        assert timing.getEventControlledTiming() == event_timing
         assert result == timing  # Test method chaining
 
     def test_TransmissionModeDeclaration(self):
@@ -189,11 +189,11 @@ class Test_FibexCoreTiming:
 
         # Test setting None values
         result = declaration.setTransmissionModeFalseTiming(None)
-        assert declaration.getTransmissionModeFalseTiming() is None
+        assert declaration.getTransmissionModeFalseTiming() == timing
         assert result == declaration  # Test method chaining
 
         result = declaration.setTransmissionModeTrueTiming(None)
-        assert declaration.getTransmissionModeTrueTiming() is None
+        assert declaration.getTransmissionModeTrueTiming() == timing
         assert result == declaration  # Test method chaining
 
         # Test add methods with method chaining
@@ -212,20 +212,20 @@ class Test_FibexCoreTiming:
         assert transmission_condition in declaration.getTransmissionModeConditions()
         assert result == declaration  # Test method chaining
 
-        # Test adding None values to add methods (these do add None to the list)
+        # Test adding None values to add methods (None is a no-op per the spec sync)
         original_false_count = len(declaration.getModeDrivenFalseConditions())
         result = declaration.addModeDrivenFalseCondition(None)
-        assert len(declaration.getModeDrivenFalseConditions()) == original_false_count + 1  # Count should increase by 1
+        assert len(declaration.getModeDrivenFalseConditions()) == original_false_count  # None is not appended
         assert result == declaration  # Test method chaining
 
         original_true_count = len(declaration.getModeDrivenTrueConditions())
         result = declaration.addModeDrivenTrueCondition(None)
-        assert len(declaration.getModeDrivenTrueConditions()) == original_true_count + 1  # Count should increase by 1
+        assert len(declaration.getModeDrivenTrueConditions()) == original_true_count  # None is not appended
         assert result == declaration  # Test method chaining
 
         original_transmission_count = len(declaration.getTransmissionModeConditions())
         result = declaration.addTransmissionModeCondition(None)
-        assert len(declaration.getTransmissionModeConditions()) == original_transmission_count + 1  # Count should increase by 1
+        assert len(declaration.getTransmissionModeConditions()) == original_transmission_count  # None is not appended
         assert result == declaration  # Test method chaining
 
 

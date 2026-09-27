@@ -36,25 +36,33 @@ if TYPE_CHECKING:
 
 class MacMulticastGroup(Identifiable):
     """
-    Represents a MAC multicast group used in Ethernet communication,
-    defining multicast addresses that can be used for group-based
-    communication in the network topology.
+    Per EthernetCluster globally defined MacMulticastGroup. One sender can handle many receivers simultaneously if the receivers have all the same macMulticastAddress. The addresses need to be unique for the particular EthernetCluster.
     """
 
     # MacMulticastGroup method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getMacMulticastAddress       [x] impl  [ ] docstring  [ ] test
-    # [ ] setMacMulticastAddress       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.48, p.104 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.macMulticastAddress = None  # type: MacAddressString
+        # [x] getMacMulticastAddress         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setMacMulticastAddress         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # A multicast MAC address (Media Access Control address) is a identifier for a group of hosts in a network.
+        self.macMulticastAddress: Optional[MacAddressString] = None
 
-    def getMacMulticastAddress(self):
+    def getMacMulticastAddress(self) -> Optional[MacAddressString]:
+        """
+        A multicast MAC address (Media Access Control address) is a identifier for a group of hosts in a network.
+        """
         return self.macMulticastAddress
 
-    def setMacMulticastAddress(self, value):
+    def setMacMulticastAddress(self, value: Optional[MacAddressString]) -> MacMulticastGroup:
+        """
+        A multicast MAC address (Media Access Control address) is a identifier for a group of hosts in a network.
+        A None value is a no-op and does not overwrite an existing macMulticastAddress.
+        """
         if value is not None:
             self.macMulticastAddress = value
         return self
@@ -320,36 +328,53 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
 
 class EthernetPriorityRegeneration(Referrable):
     """
-    Defines priority regeneration rules for Ethernet traffic,
-    specifying how ingress priorities are mapped to regenerated
-    priorities for traffic management in the network.
+    Defines a priority regeneration where the ingressPriority is replaced by regeneratedPriority. The ethernetPriorityRegeneration is optional in case no priority regeneration shall be performed. In case a ethernetPriorityRegeneration is defined it shall have 8 mappings, one for each priority.
     """
 
     # EthernetPriorityRegeneration method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIngressPriority           [x] impl  [ ] docstring  [ ] test
-    # [ ] setIngressPriority           [x] impl  [ ] docstring  [ ] test
-    # [ ] getRegeneratedPriority       [x] impl  [ ] docstring  [ ] test
-    # [ ] setRegeneratedPriority       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.74, p.128 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.ingressPriority = None  # type: PositiveInteger
-        self.regeneratedPriority = None  # type: PositiveInteger
+        # [x] getIngressPriority             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setIngressPriority             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Message priority of the incoming message. range: 0-7
+        self.ingressPriority: Optional[PositiveInteger] = None
 
-    def getIngressPriority(self):
+        # [x] getRegeneratedPriority         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setRegeneratedPriority         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Regenerated message priority. range: 0-7
+        self.regeneratedPriority: Optional[PositiveInteger] = None
+
+    def getIngressPriority(self) -> Optional[PositiveInteger]:
+        """
+        Message priority of the incoming message. range: 0-7
+        """
         return self.ingressPriority
 
-    def setIngressPriority(self, value):
+    def setIngressPriority(self, value: Optional[PositiveInteger]) -> EthernetPriorityRegeneration:
+        """
+        Message priority of the incoming message. range: 0-7
+        A None value is a no-op and does not overwrite an existing ingressPriority.
+        """
         if value is not None:
             self.ingressPriority = value
         return self
 
-    def getRegeneratedPriority(self):
+    def getRegeneratedPriority(self) -> Optional[PositiveInteger]:
+        """
+        Regenerated message priority. range: 0-7
+        """
         return self.regeneratedPriority
 
-    def setRegeneratedPriority(self, value):
+    def setRegeneratedPriority(self, value: Optional[PositiveInteger]) -> EthernetPriorityRegeneration:
+        """
+        Regenerated message priority. range: 0-7
+        A None value is a no-op and does not overwrite an existing regeneratedPriority.
+        """
         if value is not None:
             self.regeneratedPriority = value
         return self
@@ -1106,58 +1131,93 @@ class EthernetCommunicationConnector(CommunicationConnector):
 
 class InitialSdDelayConfig(ARObject):
     """
-    Configures the initial delay parameters for Service Discovery (SD)
-    communication, defining minimum and maximum delay values and
-    repetition timing for service announcements and requests.
+    This element is used to configure the offer behavior of the server and the find behavior on the client.
     """
 
     # InitialSdDelayConfig method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitialDelayMaxValue      [x] impl  [ ] docstring  [ ] test
-    # [ ] setInitialDelayMaxValue      [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitialDelayMinValue      [x] impl  [ ] docstring  [ ] test
-    # [ ] setInitialDelayMinValue      [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitialRepetitionsBaseDelay [x] impl  [ ] docstring  [ ] test
-    # [ ] setInitialRepetitionsBaseDelay [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitialRepetitionsMax     [x] impl  [ ] docstring  [ ] test
-    # [ ] setInitialRepetitionsMax     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.170, p.514 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInitialDelayMaxValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitialDelayMaxValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitialDelayMinValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitialDelayMinValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitialRepetitionsBaseDelay [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitialRepetitionsBaseDelay [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitialRepetitionsMax     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitialRepetitionsMax     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.initialDelayMaxValue = None  # type: TimeValue
-        self.initialDelayMinValue = None  # type: TimeValue
-        self.initialRepetitionsBaseDelay = None  # type: TimeValue
-        self.initialRepetitionsMax = None  # type: PositiveInteger
+        # Max Value in seconds to delay randomly the first offer (if aggregated by SdServerConfig) or the transmission of a find message (if aggregated by SdClientConfig).
+        self.initialDelayMaxValue: Optional[TimeValue] = None
 
-    def getInitialDelayMaxValue(self):
+        # Min Value in seconds to delay randomly the first offer or the transmission of a find message (if aggregated by Sd ClientConfig).
+        self.initialDelayMinValue: Optional[TimeValue] = None
+
+        # The base delay for offer repetitions (if aggregated by Sd ServerConfig) or find repetitions (if aggregated by Sd ClientConfig). Successive find messages have an exponential back off delay.
+        self.initialRepetitionsBaseDelay: Optional[TimeValue] = None
+
+        # Describes the maximum amount of offer repetitions (if aggregated by SdServerConfig) or the maximum amount of find repetitions (if aggregated by SdClientConfig).
+        self.initialRepetitionsMax: Optional[PositiveInteger] = None
+
+    def getInitialDelayMaxValue(self) -> Optional[TimeValue]:
+        """
+        Max Value in seconds to delay randomly the first offer (if aggregated by SdServerConfig) or the transmission of a find message (if aggregated by SdClientConfig).
+        """
         return self.initialDelayMaxValue
 
-    def setInitialDelayMaxValue(self, value):
+    def setInitialDelayMaxValue(self, value: Optional[TimeValue]) -> InitialSdDelayConfig:
+        """
+        Max Value in seconds to delay randomly the first offer (if aggregated by SdServerConfig) or the transmission of a find message (if aggregated by SdClientConfig).
+        A None value is a no-op and does not overwrite an existing initialDelayMaxValue.
+        """
         if value is not None:
             self.initialDelayMaxValue = value
         return self
 
-    def getInitialDelayMinValue(self):
+    def getInitialDelayMinValue(self) -> Optional[TimeValue]:
+        """
+        Min Value in seconds to delay randomly the first offer or the transmission of a find message (if aggregated by Sd ClientConfig).
+        """
         return self.initialDelayMinValue
 
-    def setInitialDelayMinValue(self, value):
+    def setInitialDelayMinValue(self, value: Optional[TimeValue]) -> InitialSdDelayConfig:
+        """
+        Min Value in seconds to delay randomly the first offer or the transmission of a find message (if aggregated by Sd ClientConfig).
+        A None value is a no-op and does not overwrite an existing initialDelayMinValue.
+        """
         if value is not None:
             self.initialDelayMinValue = value
         return self
 
-    def getInitialRepetitionsBaseDelay(self):
+    def getInitialRepetitionsBaseDelay(self) -> Optional[TimeValue]:
+        """
+        The base delay for offer repetitions (if aggregated by Sd ServerConfig) or find repetitions (if aggregated by Sd ClientConfig). Successive find messages have an exponential back off delay.
+        """
         return self.initialRepetitionsBaseDelay
 
-    def setInitialRepetitionsBaseDelay(self, value):
+    def setInitialRepetitionsBaseDelay(self, value: Optional[TimeValue]) -> InitialSdDelayConfig:
+        """
+        The base delay for offer repetitions (if aggregated by Sd ServerConfig) or find repetitions (if aggregated by Sd ClientConfig). Successive find messages have an exponential back off delay.
+        A None value is a no-op and does not overwrite an existing initialRepetitionsBaseDelay.
+        """
         if value is not None:
             self.initialRepetitionsBaseDelay = value
         return self
 
-    def getInitialRepetitionsMax(self):
+    def getInitialRepetitionsMax(self) -> Optional[PositiveInteger]:
+        """
+        Describes the maximum amount of offer repetitions (if aggregated by SdServerConfig) or the maximum amount of find repetitions (if aggregated by SdClientConfig).
+        """
         return self.initialRepetitionsMax
 
-    def setInitialRepetitionsMax(self, value):
+    def setInitialRepetitionsMax(self, value: Optional[PositiveInteger]) -> InitialSdDelayConfig:
+        """
+        Describes the maximum amount of offer repetitions (if aggregated by SdServerConfig) or the maximum amount of find repetitions (if aggregated by SdClientConfig).
+        A None value is a no-op and does not overwrite an existing initialRepetitionsMax.
+        """
         if value is not None:
             self.initialRepetitionsMax = value
         return self
@@ -1793,98 +1853,204 @@ class NetworkEndpointAddress(ARObject, ABC):
         super().__init__()
 
 
+class Ipv4AddressSourceEnum(AREnum):
+    """
+    Defines how the node obtains its IPv4-Address.
+    """
+
+    # Ipv4AddressSourceEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.137, p.465 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Ipv4Configuration.ipv4AddressSource
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # AutoIP is used to dynamically assign IP addresses at device startup. Tags: atp.EnumerationLiteralIndex=0
+    AUTO_IP = "autoIp"
+
+    # Linklocal IPv4 Address Assignment using DoIP Parameters Tags: atp.EnumerationLiteralIndex=2 xml.name=AUTO-IP-DOIP
+    AUTO_IP_DOIP = "autoIp_doip"
+
+    # DHCP is a service for the automatic IP configuration of a client. Tags: atp.EnumerationLiteralIndex=3
+    DHCPV4 = "dhcpv4"
+
+    # The IP Address shall be declared manually. Tags: atp.EnumerationLiteralIndex=4
+    FIXED = "fixed"
+
+    def __init__(self):
+        super().__init__([Ipv4AddressSourceEnum.AUTO_IP, Ipv4AddressSourceEnum.AUTO_IP_DOIP, Ipv4AddressSourceEnum.DHCPV4, Ipv4AddressSourceEnum.FIXED])
+
+
 class Ipv4Configuration(NetworkEndpointAddress):
     """
-    Defines IPv4 network configuration properties for a network endpoint,
-    including IP addresses, network masks, DNS server addresses, and
-    TTL settings for IPv4 communication.
+    Internet Protocol version 4 (IPv4) configuration.
     """
 
     # Ipv4Configuration method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAssignmentPriority        [x] impl  [ ] docstring  [ ] test
-    # [ ] setAssignmentPriority        [x] impl  [ ] docstring  [ ] test
-    # [ ] getDefaultGateway            [x] impl  [ ] docstring  [ ] test
-    # [ ] setDefaultGateway            [x] impl  [ ] docstring  [ ] test
-    # [ ] getDnsServerAddresses        [x] impl  [ ] docstring  [ ] test
-    # [ ] addDnsServerAddress          [x] impl  [ ] docstring  [ ] test
-    # [ ] getIpAddressKeepBehavior     [x] impl  [ ] docstring  [ ] test
-    # [ ] setIpAddressKeepBehavior     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIpv4Address               [x] impl  [ ] docstring  [ ] test
-    # [ ] setIpv4Address               [x] impl  [ ] docstring  [ ] test
-    # [ ] getIpv4AddressSource         [x] impl  [ ] docstring  [ ] test
-    # [ ] setIpv4AddressSource         [x] impl  [ ] docstring  [ ] test
-    # [ ] getNetworkMask               [x] impl  [ ] docstring  [ ] test
-    # [ ] setNetworkMask               [x] impl  [ ] docstring  [ ] test
-    # [ ] getTtl                       [x] impl  [ ] docstring  [ ] test
-    # [ ] setTtl                       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.136, p.465 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAssignmentPriority     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAssignmentPriority     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDefaultGateway         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultGateway         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDnsServerAddresses     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDnsServerAddress       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpAddressKeepBehavior  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpAddressKeepBehavior  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpv4Address            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv4Address            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpv4AddressSource      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv4AddressSource      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNetworkMask            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkMask            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTtl                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTtl                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.assignmentPriority: PositiveInteger = None
-        self.defaultGateway: Ip4AddressString = None
-        self.dnsServerAddresses: List[Ip4AddressString] = []
-        self.ipAddressKeepBehavior = None
-        self.ipv4Address: Ip4AddressString = None
-        self.ipv4AddressSource = None
-        self.networkMask: Ip4AddressString = None
-        self.ttl: PositiveInteger = None
+        # Priority of assignment (1 is highest). If a new address from an assignment method with a higher priority is available, it overwrites the IP address previously assigned by an assignment method with a lower priority.
+        self.assignmentPriority: Optional[PositiveInteger] = None
 
-    def getAssignmentPriority(self):
+        # IP address of the default gateway.
+        self.defaultGateway: Optional[Ip4AddressString] = None
+
+        # IP addresses of preconfigured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
+        self.dnsServerAddresses: List[Ip4AddressString] = []
+
+        # Defines the lifetime of a dynamically fetched IP address.
+        self.ipAddressKeepBehavior: Optional[IpAddressKeepEnum] = None
+
+        # IPv4 Address. Notation: 255.255.255.255. The IP Address shall be declared in case the ipv4AddressSource is FIXED and thus no auto-configuration mechanism is used.
+        self.ipv4Address: Optional[Ip4AddressString] = None
+
+        # Defines how the node obtains its IP address.
+        self.ipv4AddressSource: Optional[Ipv4AddressSourceEnum] = None
+
+        # Network mask. Notation 255.255.255.255
+        self.networkMask: Optional[Ip4AddressString] = None
+
+        # Lifespan of data (0..255). The purpose of the TimeToLive field is to avoid a situation in which an undeliverable datagram keeps circulating on a system.
+        self.ttl: Optional[PositiveInteger] = None
+
+    def getAssignmentPriority(self) -> Optional[PositiveInteger]:
+        """
+        Priority of assignment (1 is highest). If a new address from an assignment method with a higher priority is available, it overwrites the IP address previously assigned by an assignment method with a lower priority.
+        """
         return self.assignmentPriority
 
-    def setAssignmentPriority(self, value):
-        self.assignmentPriority = value
+    def setAssignmentPriority(self, value: Optional[PositiveInteger]) -> Ipv4Configuration:
+        """
+        Priority of assignment (1 is highest). If a new address from an assignment method with a higher priority is available, it overwrites the IP address previously assigned by an assignment method with a lower priority.
+        A None value is a no-op and does not overwrite an existing assignmentPriority.
+        """
+        if value is not None:
+            self.assignmentPriority = value
         return self
 
-    def getDefaultGateway(self):
+    def getDefaultGateway(self) -> Optional[Ip4AddressString]:
+        """
+        IP address of the default gateway.
+        """
         return self.defaultGateway
 
-    def setDefaultGateway(self, value):
-        self.defaultGateway = value
+    def setDefaultGateway(self, value: Optional[Ip4AddressString]) -> Ipv4Configuration:
+        """
+        IP address of the default gateway.
+        A None value is a no-op and does not overwrite an existing defaultGateway.
+        """
+        if value is not None:
+            self.defaultGateway = value
         return self
 
-    def getDnsServerAddresses(self):
+    def getDnsServerAddresses(self) -> List[Ip4AddressString]:
+        """
+        IP addresses of preconfigured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
+        """
         return self.dnsServerAddresses
 
-    def addDnsServerAddress(self, value):
-        self.dnsServerAddresses.append(value)
+    def addDnsServerAddress(self, value: Optional[Ip4AddressString]) -> Ipv4Configuration:
+        """
+        IP addresses of preconfigured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
+        A None value is a no-op and is not appended to dnsServerAddresses.
+        """
+        if value is not None:
+            self.dnsServerAddresses.append(value)
         return self
 
-    def getIpAddressKeepBehavior(self):
+    def getIpAddressKeepBehavior(self) -> Optional[IpAddressKeepEnum]:
+        """
+        Defines the lifetime of a dynamically fetched IP address.
+        """
         return self.ipAddressKeepBehavior
 
-    def setIpAddressKeepBehavior(self, value):
-        self.ipAddressKeepBehavior = value
+    def setIpAddressKeepBehavior(self, value: Optional[IpAddressKeepEnum]) -> Ipv4Configuration:
+        """
+        Defines the lifetime of a dynamically fetched IP address.
+        A None value is a no-op and does not overwrite an existing ipAddressKeepBehavior.
+        """
+        if value is not None:
+            self.ipAddressKeepBehavior = value
         return self
 
-    def getIpv4Address(self):
+    def getIpv4Address(self) -> Optional[Ip4AddressString]:
+        """
+        IPv4 Address. Notation: 255.255.255.255. The IP Address shall be declared in case the ipv4AddressSource is FIXED and thus no auto-configuration mechanism is used.
+        """
         return self.ipv4Address
 
-    def setIpv4Address(self, value):
-        self.ipv4Address = value
+    def setIpv4Address(self, value: Optional[Ip4AddressString]) -> Ipv4Configuration:
+        """
+        IPv4 Address. Notation: 255.255.255.255. The IP Address shall be declared in case the ipv4AddressSource is FIXED and thus no auto-configuration mechanism is used.
+        A None value is a no-op and does not overwrite an existing ipv4Address.
+        """
+        if value is not None:
+            self.ipv4Address = value
         return self
 
-    def getIpv4AddressSource(self):
+    def getIpv4AddressSource(self) -> Optional[Ipv4AddressSourceEnum]:
+        """
+        Defines how the node obtains its IP address.
+        """
         return self.ipv4AddressSource
 
-    def setIpv4AddressSource(self, value):
-        self.ipv4AddressSource = value
+    def setIpv4AddressSource(self, value: Optional[Ipv4AddressSourceEnum]) -> Ipv4Configuration:
+        """
+        Defines how the node obtains its IP address.
+        A None value is a no-op and does not overwrite an existing ipv4AddressSource.
+        """
+        if value is not None:
+            self.ipv4AddressSource = value
         return self
 
-    def getNetworkMask(self):
+    def getNetworkMask(self) -> Optional[Ip4AddressString]:
+        """
+        Network mask. Notation 255.255.255.255
+        """
         return self.networkMask
 
-    def setNetworkMask(self, value):
-        self.networkMask = value
+    def setNetworkMask(self, value: Optional[Ip4AddressString]) -> Ipv4Configuration:
+        """
+        Network mask. Notation 255.255.255.255
+        A None value is a no-op and does not overwrite an existing networkMask.
+        """
+        if value is not None:
+            self.networkMask = value
         return self
 
-    def getTtl(self):
+    def getTtl(self) -> Optional[PositiveInteger]:
+        """
+        Lifespan of data (0..255). The purpose of the TimeToLive field is to avoid a situation in which an undeliverable datagram keeps circulating on a system.
+        """
         return self.ttl
 
-    def setTtl(self, value):
-        self.ttl = value
+    def setTtl(self, value: Optional[PositiveInteger]) -> Ipv4Configuration:
+        """
+        Lifespan of data (0..255). The purpose of the TimeToLive field is to avoid a situation in which an undeliverable datagram keeps circulating on a system.
+        A None value is a no-op and does not overwrite an existing ttl.
+        """
+        if value is not None:
+            self.ttl = value
         return self
 
 
@@ -1894,9 +2060,10 @@ class IpAddressKeepEnum(AREnum):
     """
 
     # IpAddressKeepEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.138, p.466
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.138, p.466 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on Ipv4Configuration/Ipv6Configuration.ipAddressKeepBehavior
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # After a dynamic IP address has been assigned just use it for this session. Tags: atp.EnumerationLiteralIndex=0
     FORGET = "forget"
@@ -1919,9 +2086,10 @@ class Ipv6AddressSourceEnum(AREnum):
     """
 
     # Ipv6AddressSourceEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.140, p.467
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.140, p.467 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on Ipv6Configuration.ipv6AddressSource
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # DHCP is a service for the automatic IP configuration of a client. Tags: atp.EnumerationLiteralIndex=0
     DHCPV6 = "dhcpv6"
@@ -1932,8 +2100,8 @@ class Ipv6AddressSourceEnum(AREnum):
     # LinkLocal is intended only for communications within the segment of a local network (a link) or a point-to-point connection that a host is connected to. Tags: atp.EnumerationLiteralIndex=2
     LINK_LOCAL = "linkLocal"
 
-    # Linklocal IPv6 Address Assignment using DoIP Parameters Tags: atp.EnumerationLiteralIndex=3
-    LINK_LOCAL_DOIP = "LinkLocalDoIP"
+    # Linklocal IPv6 Address Assignment using DoIP Parameters Tags: atp.EnumerationLiteralIndex=3 xml.name=LINK-LOCAL-DOIP
+    LINK_LOCAL_DOIP = "linkLocal_doip"
 
     # IPv6 Stateless Autoconfiguration. Tags: atp.EnumerationLiteralIndex=4
     ROUTER_ADVERTISEMENT = "routerAdvertisement"
@@ -2279,25 +2447,33 @@ class Ipv6Configuration(NetworkEndpointAddress):
 
 class DoIpEntity(ARObject):
     """
-    Defines properties for a DoIP (Diagnostics over IP) entity,
-    specifying the role and behavior of DoIP-enabled devices in
-    the network for diagnostic communication purposes.
+    ECU providing this infrastructure service is a DoIP-Entity.
     """
 
     # DoIpEntity method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDoIpEntityRole            [x] impl  [ ] docstring  [ ] test
-    # [ ] setDoIpEntityRole            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.150, p.471 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.doIpEntityRole = None  # type: DoIpEntityRoleEnum
+        # [x] getDoIpEntityRole              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setDoIpEntityRole              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Identifies the role in terms of DoIP this network-node has.
+        self.doIpEntityRole: Optional[DoIpEntityRoleEnum] = None
 
-    def getDoIpEntityRole(self):
+    def getDoIpEntityRole(self) -> Optional[DoIpEntityRoleEnum]:
+        """
+        Identifies the role in terms of DoIP this network-node has.
+        """
         return self.doIpEntityRole
 
-    def setDoIpEntityRole(self, value):
+    def setDoIpEntityRole(self, value: Optional[DoIpEntityRoleEnum]) -> DoIpEntity:
+        """
+        Identifies the role in terms of DoIP this network-node has.
+        A None value is a no-op and does not overwrite an existing doIpEntityRole.
+        """
         if value is not None:
             self.doIpEntityRole = value
         return self
@@ -2409,58 +2585,93 @@ class TimeSyncClientConfiguration(ARObject):
 
 class TimeSyncServerConfiguration(Referrable):
     """
-    Configures time synchronization server properties, specifying
-    priority, synchronization intervals, and time synchronization
-    identifiers for network time coordination services.
+    Defines the configuration of the time synchronisation server.
     """
 
     # TimeSyncServerConfiguration method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getPriority                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setPriority                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getSyncInterval              [x] impl  [ ] docstring  [ ] test
-    # [ ] setSyncInterval              [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeSyncServerIdentifier  [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeSyncServerIdentifier  [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeSyncTechnology        [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeSyncTechnology        [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.147, p.470 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.priority: PositiveInteger = None
-        self.syncInterval: TimeValue = None
-        self.timeSyncServerIdentifier: String = None
-        self.timeSyncTechnology = None  # type: TimeSyncTechnologyEnum
+        # [x] getPriority                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setPriority                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Server Priority.
+        self.priority: Optional[PositiveInteger] = None
 
-    def getPriority(self):
+        # [x] getSyncInterval                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setSyncInterval                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Synchronisation interval used by the time synchronisation server (in seconds).
+        self.syncInterval: Optional[TimeValue] = None
+
+        # [x] getTimeSyncServerIdentifier    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setTimeSyncServerIdentifier    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Identifier of the TimeSyncServer.
+        self.timeSyncServerIdentifier: Optional[String] = None
+
+        # [x] getTimeSyncTechnology          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setTimeSyncTechnology          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Defines the time synchronisation technology used. Possible values are: NTP_RFC958, PTP_ IEEE1588_2002, PTP_IEEE1588_2008, AVB_ IEEE802_1AS and others.
+        self.timeSyncTechnology: Optional[TimeSyncTechnologyEnum] = None
+
+    def getPriority(self) -> Optional[PositiveInteger]:
+        """
+        Server Priority.
+        """
         return self.priority
 
-    def setPriority(self, value):
+    def setPriority(self, value: Optional[PositiveInteger]) -> TimeSyncServerConfiguration:
+        """
+        Server Priority.
+        A None value is a no-op and does not overwrite an existing priority.
+        """
         if value is not None:
             self.priority = value
         return self
 
-    def getSyncInterval(self):
+    def getSyncInterval(self) -> Optional[TimeValue]:
+        """
+        Synchronisation interval used by the time synchronisation server (in seconds).
+        """
         return self.syncInterval
 
-    def setSyncInterval(self, value):
+    def setSyncInterval(self, value: Optional[TimeValue]) -> TimeSyncServerConfiguration:
+        """
+        Synchronisation interval used by the time synchronisation server (in seconds).
+        A None value is a no-op and does not overwrite an existing syncInterval.
+        """
         if value is not None:
             self.syncInterval = value
         return self
 
-    def getTimeSyncServerIdentifier(self):
+    def getTimeSyncServerIdentifier(self) -> Optional[String]:
+        """
+        Identifier of the TimeSyncServer.
+        """
         return self.timeSyncServerIdentifier
 
-    def setTimeSyncServerIdentifier(self, value):
+    def setTimeSyncServerIdentifier(self, value: Optional[String]) -> TimeSyncServerConfiguration:
+        """
+        Identifier of the TimeSyncServer.
+        A None value is a no-op and does not overwrite an existing timeSyncServerIdentifier.
+        """
         if value is not None:
             self.timeSyncServerIdentifier = value
         return self
 
-    def getTimeSyncTechnology(self):
+    def getTimeSyncTechnology(self) -> Optional[TimeSyncTechnologyEnum]:
+        """
+        Defines the time synchronisation technology used. Possible values are: NTP_RFC958, PTP_ IEEE1588_2002, PTP_IEEE1588_2008, AVB_ IEEE802_1AS and others.
+        """
         return self.timeSyncTechnology
 
-    def setTimeSyncTechnology(self, value):
+    def setTimeSyncTechnology(self, value: Optional[TimeSyncTechnologyEnum]) -> TimeSyncServerConfiguration:
+        """
+        Defines the time synchronisation technology used. Possible values are: NTP_RFC958, PTP_ IEEE1588_2002, PTP_IEEE1588_2008, AVB_ IEEE802_1AS and others.
+        A None value is a no-op and does not overwrite an existing timeSyncTechnology.
+        """
         if value is not None:
             self.timeSyncTechnology = value
         return self
@@ -2468,36 +2679,53 @@ class TimeSyncServerConfiguration(Referrable):
 
 class TimeSynchronization(ARObject):
     """
-    Defines time synchronization configuration for network entities,
-    including both client and server configurations for coordinated
-    timing across the AUTOSAR system network.
+    Defines the servers / clients in a time synchronised network.
     """
 
     # TimeSynchronization method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeSyncClient            [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeSyncClient            [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeSyncServer            [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeSyncServer            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.145, p.469 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.timeSyncClient: TimeSyncClientConfiguration = None
-        self.timeSyncServer: TimeSyncServerConfiguration = None
+        # [x] getTimeSyncClient              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setTimeSyncClient              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Configuration of the time synchronisation client.
+        self.timeSyncClient: Optional[TimeSyncClientConfiguration] = None
 
-    def getTimeSyncClient(self):
+        # [x] getTimeSyncServer              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setTimeSyncServer              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Configuration of the time synchronisation server.
+        self.timeSyncServer: Optional[TimeSyncServerConfiguration] = None
+
+    def getTimeSyncClient(self) -> Optional[TimeSyncClientConfiguration]:
+        """
+        Configuration of the time synchronisation client.
+        """
         return self.timeSyncClient
 
-    def setTimeSyncClient(self, value):
+    def setTimeSyncClient(self, value: Optional[TimeSyncClientConfiguration]) -> TimeSynchronization:
+        """
+        Configuration of the time synchronisation client.
+        A None value is a no-op and does not overwrite an existing timeSyncClient.
+        """
         if value is not None:
             self.timeSyncClient = value
         return self
 
-    def getTimeSyncServer(self):
+    def getTimeSyncServer(self) -> Optional[TimeSyncServerConfiguration]:
+        """
+        Configuration of the time synchronisation server.
+        """
         return self.timeSyncServer
 
-    def setTimeSyncServer(self, value):
+    def setTimeSyncServer(self, value: Optional[TimeSyncServerConfiguration]) -> TimeSynchronization:
+        """
+        Configuration of the time synchronisation server.
+        A None value is a no-op and does not overwrite an existing timeSyncServer.
+        """
         if value is not None:
             self.timeSyncServer = value
         return self
@@ -2554,68 +2782,151 @@ class InfrastructureServices(ARObject):
         return self
 
 
+class IPSecConfig(ARObject):
+    """
+    IPsec is a protocol that is designed to provide "end-to-end" cryptographically-based security for IP network connections.
+    """
+
+    # IPSecConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.221, p.571 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIpSecConfigPropsRef [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setIpSecConfigPropsRef [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Global IPsec configuration settings that are valid for all IPSecRules that are defined on the NetworkEndpoint.
+        self.ipSecConfigPropsRef: Optional[RefType] = None
+
+    def getIpSecConfigPropsRef(self) -> Optional[RefType]:
+        """
+        Global IPsec configuration settings that are valid for all IPSecRules that are defined on the NetworkEndpoint.
+        """
+        return self.ipSecConfigPropsRef
+
+    def setIpSecConfigPropsRef(self, value: Optional[RefType]) -> IPSecConfig:
+        """
+        Global IPsec configuration settings that are valid for all IPSecRules that are defined on the NetworkEndpoint.
+        A None value is a no-op and does not overwrite an existing ipSecConfigPropsRef.
+        """
+        if value is not None:
+            self.ipSecConfigPropsRef = value
+        return self
+
+
 class NetworkEndpoint(Identifiable):
     """
-    Represents a network endpoint in the AUTOSAR system, defining
-    IP configuration, infrastructure services, and network address
-    properties for communication nodes in the network.
+    The network endpoint defines the network addressing (e.g. IP-Address or MAC multicast address).
     """
 
     # NetworkEndpoint method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getFullyQualifiedDomainName  [x] impl  [ ] docstring  [ ] test
-    # [ ] setFullyQualifiedDomainName  [x] impl  [ ] docstring  [ ] test
-    # [ ] getInfrastructureServices    [x] impl  [ ] docstring  [ ] test
-    # [ ] setInfrastructureServices    [x] impl  [ ] docstring  [ ] test
-    # [ ] getIpSecConfig               [x] impl  [ ] docstring  [ ] test
-    # [ ] setIpSecConfig               [x] impl  [ ] docstring  [ ] test
-    # [ ] getNetworkEndpointAddresses  [x] impl  [ ] docstring  [ ] test
-    # [ ] addNetworkEndpointAddress    [x] impl  [ ] docstring  [ ] test
-    # [ ] getPriority                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setPriority                  [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.134, p.463 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFullyQualifiedDomainName [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFullyQualifiedDomainName [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInfrastructureServices   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInfrastructureServices   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpSecConfig              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setIpSecConfig              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNetworkEndpointAddresses [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addNetworkEndpointAddress   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPriority                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPriority                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.fullyQualifiedDomainName: String = None
-        self.infrastructureServices: InfrastructureServices = None
-        self.ipSecConfig = None
-        self.networkEndpointAddresses: List[NetworkEndpointAddress] = []
-        self.priority: PositiveInteger = None
+        # Defines the fully qualified domain name (FQDN) e.g. some.example.host.
+        self.fullyQualifiedDomainName: Optional[String] = None
 
-    def getFullyQualifiedDomainName(self):
+        # Defines the network infrastructure services provided or consumed.
+        self.infrastructureServices: Optional[InfrastructureServices] = None
+
+        # Optional IPSec configuration that provides security services for IP packets.
+        self.ipSecConfig: Optional[IPSecConfig] = None
+
+        # Definition of a Network Address. Tags: xml.namePlural=NETWORK-ENDPOINT-ADDRESSES
+        self.networkEndpointAddresses: List[NetworkEndpointAddress] = []
+
+        # Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
+        self.priority: Optional[PositiveInteger] = None
+
+    def getFullyQualifiedDomainName(self) -> Optional[String]:
+        """
+        Defines the fully qualified domain name (FQDN) e.g. some.example.host.
+        """
         return self.fullyQualifiedDomainName
 
-    def setFullyQualifiedDomainName(self, value):
-        self.fullyQualifiedDomainName = value
+    def setFullyQualifiedDomainName(self, value: Optional[String]) -> NetworkEndpoint:
+        """
+        Defines the fully qualified domain name (FQDN) e.g. some.example.host.
+        A None value is a no-op and does not overwrite an existing fullyQualifiedDomainName.
+        """
+        if value is not None:
+            self.fullyQualifiedDomainName = value
         return self
 
-    def getInfrastructureServices(self):
+    def getInfrastructureServices(self) -> Optional[InfrastructureServices]:
+        """
+        Defines the network infrastructure services provided or consumed.
+        """
         return self.infrastructureServices
 
-    def setInfrastructureServices(self, value):
-        self.infrastructureServices = value
+    def setInfrastructureServices(self, value: Optional[InfrastructureServices]) -> NetworkEndpoint:
+        """
+        Defines the network infrastructure services provided or consumed.
+        A None value is a no-op and does not overwrite an existing infrastructureServices.
+        """
+        if value is not None:
+            self.infrastructureServices = value
         return self
 
-    def getIpSecConfig(self):
+    def getIpSecConfig(self) -> Optional[IPSecConfig]:
+        """
+        Optional IPSec configuration that provides security services for IP packets.
+        """
         return self.ipSecConfig
 
-    def setIpSecConfig(self, value):
-        self.ipSecConfig = value
+    def setIpSecConfig(self, value: Optional[IPSecConfig]) -> NetworkEndpoint:
+        """
+        Optional IPSec configuration that provides security services for IP packets.
+        A None value is a no-op and does not overwrite an existing ipSecConfig.
+        """
+        if value is not None:
+            self.ipSecConfig = value
         return self
 
-    def getNetworkEndpointAddresses(self):
+    def getNetworkEndpointAddresses(self) -> List[NetworkEndpointAddress]:
+        """
+        Definition of a Network Address. Tags: xml.namePlural=NETWORK-ENDPOINT-ADDRESSES
+        """
         return self.networkEndpointAddresses
 
-    def addNetworkEndpointAddress(self, value):
-        self.networkEndpointAddresses.append(value)
+    def addNetworkEndpointAddress(self, value: Optional[NetworkEndpointAddress]) -> NetworkEndpoint:
+        """
+        Definition of a Network Address. Tags: xml.namePlural=NETWORK-ENDPOINT-ADDRESSES
+        A None value is a no-op and is not appended to networkEndpointAddresses.
+        """
+        if value is not None:
+            self.networkEndpointAddresses.append(value)
         return self
 
-    def getPriority(self):
+    def getPriority(self) -> Optional[PositiveInteger]:
+        """
+        Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
+        """
         return self.priority
 
-    def setPriority(self, value):
-        self.priority = value
+    def setPriority(self, value: Optional[PositiveInteger]) -> NetworkEndpoint:
+        """
+        Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
+        A None value is a no-op and does not overwrite an existing priority.
+        """
+        if value is not None:
+            self.priority = value
         return self
 
 
@@ -3107,37 +3418,55 @@ class TransportProtocolConfiguration(ARObject, ABC):
 
 class GenericTp(TransportProtocolConfiguration):
     """
-    Defines generic transport protocol configuration properties,
-    including address and technology specifications for custom
-    transport protocol implementations.
+    Content Model for a generic transport protocol.
     """
 
     # GenericTp method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf (R23-11), Table 6.126
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpAddress                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setTpAddress                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpTechnology              [x] impl  [ ] docstring  [ ] test
-    # [ ] setTpTechnology              [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.126, p.459 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.tpAddress: String = None
-        self.tpTechnology: String = None
+        # [x] getTpAddress                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setTpAddress                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Transport Protocol dependent Address.
+        self.tpAddress: Optional[String] = None
 
-    def getTpAddress(self):
+        # [x] getTpTechnology                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setTpTechnology                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Name of the used Transport Protocol.
+        self.tpTechnology: Optional[String] = None
+
+    def getTpAddress(self) -> Optional[String]:
+        """
+        Transport Protocol dependent Address.
+        """
         return self.tpAddress
 
-    def setTpAddress(self, value):
-        self.tpAddress = value
+    def setTpAddress(self, value: Optional[String]) -> GenericTp:
+        """
+        Transport Protocol dependent Address.
+        A None value is a no-op and does not overwrite an existing tpAddress.
+        """
+        if value is not None:
+            self.tpAddress = value
         return self
 
-    def getTpTechnology(self):
+    def getTpTechnology(self) -> Optional[String]:
+        """
+        Name of the used Transport Protocol.
+        """
         return self.tpTechnology
 
-    def setTpTechnology(self, value):
-        self.tpTechnology = value
+    def setTpTechnology(self, value: Optional[String]) -> GenericTp:
+        """
+        Name of the used Transport Protocol.
+        A None value is a no-op and does not overwrite an existing tpTechnology.
+        """
+        if value is not None:
+            self.tpTechnology = value
         return self
 
 
@@ -3161,183 +3490,295 @@ class TcpUdpConfig(TransportProtocolConfiguration, ABC):
 
 class TpPort(ARObject):
     """
-    Defines properties for a transport protocol port, including
-    port number and dynamic assignment capabilities for network
-    communication endpoints.
+    Dynamic or direct assignment of a PortNumber.
     """
 
     # TpPort method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf (R23-11), Table 6.133
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDynamicallyAssigned       [x] impl  [ ] docstring  [ ] test
-    # [ ] setDynamicallyAssigned       [x] impl  [ ] docstring  [ ] test
-    # [ ] getPortNumber                [x] impl  [ ] docstring  [ ] test
-    # [ ] setPortNumber                [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.133, p.461 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.dynamicallyAssigned: Boolean = None
-        self.portNumber: PositiveInteger = None
+        # [x] getDynamicallyAssigned         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setDynamicallyAssigned         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Indicates whether the source port is dynamically assigned. Tags: atp.Status=obsolete
+        self.dynamicallyAssigned: Optional[Boolean] = None
 
-    def getDynamicallyAssigned(self):
+        # [x] getPortNumber                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setPortNumber                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Port Number.
+        self.portNumber: Optional[PositiveInteger] = None
+
+    def getDynamicallyAssigned(self) -> Optional[Boolean]:
+        """
+        Indicates whether the source port is dynamically assigned. Tags: atp.Status=obsolete
+        """
         return self.dynamicallyAssigned
 
-    def setDynamicallyAssigned(self, value):
-        self.dynamicallyAssigned = value
+    def setDynamicallyAssigned(self, value: Optional[Boolean]) -> TpPort:
+        """
+        Indicates whether the source port is dynamically assigned. Tags: atp.Status=obsolete
+        A None value is a no-op and does not overwrite an existing dynamicallyAssigned.
+        """
+        if value is not None:
+            self.dynamicallyAssigned = value
         return self
 
-    def getPortNumber(self):
+    def getPortNumber(self) -> Optional[PositiveInteger]:
+        """
+        Port Number.
+        """
         return self.portNumber
 
-    def setPortNumber(self, value):
-        self.portNumber = value
+    def setPortNumber(self, value: Optional[PositiveInteger]) -> TpPort:
+        """
+        Port Number.
+        A None value is a no-op and does not overwrite an existing portNumber.
+        """
+        if value is not None:
+            self.portNumber = value
         return self
 
 
 class UdpTp(TcpUdpConfig):
     """
-    Defines UDP (User Datagram Protocol) transport protocol configuration,
-    specifying UDP-specific port configuration for unreliable but fast
-    datagram-based communication services.
+    Content Model for UDP configuration.
     """
 
     # UdpTp method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf (R23-11), Table 6.128
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getUdpTpPort                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setUdpTpPort                 [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.128, p.459 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.udpTpPort: TpPort = None
+        # [x] getUdpTpPort                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setUdpTpPort                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Udp Port configuration.
+        self.udpTpPort: Optional[TpPort] = None
 
-    def getUdpTpPort(self):
+    def getUdpTpPort(self) -> Optional[TpPort]:
+        """
+        Udp Port configuration.
+        """
         return self.udpTpPort
 
-    def setUdpTpPort(self, value):
-        self.udpTpPort = value
+    def setUdpTpPort(self, value: Optional[TpPort]) -> UdpTp:
+        """
+        Udp Port configuration.
+        A None value is a no-op and does not overwrite an existing udpTpPort.
+        """
+        if value is not None:
+            self.udpTpPort = value
         return self
 
 
 class TcpTp(TcpUdpConfig):
     """
-    Defines TCP (Transmission Control Protocol) transport protocol configuration,
-    specifying TCP-specific properties such as keep-alive settings, retransmission
-    timeouts, and flow control parameters for reliable connection-oriented communication.
+    Content Model for TCP configuration.
     """
 
     # TcpTp method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf (R23-11), Table 6.129
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getKeepAliveInterval         [x] impl  [ ] docstring  [ ] test
-    # [ ] setKeepAliveInterval         [x] impl  [ ] docstring  [ ] test
-    # [ ] getKeepAliveProbesMax        [x] impl  [ ] docstring  [ ] test
-    # [ ] setKeepAliveProbesMax        [x] impl  [ ] docstring  [ ] test
-    # [ ] getKeepAlives                [x] impl  [ ] docstring  [ ] test
-    # [ ] setKeepAlives                [x] impl  [ ] docstring  [ ] test
-    # [ ] getKeepAliveTime             [x] impl  [ ] docstring  [ ] test
-    # [ ] setKeepAliveTime             [x] impl  [ ] docstring  [ ] test
-    # [ ] getNaglesAlgorithm           [x] impl  [ ] docstring  [ ] test
-    # [ ] setNaglesAlgorithm           [x] impl  [ ] docstring  [ ] test
-    # [ ] getReceiveWindowMin          [x] impl  [ ] docstring  [ ] test
-    # [ ] setReceiveWindowMin          [x] impl  [ ] docstring  [ ] test
-    # [ ] getTcpRetransmissionTimeout  [x] impl  [ ] docstring  [ ] test
-    # [ ] setTcpRetransmissionTimeout  [x] impl  [ ] docstring  [ ] test
-    # [ ] getTcpTpPort                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setTcpTpPort                 [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.129, p.460 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.keepAliveInterval: TimeValue = None
-        self.keepAliveProbesMax: PositiveInteger = None
-        self.keepAlives: Boolean = None
-        self.keepAliveTime: TimeValue = None
-        self.naglesAlgorithm: Boolean = None
-        self.receiveWindowMin: PositiveInteger = None
-        self.tcpRetransmissionTimeout: TimeValue = None
-        self.tcpTpPort: TpPort = None
+        # [x] getKeepAliveInterval           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setKeepAliveInterval           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Specifies the interval in seconds between subsequent keepalive probes.
+        self.keepAliveInterval: Optional[TimeValue] = None
 
-    def getKeepAliveInterval(self):
+        # [x] getKeepAliveProbesMax          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setKeepAliveProbesMax          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Maximum number of times that TCP retransmits an individual data segment before aborting the connection.
+        self.keepAliveProbesMax: Optional[PositiveInteger] = None
+
+        # [x] getKeepAlives                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setKeepAlives                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Indicates if Keep-Alive messages are sent.
+        self.keepAlives: Optional[Boolean] = None
+
+        # [x] getKeepAliveTime               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setKeepAliveTime               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Specifies the time in seconds between the last data packet sent and the first keepalive probe.
+        self.keepAliveTime: Optional[TimeValue] = None
+
+        # [x] getNaglesAlgorithm             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setNaglesAlgorithm             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Indicates if Nagle's Algorithm is used.
+        self.naglesAlgorithm: Optional[Boolean] = None
+
+        # [x] getReceiveWindowMin            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setReceiveWindowMin            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Minimum size of the TCP receive window in bytes.
+        self.receiveWindowMin: Optional[PositiveInteger] = None
+
+        # [x] getTcpRetransmissionTimeout    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setTcpRetransmissionTimeout    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Defines the timeout in seconds before an unacknowledged TCP segment is sent again. If the tcp RetransmissionTimeout is not defined or set to "INF", no TCP segments shall be re-transmitted.
+        self.tcpRetransmissionTimeout: Optional[TimeValue] = None
+
+        # [x] getTcpTpPort                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setTcpTpPort                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # TCP Port configuration.
+        self.tcpTpPort: Optional[TpPort] = None
+
+    def getKeepAliveInterval(self) -> Optional[TimeValue]:
+        """
+        Specifies the interval in seconds between subsequent keepalive probes.
+        """
         return self.keepAliveInterval
 
-    def setKeepAliveInterval(self, value):
-        self.keepAliveInterval = value
+    def setKeepAliveInterval(self, value: Optional[TimeValue]) -> TcpTp:
+        """
+        Specifies the interval in seconds between subsequent keepalive probes.
+        A None value is a no-op and does not overwrite an existing keepAliveInterval.
+        """
+        if value is not None:
+            self.keepAliveInterval = value
         return self
 
-    def getKeepAliveProbesMax(self):
+    def getKeepAliveProbesMax(self) -> Optional[PositiveInteger]:
+        """
+        Maximum number of times that TCP retransmits an individual data segment before aborting the connection.
+        """
         return self.keepAliveProbesMax
 
-    def setKeepAliveProbesMax(self, value):
-        self.keepAliveProbesMax = value
+    def setKeepAliveProbesMax(self, value: Optional[PositiveInteger]) -> TcpTp:
+        """
+        Maximum number of times that TCP retransmits an individual data segment before aborting the connection.
+        A None value is a no-op and does not overwrite an existing keepAliveProbesMax.
+        """
+        if value is not None:
+            self.keepAliveProbesMax = value
         return self
 
-    def getKeepAlives(self):
+    def getKeepAlives(self) -> Optional[Boolean]:
+        """
+        Indicates if Keep-Alive messages are sent.
+        """
         return self.keepAlives
 
-    def setKeepAlives(self, value):
-        self.keepAlives = value
+    def setKeepAlives(self, value: Optional[Boolean]) -> TcpTp:
+        """
+        Indicates if Keep-Alive messages are sent.
+        A None value is a no-op and does not overwrite an existing keepAlives.
+        """
+        if value is not None:
+            self.keepAlives = value
         return self
 
-    def getKeepAliveTime(self):
+    def getKeepAliveTime(self) -> Optional[TimeValue]:
+        """
+        Specifies the time in seconds between the last data packet sent and the first keepalive probe.
+        """
         return self.keepAliveTime
 
-    def setKeepAliveTime(self, value):
-        self.keepAliveTime = value
+    def setKeepAliveTime(self, value: Optional[TimeValue]) -> TcpTp:
+        """
+        Specifies the time in seconds between the last data packet sent and the first keepalive probe.
+        A None value is a no-op and does not overwrite an existing keepAliveTime.
+        """
+        if value is not None:
+            self.keepAliveTime = value
         return self
 
-    def getNaglesAlgorithm(self):
+    def getNaglesAlgorithm(self) -> Optional[Boolean]:
+        """
+        Indicates if Nagle's Algorithm is used.
+        """
         return self.naglesAlgorithm
 
-    def setNaglesAlgorithm(self, value):
-        self.naglesAlgorithm = value
+    def setNaglesAlgorithm(self, value: Optional[Boolean]) -> TcpTp:
+        """
+        Indicates if Nagle's Algorithm is used.
+        A None value is a no-op and does not overwrite an existing naglesAlgorithm.
+        """
+        if value is not None:
+            self.naglesAlgorithm = value
         return self
 
-    def getReceiveWindowMin(self):
+    def getReceiveWindowMin(self) -> Optional[PositiveInteger]:
+        """
+        Minimum size of the TCP receive window in bytes.
+        """
         return self.receiveWindowMin
 
-    def setReceiveWindowMin(self, value):
-        self.receiveWindowMin = value
+    def setReceiveWindowMin(self, value: Optional[PositiveInteger]) -> TcpTp:
+        """
+        Minimum size of the TCP receive window in bytes.
+        A None value is a no-op and does not overwrite an existing receiveWindowMin.
+        """
+        if value is not None:
+            self.receiveWindowMin = value
         return self
 
-    def getTcpRetransmissionTimeout(self):
+    def getTcpRetransmissionTimeout(self) -> Optional[TimeValue]:
+        """
+        Defines the timeout in seconds before an unacknowledged TCP segment is sent again. If the tcp RetransmissionTimeout is not defined or set to "INF", no TCP segments shall be re-transmitted.
+        """
         return self.tcpRetransmissionTimeout
 
-    def setTcpRetransmissionTimeout(self, value):
-        self.tcpRetransmissionTimeout = value
+    def setTcpRetransmissionTimeout(self, value: Optional[TimeValue]) -> TcpTp:
+        """
+        Defines the timeout in seconds before an unacknowledged TCP segment is sent again. If the tcp RetransmissionTimeout is not defined or set to "INF", no TCP segments shall be re-transmitted.
+        A None value is a no-op and does not overwrite an existing tcpRetransmissionTimeout.
+        """
+        if value is not None:
+            self.tcpRetransmissionTimeout = value
         return self
 
-    def getTcpTpPort(self):
+    def getTcpTpPort(self) -> Optional[TpPort]:
+        """
+        TCP Port configuration.
+        """
         return self.tcpTpPort
 
-    def setTcpTpPort(self, value):
-        self.tcpTpPort = value
+    def setTcpTpPort(self, value: Optional[TpPort]) -> TcpTp:
+        """
+        TCP Port configuration.
+        A None value is a no-op and does not overwrite an existing tcpTpPort.
+        """
+        if value is not None:
+            self.tcpTpPort = value
         return self
 
 
 class VlanConfig(Identifiable):
     """
-    Defines Virtual LAN (VLAN) configuration properties,
-    specifying VLAN identifiers for network segmentation
-    and traffic management in Ethernet communication.
+    VLAN Configuration attributes
     """
 
     # VlanConfig method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getVlanIdentifier            [x] impl  [ ] docstring  [ ] test
-    # [ ] setVlanIdentifier            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.50, p.106 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.vlanIdentifier: PositiveInteger = None
+        # [x] getVlanIdentifier              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setVlanIdentifier              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # A VLAN is identified by this attribute according to IEEE 802.1Q. The allowed values range is from 0..4095.
+        self.vlanIdentifier: Optional[PositiveInteger] = None
 
-    def getVlanIdentifier(self):
+    def getVlanIdentifier(self) -> Optional[PositiveInteger]:
+        """
+        A VLAN is identified by this attribute according to IEEE 802.1Q. The allowed values range is from 0..4095.
+        """
         return self.vlanIdentifier
 
-    def setVlanIdentifier(self, value):
+    def setVlanIdentifier(self, value: Optional[PositiveInteger]) -> VlanConfig:
+        """
+        A VLAN is identified by this attribute according to IEEE 802.1Q. The allowed values range is from 0..4095.
+        A None value is a no-op and does not overwrite an existing vlanIdentifier.
+        """
         if value is not None:
             self.vlanIdentifier = value
         return self

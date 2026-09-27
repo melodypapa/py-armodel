@@ -702,66 +702,68 @@ Status: **2/25** completed
 
 ## Group15
 
-Status: **0/23** completed
+Status: **2/25** completed
 
-| Class Name                             | Status      | Commit ID |
-| -------------------------------------- | ----------- | --------- |
-| `CommunicationDirectionType`           | [ ] Pending | N/A       |
-| `ContainedIPduCollectionSemanticsEnum` | [ ] Pending | N/A       |
-| `TransferPropertyEnum`                 | [ ] Pending | N/A       |
-| `MultiplexedPart`                      | [ ] Pending | N/A       |
-| `DynamicPart`                          | [ ] Pending | N/A       |
-| `SegmentPosition`                      | [ ] Pending | N/A       |
-| `ISignalPort`                          | [ ] Pending | N/A       |
-| `ISignalIPduGroup`                     | [ ] Pending | N/A       |
-| `MultiplexedIPdu`                      | [ ] Pending | N/A       |
-| `SecuredIPdu`                          | [ ] Pending | N/A       |
-| `UserDefinedIPdu`                      | [ ] Pending | N/A       |
-| `UserDefinedPdu`                       | [ ] Pending | N/A       |
-| `SystemSignal`                         | [ ] Pending | N/A       |
-| `TimeRangeType`                        | [ ] Pending | N/A       |
-| `TransmissionModeCondition`            | [ ] Pending | N/A       |
-| `TriggerIPduSendCondition`             | [ ] Pending | N/A       |
-| `CyclicTiming`                         | [ ] Pending | N/A       |
-| `EventControlledTiming`                | [ ] Pending | N/A       |
-| `FlexrayChannelName`                   | [ ] Pending | N/A       |
-| `PncGatewayTypeEnum`                   | [ ] Pending | N/A       |
-| `ClientIdRange`                        | [ ] Pending | N/A       |
-| `TransmissionModeTiming`               | [ ] Pending | N/A       |
-| `TransmissionModeDeclaration`          | [ ] Pending | N/A       |
+| Class Name                             | Status       | Commit ID |
+| -------------------------------------- | ------------ | --------- |
+| `CommunicationDirectionType`           | [ ] Pending  | 3378eb624 |
+| `ContainedIPduCollectionSemanticsEnum` | [x] Done     | N/A       |
+| `TransferPropertyEnum`                 | [ ] Pending  | e6baac031 |
+| `MultiplexedPart`                      | [ ] Pending* | 66512d060 |
+| `DynamicPart`                          | [ ] Pending* | 4211085bc |
+| `SegmentPosition`                      | [ ] Pending* | 9546cf291 |
+| `ISignalPort`                          | [ ] Pending* | b5f92f4b2 |
+| `ISignalIPduGroup`                     | [ ] Pending* | 1e758bd44 |
+| `MultiplexedIPdu`                      | [ ] Pending* | eba346cb5 |
+| `TriggerMode`                          | [ ] Pending  | cc609f42a |
+| `SecuredIPdu`                          | [ ] Pending* | 0a98655a0 |
+| `SecuredPduHeaderEnum`                 | [ ] Pending  | 3d5cb55db |
+| `UserDefinedIPdu`                      | [ ] Pending  | N/A       |
+| `UserDefinedPdu`                       | [ ] Pending  | N/A       |
+| `SystemSignal`                         | [ ] Pending* | 7c5d9e9d8 |
+| `TimeRangeType`                        | [ ] Pending* | dcbc6abdb |
+| `TransmissionModeCondition`            | [ ] Pending* | dcbc6abdb |
+| `TriggerIPduSendCondition`             | [ ] Pending* | dcbc6abdb |
+| `CyclicTiming`                         | [ ] Pending* | dcbc6abdb |
+| `EventControlledTiming`                | [ ] Pending* | dcbc6abdb |
+| `FlexrayChannelName`                   | [ ] Pending* | 7c137656f |
+| `PncGatewayTypeEnum`                   | [ ] Pending* | 7c137656f |
+| `ClientIdRange`                        | [x] Done     | N/A       |
+| `TransmissionModeTiming`               | [ ] Pending* | dcbc6abdb |
+| `TransmissionModeDeclaration`          | [ ] Pending* | dcbc6abdb |
 
 ## Group16
 
-Status: **0/26** completed
+Status: **1/26** completed
 
-| Class Name                        | Status      | Commit ID |
-| --------------------------------- | ----------- | --------- |
-| `RuntimeAddressConfigurationEnum` | [ ] Pending | N/A       |
-| `IpAddressKeepEnum`               | [ ] Pending | N/A       |
-| `Ipv6AddressSourceEnum`           | [ ] Pending | N/A       |
-| `DoIpEntity`                      | [ ] Pending | N/A       |
-| `TcpProps`                        | [ ] Pending | N/A       |
-| `TpPort`                          | [ ] Pending | N/A       |
-| `InitialSdDelayConfig`            | [ ] Pending | N/A       |
-| `EthernetPriorityRegeneration`    | [ ] Pending | N/A       |
-| `TimeSyncServerConfiguration`     | [ ] Pending | N/A       |
-| `CouplingPortAbstractShaper`      | [ ] Pending | N/A       |
-| `MacMulticastGroup`               | [ ] Pending | N/A       |
-| `NetworkEndpoint`                 | [ ] Pending | N/A       |
-| `VlanConfig`                      | [ ] Pending | N/A       |
-| `Ipv4Configuration`               | [ ] Pending | N/A       |
-| `GenericTp`                       | [ ] Pending | N/A       |
-| `TcpTp`                           | [ ] Pending | N/A       |
-| `UdpTp`                           | [ ] Pending | N/A       |
-| `SocketConnectionIpduIdentifier`  | [ ] Pending | N/A       |
-| `SocketConnectionBundle`          | [ ] Pending | N/A       |
-| `InitialSdDelayConfig`            | [ ] Pending | N/A       |
-| `RequestResponseDelay`            | [ ] Pending | N/A       |
-| `SdServerConfig`                  | [ ] Pending | N/A       |
-| `TcpOptionFilterList`             | [ ] Pending | N/A       |
-| `TcpOptionFilterSet`              | [ ] Pending | N/A       |
-| `IPv6ExtHeaderFilterList`         | [ ] Pending | N/A       |
-| `TimeSynchronization`             | [ ] Pending | N/A       |
+| Class Name                        | Status       | Commit ID |
+| --------------------------------- | ------------ | --------- |
+| `RuntimeAddressConfigurationEnum` | [ ] Pending* | c5bb32232 |
+| `IpAddressKeepEnum`               | [ ] Pending* | c5bb32232 |
+| `Ipv6AddressSourceEnum`           | [ ] Pending* | c5bb32232 |
+| `DoIpEntity`                      | [ ] Pending* | b1e4750b1 |
+| `TcpProps`                        | [x] Done     | N/A       |
+| `TpPort`                          | [ ] Pending* | b1e4750b1 |
+| `InitialSdDelayConfig`            | [ ] Pending* | d7240be74 |
+| `EthernetPriorityRegeneration`    | [ ] Pending* | b1e4750b1 |
+| `TimeSyncServerConfiguration`     | [ ] Pending* | b1e4750b1 |
+| `CouplingPortAbstractShaper`      | [ ] Pending  | N/A       |
+| `MacMulticastGroup`               | [ ] Pending* | b1e4750b1 |
+| `NetworkEndpoint`                 | [ ] Pending* | 6c97ddc10 |
+| `VlanConfig`                      | [ ] Pending* | b1e4750b1 |
+| `Ipv4Configuration`               | [ ] Pending* | 6c97ddc10 |
+| `GenericTp`                       | [ ] Pending* | N/A       |
+| `TcpTp`                           | [ ] Pending* | N/A       |
+| `UdpTp`                           | [ ] Pending* | N/A       |
+| `SocketConnectionIpduIdentifier`  | [ ] Pending* | 4b7c8dc79 |
+| `SocketConnectionBundle`          | [ ] Pending* | 4b7c8dc79 |
+| `InitialSdDelayConfig`            | [ ] Pending  | d7240be74 |
+| `RequestResponseDelay`            | [ ] Pending* | d7240be74 |
+| `SdServerConfig`                  | [ ] Pending* | d7240be74 |
+| `TcpOptionFilterList`             | [ ] Pending* | 2d5b3256b |
+| `TcpOptionFilterSet`              | [ ] Pending* | 2d5b3256b |
+| `IPv6ExtHeaderFilterList`         | [ ] Pending* | 2d5b3256b |
+| `TimeSynchronization`             | [ ] Pending* | b1e4750b1 |
 
 ## Group17
 

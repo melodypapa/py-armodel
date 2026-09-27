@@ -11,16 +11,16 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class TcpOptionFilterList(Identifiable):
     """
-    White list for the filtering of TCP options.
+    Permitted list for the filtering of TCP options.
     """
 
     # TcpOptionFilterList method parity checklist:
-    # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.131, p.326
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.123, p.457 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
-    # [x] getAllowedTcpOptions   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
-    # [x] addAllowedTcpOption    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
-    # (serialized as TCP-OPTION-FILTER-LIST within TcpOptionFilterSet, R4.3.1 AUTOSAR_00044.xsd)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAllowedTcpOptions   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addAllowedTcpOption    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (serialized as TCP-OPTION-FILTER-LIST within TcpOptionFilterSet; prior R4.3.1 sync Table 6.131 p.326 upgraded per Rule 0016.3)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -48,21 +48,21 @@ class TcpOptionFilterSet(ARElement):
     """
 
     # TcpOptionFilterSet method parity checklist:
-    # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.130, p.326
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.122, p.457 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
-    # [x] createTcpOptionFilterList  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
-    # [x] getTcpOptionFilterLists    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createTcpOptionFilterList  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpOptionFilterLists    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # Collection of white lists for the filtering of TCP options.
+        # Collection of permitted lists for the filtering of TCP options.
         self.tcpOptionFilterLists: List[TcpOptionFilterList] = []
 
     def createTcpOptionFilterList(self, short_name: str) -> TcpOptionFilterList:
         """
-        Collection of white lists for the filtering of TCP options.
+        Collection of permitted lists for the filtering of TCP options.
         Creates and appends a new TcpOptionFilterList; an existing list with the same
         short name is returned unchanged.
         """
@@ -73,5 +73,5 @@ class TcpOptionFilterSet(ARElement):
         return self.getElement(short_name, TcpOptionFilterList)
 
     def getTcpOptionFilterLists(self) -> List[TcpOptionFilterList]:
-        """Collection of white lists for the filtering of TCP options."""
+        """Collection of permitted lists for the filtering of TCP options."""
         return self.tcpOptionFilterLists

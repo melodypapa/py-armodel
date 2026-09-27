@@ -9498,9 +9498,16 @@ class ARXMLParser(AbstractARXMLParser):
             identifier = SocketConnectionIpduIdentifier()
             identifier.setHeaderId(self.getChildElementOptionalPositiveInteger(element, "HEADER-ID"))
             identifier.setPduCollectionPduTimeout(self.getChildElementOptionalTimeValue(element, "PDU-COLLECTION-PDU-TIMEOUT"))
-            identifier.setPduCollectionSemantics(self.getChildElementOptionalLiteral(element, "PDU-COLLECTION-SEMANTICS"))
-            identifier.setPduCollectionTrigger(self.getChildElementOptionalLiteral(element, "PDU-COLLECTION-TRIGGER"))
-            identifier.setPduRef(self.getChildElementOptionalRefType(element, "PDU-REF"))
+            semantics_literal = self.getChildElementOptionalLiteral(element, "PDU-COLLECTION-SEMANTICS")
+            if semantics_literal is not None:
+                from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import PduCollectionSemanticsEnum
+
+                identifier.setPduCollectionSemantics(PduCollectionSemanticsEnum().setValue(semantics_literal.getValue()))
+            trigger_literal = self.getChildElementOptionalLiteral(element, "PDU-COLLECTION-TRIGGER")
+            if trigger_literal is not None:
+                from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import PduCollectionTriggerEnum
+
+                identifier.setPduCollectionTrigger(PduCollectionTriggerEnum().setValue(trigger_literal.getValue()))
             identifier.setPduTriggeringRef(self.getChildElementOptionalRefType(element, "PDU-TRIGGERING-REF"))
             routing_group_refs = []
             for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
@@ -9557,7 +9564,8 @@ class ARXMLParser(AbstractARXMLParser):
         bundle.setDifferentiatedServiceField(self.getChildElementOptionalPositiveInteger(element, "DIFFERENTIATED-SERVICE-FIELD"))
         bundle.setFlowLabel(self.getChildElementOptionalPositiveInteger(element, "FLOW-LABEL"))
         bundle.setPathMtuDiscoveryEnabled(self.getChildElementOptionalBooleanValue(element, "PATH-MTU-DISCOVERY-ENABLED"))
-        bundle.setPdus(self.getSocketConnectionPdus(element))
+        for pdu in self.getSocketConnectionPdus(element):
+            bundle.addPdu(pdu)
         bundle.setServerPortRef(self.getChildElementOptionalRefType(element, "SERVER-PORT-REF"))
         bundle.setUdpChecksumHandling(self.getChildElementOptionalLiteral(element, "UDP-CHECKSUM-HANDLING"))
 
@@ -9611,6 +9619,8 @@ class ARXMLParser(AbstractARXMLParser):
         tp.setKeepAliveTime(self.getChildElementOptionalTimeValue(element, "KEEP-ALIVE-TIME"))
         tp.setKeepAlives(self.getChildElementOptionalBooleanValue(element, "KEEP-ALIVES"))
         tp.setNaglesAlgorithm(self.getChildElementOptionalLiteral(element, "NAGLES-ALGORITHM"))
+        tp.setReceiveWindowMin(self.getChildElementOptionalPositiveInteger(element, "RECEIVE-WINDOW-MIN"))
+        tp.setTcpRetransmissionTimeout(self.getChildElementOptionalTimeValue(element, "TCP-RETRANSMISSION-TIMEOUT"))
         tp.setTcpTpPort(self.getTpPort(element, "TCP-TP-PORT"))
 
     def readGenericTp(self, element: ET.Element, tp: GenericTp):
@@ -10755,10 +10765,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read SecuredIPdu <%s>" % i_pdu.getShortName())
         self.readIPdu(element, i_pdu)
         i_pdu.setAuthenticationPropsRef(self.getChildElementOptionalRefType(element, "AUTHENTICATION-PROPS-REF"))
+        i_pdu.setDynamicRuntimeLengthHandling(self.getChildElementOptionalBooleanValue(element, "DYNAMIC-RUNTIME-LENGTH-HANDLING"))
         i_pdu.setFreshnessPropsRef(self.getChildElementOptionalRefType(element, "FRESHNESS-PROPS-REF"))
         i_pdu.setPayloadRef(self.getChildElementOptionalRefType(element, "PAYLOAD-REF"))
         i_pdu.setSecureCommunicationProps(self.getSecureCommunicationProps(element, "SECURE-COMMUNICATION-PROPS"))
         i_pdu.setUseAsCryptographicIPdu(self.getChildElementOptionalBooleanValue(element, "USE-AS-CRYPTOGRAPHIC-I-PDU"))
+        i_pdu.setUseSecuredPduHeader(self.getChildElementOptionalLiteral(element, "USE-SECURED-PDU-HEADER"))
 
     def readNmNode(self, element: ET.Element, nm_node: NmNode):
         self.readIdentifiable(element, nm_node)
@@ -12619,6 +12631,10 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readISignalPort(self, element: ET.Element, port: ISignalPort):
         self.readCommConnectorPort(element, port)
+        port.setDataFilter(self.getDataFilter(element, "DATA-FILTER"))
+        port.setDdsQosProfileRef(self.getChildElementOptionalRefType(element, "DDS-QOS-PROFILE-REF"))
+        port.setFirstTimeout(self.getChildElementOptionalTimeValue(element, "FIRST-TIMEOUT"))
+        port.setHandleInvalid(self.getChildElementOptionalLiteral(element, "HANDLE-INVALID"))
         port.setTimeout(self.getChildElementOptionalTimeValue(element, "TIMEOUT"))
 
     def readCommunicationConnectorEcuCommPortInstances(self, element: ET.Element, connector: CommunicationConnector):
@@ -13585,6 +13601,8 @@ class ARXMLParser(AbstractARXMLParser):
             group.addContainedISignalIPduGroupRef(ref_type)
         for ref_type in self.getISignalIPduRefs(element):
             group.addISignalIPduRef(ref_type)
+        for ref_type in self.getChildElementRefTypeList(element, "NM-PDUS/NM-PDU-REF-CONDITIONAL/NM-PDU-REF"):
+            group.addNmPduRef(ref_type)
 
     def readPdurIPduGroup(self, element: ET.Element, group: PdurIPduGroup):
         self.logger.debug("Read PdurIPduGroup <%s>" % group.getShortName())
