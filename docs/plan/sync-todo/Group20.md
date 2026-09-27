@@ -980,7 +980,7 @@ missing` and `transportLayerRule | TcpRule | missing` stay until the classes lan
     checklist replaced with the 6-column format (no stamp line — batch 9b pending).
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12663 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `PayloadBytePatternRulePart` — ARObject — XSD-only (00052 complexType L88508)
+- [x] `PayloadBytePatternRulePart` — ARObject — XSD-only (00052 complexType L88508)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
   - note: aggregated member of PayloadBytePatternRule (payloadBytePatternRulePart 0..*) —
     implemented fully (offset/value PositiveInteger) + reader/writer + tests in 8f863fe9d
@@ -990,15 +990,21 @@ missing` and `transportLayerRule | TcpRule | missing` stay until the classes lan
   - note (Step 1): XSD 00052 complexType PAYLOAD-BYTE-PATTERN-RULE-PART L88508; wrapper
     PAYLOAD-BYTE-PATTERN-RULE-PARTS L88459 (owner group L88452, complexType L88473); no
     table in either corpus — Rule 0015 XSD-only.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (verified 2026-09-27): XSD cross-check pass — offset/value both Optional[PositiveInteger]
+    0..1 in XSD order OFFSET→VALUE, base ARObject (AR-OBJECT group = empty-seq implicit base),
+    docstrings verbatim from XSD documentation (class docstring matches sibling Tag style),
+    checklist 6-col all [x]; model/parser/writer tests already fully covered (15 passed:
+    defaults, None no-op, verbatim docstrings, field-value reader asserts, OFFSET-before-VALUE
+    writer order, write→reparse round-trip); no deviations, no code change.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12663 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TcpRule` — TransportLayerRule — XSD-only (00052 complexType L120644)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
