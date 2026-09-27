@@ -3688,14 +3688,11 @@ Base stays `Describable` per R4.3.1 Table 6.120 (DESCRIBABLE). The prior 19-memb
 ## `CryptoKeySlot`
 - **PDF:** `AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf`  | **page:** 57
 - **Package:** `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::CryptoDeployment`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/CryptoDeployment/CryptoKeySlot.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/CryptoDeployment/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `allocateShadowCopy` | `Boolean` | — | missing |
-| — *(missing)* | `—` | `cryptoObjectType` | `CryptoObjectTypeEnum` | — | missing |
-| — *(missing)* | `—` | `keySlotAllowedModification` | `CryptoKeySlotAllowedModification` | — | missing |
-| — *(missing)* | `—` | `keySlotContentAllowedUsage` | `CryptoKeySlotContentAllowedUsage` | — | missing |
+| — *(no deviation)* | — | — | — | — | No deviations — the four formerly-`missing` rows (allocateShadowCopy, cryptoObjectType, keySlotAllowedModification, keySlotContentAllowedUsage) are implemented on CryptoKeySlot with full reader/writer coverage (Table B.5); stale rows removed 2026-09-27 during the Group20 member-type sync (CryptoObjectTypeEnum / CryptoKeySlotAllowedModification / CryptoKeySlotContentAllowedUsage). Source path updated to the consolidated CryptoDeployment/__init__.py module (class-named submodule no longer exists). |
 
 ## `IdsPlatformInstantiation`
 - **PDF:** `AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf`  | **page:** 63

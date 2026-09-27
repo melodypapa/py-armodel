@@ -69,10 +69,18 @@ class TestCryptoObjectTypeEnum:
         assert CryptoObjectTypeEnum.SIGNATURE == "SIGNATURE"
         assert CryptoObjectTypeEnum.SECRET_SEED == "SECRET-SEED"
 
+    def test_members_in_literal_index_order(self):
+        e = CryptoObjectTypeEnum()
+        assert list(e.getEnumValues()) == ["UNDEFINED", "SYMMETRIC-KEY", "PRIVATE-KEY", "PUBLIC-KEY", "SIGNATURE", "SECRET-SEED"]
+
     def test_instantiability(self):
         e = CryptoObjectTypeEnum()
-        e.setValue("PRIVATE-KEY")
+        e.setValue(CryptoObjectTypeEnum.PRIVATE_KEY)
         assert e.getValue() == "PRIVATE-KEY"
+
+    def test_docstring_is_spec_note_verbatim(self):
+        note = "Enumeration of all types of crypto objects, i.e. types of content that can be stored to a key slot. Tags: atp.Status=candidate"
+        assert CryptoObjectTypeEnum.__doc__.strip() == note
 
 
 class TestCryptoKeySlotTypeEnum:
