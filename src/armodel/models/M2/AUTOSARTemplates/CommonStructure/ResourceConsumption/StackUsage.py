@@ -10,39 +10,28 @@ from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from typing import TYPE_CHECKING, Optional
-
-if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import HardwareConfiguration, SoftwareContext
+from typing import Optional
 
 
 class StackUsage(Identifiable, VariationPointCapable, ABC):
     """
     Describes the stack memory usage of a software.
-    This abstract base class defines stack memory consumption tracking with hardware and software context.
     """
 
     # StackUsage method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.9, p.149
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getExecutableEntityRef       [x] impl  [x] docstring  [x] test
-    # [x] setExecutableEntityRef       [x] impl  [x] docstring  [x] test
-    # [x] getHardwareConfiguration     [x] impl  [x] docstring  [x] test
-    # [x] setHardwareConfiguration     [x] impl  [x] docstring  [x] test
-    # [x] getHwElementRef              [x] impl  [x] docstring  [x] test
-    # [x] setHwElementRef              [x] impl  [x] docstring  [x] test
-    # [x] getSoftwareContext           [x] impl  [x] docstring  [x] test
-    # [x] setSoftwareContext           [x] impl  [x] docstring  [x] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.9, p.149 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getExecutableEntityRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExecutableEntityRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHardwareConfiguration  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHardwareConfiguration  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwElementRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHwElementRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSoftwareContext        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSoftwareContext        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the StackUsage with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this stack usage
-            short_name: The unique short name of this stack usage
-        """
         if type(self) is StackUsage:
             raise TypeError("StackUsage is an abstract class.")
 
@@ -62,23 +51,14 @@ class StackUsage(Identifiable, VariationPointCapable, ABC):
 
     def getExecutableEntityRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the executable entity for which this stack usage is described.
-
-        Returns:
-            RefType: Reference to the executable entity
+        The executable entity for which this stack usage is described.
         """
         return self.executableEntityRef
 
     def setExecutableEntityRef(self, value: Optional[RefType]) -> StackUsage:
         """
-        Sets the reference to the executable entity for which this stack usage is described.
-        A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The executable entity reference to set
-
-        Returns:
-            self for method chaining
+        The executable entity for which this stack usage is described.
+        A None value is a no-op and does not overwrite an existing executableEntityRef.
         """
         if value is not None:
             self.executableEntityRef = value
@@ -86,25 +66,14 @@ class StackUsage(Identifiable, VariationPointCapable, ABC):
 
     def getHardwareConfiguration(self) -> Optional[HardwareConfiguration]:
         """
-        Gets the hardware configuration associated with this stack usage.
         Contains information about the hardware context this stack usage is describing.
-
-        Returns:
-            HardwareConfiguration: Hardware configuration object
         """
         return self.hardwareConfiguration
 
     def setHardwareConfiguration(self, value: Optional[HardwareConfiguration]) -> StackUsage:
         """
-        Sets the hardware configuration associated with this stack usage.
         Contains information about the hardware context this stack usage is describing.
-        A None value is a no-op and does not overwrite an existing configuration.
-
-        Args:
-            value: The hardware configuration to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing hardwareConfiguration.
         """
         if value is not None:
             self.hardwareConfiguration = value
@@ -112,23 +81,14 @@ class StackUsage(Identifiable, VariationPointCapable, ABC):
 
     def getHwElementRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the hardware element (e.g. ECU) for which this stack usage is given.
-
-        Returns:
-            RefType: Reference to hardware element
+        Specifies for which hardware element (e.g. ECU) this stack usage is given.
         """
         return self.hwElementRef
 
     def setHwElementRef(self, value: Optional[RefType]) -> StackUsage:
         """
-        Sets the reference to the hardware element (e.g. ECU) for which this stack usage is given.
-        A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The hardware element reference to set
-
-        Returns:
-            self for method chaining
+        Specifies for which hardware element (e.g. ECU) this stack usage is given.
+        A None value is a no-op and does not overwrite an existing hwElementRef.
         """
         if value is not None:
             self.hwElementRef = value
@@ -136,27 +96,25 @@ class StackUsage(Identifiable, VariationPointCapable, ABC):
 
     def getSoftwareContext(self) -> Optional[SoftwareContext]:
         """
-        Gets the software context details for which this stack usage is provided.
-
-        Returns:
-            SoftwareContext: Software context object
+        Contains details about the software context this stack usage is provided for.
         """
         return self.softwareContext
 
     def setSoftwareContext(self, value: Optional[SoftwareContext]) -> StackUsage:
         """
-        Sets the software context details for which this stack usage is provided.
-        A None value is a no-op and does not overwrite an existing context.
-
-        Args:
-            value: The software context to set
-
-        Returns:
-            self for method chaining
+        Contains details about the software context this stack usage is provided for.
+        A None value is a no-op and does not overwrite an existing softwareContext.
         """
         if value is not None:
             self.softwareContext = value
         return self
+
+
+# Runtime cycle-breaker: ResourceConsumption.__init__ defines HardwareConfiguration /
+# SoftwareContext and imports this module, so this import must run after every class
+# above is defined; the parent package defines both classes before importing this
+# module (Rule 0005).
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import HardwareConfiguration, SoftwareContext  # noqa: E402
 
 
 class MeasuredStackUsage(StackUsage):

@@ -5079,12 +5079,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("read StackUsage %s" % usage.getShortName())
         self.readIdentifiable(element, usage)
         usage.setExecutableEntityRef(self.getChildElementOptionalRefType(element, "EXECUTABLE-ENTITY-REF"))
-        usage.setHwElementRef(self.getChildElementOptionalRefType(element, "HW-ELEMENT-REF"))
         hardware_configuration_element = self.find(element, "HARDWARE-CONFIGURATION")
         if hardware_configuration_element is not None:
             config = HardwareConfiguration()
             self.readHardwareConfiguration(hardware_configuration_element, config)
             usage.setHardwareConfiguration(config)
+        usage.setHwElementRef(self.getChildElementOptionalRefType(element, "HW-ELEMENT-REF"))
         software_context_element = self.find(element, "SOFTWARE-CONTEXT")
         if software_context_element is not None:
             context = SoftwareContext()

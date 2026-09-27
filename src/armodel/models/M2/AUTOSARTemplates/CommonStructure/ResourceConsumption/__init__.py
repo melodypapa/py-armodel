@@ -13,7 +13,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.Exec
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import HeapUsage, MeasuredHeapUsage, RoughEstimateHeapUsage, WorstCaseHeapUsage
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import MemorySection, SectionNamePrefix
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import MeasuredStackUsage, RoughEstimateStackUsage, StackUsage, WorstCaseStackUsage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
@@ -149,6 +148,12 @@ class SoftwareContext(ARObject):
         if value is not None:
             self.state = value
         return self
+
+
+# Runtime cycle-breaker: StackUsage.py imports HardwareConfiguration / SoftwareContext
+# (defined above) at its bottom, so this import must run after those class definitions
+# (Rule 0005).
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import MeasuredStackUsage, RoughEstimateStackUsage, StackUsage, WorstCaseStackUsage  # noqa: E402
 
 
 class ResourceConsumption(Identifiable):

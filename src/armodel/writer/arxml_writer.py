@@ -6337,11 +6337,12 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setStackUsage(self, element: ET.Element, usage: StackUsage):
         self.logger.debug("Write StackUsage %s" % usage.getShortName())
-        self.writeIdentifiable(element, usage)
+        self.writeIdentifiable(element, usage, write_variation_point=False)
         self.setChildElementOptionalRefType(element, "EXECUTABLE-ENTITY-REF", usage.getExecutableEntityRef())
         self.setHardwareConfiguration(element, usage.getHardwareConfiguration())
         self.setChildElementOptionalRefType(element, "HW-ELEMENT-REF", usage.getHwElementRef())
         self.setSoftwareContext(element, usage.getSoftwareContext())
+        self.writeVariationPoint(element, usage.getVariationPoint())
 
     def setRoughEstimateStackUsage(self, element: ET.Element, usage: RoughEstimateStackUsage):
         if usage is not None:

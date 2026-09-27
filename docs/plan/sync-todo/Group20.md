@@ -759,15 +759,54 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - after `HardwareConfiguration`
   - after `SoftwareContext`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 8.9, p.149 (R23-11, AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate;
+    pdf_page.py confirms p.149); Class = StackUsage (abstract — abstract guard kept; the
+    reader instantiates only subclasses via the readStackUsages tag dispatch); Package =
+    M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage; Note =
+    "Describes the stack memory usage of a software."; Base = "ARObject, Identifiable,
+    MultilanguageReferrable, Referrable" → most-derived Identifiable (claimed base
+    correct); Subclasses = MeasuredStackUsage, RoughEstimateStackUsage,
+    WorstCaseStackUsage; Aggregated by ResourceConsumption.stackUsage; 4 attribute rows
+    in displayed order: executableEntity (ExecutableEntity, 0..1, ref →
+    executableEntityRef per Rule 0001.5), hardwareConfiguration (HardwareConfiguration,
+    0..1, aggr; md renders "hardware Configuration" — line-wrap artifact), hwElement
+    (HwElement, 0..1, ref → hwElementRef), softwareContext (SoftwareContext, 0..1,
+    aggr). XSD 00052: group STACK-USAGE L111994 = EXECUTABLE-ENTITY-REF,
+    HARDWARE-CONFIGURATION, HW-ELEMENT-REF, SOFTWARE-CONTEXT, VARIATION-POINT
+    (seqOffset=10000, atpIdentityContributor → VariationPointCapable mixin retained;
+    readIdentifiable reads the VP). Table and XSD agree 1:1, no XSD-only attrs. Drift:
+    fabricated class-docstring second sentence, __init__ docstrings, paraphrase accessor
+    docstrings, stale 4-col checklist, TYPE_CHECKING-only HC/SC imports (get_type_hints
+    NameError → Rule 0001.8), writer VP emitted inside the identifiable block, reader
+    order EXEC → HW-ELEM → HW-CONFIG → SOFT-CTX vs XSD. Tracker review: the StackUsage
+    section held ("No deviations") — refreshed with the member table.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - note (Steps 2-4): TestStackUsage added (abstract-instantiation TypeError, base chain
+    incl. the Subclasses row, verbatim Note constants, defaults via a concrete subclass,
+    get_type_hints pins, get/set + None-no-op round-trips, __init__-has-no-docstring,
+    verbatim docstrings); initial run 4 failed / 10 passed (genuine Red), 14 passed after
+    the verbatim rewrite. HC/SC moved from TYPE_CHECKING-only to a bottom-of-module
+    runtime cycle-breaker import (Rule 0005) with the parent __init__'s StackUsage import
+    moved after the HC/SC class definitions so both import directions resolve.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): new tests/test_armodel/parser/test_stack_usage.py (5 tests:
+    polymorphic dispatch MEASURED/ROUGH/WORST-STACK-USAGE → subclass, inherited + own
+    field values incl. VP shortLabel, empty + absent wrapper) + tests/test_armodel/
+    writer/test_stack_usage.py (6 tests: dispatch tags + field values, XSD element order,
+    VP write, empty usage omits optionals, empty list, write→parse round-trip). Red =
+    VARIATION-POINT emitted inside the identifiable block → setStackUsage now uses
+    writeIdentifiable(write_variation_point=False) + trailing writeVariationPoint after
+    SOFTWARE-CONTEXT (MemorySection precedent, XSD seqOffset=10000); readStackUsage
+    reordered to the XSD group order. 25 passed.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations — the Rule 0005 import fix and the VP position fix
+    are conformance, not deviations; tracker section refreshed (member table, all ok).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12633 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `MeasuredStackUsage` — StackUsage — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py

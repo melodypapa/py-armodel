@@ -535,7 +535,28 @@ confirmation.
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py`
 
-No deviations (abstract base; tested through concrete subclasses).
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `executableEntityRef` | `Optional[RefType]` | `executableEntity` | `ExecutableEntity` | ref | ok (Rule 0001.5 Ref suffix) |
+| `hardwareConfiguration` | `Optional[HardwareConfiguration]` | `hardwareConfiguration` | `HardwareConfiguration` | aggr | ok (markdown row renders "hardware Configuration" — line-wrap artifact) |
+| `hwElementRef` | `Optional[RefType]` | `hwElement` | `HwElement` | ref | ok (Rule 0001.5 Ref suffix) |
+| `softwareContext` | `Optional[SoftwareContext]` | `softwareContext` | `SoftwareContext` | aggr | ok |
+
+No deviations (abstract base per the spec header — TypeError guard kept; tested through concrete
+subclasses; the shared readStackUsage/setStackUsage helpers are the Rule 0001.7 abstract
+XML-bearing-base helpers called by all three subclass readers/writers).
+
+2026-09-27 sync (Table 8.9, p.149): stale 4-column checklist replaced with the 6-column format (stamp
+deferred to batch confirmation); fabricated class-docstring second sentence removed and `__init__`
+docstrings/paraphrase accessor docstrings wiped and rewritten verbatim from the R23-11 Notes;
+HardwareConfiguration/SoftwareContext imports moved from TYPE_CHECKING-only to a bottom-of-module
+runtime cycle-breaker (Rule 0005) so get_type_hints resolves (Rule 0001.8); writer setStackUsage now
+emits VARIATION-POINT after SOFTWARE-CONTEXT (writeIdentifiable with write_variation_point=False +
+trailing writeVariationPoint, XSD seqOffset=10000 per AUTOSAR_00052.xsd group STACK-USAGE L111994) —
+previously the VP was emitted inside the identifiable block; reader readStackUsage reordered to the
+XSD group order EXECUTABLE-ENTITY-REF → HARDWARE-CONFIGURATION → HW-ELEMENT-REF → SOFTWARE-CONTEXT
+(VARIATION-POINT is read inside readIdentifiable). Tests: test_StackUsage.py (model),
+test_stack_usage.py (parser + writer).
 
 ## `WorstCaseStackUsage`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 150
