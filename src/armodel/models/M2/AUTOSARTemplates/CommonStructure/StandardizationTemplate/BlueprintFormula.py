@@ -12,6 +12,7 @@ class BlueprintFormula(SwSystemconstDependentFormula):
 
     # BlueprintFormula method parity checklist:
     # Spec: R23-11/AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table C.16, p.163 (R23-11)
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # (appendix C caption-shift: the table body renders ABOVE the caption on the same
     # page; R4.3.1 reproduction Table D.12 has the same rows. XSD 00052 group
     # BLUEPRINT-FORMULA line 9023: choice ECUC-QUERY-REF (atp.Status="removed" — not
