@@ -12,6 +12,7 @@ __all__ = [
     "DataLinkLayerRule",
     "DdsRule",
     "DoIpRule",
+    "IcmpRule",
     "NetworkLayerRule",
     "PayloadBytePatternRule",
     "PayloadBytePatternRulePart",
@@ -214,6 +215,72 @@ class NetworkLayerRule(ARObject):
 
     def __init__(self):
         super().__init__()
+
+
+class IcmpRule(ARObject):
+    """Configuration of filter rules for ICMP (Internet Control Message Protocol). Tags: atp.Status=candidate"""
+
+    # IcmpRule method parity checklist:
+    # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class IcmpRule, AUTOSAR_00052.xsd line 67721 (XSD-only; no own table in repo corpus)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getChecksumVerification  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setChecksumVerification  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCode                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCode                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getType                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setType                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Defines whether a Icmp header checksum verification is performed or not.
+        self.checksumVerification: Optional[Boolean] = None
+
+        # Filter to match packets with the Icmp code.
+        self.code: Optional[PositiveInteger] = None
+
+        # Filter to match packets with the Icmp type.
+        self.type: Optional[PositiveInteger] = None
+
+    def getChecksumVerification(self) -> Optional[Boolean]:
+        """Defines whether a Icmp header checksum verification is performed or not."""
+        return self.checksumVerification
+
+    def setChecksumVerification(self, value: Optional[Boolean]) -> "IcmpRule":
+        """
+        Defines whether a Icmp header checksum verification is performed or not.
+        A None value is a no-op and does not overwrite an existing checksumVerification.
+        """
+        if value is not None:
+            self.checksumVerification = value
+        return self
+
+    def getCode(self) -> Optional[PositiveInteger]:
+        """Filter to match packets with the Icmp code."""
+        return self.code
+
+    def setCode(self, value: Optional[PositiveInteger]) -> "IcmpRule":
+        """
+        Filter to match packets with the Icmp code.
+        A None value is a no-op and does not overwrite an existing code.
+        """
+        if value is not None:
+            self.code = value
+        return self
+
+    def getType(self) -> Optional[PositiveInteger]:
+        """Filter to match packets with the Icmp type."""
+        return self.type
+
+    def setType(self, value: Optional[PositiveInteger]) -> "IcmpRule":
+        """
+        Filter to match packets with the Icmp type.
+        A None value is a no-op and does not overwrite an existing type.
+        """
+        if value is not None:
+            self.type = value
+        return self
 
 
 class PayloadBytePatternRulePart(ARObject):

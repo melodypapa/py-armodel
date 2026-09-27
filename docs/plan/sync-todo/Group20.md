@@ -940,11 +940,15 @@ Appended per user instruction ("add the missing classes with 9-steps check into 
 after the member-closure audit of the 22 batch rows above. Dependency-first order; the
 owning/base classes (DataLinkLayerRule, PayloadBytePatternRule, TransportLayerRule) are
 synced above (stamps deferred to the batch 9b). Ipv4Rule/Ipv6Rule (PDF Table 6.236
-networkLayerRule type column; XSD-absent in 00052/00044; markdown has only ECUC-mapping
-appendix mentions) are queued at the end of this addendum per user arbitration 2026-09-27
-("Enqueue both") — NON-STANDARD source (markdown ECUC-mapping appendix, no class table, no
-XSD), Rule 0015 deviation documented per row. Tracker rows `networkLayerRule | Ipv4Rule |
-missing` and `transportLayerRule | TcpRule | missing` stay until the classes land.
+networkLayerRule type column) were queued at the end of this addendum per user arbitration
+2026-09-27 ("Enqueue both") under a NON-STANDARD-source premise ("XSD-absent in
+00052/00044; markdown has only ECUC-mapping appendix mentions") — that premise was WRONG:
+both classes ARE XSD-defined in 00052 under the dashed spellings IPV-4-RULE (group L74389,
+complexType L74485) / IPV-6-RULE (group L74941, complexType L75007); the rows below are
+amended to XSD-only per Rule 0015 (markdown ECUC-mapping appendix demoted to supplementary
+evidence) and the classes synced (stamps deferred to the batch 9b). The `... | missing`
+tracker rows they motivated (`networkLayerRule | Ipv4Rule | missing`,
+`transportLayerRule | TcpRule | missing`) are resolved — the classes landed.
 
 - [x] `MacAddressString` — ARLiteral — R23-11 markdown · Table 4.53 (FO_TPS_GenericStructureTemplate)
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
@@ -1030,6 +1034,31 @@ missing` and `transportLayerRule | TcpRule | missing` stay until the classes lan
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12678 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+
+- [x] `IcmpRule` — ARObject — XSD-only (00052 complexType L67721)
+  - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
+  - note: queued 2026-09-27 per Rule 0001.10 — member type of Ipv4Rule.icmpRule/Ipv6Rule.icmpRule;
+    XSD-only 00052 complexType L67721; supersedes the earlier "not queued" decision
+  - note (Step 1): XSD 00052 group ICMP-RULE L67693 + complexType L67721; class Note
+    "Configuration of filter rules for ICMP (Internet Control Message Protocol).";
+    atp.Status=candidate, atpObject; sequence = AR-OBJECT + ICMP-RULE → base ARObject;
+    own members (verified L67700-L67716) checksumVerification (BOOLEAN 0..1), code
+    (POSITIVE-INTEGER 0..1), type (POSITIVE-INTEGER 0..1). No table in either corpus —
+    Rule 0015 XSD-only.
+  - note (Step 8): no deviations. The ICMP-RULE element never appears standalone — it is a
+    nested child of IPV-4-RULE/IPV-6-RULE (00052 L74433/L74973), so until those wrappers
+    synced the reader/writer coverage exercised readIcmpRule/writeIcmpRule directly on
+    ICMP-RULE fragments (XSD order CHECKSUM-VERIFICATION → CODE → TYPE); the nested
+    FirewallRule path is covered by the Ipv4Rule/Ipv6Rule reader/writer tests.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12698 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `Ipv4Rule` — NetworkLayerRule (TBC at Step 1) — R23-11 markdown ECUC-mapping appendix (no table, no XSD)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py

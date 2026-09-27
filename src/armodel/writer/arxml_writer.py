@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     DoIpRule,
     FirewallRule,
     FirewallRuleProps,
+    IcmpRule,
     PayloadBytePatternRule,
     PayloadBytePatternRulePart,
     SomeipProtocolRule,
@@ -14319,6 +14320,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "NUMBER-OF-PARALLEL-TCP-SESSIONS", rule.getNumberOfParallelTcpSessions())
         self.setChildElementOptionalBooleanValue(element, "STATE-MANAGEMENT-BASED-ON-TCP-FLAGS", rule.getStateManagementBasedOnTcpFlags())
         self.setChildElementOptionalPositiveInteger(element, "TIMEOUT-CHECK", rule.getTimeoutCheck())
+
+    def writeIcmpRule(self, element: ET.Element, rule: IcmpRule):
+        self.setChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION", rule.getChecksumVerification())
+        self.setChildElementOptionalPositiveInteger(element, "CODE", rule.getCode())
+        self.setChildElementOptionalPositiveInteger(element, "TYPE", rule.getType())
 
     def writeFirewallRule(self, element: ET.Element, rule: FirewallRule):
         self.logger.debug("Write FirewallRule %s" % rule.getShortName())

@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     FirewallActionEnum,
     FirewallRule,
     FirewallRuleProps,
+    IcmpRule,
     NetworkLayerRule,
     PayloadBytePatternRule,
     PayloadBytePatternRulePart,
@@ -14689,6 +14690,11 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setNumberOfParallelTcpSessions(self.getChildElementOptionalPositiveInteger(element, "NUMBER-OF-PARALLEL-TCP-SESSIONS"))
         rule.setStateManagementBasedOnTcpFlags(self.getChildElementOptionalBooleanValue(element, "STATE-MANAGEMENT-BASED-ON-TCP-FLAGS"))
         rule.setTimeoutCheck(self.getChildElementOptionalPositiveInteger(element, "TIMEOUT-CHECK"))
+
+    def readIcmpRule(self, element: ET.Element, rule: IcmpRule):
+        rule.setChecksumVerification(self.getChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION"))
+        rule.setCode(self.getChildElementOptionalPositiveInteger(element, "CODE"))
+        rule.setType(self.getChildElementOptionalPositiveInteger(element, "TYPE"))
 
     def readFirewallRule(self, element: ET.Element, rule: FirewallRule):
         self.readIdentifiable(element, rule)
