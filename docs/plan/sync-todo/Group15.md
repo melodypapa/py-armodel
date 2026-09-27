@@ -194,135 +194,144 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `SystemSignal` — ARElement — source TBC (locate table at Step 1)
+- [ ] `SystemSignal` — ARElement — R23-11 markdown · Table 5.23 (CP_TPS_SystemTemplate), p.218
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - feat: 7c5d9e9d8 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
+  - note (Step 8): — None-no-op setters replace overwrite; rw already complete
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — see below
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27/28 (6666 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `TimeRangeType` — ARObject — source TBC (locate table at Step 1)
+- [ ] `TimeRangeType` — ARObject — R23-11 markdown · Table 6.67 (CP_TPS_SystemTemplate), p.413
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - feat: dcbc6abdb (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
+  - note (Step 8): — NEW TimeRangeTypeTolerance XSD-only empty-group class created (Rule 0016.4); TOLERANCE element not read/written (ABSOLUTE-/RELATIVE-TOLERANCE choice members not modeled) — deviation flagged
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — see below
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27/28 (6666 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `TransmissionModeCondition` — ARObject — source TBC (locate table at Step 1)
+- [ ] `TransmissionModeCondition` — ARObject — R23-11 markdown · Table 6.60 (CP_TPS_SystemTemplate), p.393
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - feat: dcbc6abdb (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
+  - note (Step 8): — class note completed ("In all other cases..." sentence added per table); None-no-op setters replace overwrite
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — see below
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27/28 (6666 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `TriggerIPduSendCondition` — ARObject — source TBC (locate table at Step 1)
+- [ ] `TriggerIPduSendCondition` — ARObject — R23-11 markdown · Table 6.70 (CP_TPS_SystemTemplate), p.399
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - feat: dcbc6abdb (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
+  - note (Step 8): — wrap-space "Com_Trigger IPDUSend" kept verbatim per markdown; checklist upgraded to 6-col; accessor names getModeDeclarationRefs/addModeDeclarationRef preserved (rw contract)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — see below
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27/28 (6666 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `CyclicTiming` — Describable — source TBC (locate table at Step 1)
+- [ ] `CyclicTiming` — Describable — R23-11 markdown · Table 6.65 (CP_TPS_SystemTemplate), p.408
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py
-  - after `TimeRangeType`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - feat: dcbc6abdb (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — see below
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27/28 (6666 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `EventControlledTiming` — Describable — source TBC (locate table at Step 1)
+- [ ] `EventControlledTiming` — Describable — R23-11 markdown · Table 6.66 (CP_TPS_SystemTemplate), p.409
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py
-  - after `TimeRangeType`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - feat: dcbc6abdb (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
+  - note (Step 8): — note kept "a event driven" per table verbatim
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — see below
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27/28 (6666 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `FlexrayChannelName` — AREnum — source TBC (locate table at Step 1)
+- [ ] `FlexrayChannelName` — AREnum — R23-11 markdown · Table 3.35 (CP_TPS_SystemTemplate), p.89
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
-  - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - feat: 7c137656f (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
+  - note (Step 8): — literal renamed channel_B → CHANNEL_B (case fix, no external usages)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — see below
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27/28 (6666 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `PncGatewayTypeEnum` — AREnum — source TBC (locate table at Step 1)
+- [ ] `PncGatewayTypeEnum` — AREnum — R23-11 markdown · Table 3.5 (CP_TPS_SystemTemplate), p.55
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
-  - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - feat: 7c137656f (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
+  - note (Step 8): — literals renamed ENUM_ACTIVE/ENUM_NONE/ENUM_PASSIVE → ACTIVE/NONE/PASSIVE
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — see below
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27/28 (6666 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [x] `ClientIdRange` — ARObject — already verified (R23-11 · Table 3.2, p.52; short-circuit 2026-09-27)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
   - note (short-circuit 2026-09-27): class body already carries `# Spec verified: R23-11` — Base ARObject correct, lowerLimit/upperLimit (Limit, 0..1, attr) with verbatim member notes + None-no-op setters, constraints 3116/5396/5397 verbatim in class docstring, full reader/writer coverage, 6-col checklist all [x]. Deviation check found nothing new. No code change needed — row flipped without a class commit.
 
-- [ ] `TransmissionModeTiming` — ARObject — source TBC (locate table at Step 1)
+- [ ] `TransmissionModeTiming` — ARObject — R23-11 markdown · Table 6.62 (CP_TPS_SystemTemplate), p.394
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py
-  - after `CyclicTiming`
-  - after `EventControlledTiming`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - feat: dcbc6abdb (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — see below
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27/28 (6666 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `TransmissionModeDeclaration` — ARObject — source TBC (locate table at Step 1)
+- [ ] `TransmissionModeDeclaration` — ARObject — R23-11 markdown · Table 6.59 (CP_TPS_SystemTemplate), p.392
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - after `TransmissionModeCondition`
-  - after `TransmissionModeTiming`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - feat: dcbc6abdb (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
+  - note (Step 8): — accessor contract preserved (getModeDrivenFalseConditions/addModeDrivenFalseCondition etc. used by parser+writer); legacy test_Timing.py None-overwrite/None-append assertions updated to the None-guard contract
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — see below
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27/28 (6666 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
