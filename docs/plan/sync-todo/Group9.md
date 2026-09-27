@@ -375,7 +375,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations  [none open]
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (shared battery); on 9b: `# XSD verified: AUTOSAR_00052.xsd`; 9b CONFIRMED by user 2026-09-28 (chat confirmation, XSD-verified) — stamp `# XSD verified: AUTOSAR_00052.xsd (2026-09-28, user 9b confirmation)` written after the Spec line in the class block in GerneralParameters.py; 9a re-gate on the stamped tree: family+consumer tests 69/69 (test_GerneralParameters.py + parser/writer test_prms.py + test_Chapters.py), full suite 12766 passed / 0 failed, `npm run lint` clean, black-check clean 1319 files unchanged → feat commit 376f43f64
 
-- [ ] `PrmCharNumericalContents` — ARObject (via PrmCharContents) — XSD-only (no own table in repo corpus) — synced R23-11 (commit a3cf04c73, 9b pending)
+- [x] `PrmCharNumericalContents` — ARObject (via PrmCharContents) — XSD-only (no own table in repo corpus) — finished, stamped `# XSD verified: AUTOSAR_00052.xsd` (commit: 51ded41bf, 9b confirmed 2026-09-28)
   - module: M2/MSR/Documentation/BlockElements/GerneralParameters.py
   - after `PrmCharMinTypMax`
   - note: queued 2026-09-27 (same split); the XSD choice {ABS-TOL group | MIN-TYP-MAX group} is modeled as paired Optional fields absTol/minTypMax per the TopicContentOrMsrQuery family precedent (established pattern, no deviation row)
@@ -387,7 +387,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green) — reader: PRM-UNIT via getSingleLanguageUnitNames inside readPrmChar's numerical branch; writer: setSingleLanguageUnitNames (None-guarded)
   - [x] Step 7 — Update checklist comment — cites complexType l.93876 + group l.93856
   - [x] Step 8 — Deviations  [none open — choice-as-paired-Optionals is the established family pattern]
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (shared battery); on 9b: `# XSD verified: AUTOSAR_00052.xsd`
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (shared battery); on 9b: `# XSD verified: AUTOSAR_00052.xsd`; 9b CONFIRMED by user 2026-09-28 (chat confirmation, XSD-verified) — stamp `# XSD verified: AUTOSAR_00052.xsd (2026-09-28, user 9b confirmation)` written after the Spec line in the class block in GerneralParameters.py; 9a re-gate on the stamped tree: family+consumer tests 69/69 (test_GerneralParameters.py + parser/writer test_prms.py + test_Chapters.py), full suite 12766 passed / 0 failed, `npm run lint` clean, black-check clean 1319 files unchanged → feat commit 51ded41bf
 
 - [ ] `PrmCharTextualContents` — ARObject (via PrmCharContents) — XSD-only (no own table in repo corpus) — synced R23-11 (commit a3cf04c73, 9b pending)
   - module: M2/MSR/Documentation/BlockElements/GerneralParameters.py
