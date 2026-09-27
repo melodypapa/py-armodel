@@ -572,7 +572,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SignalServiceTranslationElementProps`                  | [ ] Pending* | 29d09fc62                                      | Group14          |
 | `SingleLanguageLongName`                                | [x] Done    | 8aaa2657                                 | Group3           |
 | `SingleLanguageReferrable`                              | [x] Done    | a5910c1b                                 | Group3           |
-| `SingleLanguageUnitNames`                               | [x] Done    | N/A                                      | Group8           |
+| `SingleLanguageUnitNames`                               | [x] Done    | d42795c16                                | Group8           |
 | `SlOverviewParagraph`                                   | [x] Done    | 951209dba                                | Group8           |
 | `SlParagraph`                                           | [x] Done    | b7748b3                                  | Group3           |
 | `SoAdRoutingGroup`                                      | [ ] Pending | N/A                                      | Group20          |
