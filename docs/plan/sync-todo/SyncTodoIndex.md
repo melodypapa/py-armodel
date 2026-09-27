@@ -475,7 +475,7 @@ Status: **26/49** completed
 | `MixedContentForPlainText`               | [x] Done     | 4a95d1d30 |
 | `MixedContentForVerbatim`                | [x] Done     | 74549e6a5 |
 | `SlOverviewParagraph`                    | [x] Done     | 951209dba |
-| `MixedContentForUnitNames`               | [ ] Pending  | N/A       |
+| `MixedContentForUnitNames`               | [ ] Pending* | 07f06b255 |
 | `SingleLanguageUnitNames`                | [x] Done     | N/A       |
 | `SwSystemconstValue`                     | [ ] Pending* | N/A       |
 | `PostBuildVariantCondition`              | [ ] Pending* | N/A       |
@@ -577,7 +577,7 @@ Status: **0/31** completed
 
 ## Group11
 
-Status: **0/24** completed
+Status: **1/24** completed
 
 | Class Name                             | Status       | Commit ID |
 | -------------------------------------- | ------------ | --------- |
@@ -587,24 +587,24 @@ Status: **0/24** completed
 | `ClientServerApplicationErrorMapping`  | [ ] Pending* | N/A       |
 | `ClientServerOperationMapping`         | [ ] Pending* | N/A       |
 | `ClientServerInterfaceMapping`         | [ ] Pending* | N/A       |
-| `ModeInterfaceMapping`                 | [ ] Pending  | N/A       |
-| `VariableAndParameterInterfaceMapping` | [ ] Pending  | N/A       |
-| `Field`                                | [ ] Pending  | N/A       |
-| `AbstractProvidedPortPrototype`        | [ ] Pending  | N/A       |
-| `AbstractRequiredPortPrototype`        | [ ] Pending  | N/A       |
-| `ServiceProxySwComponentType`          | [ ] Pending  | N/A       |
-| `ModeGroupInAtomicSwcInstanceRef`      | [ ] Pending  | N/A       |
-| `OperationInAtomicSwcInstanceRef`      | [ ] Pending  | N/A       |
-| `RModeInAtomicSwcInstanceRef`          | [ ] Pending  | N/A       |
-| `TriggerInAtomicSwcInstanceRef`        | [ ] Pending  | N/A       |
-| `PModeGroupInAtomicSwcInstanceRef`     | [ ] Pending  | N/A       |
-| `RModeGroupInAtomicSWCInstanceRef`     | [ ] Pending  | N/A       |
-| `POperationInAtomicSwcInstanceRef`     | [ ] Pending  | N/A       |
-| `ROperationInAtomicSwcInstanceRef`     | [ ] Pending  | N/A       |
-| `RVariableInAtomicSwcInstanceRef`      | [ ] Pending  | N/A       |
-| `PTriggerInAtomicSwcTypeInstanceRef`   | [ ] Pending  | N/A       |
-| `PPortInCompositionInstanceRef`        | [ ] Pending  | N/A       |
-| `RPortInCompositionInstanceRef`        | [ ] Pending  | N/A       |
+| `ModeInterfaceMapping`                 | [ ] Pending* | 883237559 |
+| `VariableAndParameterInterfaceMapping`| [ ] Pending* | de2d5fe91 |
+| `Field`                                | [ ] Pending* | 413d1a4b6 |
+| `AbstractProvidedPortPrototype`        | [ ] Pending* | fb7a835f9 |
+| `AbstractRequiredPortPrototype`        | [ ] Pending* | fb7a835f9 |
+| `ServiceProxySwComponentType`          | [x] Done     | 74e821ccb |
+| `ModeGroupInAtomicSwcInstanceRef`      | [ ] Pending* | 74e821ccb |
+| `OperationInAtomicSwcInstanceRef`      | [ ] Pending* | 74e821ccb |
+| `RModeInAtomicSwcInstanceRef`          | [ ] Pending* | 74e821ccb |
+| `TriggerInAtomicSwcInstanceRef`        | [ ] Pending* | 74e821ccb |
+| `PModeGroupInAtomicSwcInstanceRef`     | [ ] Pending* | 74e821ccb |
+| `RModeGroupInAtomicSWCInstanceRef`     | [ ] Pending* | 74e821ccb |
+| `POperationInAtomicSwcInstanceRef`     | [ ] Pending* | 74e821ccb |
+| `ROperationInAtomicSwcInstanceRef`     | [ ] Pending* | 74e821ccb |
+| `RVariableInAtomicSwcInstanceRef`      | [ ] Pending* | 74e821ccb |
+| `PTriggerInAtomicSwcTypeInstanceRef`   | [ ] Pending* | 74e821ccb |
+| `PPortInCompositionInstanceRef`        | [ ] Pending* | 74e821ccb |
+| `RPortInCompositionInstanceRef`        | [ ] Pending* | 74e821ccb |
 
 ## Group12
 

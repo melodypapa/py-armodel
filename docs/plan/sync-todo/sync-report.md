@@ -17,8 +17,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `AbstractImplementationDataType`                        | [x] Done    | 9b5379d3                                 | Group1           |
 | `AbstractImplementationDataTypeElement`                 | [x] Done    | cabd5469                                 | Group1, Group2   |
 | `AbstractNumericalVariationPoint`                       | [x] Done    | d5c96fd9                                 | Group8           |
-| `AbstractProvidedPortPrototype`                         | [ ] Pending | N/A                                      | Group11          |
-| `AbstractRequiredPortPrototype`                         | [ ] Pending | N/A                                      | Group11          |
+| `AbstractProvidedPortPrototype`                         | [ ] Pending*| fb7a835f9                                | Group11          |
+| `AbstractRequiredPortPrototype`                         | [ ] Pending*| fb7a835f9                                | Group11          |
 | `AlignEnum`                                             | [x] Done    | fa74a474                                 | Group3           |
 | `ApiPrincipleEnum`                                      | [ ] Deferred| N/A                                      | Group10          |
 | `AppOsTaskProxyToEcuTaskProxyMapping`                   | [ ] Pending | N/A                                      | Group18          |
@@ -304,7 +304,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `FMConditionByFeaturesAndSwSystemconsts`                | [ ] Deferred| N/A                                      | Group8           |
 | `FMFormulaByFeaturesAndAttributes`                      | [ ] Deferred| N/A                                      | Group8           |
 | `FMFormulaByFeaturesAndSwSystemconsts`                  | [ ] Deferred| N/A                                      | Group8           |
-| `Field`                                                 | [ ] Pending | N/A                                      | Group11          |
+| `Field`                                                 | [ ] Pending*| 413d1a4b6                                | Group11          |
 | `FileInfoComment`                                       | [x] Done    | c62e1c89                                 | Group1           |
 | `FirewallActionEnum`                                    | [x] Done    | ab2daa77                                 | Group3, Group7   |
 | `FirewallRule`                                          | [x] Deferred| 00d011d4                                 | Group1           |
@@ -416,7 +416,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `MixedContentForOverviewParagraph`                      | [x] Done    | 18b494eba                                | Group8           |
 | `MixedContentForParagraph`                              | [x] Done    | bf9114cb                                 | Group3           |
 | `MixedContentForPlainText`                              | [x] Done    | 4a95d1d30                                | Group8           |
-| `MixedContentForUnitNames`                              | [ ] Pending | N/A                                      | Group8           |
+| `MixedContentForUnitNames`                              | [ ] Pending*| 07f06b255                                | Group8           |
 | `MixedContentForVerbatim`                               | [x] Done    | 74549e6a5                                | Group8           |
 | `MlFigure`                                              | [x] Done    | 9225ed15                                 | Group3           |
 | `ModeAccessPoint`                                       | [ ] Deferred| N/A                                      | Group12          |
@@ -426,10 +426,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ModeDeclarationGroupPrototypeMapping`                  | [ ] Deferred| N/A                                      | Group11          |
 | `ModeDeclarationMappingSet`                             | [x] Done    | eeec29b6                                 | Group1           |
 | `ModeDrivenTransmissionModeCondition`                   | [x] Done    | 206cf295                                 | Group5           |
-| `ModeGroupInAtomicSwcInstanceRef`                       | [ ] Pending | N/A                                      | Group11          |
+| `ModeGroupInAtomicSwcInstanceRef`                       | [ ] Pending*| 74e821ccb                                | Group11          |
 | `ModeInSwcBswInstanceRef`                               | [ ] Deferred| N/A                                      | Group8           |
 | `ModeInSwcInstanceRef`                                  | [ ] Deferred| N/A                                      | Group8           |
-| `ModeInterfaceMapping`                                  | [ ] Pending | N/A                                      | Group11          |
+| `ModeInterfaceMapping`                                  | [ ] Pending*| 883237559                                | Group11          |
 | `ModeRequestTypeMap`                                    | [ ] Deferred| N/A                                      | Group11          |
 | `ModeSwitchEventTriggeredActivity`                      | [ ] Deferred| N/A                                      | Group10          |
 | `ModeSwitchPoint`                                       | [ ] Deferred| N/A                                      | Group12          |
@@ -468,19 +468,19 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `NvProvideComSpec`                                      | [ ] Deferred| N/A                                      | Group10          |
 | `NvRequireComSpec`                                      | [ ] Deferred| N/A                                      | Group10          |
 | `OffsetTimingConstraint`                                | [ ] Deferred| N/A                                      | Group8           |
-| `OperationInAtomicSwcInstanceRef`                       | [ ] Pending | N/A                                      | Group11          |
+| `OperationInAtomicSwcInstanceRef`                       | [ ] Pending*| 74e821ccb                                | Group11          |
 | `OperationInSystemInstanceRef`                          | [x] Done    | 4e0c3cbe                                 | Group5           |
 | `OperationInvokedEvent`                                 | [ ] Deferred| N/A                                      | Group12          |
 | `OrderedMaster`                                         | [x] Done    | 5d624502                                 | Group6           |
 | `OrientEnum`                                            | [x] Done    | 9223f504                                 | Group3           |
 | `OsTaskPreemptabilityEnum`                              | [x] Done    | c53a7feb                                 | Group5           |
 | `OsTaskProxy`                                           | [x] Done    | 61ccaa68                                 | Group5           |
-| `PModeGroupInAtomicSwcInstanceRef`                      | [ ] Pending | N/A                                      | Group11          |
-| `POperationInAtomicSwcInstanceRef`                      | [ ] Pending | N/A                                      | Group11          |
-| `PPortInCompositionInstanceRef`                         | [ ] Pending | N/A                                      | Group11          |
+| `PModeGroupInAtomicSwcInstanceRef`                      | [ ] Pending*| 74e821ccb                                | Group11          |
+| `POperationInAtomicSwcInstanceRef`                      | [ ] Pending*| 74e821ccb                                | Group11          |
+| `PPortInCompositionInstanceRef`                         | [ ] Pending*| 74e821ccb                                | Group11          |
 | `PPortPrototype`                                        | [x] Done    | 09273330                                 | Group2           |
 | `PRPortPrototype`                                       | [x] Done    | f6f94aaf                                 | Group2           |
-| `PTriggerInAtomicSwcTypeInstanceRef`                    | [ ] Pending | N/A                                      | Group11          |
+| `PTriggerInAtomicSwcTypeInstanceRef`                    | [ ] Pending*| 74e821ccb                                | Group11          |
 | `PackageableElement`                                    | [x] Done    | bb032ddd                                 | Group1           |
 | `Paginateable`                                          | [x] Done    | 20e6ee88                                 | Group3           |
 | `ParameterAccess`                                       | [ ] Deferred| N/A                                      | Group12          |
@@ -513,13 +513,13 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ProgramminglanguageEnum`                               | [x] Done    | be79d799                                 | Group1           |
 | `QueuedReceiverComSpec`                                 | [ ] Deferred| N/A                                      | Group10          |
 | `QueuedSenderComSpec`                                   | [x] Done    | 4a7d82ff                                 | Group5           |
-| `RModeGroupInAtomicSWCInstanceRef`                      | [ ] Pending | N/A                                      | Group11          |
-| `RModeInAtomicSwcInstanceRef`                           | [ ] Pending | N/A                                      | Group11          |
-| `ROperationInAtomicSwcInstanceRef`                      | [ ] Pending | N/A                                      | Group11          |
-| `RPortInCompositionInstanceRef`                         | [ ] Pending | N/A                                      | Group11          |
+| `RModeGroupInAtomicSWCInstanceRef`                      | [ ] Pending*| 74e821ccb                                | Group11          |
+| `RModeInAtomicSwcInstanceRef`                           | [ ] Pending*| 74e821ccb                                | Group11          |
+| `ROperationInAtomicSwcInstanceRef`                      | [ ] Pending*| 74e821ccb                                | Group11          |
+| `RPortInCompositionInstanceRef`                         | [ ] Pending*| 74e821ccb                                | Group11          |
 | `RPortPrototype`                                        | [x] Done    | 2cd6f3c4                                 | Group2           |
 | `RTEEvent`                                              | [x] Done    | f0483d57                                 | Group2           |
-| `RVariableInAtomicSwcInstanceRef`                       | [ ] Pending | N/A                                      | Group11          |
+| `RVariableInAtomicSwcInstanceRef`                       | [ ] Pending*| 74e821ccb                                | Group11          |
 | `RamBlockStatusControlEnum`                             | [ ] Deferred| N/A                                      | Group10          |
 | `ReceptionComSpecProps`                                 | [ ] Deferred| N/A                                      | Group10          |
 | `RecordLayoutIteratorPoint`                             | [x] Done    | 2acaf7a4                                 | Group3           |
@@ -558,7 +558,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ServerCallPoint`                                       | [x] Done    | 774620a3                                 | Group2           |
 | `ServiceDiagnosticRelevanceEnum`                        | [ ] Pending* | 28746ce3c                                      | Group14          |
 | `ServiceNeeds`                                          | [x] Done    | 5fd6271d                                 | Group4           |
-| `ServiceProxySwComponentType`                           | [ ] Pending | N/A                                      | Group11          |
+| `ServiceProxySwComponentType`                           | [x] Done    | 74e821ccb                                | Group11          |
 | `ShortNameFragment`                                     | [x] Done    | 519d50539                                | Group8           |
 | `ShowContentEnum`                                       | [x] Done    | e89003bb                                 | Group3           |
 | `ShowResourceAliasNameEnum`                             | [x] Done    | 3a68e972                                 | Group3           |
@@ -662,7 +662,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TransportProtocolConfiguration`                        | [x] Done    | 0d39cd16                                 | Group6           |
 | `Trigger`                                               | [x] Done    | 13147320                                 | Group1           |
 | `TriggerIPduSendCondition`                              | [ ] Pending | N/A                                      | Group15          |
-| `TriggerInAtomicSwcInstanceRef`                         | [ ] Pending | N/A                                      | Group11          |
+| `TriggerInAtomicSwcInstanceRef`                         | [ ] Pending*| 74e821ccb                                | Group11          |
 | `TriggerInterface`                                      | [x] Done    | cf9c6ac4                                 | Group1           |
 | `TriggerInterfaceMapping`                               | [x] Done    | 49f19e8f                                 | Group1           |
 | `TriggerMapping`                                        | [x] Done    | 905c48d3                                 | Group1           |
@@ -685,7 +685,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ValignEnum`                                            | [x] Done    | 52d3272b                                 | Group3           |
 | `VariableAccess`                                        | [ ] Deferred| N/A                                      | Group12          |
 | `VariableAccessInEcuInstanceRef`                        | [ ] Deferred| N/A                                      | Group12          |
-| `VariableAndParameterInterfaceMapping`                  | [ ] Pending | N/A                                      | Group11          |
+| `VariableAndParameterInterfaceMapping`                  | [ ] Pending*| de2d5fe91                                | Group11          |
 | `VariableDataPrototype`                                 | [x] Done    | d3b5d680                                 | Group1, Group2   |
 | `VariableDataPrototypeInSystemInstanceRef`              | [x] Done    | 1b3d673d                                 | Group7           |
 | `VariableInAtomicSWCTypeInstanceRef`                    | [x] Done    | c8ac9ef7                                 | Group2           |
