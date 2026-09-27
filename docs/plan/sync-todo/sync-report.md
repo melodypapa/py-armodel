@@ -12,7 +12,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ARPackage`                                             | [x] Done    | 36064817                                 | Group1           |
 | `AUTOSAR`                                               | [x] Done    | 74f4d3c8                                 | Group1           |
 | `AbstractDoIpLogicAddressProps`                         | [x] Done    | 64d125ffa                                | Group7           |
-| `AbstractEnumerationValueVariationPoint`                | [ ] Deferred| N/A                                      | Group8           |
+| `AbstractEnumerationValueVariationPoint`                | [x] Done    | 0518a7bca                                | Group8           |
 | `AbstractEthernetFrame`                                 | [x] Done    | ef0708e2                                 | Group6           |
 | `AbstractImplementationDataType`                        | [x] Done    | 9b5379d3                                 | Group1           |
 | `AbstractImplementationDataTypeElement`                 | [x] Done    | cabd5469                                 | Group1, Group2   |
@@ -525,6 +525,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `RecordLayoutIteratorPoint`                             | [x] Done    | 2acaf7a4                                 | Group3           |
 | `RecordValueSpecification`                              | [x] Done    | b1c7030b                                 | Group3           |
 | `ReentrancyLevelEnum`                                   | [ ] Deferred| N/A                                      | Group10          |
+| `Ref`                                                   | [x] Done    | 0518a7bca                                | Group3           |
 | `ReferenceBase`                                         | [x] Done    | 192dfd94                                 | Group1           |
 | `RequestResponseDelay`                                  | [ ] Pending | N/A                                      | Group16          |
 | `ResolutionPolicyEnum`                                  | [x] Done    | f0a74608                                 | Group3           |

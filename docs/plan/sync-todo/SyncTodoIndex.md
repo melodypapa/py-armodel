@@ -143,7 +143,7 @@ Status: **45/45** completed
 
 ## Group3
 
-Status: **94/94** completed
+Status: **95/95** completed
 
 | Class Name                             | Status   | Commit ID |
 | -------------------------------------- | -------- | --------- |
@@ -241,6 +241,7 @@ Status: **94/94** completed
 | `GeneralAnnotation`                    | [x] Done | ab2daa77  |
 | `FirewallActionEnum`                   | [x] Done | ab2daa77  |
 | `CompuGenericMath`                     | [x] Done | 4dd42b2d  |
+| `Ref`                                  | [x] Done | 0518a7bca |
 
 ## Group4
 
@@ -456,7 +457,7 @@ Status: **34/34** completed
 
 ## Group8
 
-Status: **42/49** completed
+Status: **43/49** completed
 
 | Class Name                               | Status       | Commit ID |
 | ---------------------------------------- | ------------ | --------- |
@@ -494,7 +495,7 @@ Status: **42/49** completed
 | `VariationPoint`                         | [x] Done     | d4fce975d |
 | `ModeInSwcBswInstanceRef`                | [x] Done     | 71ca6a541 |
 | `ModeInSwcInstanceRef`                   | [x] Done     | 70dcc2697 |
-| `AbstractEnumerationValueVariationPoint` | [ ] Pending* | N/A       |
+| `AbstractEnumerationValueVariationPoint` | [x] Done     | 0518a7bca |
 | `AbstractNumericalVariationPoint`        | [x] Done     | d5c96fd9  |
 | `BooleanValueVariationPoint`             | [x] Done     | d5c96fd9  |
 | `FloatValueVariationPoint`               | [x] Done     | d5c96fd9  |
