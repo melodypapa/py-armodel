@@ -7,7 +7,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
 | ------------------------------------------------------- | ------------| ---------------------------------------- | ---------------- |
 | `ARElement`                                             | [x] Done    | 61c85fa7                                 | Group1           |
-| `ARList`                                                | [ ] Deferred| N/A                                      | Group9           |
+| `ARList`                                                | [x] Done    | 2151ca030                                | Group9           |
 | `ARObject`                                              | [x] Done    | 78ae363c                                 | Group1           |
 | `ARPackage`                                             | [x] Done    | 36064817                                 | Group1           |
 | `AUTOSAR`                                               | [x] Done    | 74f4d3c8                                 | Group1           |
