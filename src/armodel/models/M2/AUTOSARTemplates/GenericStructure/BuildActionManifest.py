@@ -1,3 +1,4 @@
+from abc import ABC
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -52,7 +53,7 @@ class BuildActionInvocator(ARObject):
         return self
 
 
-class BuildActionEntity(Identifiable):
+class BuildActionEntity(Identifiable, ABC):
     """
     This meta-class represents the ability to describe a build action entity which might be specialized to environments as well as to individual build actions.
     """

@@ -6,6 +6,7 @@ Hardware elements define the physical components of ECUs including pins, pin gro
 and connections between hardware elements.
 """
 
+from abc import ABC
 from typing import TYPE_CHECKING, List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
@@ -18,7 +19,7 @@ if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 
 
-class HwDescriptionEntity(Referrable):
+class HwDescriptionEntity(Referrable, ABC):
     """
     This meta-class represents the ability to describe a hardware entity.
     """

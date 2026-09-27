@@ -3,6 +3,8 @@ This module contains classes for representing AUTOSAR port API options
 in software component internal behavior templates.
 """
 
+from abc import ABC
+
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -88,7 +90,7 @@ class SupportBufferLockingEnum(AREnum):
         )
 
 
-class SwcSupportedFeature(ARObject):
+class SwcSupportedFeature(ARObject, ABC):
     """
     This meta-class represents a abstract base class for features that can be supported by a RunnableEntity.
     """

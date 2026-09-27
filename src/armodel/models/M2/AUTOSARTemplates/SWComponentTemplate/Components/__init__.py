@@ -587,7 +587,7 @@ class PortPrototype(AtpPrototype, AtpBlueprintable, VariationPointCapable, ABC):
         return self
 
 
-class AbstractProvidedPortPrototype(PortPrototype):
+class AbstractProvidedPortPrototype(PortPrototype, ABC):
     """
     This abstract class provides the ability to become a provided PortPrototype.
     """
@@ -647,7 +647,7 @@ class AbstractProvidedPortPrototype(PortPrototype):
         return filter(lambda c: isinstance(c, NonqueuedSenderComSpec), self.providedComSpecs)
 
 
-class AbstractRequiredPortPrototype(PortPrototype):
+class AbstractRequiredPortPrototype(PortPrototype, ABC):
     """
     This abstract class provides the ability to become a required PortPrototype.
     """

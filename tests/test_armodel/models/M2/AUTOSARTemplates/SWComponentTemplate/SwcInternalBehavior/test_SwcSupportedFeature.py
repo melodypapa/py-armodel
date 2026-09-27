@@ -1,5 +1,8 @@
+from abc import ABC
+
 import pytest
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import SwcSupportedFeature
 
 
@@ -8,6 +11,7 @@ class TestSwcSupportedFeature:
         with pytest.raises(TypeError):
             SwcSupportedFeature()
 
+        assert SwcSupportedFeature.__bases__ == (ARObject, ABC)
         assert SwcSupportedFeature.__doc__.strip() == ("This meta-class represents a abstract base class for features that can be supported by a RunnableEntity.")
 
     def test_concrete_child_can_initialize_through_abstract_base(self):
