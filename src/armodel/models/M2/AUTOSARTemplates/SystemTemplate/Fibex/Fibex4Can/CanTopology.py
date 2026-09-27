@@ -1105,19 +1105,80 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
         return self
 
 
-class CanControllerConfiguration(ARObject):
-    """
-    CAN 2.0 configuration parameters for the CAN XL controller.
+class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
+    """This element is used for the specification of the exact CAN Bit Timing configuration parameter values."""
 
-    Placeholder for the AUTOSAR CAN-CONTROLLER-CONFIGURATION meta-class
-    (AUTOSAR_CP_TPS_SystemTemplate, Table 3.14). The inner attributes
-    (propSeg, syncJumpWidth, timeSeg1, timeSeg2) are not yet modeled; this
-    class is provided so CanXlProps.canConfig can be referenced. To be fully
-    synced in a later pass.
-    """
+    # CanControllerConfiguration method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.14, p.64
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPropSeg        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPropSeg        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncJumpWidth  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncJumpWidth  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSeg1       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSeg1       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSeg2       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSeg2       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
+
+        # Specifies propagation delay in time quantas.
+        self.propSeg: Optional[Integer] = None
+
+        # The number of quanta in the Synchronization Jump Width, SJW. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors.
+        self.syncJumpWidth: Optional[Integer] = None
+
+        # Specifies phase segment 1 in time quantas. timeSeg1 = Phase_Seg1
+        self.timeSeg1: Optional[Integer] = None
+
+        # Specifies phase segment 2 in time quantas. timeSeg2 = Phase_Seg2
+        self.timeSeg2: Optional[Integer] = None
+
+    def getPropSeg(self) -> Optional[Integer]:
+        """Specifies propagation delay in time quantas."""
+        return self.propSeg
+
+    def setPropSeg(self, value: Optional[Integer]) -> CanControllerConfiguration:
+        """Specifies propagation delay in time quantas.
+        A None value is a no-op and does not overwrite an existing propSeg."""
+        if value is not None:
+            self.propSeg = value
+        return self
+
+    def getSyncJumpWidth(self) -> Optional[Integer]:
+        """The number of quanta in the Synchronization Jump Width, SJW. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors."""
+        return self.syncJumpWidth
+
+    def setSyncJumpWidth(self, value: Optional[Integer]) -> CanControllerConfiguration:
+        """The number of quanta in the Synchronization Jump Width, SJW. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors.
+        A None value is a no-op and does not overwrite an existing syncJumpWidth."""
+        if value is not None:
+            self.syncJumpWidth = value
+        return self
+
+    def getTimeSeg1(self) -> Optional[Integer]:
+        """Specifies phase segment 1 in time quantas. timeSeg1 = Phase_Seg1"""
+        return self.timeSeg1
+
+    def setTimeSeg1(self, value: Optional[Integer]) -> CanControllerConfiguration:
+        """Specifies phase segment 1 in time quantas. timeSeg1 = Phase_Seg1
+        A None value is a no-op and does not overwrite an existing timeSeg1."""
+        if value is not None:
+            self.timeSeg1 = value
+        return self
+
+    def getTimeSeg2(self) -> Optional[Integer]:
+        """Specifies phase segment 2 in time quantas. timeSeg2 = Phase_Seg2"""
+        return self.timeSeg2
+
+    def setTimeSeg2(self, value: Optional[Integer]) -> CanControllerConfiguration:
+        """Specifies phase segment 2 in time quantas. timeSeg2 = Phase_Seg2
+        A None value is a no-op and does not overwrite an existing timeSeg2."""
+        if value is not None:
+            self.timeSeg2 = value
+        return self
 
 
 class CanXlProps(ARElement):

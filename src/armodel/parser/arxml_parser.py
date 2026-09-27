@@ -12102,7 +12102,15 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             configuration = CanControllerConfiguration()
+            self.readCanControllerConfiguration(child_element, configuration)
         return configuration
+
+    def readCanControllerConfiguration(self, element: ET.Element, configuration: CanControllerConfiguration):
+        self.readAbstractCanCommunicationControllerAttributes(element, configuration)
+        configuration.setPropSeg(self.getChildElementOptionalIntegerValue(element, "PROP-SEG"))
+        configuration.setSyncJumpWidth(self.getChildElementOptionalIntegerValue(element, "SYNC-JUMP-WIDTH"))
+        configuration.setTimeSeg1(self.getChildElementOptionalIntegerValue(element, "TIME-SEG-1"))
+        configuration.setTimeSeg2(self.getChildElementOptionalIntegerValue(element, "TIME-SEG-2"))
 
     def getCanControllerXlConfigurationRequirements(self, element: ET.Element, key: str) -> CanControllerXlConfigurationRequirements:
         requirements = None
@@ -12159,6 +12167,10 @@ class ARXMLParser(AbstractARXMLParser):
                 requirements = CanControllerConfigurationRequirements()
                 self.readCanControllerConfigurationRequirements(child_element, requirements)
                 controller.setCanControllerAttributes(requirements)
+            elif tag_name == "CAN-CONTROLLER-CONFIGURATION":
+                configuration = CanControllerConfiguration()
+                self.readCanControllerConfiguration(child_element, configuration)
+                controller.setCanControllerAttributes(configuration)
             else:
                 self.notImplemented("Unsupported CanControllerAttributes <%s>" % tag_name)
 

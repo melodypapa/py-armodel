@@ -4,7 +4,7 @@ import typing
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, PositiveUnlimitedInteger, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, PositiveUnlimitedInteger, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
     AbstractCanCommunicationConnector,
     AbstractCanCommunicationController,
@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanClusterBusOffRecovery,
     CanCommunicationConnector,
     CanCommunicationController,
+    CanControllerConfiguration,
     CanControllerConfigurationRequirements,
     CanControllerFdConfiguration,
     CanControllerFdConfigurationRequirements,
@@ -876,3 +877,152 @@ class TestCanCommunicationConnector:
         """Test getter/setter docstrings carry the spec Note verbatim (Table 3.23)"""
         self._assert_docstring(CanCommunicationConnector.getPncWakeupDlc, PNC_WAKEUP_DLC_NOTE)
         self._assert_docstring(CanCommunicationConnector.setPncWakeupDlc, PNC_WAKEUP_DLC_NOTE, "pncWakeupDlc")
+
+
+CAN_CONTROLLER_CONFIGURATION_CLASS_NOTE = "This element is used for the specification of the exact CAN Bit Timing configuration parameter values."
+PROP_SEG_NOTE = "Specifies propagation delay in time quantas."
+SYNC_JUMP_WIDTH_NOTE = "The number of quanta in the Synchronization Jump Width, SJW. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors."
+TIME_SEG_1_NOTE = "Specifies phase segment 1 in time quantas. timeSeg1 = Phase_Seg1"
+TIME_SEG_2_NOTE = "Specifies phase segment 2 in time quantas. timeSeg2 = Phase_Seg2"
+
+
+class TestCanControllerConfiguration:
+    def test_initialization(self):
+        """Test that all __init__ fields default to None, incl. inherited base fields"""
+        config = CanControllerConfiguration()
+
+        assert isinstance(config, ARObject)
+        assert isinstance(config, AbstractCanCommunicationControllerAttributes)
+        assert config.getPropSeg() is None
+        assert config.getSyncJumpWidth() is None
+        assert config.getTimeSeg1() is None
+        assert config.getTimeSeg2() is None
+        assert config.getCanControllerFdAttributes() is None
+        assert config.getCanControllerFdRequirements() is None
+        assert config.getCanControllerXlAttributes() is None
+        assert config.getCanControllerXlRequirements() is None
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.14)"""
+        assert inspect.cleandoc(CanControllerConfiguration.__doc__).strip() == CAN_CONTROLLER_CONFIGURATION_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert CanControllerConfiguration.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 3.14)"""
+        source = inspect.getsource(CanControllerConfiguration.__init__)
+        assert source.index("self.propSeg") < source.index("self.syncJumpWidth")
+        assert source.index("self.syncJumpWidth") < source.index("self.timeSeg1")
+        assert source.index("self.timeSeg1") < source.index("self.timeSeg2")
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        doc = method.__doc__
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == expected
+
+    def test_get_set_prop_seg(self):
+        """Test propSeg default, guarded set chaining, None no-op and typing"""
+        config = CanControllerConfiguration()
+
+        assert config.getPropSeg() is None
+
+        prop_seg = Integer()
+        prop_seg.setValue("8")
+        assert config == config.setPropSeg(prop_seg)
+        assert config.getPropSeg() == prop_seg
+
+        assert config == config.setPropSeg(None)
+        assert config.getPropSeg() == prop_seg
+
+        getter_hints = typing.get_type_hints(CanControllerConfiguration.getPropSeg)
+        assert getter_hints.get("return") == typing.Optional[Integer]
+
+        setter_hints = typing.get_type_hints(CanControllerConfiguration.setPropSeg)
+        assert setter_hints.get("value") == typing.Optional[Integer]
+        assert setter_hints.get("return") is CanControllerConfiguration
+
+    def test_prop_seg_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.14)"""
+        self._assert_docstring(CanControllerConfiguration.getPropSeg, PROP_SEG_NOTE)
+        self._assert_docstring(CanControllerConfiguration.setPropSeg, PROP_SEG_NOTE, "propSeg")
+
+    def test_get_set_sync_jump_width(self):
+        """Test syncJumpWidth default, guarded set chaining, None no-op and typing"""
+        config = CanControllerConfiguration()
+
+        assert config.getSyncJumpWidth() is None
+
+        sjw = Integer()
+        sjw.setValue("2")
+        assert config == config.setSyncJumpWidth(sjw)
+        assert config.getSyncJumpWidth() == sjw
+
+        assert config == config.setSyncJumpWidth(None)
+        assert config.getSyncJumpWidth() == sjw
+
+        getter_hints = typing.get_type_hints(CanControllerConfiguration.getSyncJumpWidth)
+        assert getter_hints.get("return") == typing.Optional[Integer]
+
+        setter_hints = typing.get_type_hints(CanControllerConfiguration.setSyncJumpWidth)
+        assert setter_hints.get("value") == typing.Optional[Integer]
+        assert setter_hints.get("return") is CanControllerConfiguration
+
+    def test_sync_jump_width_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.14)"""
+        self._assert_docstring(CanControllerConfiguration.getSyncJumpWidth, SYNC_JUMP_WIDTH_NOTE)
+        self._assert_docstring(CanControllerConfiguration.setSyncJumpWidth, SYNC_JUMP_WIDTH_NOTE, "syncJumpWidth")
+
+    def test_get_set_time_seg1(self):
+        """Test timeSeg1 default, guarded set chaining, None no-op and typing"""
+        config = CanControllerConfiguration()
+
+        assert config.getTimeSeg1() is None
+
+        time_seg1 = Integer()
+        time_seg1.setValue("13")
+        assert config == config.setTimeSeg1(time_seg1)
+        assert config.getTimeSeg1() == time_seg1
+
+        assert config == config.setTimeSeg1(None)
+        assert config.getTimeSeg1() == time_seg1
+
+        getter_hints = typing.get_type_hints(CanControllerConfiguration.getTimeSeg1)
+        assert getter_hints.get("return") == typing.Optional[Integer]
+
+        setter_hints = typing.get_type_hints(CanControllerConfiguration.setTimeSeg1)
+        assert setter_hints.get("value") == typing.Optional[Integer]
+        assert setter_hints.get("return") is CanControllerConfiguration
+
+    def test_time_seg1_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.14)"""
+        self._assert_docstring(CanControllerConfiguration.getTimeSeg1, TIME_SEG_1_NOTE)
+        self._assert_docstring(CanControllerConfiguration.setTimeSeg1, TIME_SEG_1_NOTE, "timeSeg1")
+
+    def test_get_set_time_seg2(self):
+        """Test timeSeg2 default, guarded set chaining, None no-op and typing"""
+        config = CanControllerConfiguration()
+
+        assert config.getTimeSeg2() is None
+
+        time_seg2 = Integer()
+        time_seg2.setValue("2")
+        assert config == config.setTimeSeg2(time_seg2)
+        assert config.getTimeSeg2() == time_seg2
+
+        assert config == config.setTimeSeg2(None)
+        assert config.getTimeSeg2() == time_seg2
+
+        getter_hints = typing.get_type_hints(CanControllerConfiguration.getTimeSeg2)
+        assert getter_hints.get("return") == typing.Optional[Integer]
+
+        setter_hints = typing.get_type_hints(CanControllerConfiguration.setTimeSeg2)
+        assert setter_hints.get("value") == typing.Optional[Integer]
+        assert setter_hints.get("return") is CanControllerConfiguration
+
+    def test_time_seg2_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.14)"""
+        self._assert_docstring(CanControllerConfiguration.getTimeSeg2, TIME_SEG_2_NOTE)
+        self._assert_docstring(CanControllerConfiguration.setTimeSeg2, TIME_SEG_2_NOTE, "timeSeg2")
