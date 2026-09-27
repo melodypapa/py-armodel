@@ -634,7 +634,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TcpTp`                                                 | [ ] Pending | N/A                                      | Group16          |
 | `TcpUdpConfig`                                          | [x] Done    | 757aea1d                                 | Group6           |
 | `TextTableMapping`                                      | [x] Done    | be79d799                                 | Group1           |
-| `TextValueSpecification`                                | [ ] Deferred| N/A                                      | Group9           |
+| `TextValueSpecification`                                | [x] Done    | 81588f449                                | Group9           |
 | `Tgroup`                                                | [x] Done    | 278d4674                                 | Group3           |
 | `TimeRangeType`                                         | [ ] Pending | N/A                                      | Group15          |
 | `TimeSyncClientConfiguration`                           | [x] Done    | 101b0f3b                                 | Group6           |
