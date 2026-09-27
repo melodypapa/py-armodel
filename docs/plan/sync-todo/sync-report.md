@@ -6,15 +6,15 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 ## Summary
 
-**715 classes total**
+**717 classes total**
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 465 | 65.0% |
+| [x] Done | 465 | 64.9% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 1 | 0.1% |
-| [ ] Deferred | 136 | 19.0% |
-| [ ] Pending | 102 | 14.3% |
+| [ ] Deferred | 176 | 24.5% |
+| [ ] Pending | 64 | 8.9% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
 | ------------------------------------------------------- | ------------| ---------------------------------------- | ---------------- |
