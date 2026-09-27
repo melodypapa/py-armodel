@@ -2308,25 +2308,33 @@ class DynamicPartAlternative(ARObject):
 
 class DynamicPart(MultiplexedPart, VariationPointCapable):
     """
-    Defines a dynamic part of multiplexed communication, specifying
-    alternatives for variable segments in multiplexed communication
-    based on selector field values.
+    Dynamic part of a multiplexed I-Pdu. Reserved space which is used to transport varying SignalIPdus at the same position, controlled by the corresponding selectorFieldCode.
     """
 
     # DynamicPart method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDynamicPartAlternatives   [x] impl  [ ] docstring  [ ] test
-    # [ ] addDynamicPartAlternative    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.74, p.410 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDynamicPartAlternatives  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDynamicPartAlternative   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.dynamicPartAlternatives = []  # type: List[DynamicPartAlternative]
+        # Com IPdu alternatives that are transmitted in the Dynamic Part of the MultiplexedIPdu.
+        self.dynamicPartAlternatives: List[DynamicPartAlternative] = []
 
-    def getDynamicPartAlternatives(self):
+    def getDynamicPartAlternatives(self) -> List[DynamicPartAlternative]:
+        """
+        Com IPdu alternatives that are transmitted in the Dynamic Part of the MultiplexedIPdu.
+        """
         return self.dynamicPartAlternatives
 
-    def addDynamicPartAlternative(self, value):
+    def addDynamicPartAlternative(self, value: Optional[DynamicPartAlternative]) -> "DynamicPart":
+        """
+        Com IPdu alternatives that are transmitted in the Dynamic Part of the MultiplexedIPdu.
+        A None value is a no-op and is not appended to dynamicPartAlternatives.
+        """
         if value is not None:
             self.dynamicPartAlternatives.append(value)
         return self
