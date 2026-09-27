@@ -833,7 +833,7 @@ Status: **0/16** completed
 
 ## Group20
 
-Status: **22/25** completed
+Status: **22/29** completed
 
 | Class Name                         | Status      | Commit ID |
 | ---------------------------------- | ----------- | --------- |
@@ -862,3 +862,7 @@ Status: **22/25** completed
 | `MeasuredStackUsage`               | [ ] Pending* | adc2e5eeb |
 | `RoughEstimateStackUsage`          | [ ] Pending* | 3db474b11 |
 | `WorstCaseStackUsage`              | [ ] Pending* | a0cbd41d0 |
+| `MacAddressString`                | [ ] Pending | N/A       |
+| `PayloadBytePatternRulePart`      | [ ] Pending | N/A       |
+| `TcpRule`                         | [ ] Pending | N/A       |
+| `UdpRule`                         | [ ] Pending | N/A       |

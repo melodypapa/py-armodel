@@ -933,3 +933,94 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (Step 8): no open deviations — the docstring drift fixes are conformance; tracker
     section refreshed (member table, all ok).
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12654 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+
+## Queue addendum — missing referenced classes (queued 2026-09-27, post-batch)
+
+Appended per user instruction ("add the missing classes with 9-steps check into todo list")
+after the member-closure audit of the 22 batch rows above. Dependency-first order; the
+owning/base classes (DataLinkLayerRule, PayloadBytePatternRule, TransportLayerRule) are
+synced above (stamps deferred to the batch 9b). Ipv4Rule/Ipv6Rule (PDF Table 6.236
+networkLayerRule type column; XSD-absent in 00052/00044; markdown has only ECUC-mapping
+appendix mentions) are NOT queued — pending user arbitration under Rule 0015 (PDF-first
+vs no derivation source). Tracker rows `networkLayerRule | Ipv4Rule | missing` and
+`transportLayerRule | TcpRule | missing` stay until the classes land.
+
+- [ ] `MacAddressString` — ARLiteral — R23-11 markdown · Table 4.53 (FO_TPS_GenericStructureTemplate)
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
+  - note: member type of DataLinkLayerRule (destinationMacAddress/-Mask, sourceMacAddress/-Mask
+    re-typed from Optional[str] this batch); exists unstamped — queued per Rule 0016.4
+    (exists ≠ stamp)
+  - note (Step 1): Table 4.53 "MacAddressString", AUTOSAR_FO_TPS_GenericStructureTemplate.md
+    L2981 (R4.3.1 fallback Table 4.64 L2395). src has docstring + Tags (pattern
+    ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}, customType MAC-ADDRESS-STRING, xsd type string) but
+    stale 4-col checklist and no stamp — Step 1 cross-checks docstring/Tags verbatim against
+    the table (Rule 0002).
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `PayloadBytePatternRulePart` — ARObject — XSD-only (00052 complexType L88508)
+  - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
+  - note: aggregated member of PayloadBytePatternRule (payloadBytePatternRulePart 0..*) —
+    implemented fully (offset/value PositiveInteger) + reader/writer + tests in 8f863fe9d
+    (the owner's Step 1 note flagged this as a queued-row decision); row covers the
+    remaining verification/stamp flow per Rule 0016.4 (exists ≠ stamp) — re-run only the
+    steps the Rule 0002 cross-check fails
+  - note (Step 1): XSD 00052 complexType PAYLOAD-BYTE-PATTERN-RULE-PART L88508; wrapper
+    PAYLOAD-BYTE-PATTERN-RULE-PARTS L88459 (owner group L88452, complexType L88473); no
+    table in either corpus — Rule 0015 XSD-only.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `TcpRule` — TransportLayerRule — XSD-only (00052 complexType L120644)
+  - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
+  - note: member type of FirewallRule.transportLayerRule (00052 L59090-59097 choice
+    TCP-RULE|UDP-RULE; PDF Table 6.236 type column) — missing class reported per Rule
+    0001.10 in this batch
+  - note (Step 1): XSD 00052 group TCP-RULE L120616 + complexType L120644; class Note
+    "Configuration of TCP filter rules."; atp.Status=candidate, atpObject; sequence =
+    AR-OBJECT + TRANSPORT-LAYER-RULE + TCP-RULE; own members numberOfParallelTcpSessions
+    (PositiveInteger, 0..1), stateManagementBasedOnTcpFlags (Boolean, 0..1), timeoutCheck
+    (PositiveInteger, 0..1). Base TransportLayerRule synced above (stamp deferred). No
+    table in either corpus — Rule 0015 XSD-only.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `UdpRule` — TransportLayerRule — XSD-only (00052 complexType L127875)
+  - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
+  - note: member type of FirewallRule.transportLayerRule (same TCP-RULE|UDP-RULE choice) —
+    missing class reported per Rule 0001.10 in this batch
+  - note (Step 1): XSD 00052 group UDP-RULE L127866 (empty sequence) + complexType L127875;
+    class Note "Configuration of UDP filter rules."; atp.Status=candidate, atpObject;
+    sequence = AR-OBJECT + TRANSPORT-LAYER-RULE + UDP-RULE — no own members (identity-only
+    subtype, same shape as TransportLayerRule). No table in either corpus — Rule 0015
+    XSD-only.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
