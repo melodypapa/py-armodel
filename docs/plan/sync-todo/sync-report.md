@@ -186,7 +186,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DataConstr`                                            | [x] Done    | 9927cc9e                                 | Group3           |
 | `DataConstrRule`                                        | [x] Done    | fa640a0d                                 | Group3           |
 | `DataFilter`                                            | [ ] Deferred| N/A                                      | Group9           |
-| `DataFilterTypeEnum`                                    | [ ] Deferred| N/A                                      | Group9           |
+| `DataFilterTypeEnum`                                    | [x] Done    | b59bd6ebb                                | Group9           |
 | `DataInterface`                                         | [x] Done    | d838fd43                                 | Group1           |
 | `DataLinkLayerRule`                                     | [ ] Pending | N/A                                      | Group20          |
 | `DataMapping`                                           | [ ] Pending | N/A                                      | Group17          |
