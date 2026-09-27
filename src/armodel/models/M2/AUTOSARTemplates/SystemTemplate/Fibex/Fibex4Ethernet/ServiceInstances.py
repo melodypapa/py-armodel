@@ -21,7 +21,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import ApplicationEndpoint, SdClientConfig
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    ApplicationEndpoint,
+    InitialSdDelayConfig,
+    SdClientConfig,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
 
 if TYPE_CHECKING:
@@ -845,65 +849,6 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         return self
 
 
-class InitialSdDelayConfig(ARObject):
-    """
-    Configures initial delay parameters for Service Discovery (SD)
-    operations, defining the timing behavior for initial service
-    discovery attempts and repetitions.
-    """
-
-    # InitialSdDelayConfig method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitialDelayMaxValue      [x] impl  [ ] docstring  [ ] test
-    # [ ] setInitialDelayMaxValue      [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitialDelayMinValue      [x] impl  [ ] docstring  [ ] test
-    # [ ] setInitialDelayMinValue      [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitialRepetitionsBaseDelay [x] impl  [ ] docstring  [ ] test
-    # [ ] setInitialRepetitionsBaseDelay [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitialRepetitionsMax     [x] impl  [ ] docstring  [ ] test
-    # [ ] setInitialRepetitionsMax     [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        super().__init__()
-
-        self.initialDelayMaxValue: TimeValue = None
-        self.initialDelayMinValue: TimeValue = None
-        self.initialRepetitionsBaseDelay: TimeValue = None
-        self.initialRepetitionsMax: PositiveInteger = None
-
-    def getInitialDelayMaxValue(self):
-        return self.initialDelayMaxValue
-
-    def setInitialDelayMaxValue(self, value):
-        if value is not None:
-            self.initialDelayMaxValue = value
-        return self
-
-    def getInitialDelayMinValue(self):
-        return self.initialDelayMinValue
-
-    def setInitialDelayMinValue(self, value):
-        if value is not None:
-            self.initialDelayMinValue = value
-        return self
-
-    def getInitialRepetitionsBaseDelay(self):
-        return self.initialRepetitionsBaseDelay
-
-    def setInitialRepetitionsBaseDelay(self, value):
-        if value is not None:
-            self.initialRepetitionsBaseDelay = value
-        return self
-
-    def getInitialRepetitionsMax(self):
-        return self.initialRepetitionsMax
-
-    def setInitialRepetitionsMax(self, value):
-        if value is not None:
-            self.initialRepetitionsMax = value
-        return self
-
-
 class SomeipSdClientServiceInstanceConfig(ARElement):
     """Client specific settings that are relevant for the configuration of SOME/IP Service-Discovery. Tags: atp.recommendedPackage=SomeipSdTimingConfigs"""
 
@@ -1138,91 +1083,153 @@ class SomeipSdServerEventGroupTimingConfig(ARElement):
 
 class SdServerConfig(ARObject):
     """
-    Configures Service Discovery (SD) server properties, specifying
-    service advertisement behavior, timing parameters, and version
-    information for service providers in the network.
+    Server configuration for Service-Discovery.
     """
 
     # SdServerConfig method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCapabilityRecords         [x] impl  [ ] docstring  [ ] test
-    # [ ] setCapabilityRecords         [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitialOfferBehavior      [x] impl  [ ] docstring  [ ] test
-    # [ ] setInitialOfferBehavior      [x] impl  [ ] docstring  [ ] test
-    # [ ] getOfferCyclicDelay          [x] impl  [ ] docstring  [ ] test
-    # [ ] setOfferCyclicDelay          [x] impl  [ ] docstring  [ ] test
-    # [ ] getRequestResponseDelay      [x] impl  [ ] docstring  [ ] test
-    # [ ] setRequestResponseDelay      [x] impl  [ ] docstring  [ ] test
-    # [ ] getServerServiceMajorVersion [x] impl  [ ] docstring  [ ] test
-    # [ ] setServerServiceMajorVersion [x] impl  [ ] docstring  [ ] test
-    # [ ] getServerServiceMinorVersion [x] impl  [ ] docstring  [ ] test
-    # [ ] setServerServiceMinorVersion [x] impl  [ ] docstring  [ ] test
-    # [ ] getTtl                       [x] impl  [ ] docstring  [ ] test
-    # [ ] setTtl                       [x] impl  [ ] docstring  [ ] test
+    # Spec: R4.3.1/AUTOSAR_TPS_SystemTemplate.pdf, Table 6.171, p.355 (R4.3.1)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+    # [x] getCapabilityRecords          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] addCapabilityRecord           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getInitialOfferBehavior       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setInitialOfferBehavior       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getOfferCyclicDelay           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setOfferCyclicDelay           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getRequestResponseDelay       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setRequestResponseDelay       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getServerServiceMajorVersion  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setServerServiceMajorVersion  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getServerServiceMinorVersion  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setServerServiceMinorVersion  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getTtl                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setTtl                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
 
     def __init__(self):
         super().__init__()
 
-        self.capabilityRecords = []  # type: List[TagWithOptionalValue]
-        self.initialOfferBehavior = None  # type: InitialSdDelayConfig
-        self.offerCyclicDelay = None  # type: TimeValue
-        self.requestResponseDelay = None  # type: RequestResponseDelay
-        self.serverServiceMajorVersion = None  # type: PositiveInteger
-        self.serverServiceMinorVersion = None  # type: PositiveInteger
-        self.ttl = None  # type: PositiveInteger
+        # A sequence of records to store arbitrary name/value pairs conveying additional information about the named service. Capability records shall only be existing if the respective SdServerConfig is composed by a ProvidedServiceInstance (see constr_3259).
+        self.capabilityRecords: List[TagWithOptionalValue] = []
 
-    def getCapabilityRecords(self):
+        # Controls offer behavior of the server.
+        self.initialOfferBehavior: Optional[InitialSdDelayConfig] = None
+
+        # Optional attribute to define cyclic offers. Cyclic offer is active, if the delay is set (in seconds).
+        self.offerCyclicDelay: Optional[TimeValue] = None
+
+        # Maximum/Minimum allowable response delay to entries received by multicast in seconds.
+        self.requestResponseDelay: Optional[RequestResponseDelay] = None
+
+        # Major version number of the Service.
+        self.serverServiceMajorVersion: Optional[PositiveInteger] = None
+
+        # Minor version number of the Service.
+        self.serverServiceMinorVersion: Optional[PositiveInteger] = None
+
+        # Time to live. Shall be a positive value (sInt32).
+        self.ttl: Optional[PositiveInteger] = None
+
+    def getCapabilityRecords(self) -> List[TagWithOptionalValue]:
+        """
+        A sequence of records to store arbitrary name/value pairs conveying additional information about the named service. Capability records shall only be existing if the respective SdServerConfig is composed by a ProvidedServiceInstance (see constr_3259).
+        """
         return self.capabilityRecords
 
-    def setCapabilityRecords(self, value):
+    def addCapabilityRecord(self, value: Optional[TagWithOptionalValue]) -> "SdServerConfig":
+        """
+        A sequence of records to store arbitrary name/value pairs conveying additional information about the named service. Capability records shall only be existing if the respective SdServerConfig is composed by a ProvidedServiceInstance (see constr_3259).
+        A None value is a no-op and is not appended to capabilityRecords.
+        """
         if value is not None:
-            self.capabilityRecords = value
+            self.capabilityRecords.append(value)
         return self
 
-    def getInitialOfferBehavior(self):
+    def getInitialOfferBehavior(self) -> Optional[InitialSdDelayConfig]:
+        """
+        Controls offer behavior of the server.
+        """
         return self.initialOfferBehavior
 
-    def setInitialOfferBehavior(self, value):
+    def setInitialOfferBehavior(self, value: Optional[InitialSdDelayConfig]) -> "SdServerConfig":
+        """
+        Controls offer behavior of the server.
+        A None value is a no-op and does not overwrite an existing initialOfferBehavior.
+        """
         if value is not None:
             self.initialOfferBehavior = value
         return self
 
-    def getOfferCyclicDelay(self):
+    def getOfferCyclicDelay(self) -> Optional[TimeValue]:
+        """
+        Optional attribute to define cyclic offers. Cyclic offer is active, if the delay is set (in seconds).
+        """
         return self.offerCyclicDelay
 
-    def setOfferCyclicDelay(self, value):
+    def setOfferCyclicDelay(self, value: Optional[TimeValue]) -> "SdServerConfig":
+        """
+        Optional attribute to define cyclic offers. Cyclic offer is active, if the delay is set (in seconds).
+        A None value is a no-op and does not overwrite an existing offerCyclicDelay.
+        """
         if value is not None:
             self.offerCyclicDelay = value
         return self
 
-    def getRequestResponseDelay(self):
+    def getRequestResponseDelay(self) -> Optional[RequestResponseDelay]:
+        """
+        Maximum/Minimum allowable response delay to entries received by multicast in seconds.
+        """
         return self.requestResponseDelay
 
-    def setRequestResponseDelay(self, value):
+    def setRequestResponseDelay(self, value: Optional[RequestResponseDelay]) -> "SdServerConfig":
+        """
+        Maximum/Minimum allowable response delay to entries received by multicast in seconds.
+        A None value is a no-op and does not overwrite an existing requestResponseDelay.
+        """
         if value is not None:
             self.requestResponseDelay = value
         return self
 
-    def getServerServiceMajorVersion(self):
+    def getServerServiceMajorVersion(self) -> Optional[PositiveInteger]:
+        """
+        Major version number of the Service.
+        """
         return self.serverServiceMajorVersion
 
-    def setServerServiceMajorVersion(self, value):
+    def setServerServiceMajorVersion(self, value: Optional[PositiveInteger]) -> "SdServerConfig":
+        """
+        Major version number of the Service.
+        A None value is a no-op and does not overwrite an existing serverServiceMajorVersion.
+        """
         if value is not None:
             self.serverServiceMajorVersion = value
         return self
 
-    def getServerServiceMinorVersion(self):
+    def getServerServiceMinorVersion(self) -> Optional[PositiveInteger]:
+        """
+        Minor version number of the Service.
+        """
         return self.serverServiceMinorVersion
 
-    def setServerServiceMinorVersion(self, value):
+    def setServerServiceMinorVersion(self, value: Optional[PositiveInteger]) -> "SdServerConfig":
+        """
+        Minor version number of the Service.
+        A None value is a no-op and does not overwrite an existing serverServiceMinorVersion.
+        """
         if value is not None:
             self.serverServiceMinorVersion = value
         return self
 
-    def getTtl(self):
+    def getTtl(self) -> Optional[PositiveInteger]:
+        """
+        Time to live. Shall be a positive value (sInt32).
+        """
         return self.ttl
 
-    def setTtl(self, value):
+    def setTtl(self, value: Optional[PositiveInteger]) -> "SdServerConfig":
+        """
+        Time to live. Shall be a positive value (sInt32).
+        A None value is a no-op and does not overwrite an existing ttl.
+        """
         if value is not None:
             self.ttl = value
         return self
@@ -1999,37 +2006,53 @@ class SoAdConfig(ARObject):
 
 class RequestResponseDelay(ARObject):
     """
-    Defines the delay constraints for request-response communication
-    patterns in service-oriented architectures, specifying minimum
-    and maximum acceptable response times.
+    Time to wait before answering the query.
     """
 
     # RequestResponseDelay method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf (R23-11), Table 6.171
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxValue                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxValue                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinValue                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinValue                  [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.171, p.515 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.maxValue = None  # type: TimeValue
-        self.minValue = None  # type: TimeValue
+        # Maximum allowable response delay to entries received by multicast in seconds.
+        self.maxValue: Optional[TimeValue] = None
 
-    def getMaxValue(self):
+        # Minimum allowable response delay to entries received by multicast in seconds.
+        self.minValue: Optional[TimeValue] = None
+
+    def getMaxValue(self) -> Optional[TimeValue]:
+        """
+        Maximum allowable response delay to entries received by multicast in seconds.
+        """
         return self.maxValue
 
-    def setMaxValue(self, value):
+    def setMaxValue(self, value: Optional[TimeValue]) -> "RequestResponseDelay":
+        """
+        Maximum allowable response delay to entries received by multicast in seconds.
+        A None value is a no-op and does not overwrite an existing maxValue.
+        """
         if value is not None:
             self.maxValue = value
         return self
 
-    def getMinValue(self):
+    def getMinValue(self) -> Optional[TimeValue]:
+        """
+        Minimum allowable response delay to entries received by multicast in seconds.
+        """
         return self.minValue
 
-    def setMinValue(self, value):
+    def setMinValue(self, value: Optional[TimeValue]) -> "RequestResponseDelay":
+        """
+        Minimum allowable response delay to entries received by multicast in seconds.
+        A None value is a no-op and does not overwrite an existing minValue.
+        """
         if value is not None:
             self.minValue = value
         return self

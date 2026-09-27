@@ -1131,58 +1131,93 @@ class EthernetCommunicationConnector(CommunicationConnector):
 
 class InitialSdDelayConfig(ARObject):
     """
-    Configures the initial delay parameters for Service Discovery (SD)
-    communication, defining minimum and maximum delay values and
-    repetition timing for service announcements and requests.
+    This element is used to configure the offer behavior of the server and the find behavior on the client.
     """
 
     # InitialSdDelayConfig method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitialDelayMaxValue      [x] impl  [ ] docstring  [ ] test
-    # [ ] setInitialDelayMaxValue      [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitialDelayMinValue      [x] impl  [ ] docstring  [ ] test
-    # [ ] setInitialDelayMinValue      [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitialRepetitionsBaseDelay [x] impl  [ ] docstring  [ ] test
-    # [ ] setInitialRepetitionsBaseDelay [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitialRepetitionsMax     [x] impl  [ ] docstring  [ ] test
-    # [ ] setInitialRepetitionsMax     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.170, p.514 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInitialDelayMaxValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitialDelayMaxValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitialDelayMinValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitialDelayMinValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitialRepetitionsBaseDelay [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitialRepetitionsBaseDelay [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitialRepetitionsMax     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitialRepetitionsMax     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.initialDelayMaxValue = None  # type: TimeValue
-        self.initialDelayMinValue = None  # type: TimeValue
-        self.initialRepetitionsBaseDelay = None  # type: TimeValue
-        self.initialRepetitionsMax = None  # type: PositiveInteger
+        # Max Value in seconds to delay randomly the first offer (if aggregated by SdServerConfig) or the transmission of a find message (if aggregated by SdClientConfig).
+        self.initialDelayMaxValue: Optional[TimeValue] = None
 
-    def getInitialDelayMaxValue(self):
+        # Min Value in seconds to delay randomly the first offer or the transmission of a find message (if aggregated by Sd ClientConfig).
+        self.initialDelayMinValue: Optional[TimeValue] = None
+
+        # The base delay for offer repetitions (if aggregated by Sd ServerConfig) or find repetitions (if aggregated by Sd ClientConfig). Successive find messages have an exponential back off delay.
+        self.initialRepetitionsBaseDelay: Optional[TimeValue] = None
+
+        # Describes the maximum amount of offer repetitions (if aggregated by SdServerConfig) or the maximum amount of find repetitions (if aggregated by SdClientConfig).
+        self.initialRepetitionsMax: Optional[PositiveInteger] = None
+
+    def getInitialDelayMaxValue(self) -> Optional[TimeValue]:
+        """
+        Max Value in seconds to delay randomly the first offer (if aggregated by SdServerConfig) or the transmission of a find message (if aggregated by SdClientConfig).
+        """
         return self.initialDelayMaxValue
 
-    def setInitialDelayMaxValue(self, value):
+    def setInitialDelayMaxValue(self, value: Optional[TimeValue]) -> "InitialSdDelayConfig":
+        """
+        Max Value in seconds to delay randomly the first offer (if aggregated by SdServerConfig) or the transmission of a find message (if aggregated by SdClientConfig).
+        A None value is a no-op and does not overwrite an existing initialDelayMaxValue.
+        """
         if value is not None:
             self.initialDelayMaxValue = value
         return self
 
-    def getInitialDelayMinValue(self):
+    def getInitialDelayMinValue(self) -> Optional[TimeValue]:
+        """
+        Min Value in seconds to delay randomly the first offer or the transmission of a find message (if aggregated by Sd ClientConfig).
+        """
         return self.initialDelayMinValue
 
-    def setInitialDelayMinValue(self, value):
+    def setInitialDelayMinValue(self, value: Optional[TimeValue]) -> "InitialSdDelayConfig":
+        """
+        Min Value in seconds to delay randomly the first offer or the transmission of a find message (if aggregated by Sd ClientConfig).
+        A None value is a no-op and does not overwrite an existing initialDelayMinValue.
+        """
         if value is not None:
             self.initialDelayMinValue = value
         return self
 
-    def getInitialRepetitionsBaseDelay(self):
+    def getInitialRepetitionsBaseDelay(self) -> Optional[TimeValue]:
+        """
+        The base delay for offer repetitions (if aggregated by Sd ServerConfig) or find repetitions (if aggregated by Sd ClientConfig). Successive find messages have an exponential back off delay.
+        """
         return self.initialRepetitionsBaseDelay
 
-    def setInitialRepetitionsBaseDelay(self, value):
+    def setInitialRepetitionsBaseDelay(self, value: Optional[TimeValue]) -> "InitialSdDelayConfig":
+        """
+        The base delay for offer repetitions (if aggregated by Sd ServerConfig) or find repetitions (if aggregated by Sd ClientConfig). Successive find messages have an exponential back off delay.
+        A None value is a no-op and does not overwrite an existing initialRepetitionsBaseDelay.
+        """
         if value is not None:
             self.initialRepetitionsBaseDelay = value
         return self
 
-    def getInitialRepetitionsMax(self):
+    def getInitialRepetitionsMax(self) -> Optional[PositiveInteger]:
+        """
+        Describes the maximum amount of offer repetitions (if aggregated by SdServerConfig) or the maximum amount of find repetitions (if aggregated by SdClientConfig).
+        """
         return self.initialRepetitionsMax
 
-    def setInitialRepetitionsMax(self, value):
+    def setInitialRepetitionsMax(self, value: Optional[PositiveInteger]) -> "InitialSdDelayConfig":
+        """
+        Describes the maximum amount of offer repetitions (if aggregated by SdServerConfig) or the maximum amount of find repetitions (if aggregated by SdClientConfig).
+        A None value is a no-op and does not overwrite an existing initialRepetitionsMax.
+        """
         if value is not None:
             self.initialRepetitionsMax = value
         return self

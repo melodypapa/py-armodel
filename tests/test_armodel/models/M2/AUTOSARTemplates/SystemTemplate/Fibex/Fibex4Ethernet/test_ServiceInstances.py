@@ -285,7 +285,7 @@ class Test_Fibex4EthernetServiceInstances:
         assert config.getTtl() is None
 
         # Test setter/getter methods with method chaining - with None
-        assert config == config.setCapabilityRecords(None)  # Test method chaining with None
+        assert config == config.addCapabilityRecord(None)  # None is a no-op (spec sync)
         assert config.getCapabilityRecords() == []  # Should remain empty
 
         assert config == config.setInitialOfferBehavior(None)  # Test method chaining with None
