@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     StateDependentFirewall,
     TcpRule,
     TransportLayerRule,
+    UdpRule,
 )
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.AdaptiveModuleImplementation import (
     PlatformModuleEthernetEndpointConfiguration,
@@ -14732,6 +14733,8 @@ class ARXMLParser(AbstractARXMLParser):
                 rule_obj = TcpRule()
                 self.readTcpRule(tcp_rule, rule_obj)
                 rule.setTransportLayerRule(rule_obj)
+            elif self.find(child, "UDP-RULE") is not None:
+                rule.setTransportLayerRule(UdpRule())
             else:
                 rule.setTransportLayerRule(TransportLayerRule())
 

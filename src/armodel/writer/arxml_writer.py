@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     SomeipSdRule,
     StateDependentFirewall,
     TcpRule,
+    UdpRule,
 )
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.AdaptiveModuleImplementation import (
     PlatformModuleEthernetEndpointConfiguration,
@@ -14353,6 +14354,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 transport_layer_rule_tag = ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
                 tcp_rule_tag = ET.SubElement(transport_layer_rule_tag, "TCP-RULE")
                 self.writeTcpRule(tcp_rule_tag, transport_rule)
+            elif isinstance(transport_rule, UdpRule):
+                transport_layer_rule_tag = ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
+                ET.SubElement(transport_layer_rule_tag, "UDP-RULE")
             else:
                 ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
 

@@ -697,6 +697,18 @@ class TcpRule(TransportLayerRule):
         return self
 
 
+class UdpRule(TransportLayerRule):
+    """Configuration of UDP filter rules. Tags: atp.Status=candidate"""
+
+    # UdpRule method parity checklist:
+    # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class UdpRule, AUTOSAR_00052.xsd line 127875 (XSD-only; no own table in repo corpus)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+
 class DataLinkLayerRule(ARObject):
     """
     Configuration of filter rules on the DataLink layer Tags: atp.Status=candidate
