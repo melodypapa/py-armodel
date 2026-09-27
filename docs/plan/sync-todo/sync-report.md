@@ -155,7 +155,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ConditionByFormula`                                    | [x] Done    | 18b494eba                                | Group8           |
 | `ConfigReferenceValue`                                  | [ ] Pending | N/A                                      | Group19          |
 | `ConstantReference`                                     | [x] Done    | 4853348ea                                | Group9           |
-| `ConstantSpecification`                                 | [ ] Deferred| N/A                                      | Group9           |
+| `ConstantSpecification`                                 | [x] Done    | 265721a76                                | Group9           |
 | `ConstantSpecificationMappingSet`                       | [x] Done    | 8e5acbb2b1853163dc88ea0376143c58056eaccf | Group1           |
 | `ConsumedProvidedServiceInstanceGroup`                  | [x] Done    | fce66955                                 | Group5           |
 | `ContainedIPduCollectionSemanticsEnum`                  | [x] Done    | 64d125ffa                                | Group5, Group15  |

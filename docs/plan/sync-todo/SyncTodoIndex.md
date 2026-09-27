@@ -514,14 +514,14 @@ Status: **49/50** completed
 
 ## Group9
 
-Status: **3/20** completed
+Status: **4/20** completed
 
 | Class Name                    | Status       | Commit ID |
 | ----------------------------- | ------------ | --------- |
 | `NumericalValueSpecification` | [x] Done     | b16a36915 |
 | `TextValueSpecification`      | [x] Done     | 81588f449 |
 | `ConstantReference`           | [x] Done     | 4853348ea |
-| `ConstantSpecification`       | [ ] Pending* | N/A       |
+| `ConstantSpecification`       | [x] Done     | 265721a76 |
 | `DataFilterTypeEnum`          | [ ] Pending* | N/A       |
 | `DataFilter`                  | [ ] Pending* | N/A       |
 | `Modification`                | [ ] Pending* | N/A       |
