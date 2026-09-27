@@ -12710,6 +12710,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readCanCommunicationConnector(self, element: ET.Element, connector: CanCommunicationConnector):
         self.readCommunicationConnector(element, connector)
+        connector.setPncWakeupCanId(self.getChildElementOptionalPositiveInteger(element, "PNC-WAKEUP-CAN-ID"))
+        connector.setPncWakeupCanIdExtended(self.getChildElementOptionalBooleanValue(element, "PNC-WAKEUP-CAN-ID-EXTENDED"))
+        connector.setPncWakeupCanIdMask(self.getChildElementOptionalPositiveInteger(element, "PNC-WAKEUP-CAN-ID-MASK"))
+        connector.setPncWakeupDataMask(self.getChildElementOptionalPositiveUnlimitedInteger(element, "PNC-WAKEUP-DATA-MASK"))
+        connector.setPncWakeupDlc(self.getChildElementOptionalPositiveInteger(element, "PNC-WAKEUP-DLC"))
 
     def readEthernetCommunicationConnector(self, element: ET.Element, connector: EthernetCommunicationConnector):
         self.readCommunicationConnector(element, connector)

@@ -4,7 +4,7 @@ import typing
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, PositiveUnlimitedInteger, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
     AbstractCanCommunicationConnector,
     AbstractCanCommunicationController,
@@ -699,3 +699,180 @@ class TestCanClusterBusOffRecovery:
         """Test getter/setter docstrings carry the spec Note verbatim (Table 3.10)"""
         self._assert_docstring(CanClusterBusOffRecovery.getMainFunctionPeriod, MAIN_FUNCTION_PERIOD_NOTE)
         self._assert_docstring(CanClusterBusOffRecovery.setMainFunctionPeriod, MAIN_FUNCTION_PERIOD_NOTE, "mainFunctionPeriod")
+
+
+CAN_COMMUNICATION_CONNECTOR_CLASS_NOTE = "CAN bus specific communication connector attributes."
+PNC_WAKEUP_CAN_ID_NOTE = "CAN Identifier used to configure the CAN Transceiver for partial network wakeup."
+PNC_WAKEUP_CAN_ID_EXTENDED_NOTE = "Defines whether pncWakeupCanId and pncWakeupCanIdMask shall be interpreted as extended or standard CAN ID."
+PNC_WAKEUP_CAN_ID_MASK_NOTE = "Bit mask for CAN Identifier used to configure the CAN Transceiver for partial network wakeup."
+PNC_WAKEUP_DATA_MASK_NOTE = "Bit mask for CAN Payload used to configure the CAN Transceiver for partial network wakeup."
+PNC_WAKEUP_DLC_NOTE = "Data Length of the remote data frame used to configure the CAN Transceiver for partial network wakeup in Bytes."
+
+
+class TestCanCommunicationConnector:
+    def _make(self) -> CanCommunicationConnector:
+        return CanCommunicationConnector(MockParent(), "test_can_comm_connector")
+
+    def test_initialization(self):
+        """Test that all __init__ fields default to None and the base shape follows Table 3.23"""
+        connector = self._make()
+
+        assert isinstance(connector, AbstractCanCommunicationConnector)
+        assert isinstance(connector, CommunicationConnector)
+        assert connector.getPncWakeupCanId() is None
+        assert connector.getPncWakeupCanIdExtended() is None
+        assert connector.getPncWakeupCanIdMask() is None
+        assert connector.getPncWakeupDataMask() is None
+        assert connector.getPncWakeupDlc() is None
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.23)"""
+        assert inspect.cleandoc(CanCommunicationConnector.__doc__).strip() == CAN_COMMUNICATION_CONNECTOR_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert CanCommunicationConnector.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 3.23)"""
+        source = inspect.getsource(CanCommunicationConnector.__init__)
+        assert source.index("self.pncWakeupCanId:") < source.index("self.pncWakeupCanIdExtended:")
+        assert source.index("self.pncWakeupCanIdExtended:") < source.index("self.pncWakeupCanIdMask:")
+        assert source.index("self.pncWakeupCanIdMask:") < source.index("self.pncWakeupDataMask:")
+        assert source.index("self.pncWakeupDataMask:") < source.index("self.pncWakeupDlc:")
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        doc = method.__doc__
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == expected
+
+    def test_get_set_pnc_wakeup_can_id(self):
+        """Test pncWakeupCanId default, guarded set chaining, None no-op and typing"""
+        connector = self._make()
+
+        assert connector.getPncWakeupCanId() is None
+
+        can_id = PositiveInteger()
+        can_id.setValue("401")
+        assert connector == connector.setPncWakeupCanId(can_id)
+        assert connector.getPncWakeupCanId() == can_id
+
+        assert connector == connector.setPncWakeupCanId(None)
+        assert connector.getPncWakeupCanId() == can_id
+
+        getter_hints = typing.get_type_hints(CanCommunicationConnector.getPncWakeupCanId)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(CanCommunicationConnector.setPncWakeupCanId)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is CanCommunicationConnector
+
+    def test_pnc_wakeup_can_id_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.23)"""
+        self._assert_docstring(CanCommunicationConnector.getPncWakeupCanId, PNC_WAKEUP_CAN_ID_NOTE)
+        self._assert_docstring(CanCommunicationConnector.setPncWakeupCanId, PNC_WAKEUP_CAN_ID_NOTE, "pncWakeupCanId")
+
+    def test_get_set_pnc_wakeup_can_id_extended(self):
+        """Test pncWakeupCanIdExtended default, guarded set chaining, None no-op and typing"""
+        connector = self._make()
+
+        assert connector.getPncWakeupCanIdExtended() is None
+
+        extended = Boolean()
+        extended.setValue(True)
+        assert connector == connector.setPncWakeupCanIdExtended(extended)
+        assert connector.getPncWakeupCanIdExtended() == extended
+
+        assert connector == connector.setPncWakeupCanIdExtended(None)
+        assert connector.getPncWakeupCanIdExtended() == extended
+
+        getter_hints = typing.get_type_hints(CanCommunicationConnector.getPncWakeupCanIdExtended)
+        assert getter_hints.get("return") == typing.Optional[Boolean]
+
+        setter_hints = typing.get_type_hints(CanCommunicationConnector.setPncWakeupCanIdExtended)
+        assert setter_hints.get("value") == typing.Optional[Boolean]
+        assert setter_hints.get("return") is CanCommunicationConnector
+
+    def test_pnc_wakeup_can_id_extended_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.23)"""
+        self._assert_docstring(CanCommunicationConnector.getPncWakeupCanIdExtended, PNC_WAKEUP_CAN_ID_EXTENDED_NOTE)
+        self._assert_docstring(CanCommunicationConnector.setPncWakeupCanIdExtended, PNC_WAKEUP_CAN_ID_EXTENDED_NOTE, "pncWakeupCanIdExtended")
+
+    def test_get_set_pnc_wakeup_can_id_mask(self):
+        """Test pncWakeupCanIdMask default, guarded set chaining, None no-op and typing"""
+        connector = self._make()
+
+        assert connector.getPncWakeupCanIdMask() is None
+
+        mask = PositiveInteger()
+        mask.setValue("255")
+        assert connector == connector.setPncWakeupCanIdMask(mask)
+        assert connector.getPncWakeupCanIdMask() == mask
+
+        assert connector == connector.setPncWakeupCanIdMask(None)
+        assert connector.getPncWakeupCanIdMask() == mask
+
+        getter_hints = typing.get_type_hints(CanCommunicationConnector.getPncWakeupCanIdMask)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(CanCommunicationConnector.setPncWakeupCanIdMask)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is CanCommunicationConnector
+
+    def test_pnc_wakeup_can_id_mask_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.23)"""
+        self._assert_docstring(CanCommunicationConnector.getPncWakeupCanIdMask, PNC_WAKEUP_CAN_ID_MASK_NOTE)
+        self._assert_docstring(CanCommunicationConnector.setPncWakeupCanIdMask, PNC_WAKEUP_CAN_ID_MASK_NOTE, "pncWakeupCanIdMask")
+
+    def test_get_set_pnc_wakeup_data_mask(self):
+        """Test pncWakeupDataMask default, guarded set chaining, None no-op and typing"""
+        connector = self._make()
+
+        assert connector.getPncWakeupDataMask() is None
+
+        data_mask = PositiveUnlimitedInteger()
+        data_mask.setValue("255")
+        assert connector == connector.setPncWakeupDataMask(data_mask)
+        assert connector.getPncWakeupDataMask() == data_mask
+
+        assert connector == connector.setPncWakeupDataMask(None)
+        assert connector.getPncWakeupDataMask() == data_mask
+
+        getter_hints = typing.get_type_hints(CanCommunicationConnector.getPncWakeupDataMask)
+        assert getter_hints.get("return") == typing.Optional[PositiveUnlimitedInteger]
+
+        setter_hints = typing.get_type_hints(CanCommunicationConnector.setPncWakeupDataMask)
+        assert setter_hints.get("value") == typing.Optional[PositiveUnlimitedInteger]
+        assert setter_hints.get("return") is CanCommunicationConnector
+
+    def test_pnc_wakeup_data_mask_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.23)"""
+        self._assert_docstring(CanCommunicationConnector.getPncWakeupDataMask, PNC_WAKEUP_DATA_MASK_NOTE)
+        self._assert_docstring(CanCommunicationConnector.setPncWakeupDataMask, PNC_WAKEUP_DATA_MASK_NOTE, "pncWakeupDataMask")
+
+    def test_get_set_pnc_wakeup_dlc(self):
+        """Test pncWakeupDlc default, guarded set chaining, None no-op and typing"""
+        connector = self._make()
+
+        assert connector.getPncWakeupDlc() is None
+
+        dlc = PositiveInteger()
+        dlc.setValue("8")
+        assert connector == connector.setPncWakeupDlc(dlc)
+        assert connector.getPncWakeupDlc() == dlc
+
+        assert connector == connector.setPncWakeupDlc(None)
+        assert connector.getPncWakeupDlc() == dlc
+
+        getter_hints = typing.get_type_hints(CanCommunicationConnector.getPncWakeupDlc)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(CanCommunicationConnector.setPncWakeupDlc)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is CanCommunicationConnector
+
+    def test_pnc_wakeup_dlc_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.23)"""
+        self._assert_docstring(CanCommunicationConnector.getPncWakeupDlc, PNC_WAKEUP_DLC_NOTE)
+        self._assert_docstring(CanCommunicationConnector.setPncWakeupDlc, PNC_WAKEUP_DLC_NOTE, "pncWakeupDlc")

@@ -993,69 +993,113 @@ class AbstractCanCommunicationConnector(CommunicationConnector, ABC):
 
 class CanCommunicationConnector(AbstractCanCommunicationConnector):
     """
-    Represents a CAN communication connector that links CAN controllers
-    to communication channels, enabling network connectivity and defining
-    power state management properties for CAN communication.
+    CAN bus specific communication connector attributes.
     """
 
     # CanCommunicationConnector method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getPncWakeupCanId            [x] impl  [ ] docstring  [ ] test
-    # [ ] setPncWakeupCanId            [x] impl  [ ] docstring  [ ] test
-    # [ ] getPncWakeupCanIdExtended    [x] impl  [ ] docstring  [ ] test
-    # [ ] setPncWakeupCanIdExtended    [x] impl  [ ] docstring  [ ] test
-    # [ ] getPncWakeupCanIdMask        [x] impl  [ ] docstring  [ ] test
-    # [ ] setPncWakeupCanIdMask        [x] impl  [ ] docstring  [ ] test
-    # [ ] getPncWakeupDataMask         [x] impl  [ ] docstring  [ ] test
-    # [ ] setPncWakeupDataMask         [x] impl  [ ] docstring  [ ] test
-    # [ ] getPncWakeupDlc              [x] impl  [ ] docstring  [ ] test
-    # [ ] setPncWakeupDlc              [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.23, p.74
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPncWakeupCanId            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPncWakeupCanId            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPncWakeupCanIdExtended    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPncWakeupCanIdExtended    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPncWakeupCanIdMask        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPncWakeupCanIdMask        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPncWakeupDataMask         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPncWakeupDataMask         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPncWakeupDlc              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPncWakeupDlc              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.pncWakeupCanId: PositiveInteger = None
-        self.pncWakeupCanIdExtended: Boolean = None
-        self.pncWakeupCanIdMask: PositiveInteger = None
-        self.pncWakeupDataMask: PositiveUnlimitedInteger = None
-        self.pncWakeupDlc: PositiveInteger = None
+        # CAN Identifier used to configure the CAN Transceiver for partial network wakeup.
+        self.pncWakeupCanId: Optional[PositiveInteger] = None
 
-    def getPncWakeupCanId(self):
+        # Defines whether pncWakeupCanId and pncWakeupCanIdMask shall be interpreted as extended or standard CAN ID.
+        self.pncWakeupCanIdExtended: Optional[Boolean] = None
+
+        # Bit mask for CAN Identifier used to configure the CAN Transceiver for partial network wakeup.
+        self.pncWakeupCanIdMask: Optional[PositiveInteger] = None
+
+        # Bit mask for CAN Payload used to configure the CAN Transceiver for partial network wakeup.
+        self.pncWakeupDataMask: Optional[PositiveUnlimitedInteger] = None
+
+        # Data Length of the remote data frame used to configure the CAN Transceiver for partial network wakeup in Bytes.
+        self.pncWakeupDlc: Optional[PositiveInteger] = None
+
+    def getPncWakeupCanId(self) -> Optional[PositiveInteger]:
+        """
+        CAN Identifier used to configure the CAN Transceiver for partial network wakeup.
+        """
         return self.pncWakeupCanId
 
-    def setPncWakeupCanId(self, value):
+    def setPncWakeupCanId(self, value: Optional[PositiveInteger]) -> CanCommunicationConnector:
+        """
+        CAN Identifier used to configure the CAN Transceiver for partial network wakeup.
+        A None value is a no-op and does not overwrite an existing pncWakeupCanId.
+        """
         if value is not None:
             self.pncWakeupCanId = value
         return self
 
-    def getPncWakeupCanIdExtended(self):
+    def getPncWakeupCanIdExtended(self) -> Optional[Boolean]:
+        """
+        Defines whether pncWakeupCanId and pncWakeupCanIdMask shall be interpreted as extended or standard CAN ID.
+        """
         return self.pncWakeupCanIdExtended
 
-    def setPncWakeupCanIdExtended(self, value):
+    def setPncWakeupCanIdExtended(self, value: Optional[Boolean]) -> CanCommunicationConnector:
+        """
+        Defines whether pncWakeupCanId and pncWakeupCanIdMask shall be interpreted as extended or standard CAN ID.
+        A None value is a no-op and does not overwrite an existing pncWakeupCanIdExtended.
+        """
         if value is not None:
             self.pncWakeupCanIdExtended = value
         return self
 
-    def getPncWakeupCanIdMask(self):
+    def getPncWakeupCanIdMask(self) -> Optional[PositiveInteger]:
+        """
+        Bit mask for CAN Identifier used to configure the CAN Transceiver for partial network wakeup.
+        """
         return self.pncWakeupCanIdMask
 
-    def setPncWakeupCanIdMask(self, value):
+    def setPncWakeupCanIdMask(self, value: Optional[PositiveInteger]) -> CanCommunicationConnector:
+        """
+        Bit mask for CAN Identifier used to configure the CAN Transceiver for partial network wakeup.
+        A None value is a no-op and does not overwrite an existing pncWakeupCanIdMask.
+        """
         if value is not None:
             self.pncWakeupCanIdMask = value
         return self
 
-    def getPncWakeupDataMask(self):
+    def getPncWakeupDataMask(self) -> Optional[PositiveUnlimitedInteger]:
+        """
+        Bit mask for CAN Payload used to configure the CAN Transceiver for partial network wakeup.
+        """
         return self.pncWakeupDataMask
 
-    def setPncWakeupDataMask(self, value):
+    def setPncWakeupDataMask(self, value: Optional[PositiveUnlimitedInteger]) -> CanCommunicationConnector:
+        """
+        Bit mask for CAN Payload used to configure the CAN Transceiver for partial network wakeup.
+        A None value is a no-op and does not overwrite an existing pncWakeupDataMask.
+        """
         if value is not None:
             self.pncWakeupDataMask = value
         return self
 
-    def getPncWakeupDlc(self):
+    def getPncWakeupDlc(self) -> Optional[PositiveInteger]:
+        """
+        Data Length of the remote data frame used to configure the CAN Transceiver for partial network wakeup in Bytes.
+        """
         return self.pncWakeupDlc
 
-    def setPncWakeupDlc(self, value):
+    def setPncWakeupDlc(self, value: Optional[PositiveInteger]) -> CanCommunicationConnector:
+        """
+        Data Length of the remote data frame used to configure the CAN Transceiver for partial network wakeup in Bytes.
+        A None value is a no-op and does not overwrite an existing pncWakeupDlc.
+        """
         if value is not None:
             self.pncWakeupDlc = value
         return self

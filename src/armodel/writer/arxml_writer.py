@@ -11459,6 +11459,11 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCanCommunicationConnector(self, element: ET.Element, connector: CanCommunicationConnector):
         self.logger.debug("Write CanCommunicationConnector %s" % connector.getShortName())
         self.writeCommunicationConnector(element, connector)
+        self.setChildElementOptionalPositiveInteger(element, "PNC-WAKEUP-CAN-ID", connector.getPncWakeupCanId())
+        self.setChildElementOptionalBooleanValue(element, "PNC-WAKEUP-CAN-ID-EXTENDED", connector.getPncWakeupCanIdExtended())
+        self.setChildElementOptionalPositiveInteger(element, "PNC-WAKEUP-CAN-ID-MASK", connector.getPncWakeupCanIdMask())
+        self.setChildElementOptionalPositiveUnlimitedInteger(element, "PNC-WAKEUP-DATA-MASK", connector.getPncWakeupDataMask())
+        self.setChildElementOptionalPositiveInteger(element, "PNC-WAKEUP-DLC", connector.getPncWakeupDlc())
 
     def writeEthernetCommunicationConnector(self, element: ET.Element, connector: EthernetCommunicationConnector):
         self.logger.debug("Write EthernetCommunicationConnector %s" % connector.getShortName())
