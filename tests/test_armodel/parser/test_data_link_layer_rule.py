@@ -14,6 +14,7 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import DataLinkLayerRule, FirewallRule
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import MacAddressString
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -54,10 +55,14 @@ class TestReadFirewallRuleDataLinkLayerRule:
 
         dlr = rule.getDataLinkLayerRule()
         assert isinstance(dlr, DataLinkLayerRule)
+        assert isinstance(dlr.getDestinationMacAddress(), MacAddressString)
         assert dlr.getDestinationMacAddress().getValue() == "FF:FF:FF:FF:FF:FF"
+        assert isinstance(dlr.getDestinationMacAddressMask(), MacAddressString)
         assert dlr.getDestinationMacAddressMask().getValue() == "FF:00:00:00:00:00"
         assert dlr.getEtherType().getValue() == 2048
+        assert isinstance(dlr.getSourceMacAddress(), MacAddressString)
         assert dlr.getSourceMacAddress().getValue() == "AA:BB:CC:DD:EE:FF"
+        assert isinstance(dlr.getSourceMacAddressMask(), MacAddressString)
         assert dlr.getSourceMacAddressMask().getValue() == "FF:FF:00:00:00:00"
         assert dlr.getVlanId().getValue() == 100
         assert dlr.getVlanPriority().getValue() == 3

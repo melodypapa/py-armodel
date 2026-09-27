@@ -121,10 +121,14 @@ class TestWriteFirewallRuleDataLinkLayerRule:
 
         dlr = recovered.getDataLinkLayerRule()
         assert isinstance(dlr, DataLinkLayerRule)
+        assert isinstance(dlr.getDestinationMacAddress(), MacAddressString)
         assert dlr.getDestinationMacAddress().getValue() == "FF:FF:FF:FF:FF:FF"
+        assert isinstance(dlr.getDestinationMacAddressMask(), MacAddressString)
         assert dlr.getDestinationMacAddressMask().getValue() == "FF:00:00:00:00:00"
         assert dlr.getEtherType().getValue() == 2048
+        assert isinstance(dlr.getSourceMacAddress(), MacAddressString)
         assert dlr.getSourceMacAddress().getValue() == "AA:BB:CC:DD:EE:FF"
+        assert isinstance(dlr.getSourceMacAddressMask(), MacAddressString)
         assert dlr.getSourceMacAddressMask().getValue() == "FF:FF:00:00:00:00"
         assert dlr.getVlanId().getValue() == 100
         assert dlr.getVlanPriority().getValue() == 3

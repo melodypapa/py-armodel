@@ -946,7 +946,7 @@ appendix mentions) are queued at the end of this addendum per user arbitration 2
 XSD), Rule 0015 deviation documented per row. Tracker rows `networkLayerRule | Ipv4Rule |
 missing` and `transportLayerRule | TcpRule | missing` stay until the classes land.
 
-- [ ] `MacAddressString` — ARLiteral — R23-11 markdown · Table 4.53 (FO_TPS_GenericStructureTemplate)
+- [x] `MacAddressString` — ARLiteral — R23-11 markdown · Table 4.53 (FO_TPS_GenericStructureTemplate)
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
   - note: member type of DataLinkLayerRule (destinationMacAddress/-Mask, sourceMacAddress/-Mask
     re-typed from Optional[str] this batch); exists unstamped — queued per Rule 0016.4
@@ -956,15 +956,29 @@ missing` and `transportLayerRule | TcpRule | missing` stay until the classes lan
     ([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}, customType MAC-ADDRESS-STRING, xsd type string) but
     stale 4-col checklist and no stamp — Step 1 cross-checks docstring/Tags verbatim against
     the table (Rule 0002).
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - note (Steps 2-4): TestMacAddressString added to test_PrimitiveTypes.py (initialization,
+    setValue round-trip + chaining, verbatim hex-pair storage, class-docstring verbatim check);
+    initial run 1 failed / 3 passed (genuine Red: the Table 4.53 Note was line-wrapped, not
+    verbatim), 4 passed after the single-line verbatim rewrite. Implementation was already
+    complete per spec (bare ARLiteral subclass; the Primitive table has no Attribute rows) —
+    Step 3 confirmed no drift; Step 4 rewrote the docstring.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): the MAC reader/writer path was already implemented by the
+    DataLinkLayerRule re-type (parser readDataLinkLayerRule instantiates MacAddressString for
+    the four MAC elements; writer writes via setChildElementOptionalLiteral) — existing
+    parser/writer DataLinkLayerRule tests extended with MacAddressString isinstance assertions
+    on all four MAC fields rather than duplicated (8 passed across both files); no parser/writer
+    source change needed.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations — the Table 4.53 Note line-wrap fix is conformance;
+    checklist replaced with the 6-column format (no stamp line — batch 9b pending).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12663 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `PayloadBytePatternRulePart` — ARObject — XSD-only (00052 complexType L88508)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
