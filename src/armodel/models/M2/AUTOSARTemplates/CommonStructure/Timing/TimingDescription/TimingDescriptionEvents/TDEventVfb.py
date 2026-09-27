@@ -151,7 +151,6 @@ __all__ = [
     "TDEventModeDeclarationTypeEnum",
     "TDEventTriggerTypeEnum",
     "TDEventVfb",
-    "ConcreteTDEventVfb",
     "TDEventVfbReference",
     "TDEventVfbPort",
     "TDEventVariableDataPrototype",
@@ -161,7 +160,7 @@ __all__ = [
 ]
 
 
-class TDEventVfb(TimingDescriptionEvent, ABC):
+class TDEventVfb(TimingDescriptionEvent):
     """
     This is the abstract parent class to describe timing events at Virtual Functional Bus (VFB) level.
     """
@@ -169,15 +168,22 @@ class TDEventVfb(TimingDescriptionEvent, ABC):
     # TDEventVfb method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.14, p.51
     # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getComponentIRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setComponentIRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getComponentIRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setComponentIRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Direct-use disposition (user decision 2026-09-27): the meta-model permits the abstract
+    # TDEventVfb DIRECTLY as a TIMING-DESCRIPTIONS choice member (TD-EVENT-VFB in the
+    # TD-EVENT-VFB--SUBTYPES-ENUM, AUTOSAR_00052.xsd line 122350/122356; R4.3.1 AUTOSAR_00044.xsd
+    # L85995-86005), so the class is instantiable despite the spec's "(abstract)" marker and the
+    # ABC base was dropped; the former fabricated ConcreteTDEventVfb subclass was retired (no
+    # spec table and no XSD complexType/element declaration ever named it). NOTE: no
+    # <TD-EVENT-VFB> element declaration exists in either XSD — serializing a direct-use instance
+    # (readTimingDescriptions dispatch / writer catch-all after all concrete subclasses) is a
+    # defensive/legacy-only path.
 
     def __init__(self, parent, short_name):
-        if type(self) is TDEventVfb:
-            raise TypeError("TDEventVfb is an abstract class.")
-
         super().__init__(parent, short_name)
 
         # The context for the scope of this timing event. InstanceRef implemented by: ComponentInCompositionInstanceRef
@@ -495,18 +501,3 @@ class TDEventTrigger(TDEventVfbPort):
         if value is not None:
             self.tdEventTriggerType = value
         return self
-
-
-class ConcreteTDEventVfb(TDEventVfb):
-    """
-    Concrete direct-use instantiation of the abstract TDEventVfb (XSD-only: no own table in the repo corpus; the meta-model permits the abstract TDEventVfb directly — TD-EVENT-VFB in the TD-EVENT-VFB--SUBTYPES-ENUM, AUTOSAR_00052.xsd — and the class carries no attributes of its own).
-    """
-
-    # ConcreteTDEventVfb method parity checklist:
-    # Spec: XSD-only, AUTOSAR_00052.xsd line 122350 (no own table in repo corpus — TD-EVENT-VFB--SUBTYPES-ENUM permits the abstract TDEventVfb directly; body = abstract group TD-EVENT-VFB line 122335)
-    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # reader/writer: TIMING-DESCRIPTIONS choice member <TD-EVENT-VFB> → readTDEventVfb/writeTDEventVfb (inherited base helpers; COMPONENT-IREF rows live on the TDEventVfb checklist)
-
-    def __init__(self, parent, short_name):
-        super().__init__(parent, short_name)

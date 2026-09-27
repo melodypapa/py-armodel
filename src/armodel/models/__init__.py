@@ -138,7 +138,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     VariableInComponentInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (  # noqa: F401
-    ConcreteTDEventVfb,
     TDEventModeDeclaration,
     TDEventModeDeclarationTypeEnum,
     TDEventOperation,

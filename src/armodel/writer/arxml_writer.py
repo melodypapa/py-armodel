@@ -403,7 +403,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     VariableInComponentInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (
-    ConcreteTDEventVfb,
     TDEventModeDeclaration,
     TDEventOperation,
     TDEventTrigger,
@@ -8396,9 +8395,6 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if isinstance(description, TDEventVfbReference):
                     description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-VFB-REFERENCE")
                     self.writeTDEventVfbReference(description_tag, description)
-                elif isinstance(description, ConcreteTDEventVfb):
-                    description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-VFB")
-                    self.writeTDEventVfb(description_tag, description)
                 elif isinstance(description, TDEventVariableDataPrototype):
                     description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-VARIABLE-DATA-PROTOTYPE")
                     self.writeTDEventVariableDataPrototype(description_tag, description)
@@ -8453,6 +8449,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(description, TimingDescriptionEventChain):
                     description_tag = ET.SubElement(descriptions_tag, "TIMING-DESCRIPTION-EVENT-CHAIN")
                     self.writeTimingDescriptionEventChain(description_tag, description)
+                elif isinstance(description, TDEventVfb):
+                    description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-VFB")
+                    self.writeTDEventVfb(description_tag, description)
 
     def writeSwcTiming(self, element: ET.Element, timing: SwcTiming):
         self.logger.debug("writeSWcTiming %s" % timing.getShortName())

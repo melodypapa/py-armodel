@@ -3,7 +3,6 @@ import tempfile
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (
-    ConcreteTDEventVfb,
     TDEventModeDeclaration,
     TDEventModeDeclarationTypeEnum,
     TDEventOperation,
@@ -12,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventTriggerTypeEnum,
     TDEventVariableDataPrototype,
     TDEventVariableDataPrototypeTypeEnum,
+    TDEventVfb,
     TDEventVfbReference,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
@@ -87,7 +87,7 @@ class TestTDEventVfbFamilyRoundTrip:
         trigger.setTdEventTriggerType(make_enum(TDEventTriggerTypeEnum, "triggerReleased"))
         swc_timing.addTimingDescription(trigger)
 
-        plain = ConcreteTDEventVfb(swc_timing, "Plain1")
+        plain = TDEventVfb(swc_timing, "Plain1")
         plain.setComponentIRef(make_component_iref())
         swc_timing.addTimingDescription(plain)
 
@@ -136,7 +136,8 @@ class TestTDEventVfbFamilyRoundTrip:
             assert trigger_2.getTdEventTriggerType().value == "triggerReleased"
 
             plain_2 = descriptions["Plain1"]
-            assert isinstance(plain_2, ConcreteTDEventVfb)
+            assert isinstance(plain_2, TDEventVfb)
+            assert type(plain_2) is TDEventVfb
             assert plain_2.getComponentIRef() is not None
             assert plain_2.getComponentIRef().getTargetComponentRef().getValue() == "/Root/Comp"
         finally:

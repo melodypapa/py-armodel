@@ -15,7 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventOccurrenceExpressionFormula,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (
-    ConcreteTDEventVfb,
+    TDEventVfb,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming
 from armodel.parser.arxml_parser import ARXMLParser
@@ -206,13 +206,14 @@ class TestReadTimingDescriptionEventChain:
         assert chain.getSegmentRefs() == []
 
 
-class TestReadConcreteTDEventVfb:
+class TestReadTDEventVfbDirectUse:
     def test_read_td_event_vfb_via_timing_extension(self, parser):
         parent = _parent()
         """
-        The plain <TD-EVENT-VFB> choice member (ConcreteTDEventVfb — the XSD's
-        TD-EVENT-VFB--SUBTYPES-ENUM permits the abstract TDEventVfb directly)
-        is read through the TIMING-DESCRIPTIONS dispatch with field values.
+        The plain <TD-EVENT-VFB> choice member (direct-use TDEventVfb — the
+        XSD's TD-EVENT-VFB--SUBTYPES-ENUM permits the abstract TDEventVfb
+        directly; ConcreteTDEventVfb retired 2026-09-27) is read through the
+        TIMING-DESCRIPTIONS dispatch with field values.
         """
         extension = SwcTiming(parent, "Timing")
         element = ET.fromstring(
@@ -233,7 +234,7 @@ class TestReadConcreteTDEventVfb:
         descriptions = extension.getTimingDescriptions()
         assert len(descriptions) == 1
         description = descriptions[0]
-        assert isinstance(description, ConcreteTDEventVfb)
+        assert type(description) is TDEventVfb
         assert description.getShortName() == "Plain1"
         iref = description.getComponentIRef()
         assert iref is not None
@@ -259,6 +260,6 @@ class TestReadConcreteTDEventVfb:
         descriptions = extension.getTimingDescriptions()
         assert len(descriptions) == 1
         description = descriptions[0]
-        assert isinstance(description, ConcreteTDEventVfb)
+        assert type(description) is TDEventVfb
         assert description.getShortName() == "Plain1"
         assert description.getComponentIRef() is None

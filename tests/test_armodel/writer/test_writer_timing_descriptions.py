@@ -14,7 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventOccurrenceExpressionFormula,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (
-    ConcreteTDEventVfb,
+    TDEventVfb,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
@@ -324,7 +324,7 @@ class TestWriteTimingDescriptionEventChain:
         assert len(chain2.getSegmentRefs()) == 1
 
 
-class TestWriteConcreteTDEventVfb:
+class TestWriteTDEventVfbDirectUse:
     def _parent(self):
         document = AUTOSAR.getInstance()
         document.clear()
@@ -333,7 +333,7 @@ class TestWriteConcreteTDEventVfb:
 
     def _build_full(self, parent):
         extension = SwcTiming(parent, "Timing")
-        event = ConcreteTDEventVfb(extension, "Plain1")
+        event = TDEventVfb(extension, "Plain1")
         iref = ComponentInCompositionInstanceRef()
         iref.addContextComponentRef(RefType().setValue("/AUTOSAR/Comp").setDest("SW-COMPONENT-PROTOTYPE"))
         iref.setTargetComponentRef(RefType().setValue("/AUTOSAR/SwcProto").setDest("SW-COMPONENT-PROTOTYPE"))
@@ -350,10 +350,11 @@ class TestWriteConcreteTDEventVfb:
     def test_write_full(self):
         parent = self._parent()
         """
-        Write the plain <TD-EVENT-VFB> choice member (ConcreteTDEventVfb — the
-        XSD's TD-EVENT-VFB--SUBTYPES-ENUM permits the abstract TDEventVfb
-        directly) through the TIMING-DESCRIPTIONS wrapper with field values
-        and the XSD element order (SHORT-NAME → COMPONENT-IREF).
+        Write the plain <TD-EVENT-VFB> choice member (direct-use TDEventVfb —
+        the XSD's TD-EVENT-VFB--SUBTYPES-ENUM permits the abstract TDEventVfb
+        directly; ConcreteTDEventVfb retired 2026-09-27) through the
+        TIMING-DESCRIPTIONS wrapper with field values and the XSD element
+        order (SHORT-NAME → COMPONENT-IREF).
         """
         extension = self._build_full(parent)
 
@@ -374,7 +375,7 @@ class TestWriteConcreteTDEventVfb:
     def test_write_minimal_omits_component_iref(self):
         parent = self._parent()
         extension = SwcTiming(parent, "Timing")
-        event = ConcreteTDEventVfb(extension, "PlainMin")
+        event = TDEventVfb(extension, "PlainMin")
         extension.addTimingDescription(event)
 
         element = ET.Element("SWC-TIMING")
@@ -397,7 +398,7 @@ class TestWriteConcreteTDEventVfb:
         descriptions = reloaded.getTimingDescriptions()
         assert len(descriptions) == 1
         event = descriptions[0]
-        assert isinstance(event, ConcreteTDEventVfb)
+        assert type(event) is TDEventVfb
         assert event.getShortName() == "Plain1"
         iref = event.getComponentIRef()
         assert iref is not None
