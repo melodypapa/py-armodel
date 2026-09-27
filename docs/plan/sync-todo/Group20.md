@@ -450,15 +450,31 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `SomeipSdRule` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): XSD-only — no `Class` table in R23-11 markdown (only the FirewallRule
+    Table 6.236 `someipSdRule 0..1` attribute row references the type), none in R4.3.1
+    markdown, pdf_page.py finds no PDF table (Rule 0016.3 fallback exhausted). XSD 00052:
+    group SOMEIP-SD-RULE L110594 + complexType L110652; class Note = "Configuration of
+    SOME/IP Service Discovery firewall rules" Tags: atp.Status=candidate; 8 members 0..1
+    POSITIVE-INTEGER in XSD order: entryType, eventGroupId, maxMajorVersion,
+    maxMinorVersion, minMajorVersion, minMinorVersion, serviceInstanceId,
+    serviceInterfaceId.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): read/writeSomeipSdRule new (8 attrs, XSD order);
+    readFirewallRule upgraded from empty-placeholder to full read, writeFirewallRule
+    from empty SOMEIP-SD-RULE SubElement to full write; new test_someip_sd_rule.py
+    parser suite (4 tests) + writer suite (4 tests) pass.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): stale `someipSdRule` missing row removed from the
+    method_deviation_by_class.md FirewallRule section (Rule 0014); no open deviations —
+    verbatim XSD docstrings restored, Optional[T] annotations, 6-col checklist written
+    (no stamp markers per batch mode).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (95 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DoIpRule` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py

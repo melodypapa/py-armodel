@@ -29,9 +29,9 @@ class FirewallRule(ARElement):
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (markdown-minimal deviation: the 8 rule member classes carry no Class table in the
     #  PDF/markdown corpus — DataLinkLayerRule/DdsRule synced markdown-minimal,
-    #  PayloadBytePatternRule (incl. its PayloadBytePatternRulePart part type) and
-    #  SomeipProtocolRule synced XSD-only, the other 4 are attribute-name placeholders;
-    #  full member attribute defs remain a deviation)
+    #  PayloadBytePatternRule (incl. its PayloadBytePatternRulePart part type),
+    #  SomeipProtocolRule and SomeipSdRule synced XSD-only, the other 3 are
+    #  attribute-name placeholders; full member attribute defs remain a deviation)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getBucketSize                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setBucketSize                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -524,16 +524,159 @@ class SomeipProtocolRule(ARObject):
 
 
 class SomeipSdRule(ARObject):
-    """Configuration of firewall rules for SOME/IP Service Discovery messages"""
+    """Configuration of SOME/IP Service Discovery firewall rules Tags: atp.Status=candidate"""
 
     # SomeipSdRule method parity checklist:
+    # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class SomeipSdRule, AUTOSAR_00052.xsd line 110652 (XSD-only; no own table in repo corpus)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # (markdown-minimal placeholder: member attribute defs skipped per user decision
-    #  2026-08-31 — no Class table in the PDF/markdown corpus; no stamp)
-    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEntryType             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEntryType             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEventGroupId          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventGroupId          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxMajorVersion       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxMajorVersion       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxMinorVersion       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxMinorVersion       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinMajorVersion       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinMajorVersion       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinMinorVersion       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinMinorVersion       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceInstanceId     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceInstanceId     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceInterfaceId    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceInterfaceId    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
+
+        # Filter for SOME/IP SD messages in which the entryType in the SOME/IP header matches.
+        self.entryType: Optional[PositiveInteger] = None
+
+        # Filter for SOME/IP SD messages in which the eventGroupId in the SOME/IP header matches.
+        self.eventGroupId: Optional[PositiveInteger] = None
+
+        # Filter for SOME/IP SD messages in which the MajorVersion in the SOME/IP header is smaller or equal than maxMajorVersion.
+        self.maxMajorVersion: Optional[PositiveInteger] = None
+
+        # Filter for SOME/IP SD messages in which the MinorVersion in the SOME/IP header is smaller or equal than maxMinorVersion.
+        self.maxMinorVersion: Optional[PositiveInteger] = None
+
+        # Filter for SOME/IP SD messages in which the MajorVersion in the SOME/IP header is greater or equal than minMajorVersion.
+        self.minMajorVersion: Optional[PositiveInteger] = None
+
+        # Filter for SOME/IP SD messages in which the MinorVersion in the SOME/IP header is greater or equal than minMinorVersion.
+        self.minMinorVersion: Optional[PositiveInteger] = None
+
+        # Filter for SOME/IP SD messages in which the serviceInstanceId in the SOME/IP header matches.
+        self.serviceInstanceId: Optional[PositiveInteger] = None
+
+        # Filter for SOME/IP SD messages in which the serviceInterfaceId in the SOME/IP header matches.
+        self.serviceInterfaceId: Optional[PositiveInteger] = None
+
+    def getEntryType(self) -> Optional[PositiveInteger]:
+        """Filter for SOME/IP SD messages in which the entryType in the SOME/IP header matches."""
+        return self.entryType
+
+    def setEntryType(self, value: Optional[PositiveInteger]) -> "SomeipSdRule":
+        """
+        Filter for SOME/IP SD messages in which the entryType in the SOME/IP header matches.
+        A None value is a no-op and does not overwrite an existing entryType.
+        """
+        if value is not None:
+            self.entryType = value
+        return self
+
+    def getEventGroupId(self) -> Optional[PositiveInteger]:
+        """Filter for SOME/IP SD messages in which the eventGroupId in the SOME/IP header matches."""
+        return self.eventGroupId
+
+    def setEventGroupId(self, value: Optional[PositiveInteger]) -> "SomeipSdRule":
+        """
+        Filter for SOME/IP SD messages in which the eventGroupId in the SOME/IP header matches.
+        A None value is a no-op and does not overwrite an existing eventGroupId.
+        """
+        if value is not None:
+            self.eventGroupId = value
+        return self
+
+    def getMaxMajorVersion(self) -> Optional[PositiveInteger]:
+        """Filter for SOME/IP SD messages in which the MajorVersion in the SOME/IP header is smaller or equal than maxMajorVersion."""
+        return self.maxMajorVersion
+
+    def setMaxMajorVersion(self, value: Optional[PositiveInteger]) -> "SomeipSdRule":
+        """
+        Filter for SOME/IP SD messages in which the MajorVersion in the SOME/IP header is smaller or equal than maxMajorVersion.
+        A None value is a no-op and does not overwrite an existing maxMajorVersion.
+        """
+        if value is not None:
+            self.maxMajorVersion = value
+        return self
+
+    def getMaxMinorVersion(self) -> Optional[PositiveInteger]:
+        """Filter for SOME/IP SD messages in which the MinorVersion in the SOME/IP header is smaller or equal than maxMinorVersion."""
+        return self.maxMinorVersion
+
+    def setMaxMinorVersion(self, value: Optional[PositiveInteger]) -> "SomeipSdRule":
+        """
+        Filter for SOME/IP SD messages in which the MinorVersion in the SOME/IP header is smaller or equal than maxMinorVersion.
+        A None value is a no-op and does not overwrite an existing maxMinorVersion.
+        """
+        if value is not None:
+            self.maxMinorVersion = value
+        return self
+
+    def getMinMajorVersion(self) -> Optional[PositiveInteger]:
+        """Filter for SOME/IP SD messages in which the MajorVersion in the SOME/IP header is greater or equal than minMajorVersion."""
+        return self.minMajorVersion
+
+    def setMinMajorVersion(self, value: Optional[PositiveInteger]) -> "SomeipSdRule":
+        """
+        Filter for SOME/IP SD messages in which the MajorVersion in the SOME/IP header is greater or equal than minMajorVersion.
+        A None value is a no-op and does not overwrite an existing minMajorVersion.
+        """
+        if value is not None:
+            self.minMajorVersion = value
+        return self
+
+    def getMinMinorVersion(self) -> Optional[PositiveInteger]:
+        """Filter for SOME/IP SD messages in which the MinorVersion in the SOME/IP header is greater or equal than minMinorVersion."""
+        return self.minMinorVersion
+
+    def setMinMinorVersion(self, value: Optional[PositiveInteger]) -> "SomeipSdRule":
+        """
+        Filter for SOME/IP SD messages in which the MinorVersion in the SOME/IP header is greater or equal than minMinorVersion.
+        A None value is a no-op and does not overwrite an existing minMinorVersion.
+        """
+        if value is not None:
+            self.minMinorVersion = value
+        return self
+
+    def getServiceInstanceId(self) -> Optional[PositiveInteger]:
+        """Filter for SOME/IP SD messages in which the serviceInstanceId in the SOME/IP header matches."""
+        return self.serviceInstanceId
+
+    def setServiceInstanceId(self, value: Optional[PositiveInteger]) -> "SomeipSdRule":
+        """
+        Filter for SOME/IP SD messages in which the serviceInstanceId in the SOME/IP header matches.
+        A None value is a no-op and does not overwrite an existing serviceInstanceId.
+        """
+        if value is not None:
+            self.serviceInstanceId = value
+        return self
+
+    def getServiceInterfaceId(self) -> Optional[PositiveInteger]:
+        """Filter for SOME/IP SD messages in which the serviceInterfaceId in the SOME/IP header matches."""
+        return self.serviceInterfaceId
+
+    def setServiceInterfaceId(self, value: Optional[PositiveInteger]) -> "SomeipSdRule":
+        """
+        Filter for SOME/IP SD messages in which the serviceInterfaceId in the SOME/IP header matches.
+        A None value is a no-op and does not overwrite an existing serviceInterfaceId.
+        """
+        if value is not None:
+            self.serviceInterfaceId = value
+        return self
 
 
 class TransportLayerRule(ARObject):

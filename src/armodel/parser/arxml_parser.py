@@ -14656,6 +14656,16 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setReturnCode(self.getChildElementOptionalPositiveInteger(element, "RETURN-CODE"))
         rule.setServiceInterfaceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-INTERFACE-ID"))
 
+    def readSomeipSdRule(self, element: ET.Element, rule: SomeipSdRule):
+        rule.setEntryType(self.getChildElementOptionalPositiveInteger(element, "ENTRY-TYPE"))
+        rule.setEventGroupId(self.getChildElementOptionalPositiveInteger(element, "EVENT-GROUP-ID"))
+        rule.setMaxMajorVersion(self.getChildElementOptionalPositiveInteger(element, "MAX-MAJOR-VERSION"))
+        rule.setMaxMinorVersion(self.getChildElementOptionalPositiveInteger(element, "MAX-MINOR-VERSION"))
+        rule.setMinMajorVersion(self.getChildElementOptionalPositiveInteger(element, "MIN-MAJOR-VERSION"))
+        rule.setMinMinorVersion(self.getChildElementOptionalPositiveInteger(element, "MIN-MINOR-VERSION"))
+        rule.setServiceInstanceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-INSTANCE-ID"))
+        rule.setServiceInterfaceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-INTERFACE-ID"))
+
     def readFirewallRule(self, element: ET.Element, rule: FirewallRule):
         self.readIdentifiable(element, rule)
         rule.setBucketSize(self.getChildElementOptionalPositiveInteger(element, "BUCKET-SIZE"))
@@ -14687,7 +14697,9 @@ class ARXMLParser(AbstractARXMLParser):
             rule.setSomeipRule(someip_rule)
         child = self.find(element, "SOMEIP-SD-RULE")
         if child is not None:
-            rule.setSomeipSdRule(SomeipSdRule())
+            someip_sd_rule = SomeipSdRule()
+            self.readSomeipSdRule(child, someip_sd_rule)
+            rule.setSomeipSdRule(someip_sd_rule)
         child = self.find(element, "TRANSPORT-LAYER-RULE")
         if child is not None:
             rule.setTransportLayerRule(TransportLayerRule())

@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     PayloadBytePatternRule,
     PayloadBytePatternRulePart,
     SomeipProtocolRule,
+    SomeipSdRule,
     StateDependentFirewall,
 )
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.AdaptiveModuleImplementation import (
@@ -14284,6 +14285,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "RETURN-CODE", rule.getReturnCode())
         self.setChildElementOptionalPositiveInteger(element, "SERVICE-INTERFACE-ID", rule.getServiceInterfaceId())
 
+    def writeSomeipSdRule(self, element: ET.Element, rule: SomeipSdRule):
+        self.setChildElementOptionalPositiveInteger(element, "ENTRY-TYPE", rule.getEntryType())
+        self.setChildElementOptionalPositiveInteger(element, "EVENT-GROUP-ID", rule.getEventGroupId())
+        self.setChildElementOptionalPositiveInteger(element, "MAX-MAJOR-VERSION", rule.getMaxMajorVersion())
+        self.setChildElementOptionalPositiveInteger(element, "MAX-MINOR-VERSION", rule.getMaxMinorVersion())
+        self.setChildElementOptionalPositiveInteger(element, "MIN-MAJOR-VERSION", rule.getMinMajorVersion())
+        self.setChildElementOptionalPositiveInteger(element, "MIN-MINOR-VERSION", rule.getMinMinorVersion())
+        self.setChildElementOptionalPositiveInteger(element, "SERVICE-INSTANCE-ID", rule.getServiceInstanceId())
+        self.setChildElementOptionalPositiveInteger(element, "SERVICE-INTERFACE-ID", rule.getServiceInterfaceId())
+
     def writeFirewallRule(self, element: ET.Element, rule: FirewallRule):
         self.logger.debug("Write FirewallRule %s" % rule.getShortName())
         rule_tag = ET.SubElement(element, "FIREWALL-RULE")
@@ -14309,7 +14320,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             someip_rule_tag = ET.SubElement(rule_tag, "SOMEIP-RULE")
             self.writeSomeipProtocolRule(someip_rule_tag, rule.getSomeipRule())
         if rule.getSomeipSdRule() is not None:
-            ET.SubElement(rule_tag, "SOMEIP-SD-RULE")
+            someip_sd_rule_tag = ET.SubElement(rule_tag, "SOMEIP-SD-RULE")
+            self.writeSomeipSdRule(someip_sd_rule_tag, rule.getSomeipSdRule())
         if rule.getTransportLayerRule() is not None:
             ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
 
