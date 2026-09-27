@@ -296,6 +296,7 @@ class NumericalValueSpecification(ValueSpecification):
 
     # NumericalValueSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.114, p.436
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
