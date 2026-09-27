@@ -229,6 +229,7 @@ class LifeCycleInfoSet(ARElement):
 
     # LifeCycleInfoSet method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 12.3, p.392
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Table split across an image break: body main fragment (header + defaultLcState/defaultPeriodBegin rows) and the
     # `Table 12.3: LifeCycleInfoSet` caption + continuation fragment (defaultPeriodEnd/lifeCycleInfo/usedLifeCycleStateDefinitionGroup)
