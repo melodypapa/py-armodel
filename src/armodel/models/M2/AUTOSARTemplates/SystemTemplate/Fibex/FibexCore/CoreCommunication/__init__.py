@@ -2103,47 +2103,73 @@ class ISignalTriggering(Identifiable, VariationPointCapable):
 
 class SegmentPosition(ARObject):
     """
-    Defines the position of a segment within a communication element,
-    specifying byte order, length, and position properties for
-    segmented communication.
+    The StaticPart and the DynamicPart can be separated in multiple segments within the multiplexed PDU. The ISignalIPdus are copied bit by bit into the MultiplexedIPdu. If the space of the first segment is 5 bits large than the first 5 bits of the ISignalIPdu are copied into this first segment and so on.
     """
 
     # SegmentPosition method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getSegmentByteOrder          [x] impl  [ ] docstring  [ ] test
-    # [ ] setSegmentByteOrder          [x] impl  [ ] docstring  [ ] test
-    # [ ] getSegmentLength             [x] impl  [ ] docstring  [ ] test
-    # [ ] setSegmentLength             [x] impl  [ ] docstring  [ ] test
-    # [ ] getSegmentPosition           [x] impl  [ ] docstring  [ ] test
-    # [ ] setSegmentPosition           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.77, p.412 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSegmentByteOrder [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSegmentByteOrder [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSegmentLength    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSegmentLength    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSegmentPosition  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSegmentPosition  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.segmentByteOrder: ByteOrderEnum = None
-        self.segmentLength: Integer = None
-        self.segmentPosition: Integer = None
+        # This attribute defines the order of the bytes of the segment and the packing into the MultiplexedIPdu. Please consider that [constr_3247] and [constr_3224] are restricting the usage of this attribute.
+        self.segmentByteOrder: Optional[ByteOrderEnum] = None
 
-    def getSegmentByteOrder(self):
+        # Data Length of the segment in bits.
+        self.segmentLength: Optional[Integer] = None
+
+        # Segments bit position relatively to the beginning of a multiplexed IPdu. Note that the absolute position of the segment in the MultiplexedIPdu is determined by the definition of the segmentByteOrder attribute of the SegmentPosition. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the IPdu. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the IPdu. In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
+        self.segmentPosition: Optional[Integer] = None
+
+    def getSegmentByteOrder(self) -> Optional[ByteOrderEnum]:
+        """
+        This attribute defines the order of the bytes of the segment and the packing into the MultiplexedIPdu. Please consider that [constr_3247] and [constr_3224] are restricting the usage of this attribute.
+        """
         return self.segmentByteOrder
 
-    def setSegmentByteOrder(self, value):
+    def setSegmentByteOrder(self, value: Optional[ByteOrderEnum]) -> "SegmentPosition":
+        """
+        This attribute defines the order of the bytes of the segment and the packing into the MultiplexedIPdu. Please consider that [constr_3247] and [constr_3224] are restricting the usage of this attribute.
+        A None value is a no-op and does not overwrite an existing segmentByteOrder.
+        """
         if value is not None:
             self.segmentByteOrder = value
         return self
 
-    def getSegmentLength(self):
+    def getSegmentLength(self) -> Optional[Integer]:
+        """
+        Data Length of the segment in bits.
+        """
         return self.segmentLength
 
-    def setSegmentLength(self, value):
+    def setSegmentLength(self, value: Optional[Integer]) -> "SegmentPosition":
+        """
+        Data Length of the segment in bits.
+        A None value is a no-op and does not overwrite an existing segmentLength.
+        """
         if value is not None:
             self.segmentLength = value
         return self
 
-    def getSegmentPosition(self):
+    def getSegmentPosition(self) -> Optional[Integer]:
+        """
+        Segments bit position relatively to the beginning of a multiplexed IPdu. Note that the absolute position of the segment in the MultiplexedIPdu is determined by the definition of the segmentByteOrder attribute of the SegmentPosition. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the IPdu. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the IPdu. In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
+        """
         return self.segmentPosition
 
-    def setSegmentPosition(self, value):
+    def setSegmentPosition(self, value: Optional[Integer]) -> "SegmentPosition":
+        """
+        Segments bit position relatively to the beginning of a multiplexed IPdu. Note that the absolute position of the segment in the MultiplexedIPdu is determined by the definition of the segmentByteOrder attribute of the SegmentPosition. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the IPdu. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the IPdu. In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
+        A None value is a no-op and does not overwrite an existing segmentPosition.
+        """
         if value is not None:
             self.segmentPosition = value
         return self
