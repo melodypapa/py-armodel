@@ -13,7 +13,7 @@ class TestTcpTp:
     """Test cases for TcpTp (Table 6.129, p.460)."""
 
     def _obj(self):
-        return TcpTp(None, "Obj")
+        return TcpTp()
 
     def test_initialization_defaults(self):
         obj = self._obj()

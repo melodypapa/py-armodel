@@ -12,7 +12,7 @@ class TestGenericTp:
     """Test cases for GenericTp (Table 6.126, p.459)."""
 
     def _obj(self):
-        return GenericTp(None, "Obj")
+        return GenericTp()
 
     def test_initialization_defaults(self):
         obj = self._obj()

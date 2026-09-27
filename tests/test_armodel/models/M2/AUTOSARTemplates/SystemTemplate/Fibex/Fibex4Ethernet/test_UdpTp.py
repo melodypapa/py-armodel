@@ -12,7 +12,7 @@ class TestUdpTp:
     """Test cases for UdpTp (Table 6.128, p.459)."""
 
     def _obj(self):
-        return UdpTp(None, "Obj")
+        return UdpTp()
 
     def test_initialization_defaults(self):
         obj = self._obj()
