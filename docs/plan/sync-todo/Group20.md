@@ -384,15 +384,37 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `PayloadBytePatternRule` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): XSD-only — no `Class` table in R23-11 markdown (only the FirewallRule
+    Table 6.236 `payloadBytePatternRule 0..*` attribute row references the type), none in
+    R4.3.1 markdown, pdf_page.py finds no PDF table (Rule 0016.3 fallback exhausted).
+    XSD 00052: group PAYLOAD-BYTE-PATTERN-RULE L88452 + complexType L88473; class Note =
+    "Configuration of a generic firewall rule that defines the individual bytes of a
+    message that shall match." Tags: atp.Status=candidate; single member
+    payloadBytePatternRulePart (0..*, wrapper PAYLOAD-BYTE-PATTERN-RULE-PARTS >
+    PAYLOAD-BYTE-PATTERN-RULE-PART items). Part type PayloadBytePatternRulePart is in the
+    Rule 0016.1 closure (aggregated child, XSD-only, same package) — implemented fully in
+    the same commit (offset/value PositiveInteger, L88508) though not a queued row
+    (flagged decision).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): reader readPayloadBytePatternRule/readPayloadBytePatternRulePart +
+    writer writePayloadBytePatternRule/writePayloadBytePatternRulePart new; readFirewallRule
+    upgraded from empty-placeholder loop to full nested read (wrapper PAYLOAD-BYTE-PATTERN-RULES
+    > PAYLOAD-BYTE-PATTERN-RULE > PAYLOAD-BYTE-PATTERN-RULE-PARTS > PAYLOAD-BYTE-PATTERN-RULE-PART
+    per XSD L59059/L88459); FirewallRule checklist reader/writer columns for
+    addPayloadBytePatternRule/getPayloadBytePatternRules flipped to real coverage; new
+    test_payload_byte_pattern_rule.py parser suite (5 tests) + writer suite (5 tests) pass.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): stale `payloadBytePatternRule` missing row removed from the
+    method_deviation_by_class.md FirewallRule section (Rule 0014); no open deviations —
+    verbatim XSD docstrings restored, Optional[T] annotations, 6-col checklists written
+    for both classes (no stamp markers per batch mode).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (77 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SomeipProtocolRule` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py

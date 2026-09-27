@@ -14,6 +14,7 @@ __all__ = [
     "DoIpRule",
     "NetworkLayerRule",
     "PayloadBytePatternRule",
+    "PayloadBytePatternRulePart",
     "SomeipProtocolRule",
     "SomeipSdRule",
     "TransportLayerRule",
@@ -27,8 +28,10 @@ class FirewallRule(ARElement):
     # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.236, p.585 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (markdown-minimal deviation: the 8 rule member classes carry no Class table in the
-    #  PDF/markdown corpus — DataLinkLayerRule/DdsRule synced markdown-minimal, the other
-    #  6 are attribute-name placeholders; full member attribute defs remain a deviation)
+    #  PDF/markdown corpus — DataLinkLayerRule/DdsRule synced markdown-minimal,
+    #  PayloadBytePatternRule synced XSD-only (incl. its PayloadBytePatternRulePart part
+    #  type), the other 5 are attribute-name placeholders; full member attribute defs
+    #  remain a deviation)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getBucketSize                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setBucketSize                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -40,8 +43,8 @@ class FirewallRule(ARElement):
     # [x] setDoIpRule                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getNetworkLayerRule          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setNetworkLayerRule          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addPayloadBytePatternRule    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getPayloadBytePatternRules   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addPayloadBytePatternRule    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPayloadBytePatternRules   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getRefillAmount              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setRefillAmount              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSomeipRule                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -287,16 +290,81 @@ class NetworkLayerRule(ARObject):
 
 
 class PayloadBytePatternRule(ARObject):
-    """Configuration of generic firewall rules"""
+    """Configuration of a generic firewall rule that defines the individual bytes of a message that shall match. Tags: atp.Status=candidate"""
 
     # PayloadBytePatternRule method parity checklist:
+    # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class PayloadBytePatternRule, AUTOSAR_00052.xsd line 88473 (XSD-only; no own table in repo corpus)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # (markdown-minimal placeholder: member attribute defs skipped per user decision
-    #  2026-08-31 — no Class table in the PDF/markdown corpus; no stamp)
-    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addPayloadBytePatternRulePart  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPayloadBytePatternRuleParts [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
+
+        # Configuration of bytes in the message,
+        self.payloadBytePatternRuleParts: List["PayloadBytePatternRulePart"] = []
+
+    def addPayloadBytePatternRulePart(self, value: Optional["PayloadBytePatternRulePart"]) -> "PayloadBytePatternRule":
+        """
+        Configuration of bytes in the message,
+        A None value is a no-op and does not overwrite an existing payloadBytePatternRulePart.
+        """
+        if value is not None:
+            self.payloadBytePatternRuleParts.append(value)
+        return self
+
+    def getPayloadBytePatternRuleParts(self) -> List["PayloadBytePatternRulePart"]:
+        """Configuration of bytes in the message,"""
+        return self.payloadBytePatternRuleParts
+
+
+class PayloadBytePatternRulePart(ARObject):
+    """Configuration of one byte in the datagram, Tags: atp.Status=candidate"""
+
+    # PayloadBytePatternRulePart method parity checklist:
+    # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class PayloadBytePatternRulePart, AUTOSAR_00052.xsd line 88508 (XSD-only; no own table in repo corpus)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOffset  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOffset  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getValue   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute defines the byte offset in the datagram (start byte of the Ethernet frame, i.e. offset 0 corresponds to the first byte of the destination MAC address).
+        self.offset: Optional[PositiveInteger] = None
+
+        # This attribute defines the byteValue (0..255) in the datagram.
+        self.value: Optional[PositiveInteger] = None
+
+    def getOffset(self) -> Optional[PositiveInteger]:
+        """This attribute defines the byte offset in the datagram (start byte of the Ethernet frame, i.e. offset 0 corresponds to the first byte of the destination MAC address)."""
+        return self.offset
+
+    def setOffset(self, value: Optional[PositiveInteger]) -> "PayloadBytePatternRulePart":
+        """
+        This attribute defines the byte offset in the datagram (start byte of the Ethernet frame, i.e. offset 0 corresponds to the first byte of the destination MAC address).
+        A None value is a no-op and does not overwrite an existing offset.
+        """
+        if value is not None:
+            self.offset = value
+        return self
+
+    def getValue(self) -> Optional[PositiveInteger]:
+        """This attribute defines the byteValue (0..255) in the datagram."""
+        return self.value
+
+    def setValue(self, value: Optional[PositiveInteger]) -> "PayloadBytePatternRulePart":
+        """
+        This attribute defines the byteValue (0..255) in the datagram.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.value = value
+        return self
 
 
 class SomeipProtocolRule(ARObject):

@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     FirewallRuleProps,
     NetworkLayerRule,
     PayloadBytePatternRule,
+    PayloadBytePatternRulePart,
     SomeipProtocolRule,
     SomeipSdRule,
     StateDependentFirewall,
@@ -14633,6 +14634,18 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setVlanId(self.getChildElementOptionalPositiveInteger(element, "VLAN-ID"))
         rule.setVlanPriority(self.getChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY"))
 
+    def readPayloadBytePatternRule(self, element: ET.Element, payload_rule: PayloadBytePatternRule):
+        parts = self.find(element, "PAYLOAD-BYTE-PATTERN-RULE-PARTS")
+        if parts is not None:
+            for child in self.findall(parts, "PAYLOAD-BYTE-PATTERN-RULE-PART"):
+                part = PayloadBytePatternRulePart()
+                self.readPayloadBytePatternRulePart(child, part)
+                payload_rule.addPayloadBytePatternRulePart(part)
+
+    def readPayloadBytePatternRulePart(self, element: ET.Element, part: PayloadBytePatternRulePart):
+        part.setOffset(self.getChildElementOptionalPositiveInteger(element, "OFFSET"))
+        part.setValue(self.getChildElementOptionalPositiveInteger(element, "VALUE"))
+
     def readFirewallRule(self, element: ET.Element, rule: FirewallRule):
         self.readIdentifiable(element, rule)
         rule.setBucketSize(self.getChildElementOptionalPositiveInteger(element, "BUCKET-SIZE"))
@@ -14650,8 +14663,12 @@ class ARXMLParser(AbstractARXMLParser):
         child = self.find(element, "NETWORK-LAYER-RULE")
         if child is not None:
             rule.setNetworkLayerRule(NetworkLayerRule())
-        for _ in self.findall(element, "PAYLOAD-BYTE-PATTERN-RULES/PAYLOAD-BYTE-PATTERN-RULE"):
-            rule.addPayloadBytePatternRule(PayloadBytePatternRule())
+        payload_rules = self.find(element, "PAYLOAD-BYTE-PATTERN-RULES")
+        if payload_rules is not None:
+            for child in self.findall(payload_rules, "PAYLOAD-BYTE-PATTERN-RULE"):
+                payload_rule = PayloadBytePatternRule()
+                self.readPayloadBytePatternRule(child, payload_rule)
+                rule.addPayloadBytePatternRule(payload_rule)
         rule.setRefillAmount(self.getChildElementOptionalPositiveInteger(element, "REFILL-AMOUNT"))
         child = self.find(element, "SOMEIP-RULE")
         if child is not None:

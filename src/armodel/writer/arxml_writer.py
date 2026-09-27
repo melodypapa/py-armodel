@@ -7,7 +7,14 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     CryptoKeySlotAllowedModification,
     CryptoKeySlotContentAllowedUsage,
 )
-from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import DataLinkLayerRule, FirewallRule, FirewallRuleProps, StateDependentFirewall
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import (
+    DataLinkLayerRule,
+    FirewallRule,
+    FirewallRuleProps,
+    PayloadBytePatternRule,
+    PayloadBytePatternRulePart,
+    StateDependentFirewall,
+)
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.AdaptiveModuleImplementation import (
     PlatformModuleEthernetEndpointConfiguration,
 )
@@ -14254,6 +14261,18 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "VLAN-ID", rule.getVlanId())
         self.setChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY", rule.getVlanPriority())
 
+    def writePayloadBytePatternRule(self, element: ET.Element, payload_rule: PayloadBytePatternRule):
+        parts = payload_rule.getPayloadBytePatternRuleParts()
+        if len(parts) > 0:
+            parts_tag = ET.SubElement(element, "PAYLOAD-BYTE-PATTERN-RULE-PARTS")
+            for part in parts:
+                part_tag = ET.SubElement(parts_tag, "PAYLOAD-BYTE-PATTERN-RULE-PART")
+                self.writePayloadBytePatternRulePart(part_tag, part)
+
+    def writePayloadBytePatternRulePart(self, element: ET.Element, part: PayloadBytePatternRulePart):
+        self.setChildElementOptionalPositiveInteger(element, "OFFSET", part.getOffset())
+        self.setChildElementOptionalPositiveInteger(element, "VALUE", part.getValue())
+
     def writeFirewallRule(self, element: ET.Element, rule: FirewallRule):
         self.logger.debug("Write FirewallRule %s" % rule.getShortName())
         rule_tag = ET.SubElement(element, "FIREWALL-RULE")
@@ -14271,8 +14290,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         payload_rules = rule.getPayloadBytePatternRules()
         if len(payload_rules) > 0:
             rules_tag = ET.SubElement(rule_tag, "PAYLOAD-BYTE-PATTERN-RULES")
-            for _ in payload_rules:
-                ET.SubElement(rules_tag, "PAYLOAD-BYTE-PATTERN-RULE")
+            for payload_rule in payload_rules:
+                payload_rule_tag = ET.SubElement(rules_tag, "PAYLOAD-BYTE-PATTERN-RULE")
+                self.writePayloadBytePatternRule(payload_rule_tag, payload_rule)
         self.setChildElementOptionalPositiveInteger(rule_tag, "REFILL-AMOUNT", rule.getRefillAmount())
         if rule.getSomeipRule() is not None:
             ET.SubElement(rule_tag, "SOMEIP-RULE")
