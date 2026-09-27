@@ -39,6 +39,7 @@ class Item(Paginateable, VariationPointCapable):
 
     # Item method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.9, p.295
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getItemContents    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
