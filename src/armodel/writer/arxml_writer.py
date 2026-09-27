@@ -8859,10 +8859,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "SECURED-I-PDU")
         self.writeIPdu(child_element, i_pdu)
         self.setChildElementOptionalRefType(child_element, "AUTHENTICATION-PROPS-REF", i_pdu.getAuthenticationPropsRef())
+        self.setChildElementOptionalBooleanValue(child_element, "DYNAMIC-RUNTIME-LENGTH-HANDLING", i_pdu.getDynamicRuntimeLengthHandling())
         self.setChildElementOptionalRefType(child_element, "FRESHNESS-PROPS-REF", i_pdu.getFreshnessPropsRef())
         self.setChildElementOptionalRefType(child_element, "PAYLOAD-REF", i_pdu.getPayloadRef())
         self.setSecureCommunicationProps(child_element, "SECURE-COMMUNICATION-PROPS", i_pdu.getSecureCommunicationProps())
         self.setChildElementOptionalBooleanValue(child_element, "USE-AS-CRYPTOGRAPHIC-I-PDU", i_pdu.getUseAsCryptographicIPdu())
+        self.setChildElementOptionalLiteral(child_element, "USE-SECURED-PDU-HEADER", i_pdu.getUseSecuredPduHeader())
 
     def writeTpConfig(self, element: ET.Element, config: TpConfig):
         self.writeIdentifiable(element, config)

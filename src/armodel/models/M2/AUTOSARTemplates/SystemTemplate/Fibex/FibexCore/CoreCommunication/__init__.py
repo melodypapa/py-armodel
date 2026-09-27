@@ -962,91 +962,153 @@ class SecuredPduHeaderEnum(AREnum):
 
 class SecuredIPdu(IPdu):
     """
-    Represents a secured Interaction Protocol Data Unit (IPDU) with
-    authentication, integrity protection, and other security properties
-    for protected communication.
+    If useAsCryptographicPdu is not set or set to false this IPdu contains the payload of an Authentic IPdu supplemented by additional Authentication Information (Freshness Counter and an Authenticator). If useAsCryptographicPdu is set to true this IPdu contains the Authenticator for a payload that is transported in a separate message. The separate Authentic IPdu is described by the Pdu that is referenced with the payload reference from this SecuredIPdu. Tags: atp.recommendedPackage=Pdus
     """
 
     # SecuredIPdu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAuthenticationPropsRef    [x] impl  [ ] docstring  [ ] test
-    # [ ] setAuthenticationPropsRef    [x] impl  [ ] docstring  [ ] test
-    # [ ] getDynamicRuntimeLengthHandling [x] impl  [ ] docstring  [ ] test
-    # [ ] setDynamicRuntimeLengthHandling [x] impl  [ ] docstring  [ ] test
-    # [ ] getFreshnessPropsRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] setFreshnessPropsRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] getPayloadRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] setPayloadRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] getSecureCommunicationProps  [x] impl  [ ] docstring  [ ] test
-    # [ ] setSecureCommunicationProps  [x] impl  [ ] docstring  [ ] test
-    # [ ] getUseAsCryptographicIPdu    [x] impl  [ ] docstring  [ ] test
-    # [ ] setUseAsCryptographicIPdu    [x] impl  [ ] docstring  [ ] test
-    # [ ] getUseSecuredPduHeader       [x] impl  [ ] docstring  [ ] test
-    # [ ] setUseSecuredPduHeader       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.42, p.368 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAuthenticationPropsRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAuthenticationPropsRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDynamicRuntimeLengthHandling [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDynamicRuntimeLengthHandling [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFreshnessPropsRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFreshnessPropsRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPayloadRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPayloadRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecureCommunicationProps     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecureCommunicationProps     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUseAsCryptographicIPdu       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUseAsCryptographicIPdu       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUseSecuredPduHeader          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUseSecuredPduHeader          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.authenticationPropsRef: RefType = None
-        self.dynamicRuntimeLengthHandling: Boolean = None
-        self.freshnessPropsRef: RefType = None
-        self.payloadRef: RefType = None
-        self.secureCommunicationProps: SecureCommunicationProps = None
-        self.useAsCryptographicIPdu: Boolean = None
-        self.useSecuredPduHeader = None
+        # Reference to authentication properties that are valid for this SecuredIPdu.
+        self.authenticationPropsRef: Optional[RefType] = None
 
-    def getAuthenticationPropsRef(self):
+        # Defines whether the length information for handling this SecuredIPdu with SecuredIPdu.useSecuredPdu Header=noHeader is taken from the configuration or from the actually provided length information during runtime. true: SecuredIPdu length information is taken from the actually provided length information during runtime. false: SecuredIPdu length information is taken from the configuration.
+        self.dynamicRuntimeLengthHandling: Optional[Boolean] = None
+
+        # Reference to freshness properties that are valid for this SecuredIPdu.
+        self.freshnessPropsRef: Optional[RefType] = None
+
+        # Reference to a Pdu that will be protected against unauthorized manipulation and replay attacks.
+        self.payloadRef: Optional[RefType] = None
+
+        # Specific configuration properties for this SecuredIPdu.
+        self.secureCommunicationProps: Optional[SecureCommunicationProps] = None
+
+        # If this attribute is set to true the SecuredIPdu contains the Authentication Information for an AuthenticIPdu that is transmitted in a separate message. The AuthenticIPdu contains the original payload, i.e. the secured data. If this attribute is set to false this SecuredIPdu contains the payload of an Authentic IPdu supplemented by additional Authentication Information.
+        self.useAsCryptographicIPdu: Optional[Boolean] = None
+
+        # This attribute defines the size of the header which is inserted into the SecuredIPdu. If this attribute is set to anything but noHeader, the SecuredIPdu contains the Secured I-PDU Header to indicate the length of the AuthenticIPdu. The AuthenticIPdu contains the original payload, i.e. the secured data.
+        self.useSecuredPduHeader: Optional[SecuredPduHeaderEnum] = None
+
+    def getAuthenticationPropsRef(self) -> Optional[RefType]:
+        """
+        Reference to authentication properties that are valid for this SecuredIPdu.
+        """
         return self.authenticationPropsRef
 
-    def setAuthenticationPropsRef(self, value):
+    def setAuthenticationPropsRef(self, value: Optional[RefType]) -> SecuredIPdu:
+        """
+        Reference to authentication properties that are valid for this SecuredIPdu.
+        A None value is a no-op and does not overwrite an existing authenticationPropsRef.
+        """
         if value is not None:
             self.authenticationPropsRef = value
         return self
 
-    def getDynamicRuntimeLengthHandling(self):
+    def getDynamicRuntimeLengthHandling(self) -> Optional[Boolean]:
+        """
+        Defines whether the length information for handling this SecuredIPdu with SecuredIPdu.useSecuredPdu Header=noHeader is taken from the configuration or from the actually provided length information during runtime. true: SecuredIPdu length information is taken from the actually provided length information during runtime. false: SecuredIPdu length information is taken from the configuration.
+        """
         return self.dynamicRuntimeLengthHandling
 
-    def setDynamicRuntimeLengthHandling(self, value):
+    def setDynamicRuntimeLengthHandling(self, value: Optional[Boolean]) -> SecuredIPdu:
+        """
+        Defines whether the length information for handling this SecuredIPdu with SecuredIPdu.useSecuredPdu Header=noHeader is taken from the configuration or from the actually provided length information during runtime. true: SecuredIPdu length information is taken from the actually provided length information during runtime. false: SecuredIPdu length information is taken from the configuration.
+        A None value is a no-op and does not overwrite an existing dynamicRuntimeLengthHandling.
+        """
         if value is not None:
             self.dynamicRuntimeLengthHandling = value
         return self
 
-    def getFreshnessPropsRef(self):
+    def getFreshnessPropsRef(self) -> Optional[RefType]:
+        """
+        Reference to freshness properties that are valid for this SecuredIPdu.
+        """
         return self.freshnessPropsRef
 
-    def setFreshnessPropsRef(self, value):
+    def setFreshnessPropsRef(self, value: Optional[RefType]) -> SecuredIPdu:
+        """
+        Reference to freshness properties that are valid for this SecuredIPdu.
+        A None value is a no-op and does not overwrite an existing freshnessPropsRef.
+        """
         if value is not None:
             self.freshnessPropsRef = value
         return self
 
-    def getPayloadRef(self):
+    def getPayloadRef(self) -> Optional[RefType]:
+        """
+        Reference to a Pdu that will be protected against unauthorized manipulation and replay attacks.
+        """
         return self.payloadRef
 
-    def setPayloadRef(self, value):
+    def setPayloadRef(self, value: Optional[RefType]) -> SecuredIPdu:
+        """
+        Reference to a Pdu that will be protected against unauthorized manipulation and replay attacks.
+        A None value is a no-op and does not overwrite an existing payloadRef.
+        """
         if value is not None:
             self.payloadRef = value
         return self
 
-    def getSecureCommunicationProps(self):
+    def getSecureCommunicationProps(self) -> Optional[SecureCommunicationProps]:
+        """
+        Specific configuration properties for this SecuredIPdu.
+        """
         return self.secureCommunicationProps
 
-    def setSecureCommunicationProps(self, value):
+    def setSecureCommunicationProps(self, value: Optional[SecureCommunicationProps]) -> SecuredIPdu:
+        """
+        Specific configuration properties for this SecuredIPdu.
+        A None value is a no-op and does not overwrite an existing secureCommunicationProps.
+        """
         if value is not None:
             self.secureCommunicationProps = value
         return self
 
-    def getUseAsCryptographicIPdu(self):
+    def getUseAsCryptographicIPdu(self) -> Optional[Boolean]:
+        """
+        If this attribute is set to true the SecuredIPdu contains the Authentication Information for an AuthenticIPdu that is transmitted in a separate message. The AuthenticIPdu contains the original payload, i.e. the secured data. If this attribute is set to false this SecuredIPdu contains the payload of an Authentic IPdu supplemented by additional Authentication Information.
+        """
         return self.useAsCryptographicIPdu
 
-    def setUseAsCryptographicIPdu(self, value):
+    def setUseAsCryptographicIPdu(self, value: Optional[Boolean]) -> SecuredIPdu:
+        """
+        If this attribute is set to true the SecuredIPdu contains the Authentication Information for an AuthenticIPdu that is transmitted in a separate message. The AuthenticIPdu contains the original payload, i.e. the secured data. If this attribute is set to false this SecuredIPdu contains the payload of an Authentic IPdu supplemented by additional Authentication Information.
+        A None value is a no-op and does not overwrite an existing useAsCryptographicIPdu.
+        """
         if value is not None:
             self.useAsCryptographicIPdu = value
         return self
 
-    def getUseSecuredPduHeader(self):
+    def getUseSecuredPduHeader(self) -> Optional[SecuredPduHeaderEnum]:
+        """
+        This attribute defines the size of the header which is inserted into the SecuredIPdu. If this attribute is set to anything but noHeader, the SecuredIPdu contains the Secured I-PDU Header to indicate the length of the AuthenticIPdu. The AuthenticIPdu contains the original payload, i.e. the secured data.
+        """
         return self.useSecuredPduHeader
 
-    def setUseSecuredPduHeader(self, value):
+    def setUseSecuredPduHeader(self, value: Optional[SecuredPduHeaderEnum]) -> SecuredIPdu:
+        """
+        This attribute defines the size of the header which is inserted into the SecuredIPdu. If this attribute is set to anything but noHeader, the SecuredIPdu contains the Secured I-PDU Header to indicate the length of the AuthenticIPdu. The AuthenticIPdu contains the original payload, i.e. the secured data.
+        A None value is a no-op and does not overwrite an existing useSecuredPduHeader.
+        """
         if value is not None:
             self.useSecuredPduHeader = value
         return self

@@ -10755,10 +10755,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read SecuredIPdu <%s>" % i_pdu.getShortName())
         self.readIPdu(element, i_pdu)
         i_pdu.setAuthenticationPropsRef(self.getChildElementOptionalRefType(element, "AUTHENTICATION-PROPS-REF"))
+        i_pdu.setDynamicRuntimeLengthHandling(self.getChildElementOptionalBooleanValue(element, "DYNAMIC-RUNTIME-LENGTH-HANDLING"))
         i_pdu.setFreshnessPropsRef(self.getChildElementOptionalRefType(element, "FRESHNESS-PROPS-REF"))
         i_pdu.setPayloadRef(self.getChildElementOptionalRefType(element, "PAYLOAD-REF"))
         i_pdu.setSecureCommunicationProps(self.getSecureCommunicationProps(element, "SECURE-COMMUNICATION-PROPS"))
         i_pdu.setUseAsCryptographicIPdu(self.getChildElementOptionalBooleanValue(element, "USE-AS-CRYPTOGRAPHIC-I-PDU"))
+        i_pdu.setUseSecuredPduHeader(self.getChildElementOptionalLiteral(element, "USE-SECURED-PDU-HEADER"))
 
     def readNmNode(self, element: ET.Element, nm_node: NmNode):
         self.readIdentifiable(element, nm_node)

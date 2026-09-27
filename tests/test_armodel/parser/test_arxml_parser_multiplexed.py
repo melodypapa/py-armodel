@@ -626,3 +626,54 @@ class TestTargetIPduRef:
 
 
 # ==================== EcucParameterValue (L5081, L5103) ====================
+
+
+class TestSecuredIPduNewFields:
+    """SecuredIPdu DYNAMIC-RUNTIME-LENGTH-HANDLING / USE-SECURED-PDU-HEADER (Table 6.42)."""
+
+    def test_readSecuredIPdu_sets_new_fields(self, parser):
+        from armodel.models import SecuredIPdu
+
+        ipdu = SecuredIPdu(MagicMock(), "Sipdu")
+        element = _snip("<DYNAMIC-RUNTIME-LENGTH-HANDLING>true</DYNAMIC-RUNTIME-LENGTH-HANDLING>" "<USE-SECURED-PDU-HEADER>securedPduHeader16Bit</USE-SECURED-PDU-HEADER>")
+        parser.readSecuredIPdu(element, ipdu)
+        assert ipdu.getDynamicRuntimeLengthHandling().getValue() is True
+        assert ipdu.getUseSecuredPduHeader().getValue() == "securedPduHeader16Bit"
+
+    def test_writeSecuredIPdu_new_fields(self):
+        import xml.etree.ElementTree as ET
+
+        from armodel.models import SecuredIPdu
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SecuredPduHeaderEnum
+        from armodel.writer.arxml_writer import ARXMLWriter
+
+        ipdu = SecuredIPdu(MagicMock(), "Sipdu")
+        dynamic_length = Boolean()
+        dynamic_length.setValue(True)
+        ipdu.setDynamicRuntimeLengthHandling(dynamic_length)
+        ipdu.setUseSecuredPduHeader(SecuredPduHeaderEnum().setValue(SecuredPduHeaderEnum.SECURED_PDU_HEADER16_BIT))
+        from armodel.models import AUTOSAR
+
+        AUTOSAR.getInstance().new()
+        writer = ARXMLWriter()
+        parent = ET.Element("PARENT")
+        writer.writeSecuredIPdu(parent, ipdu)
+        elem = parent.find("SECURED-I-PDU")
+        assert elem.find("DYNAMIC-RUNTIME-LENGTH-HANDLING").text == "true"
+        assert elem.find("USE-SECURED-PDU-HEADER").text == "securedPduHeader16Bit"
+        children = [
+            child.tag
+            for child in elem
+            if child.tag
+            in (
+                "AUTHENTICATION-PROPS-REF",
+                "DYNAMIC-RUNTIME-LENGTH-HANDLING",
+                "FRESHNESS-PROPS-REF",
+                "PAYLOAD-REF",
+                "SECURE-COMMUNICATION-PROPS",
+                "USE-AS-CRYPTOGRAPHIC-I-PDU",
+                "USE-SECURED-PDU-HEADER",
+            )
+        ]
+        assert children == ["DYNAMIC-RUNTIME-LENGTH-HANDLING", "USE-SECURED-PDU-HEADER"]
