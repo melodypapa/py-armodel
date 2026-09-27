@@ -11012,6 +11012,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalFloatValue(child_element, "MIN-SAMPLE-POINT", requirements.getMinSamplePoint())
             self.setChildElementOptionalFloatValue(child_element, "MIN-SYNC-JUMP-WIDTH", requirements.getMinSyncJumpWidth())
             self.setChildElementOptionalTimeValue(child_element, "MIN-TRCV-DELAY-COMPENSATION-OFFSET", requirements.getMinTrcvDelayCompensationOffset())  # noqa E501
+            self.setChildElementOptionalPositiveInteger(child_element, "PADDING-VALUE", requirements.getPaddingValue())
             self.setChildElementOptionalBooleanValue(child_element, "TX-BIT-RATE-SWITCH", requirements.getTxBitRateSwitch())
 
     def setCanControllerXlConfiguration(self, element: ET.Element, key: str, configuration: CanControllerXlConfiguration):

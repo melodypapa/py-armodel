@@ -12077,6 +12077,7 @@ class ARXMLParser(AbstractARXMLParser):
             requirements.setMinSamplePoint(self.getChildElementOptionalFloatValue(child_element, "MIN-SAMPLE-POINT"))
             requirements.setMinSyncJumpWidth(self.getChildElementOptionalFloatValue(child_element, "MIN-SYNC-JUMP-WIDTH"))
             requirements.setMinTrcvDelayCompensationOffset(self.getChildElementOptionalTimeValue(child_element, "MIN-TRCV-DELAY-COMPENSATION-OFFSET"))
+            requirements.setPaddingValue(self.getChildElementOptionalPositiveInteger(child_element, "PADDING-VALUE"))
             requirements.setTxBitRateSwitch(self.getChildElementOptionalBooleanValue(child_element, "TX-BIT-RATE-SWITCH"))  # NOQA E501
         return requirements
 

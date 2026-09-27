@@ -167,125 +167,172 @@ class CanControllerFdConfiguration(ARObject):
 
 
 class CanControllerFdConfigurationRequirements(ARObject):
-    """
-    Specifies the requirements for CAN FD configuration parameters, defining
-    the acceptable ranges and constraints for timing, bit rate, and other
-    CAN FD communication properties.
-    """
+    """This element allows the specification of ranges for the CanFD bit timing configuration parameters. These ranges are taken as requirements and shall be respected by the ECU developer."""
 
     # CanControllerFdConfigurationRequirements method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxSamplePoint            [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxSamplePoint            [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxTrcvDelayCompensationOffset [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxTrcvDelayCompensationOffset [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinSamplePoint            [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinSamplePoint            [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinTrcvDelayCompensationOffset [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinTrcvDelayCompensationOffset [x] impl  [ ] docstring  [ ] test
-    # [ ] getPaddingValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] setPaddingValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] getTxBitRateSwitch           [x] impl  [ ] docstring  [ ] test
-    # [ ] setTxBitRateSwitch           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.17, pp.66-67
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxNumberOfTimeQuantaPerBit       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNumberOfTimeQuantaPerBit       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxSamplePoint                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxSamplePoint                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxSyncJumpWidth                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxSyncJumpWidth                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxTrcvDelayCompensationOffset    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxTrcvDelayCompensationOffset    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinNumberOfTimeQuantaPerBit       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinNumberOfTimeQuantaPerBit       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinSamplePoint                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinSamplePoint                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinSyncJumpWidth                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinSyncJumpWidth                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinTrcvDelayCompensationOffset    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinTrcvDelayCompensationOffset    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPaddingValue                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPaddingValue                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTxBitRateSwitch                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTxBitRateSwitch                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.maxNumberOfTimeQuantaPerBit: Integer = None
-        self.maxSamplePoint: Float = None
-        self.maxSyncJumpWidth: Float = None
-        self.maxTrcvDelayCompensationOffset: TimeValue = None
-        self.minNumberOfTimeQuantaPerBit: Integer = None
-        self.minSamplePoint: Float = None
-        self.minSyncJumpWidth: Float = None
-        self.minTrcvDelayCompensationOffset: TimeValue = None
-        self.paddingValue: PositiveInteger = None
-        self.txBitRateSwitch: Boolean = None
+        # Maximum number of time quanta in the bit time.
+        self.maxNumberOfTimeQuantaPerBit: Optional[Integer] = None
 
-    def getMaxNumberOfTimeQuantaPerBit(self):
+        # The max. value of the sample point as a percentage of the total bit time.
+        self.maxSamplePoint: Optional[Float] = None
+
+        # The max. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors.
+        self.maxSyncJumpWidth: Optional[Float] = None
+
+        # Specifies the maximum Transceiver Delay Compensation Offset in seconds. If not specified Transceiver Delay Compensation is disabled.
+        self.maxTrcvDelayCompensationOffset: Optional[TimeValue] = None
+
+        # Minimum number of time quanta in the bit time.
+        self.minNumberOfTimeQuantaPerBit: Optional[Integer] = None
+
+        # The min. value of the sample point as a percentage of the total bit time.
+        self.minSamplePoint: Optional[Float] = None
+
+        # The min. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors.
+        self.minSyncJumpWidth: Optional[Float] = None
+
+        # Specifies the minimum Transceiver Delay Compensation Offset in seconds. If not specified Transceiver Delay Compensation is disabled.
+        self.minTrcvDelayCompensationOffset: Optional[TimeValue] = None
+
+        # Specifies the value which is used to pad unused data in CAN FD frames which are bigger than 8 byte if the length of a Pdu which was requested to be sent does not match the allowed DLC values of CAN FD.
+        self.paddingValue: Optional[PositiveInteger] = None
+
+        # Specifies if the bit rate switching shall be used for transmissions. TRUE: CAN FD frames shall be sent with bit rate switching. FALSE: CAN FD frames shall be sent without bit rate switching.
+        self.txBitRateSwitch: Optional[Boolean] = None
+
+    def getMaxNumberOfTimeQuantaPerBit(self) -> Optional[Integer]:
+        """Maximum number of time quanta in the bit time."""
         return self.maxNumberOfTimeQuantaPerBit
 
-    def setMaxNumberOfTimeQuantaPerBit(self, value):
+    def setMaxNumberOfTimeQuantaPerBit(self, value: Optional[Integer]) -> CanControllerFdConfigurationRequirements:
+        """Maximum number of time quanta in the bit time.
+        A None value is a no-op and does not overwrite an existing maxNumberOfTimeQuantaPerBit."""
         if value is not None:
             self.maxNumberOfTimeQuantaPerBit = value
         return self
 
-    def getMaxSamplePoint(self):
+    def getMaxSamplePoint(self) -> Optional[Float]:
+        """The max. value of the sample point as a percentage of the total bit time."""
         return self.maxSamplePoint
 
-    def setMaxSamplePoint(self, value):
+    def setMaxSamplePoint(self, value: Optional[Float]) -> CanControllerFdConfigurationRequirements:
+        """The max. value of the sample point as a percentage of the total bit time.
+        A None value is a no-op and does not overwrite an existing maxSamplePoint."""
         if value is not None:
             self.maxSamplePoint = value
         return self
 
-    def getMaxSyncJumpWidth(self):
+    def getMaxSyncJumpWidth(self) -> Optional[Float]:
+        """The max. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors."""
         return self.maxSyncJumpWidth
 
-    def setMaxSyncJumpWidth(self, value):
+    def setMaxSyncJumpWidth(self, value: Optional[Float]) -> CanControllerFdConfigurationRequirements:
+        """The max. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors.
+        A None value is a no-op and does not overwrite an existing maxSyncJumpWidth."""
         if value is not None:
             self.maxSyncJumpWidth = value
         return self
 
-    def getMaxTrcvDelayCompensationOffset(self):
+    def getMaxTrcvDelayCompensationOffset(self) -> Optional[TimeValue]:
+        """Specifies the maximum Transceiver Delay Compensation Offset in seconds. If not specified Transceiver Delay Compensation is disabled."""
         return self.maxTrcvDelayCompensationOffset
 
-    def setMaxTrcvDelayCompensationOffset(self, value):
+    def setMaxTrcvDelayCompensationOffset(self, value: Optional[TimeValue]) -> CanControllerFdConfigurationRequirements:
+        """Specifies the maximum Transceiver Delay Compensation Offset in seconds. If not specified Transceiver Delay Compensation is disabled.
+        A None value is a no-op and does not overwrite an existing maxTrcvDelayCompensationOffset."""
         if value is not None:
             self.maxTrcvDelayCompensationOffset = value
         return self
 
-    def getMinNumberOfTimeQuantaPerBit(self):
+    def getMinNumberOfTimeQuantaPerBit(self) -> Optional[Integer]:
+        """Minimum number of time quanta in the bit time."""
         return self.minNumberOfTimeQuantaPerBit
 
-    def setMinNumberOfTimeQuantaPerBit(self, value):
+    def setMinNumberOfTimeQuantaPerBit(self, value: Optional[Integer]) -> CanControllerFdConfigurationRequirements:
+        """Minimum number of time quanta in the bit time.
+        A None value is a no-op and does not overwrite an existing minNumberOfTimeQuantaPerBit."""
         if value is not None:
             self.minNumberOfTimeQuantaPerBit = value
         return self
 
-    def getMinSamplePoint(self):
+    def getMinSamplePoint(self) -> Optional[Float]:
+        """The min. value of the sample point as a percentage of the total bit time."""
         return self.minSamplePoint
 
-    def setMinSamplePoint(self, value):
+    def setMinSamplePoint(self, value: Optional[Float]) -> CanControllerFdConfigurationRequirements:
+        """The min. value of the sample point as a percentage of the total bit time.
+        A None value is a no-op and does not overwrite an existing minSamplePoint."""
         if value is not None:
             self.minSamplePoint = value
         return self
 
-    def getMinSyncJumpWidth(self):
+    def getMinSyncJumpWidth(self) -> Optional[Float]:
+        """The min. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors."""
         return self.minSyncJumpWidth
 
-    def setMinSyncJumpWidth(self, value):
+    def setMinSyncJumpWidth(self, value: Optional[Float]) -> CanControllerFdConfigurationRequirements:
+        """The min. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors.
+        A None value is a no-op and does not overwrite an existing minSyncJumpWidth."""
         if value is not None:
             self.minSyncJumpWidth = value
         return self
 
-    def getMinTrcvDelayCompensationOffset(self):
+    def getMinTrcvDelayCompensationOffset(self) -> Optional[TimeValue]:
+        """Specifies the minimum Transceiver Delay Compensation Offset in seconds. If not specified Transceiver Delay Compensation is disabled."""
         return self.minTrcvDelayCompensationOffset
 
-    def setMinTrcvDelayCompensationOffset(self, value):
+    def setMinTrcvDelayCompensationOffset(self, value: Optional[TimeValue]) -> CanControllerFdConfigurationRequirements:
+        """Specifies the minimum Transceiver Delay Compensation Offset in seconds. If not specified Transceiver Delay Compensation is disabled.
+        A None value is a no-op and does not overwrite an existing minTrcvDelayCompensationOffset."""
         if value is not None:
             self.minTrcvDelayCompensationOffset = value
         return self
 
-    def getPaddingValue(self):
+    def getPaddingValue(self) -> Optional[PositiveInteger]:
+        """Specifies the value which is used to pad unused data in CAN FD frames which are bigger than 8 byte if the length of a Pdu which was requested to be sent does not match the allowed DLC values of CAN FD."""
         return self.paddingValue
 
-    def setPaddingValue(self, value):
+    def setPaddingValue(self, value: Optional[PositiveInteger]) -> CanControllerFdConfigurationRequirements:
+        """Specifies the value which is used to pad unused data in CAN FD frames which are bigger than 8 byte if the length of a Pdu which was requested to be sent does not match the allowed DLC values of CAN FD.
+        A None value is a no-op and does not overwrite an existing paddingValue."""
         if value is not None:
             self.paddingValue = value
         return self
 
-    def getTxBitRateSwitch(self):
+    def getTxBitRateSwitch(self) -> Optional[Boolean]:
+        """Specifies if the bit rate switching shall be used for transmissions. TRUE: CAN FD frames shall be sent with bit rate switching. FALSE: CAN FD frames shall be sent without bit rate switching."""
         return self.txBitRateSwitch
 
-    def setTxBitRateSwitch(self, value):
+    def setTxBitRateSwitch(self, value: Optional[Boolean]) -> CanControllerFdConfigurationRequirements:
+        """Specifies if the bit rate switching shall be used for transmissions. TRUE: CAN FD frames shall be sent with bit rate switching. FALSE: CAN FD frames shall be sent without bit rate switching.
+        A None value is a no-op and does not overwrite an existing txBitRateSwitch."""
         if value is not None:
             self.txBitRateSwitch = value
         return self
