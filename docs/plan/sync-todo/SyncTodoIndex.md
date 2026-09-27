@@ -514,7 +514,7 @@ Status: **49/50** completed
 
 ## Group9
 
-Status: **7/20** completed
+Status: **8/20** completed
 
 | Class Name                    | Status       | Commit ID |
 | ----------------------------- | ------------ | --------- |
@@ -525,7 +525,7 @@ Status: **7/20** completed
 | `DataFilterTypeEnum`          | [x] Done     | b59bd6ebb |
 | `DataFilter`                  | [x] Done     | ed2a073e7 |
 | `Modification`                | [x] Done     | N/A       |
-| `ScaleConstrValidityEnum`     | [ ] Pending* | N/A       |
+| `ScaleConstrValidityEnum`     | [x] Done     | 1bc8904ee |
 | `UnitGroup`                   | [ ] Pending* | N/A       |
 | `SwImplPolicyEnum`            | [ ] Pending* | N/A       |
 | `SwSystemconst`               | [ ] Pending* | N/A       |

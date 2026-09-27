@@ -542,7 +542,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `RuntimeAddressConfigurationEnum`                       | [ ] Pending | N/A                                      | Group16          |
 | `SOMEIPMessageTypeEnum`                                 | [x] Done    | b1630807                                 | Group6           |
 | `SOMEIPTransformationISignalProps`                      | [x] Done    | 55ff2098                                 | Group6           |
-| `ScaleConstrValidityEnum`                               | [ ] Deferred| N/A                                      | Group9           |
+| `ScaleConstrValidityEnum`                               | [x] Done    | 1bc8904ee                                | Group9           |
 | `SdClientConfig`                                        | [x] Done    | 8e0c8857                                 | Group7           |
 | `SdServerConfig`                                        | [ ] Pending | N/A                                      | Group16          |
 | `SecOcCryptoServiceMapping`                             | [ ] Pending | N/A                                      | Group18          |
