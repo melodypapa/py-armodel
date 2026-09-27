@@ -30,8 +30,9 @@ class FirewallRule(ARElement):
     # (markdown-minimal deviation: the 8 rule member classes carry no Class table in the
     #  PDF/markdown corpus — DataLinkLayerRule/DdsRule synced markdown-minimal,
     #  PayloadBytePatternRule (incl. its PayloadBytePatternRulePart part type),
-    #  SomeipProtocolRule and SomeipSdRule synced XSD-only, the other 3 are
-    #  attribute-name placeholders; full member attribute defs remain a deviation)
+    #  SomeipProtocolRule, SomeipSdRule and DoIpRule synced XSD-only, the other 2
+    #  (NetworkLayerRule/TransportLayerRule) remain abstract aggregation placeholders;
+    #  full member attribute defs remain a deviation)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getBucketSize                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setBucketSize                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -258,16 +259,177 @@ class FirewallRule(ARElement):
 
 
 class DoIpRule(ARObject):
-    """Configuration of firewall rules for DoIP messages"""
+    """Configuration of a generic firewall rule Tags: atp.Status=candidate"""
 
     # DoIpRule method parity checklist:
+    # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class DoIpRule, AUTOSAR_00052.xsd line 49327 (XSD-only; no own table in repo corpus)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # (markdown-minimal placeholder: member attribute defs skipped per user decision
-    #  2026-08-31 — no Class table in the PDF/markdown corpus; no stamp)
-    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationMaxAddress     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationMaxAddress     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDestinationMinAddress     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationMinAddress     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInverseProtocolVersion    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInverseProtocolVersion    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPayloadLength             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPayloadLength             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPayloadType               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPayloadType               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProtocolVersion           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProtocolVersion           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceMaxAddress          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceMaxAddress          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceMinAddress          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceMinAddress          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUdsService                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUdsService                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
+
+        # Filter to match DoIP messages in which the destinationAddress is smaller or equal than destinationMaxAddress.
+        self.destinationMaxAddress: Optional[PositiveInteger] = None
+
+        # Filter to match DoIP messages in which the destinationAddress is greater or equal than destinationMinAddress.
+        self.destinationMinAddress: Optional[PositiveInteger] = None
+
+        # Filter to match DoIP messages  in which the inverseprotocolVersion in the DoIP header matches.
+        self.inverseProtocolVersion: Optional[PositiveInteger] = None
+
+        # Filter to match DoIP messages  in which the payloadLength in the DoIP header matches.
+        self.payloadLength: Optional[PositiveInteger] = None
+
+        # Filter to match DoIP messages  in which the payloadType in the DoIP header matches.
+        self.payloadType: Optional[PositiveInteger] = None
+
+        # Filter to match DoIP messages  in which the protocolVersion in the DoIP header matches.
+        self.protocolVersion: Optional[PositiveInteger] = None
+
+        # Filter to match DoIP messages in which the sourceAddress is smaller or equal than sourceMaxAddress.
+        self.sourceMaxAddress: Optional[PositiveInteger] = None
+
+        # Filter to match DoIP messages in which the sourceAddress is greater or equal than sourceMinAddress..
+        self.sourceMinAddress: Optional[PositiveInteger] = None
+
+        # Filter to match DoIP messages that contain the udsService.
+        self.udsService: Optional[PositiveInteger] = None
+
+    def getDestinationMaxAddress(self) -> Optional[PositiveInteger]:
+        """Filter to match DoIP messages in which the destinationAddress is smaller or equal than destinationMaxAddress."""
+        return self.destinationMaxAddress
+
+    def setDestinationMaxAddress(self, value: Optional[PositiveInteger]) -> "DoIpRule":
+        """
+        Filter to match DoIP messages in which the destinationAddress is smaller or equal than destinationMaxAddress.
+        A None value is a no-op and does not overwrite an existing destinationMaxAddress.
+        """
+        if value is not None:
+            self.destinationMaxAddress = value
+        return self
+
+    def getDestinationMinAddress(self) -> Optional[PositiveInteger]:
+        """Filter to match DoIP messages in which the destinationAddress is greater or equal than destinationMinAddress."""
+        return self.destinationMinAddress
+
+    def setDestinationMinAddress(self, value: Optional[PositiveInteger]) -> "DoIpRule":
+        """
+        Filter to match DoIP messages in which the destinationAddress is greater or equal than destinationMinAddress.
+        A None value is a no-op and does not overwrite an existing destinationMinAddress.
+        """
+        if value is not None:
+            self.destinationMinAddress = value
+        return self
+
+    def getInverseProtocolVersion(self) -> Optional[PositiveInteger]:
+        """Filter to match DoIP messages  in which the inverseprotocolVersion in the DoIP header matches."""
+        return self.inverseProtocolVersion
+
+    def setInverseProtocolVersion(self, value: Optional[PositiveInteger]) -> "DoIpRule":
+        """
+        Filter to match DoIP messages  in which the inverseprotocolVersion in the DoIP header matches.
+        A None value is a no-op and does not overwrite an existing inverseProtocolVersion.
+        """
+        if value is not None:
+            self.inverseProtocolVersion = value
+        return self
+
+    def getPayloadLength(self) -> Optional[PositiveInteger]:
+        """Filter to match DoIP messages  in which the payloadLength in the DoIP header matches."""
+        return self.payloadLength
+
+    def setPayloadLength(self, value: Optional[PositiveInteger]) -> "DoIpRule":
+        """
+        Filter to match DoIP messages  in which the payloadLength in the DoIP header matches.
+        A None value is a no-op and does not overwrite an existing payloadLength.
+        """
+        if value is not None:
+            self.payloadLength = value
+        return self
+
+    def getPayloadType(self) -> Optional[PositiveInteger]:
+        """Filter to match DoIP messages  in which the payloadType in the DoIP header matches."""
+        return self.payloadType
+
+    def setPayloadType(self, value: Optional[PositiveInteger]) -> "DoIpRule":
+        """
+        Filter to match DoIP messages  in which the payloadType in the DoIP header matches.
+        A None value is a no-op and does not overwrite an existing payloadType.
+        """
+        if value is not None:
+            self.payloadType = value
+        return self
+
+    def getProtocolVersion(self) -> Optional[PositiveInteger]:
+        """Filter to match DoIP messages  in which the protocolVersion in the DoIP header matches."""
+        return self.protocolVersion
+
+    def setProtocolVersion(self, value: Optional[PositiveInteger]) -> "DoIpRule":
+        """
+        Filter to match DoIP messages  in which the protocolVersion in the DoIP header matches.
+        A None value is a no-op and does not overwrite an existing protocolVersion.
+        """
+        if value is not None:
+            self.protocolVersion = value
+        return self
+
+    def getSourceMaxAddress(self) -> Optional[PositiveInteger]:
+        """Filter to match DoIP messages in which the sourceAddress is smaller or equal than sourceMaxAddress."""
+        return self.sourceMaxAddress
+
+    def setSourceMaxAddress(self, value: Optional[PositiveInteger]) -> "DoIpRule":
+        """
+        Filter to match DoIP messages in which the sourceAddress is smaller or equal than sourceMaxAddress.
+        A None value is a no-op and does not overwrite an existing sourceMaxAddress.
+        """
+        if value is not None:
+            self.sourceMaxAddress = value
+        return self
+
+    def getSourceMinAddress(self) -> Optional[PositiveInteger]:
+        """Filter to match DoIP messages in which the sourceAddress is greater or equal than sourceMinAddress.."""
+        return self.sourceMinAddress
+
+    def setSourceMinAddress(self, value: Optional[PositiveInteger]) -> "DoIpRule":
+        """
+        Filter to match DoIP messages in which the sourceAddress is greater or equal than sourceMinAddress..
+        A None value is a no-op and does not overwrite an existing sourceMinAddress.
+        """
+        if value is not None:
+            self.sourceMinAddress = value
+        return self
+
+    def getUdsService(self) -> Optional[PositiveInteger]:
+        """Filter to match DoIP messages that contain the udsService."""
+        return self.udsService
+
+    def setUdsService(self, value: Optional[PositiveInteger]) -> "DoIpRule":
+        """
+        Filter to match DoIP messages that contain the udsService.
+        A None value is a no-op and does not overwrite an existing udsService.
+        """
+        if value is not None:
+            self.udsService = value
+        return self
 
 
 class NetworkLayerRule(ARObject):

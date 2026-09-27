@@ -2881,7 +2881,6 @@ No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, K
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `bucketSize` | `PositiveInteger` | — | missing |
 | — *(missing)* | `—` | `ddsRule` | `DdsRule` | — | missing |
-| — *(missing)* | `—` | `doIpRule` | `DoIpRule` | — | missing |
 | — *(missing)* | `—` | `networkLayerRule` | `Ipv4Rule` | — | missing |
 | — *(missing)* | `—` | `refillAmount` | `PositiveInteger` | — | missing |
 | — *(missing)* | `—` | `transportLayerRule` | `TcpRule` | — | missing |

@@ -14666,6 +14666,17 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setServiceInstanceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-INSTANCE-ID"))
         rule.setServiceInterfaceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-INTERFACE-ID"))
 
+    def readDoIpRule(self, element: ET.Element, rule: DoIpRule):
+        rule.setDestinationMaxAddress(self.getChildElementOptionalPositiveInteger(element, "DESTINATION-MAX-ADDRESS"))
+        rule.setDestinationMinAddress(self.getChildElementOptionalPositiveInteger(element, "DESTINATION-MIN-ADDRESS"))
+        rule.setInverseProtocolVersion(self.getChildElementOptionalPositiveInteger(element, "INVERSE-PROTOCOL-VERSION"))
+        rule.setPayloadLength(self.getChildElementOptionalPositiveInteger(element, "PAYLOAD-LENGTH"))
+        rule.setPayloadType(self.getChildElementOptionalPositiveInteger(element, "PAYLOAD-TYPE"))
+        rule.setProtocolVersion(self.getChildElementOptionalPositiveInteger(element, "PROTOCOL-VERSION"))
+        rule.setSourceMaxAddress(self.getChildElementOptionalPositiveInteger(element, "SOURCE-MAX-ADDRESS"))
+        rule.setSourceMinAddress(self.getChildElementOptionalPositiveInteger(element, "SOURCE-MIN-ADDRESS"))
+        rule.setUdsService(self.getChildElementOptionalPositiveInteger(element, "UDS-SERVICE"))
+
     def readFirewallRule(self, element: ET.Element, rule: FirewallRule):
         self.readIdentifiable(element, rule)
         rule.setBucketSize(self.getChildElementOptionalPositiveInteger(element, "BUCKET-SIZE"))
@@ -14679,7 +14690,9 @@ class ARXMLParser(AbstractARXMLParser):
             rule.setDdsRule(DdsRule())
         child = self.find(element, "DO-IP-RULE")
         if child is not None:
-            rule.setDoIpRule(DoIpRule())
+            do_ip_rule = DoIpRule()
+            self.readDoIpRule(child, do_ip_rule)
+            rule.setDoIpRule(do_ip_rule)
         child = self.find(element, "NETWORK-LAYER-RULE")
         if child is not None:
             rule.setNetworkLayerRule(NetworkLayerRule())

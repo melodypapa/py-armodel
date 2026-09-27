@@ -9,6 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
 )
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import (
     DataLinkLayerRule,
+    DoIpRule,
     FirewallRule,
     FirewallRuleProps,
     PayloadBytePatternRule,
@@ -14295,6 +14296,17 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "SERVICE-INSTANCE-ID", rule.getServiceInstanceId())
         self.setChildElementOptionalPositiveInteger(element, "SERVICE-INTERFACE-ID", rule.getServiceInterfaceId())
 
+    def writeDoIpRule(self, element: ET.Element, rule: DoIpRule):
+        self.setChildElementOptionalPositiveInteger(element, "DESTINATION-MAX-ADDRESS", rule.getDestinationMaxAddress())
+        self.setChildElementOptionalPositiveInteger(element, "DESTINATION-MIN-ADDRESS", rule.getDestinationMinAddress())
+        self.setChildElementOptionalPositiveInteger(element, "INVERSE-PROTOCOL-VERSION", rule.getInverseProtocolVersion())
+        self.setChildElementOptionalPositiveInteger(element, "PAYLOAD-LENGTH", rule.getPayloadLength())
+        self.setChildElementOptionalPositiveInteger(element, "PAYLOAD-TYPE", rule.getPayloadType())
+        self.setChildElementOptionalPositiveInteger(element, "PROTOCOL-VERSION", rule.getProtocolVersion())
+        self.setChildElementOptionalPositiveInteger(element, "SOURCE-MAX-ADDRESS", rule.getSourceMaxAddress())
+        self.setChildElementOptionalPositiveInteger(element, "SOURCE-MIN-ADDRESS", rule.getSourceMinAddress())
+        self.setChildElementOptionalPositiveInteger(element, "UDS-SERVICE", rule.getUdsService())
+
     def writeFirewallRule(self, element: ET.Element, rule: FirewallRule):
         self.logger.debug("Write FirewallRule %s" % rule.getShortName())
         rule_tag = ET.SubElement(element, "FIREWALL-RULE")
@@ -14306,7 +14318,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         if rule.getDdsRule() is not None:
             ET.SubElement(rule_tag, "DDS-RULE")
         if rule.getDoIpRule() is not None:
-            ET.SubElement(rule_tag, "DO-IP-RULE")
+            do_ip_rule_tag = ET.SubElement(rule_tag, "DO-IP-RULE")
+            self.writeDoIpRule(do_ip_rule_tag, rule.getDoIpRule())
         if rule.getNetworkLayerRule() is not None:
             ET.SubElement(rule_tag, "NETWORK-LAYER-RULE")
         payload_rules = rule.getPayloadBytePatternRules()
