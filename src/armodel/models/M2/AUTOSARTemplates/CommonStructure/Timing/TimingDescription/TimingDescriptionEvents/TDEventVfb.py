@@ -167,7 +167,7 @@ class TDEventVfb(TimingDescriptionEvent):
 
     # TDEventVfb method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.14, p.51
-    # Spec verified: R23-11
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation — direct-use re-sync)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getComponentIRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
