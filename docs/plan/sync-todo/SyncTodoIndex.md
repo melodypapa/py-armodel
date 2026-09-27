@@ -2,7 +2,7 @@
 
 Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by group, then by appearance order within each group.
 
-Status `*` (or an explicit `Deferred` status) = sync complete (Steps 1–8) but the `# Spec verified:`/`# XSD verified:` stamp is **deferred to a batch 9b user confirmation** (audited 2026-09-26 against the src stamps).
+Status `*` (or an explicit `Deferred` status) = sync complete (Steps 1–8) but the `# Spec verified:`/`# XSD verified:` stamp is **deferred to a batch 9b user confirmation** (audited 2026-09-27 against the src stamps).
 
 
 ## Group1
@@ -456,7 +456,7 @@ Status: **34/34** completed
 
 ## Group8
 
-Status: **34/49** completed
+Status: **35/49** completed
 
 | Class Name                               | Status       | Commit ID |
 | ---------------------------------------- | ------------ | --------- |
@@ -640,26 +640,26 @@ Status: **0/23** completed
 | `BswInternalTriggeringPoint`            | [ ] Pending* | N/A       |
 | `BswInterruptEntity`                    | [ ] Pending* | N/A       |
 | `BswModeSwitchAckRequest`               | [ ] Pending* | N/A       |
-| `BswDataReceptionPolicy`                | [ ] Pending  | N/A       |
+| `BswDataReceptionPolicy`                | [ ] Pending* | 7e3a2541a |
 | `BswQueuedDataReceptionPolicy`          | [ ] Pending* | N/A       |
 | `BswAsynchronousServerCallReturnsEvent` | [ ] Pending* | N/A       |
 | `BswDataReceivedEvent`                  | [ ] Pending* | N/A       |
 | `BswInternalTriggerOccurredEvent`       | [ ] Pending* | N/A       |
 | `BswModeManagerErrorEvent`              | [ ] Pending* | N/A       |
-| `BswModeSwitchedAckEvent`               | [ ] Pending  | N/A       |
-| `BswTimingEvent`                        | [ ] Pending  | N/A       |
-| `BswEntryRelationshipEnum`              | [ ] Pending  | N/A       |
-| `BswEntryRelationship`                  | [ ] Pending  | N/A       |
-| `BswEntryRelationshipSet`               | [ ] Pending  | N/A       |
-| `BswModuleClientServerEntry`            | [ ] Pending  | N/A       |
-| `BswModuleDependency`                   | [ ] Pending  | N/A       |
-| `SwcBswRunnableMapping`                 | [ ] Pending  | N/A       |
-| `SwcBswSynchronizedModeGroupPrototype`  | [ ] Pending  | N/A       |
-| `SwcBswSynchronizedTrigger`             | [ ] Pending  | N/A       |
+| `BswModeSwitchedAckEvent`               | [ ] Pending* | 160eae8f2 |
+| `BswTimingEvent`                        | [ ] Pending* | 1a0a0619b |
+| `BswEntryRelationshipEnum`              | [ ] Pending* | 994c3903c |
+| `BswEntryRelationship`                  | [ ] Pending* | 75c651734 |
+| `BswEntryRelationshipSet`               | [ ] Pending* | a4d57abd3 |
+| `BswModuleClientServerEntry`            | [ ] Pending* | e69bc46ba |
+| `BswModuleDependency`                   | [ ] Pending* | 1ca038b14 |
+| `SwcBswRunnableMapping`                 | [ ] Pending* | c52cece66 |
+| `SwcBswSynchronizedModeGroupPrototype`  | [ ] Pending* | 659c2bf17 |
+| `SwcBswSynchronizedTrigger`             | [ ] Pending* | 6b4b9d6d1 |
 
 ## Group14
 
-Status: **0/25** completed
+Status: **2/25** completed
 
 | Class Name                                 | Status       | Commit ID |
 | ------------------------------------------ | ------------ | --------- |
@@ -681,10 +681,10 @@ Status: **0/25** completed
 | `CryptoServiceNeeds`                       | [ ] Pending* | d064592a4 |
 | `DiagEventDebounceCounterBased`            | [ ] Pending* | d064592a4 |
 | `SignalServiceTranslationElementProps`     | [ ] Pending* | 29d09fc62 |
-| `DiagnosticServiceClass`                   | [ ] Pending  | N/A       |
-| `DiagnosticJumpToBootLoaderEnum`           | [ ] Pending  | N/A       |
-| `DiagnosticLogicalOperatorEnum`            | [ ] Pending  | N/A       |
-| `DiagnosticEnvConditionFormulaPart`        | [ ] Pending* | af255af37 |
+| `DiagnosticServiceClass`                   | [x] Done*    | N/A       |
+| `DiagnosticJumpToBootLoaderEnum`           | [ ] Pending* | N/A       |
+| `DiagnosticLogicalOperatorEnum`            | [ ] Pending* | N/A       |
+| `DiagnosticEnvConditionFormulaPart`        | [x] Done*    | af255af37 |
 | `DiagnosticEnvConditionFormula`            | [ ] Pending* | af255af37 |
 | `DiagnosticEnvCompareCondition`            | [ ] Pending* | af255af37 |
 | `DiagnosticEnvModeElement`                 | [ ] Pending* | af255af37 |
