@@ -514,7 +514,7 @@ Status: **49/50** completed
 
 ## Group9
 
-Status: **27/29** completed
+Status: **28/29** completed
 
 | Class Name                    | Status       | Commit ID |
 | ----------------------------- | ------------ | --------- |
@@ -545,7 +545,7 @@ Status: **27/29** completed
 | `PrmCharNumericalContents`    | [x] Done     | a3cf04c73 |
 | `PrmCharTextualContents`      | [x] Done     | a3cf04c73 |
 | `PrmChar`                     | [x] Done     | a3cf04c73 |
-| `GeneralParameter`            | [ ] Pending* | a3cf04c73 |
+| `GeneralParameter`            | [x] Done     | a3cf04c73 |
 | `Prms`                        | [ ] Pending* | a3cf04c73 |
 
 ## Group10
