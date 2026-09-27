@@ -9498,9 +9498,16 @@ class ARXMLParser(AbstractARXMLParser):
             identifier = SocketConnectionIpduIdentifier()
             identifier.setHeaderId(self.getChildElementOptionalPositiveInteger(element, "HEADER-ID"))
             identifier.setPduCollectionPduTimeout(self.getChildElementOptionalTimeValue(element, "PDU-COLLECTION-PDU-TIMEOUT"))
-            identifier.setPduCollectionSemantics(self.getChildElementOptionalLiteral(element, "PDU-COLLECTION-SEMANTICS"))
-            identifier.setPduCollectionTrigger(self.getChildElementOptionalLiteral(element, "PDU-COLLECTION-TRIGGER"))
-            identifier.setPduRef(self.getChildElementOptionalRefType(element, "PDU-REF"))
+            semantics_literal = self.getChildElementOptionalLiteral(element, "PDU-COLLECTION-SEMANTICS")
+            if semantics_literal is not None:
+                from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import PduCollectionSemanticsEnum
+
+                identifier.setPduCollectionSemantics(PduCollectionSemanticsEnum().setValue(semantics_literal.getValue()))
+            trigger_literal = self.getChildElementOptionalLiteral(element, "PDU-COLLECTION-TRIGGER")
+            if trigger_literal is not None:
+                from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import PduCollectionTriggerEnum
+
+                identifier.setPduCollectionTrigger(PduCollectionTriggerEnum().setValue(trigger_literal.getValue()))
             identifier.setPduTriggeringRef(self.getChildElementOptionalRefType(element, "PDU-TRIGGERING-REF"))
             routing_group_refs = []
             for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):

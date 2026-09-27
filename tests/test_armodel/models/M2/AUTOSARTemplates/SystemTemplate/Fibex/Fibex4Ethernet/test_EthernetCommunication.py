@@ -126,7 +126,6 @@ class Test_Fibex4EthernetCommunication:
         assert identifier.getPduCollectionPduTimeout() is None
         assert identifier.getPduCollectionSemantics() is None
         assert identifier.getPduCollectionTrigger() is None
-        assert identifier.getPduRef() is None
         assert identifier.getPduTriggeringRef() is None
         assert identifier.getRoutingGroupRefs() == []
 
@@ -146,10 +145,6 @@ class Test_Fibex4EthernetCommunication:
         identifier.setPduCollectionTrigger("trigger")
         assert identifier.getPduCollectionTrigger() == "trigger"
         assert identifier == identifier.setPduCollectionTrigger("trigger")  # Test method chaining
-
-        identifier.setPduRef("pdu_ref")
-        assert identifier.getPduRef() == "pdu_ref"
-        assert identifier == identifier.setPduRef("pdu_ref")  # Test method chaining
 
         identifier.setPduTriggeringRef("trigger_ref")
         assert identifier.getPduTriggeringRef() == "trigger_ref"

@@ -407,6 +407,27 @@ class TcpRoleEnum(AREnum):
         )
 
 
+class PduCollectionSemanticsEnum(AREnum):
+    """
+    Defines the collection semantics for the PDU collection feature.
+    """
+
+    # PduCollectionSemanticsEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.165, p.490 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on SocketConnectionIpduIdentifier.pduCollectionSemantics
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Only the latest PDU instances are transmitted. Tags: atp.EnumerationLiteralIndex=0
+    LAST_IS_BEST = "lastIsBest"
+
+    # All instances of PDUs are transmitted. Tags: atp.EnumerationLiteralIndex=1
+    QUEUED = "queued"
+
+    def __init__(self):
+        super().__init__([PduCollectionSemanticsEnum.LAST_IS_BEST, PduCollectionSemanticsEnum.QUEUED])
+
+
 class PduCollectionTriggerEnum(AREnum):
     """
     Defines whether a Pdu contributes to the triggering of the data transmission if Pdu collection is enabled.
