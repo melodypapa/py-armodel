@@ -514,7 +514,7 @@ Status: **49/50** completed
 
 ## Group9
 
-Status: **9/20** completed
+Status: **10/20** completed
 
 | Class Name                    | Status       | Commit ID |
 | ----------------------------- | ------------ | --------- |
@@ -527,7 +527,7 @@ Status: **9/20** completed
 | `Modification`                | [x] Done     | N/A       |
 | `ScaleConstrValidityEnum`     | [x] Done     | 1bc8904ee |
 | `UnitGroup`                   | [x] Done     | e7fdb07f2 |
-| `SwImplPolicyEnum`            | [ ] Pending* | N/A       |
+| `SwImplPolicyEnum`            | [x] Done     | d6945a4c8 |
 | `SwSystemconst`               | [ ] Pending* | N/A       |
 | `ListEnum`                    | [ ] Pending* | N/A       |
 | `Item`                        | [ ] Pending* | N/A       |

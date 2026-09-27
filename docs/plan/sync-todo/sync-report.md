@@ -597,7 +597,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SwComponentPrototype`                                  | [x] Done    | ff993a74                                 | Group1           |
 | `SwComponentPrototypeAssignment`                        | [x] Done    | 88070878                                 | Group5           |
 | `SwGenericAxisParamType`                                | [x] Done    | 1eacd1a7                                 | Group3           |
-| `SwImplPolicyEnum`                                      | [ ] Deferred| N/A                                      | Group9           |
+| `SwImplPolicyEnum`                                      | [x] Done    | d6945a4c8                                | Group9           |
 | `SwRecordLayout`                                        | [x] Done    | f8149880                                 | Group3           |
 | `SwRecordLayoutGroup`                                   | [x] Done    | 2acaf7a4                                 | Group3           |
 | `SwRecordLayoutGroupContent`                            | [x] Done    | 0f19d490                                 | Group3           |
