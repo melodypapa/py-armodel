@@ -45,7 +45,7 @@ Status: **77/77** completed
 | `AtpStructureElement`                   | [x] Done  | 5eff088f                                 |
 | `AtpDefinition`                         | [x] Done  | 38eb1e81                                 |
 | `BlueprintPolicy`                       | [x] Done  | f5f5084e                                 |
-| `AtpBlueprint`                          | [x] Done  | fc0ebeff                                 |
+| `AtpBlueprint`                          | [x] Done  | 043de7436                                |
 | `AtpBlueprintable`                      | [x] Done  | b7cf0309                                 |
 | `AtpBlueprintMapping`                   | [x] Done  | 493e272d                                 |
 | `ApplicationDeferredDataType`           | [x] Done  | abdfbf1d                                 |
@@ -102,7 +102,7 @@ Status: **45/45** completed
 | `SymbolProps`                                           | [x] Done  | 2d21a910  |
 | `PPortPrototype`                                        | [x] Done  | 09273330  |
 | `RPortPrototype`                                        | [x] Done  | 2cd6f3c4  |
-| `PRPortPrototype`                                       | [x] Done  | f6f94aaf  |
+| `PRPortPrototype`                                       | [x] Done  | 043de7436 |
 | `PortGroup`                                             | [x] Done  | afd24e4c  |
 | `InnerPortGroupInCompositionInstanceRef`                | [x] Done  | fa935d8f  |
 | `RTEEvent`                                              | [x] Done  | f0483d57  |
@@ -223,7 +223,7 @@ Status: **95/95** completed
 | `DataConstrRule`                       | [x] Done | fa640a0d  |
 | `DataConstr`                           | [x] Done | 9927cc9e  |
 | `CompositeValueSpecification`          | [x] Done | cc842d74  |
-| `ArrayValueSpecification`              | [x] Done | b1c7030b  |
+| `ArrayValueSpecification`              | [x] Done | 043de7436 |
 | `RecordValueSpecification`             | [x] Done | b1c7030b  |
 | `CompositeRuleBasedValueArgument`      | [x] Done | 0c916371  |
 | `CompositeRuleBasedValueSpecification` | [x] Done | 13a010bf  |
@@ -240,7 +240,7 @@ Status: **95/95** completed
 | `SwRecordLayoutGroup`                  | [x] Done | 2acaf7a4  |
 | `GeneralAnnotation`                    | [x] Done | ab2daa77  |
 | `FirewallActionEnum`                   | [x] Done | ab2daa77  |
-| `CompuGenericMath`                     | [x] Done | 4dd42b2d  |
+| `CompuGenericMath`                     | [x] Done | 1de6c0ef2 |
 | `Ref`                                  | [x] Done | 0518a7bca |
 
 ## Group4
@@ -294,14 +294,14 @@ Status: **70/70** completed
 | `DoIpPowerModeStatusNeeds`              | [x] Done | 4350642e  |
 | `FurtherActionByteNeeds`                | [x] Done | 30e266fd  |
 | `IdsMgrCustomTimestampNeeds`            | [x] Done | b65fe942  |
-| `J1939DcmDm19Support`                   | [x] Done | 60f87670  |
-| `J1939RmIncomingRequestServiceNeeds`    | [x] Done | d8872c42  |
-| `J1939RmOutgoingRequestServiceNeeds`    | [x] Done | 20f2f630  |
-| `V2xDataManagerNeeds`                   | [x] Done | de024941  |
-| `V2xFacUserNeeds`                       | [x] Done | 2798e0fb  |
-| `V2xMUserNeeds`                         | [x] Done | ad1c83e1  |
-| `VendorSpecificServiceNeeds`            | [x] Done | 3180597f  |
-| `WarningIndicatorRequestedBitNeeds`     | [x] Done | a864fa46  |
+| `J1939DcmDm19Support`                   | [x] Done | 839c29d6  |
+| `J1939RmIncomingRequestServiceNeeds`    | [x] Done | 9784766a  |
+| `J1939RmOutgoingRequestServiceNeeds`    | [x] Done | 2b39e929  |
+| `V2xDataManagerNeeds`                   | [x] Done | e02dc712  |
+| `V2xFacUserNeeds`                       | [x] Done | 029aa701  |
+| `V2xMUserNeeds`                         | [x] Done | d45912e1  |
+| `VendorSpecificServiceNeeds`            | [x] Done | a25f9a77  |
+| `WarningIndicatorRequestedBitNeeds`     | [x] Done | 1cd8edd8  |
 | `OperationInSystemInstanceRef`          | [x] Done | 4e0c3cbe  |
 | `ClientIdDefinition`                    | [x] Done | 8618ec88  |
 | `ClientIdDefinitionSet`                 | [x] Done | 01759771  |
@@ -310,11 +310,11 @@ Status: **70/70** completed
 | `InterpolationRoutineMappingSet`        | [x] Done | f3152abb  |
 | `SwComponentPrototypeAssignment`        | [x] Done | 88070878  |
 | `CpSoftwareCluster`                     | [x] Done | 1194e00c  |
-| `System`                                | [x] Done | bc0202f2  |
+| `System`                                | [x] Done | ccfb528d  |
 | `J1939Cluster`                          | [x] Done | 44a70c32  |
-| `J1939SharedAddressCluster`             | [x] Done | 66aec01c  |
+| `J1939SharedAddressCluster`             | [x] Done | d3dc8209  |
 | `PortGroupInSystemInstanceRef`          | [x] Done | 19c327cc  |
-| `ComManagementMapping`                  | [x] Done | 2ac0eb32  |
+| `ComManagementMapping`                  | [x] Done | 19c327cc  |
 | `TcpProps`                              | [x] Done | d2d5c40a  |
 | `UdpProps`                              | [x] Done | ecb15e90  |
 | `EthTcpIpProps`                         | [x] Done | db98d8ff  |
@@ -345,7 +345,7 @@ Status: **70/70** completed
 | `EthernetPhysicalChannel`               | [x] Done | 206cf295  |
 | `FrameTriggering`                       | [x] Done | 206cf295  |
 | `ContainedIPduCollectionSemanticsEnum`  | [x] Done | 64d125ffa |
-| `PduCollectionTriggerEnum`              | [x] Done | 206cf295  |
+| `PduCollectionTriggerEnum`              | [x] Done | 64d125ffa |
 | `ContainedIPduProps`                    | [x] Done | 206cf295  |
 | `ModeDrivenTransmissionModeCondition`   | [x] Done | 206cf295  |
 | `StaticPart`                            | [x] Done | 206cf295  |
@@ -538,15 +538,15 @@ Status: **29/29** completed
 | `ARList`                      | [x] Done | 2151ca030 |
 | `ChapterContent`              | [x] Done | dee07d0a3 |
 | `ChapterModel`                | [x] Done | d3d61c9b2 |
-| `PrmCharContents`             | [x] Done | a3cf04c73 |
-| `PrmCharNumericalValue`       | [x] Done | a3cf04c73 |
-| `PrmCharAbsTol`               | [x] Done | a3cf04c73 |
-| `PrmCharMinTypMax`            | [x] Done | a3cf04c73 |
-| `PrmCharNumericalContents`    | [x] Done | a3cf04c73 |
-| `PrmCharTextualContents`      | [x] Done | a3cf04c73 |
-| `PrmChar`                     | [x] Done | a3cf04c73 |
-| `GeneralParameter`            | [x] Done | a3cf04c73 |
-| `Prms`                        | [x] Done | a3cf04c73 |
+| `PrmCharContents`             | [x] Done | 9494a593a |
+| `PrmCharNumericalValue`       | [x] Done | 2f1c852db |
+| `PrmCharAbsTol`               | [x] Done | e6c467d5f |
+| `PrmCharMinTypMax`            | [x] Done | 376f43f64 |
+| `PrmCharNumericalContents`    | [x] Done | 51ded41bf |
+| `PrmCharTextualContents`      | [x] Done | 83a56461a |
+| `PrmChar`                     | [x] Done | 8be54a00d |
+| `GeneralParameter`            | [x] Done | b622d5b42 |
+| `Prms`                        | [x] Done | f05d3afdf |
 
 ## Group10
 
