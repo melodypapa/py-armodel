@@ -563,7 +563,7 @@ class TestLPlainText:
     """Test class for LPlainText class."""
 
     def test_l_plain_text_base_chain(self):
-        """LPlainText must extend MixedContentForPlainText, LanguageSpecific and WhitespaceControlled per Table 9.96."""
+        """LPlainText must extend MixedContentForPlainText and LanguageSpecific per Table 9.96; WhitespaceControlled is inherited transitively via MixedContentForPlainText."""
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
         assert issubclass(LPlainText, MixedContentForPlainText)
@@ -724,7 +724,7 @@ class TestLVerbatim:
     """Test class for LVerbatim class."""
 
     def test_l_verbatim_base_chain(self):
-        """LVerbatim must extend MixedContentForVerbatim and LanguageSpecific per the Table 9.89 Base row (ARObject , LanguageSpecific , MixedContentForVerbatim , WhitespaceControlled)."""
+        """LVerbatim must extend MixedContentForVerbatim and LanguageSpecific per the Table 9.89 Base row; WhitespaceControlled (listed in that row) is inherited transitively via MixedContentForVerbatim."""
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
         assert issubclass(LVerbatim, MixedContentForVerbatim)
@@ -776,7 +776,7 @@ class TestLVerbatim:
     def test_l_verbatim_has_no_own_members(self):
         """Field-to-spec cross-check: Table 9.89 carries no own Attribute rows, so LVerbatim adds no fields beyond its bases (LanguageSpecific l/value + the MixedContentForVerbatim Table 9.6 members + the WhitespaceControlled xmlSpace)."""
 
-        class _ReferenceBases(MixedContentForVerbatim, LanguageSpecific, WhitespaceControlled):
+        class _ReferenceBases(MixedContentForVerbatim, LanguageSpecific):
             pass
 
         assert set(vars(LVerbatim()).keys()) == set(vars(_ReferenceBases()).keys())

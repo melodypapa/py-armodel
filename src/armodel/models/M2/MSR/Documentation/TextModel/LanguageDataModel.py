@@ -1022,7 +1022,7 @@ class MixedContentForPlainText(WhitespaceControlled, AtpMixedString, ABC):
         super().__init__()
 
 
-class LPlainText(MixedContentForPlainText, LanguageSpecific, WhitespaceControlled):
+class LPlainText(MixedContentForPlainText, LanguageSpecific):
     """
     This represents plain string in one particular language. The language is denoted in the attribute l.
     """
@@ -1135,7 +1135,7 @@ class MixedContentForVerbatim(WhitespaceControlled, AtpMixedString, ABC):
         return self
 
 
-class LVerbatim(MixedContentForVerbatim, LanguageSpecific, WhitespaceControlled):
+class LVerbatim(MixedContentForVerbatim, LanguageSpecific):
     """
     MixedContentForVerbatim in one particular language. The language is denoted in the attribute l.
     """
