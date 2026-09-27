@@ -710,3 +710,99 @@ class Test_DoIpLogicAddress:
         assert address.getDoIpLogicAddressProps() is props
         assert address.createDoIpLogicTesterAddressProps("TesterProps2") is props
         assert address.getDoIpLogicAddressProps() is props
+
+
+class Test_DoIpTpConnection:
+    """Test cases for DoIpTpConnection (Table 6.206, p.555)."""
+
+    CLASS_NOTE = "A connection identifies the sender and the receiver of this particular communication. The DoIp module routes a tpSdu through this connection."
+    SOURCE_NOTE = "Reference to the address of the sender of the tpSdu."
+    TARGET_NOTE = "Reference to the address of the receiver of the tpSdu."
+    TP_SDU_NOTE = "This reference is used to describe the data exchange between DoIp and the PduR."
+    MEMBERS = ["doIpSourceAddressRef", "doIpTargetAddressRef", "tpSduRef"]
+
+    def _create(self) -> DoIpTpConnection:
+        return DoIpTpConnection()
+
+    def _ref(self, value: str, dest: str = None) -> RefType:
+        ref = RefType()
+        ref.setValue(value)
+        if dest is not None:
+            ref.setDest(dest)
+        return ref
+
+    def test_inheritance(self):
+        assert DoIpTpConnection.__bases__ == (TpConnection,)
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(DoIpTpConnection.__doc__) == self.CLASS_NOTE
+
+    def test_initialization_defaults(self):
+        connection = self._create()
+        assert connection.getDoIpSourceAddressRef() is None
+        assert connection.getDoIpTargetAddressRef() is None
+        assert connection.getTpSduRef() is None
+
+    def test_member_order(self):
+        connection = self._create()
+        members = [k for k in vars(connection) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_init_docstring_is_none(self):
+        assert DoIpTpConnection.__init__.__doc__ is None
+
+    def test_pep526_annotations(self):
+        source = inspect.getsource(DoIpTpConnection)
+        assert "self.doIpSourceAddressRef: Optional[RefType] = None" in source
+        assert "self.doIpTargetAddressRef: Optional[RefType] = None" in source
+        assert "self.tpSduRef: Optional[RefType] = None" in source
+
+    def test_type_hints(self):
+        hints = typing.get_type_hints(DoIpTpConnection.getDoIpSourceAddressRef)
+        assert hints["return"] == typing.Optional[RefType]
+        hints = typing.get_type_hints(DoIpTpConnection.setDoIpSourceAddressRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert hints["return"] == DoIpTpConnection
+        hints = typing.get_type_hints(DoIpTpConnection.getDoIpTargetAddressRef)
+        assert hints["return"] == typing.Optional[RefType]
+        hints = typing.get_type_hints(DoIpTpConnection.setDoIpTargetAddressRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert hints["return"] == DoIpTpConnection
+        hints = typing.get_type_hints(DoIpTpConnection.getTpSduRef)
+        assert hints["return"] == typing.Optional[RefType]
+        hints = typing.get_type_hints(DoIpTpConnection.setTpSduRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert hints["return"] == DoIpTpConnection
+
+    def test_get_set_refs(self):
+        connection = self._create()
+        source_ref = self._ref("/DoIp/LogicAddress1", "DO-IP-LOGIC-ADDRESS")
+        assert connection == connection.setDoIpSourceAddressRef(source_ref)
+        assert connection.getDoIpSourceAddressRef() is source_ref
+        assert connection == connection.setDoIpSourceAddressRef(None)
+        assert connection.getDoIpSourceAddressRef() is source_ref
+
+        target_ref = self._ref("/DoIp/LogicAddress2", "DO-IP-LOGIC-ADDRESS")
+        assert connection == connection.setDoIpTargetAddressRef(target_ref)
+        assert connection.getDoIpTargetAddressRef() is target_ref
+        assert connection == connection.setDoIpTargetAddressRef(None)
+        assert connection.getDoIpTargetAddressRef() is target_ref
+
+        tp_sdu_ref = self._ref("/SoAd/PduTriggering1", "PDU-TRIGGERING")
+        assert connection == connection.setTpSduRef(tp_sdu_ref)
+        assert connection.getTpSduRef() is tp_sdu_ref
+        assert connection == connection.setTpSduRef(None)
+        assert connection.getTpSduRef() is tp_sdu_ref
+
+    def test_getter_docstrings(self):
+        assert DoIpTpConnection.getDoIpSourceAddressRef.__doc__ == self.SOURCE_NOTE
+        assert DoIpTpConnection.getDoIpTargetAddressRef.__doc__ == self.TARGET_NOTE
+        assert DoIpTpConnection.getTpSduRef.__doc__ == self.TP_SDU_NOTE
+
+    def test_setter_docstrings(self):
+        expected_source = self.SOURCE_NOTE + "\nA None value is a no-op and does not overwrite an existing doIpSourceAddressRef."
+        assert inspect.cleandoc(DoIpTpConnection.setDoIpSourceAddressRef.__doc__) == expected_source
+        expected_target = self.TARGET_NOTE + "\nA None value is a no-op and does not overwrite an existing doIpTargetAddressRef."
+        assert inspect.cleandoc(DoIpTpConnection.setDoIpTargetAddressRef.__doc__) == expected_target
+        expected_tp_sdu = self.TP_SDU_NOTE + "\nA None value is a no-op and does not overwrite an existing tpSduRef."
+        assert inspect.cleandoc(DoIpTpConnection.setTpSduRef.__doc__) == expected_tp_sdu

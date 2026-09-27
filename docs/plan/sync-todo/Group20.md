@@ -57,15 +57,43 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `DoIpTpConnection` — TpConnection — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 6.206 p.555 (caption-above render, body md L14511-14520):
+    Class = DoIpTpConnection (concrete); Package =
+    M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection (info only — class
+    stays in TransportProtocols.py alongside its consumers); Note = "A connection
+    identifies the sender and the receiver of this particular communication. The
+    DoIp module routes a tpSdu through this connection."; Base = "ARObject,
+    TpConnection" → most-derived TpConnection (claimed base correct); Aggregated
+    by DoIpTpConfig.tpConnection; Attribute rows: doIpSourceAddress
+    (DoIpLogicAddress, 0..1, ref → doIpSourceAddressRef Optional[RefType], Rule
+    0001.5 Ref suffix), doIpTargetAddress (DoIpLogicAddress, 0..1, ref →
+    doIpTargetAddressRef), tpSdu (PduTriggering, 0..1, ref → tpSduRef). XSD 00052:
+    group DO-IP-TP-CONNECTION L49407 = DO-IP-SOURCE-ADDRESS-REF,
+    DO-IP-TARGET-ADDRESS-REF, TP-SDU-REF (all 0..1, DEST enums); no
+    VARIATION-POINT (unlike CanTpConnection) → not VP-capable; IDENT carried via
+    TpConnectionIdent (inherited TpConnection machinery). Drift: fabricated class
+    docstring, bare field annotations (no Optional), untyped accessors, stale
+    3-col checklist. read/writeDoIpTpConnection pre-existed and are unchanged.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): readDoIpTpConnection (IDENT via readTpConnection/
+    createTpConnectionIdent + 3 refs) and writeDoIpTpConnection (IDENT if set +
+    3 refs, XSD order) pre-existed — no parser/writer changes needed; new
+    test_arxml_parser_doip_tp_connection.py (2 tests: full w/ IDENT + empty) and
+    test_writer_doip_tp_connection.py (3 tests: XSD order w/ IDENT, empty omits
+    refs, round-trip) pass; short name lives in IDENT (TpConnection is not
+    Referrable), not on the connection itself.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations — verbatim docstrings restored;
+    Optional[RefType] annotations + typed accessors; 6-col checklist written (no
+    stamp markers per batch mode); no method_deviation_by_class_v2.md section
+    exists for this class.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12452 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `CryptoKeySlotTypeEnum` — AREnum — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/CryptoDeployment/__init__.py

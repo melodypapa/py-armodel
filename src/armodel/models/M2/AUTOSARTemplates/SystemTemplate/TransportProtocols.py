@@ -832,47 +832,67 @@ class DoIpLogicAddress(Identifiable):
 
 class DoIpTpConnection(TpConnection):
     """
-    Represents a DoIP transport protocol connection in the system,
-    defining source and target address references and SDU
-    references for DoIP communication.
+    A connection identifies the sender and the receiver of this particular communication. The DoIp module routes a tpSdu through this connection.
     """
 
     # DoIpTpConnection method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDoIpSourceAddressRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] setDoIpSourceAddressRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] getDoIpTargetAddressRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] setDoIpTargetAddressRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpSduRef                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setTpSduRef                  [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.206, p.555
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDoIpSourceAddressRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDoIpSourceAddressRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDoIpTargetAddressRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDoIpTargetAddressRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpSduRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpSduRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.doIpSourceAddressRef: RefType = None
-        self.doIpTargetAddressRef: RefType = None
-        self.tpSduRef: RefType = None
+        # Reference to the address of the sender of the tpSdu.
+        self.doIpSourceAddressRef: Optional[RefType] = None
 
-    def getDoIpSourceAddressRef(self):
+        # Reference to the address of the receiver of the tpSdu.
+        self.doIpTargetAddressRef: Optional[RefType] = None
+
+        # This reference is used to describe the data exchange between DoIp and the PduR.
+        self.tpSduRef: Optional[RefType] = None
+
+    def getDoIpSourceAddressRef(self) -> Optional[RefType]:
+        """Reference to the address of the sender of the tpSdu."""
         return self.doIpSourceAddressRef
 
-    def setDoIpSourceAddressRef(self, value):
+    def setDoIpSourceAddressRef(self, value: Optional[RefType]) -> "DoIpTpConnection":
+        """
+        Reference to the address of the sender of the tpSdu.
+        A None value is a no-op and does not overwrite an existing doIpSourceAddressRef.
+        """
         if value is not None:
             self.doIpSourceAddressRef = value
         return self
 
-    def getDoIpTargetAddressRef(self):
+    def getDoIpTargetAddressRef(self) -> Optional[RefType]:
+        """Reference to the address of the receiver of the tpSdu."""
         return self.doIpTargetAddressRef
 
-    def setDoIpTargetAddressRef(self, value):
+    def setDoIpTargetAddressRef(self, value: Optional[RefType]) -> "DoIpTpConnection":
+        """
+        Reference to the address of the receiver of the tpSdu.
+        A None value is a no-op and does not overwrite an existing doIpTargetAddressRef.
+        """
         if value is not None:
             self.doIpTargetAddressRef = value
         return self
 
-    def getTpSduRef(self):
+    def getTpSduRef(self) -> Optional[RefType]:
+        """This reference is used to describe the data exchange between DoIp and the PduR."""
         return self.tpSduRef
 
-    def setTpSduRef(self, value):
+    def setTpSduRef(self, value: Optional[RefType]) -> "DoIpTpConnection":
+        """
+        This reference is used to describe the data exchange between DoIp and the PduR.
+        A None value is a no-op and does not overwrite an existing tpSduRef.
+        """
         if value is not None:
             self.tpSduRef = value
         return self
