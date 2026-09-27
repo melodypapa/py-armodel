@@ -247,9 +247,30 @@ class TestMemorySection:
 
 class TestSectionNamePrefix:
     """
-    Test class for SectionNamePrefix functionality.
+    Test class for SectionNamePrefix functionality (Table 8.8).
     """
 
-    def test_instantiation(self):
+    def test_base_chain(self):
+        assert issubclass(SectionNamePrefix, ImplementationProps)
+        assert issubclass(SectionNamePrefix, VariationPointCapable)
+
+    def test_class_docstring_verbatim(self):
+        assert inspect.cleandoc(SectionNamePrefix.__doc__) == SECTION_NAME_PREFIX_NOTE
+
+    def test_initialization(self):
         obj = _instantiate(SectionNamePrefix, "SectionNamePrefix")
         assert obj.getShortName() == "SectionNamePrefix"
+        assert obj.getImplementedInRef() is None
+        assert obj.getSymbol() is None
+
+    def test_get_set_implemented_in_ref(self):
+        obj = _instantiate(SectionNamePrefix, "SNP")
+        assert obj.setImplementedInRef(_make_ref("DEPENDENCY-ON-ARTIFACT", "/Pkg/Artifact")) is obj
+        assert obj.getImplementedInRef().getValue() == "/Pkg/Artifact"
+        assert obj.getImplementedInRef().getDest() == "DEPENDENCY-ON-ARTIFACT"
+        obj.setImplementedInRef(None)
+        assert obj.getImplementedInRef().getValue() == "/Pkg/Artifact"
+
+    def test_docstrings_verbatim(self):
+        assert _doc(SectionNamePrefix.getImplementedInRef) == IMPLEMENTED_IN_NOTE
+        assert _doc(SectionNamePrefix.setImplementedInRef) == IMPLEMENTED_IN_NOTE + "\n" + _setter_tail("implementedInRef")

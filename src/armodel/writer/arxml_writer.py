@@ -6317,8 +6317,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "SECTION-NAME-PREFIXS")
             for prefix in prefixes:
                 prefix_element = ET.SubElement(child_element, "SECTION-NAME-PREFIX")
-                self.writeReferrable(prefix_element, prefix)
+                self.writeImplementationProps(prefix_element, prefix)
                 self.setChildElementOptionalRefType(prefix_element, "IMPLEMENTED-IN-REF", prefix.getImplementedInRef())
+                self.writeVariationPoint(prefix_element, prefix.getVariationPoint())
 
     def writeAccessCountSets(self, element: ET.Element, access_count_sets: List):
         if len(access_count_sets) > 0:

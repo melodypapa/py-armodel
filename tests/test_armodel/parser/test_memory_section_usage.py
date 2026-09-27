@@ -38,6 +38,20 @@ MEMORY_SECTIONS_XML = (
     "</ROOT>"
 ).format(ns=NS)
 
+SECTION_NAME_PREFIXES_XML = (
+    "<ROOT xmlns='{ns}'>"
+    "<SECTION-NAME-PREFIXS>"
+    "<SECTION-NAME-PREFIX>"
+    "<SHORT-NAME>Prefix</SHORT-NAME>"
+    "<SYMBOL>PfxSym</SYMBOL>"
+    "<IMPLEMENTED-IN-REF DEST='AUTOSAR-ENGINEERING-OBJECT'>/Pkg/Header</IMPLEMENTED-IN-REF>"
+    "<VARIATION-POINT><SHORT-LABEL>VP2</SHORT-LABEL></VARIATION-POINT>"
+    "</SECTION-NAME-PREFIX>"
+    "</SECTION-NAME-PREFIXS>"
+    "</ROOT>"
+).format(ns=NS)
+
+
 @pytest.fixture(autouse=True)
 def reset_autosar():
     AUTOSAR.getInstance().new()
@@ -112,3 +126,30 @@ class TestReadMemorySections:
         assert section.getSwAddrMethodRef() is None
         assert section.getSymbol() is None
         assert section.getVariationPoint() is None
+
+
+class TestReadSectionNamePrefixes:
+    def test_read_prefix_fields(self, parser):
+        consumption = _consumption()
+        parser.readSectionNamePrefixes(ET.fromstring(SECTION_NAME_PREFIXES_XML), consumption)
+        assert len(consumption.getSectionNamePrefixes()) == 1
+        prefix = consumption.getSectionNamePrefixes()[0]
+        assert prefix.getShortName() == "Prefix"
+        assert prefix.getImplementedInRef() is not None
+        assert prefix.getImplementedInRef().getDest() == "AUTOSAR-ENGINEERING-OBJECT"
+        assert prefix.getImplementedInRef().value == "/Pkg/Header"
+
+    def test_read_prefix_symbol(self, parser):
+        """The inherited SYMBOL (IMPLEMENTATION-PROPS group) round-trips."""
+        consumption = _consumption()
+        parser.readSectionNamePrefixes(ET.fromstring(SECTION_NAME_PREFIXES_XML), consumption)
+        prefix = consumption.getSectionNamePrefixes()[0]
+        assert prefix.getSymbol() is not None
+        assert prefix.getSymbol().getValue() == "PfxSym"
+
+    def test_read_prefix_variation_point(self, parser):
+        consumption = _consumption()
+        parser.readSectionNamePrefixes(ET.fromstring(SECTION_NAME_PREFIXES_XML), consumption)
+        prefix = consumption.getSectionNamePrefixes()[0]
+        assert prefix.getVariationPoint() is not None
+        assert prefix.getVariationPoint().getShortLabel().getValue() == "VP2"

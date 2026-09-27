@@ -187,66 +187,32 @@ class MemorySection(Identifiable, VariationPointCapable):
 
 class SectionNamePrefix(ImplementationProps, VariationPointCapable):
     """
-    A prefix to be used for generated code artifacts defining a memory section name in
-    the source code of the using module or SWC.
-
-    [constr_4103] In case a BSW module is split into allocatable memory parts the
-    SectionNamePrefix.symbol shall be set in the <MIP>_<FEATURE> form, where <MIP> is
-    the capitalized module implementation prefix and <FEATURE> is the name of the
-    sub-feature in the BSW module denoting the allocatable memory part.
+    A prefix to be used for generated code artifacts defining a memory section name in the source code of the using module or SWC.
     """
 
     # SectionNamePrefix method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.8, p.147
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getImplementedInRef          [x] impl  [x] docstring  [x] test
-    # [x] setImplementedInRef          [x] impl  [x] docstring  [x] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.8, p.147 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getImplementedInRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImplementedInRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the SectionNamePrefix with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this section name prefix
-            short_name: The unique short name of this section name prefix
-        """
         super().__init__(parent, short_name)
 
-        # Optional reference that allows to indicate the code artifact (header file)
-        # containing the preprocessor implementation of memory sections with this prefix.
-        # The usage of this link supersedes the usage of a memory mapping header with the
-        # default name (derived from the BswModuleDescription's shortName).
-        # [constr_4072] The SectionNamePrefix and the DependencyOnArtifact connected via
-        # this link shall belong to the same BswImplementation; the DependencyOnArtifact
-        # shall be aggregated by BswImplementation in the role requiredArtifact and shall
-        # have the category value set to MEMMAP.
+        # Optional reference that allows to Indicate the code artifact (header file) containing the preprocessor implementation of memory sections with this prefix. The usage of this link supersedes the usage of a memory mapping header with the default name (derived from the BswModuleDescription's shortName).
         self.implementedInRef: Optional[RefType] = None
 
     def getImplementedInRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the code artifact (header file) containing the preprocessor
-        implementation of memory sections with this prefix. The usage of this link
-        supersedes the usage of a memory mapping header with the default name (derived
-        from the BswModuleDescription's shortName). [constr_4072]
-
-        Returns:
-            RefType referencing the implemented-in artifact, or None if not set
+        Optional reference that allows to Indicate the code artifact (header file) containing the preprocessor implementation of memory sections with this prefix. The usage of this link supersedes the usage of a memory mapping header with the default name (derived from the BswModuleDescription's shortName).
         """
         return self.implementedInRef
 
     def setImplementedInRef(self, value: Optional[RefType]) -> "SectionNamePrefix":
         """
-        Sets the reference to the code artifact (header file) containing the preprocessor
-        implementation of memory sections with this prefix. The usage of this link
-        supersedes the usage of a memory mapping header with the default name (derived
-        from the BswModuleDescription's shortName). [constr_4072]
-        A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The implemented-in artifact reference to set
-
-        Returns:
-            self for method chaining
+        Optional reference that allows to Indicate the code artifact (header file) containing the preprocessor implementation of memory sections with this prefix. The usage of this link supersedes the usage of a memory mapping header with the default name (derived from the BswModuleDescription's shortName).
+        A None value is a no-op and does not overwrite an existing implementedInRef.
         """
         if value is not None:
             self.implementedInRef = value

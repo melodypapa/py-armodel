@@ -129,3 +129,58 @@ class TestWriteMemorySections:
         parent = _parent()
         writer.writeMemorySections(parent, consumption)
         assert len(parent) == 0
+
+
+def _consumption_with_full_prefix():
+    consumption = ResourceConsumption(AUTOSAR.getInstance().createARPackage("Pkg"), "RC")
+    prefix = consumption.createSectionNamePrefix("Prefix")
+    prefix.setSymbol(Identifier().setValue("PfxSym"))
+    prefix.setImplementedInRef(_make_ref("AUTOSAR-ENGINEERING-OBJECT", "/Pkg/Header"))
+    prefix.setVariationPoint(_make_vp("VP2"))
+    return consumption
+
+
+class TestWriteSectionNamePrefixes:
+    def test_write_prefix_fields(self, writer):
+        consumption = _consumption_with_full_prefix()
+        parent = _parent()
+        writer.writeSectionNamePrefixes(parent, consumption.getSectionNamePrefixes())
+        assert len(parent) == 1
+        prefixes_tag = parent[0]
+        assert prefixes_tag.tag == "SECTION-NAME-PREFIXS"
+        prefix = prefixes_tag[0]
+        assert prefix.tag == "SECTION-NAME-PREFIX"
+        assert prefix.find("SHORT-NAME").text == "Prefix"
+        assert prefix.find("IMPLEMENTED-IN-REF").get("DEST") == "AUTOSAR-ENGINEERING-OBJECT"
+        assert prefix.find("IMPLEMENTED-IN-REF").text == "/Pkg/Header"
+
+    def test_write_prefix_symbol(self, writer):
+        """The inherited SYMBOL (IMPLEMENTATION-PROPS group) is written."""
+        consumption = _consumption_with_full_prefix()
+        parent = _parent()
+        writer.writeSectionNamePrefixes(parent, consumption.getSectionNamePrefixes())
+        prefix = parent[0][0]
+        assert prefix.find("SYMBOL") is not None
+        assert prefix.find("SYMBOL").text == "PfxSym"
+
+    def test_write_prefix_variation_point(self, writer):
+        consumption = _consumption_with_full_prefix()
+        parent = _parent()
+        writer.writeSectionNamePrefixes(parent, consumption.getSectionNamePrefixes())
+        prefix = parent[0][0]
+        vp = prefix.find("VARIATION-POINT")
+        assert vp is not None
+        assert vp.find("SHORT-LABEL").text == "VP2"
+
+    def test_write_prefix_xsd_element_order(self, writer):
+        """Children follow the XSD group order: REFERRABLE, IMPLEMENTATION-PROPS, SECTION-NAME-PREFIX (VARIATION-POINT last)."""
+        consumption = _consumption_with_full_prefix()
+        parent = _parent()
+        writer.writeSectionNamePrefixes(parent, consumption.getSectionNamePrefixes())
+        prefix = parent[0][0]
+        assert [c.tag for c in prefix] == ["SHORT-NAME", "SYMBOL", "IMPLEMENTED-IN-REF", "VARIATION-POINT"]
+
+    def test_write_empty_prefix_list(self, writer):
+        parent = _parent()
+        writer.writeSectionNamePrefixes(parent, [])
+        assert len(parent) == 0

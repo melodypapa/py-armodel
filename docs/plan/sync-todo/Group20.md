@@ -553,15 +553,35 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `SectionNamePrefix` — ImplementationProps — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/MemorySectionUsage.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - note (Step 1): Table 8.8, p.147 (R23-11), Base = ARObject, ImplementationProps,
+    Referrable (most-derived ImplementationProps per Rule 0001.2); single member
+    implementedIn (Ref DependencyOnArtifact 0..1) → implementedInRef (Rule 0001.5);
+    inherited symbol covered by the IMPLEMENTATION-PROPS group (AUTOSAR_00052.xsd
+    L102807 group SECTION-NAME-PREFIX / L102840 complexType); class Note cross-checked
+    vs SWComponentTemplate Table 5.90 (same row set).
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - note (Steps 2-4): shared test_MemorySectionUsage.py — verbatim Note constants, base
+    chain (ImplementationProps), initialization defaults, get/set + None-no-op round-trip,
+    full-docstring assertions.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): parser suite TestReadSectionNamePrefixes (3 tests) + writer suite
+    TestWriteSectionNamePrefixes (5 tests) in the new tests/test_armodel/{parser,writer}/
+    test_memory_section_usage.py files; reader switched readReferrable →
+    readImplementationProps so the inherited SYMBOL round-trips (Rule 0001.7) and
+    VARIATION-POINT read added (Referrable-level VP, per the readBswModuleCallPoint
+    precedent); writer switched writeReferrable → writeImplementationProps + trailing
+    writeVariationPoint (XSD group order REFERRABLE → IMPLEMENTATION-PROPS →
+    SECTION-NAME-PREFIX → VARIATION-POINT); Red (SYMBOL/VARIATION-POINT dropped) → all
+    Green.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): method_deviation_by_class.md SectionNamePrefix section rewritten —
+    6-column member table (implementedInRef ok per Rule 0001.5); no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12579 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `HardwareConfiguration` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/__init__.py

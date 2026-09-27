@@ -518,7 +518,17 @@ confirmation.
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::MemorySectionUsage`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/MemorySectionUsage.py`
 
-No deviations.
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `implementedInRef` | `Optional[RefType]` | `implementedIn` | `Ref (DependencyOnArtifact)` | Ref | ok (Rule 0001.5 ref-suffix) |
+
+2026-09-27 sync (Table 8.8, p.147): docstrings rewritten verbatim from the R23-11 Note; reader
+switched readReferrable → readImplementationProps so the inherited SYMBOL (IMPLEMENTATION-PROPS
+group) round-trips (Rule 0001.7); VARIATION-POINT read/write coverage added (Referrable-level VP,
+per the readBswModuleCallPoint precedent); writer switched writeReferrable → writeImplementationProps
+plus trailing writeVariationPoint (XSD group order REFERRABLE → IMPLEMENTATION-PROPS →
+SECTION-NAME-PREFIX → VARIATION-POINT, AUTOSAR_00052.xsd L102807/L102840). Stamp deferred to batch
+confirmation.
 
 ## `StackUsage`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 149

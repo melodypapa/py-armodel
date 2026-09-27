@@ -5055,8 +5055,14 @@ class ARXMLParser(AbstractARXMLParser):
     def readSectionNamePrefixes(self, element: ET.Element, consumption: ResourceConsumption):
         for child_element in self.findall(element, "SECTION-NAME-PREFIXS/SECTION-NAME-PREFIX"):
             prefix = consumption.createSectionNamePrefix(self.getShortName(child_element))
-            self.readReferrable(child_element, prefix)
+            self.readImplementationProps(child_element, prefix)
             prefix.setImplementedInRef(self.getChildElementOptionalRefType(child_element, "IMPLEMENTED-IN-REF"))
+            variation_point_element = self.find(child_element, "VARIATION-POINT")
+            if variation_point_element is not None:
+                if isinstance(prefix, VariationPointCapable):
+                    prefix.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+                else:
+                    self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(child_element.tag))
 
     def readAccessCountSets(self, element: ET.Element, consumption: ResourceConsumption):
         for child_element in self.findall(element, "ACCESS-COUNT-SETS/ACCESS-COUNT-SET"):
