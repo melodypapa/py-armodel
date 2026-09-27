@@ -2416,6 +2416,33 @@ class DynamicPart(MultiplexedPart, VariationPointCapable):
         return self
 
 
+class TriggerMode(AREnum):
+    """
+    IPduM can be configured to send a transmission request for the new multiplexed I-PDU to the PDU-Router because of conditions/ modes.
+    """
+
+    # TriggerMode method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.71, p.408 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on MultiplexedIPdu.triggerMode
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # IPduM sends a transmission request to the PduR if a dynamic part is received. Tags: atp.EnumerationLiteralIndex=0
+    DYNAMIC_PART_TRIGGER = "dynamicPartTrigger"
+
+    # IPduM does not trigger transmission because of receiving anything of this IPdu in case of Trigger Transmit. Tags: atp.EnumerationLiteralIndex=1
+    NONE = "none"
+
+    # IPduM sends a transmission request to the PduR if a static or dynamic part is received. Tags: atp.EnumerationLiteralIndex=2
+    STATIC_OR_DYNAMIC_PART_TRIGGER = "staticOrDynamicPartTrigger"
+
+    # IPduM sends a transmission request to the PduR if a static part is received. Tags: atp.EnumerationLiteralIndex=3
+    STATIC_PART_TRIGGER = "staticPartTrigger"
+
+    def __init__(self):
+        super().__init__([TriggerMode.DYNAMIC_PART_TRIGGER, TriggerMode.NONE, TriggerMode.STATIC_OR_DYNAMIC_PART_TRIGGER, TriggerMode.STATIC_PART_TRIGGER])
+
+
 class MultiplexedIPdu(IPdu):
     """
     Represents a multiplexed Interaction Protocol Data Unit (IPDU)
