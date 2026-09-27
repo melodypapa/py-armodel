@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 459 | 64.2% |
+| [x] Done | 460 | 64.3% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 1 | 0.1% |
-| [ ] Deferred | 142 | 19.9% |
+| [ ] Deferred | 141 | 19.7% |
 | [ ] Pending | 102 | 14.3% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -531,7 +531,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PrmChar`                                               | [ ] Deferred| a3cf04c73                                | Group9           |
 | `PrmCharAbsTol`                                         | [x] Done    | a3cf04c73                                | Group9           |
 | `PrmCharContents`                                       | [x] Done    | a3cf04c73                                | Group9           |
-| `PrmCharMinTypMax`                                      | [ ] Deferred| a3cf04c73                                | Group9           |
+| `PrmCharMinTypMax`                                      | [x] Done    | a3cf04c73                                | Group9           |
 | `PrmCharNumericalContents`                              | [ ] Deferred| a3cf04c73                                | Group9           |
 | `PrmCharNumericalValue`                                 | [x] Done    | a3cf04c73                                | Group9           |
 | `PrmCharTextualContents`                                | [ ] Deferred| a3cf04c73                                | Group9           |

@@ -514,7 +514,7 @@ Status: **49/50** completed
 
 ## Group9
 
-Status: **23/29** completed
+Status: **24/29** completed
 
 | Class Name                    | Status       | Commit ID |
 | ----------------------------- | ------------ | --------- |
@@ -541,7 +541,7 @@ Status: **23/29** completed
 | `PrmCharContents`             | [x] Done     | a3cf04c73 |
 | `PrmCharNumericalValue`       | [x] Done     | a3cf04c73 |
 | `PrmCharAbsTol`               | [x] Done     | a3cf04c73 |
-| `PrmCharMinTypMax`            | [ ] Pending* | a3cf04c73 |
+| `PrmCharMinTypMax`            | [x] Done     | a3cf04c73 |
 | `PrmCharNumericalContents`    | [ ] Pending* | a3cf04c73 |
 | `PrmCharTextualContents`      | [ ] Pending* | a3cf04c73 |
 | `PrmChar`                     | [ ] Pending* | a3cf04c73 |
