@@ -396,7 +396,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `LParagraph`                                            | [x] Done    | 7fa4a01f                                 | Group3           |
 | `LPlainText`                                            | [ ] Deferred| N/A                                      | Group9           |
 | `LVerbatim`                                             | [ ] Deferred| N/A                                      | Group9           |
-| `LifeCycleInfo`                                         | [ ] Deferred| N/A                                      | Group8           |
+| `LifeCycleInfo`                                         | [x] Done    | 5836e6eb0                                | Group8           |
 | `LifeCycleInfoSet`                                      | [ ] Deferred| N/A                                      | Group8           |
 | `LifeCyclePeriod`                                       | [x] Done    | b572582c1                                | Group8           |
 | `LimitValueVariationPoint`                              | [x] Done    | d5c96fd9                                 | Group8           |

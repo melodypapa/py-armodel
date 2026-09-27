@@ -456,7 +456,7 @@ Status: **34/34** completed
 
 ## Group8
 
-Status: **37/49** completed
+Status: **38/49** completed
 
 | Class Name                               | Status       | Commit ID |
 | ---------------------------------------- | ------------ | --------- |
@@ -489,7 +489,7 @@ Status: **37/49** completed
 | `AtpBlueprint`                           | [x] Done     | 043de7436 |
 | `BlueprintGenerator`                     | [x] Done     | 246fc9845 |
 | `BlueprintMapping`                       | [x] Done     | a6fa7b8c1 |
-| `LifeCycleInfo`                          | [ ] Pending* | N/A       |
+| `LifeCycleInfo`                          | [x] Done     | 5836e6eb0 |
 | `LifeCycleInfoSet`                       | [ ] Pending* | N/A       |
 | `VariationPoint`                         | [ ] Pending* | N/A       |
 | `ModeInSwcBswInstanceRef`                | [ ] Pending* | N/A       |
