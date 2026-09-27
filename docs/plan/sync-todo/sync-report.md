@@ -59,7 +59,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BackgroundEvent`                                       | [x] Done    | 27b88a94                                 | Group2           |
 | `BindingTimeEnum`                                       | [x] Done    | 53bf1808                                 | Group8           |
 | `BlueprintFormula`                                      | [ ] Deferred| N/A                                      | Group8           |
-| `BlueprintGenerator`                                    | [ ] Deferred| N/A                                      | Group8           |
+| `BlueprintGenerator`                                    | [x] Done    | 246fc9845                                | Group8           |
 | `BlueprintMapping`                                      | [ ] Deferred| N/A                                      | Group8           |
 | `BlueprintMappingSet`                                   | [x] Done    | 3ba85998bb8a378d2fc76d8f0aa2eb58ad86d6f4 | Group1           |
 | `BlueprintPolicy`                                       | [x] Done    | f5f5084e                                 | Group1           |

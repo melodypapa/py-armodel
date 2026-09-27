@@ -456,7 +456,7 @@ Status: **34/34** completed
 
 ## Group8
 
-Status: **35/49** completed
+Status: **36/49** completed
 
 | Class Name                               | Status       | Commit ID |
 | ---------------------------------------- | ------------ | --------- |
@@ -487,7 +487,7 @@ Status: **35/49** completed
 | `AutosarOperationArgumentInstance`       | [x] Done     | b8cce0057 |
 | `ConcreteTDEventVfb`                     | [x] Retired  | f032ea574 |
 | `AtpBlueprint`                           | [x] Done     | 043de7436 |
-| `BlueprintGenerator`                     | [ ] Pending* | N/A       |
+| `BlueprintGenerator`                     | [x] Done     | 246fc9845 |
 | `BlueprintMapping`                       | [ ] Pending* | N/A       |
 | `LifeCycleInfo`                          | [ ] Pending* | N/A       |
 | `LifeCycleInfoSet`                       | [ ] Pending* | N/A       |
