@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, MacAddressString, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, MacAddressString, PositiveInteger, RefType
 
 __all__ = [
     "FirewallActionEnum",
@@ -29,9 +29,9 @@ class FirewallRule(ARElement):
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (markdown-minimal deviation: the 8 rule member classes carry no Class table in the
     #  PDF/markdown corpus — DataLinkLayerRule/DdsRule synced markdown-minimal,
-    #  PayloadBytePatternRule synced XSD-only (incl. its PayloadBytePatternRulePart part
-    #  type), the other 5 are attribute-name placeholders; full member attribute defs
-    #  remain a deviation)
+    #  PayloadBytePatternRule (incl. its PayloadBytePatternRulePart part type) and
+    #  SomeipProtocolRule synced XSD-only, the other 4 are attribute-name placeholders;
+    #  full member attribute defs remain a deviation)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getBucketSize                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setBucketSize                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -368,16 +368,159 @@ class PayloadBytePatternRulePart(ARObject):
 
 
 class SomeipProtocolRule(ARObject):
-    """Configuration of firewall rules for SOME/IP messages"""
+    """Configuration of SOME/IP firewall rules Tags: atp.Status=candidate"""
 
     # SomeipProtocolRule method parity checklist:
+    # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class SomeipProtocolRule, AUTOSAR_00052.xsd line 110084 (XSD-only; no own table in repo corpus)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # (markdown-minimal placeholder: member attribute defs skipped per user decision
-    #  2026-08-31 — no Class table in the PDF/markdown corpus; no stamp)
-    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getClientId             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClientId             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLengthVerification   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLengthVerification   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMajorVersion         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMajorVersion         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMessageType          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMessageType          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMethodId             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMethodId             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProtocolVersion      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProtocolVersion      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReturnCode           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReturnCode           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceInterfaceId   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceInterfaceId   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
+
+        # Filter for SOME/IP messages in which the clientId in the SOME/IP header matches.
+        self.clientId: Optional[PositiveInteger] = None
+
+        # Defines whether length verification is performed or not.
+        self.lengthVerification: Optional[Boolean] = None
+
+        # Filter for SOME/IP messages in which the majorVersion  in the SOME/IP header matches.
+        self.majorVersion: Optional[PositiveInteger] = None
+
+        # Filter for SOME/IP messages in which the messageType in the SOME/IP header matches.
+        self.messageType: Optional[PositiveInteger] = None
+
+        # Filter for SOME/IP messages in which the methodId in the SOME/IP header matches.
+        self.methodId: Optional[PositiveInteger] = None
+
+        # Filter for SOME/IP messages in which the protocolVersion  in the SOME/IP header matches.
+        self.protocolVersion: Optional[PositiveInteger] = None
+
+        # Filter for SOME/IP messages in which the returnCode  in the SOME/IP header matches.
+        self.returnCode: Optional[PositiveInteger] = None
+
+        # Filter for SOME/IP messages in which the serviceInterfaceId in the SOME/IP header matches.
+        self.serviceInterfaceId: Optional[PositiveInteger] = None
+
+    def getClientId(self) -> Optional[PositiveInteger]:
+        """Filter for SOME/IP messages in which the clientId in the SOME/IP header matches."""
+        return self.clientId
+
+    def setClientId(self, value: Optional[PositiveInteger]) -> "SomeipProtocolRule":
+        """
+        Filter for SOME/IP messages in which the clientId in the SOME/IP header matches.
+        A None value is a no-op and does not overwrite an existing clientId.
+        """
+        if value is not None:
+            self.clientId = value
+        return self
+
+    def getLengthVerification(self) -> Optional[Boolean]:
+        """Defines whether length verification is performed or not."""
+        return self.lengthVerification
+
+    def setLengthVerification(self, value: Optional[Boolean]) -> "SomeipProtocolRule":
+        """
+        Defines whether length verification is performed or not.
+        A None value is a no-op and does not overwrite an existing lengthVerification.
+        """
+        if value is not None:
+            self.lengthVerification = value
+        return self
+
+    def getMajorVersion(self) -> Optional[PositiveInteger]:
+        """Filter for SOME/IP messages in which the majorVersion  in the SOME/IP header matches."""
+        return self.majorVersion
+
+    def setMajorVersion(self, value: Optional[PositiveInteger]) -> "SomeipProtocolRule":
+        """
+        Filter for SOME/IP messages in which the majorVersion  in the SOME/IP header matches.
+        A None value is a no-op and does not overwrite an existing majorVersion.
+        """
+        if value is not None:
+            self.majorVersion = value
+        return self
+
+    def getMessageType(self) -> Optional[PositiveInteger]:
+        """Filter for SOME/IP messages in which the messageType in the SOME/IP header matches."""
+        return self.messageType
+
+    def setMessageType(self, value: Optional[PositiveInteger]) -> "SomeipProtocolRule":
+        """
+        Filter for SOME/IP messages in which the messageType in the SOME/IP header matches.
+        A None value is a no-op and does not overwrite an existing messageType.
+        """
+        if value is not None:
+            self.messageType = value
+        return self
+
+    def getMethodId(self) -> Optional[PositiveInteger]:
+        """Filter for SOME/IP messages in which the methodId in the SOME/IP header matches."""
+        return self.methodId
+
+    def setMethodId(self, value: Optional[PositiveInteger]) -> "SomeipProtocolRule":
+        """
+        Filter for SOME/IP messages in which the methodId in the SOME/IP header matches.
+        A None value is a no-op and does not overwrite an existing methodId.
+        """
+        if value is not None:
+            self.methodId = value
+        return self
+
+    def getProtocolVersion(self) -> Optional[PositiveInteger]:
+        """Filter for SOME/IP messages in which the protocolVersion  in the SOME/IP header matches."""
+        return self.protocolVersion
+
+    def setProtocolVersion(self, value: Optional[PositiveInteger]) -> "SomeipProtocolRule":
+        """
+        Filter for SOME/IP messages in which the protocolVersion  in the SOME/IP header matches.
+        A None value is a no-op and does not overwrite an existing protocolVersion.
+        """
+        if value is not None:
+            self.protocolVersion = value
+        return self
+
+    def getReturnCode(self) -> Optional[PositiveInteger]:
+        """Filter for SOME/IP messages in which the returnCode  in the SOME/IP header matches."""
+        return self.returnCode
+
+    def setReturnCode(self, value: Optional[PositiveInteger]) -> "SomeipProtocolRule":
+        """
+        Filter for SOME/IP messages in which the returnCode  in the SOME/IP header matches.
+        A None value is a no-op and does not overwrite an existing returnCode.
+        """
+        if value is not None:
+            self.returnCode = value
+        return self
+
+    def getServiceInterfaceId(self) -> Optional[PositiveInteger]:
+        """Filter for SOME/IP messages in which the serviceInterfaceId in the SOME/IP header matches."""
+        return self.serviceInterfaceId
+
+    def setServiceInterfaceId(self, value: Optional[PositiveInteger]) -> "SomeipProtocolRule":
+        """
+        Filter for SOME/IP messages in which the serviceInterfaceId in the SOME/IP header matches.
+        A None value is a no-op and does not overwrite an existing serviceInterfaceId.
+        """
+        if value is not None:
+            self.serviceInterfaceId = value
+        return self
 
 
 class SomeipSdRule(ARObject):

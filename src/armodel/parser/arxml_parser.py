@@ -14646,6 +14646,16 @@ class ARXMLParser(AbstractARXMLParser):
         part.setOffset(self.getChildElementOptionalPositiveInteger(element, "OFFSET"))
         part.setValue(self.getChildElementOptionalPositiveInteger(element, "VALUE"))
 
+    def readSomeipProtocolRule(self, element: ET.Element, rule: SomeipProtocolRule):
+        rule.setClientId(self.getChildElementOptionalPositiveInteger(element, "CLIENT-ID"))
+        rule.setLengthVerification(self.getChildElementOptionalBooleanValue(element, "LENGTH-VERIFICATION"))
+        rule.setMajorVersion(self.getChildElementOptionalPositiveInteger(element, "MAJOR-VERSION"))
+        rule.setMessageType(self.getChildElementOptionalPositiveInteger(element, "MESSAGE-TYPE"))
+        rule.setMethodId(self.getChildElementOptionalPositiveInteger(element, "METHOD-ID"))
+        rule.setProtocolVersion(self.getChildElementOptionalPositiveInteger(element, "PROTOCOL-VERSION"))
+        rule.setReturnCode(self.getChildElementOptionalPositiveInteger(element, "RETURN-CODE"))
+        rule.setServiceInterfaceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-INTERFACE-ID"))
+
     def readFirewallRule(self, element: ET.Element, rule: FirewallRule):
         self.readIdentifiable(element, rule)
         rule.setBucketSize(self.getChildElementOptionalPositiveInteger(element, "BUCKET-SIZE"))
@@ -14672,7 +14682,9 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setRefillAmount(self.getChildElementOptionalPositiveInteger(element, "REFILL-AMOUNT"))
         child = self.find(element, "SOMEIP-RULE")
         if child is not None:
-            rule.setSomeipRule(SomeipProtocolRule())
+            someip_rule = SomeipProtocolRule()
+            self.readSomeipProtocolRule(child, someip_rule)
+            rule.setSomeipRule(someip_rule)
         child = self.find(element, "SOMEIP-SD-RULE")
         if child is not None:
             rule.setSomeipSdRule(SomeipSdRule())
