@@ -456,7 +456,7 @@ Status: **34/34** completed
 
 ## Group8
 
-Status: **39/49** completed
+Status: **40/49** completed
 
 | Class Name                               | Status       | Commit ID |
 | ---------------------------------------- | ------------ | --------- |
@@ -491,7 +491,7 @@ Status: **39/49** completed
 | `BlueprintMapping`                       | [x] Done     | a6fa7b8c1 |
 | `LifeCycleInfo`                          | [x] Done     | 5836e6eb0 |
 | `LifeCycleInfoSet`                       | [x] Done     | 11bd9cd84 |
-| `VariationPoint`                         | [ ] Pending* | N/A       |
+| `VariationPoint`                         | [x] Done     | d4fce975d |
 | `ModeInSwcBswInstanceRef`                | [ ] Pending* | N/A       |
 | `ModeInSwcInstanceRef`                   | [ ] Pending* | N/A       |
 | `AbstractEnumerationValueVariationPoint` | [ ] Pending* | N/A       |

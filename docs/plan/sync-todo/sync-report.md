@@ -690,7 +690,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `VariableDataPrototypeInSystemInstanceRef`              | [x] Done    | 1b3d673d                                 | Group7           |
 | `VariableInAtomicSWCTypeInstanceRef`                    | [x] Done    | c8ac9ef7                                 | Group2           |
 | `VariableInAtomicSwcInstanceRef`                        | [x] Done    | 03690054                                 | Group2           |
-| `VariationPoint`                                        | [ ] Deferred| N/A                                      | Group8           |
+| `VariationPoint`                                        | [x] Done    | d4fce975d                                | Group8           |
 | `VendorSpecificServiceNeeds`                            | [x] Done    | 3180597f                                 | Group5           |
 | `ViewTokens`                                            | [x] Done    | 82c86af7                                 | Group3           |
 | `VlanConfig`                                            | [ ] Pending | N/A                                      | Group16          |
