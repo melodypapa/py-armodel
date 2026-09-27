@@ -109,7 +109,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CanNmCluster`                                          | [ ] Pending | N/A                                      | Group18          |
 | `CanNmClusterCoupling`                                  | [ ] Pending | N/A                                      | Group18          |
 | `CanNmNode`                                             | [ ] Pending | N/A                                      | Group18          |
-| `ChapterContent`                                        | [ ] Deferred| N/A                                      | Group9           |
+| `ChapterContent`                                        | [x] Done    | dee07d0a3                                | Group9           |
 | `ChapterEnumBreak`                                      | [x] Done    | 20e6ee88                                 | Group3           |
 | `ChapterModel`                                          | [x] Done    | d3d61c9b2                                | Group9           |
 | `ClientIdDefinition`                                    | [x] Done    | 8618ec88                                 | Group5           |
