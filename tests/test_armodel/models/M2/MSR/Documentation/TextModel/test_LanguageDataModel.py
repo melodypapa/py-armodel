@@ -794,8 +794,8 @@ class TestMixedContentForUnitNames:
         assert content.sup is None
 
     def test_base_anchoring(self):
-        """Most-derived base per the Table E.55 Base row ARObject; the <<atpMixedString>> stereotype is recorded in the checklist comment (FormulaExpression no-mixin precedent)."""
-        assert MixedContentForUnitNames.__bases__ == (ARObject, ABC)
+        """Most-derived base per the Table E.55 Base row ARObject; the <<atpMixedString>> stereotype rides the AtpMixedString mixin per Rule 0021 (XSD group MIXED-CONTENT-FOR-UNIT-NAMES appinfo stereotypes "atpMixedString,atpObject") — 2026-09-27 unification."""
+        assert MixedContentForUnitNames.__bases__ == (ARObject, AtpMixedString, ABC)
 
     def test_docstring_verbatim(self):
         """Docstring must equal the spec Note from Table E.55 verbatim."""

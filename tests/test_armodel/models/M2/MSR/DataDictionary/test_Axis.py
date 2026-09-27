@@ -3,7 +3,7 @@ This module contains tests for the Axis module in MSR.DataDictionary.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Integer, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, Numerical, RefType
 from armodel.models.M2.MSR.DataDictionary.Axis import (
     SwAxisGeneric,
     SwAxisGrouped,
@@ -36,7 +36,7 @@ class TestSwGenericAxisParam:
     def test_sw_generic_axis_param_vfs_methods(self):
         """Test adding and getting numerical values."""
         sw_generic_axis_param = SwGenericAxisParam()
-        value = ARNumerical()
+        value = Numerical()
         value.setValue("1.5")
 
         result = sw_generic_axis_param.addVf(value)
@@ -135,7 +135,7 @@ class TestSwAxisIndividual:
     def test_sw_axis_individual_max_axis_points_methods(self):
         """Test the swMaxAxisPoints getter and setter."""
         sw_axis_individual = SwAxisIndividual()
-        max_points = ARNumerical()
+        max_points = Numerical()
 
         result = sw_axis_individual.setSwMaxAxisPoints(max_points)
         assert sw_axis_individual.getSwMaxAxisPoints() == max_points
@@ -144,7 +144,7 @@ class TestSwAxisIndividual:
     def test_sw_axis_individual_min_axis_points_methods(self):
         """Test the swMinAxisPoints getter and setter."""
         sw_axis_individual = SwAxisIndividual()
-        min_points = ARNumerical()
+        min_points = Numerical()
 
         result = sw_axis_individual.setSwMinAxisPoints(min_points)
         assert sw_axis_individual.getSwMinAxisPoints() == min_points

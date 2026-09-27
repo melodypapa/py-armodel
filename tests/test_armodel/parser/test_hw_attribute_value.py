@@ -43,7 +43,7 @@ def test_parse_hw_attribute_value():
     assert attribute_value.getAnnotation().getAnnotationOrigin().getValue() == "origin text"
     assert attribute_value.getHwAttributeDefRef().getValue() == "/Hw/Cat/AttrDef"
     assert attribute_value.getHwAttributeDefRef().getDest() == "HW-ATTRIBUTE-DEF"
-    assert attribute_value.getV().getValue() == "4.2"
+    assert attribute_value.getV().getValue() == 4.2
     assert attribute_value.getVt().getValue() == "some textual value"
 
 
@@ -77,5 +77,5 @@ def test_round_trip_preserves_all_values():
     assert parsed.getAnnotation().getAnnotationOrigin().getValue() == "origin text"
     assert parsed.getHwAttributeDefRef().getValue() == "/Hw/Cat/AttrDef"
     assert parsed.getHwAttributeDefRef().getDest() == "HW-ATTRIBUTE-DEF"
-    assert parsed.getV().getValue() == "4.2"
+    assert parsed.getV().getValue() == 4.2
     assert parsed.getVt().getValue() == "some textual value"

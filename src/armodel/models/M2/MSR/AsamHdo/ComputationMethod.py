@@ -8,7 +8,6 @@ from abc import ABC
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARNumerical,
     PrimitiveIdentifier,
     CIdentifier,
     DisplayFormatString,
@@ -98,13 +97,13 @@ class CompuConstNumericContent(CompuConstContent):
         super().__init__()
 
         # This represents the numerical value.
-        self.v: Optional[ARNumerical] = None
+        self.v: Optional[Numerical] = None
 
-    def getV(self) -> Optional[ARNumerical]:
+    def getV(self) -> Optional[Numerical]:
         """This represents the numerical value."""
         return self.v
 
-    def setV(self, value: Optional[ARNumerical]):
+    def setV(self, value: Optional[Numerical]):
         """This represents the numerical value. Does nothing if value is None."""
         if value is not None:
             self.v = value
@@ -126,13 +125,13 @@ class CompuConstFormulaContent(CompuConstContent):
         super().__init__()
 
         # Value calculated via a system constant. This element is included in every case where parameters should be generated from numerical values during compile time (not runtime!). Thus for example, the influence of the cylinder number on conversion formulae can be introduced in a repeatable manner. Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime xml.sequenceOffset=30
-        self.vf: Optional[ARNumerical] = None
+        self.vf: Optional[Numerical] = None
 
-    def getVf(self) -> Optional[ARNumerical]:
+    def getVf(self) -> Optional[Numerical]:
         """Value calculated via a system constant. This element is included in every case where parameters should be generated from numerical values during compile time (not runtime!). Thus for example, the influence of the cylinder number on conversion formulae can be introduced in a repeatable manner. Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime xml.sequenceOffset=30"""
         return self.vf
 
-    def setVf(self, value: Optional[ARNumerical]):
+    def setVf(self, value: Optional[Numerical]):
         """Value calculated via a system constant. This element is included in every case where parameters should be generated from numerical values during compile time (not runtime!). Thus for example, the influence of the cylinder number on conversion formulae can be introduced in a repeatable manner. Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime xml.sequenceOffset=30. Does nothing if value is None."""
         if value is not None:
             self.vf = value

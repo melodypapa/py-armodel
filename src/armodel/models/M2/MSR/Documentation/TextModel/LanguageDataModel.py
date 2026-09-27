@@ -456,7 +456,7 @@ class LOverviewParagraph(MixedContentForOverviewParagraph, LanguageSpecific):
         return self
 
 
-class MixedContentForLongName(ARObject, ABC):
+class MixedContentForLongName(ARObject, AtpMixedString, ABC):
     """
     This is the model for titles and long-names. It allows some emphasis and index entries but no reference target (which is provided by the identifiable in question). It is intended that the content model can also be rendered as plain text. The abstract class can be used for single language as well as for multi language elements.
     """
@@ -476,6 +476,8 @@ class MixedContentForLongName(ARObject, ABC):
     # [x] setSup       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getTt        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setTt        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # (getMixedString/setMixedString inherited from the AtpMixedString mixin — stereotype-inherent, no spec rows;
+    #  XSD group MIXED-CONTENT-FOR-LONG-NAME appinfo stereotypes "atpMixedString,atpObject" — 2026-09-27 unification)
 
     def __init__(self):
         if type(self) is MixedContentForLongName:
@@ -569,19 +571,22 @@ class MixedContentForLongName(ARObject, ABC):
         return self
 
 
-class MixedContentForUnitNames(ARObject, ABC):
+class MixedContentForUnitNames(ARObject, AtpMixedString, ABC):
     """
     This is the text model for items with subscript and superscripts such as measurement unit designations. It is intended, that such models can easily be transcribed to a plain text model either by using appropriate characters or by transcribing like mˆ2.
     """
 
     # MixedContentForUnitNames method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.55, p.456 (trailing-caption render: table body above the caption line)
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element; SUP/SUB are xml.attribute=true on the consuming element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getSub       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setSub       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSup       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setSup       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (getMixedString/setMixedString inherited from the AtpMixedString mixin — stereotype-inherent, no spec rows;
+    #  XSD group MIXED-CONTENT-FOR-UNIT-NAMES appinfo stereotypes "atpMixedString,atpObject" — 2026-09-27 unification)
 
     def __init__(self):
         if type(self) is MixedContentForUnitNames:

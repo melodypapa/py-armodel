@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NumericalValueSpecification
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Identifier
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, Numerical
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -26,8 +26,8 @@ def writer():
     return ARXMLWriter()
 
 
-def _numerical(text: str) -> ARNumerical:
-    numerical = ARNumerical()
+def _numerical(text: str) -> Numerical:
+    numerical = Numerical()
     numerical.setValue(text)
     return numerical
 

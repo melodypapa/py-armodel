@@ -12,7 +12,7 @@ class TestXrefTargetParser:
         target = ARXMLParser().getXrefTarget(parent, "XREF-TARGET")
 
         assert target.getShortName() == "TARGET"
-        assert target.getLongName1().getValue().getValue() == "Target label"
+        assert target.getLongName1().getMixedString() == "Target label"
 
     def test_read_xref_target_without_element_returns_none(self):
         parent = ET.fromstring('<PARENT xmlns="http://autosar.org/schema/r4.0"/>')

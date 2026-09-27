@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NumericalOrText
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType, VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical, RefType, VerbatimString
 from armodel.models.M2.MSR.AsamHdo.Units import SingleLanguageUnitNames
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
@@ -33,10 +33,10 @@ class SwValues(ARObject):
         super().__init__()
 
         # This is a non variant Value. It is provided for sake of Compatibility to ASAM CDF.
-        self.v: List[ARNumerical] = []
+        self.v: List[Numerical] = []
 
         # This allows to specify the value as VariationPoint. It is distinguished to non variant for sake of compatibility to ASAM CDF 2.0.
-        self.vf: List[ARNumerical] = []
+        self.vf: List[Numerical] = []
 
         # This allows to have intersections in the values in order to support specific rendering (eg. using stylesheets). For tools it is important that the v values are always processed in the same (flattened) order and the tool is able to interpret it without respecting vg.
         self.vg: Optional["ValueGroup"] = None
@@ -47,7 +47,7 @@ class SwValues(ARObject):
         # This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability. From the formal point of view, the aggregation needs to have the multiplicity 1 because SwValues is modelled with stereotype <<atpMixed>>. Nevertheless, the existence of vtf is optional and subject to constraints.
         self.vtf: List[NumericalOrText] = []
 
-    def addV(self, v: Optional[ARNumerical]) -> "SwValues":
+    def addV(self, v: Optional[Numerical]) -> "SwValues":
         """
         This is a non variant Value. It is provided for sake of Compatibility to ASAM CDF.
         A None value is a no-op and does not append anything.
@@ -62,16 +62,16 @@ class SwValues(ARObject):
             self.v.append(v)
         return self
 
-    def getVs(self) -> List[ARNumerical]:
+    def getVs(self) -> List[Numerical]:
         """
         This is a non variant Value. It is provided for sake of Compatibility to ASAM CDF.
 
         Returns:
-            List[ARNumerical]: The list of non variant Values
+            List[Numerical]: The list of non variant Values
         """
         return self.v
 
-    def addVf(self, vf: Optional[ARNumerical]) -> "SwValues":
+    def addVf(self, vf: Optional[Numerical]) -> "SwValues":
         """
         This allows to specify the value as VariationPoint. It is distinguished to non variant for sake of compatibility to ASAM CDF 2.0.
         A None value is a no-op and does not append anything.
@@ -86,12 +86,12 @@ class SwValues(ARObject):
             self.vf.append(vf)
         return self
 
-    def getVfs(self) -> List[ARNumerical]:
+    def getVfs(self) -> List[Numerical]:
         """
         This allows to specify the value as VariationPoint. It is distinguished to non variant for sake of compatibility to ASAM CDF 2.0.
 
         Returns:
-            List[ARNumerical]: The list of variation point Values
+            List[Numerical]: The list of variation point Values
         """
         return self.vf
 

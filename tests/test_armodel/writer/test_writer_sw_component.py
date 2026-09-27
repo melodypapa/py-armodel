@@ -17,9 +17,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
     ARLiteral,
-    ARNumerical,
     Boolean,
     Float,
+    Numerical,
     PositiveInteger,
     RefType,
     String,
@@ -145,7 +145,7 @@ def _time_value(val=1.0):
 
 
 def _numerical(val=1):
-    n = ARNumerical()
+    n = Numerical()
     n.setValue(val)
     return n
 
@@ -1547,7 +1547,7 @@ class TestSetValueSpecifications:
         sw_values = SwValues()
         sw_values.addV(_numerical(5))
         cont.setSwValuesPhys(sw_values)
-        display_name = SingleLanguageUnitNames().setValue(String().setValue("display"))
+        display_name = SingleLanguageUnitNames().setMixedString("display")
         cont.setUnitDisplayName(display_name)
         parent = _parent()
         writer.writeSwValueCont(parent, cont)

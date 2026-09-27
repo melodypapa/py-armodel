@@ -10,7 +10,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AlignmentType,
     ARLiteral,
-    ARNumerical,
     Boolean,
     CseCodeType,
     DateTime,
@@ -19,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Identifier,
     Integer,
     NativeDeclarationString,
+    Numerical,
     PrimitiveIdentifier,
     RefType,
     String,
@@ -54,10 +54,10 @@ class TestSwDataDefPropsRoundTrip:
         props.setSwInterpolationMethod(Identifier().setValue("linear"))
         props.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.STANDARD))
         props.setStepSize(Float().setValue("0.5"))
-        props.setSwIntendedResolution(ARNumerical().setValue("0.01"))
-        props.setSwValueBlockSize(ARNumerical().setValue("10"))
-        props.addSwValueBlockSizeMult(ARNumerical().setValue("2"))
-        props.addSwValueBlockSizeMult(ARNumerical().setValue("3"))
+        props.setSwIntendedResolution(Numerical().setValue("0.01"))
+        props.setSwValueBlockSize(Numerical().setValue("10"))
+        props.addSwValueBlockSizeMult(Numerical().setValue("2"))
+        props.addSwValueBlockSizeMult(Numerical().setValue("3"))
         props.setSwIsVirtual(Boolean().setValue("true"))
         props.setBaseTypeRef(RefType().setDest("AUTOSAR/BaseTypes/uint8"))
         props.setSwAddrMethodRef(RefType().setDest("AUTOSAR/SwAddrMethods/ram"))

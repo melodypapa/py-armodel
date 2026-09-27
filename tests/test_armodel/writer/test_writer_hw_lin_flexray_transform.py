@@ -17,9 +17,9 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory im
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
     ARLiteral,
-    ARNumerical,
     Boolean,
     Integer,
+    Numerical,
     PositiveInteger,
     RefType,
     TimeValue,
@@ -94,7 +94,7 @@ def _bool(value):
 
 
 def _numerical(value):
-    n = ARNumerical()
+    n = Numerical()
     n.setValue(str(value))
     return n
 

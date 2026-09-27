@@ -11,7 +11,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AlignmentType,
     ARLiteral,
-    ARNumerical,
     ARType,
     Boolean,
     CIdentifier,
@@ -101,7 +100,7 @@ class AbstractARXMLWriter(ABC):
             child_element.text = value
     """
 
-    def setChildElementOptionalNumericalValue(self, element: ET.Element, key: str, numerical: ARNumerical):
+    def setChildElementOptionalNumericalValue(self, element: ET.Element, key: str, numerical: Numerical):
         if numerical is not None:
             child_element = ET.SubElement(element, key)
             self.writeARType(child_element, numerical)

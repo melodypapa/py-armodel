@@ -18,7 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum, EcucModuleDef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Boolean, CIdentifier, Limit, Numerical, RefType, RevisionLabelString, VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, CIdentifier, Limit, Numerical, RefType, RevisionLabelString, VerbatimString
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
@@ -84,7 +84,7 @@ def test_ecuc_indexable_value_index_methods():
     assert value.index is None
 
     # Test getter and setter
-    index = ARNumerical()
+    index = Numerical()
     index.setValue("4")
     result = value.setIndex(index)
     assert result == value  # Method chaining

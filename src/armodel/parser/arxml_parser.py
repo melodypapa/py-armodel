@@ -1854,8 +1854,7 @@ class ARXMLParser(AbstractARXMLParser):
         return long_name
 
     def readSingleLanguageLongName(self, element: ET.Element, long_name: SingleLanguageLongName):
-        if element.text is not None:
-            long_name.setValue(String().setValue(element.text))
+        self.readMixedStringText(element, long_name)
         self.readMixedContentForLongName(element, long_name)
 
     def getSingleLanguageLongName(self, element: ET.Element, key: str) -> SingleLanguageLongName:
@@ -1867,8 +1866,7 @@ class ARXMLParser(AbstractARXMLParser):
         return long_name
 
     def readSingleLanguageUnitNames(self, element: ET.Element, unit_names: SingleLanguageUnitNames):
-        if element.text is not None:
-            unit_names.setValue(String().setValue(element.text))
+        self.readMixedStringText(element, unit_names)
         self.readMixedContentForUnitNames(element, unit_names)
 
     def getSingleLanguageUnitNames(self, element: ET.Element, key: str) -> SingleLanguageUnitNames:
@@ -11840,7 +11838,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSwSystemconstValue(self, element: ET.Element, value: SwSystemconstValue):
         value.setSwSystemconstRef(self.getChildElementOptionalRefType(element, "SW-SYSTEMCONST-REF"))
-        value.setValue(self.getChildElementOptionalNumericalValue(element, "VALUE"))
+        value.setValue(self.getChildElementOptionalNumerical(element, "VALUE"))
         for annotation in self.getAnnotations(element):
             value.addAnnotation(annotation)
 

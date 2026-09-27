@@ -13,7 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     TextValueSpecification,
     ValueSpecification,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Numerical, RefType
 
 
 class TestValueSpecification:
@@ -222,7 +222,7 @@ class TestNumericalValueSpecification:
     def test_set_value(self):
         """Test setValue method"""
         spec = NumericalValueSpecification()
-        test_value = ARNumerical().setValue(42)
+        test_value = Numerical().setValue(42)
         result = spec.setValue(test_value)
         assert result is spec
         assert spec.getValue() == test_value

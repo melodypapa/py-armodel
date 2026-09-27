@@ -4,7 +4,7 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARNumerical, Integer, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Integer, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -93,7 +93,7 @@ class LinFrameTriggering(FrameTriggering):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.identifier: ARNumerical = None
+        self.identifier: Integer = None
         self.linChecksum: ARLiteral = None
 
     def getIdentifier(self):

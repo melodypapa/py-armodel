@@ -1,7 +1,7 @@
 from typing import List, Optional
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisTypeProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Integer, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical, Integer, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy, SwVariableRefProxy
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
@@ -29,7 +29,7 @@ class SwGenericAxisParam(ARObject):
         self.swGenericAxisParamTypeRef: Optional[RefType] = None
 
         # This attribute represents the value of the generic axis parameter.
-        self.vfs: List[ARNumerical] = []
+        self.vfs: List[Numerical] = []
 
     def getSwGenericAxisParamTypeRef(self) -> Optional[RefType]:
         """
@@ -46,13 +46,13 @@ class SwGenericAxisParam(ARObject):
             self.swGenericAxisParamTypeRef = value
         return self
 
-    def getVfs(self) -> List[ARNumerical]:
+    def getVfs(self) -> List[Numerical]:
         """
         This attribute represents the value of the generic axis parameter.
         """
         return self.vfs
 
-    def addVf(self, value: Optional[ARNumerical]) -> "SwGenericAxisParam":
+    def addVf(self, value: Optional[Numerical]) -> "SwGenericAxisParam":
         """
         This attribute represents the value of the generic axis parameter.
         A None value is a no-op and is not appended to vfs.

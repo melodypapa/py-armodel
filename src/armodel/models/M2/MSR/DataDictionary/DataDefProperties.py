@@ -7,14 +7,13 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuGenericMath
 from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy, SwVariableRefProxy
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
-    ARNumerical,
+    Numerical,
     Float,
     AlignmentType,
     Boolean,
     Identifier,
     Integer,
     NativeDeclarationString,
-    Numerical,
     RefType,
     DisplayFormatString,
 )
@@ -343,7 +342,7 @@ class SwDataDefProps(ARObject):
         self.stepSize: Optional[Float] = None
 
         # This attribute is used to specify the dimensions of a value block (VAL_BLK) for the case that that value block has more than one dimension. The dimensions given in this attribute are ordered such that the first entry represents the first dimension, the second entry represents the second dimension, and so on. For one-dimensional value blocks the attribute swValueBlockSize shall be used and this attribute shall not exist.
-        self.swValueBlockSizeMults: List[ARNumerical] = []
+        self.swValueBlockSizeMults: List[Numerical] = []
 
         # This aggregation allows to add annotations (yellow pads ...) related to the current data object.
         self.annotations: List[Annotation] = []
@@ -364,7 +363,7 @@ class SwDataDefProps(ARObject):
         self.swCalibrationAccess: Optional[SwCalibrationAccessEnum] = None
 
         # This represents the size of a Value Block
-        self.swValueBlockSize: Optional[ARNumerical] = None
+        self.swValueBlockSize: Optional[Numerical] = None
 
         # This specifies the properties of the axes in case of a curve or map etc. This is mainly applicable to calibration parameters.
         self.swCalprmAxisSet: Optional[SwCalprmAxisSet] = None
@@ -400,7 +399,7 @@ class SwDataDefProps(ARObject):
         self.additionalNativeTypeQualifier: Optional[NativeDeclarationString] = None
 
         # The purpose of this element is to describe the requested quantization of data objects early on in the design process. The resolution ultimately occurs via the conversion formula present (compuMethod), which specifies the transition from the physical world to the standardized world (and vice-versa) (here, "the slope per bit" is present implicitly in the conversion formula). In the case of a development phase without a fixed conversion formula, a pre-specification can occur through swIntendedResolution. The resolution is specified in the physical domain according to the property "unit".
-        self.swIntendedResolution: Optional[ARNumerical] = None
+        self.swIntendedResolution: Optional[Numerical] = None
 
         # This is a keyword identifying the mathematical method to be applied for interpolation. The keyword needs to be related to the interpolation routine which needs to be invoked.
         self.swInterpolationMethod: Optional[Identifier] = None
@@ -454,13 +453,13 @@ class SwDataDefProps(ARObject):
             self.stepSize = value
         return self
 
-    def getSwValueBlockSizeMults(self) -> List[ARNumerical]:
+    def getSwValueBlockSizeMults(self) -> List[Numerical]:
         """
         This attribute is used to specify the dimensions of a value block (VAL_BLK) for the case that that value block has more than one dimension. The dimensions given in this attribute are ordered such that the first entry represents the first dimension, the second entry represents the second dimension, and so on. For one-dimensional value blocks the attribute swValueBlockSize shall be used and this attribute shall not exist.
         """
         return self.swValueBlockSizeMults
 
-    def addSwValueBlockSizeMult(self, value: Optional[ARNumerical]) -> SwDataDefProps:
+    def addSwValueBlockSizeMult(self, value: Optional[Numerical]) -> SwDataDefProps:
         """
         This attribute is used to specify the dimensions of a value block (VAL_BLK) for the case that that value block has more than one dimension. Appends a dimension to the ordered list. A None value is a no-op.
         """
@@ -552,13 +551,13 @@ class SwDataDefProps(ARObject):
             self.swCalibrationAccess = value
         return self
 
-    def getSwValueBlockSize(self) -> Optional[ARNumerical]:
+    def getSwValueBlockSize(self) -> Optional[Numerical]:
         """
         This represents the size of a Value Block
         """
         return self.swValueBlockSize
 
-    def setSwValueBlockSize(self, value: Optional[ARNumerical]) -> SwDataDefProps:
+    def setSwValueBlockSize(self, value: Optional[Numerical]) -> SwDataDefProps:
         """
         This represents the size of a Value Block A None value is a no-op and does not overwrite an existing swValueBlockSize.
         """
@@ -720,13 +719,13 @@ class SwDataDefProps(ARObject):
             self.additionalNativeTypeQualifier = value
         return self
 
-    def getSwIntendedResolution(self) -> Optional[ARNumerical]:
+    def getSwIntendedResolution(self) -> Optional[Numerical]:
         """
         The purpose of this element is to describe the requested quantization of data objects early on in the design process. The resolution ultimately occurs via the conversion formula present (compuMethod), which specifies the transition from the physical world to the standardized world (and vice-versa) (here, "the slope per bit" is present implicitly in the conversion formula). In the case of a development phase without a fixed conversion formula, a pre-specification can occur through swIntendedResolution. The resolution is specified in the physical domain according to the property "unit".
         """
         return self.swIntendedResolution
 
-    def setSwIntendedResolution(self, value: Optional[ARNumerical]) -> SwDataDefProps:
+    def setSwIntendedResolution(self, value: Optional[Numerical]) -> SwDataDefProps:
         """
         The purpose of this element is to describe the requested quantization of data objects early on in the design process. The resolution ultimately occurs via the conversion formula present (compuMethod), which specifies the transition from the physical world to the standardized world (and vice-versa) (here, "the slope per bit" is present implicitly in the conversion formula). In the case of a development phase without a fixed conversion formula, a pre-specification can occur through swIntendedResolution. The resolution is specified in the physical domain according to the property "unit". A None value is a no-op and does not overwrite an existing swIntendedResolution.
         """

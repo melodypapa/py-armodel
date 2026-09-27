@@ -8,10 +8,10 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
-    ARNumerical,
     Boolean,
     Identifier,
     Integer,
+    Numerical,
     PositiveInteger,
     RefType,
 )
@@ -86,7 +86,7 @@ def _bool(text):
 
 
 def _numerical(text):
-    val = ARNumerical()
+    val = Numerical()
     val.setValue(text)
     return val
 

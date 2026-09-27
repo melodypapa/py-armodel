@@ -49,7 +49,7 @@ class TestStd:
 
     def test_std_inherited_long_name(self):
         std = Std(None, "STD")
-        long_name = SingleLanguageLongName().setValue(String().setValue("Standard"))
+        long_name = SingleLanguageLongName().setMixedString("Standard")
 
         assert std.setLongName1(long_name) is std
         assert std.getLongName1() is long_name

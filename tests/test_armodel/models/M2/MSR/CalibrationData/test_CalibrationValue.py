@@ -4,7 +4,7 @@ This module contains tests for the CalibrationValue module in MSR.CalibrationDat
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NumericalOrText
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType, VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical, RefType, VerbatimString
 from armodel.models.M2.MSR.AsamHdo.Units import SingleLanguageUnitNames
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
@@ -27,8 +27,8 @@ class TestSwValues:
     def test_add_get_vs(self):
         """Test addV/getVs append order, chaining and None no-op."""
         sw_values = SwValues()
-        v1 = ARNumerical().setValue("1.5")
-        v2 = ARNumerical().setValue("2.5")
+        v1 = Numerical().setValue("1.5")
+        v2 = Numerical().setValue("2.5")
 
         assert sw_values.addV(v1) is sw_values
         sw_values.addV(v2)
@@ -40,8 +40,8 @@ class TestSwValues:
     def test_add_get_vfs(self):
         """Test addVf/getVfs append order, chaining and None no-op."""
         sw_values = SwValues()
-        vf1 = ARNumerical().setValue("0.5")
-        vf2 = ARNumerical().setValue("1.5")
+        vf1 = Numerical().setValue("0.5")
+        vf2 = Numerical().setValue("1.5")
 
         assert sw_values.addVf(vf1) is sw_values
         sw_values.addVf(vf2)

@@ -26,6 +26,7 @@ class ARType(ABC):
     def __init__(self) -> None:
         self.timestamp: Optional[str] = None
         self._value: Optional[Any] = None
+        self.shortLabel: Optional[str] = None
 
     @property
     def value(self) -> Optional[Any]:
@@ -69,27 +70,95 @@ class ARType(ABC):
         """
         return str(self)
 
+    def setShortLabel(self, val: Optional[str]):
+        """
+        Sets the short label for this type.
+        Only sets the value if it is not None.
 
-class ARNumerical(ARType):
+        Args:
+            val: The short label to set
+
+        Returns:
+            self for method chaining
+        """
+        if val is not None:
+            self.shortLabel = val
+        return self
+
+    def getShortLabel(self) -> Optional[str]:
+        """
+        Gets the short label of this type.
+
+        Returns:
+            The short label, or None if not set
+        """
+        return self.shortLabel
+
+
+class ARLiteral(ARType):
     """
-    Base class for numerical AUTOSAR types.
-    This class provides functionality for numerical values in AUTOSAR models.
+    Base class for literal AUTOSAR types.
+    This class provides functionality for literal values in AUTOSAR models.
     """
 
-    # ARNumerical method parity checklist:
+    # ARLiteral method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [x] _convertStringToNumberValue  [x] impl  [x] docstring  [x] test
     # [ ] value                        [x] impl  [x] docstring  [ ] test
-    # [ ] value                        [x] impl  [ ] docstring  [ ] test
-    # [ ] __str__                      [x] impl  [ ] docstring  [ ] test
-    # [ ] getValue                     [x] impl  [x] docstring  [ ] test
-    # [ ] setShortLabel                [x] impl  [x] docstring  [ ] test
-    # [ ] getShortLabel                [x] impl  [x] docstring  [ ] test
+    # [ ] value                        [x] impl  [x] docstring  [ ] test
+    # [ ] __str__                      [x] impl  [x] docstring  [ ] test
+    # [ ] upper                        [x] impl  [x] docstring  [ ] test
 
     def __init__(self) -> None:
         super().__init__()
 
-        self.shortLabel: Optional[str] = None
+    @property
+    def value(self) -> str:
+        """str: The literal value."""
+        if self._value is None:
+            return ""
+        return self._value
+
+    @value.setter
+    def value(self, val: Any):
+        if isinstance(val, str):
+            self._value = val
+        else:
+            self._value = str(val)
+
+    def __str__(self) -> str:
+        return self.value
+
+    def upper(self) -> str:
+        """
+        Gets the uppercase representation of this literal.
+
+        Returns:
+            Uppercase string representation
+        """
+        return self.value.upper()
+
+
+class Numerical(ARLiteral):
+    """
+    This primitive specifies a numerical value. It can be denoted in different formats such as Decimal, Octal, Hexadecimal, Float. See the xsd pattern for details. The value can be expressed in octal, hexadecimal, binary representation. Negative numbers can only be expressed in decimal or float notation.
+
+    Tags:
+        * xml.xsd.customType=NUMERICAL-VALUE
+        * xml.xsd.pattern=(0[xX][0-9a-fA-F]+)|(0[0-7]+)|(0[bB][0-1]+)|(([+\\-]?[1-9][0-9]+(\\.[0-9]+)?|[+\\-]?[0-9](\\.[0-9]+)?)([eE]([+\\-]?)[0-9]+)?)|\\.0|INF|-INF|NaN
+        * xml.xsd.type=string
+    """
+
+    # Numerical method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.58, p.457
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # (ARNumerical merged into Numerical (2026-09-27): _convertStringToNumberValue/value/__str__
+    #  moved here from the removed ARNumerical class; base of Float, PositiveInteger, Integer)
+
+    def __init__(self) -> None:
+        super().__init__()
+
         self._text: Optional[str] = None
 
     def _convertStringToNumberValue(self, value: str) -> Union[int, float]:
@@ -145,41 +214,8 @@ class ARNumerical(ARType):
         else:
             return str(self._value)
 
-    def getValue(self) -> Optional[Union[int, float]]:
-        """
-        Gets the numerical value of this type.
 
-        Returns:
-            The numerical value, or None if not set
-        """
-        return self.value
-
-    def setShortLabel(self, val: Optional[str]):
-        """
-        Sets the short label for this numerical type.
-        Only sets the value if it is not None.
-
-        Args:
-            val: The short label to set
-
-        Returns:
-            self for method chaining
-        """
-        if val is not None:
-            self.shortLabel = val
-        return self
-
-    def getShortLabel(self) -> Optional[str]:
-        """
-        Gets the short label of this numerical type.
-
-        Returns:
-            The short label, or None if not set
-        """
-        return self.shortLabel
-
-
-class Float(ARNumerical):
+class Float(Numerical):
     """
     An instance of Float is an element from the set of real numbers.
 
@@ -192,11 +228,7 @@ class Float(ARNumerical):
     # [ ] __init__                     [x] impl  [x] docstring  [x] test
     # [ ] value                        [x] impl  [x] docstring  [ ] test
     # [ ] __str__                      [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self) -> None:
-        super().__init__()
-
-        self._text: Optional[str] = None
+    # (_text/_convertStringToNumberValue/__str__ inherited from Numerical)
 
     @property
     def value(self) -> Optional[float]:
@@ -215,12 +247,6 @@ class Float(ARNumerical):
         else:
             raise ValueError("Unsupported Type <%s>", type(val))
 
-    def __str__(self) -> str:
-        if self._text is not None:
-            return self._text
-        else:
-            return str(self._value)
-
 
 class TimeValue(Float):
     """
@@ -238,49 +264,6 @@ class TimeValue(Float):
 
     def __init__(self):
         super().__init__()
-
-
-class ARLiteral(ARType):
-    """
-    Base class for literal AUTOSAR types.
-    This class provides functionality for literal values in AUTOSAR models.
-    """
-
-    # ARLiteral method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] value                        [x] impl  [x] docstring  [ ] test
-    # [ ] value                        [x] impl  [ ] docstring  [ ] test
-    # [ ] __str__                      [x] impl  [ ] docstring  [ ] test
-    # [ ] upper                        [x] impl  [x] docstring  [ ] test
-
-    def __init__(self) -> None:
-        super().__init__()
-
-    @property
-    def value(self) -> str:
-        """str: The literal value."""
-        if self._value is None:
-            return ""
-        return self._value
-
-    @value.setter
-    def value(self, val: Any):
-        if isinstance(val, str):
-            self._value = val
-        else:
-            self._value = str(val)
-
-    def __str__(self) -> str:
-        return self.value
-
-    def upper(self) -> str:
-        """
-        Gets the uppercase representation of this literal.
-
-        Returns:
-            Uppercase string representation
-        """
-        return self.value.upper()
 
 
 class AREnum(ARLiteral):
@@ -530,7 +513,7 @@ class ReferrableSubtypesEnum(ARLiteral):
         super().__init__()
 
 
-class PositiveInteger(ARNumerical):
+class PositiveInteger(Numerical):
     """
     This is a positive integer which can be denoted in decimal, binary, octal and hexadecimal. The value is between 0 and 4294967295.
 
@@ -546,6 +529,7 @@ class PositiveInteger(ARNumerical):
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [ ] value                        [x] impl  [x] docstring  [ ] test  [—] reader  [—] writer
+    # (_text/_convertStringToNumberValue/__str__ inherited from Numerical)
 
     def __init__(self) -> None:
         super().__init__()
@@ -686,7 +670,7 @@ class PositiveUnlimitedInteger(PositiveInteger):
     # (no methods)
 
 
-class Integer(ARNumerical):
+class Integer(Numerical):
     r"""
     An instance of Integer is an element in the set of integer numbers ( ..., -2, -1, 0, 1, 2, ...).
     The value can be expressed in decimal, octal, hexadecimal and binary representation. Negative numbers
@@ -701,6 +685,7 @@ class Integer(ARNumerical):
 
     # Integer method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # (_text/_convertStringToNumberValue/value/__str__ inherited from Numerical)
 
     def __init__(self):
         super().__init__()
@@ -1508,26 +1493,6 @@ class ViewTokens(ARLiteral):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-
-    def __init__(self):
-        super().__init__()
-
-
-class Numerical(ARLiteral):
-    """
-    This primitive specifies a numerical value. It can be denoted in different formats such as Decimal, Octal, Hexadecimal, Float. See the xsd pattern for details. The value can be expressed in octal, hexadecimal, binary representation. Negative numbers can only be expressed in decimal or float notation.
-
-    Tags:
-        * xml.xsd.customType=NUMERICAL-VALUE
-        * xml.xsd.pattern=(0[xX][0-9a-fA-F]+)|(0[0-7]+)|(0[bB][0-1]+)|(([+\\-]?[1-9][0-9]+(\\.[0-9]+)?|[+\\-]?[0-9](\\.[0-9]+)?)([eE]([+\\-]?)[0-9]+)?)|\\.0|INF|-INF|NaN
-        * xml.xsd.type=string
-    """
-
-    # Numerical method parity checklist:
-    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.58, p.457
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         super().__init__()

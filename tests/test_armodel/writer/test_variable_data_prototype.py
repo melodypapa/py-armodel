@@ -9,7 +9,7 @@ import xml.etree.cElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import NumericalValueSpecification
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -26,7 +26,7 @@ class TestVariableDataPrototypeWriter:
         type_ref.setDest("IMPLEMENTATION-DATA-TYPE")
         prototype.setTypeTRef(type_ref)
 
-        numerical = ARNumerical()
+        numerical = Numerical()
         numerical.setValue(42)
         init_value = NumericalValueSpecification()
         init_value.setValue(numerical)

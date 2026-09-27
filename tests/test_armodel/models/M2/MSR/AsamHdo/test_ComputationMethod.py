@@ -206,10 +206,10 @@ class TestCompuConstNumericContent:
 
     def test_compu_const_numeric_content_v_methods(self):
         """Test the v getter and setter."""
-        from armodel.models import ARNumerical
+        from armodel.models import Numerical
 
         compu_const_numeric = CompuConstNumericContent()
-        numeric_value = ARNumerical().setValue("123")
+        numeric_value = Numerical().setValue("123")
 
         result = compu_const_numeric.setV(numeric_value)
         assert compu_const_numeric.getV() == numeric_value
@@ -234,10 +234,10 @@ class TestCompuConstFormulaContent:
 
     def test_compu_const_formula_content_vf_methods(self):
         """Test the vf getter and setter."""
-        from armodel.models import ARNumerical
+        from armodel.models import Numerical
 
         compu_const_formula = CompuConstFormulaContent()
-        formula_value = ARNumerical().setValue("42")
+        formula_value = Numerical().setValue("42")
 
         result = compu_const_formula.setVf(formula_value)
         assert compu_const_formula.getVf() == formula_value

@@ -14,7 +14,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AREnum,
     ArgumentDirectionEnum,
     ARLiteral,
-    ARNumerical,
     ARType,
     BaseTypeEncodingString,
     Boolean,
@@ -116,16 +115,16 @@ class TestARType:
         assert isinstance(text, str)
 
 
-class TestARNumerical:
+class TestNumerical:
     """
-    Test class for ARNumerical functionality.
+    Test class for Numerical functionality.
     """
 
     def test_initialization(self):
         """
-        Test ARNumerical initialization.
+        Test Numerical initialization.
         """
-        numerical = ARNumerical()
+        numerical = Numerical()
 
         # Verify basic properties
         assert numerical is not None
@@ -137,7 +136,7 @@ class TestARNumerical:
         """
         Test value property with integer values.
         """
-        numerical = ARNumerical()
+        numerical = Numerical()
 
         # Set integer value
         numerical.value = 42
@@ -148,7 +147,7 @@ class TestARNumerical:
         """
         Test value property with string values.
         """
-        numerical = ARNumerical()
+        numerical = Numerical()
 
         # Set string value that converts to integer
         numerical.value = "42"
@@ -159,7 +158,7 @@ class TestARNumerical:
         """
         Test _convertStringToNumberValue method.
         """
-        numerical = ARNumerical()
+        numerical = Numerical()
 
         # Test decimal
         assert numerical._convertStringToNumberValue("42") == 42
@@ -177,7 +176,7 @@ class TestARNumerical:
         """
         Test short label methods.
         """
-        numerical = ARNumerical()
+        numerical = Numerical()
 
         # Test initial value
         assert numerical.getShortLabel() is None
@@ -1027,9 +1026,9 @@ class TestCIdentifier:
 
     def test_arnumerical_unsupported_type(self):
         """
-        Test ARNumerical with unsupported type to cover line 123.
+        Test Numerical with unsupported type to cover line 123.
         """
-        numerical = ARNumerical()
+        numerical = Numerical()
 
         # Try to set value with unsupported type
         try:
@@ -1053,9 +1052,9 @@ class TestCIdentifier:
 
     def test_arnumerical_invalid_string_conversion(self):
         """
-        Test ARNumerical _convertStringToNumberValue with invalid string to cover lines 106-108.
+        Test Numerical _convertStringToNumberValue with invalid string to cover lines 106-108.
         """
-        numerical = ARNumerical()
+        numerical = Numerical()
 
         # Test the exception path in _convertStringToNumberValue
         try:
@@ -1100,9 +1099,9 @@ class TestCIdentifier:
 
     def test_arnumerical_get_value(self):
         """
-        Test ARNumerical getValue method to cover line 138.
+        Test Numerical getValue method to cover line 138.
         """
-        numerical = ARNumerical()
+        numerical = Numerical()
         numerical.value = 42
         result = numerical.getValue()
         assert result == 42
@@ -1260,7 +1259,7 @@ class TestVerbatimStringPlain:
         assert verbatim.getValue() == "plain text"
 
 
-class TestNumerical:
+class TestNumericalConversion:
     """
     Test class for Numerical functionality.
     """
@@ -1273,7 +1272,7 @@ class TestNumerical:
     def test_set_get_value(self):
         numerical = Numerical()
         assert numerical.setValue("0x1F") is numerical
-        assert numerical.getValue() == "0x1F"
+        assert numerical.getValue() == 31
 
 
 class TestAnyServiceInstanceId:

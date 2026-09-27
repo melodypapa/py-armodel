@@ -8,11 +8,11 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
-    ARNumerical,
     Boolean,
     DateTime,
     Float,
     Integer,
+    Numerical,
     PositiveInteger,
     RefType,
     RevisionLabelString,
@@ -143,7 +143,7 @@ class TestAbstractARXMLWriter:
         """Test setChildElementOptionalNumericalValue"""
         writer = ConcreteARXMLWriter()
         parent = ET.Element("parent")
-        numerical = ARNumerical()
+        numerical = Numerical()
         numerical._text = "123"
         numerical.setValue(123)
 
@@ -156,7 +156,7 @@ class TestAbstractARXMLWriter:
         """Test setChildElementOptionalNumericalValue with short label"""
         writer = ConcreteARXMLWriter()
         parent = ET.Element("parent")
-        numerical = ARNumerical()
+        numerical = Numerical()
         numerical._text = "456"
         numerical.setValue(456)
         numerical.shortLabel = "test"
