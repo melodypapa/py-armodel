@@ -203,6 +203,7 @@ class AutosarOperationArgumentInstance(Identifiable, VariationPointCapable):
 
     # AutosarOperationArgumentInstance method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.53, p.85
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # operationArgumentInstanceIRef is an InstanceRef (OperationArgumentInComponentInstanceRef), read/written via its own reader/writer.
     # [x] __init__                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
