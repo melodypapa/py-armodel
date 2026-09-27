@@ -570,7 +570,21 @@ No deviations.
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py`
 
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `averageMemoryConsumption` | `Optional[PositiveInteger]` | `averageMemoryConsumption` | `PositiveInteger` | attr | ok (markdown row renders "averageMemory Consumption" — line-wrap artifact) |
+| `maximumMemoryConsumption` | `Optional[PositiveInteger]` | `maximumMemoryConsumption` | `PositiveInteger` | attr | ok (markdown row renders "maximum Memory Consumption" — line-wrap artifact) |
+| `minimumMemoryConsumption` | `Optional[PositiveInteger]` | `minimumMemoryConsumption` | `PositiveInteger` | attr | ok (markdown row renders "minimum Memory Consumption" — line-wrap artifact) |
+| `testPattern` | `Optional[String]` | `testPattern` | `String` | attr | ok |
+
 No deviations.
+
+2026-09-27 sync (Table 8.11, p.150): stale 4-column checklist replaced with the 6-column format (stamp
+deferred to batch confirmation); fabricated class-docstring second sentence removed and `__init__`
+docstring/paraphrase accessor docstrings wiped and rewritten verbatim from the R23-11 Notes; testPattern
+inline Note fixed to "Description of the test pattern used to acquire the measured values.". Parser/writer
+coverage already asserted all four fields via the family tests (Table 8.9 step). Tests: test_StackUsage.py
+(model).
 
 ## `RoughEstimateStackUsage`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 151

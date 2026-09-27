@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.Stac
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    PositiveInteger,
     RefType,
     String,
 )
@@ -35,6 +36,16 @@ HARDWARE_CONFIGURATION_NOTE = "Contains information about the hardware context t
 HW_ELEMENT_REF_NOTE = "Specifies for which hardware element (e.g. ECU) this stack usage is given."
 
 SOFTWARE_CONTEXT_NOTE = "Contains details about the software context this stack usage is provided for."
+
+MEASURED_STACK_USAGE_NOTE = "The stack usage has been measured."
+
+AVERAGE_MEMORY_CONSUMPTION_NOTE = "The average stack usage measured. Unit: byte."
+
+MAXIMUM_MEMORY_CONSUMPTION_NOTE = "The maximum stack usage measured. Unit: byte."
+
+MINIMUM_MEMORY_CONSUMPTION_NOTE = "The minimum stack usage measured. Unit: byte."
+
+TEST_PATTERN_NOTE = "Description of the test pattern used to acquire the measured values."
 
 
 def _setter_tail(name):
@@ -156,12 +167,73 @@ class TestStackUsage:
 
 class TestMeasuredStackUsage:
     """
-    Test class for MeasuredStackUsage functionality.
+    Test class for MeasuredStackUsage functionality (Table 8.11).
     """
 
-    def test_instantiation(self):
-        obj = _instantiate(MeasuredStackUsage, "MeasuredStack")
-        assert obj.getShortName() == "MeasuredStack"
+    def test_base_chain(self):
+        assert MeasuredStackUsage.__bases__ == (StackUsage,)
+
+    def test_class_docstring_verbatim(self):
+        assert inspect.cleandoc(MeasuredStackUsage.__doc__) == MEASURED_STACK_USAGE_NOTE
+
+    def test_initialization(self):
+        obj = _instantiate(MeasuredStackUsage, "MSU")
+        assert obj.getShortName() == "MSU"
+        assert obj.getAverageMemoryConsumption() is None
+        assert obj.getMaximumMemoryConsumption() is None
+        assert obj.getMinimumMemoryConsumption() is None
+        assert obj.getTestPattern() is None
+
+    def test_annotations_match_spec_types(self):
+        hints = get_type_hints(MeasuredStackUsage.getAverageMemoryConsumption)
+        assert hints["return"] == Optional[PositiveInteger]
+        hints = get_type_hints(MeasuredStackUsage.getMaximumMemoryConsumption)
+        assert hints["return"] == Optional[PositiveInteger]
+        hints = get_type_hints(MeasuredStackUsage.getMinimumMemoryConsumption)
+        assert hints["return"] == Optional[PositiveInteger]
+        hints = get_type_hints(MeasuredStackUsage.getTestPattern)
+        assert hints["return"] == Optional[String]
+
+    def test_get_set_average_memory_consumption(self):
+        obj = _instantiate(MeasuredStackUsage, "MSU")
+        assert obj.setAverageMemoryConsumption(PositiveInteger().setValue("100")) is obj
+        assert obj.getAverageMemoryConsumption().getValue() == 100
+        obj.setAverageMemoryConsumption(None)
+        assert obj.getAverageMemoryConsumption().getValue() == 100
+
+    def test_get_set_maximum_memory_consumption(self):
+        obj = _instantiate(MeasuredStackUsage, "MSU")
+        assert obj.setMaximumMemoryConsumption(PositiveInteger().setValue("200")) is obj
+        assert obj.getMaximumMemoryConsumption().getValue() == 200
+        obj.setMaximumMemoryConsumption(None)
+        assert obj.getMaximumMemoryConsumption().getValue() == 200
+
+    def test_get_set_minimum_memory_consumption(self):
+        obj = _instantiate(MeasuredStackUsage, "MSU")
+        assert obj.setMinimumMemoryConsumption(PositiveInteger().setValue("50")) is obj
+        assert obj.getMinimumMemoryConsumption().getValue() == 50
+        obj.setMinimumMemoryConsumption(None)
+        assert obj.getMinimumMemoryConsumption().getValue() == 50
+
+    def test_get_set_test_pattern(self):
+        obj = _instantiate(MeasuredStackUsage, "MSU")
+        assert obj.setTestPattern(String().setValue("patternA")) is obj
+        assert obj.getTestPattern().getValue() == "patternA"
+        obj.setTestPattern(None)
+        assert obj.getTestPattern().getValue() == "patternA"
+
+    def test_init_has_no_docstring(self):
+        assert MeasuredStackUsage.__init__.__doc__ is None
+
+    def test_docstrings_verbatim(self):
+        assert _doc(MeasuredStackUsage.getAverageMemoryConsumption) == AVERAGE_MEMORY_CONSUMPTION_NOTE
+        assert _doc(MeasuredStackUsage.setAverageMemoryConsumption) == AVERAGE_MEMORY_CONSUMPTION_NOTE + "\n" + _setter_tail("averageMemoryConsumption")
+        assert _doc(MeasuredStackUsage.getMaximumMemoryConsumption) == MAXIMUM_MEMORY_CONSUMPTION_NOTE
+        assert _doc(MeasuredStackUsage.setMaximumMemoryConsumption) == MAXIMUM_MEMORY_CONSUMPTION_NOTE + "\n" + _setter_tail("maximumMemoryConsumption")
+        assert _doc(MeasuredStackUsage.getMinimumMemoryConsumption) == MINIMUM_MEMORY_CONSUMPTION_NOTE
+        assert _doc(MeasuredStackUsage.setMinimumMemoryConsumption) == MINIMUM_MEMORY_CONSUMPTION_NOTE + "\n" + _setter_tail("minimumMemoryConsumption")
+        assert _doc(MeasuredStackUsage.getTestPattern) == TEST_PATTERN_NOTE
+        assert _doc(MeasuredStackUsage.setTestPattern) == TEST_PATTERN_NOTE + "\n" + _setter_tail("testPattern")
 
 
 class TestRoughEstimateStackUsage:

@@ -812,15 +812,47 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - after `StackUsage`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 8.11, p.150 (R23-11, AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate;
+    pdf_page.py confirms p.150); Class = MeasuredStackUsage; Package =
+    M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage; Note = "The
+    stack usage has been measured."; Base = "ARObject, Identifiable, MultilanguageReferrable,
+    Referrable, StackUsage" → most-derived StackUsage (claimed base correct);
+    Aggregated by ResourceConsumption.stackUsage; 4 attribute rows in displayed order:
+    averageMemoryConsumption (PositiveInteger, 0..1, attr; md renders "averageMemory
+    Consumption" — line-wrap artifact), maximumMemoryConsumption (PositiveInteger, 0..1,
+    attr; md renders "maximum Memory Consumption"), minimumMemoryConsumption
+    (PositiveInteger, 0..1, attr; md renders "minimum Memory Consumption"), testPattern
+    (String, 0..1, attr). XSD 00052: complexType MEASURED-STACK-USAGE L80881 + group
+    MEASURED-STACK-USAGE L80847 = AVERAGE-MEMORY-CONSUMPTION, MAXIMUM-MEMORY-CONSUMPTION,
+    MINIMUM-MEMORY-CONSUMPTION, TEST-PATTERN (reader/writer already in this order).
+    Table and XSD agree 1:1, no XSD-only attrs. Drift: fabricated class-docstring second
+    sentence, __init__ docstring, paraphrase accessor docstrings, testPattern inline Note
+    ("The test pattern used to acquire..." vs spec "Description of the test pattern used
+    to acquire..."), stale 4-col checklist. Tracker review: the MeasuredStackUsage section
+    held ("No deviations") — refreshed with the member table.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - note (Steps 2-4): TestMeasuredStackUsage extended (base chain, verbatim class Note,
+    defaults, get_type_hints pins Optional[PositiveInteger]x3/Optional[String], 4 get/set +
+    None-no-op round-trips, __init__-has-no-docstring, verbatim accessor docstrings with
+    setter tails); initial run 3 failed / 20 passed (genuine Red: fabricated class-docstring
+    second sentence, __init__ docstring, paraphrase accessor docstrings), 23 passed after
+    the verbatim rewrite (Rule 0012.2 wipe + rewrite).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): existing coverage from the Table 8.9 step already asserts all four
+    fields end-to-end — parser test_read_measured_field_values (AVERAGE/MAXIMUM/MINIMUM/
+    TEST-PATTERN values) and writer tests (field values, XSD element order incl. the
+    AVERAGE→MAXIMUM→MINIMUM→TEST-PATTERN tail, empty-usage omits optionals, write→parse
+    round-trip with value assertions); extended rather than duplicated — no new tests
+    needed, reader/writer unchanged, 34 passed across the three test files.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations — the docstring/Note drift fixes are conformance;
+    tracker section refreshed (member table, all ok).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12642 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `RoughEstimateStackUsage` — StackUsage — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py

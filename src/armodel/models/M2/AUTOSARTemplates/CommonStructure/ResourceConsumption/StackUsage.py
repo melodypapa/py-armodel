@@ -120,29 +120,22 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption impo
 class MeasuredStackUsage(StackUsage):
     """
     The stack usage has been measured.
-    This class provides concrete measurements of stack consumption under specific conditions.
     """
 
     # MeasuredStackUsage method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.11, p.150
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getAverageMemoryConsumption  [x] impl  [x] docstring  [x] test
-    # [x] setAverageMemoryConsumption  [x] impl  [x] docstring  [x] test
-    # [x] getMaximumMemoryConsumption  [x] impl  [x] docstring  [x] test
-    # [x] setMaximumMemoryConsumption  [x] impl  [x] docstring  [x] test
-    # [x] getMinimumMemoryConsumption  [x] impl  [x] docstring  [x] test
-    # [x] setMinimumMemoryConsumption  [x] impl  [x] docstring  [x] test
-    # [x] getTestPattern               [x] impl  [x] docstring  [x] test
-    # [x] setTestPattern               [x] impl  [x] docstring  [x] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.11, p.150 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAverageMemoryConsumption  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAverageMemoryConsumption  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaximumMemoryConsumption  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaximumMemoryConsumption  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinimumMemoryConsumption  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimumMemoryConsumption  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTestPattern               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTestPattern               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the MeasuredStackUsage with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this measured stack usage
-            short_name: The unique short name of this measured stack usage
-        """
         super().__init__(parent, short_name)
 
         # The average stack usage measured. Unit: byte.
@@ -154,28 +147,19 @@ class MeasuredStackUsage(StackUsage):
         # The minimum stack usage measured. Unit: byte.
         self.minimumMemoryConsumption: Optional[PositiveInteger] = None
 
-        # The test pattern used to acquire the measured values.
+        # Description of the test pattern used to acquire the measured values.
         self.testPattern: Optional[String] = None
 
     def getAverageMemoryConsumption(self) -> Optional[PositiveInteger]:
         """
-        Gets the average memory consumption measured for this stack usage.
-
-        Returns:
-            PositiveInteger: Average memory consumption value
+        The average stack usage measured. Unit: byte.
         """
         return self.averageMemoryConsumption
 
     def setAverageMemoryConsumption(self, value: Optional[PositiveInteger]) -> MeasuredStackUsage:
         """
-        Sets the average memory consumption measured for this stack usage.
-        A None value is a no-op and does not overwrite an existing value.
-
-        Args:
-            value: The average memory consumption value to set
-
-        Returns:
-            self for method chaining
+        The average stack usage measured. Unit: byte.
+        A None value is a no-op and does not overwrite an existing averageMemoryConsumption.
         """
         if value is not None:
             self.averageMemoryConsumption = value
@@ -183,23 +167,14 @@ class MeasuredStackUsage(StackUsage):
 
     def getMaximumMemoryConsumption(self) -> Optional[PositiveInteger]:
         """
-        Gets the maximum memory consumption measured for this stack usage.
-
-        Returns:
-            PositiveInteger: Maximum memory consumption value
+        The maximum stack usage measured. Unit: byte.
         """
         return self.maximumMemoryConsumption
 
     def setMaximumMemoryConsumption(self, value: Optional[PositiveInteger]) -> MeasuredStackUsage:
         """
-        Sets the maximum memory consumption measured for this stack usage.
-        A None value is a no-op and does not overwrite an existing value.
-
-        Args:
-            value: The maximum memory consumption value to set
-
-        Returns:
-            self for method chaining
+        The maximum stack usage measured. Unit: byte.
+        A None value is a no-op and does not overwrite an existing maximumMemoryConsumption.
         """
         if value is not None:
             self.maximumMemoryConsumption = value
@@ -207,23 +182,14 @@ class MeasuredStackUsage(StackUsage):
 
     def getMinimumMemoryConsumption(self) -> Optional[PositiveInteger]:
         """
-        Gets the minimum memory consumption measured for this stack usage.
-
-        Returns:
-            PositiveInteger: Minimum memory consumption value
+        The minimum stack usage measured. Unit: byte.
         """
         return self.minimumMemoryConsumption
 
     def setMinimumMemoryConsumption(self, value: Optional[PositiveInteger]) -> MeasuredStackUsage:
         """
-        Sets the minimum memory consumption measured for this stack usage.
-        A None value is a no-op and does not overwrite an existing value.
-
-        Args:
-            value: The minimum memory consumption value to set
-
-        Returns:
-            self for method chaining
+        The minimum stack usage measured. Unit: byte.
+        A None value is a no-op and does not overwrite an existing minimumMemoryConsumption.
         """
         if value is not None:
             self.minimumMemoryConsumption = value
@@ -231,23 +197,14 @@ class MeasuredStackUsage(StackUsage):
 
     def getTestPattern(self) -> Optional[String]:
         """
-        Gets the description of the test pattern used to acquire the measured values.
-
-        Returns:
-            String: Test pattern description
+        Description of the test pattern used to acquire the measured values.
         """
         return self.testPattern
 
     def setTestPattern(self, value: Optional[String]) -> MeasuredStackUsage:
         """
-        Sets the description of the test pattern used to acquire the measured values.
-        A None value is a no-op and does not overwrite an existing value.
-
-        Args:
-            value: The test pattern description to set
-
-        Returns:
-            self for method chaining
+        Description of the test pattern used to acquire the measured values.
+        A None value is a no-op and does not overwrite an existing testPattern.
         """
         if value is not None:
             self.testPattern = value
