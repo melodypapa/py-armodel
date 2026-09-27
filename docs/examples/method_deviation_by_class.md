@@ -488,48 +488,130 @@ as well. The previously recorded `memoryUsage` member is **not** part of the R23
 Table 8.1 and has been dropped.
 
 ## `MemorySection`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 143
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 144
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::MemorySectionUsage`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/MemorySectionUsage.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `memClassSymbol` | `CIdentifier` | — | — | attr | present in XSD (`MEM-CLASS-SYMBOL`), absent from the PDF Table 8.2 attribute rendering; kept with parser/writer coverage |
+| `alignment` | `Optional[AlignmentType]` | `alignment` | `AlignmentType` | Attr | ok |
+| `executableEntityRefs` | `List[RefType]` | `executableEntity` | `Ref (ExecutableEntity)` | Ref `*` | ok (Rule 0001.5 Refs-suffix) |
+| `memClassSymbol` | `Optional[CIdentifier]` | `memClassSymbol` | `CIdentifier` | Attr | legacy (R4.3.1 Table 9.2, p.145) — absent from the R23-11 Table 8.2 attribute rows but retained by the R23-11 XSD itself (MEM-CLASS-SYMBOL, atp.Status="removed", group MEMORY-SECTION, AUTOSAR_00052.xsd L80899); docstring verbatim from the R4.3.1 Note; kept with parser/writer coverage |
+| `options` | `List[Identifier]` | `option` | `Identifier` | Attr `*` | ok (plural per Rule 0001.4) |
+| `prefixRef` | `Optional[RefType]` | `prefix` | `Ref (SectionNamePrefix)` | Ref | ok (Rule 0001.5 ref-suffix) |
+| `size` | `Optional[PositiveInteger]` | `size` | `PositiveInteger` | Attr | ok |
+| `swAddrMethodRef` | `Optional[RefType]` | `swAddrmethod` | `Ref (SwAddrMethod)` | Ref | ok (Rule 0001.5 ref-suffix; `AddrMethod` casing matches sibling classes) |
+| `symbol` | `Optional[Identifier]` | `symbol` | `Identifier` | Attr | ok |
+
+2026-09-27 sync (Table 8.2, p.144): paraphrased docstrings wiped, rewritten verbatim from the R23-11
+Notes; reader retyped to the spec-typed helpers (getChildElementOptionalAlignmentType,
+getChildElementOptionalCIdentifier, getChildElementIdentifierValueList,
+getChildElementOptionalIdentifier); writer retyped accordingly (setChildElementOptionalAlignmentType,
+setChildElementOptionalCIdentifier, setChildElementOptionalIdentifier, OPTIONS items via
+setChildElementOptionalIdentifier); VARIATION-POINT ordering fixed for the XSD group sequence
+(writeIdentifiable called with write_variation_point=False, VP emitted after SYMBOL per
+seqOffset=10000, AUTOSAR_00052.xsd group MEMORY-SECTION L80899). Stamp deferred to batch
+confirmation.
 
 ## `SectionNamePrefix`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 147
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::MemorySectionUsage`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/MemorySectionUsage.py`
 
-No deviations.
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `implementedInRef` | `Optional[RefType]` | `implementedIn` | `Ref (DependencyOnArtifact)` | Ref | ok (Rule 0001.5 ref-suffix) |
+
+2026-09-27 sync (Table 8.8, p.147): docstrings rewritten verbatim from the R23-11 Note; reader
+switched readReferrable → readImplementationProps so the inherited SYMBOL (IMPLEMENTATION-PROPS
+group) round-trips (Rule 0001.7); VARIATION-POINT read/write coverage added (Referrable-level VP,
+per the readBswModuleCallPoint precedent); writer switched writeReferrable → writeImplementationProps
+plus trailing writeVariationPoint (XSD group order REFERRABLE → IMPLEMENTATION-PROPS →
+SECTION-NAME-PREFIX → VARIATION-POINT, AUTOSAR_00052.xsd L102807/L102840). Stamp deferred to batch
+confirmation.
 
 ## `StackUsage`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 149
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py`
 
-No deviations (abstract base; tested through concrete subclasses).
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `executableEntityRef` | `Optional[RefType]` | `executableEntity` | `ExecutableEntity` | ref | ok (Rule 0001.5 Ref suffix) |
+| `hardwareConfiguration` | `Optional[HardwareConfiguration]` | `hardwareConfiguration` | `HardwareConfiguration` | aggr | ok (markdown row renders "hardware Configuration" — line-wrap artifact) |
+| `hwElementRef` | `Optional[RefType]` | `hwElement` | `HwElement` | ref | ok (Rule 0001.5 Ref suffix) |
+| `softwareContext` | `Optional[SoftwareContext]` | `softwareContext` | `SoftwareContext` | aggr | ok |
+
+No deviations (abstract base per the spec header — TypeError guard kept; tested through concrete
+subclasses; the shared readStackUsage/setStackUsage helpers are the Rule 0001.7 abstract
+XML-bearing-base helpers called by all three subclass readers/writers).
+
+2026-09-27 sync (Table 8.9, p.149): stale 4-column checklist replaced with the 6-column format (stamp
+deferred to batch confirmation); fabricated class-docstring second sentence removed and `__init__`
+docstrings/paraphrase accessor docstrings wiped and rewritten verbatim from the R23-11 Notes;
+HardwareConfiguration/SoftwareContext imports moved from TYPE_CHECKING-only to a bottom-of-module
+runtime cycle-breaker (Rule 0005) so get_type_hints resolves (Rule 0001.8); writer setStackUsage now
+emits VARIATION-POINT after SOFTWARE-CONTEXT (writeIdentifiable with write_variation_point=False +
+trailing writeVariationPoint, XSD seqOffset=10000 per AUTOSAR_00052.xsd group STACK-USAGE L111994) —
+previously the VP was emitted inside the identifiable block; reader readStackUsage reordered to the
+XSD group order EXECUTABLE-ENTITY-REF → HARDWARE-CONFIGURATION → HW-ELEMENT-REF → SOFTWARE-CONTEXT
+(VARIATION-POINT is read inside readIdentifiable). Tests: test_StackUsage.py (model),
+test_stack_usage.py (parser + writer).
 
 ## `WorstCaseStackUsage`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 150
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py`
 
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `memoryConsumption` | `Optional[PositiveInteger]` | `memoryConsumption` | `PositiveInteger` | attr | ok (markdown row renders "memory Consumption" — line-wrap artifact) |
+
 No deviations.
+
+2026-09-27 sync (Table 8.10, p.150): stale 4-column checklist replaced with the 6-column format (stamp
+deferred to batch confirmation); fabricated class-docstring second sentence removed and `__init__`
+docstring/paraphrase accessor docstrings wiped and rewritten verbatim from the R23-11 Note. Parser/writer
+coverage already asserted the field end-to-end via the family tests (Table 8.9 step). Tests:
+test_StackUsage.py (model).
 
 ## `MeasuredStackUsage`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 150
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py`
 
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `averageMemoryConsumption` | `Optional[PositiveInteger]` | `averageMemoryConsumption` | `PositiveInteger` | attr | ok (markdown row renders "averageMemory Consumption" — line-wrap artifact) |
+| `maximumMemoryConsumption` | `Optional[PositiveInteger]` | `maximumMemoryConsumption` | `PositiveInteger` | attr | ok (markdown row renders "maximum Memory Consumption" — line-wrap artifact) |
+| `minimumMemoryConsumption` | `Optional[PositiveInteger]` | `minimumMemoryConsumption` | `PositiveInteger` | attr | ok (markdown row renders "minimum Memory Consumption" — line-wrap artifact) |
+| `testPattern` | `Optional[String]` | `testPattern` | `String` | attr | ok |
+
 No deviations.
+
+2026-09-27 sync (Table 8.11, p.150): stale 4-column checklist replaced with the 6-column format (stamp
+deferred to batch confirmation); fabricated class-docstring second sentence removed and `__init__`
+docstring/paraphrase accessor docstrings wiped and rewritten verbatim from the R23-11 Notes; testPattern
+inline Note fixed to "Description of the test pattern used to acquire the measured values.". Parser/writer
+coverage already asserted all four fields via the family tests (Table 8.9 step). Tests: test_StackUsage.py
+(model).
 
 ## `RoughEstimateStackUsage`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 151
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py`
 
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `memoryConsumption` | `Optional[PositiveInteger]` | `memoryConsumption` | `PositiveInteger` | attr | ok (markdown row renders "memory Consumption" — line-wrap artifact) |
+
 No deviations.
+
+2026-09-27 sync (Table 8.12, p.151): stale 4-column checklist replaced with the 6-column format (stamp
+deferred to batch confirmation); fabricated class-docstring second sentence removed and `__init__`
+docstring/paraphrase accessor docstrings wiped and rewritten verbatim from the R23-11 Note. Parser/writer
+coverage already asserted the field end-to-end via the family tests (Table 8.9 step). Tests:
+test_StackUsage.py (model).
 
 ## `HeapUsage`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 152
@@ -562,16 +644,41 @@ No deviations.
 ## `HardwareConfiguration`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 161
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/HardwareConfiguration.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/__init__.py`
 
-No deviations.
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `additionalInformation` | `Optional[String]` | `additionalInformation` | `String` | Attr | ok (markdown Note renders "Hardware Configuration" — line-wrap artifact of "HardwareConfiguration", cf. XSD documentation) |
+| `processorMode` | `Optional[String]` | `processorMode` | `String` | Attr | ok |
+| `processorSpeed` | `Optional[String]` | `processorSpeed` | `String` | Attr | ok |
+
+2026-09-27 sync (Table 8.18, p.161): stale 4-column checklist replaced with the 6-column format (stamp
+deferred to batch confirmation); `__init__` docstring removed and paraphrase accessor docstrings wiped
+and rewritten verbatim from the R23-11 Notes (the existence constraints constr_10315..10317 are separate
+spec items, not part of the Note cells); source path corrected to the non-leaf package `__init__.py` (the
+previously recorded `HardwareConfiguration.py` file does not exist). Reader/writer (readHardwareConfiguration
+/ setHardwareConfiguration) pre-existed with the XSD group order ADDITIONAL-INFORMATION → PROCESSOR-MODE →
+PROCESSOR-SPEED (AUTOSAR_00052.xsd L65234) and were verified by new parser/writer tests — no source change.
+Tests: test_ResourceConsumption.py::TestHardwareConfiguration (model), test_hardware_configuration.py (parser + writer).
 
 ## `SoftwareContext`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 163
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/SoftwareContext.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/__init__.py`
 
-No deviations.
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `input` | `Optional[String]` | `input` | `String` | Attr | ok |
+| `state` | `Optional[String]` | `state` | `String` | Attr | ok (markdown Note renders "the Execution Time is provided" — line-wrap artifact of "ExecutionTime", cf. XSD documentation) |
+
+2026-09-27 sync (Table 8.20, p.163): stale 4-column checklist replaced with the 6-column format (stamp
+deferred to batch confirmation); `__init__` docstring removed and paraphrase accessor docstrings wiped
+and rewritten verbatim from the R23-11 Notes (the existence constraints constr_10320/10321 are separate
+spec items, not part of the Note cells); source path corrected to the non-leaf package `__init__.py` (the
+previously recorded `SoftwareContext.py` file does not exist). Reader/writer (readSoftwareContext /
+setSoftwareContext) pre-existed with the XSD group order INPUT → STATE (AUTOSAR_00052.xsd L109295) and
+were verified by new parser/writer tests — no source change. Tests: test_ResourceConsumption.py::TestSoftwareContext
+(model), test_software_context.py (parser + writer).
 
 ## `ExecutionTime`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 159
@@ -2880,14 +2987,9 @@ No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, K
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `bucketSize` | `PositiveInteger` | — | missing |
-| — *(missing)* | `—` | `dataLinkLayerRule` | `DataLinkLayerRule` | — | missing |
 | — *(missing)* | `—` | `ddsRule` | `DdsRule` | — | missing |
-| — *(missing)* | `—` | `doIpRule` | `DoIpRule` | — | missing |
 | — *(missing)* | `—` | `networkLayerRule` | `Ipv4Rule` | — | missing |
-| — *(missing)* | `—` | `payloadBytePatternRule` | `PayloadBytePatternRule` | — | missing |
 | — *(missing)* | `—` | `refillAmount` | `PositiveInteger` | — | missing |
-| — *(missing)* | `—` | `someipRule` | `SomeipProtocolRule` | — | missing |
-| — *(missing)* | `—` | `someipSdRule` | `SomeipSdRule` | — | missing |
 | — *(missing)* | `—` | `transportLayerRule` | `TcpRule` | — | missing |
 
 ## `FirewallRuleProps`
@@ -3688,14 +3790,11 @@ Base stays `Describable` per R4.3.1 Table 6.120 (DESCRIBABLE). The prior 19-memb
 ## `CryptoKeySlot`
 - **PDF:** `AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf`  | **page:** 57
 - **Package:** `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::CryptoDeployment`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/CryptoDeployment/CryptoKeySlot.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/CryptoDeployment/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `allocateShadowCopy` | `Boolean` | — | missing |
-| — *(missing)* | `—` | `cryptoObjectType` | `CryptoObjectTypeEnum` | — | missing |
-| — *(missing)* | `—` | `keySlotAllowedModification` | `CryptoKeySlotAllowedModification` | — | missing |
-| — *(missing)* | `—` | `keySlotContentAllowedUsage` | `CryptoKeySlotContentAllowedUsage` | — | missing |
+| — *(no deviation)* | — | — | — | — | No deviations — the four formerly-`missing` rows (allocateShadowCopy, cryptoObjectType, keySlotAllowedModification, keySlotContentAllowedUsage) are implemented on CryptoKeySlot with full reader/writer coverage (Table B.5); stale rows removed 2026-09-27 during the Group20 member-type sync (CryptoObjectTypeEnum / CryptoKeySlotAllowedModification / CryptoKeySlotContentAllowedUsage). Source path updated to the consolidated CryptoDeployment/__init__.py module (class-named submodule no longer exists). |
 
 ## `IdsPlatformInstantiation`
 - **PDF:** `AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf`  | **page:** 63

@@ -8,6 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import EventGroupControlTypeEnum
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
@@ -230,28 +231,30 @@ class SocketConnection(Describable, VariationPointCapable):
 
 
 class SoAdRoutingGroup(FibexElement):
-    """
-    Defines a routing group for the Socket Adaptor (SoAd) module,
-    specifying how Ethernet communication is organized and controlled
-    within the AUTOSAR communication system.
-    """
+    """Routing of Pdus in the SoAd can be activated or deactivated. The ShortName of this element shall contain the RoutingGroupId. Tags: atp.Status=obsolete atp.recommendedPackage=SoAdRoutingGroups"""
 
     # SoAdRoutingGroup method parity checklist:
-    # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.125
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.115, p.2057
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getEventGroupControlType     [x] impl  [ ] docstring  [ ] test
-    # [ ] setEventGroupControlType     [x] impl  [ ] docstring  [ ] test
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventGroupControlType     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventGroupControlType     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.eventGroupControlType = None  # type: EventGroupControlTypeEnum
+        # This attribute defines the type of a RoutingGroup. There are RoutingGroups that activate the data path for unicast or multicast events of an event group. And there are RoutingGroups that activate the data path for initial events that are triggered, namely events that are sent out on the server side after a client got subscribed. Please note that this attribute is only valid for event communication (Sender Receiver communication) and shall be omitted in MethodActivationRoutingGroups.
+        self.eventGroupControlType: Optional[EventGroupControlTypeEnum] = None
 
-    def getEventGroupControlType(self):
+    def getEventGroupControlType(self) -> Optional[EventGroupControlTypeEnum]:
+        """This attribute defines the type of a RoutingGroup. There are RoutingGroups that activate the data path for unicast or multicast events of an event group. And there are RoutingGroups that activate the data path for initial events that are triggered, namely events that are sent out on the server side after a client got subscribed. Please note that this attribute is only valid for event communication (Sender Receiver communication) and shall be omitted in MethodActivationRoutingGroups."""
         return self.eventGroupControlType
 
-    def setEventGroupControlType(self, value):
+    def setEventGroupControlType(self, value: Optional[EventGroupControlTypeEnum]) -> "SoAdRoutingGroup":
+        """
+        This attribute defines the type of a RoutingGroup. There are RoutingGroups that activate the data path for unicast or multicast events of an event group. And there are RoutingGroups that activate the data path for initial events that are triggered, namely events that are sent out on the server side after a client got subscribed. Please note that this attribute is only valid for event communication (Sender Receiver communication) and shall be omitted in MethodActivationRoutingGroups.
+        A None value is a no-op and does not overwrite an existing eventGroupControlType.
+        """
         if value is not None:
             self.eventGroupControlType = value
         return self

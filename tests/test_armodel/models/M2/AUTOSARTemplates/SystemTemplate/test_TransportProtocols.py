@@ -1,4 +1,5 @@
 import inspect
+import typing
 
 import pytest
 
@@ -7,7 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, Integer, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection, TpConnectionIdent
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
     CanTpAddress,
@@ -399,14 +400,10 @@ class Test_TransportProtocols:
         address.setAddress(123)
         assert address.getAddress() == 123
 
-        # Note: Creating a mock for AbstractDoIpLogicAddressProps since it's also abstract
-        class MockDoIpLogicAddressProps(AbstractDoIpLogicAddressProps):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
-        mock_props = MockDoIpLogicAddressProps(parent, "mock_props")
-        address.setDoIpLogicAddressProps(mock_props)
-        assert address.getDoIpLogicAddressProps() == mock_props
+        # Test aggregated props factories (0..1 abstract child)
+        props = address.createDoIpLogicTargetAddressProps("target_props")
+        assert address.getDoIpLogicAddressProps() is props
+        assert address.createDoIpLogicTesterAddressProps("tester_props") is props
 
     def test_DoIpTpConnection(self):
         """Test DoIpTpConnection class functionality."""
@@ -625,3 +622,187 @@ class Test_DoIpTpConfig:
         assert config.getTpConnections() == [connection]
         config.addTpConnection(None)
         assert config.getTpConnections() == [connection]
+
+
+class Test_DoIpLogicAddress:
+    """Test cases for DoIpLogicAddress (Table 6.207, p.555)."""
+
+    CLASS_NOTE = "The logical DoIP address."
+    ADDRESS_NOTE = "The logical DoIP address."
+    PROPS_NOTE = "Collection of additional LogicAddress properties."
+    MEMBERS = ["address", "doIpLogicAddressProps"]
+
+    def _create(self, short_name: str) -> DoIpLogicAddress:
+        parent = AUTOSAR.getInstance().createARPackage("DoIpLogicAddresses")
+        return DoIpLogicAddress(parent, short_name)
+
+    def test_inheritance(self):
+        assert DoIpLogicAddress.__bases__ == (Identifiable,)
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(DoIpLogicAddress.__doc__) == self.CLASS_NOTE
+
+    def test_initialization_defaults(self):
+        address = self._create("DoIpLogicAddress1")
+        assert address.getShortName() == "DoIpLogicAddress1"
+        assert address.getAddress() is None
+        assert address.getDoIpLogicAddressProps() is None
+
+    def test_member_order(self):
+        address = self._create("DoIpLogicAddress1")
+        members = [k for k in vars(address) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_init_docstring_is_none(self):
+        assert DoIpLogicAddress.__init__.__doc__ is None
+
+    def test_pep526_annotations(self):
+        source = inspect.getsource(DoIpLogicAddress)
+        assert "self.address: Optional[Integer] = None" in source
+        assert "self.doIpLogicAddressProps: Optional[AbstractDoIpLogicAddressProps] = None" in source
+
+    def test_type_hints(self):
+        hints = typing.get_type_hints(DoIpLogicAddress.getAddress)
+        assert hints["return"] == typing.Optional[Integer]
+        hints = typing.get_type_hints(DoIpLogicAddress.setAddress)
+        assert hints["value"] == typing.Optional[Integer]
+        assert hints["return"] == DoIpLogicAddress
+        hints = typing.get_type_hints(DoIpLogicAddress.createDoIpLogicTargetAddressProps)
+        assert hints["return"] == DoIpLogicTargetAddressProps
+        hints = typing.get_type_hints(DoIpLogicAddress.createDoIpLogicTesterAddressProps)
+        assert hints["return"] == DoIpLogicTesterAddressProps
+        hints = typing.get_type_hints(DoIpLogicAddress.getDoIpLogicAddressProps)
+        assert hints["return"] == typing.Optional[AbstractDoIpLogicAddressProps]
+
+    def test_get_set_address(self):
+        address = self._create("DoIpLogicAddress1")
+        assert address == address.setAddress(Integer().setValue(2048))
+        assert address.getAddress().getValue() == 2048
+        assert address == address.setAddress(None)
+        assert address.getAddress().getValue() == 2048
+
+    def test_getter_docstring(self):
+        assert DoIpLogicAddress.getAddress.__doc__ == self.ADDRESS_NOTE
+
+    def test_setter_docstring(self):
+        expected = self.ADDRESS_NOTE + "\nA None value is a no-op and does not overwrite an existing address."
+        assert inspect.cleandoc(DoIpLogicAddress.setAddress.__doc__) == expected
+
+    def test_props_docstrings(self):
+        assert DoIpLogicAddress.createDoIpLogicTargetAddressProps.__doc__ == self.PROPS_NOTE
+        assert DoIpLogicAddress.createDoIpLogicTesterAddressProps.__doc__ == self.PROPS_NOTE
+        assert DoIpLogicAddress.getDoIpLogicAddressProps.__doc__ == self.PROPS_NOTE
+
+    def test_create_do_ip_logic_target_address_props(self):
+        address = self._create("DoIpLogicAddress1")
+        props = address.createDoIpLogicTargetAddressProps("TargetProps1")
+        assert isinstance(props, DoIpLogicTargetAddressProps)
+        assert props.getShortName() == "TargetProps1"
+        assert address.getDoIpLogicAddressProps() is props
+        assert address.createDoIpLogicTargetAddressProps("TargetProps2") is props
+        assert address.getDoIpLogicAddressProps() is props
+
+    def test_create_do_ip_logic_tester_address_props(self):
+        address = self._create("DoIpLogicAddress1")
+        props = address.createDoIpLogicTesterAddressProps("TesterProps1")
+        assert isinstance(props, DoIpLogicTesterAddressProps)
+        assert props.getShortName() == "TesterProps1"
+        assert address.getDoIpLogicAddressProps() is props
+        assert address.createDoIpLogicTesterAddressProps("TesterProps2") is props
+        assert address.getDoIpLogicAddressProps() is props
+
+
+class Test_DoIpTpConnection:
+    """Test cases for DoIpTpConnection (Table 6.206, p.555)."""
+
+    CLASS_NOTE = "A connection identifies the sender and the receiver of this particular communication. The DoIp module routes a tpSdu through this connection."
+    SOURCE_NOTE = "Reference to the address of the sender of the tpSdu."
+    TARGET_NOTE = "Reference to the address of the receiver of the tpSdu."
+    TP_SDU_NOTE = "This reference is used to describe the data exchange between DoIp and the PduR."
+    MEMBERS = ["doIpSourceAddressRef", "doIpTargetAddressRef", "tpSduRef"]
+
+    def _create(self) -> DoIpTpConnection:
+        return DoIpTpConnection()
+
+    def _ref(self, value: str, dest: str = None) -> RefType:
+        ref = RefType()
+        ref.setValue(value)
+        if dest is not None:
+            ref.setDest(dest)
+        return ref
+
+    def test_inheritance(self):
+        assert DoIpTpConnection.__bases__ == (TpConnection,)
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(DoIpTpConnection.__doc__) == self.CLASS_NOTE
+
+    def test_initialization_defaults(self):
+        connection = self._create()
+        assert connection.getDoIpSourceAddressRef() is None
+        assert connection.getDoIpTargetAddressRef() is None
+        assert connection.getTpSduRef() is None
+
+    def test_member_order(self):
+        connection = self._create()
+        members = [k for k in vars(connection) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_init_docstring_is_none(self):
+        assert DoIpTpConnection.__init__.__doc__ is None
+
+    def test_pep526_annotations(self):
+        source = inspect.getsource(DoIpTpConnection)
+        assert "self.doIpSourceAddressRef: Optional[RefType] = None" in source
+        assert "self.doIpTargetAddressRef: Optional[RefType] = None" in source
+        assert "self.tpSduRef: Optional[RefType] = None" in source
+
+    def test_type_hints(self):
+        hints = typing.get_type_hints(DoIpTpConnection.getDoIpSourceAddressRef)
+        assert hints["return"] == typing.Optional[RefType]
+        hints = typing.get_type_hints(DoIpTpConnection.setDoIpSourceAddressRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert hints["return"] == DoIpTpConnection
+        hints = typing.get_type_hints(DoIpTpConnection.getDoIpTargetAddressRef)
+        assert hints["return"] == typing.Optional[RefType]
+        hints = typing.get_type_hints(DoIpTpConnection.setDoIpTargetAddressRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert hints["return"] == DoIpTpConnection
+        hints = typing.get_type_hints(DoIpTpConnection.getTpSduRef)
+        assert hints["return"] == typing.Optional[RefType]
+        hints = typing.get_type_hints(DoIpTpConnection.setTpSduRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert hints["return"] == DoIpTpConnection
+
+    def test_get_set_refs(self):
+        connection = self._create()
+        source_ref = self._ref("/DoIp/LogicAddress1", "DO-IP-LOGIC-ADDRESS")
+        assert connection == connection.setDoIpSourceAddressRef(source_ref)
+        assert connection.getDoIpSourceAddressRef() is source_ref
+        assert connection == connection.setDoIpSourceAddressRef(None)
+        assert connection.getDoIpSourceAddressRef() is source_ref
+
+        target_ref = self._ref("/DoIp/LogicAddress2", "DO-IP-LOGIC-ADDRESS")
+        assert connection == connection.setDoIpTargetAddressRef(target_ref)
+        assert connection.getDoIpTargetAddressRef() is target_ref
+        assert connection == connection.setDoIpTargetAddressRef(None)
+        assert connection.getDoIpTargetAddressRef() is target_ref
+
+        tp_sdu_ref = self._ref("/SoAd/PduTriggering1", "PDU-TRIGGERING")
+        assert connection == connection.setTpSduRef(tp_sdu_ref)
+        assert connection.getTpSduRef() is tp_sdu_ref
+        assert connection == connection.setTpSduRef(None)
+        assert connection.getTpSduRef() is tp_sdu_ref
+
+    def test_getter_docstrings(self):
+        assert DoIpTpConnection.getDoIpSourceAddressRef.__doc__ == self.SOURCE_NOTE
+        assert DoIpTpConnection.getDoIpTargetAddressRef.__doc__ == self.TARGET_NOTE
+        assert DoIpTpConnection.getTpSduRef.__doc__ == self.TP_SDU_NOTE
+
+    def test_setter_docstrings(self):
+        expected_source = self.SOURCE_NOTE + "\nA None value is a no-op and does not overwrite an existing doIpSourceAddressRef."
+        assert inspect.cleandoc(DoIpTpConnection.setDoIpSourceAddressRef.__doc__) == expected_source
+        expected_target = self.TARGET_NOTE + "\nA None value is a no-op and does not overwrite an existing doIpTargetAddressRef."
+        assert inspect.cleandoc(DoIpTpConnection.setDoIpTargetAddressRef.__doc__) == expected_target
+        expected_tp_sdu = self.TP_SDU_NOTE + "\nA None value is a no-op and does not overwrite an existing tpSduRef."
+        assert inspect.cleandoc(DoIpTpConnection.setTpSduRef.__doc__) == expected_tp_sdu

@@ -1,3 +1,7 @@
+import inspect
+import typing
+from typing import Optional
+
 from armodel import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment import (
     CryptoKeySlot,
@@ -69,10 +73,18 @@ class TestCryptoObjectTypeEnum:
         assert CryptoObjectTypeEnum.SIGNATURE == "SIGNATURE"
         assert CryptoObjectTypeEnum.SECRET_SEED == "SECRET-SEED"
 
+    def test_members_in_literal_index_order(self):
+        e = CryptoObjectTypeEnum()
+        assert list(e.getEnumValues()) == ["UNDEFINED", "SYMMETRIC-KEY", "PRIVATE-KEY", "PUBLIC-KEY", "SIGNATURE", "SECRET-SEED"]
+
     def test_instantiability(self):
         e = CryptoObjectTypeEnum()
-        e.setValue("PRIVATE-KEY")
+        e.setValue(CryptoObjectTypeEnum.PRIVATE_KEY)
         assert e.getValue() == "PRIVATE-KEY"
+
+    def test_docstring_is_spec_note_verbatim(self):
+        note = "Enumeration of all types of crypto objects, i.e. types of content that can be stored to a key slot. Tags: atp.Status=candidate"
+        assert CryptoObjectTypeEnum.__doc__.strip() == note
 
 
 class TestCryptoKeySlotTypeEnum:
@@ -81,10 +93,18 @@ class TestCryptoKeySlotTypeEnum:
         assert CryptoKeySlotTypeEnum.MACHINE == "MACHINE"
         assert CryptoKeySlotTypeEnum.APPLICATION == "APPLICATION"
 
+    def test_members_in_literal_index_order(self):
+        e = CryptoKeySlotTypeEnum()
+        assert list(e.getEnumValues()) == ["MACHINE", "APPLICATION"]
+
     def test_instantiability(self):
         e = CryptoKeySlotTypeEnum()
-        e.setValue("MACHINE")
+        e.setValue(CryptoKeySlotTypeEnum.MACHINE)
         assert e.getValue() == "MACHINE"
+
+    def test_docstring_is_spec_note_verbatim(self):
+        note = "This enumeration defines the options for the usage of a Key Slot in the platform. Tags: atp.Status=candidate"
+        assert CryptoKeySlotTypeEnum.__doc__.strip() == note
 
 
 class TestCryptoKeySlotAllowedModification:
@@ -119,6 +139,35 @@ class TestCryptoKeySlotAllowedModification:
         assert modification.getMaxNumberOfAllowedUpdates() is updates
         assert modification.getRestrictUpdate() is restrict
 
+    def test_docstrings_are_spec_note_verbatim(self):
+        assert CryptoKeySlotAllowedModification.__doc__.strip() == "This meta-class restricts the allowed modification of a key stored in the key slot. Tags: atp.Status=candidate"
+        allow_note = "This attribute describes whether the key content type can be changed (true) or not (false), e.g. changing the key from symmetric to RSA."
+        assert inspect.cleandoc(CryptoKeySlotAllowedModification.getAllowContentTypeChange.__doc__) == allow_note
+        assert (
+            inspect.cleandoc(CryptoKeySlotAllowedModification.setAllowContentTypeChange.__doc__) == allow_note + "\nA None value is a no-op and does not overwrite an existing allowContentTypeChange."
+        )
+        export_note = "This attribute describes whether the key slot content is allowed to be exported or not."
+        assert inspect.cleandoc(CryptoKeySlotAllowedModification.getExportability.__doc__) == export_note
+        assert inspect.cleandoc(CryptoKeySlotAllowedModification.setExportability.__doc__) == export_note + "\nA None value is a no-op and does not overwrite an existing exportability."
+        updates_note = "This attribute describes the maximum updates that are allowed to the slot."
+        assert inspect.cleandoc(CryptoKeySlotAllowedModification.getMaxNumberOfAllowedUpdates.__doc__) == updates_note
+        assert (
+            inspect.cleandoc(CryptoKeySlotAllowedModification.setMaxNumberOfAllowedUpdates.__doc__)
+            == updates_note + "\nA None value is a no-op and does not overwrite an existing maxNumberOfAllowedUpdates."
+        )
+        restrict_note = (
+            "This attribute defines whether restrictions on the number of updates are defined or not. "
+            "* false: no restriction is placed on the number of updates. "
+            "* true: restrictions are placed on the number of updates with the attribute maxNumberOfAllowedUpdates."
+        )
+        assert inspect.cleandoc(CryptoKeySlotAllowedModification.getRestrictUpdate.__doc__) == restrict_note
+        assert inspect.cleandoc(CryptoKeySlotAllowedModification.setRestrictUpdate.__doc__) == restrict_note + "\nA None value is a no-op and does not overwrite an existing restrictUpdate."
+
+    def test_get_type_hints_pins(self):
+        hints = typing.get_type_hints(CryptoKeySlotAllowedModification.setAllowContentTypeChange)
+        assert hints["return"] is CryptoKeySlotAllowedModification
+        assert hints["value"] == Optional[Boolean]
+
 
 class TestCryptoKeySlotContentAllowedUsage:
     def test_defaults(self):
@@ -133,6 +182,17 @@ class TestCryptoKeySlotContentAllowedUsage:
         assert usage.getAllowedKeyslotUsage() is value
         usage.setAllowedKeyslotUsage(None)
         assert usage.getAllowedKeyslotUsage() is value
+
+    def test_docstrings_are_spec_note_verbatim(self):
+        assert CryptoKeySlotContentAllowedUsage.__doc__.strip() == "This meta-class restricts the allowed usage of a key stored in the key slot. Tags: atp.Status=candidate"
+        note = "This attribute defines for which operations the KeySlot may be used."
+        assert inspect.cleandoc(CryptoKeySlotContentAllowedUsage.getAllowedKeyslotUsage.__doc__) == note
+        assert inspect.cleandoc(CryptoKeySlotContentAllowedUsage.setAllowedKeyslotUsage.__doc__) == note + "\nA None value is a no-op and does not overwrite an existing allowedKeyslotUsage."
+
+    def test_get_type_hints_pins(self):
+        hints = typing.get_type_hints(CryptoKeySlotContentAllowedUsage.setAllowedKeyslotUsage)
+        assert hints["return"] is CryptoKeySlotContentAllowedUsage
+        assert hints["value"] == Optional[String]
 
 
 class TestCryptoKeySlot:

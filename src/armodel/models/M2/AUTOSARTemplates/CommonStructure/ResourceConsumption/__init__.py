@@ -13,7 +13,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.Exec
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import HeapUsage, MeasuredHeapUsage, RoughEstimateHeapUsage, WorstCaseHeapUsage
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import MemorySection, SectionNamePrefix
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import MeasuredStackUsage, RoughEstimateStackUsage, StackUsage, WorstCaseStackUsage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
@@ -25,64 +24,42 @@ if TYPE_CHECKING:
 
 class HardwareConfiguration(ARObject):
     """
-    Describes in which mode the hardware is operating while needing this resource
-    consumption.
+    Describes in which mode the hardware is operating while needing this resource consumption.
     """
 
     # HardwareConfiguration method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.18, p.161
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getAdditionalInformation     [x] impl  [x] docstring  [x] test
-    # [x] setAdditionalInformation     [x] impl  [x] docstring  [x] test
-    # [x] getProcessorMode             [x] impl  [x] docstring  [x] test
-    # [x] setProcessorMode             [x] impl  [x] docstring  [x] test
-    # [x] getProcessorSpeed            [x] impl  [x] docstring  [x] test
-    # [x] setProcessorSpeed            [x] impl  [x] docstring  [x] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.18, p.161 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAdditionalInformation  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAdditionalInformation  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProcessorMode          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProcessorMode          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProcessorSpeed         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProcessorSpeed         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the HardwareConfiguration with default values.
-        """
         super().__init__()
 
         # Specifies additional information on the Hardware Configuration.
-        # [constr_10315] For each HardwareConfiguration, the attribute
-        # additionalInformation shall exist at the time when the configuration of the
-        # BSW module is finished.
         self.additionalInformation: Optional[String] = None
 
         # Specifies in which mode the processor is operating.
-        # [constr_10316] For each HardwareConfiguration, the attribute processorMode
-        # shall exist at the time when the configuration of the BSW module is finished.
         self.processorMode: Optional[String] = None
 
         # Specifies the speed the processor is operating.
-        # [constr_10317] For each HardwareConfiguration, the attribute processorSpeed
-        # shall exist at the time when the configuration of the BSW module is finished.
         self.processorSpeed: Optional[String] = None
 
     def getAdditionalInformation(self) -> Optional[String]:
         """
-        Gets the additional information on the Hardware Configuration.
-        [constr_10315]
-
-        Returns:
-            String with additional information, or None if not set
+        Specifies additional information on the Hardware Configuration.
         """
         return self.additionalInformation
 
     def setAdditionalInformation(self, value: Optional[String]) -> "HardwareConfiguration":
         """
-        Sets the additional information on the Hardware Configuration.
-        [constr_10315] The attribute shall exist at the time when the configuration of
-        the BSW module is finished.
-        A None value is a no-op and does not overwrite existing information.
-
-        Args:
-            value: The additional information to set
-
-        Returns:
-            self for method chaining
+        Specifies additional information on the Hardware Configuration.
+        A None value is a no-op and does not overwrite an existing additionalInformation.
         """
         if value is not None:
             self.additionalInformation = value
@@ -90,25 +67,14 @@ class HardwareConfiguration(ARObject):
 
     def getProcessorMode(self) -> Optional[String]:
         """
-        Gets the mode in which the processor is operating. [constr_10316]
-
-        Returns:
-            String with the processor mode, or None if not set
+        Specifies in which mode the processor is operating.
         """
         return self.processorMode
 
     def setProcessorMode(self, value: Optional[String]) -> "HardwareConfiguration":
         """
-        Sets the mode in which the processor is operating.
-        [constr_10316] The attribute shall exist at the time when the configuration of
-        the BSW module is finished.
-        A None value is a no-op and does not overwrite an existing mode.
-
-        Args:
-            value: The processor mode to set
-
-        Returns:
-            self for method chaining
+        Specifies in which mode the processor is operating.
+        A None value is a no-op and does not overwrite an existing processorMode.
         """
         if value is not None:
             self.processorMode = value
@@ -116,25 +82,14 @@ class HardwareConfiguration(ARObject):
 
     def getProcessorSpeed(self) -> Optional[String]:
         """
-        Gets the speed the processor is operating. [constr_10317]
-
-        Returns:
-            String with the processor speed, or None if not set
+        Specifies the speed the processor is operating.
         """
         return self.processorSpeed
 
     def setProcessorSpeed(self, value: Optional[String]) -> "HardwareConfiguration":
         """
-        Sets the speed the processor is operating.
-        [constr_10317] The attribute shall exist at the time when the configuration of
-        the BSW module is finished.
-        A None value is a no-op and does not overwrite an existing speed.
-
-        Args:
-            value: The processor speed to set
-
-        Returns:
-            self for method chaining
+        Specifies the speed the processor is operating.
+        A None value is a no-op and does not overwrite an existing processorSpeed.
         """
         if value is not None:
             self.processorSpeed = value
@@ -147,44 +102,33 @@ class SoftwareContext(ARObject):
     """
 
     # SoftwareContext method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.20, p.163
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getInput                     [x] impl  [x] docstring  [x] test
-    # [x] setInput                     [x] impl  [x] docstring  [x] test
-    # [x] getState                     [x] impl  [x] docstring  [x] test
-    # [x] setState                     [x] impl  [x] docstring  [x] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.20, p.163 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInput   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInput   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getState   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setState   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the SoftwareContext with default values.
-        """
         super().__init__()
 
         # Specifies the input vector which is used to provide the ExecutionTime.
         self.input: Optional[String] = None
 
-        # Specifies the state the software is in when the ExecutionTime is provided.
+        # Specifies the state the software is in when the Execution Time is provided.
         self.state: Optional[String] = None
 
     def getInput(self) -> Optional[String]:
         """
-        Gets the input vector which is used to provide the ExecutionTime.
-
-        Returns:
-            String with the input vector, or None if not set
+        Specifies the input vector which is used to provide the ExecutionTime.
         """
         return self.input
 
     def setInput(self, value: Optional[String]) -> "SoftwareContext":
         """
-        Sets the input vector which is used to provide the ExecutionTime.
+        Specifies the input vector which is used to provide the ExecutionTime.
         A None value is a no-op and does not overwrite an existing input.
-
-        Args:
-            value: The input vector to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.input = value
@@ -192,27 +136,24 @@ class SoftwareContext(ARObject):
 
     def getState(self) -> Optional[String]:
         """
-        Gets the state the software is in when the ExecutionTime is provided.
-
-        Returns:
-            String with the software state, or None if not set
+        Specifies the state the software is in when the Execution Time is provided.
         """
         return self.state
 
     def setState(self, value: Optional[String]) -> "SoftwareContext":
         """
-        Sets the state the software is in when the ExecutionTime is provided.
+        Specifies the state the software is in when the Execution Time is provided.
         A None value is a no-op and does not overwrite an existing state.
-
-        Args:
-            value: The software state to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.state = value
         return self
+
+
+# Runtime cycle-breaker: StackUsage.py imports HardwareConfiguration / SoftwareContext
+# (defined above) at its bottom, so this import must run after those class definitions
+# (Rule 0005).
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import MeasuredStackUsage, RoughEstimateStackUsage, StackUsage, WorstCaseStackUsage  # noqa: E402
 
 
 class ResourceConsumption(Identifiable):

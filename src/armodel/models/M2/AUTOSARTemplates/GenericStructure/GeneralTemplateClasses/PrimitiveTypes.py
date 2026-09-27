@@ -1177,8 +1177,7 @@ class Ip6AddressString(ARLiteral):
 
 class MacAddressString(ARLiteral):
     """
-    This primitive specifies a Mac Address. Notation: FF:FF:FF:FF:FF:FF
-    Alternative notations, e.g. using dash instead of colon, or another grouping of numbers, is not allowed.
+    This primitive specifies a Mac Address. Notation: FF:FF:FF:FF:FF:FF Alternative notations, e.g. using dash instead of colon, or another grouping of numbers, is not allowed.
 
     Tags:
         * xml.xsd.customType=MAC-ADDRESS-STRING
@@ -1187,7 +1186,9 @@ class MacAddressString(ARLiteral):
     """
 
     # MacAddressString method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.53, p.111
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
