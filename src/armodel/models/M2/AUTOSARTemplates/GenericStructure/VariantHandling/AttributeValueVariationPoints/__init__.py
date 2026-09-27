@@ -9,7 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Identifier,
     IntervalTypeEnum,
     PrimitiveIdentifier,
-    RefType,
+    Ref,
     String,
 )
 
@@ -112,18 +112,23 @@ class AttributeValueVariationPoint(SwSystemconstDependentFormula, ABC):
 class AbstractEnumerationValueVariationPoint(AttributeValueVariationPoint):
     """
     This is an abstract EnumerationValueVariationPoint. It is introduced to support the case that additional attributes are required for particular purposes.
+
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints
+    Base: ARObject, AttributeValueVariationPoint, FormulaExpression, SwSystemconstDependentFormula
+    Stereotypes: atpMixedString
     """
 
     # AbstractEnumerationValueVariationPoint method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.2, p.421
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBase        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] setBase        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getEnumTable   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setEnumTable   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEnumTableRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnumTableRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # getMixedString / setMixedString provided by the AtpMixedString mixin (via FormulaExpression) — no spec row (stereotype-inherent)
-    # base/enumTable serialize as XML attributes (XSD attributeGroup L283) on AEVP-concrete content only;
+    # base/enumTableRef serialize as XML attributes (XSD attributeGroup L283) on AEVP-concrete content only;
     # readAbstractEnumerationValueVariationPoint / writeAbstractEnumerationValueVariationPoint cover them;
     # the auto-generated {Type}ValueVariationPoint concrete subclasses are not modeled in src.
 
@@ -137,7 +142,7 @@ class AbstractEnumerationValueVariationPoint(AttributeValueVariationPoint):
         self.base: Optional[Identifier] = None
 
         # This represents the assigned enumeration table. Tags: xml.attribute=true
-        self.enumTable: Optional[RefType] = None
+        self.enumTableRef: Optional[Ref] = None
 
     def getBase(self) -> Optional[Identifier]:
         """This attribute reflects the base to be used in context of EnumerationMappingTable for this reference."""
@@ -149,14 +154,14 @@ class AbstractEnumerationValueVariationPoint(AttributeValueVariationPoint):
             self.base = value
         return self
 
-    def getEnumTable(self) -> Optional[RefType]:
+    def getEnumTableRef(self) -> Optional[Ref]:
         """This represents the assigned enumeration table."""
-        return self.enumTable
+        return self.enumTableRef
 
-    def setEnumTable(self, value: Optional[RefType]) -> AbstractEnumerationValueVariationPoint:
-        """This represents the assigned enumeration table. A None value is a no-op and does not overwrite an existing enumTable."""
+    def setEnumTableRef(self, value: Optional[Ref]) -> AbstractEnumerationValueVariationPoint:
+        """This represents the assigned enumeration table. A None value is a no-op and does not overwrite an existing enumTableRef."""
         if value is not None:
-            self.enumTable = value
+            self.enumTableRef = value
         return self
 
 

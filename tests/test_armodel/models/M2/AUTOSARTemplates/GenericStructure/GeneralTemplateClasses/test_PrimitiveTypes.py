@@ -3,6 +3,8 @@ This module contains comprehensive tests for the PrimitiveTypes.py file
 in the AUTOSAR GenericStructure module.
 """
 
+import typing
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -40,6 +42,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     PositiveUnlimitedInteger,
     PrimitiveIdentifier,
+    Ref,
     ReferrableSubtypesEnum,
     RefType,
     RegularExpression,
@@ -785,6 +788,102 @@ class TestLimit:
         result = limit.setValue("10")
         assert result is limit  # Verify method chaining
         assert limit.getValue() == "10"
+
+
+BASE_NOTE = "This attribute reflects the base to be used for this reference."
+BLUEPRINT_NOTE = "This represents a description that documents how the value shall be defined when deriving objects from the blueprint."
+INDEX_NOTE = (
+    "This attribute supports the use case to point on specific elements in an array. This is in particular required if arrays are used to implement "
+    "particular data objects. The counting of array indices starts with the value 0, i.e. the index of the first array element is 0."
+)
+REF_NOTE = (
+    "This primitive denotes a name based reference. For detailed syntax see the xsd.pattern. \u2022 first slash (relative or absolute reference) [optional] "
+    "\u2022 Identifier [required] \u2022 a sequence of slashes and Identifiers [optional] This primitive is used by the meta-model tools to create the references."
+)
+
+
+class TestRef:
+    """
+    Spec-contract tests for the AUTOSAR Primitive Ref (AUTOSAR_CP_TPS_SoftwareComponentTemplate, Table 5.35, p.318).
+    """
+
+    def test_defaults(self):
+        ref = Ref()
+
+        assert ref.getBase() is None
+        assert ref.getBlueprintValue() is None
+        assert ref.getIndex() is None
+        assert ref.getValue() == ""
+
+    def test_is_ar_literal_subclass(self):
+        assert issubclass(Ref, ARLiteral)
+        assert isinstance(Ref(), ARLiteral)
+
+    def test_value_round_trip(self):
+        ref = Ref()
+
+        result = ref.setValue("/Demo/EnumerationTables/ActiveComponent/E")
+
+        assert result is ref
+        assert ref.getValue() == "/Demo/EnumerationTables/ActiveComponent/E"
+
+    def test_base_methods(self):
+        ref = Ref()
+
+        assert ref.getBase() is None
+        result = ref.setBase(Identifier().setValue("/Demo/EnumerationTables"))
+
+        assert result is ref
+        assert isinstance(ref.getBase(), Identifier)
+        assert ref.getBase().getValue() == "/Demo/EnumerationTables"
+        ref.setBase(None)
+        assert ref.getBase().getValue() == "/Demo/EnumerationTables"
+
+    def test_blueprint_value_methods(self):
+        ref = Ref()
+
+        assert ref.getBlueprintValue() is None
+        result = ref.setBlueprintValue(String().setValue("derived"))
+
+        assert result is ref
+        assert ref.getBlueprintValue().getValue() == "derived"
+        ref.setBlueprintValue(None)
+        assert ref.getBlueprintValue().getValue() == "derived"
+
+    def test_index_methods(self):
+        ref = Ref()
+
+        assert ref.getIndex() is None
+        result = ref.setIndex(PositiveInteger().setValue("0"))
+
+        assert result is ref
+        assert ref.getIndex().getValue() == 0
+        ref.setIndex(None)
+        assert ref.getIndex().getValue() == 0
+
+    def test_docstrings(self):
+        assert Ref.getBase.__doc__.strip() == BASE_NOTE
+        assert Ref.getBlueprintValue.__doc__.strip() == BLUEPRINT_NOTE
+        assert Ref.getIndex.__doc__.strip() == INDEX_NOTE
+        assert Ref.setBase.__doc__.strip().startswith(BASE_NOTE)
+        assert Ref.setBlueprintValue.__doc__.strip().startswith(BLUEPRINT_NOTE)
+        assert Ref.setIndex.__doc__.strip().startswith(INDEX_NOTE)
+
+    def test_class_docstring_note_and_tags(self):
+        doc = Ref.__doc__.strip()
+
+        assert doc.startswith(REF_NOTE)
+        assert "* xml.xsd.customType=REF" in doc
+        assert "* xml.xsd.pattern=/?[a-zA-Z][a-zA-Z0-9_]{0,127}(/[a-zA-Z][a-zA-Z0-9_]{0,127})*" in doc
+        assert "* xml.xsd.type=string" in doc
+
+    def test_type_hints(self):
+        assert typing.get_type_hints(Ref.getBase)["return"] == typing.Optional[Identifier]
+        assert typing.get_type_hints(Ref.setBase)["value"] == typing.Optional[Identifier]
+        assert typing.get_type_hints(Ref.setBase)["return"] is Ref
+        assert typing.get_type_hints(Ref.getBlueprintValue)["return"] == typing.Optional[String]
+        assert typing.get_type_hints(Ref.getIndex)["return"] == typing.Optional[PositiveInteger]
+        assert typing.get_type_hints(Ref.setIndex)["value"] == typing.Optional[PositiveInteger]
 
 
 class TestRefType:

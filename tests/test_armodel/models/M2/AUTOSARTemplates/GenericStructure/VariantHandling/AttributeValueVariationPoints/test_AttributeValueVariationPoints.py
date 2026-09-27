@@ -22,7 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Identifier,
     IntervalTypeEnum,
     PrimitiveIdentifier,
-    RefType,
+    Ref,
     String,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
@@ -258,7 +258,7 @@ class TestAttributeValueVariationPointSpecContract:
 # getter/setter docstring form carries the Note text only).
 AEVP_NOTES = {
     "base": "This attribute reflects the base to be used in context of EnumerationMappingTable for this reference.",
-    "enumTable": "This represents the assigned enumeration table.",
+    "enumTableRef": "This represents the assigned enumeration table.",
 }
 
 
@@ -279,7 +279,7 @@ class TestAbstractEnumerationValueVariationPointSpecContract:
 
         instance = _Concrete()
         assert instance.getBase() is None
-        assert instance.getEnumTable() is None
+        assert instance.getEnumTableRef() is None
         assert instance.getMixedString() is None
 
     def test_base_anchoring(self):
@@ -307,10 +307,17 @@ class TestAbstractEnumerationValueVariationPointSpecContract:
     def test_class_docstring_verbatim(self):
         """
         Test that the class docstring is the Table E.2 Note verbatim (XSD group
-        documentation L278 is byte-identical).
+        documentation L278 is byte-identical) plus the family meta block
+        (Package/Base/Stereotypes — the class is <<atpMixedString>>, XSD group
+        appinfo L278).
         """
         assert AbstractEnumerationValueVariationPoint.__doc__.strip() == (
-            "This is an abstract EnumerationValueVariationPoint. " "It is introduced to support the case that additional attributes are required for particular purposes."
+            "This is an abstract EnumerationValueVariationPoint. "
+            "It is introduced to support the case that additional attributes are required for particular purposes.\n"
+            "\n"
+            "    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints\n"
+            "    Base: ARObject, AttributeValueVariationPoint, FormulaExpression, SwSystemconstDependentFormula\n"
+            "    Stereotypes: atpMixedString"
         )
 
     def test_init_has_no_docstring(self):
@@ -330,15 +337,15 @@ class TestAbstractEnumerationValueVariationPointSpecContract:
         assert setter_hints.get("value") == typing.Optional[Identifier]
         assert setter_hints.get("return") is AbstractEnumerationValueVariationPoint
 
-    def test_enum_table_typed_ref_type(self):
+    def test_enum_table_typed_ref(self):
         """
-        Test that enumTable is typed RefType per Table E.2 (spec type Ref; getter/setter annotations).
+        Test that enumTableRef is typed Ref per Table E.2 (getter/setter annotations).
         """
-        getter_hints = typing.get_type_hints(AbstractEnumerationValueVariationPoint.getEnumTable)
-        assert getter_hints.get("return") == typing.Optional[RefType]
+        getter_hints = typing.get_type_hints(AbstractEnumerationValueVariationPoint.getEnumTableRef)
+        assert getter_hints.get("return") == typing.Optional[Ref]
 
-        setter_hints = typing.get_type_hints(AbstractEnumerationValueVariationPoint.setEnumTable)
-        assert setter_hints.get("value") == typing.Optional[RefType]
+        setter_hints = typing.get_type_hints(AbstractEnumerationValueVariationPoint.setEnumTableRef)
+        assert setter_hints.get("value") == typing.Optional[Ref]
         assert setter_hints.get("return") is AbstractEnumerationValueVariationPoint
 
     def test_round_trip_and_none_noop(self):
@@ -357,24 +364,24 @@ class TestAbstractEnumerationValueVariationPointSpecContract:
         instance.setBase(None)
         assert instance.getBase() is base
 
-        enum_table = RefType().setValue("ActiveComponent/E")
-        assert instance.setEnumTable(enum_table) is instance
-        assert instance.getEnumTable() is enum_table
-        instance.setEnumTable(None)
-        assert instance.getEnumTable() is enum_table
+        enum_table = Ref().setValue("ActiveComponent/E")
+        assert instance.setEnumTableRef(enum_table) is instance
+        assert instance.getEnumTableRef() is enum_table
+        instance.setEnumTableRef(None)
+        assert instance.getEnumTableRef() is enum_table
 
     def test_getter_docstrings_are_notes_without_tags(self):
         """
         Test that every getter docstring is the Table E.2 Note verbatim without the Tags suffix.
         """
         assert AbstractEnumerationValueVariationPoint.getBase.__doc__.strip() == AEVP_NOTES["base"]
-        assert AbstractEnumerationValueVariationPoint.getEnumTable.__doc__.strip() == AEVP_NOTES["enumTable"]
+        assert AbstractEnumerationValueVariationPoint.getEnumTableRef.__doc__.strip() == AEVP_NOTES["enumTableRef"]
 
     def test_setter_docstrings_are_notes_with_none_noop(self):
         """
         Test that every setter docstring is the Table E.2 Note plus the None-no-op sentence.
         """
-        for attr, getter in [("base", "getBase"), ("enumTable", "getEnumTable")]:
+        for attr, getter in [("base", "getBase"), ("enumTableRef", "getEnumTableRef")]:
             setter = getattr(AbstractEnumerationValueVariationPoint, "set" + getter[3:])
             assert setter.__doc__.strip() == ("%s A None value is a no-op and does not overwrite an existing %s." % (AEVP_NOTES[attr], attr))
 

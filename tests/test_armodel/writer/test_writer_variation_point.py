@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     IntervalTypeEnum,
     NameToken,
     PrimitiveIdentifier,
+    Ref,
     RefType,
     String,
     VerbatimString,
@@ -956,7 +957,7 @@ class TestWriteAbstractEnumerationValueVariationPoint:
     def test_write_base_and_enum_table(self):
         probe = _ProbeAbstractEnumerationValueVariationPoint()
         probe.setBase(Identifier().setValue("EnumMappingTables"))
-        probe.setEnumTable(RefType().setValue("ActiveComponent/E"))
+        probe.setEnumTableRef(Ref().setValue("ActiveComponent/E"))
 
         element = self._write(probe)
 

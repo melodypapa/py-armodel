@@ -4583,7 +4583,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         base = obj.getBase()
         if base is not None:
             element.attrib["BASE"] = base.getValue()
-        enum_table = obj.getEnumTable()
+        enum_table = obj.getEnumTableRef()
         if enum_table is not None:
             element.attrib["ENUM-TABLE"] = enum_table.getValue()
 

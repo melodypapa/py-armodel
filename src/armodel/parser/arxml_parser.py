@@ -500,6 +500,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Numerical,
     PositiveInteger,
     PrimitiveIdentifier,
+    Ref,
     RefType,
     ReferrableSubtypesEnum,
     SectionInitializationPolicyType,
@@ -3319,7 +3320,7 @@ class ARXMLParser(AbstractARXMLParser):
         if "BASE" in element.attrib:
             obj.setBase(Identifier().setValue(element.attrib["BASE"]))
         if "ENUM-TABLE" in element.attrib:
-            obj.setEnumTable(RefType().setValue(element.attrib["ENUM-TABLE"]))
+            obj.setEnumTableRef(Ref().setValue(element.attrib["ENUM-TABLE"]))
         return obj
 
     def readTimingDescriptionEventChain(self, element: ET.Element, chain: TimingDescriptionEventChain):

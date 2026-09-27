@@ -604,7 +604,7 @@ class TestReadAbstractEnumerationValueVariationPoint:
     def test_read_base_and_enum_table(self, parser):
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
             Identifier,
-            RefType,
+            Ref,
         )
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
             AbstractEnumerationValueVariationPoint,
@@ -621,9 +621,9 @@ class TestReadAbstractEnumerationValueVariationPoint:
         assert probe.getBase() is not None
         assert isinstance(probe.getBase(), Identifier)
         assert probe.getBase().getValue() == "EnumMappingTables"
-        assert probe.getEnumTable() is not None
-        assert isinstance(probe.getEnumTable(), RefType)
-        assert probe.getEnumTable().getValue() == "ActiveComponent/E"
+        assert probe.getEnumTableRef() is not None
+        assert isinstance(probe.getEnumTableRef(), Ref)
+        assert probe.getEnumTableRef().getValue() == "ActiveComponent/E"
 
     def test_read_attributes_absent_leaves_fields_none(self, parser):
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
@@ -639,12 +639,12 @@ class TestReadAbstractEnumerationValueVariationPoint:
         parser.readAbstractEnumerationValueVariationPoint(element, probe)
 
         assert probe.getBase() is None
-        assert probe.getEnumTable() is None
+        assert probe.getEnumTableRef() is None
 
     def test_read_write_roundtrip(self, parser):
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
             Identifier,
-            RefType,
+            Ref,
         )
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
             AbstractEnumerationValueVariationPoint,
@@ -655,7 +655,7 @@ class TestReadAbstractEnumerationValueVariationPoint:
 
         probe = _Probe()
         probe.setBase(Identifier().setValue("EnumMappingTables"))
-        probe.setEnumTable(RefType().setValue("ActiveComponent/E"))
+        probe.setEnumTableRef(Ref().setValue("ActiveComponent/E"))
 
         import xml.etree.ElementTree as ET
 
@@ -667,5 +667,5 @@ class TestReadAbstractEnumerationValueVariationPoint:
 
         assert reparsed.getBase() is not None
         assert reparsed.getBase().getValue() == "EnumMappingTables"
-        assert reparsed.getEnumTable() is not None
-        assert reparsed.getEnumTable().getValue() == "ActiveComponent/E"
+        assert reparsed.getEnumTableRef() is not None
+        assert reparsed.getEnumTableRef().getValue() == "ActiveComponent/E"
