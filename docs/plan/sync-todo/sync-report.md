@@ -300,10 +300,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EthernetPriorityRegeneration`                          | [ ] Pending | N/A                                      | Group16          |
 | `EventControlledTiming`                                 | [ ] Pending | N/A                                      | Group15          |
 | `ExternalTriggeringPointIdent`                          | [x] Done    | c04ca0f5b                                | Group2           |
-| `FMConditionByFeaturesAndAttributes`                    | [ ] Deferred| N/A                                      | Group8           |
-| `FMConditionByFeaturesAndSwSystemconsts`                | [ ] Deferred| N/A                                      | Group8           |
-| `FMFormulaByFeaturesAndAttributes`                      | [ ] Deferred| N/A                                      | Group8           |
-| `FMFormulaByFeaturesAndSwSystemconsts`                  | [ ] Deferred| N/A                                      | Group8           |
+| `FMConditionByFeaturesAndAttributes`                    | [x] Done    | d69232bdf                                | Group8           |
+| `FMConditionByFeaturesAndSwSystemconsts`                | [x] Done    | d69232bdf                                | Group8           |
+| `FMFormulaByFeaturesAndAttributes`                      | [x] Done    | d69232bdf                                | Group8           |
+| `FMFormulaByFeaturesAndSwSystemconsts`                  | [x] Done    | d69232bdf                                | Group8           |
 | `Field`                                                 | [ ] Deferred| 413d1a4b6                                | Group11          |
 | `FileInfoComment`                                       | [x] Done    | c62e1c89                                 | Group1           |
 | `FirewallActionEnum`                                    | [x] Done    | ab2daa77                                 | Group3, Group7   |
