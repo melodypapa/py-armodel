@@ -13042,6 +13042,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             for pdu_ref in pdu_refs:
                 ref_conditional_tag = ET.SubElement(pdu_refs_tag, "I-SIGNAL-I-PDU-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(ref_conditional_tag, "I-SIGNAL-I-PDU-REF", pdu_ref)
+        nm_pdu_refs = group.getNmPduRefs()
+        if len(nm_pdu_refs) > 0:
+            nm_pdu_refs_tag = ET.SubElement(child_element, "NM-PDUS")
+            for nm_pdu_ref in nm_pdu_refs:
+                ref_conditional_tag = ET.SubElement(nm_pdu_refs_tag, "NM-PDU-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(ref_conditional_tag, "NM-PDU-REF", nm_pdu_ref)
 
     def writePdurIPduGroup(self, element: ET.Element, group: PdurIPduGroup):
         self.logger.debug("Set PdurIPduGroup %s" % group.getShortName())

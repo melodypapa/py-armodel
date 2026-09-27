@@ -3720,3 +3720,23 @@ class TestISignalPortHandlers:
         assert port.getFirstTimeout() is None
         assert port.getHandleInvalid() is None
         assert port.getTimeout() is None
+
+
+class TestISignalIPduGroupNmPdus:
+    def test_readISignalIPduGroup_adds_nm_pdu_ref(self, parser):
+        from armodel.models import ISignalIPduGroup
+
+        group = ISignalIPduGroup(parent=MagicMock(), short_name="Isg")
+        element = _snip("<NM-PDUS>" "<NM-PDU-REF-CONDITIONAL>" '<NM-PDU-REF DEST="NM-PDU">/pdus/nm1</NM-PDU-REF>' "</NM-PDU-REF-CONDITIONAL>" "</NM-PDUS>")
+        parser.readISignalIPduGroup(element, group)
+        assert len(group.getNmPduRefs()) == 1
+        assert group.getNmPduRefs()[0].getValue() == "/pdus/nm1"
+        assert group.getNmPduRefs()[0].getDest() == "NM-PDU"
+
+    def test_readISignalIPduGroup_nm_pdus_empty(self, parser):
+        from armodel.models import ISignalIPduGroup
+
+        group = ISignalIPduGroup(parent=MagicMock(), short_name="Isg")
+        element = _snip("")
+        parser.readISignalIPduGroup(element, group)
+        assert len(group.getNmPduRefs()) == 0

@@ -13589,6 +13589,8 @@ class ARXMLParser(AbstractARXMLParser):
             group.addContainedISignalIPduGroupRef(ref_type)
         for ref_type in self.getISignalIPduRefs(element):
             group.addISignalIPduRef(ref_type)
+        for ref_type in self.getChildElementRefTypeList(element, "NM-PDUS/NM-PDU-REF-CONDITIONAL/NM-PDU-REF"):
+            group.addNmPduRef(ref_type)
 
     def readPdurIPduGroup(self, element: ET.Element, group: PdurIPduGroup):
         self.logger.debug("Read PdurIPduGroup <%s>" % group.getShortName())

@@ -281,6 +281,22 @@ class TestWriterISignalIPduGroup:
         assert elem.find("COMMUNICATION-MODE") is None
         assert elem.find("CONTAINED-I-SIGNAL-I-PDU-GROUP-REFS") is None
         assert elem.find("I-SIGNAL-I-PDUS") is None
+        assert elem.find("NM-PDUS") is None
+
+    def test_nm_pdu_refs(self, writer):
+        group = _make_isignal_ipdu_group()
+        group.addNmPduRef(_ref("/pdus/nm1", "NM-PDU"))
+        parent = _parent()
+        writer.writeISignalIPduGroup(parent, group)
+        elem = parent.find("I-SIGNAL-I-PDU-GROUP")
+        nm_pdus = elem.find("NM-PDUS")
+        assert nm_pdus is not None
+        cond = nm_pdus.find("NM-PDU-REF-CONDITIONAL")
+        assert cond is not None
+        ref = cond.find("NM-PDU-REF")
+        assert ref is not None
+        assert ref.get("DEST") == "NM-PDU"
+        assert ref.text == "/pdus/nm1"
 
 
 class TestWriterSystemSignal:

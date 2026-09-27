@@ -487,66 +487,115 @@ class ISignalGroup(FibexElement):
 
 class ISignalIPduGroup(FibexElement):
     """
-    Defines a group of Interaction Protocol Data Units (IPDUs) based on interaction signals,
-    specifying communication direction, mode, and references to contained
-    IPDU groups and individual IPDUs.
+    The AUTOSAR COM Layer is able to start and to stop sending and receiving configurable groups of I-Pdus during runtime. An ISignalIPduGroup contains either ISignalIPdus or ISignalIPduGroups. Tags: atp.recommendedPackage=ISignaliPduGroup
     """
 
     # ISignalIPduGroup method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCommunicationDirection    [x] impl  [ ] docstring  [ ] test
-    # [ ] setCommunicationDirection    [x] impl  [ ] docstring  [ ] test
-    # [ ] getCommunicationMode         [x] impl  [ ] docstring  [ ] test
-    # [ ] setCommunicationMode         [x] impl  [ ] docstring  [ ] test
-    # [ ] getContainedISignalIPduGroupRefs [x] impl  [ ] docstring  [ ] test
-    # [ ] addContainedISignalIPduGroupRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalIPduRefs           [x] impl  [ ] docstring  [ ] test
-    # [ ] addISignalIPduRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmPduRefs                 [x] impl  [ ] docstring  [ ] test
-    # [ ] addNmPduRef                  [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.32, p.351 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationDirection        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationDirection        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCommunicationMode             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationMode             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContainedISignalIPduGroupRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContainedISignalIPduGroupRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getISignalIPduRefs               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addISignalIPduRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmPduRefs                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addNmPduRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.communicationDirection = None
-        self.communicationMode = None
-        self.containedISignalIPduGroupRefs = []
-        self.iSignalIPduRefs = []
-        self.nmPduRefs = []
+        # This attribute determines in which direction IPdus that are contained in this IPduGroup will be transmitted (communication direction can be either In or Out).
+        self.communicationDirection: Optional[CommunicationDirectionType] = None
 
-    def getCommunicationDirection(self):
+        # This attribute defines the use-case for this ISignalIPduGroup (e.g. diagnostic, debugging etc.). For example, in a diagnostic mode all IPdus - which are not involved in diagnostic - are disabled. The use cases are not limited to a fixed enumeration and can be specified as a string.
+        self.communicationMode: Optional[String] = None
+
+        # An I-Pdu group can be included in other I-Pdu groups. Contained I-Pdu groups shall not be referenced by the EcuInstance.
+        self.containedISignalIPduGroupRefs: List[RefType] = []
+
+        # Reference to a set of Signal I-Pdus, which are contained in the ISignal I-Pdu Group. atpVariation: The content of a ISignal I-Pdu group can vary (->vehicle modes). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalIPdu.iSignalIPdu, iSignalIPdu.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.iSignalIPduRefs: List[RefType] = []
+
+        # Reference to a set of NmPdus with NmUserData, which are contained in the ISignalIPduGroup. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmPdu.nmPdu, nmPdu.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.nmPduRefs: List[RefType] = []
+
+    def getCommunicationDirection(self) -> Optional[CommunicationDirectionType]:
+        """
+        This attribute determines in which direction IPdus that are contained in this IPduGroup will be transmitted (communication direction can be either In or Out).
+        """
         return self.communicationDirection
 
-    def setCommunicationDirection(self, value):
-        self.communicationDirection = value
+    def setCommunicationDirection(self, value: Optional[CommunicationDirectionType]) -> ISignalIPduGroup:
+        """
+        This attribute determines in which direction IPdus that are contained in this IPduGroup will be transmitted (communication direction can be either In or Out).
+        A None value is a no-op and does not overwrite an existing communicationDirection.
+        """
+        if value is not None:
+            self.communicationDirection = value
         return self
 
-    def getCommunicationMode(self):
+    def getCommunicationMode(self) -> Optional[String]:
+        """
+        This attribute defines the use-case for this ISignalIPduGroup (e.g. diagnostic, debugging etc.). For example, in a diagnostic mode all IPdus - which are not involved in diagnostic - are disabled. The use cases are not limited to a fixed enumeration and can be specified as a string.
+        """
         return self.communicationMode
 
-    def setCommunicationMode(self, value):
-        self.communicationMode = value
+    def setCommunicationMode(self, value: Optional[String]) -> ISignalIPduGroup:
+        """
+        This attribute defines the use-case for this ISignalIPduGroup (e.g. diagnostic, debugging etc.). For example, in a diagnostic mode all IPdus - which are not involved in diagnostic - are disabled. The use cases are not limited to a fixed enumeration and can be specified as a string.
+        A None value is a no-op and does not overwrite an existing communicationMode.
+        """
+        if value is not None:
+            self.communicationMode = value
         return self
 
-    def getContainedISignalIPduGroupRefs(self):
+    def getContainedISignalIPduGroupRefs(self) -> List[RefType]:
+        """
+        An I-Pdu group can be included in other I-Pdu groups. Contained I-Pdu groups shall not be referenced by the EcuInstance.
+        """
         return self.containedISignalIPduGroupRefs
 
-    def addContainedISignalIPduGroupRef(self, value):
-        self.containedISignalIPduGroupRefs.append(value)
+    def addContainedISignalIPduGroupRef(self, value: Optional[RefType]) -> ISignalIPduGroup:
+        """
+        An I-Pdu group can be included in other I-Pdu groups. Contained I-Pdu groups shall not be referenced by the EcuInstance.
+        A None value is a no-op and is not appended to containedISignalIPduGroupRefs.
+        """
+        if value is not None:
+            self.containedISignalIPduGroupRefs.append(value)
         return self
 
-    def getISignalIPduRefs(self):
+    def getISignalIPduRefs(self) -> List[RefType]:
+        """
+        Reference to a set of Signal I-Pdus, which are contained in the ISignal I-Pdu Group. atpVariation: The content of a ISignal I-Pdu group can vary (->vehicle modes). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalIPdu.iSignalIPdu, iSignalIPdu.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.iSignalIPduRefs
 
-    def addISignalIPduRef(self, value):
-        self.iSignalIPduRefs.append(value)
+    def addISignalIPduRef(self, value: Optional[RefType]) -> ISignalIPduGroup:
+        """
+        Reference to a set of Signal I-Pdus, which are contained in the ISignal I-Pdu Group. atpVariation: The content of a ISignal I-Pdu group can vary (->vehicle modes). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalIPdu.iSignalIPdu, iSignalIPdu.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and is not appended to iSignalIPduRefs.
+        """
+        if value is not None:
+            self.iSignalIPduRefs.append(value)
         return self
 
-    def getNmPduRefs(self):
+    def getNmPduRefs(self) -> List[RefType]:
+        """
+        Reference to a set of NmPdus with NmUserData, which are contained in the ISignalIPduGroup. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmPdu.nmPdu, nmPdu.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.nmPduRefs
 
-    def addNmPduRef(self, value):
-        self.nmPduRefs.append(value)
+    def addNmPduRef(self, value: Optional[RefType]) -> ISignalIPduGroup:
+        """
+        Reference to a set of NmPdus with NmUserData, which are contained in the ISignalIPduGroup. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nmPdu.nmPdu, nmPdu.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and is not appended to nmPduRefs.
+        """
+        if value is not None:
+            self.nmPduRefs.append(value)
         return self
 
 
