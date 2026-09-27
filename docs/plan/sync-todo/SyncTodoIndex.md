@@ -833,32 +833,32 @@ Status: **0/16** completed
 
 ## Group20
 
-Status: **0/25** completed
+Status: **22/25** completed
 
 | Class Name                         | Status      | Commit ID |
 | ---------------------------------- | ----------- | --------- |
-| `DoIpLogicAddress`                 | [ ] Pending | N/A       |
-| `DoIpTpConnection`                 | [ ] Pending | N/A       |
-| `CryptoKeySlotTypeEnum`            | [ ] Pending | N/A       |
-| `CryptoObjectTypeEnum`             | [ ] Pending | N/A       |
-| `CryptoKeySlotAllowedModification` | [ ] Pending | N/A       |
-| `CryptoKeySlotContentAllowedUsage` | [ ] Pending | N/A       |
-| `DataLinkLayerRule`                | [ ] Pending | N/A       |
-| `NetworkLayerRule`                 | [ ] Pending | N/A       |
-| `TransportLayerRule`               | [ ] Pending | N/A       |
-| `PayloadBytePatternRule`           | [ ] Pending | N/A       |
-| `SomeipProtocolRule`               | [ ] Pending | N/A       |
-| `SomeipSdRule`                     | [ ] Pending | N/A       |
-| `DoIpRule`                         | [ ] Pending | N/A       |
-| `MemorySection`                    | [ ] Pending | N/A       |
-| `SectionNamePrefix`                | [ ] Pending | N/A       |
-| `HardwareConfiguration`            | [ ] Pending | N/A       |
-| `SoftwareContext`                  | [ ] Pending | N/A       |
-| `DltApplication`                   | [ ] Pending | N/A       |
-| `DltArgument`                      | [ ] Pending | N/A       |
-| `DltContext`                       | [ ] Pending | N/A       |
-| `SoAdRoutingGroup`                 | [ ] Pending | N/A       |
-| `StackUsage`                       | [ ] Pending | N/A       |
-| `MeasuredStackUsage`               | [ ] Pending | N/A       |
-| `RoughEstimateStackUsage`          | [ ] Pending | N/A       |
-| `WorstCaseStackUsage`              | [ ] Pending | N/A       |
+| `DoIpLogicAddress`                 | [ ] Pending* | a5671c229 |
+| `DoIpTpConnection`                 | [ ] Pending* | 0abdd0dba |
+| `CryptoKeySlotTypeEnum`            | [ ] Pending* | 4ea5cb5b4 |
+| `CryptoObjectTypeEnum`             | [ ] Pending* | 5b42d5756 |
+| `CryptoKeySlotAllowedModification` | [ ] Pending* | c535a86fd |
+| `CryptoKeySlotContentAllowedUsage` | [ ] Pending* | 6fe403d35 |
+| `DataLinkLayerRule`                | [ ] Pending* | 0d343df2a |
+| `NetworkLayerRule`                 | [ ] Pending* | 529858d9c |
+| `TransportLayerRule`               | [ ] Pending* | cb197c6b8 |
+| `PayloadBytePatternRule`           | [ ] Pending* | 8f863fe9d |
+| `SomeipProtocolRule`               | [ ] Pending* | c18aa8d40 |
+| `SomeipSdRule`                     | [ ] Pending* | 17b563a73 |
+| `DoIpRule`                         | [ ] Pending* | ebd95cd8f |
+| `MemorySection`                    | [ ] Pending* | a579a3592 |
+| `SectionNamePrefix`                | [ ] Pending* | 0e2648263 |
+| `HardwareConfiguration`            | [ ] Pending* | 35bfb17b7 |
+| `SoftwareContext`                  | [ ] Pending* | 23884479e |
+| `DltApplication`                   | [x] Done     | c42f8ae9 |
+| `DltArgument`                      | [x] Done     | 64d125ffa |
+| `DltContext`                       | [x] Done     | c42f8ae9 |
+| `SoAdRoutingGroup`                 | [ ] Pending* | 89363ebe2 |
+| `StackUsage`                       | [ ] Pending* | 9ce364e24 |
+| `MeasuredStackUsage`               | [ ] Pending* | adc2e5eeb |
+| `RoughEstimateStackUsage`          | [ ] Pending* | 3db474b11 |
+| `WorstCaseStackUsage`              | [ ] Pending* | a0cbd41d0 |
