@@ -589,9 +589,22 @@ No deviations.
 ## `HardwareConfiguration`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 161
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/HardwareConfiguration.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/__init__.py`
 
-No deviations.
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `additionalInformation` | `Optional[String]` | `additionalInformation` | `String` | Attr | ok (markdown Note renders "Hardware Configuration" — line-wrap artifact of "HardwareConfiguration", cf. XSD documentation) |
+| `processorMode` | `Optional[String]` | `processorMode` | `String` | Attr | ok |
+| `processorSpeed` | `Optional[String]` | `processorSpeed` | `String` | Attr | ok |
+
+2026-09-27 sync (Table 8.18, p.161): stale 4-column checklist replaced with the 6-column format (stamp
+deferred to batch confirmation); `__init__` docstring removed and paraphrase accessor docstrings wiped
+and rewritten verbatim from the R23-11 Notes (the existence constraints constr_10315..10317 are separate
+spec items, not part of the Note cells); source path corrected to the non-leaf package `__init__.py` (the
+previously recorded `HardwareConfiguration.py` file does not exist). Reader/writer (readHardwareConfiguration
+/ setHardwareConfiguration) pre-existed with the XSD group order ADDITIONAL-INFORMATION → PROCESSOR-MODE →
+PROCESSOR-SPEED (AUTOSAR_00052.xsd L65234) and were verified by new parser/writer tests — no source change.
+Tests: test_ResourceConsumption.py::TestHardwareConfiguration (model), test_hardware_configuration.py (parser + writer).
 
 ## `SoftwareContext`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 163

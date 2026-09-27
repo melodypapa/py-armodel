@@ -1,5 +1,7 @@
+import inspect
 import os
 import tempfile
+from typing import Optional, get_type_hints
 
 import pytest
 
@@ -16,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.Exec
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import HeapUsage, MeasuredHeapUsage, RoughEstimateHeapUsage, WorstCaseHeapUsage
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import MemorySection, SectionNamePrefix
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import MeasuredStackUsage, RoughEstimateStackUsage, StackUsage, WorstCaseStackUsage
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AlignmentType,
@@ -32,6 +35,19 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AccessCount, AccessCountSet
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
+
+HW_CLASS_NOTE = "Describes in which mode the hardware is operating while needing this resource consumption."
+HW_ADDITIONAL_INFORMATION_NOTE = "Specifies additional information on the Hardware Configuration."
+HW_PROCESSOR_MODE_NOTE = "Specifies in which mode the processor is operating."
+HW_PROCESSOR_SPEED_NOTE = "Specifies the speed the processor is operating."
+
+SW_CLASS_NOTE = "Specifies the context of the software for this resource consumption."
+SW_INPUT_NOTE = "Specifies the input vector which is used to provide the ExecutionTime."
+SW_STATE_NOTE = "Specifies the state the software is in when the Execution Time is provided."
+
+
+def _setter_tail(name):
+    return "A None value is a no-op and does not overwrite an existing %s." % name
 
 
 class TestHeapUsage:
@@ -56,48 +72,64 @@ class TestHeapUsage:
 
 
 class TestHardwareConfiguration:
+    """
+    Test class for HardwareConfiguration functionality (Table 8.18).
+    """
+
+    def test_base_chain(self):
+        assert issubclass(HardwareConfiguration, ARObject)
+
+    def test_class_docstring_verbatim(self):
+        assert inspect.cleandoc(HardwareConfiguration.__doc__) == HW_CLASS_NOTE
+
     def test_initialization(self):
-        """Test HardwareConfiguration initialization"""
-        hw_config = HardwareConfiguration()
-        assert hw_config is not None
-        assert hw_config.additionalInformation is None
-        assert hw_config.processorMode is None
-        assert hw_config.processorSpeed is None
+        obj = HardwareConfiguration()
+        assert obj.additionalInformation is None
+        assert obj.processorMode is None
+        assert obj.processorSpeed is None
 
-    def test_additional_information_setter_getter(self):
-        """Test additionalInformation setter and getter"""
-        hw_config = HardwareConfiguration()
-        test_value = String().setValue("Additional Info")
-        result = hw_config.setAdditionalInformation(test_value)
-        assert result is hw_config  # Method chaining
-        assert hw_config.getAdditionalInformation() == test_value
+    def test_annotations_match_spec_types(self):
+        for method, annotation in (
+            ("getAdditionalInformation", Optional[String]),
+            ("getProcessorMode", Optional[String]),
+            ("getProcessorSpeed", Optional[String]),
+        ):
+            hints = get_type_hints(getattr(HardwareConfiguration, method))
+            assert hints["return"] == annotation
 
-    def test_processor_mode_setter_getter(self):
-        """Test processorMode setter and getter"""
-        hw_config = HardwareConfiguration()
-        test_value = String().setValue("ARM Cortex-M4")
-        result = hw_config.setProcessorMode(test_value)
-        assert result is hw_config  # Method chaining
-        assert hw_config.getProcessorMode() == test_value
+    def test_init_has_no_docstring(self):
+        assert HardwareConfiguration.__init__.__doc__ is None
 
-    def test_processor_speed_setter_getter(self):
-        """Test processorSpeed setter and getter"""
-        hw_config = HardwareConfiguration()
-        test_value = String().setValue("120 MHz")
-        result = hw_config.setProcessorSpeed(test_value)
-        assert result is hw_config  # Method chaining
-        assert hw_config.getProcessorSpeed() == test_value
+    def test_get_set_round_trip(self):
+        obj = HardwareConfiguration()
+        info = String().setValue("Additional Info")
+        mode = String().setValue("ARM Cortex-M4")
+        speed = String().setValue("120 MHz")
+        result = obj.setAdditionalInformation(info).setProcessorMode(mode).setProcessorSpeed(speed)
+        assert result is obj
+        assert obj.getAdditionalInformation() == info
+        assert obj.getProcessorMode() == mode
+        assert obj.getProcessorSpeed() == speed
 
-    def test_all_properties(self):
-        """Test setting all properties"""
-        hw_config = HardwareConfiguration()
-        hw_config.setAdditionalInformation(String().setValue("Test Info"))
-        hw_config.setProcessorMode(String().setValue("Test Mode"))
-        hw_config.setProcessorSpeed(String().setValue("Test Speed"))
+    def test_setter_none_is_noop(self):
+        obj = HardwareConfiguration()
+        obj.setAdditionalInformation(String().setValue("Info"))
+        obj.setProcessorMode(String().setValue("Mode"))
+        obj.setProcessorSpeed(String().setValue("Speed"))
+        obj.setAdditionalInformation(None)
+        obj.setProcessorMode(None)
+        obj.setProcessorSpeed(None)
+        assert obj.getAdditionalInformation().getValue() == "Info"
+        assert obj.getProcessorMode().getValue() == "Mode"
+        assert obj.getProcessorSpeed().getValue() == "Speed"
 
-        assert hw_config.getAdditionalInformation().getValue() == "Test Info"
-        assert hw_config.getProcessorMode().getValue() == "Test Mode"
-        assert hw_config.getProcessorSpeed().getValue() == "Test Speed"
+    def test_docstrings_verbatim(self):
+        assert inspect.cleandoc(HardwareConfiguration.getAdditionalInformation.__doc__) == HW_ADDITIONAL_INFORMATION_NOTE
+        assert inspect.cleandoc(HardwareConfiguration.setAdditionalInformation.__doc__) == "\n".join([HW_ADDITIONAL_INFORMATION_NOTE, _setter_tail("additionalInformation")])
+        assert inspect.cleandoc(HardwareConfiguration.getProcessorMode.__doc__) == HW_PROCESSOR_MODE_NOTE
+        assert inspect.cleandoc(HardwareConfiguration.setProcessorMode.__doc__) == "\n".join([HW_PROCESSOR_MODE_NOTE, _setter_tail("processorMode")])
+        assert inspect.cleandoc(HardwareConfiguration.getProcessorSpeed.__doc__) == HW_PROCESSOR_SPEED_NOTE
+        assert inspect.cleandoc(HardwareConfiguration.setProcessorSpeed.__doc__) == "\n".join([HW_PROCESSOR_SPEED_NOTE, _setter_tail("processorSpeed")])
 
 
 class TestSoftwareContext:

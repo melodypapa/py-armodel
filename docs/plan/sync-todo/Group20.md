@@ -586,15 +586,44 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `HardwareConfiguration` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 8.18, p.161 (R23-11, AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate;
+    pdf_page.py confirms p.161); Class = HardwareConfiguration (concrete; XSD stereotype
+    atpObject); Package = M2::AUTOSARTemplates::CommonStructure::ResourceConsumption;
+    Note = "Describes in which mode the hardware is operating while needing this resource
+    consumption."; Base = ARObject → claimed base correct (closure tip); Aggregated by
+    ExecutionTime/HeapUsage/StackUsage .hardwareConfiguration; 3 attribute rows in
+    displayed order: additionalInformation (String 0..1 attr — md Note renders "Hardware
+    Configuration", a line-wrap artifact of "HardwareConfiguration" per the XSD
+    documentation), processorMode (String 0..1 attr), processorSpeed (String 0..1 attr).
+    XSD 00052: group HARDWARE-CONFIGURATION L65234 (complexType L65262) = ADDITIONAL-
+    INFORMATION, PROCESSOR-MODE, PROCESSOR-SPEED (all 0..1 STRING); no VARIATION-POINT →
+    table and XSD agree 1:1, no XSD-only attrs. Drift: __init__ docstring present,
+    paraphrase accessor docstrings, member comments carried constraint texts
+    (constr_10315..10317) beyond the Note, stale 4-col checklist.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - note (Steps 2-4): test_ResourceConsumption.py::TestHardwareConfiguration rewritten —
+    verbatim Note constants, base chain, defaults, get_type_hints annotations, get/set +
+    None-no-op round-trip, __init__-has-no-docstring, full verbatim docstring assertions;
+    initial run 3 failed / 5 passed (genuine Red: wrapped class docstring, __init__
+    docstring, paraphrase accessors), 8 passed after the verbatim rewrite.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): readHardwareConfiguration / setHardwareConfiguration pre-existed
+    (setters/getters, matched-name pairs, XSD group order) — no parser/writer change; new
+    tests/test_armodel/parser/test_hardware_configuration.py (TestReadHardwareConfiguration,
+    3 tests: field values, absent + partial children) and tests/test_armodel/writer/
+    test_hardware_configuration.py (TestWriteHardwareConfiguration, 4 tests: field values,
+    XSD element order, None-config omission, write→parse round-trip) pass; round-trip
+    serializes with the AUTOSAR default namespace for the namespace-aware find.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): method_deviation_by_class.md HardwareConfiguration section rewritten —
+    6-column member table (all ok), source path corrected from the nonexistent
+    HardwareConfiguration.py to the package __init__.py; no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12589 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SoftwareContext` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/__init__.py
