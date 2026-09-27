@@ -18,15 +18,42 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `DoIpLogicAddress` — Identifiable — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
   - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 6.207 p.555 (body after caption, md L14524-14532): Class =
+    DoIpLogicAddress (concrete); Package =
+    M2::AUTOSARTemplates::SystemTemplate::TransportProtocols; Note = "The logical
+    DoIP address."; Base = "ARObject, Identifiable, MultilanguageReferrable,
+    Referrable" → most-derived Identifiable (claimed base correct); Aggregated by
+    DoIpConfig.logicAddress + DoIpTpConfig.doIpLogicAddress; Attribute rows:
+    address (Integer, 0..1, attr), doIpLogicAddressProps
+    (AbstractDoIpLogicAddressProps, 0..1, aggr; md renders "doIpLogic
+    AddressProps" — line-wrap artifact). XSD 00052: group DO-IP-LOGIC-ADDRESS
+    L48810 = ADDRESS (0..1) then DO-IP-LOGIC-ADDRESS-PROPS (0..1, choice of
+    DO-IP-LOGIC-TARGET-ADDRESS-PROPS / DO-IP-LOGIC-TESTER-ADDRESS-PROPS); no
+    VARIATION-POINT → not VP-capable. Drift: fabricated class docstring, bare
+    field annotations (no Optional), untyped accessors, stale 3-col checklist,
+    setDoIpLogicAddressProps setter violating Rule 0001.6 (0..1 Referrable
+    abstract child needs create factories). Tracker review: no
+    method_deviation_by_class_v2.md section exists for this class (nothing to
+    reconcile).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): read/writeDoIpLogicAddress + readDoIpLogicAddressProps
+    pre-existed (writer unchanged); reader migrated from direct props
+    construction + setDoIpLogicAddressProps to createDoIpLogicTargetAddressProps /
+    createDoIpLogicTesterAddressProps factories (no chained mutators); parser
+    DoIP import trimmed (F401); new test_arxml_parser_doip_logic_address.py (3
+    tests) + test_writer_doip_logic_address.py (3 tests) pass.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations — setter removal is Rule 0001.6
+    conformance, not a deviation; verbatim docstrings restored; Optional[T]
+    annotations + typed accessors; 6-col checklist written (no stamp markers
+    per batch mode).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12437 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DoIpTpConnection` — TpConnection — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py

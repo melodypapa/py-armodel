@@ -1,4 +1,5 @@
 import inspect
+import typing
 
 import pytest
 
@@ -7,7 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, Integer, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection, TpConnectionIdent
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
     CanTpAddress,
@@ -399,14 +400,10 @@ class Test_TransportProtocols:
         address.setAddress(123)
         assert address.getAddress() == 123
 
-        # Note: Creating a mock for AbstractDoIpLogicAddressProps since it's also abstract
-        class MockDoIpLogicAddressProps(AbstractDoIpLogicAddressProps):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
-        mock_props = MockDoIpLogicAddressProps(parent, "mock_props")
-        address.setDoIpLogicAddressProps(mock_props)
-        assert address.getDoIpLogicAddressProps() == mock_props
+        # Test aggregated props factories (0..1 abstract child)
+        props = address.createDoIpLogicTargetAddressProps("target_props")
+        assert address.getDoIpLogicAddressProps() is props
+        assert address.createDoIpLogicTesterAddressProps("tester_props") is props
 
     def test_DoIpTpConnection(self):
         """Test DoIpTpConnection class functionality."""
@@ -625,3 +622,91 @@ class Test_DoIpTpConfig:
         assert config.getTpConnections() == [connection]
         config.addTpConnection(None)
         assert config.getTpConnections() == [connection]
+
+
+class Test_DoIpLogicAddress:
+    """Test cases for DoIpLogicAddress (Table 6.207, p.555)."""
+
+    CLASS_NOTE = "The logical DoIP address."
+    ADDRESS_NOTE = "The logical DoIP address."
+    PROPS_NOTE = "Collection of additional LogicAddress properties."
+    MEMBERS = ["address", "doIpLogicAddressProps"]
+
+    def _create(self, short_name: str) -> DoIpLogicAddress:
+        parent = AUTOSAR.getInstance().createARPackage("DoIpLogicAddresses")
+        return DoIpLogicAddress(parent, short_name)
+
+    def test_inheritance(self):
+        assert DoIpLogicAddress.__bases__ == (Identifiable,)
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(DoIpLogicAddress.__doc__) == self.CLASS_NOTE
+
+    def test_initialization_defaults(self):
+        address = self._create("DoIpLogicAddress1")
+        assert address.getShortName() == "DoIpLogicAddress1"
+        assert address.getAddress() is None
+        assert address.getDoIpLogicAddressProps() is None
+
+    def test_member_order(self):
+        address = self._create("DoIpLogicAddress1")
+        members = [k for k in vars(address) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_init_docstring_is_none(self):
+        assert DoIpLogicAddress.__init__.__doc__ is None
+
+    def test_pep526_annotations(self):
+        source = inspect.getsource(DoIpLogicAddress)
+        assert "self.address: Optional[Integer] = None" in source
+        assert "self.doIpLogicAddressProps: Optional[AbstractDoIpLogicAddressProps] = None" in source
+
+    def test_type_hints(self):
+        hints = typing.get_type_hints(DoIpLogicAddress.getAddress)
+        assert hints["return"] == typing.Optional[Integer]
+        hints = typing.get_type_hints(DoIpLogicAddress.setAddress)
+        assert hints["value"] == typing.Optional[Integer]
+        assert hints["return"] == DoIpLogicAddress
+        hints = typing.get_type_hints(DoIpLogicAddress.createDoIpLogicTargetAddressProps)
+        assert hints["return"] == DoIpLogicTargetAddressProps
+        hints = typing.get_type_hints(DoIpLogicAddress.createDoIpLogicTesterAddressProps)
+        assert hints["return"] == DoIpLogicTesterAddressProps
+        hints = typing.get_type_hints(DoIpLogicAddress.getDoIpLogicAddressProps)
+        assert hints["return"] == typing.Optional[AbstractDoIpLogicAddressProps]
+
+    def test_get_set_address(self):
+        address = self._create("DoIpLogicAddress1")
+        assert address == address.setAddress(Integer().setValue(2048))
+        assert address.getAddress().getValue() == 2048
+        assert address == address.setAddress(None)
+        assert address.getAddress().getValue() == 2048
+
+    def test_getter_docstring(self):
+        assert DoIpLogicAddress.getAddress.__doc__ == self.ADDRESS_NOTE
+
+    def test_setter_docstring(self):
+        expected = self.ADDRESS_NOTE + "\nA None value is a no-op and does not overwrite an existing address."
+        assert inspect.cleandoc(DoIpLogicAddress.setAddress.__doc__) == expected
+
+    def test_props_docstrings(self):
+        assert DoIpLogicAddress.createDoIpLogicTargetAddressProps.__doc__ == self.PROPS_NOTE
+        assert DoIpLogicAddress.createDoIpLogicTesterAddressProps.__doc__ == self.PROPS_NOTE
+        assert DoIpLogicAddress.getDoIpLogicAddressProps.__doc__ == self.PROPS_NOTE
+
+    def test_create_do_ip_logic_target_address_props(self):
+        address = self._create("DoIpLogicAddress1")
+        props = address.createDoIpLogicTargetAddressProps("TargetProps1")
+        assert isinstance(props, DoIpLogicTargetAddressProps)
+        assert props.getShortName() == "TargetProps1"
+        assert address.getDoIpLogicAddressProps() is props
+        assert address.createDoIpLogicTargetAddressProps("TargetProps2") is props
+        assert address.getDoIpLogicAddressProps() is props
+
+    def test_create_do_ip_logic_tester_address_props(self):
+        address = self._create("DoIpLogicAddress1")
+        props = address.createDoIpLogicTesterAddressProps("TesterProps1")
+        assert isinstance(props, DoIpLogicTesterAddressProps)
+        assert props.getShortName() == "TesterProps1"
+        assert address.getDoIpLogicAddressProps() is props
+        assert address.createDoIpLogicTesterAddressProps("TesterProps2") is props
+        assert address.getDoIpLogicAddressProps() is props

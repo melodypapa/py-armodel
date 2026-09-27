@@ -775,7 +775,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordTypeMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps, DoIpRoutingActivation
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping, HwPortMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskPreemptabilityEnum, OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
@@ -10378,15 +10378,13 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "DO-IP-LOGIC-ADDRESS-PROPS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "DO-IP-LOGIC-TARGET-ADDRESS-PROPS":
-                props = DoIpLogicTargetAddressProps(address, self.getShortName(child_element))
+                props = address.createDoIpLogicTargetAddressProps(self.getShortName(child_element))
                 self.readIdentifiable(child_element, props)
-                address.setDoIpLogicAddressProps(props)
             elif tag_name == "DO-IP-LOGIC-TESTER-ADDRESS-PROPS":
-                props = DoIpLogicTesterAddressProps(address, self.getShortName(child_element))
+                props = address.createDoIpLogicTesterAddressProps(self.getShortName(child_element))
                 self.readIdentifiable(child_element, props)
                 for ref in self.getChildElementRefTypeList(child_element, "DO-IP-TESTER-ROUTING-ACTIVATION-REFS/DO-IP-TESTER-ROUTING-ACTIVATION-REF"):
                     props.addDoIpTesterRoutingActivationRef(ref)
-                address.setDoIpLogicAddressProps(props)
             else:
                 self.notImplemented("Unsupported DoIpLogicAddressProps <%s>" % tag_name)
 

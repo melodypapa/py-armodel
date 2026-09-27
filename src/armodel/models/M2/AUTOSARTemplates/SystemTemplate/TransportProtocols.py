@@ -6,7 +6,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger, RefType, TimeValue, ARLiteral
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
@@ -778,39 +778,56 @@ class CanTpConfig(TpConfig):
 
 class DoIpLogicAddress(Identifiable):
     """
-    Represents a DoIP (Diagnostics over IP) logic address in the system,
-    defining the address value and logic address properties for
-    DoIP communication endpoints.
+    The logical DoIP address.
     """
 
     # DoIpLogicAddress method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAddress                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setAddress                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getDoIpLogicAddressProps     [x] impl  [ ] docstring  [ ] test
-    # [ ] setDoIpLogicAddressProps     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.207, p.555
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAddress                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAddress                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDoIpLogicTargetAddressProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDoIpLogicTesterAddressProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDoIpLogicAddressProps           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.address: Integer = None
-        self.doIpLogicAddressProps: AbstractDoIpLogicAddressProps = None
+        # The logical DoIP address.
+        self.address: Optional[Integer] = None
 
-    def getAddress(self):
+        # Collection of additional LogicAddress properties.
+        self.doIpLogicAddressProps: Optional[AbstractDoIpLogicAddressProps] = None
+
+    def getAddress(self) -> Optional[Integer]:
+        """The logical DoIP address."""
         return self.address
 
-    def setAddress(self, value):
+    def setAddress(self, value: Optional[Integer]) -> "DoIpLogicAddress":
+        """
+        The logical DoIP address.
+        A None value is a no-op and does not overwrite an existing address.
+        """
         if value is not None:
             self.address = value
         return self
 
-    def getDoIpLogicAddressProps(self):
-        return self.doIpLogicAddressProps
+    def createDoIpLogicTargetAddressProps(self, short_name: str) -> DoIpLogicTargetAddressProps:
+        """Collection of additional LogicAddress properties."""
+        if self.getDoIpLogicAddressProps() is None:
+            self.doIpLogicAddressProps = DoIpLogicTargetAddressProps(self, short_name)
+        return self.getDoIpLogicAddressProps()
 
-    def setDoIpLogicAddressProps(self, value):
-        if value is not None:
-            self.doIpLogicAddressProps = value
-        return self
+    def createDoIpLogicTesterAddressProps(self, short_name: str) -> DoIpLogicTesterAddressProps:
+        """Collection of additional LogicAddress properties."""
+        if self.getDoIpLogicAddressProps() is None:
+            self.doIpLogicAddressProps = DoIpLogicTesterAddressProps(self, short_name)
+        return self.getDoIpLogicAddressProps()
+
+    def getDoIpLogicAddressProps(self) -> Optional[AbstractDoIpLogicAddressProps]:
+        """Collection of additional LogicAddress properties."""
+        return self.doIpLogicAddressProps
 
 
 class DoIpTpConnection(TpConnection):

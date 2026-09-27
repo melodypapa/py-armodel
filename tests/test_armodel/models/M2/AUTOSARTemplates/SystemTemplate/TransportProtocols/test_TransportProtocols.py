@@ -425,17 +425,15 @@ class TestTransportProtocols:
         assert address == address.setAddress(None)
         assert address.getAddress() is None
 
-        assert address == address.setDoIpLogicAddressProps(None)
-        assert address.getDoIpLogicAddressProps() is None
+        # Test aggregated props factories (0..1 abstract child)
+        props = address.createDoIpLogicTargetAddressProps("target_props")
+        assert address.getDoIpLogicAddressProps() is props
+        assert address.createDoIpLogicTesterAddressProps("tester_props") is props
 
         # Test setter/getter methods with method chaining - with actual values
         address.setAddress(1234)
         assert address.getAddress() == 1234
         assert address == address.setAddress(1234)
-
-        # Note: We can't easily test setDoIpLogicAddressProps with an actual object
-        # since AbstractDoIpLogicAddressProps is abstract, but we can test with None
-        # which is already tested above
 
     def test_do_ip_tp_connection(self):
         """
