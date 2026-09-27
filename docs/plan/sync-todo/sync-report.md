@@ -404,7 +404,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `LinScheduleTable`                                      | [ ] Pending | N/A                                      | Group17          |
 | `LinTpConnection`                                       | [ ] Pending | N/A                                      | Group18          |
 | `Linker`                                                | [x] Done    | 20003dc3                                 | Group1           |
-| `ListEnum`                                              | [ ] Deferred| N/A                                      | Group9           |
+| `ListEnum`                                              | [x] Done    | 0623068af                                | Group9           |
 | `LogTraceDefaultLogLevelEnum`                           | [x] Done    | f1eb819e                                 | Group5           |
 | `MacMulticastGroup`                                     | [ ] Pending | N/A                                      | Group16          |
 | `Map`                                                   | [x] Done    | 43ec8ade                                 | Group3           |
