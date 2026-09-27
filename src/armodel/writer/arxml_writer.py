@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     FirewallRule,
     FirewallRuleProps,
     IcmpRule,
+    Ipv4Rule,
     PayloadBytePatternRule,
     PayloadBytePatternRulePart,
     SomeipProtocolRule,
@@ -14326,6 +14327,24 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "CODE", rule.getCode())
         self.setChildElementOptionalPositiveInteger(element, "TYPE", rule.getType())
 
+    def writeIpv4Rule(self, element: ET.Element, rule: Ipv4Rule):
+        self.setChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION", rule.getChecksumVerification())
+        self.setChildElementOptionalLiteral(element, "DESTINATION-IP-ADDRESS", rule.getDestinationIpAddress())
+        self.setChildElementOptionalLiteral(element, "DESTINATION-NETWORK-MASK", rule.getDestinationNetworkMask())
+        self.setChildElementOptionalPositiveInteger(element, "DIFFERENTIATED-SERVICE-CODE-POINT", rule.getDifferentiatedServiceCodePoint())
+        self.setChildElementOptionalBooleanValue(element, "DO-NOT-FRAGMENT", rule.getDoNotFragment())
+        self.setChildElementOptionalPositiveInteger(element, "EXPLICIT-CONGESTION-NOTIFICATION", rule.getExplicitCongestionNotification())
+        if rule.getIcmpRule() is not None:
+            icmp_rule_tag = ET.SubElement(element, "ICMP-RULE")
+            self.writeIcmpRule(icmp_rule_tag, rule.getIcmpRule())
+        self.setChildElementOptionalPositiveInteger(element, "INTERNET-HEADER-LENGTH", rule.getInternetHeaderLength())
+        self.setChildElementOptionalBooleanValue(element, "MORE-FRAGMENTS", rule.getMoreFragments())
+        self.setChildElementOptionalPositiveInteger(element, "PROTOCOL", rule.getProtocol())
+        self.setChildElementOptionalLiteral(element, "SOURCE-IP-ADDRESS", rule.getSourceIpAddress())
+        self.setChildElementOptionalLiteral(element, "SOURCE-NETWORK-MASK", rule.getSourceNetworkMask())
+        self.setChildElementOptionalPositiveInteger(element, "TTL-MAX", rule.getTtlMax())
+        self.setChildElementOptionalPositiveInteger(element, "TTL-MIN", rule.getTtlMin())
+
     def writeFirewallRule(self, element: ET.Element, rule: FirewallRule):
         self.logger.debug("Write FirewallRule %s" % rule.getShortName())
         rule_tag = ET.SubElement(element, "FIREWALL-RULE")
@@ -14340,7 +14359,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             do_ip_rule_tag = ET.SubElement(rule_tag, "DO-IP-RULE")
             self.writeDoIpRule(do_ip_rule_tag, rule.getDoIpRule())
         if rule.getNetworkLayerRule() is not None:
-            ET.SubElement(rule_tag, "NETWORK-LAYER-RULE")
+            network_layer_rule = rule.getNetworkLayerRule()
+            if isinstance(network_layer_rule, Ipv4Rule):
+                network_layer_rule_tag = ET.SubElement(rule_tag, "NETWORK-LAYER-RULE")
+                ipv4_rule_tag = ET.SubElement(network_layer_rule_tag, "IPV-4-RULE")
+                self.writeIpv4Rule(ipv4_rule_tag, network_layer_rule)
+            else:
+                ET.SubElement(rule_tag, "NETWORK-LAYER-RULE")
         payload_rules = rule.getPayloadBytePatternRules()
         if len(payload_rules) > 0:
             rules_tag = ET.SubElement(rule_tag, "PAYLOAD-BYTE-PATTERN-RULES")

@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, MacAddressString, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Ip4AddressString, MacAddressString, PositiveInteger, RefType
 
 __all__ = [
     "FirewallActionEnum",
@@ -13,6 +13,7 @@ __all__ = [
     "DdsRule",
     "DoIpRule",
     "IcmpRule",
+    "Ipv4Rule",
     "NetworkLayerRule",
     "PayloadBytePatternRule",
     "PayloadBytePatternRulePart",
@@ -207,9 +208,9 @@ class NetworkLayerRule(ARObject):
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class NetworkLayerRule, AUTOSAR_00052.xsd line 84252 (XSD-only; no own table in repo corpus)
     # (abstract class: the NETWORK-LAYER-RULE group is an empty sequence with no
     #  complexType; the FirewallRule.networkLayerRule element carries a choice of
-    #  the concrete subtypes Ipv4Rule/Ipv6Rule, which are not yet implemented —
-    #  the class stays instantiable as the aggregation placeholder per Rule
-    #  0001.10 and gains the abstract guard + five-place dispatch when they sync)
+    #  the concrete subtypes Ipv4Rule (synced, IPV-4-RULE dispatch) and Ipv6Rule
+    #  (not yet implemented) — the class stays instantiable as the aggregation
+    #  placeholder per Rule 0001.10 and dispatch is per concrete subtype)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -280,6 +281,270 @@ class IcmpRule(ARObject):
         """
         if value is not None:
             self.type = value
+        return self
+
+
+class Ipv4Rule(NetworkLayerRule):
+    """Configuration of filter rules on IPv4 level. Tags: atp.Status=candidate"""
+
+    # Ipv4Rule method parity checklist:
+    # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class Ipv4Rule, AUTOSAR_00052.xsd line 74485 (XSD-only; no own table in repo corpus)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getChecksumVerification        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setChecksumVerification        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDestinationIpAddress        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationIpAddress        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDestinationNetworkMask      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationNetworkMask      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDifferentiatedServiceCodePoint [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDifferentiatedServiceCodePoint [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDoNotFragment               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDoNotFragment               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExplicitCongestionNotification [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExplicitCongestionNotification [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIcmpRule                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIcmpRule                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInternetHeaderLength        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInternetHeaderLength        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMoreFragments               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMoreFragments               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProtocol                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProtocol                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceIpAddress             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceIpAddress             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceNetworkMask           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceNetworkMask           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTtlMax                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTtlMax                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTtlMin                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTtlMin                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Defines whether a Ipv4 header checksum verification is performed or not.
+        self.checksumVerification: Optional[Boolean] = None
+
+        # Filter to match packets with the destination IPv4 address.
+        self.destinationIpAddress: Optional[Ip4AddressString] = None
+
+        # Filter to match packets with the destination IPv4 address range. The destinationIpAddress with the destinationNetworkMask defines the IP address range.
+        self.destinationNetworkMask: Optional[Ip4AddressString] = None
+
+        # Filter to match packets with a DSCP value.
+        self.differentiatedServiceCodePoint: Optional[PositiveInteger] = None
+
+        # Filter to match packets that have the doNotFragment bit in the Header set.
+        self.doNotFragment: Optional[Boolean] = None
+
+        # Filter to match packets with a ECN code point.
+        self.explicitCongestionNotification: Optional[PositiveInteger] = None
+
+        # Configuration of filter rules for ICMP (Internet Control Message Protocol).
+        self.icmpRule: Optional[IcmpRule] = None
+
+        # Filter to match packets with a minimum ipv4 header length.
+        self.internetHeaderLength: Optional[PositiveInteger] = None
+
+        # Filter to match packets that have the moreFragments flag in the Header set.
+        self.moreFragments: Optional[Boolean] = None
+
+        # Filter to match packets with a IP protocol number .
+        self.protocol: Optional[PositiveInteger] = None
+
+        # Filter to match packets with the source IPv4 address.
+        self.sourceIpAddress: Optional[Ip4AddressString] = None
+
+        # Filter to match packets with the source IPv4 address range. The sourceIpAddress with the sourceNetworkMask defines the IP address range.
+        self.sourceNetworkMask: Optional[Ip4AddressString] = None
+
+        # Filter to match packets with a maximum ttl value (TimeToLive defines the lifetime of data on the network).
+        self.ttlMax: Optional[PositiveInteger] = None
+
+        # Filter to match packets with a minimum ttl value (TimeToLive defines the lifetime of data on the network).
+        self.ttlMin: Optional[PositiveInteger] = None
+
+    def getChecksumVerification(self) -> Optional[Boolean]:
+        """Defines whether a Ipv4 header checksum verification is performed or not."""
+        return self.checksumVerification
+
+    def setChecksumVerification(self, value: Optional[Boolean]) -> "Ipv4Rule":
+        """
+        Defines whether a Ipv4 header checksum verification is performed or not.
+        A None value is a no-op and does not overwrite an existing checksumVerification.
+        """
+        if value is not None:
+            self.checksumVerification = value
+        return self
+
+    def getDestinationIpAddress(self) -> Optional[Ip4AddressString]:
+        """Filter to match packets with the destination IPv4 address."""
+        return self.destinationIpAddress
+
+    def setDestinationIpAddress(self, value: Optional[Ip4AddressString]) -> "Ipv4Rule":
+        """
+        Filter to match packets with the destination IPv4 address.
+        A None value is a no-op and does not overwrite an existing destinationIpAddress.
+        """
+        if value is not None:
+            self.destinationIpAddress = value
+        return self
+
+    def getDestinationNetworkMask(self) -> Optional[Ip4AddressString]:
+        """Filter to match packets with the destination IPv4 address range. The destinationIpAddress with the destinationNetworkMask defines the IP address range."""
+        return self.destinationNetworkMask
+
+    def setDestinationNetworkMask(self, value: Optional[Ip4AddressString]) -> "Ipv4Rule":
+        """
+        Filter to match packets with the destination IPv4 address range. The destinationIpAddress with the destinationNetworkMask defines the IP address range.
+        A None value is a no-op and does not overwrite an existing destinationNetworkMask.
+        """
+        if value is not None:
+            self.destinationNetworkMask = value
+        return self
+
+    def getDifferentiatedServiceCodePoint(self) -> Optional[PositiveInteger]:
+        """Filter to match packets with a DSCP value."""
+        return self.differentiatedServiceCodePoint
+
+    def setDifferentiatedServiceCodePoint(self, value: Optional[PositiveInteger]) -> "Ipv4Rule":
+        """
+        Filter to match packets with a DSCP value.
+        A None value is a no-op and does not overwrite an existing differentiatedServiceCodePoint.
+        """
+        if value is not None:
+            self.differentiatedServiceCodePoint = value
+        return self
+
+    def getDoNotFragment(self) -> Optional[Boolean]:
+        """Filter to match packets that have the doNotFragment bit in the Header set."""
+        return self.doNotFragment
+
+    def setDoNotFragment(self, value: Optional[Boolean]) -> "Ipv4Rule":
+        """
+        Filter to match packets that have the doNotFragment bit in the Header set.
+        A None value is a no-op and does not overwrite an existing doNotFragment.
+        """
+        if value is not None:
+            self.doNotFragment = value
+        return self
+
+    def getExplicitCongestionNotification(self) -> Optional[PositiveInteger]:
+        """Filter to match packets with a ECN code point."""
+        return self.explicitCongestionNotification
+
+    def setExplicitCongestionNotification(self, value: Optional[PositiveInteger]) -> "Ipv4Rule":
+        """
+        Filter to match packets with a ECN code point.
+        A None value is a no-op and does not overwrite an existing explicitCongestionNotification.
+        """
+        if value is not None:
+            self.explicitCongestionNotification = value
+        return self
+
+    def getIcmpRule(self) -> Optional[IcmpRule]:
+        """Configuration of filter rules for ICMP (Internet Control Message Protocol)."""
+        return self.icmpRule
+
+    def setIcmpRule(self, value: Optional[IcmpRule]) -> "Ipv4Rule":
+        """
+        Configuration of filter rules for ICMP (Internet Control Message Protocol).
+        A None value is a no-op and does not overwrite an existing icmpRule.
+        """
+        if value is not None:
+            self.icmpRule = value
+        return self
+
+    def getInternetHeaderLength(self) -> Optional[PositiveInteger]:
+        """Filter to match packets with a minimum ipv4 header length."""
+        return self.internetHeaderLength
+
+    def setInternetHeaderLength(self, value: Optional[PositiveInteger]) -> "Ipv4Rule":
+        """
+        Filter to match packets with a minimum ipv4 header length.
+        A None value is a no-op and does not overwrite an existing internetHeaderLength.
+        """
+        if value is not None:
+            self.internetHeaderLength = value
+        return self
+
+    def getMoreFragments(self) -> Optional[Boolean]:
+        """Filter to match packets that have the moreFragments flag in the Header set."""
+        return self.moreFragments
+
+    def setMoreFragments(self, value: Optional[Boolean]) -> "Ipv4Rule":
+        """
+        Filter to match packets that have the moreFragments flag in the Header set.
+        A None value is a no-op and does not overwrite an existing moreFragments.
+        """
+        if value is not None:
+            self.moreFragments = value
+        return self
+
+    def getProtocol(self) -> Optional[PositiveInteger]:
+        """Filter to match packets with a IP protocol number ."""
+        return self.protocol
+
+    def setProtocol(self, value: Optional[PositiveInteger]) -> "Ipv4Rule":
+        """
+        Filter to match packets with a IP protocol number .
+        A None value is a no-op and does not overwrite an existing protocol.
+        """
+        if value is not None:
+            self.protocol = value
+        return self
+
+    def getSourceIpAddress(self) -> Optional[Ip4AddressString]:
+        """Filter to match packets with the source IPv4 address."""
+        return self.sourceIpAddress
+
+    def setSourceIpAddress(self, value: Optional[Ip4AddressString]) -> "Ipv4Rule":
+        """
+        Filter to match packets with the source IPv4 address.
+        A None value is a no-op and does not overwrite an existing sourceIpAddress.
+        """
+        if value is not None:
+            self.sourceIpAddress = value
+        return self
+
+    def getSourceNetworkMask(self) -> Optional[Ip4AddressString]:
+        """Filter to match packets with the source IPv4 address range. The sourceIpAddress with the sourceNetworkMask defines the IP address range."""
+        return self.sourceNetworkMask
+
+    def setSourceNetworkMask(self, value: Optional[Ip4AddressString]) -> "Ipv4Rule":
+        """
+        Filter to match packets with the source IPv4 address range. The sourceIpAddress with the sourceNetworkMask defines the IP address range.
+        A None value is a no-op and does not overwrite an existing sourceNetworkMask.
+        """
+        if value is not None:
+            self.sourceNetworkMask = value
+        return self
+
+    def getTtlMax(self) -> Optional[PositiveInteger]:
+        """Filter to match packets with a maximum ttl value (TimeToLive defines the lifetime of data on the network)."""
+        return self.ttlMax
+
+    def setTtlMax(self, value: Optional[PositiveInteger]) -> "Ipv4Rule":
+        """
+        Filter to match packets with a maximum ttl value (TimeToLive defines the lifetime of data on the network).
+        A None value is a no-op and does not overwrite an existing ttlMax.
+        """
+        if value is not None:
+            self.ttlMax = value
+        return self
+
+    def getTtlMin(self) -> Optional[PositiveInteger]:
+        """Filter to match packets with a minimum ttl value (TimeToLive defines the lifetime of data on the network)."""
+        return self.ttlMin
+
+    def setTtlMin(self, value: Optional[PositiveInteger]) -> "Ipv4Rule":
+        """
+        Filter to match packets with a minimum ttl value (TimeToLive defines the lifetime of data on the network).
+        A None value is a no-op and does not overwrite an existing ttlMin.
+        """
+        if value is not None:
+            self.ttlMin = value
         return self
 
 

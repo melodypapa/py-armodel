@@ -1060,33 +1060,39 @@ tracker rows they motivated (`networkLayerRule | Ipv4Rule | missing`,
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12698 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `Ipv4Rule` — NetworkLayerRule (TBC at Step 1) — R23-11 markdown ECUC-mapping appendix (no table, no XSD)
+- [x] `Ipv4Rule` — NetworkLayerRule — XSD-only (00052 complexType L74485)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
-  - note: PDF Table 6.236 types FirewallRule.networkLayerRule as Ipv4Rule; queued per user
-    arbitration 2026-09-27 ("Enqueue both") — NON-STANDARD source: members derived from the
-    R23-11 markdown ECUC-mapping appendix (AUTOSAR_CP_TPS_SystemTemplate.md L47645+; BSW
-    Parameter FirewallNetworkLayerIpv4FilterConfig, mapping rule "1:1 mapping valid" to
-    ECUC_Fw_00140). No class table in either corpus, IPV4-RULE absent from 00052/00044
-    XSDs → Rule 0015 deviation documented at Step 8; regular stamp not possible (source is
-    neither a spec table nor an XSD complexType) — marker decision arbitrated at 9b.
-  - note (Step 1): member evidence (mmt.qualifiedName paths): checksumVerification
-    (L47659, shared with TransportLayerRule/IcmpRule), differentiatedServiceCodePoint
-    (L47679), doNotFragment (L47695), explicitCongestionNotification (L47711),
-    sourceIpAddress (L47773), destinationIpAddress (L47777), sourceNetworkMask (L47816),
-    destinationNetworkMask (L47820) — descriptions only, TYPES TBC at Step 1. No Base row
-    in any corpus: candidate bases NetworkLayerRule (XSD family + ECU container name
-    "FirewallNetworkLayer*") vs ARObject — arbitrate at Step 1. IcmpRule (code/type/
-    checksumVerification, L48161/L48179/L49116) is appendix-only, NOT a table type ref —
-    not queued; revisit if a later sync references it.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: source premise corrected 2026-09-27 — the earlier NON-STANDARD claim was WRONG:
+    the class IS XSD-defined as the dashed spelling IPV-4-RULE (00052 group L74389,
+    complexType L74485), missed by the audit; amended to XSD-only per Rule 0015
+  - note (Step 1): XSD 00052 group IPV-4-RULE L74389 + complexType L74485; class Note
+    "Configuration of filter rules on IPv4 level."; atp.Status=candidate, atpObject;
+    sequence = AR-OBJECT + NETWORK-LAYER-RULE + IPV-4-RULE → base NetworkLayerRule;
+    own members (verified L74396-L74481) checksumVerification (BOOLEAN 0..1),
+    destinationIpAddress (IP4-ADDRESS-STRING 0..1), destinationNetworkMask
+    (IP4-ADDRESS-STRING 0..1), differentiatedServiceCodePoint (POSITIVE-INTEGER 0..1),
+    doNotFragment (BOOLEAN 0..1), explicitCongestionNotification (POSITIVE-INTEGER 0..1),
+    icmpRule (ICMP-RULE 0..1), internetHeaderLength (POSITIVE-INTEGER 0..1), moreFragments
+    (BOOLEAN 0..1), protocol (POSITIVE-INTEGER 0..1), sourceIpAddress (IP4-ADDRESS-STRING
+    0..1), sourceNetworkMask (IP4-ADDRESS-STRING 0..1), ttlMax (POSITIVE-INTEGER 0..1),
+    ttlMin (POSITIVE-INTEGER 0..1) — 14 members. No table in either corpus — Rule 0015
+    XSD-only.
+  - note (Step 8): no deviations. Member order follows the XSD sequence (doNotFragment/
+    moreFragments interleaved between ECN and header-length/protocol, not alphabetized);
+    multi-line XSD notes joined with single spaces per corpus convention. The class never
+    appears standalone — the writer emits NETWORK-LAYER-RULE/IPV-4-RULE and the parser
+    dispatches on the IPV-4-RULE child (bare NETWORK-LAYER-RULE fallback kept for the
+    abstract NetworkLayerRule placeholder); checklist reader/writer columns are attributed
+    to the setter/getter rows per the IcmpRule precedent.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12713 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `Ipv6Rule` — NetworkLayerRule (TBC at Step 1) — R23-11 markdown ECUC-mapping appendix (no table, no XSD)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py

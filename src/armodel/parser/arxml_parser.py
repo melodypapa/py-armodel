@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     FirewallRule,
     FirewallRuleProps,
     IcmpRule,
+    Ipv4Rule,
     NetworkLayerRule,
     PayloadBytePatternRule,
     PayloadBytePatternRulePart,
@@ -14696,6 +14697,42 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setCode(self.getChildElementOptionalPositiveInteger(element, "CODE"))
         rule.setType(self.getChildElementOptionalPositiveInteger(element, "TYPE"))
 
+    def readIpv4Rule(self, element: ET.Element, rule: Ipv4Rule):
+        rule.setChecksumVerification(self.getChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION"))
+        destination_ip_address = self.getChildElementOptionalLiteral(element, "DESTINATION-IP-ADDRESS")
+        if destination_ip_address is not None:
+            ip4_address = Ip4AddressString()
+            ip4_address.setValue(destination_ip_address.getValue())
+            rule.setDestinationIpAddress(ip4_address)
+        destination_network_mask = self.getChildElementOptionalLiteral(element, "DESTINATION-NETWORK-MASK")
+        if destination_network_mask is not None:
+            ip4_address = Ip4AddressString()
+            ip4_address.setValue(destination_network_mask.getValue())
+            rule.setDestinationNetworkMask(ip4_address)
+        rule.setDifferentiatedServiceCodePoint(self.getChildElementOptionalPositiveInteger(element, "DIFFERENTIATED-SERVICE-CODE-POINT"))
+        rule.setDoNotFragment(self.getChildElementOptionalBooleanValue(element, "DO-NOT-FRAGMENT"))
+        rule.setExplicitCongestionNotification(self.getChildElementOptionalPositiveInteger(element, "EXPLICIT-CONGESTION-NOTIFICATION"))
+        child = self.find(element, "ICMP-RULE")
+        if child is not None:
+            icmp_rule = IcmpRule()
+            self.readIcmpRule(child, icmp_rule)
+            rule.setIcmpRule(icmp_rule)
+        rule.setInternetHeaderLength(self.getChildElementOptionalPositiveInteger(element, "INTERNET-HEADER-LENGTH"))
+        rule.setMoreFragments(self.getChildElementOptionalBooleanValue(element, "MORE-FRAGMENTS"))
+        rule.setProtocol(self.getChildElementOptionalPositiveInteger(element, "PROTOCOL"))
+        source_ip_address = self.getChildElementOptionalLiteral(element, "SOURCE-IP-ADDRESS")
+        if source_ip_address is not None:
+            ip4_address = Ip4AddressString()
+            ip4_address.setValue(source_ip_address.getValue())
+            rule.setSourceIpAddress(ip4_address)
+        source_network_mask = self.getChildElementOptionalLiteral(element, "SOURCE-NETWORK-MASK")
+        if source_network_mask is not None:
+            ip4_address = Ip4AddressString()
+            ip4_address.setValue(source_network_mask.getValue())
+            rule.setSourceNetworkMask(ip4_address)
+        rule.setTtlMax(self.getChildElementOptionalPositiveInteger(element, "TTL-MAX"))
+        rule.setTtlMin(self.getChildElementOptionalPositiveInteger(element, "TTL-MIN"))
+
     def readFirewallRule(self, element: ET.Element, rule: FirewallRule):
         self.readIdentifiable(element, rule)
         rule.setBucketSize(self.getChildElementOptionalPositiveInteger(element, "BUCKET-SIZE"))
@@ -14714,7 +14751,13 @@ class ARXMLParser(AbstractARXMLParser):
             rule.setDoIpRule(do_ip_rule)
         child = self.find(element, "NETWORK-LAYER-RULE")
         if child is not None:
-            rule.setNetworkLayerRule(NetworkLayerRule())
+            ipv4_rule = self.find(child, "IPV-4-RULE")
+            if ipv4_rule is not None:
+                rule_obj = Ipv4Rule()
+                self.readIpv4Rule(ipv4_rule, rule_obj)
+                rule.setNetworkLayerRule(rule_obj)
+            else:
+                rule.setNetworkLayerRule(NetworkLayerRule())
         payload_rules = self.find(element, "PAYLOAD-BYTE-PATTERN-RULES")
         if payload_rules is not None:
             for child in self.findall(payload_rules, "PAYLOAD-BYTE-PATTERN-RULE"):
