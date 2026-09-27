@@ -576,6 +576,7 @@ class MixedContentForUnitNames(ARObject, ABC):
 
     # MixedContentForUnitNames method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.55, p.456 (trailing-caption render: table body above the caption line)
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element; SUP/SUB are xml.attribute=true on the consuming element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getSub       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
