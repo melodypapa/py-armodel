@@ -111,7 +111,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CanNmNode`                                             | [ ] Pending | N/A                                      | Group18          |
 | `ChapterContent`                                        | [ ] Deferred| N/A                                      | Group9           |
 | `ChapterEnumBreak`                                      | [x] Done    | 20e6ee88                                 | Group3           |
-| `ChapterModel`                                          | [ ] Deferred| N/A                                      | Group9           |
+| `ChapterModel`                                          | [x] Done    | d3d61c9b2                                | Group9           |
 | `ClientIdDefinition`                                    | [x] Done    | 8618ec88                                 | Group5           |
 | `ClientIdDefinitionSet`                                 | [x] Done    | 01759771                                 | Group5           |
 | `ClientIdRange`                                         | [x] Done    | fce66955                                 | Group5, Group15  |

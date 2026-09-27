@@ -514,7 +514,7 @@ Status: **49/50** completed
 
 ## Group9
 
-Status: **18/20** completed
+Status: **19/20** completed
 
 | Class Name                    | Status       | Commit ID |
 | ----------------------------- | ------------ | --------- |
@@ -537,7 +537,7 @@ Status: **18/20** completed
 | `LVerbatim`                   | [x] Done     | d616f3d1e |
 | `ARList`                      | [x] Done     | 2151ca030 |
 | `ChapterContent`              | [ ] Pending* | N/A       |
-| `ChapterModel`                | [ ] Pending* | N/A       |
+| `ChapterModel`                | [x] Done    | d3d61c9b2 |
 
 ## Group10
 
