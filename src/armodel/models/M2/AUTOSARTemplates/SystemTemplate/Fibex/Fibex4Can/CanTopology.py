@@ -814,77 +814,110 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
 
 
 class CanControllerConfigurationRequirements(AbstractCanCommunicationControllerAttributes):
-    """
-    Defines configuration requirements for CAN controllers, specifying
-    the timing and communication parameters that must be supported
-    by the CAN communication hardware.
-    """
+    """This element allows the specification of ranges for the CAN Bit Timing configuration parameters. These ranges are taken as requirements and have to be respected by the ECU developer."""
 
     # CanControllerConfigurationRequirements method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxSamplePoint            [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxSamplePoint            [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinSamplePoint            [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinSamplePoint            [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.15, p.65
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxNumberOfTimeQuantaPerBit  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNumberOfTimeQuantaPerBit  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxSamplePoint               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxSamplePoint               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxSyncJumpWidth             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxSyncJumpWidth             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinNumberOfTimeQuantaPerBit  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinNumberOfTimeQuantaPerBit  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinSamplePoint               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinSamplePoint               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinSyncJumpWidth             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinSyncJumpWidth             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.maxNumberOfTimeQuantaPerBit: Integer = None
-        self.maxSamplePoint: Float = None
-        self.maxSyncJumpWidth: Float = None
-        self.minNumberOfTimeQuantaPerBit: Integer = None
-        self.minSamplePoint: Float = None
-        self.minSyncJumpWidth: Float = None
+        # Maximum number of time quanta in the bit time.
+        self.maxNumberOfTimeQuantaPerBit: Optional[Integer] = None
 
-    def getMaxNumberOfTimeQuantaPerBit(self):
+        # The max. value of the sample point as a percentage of the total bit time.
+        self.maxSamplePoint: Optional[Float] = None
+
+        # The max. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors.
+        self.maxSyncJumpWidth: Optional[Float] = None
+
+        # Minimum number of time quanta in the bit time.
+        self.minNumberOfTimeQuantaPerBit: Optional[Integer] = None
+
+        # The min. value of the sample point as a percentage of the total bit time.
+        self.minSamplePoint: Optional[Float] = None
+
+        # The min. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors.
+        self.minSyncJumpWidth: Optional[Float] = None
+
+    def getMaxNumberOfTimeQuantaPerBit(self) -> Optional[Integer]:
+        """Maximum number of time quanta in the bit time."""
         return self.maxNumberOfTimeQuantaPerBit
 
-    def setMaxNumberOfTimeQuantaPerBit(self, value):
-        self.maxNumberOfTimeQuantaPerBit = value
+    def setMaxNumberOfTimeQuantaPerBit(self, value: Optional[Integer]) -> CanControllerConfigurationRequirements:
+        """Maximum number of time quanta in the bit time.
+        A None value is a no-op and does not overwrite an existing maxNumberOfTimeQuantaPerBit."""
+        if value is not None:
+            self.maxNumberOfTimeQuantaPerBit = value
         return self
 
-    def getMaxSamplePoint(self):
+    def getMaxSamplePoint(self) -> Optional[Float]:
+        """The max. value of the sample point as a percentage of the total bit time."""
         return self.maxSamplePoint
 
-    def setMaxSamplePoint(self, value):
-        self.maxSamplePoint = value
+    def setMaxSamplePoint(self, value: Optional[Float]) -> CanControllerConfigurationRequirements:
+        """The max. value of the sample point as a percentage of the total bit time.
+        A None value is a no-op and does not overwrite an existing maxSamplePoint."""
+        if value is not None:
+            self.maxSamplePoint = value
         return self
 
-    def getMaxSyncJumpWidth(self):
+    def getMaxSyncJumpWidth(self) -> Optional[Float]:
+        """The max. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors."""
         return self.maxSyncJumpWidth
 
-    def setMaxSyncJumpWidth(self, value):
-        self.maxSyncJumpWidth = value
+    def setMaxSyncJumpWidth(self, value: Optional[Float]) -> CanControllerConfigurationRequirements:
+        """The max. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors.
+        A None value is a no-op and does not overwrite an existing maxSyncJumpWidth."""
+        if value is not None:
+            self.maxSyncJumpWidth = value
         return self
 
-    def getMinNumberOfTimeQuantaPerBit(self):
+    def getMinNumberOfTimeQuantaPerBit(self) -> Optional[Integer]:
+        """Minimum number of time quanta in the bit time."""
         return self.minNumberOfTimeQuantaPerBit
 
-    def setMinNumberOfTimeQuantaPerBit(self, value):
-        self.minNumberOfTimeQuantaPerBit = value
+    def setMinNumberOfTimeQuantaPerBit(self, value: Optional[Integer]) -> CanControllerConfigurationRequirements:
+        """Minimum number of time quanta in the bit time.
+        A None value is a no-op and does not overwrite an existing minNumberOfTimeQuantaPerBit."""
+        if value is not None:
+            self.minNumberOfTimeQuantaPerBit = value
         return self
 
-    def getMinSamplePoint(self):
+    def getMinSamplePoint(self) -> Optional[Float]:
+        """The min. value of the sample point as a percentage of the total bit time."""
         return self.minSamplePoint
 
-    def setMinSamplePoint(self, value):
-        self.minSamplePoint = value
+    def setMinSamplePoint(self, value: Optional[Float]) -> CanControllerConfigurationRequirements:
+        """The min. value of the sample point as a percentage of the total bit time.
+        A None value is a no-op and does not overwrite an existing minSamplePoint."""
+        if value is not None:
+            self.minSamplePoint = value
         return self
 
-    def getMinSyncJumpWidth(self):
+    def getMinSyncJumpWidth(self) -> Optional[Float]:
+        """The min. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors."""
         return self.minSyncJumpWidth
 
-    def setMinSyncJumpWidth(self, value):
-        self.minSyncJumpWidth = value
+    def setMinSyncJumpWidth(self, value: Optional[Float]) -> CanControllerConfigurationRequirements:
+        """The min. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors.
+        A None value is a no-op and does not overwrite an existing minSyncJumpWidth."""
+        if value is not None:
+            self.minSyncJumpWidth = value
         return self
 
 
