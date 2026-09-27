@@ -20,6 +20,17 @@ from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import MultilanguageReferrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import MimeTypeString, UriString
+from armodel.models.M2.MSR.Documentation.BlockElements.GerneralParameters import (
+    GeneralParameter,
+    PrmChar,
+    PrmCharAbsTol,
+    PrmCharContents,
+    PrmCharMinTypMax,
+    PrmCharNumericalContents,
+    PrmCharNumericalValue,
+    PrmCharTextualContents,
+    Prms,
+)
 
 if TYPE_CHECKING:
     from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
@@ -118,4 +129,29 @@ class Url(ARObject):
         return self.value
 
 
-__all__ = ["AlignEnum", "Colspec", "Entry", "FloatEnum", "FrameEnum", "OrientEnum", "PgwideEnum", "Row", "Table", "TableSeparatorString", "Tbody", "Tgroup", "ValignEnum", "Caption", "Url"]
+__all__ = [
+    "AlignEnum",
+    "Colspec",
+    "Entry",
+    "FloatEnum",
+    "FrameEnum",
+    "OrientEnum",
+    "PgwideEnum",
+    "Row",
+    "Table",
+    "TableSeparatorString",
+    "Tbody",
+    "Tgroup",
+    "ValignEnum",
+    "Caption",
+    "Url",
+    "GeneralParameter",
+    "PrmChar",
+    "PrmCharAbsTol",
+    "PrmCharContents",
+    "PrmCharMinTypMax",
+    "PrmCharNumericalContents",
+    "PrmCharNumericalValue",
+    "PrmCharTextualContents",
+    "Prms",
+]

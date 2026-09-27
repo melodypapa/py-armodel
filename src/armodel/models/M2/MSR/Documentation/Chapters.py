@@ -19,6 +19,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import TraceableTable
 
 if TYPE_CHECKING:
+    from armodel.models.M2.MSR.Documentation.BlockElements.GerneralParameters import Prms
     from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryP1, MsrQueryTopic1
     from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
@@ -247,21 +248,46 @@ class ChapterContent(ARObject):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.60, p.330
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setPrms                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPrms                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setTopicContent        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getTopicContent        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     #
-    # NOTE: prms (Prms, 1, aggr — Table 9.60 first attribute row) is NOT modeled: the
-    # referenced class Prms (Table 9.74; member type GeneralParameter) does not exist in
-    # src and is not queued — Rule 0001.10 referenced missing class, reported at Step 8.
-    # The prior checklist's setPrms/getPrms rows claiming impl [x] were factually wrong
-    # (no prms field or accessor exists) and are removed. `# Spec verified:` stamp
-    # deferred to 9b batch confirmation (2026-09-24).
+    # NOTE: prms was re-added 2026-09-27 (Prms queue row, Group9) after the 2026-09-24
+    # Rule 0001.10 deferral — the referenced class Prms (Table 9.74) now exists
+    # (BlockElements/GerneralParameters.py). `# Spec verified:` stamp deferred to 9b
+    # batch confirmation.
 
     def __init__(self):
         super().__init__()
 
+        # This is a parameter table within a chapter. Tags: xml.sequenceOffset=150
+        self.prms: Optional[Prms] = None
+
         # This is that part of a chapter content which may appear in a chapter as well as in a topic. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=40 xml.typeElement=false xml.typeWrapperElement=false
         self.topicContent: Optional[TopicContentOrMsrQuery] = None
+
+    def setPrms(self, value: Optional[Prms]) -> ChapterContent:
+        """
+        This is a parameter table within a chapter. Tags: xml.sequenceOffset=150
+
+        A None value is a no-op and does not overwrite an existing prms.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.prms = value
+        return self
+
+    def getPrms(self) -> Optional[Prms]:
+        """
+        This is a parameter table within a chapter. Tags: xml.sequenceOffset=150
+
+        Returns:
+            The parameter table within a chapter
+        """
+        return self.prms
 
     def setTopicContent(self, value: Optional[TopicContentOrMsrQuery]) -> ChapterContent:
         """

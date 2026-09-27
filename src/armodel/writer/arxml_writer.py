@@ -1014,6 +1014,11 @@ from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Url
+from armodel.models.M2.MSR.Documentation.BlockElements.GerneralParameters import (
+    GeneralParameter,
+    PrmChar,
+    Prms,
+)
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Area, Graphic, LGraphic, Map, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.Chapters import (
@@ -2426,6 +2431,43 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeChapterContent(self, element: ET.Element, chapter_content: ChapterContent):
         child_element = ET.SubElement(element, "CHAPTER-CONTENT")
         self.writeTopicContentOrMsrQuery(child_element, chapter_content.getTopicContent())
+        self.writePrms(child_element, chapter_content.getPrms())
+
+    def writePrms(self, element: ET.Element, prms: Prms):
+        if prms is None:
+            return
+        child_element = ET.SubElement(element, "PRMS")
+        self.writePaginateable(child_element, prms)
+        self.setMultiLongName(child_element, "LABEL", prms.getLabel())
+        for prm in prms.getPrms():
+            self.writeGeneralParameter(child_element, prm)
+
+    def writeGeneralParameter(self, element: ET.Element, prm: GeneralParameter):
+        child_element = ET.SubElement(element, "PRM")
+        self.writeIdentifiable(child_element, prm)
+        for prm_char in prm.getPrmChars():
+            self.writePrmChar(child_element, prm_char)
+
+    def writePrmChar(self, element: ET.Element, prm_char: PrmChar):
+        child_element = ET.SubElement(element, "PRM-CHAR")
+        self.writeDocumentationBlock(child_element, "COND", prm_char.getCond())
+        numerical = prm_char.getNumericalContents()
+        if numerical is not None:
+            abs_tol = numerical.getAbsTol()
+            if abs_tol is not None:
+                self.setChildElementOptionalNumericalValue(child_element, "ABS", abs_tol.getAbs())
+                self.setChildElementOptionalNumericalValue(child_element, "TOL", abs_tol.getTol())
+            min_typ_max = numerical.getMinTypMax()
+            if min_typ_max is not None:
+                self.setChildElementOptionalNumericalValue(child_element, "MIN", min_typ_max.getMin())
+                self.setChildElementOptionalNumericalValue(child_element, "TYP", min_typ_max.getTyp())
+                self.setChildElementOptionalNumericalValue(child_element, "MAX", min_typ_max.getMax())
+            self.setSingleLanguageUnitNames(child_element, "PRM-UNIT", numerical.getPrmUnit())
+        textual = prm_char.getTextualContents()
+        if textual is not None and textual.getText() is not None:
+            text_element = ET.SubElement(child_element, "TEXT")
+            text_element.text = textual.getText().getValue()
+        self.writeDocumentationBlock(child_element, "REMARK", prm_char.getRemark())
 
     def writeTopicContentOrMsrQuery(self, element: ET.Element, topic_content_or_msr_query: TopicContentOrMsrQuery):
         if topic_content_or_msr_query is None:
