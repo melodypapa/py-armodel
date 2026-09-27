@@ -703,15 +703,56 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `SoAdRoutingGroup` — FibexElement — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ObsoleteModel.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table F.115 p.2057 (appendix, md L75702-75710 of
+    AUTOSAR_CP_TPS_SystemTemplate.md; PDF page confirmed via pypdf — pdf_page.py
+    regex misses F.NN captions): Class = SoAdRoutingGroup (atp.Status=obsolete);
+    Package = M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::
+    ObsoleteModel (repo location matches spec's own package — Rule 0007 in
+    place); Note = "Routing of Pdus in the SoAd can be activated or
+    deactivated. The ShortName of this element shall contain the RoutingGroupId.
+    Tags: atp.Status=obsolete atp.recommendedPackage=SoAdRoutingGroups"; Base =
+    "ARObject, CollectableElement, FibexElement, Identifiable,
+    MultilanguageReferrable, PackageableElement, Referrable" → most-derived
+    FibexElement (claimed base correct; CollectableElement not in Python chain
+    is a FibexElement-level matter); Aggregated by ARPackage.element; 1
+    attribute: eventGroupControlType (EventGroupControlTypeEnum, 0..1, attr).
+    XSD 00052: group SO-AD-ROUTING-GROUP = single EVENT-GROUP-CONTROL-TYPE
+    (0..1), no atp.Status=removed members; XML order = base groups then
+    EVENT-GROUP-CONTROL-TYPE last (matches writer). R23-11 is the primary
+    corpus (R4.3.1 Table 6.125 p.323 exists but Rule 0016.3 fallback not
+    needed). Member type EventGroupControlTypeEnum pre-exists in
+    ServiceInstances.py with the 4 spec literals — reused, not a stub. Drift
+    fixed: fabricated class docstring, bare field annotation, untyped
+    accessors, stale checklist. Import note: top-level
+    `from ...ServiceInstances import EventGroupControlTypeEnum` added to
+    ObsoleteModel.py — safe (no model module runtime-imports ObsoleteModel;
+    ARPackage fully loads before models/__init__ L102).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): readSoAdRoutingGroup (readIdentifiable +
+    getChildElementOptionalLiteral EVENT-GROUP-CONTROL-TYPE →
+    EventGroupControlTypeEnum.setValue → setEventGroupControlType) and
+    writeSoAdRoutingGroup (SO-AD-ROUTING-GROUP SubElement + writeIdentifiable +
+    setChildElementOptionalLiteral via getEventGroupControlType) pre-existed
+    with matched-name pairs — no parser/writer changes needed; new
+    test_so_ad_routing_group.py (5 tests: write all fields, empty omits
+    optional tag, ET round-trip, reader empty, full-document round-trip via
+    ARPackage) and typed-literal parser test pass immediately.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no own method_deviation_by_class.md section exists for this
+    class; referenced-type mentions in MethodActivationRoutingGroup /
+    EventHandler deviation rows remain valid; no new deviations — verbatim
+    docstrings restored, Optional[T] annotation + typed accessors, 6-col
+    checklist written (no stamp markers per batch mode). Did NOT add
+    `from __future__ import annotations` (would break sibling
+    SocketConnection's top-level quoted annotations); setter self-return stays
+    quoted per module convention.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12611 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `StackUsage` — Identifiable — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py

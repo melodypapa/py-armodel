@@ -515,6 +515,22 @@ class TestSoAdRoutingGroupHandler:
         parser.readSoAdRoutingGroup(element, group)
         assert group.getEventGroupControlType() is None
 
+    def test_readSoAdRoutingGroup_typed_enum_literal(self, parser):
+        from armodel.models import SoAdRoutingGroup
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
+            EventGroupControlTypeEnum,
+        )
+
+        group = SoAdRoutingGroup(parent=_autosar_root(), short_name="routeGroup")
+        element = _snip(
+            "<SHORT-NAME>routeGroup</SHORT-NAME>" "<EVENT-GROUP-CONTROL-TYPE>activationMulticast</EVENT-GROUP-CONTROL-TYPE>",
+            root_tag="SO-AD-ROUTING-GROUP",
+        )
+        parser.readSoAdRoutingGroup(element, group)
+        control_type = group.getEventGroupControlType()
+        assert isinstance(control_type, EventGroupControlTypeEnum)
+        assert control_type.getValue() == "activationMulticast"
+
 
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
