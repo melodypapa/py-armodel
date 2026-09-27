@@ -485,7 +485,7 @@ Status: **34/49** completed
 | `SynchronizationTimingConstraint`        | [x] Done     | e305e80e2 |
 | `TimingDescriptionEventChain`            | [x] Done     | ea1a75e5b |
 | `AutosarOperationArgumentInstance`       | [x] Done     | b8cce0057 |
-| `ConcreteTDEventVfb`                     | [ ] Pending* | N/A       |
+| `ConcreteTDEventVfb`                     | [x] Retired  | f032ea574 |
 | `AtpBlueprint`                           | [x] Done     | 043de7436 |
 | `BlueprintGenerator`                     | [ ] Pending* | N/A       |
 | `BlueprintMapping`                       | [ ] Pending* | N/A       |

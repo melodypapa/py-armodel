@@ -62,7 +62,6 @@ ARObject
 ├─ ClientServerOperationMapping (R23-11)
 ├─ CommunicationDirectionType (R23-11)
 ├─ CompositeNetworkRepresentation (R23-11)
-├─ ConcreteTDEventVfb (XSD)
 ├─ ConfigReferenceValue (XSD)
 ├─ ContainedIPduCollectionSemanticsEnum (R23-11)
 ├─ CouplingPortAbstractShaper (XSD)

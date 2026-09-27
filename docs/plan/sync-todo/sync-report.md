@@ -151,7 +151,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CompuScaleContents`                                    | [x] Done    | 88acf483                                 | Group3           |
 | `CompuScaleRationalFormula`                             | [x] Done    | 5a21470c                                 | Group3           |
 | `CompuScales`                                           | [x] Done    | 64d125ffa                                | Group3           |
-| `ConcreteTDEventVfb`                                    | [ ] Deferred| N/A                                      | Group8           |
+| `ConcreteTDEventVfb`                                    | [x] Retired | f032ea574                                | Group8           |
 | `ConditionByFormula`                                    | [x] Done    | 18b494eba                                | Group8           |
 | `ConfigReferenceValue`                                  | [ ] Pending | N/A                                      | Group19          |
 | `ConstantReference`                                     | [ ] Deferred| N/A                                      | Group9           |
