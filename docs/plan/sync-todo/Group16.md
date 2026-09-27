@@ -19,7 +19,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `RuntimeAddressConfigurationEnum` — AREnum — R4.3.1 markdown · Table 6.121 (TPS_SystemTemplate), p.320
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetCommunication.py
-  - feat: c5bb32232 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — class body already spec-faithful (prior unstamped sync) — 6-col checklist + mirror test added
+  - commit: c5bb32232 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — class body already spec-faithful (prior unstamped sync) — 6-col checklist + mirror test added
   - [—] Step 5 — N/A standalone enum
   - [—] Step 6 — N/A standalone enum
   - [x] Step 1 — Sync members & description from spec
@@ -34,7 +34,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `IpAddressKeepEnum` — AREnum — R23-11 markdown · Table 6.138 (CP_TPS_SystemTemplate), p.466
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - feat: c5bb32232 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — class body already spec-faithful — 6-col checklist + mirror test added
+  - commit: c5bb32232 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — class body already spec-faithful — 6-col checklist + mirror test added
   - [—] Step 5 — N/A standalone enum
   - [—] Step 6 — N/A standalone enum
   - [x] Step 1 — Sync members & description from spec
@@ -49,7 +49,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `Ipv6AddressSourceEnum` — AREnum — R23-11 markdown · Table 6.140 (CP_TPS_SystemTemplate), p.467
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - feat: c5bb32232 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — literal value fixed LinkLocalDoIP → linkLocal_doip (markdown literal; XSD 00052 token LINK-LOCAL--DOIP deviates, md-primary per Rule 0015)
+  - commit: c5bb32232 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — literal value fixed LinkLocalDoIP → linkLocal_doip (markdown literal; XSD 00052 token LINK-LOCAL--DOIP deviates, md-primary per Rule 0015)
   - [—] Step 5 — N/A standalone enum
   - [—] Step 6 — N/A standalone enum
   - [x] Step 1 — Sync members & description from spec
@@ -64,7 +64,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `DoIpEntity` — ARObject — R23-11 markdown · Table 6.150 (CP_TPS_SystemTemplate), p.471
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - feat: b1e4750b1 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + typed doIpEntityRole; rw (getDoIpEntity/setDoIpEntity) already complete
+  - commit: b1e4750b1 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + typed doIpEntityRole; rw (getDoIpEntity/setDoIpEntity) already complete
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -81,7 +81,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `TpPort` — ARObject — R23-11 markdown · Table 6.133 (CP_TPS_SystemTemplate), p.461
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - feat: b1e4750b1 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 2 attr notes (dynamicallyAssigned carries atp.Status=obsolete tag verbatim); rw via getTpPort/setTpPort complete
+  - commit: b1e4750b1 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 2 attr notes (dynamicallyAssigned carries atp.Status=obsolete tag verbatim); rw via getTpPort/setTpPort complete
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -94,7 +94,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `InitialSdDelayConfig` — ARObject — R23-11 markdown · Table 6.170 (CP_TPS_SystemTemplate), p.514
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - feat: d7240be74 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — DEDUPLICATED: canonical definition in EthernetTopology.py; ServiceInstances.py copy deleted and re-imported (identical-name duplicate rows in this queue resolved to one class)
+  - commit: d7240be74 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — DEDUPLICATED: canonical definition in EthernetTopology.py; ServiceInstances.py copy deleted and re-imported (identical-name duplicate rows in this queue resolved to one class)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -107,7 +107,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `EthernetPriorityRegeneration` — Referrable — R23-11 markdown · Table 3.74 (CP_TPS_SystemTemplate), p.128
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - feat: b1e4750b1 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 2 attr notes; rw via readEthernetPriorityRegeneration complete
+  - commit: b1e4750b1 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 2 attr notes; rw via readEthernetPriorityRegeneration complete
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -120,7 +120,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `TimeSyncServerConfiguration` — Referrable — R23-11 markdown · Table 6.147 (CP_TPS_SystemTemplate), p.470
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - feat: b1e4750b1 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 4 attr notes; parsed within readTimeSynchronization (server construction at parser:9458)
+  - commit: b1e4750b1 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 4 attr notes; parsed within readTimeSynchronization (server construction at parser:9458)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -146,7 +146,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `MacMulticastGroup` — Identifiable — R23-11 markdown · Table 3.48 (CP_TPS_SystemTemplate), p.104
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - feat: b1e4750b1 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + macMulticastAddress; rw via readMacMulticastGroup complete
+  - commit: b1e4750b1 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + macMulticastAddress; rw via readMacMulticastGroup complete
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -159,7 +159,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `NetworkEndpoint` — Identifiable — R23-11 markdown · Table 6.134 (CP_TPS_SystemTemplate), p.463
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - feat: 6c97ddc10 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 5 attr notes; Step 8 deviation: ipSecConfig AGGR RW UNWIRED (IPSecConfig created minimal — ipSecRule aggr omitted, member classes IPSecRule/IPSecConfigProps not modeled, would cascade into SecureCommunication family) — flagged for user
+  - commit: 6c97ddc10 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 5 attr notes; Step 8 deviation: ipSecConfig AGGR RW UNWIRED (IPSecConfig created minimal — ipSecRule aggr omitted, member classes IPSecRule/IPSecConfigProps not modeled, would cascade into SecureCommunication family) — flagged for user
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -172,7 +172,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `VlanConfig` — Identifiable — R23-11 markdown · Table 3.50 (CP_TPS_SystemTemplate), p.106
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - feat: b1e4750b1 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + vlanIdentifier; rw via readEthernetPhysicalChannelVlan complete
+  - commit: b1e4750b1 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + vlanIdentifier; rw via readEthernetPhysicalChannelVlan complete
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -185,7 +185,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `Ipv4Configuration` — NetworkEndpointAddress — R23-11 markdown · Table 6.136 (CP_TPS_SystemTemplate), p.465
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - feat: 6c97ddc10 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 8 attr notes; ipv4AddressSource now typed Ipv4AddressSourceEnum; ctor no-arg (NetworkEndpointAddress chain)
+  - commit: 6c97ddc10 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 8 attr notes; ipv4AddressSource now typed Ipv4AddressSourceEnum; ctor no-arg (NetworkEndpointAddress chain)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -198,7 +198,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `GenericTp` — TransportProtocolConfiguration — R23-11 markdown · Table 6.126 (CP_TPS_SystemTemplate), p.459
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - feat: 26c26b088 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 2 attr notes; ctor kept no-arg (TransportProtocolConfiguration family contract)
+  - commit: 26c26b088 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 2 attr notes; ctor kept no-arg (TransportProtocolConfiguration family contract)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -211,7 +211,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `TcpTp` — TcpUdpConfig — R23-11 markdown · Table 6.129 (CP_TPS_SystemTemplate), p.460
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - feat: 26c26b088 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 8 attr notes; NEW rw coverage RECEIVE-WINDOW-MIN + TCP-RETRANSMISSION-TIMEOUT (XSD order verified); ctor no-arg
+  - commit: 26c26b088 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 8 attr notes; NEW rw coverage RECEIVE-WINDOW-MIN + TCP-RETRANSMISSION-TIMEOUT (XSD order verified); ctor no-arg
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -224,7 +224,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `UdpTp` — TcpUdpConfig — R23-11 markdown · Table 6.128 (CP_TPS_SystemTemplate), p.459
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - feat: 26c26b088 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + udpTpPort aggr; ctor no-arg
+  - commit: 26c26b088 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + udpTpPort aggr; ctor no-arg
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -237,7 +237,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `SocketConnectionIpduIdentifier` — ARObject — R4.3.1 markdown · Table 6.122 (TPS_SystemTemplate), p.321
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetCommunication.py
-  - feat: 4b7c8dc79 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — R4.3.1 sync: verbatim Note + 6 attrs; FABRICATED PduRef member + PDU-REF parser/writer lines REMOVED (element absent from BOTH XSDs — Rule 0001.3/0014); pduCollectionSemantics/Trigger now typed enums (reader wires literals → enum instances)
+  - commit: 4b7c8dc79 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — R4.3.1 sync: verbatim Note + 6 attrs; FABRICATED PduRef member + PDU-REF parser/writer lines REMOVED (element absent from BOTH XSDs — Rule 0001.3/0014); pduCollectionSemantics/Trigger now typed enums (reader wires literals → enum instances)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -250,7 +250,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `SocketConnectionBundle` — Referrable — R4.3.1 markdown · Table 6.118 (TPS_SystemTemplate), p.316
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetCommunication.py
-  - feat: 4b7c8dc79 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — R4.3.1 sync: verbatim Note + 7 attrs; parser populates pdus via addPdu (Rule 0013); ctor (parent, short_name) per Referrable
+  - commit: 4b7c8dc79 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — R4.3.1 sync: verbatim Note + 7 attrs; parser populates pdus via addPdu (Rule 0013); ctor (parent, short_name) per Referrable
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -275,7 +275,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `RequestResponseDelay` — ARObject — R23-11 markdown · Table 6.171 (CP_TPS_SystemTemplate), p.515
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - feat: d7240be74 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + maxValue/minValue; rw via getRequestResponseDelay complete
+  - commit: d7240be74 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + maxValue/minValue; rw via getRequestResponseDelay complete
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -288,7 +288,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `SdServerConfig` — ARObject — R4.3.1 markdown · Table 6.171 (TPS_SystemTemplate), p.355
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - feat: d7240be74 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — R4.3.1 sync: verbatim Note + 7 attrs; setCapabilityRecords replaced by addCapabilityRecord (aggr * mutator per Rule 0013); reader already used addCapabilityRecord
+  - commit: d7240be74 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — R4.3.1 sync: verbatim Note + 7 attrs; setCapabilityRecords replaced by addCapabilityRecord (aggr * mutator per Rule 0013); reader already used addCapabilityRecord
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -301,7 +301,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `TcpOptionFilterList` — Identifiable — R23-11 markdown · Table 6.123 (CP_TPS_SystemTemplate), p.457
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/TcpOptionFilterSet.py
-  - feat: 2d5b3256b (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — prior R4.3.1 sync upgraded to R23-11 (Rule 0016.3 — class HAS R23-11 Table 6.123): Note "White list..." → "Permitted list..."
+  - commit: 2d5b3256b (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — prior R4.3.1 sync upgraded to R23-11 (Rule 0016.3 — class HAS R23-11 Table 6.123): Note "White list..." → "Permitted list..."
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -314,7 +314,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `TcpOptionFilterSet` — ARElement — R23-11 markdown · Table 6.122 (CP_TPS_SystemTemplate), p.457
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/TcpOptionFilterSet.py
-  - feat: 2d5b3256b (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — prior R4.3.1 sync upgraded to R23-11: member notes "white lists" → "permitted lists"
+  - commit: 2d5b3256b (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — prior R4.3.1 sync upgraded to R23-11: member notes "white lists" → "permitted lists"
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -327,7 +327,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `IPv6ExtHeaderFilterList` — Identifiable — R23-11 markdown · Table 6.121 (CP_TPS_SystemTemplate), p.456
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/IPv6HeaderFilterList.py
-  - feat: 2d5b3256b (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — prior R4.3.1 sync upgraded to R23-11: Note "White list..." → "Permitted list..."; reader/writer N/A (ref target via ALLOWED-I-PV-6-EXT-HEADERS-REF) per prior arbitration
+  - commit: 2d5b3256b (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — prior R4.3.1 sync upgraded to R23-11: Note "White list..." → "Permitted list..."; reader/writer N/A (ref target via ALLOWED-I-PV-6-EXT-HEADERS-REF) per prior arbitration
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -340,7 +340,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `TimeSynchronization` — ARObject — R23-11 markdown · Table 6.145 (CP_TPS_SystemTemplate), p.469
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - feat: b1e4750b1 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 2 aggr notes; rw via getTimeSynchronization/setTimeSynchronization complete
+  - commit: b1e4750b1 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 2 aggr notes; rw via getTimeSynchronization/setTimeSynchronization complete
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)

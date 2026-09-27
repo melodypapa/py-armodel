@@ -19,7 +19,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `CommunicationDirectionType` — AREnum — R23-11 markdown · Table 6.33 (CP_TPS_SystemTemplate), p.351
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - feat: 3378eb624 (steps 1-8; literals renamed ENUM_IN/ENUM_OUT → IN/OUT, verbatim Note + literal descriptions, 6-col checklist; 7 stale test refs updated)
+  - commit: 3378eb624 (feat; steps 1-8; literals renamed ENUM_IN/ENUM_OUT → IN/OUT, verbatim Note + literal descriptions, 6-col checklist; 7 stale test refs updated)
   - note: deviation-tracked entries reviewed (md:2553 = DataMapping member row; v2:1890 package misfile) — informational only, no code deviation
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -37,7 +37,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `TransferPropertyEnum` — AREnum — R23-11 markdown · Table 6.15 (CP_TPS_SystemTemplate), p.327
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - feat: e6baac031 (steps 1-8; class body already spec-faithful — added mirror test + 6-col checklist)
+  - commit: e6baac031 (feat; steps 1-8; class body already spec-faithful — added mirror test + 6-col checklist)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — class already conformant; mirror test green on first run
   - [x] Step 3 — Implement model class (Green) — no change needed
@@ -50,7 +50,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `MultiplexedPart` — ARObject — R23-11 markdown · Table 6.76 (CP_TPS_SystemTemplate), p.411
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - feat: 66512d060 (steps 1-8; verbatim Note + constr_9181, PEP 526 typed list, typed accessors, 6-col checklist; abstract guard kept)
+  - commit: 66512d060 (feat; steps 1-8; verbatim Note + constr_9181, PEP 526 typed list, typed accessors, 6-col checklist; abstract guard kept)
   - note: v2 tracker entry (line 1447) is about StaticPart — informational only
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — 2 failed / 4 passed (fabricated docstrings)
@@ -64,7 +64,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `DynamicPart` — MultiplexedPart — R23-11 markdown · Table 6.74 (CP_TPS_SystemTemplate), p.410
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - feat: 4211085bc (steps 1-8; verbatim Note, PEP 526 typed list, typed accessors, 6-col checklist)
+  - commit: 4211085bc (feat; steps 1-8; verbatim Note, PEP 526 typed list, typed accessors, 6-col checklist)
   - note: kept `MultiplexedPart, VariationPointCapable` — Base row "ARObject, MultiplexedPart" but DYNAMIC-PART XSD group has VARIATION-POINT (StaticPart precedent, accepted deviation)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — authored test-first (verbatim-docstring asserts fail on old fabricated wording)
@@ -78,7 +78,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `SegmentPosition` — ARObject — R23-11 markdown · Table 6.77 (CP_TPS_SystemTemplate), p.412
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - feat: 9546cf291 (steps 1-8; verbatim Note + 3 attr notes incl. long segmentPosition note, Optional[T] PEP 526 replacing bare `: ByteOrderEnum = None`, typed accessors + None-no-op, 6-col checklist)
+  - commit: 9546cf291 (feat; steps 1-8; verbatim Note + 3 attr notes incl. long segmentPosition note, Optional[T] PEP 526 replacing bare `: ByteOrderEnum = None`, typed accessors + None-no-op, 6-col checklist)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — 2 failed / 2 passed (fabricated docstrings)
   - [x] Step 3 — Implement model class (Green)
@@ -91,7 +91,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `ISignalPort` — CommConnectorPort — R23-11 markdown · Table 6.5 (CP_TPS_SystemTemplate), p.306
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - feat: b5f92f4b2 (steps 1-8; page-split table reconstructed (rows above caption 6.5); verbatim Note + 5 attr notes; Optional[T] PEP 526; handleInvalid now typed HandleInvalidEnum; ddsQosProfile (spec, ref kind) already correctly named ddsQosProfileRef; NEW reader/writer coverage for DATA-FILTER/DDS-QOS-PROFILE-REF/FIRST-TIMEOUT/HANDLE-INVALID (only TIMEOUT was wired); parser+writer tests incl. XSD-order + round-trip)
+  - commit: b5f92f4b2 (feat; steps 1-8; page-split table reconstructed (rows above caption 6.5); verbatim Note + 5 attr notes; Optional[T] PEP 526; handleInvalid now typed HandleInvalidEnum; ddsQosProfile (spec, ref kind) already correctly named ddsQosProfileRef; NEW reader/writer coverage for DATA-FILTER/DDS-QOS-PROFILE-REF/FIRST-TIMEOUT/HANDLE-INVALID (only TIMEOUT was wired); parser+writer tests incl. XSD-order + round-trip)
   - note: HandleInvalidEnum import via TYPE_CHECKING (PEP 563 module; runtime import broke normal load path — circular via Communication.py→RTEEvents→ClientComSpec)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — 3 failed / 1 passed
@@ -105,7 +105,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `ISignalIPduGroup` — FibexElement — R23-11 markdown · Table 6.32 (CP_TPS_SystemTemplate), p.351
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - feat: 1e758bd44 (steps 1-8; verbatim Note incl. Tags, PEP 526 types (Optional[CommunicationDirectionType]/Optional[String]/List[RefType]), None-no-op setters + None-guarded adds; NEW NM-PDUS reader+writer coverage (was dropped — silent round-trip loss); XSD order COMMUNICATION-DIRECTION→COMMUNICATION-MODE→CONTAINED-...-REFS→I-SIGNAL-I-PDUS→NM-PDUS)
+  - commit: 1e758bd44 (feat; steps 1-8; verbatim Note incl. Tags, PEP 526 types (Optional[CommunicationDirectionType]/Optional[String]/List[RefType]), None-no-op setters + None-guarded adds; NEW NM-PDUS reader+writer coverage (was dropped — silent round-trip loss); XSD order COMMUNICATION-DIRECTION→COMMUNICATION-MODE→CONTAINED-...-REFS→I-SIGNAL-I-PDUS→NM-PDUS)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — 4 failed / 2 passed
   - [x] Step 3 — Implement model class (Green)
@@ -118,7 +118,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `MultiplexedIPdu` — IPdu — R23-11 markdown · Table 6.72 (CP_TPS_SystemTemplate), p.410
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - feat: eba346cb5 (steps 1-8; verbatim Note + 7 attr notes incl. markdown wrap-spaces ("variation Point"/"short Label" per raw cells), PEP 526 Optional[T] replacing `# type:` comments, triggerMode now typed Optional[TriggerMode]; reader/writer already complete — no change)
+  - commit: eba346cb5 (feat; steps 1-8; verbatim Note + 7 attr notes incl. markdown wrap-spaces ("variation Point"/"short Label" per raw cells), PEP 526 Optional[T] replacing `# type:` comments, triggerMode now typed Optional[TriggerMode]; reader/writer already complete — no change)
   - note: markdown cells carry PDF-wrap spaces verbatim (raw-byte verified per row); test NOTES matched by diff loop
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — 2 failed / 2 passed (fabricated docstrings)
@@ -132,7 +132,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `TriggerMode` — AREnum — NEW row (discovered 2026-09-27 as missing MultiplexedIPdu.triggerMode member type, Rule 0001.10/0016.4) — R23-11 markdown · Table 6.71 (CP_TPS_SystemTemplate), p.408
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - feat: cc609f42a (steps 1-8; 4 literals dynamicPartTrigger/none/staticOrDynamicPartTrigger/staticPartTrigger with verbatim descriptions + EnumerationLiteralIndex tags)
+  - commit: cc609f42a (feat; steps 1-8; 4 literals dynamicPartTrigger/none/staticOrDynamicPartTrigger/staticPartTrigger with verbatim descriptions + EnumerationLiteralIndex tags)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — ImportError (class absent)
   - [x] Step 3 — Implement model class (Green)
@@ -145,7 +145,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `SecuredIPdu` — IPdu — R23-11 markdown · Table 6.42 (CP_TPS_SystemTemplate), p.368
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - feat: 0a98655a0 (steps 1-8; verbatim Note + 7 attr notes (class+test generated from single extraction), PEP 526 types, useSecuredPduHeader now Optional[SecuredPduHeaderEnum]; NEW reader/writer coverage for DYNAMIC-RUNTIME-LENGTH-HANDLING + USE-SECURED-PDU-HEADER per XSD order)
+  - commit: 0a98655a0 (feat; steps 1-8; verbatim Note + 7 attr notes (class+test generated from single extraction), PEP 526 types, useSecuredPduHeader now Optional[SecuredPduHeaderEnum]; NEW reader/writer coverage for DYNAMIC-RUNTIME-LENGTH-HANDLING + USE-SECURED-PDU-HEADER per XSD order)
   - note: SecuredPduHeaderEnum was missing (Rule 0001.10) — created, see new row below
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — 2 failed / 2 passed (fabricated docstrings)
@@ -159,7 +159,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `SecuredPduHeaderEnum` — AREnum — NEW row (discovered 2026-09-27 as missing SecuredIPdu.useSecuredPduHeader member type, Rule 0001.10/0016.4) — R23-11 markdown · Table 6.43 (CP_TPS_SystemTemplate), p.369
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - feat: 3d5cb55db (steps 1-8; 4 literals noHeader/securedPduHeader08Bit/16Bit/32Bit with verbatim descriptions + EnumerationLiteralIndex tags)
+  - commit: 3d5cb55db (feat; steps 1-8; 4 literals noHeader/securedPduHeader08Bit/16Bit/32Bit with verbatim descriptions + EnumerationLiteralIndex tags)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — ImportError (class absent)
   - [x] Step 3 — Implement model class (Green)
@@ -196,7 +196,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `SystemSignal` — ARElement — R23-11 markdown · Table 5.23 (CP_TPS_SystemTemplate), p.218
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - feat: 7c5d9e9d8 (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
+  - commit: 7c5d9e9d8 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
   - note (Step 8): — None-no-op setters replace overwrite; rw already complete
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -210,7 +210,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `TimeRangeType` — ARObject — R23-11 markdown · Table 6.67 (CP_TPS_SystemTemplate), p.413
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py
-  - feat: dcbc6abdb (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
+  - commit: dcbc6abdb (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
   - note (Step 8): — NEW TimeRangeTypeTolerance XSD-only empty-group class created (Rule 0016.4); TOLERANCE element not read/written (ABSOLUTE-/RELATIVE-TOLERANCE choice members not modeled) — deviation flagged
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -224,7 +224,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `TransmissionModeCondition` — ARObject — R23-11 markdown · Table 6.60 (CP_TPS_SystemTemplate), p.393
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py
-  - feat: dcbc6abdb (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
+  - commit: dcbc6abdb (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
   - note (Step 8): — class note completed ("In all other cases..." sentence added per table); None-no-op setters replace overwrite
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -238,7 +238,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `TriggerIPduSendCondition` — ARObject — R23-11 markdown · Table 6.70 (CP_TPS_SystemTemplate), p.399
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py
-  - feat: dcbc6abdb (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
+  - commit: dcbc6abdb (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
   - note (Step 8): — wrap-space "Com_Trigger IPDUSend" kept verbatim per markdown; checklist upgraded to 6-col; accessor names getModeDeclarationRefs/addModeDeclarationRef preserved (rw contract)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -252,7 +252,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `CyclicTiming` — Describable — R23-11 markdown · Table 6.65 (CP_TPS_SystemTemplate), p.408
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py
-  - feat: dcbc6abdb (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
+  - commit: dcbc6abdb (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -265,7 +265,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `EventControlledTiming` — Describable — R23-11 markdown · Table 6.66 (CP_TPS_SystemTemplate), p.409
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py
-  - feat: dcbc6abdb (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
+  - commit: dcbc6abdb (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
   - note (Step 8): — note kept "a event driven" per table verbatim
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -279,7 +279,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `FlexrayChannelName` — AREnum — R23-11 markdown · Table 3.35 (CP_TPS_SystemTemplate), p.89
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
-  - feat: 7c137656f (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
+  - commit: 7c137656f (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
   - note (Step 8): — literal renamed channel_B → CHANNEL_B (case fix, no external usages)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -293,7 +293,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `PncGatewayTypeEnum` — AREnum — R23-11 markdown · Table 3.5 (CP_TPS_SystemTemplate), p.55
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
-  - feat: 7c137656f (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
+  - commit: 7c137656f (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
   - note (Step 8): — literals renamed ENUM_ACTIVE/ENUM_NONE/ENUM_PASSIVE → ACTIVE/NONE/PASSIVE
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -311,7 +311,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `TransmissionModeTiming` — ARObject — R23-11 markdown · Table 6.62 (CP_TPS_SystemTemplate), p.394
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py
-  - feat: dcbc6abdb (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
+  - commit: dcbc6abdb (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -324,7 +324,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `TransmissionModeDeclaration` — ARObject — R23-11 markdown · Table 6.59 (CP_TPS_SystemTemplate), p.392
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py
-  - feat: dcbc6abdb (steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
+  - commit: dcbc6abdb (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
   - note (Step 8): — accessor contract preserved (getModeDrivenFalseConditions/addModeDrivenFalseCondition etc. used by parser+writer); legacy test_Timing.py None-overwrite/None-append assertions updated to the None-guard contract
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
