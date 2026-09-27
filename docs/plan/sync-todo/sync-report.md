@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 462 | 64.6% |
+| [x] Done | 463 | 64.8% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 1 | 0.1% |
-| [ ] Deferred | 139 | 19.4% |
+| [ ] Deferred | 138 | 19.3% |
 | [ ] Pending | 102 | 14.3% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -528,7 +528,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PostBuildVariantCriterion`                             | [x] Done    | 5333bec02                                | Group8           |
 | `PostBuildVariantCriterionValue`                        | [x] Done    | 8af1088fd                                | Group8           |
 | `PrivacyLevel`                                          | [x] Done    | fb222ae5                                 | Group5           |
-| `PrmChar`                                               | [ ] Deferred| a3cf04c73                                | Group9           |
+| `PrmChar`                                               | [x] Done    | a3cf04c73                                | Group9           |
 | `PrmCharAbsTol`                                         | [x] Done    | a3cf04c73                                | Group9           |
 | `PrmCharContents`                                       | [x] Done    | a3cf04c73                                | Group9           |
 | `PrmCharMinTypMax`                                      | [x] Done    | a3cf04c73                                | Group9           |
