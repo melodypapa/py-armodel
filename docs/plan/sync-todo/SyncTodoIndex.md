@@ -524,14 +524,14 @@ Status: **15/20** completed
 | `ConstantSpecification`       | [x] Done     | 265721a76 |
 | `DataFilterTypeEnum`          | [x] Done     | b59bd6ebb |
 | `DataFilter`                  | [x] Done     | ed2a073e7 |
-| `Modification`                | [x] Done     | N/A       |
+| `Modification`                | [x] Done     | 008307967 |
 | `ScaleConstrValidityEnum`     | [x] Done     | 1bc8904ee |
 | `UnitGroup`                   | [x] Done     | e7fdb07f2 |
 | `SwImplPolicyEnum`            | [x] Done     | d6945a4c8 |
 | `SwSystemconst`               | [x] Done     | 984387dd0 |
 | `ListEnum`                    | [x] Done     | 0623068af |
 | `Item`                        | [x] Done     | cf8b43c36 |
-| `TopicContentOrMsrQuery`      | [x] Done     | N/A       |
+| `TopicContentOrMsrQuery`      | [x] Done     | 460218682 |
 | `LOverviewParagraph`          | [x] Done     | 764ef1c58 |
 | `LPlainText`                  | [ ] Pending* | N/A       |
 | `LVerbatim`                   | [ ] Pending* | N/A       |

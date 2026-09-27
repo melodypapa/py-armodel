@@ -58,7 +58,7 @@ REPORT_INTRO = (
 
 
 def is_hash(tok):
-    return 7 <= len(tok) <= 40 and any(c in "abcdef" for c in tok.lower()) and not tok.isdigit()
+    return 7 <= len(tok) <= 40
 
 
 _revparse_cache = {}

@@ -436,7 +436,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ModeSwitchReceiverComSpec`                             | [ ] Deferred| N/A                                      | Group10          |
 | `ModeSwitchSenderComSpec`                               | [ ] Deferred| N/A                                      | Group10          |
 | `ModeSwitchedAckRequest`                                | [ ] Deferred| N/A                                      | Group10          |
-| `Modification`                                          | [x] Done    | N/A                                      | Group9           |
+| `Modification`                                          | [x] Done    | 008307967                                | Group9           |
 | `ModuleConfiguration`                                   | [ ] Pending | N/A                                      | Group19          |
 | `MsrQueryChapter`                                       | [x] Done    | 50103018                                 | Group3           |
 | `MsrQueryP1`                                            | [x] Done    | 8da723c4                                 | Group3           |
@@ -650,7 +650,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TlvDataIdDefinition`                                   | [x] Done    | 27ea0743                                 | Group6           |
 | `TlvDataIdDefinitionSet`                                | [x] Done    | f0c94731                                 | Group6           |
 | `TopicContent`                                          | [x] Done    | 6d7e3257                                 | Group3           |
-| `TopicContentOrMsrQuery`                                | [x] Done    | N/A                                      | Group9           |
+| `TopicContentOrMsrQuery`                                | [x] Done    | 460218682                                | Group9           |
 | `TpAddress`                                             | [ ] Pending | N/A                                      | Group18          |
 | `TpPort`                                                | [ ] Pending | N/A                                      | Group16          |
 | `TraceableTable`                                        | [x] Done    | fa79c73d                                 | Group3           |
