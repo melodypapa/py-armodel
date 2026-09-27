@@ -427,7 +427,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ModeDeclarationMappingSet`                             | [x] Done    | eeec29b6                                 | Group1           |
 | `ModeDrivenTransmissionModeCondition`                   | [x] Done    | 206cf295                                 | Group5           |
 | `ModeGroupInAtomicSwcInstanceRef`                       | [ ] Deferred| 74e821ccb                                | Group11          |
-| `ModeInSwcBswInstanceRef`                               | [ ] Deferred| N/A                                      | Group8           |
+| `ModeInSwcBswInstanceRef`                               | [x] Done    | 71ca6a541                                | Group8           |
 | `ModeInSwcInstanceRef`                                  | [ ] Deferred| N/A                                      | Group8           |
 | `ModeInterfaceMapping`                                  | [ ] Deferred| 883237559                                | Group11          |
 | `ModeRequestTypeMap`                                    | [ ] Deferred| N/A                                      | Group11          |
