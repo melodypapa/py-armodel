@@ -602,7 +602,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SwRecordLayoutGroup`                                   | [x] Done    | 2acaf7a4                                 | Group3           |
 | `SwRecordLayoutGroupContent`                            | [x] Done    | 0f19d490                                 | Group3           |
 | `SwRecordLayoutV`                                       | [x] Done    | 9c0c3f85                                 | Group3           |
-| `SwSystemconst`                                         | [ ] Deferred| N/A                                      | Group9           |
+| `SwSystemconst`                                         | [x] Done    | 984387dd0                                | Group9           |
 | `SwSystemconstDependentFormula`                         | [x] Done    | f05e21d49                                | Group8           |
 | `SwSystemconstValue`                                    | [x] Done    | 5333bec02                                | Group8           |
 | `SwValueCont`                                           | [x] Done    | 6db47de6                                 | Group3           |
