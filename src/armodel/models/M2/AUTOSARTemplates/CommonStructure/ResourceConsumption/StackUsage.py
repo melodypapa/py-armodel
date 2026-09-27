@@ -214,23 +214,16 @@ class MeasuredStackUsage(StackUsage):
 class RoughEstimateStackUsage(StackUsage):
     """
     Rough estimation of the stack usage.
-    This class provides estimated values for stack consumption when exact measurements are not available.
     """
 
     # RoughEstimateStackUsage method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.12, p.151
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getMemoryConsumption         [x] impl  [x] docstring  [x] test
-    # [x] setMemoryConsumption         [x] impl  [x] docstring  [x] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.12, p.151 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMemoryConsumption  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMemoryConsumption  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the RoughEstimateStackUsage with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this rough estimate stack usage
-            short_name: The unique short name of this rough estimate stack usage
-        """
         super().__init__(parent, short_name)
 
         # Rough estimate of the stack usage. Unit: byte.
@@ -238,23 +231,14 @@ class RoughEstimateStackUsage(StackUsage):
 
     def getMemoryConsumption(self) -> Optional[PositiveInteger]:
         """
-        Gets the rough estimate of the stack usage.
-
-        Returns:
-            PositiveInteger: Rough estimate of the stack usage value (Unit: byte)
+        Rough estimate of the stack usage. Unit: byte.
         """
         return self.memoryConsumption
 
     def setMemoryConsumption(self, value: Optional[PositiveInteger]) -> RoughEstimateStackUsage:
         """
-        Sets the rough estimate of the stack usage.
-        A None value is a no-op and does not overwrite an existing value.
-
-        Args:
-            value: The rough estimate of the stack usage value to set (Unit: byte)
-
-        Returns:
-            self for method chaining
+        Rough estimate of the stack usage. Unit: byte.
+        A None value is a no-op and does not overwrite an existing memoryConsumption.
         """
         if value is not None:
             self.memoryConsumption = value

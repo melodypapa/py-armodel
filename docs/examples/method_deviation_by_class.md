@@ -591,7 +591,17 @@ coverage already asserted all four fields via the family tests (Table 8.9 step).
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py`
 
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `memoryConsumption` | `Optional[PositiveInteger]` | `memoryConsumption` | `PositiveInteger` | attr | ok (markdown row renders "memory Consumption" — line-wrap artifact) |
+
 No deviations.
+
+2026-09-27 sync (Table 8.12, p.151): stale 4-column checklist replaced with the 6-column format (stamp
+deferred to batch confirmation); fabricated class-docstring second sentence removed and `__init__`
+docstring/paraphrase accessor docstrings wiped and rewritten verbatim from the R23-11 Note. Parser/writer
+coverage already asserted the field end-to-end via the family tests (Table 8.9 step). Tests:
+test_StackUsage.py (model).
 
 ## `HeapUsage`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 152

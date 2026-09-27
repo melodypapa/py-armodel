@@ -47,6 +47,10 @@ MINIMUM_MEMORY_CONSUMPTION_NOTE = "The minimum stack usage measured. Unit: byte.
 
 TEST_PATTERN_NOTE = "Description of the test pattern used to acquire the measured values."
 
+ROUGH_ESTIMATE_STACK_USAGE_NOTE = "Rough estimation of the stack usage."
+
+ROUGH_MEMORY_CONSUMPTION_NOTE = "Rough estimate of the stack usage. Unit: byte."
+
 
 def _setter_tail(name):
     return "A None value is a no-op and does not overwrite an existing %s." % name
@@ -238,12 +242,37 @@ class TestMeasuredStackUsage:
 
 class TestRoughEstimateStackUsage:
     """
-    Test class for RoughEstimateStackUsage functionality.
+    Test class for RoughEstimateStackUsage functionality (Table 8.12).
     """
 
-    def test_instantiation(self):
-        obj = _instantiate(RoughEstimateStackUsage, "RoughStack")
-        assert obj.getShortName() == "RoughStack"
+    def test_base_chain(self):
+        assert RoughEstimateStackUsage.__bases__ == (StackUsage,)
+
+    def test_class_docstring_verbatim(self):
+        assert inspect.cleandoc(RoughEstimateStackUsage.__doc__) == ROUGH_ESTIMATE_STACK_USAGE_NOTE
+
+    def test_initialization(self):
+        obj = _instantiate(RoughEstimateStackUsage, "RSU")
+        assert obj.getShortName() == "RSU"
+        assert obj.getMemoryConsumption() is None
+
+    def test_annotations_match_spec_types(self):
+        hints = get_type_hints(RoughEstimateStackUsage.getMemoryConsumption)
+        assert hints["return"] == Optional[PositiveInteger]
+
+    def test_get_set_memory_consumption(self):
+        obj = _instantiate(RoughEstimateStackUsage, "RSU")
+        assert obj.setMemoryConsumption(PositiveInteger().setValue("300")) is obj
+        assert obj.getMemoryConsumption().getValue() == 300
+        obj.setMemoryConsumption(None)
+        assert obj.getMemoryConsumption().getValue() == 300
+
+    def test_init_has_no_docstring(self):
+        assert RoughEstimateStackUsage.__init__.__doc__ is None
+
+    def test_docstrings_verbatim(self):
+        assert _doc(RoughEstimateStackUsage.getMemoryConsumption) == ROUGH_MEMORY_CONSUMPTION_NOTE
+        assert _doc(RoughEstimateStackUsage.setMemoryConsumption) == ROUGH_MEMORY_CONSUMPTION_NOTE + "\n" + _setter_tail("memoryConsumption")
 
 
 class TestWorstCaseStackUsage:

@@ -858,15 +858,40 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - after `StackUsage`
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 8.12, p.151 (R23-11, AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate;
+    pdf_page.py confirms p.151); Class = RoughEstimateStackUsage; Package =
+    M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage; Note = "Rough
+    estimation of the stack usage."; Base = "ARObject, Identifiable, MultilanguageReferrable,
+    Referrable, StackUsage" → most-derived StackUsage (claimed base correct);
+    Aggregated by ResourceConsumption.stackUsage; 1 attribute row: memoryConsumption
+    (PositiveInteger, 0..1, attr; md renders "memory Consumption" — line-wrap artifact).
+    XSD 00052: group ROUGH-ESTIMATE-STACK-USAGE L99477 = MEMORY-CONSUMPTION
+    (complexType L99493). Table and XSD agree 1:1, no XSD-only attrs. Drift: fabricated
+    class-docstring second sentence, __init__ docstring, paraphrase accessor docstrings,
+    stale 4-col checklist. Tracker review: the RoughEstimateStackUsage section held
+    ("No deviations") — refreshed with the member table.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - note (Steps 2-4): TestRoughEstimateStackUsage extended (base chain, verbatim class
+    Note, defaults, get_type_hints pin Optional[PositiveInteger], get/set + None-no-op
+    round-trip, __init__-has-no-docstring, verbatim accessor docstrings with setter
+    tails); initial run 3 failed / 26 passed (genuine Red: fabricated class-docstring
+    second sentence, __init__ docstring, paraphrase accessor docstrings), 29 passed after
+    the verbatim rewrite (Rule 0012.2 wipe + rewrite).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): existing coverage from the Table 8.9 step already asserts the field
+    end-to-end — parser test_read_rough_and_worst_field_values (MEMORY-CONSUMPTION value +
+    inherited-optional absence) and writer tests (field value, write→parse round-trip with
+    value assertion); extended rather than duplicated — no new tests needed, reader/writer
+    unchanged, 40 passed across the three test files.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviations — the docstring drift fixes are conformance; tracker
+    section refreshed (member table, all ok).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12648 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `WorstCaseStackUsage` — StackUsage — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py
