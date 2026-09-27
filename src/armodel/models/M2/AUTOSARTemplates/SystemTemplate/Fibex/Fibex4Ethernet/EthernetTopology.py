@@ -1894,9 +1894,10 @@ class IpAddressKeepEnum(AREnum):
     """
 
     # IpAddressKeepEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.138, p.466
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.138, p.466 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on Ipv4Configuration/Ipv6Configuration.ipAddressKeepBehavior
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # After a dynamic IP address has been assigned just use it for this session. Tags: atp.EnumerationLiteralIndex=0
     FORGET = "forget"
@@ -1919,9 +1920,10 @@ class Ipv6AddressSourceEnum(AREnum):
     """
 
     # Ipv6AddressSourceEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.140, p.467
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.140, p.467 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on Ipv6Configuration.ipv6AddressSource
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # DHCP is a service for the automatic IP configuration of a client. Tags: atp.EnumerationLiteralIndex=0
     DHCPV6 = "dhcpv6"
@@ -1932,8 +1934,8 @@ class Ipv6AddressSourceEnum(AREnum):
     # LinkLocal is intended only for communications within the segment of a local network (a link) or a point-to-point connection that a host is connected to. Tags: atp.EnumerationLiteralIndex=2
     LINK_LOCAL = "linkLocal"
 
-    # Linklocal IPv6 Address Assignment using DoIP Parameters Tags: atp.EnumerationLiteralIndex=3
-    LINK_LOCAL_DOIP = "LinkLocalDoIP"
+    # Linklocal IPv6 Address Assignment using DoIP Parameters Tags: atp.EnumerationLiteralIndex=3 xml.name=LINK-LOCAL-DOIP
+    LINK_LOCAL_DOIP = "linkLocal_doip"
 
     # IPv6 Stateless Autoconfiguration. Tags: atp.EnumerationLiteralIndex=4
     ROUTER_ADVERTISEMENT = "routerAdvertisement"
