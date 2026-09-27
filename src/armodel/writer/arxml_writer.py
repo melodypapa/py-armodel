@@ -12699,7 +12699,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeSwSystemconstValue(self, element: ET.Element, value: SwSystemconstValue):
         child_element = ET.SubElement(element, "SW-SYSTEMCONST-VALUE")
         self.setChildElementOptionalRefType(child_element, "SW-SYSTEMCONST-REF", value.getSwSystemconstRef())
-        self.setChildElementOptionalNumericalValue(child_element, "VALUE", value.getValue())
+        self.setChildElementOptionalNumerical(child_element, "VALUE", value.getValue())
         self.setAnnotations(child_element, value.getAnnotations())
 
     def writeSwSystemconstantValueSetSwSystemconstantValues(self, element: ET.Element, value_set: SwSystemconstantValueSet):

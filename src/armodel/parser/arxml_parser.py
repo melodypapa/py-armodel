@@ -11830,7 +11830,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSwSystemconstValue(self, element: ET.Element, value: SwSystemconstValue):
         value.setSwSystemconstRef(self.getChildElementOptionalRefType(element, "SW-SYSTEMCONST-REF"))
-        value.setValue(self.getChildElementOptionalNumericalValue(element, "VALUE"))
+        value.setValue(self.getChildElementOptionalNumerical(element, "VALUE"))
         for annotation in self.getAnnotations(element):
             value.addAnnotation(annotation)
 

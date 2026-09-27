@@ -35,6 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARNumerical,
     Boolean,
     Float,
+    Numerical,
     RefType,
     RevisionLabelString,
     String,
@@ -690,7 +691,7 @@ class TestWriterSwSystemconstValue:
     def test_full(self, writer):
         value = SwSystemconstValue()
         value.setSwSystemconstRef(_ref("/sc", "SW-SYSTEMCONST"))
-        value.setValue(_numerical(42))
+        value.setValue(Numerical().setValue("42"))
         value.addAnnotation(Annotation())
         parent = _parent()
         writer.writeSwSystemconstValue(parent, value)

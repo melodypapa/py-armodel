@@ -16,9 +16,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     BindingTimeEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARNumerical,
     Identifier,
     Integer,
+    Numerical,
     RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
@@ -42,8 +42,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import Mult
 def test_sw_systemconst_value_getters_setters_and_chaining():
     system_const_ref = RefType().setValue("/RootPkg/MyConst")
     annotation = Annotation()
-    numerical_value = ARNumerical()
-    numerical_value.setValue(42)
+    numerical_value = Numerical().setValue("42")
 
     value = SwSystemconstValue()
 
@@ -587,16 +586,16 @@ class TestSwSystemconstValueSpecContract:
         assert setter_hints.get("value") is RefType
         assert setter_hints.get("return") is SwSystemconstValue
 
-    def test_value_typed_optional_ar_numerical(self):
+    def test_value_typed_optional_numerical(self):
         """
-        Test that value (Numerical, 1 attr) is typed Optional[ARNumerical]
-        (the repo class for the spec Numerical type).
+        Test that value (Table 7.9: Numerical, 1, attr) is typed Optional[Numerical]
+        (the stamped PrimitiveTypes Numerical class, Table E.58 — not the ARNumerical ARType).
         """
         getter_hints = typing.get_type_hints(SwSystemconstValue.getValue)
-        assert getter_hints.get("return") == typing.Optional[ARNumerical]
+        assert getter_hints.get("return") == typing.Optional[Numerical]
 
         setter_hints = typing.get_type_hints(SwSystemconstValue.setValue)
-        assert setter_hints.get("value") == typing.Optional[ARNumerical]
+        assert setter_hints.get("value") == typing.Optional[Numerical]
         assert setter_hints.get("return") is SwSystemconstValue
 
     def test_getter_docstrings_are_notes_without_tags(self):
@@ -642,7 +641,7 @@ class TestSwSystemconstValueSpecContract:
         value = SwSystemconstValue()
         annotation = Annotation()
         ref = RefType().setValue("/Constants/MyConst")
-        numerical = ARNumerical().setValue(1)
+        numerical = Numerical().setValue("1")
 
         value.addAnnotation(annotation)
         value.setSwSystemconstRef(ref)

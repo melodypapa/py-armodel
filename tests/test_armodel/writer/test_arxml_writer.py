@@ -29,6 +29,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Limit,
     MonotonyEnum,
     NameToken,
+    Numerical,
     PositiveInteger,
     RefType,
     RevisionLabelString,
@@ -1241,9 +1242,8 @@ class TestARXMLWriterSwSystemconstantValueSetMethods:
         ref.setValue("/Constants/MySystemConstant")
         value.setSwSystemconstRef(ref)
 
-        num = Float()
-        num.setValue(42)
-        num._text = "42"
+        num = Numerical()
+        num.setValue("42")
         value.setValue(num)
         value_set.addSwSystemconstantValue(value)
 
@@ -1310,8 +1310,8 @@ class TestARXMLWriterSwSystemconstantValueSetMethods:
         ref.setDest("SW-SYSTEMCONST")
         ref.setValue("/Constants/MySystemConstant")
         value.setSwSystemconstRef(ref)
-        numerical = ARNumerical()
-        numerical.setValue(42)
+        numerical = Numerical()
+        numerical.setValue("42")
         value.setValue(numerical)
         value.addAnnotation(Annotation())
         value_set.addSwSystemconstantValue(value)
@@ -1335,8 +1335,8 @@ class TestARXMLWriterSwSystemconstantValueSetMethods:
         value_set = pkg.createSwSystemconstantValueSet("BareValueSet")
 
         value = SwSystemconstValue()
-        numerical = ARNumerical()
-        numerical.setValue(1)
+        numerical = Numerical()
+        numerical.setValue("1")
         value.setValue(numerical)
         value_set.addSwSystemconstantValue(value)
 
@@ -1367,8 +1367,8 @@ class TestSwSystemconstantValueSetRoundTrip:
         ref.setDest("SW-SYSTEMCONST")
         ref.setValue("/Constants/MaxSpeed")
         value.setSwSystemconstRef(ref)
-        numerical = ARNumerical()
-        numerical.setValue(42)
+        numerical = Numerical()
+        numerical.setValue("42")
         value.setValue(numerical)
         annotation = Annotation()
         annotation.setAnnotationOrigin(String().setValue("variant-manager"))
@@ -1399,8 +1399,8 @@ class TestSwSystemconstantValueSetRoundTrip:
         assert ref.getValue() == "/Constants/MaxSpeed"
         assert ref.getDest() == "SW-SYSTEMCONST"
         numerical = value.getValue()
-        assert isinstance(numerical, ARNumerical)
-        assert numerical.getValue() == 42
+        assert isinstance(numerical, Numerical)
+        assert numerical.getValue() == "42"
         annotations = value.getAnnotations()
         assert len(annotations) == 1
         assert annotations[0].getAnnotationOrigin().getValue() == "variant-manager"
