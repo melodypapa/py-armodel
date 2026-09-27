@@ -1,3 +1,5 @@
+from abc import ABC
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import (
@@ -5,6 +7,7 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import (
     HwElement,
 )
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
@@ -13,6 +16,8 @@ class TestHwDescriptionEntity:
         """Test that HwDescriptionEntity abstract class cannot be instantiated directly"""
         with pytest.raises(TypeError, match="HwDescriptionEntity is an abstract class"):
             HwDescriptionEntity(None, "TestEntity")
+
+        assert HwDescriptionEntity.__bases__ == (Referrable, ABC)
 
     def test_concrete_subclass_initialization(self):
         """Test that a concrete subclass of HwDescriptionEntity can be instantiated"""

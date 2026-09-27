@@ -1,3 +1,5 @@
+from abc import ABC
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
@@ -10,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
     BuildEngineeringObject,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, NameToken, RefType, RegularExpression, UriString, VerbatimString
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 
@@ -19,6 +22,7 @@ class TestBuildActionEntity:
         with pytest.raises(TypeError, match="BuildActionEntity is an abstract class"):
             BuildActionEntity(AUTOSAR.getInstance(), "Entity")
 
+        assert BuildActionEntity.__bases__ == (Identifiable, ABC)
         assert BuildActionEntity.__doc__.strip() == (
             "This meta-class represents the ability to describe a build action entity which might be specialized " "to environments as well as to individual build actions."
         )

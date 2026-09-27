@@ -6,6 +6,7 @@ AUTOSAR FeatureModelTemplate module.
 import inspect
 import re
 import typing
+from abc import ABC
 
 import pytest
 
@@ -112,7 +113,7 @@ class TestFMFormulaByFeaturesAndAttributesSpecContract:
         most-derived base FormulaExpression is the direct Python base; the
         ARObject and AtpMixedString (<<atpMixedString>>) ancestry is in the MRO.
         """
-        assert FMFormulaByFeaturesAndAttributes.__bases__ == (FormulaExpression,)
+        assert FMFormulaByFeaturesAndAttributes.__bases__ == (FormulaExpression, ABC)
         for base in (ARObject, AtpMixedString, FormulaExpression):
             assert base in FMFormulaByFeaturesAndAttributes.__mro__
 

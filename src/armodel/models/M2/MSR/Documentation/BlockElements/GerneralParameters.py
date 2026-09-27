@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from abc import ABC
 from typing import TYPE_CHECKING, List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -13,13 +14,14 @@ if TYPE_CHECKING:
     from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 
 
-class PrmCharContents(ARObject):
+class PrmCharContents(ARObject, ABC):
     """
     This is the contents of the parameter.
     """
 
     # PrmCharContents method parity checklist:
     # Spec: AUTOSAR_00052.xsd, group PRM-CHAR-CONTENTS l.93805 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd (2026-09-28, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -29,13 +31,14 @@ class PrmCharContents(ARObject):
         super().__init__()
 
 
-class PrmCharNumericalValue(ARObject):
+class PrmCharNumericalValue(ARObject, ABC):
     """
     This metaclass represents a numercial parameter characteristics.
     """
 
     # PrmCharNumericalValue method parity checklist:
     # Spec: AUTOSAR_00052.xsd, group PRM-CHAR-NUMERICAL-VALUE l.93890 (XSD-only; group-only in both XSDs — no complexType; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd (2026-09-28, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -52,6 +55,7 @@ class PrmCharAbsTol(PrmCharNumericalValue):
 
     # PrmCharAbsTol method parity checklist:
     # Spec: AUTOSAR_00052.xsd, complexType PRM-CHAR-ABS-TOL l.93791, group l.93769 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd (2026-09-28, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] setAbs    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -120,6 +124,7 @@ class PrmCharMinTypMax(PrmCharNumericalValue):
 
     # PrmCharMinTypMax method parity checklist:
     # Spec: AUTOSAR_00052.xsd, complexType PRM-CHAR-MIN-TYP-MAX l.93842, group l.93814 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd (2026-09-28, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] setMin    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -215,6 +220,7 @@ class PrmCharNumericalContents(PrmCharContents):
 
     # PrmCharNumericalContents method parity checklist:
     # Spec: AUTOSAR_00052.xsd, complexType PRM-CHAR-NUMERICAL-CONTENTS l.93876, group l.93856 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd (2026-09-28, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] setAbsTol       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -310,6 +316,7 @@ class PrmCharTextualContents(PrmCharContents):
 
     # PrmCharTextualContents method parity checklist:
     # Spec: AUTOSAR_00052.xsd, complexType PRM-CHAR-TEXTUAL-CONTENTS l.93915, group l.93899 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd (2026-09-28, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] setText   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -351,6 +358,7 @@ class PrmChar(ARObject):
 
     # PrmChar method parity checklist:
     # Spec: AUTOSAR_00052.xsd, complexType PRM-CHAR l.93756, group l.93730 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd (2026-09-28, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] setCond                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -473,6 +481,7 @@ class GeneralParameter(Identifiable):
 
     # GeneralParameter method parity checklist:
     # Spec: AUTOSAR_00052.xsd, complexType GENERAL-PARAMETER l.63790, group l.63774 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd (2026-09-28, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addPrmChar      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -515,6 +524,7 @@ class Prms(Paginateable):
     # Prms method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.74, p.339 (R23-11; markdown render loses the meta rows —
     #       Note/Base/label verified against the R4.3.1 reproduction Table 8.75, p.305, row-identical)
+    # Spec verified: R23-11 (2026-09-28, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] setLabel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11

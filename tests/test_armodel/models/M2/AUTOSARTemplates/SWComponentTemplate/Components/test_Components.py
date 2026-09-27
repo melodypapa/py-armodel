@@ -2,6 +2,7 @@
 This module contains tests for the Components subdirectory in SWComponentTemplate.
 """
 
+from abc import ABC
 from typing import List
 
 import pytest
@@ -837,6 +838,11 @@ class TestAbstractProvidedPortPrototypeSpecContract:
         with pytest.raises(TypeError):
             AbstractProvidedPortPrototype(None, "abstract")
 
+    def test_abstract_class_declared_abc(self):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PortPrototype
+
+        assert AbstractProvidedPortPrototype.__bases__ == (PortPrototype, ABC)
+
     def test_class_note_verbatim(self):
         import inspect
 
@@ -891,6 +897,11 @@ class TestAbstractRequiredPortPrototypeSpecContract:
     def test_abstract_guard(self):
         with pytest.raises(TypeError):
             AbstractRequiredPortPrototype(None, "abstract")
+
+    def test_abstract_class_declared_abc(self):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PortPrototype
+
+        assert AbstractRequiredPortPrototype.__bases__ == (PortPrototype, ABC)
 
     def test_class_note_verbatim(self):
         import inspect

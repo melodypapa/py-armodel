@@ -109,7 +109,7 @@ class AttributeValueVariationPoint(SwSystemconstDependentFormula, ABC):
         return self
 
 
-class AbstractEnumerationValueVariationPoint(AttributeValueVariationPoint):
+class AbstractEnumerationValueVariationPoint(AttributeValueVariationPoint, ABC):
     """
     This is an abstract EnumerationValueVariationPoint. It is introduced to support the case that additional attributes are required for particular purposes.
 
@@ -165,7 +165,7 @@ class AbstractEnumerationValueVariationPoint(AttributeValueVariationPoint):
         return self
 
 
-class AbstractNumericalVariationPoint(AttributeValueVariationPoint):
+class AbstractNumericalVariationPoint(AttributeValueVariationPoint, ABC):
     """
     This is an abstract NumericalValueVariationPoint. It is introduced to support the case that additional attributes are required for particular purposes.
 

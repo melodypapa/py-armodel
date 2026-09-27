@@ -4,6 +4,18 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 **Status legend:** `[x] Done` = 9-step sync complete AND `# Spec verified:`/`# XSD verified:` stamped in src · `[x]`/`[ ] Deferred` = sync complete (Steps 1–8 green) but the stamp is **deferred to a batch 9b user confirmation** · `[ ] Pending` = sync not yet complete. (Deferred set audited 2026-09-27 against the src stamps.)
 
+## Summary
+
+**715 classes total**
+
+| Status | Classes | Percent |
+| --- | --- | --- |
+| [x] Done | 465 | 65.0% |
+| [x] Deferred | 11 | 1.5% |
+| [x] Retired | 1 | 0.1% |
+| [ ] Deferred | 136 | 19.0% |
+| [ ] Pending | 102 | 14.3% |
+
 | Class Name                                              | Status      | Commit ID                                | Groups           |
 | ------------------------------------------------------- | ------------| ---------------------------------------- | ---------------- |
 | `ARElement`                                             | [x] Done    | 61c85fa7                                 | Group1           |
@@ -109,7 +121,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CanNmCluster`                                          | [ ] Pending | N/A                                      | Group18          |
 | `CanNmClusterCoupling`                                  | [ ] Pending | N/A                                      | Group18          |
 | `CanNmNode`                                             | [ ] Pending | N/A                                      | Group18          |
-| `ChapterContent`                                        | [ ] Deferred| N/A                                      | Group9           |
+| `ChapterContent`                                        | [x] Done    | dee07d0a3                                | Group9           |
 | `ChapterEnumBreak`                                      | [x] Done    | 20e6ee88                                 | Group3           |
 | `ChapterModel`                                          | [x] Done    | d3d61c9b2                                | Group9           |
 | `ClientIdDefinition`                                    | [x] Done    | 8618ec88                                 | Group5           |
@@ -331,7 +343,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `FurtherActionByteNeeds`                                | [x] Done    | 30e266fd                                 | Group5           |
 | `Gateway`                                               | [ ] Pending | N/A                                      | Group17          |
 | `GeneralAnnotation`                                     | [x] Done    | ab2daa77                                 | Group3           |
-| `GeneralParameter`                                      | [ ] Deferred| a3cf04c73                                | Group9           |
+| `GeneralParameter`                                      | [x] Done    | a3cf04c73                                | Group9           |
 | `GeneralPurposeIPdu`                                    | [x] Done    | 75683a2e                                 | Group5           |
 | `GeneralPurposePdu`                                     | [x] Done    | 75683a2e                                 | Group5           |
 | `GenericEthernetFrame`                                  | [x] Done    | b29e5072                                 | Group6           |
@@ -516,14 +528,14 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PostBuildVariantCriterion`                             | [x] Done    | 5333bec02                                | Group8           |
 | `PostBuildVariantCriterionValue`                        | [x] Done    | 8af1088fd                                | Group8           |
 | `PrivacyLevel`                                          | [x] Done    | fb222ae5                                 | Group5           |
-| `PrmChar`                                               | [ ] Deferred| a3cf04c73                                | Group9           |
-| `PrmCharAbsTol`                                         | [ ] Deferred| a3cf04c73                                | Group9           |
-| `PrmCharContents`                                       | [ ] Deferred| a3cf04c73                                | Group9           |
-| `PrmCharMinTypMax`                                      | [ ] Deferred| a3cf04c73                                | Group9           |
-| `PrmCharNumericalContents`                              | [ ] Deferred| a3cf04c73                                | Group9           |
-| `PrmCharNumericalValue`                                 | [ ] Deferred| a3cf04c73                                | Group9           |
-| `PrmCharTextualContents`                                | [ ] Deferred| a3cf04c73                                | Group9           |
-| `Prms`                                                  | [ ] Deferred| a3cf04c73                                | Group9           |
+| `PrmChar`                                               | [x] Done    | a3cf04c73                                | Group9           |
+| `PrmCharAbsTol`                                         | [x] Done    | a3cf04c73                                | Group9           |
+| `PrmCharContents`                                       | [x] Done    | a3cf04c73                                | Group9           |
+| `PrmCharMinTypMax`                                      | [x] Done    | a3cf04c73                                | Group9           |
+| `PrmCharNumericalContents`                              | [x] Done    | a3cf04c73                                | Group9           |
+| `PrmCharNumericalValue`                                 | [x] Done    | a3cf04c73                                | Group9           |
+| `PrmCharTextualContents`                                | [x] Done    | a3cf04c73                                | Group9           |
+| `Prms`                                                  | [x] Done    | a3cf04c73                                | Group9           |
 | `ProgramminglanguageEnum`                               | [x] Done    | be79d799                                 | Group1           |
 | `QueuedReceiverComSpec`                                 | [ ] Deferred| N/A                                      | Group10          |
 | `QueuedSenderComSpec`                                   | [x] Done    | 4a7d82ff                                 | Group5           |

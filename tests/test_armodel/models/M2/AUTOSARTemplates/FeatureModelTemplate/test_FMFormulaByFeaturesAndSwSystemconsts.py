@@ -5,6 +5,7 @@ AUTOSAR FeatureModelTemplate module.
 
 import inspect
 import typing
+from abc import ABC
 
 import pytest
 
@@ -32,6 +33,9 @@ class TestFMFormulaByFeaturesAndSwSystemconsts:
     def test_abstract_class_not_instantiable(self):
         with pytest.raises(TypeError):
             FMFormulaByFeaturesAndSwSystemconsts()
+
+    def test_abstract_class_declared_abc(self):
+        assert FMFormulaByFeaturesAndSwSystemconsts.__bases__ == (SwSystemconstDependentFormula, ABC)
 
     def test_initialization_via_concrete_subclass(self):
         obj = _ConcreteFormula()

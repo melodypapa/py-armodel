@@ -13,6 +13,7 @@ every class in scope.
 
 import inspect
 import typing
+from abc import ABC
 
 import pytest
 
@@ -82,6 +83,10 @@ class TestAttributeValueVariationPointAbstractGuards:
     def test_abstract_numerical_is_abstract(self):
         with pytest.raises(TypeError):
             AbstractNumericalVariationPoint()
+
+    def test_abstract_markers_declared_abc(self):
+        assert AbstractEnumerationValueVariationPoint.__bases__ == (AttributeValueVariationPoint, ABC)
+        assert AbstractNumericalVariationPoint.__bases__ == (AttributeValueVariationPoint, ABC)
 
 
 class TestAttributeValueVariationPointInstantiation:
@@ -289,7 +294,7 @@ class TestAbstractEnumerationValueVariationPointSpecContract:
         FormulaExpression , SwSystemconstDependentFormula) is anchored on its most-derived
         member AttributeValueVariationPoint (the stamped-sibling form).
         """
-        assert AbstractEnumerationValueVariationPoint.__bases__ == (AttributeValueVariationPoint,)
+        assert AbstractEnumerationValueVariationPoint.__bases__ == (AttributeValueVariationPoint, ABC)
         assert issubclass(AbstractEnumerationValueVariationPoint, ARObject)
         assert issubclass(AbstractEnumerationValueVariationPoint, FormulaExpression)
         assert issubclass(AbstractEnumerationValueVariationPoint, SwSystemconstDependentFormula)
