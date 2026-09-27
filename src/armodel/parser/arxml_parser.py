@@ -9564,7 +9564,8 @@ class ARXMLParser(AbstractARXMLParser):
         bundle.setDifferentiatedServiceField(self.getChildElementOptionalPositiveInteger(element, "DIFFERENTIATED-SERVICE-FIELD"))
         bundle.setFlowLabel(self.getChildElementOptionalPositiveInteger(element, "FLOW-LABEL"))
         bundle.setPathMtuDiscoveryEnabled(self.getChildElementOptionalBooleanValue(element, "PATH-MTU-DISCOVERY-ENABLED"))
-        bundle.setPdus(self.getSocketConnectionPdus(element))
+        for pdu in self.getSocketConnectionPdus(element):
+            bundle.addPdu(pdu)
         bundle.setServerPortRef(self.getChildElementOptionalRefType(element, "SERVER-PORT-REF"))
         bundle.setUdpChecksumHandling(self.getChildElementOptionalLiteral(element, "UDP-CHECKSUM-HANDLING"))
 

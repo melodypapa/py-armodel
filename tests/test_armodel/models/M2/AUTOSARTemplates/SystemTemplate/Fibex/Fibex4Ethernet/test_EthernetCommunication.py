@@ -192,7 +192,8 @@ class Test_Fibex4EthernetCommunication:
         assert bundle.getUdpChecksumHandling() == "udp_handling"
         assert bundle == bundle.setUdpChecksumHandling("udp_handling")  # Test method chaining
 
-        bundle.setPdus(["pdu1", "pdu2"])
+        bundle.addPdu("pdu1")
+        bundle.addPdu("pdu2")
         assert bundle.getPdus() == ["pdu1", "pdu2"]
         assert bundle == bundle.setPdus(["pdu1", "pdu2"])  # Test method chaining
 
