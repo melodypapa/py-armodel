@@ -2804,59 +2804,69 @@ class SecureCommunicationPropsSet(FibexElement):
 
 class UserDefinedPdu(Pdu):
     """
-    Allows to describe PDU-based communication over Complex Communication Drivers.
-
-    If a new BSW module is added above the BusIf (e.g. a new Nm module) then this
-    Pdu element shall be used to describe the communication.
-
-    Requirements:
-        atp.recommendedPackage=Pdus
-
-    Attributes:
-
-    * cddType (String): Optional attribute that defines the CDD (Complex
-      Device Driver) that transmits or receives the UserDefinedPdu. If
-      several CDDs are defined this attribute is used to distinguish
-      between them.
+    UserDefinedPdu allows to describe PDU-based communication over Complex Drivers. If a new BSW module is added above the BusIf (e.g. a new Nm module) then this Pdu element shall be used to describe the communication. Tags: atp.recommendedPackage=Pdus
     """
 
     # UserDefinedPdu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCddType                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setCddType                   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.27, p.345 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCddType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCddType   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        self.cddType: String = None
 
-    def getCddType(self):
+        # This attribute defines the CDD that transmits or receives the UserDefinedIPdu. If several CDDs are defined this attribute is used to distinguish between them.
+        self.cddType: Optional[String] = None
+
+    def getCddType(self) -> Optional[String]:
+        """
+        This attribute defines the CDD that transmits or receives the UserDefinedIPdu. If several CDDs are defined this attribute is used to distinguish between them.
+        """
         return self.cddType
 
-    def setCddType(self, value):
-        self.cddType = value
+    def setCddType(self, value: Optional[String]) -> UserDefinedPdu:
+        """
+        This attribute defines the CDD that transmits or receives the UserDefinedIPdu. If several CDDs are defined this attribute is used to distinguish between them.
+        A None value is a no-op and does not overwrite an existing cddType.
+        """
+        if value is not None:
+            self.cddType = value
         return self
 
 
 class UserDefinedIPdu(IPdu):
     """
-    Represents a user-defined Interaction Protocol Data Unit (IPDU) that allows for custom
-    interaction-based communication patterns defined by the user rather than following standard IPDU types.
+    UserDefinedIPdu allows to describe PDU-based communication over Complex Drivers. If a new BSW module is added above the PduR (e.g. a Diagnostic Service ) then this IPdu element shall be used to describe the communication. Tags: atp.recommendedPackage=Pdus
     """
 
     # UserDefinedIPdu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCddType                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setCddType                   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.28, p.346 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCddType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCddType   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        self.cddType: ARLiteral = None
 
-    def getCddType(self):
+        # This attribute defines the CDD that transmits or receives the UserDefinedPdu. If several CDDs are defined this attribute is used to distinguish between them.
+        self.cddType: Optional[String] = None
+
+    def getCddType(self) -> Optional[String]:
+        """
+        This attribute defines the CDD that transmits or receives the UserDefinedPdu. If several CDDs are defined this attribute is used to distinguish between them.
+        """
         return self.cddType
 
-    def setCddType(self, value):
-        self.cddType = value
+    def setCddType(self, value: Optional[String]) -> UserDefinedIPdu:
+        """
+        This attribute defines the CDD that transmits or receives the UserDefinedPdu. If several CDDs are defined this attribute is used to distinguish between them.
+        A None value is a no-op and does not overwrite an existing cddType.
+        """
+        if value is not None:
+            self.cddType = value
         return self
 
 
