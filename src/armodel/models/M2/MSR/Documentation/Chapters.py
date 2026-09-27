@@ -246,6 +246,7 @@ class ChapterContent(ARObject):
 
     # ChapterContent method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.60, p.330
+    # Spec verified: R23-11 (2026-09-28, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] setPrms                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -255,8 +256,7 @@ class ChapterContent(ARObject):
     #
     # NOTE: prms was re-added 2026-09-27 (Prms queue row, Group9) after the 2026-09-24
     # Rule 0001.10 deferral — the referenced class Prms (Table 9.74) now exists
-    # (BlockElements/GerneralParameters.py). `# Spec verified:` stamp deferred to 9b
-    # batch confirmation.
+    # (BlockElements/GerneralParameters.py).
 
     def __init__(self):
         super().__init__()
