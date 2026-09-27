@@ -307,9 +307,12 @@ class Test_Fibex4EthernetServiceInstances:
         assert config.getTtl() is None  # Should remain None
 
         # Test setter/getter methods with method chaining - with actual values
-        config.setCapabilityRecords(["record1", "record2"])
-        assert "record1" in config.getCapabilityRecords()
-        assert config == config.setCapabilityRecords(["record1", "record2"])  # Test method chaining
+        record1 = TagWithOptionalValue()
+        record2 = TagWithOptionalValue()
+        config.addCapabilityRecord(record1)
+        assert record1 in config.getCapabilityRecords()
+        config.addCapabilityRecord(record2)
+        assert record2 in config.getCapabilityRecords()  # add per the spec sync
 
         delay_config = InitialSdDelayConfig()
         config.setInitialOfferBehavior(delay_config)
