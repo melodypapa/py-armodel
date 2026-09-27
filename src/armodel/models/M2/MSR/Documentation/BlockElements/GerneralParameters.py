@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from abc import ABC
 from typing import TYPE_CHECKING, List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -13,7 +14,7 @@ if TYPE_CHECKING:
     from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 
 
-class PrmCharContents(ARObject):
+class PrmCharContents(ARObject, ABC):
     """
     This is the contents of the parameter.
     """
@@ -29,7 +30,7 @@ class PrmCharContents(ARObject):
         super().__init__()
 
 
-class PrmCharNumericalValue(ARObject):
+class PrmCharNumericalValue(ARObject, ABC):
     """
     This metaclass represents a numercial parameter characteristics.
     """
