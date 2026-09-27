@@ -933,6 +933,33 @@ class SecureCommunicationProps(ARObject):
         return self
 
 
+class SecuredPduHeaderEnum(AREnum):
+    """
+    Defines the header which will be inserted into the SecuredIPdu.
+    """
+
+    # SecuredPduHeaderEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.43, p.369 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on SecuredIPdu.useSecuredPduHeader
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # No header included in the SecuredPdu. Tags: atp.EnumerationLiteralIndex=0
+    NO_HEADER = "noHeader"
+
+    # 8 Bit Secured I-PDU Header included in the Secured I-PDU. Tags: atp.EnumerationLiteralIndex=1
+    SECURED_PDU_HEADER08_BIT = "securedPduHeader08Bit"
+
+    # 16 Bit Secured I-PDU Header included in the Secured I-PDU. Tags: atp.EnumerationLiteralIndex=2
+    SECURED_PDU_HEADER16_BIT = "securedPduHeader16Bit"
+
+    # 32 Bit Secured I-PDU Header included in the Secured I-PDU. Tags: atp.EnumerationLiteralIndex=3
+    SECURED_PDU_HEADER32_BIT = "securedPduHeader32Bit"
+
+    def __init__(self):
+        super().__init__([SecuredPduHeaderEnum.NO_HEADER, SecuredPduHeaderEnum.SECURED_PDU_HEADER08_BIT, SecuredPduHeaderEnum.SECURED_PDU_HEADER16_BIT, SecuredPduHeaderEnum.SECURED_PDU_HEADER32_BIT])
+
+
 class SecuredIPdu(IPdu):
     """
     Represents a secured Interaction Protocol Data Unit (IPDU) with
