@@ -185,7 +185,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CyclicTiming`                                          | [ ] Pending | N/A                                      | Group15          |
 | `DataConstr`                                            | [x] Done    | 9927cc9e                                 | Group3           |
 | `DataConstrRule`                                        | [x] Done    | fa640a0d                                 | Group3           |
-| `DataFilter`                                            | [ ] Deferred| N/A                                      | Group9           |
+| `DataFilter`                                            | [x] Done    | ed2a073e7                                | Group9           |
 | `DataFilterTypeEnum`                                    | [x] Done    | b59bd6ebb                                | Group9           |
 | `DataInterface`                                         | [x] Done    | d838fd43                                 | Group1           |
 | `DataLinkLayerRule`                                     | [ ] Pending | N/A                                      | Group20          |

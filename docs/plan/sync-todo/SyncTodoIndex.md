@@ -514,7 +514,7 @@ Status: **49/50** completed
 
 ## Group9
 
-Status: **5/20** completed
+Status: **6/20** completed
 
 | Class Name                    | Status       | Commit ID |
 | ----------------------------- | ------------ | --------- |
@@ -523,7 +523,7 @@ Status: **5/20** completed
 | `ConstantReference`           | [x] Done     | 4853348ea |
 | `ConstantSpecification`       | [x] Done     | 265721a76 |
 | `DataFilterTypeEnum`          | [x] Done     | b59bd6ebb |
-| `DataFilter`                  | [ ] Pending* | N/A       |
+| `DataFilter`                  | [x] Done     | ed2a073e7 |
 | `Modification`                | [ ] Pending* | N/A       |
 | `ScaleConstrValidityEnum`     | [ ] Pending* | N/A       |
 | `UnitGroup`                   | [ ] Pending* | N/A       |
