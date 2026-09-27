@@ -154,7 +154,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ConcreteTDEventVfb`                                    | [x] Retired | f032ea574                                | Group8           |
 | `ConditionByFormula`                                    | [x] Done    | 18b494eba                                | Group8           |
 | `ConfigReferenceValue`                                  | [ ] Pending | N/A                                      | Group19          |
-| `ConstantReference`                                     | [ ] Deferred| N/A                                      | Group9           |
+| `ConstantReference`                                     | [x] Done    | 4853348ea                                | Group9           |
 | `ConstantSpecification`                                 | [ ] Deferred| N/A                                      | Group9           |
 | `ConstantSpecificationMappingSet`                       | [x] Done    | 8e5acbb2b1853163dc88ea0376143c58056eaccf | Group1           |
 | `ConsumedProvidedServiceInstanceGroup`                  | [x] Done    | fce66955                                 | Group5           |
