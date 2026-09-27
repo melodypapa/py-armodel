@@ -11,6 +11,7 @@ verify instantiation, the abstract-class guards, and full member coverage for
 every class in scope.
 """
 
+import inspect
 import typing
 
 import pytest
@@ -311,13 +312,13 @@ class TestAbstractEnumerationValueVariationPointSpecContract:
         (Package/Base/Stereotypes — the class is <<atpMixedString>>, XSD group
         appinfo L278).
         """
-        assert AbstractEnumerationValueVariationPoint.__doc__.strip() == (
+        assert inspect.cleandoc(AbstractEnumerationValueVariationPoint.__doc__) == (
             "This is an abstract EnumerationValueVariationPoint. "
             "It is introduced to support the case that additional attributes are required for particular purposes.\n"
             "\n"
-            "    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints\n"
-            "    Base: ARObject, AttributeValueVariationPoint, FormulaExpression, SwSystemconstDependentFormula\n"
-            "    Stereotypes: atpMixedString"
+            "Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints\n"
+            "Base: ARObject, AttributeValueVariationPoint, FormulaExpression, SwSystemconstDependentFormula\n"
+            "Stereotypes: atpMixedString"
         )
 
     def test_init_has_no_docstring(self):
