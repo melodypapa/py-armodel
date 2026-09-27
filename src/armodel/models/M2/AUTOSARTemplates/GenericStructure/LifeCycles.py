@@ -90,6 +90,7 @@ class LifeCycleInfo(ARObject):
 
     # LifeCycleInfo method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 12.5, pp.392-393
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # Table split across a page break: body main fragment (header + lcObject/lcState/periodBegin rows) p.392,
     # `Table 12.5: LifeCycleInfo` caption + continuation fragment (periodEnd/remark/useInstead) p.393.
