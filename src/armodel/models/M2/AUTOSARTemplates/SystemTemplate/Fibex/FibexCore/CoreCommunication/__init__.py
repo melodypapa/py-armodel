@@ -2080,36 +2080,55 @@ class FrameTriggering(Identifiable, VariationPointCapable, ABC):
 
 class SystemSignal(ARElement):
     """
-    Represents a system signal in the AUTOSAR system, defining
-    dynamic length properties and physical properties for
-    system-level signal communication.
+    The system signal represents the communication system's view of data exchanged between SW components which reside on different ECUs. The system signals allow to represent this communication in a flattened structure, with exactly one system signal defined for each data element prototype sent and received by connected SW component instances. Tags: atp.recommendedPackage=SystemSignals
     """
 
     # SystemSignal method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDynamicLength             [x] impl  [ ] docstring  [ ] test
-    # [ ] setDynamicLength             [x] impl  [ ] docstring  [ ] test
-    # [ ] getPhysicalProps             [x] impl  [ ] docstring  [ ] test
-    # [ ] setPhysicalProps             [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.23, p.218 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDynamicLength  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDynamicLength  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPhysicalProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPhysicalProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dynamicLength: Boolean = None
-        self.physicalProps: SwDataDefProps = None
+        # The length of dynamic length signals is variable in run-time. Only a maximum length of such a signal is specified in the configuration (attribute length in ISignal element).
+        self.dynamicLength: Optional[Boolean] = None
 
-    def getDynamicLength(self):
+        # Specification of the physical representation. Stereotypes: atpSplitable Tags: atp.Splitkey=physicalProps
+        self.physicalProps: Optional[SwDataDefProps] = None
+
+    def getDynamicLength(self) -> Optional[Boolean]:
+        """
+        The length of dynamic length signals is variable in run-time. Only a maximum length of such a signal is specified in the configuration (attribute length in ISignal element).
+        """
         return self.dynamicLength
 
-    def setDynamicLength(self, value):
-        self.dynamicLength = value
+    def setDynamicLength(self, value: Optional[Boolean]) -> SystemSignal:
+        """
+        The length of dynamic length signals is variable in run-time. Only a maximum length of such a signal is specified in the configuration (attribute length in ISignal element).
+        A None value is a no-op and does not overwrite an existing dynamicLength.
+        """
+        if value is not None:
+            self.dynamicLength = value
         return self
 
-    def getPhysicalProps(self):
+    def getPhysicalProps(self) -> Optional[SwDataDefProps]:
+        """
+        Specification of the physical representation. Stereotypes: atpSplitable Tags: atp.Splitkey=physicalProps
+        """
         return self.physicalProps
 
-    def setPhysicalProps(self, value):
-        self.physicalProps = value
+    def setPhysicalProps(self, value: Optional[SwDataDefProps]) -> SystemSignal:
+        """
+        Specification of the physical representation. Stereotypes: atpSplitable Tags: atp.Splitkey=physicalProps
+        A None value is a no-op and does not overwrite an existing physicalProps.
+        """
+        if value is not None:
+            self.physicalProps = value
         return self
 
 
