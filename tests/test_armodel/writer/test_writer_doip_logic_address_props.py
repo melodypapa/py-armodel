@@ -50,8 +50,7 @@ def _filled_address() -> DoIpLogicAddress:
     package = AUTOSAR.getInstance().createARPackage("DoIpPkg")
     address = DoIpLogicAddress(package, "LogicAddress1")
     address.setAddress(_positive_integer("2048"))
-    props = DoIpLogicTargetAddressProps(address, "TargetProps1")
-    address.setDoIpLogicAddressProps(props)
+    address.createDoIpLogicTargetAddressProps("TargetProps1")
     return address
 
 
@@ -67,10 +66,9 @@ def _filled_tester_address() -> DoIpLogicAddress:
     package = AUTOSAR.getInstance().createARPackage("DoIpPkg")
     address = DoIpLogicAddress(package, "LogicAddress1")
     address.setAddress(_positive_integer("4096"))
-    props = DoIpLogicTesterAddressProps(address, "TesterProps1")
+    props = address.createDoIpLogicTesterAddressProps("TesterProps1")
     props.addDoIpTesterRoutingActivationRef(_ref("/DoIp/DoIpRoutingActivation1", "DO-IP-ROUTING-ACTIVATION"))
     props.addDoIpTesterRoutingActivationRef(_ref("/DoIp/DoIpRoutingActivation2", "DO-IP-ROUTING-ACTIVATION"))
-    address.setDoIpLogicAddressProps(props)
     return address
 
 
@@ -138,8 +136,7 @@ class TestWriteDoIpLogicAddressProps:
     def test_write_tester_address_props_without_refs_omits_wrapper(self, writer):
         package = AUTOSAR.getInstance().createARPackage("DoIpPkg")
         address = DoIpLogicAddress(package, "LogicAddress1")
-        props = DoIpLogicTesterAddressProps(address, "TesterProps1")
-        address.setDoIpLogicAddressProps(props)
+        address.createDoIpLogicTesterAddressProps("TesterProps1")
 
         parent = _parent()
         writer.writeDoIpLogicAddress(parent, address)

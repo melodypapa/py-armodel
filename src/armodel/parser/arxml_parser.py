@@ -17,12 +17,18 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     FirewallActionEnum,
     FirewallRule,
     FirewallRuleProps,
+    IcmpRule,
+    Ipv4Rule,
+    Ipv6Rule,
     NetworkLayerRule,
     PayloadBytePatternRule,
+    PayloadBytePatternRulePart,
     SomeipProtocolRule,
     SomeipSdRule,
     StateDependentFirewall,
+    TcpRule,
     TransportLayerRule,
+    UdpRule,
 )
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.AdaptiveModuleImplementation import (
     PlatformModuleEthernetEndpointConfiguration,
@@ -775,7 +781,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordTypeMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps, DoIpRoutingActivation
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping, HwPortMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskPreemptabilityEnum, OsTaskProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
@@ -4868,19 +4874,19 @@ class ARXMLParser(AbstractARXMLParser):
     def readMemorySectionOptions(self, element: ET.Element, section: MemorySection):
         child_element = self.find(element, "OPTIONS")
         if child_element is not None:
-            for value in self.getChildElementLiteralValueList(child_element, "OPTION"):
+            for value in self.getChildElementIdentifierValueList(child_element, "OPTION"):
                 section.addOption(value)
 
     def readMemorySections(self, element: ET.Element, consumption: ResourceConsumption):
         for child_element in self.findall(element, "MEMORY-SECTIONS/MEMORY-SECTION"):
             memory_section = consumption.createMemorySection(self.getShortName(child_element))
             self.readIdentifiable(child_element, memory_section)
-            memory_section.setAlignment(self.getChildElementOptionalLiteral(child_element, "ALIGNMENT"))
-            memory_section.setMemClassSymbol(self.getChildElementOptionalLiteral(child_element, "MEM-CLASS-SYMBOL"))
+            memory_section.setAlignment(self.getChildElementOptionalAlignmentType(child_element, "ALIGNMENT"))
+            memory_section.setMemClassSymbol(self.getChildElementOptionalCIdentifier(child_element, "MEM-CLASS-SYMBOL"))
             self.readMemorySectionOptions(child_element, memory_section)
             memory_section.setSize(self.getChildElementOptionalPositiveInteger(child_element, "SIZE"))
             memory_section.setSwAddrMethodRef(self.getChildElementOptionalRefType(child_element, "SW-ADDRMETHOD-REF"))
-            memory_section.setSymbol(self.getChildElementOptionalLiteral(child_element, "SYMBOL"))
+            memory_section.setSymbol(self.getChildElementOptionalIdentifier(child_element, "SYMBOL"))
             memory_section.setPrefixRef(self.getChildElementOptionalRefType(child_element, "PREFIX-REF"))
             for ref in self.getChildElementRefTypeList(child_element, "EXECUTABLE-ENTITY-REFS/EXECUTABLE-ENTITY-REF"):
                 memory_section.addExecutableEntityRef(ref)
@@ -5052,8 +5058,14 @@ class ARXMLParser(AbstractARXMLParser):
     def readSectionNamePrefixes(self, element: ET.Element, consumption: ResourceConsumption):
         for child_element in self.findall(element, "SECTION-NAME-PREFIXS/SECTION-NAME-PREFIX"):
             prefix = consumption.createSectionNamePrefix(self.getShortName(child_element))
-            self.readReferrable(child_element, prefix)
+            self.readImplementationProps(child_element, prefix)
             prefix.setImplementedInRef(self.getChildElementOptionalRefType(child_element, "IMPLEMENTED-IN-REF"))
+            variation_point_element = self.find(child_element, "VARIATION-POINT")
+            if variation_point_element is not None:
+                if isinstance(prefix, VariationPointCapable):
+                    prefix.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+                else:
+                    self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(child_element.tag))
 
     def readAccessCountSets(self, element: ET.Element, consumption: ResourceConsumption):
         for child_element in self.findall(element, "ACCESS-COUNT-SETS/ACCESS-COUNT-SET"):
@@ -5070,12 +5082,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("read StackUsage %s" % usage.getShortName())
         self.readIdentifiable(element, usage)
         usage.setExecutableEntityRef(self.getChildElementOptionalRefType(element, "EXECUTABLE-ENTITY-REF"))
-        usage.setHwElementRef(self.getChildElementOptionalRefType(element, "HW-ELEMENT-REF"))
         hardware_configuration_element = self.find(element, "HARDWARE-CONFIGURATION")
         if hardware_configuration_element is not None:
             config = HardwareConfiguration()
             self.readHardwareConfiguration(hardware_configuration_element, config)
             usage.setHardwareConfiguration(config)
+        usage.setHwElementRef(self.getChildElementOptionalRefType(element, "HW-ELEMENT-REF"))
         software_context_element = self.find(element, "SOFTWARE-CONTEXT")
         if software_context_element is not None:
             context = SoftwareContext()
@@ -10376,15 +10388,13 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "DO-IP-LOGIC-ADDRESS-PROPS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "DO-IP-LOGIC-TARGET-ADDRESS-PROPS":
-                props = DoIpLogicTargetAddressProps(address, self.getShortName(child_element))
+                props = address.createDoIpLogicTargetAddressProps(self.getShortName(child_element))
                 self.readIdentifiable(child_element, props)
-                address.setDoIpLogicAddressProps(props)
             elif tag_name == "DO-IP-LOGIC-TESTER-ADDRESS-PROPS":
-                props = DoIpLogicTesterAddressProps(address, self.getShortName(child_element))
+                props = address.createDoIpLogicTesterAddressProps(self.getShortName(child_element))
                 self.readIdentifiable(child_element, props)
                 for ref in self.getChildElementRefTypeList(child_element, "DO-IP-TESTER-ROUTING-ACTIVATION-REFS/DO-IP-TESTER-ROUTING-ACTIVATION-REF"):
                     props.addDoIpTesterRoutingActivationRef(ref)
-                address.setDoIpLogicAddressProps(props)
             else:
                 self.notImplemented("Unsupported DoIpLogicAddressProps <%s>" % tag_name)
 
@@ -14608,33 +14618,208 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 
+    def readDataLinkLayerRule(self, element: ET.Element, rule: DataLinkLayerRule):
+        destination_mac = self.getChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS")
+        if destination_mac is not None:
+            mac_address = MacAddressString()
+            mac_address.setValue(destination_mac.getValue())
+            rule.setDestinationMacAddress(mac_address)
+        destination_mac_mask = self.getChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS-MASK")
+        if destination_mac_mask is not None:
+            mac_address = MacAddressString()
+            mac_address.setValue(destination_mac_mask.getValue())
+            rule.setDestinationMacAddressMask(mac_address)
+        rule.setEtherType(self.getChildElementOptionalPositiveInteger(element, "ETHER-TYPE"))
+        source_mac = self.getChildElementOptionalLiteral(element, "SOURCE-MAC-ADDRESS")
+        if source_mac is not None:
+            mac_address = MacAddressString()
+            mac_address.setValue(source_mac.getValue())
+            rule.setSourceMacAddress(mac_address)
+        source_mac_mask = self.getChildElementOptionalLiteral(element, "SOURCE-MAC-ADDRESS-MASK")
+        if source_mac_mask is not None:
+            mac_address = MacAddressString()
+            mac_address.setValue(source_mac_mask.getValue())
+            rule.setSourceMacAddressMask(mac_address)
+        rule.setVlanId(self.getChildElementOptionalPositiveInteger(element, "VLAN-ID"))
+        rule.setVlanPriority(self.getChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY"))
+
+    def readPayloadBytePatternRule(self, element: ET.Element, payload_rule: PayloadBytePatternRule):
+        parts = self.find(element, "PAYLOAD-BYTE-PATTERN-RULE-PARTS")
+        if parts is not None:
+            for child in self.findall(parts, "PAYLOAD-BYTE-PATTERN-RULE-PART"):
+                part = PayloadBytePatternRulePart()
+                self.readPayloadBytePatternRulePart(child, part)
+                payload_rule.addPayloadBytePatternRulePart(part)
+
+    def readPayloadBytePatternRulePart(self, element: ET.Element, part: PayloadBytePatternRulePart):
+        part.setOffset(self.getChildElementOptionalPositiveInteger(element, "OFFSET"))
+        part.setValue(self.getChildElementOptionalPositiveInteger(element, "VALUE"))
+
+    def readSomeipProtocolRule(self, element: ET.Element, rule: SomeipProtocolRule):
+        rule.setClientId(self.getChildElementOptionalPositiveInteger(element, "CLIENT-ID"))
+        rule.setLengthVerification(self.getChildElementOptionalBooleanValue(element, "LENGTH-VERIFICATION"))
+        rule.setMajorVersion(self.getChildElementOptionalPositiveInteger(element, "MAJOR-VERSION"))
+        rule.setMessageType(self.getChildElementOptionalPositiveInteger(element, "MESSAGE-TYPE"))
+        rule.setMethodId(self.getChildElementOptionalPositiveInteger(element, "METHOD-ID"))
+        rule.setProtocolVersion(self.getChildElementOptionalPositiveInteger(element, "PROTOCOL-VERSION"))
+        rule.setReturnCode(self.getChildElementOptionalPositiveInteger(element, "RETURN-CODE"))
+        rule.setServiceInterfaceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-INTERFACE-ID"))
+
+    def readSomeipSdRule(self, element: ET.Element, rule: SomeipSdRule):
+        rule.setEntryType(self.getChildElementOptionalPositiveInteger(element, "ENTRY-TYPE"))
+        rule.setEventGroupId(self.getChildElementOptionalPositiveInteger(element, "EVENT-GROUP-ID"))
+        rule.setMaxMajorVersion(self.getChildElementOptionalPositiveInteger(element, "MAX-MAJOR-VERSION"))
+        rule.setMaxMinorVersion(self.getChildElementOptionalPositiveInteger(element, "MAX-MINOR-VERSION"))
+        rule.setMinMajorVersion(self.getChildElementOptionalPositiveInteger(element, "MIN-MAJOR-VERSION"))
+        rule.setMinMinorVersion(self.getChildElementOptionalPositiveInteger(element, "MIN-MINOR-VERSION"))
+        rule.setServiceInstanceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-INSTANCE-ID"))
+        rule.setServiceInterfaceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-INTERFACE-ID"))
+
+    def readDoIpRule(self, element: ET.Element, rule: DoIpRule):
+        rule.setDestinationMaxAddress(self.getChildElementOptionalPositiveInteger(element, "DESTINATION-MAX-ADDRESS"))
+        rule.setDestinationMinAddress(self.getChildElementOptionalPositiveInteger(element, "DESTINATION-MIN-ADDRESS"))
+        rule.setInverseProtocolVersion(self.getChildElementOptionalPositiveInteger(element, "INVERSE-PROTOCOL-VERSION"))
+        rule.setPayloadLength(self.getChildElementOptionalPositiveInteger(element, "PAYLOAD-LENGTH"))
+        rule.setPayloadType(self.getChildElementOptionalPositiveInteger(element, "PAYLOAD-TYPE"))
+        rule.setProtocolVersion(self.getChildElementOptionalPositiveInteger(element, "PROTOCOL-VERSION"))
+        rule.setSourceMaxAddress(self.getChildElementOptionalPositiveInteger(element, "SOURCE-MAX-ADDRESS"))
+        rule.setSourceMinAddress(self.getChildElementOptionalPositiveInteger(element, "SOURCE-MIN-ADDRESS"))
+        rule.setUdsService(self.getChildElementOptionalPositiveInteger(element, "UDS-SERVICE"))
+
+    def readTcpRule(self, element: ET.Element, rule: TcpRule):
+        rule.setNumberOfParallelTcpSessions(self.getChildElementOptionalPositiveInteger(element, "NUMBER-OF-PARALLEL-TCP-SESSIONS"))
+        rule.setStateManagementBasedOnTcpFlags(self.getChildElementOptionalBooleanValue(element, "STATE-MANAGEMENT-BASED-ON-TCP-FLAGS"))
+        rule.setTimeoutCheck(self.getChildElementOptionalPositiveInteger(element, "TIMEOUT-CHECK"))
+
+    def readIcmpRule(self, element: ET.Element, rule: IcmpRule):
+        rule.setChecksumVerification(self.getChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION"))
+        rule.setCode(self.getChildElementOptionalPositiveInteger(element, "CODE"))
+        rule.setType(self.getChildElementOptionalPositiveInteger(element, "TYPE"))
+
+    def readIpv4Rule(self, element: ET.Element, rule: Ipv4Rule):
+        rule.setChecksumVerification(self.getChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION"))
+        destination_ip_address = self.getChildElementOptionalLiteral(element, "DESTINATION-IP-ADDRESS")
+        if destination_ip_address is not None:
+            ip4_address = Ip4AddressString()
+            ip4_address.setValue(destination_ip_address.getValue())
+            rule.setDestinationIpAddress(ip4_address)
+        destination_network_mask = self.getChildElementOptionalLiteral(element, "DESTINATION-NETWORK-MASK")
+        if destination_network_mask is not None:
+            ip4_address = Ip4AddressString()
+            ip4_address.setValue(destination_network_mask.getValue())
+            rule.setDestinationNetworkMask(ip4_address)
+        rule.setDifferentiatedServiceCodePoint(self.getChildElementOptionalPositiveInteger(element, "DIFFERENTIATED-SERVICE-CODE-POINT"))
+        rule.setDoNotFragment(self.getChildElementOptionalBooleanValue(element, "DO-NOT-FRAGMENT"))
+        rule.setExplicitCongestionNotification(self.getChildElementOptionalPositiveInteger(element, "EXPLICIT-CONGESTION-NOTIFICATION"))
+        child = self.find(element, "ICMP-RULE")
+        if child is not None:
+            icmp_rule = IcmpRule()
+            self.readIcmpRule(child, icmp_rule)
+            rule.setIcmpRule(icmp_rule)
+        rule.setInternetHeaderLength(self.getChildElementOptionalPositiveInteger(element, "INTERNET-HEADER-LENGTH"))
+        rule.setMoreFragments(self.getChildElementOptionalBooleanValue(element, "MORE-FRAGMENTS"))
+        rule.setProtocol(self.getChildElementOptionalPositiveInteger(element, "PROTOCOL"))
+        source_ip_address = self.getChildElementOptionalLiteral(element, "SOURCE-IP-ADDRESS")
+        if source_ip_address is not None:
+            ip4_address = Ip4AddressString()
+            ip4_address.setValue(source_ip_address.getValue())
+            rule.setSourceIpAddress(ip4_address)
+        source_network_mask = self.getChildElementOptionalLiteral(element, "SOURCE-NETWORK-MASK")
+        if source_network_mask is not None:
+            ip4_address = Ip4AddressString()
+            ip4_address.setValue(source_network_mask.getValue())
+            rule.setSourceNetworkMask(ip4_address)
+        rule.setTtlMax(self.getChildElementOptionalPositiveInteger(element, "TTL-MAX"))
+        rule.setTtlMin(self.getChildElementOptionalPositiveInteger(element, "TTL-MIN"))
+
+    def readIpv6Rule(self, element: ET.Element, rule: Ipv6Rule):
+        destination_ip_address = self.getChildElementOptionalLiteral(element, "DESTINATION-IP-ADDRESS")
+        if destination_ip_address is not None:
+            ip6_address = Ip6AddressString()
+            ip6_address.setValue(destination_ip_address.getValue())
+            rule.setDestinationIpAddress(ip6_address)
+        destination_network_mask = self.getChildElementOptionalLiteral(element, "DESTINATION-NETWORK-MASK")
+        if destination_network_mask is not None:
+            ip6_address = Ip6AddressString()
+            ip6_address.setValue(destination_network_mask.getValue())
+            rule.setDestinationNetworkMask(ip6_address)
+        rule.setFlowLabel(self.getChildElementOptionalPositiveInteger(element, "FLOW-LABEL"))
+        rule.setHopLimit(self.getChildElementOptionalPositiveInteger(element, "HOP-LIMIT"))
+        child = self.find(element, "ICMP-RULE")
+        if child is not None:
+            icmp_rule = IcmpRule()
+            self.readIcmpRule(child, icmp_rule)
+            rule.setIcmpRule(icmp_rule)
+        rule.setNextHeader(self.getChildElementOptionalPositiveInteger(element, "NEXT-HEADER"))
+        source_ip_address = self.getChildElementOptionalLiteral(element, "SOURCE-IP-ADDRESS")
+        if source_ip_address is not None:
+            ip6_address = Ip6AddressString()
+            ip6_address.setValue(source_ip_address.getValue())
+            rule.setSourceIpAddress(ip6_address)
+        source_network_mask = self.getChildElementOptionalLiteral(element, "SOURCE-NETWORK-MASK")
+        if source_network_mask is not None:
+            ip6_address = Ip6AddressString()
+            ip6_address.setValue(source_network_mask.getValue())
+            rule.setSourceNetworkMask(ip6_address)
+        rule.setTrafficClass(self.getChildElementOptionalPositiveInteger(element, "TRAFFIC-CLASS"))
+
     def readFirewallRule(self, element: ET.Element, rule: FirewallRule):
         self.readIdentifiable(element, rule)
         rule.setBucketSize(self.getChildElementOptionalPositiveInteger(element, "BUCKET-SIZE"))
         child = self.find(element, "DATA-LINK-LAYER-RULE")
         if child is not None:
-            rule.setDataLinkLayerRule(DataLinkLayerRule())
+            data_link_layer_rule = DataLinkLayerRule()
+            self.readDataLinkLayerRule(child, data_link_layer_rule)
+            rule.setDataLinkLayerRule(data_link_layer_rule)
         child = self.find(element, "DDS-RULE")
         if child is not None:
             rule.setDdsRule(DdsRule())
         child = self.find(element, "DO-IP-RULE")
         if child is not None:
-            rule.setDoIpRule(DoIpRule())
+            do_ip_rule = DoIpRule()
+            self.readDoIpRule(child, do_ip_rule)
+            rule.setDoIpRule(do_ip_rule)
         child = self.find(element, "NETWORK-LAYER-RULE")
         if child is not None:
-            rule.setNetworkLayerRule(NetworkLayerRule())
-        for _ in self.findall(element, "PAYLOAD-BYTE-PATTERN-RULES/PAYLOAD-BYTE-PATTERN-RULE"):
-            rule.addPayloadBytePatternRule(PayloadBytePatternRule())
+            ipv4_rule = self.find(child, "IPV-4-RULE")
+            if ipv4_rule is not None:
+                rule_obj = Ipv4Rule()
+                self.readIpv4Rule(ipv4_rule, rule_obj)
+                rule.setNetworkLayerRule(rule_obj)
+            elif self.find(child, "IPV-6-RULE") is not None:
+                rule_obj = Ipv6Rule()
+                self.readIpv6Rule(self.find(child, "IPV-6-RULE"), rule_obj)
+                rule.setNetworkLayerRule(rule_obj)
+            else:
+                rule.setNetworkLayerRule(NetworkLayerRule())
+        payload_rules = self.find(element, "PAYLOAD-BYTE-PATTERN-RULES")
+        if payload_rules is not None:
+            for child in self.findall(payload_rules, "PAYLOAD-BYTE-PATTERN-RULE"):
+                payload_rule = PayloadBytePatternRule()
+                self.readPayloadBytePatternRule(child, payload_rule)
+                rule.addPayloadBytePatternRule(payload_rule)
         rule.setRefillAmount(self.getChildElementOptionalPositiveInteger(element, "REFILL-AMOUNT"))
         child = self.find(element, "SOMEIP-RULE")
         if child is not None:
-            rule.setSomeipRule(SomeipProtocolRule())
+            someip_rule = SomeipProtocolRule()
+            self.readSomeipProtocolRule(child, someip_rule)
+            rule.setSomeipRule(someip_rule)
         child = self.find(element, "SOMEIP-SD-RULE")
         if child is not None:
-            rule.setSomeipSdRule(SomeipSdRule())
+            someip_sd_rule = SomeipSdRule()
+            self.readSomeipSdRule(child, someip_sd_rule)
+            rule.setSomeipSdRule(someip_sd_rule)
         child = self.find(element, "TRANSPORT-LAYER-RULE")
         if child is not None:
-            rule.setTransportLayerRule(TransportLayerRule())
+            tcp_rule = self.find(child, "TCP-RULE")
+            if tcp_rule is not None:
+                rule_obj = TcpRule()
+                self.readTcpRule(tcp_rule, rule_obj)
+                rule.setTransportLayerRule(rule_obj)
+            elif self.find(child, "UDP-RULE") is not None:
+                rule.setTransportLayerRule(UdpRule())
+            else:
+                rule.setTransportLayerRule(TransportLayerRule())
 
     def readBlueprintMappingSet(self, element: ET.Element, blueprint_mapping_set: BlueprintMappingSet):
         self.readIdentifiable(element, blueprint_mapping_set)

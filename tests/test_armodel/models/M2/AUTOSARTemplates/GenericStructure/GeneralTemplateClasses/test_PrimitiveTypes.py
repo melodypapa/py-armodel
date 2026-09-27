@@ -3,6 +3,7 @@ This module contains comprehensive tests for the PrimitiveTypes.py file
 in the AUTOSAR GenericStructure module.
 """
 
+import inspect
 import typing
 
 import pytest
@@ -1427,6 +1428,47 @@ class TestAnyVersionString:
     def test_any_literal(self):
         """Test that the ANY literal is stored verbatim."""
         assert AnyVersionString().setValue("ANY").value == "ANY"
+
+
+class TestMacAddressString:
+    """
+    Test class for MacAddressString functionality (Table 4.53).
+    """
+
+    def test_initialization(self):
+        """
+        Test MacAddressString initialization.
+        """
+        mac_addr = MacAddressString()
+
+        assert mac_addr is not None
+        assert isinstance(mac_addr, ARLiteral)
+        assert mac_addr._value is None
+
+    def test_set_get_value(self):
+        """Test setValue round-trip and method chaining."""
+        mac_addr = MacAddressString()
+        assert mac_addr.setValue("FF:FF:FF:FF:FF:FF") is mac_addr
+        assert mac_addr.value == "FF:FF:FF:FF:FF:FF"
+        assert str(mac_addr) == "FF:FF:FF:FF:FF:FF"
+
+    def test_mac_notation_stored_verbatim(self):
+        """Test that colon-grouped hex pairs are stored verbatim in any letter case."""
+        assert MacAddressString().setValue("00:11:22:33:44:55").value == "00:11:22:33:44:55"
+        assert MacAddressString().setValue("aa:bb:cc:dd:ee:ff").value == "aa:bb:cc:dd:ee:ff"
+
+    def test_class_docstring_matches_spec_note(self):
+        """Test the class docstring is the Table 4.53 Note copied verbatim plus the Tags tail."""
+        expected = (
+            "This primitive specifies a Mac Address. Notation: FF:FF:FF:FF:FF:FF Alternative notations, "
+            "e.g. using dash instead of colon, or another grouping of numbers, is not allowed.\n"
+            "\n"
+            "Tags:\n"
+            "    * xml.xsd.customType=MAC-ADDRESS-STRING\n"
+            "    * xml.xsd.pattern=([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}\n"
+            "    * xml.xsd.type=string"
+        )
+        assert inspect.cleandoc(MacAddressString.__doc__) == expected
 
 
 class TestMimeTypeString:

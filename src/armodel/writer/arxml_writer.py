@@ -7,7 +7,22 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     CryptoKeySlotAllowedModification,
     CryptoKeySlotContentAllowedUsage,
 )
-from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import FirewallRule, FirewallRuleProps, StateDependentFirewall
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import (
+    DataLinkLayerRule,
+    DoIpRule,
+    FirewallRule,
+    FirewallRuleProps,
+    IcmpRule,
+    Ipv4Rule,
+    Ipv6Rule,
+    PayloadBytePatternRule,
+    PayloadBytePatternRulePart,
+    SomeipProtocolRule,
+    SomeipSdRule,
+    StateDependentFirewall,
+    TcpRule,
+    UdpRule,
+)
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.AdaptiveModuleImplementation import (
     PlatformModuleEthernetEndpointConfiguration,
 )
@@ -357,7 +372,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARLiteral,
+    Identifier,
     Numerical,
     Limit,
     PositiveInteger,
@@ -6150,11 +6165,11 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Code Descriptor <%s>" % type(desc))
 
-    def setMemorySectionOptions(self, element: ET.Element, options: List[ARLiteral]):
+    def setMemorySectionOptions(self, element: ET.Element, options: List[Identifier]):
         if len(options) > 0:
             child_element = ET.SubElement(element, "OPTIONS")
             for option in options:
-                self.setChildElementOptionalLiteral(child_element, "OPTION", option)
+                self.setChildElementOptionalIdentifier(child_element, "OPTION", option)
 
     def writeMemorySectionExecutableEntityRefs(self, element: ET.Element, memory_section: MemorySection):
         refs = memory_section.getExecutableEntityRefs()
@@ -6169,15 +6184,19 @@ class ARXMLWriter(AbstractARXMLWriter):
             sections_tag = ET.SubElement(element, "MEMORY-SECTIONS")
             for memory_section in memory_sections:
                 child_element = ET.SubElement(sections_tag, "MEMORY-SECTION")
-                self.writeIdentifiable(child_element, memory_section)
-                self.setChildElementOptionalLiteral(child_element, "ALIGNMENT", memory_section.getAlignment())
+                # VARIATION-POINT is written after the group MEMORY-SECTION members
+                # (seqOffset=10000 in the R23-11 XSD), so the generic emission inside
+                # writeIdentifiable is suppressed here.
+                self.writeIdentifiable(child_element, memory_section, write_variation_point=False)
+                self.setChildElementOptionalAlignmentType(child_element, "ALIGNMENT", memory_section.getAlignment())
                 self.writeMemorySectionExecutableEntityRefs(child_element, memory_section)
-                self.setChildElementOptionalLiteral(child_element, "MEM-CLASS-SYMBOL", memory_section.getMemClassSymbol())
+                self.setChildElementOptionalCIdentifier(child_element, "MEM-CLASS-SYMBOL", memory_section.getMemClassSymbol())
                 self.setMemorySectionOptions(child_element, memory_section.getOptions())
                 self.setChildElementOptionalRefType(child_element, "PREFIX-REF", memory_section.getPrefixRef())
                 self.setChildElementOptionalPositiveInteger(child_element, "SIZE", memory_section.getSize())
                 self.setChildElementOptionalRefType(child_element, "SW-ADDRMETHOD-REF", memory_section.getSwAddrMethodRef())
-                self.setChildElementOptionalLiteral(child_element, "SYMBOL", memory_section.getSymbol())
+                self.setChildElementOptionalIdentifier(child_element, "SYMBOL", memory_section.getSymbol())
+                self.writeVariationPoint(child_element, memory_section.getVariationPoint())
                 self.logger.debug("Write MemorySection %s" % memory_section.getShortName())
 
     def setMultidimensionalTime(self, element: ET.Element, key: str, value: MultidimensionalTime):
@@ -6302,8 +6321,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "SECTION-NAME-PREFIXS")
             for prefix in prefixes:
                 prefix_element = ET.SubElement(child_element, "SECTION-NAME-PREFIX")
-                self.writeReferrable(prefix_element, prefix)
+                self.writeImplementationProps(prefix_element, prefix)
                 self.setChildElementOptionalRefType(prefix_element, "IMPLEMENTED-IN-REF", prefix.getImplementedInRef())
+                self.writeVariationPoint(prefix_element, prefix.getVariationPoint())
 
     def writeAccessCountSets(self, element: ET.Element, access_count_sets: List):
         if len(access_count_sets) > 0:
@@ -6321,11 +6341,12 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setStackUsage(self, element: ET.Element, usage: StackUsage):
         self.logger.debug("Write StackUsage %s" % usage.getShortName())
-        self.writeIdentifiable(element, usage)
+        self.writeIdentifiable(element, usage, write_variation_point=False)
         self.setChildElementOptionalRefType(element, "EXECUTABLE-ENTITY-REF", usage.getExecutableEntityRef())
         self.setHardwareConfiguration(element, usage.getHardwareConfiguration())
         self.setChildElementOptionalRefType(element, "HW-ELEMENT-REF", usage.getHwElementRef())
         self.setSoftwareContext(element, usage.getSoftwareContext())
+        self.writeVariationPoint(element, usage.getVariationPoint())
 
     def setRoughEstimateStackUsage(self, element: ET.Element, usage: RoughEstimateStackUsage):
         if usage is not None:
@@ -14244,31 +14265,148 @@ class ARXMLWriter(AbstractARXMLWriter):
         else:
             self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
 
+    def writeDataLinkLayerRule(self, element: ET.Element, rule: DataLinkLayerRule):
+        self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS", rule.getDestinationMacAddress())
+        self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS-MASK", rule.getDestinationMacAddressMask())
+        self.setChildElementOptionalPositiveInteger(element, "ETHER-TYPE", rule.getEtherType())
+        self.setChildElementOptionalLiteral(element, "SOURCE-MAC-ADDRESS", rule.getSourceMacAddress())
+        self.setChildElementOptionalLiteral(element, "SOURCE-MAC-ADDRESS-MASK", rule.getSourceMacAddressMask())
+        self.setChildElementOptionalPositiveInteger(element, "VLAN-ID", rule.getVlanId())
+        self.setChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY", rule.getVlanPriority())
+
+    def writePayloadBytePatternRule(self, element: ET.Element, payload_rule: PayloadBytePatternRule):
+        parts = payload_rule.getPayloadBytePatternRuleParts()
+        if len(parts) > 0:
+            parts_tag = ET.SubElement(element, "PAYLOAD-BYTE-PATTERN-RULE-PARTS")
+            for part in parts:
+                part_tag = ET.SubElement(parts_tag, "PAYLOAD-BYTE-PATTERN-RULE-PART")
+                self.writePayloadBytePatternRulePart(part_tag, part)
+
+    def writePayloadBytePatternRulePart(self, element: ET.Element, part: PayloadBytePatternRulePart):
+        self.setChildElementOptionalPositiveInteger(element, "OFFSET", part.getOffset())
+        self.setChildElementOptionalPositiveInteger(element, "VALUE", part.getValue())
+
+    def writeSomeipProtocolRule(self, element: ET.Element, rule: SomeipProtocolRule):
+        self.setChildElementOptionalPositiveInteger(element, "CLIENT-ID", rule.getClientId())
+        self.setChildElementOptionalBooleanValue(element, "LENGTH-VERIFICATION", rule.getLengthVerification())
+        self.setChildElementOptionalPositiveInteger(element, "MAJOR-VERSION", rule.getMajorVersion())
+        self.setChildElementOptionalPositiveInteger(element, "MESSAGE-TYPE", rule.getMessageType())
+        self.setChildElementOptionalPositiveInteger(element, "METHOD-ID", rule.getMethodId())
+        self.setChildElementOptionalPositiveInteger(element, "PROTOCOL-VERSION", rule.getProtocolVersion())
+        self.setChildElementOptionalPositiveInteger(element, "RETURN-CODE", rule.getReturnCode())
+        self.setChildElementOptionalPositiveInteger(element, "SERVICE-INTERFACE-ID", rule.getServiceInterfaceId())
+
+    def writeSomeipSdRule(self, element: ET.Element, rule: SomeipSdRule):
+        self.setChildElementOptionalPositiveInteger(element, "ENTRY-TYPE", rule.getEntryType())
+        self.setChildElementOptionalPositiveInteger(element, "EVENT-GROUP-ID", rule.getEventGroupId())
+        self.setChildElementOptionalPositiveInteger(element, "MAX-MAJOR-VERSION", rule.getMaxMajorVersion())
+        self.setChildElementOptionalPositiveInteger(element, "MAX-MINOR-VERSION", rule.getMaxMinorVersion())
+        self.setChildElementOptionalPositiveInteger(element, "MIN-MAJOR-VERSION", rule.getMinMajorVersion())
+        self.setChildElementOptionalPositiveInteger(element, "MIN-MINOR-VERSION", rule.getMinMinorVersion())
+        self.setChildElementOptionalPositiveInteger(element, "SERVICE-INSTANCE-ID", rule.getServiceInstanceId())
+        self.setChildElementOptionalPositiveInteger(element, "SERVICE-INTERFACE-ID", rule.getServiceInterfaceId())
+
+    def writeDoIpRule(self, element: ET.Element, rule: DoIpRule):
+        self.setChildElementOptionalPositiveInteger(element, "DESTINATION-MAX-ADDRESS", rule.getDestinationMaxAddress())
+        self.setChildElementOptionalPositiveInteger(element, "DESTINATION-MIN-ADDRESS", rule.getDestinationMinAddress())
+        self.setChildElementOptionalPositiveInteger(element, "INVERSE-PROTOCOL-VERSION", rule.getInverseProtocolVersion())
+        self.setChildElementOptionalPositiveInteger(element, "PAYLOAD-LENGTH", rule.getPayloadLength())
+        self.setChildElementOptionalPositiveInteger(element, "PAYLOAD-TYPE", rule.getPayloadType())
+        self.setChildElementOptionalPositiveInteger(element, "PROTOCOL-VERSION", rule.getProtocolVersion())
+        self.setChildElementOptionalPositiveInteger(element, "SOURCE-MAX-ADDRESS", rule.getSourceMaxAddress())
+        self.setChildElementOptionalPositiveInteger(element, "SOURCE-MIN-ADDRESS", rule.getSourceMinAddress())
+        self.setChildElementOptionalPositiveInteger(element, "UDS-SERVICE", rule.getUdsService())
+
+    def writeTcpRule(self, element: ET.Element, rule: TcpRule):
+        self.setChildElementOptionalPositiveInteger(element, "NUMBER-OF-PARALLEL-TCP-SESSIONS", rule.getNumberOfParallelTcpSessions())
+        self.setChildElementOptionalBooleanValue(element, "STATE-MANAGEMENT-BASED-ON-TCP-FLAGS", rule.getStateManagementBasedOnTcpFlags())
+        self.setChildElementOptionalPositiveInteger(element, "TIMEOUT-CHECK", rule.getTimeoutCheck())
+
+    def writeIcmpRule(self, element: ET.Element, rule: IcmpRule):
+        self.setChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION", rule.getChecksumVerification())
+        self.setChildElementOptionalPositiveInteger(element, "CODE", rule.getCode())
+        self.setChildElementOptionalPositiveInteger(element, "TYPE", rule.getType())
+
+    def writeIpv4Rule(self, element: ET.Element, rule: Ipv4Rule):
+        self.setChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION", rule.getChecksumVerification())
+        self.setChildElementOptionalLiteral(element, "DESTINATION-IP-ADDRESS", rule.getDestinationIpAddress())
+        self.setChildElementOptionalLiteral(element, "DESTINATION-NETWORK-MASK", rule.getDestinationNetworkMask())
+        self.setChildElementOptionalPositiveInteger(element, "DIFFERENTIATED-SERVICE-CODE-POINT", rule.getDifferentiatedServiceCodePoint())
+        self.setChildElementOptionalBooleanValue(element, "DO-NOT-FRAGMENT", rule.getDoNotFragment())
+        self.setChildElementOptionalPositiveInteger(element, "EXPLICIT-CONGESTION-NOTIFICATION", rule.getExplicitCongestionNotification())
+        if rule.getIcmpRule() is not None:
+            icmp_rule_tag = ET.SubElement(element, "ICMP-RULE")
+            self.writeIcmpRule(icmp_rule_tag, rule.getIcmpRule())
+        self.setChildElementOptionalPositiveInteger(element, "INTERNET-HEADER-LENGTH", rule.getInternetHeaderLength())
+        self.setChildElementOptionalBooleanValue(element, "MORE-FRAGMENTS", rule.getMoreFragments())
+        self.setChildElementOptionalPositiveInteger(element, "PROTOCOL", rule.getProtocol())
+        self.setChildElementOptionalLiteral(element, "SOURCE-IP-ADDRESS", rule.getSourceIpAddress())
+        self.setChildElementOptionalLiteral(element, "SOURCE-NETWORK-MASK", rule.getSourceNetworkMask())
+        self.setChildElementOptionalPositiveInteger(element, "TTL-MAX", rule.getTtlMax())
+        self.setChildElementOptionalPositiveInteger(element, "TTL-MIN", rule.getTtlMin())
+
+    def writeIpv6Rule(self, element: ET.Element, rule: Ipv6Rule):
+        self.setChildElementOptionalLiteral(element, "DESTINATION-IP-ADDRESS", rule.getDestinationIpAddress())
+        self.setChildElementOptionalLiteral(element, "DESTINATION-NETWORK-MASK", rule.getDestinationNetworkMask())
+        self.setChildElementOptionalPositiveInteger(element, "FLOW-LABEL", rule.getFlowLabel())
+        self.setChildElementOptionalPositiveInteger(element, "HOP-LIMIT", rule.getHopLimit())
+        if rule.getIcmpRule() is not None:
+            icmp_rule_tag = ET.SubElement(element, "ICMP-RULE")
+            self.writeIcmpRule(icmp_rule_tag, rule.getIcmpRule())
+        self.setChildElementOptionalPositiveInteger(element, "NEXT-HEADER", rule.getNextHeader())
+        self.setChildElementOptionalLiteral(element, "SOURCE-IP-ADDRESS", rule.getSourceIpAddress())
+        self.setChildElementOptionalLiteral(element, "SOURCE-NETWORK-MASK", rule.getSourceNetworkMask())
+        self.setChildElementOptionalPositiveInteger(element, "TRAFFIC-CLASS", rule.getTrafficClass())
+
     def writeFirewallRule(self, element: ET.Element, rule: FirewallRule):
         self.logger.debug("Write FirewallRule %s" % rule.getShortName())
         rule_tag = ET.SubElement(element, "FIREWALL-RULE")
         self.writeIdentifiable(rule_tag, rule)
         self.setChildElementOptionalPositiveInteger(rule_tag, "BUCKET-SIZE", rule.getBucketSize())
         if rule.getDataLinkLayerRule() is not None:
-            ET.SubElement(rule_tag, "DATA-LINK-LAYER-RULE")
+            data_link_layer_rule_tag = ET.SubElement(rule_tag, "DATA-LINK-LAYER-RULE")
+            self.writeDataLinkLayerRule(data_link_layer_rule_tag, rule.getDataLinkLayerRule())
         if rule.getDdsRule() is not None:
             ET.SubElement(rule_tag, "DDS-RULE")
         if rule.getDoIpRule() is not None:
-            ET.SubElement(rule_tag, "DO-IP-RULE")
+            do_ip_rule_tag = ET.SubElement(rule_tag, "DO-IP-RULE")
+            self.writeDoIpRule(do_ip_rule_tag, rule.getDoIpRule())
         if rule.getNetworkLayerRule() is not None:
-            ET.SubElement(rule_tag, "NETWORK-LAYER-RULE")
+            network_layer_rule = rule.getNetworkLayerRule()
+            if isinstance(network_layer_rule, Ipv4Rule):
+                network_layer_rule_tag = ET.SubElement(rule_tag, "NETWORK-LAYER-RULE")
+                ipv4_rule_tag = ET.SubElement(network_layer_rule_tag, "IPV-4-RULE")
+                self.writeIpv4Rule(ipv4_rule_tag, network_layer_rule)
+            elif isinstance(network_layer_rule, Ipv6Rule):
+                network_layer_rule_tag = ET.SubElement(rule_tag, "NETWORK-LAYER-RULE")
+                ipv6_rule_tag = ET.SubElement(network_layer_rule_tag, "IPV-6-RULE")
+                self.writeIpv6Rule(ipv6_rule_tag, network_layer_rule)
+            else:
+                ET.SubElement(rule_tag, "NETWORK-LAYER-RULE")
         payload_rules = rule.getPayloadBytePatternRules()
         if len(payload_rules) > 0:
             rules_tag = ET.SubElement(rule_tag, "PAYLOAD-BYTE-PATTERN-RULES")
-            for _ in payload_rules:
-                ET.SubElement(rules_tag, "PAYLOAD-BYTE-PATTERN-RULE")
+            for payload_rule in payload_rules:
+                payload_rule_tag = ET.SubElement(rules_tag, "PAYLOAD-BYTE-PATTERN-RULE")
+                self.writePayloadBytePatternRule(payload_rule_tag, payload_rule)
         self.setChildElementOptionalPositiveInteger(rule_tag, "REFILL-AMOUNT", rule.getRefillAmount())
         if rule.getSomeipRule() is not None:
-            ET.SubElement(rule_tag, "SOMEIP-RULE")
+            someip_rule_tag = ET.SubElement(rule_tag, "SOMEIP-RULE")
+            self.writeSomeipProtocolRule(someip_rule_tag, rule.getSomeipRule())
         if rule.getSomeipSdRule() is not None:
-            ET.SubElement(rule_tag, "SOMEIP-SD-RULE")
+            someip_sd_rule_tag = ET.SubElement(rule_tag, "SOMEIP-SD-RULE")
+            self.writeSomeipSdRule(someip_sd_rule_tag, rule.getSomeipSdRule())
         if rule.getTransportLayerRule() is not None:
-            ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
+            transport_rule = rule.getTransportLayerRule()
+            if isinstance(transport_rule, TcpRule):
+                transport_layer_rule_tag = ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
+                tcp_rule_tag = ET.SubElement(transport_layer_rule_tag, "TCP-RULE")
+                self.writeTcpRule(tcp_rule_tag, transport_rule)
+            elif isinstance(transport_rule, UdpRule):
+                transport_layer_rule_tag = ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
+                ET.SubElement(transport_layer_rule_tag, "UDP-RULE")
+            else:
+                ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
 
     def writeBlueprintMappingSet(self, element: ET.Element, blueprint_mapping_set: BlueprintMappingSet):
         self.logger.debug("Write BlueprintMappingSet %s" % blueprint_mapping_set.getShortName())

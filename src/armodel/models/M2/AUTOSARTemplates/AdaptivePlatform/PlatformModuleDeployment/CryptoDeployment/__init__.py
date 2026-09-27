@@ -24,7 +24,7 @@ class CryptoObjectTypeEnum(AREnum):
     """
 
     # CryptoObjectTypeEnum method parity checklist:
-    # Spec: CryptoObjectTypeEnum derived from AUTOSAR_00052.xsd (XSD-only; no own table in repo corpus), line 132716
+    # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), enum CryptoObjectTypeEnum, AUTOSAR_00052.xsd line 132716 (XSD-only; no own table in repo corpus)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on CryptoKeySlot.cryptoObjectType
 
@@ -65,7 +65,7 @@ class CryptoKeySlotTypeEnum(AREnum):
     """
 
     # CryptoKeySlotTypeEnum method parity checklist:
-    # Spec: CryptoKeySlotTypeEnum derived from AUTOSAR_00052.xsd (XSD-only; no own table in repo corpus), line 132660
+    # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), enum CryptoKeySlotTypeEnum, AUTOSAR_00052.xsd line 132660 (XSD-only; no own table in repo corpus)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on CryptoKeySlot.slotType
 
@@ -90,7 +90,7 @@ class CryptoKeySlotAllowedModification(ARObject):
     """
 
     # CryptoKeySlotAllowedModification method parity checklist:
-    # Spec: CryptoKeySlotAllowedModification derived from AUTOSAR_00052.xsd (XSD-only; no own table in repo corpus), line 25744
+    # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class CryptoKeySlotAllowedModification, AUTOSAR_00052.xsd line 25782 (XSD-only; no own table in repo corpus)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAllowContentTypeChange    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -176,7 +176,7 @@ class CryptoKeySlotContentAllowedUsage(ARObject):
     """
 
     # CryptoKeySlotContentAllowedUsage method parity checklist:
-    # Spec: CryptoKeySlotContentAllowedUsage derived from AUTOSAR_00052.xsd (XSD-only; no own table in repo corpus), line 25795
+    # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class CryptoKeySlotContentAllowedUsage, AUTOSAR_00052.xsd line 25811 (XSD-only; no own table in repo corpus)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAllowedKeyslotUsage    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

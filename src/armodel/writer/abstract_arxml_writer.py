@@ -9,9 +9,11 @@ from colorama import Fore
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AlignmentType,
     ARLiteral,
     ARType,
     Boolean,
+    CIdentifier,
     CseCodeType,
     DateTime,
     Float,
@@ -122,6 +124,12 @@ class AbstractARXMLWriter(ABC):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalCseCodeType(self, element: ET.Element, key: str, literal: CseCodeType):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalAlignmentType(self, element: ET.Element, key: str, literal: AlignmentType):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalCIdentifier(self, element: ET.Element, key: str, literal: CIdentifier):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalString(self, element: ET.Element, key: str, value: String):
