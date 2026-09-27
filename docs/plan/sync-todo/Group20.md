@@ -941,9 +941,10 @@ after the member-closure audit of the 22 batch rows above. Dependency-first orde
 owning/base classes (DataLinkLayerRule, PayloadBytePatternRule, TransportLayerRule) are
 synced above (stamps deferred to the batch 9b). Ipv4Rule/Ipv6Rule (PDF Table 6.236
 networkLayerRule type column; XSD-absent in 00052/00044; markdown has only ECUC-mapping
-appendix mentions) are NOT queued — pending user arbitration under Rule 0015 (PDF-first
-vs no derivation source). Tracker rows `networkLayerRule | Ipv4Rule | missing` and
-`transportLayerRule | TcpRule | missing` stay until the classes land.
+appendix mentions) are queued at the end of this addendum per user arbitration 2026-09-27
+("Enqueue both") — NON-STANDARD source (markdown ECUC-mapping appendix, no class table, no
+XSD), Rule 0015 deviation documented per row. Tracker rows `networkLayerRule | Ipv4Rule |
+missing` and `transportLayerRule | TcpRule | missing` stay until the classes land.
 
 - [ ] `MacAddressString` — ARLiteral — R23-11 markdown · Table 4.53 (FO_TPS_GenericStructureTemplate)
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
@@ -993,9 +994,53 @@ vs no derivation source). Tracker rows `networkLayerRule | Ipv4Rule | missing` a
   - note (Step 1): XSD 00052 group TCP-RULE L120616 + complexType L120644; class Note
     "Configuration of TCP filter rules."; atp.Status=candidate, atpObject; sequence =
     AR-OBJECT + TRANSPORT-LAYER-RULE + TCP-RULE; own members numberOfParallelTcpSessions
-    (PositiveInteger, 0..1), stateManagementBasedOnTcpFlags (Boolean, 0..1), timeoutCheck
-    (PositiveInteger, 0..1). Base TransportLayerRule synced above (stamp deferred). No
-    table in either corpus — Rule 0015 XSD-only.
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `Ipv4Rule` — NetworkLayerRule (TBC at Step 1) — R23-11 markdown ECUC-mapping appendix (no table, no XSD)
+  - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
+  - note: PDF Table 6.236 types FirewallRule.networkLayerRule as Ipv4Rule; queued per user
+    arbitration 2026-09-27 ("Enqueue both") — NON-STANDARD source: members derived from the
+    R23-11 markdown ECUC-mapping appendix (AUTOSAR_CP_TPS_SystemTemplate.md L47645+; BSW
+    Parameter FirewallNetworkLayerIpv4FilterConfig, mapping rule "1:1 mapping valid" to
+    ECUC_Fw_00140). No class table in either corpus, IPV4-RULE absent from 00052/00044
+    XSDs → Rule 0015 deviation documented at Step 8; regular stamp not possible (source is
+    neither a spec table nor an XSD complexType) — marker decision arbitrated at 9b.
+  - note (Step 1): member evidence (mmt.qualifiedName paths): checksumVerification
+    (L47659, shared with TransportLayerRule/IcmpRule), differentiatedServiceCodePoint
+    (L47679), doNotFragment (L47695), explicitCongestionNotification (L47711),
+    sourceIpAddress (L47773), destinationIpAddress (L47777), sourceNetworkMask (L47816),
+    destinationNetworkMask (L47820) — descriptions only, TYPES TBC at Step 1. No Base row
+    in any corpus: candidate bases NetworkLayerRule (XSD family + ECU container name
+    "FirewallNetworkLayer*") vs ARObject — arbitrate at Step 1. IcmpRule (code/type/
+    checksumVerification, L48161/L48179/L49116) is appendix-only, NOT a table type ref —
+    not queued; revisit if a later sync references it.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [ ] `Ipv6Rule` — NetworkLayerRule (TBC at Step 1) — R23-11 markdown ECUC-mapping appendix (no table, no XSD)
+  - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
+  - note: PDF Table 6.236 networkLayerRule family (tracker row names Ipv4Rule; Ipv6Rule is
+    the IPv6 sibling in the same ECU container family FirewallNetworkLayer*FilterConfig);
+    queued per user arbitration 2026-09-27 ("Enqueue both") — NON-STANDARD source: members
+    derived from the R23-11 markdown ECUC-mapping appendix (AUTOSAR_CP_TPS_SystemTemplate.md
+    L48463+). No class table in either corpus, IPV6-RULE absent from 00052/00044 XSDs →
+    Rule 0015 deviation documented at Step 8; regular stamp not possible — marker decision
+    arbitrated at 9b.
+  - note (Step 1): member evidence (mmt.qualifiedName paths): trafficClass (L48463),
+    flowLabel (L48479), hopLimit (L48502), sourceIpAddress (L47781/L47867),
+    destinationIpAddress (L47736/L47871), sourceNetworkMask (L47824/L47828 context),
+    destinationNetworkMask (L47740) — descriptions only, TYPES TBC at Step 1 (no
+    checksumVerification: IPv6 has no header checksum). No Base row in any corpus: same
+    candidate-base arbitration as Ipv4Rule.
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

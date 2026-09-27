@@ -833,7 +833,7 @@ Status: **0/16** completed
 
 ## Group20
 
-Status: **22/29** completed
+Status: **22/31** completed
 
 | Class Name                         | Status      | Commit ID |
 | ---------------------------------- | ----------- | --------- |
@@ -865,4 +865,6 @@ Status: **22/29** completed
 | `MacAddressString`                | [ ] Pending | N/A       |
 | `PayloadBytePatternRulePart`      | [ ] Pending | N/A       |
 | `TcpRule`                         | [ ] Pending | N/A       |
+| `Ipv4Rule`                        | [ ] Pending | N/A       |
+| `Ipv6Rule`                        | [ ] Pending | N/A       |
 | `UdpRule`                         | [ ] Pending | N/A       |
