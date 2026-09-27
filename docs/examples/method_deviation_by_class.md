@@ -2880,7 +2880,6 @@ No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, K
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `bucketSize` | `PositiveInteger` | — | missing |
-| — *(missing)* | `—` | `dataLinkLayerRule` | `DataLinkLayerRule` | — | missing |
 | — *(missing)* | `—` | `ddsRule` | `DdsRule` | — | missing |
 | — *(missing)* | `—` | `doIpRule` | `DoIpRule` | — | missing |
 | — *(missing)* | `—` | `networkLayerRule` | `Ipv4Rule` | — | missing |

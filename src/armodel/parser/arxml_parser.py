@@ -14608,12 +14608,39 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 
+    def readDataLinkLayerRule(self, element: ET.Element, rule: DataLinkLayerRule):
+        destination_mac = self.getChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS")
+        if destination_mac is not None:
+            mac_address = MacAddressString()
+            mac_address.setValue(destination_mac.getValue())
+            rule.setDestinationMacAddress(mac_address)
+        destination_mac_mask = self.getChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS-MASK")
+        if destination_mac_mask is not None:
+            mac_address = MacAddressString()
+            mac_address.setValue(destination_mac_mask.getValue())
+            rule.setDestinationMacAddressMask(mac_address)
+        rule.setEtherType(self.getChildElementOptionalPositiveInteger(element, "ETHER-TYPE"))
+        source_mac = self.getChildElementOptionalLiteral(element, "SOURCE-MAC-ADDRESS")
+        if source_mac is not None:
+            mac_address = MacAddressString()
+            mac_address.setValue(source_mac.getValue())
+            rule.setSourceMacAddress(mac_address)
+        source_mac_mask = self.getChildElementOptionalLiteral(element, "SOURCE-MAC-ADDRESS-MASK")
+        if source_mac_mask is not None:
+            mac_address = MacAddressString()
+            mac_address.setValue(source_mac_mask.getValue())
+            rule.setSourceMacAddressMask(mac_address)
+        rule.setVlanId(self.getChildElementOptionalPositiveInteger(element, "VLAN-ID"))
+        rule.setVlanPriority(self.getChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY"))
+
     def readFirewallRule(self, element: ET.Element, rule: FirewallRule):
         self.readIdentifiable(element, rule)
         rule.setBucketSize(self.getChildElementOptionalPositiveInteger(element, "BUCKET-SIZE"))
         child = self.find(element, "DATA-LINK-LAYER-RULE")
         if child is not None:
-            rule.setDataLinkLayerRule(DataLinkLayerRule())
+            data_link_layer_rule = DataLinkLayerRule()
+            self.readDataLinkLayerRule(child, data_link_layer_rule)
+            rule.setDataLinkLayerRule(data_link_layer_rule)
         child = self.find(element, "DDS-RULE")
         if child is not None:
             rule.setDdsRule(DdsRule())

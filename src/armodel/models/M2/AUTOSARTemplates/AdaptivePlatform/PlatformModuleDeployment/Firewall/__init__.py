@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, MacAddressString, PositiveInteger, RefType
 
 __all__ = [
     "FirewallActionEnum",
@@ -334,154 +334,141 @@ class TransportLayerRule(ARObject):
 
 class DataLinkLayerRule(ARObject):
     """
-    Data link layer filter rule of a FirewallRule.
-
-    Members are modeled from the R23-11 SystemTemplate markdown
-    BSW-parameter-mapping section (attribute names + Notes only);
-    attribute types and cardinality are not specified by the markdown
-    and are recorded as deviations (markdown-minimal sync).
+    Configuration of filter rules on the DataLink layer Tags: atp.Status=candidate
     """
 
     # DataLinkLayerRule method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getEtherType                 [x] impl  [x] docstring  [ ] test
-    # [ ] setEtherType                 [x] impl  [x] docstring  [ ] test
-    # [ ] getDestinationMacAddress     [x] impl  [x] docstring  [ ] test
-    # [ ] setDestinationMacAddress     [x] impl  [x] docstring  [ ] test
-    # [ ] getDestinationMacAddressMask [x] impl  [x] docstring  [ ] test
-    # [ ] setDestinationMacAddressMask [x] impl  [x] docstring  [ ] test
-    # [ ] getSourceMacAddress          [x] impl  [x] docstring  [ ] test
-    # [ ] setSourceMacAddress          [x] impl  [x] docstring  [ ] test
-    # [ ] getSourceMacAddressMask      [x] impl  [x] docstring  [ ] test
-    # [ ] setSourceMacAddressMask      [x] impl  [x] docstring  [ ] test
-    # [ ] getVlanId                    [x] impl  [x] docstring  [ ] test
-    # [ ] setVlanId                    [x] impl  [x] docstring  [ ] test
-    # [ ] getVlanPriority              [x] impl  [x] docstring  [ ] test
-    # [ ] setVlanPriority              [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class DataLinkLayerRule, AUTOSAR_00052.xsd line 27236 (XSD-only; no own table in repo corpus)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationMacAddress        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationMacAddress        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDestinationMacAddressMask    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationMacAddressMask    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEtherType                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEtherType                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceMacAddress             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceMacAddress             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceMacAddressMask         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceMacAddressMask         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVlanId                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVlanId                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVlanPriority                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVlanPriority                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the DataLinkLayerRule with default (None) values.
-        """
         super().__init__()
-        self.etherType: Optional[str] = None
-        self.destinationMacAddress: Optional[str] = None
-        self.destinationMacAddressMask: Optional[str] = None
-        self.sourceMacAddress: Optional[str] = None
-        self.sourceMacAddressMask: Optional[str] = None
-        self.vlanId: Optional[str] = None
-        self.vlanPriority: Optional[str] = None
 
-    def getEtherType(self) -> Optional[str]:
-        """
-        Filter to match packets based on the EtherType field in the Ethernet frame. The EtherType is used to indicate which protocol is encapsulated in the payload of the frame.
-        """
-        return self.etherType
+        # Filter to match packets with the destination MAC address.
+        self.destinationMacAddress: Optional[MacAddressString] = None
 
-    def setEtherType(self, value: Optional[str]):
-        """
-        Sets the EtherType filter value.
+        # Filter to match packets with the destination MAC address range. The destinationMacAddress with the destinationMacAddressMask defines the MAC address range.
+        self.destinationMacAddressMask: Optional[MacAddressString] = None
 
-        Returns:
-            self for method chaining
-        """
-        self.etherType = value
-        return self
+        # Filter to match packets based on the EtherType field in the Ethernet frame. The EtherType is used to indicate which protocol is encapsulated in the payload of the frame.
+        self.etherType: Optional[PositiveInteger] = None
 
-    def getDestinationMacAddress(self) -> Optional[str]:
-        """
-        Filter to match packets with the destination MAC address.
-        """
+        # Filter to match packets with the source MAC address.
+        self.sourceMacAddress: Optional[MacAddressString] = None
+
+        # Filter to match packets with the source MAC address range. The sourceMacAddress with the sourceMacAddressMask defines the MAC address range.
+        self.sourceMacAddressMask: Optional[MacAddressString] = None
+
+        # Filter of packets with a specific VlanId.
+        self.vlanId: Optional[PositiveInteger] = None
+
+        # Filter of packets with a specific Vlan priority.
+        self.vlanPriority: Optional[PositiveInteger] = None
+
+    def getDestinationMacAddress(self) -> Optional[MacAddressString]:
+        """Filter to match packets with the destination MAC address."""
         return self.destinationMacAddress
 
-    def setDestinationMacAddress(self, value: Optional[str]):
+    def setDestinationMacAddress(self, value: Optional[MacAddressString]) -> "DataLinkLayerRule":
         """
-        Sets the destination MAC address filter value.
-
-        Returns:
-            self for method chaining
+        Filter to match packets with the destination MAC address.
+        A None value is a no-op and does not overwrite an existing destinationMacAddress.
         """
-        self.destinationMacAddress = value
+        if value is not None:
+            self.destinationMacAddress = value
         return self
 
-    def getDestinationMacAddressMask(self) -> Optional[str]:
-        """
-        Filter to match packets with the destination MAC address range. The destinationMacAddress with the destinationMacAddress Mask defines the MAC address range.
-        """
+    def getDestinationMacAddressMask(self) -> Optional[MacAddressString]:
+        """Filter to match packets with the destination MAC address range. The destinationMacAddress with the destinationMacAddressMask defines the MAC address range."""
         return self.destinationMacAddressMask
 
-    def setDestinationMacAddressMask(self, value: Optional[str]):
+    def setDestinationMacAddressMask(self, value: Optional[MacAddressString]) -> "DataLinkLayerRule":
         """
-        Sets the destination MAC address mask filter value.
-
-        Returns:
-            self for method chaining
+        Filter to match packets with the destination MAC address range. The destinationMacAddress with the destinationMacAddressMask defines the MAC address range.
+        A None value is a no-op and does not overwrite an existing destinationMacAddressMask.
         """
-        self.destinationMacAddressMask = value
+        if value is not None:
+            self.destinationMacAddressMask = value
         return self
 
-    def getSourceMacAddress(self) -> Optional[str]:
+    def getEtherType(self) -> Optional[PositiveInteger]:
+        """Filter to match packets based on the EtherType field in the Ethernet frame. The EtherType is used to indicate which protocol is encapsulated in the payload of the frame."""
+        return self.etherType
+
+    def setEtherType(self, value: Optional[PositiveInteger]) -> "DataLinkLayerRule":
         """
-        Filter to match packets with the source MAC address.
+        Filter to match packets based on the EtherType field in the Ethernet frame. The EtherType is used to indicate which protocol is encapsulated in the payload of the frame.
+        A None value is a no-op and does not overwrite an existing etherType.
         """
+        if value is not None:
+            self.etherType = value
+        return self
+
+    def getSourceMacAddress(self) -> Optional[MacAddressString]:
+        """Filter to match packets with the source MAC address."""
         return self.sourceMacAddress
 
-    def setSourceMacAddress(self, value: Optional[str]):
+    def setSourceMacAddress(self, value: Optional[MacAddressString]) -> "DataLinkLayerRule":
         """
-        Sets the source MAC address filter value.
-
-        Returns:
-            self for method chaining
+        Filter to match packets with the source MAC address.
+        A None value is a no-op and does not overwrite an existing sourceMacAddress.
         """
-        self.sourceMacAddress = value
+        if value is not None:
+            self.sourceMacAddress = value
         return self
 
-    def getSourceMacAddressMask(self) -> Optional[str]:
-        """
-        Filter to match packets with the source MAC address range. The sourceMacAddress with the sourceMacAddressMask defines the MAC address range.
-        """
+    def getSourceMacAddressMask(self) -> Optional[MacAddressString]:
+        """Filter to match packets with the source MAC address range. The sourceMacAddress with the sourceMacAddressMask defines the MAC address range."""
         return self.sourceMacAddressMask
 
-    def setSourceMacAddressMask(self, value: Optional[str]):
+    def setSourceMacAddressMask(self, value: Optional[MacAddressString]) -> "DataLinkLayerRule":
         """
-        Sets the source MAC address mask filter value.
-
-        Returns:
-            self for method chaining
+        Filter to match packets with the source MAC address range. The sourceMacAddress with the sourceMacAddressMask defines the MAC address range.
+        A None value is a no-op and does not overwrite an existing sourceMacAddressMask.
         """
-        self.sourceMacAddressMask = value
+        if value is not None:
+            self.sourceMacAddressMask = value
         return self
 
-    def getVlanId(self) -> Optional[str]:
-        """
-        Filter of packets with a specific VlanId.
-        """
+    def getVlanId(self) -> Optional[PositiveInteger]:
+        """Filter of packets with a specific VlanId."""
         return self.vlanId
 
-    def setVlanId(self, value: Optional[str]):
+    def setVlanId(self, value: Optional[PositiveInteger]) -> "DataLinkLayerRule":
         """
-        Sets the VLAN ID filter value.
-
-        Returns:
-            self for method chaining
+        Filter of packets with a specific VlanId.
+        A None value is a no-op and does not overwrite an existing vlanId.
         """
-        self.vlanId = value
+        if value is not None:
+            self.vlanId = value
         return self
 
-    def getVlanPriority(self) -> Optional[str]:
-        """
-        Filter of packets with a specific Vlan priority.
-        """
+    def getVlanPriority(self) -> Optional[PositiveInteger]:
+        """Filter of packets with a specific Vlan priority."""
         return self.vlanPriority
 
-    def setVlanPriority(self, value: Optional[str]):
+    def setVlanPriority(self, value: Optional[PositiveInteger]) -> "DataLinkLayerRule":
         """
-        Sets the VLAN priority filter value.
-
-        Returns:
-            self for method chaining
+        Filter of packets with a specific Vlan priority.
+        A None value is a no-op and does not overwrite an existing vlanPriority.
         """
-        self.vlanPriority = value
+        if value is not None:
+            self.vlanPriority = value
         return self
 
 

@@ -7,7 +7,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     CryptoKeySlotAllowedModification,
     CryptoKeySlotContentAllowedUsage,
 )
-from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import FirewallRule, FirewallRuleProps, StateDependentFirewall
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import DataLinkLayerRule, FirewallRule, FirewallRuleProps, StateDependentFirewall
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.AdaptiveModuleImplementation import (
     PlatformModuleEthernetEndpointConfiguration,
 )
@@ -14245,13 +14245,23 @@ class ARXMLWriter(AbstractARXMLWriter):
         else:
             self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
 
+    def writeDataLinkLayerRule(self, element: ET.Element, rule: DataLinkLayerRule):
+        self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS", rule.getDestinationMacAddress())
+        self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS-MASK", rule.getDestinationMacAddressMask())
+        self.setChildElementOptionalPositiveInteger(element, "ETHER-TYPE", rule.getEtherType())
+        self.setChildElementOptionalLiteral(element, "SOURCE-MAC-ADDRESS", rule.getSourceMacAddress())
+        self.setChildElementOptionalLiteral(element, "SOURCE-MAC-ADDRESS-MASK", rule.getSourceMacAddressMask())
+        self.setChildElementOptionalPositiveInteger(element, "VLAN-ID", rule.getVlanId())
+        self.setChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY", rule.getVlanPriority())
+
     def writeFirewallRule(self, element: ET.Element, rule: FirewallRule):
         self.logger.debug("Write FirewallRule %s" % rule.getShortName())
         rule_tag = ET.SubElement(element, "FIREWALL-RULE")
         self.writeIdentifiable(rule_tag, rule)
         self.setChildElementOptionalPositiveInteger(rule_tag, "BUCKET-SIZE", rule.getBucketSize())
         if rule.getDataLinkLayerRule() is not None:
-            ET.SubElement(rule_tag, "DATA-LINK-LAYER-RULE")
+            data_link_layer_rule_tag = ET.SubElement(rule_tag, "DATA-LINK-LAYER-RULE")
+            self.writeDataLinkLayerRule(data_link_layer_rule_tag, rule.getDataLinkLayerRule())
         if rule.getDdsRule() is not None:
             ET.SubElement(rule_tag, "DDS-RULE")
         if rule.getDoIpRule() is not None:

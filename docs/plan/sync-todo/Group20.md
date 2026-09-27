@@ -257,15 +257,46 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `DataLinkLayerRule` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): XSD-only — no `Class` table in R23-11 markdown, none in R4.3.1
+    markdown, pdf_page.py finds no PDF table (Rule 0016.3 fallback exhausted).
+    XSD 00052: complexType DATA-LINK-LAYER-RULE L27236 (abstract="false";
+    element group L27182 carries the attribute rows) → Base most-derived =
+    ARObject, claimed base correct; attribute rows in group sequence order:
+    destinationMacAddress (MAC-ADDRESS-STRING 0..1), destinationMacAddressMask
+    (MAC-ADDRESS-STRING 0..1), etherType (POSITIVE-INTEGER 0..1),
+    sourceMacAddress (MAC-ADDRESS-STRING 0..1), sourceMacAddressMask
+    (MAC-ADDRESS-STRING 0..1), vlanId (POSITIVE-INTEGER 0..1), vlanPriority
+    (POSITIVE-INTEGER 0..1) — notes verbatim. Class Note = "Configuration of
+    filter rules on the DataLink layer" Tags: atp.Status=candidate. Aggregated
+    by FirewallRule.dataLinkLayerRule (0..1). No VARIATION-POINT → not
+    VP-capable. Upstream doc: AUTOSAR_AP_TPS_PlatformModuleDeployment
+    (AdaptivePlatform). Drift vs prior markdown-minimal impl: all 7 fields were
+    Optional[str] → re-typed to Optional[MacAddressString]/Optional[PositiveInteger]
+    (Rule 0001.3 conformance fix, not a deviation); members reordered to the XSD
+    group sequence (was etherType-first); setters were unguarded → None-no-op.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): readFirewallRule previously created a bare
+    DataLinkLayerRule() (identity-only child, Rule 0001.7 debt); now routes
+    through new reusable readDataLinkLayerRule/writeDataLinkLayerRule helpers
+    (reader populates via guarded setters with the MacSecLocalKayProps
+    MacAddressString conversion pattern; writer emits the 7 children in XSD
+    sequence order via setChildElementOptionalLiteral/PositiveInteger). New
+    test_data_link_layer_rule.py parser suite (4 tests) + writer suite
+    (4 tests: values, XSD order, partial/empty cases, write→parse round-trip)
+    pass; Red→Green verified (5 failed before parser/writer update).
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no open deviation for this class — re-typing/ordering/setter
+    guards are Rule 0001.3/1.11/1.4 conformance; the stale `dataLinkLayerRule
+    missing` row in the `FirewallRule` tracker section was removed per Rule
+    0014. Reader/writer coverage note: referenced member types
+    MacAddressString/PositiveInteger already exist in PrimitiveTypes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12470 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `NetworkLayerRule` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
