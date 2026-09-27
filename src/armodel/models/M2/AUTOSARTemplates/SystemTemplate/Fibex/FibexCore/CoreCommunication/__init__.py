@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import HandleOutOfRangeEnum
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import HandleInvalidEnum
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataTypePolicyEnum
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import TransformationISignalProps
 
@@ -2135,7 +2136,7 @@ class SegmentPosition(ARObject):
         """
         return self.segmentByteOrder
 
-    def setSegmentByteOrder(self, value: Optional[ByteOrderEnum]) -> "SegmentPosition":
+    def setSegmentByteOrder(self, value: Optional[ByteOrderEnum]) -> SegmentPosition:
         """
         This attribute defines the order of the bytes of the segment and the packing into the MultiplexedIPdu. Please consider that [constr_3247] and [constr_3224] are restricting the usage of this attribute.
         A None value is a no-op and does not overwrite an existing segmentByteOrder.
@@ -2150,7 +2151,7 @@ class SegmentPosition(ARObject):
         """
         return self.segmentLength
 
-    def setSegmentLength(self, value: Optional[Integer]) -> "SegmentPosition":
+    def setSegmentLength(self, value: Optional[Integer]) -> SegmentPosition:
         """
         Data Length of the segment in bits.
         A None value is a no-op and does not overwrite an existing segmentLength.
@@ -2165,7 +2166,7 @@ class SegmentPosition(ARObject):
         """
         return self.segmentPosition
 
-    def setSegmentPosition(self, value: Optional[Integer]) -> "SegmentPosition":
+    def setSegmentPosition(self, value: Optional[Integer]) -> SegmentPosition:
         """
         Segments bit position relatively to the beginning of a multiplexed IPdu. Note that the absolute position of the segment in the MultiplexedIPdu is determined by the definition of the segmentByteOrder attribute of the SegmentPosition. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the IPdu. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the IPdu. In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
         A None value is a no-op and does not overwrite an existing segmentPosition.
@@ -2204,7 +2205,7 @@ class MultiplexedPart(ARObject, ABC):
         """
         return self.segmentPositions
 
-    def addSegmentPosition(self, value: Optional[SegmentPosition]) -> "MultiplexedPart":
+    def addSegmentPosition(self, value: Optional[SegmentPosition]) -> MultiplexedPart:
         """
         The StaticPart and the DynamicPart can be separated in multiple segments within the multiplexed PDU. Therefore the StaticPart and the DynamicPart can contain multiple SegmentPositions.
         A None value is a no-op and is not appended to segmentPositions.
@@ -2356,7 +2357,7 @@ class DynamicPart(MultiplexedPart, VariationPointCapable):
         """
         return self.dynamicPartAlternatives
 
-    def addDynamicPartAlternative(self, value: Optional[DynamicPartAlternative]) -> "DynamicPart":
+    def addDynamicPartAlternative(self, value: Optional[DynamicPartAlternative]) -> DynamicPart:
         """
         Com IPdu alternatives that are transmitted in the Dynamic Part of the MultiplexedIPdu.
         A None value is a no-op and is not appended to dynamicPartAlternatives.
@@ -2925,69 +2926,113 @@ class IPduPort(CommConnectorPort):
 
 class ISignalPort(CommConnectorPort):
     """
-    Represents an interaction signal port for communication connectors,
-    handling interaction signal communication with filtering,
-    timeout, and validity handling properties.
+    Connectors reception or send port on the referenced channel referenced by an ISignalTriggering. If different timeouts or DataFilters for ISignals need to be specified several ISignalPorts may be created.
     """
 
     # ISignalPort method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataFilter                [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataFilter                [x] impl  [ ] docstring  [ ] test
-    # [ ] getDdsQosProfileRef          [x] impl  [ ] docstring  [ ] test
-    # [ ] setDdsQosProfileRef          [x] impl  [ ] docstring  [ ] test
-    # [ ] getFirstTimeout              [x] impl  [ ] docstring  [ ] test
-    # [ ] setFirstTimeout              [x] impl  [ ] docstring  [ ] test
-    # [ ] getHandleInvalid             [x] impl  [ ] docstring  [ ] test
-    # [ ] setHandleInvalid             [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeout                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeout                   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.5, p.306 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataFilter       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataFilter       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsQosProfileRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsQosProfileRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFirstTimeout     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFirstTimeout     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHandleInvalid    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHandleInvalid    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeout          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeout          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dataFilter: DataFilter = None
-        self.ddsQosProfileRef: RefType = None
-        self.firstTimeout: TimeValue = None
-        self.handleInvalid = None
-        self.timeout: TimeValue = None
+        # Optional specification of a signal COM filter at the receiver side in case that the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy system signals. If a full DataMapping exist for the SystemSignal this information may be available from a configured ReceiverComSpec. In this case the ReceiverComSpec overrides this optional specification.
+        self.dataFilter: Optional[DataFilter] = None
 
-    def getDataFilter(self):
+        # Reference to the DDS Qos profile used for this ISignal. Tags: atp.Status=candidate
+        self.ddsQosProfileRef: Optional[RefType] = None
+
+        # • ISignalPort with communicationDirection = in: Optional first timeout value in seconds for the reception of the ISignal. • ISignalPort with communicationDirection = out: Optional first timeout value in seconds for transmission deadline monitoring.
+        self.firstTimeout: Optional[TimeValue] = None
+
+        # This attribute defines how invalidation is applied to the ISignals received in the context of this ISignalPort.
+        self.handleInvalid: Optional[HandleInvalidEnum] = None
+
+        # • ISignalPort with communicationDirection = in: Optional timeout value in seconds for the reception of the ISignal. The attribute value is used to configure the Com Timeout in the COM module. The RTE ignores this attribute. The timeout can also be specified with the NonqueuedReceiverComSpec.aliveTimeout attribute. If a full DataMapping exists for the SystemSignal and the value is available in the configured ReceiverComSpec, then the timeout value in the ReceiverComSpec overrides this optional timeout specification during the creation of the Base Ecu Configuration of the COM module. • ISignalPort with communicationDirection = out: Optional timeout value in seconds for the transmission of the ISignal. The attribute value is used to configure the ComTimeout in the COM module. The RTE ignores this attribute. The timeout can also be specified with the ender ComSpec.transmissionAcknowledge.timeout attribute. If a full DataMapping exists for the SystemSignal and the value is available in the configured SenderComSpec, then the timeout value in the SenderComSpec overrides this optional timeout specification during the creation of the Base Ecu Configuration of the COM module. This attribute can be used in the following cases: • legacy signal where the System Description doesn't use a complete Software Component Description (VFB View) and where the DataMapping is missing. • bus monitoring use cases in which the DataMapping is ignored.
+        self.timeout: Optional[TimeValue] = None
+
+    def getDataFilter(self) -> Optional[DataFilter]:
+        """
+        Optional specification of a signal COM filter at the receiver side in case that the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy system signals. If a full DataMapping exist for the SystemSignal this information may be available from a configured ReceiverComSpec. In this case the ReceiverComSpec overrides this optional specification.
+        """
         return self.dataFilter
 
-    def setDataFilter(self, value):
+    def setDataFilter(self, value: Optional[DataFilter]) -> ISignalPort:
+        """
+        Optional specification of a signal COM filter at the receiver side in case that the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy system signals. If a full DataMapping exist for the SystemSignal this information may be available from a configured ReceiverComSpec. In this case the ReceiverComSpec overrides this optional specification.
+        A None value is a no-op and does not overwrite an existing dataFilter.
+        """
         if value is not None:
             self.dataFilter = value
         return self
 
-    def getDdsQosProfileRef(self):
+    def getDdsQosProfileRef(self) -> Optional[RefType]:
+        """
+        Reference to the DDS Qos profile used for this ISignal. Tags: atp.Status=candidate
+        """
         return self.ddsQosProfileRef
 
-    def setDdsQosProfileRef(self, value):
+    def setDdsQosProfileRef(self, value: Optional[RefType]) -> ISignalPort:
+        """
+        Reference to the DDS Qos profile used for this ISignal. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing ddsQosProfileRef.
+        """
         if value is not None:
             self.ddsQosProfileRef = value
         return self
 
-    def getFirstTimeout(self):
+    def getFirstTimeout(self) -> Optional[TimeValue]:
+        """
+        • ISignalPort with communicationDirection = in: Optional first timeout value in seconds for the reception of the ISignal. • ISignalPort with communicationDirection = out: Optional first timeout value in seconds for transmission deadline monitoring.
+        """
         return self.firstTimeout
 
-    def setFirstTimeout(self, value):
+    def setFirstTimeout(self, value: Optional[TimeValue]) -> ISignalPort:
+        """
+        • ISignalPort with communicationDirection = in: Optional first timeout value in seconds for the reception of the ISignal. • ISignalPort with communicationDirection = out: Optional first timeout value in seconds for transmission deadline monitoring.
+        A None value is a no-op and does not overwrite an existing firstTimeout.
+        """
         if value is not None:
             self.firstTimeout = value
         return self
 
-    def getHandleInvalid(self):
+    def getHandleInvalid(self) -> Optional[HandleInvalidEnum]:
+        """
+        This attribute defines how invalidation is applied to the ISignals received in the context of this ISignalPort.
+        """
         return self.handleInvalid
 
-    def setHandleInvalid(self, value):
+    def setHandleInvalid(self, value: Optional[HandleInvalidEnum]) -> ISignalPort:
+        """
+        This attribute defines how invalidation is applied to the ISignals received in the context of this ISignalPort.
+        A None value is a no-op and does not overwrite an existing handleInvalid.
+        """
         if value is not None:
             self.handleInvalid = value
         return self
 
-    def getTimeout(self):
+    def getTimeout(self) -> Optional[TimeValue]:
+        """
+        • ISignalPort with communicationDirection = in: Optional timeout value in seconds for the reception of the ISignal. The attribute value is used to configure the Com Timeout in the COM module. The RTE ignores this attribute. The timeout can also be specified with the NonqueuedReceiverComSpec.aliveTimeout attribute. If a full DataMapping exists for the SystemSignal and the value is available in the configured ReceiverComSpec, then the timeout value in the ReceiverComSpec overrides this optional timeout specification during the creation of the Base Ecu Configuration of the COM module. • ISignalPort with communicationDirection = out: Optional timeout value in seconds for the transmission of the ISignal. The attribute value is used to configure the ComTimeout in the COM module. The RTE ignores this attribute. The timeout can also be specified with the ender ComSpec.transmissionAcknowledge.timeout attribute. If a full DataMapping exists for the SystemSignal and the value is available in the configured SenderComSpec, then the timeout value in the SenderComSpec overrides this optional timeout specification during the creation of the Base Ecu Configuration of the COM module. This attribute can be used in the following cases: • legacy signal where the System Description doesn't use a complete Software Component Description (VFB View) and where the DataMapping is missing. • bus monitoring use cases in which the DataMapping is ignored.
+        """
         return self.timeout
 
-    def setTimeout(self, value):
+    def setTimeout(self, value: Optional[TimeValue]) -> ISignalPort:
+        """
+        • ISignalPort with communicationDirection = in: Optional timeout value in seconds for the reception of the ISignal. The attribute value is used to configure the Com Timeout in the COM module. The RTE ignores this attribute. The timeout can also be specified with the NonqueuedReceiverComSpec.aliveTimeout attribute. If a full DataMapping exists for the SystemSignal and the value is available in the configured ReceiverComSpec, then the timeout value in the ReceiverComSpec overrides this optional timeout specification during the creation of the Base Ecu Configuration of the COM module. • ISignalPort with communicationDirection = out: Optional timeout value in seconds for the transmission of the ISignal. The attribute value is used to configure the ComTimeout in the COM module. The RTE ignores this attribute. The timeout can also be specified with the ender ComSpec.transmissionAcknowledge.timeout attribute. If a full DataMapping exists for the SystemSignal and the value is available in the configured SenderComSpec, then the timeout value in the SenderComSpec overrides this optional timeout specification during the creation of the Base Ecu Configuration of the COM module. This attribute can be used in the following cases: • legacy signal where the System Description doesn't use a complete Software Component Description (VFB View) and where the DataMapping is missing. • bus monitoring use cases in which the DataMapping is ignored.
+        A None value is a no-op and does not overwrite an existing timeout.
+        """
         if value is not None:
             self.timeout = value
         return self

@@ -10904,6 +10904,10 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeISignalPort(self, element: ET.Element, port: ISignalPort):
         child_element = ET.SubElement(element, "I-SIGNAL-PORT")
         self.writeCommConnectorPort(child_element, port)
+        self.setDataFilter(child_element, "DATA-FILTER", port.getDataFilter())
+        self.setChildElementOptionalRefType(child_element, "DDS-QOS-PROFILE-REF", port.getDdsQosProfileRef())
+        self.setChildElementOptionalTimeValue(child_element, "FIRST-TIMEOUT", port.getFirstTimeout())
+        self.setChildElementOptionalLiteral(child_element, "HANDLE-INVALID", port.getHandleInvalid())
         self.setChildElementOptionalTimeValue(child_element, "TIMEOUT", port.getTimeout())
 
     def writeCommunicationConnectorEcuCommPortInstances(self, element: ET.Element, connector: CommunicationConnector):

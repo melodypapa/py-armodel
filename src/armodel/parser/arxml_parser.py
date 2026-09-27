@@ -12619,6 +12619,10 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readISignalPort(self, element: ET.Element, port: ISignalPort):
         self.readCommConnectorPort(element, port)
+        port.setDataFilter(self.getDataFilter(element, "DATA-FILTER"))
+        port.setDdsQosProfileRef(self.getChildElementOptionalRefType(element, "DDS-QOS-PROFILE-REF"))
+        port.setFirstTimeout(self.getChildElementOptionalTimeValue(element, "FIRST-TIMEOUT"))
+        port.setHandleInvalid(self.getChildElementOptionalLiteral(element, "HANDLE-INVALID"))
         port.setTimeout(self.getChildElementOptionalTimeValue(element, "TIMEOUT"))
 
     def readCommunicationConnectorEcuCommPortInstances(self, element: ET.Element, connector: CommunicationConnector):

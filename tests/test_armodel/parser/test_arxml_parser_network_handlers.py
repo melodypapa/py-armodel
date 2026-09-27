@@ -3684,3 +3684,39 @@ class TestISignalIPduGroup:
 
 
 # ==================== SystemMapping (L5437, L5451, L5466, L5483) ====================
+
+
+# ==================== ISignalPort (Table 6.5, p.306) ====================
+
+
+class TestISignalPortHandlers:
+    def test_readISignalPort_sets_all_fields(self, parser):
+        from armodel.models import ISignalPort
+
+        port = ISignalPort(MagicMock(), "Isp")
+        element = _snip(
+            "<DATA-FILTER><DATA-FILTER-TYPE>ALWAYS</DATA-FILTER-TYPE></DATA-FILTER>"
+            '<DDS-QOS-PROFILE-REF DEST="DDS-CP-QOS-PROFILE">/profiles/p1</DDS-QOS-PROFILE-REF>'
+            "<FIRST-TIMEOUT>5.0</FIRST-TIMEOUT>"
+            "<HANDLE-INVALID>keep</HANDLE-INVALID>"
+            "<TIMEOUT>1.0</TIMEOUT>"
+        )
+        parser.readISignalPort(element, port)
+        assert port.getDataFilter() is not None
+        assert port.getDataFilter().getDataFilterType().getValue() == "ALWAYS"
+        assert port.getDdsQosProfileRef().getValue() == "/profiles/p1"
+        assert port.getFirstTimeout().getValue() == 5.0
+        assert port.getHandleInvalid().getValue() == "keep"
+        assert port.getTimeout().getValue() == 1.0
+
+    def test_readISignalPort_empty(self, parser):
+        from armodel.models import ISignalPort
+
+        port = ISignalPort(MagicMock(), "Isp")
+        element = _snip("")
+        parser.readISignalPort(element, port)
+        assert port.getDataFilter() is None
+        assert port.getDdsQosProfileRef() is None
+        assert port.getFirstTimeout() is None
+        assert port.getHandleInvalid() is None
+        assert port.getTimeout() is None
