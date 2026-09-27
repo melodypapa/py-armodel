@@ -268,13 +268,19 @@ class DoIpRule(ARObject):
 
 
 class NetworkLayerRule(ARObject):
-    """Configuration of rules on the Network Layer"""
+    """
+    Configuration of filter rules on the Network layer Tags: atp.Status=candidate
+    """
 
     # NetworkLayerRule method parity checklist:
+    # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class NetworkLayerRule, AUTOSAR_00052.xsd line 84252 (XSD-only; no own table in repo corpus)
+    # (abstract class: the NETWORK-LAYER-RULE group is an empty sequence with no
+    #  complexType; the FirewallRule.networkLayerRule element carries a choice of
+    #  the concrete subtypes Ipv4Rule/Ipv6Rule, which are not yet implemented —
+    #  the class stays instantiable as the aggregation placeholder per Rule
+    #  0001.10 and gains the abstract guard + five-place dispatch when they sync)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # (markdown-minimal placeholder: member attribute defs skipped per user decision
-    #  2026-08-31 — no Class table in the PDF/markdown corpus; no stamp)
-    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
