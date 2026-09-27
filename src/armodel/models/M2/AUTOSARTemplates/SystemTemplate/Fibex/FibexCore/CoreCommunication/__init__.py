@@ -2151,15 +2151,17 @@ class SegmentPosition(ARObject):
 
 class MultiplexedPart(ARObject, ABC):
     """
-    Abstract base class for multiplexed communication parts, defining
-    common properties for dynamic and static multiplexed communication
-    segments including segment positions.
+    The StaticPart and the DynamicPart have common properties. Both can be separated in multiple segments within the multiplexed PDU.
+
+    [constr_9181] Existence of MultiplexedPart.segmentPosition: For each MultiplexedPart the aggregation of SegmentPosition in role segmentPosition shall exist at the time when the System Description is complete.
     """
 
     # MultiplexedPart method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getSegmentPositions          [x] impl  [ ] docstring  [ ] test
-    # [ ] addSegmentPosition           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.76, p.411 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSegmentPositions  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSegmentPosition   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is MultiplexedPart:
@@ -2167,12 +2169,20 @@ class MultiplexedPart(ARObject, ABC):
 
         super().__init__()
 
-        self.segmentPositions = []  # type: List[SegmentPosition]
+        # The StaticPart and the DynamicPart can be separated in multiple segments within the multiplexed PDU. Therefore the StaticPart and the DynamicPart can contain multiple SegmentPositions.
+        self.segmentPositions: List[SegmentPosition] = []
 
-    def getSegmentPositions(self):
+    def getSegmentPositions(self) -> List[SegmentPosition]:
+        """
+        The StaticPart and the DynamicPart can be separated in multiple segments within the multiplexed PDU. Therefore the StaticPart and the DynamicPart can contain multiple SegmentPositions.
+        """
         return self.segmentPositions
 
-    def addSegmentPosition(self, value):
+    def addSegmentPosition(self, value: Optional[SegmentPosition]) -> "MultiplexedPart":
+        """
+        The StaticPart and the DynamicPart can be separated in multiple segments within the multiplexed PDU. Therefore the StaticPart and the DynamicPart can contain multiple SegmentPositions.
+        A None value is a no-op and is not appended to segmentPositions.
+        """
         if value is not None:
             self.segmentPositions.append(value)
         return self
