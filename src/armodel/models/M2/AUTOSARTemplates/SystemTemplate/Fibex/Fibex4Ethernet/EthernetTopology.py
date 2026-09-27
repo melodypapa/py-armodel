@@ -1818,98 +1818,204 @@ class NetworkEndpointAddress(ARObject, ABC):
         super().__init__()
 
 
+class Ipv4AddressSourceEnum(AREnum):
+    """
+    Defines how the node obtains its IPv4-Address.
+    """
+
+    # Ipv4AddressSourceEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.137, p.465 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Ipv4Configuration.ipv4AddressSource
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # AutoIP is used to dynamically assign IP addresses at device startup. Tags: atp.EnumerationLiteralIndex=0
+    AUTO_IP = "autoIp"
+
+    # Linklocal IPv4 Address Assignment using DoIP Parameters Tags: atp.EnumerationLiteralIndex=2 xml.name=AUTO-IP-DOIP
+    AUTO_IP_DOIP = "autoIp_doip"
+
+    # DHCP is a service for the automatic IP configuration of a client. Tags: atp.EnumerationLiteralIndex=3
+    DHCPV4 = "dhcpv4"
+
+    # The IP Address shall be declared manually. Tags: atp.EnumerationLiteralIndex=4
+    FIXED = "fixed"
+
+    def __init__(self):
+        super().__init__([Ipv4AddressSourceEnum.AUTO_IP, Ipv4AddressSourceEnum.AUTO_IP_DOIP, Ipv4AddressSourceEnum.DHCPV4, Ipv4AddressSourceEnum.FIXED])
+
+
 class Ipv4Configuration(NetworkEndpointAddress):
     """
-    Defines IPv4 network configuration properties for a network endpoint,
-    including IP addresses, network masks, DNS server addresses, and
-    TTL settings for IPv4 communication.
+    Internet Protocol version 4 (IPv4) configuration.
     """
 
     # Ipv4Configuration method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAssignmentPriority        [x] impl  [ ] docstring  [ ] test
-    # [ ] setAssignmentPriority        [x] impl  [ ] docstring  [ ] test
-    # [ ] getDefaultGateway            [x] impl  [ ] docstring  [ ] test
-    # [ ] setDefaultGateway            [x] impl  [ ] docstring  [ ] test
-    # [ ] getDnsServerAddresses        [x] impl  [ ] docstring  [ ] test
-    # [ ] addDnsServerAddress          [x] impl  [ ] docstring  [ ] test
-    # [ ] getIpAddressKeepBehavior     [x] impl  [ ] docstring  [ ] test
-    # [ ] setIpAddressKeepBehavior     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIpv4Address               [x] impl  [ ] docstring  [ ] test
-    # [ ] setIpv4Address               [x] impl  [ ] docstring  [ ] test
-    # [ ] getIpv4AddressSource         [x] impl  [ ] docstring  [ ] test
-    # [ ] setIpv4AddressSource         [x] impl  [ ] docstring  [ ] test
-    # [ ] getNetworkMask               [x] impl  [ ] docstring  [ ] test
-    # [ ] setNetworkMask               [x] impl  [ ] docstring  [ ] test
-    # [ ] getTtl                       [x] impl  [ ] docstring  [ ] test
-    # [ ] setTtl                       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.136, p.465 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAssignmentPriority     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAssignmentPriority     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDefaultGateway         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultGateway         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDnsServerAddresses     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDnsServerAddress       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpAddressKeepBehavior  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpAddressKeepBehavior  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpv4Address            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv4Address            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpv4AddressSource      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv4AddressSource      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNetworkMask            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkMask            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTtl                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTtl                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.assignmentPriority: PositiveInteger = None
-        self.defaultGateway: Ip4AddressString = None
-        self.dnsServerAddresses: List[Ip4AddressString] = []
-        self.ipAddressKeepBehavior = None
-        self.ipv4Address: Ip4AddressString = None
-        self.ipv4AddressSource = None
-        self.networkMask: Ip4AddressString = None
-        self.ttl: PositiveInteger = None
+        # Priority of assignment (1 is highest). If a new address from an assignment method with a higher priority is available, it overwrites the IP address previously assigned by an assignment method with a lower priority.
+        self.assignmentPriority: Optional[PositiveInteger] = None
 
-    def getAssignmentPriority(self):
+        # IP address of the default gateway.
+        self.defaultGateway: Optional[Ip4AddressString] = None
+
+        # IP addresses of preconfigured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
+        self.dnsServerAddresses: List[Ip4AddressString] = []
+
+        # Defines the lifetime of a dynamically fetched IP address.
+        self.ipAddressKeepBehavior: Optional[IpAddressKeepEnum] = None
+
+        # IPv4 Address. Notation: 255.255.255.255. The IP Address shall be declared in case the ipv4AddressSource is FIXED and thus no auto-configuration mechanism is used.
+        self.ipv4Address: Optional[Ip4AddressString] = None
+
+        # Defines how the node obtains its IP address.
+        self.ipv4AddressSource: Optional[Ipv4AddressSourceEnum] = None
+
+        # Network mask. Notation 255.255.255.255
+        self.networkMask: Optional[Ip4AddressString] = None
+
+        # Lifespan of data (0..255). The purpose of the TimeToLive field is to avoid a situation in which an undeliverable datagram keeps circulating on a system.
+        self.ttl: Optional[PositiveInteger] = None
+
+    def getAssignmentPriority(self) -> Optional[PositiveInteger]:
+        """
+        Priority of assignment (1 is highest). If a new address from an assignment method with a higher priority is available, it overwrites the IP address previously assigned by an assignment method with a lower priority.
+        """
         return self.assignmentPriority
 
-    def setAssignmentPriority(self, value):
-        self.assignmentPriority = value
+    def setAssignmentPriority(self, value: Optional[PositiveInteger]) -> "Ipv4Configuration":
+        """
+        Priority of assignment (1 is highest). If a new address from an assignment method with a higher priority is available, it overwrites the IP address previously assigned by an assignment method with a lower priority.
+        A None value is a no-op and does not overwrite an existing assignmentPriority.
+        """
+        if value is not None:
+            self.assignmentPriority = value
         return self
 
-    def getDefaultGateway(self):
+    def getDefaultGateway(self) -> Optional[Ip4AddressString]:
+        """
+        IP address of the default gateway.
+        """
         return self.defaultGateway
 
-    def setDefaultGateway(self, value):
-        self.defaultGateway = value
+    def setDefaultGateway(self, value: Optional[Ip4AddressString]) -> "Ipv4Configuration":
+        """
+        IP address of the default gateway.
+        A None value is a no-op and does not overwrite an existing defaultGateway.
+        """
+        if value is not None:
+            self.defaultGateway = value
         return self
 
-    def getDnsServerAddresses(self):
+    def getDnsServerAddresses(self) -> List[Ip4AddressString]:
+        """
+        IP addresses of preconfigured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
+        """
         return self.dnsServerAddresses
 
-    def addDnsServerAddress(self, value):
-        self.dnsServerAddresses.append(value)
+    def addDnsServerAddress(self, value: Optional[Ip4AddressString]) -> "Ipv4Configuration":
+        """
+        IP addresses of preconfigured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
+        A None value is a no-op and is not appended to dnsServerAddresses.
+        """
+        if value is not None:
+            self.dnsServerAddresses.append(value)
         return self
 
-    def getIpAddressKeepBehavior(self):
+    def getIpAddressKeepBehavior(self) -> Optional[IpAddressKeepEnum]:
+        """
+        Defines the lifetime of a dynamically fetched IP address.
+        """
         return self.ipAddressKeepBehavior
 
-    def setIpAddressKeepBehavior(self, value):
-        self.ipAddressKeepBehavior = value
+    def setIpAddressKeepBehavior(self, value: Optional[IpAddressKeepEnum]) -> "Ipv4Configuration":
+        """
+        Defines the lifetime of a dynamically fetched IP address.
+        A None value is a no-op and does not overwrite an existing ipAddressKeepBehavior.
+        """
+        if value is not None:
+            self.ipAddressKeepBehavior = value
         return self
 
-    def getIpv4Address(self):
+    def getIpv4Address(self) -> Optional[Ip4AddressString]:
+        """
+        IPv4 Address. Notation: 255.255.255.255. The IP Address shall be declared in case the ipv4AddressSource is FIXED and thus no auto-configuration mechanism is used.
+        """
         return self.ipv4Address
 
-    def setIpv4Address(self, value):
-        self.ipv4Address = value
+    def setIpv4Address(self, value: Optional[Ip4AddressString]) -> "Ipv4Configuration":
+        """
+        IPv4 Address. Notation: 255.255.255.255. The IP Address shall be declared in case the ipv4AddressSource is FIXED and thus no auto-configuration mechanism is used.
+        A None value is a no-op and does not overwrite an existing ipv4Address.
+        """
+        if value is not None:
+            self.ipv4Address = value
         return self
 
-    def getIpv4AddressSource(self):
+    def getIpv4AddressSource(self) -> Optional[Ipv4AddressSourceEnum]:
+        """
+        Defines how the node obtains its IP address.
+        """
         return self.ipv4AddressSource
 
-    def setIpv4AddressSource(self, value):
-        self.ipv4AddressSource = value
+    def setIpv4AddressSource(self, value: Optional[Ipv4AddressSourceEnum]) -> "Ipv4Configuration":
+        """
+        Defines how the node obtains its IP address.
+        A None value is a no-op and does not overwrite an existing ipv4AddressSource.
+        """
+        if value is not None:
+            self.ipv4AddressSource = value
         return self
 
-    def getNetworkMask(self):
+    def getNetworkMask(self) -> Optional[Ip4AddressString]:
+        """
+        Network mask. Notation 255.255.255.255
+        """
         return self.networkMask
 
-    def setNetworkMask(self, value):
-        self.networkMask = value
+    def setNetworkMask(self, value: Optional[Ip4AddressString]) -> "Ipv4Configuration":
+        """
+        Network mask. Notation 255.255.255.255
+        A None value is a no-op and does not overwrite an existing networkMask.
+        """
+        if value is not None:
+            self.networkMask = value
         return self
 
-    def getTtl(self):
+    def getTtl(self) -> Optional[PositiveInteger]:
+        """
+        Lifespan of data (0..255). The purpose of the TimeToLive field is to avoid a situation in which an undeliverable datagram keeps circulating on a system.
+        """
         return self.ttl
 
-    def setTtl(self, value):
-        self.ttl = value
+    def setTtl(self, value: Optional[PositiveInteger]) -> "Ipv4Configuration":
+        """
+        Lifespan of data (0..255). The purpose of the TimeToLive field is to avoid a situation in which an undeliverable datagram keeps circulating on a system.
+        A None value is a no-op and does not overwrite an existing ttl.
+        """
+        if value is not None:
+            self.ttl = value
         return self
 
 
@@ -2641,68 +2747,151 @@ class InfrastructureServices(ARObject):
         return self
 
 
+class IPSecConfig(ARObject):
+    """
+    IPsec is a protocol that is designed to provide "end-to-end" cryptographically-based security for IP network connections.
+    """
+
+    # IPSecConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.221, p.571 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIpSecConfigPropsRef [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setIpSecConfigPropsRef [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Global IPsec configuration settings that are valid for all IPSecRules that are defined on the NetworkEndpoint.
+        self.ipSecConfigPropsRef: Optional[RefType] = None
+
+    def getIpSecConfigPropsRef(self) -> Optional[RefType]:
+        """
+        Global IPsec configuration settings that are valid for all IPSecRules that are defined on the NetworkEndpoint.
+        """
+        return self.ipSecConfigPropsRef
+
+    def setIpSecConfigPropsRef(self, value: Optional[RefType]) -> "IPSecConfig":
+        """
+        Global IPsec configuration settings that are valid for all IPSecRules that are defined on the NetworkEndpoint.
+        A None value is a no-op and does not overwrite an existing ipSecConfigPropsRef.
+        """
+        if value is not None:
+            self.ipSecConfigPropsRef = value
+        return self
+
+
 class NetworkEndpoint(Identifiable):
     """
-    Represents a network endpoint in the AUTOSAR system, defining
-    IP configuration, infrastructure services, and network address
-    properties for communication nodes in the network.
+    The network endpoint defines the network addressing (e.g. IP-Address or MAC multicast address).
     """
 
     # NetworkEndpoint method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getFullyQualifiedDomainName  [x] impl  [ ] docstring  [ ] test
-    # [ ] setFullyQualifiedDomainName  [x] impl  [ ] docstring  [ ] test
-    # [ ] getInfrastructureServices    [x] impl  [ ] docstring  [ ] test
-    # [ ] setInfrastructureServices    [x] impl  [ ] docstring  [ ] test
-    # [ ] getIpSecConfig               [x] impl  [ ] docstring  [ ] test
-    # [ ] setIpSecConfig               [x] impl  [ ] docstring  [ ] test
-    # [ ] getNetworkEndpointAddresses  [x] impl  [ ] docstring  [ ] test
-    # [ ] addNetworkEndpointAddress    [x] impl  [ ] docstring  [ ] test
-    # [ ] getPriority                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setPriority                  [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.134, p.463 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFullyQualifiedDomainName [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFullyQualifiedDomainName [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInfrastructureServices   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInfrastructureServices   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpSecConfig              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setIpSecConfig              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNetworkEndpointAddresses [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addNetworkEndpointAddress   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPriority                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPriority                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.fullyQualifiedDomainName: String = None
-        self.infrastructureServices: InfrastructureServices = None
-        self.ipSecConfig = None
-        self.networkEndpointAddresses: List[NetworkEndpointAddress] = []
-        self.priority: PositiveInteger = None
+        # Defines the fully qualified domain name (FQDN) e.g. some.example.host.
+        self.fullyQualifiedDomainName: Optional[String] = None
 
-    def getFullyQualifiedDomainName(self):
+        # Defines the network infrastructure services provided or consumed.
+        self.infrastructureServices: Optional[InfrastructureServices] = None
+
+        # Optional IPSec configuration that provides security services for IP packets.
+        self.ipSecConfig: Optional[IPSecConfig] = None
+
+        # Definition of a Network Address. Tags: xml.namePlural=NETWORK-ENDPOINT-ADDRESSES
+        self.networkEndpointAddresses: List[NetworkEndpointAddress] = []
+
+        # Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
+        self.priority: Optional[PositiveInteger] = None
+
+    def getFullyQualifiedDomainName(self) -> Optional[String]:
+        """
+        Defines the fully qualified domain name (FQDN) e.g. some.example.host.
+        """
         return self.fullyQualifiedDomainName
 
-    def setFullyQualifiedDomainName(self, value):
-        self.fullyQualifiedDomainName = value
+    def setFullyQualifiedDomainName(self, value: Optional[String]) -> "NetworkEndpoint":
+        """
+        Defines the fully qualified domain name (FQDN) e.g. some.example.host.
+        A None value is a no-op and does not overwrite an existing fullyQualifiedDomainName.
+        """
+        if value is not None:
+            self.fullyQualifiedDomainName = value
         return self
 
-    def getInfrastructureServices(self):
+    def getInfrastructureServices(self) -> Optional[InfrastructureServices]:
+        """
+        Defines the network infrastructure services provided or consumed.
+        """
         return self.infrastructureServices
 
-    def setInfrastructureServices(self, value):
-        self.infrastructureServices = value
+    def setInfrastructureServices(self, value: Optional[InfrastructureServices]) -> "NetworkEndpoint":
+        """
+        Defines the network infrastructure services provided or consumed.
+        A None value is a no-op and does not overwrite an existing infrastructureServices.
+        """
+        if value is not None:
+            self.infrastructureServices = value
         return self
 
-    def getIpSecConfig(self):
+    def getIpSecConfig(self) -> Optional[IPSecConfig]:
+        """
+        Optional IPSec configuration that provides security services for IP packets.
+        """
         return self.ipSecConfig
 
-    def setIpSecConfig(self, value):
-        self.ipSecConfig = value
+    def setIpSecConfig(self, value: Optional[IPSecConfig]) -> "NetworkEndpoint":
+        """
+        Optional IPSec configuration that provides security services for IP packets.
+        A None value is a no-op and does not overwrite an existing ipSecConfig.
+        """
+        if value is not None:
+            self.ipSecConfig = value
         return self
 
-    def getNetworkEndpointAddresses(self):
+    def getNetworkEndpointAddresses(self) -> List[NetworkEndpointAddress]:
+        """
+        Definition of a Network Address. Tags: xml.namePlural=NETWORK-ENDPOINT-ADDRESSES
+        """
         return self.networkEndpointAddresses
 
-    def addNetworkEndpointAddress(self, value):
-        self.networkEndpointAddresses.append(value)
+    def addNetworkEndpointAddress(self, value: Optional[NetworkEndpointAddress]) -> "NetworkEndpoint":
+        """
+        Definition of a Network Address. Tags: xml.namePlural=NETWORK-ENDPOINT-ADDRESSES
+        A None value is a no-op and is not appended to networkEndpointAddresses.
+        """
+        if value is not None:
+            self.networkEndpointAddresses.append(value)
         return self
 
-    def getPriority(self):
+    def getPriority(self) -> Optional[PositiveInteger]:
+        """
+        Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
+        """
         return self.priority
 
-    def setPriority(self, value):
-        self.priority = value
+    def setPriority(self, value: Optional[PositiveInteger]) -> "NetworkEndpoint":
+        """
+        Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
+        A None value is a no-op and does not overwrite an existing priority.
+        """
+        if value is not None:
+            self.priority = value
         return self
 
 
