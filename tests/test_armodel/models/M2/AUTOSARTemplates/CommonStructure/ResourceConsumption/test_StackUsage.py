@@ -51,6 +51,10 @@ ROUGH_ESTIMATE_STACK_USAGE_NOTE = "Rough estimation of the stack usage."
 
 ROUGH_MEMORY_CONSUMPTION_NOTE = "Rough estimate of the stack usage. Unit: byte."
 
+WORST_CASE_STACK_USAGE_NOTE = "Provides a formal worst case stack usage."
+
+WORST_MEMORY_CONSUMPTION_NOTE = "Worst case stack consumption. Unit: byte."
+
 
 def _setter_tail(name):
     return "A None value is a no-op and does not overwrite an existing %s." % name
@@ -277,9 +281,34 @@ class TestRoughEstimateStackUsage:
 
 class TestWorstCaseStackUsage:
     """
-    Test class for WorstCaseStackUsage functionality.
+    Test class for WorstCaseStackUsage functionality (Table 8.10).
     """
 
-    def test_instantiation(self):
-        obj = _instantiate(WorstCaseStackUsage, "WorstStack")
-        assert obj.getShortName() == "WorstStack"
+    def test_base_chain(self):
+        assert WorstCaseStackUsage.__bases__ == (StackUsage,)
+
+    def test_class_docstring_verbatim(self):
+        assert inspect.cleandoc(WorstCaseStackUsage.__doc__) == WORST_CASE_STACK_USAGE_NOTE
+
+    def test_initialization(self):
+        obj = _instantiate(WorstCaseStackUsage, "WSU")
+        assert obj.getShortName() == "WSU"
+        assert obj.getMemoryConsumption() is None
+
+    def test_annotations_match_spec_types(self):
+        hints = get_type_hints(WorstCaseStackUsage.getMemoryConsumption)
+        assert hints["return"] == Optional[PositiveInteger]
+
+    def test_get_set_memory_consumption(self):
+        obj = _instantiate(WorstCaseStackUsage, "WSU")
+        assert obj.setMemoryConsumption(PositiveInteger().setValue("400")) is obj
+        assert obj.getMemoryConsumption().getValue() == 400
+        obj.setMemoryConsumption(None)
+        assert obj.getMemoryConsumption().getValue() == 400
+
+    def test_init_has_no_docstring(self):
+        assert WorstCaseStackUsage.__init__.__doc__ is None
+
+    def test_docstrings_verbatim(self):
+        assert _doc(WorstCaseStackUsage.getMemoryConsumption) == WORST_MEMORY_CONSUMPTION_NOTE
+        assert _doc(WorstCaseStackUsage.setMemoryConsumption) == WORST_MEMORY_CONSUMPTION_NOTE + "\n" + _setter_tail("memoryConsumption")

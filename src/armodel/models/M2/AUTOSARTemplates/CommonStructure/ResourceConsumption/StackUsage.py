@@ -248,23 +248,16 @@ class RoughEstimateStackUsage(StackUsage):
 class WorstCaseStackUsage(StackUsage):
     """
     Provides a formal worst case stack usage.
-    This class provides the worst-case scenario analysis for stack consumption under maximum load conditions.
     """
 
     # WorstCaseStackUsage method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.10, p.150
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getMemoryConsumption         [x] impl  [x] docstring  [x] test
-    # [x] setMemoryConsumption         [x] impl  [x] docstring  [x] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.10, p.150 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMemoryConsumption  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMemoryConsumption  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the WorstCaseStackUsage with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this worst case stack usage
-            short_name: The unique short name of this worst case stack usage
-        """
         super().__init__(parent, short_name)
 
         # Worst case stack consumption. Unit: byte.
@@ -272,23 +265,14 @@ class WorstCaseStackUsage(StackUsage):
 
     def getMemoryConsumption(self) -> Optional[PositiveInteger]:
         """
-        Gets the worst case stack consumption.
-
-        Returns:
-            PositiveInteger: Worst case stack consumption value (Unit: byte)
+        Worst case stack consumption. Unit: byte.
         """
         return self.memoryConsumption
 
     def setMemoryConsumption(self, value: Optional[PositiveInteger]) -> WorstCaseStackUsage:
         """
-        Sets the worst case stack consumption.
-        A None value is a no-op and does not overwrite an existing value.
-
-        Args:
-            value: The worst case stack consumption value to set (Unit: byte)
-
-        Returns:
-            self for method chaining
+        Worst case stack consumption. Unit: byte.
+        A None value is a no-op and does not overwrite an existing memoryConsumption.
         """
         if value is not None:
             self.memoryConsumption = value
