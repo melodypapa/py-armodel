@@ -457,7 +457,7 @@ Status: **34/34** completed
 
 ## Group8
 
-Status: **44/50** completed
+Status: **45/50** completed
 
 | Class Name                               | Status       | Commit ID |
 | ---------------------------------------- | ------------ | --------- |
@@ -506,7 +506,7 @@ Status: **44/50** completed
 | `PositiveIntegerValueVariationPoint`     | [x] Done     | d5c96fd9  |
 | `TimeValueValueVariationPoint`           | [x] Done     | d5c96fd9  |
 | `UnlimitedIntegerValueVariationPoint`    | [x] Done     | d5c96fd9  |
-| `BlueprintFormula`                       | [ ] Pending* | N/A       |
+| `BlueprintFormula`                       | [x] Done     | 6d8ace028 |
 | `FMConditionByFeaturesAndAttributes`     | [ ] Pending* | N/A       |
 | `FMConditionByFeaturesAndSwSystemconsts` | [ ] Pending* | N/A       |
 | `FMFormulaByFeaturesAndAttributes`       | [ ] Pending* | N/A       |

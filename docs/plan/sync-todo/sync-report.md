@@ -58,7 +58,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `AutosarVariableRef`                                    | [ ] Deferred| N/A                                      | Group10          |
 | `BackgroundEvent`                                       | [x] Done    | 27b88a94                                 | Group2           |
 | `BindingTimeEnum`                                       | [x] Done    | 53bf1808                                 | Group8           |
-| `BlueprintFormula`                                      | [ ] Deferred| N/A                                      | Group8           |
+| `BlueprintFormula`                                      | [x] Done    | 6d8ace028                                | Group8           |
 | `BlueprintGenerator`                                    | [x] Done    | 246fc9845                                | Group8           |
 | `BlueprintMapping`                                      | [x] Done    | a6fa7b8c1                                | Group8           |
 | `BlueprintMappingSet`                                   | [x] Done    | 3ba85998bb8a378d2fc76d8f0aa2eb58ad86d6f4 | Group1           |
