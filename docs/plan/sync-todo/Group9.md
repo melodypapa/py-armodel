@@ -333,7 +333,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations  [none open — zero members, zero fields; nothing to deviate]
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (shared battery: 32/32 target, 12767/0 full suite, lint+black clean, integration green); on 9b: `# XSD verified: AUTOSAR_00052.xsd`; 9b CONFIRMED by user 2026-09-28 (chat confirmation, XSD-verified) — stamp `# XSD verified: AUTOSAR_00052.xsd (2026-09-28, user 9b confirmation)` written after the Spec line in the class block in GerneralParameters.py (the class carries the 2026-09-28 `(ARObject, ABC)` form, feat 5946322c3); 9a re-gate on the stamped tree: family+consumer tests 69/69 (test_GerneralParameters.py + parser/writer test_prms.py + test_Chapters.py), full suite 12766 passed / 0 failed, `npm run lint` clean, black-check clean 1319 files unchanged → feat commit 9494a593a
 
-- [ ] `PrmCharNumericalValue` — ARObject — XSD-only (GROUP-ONLY in both XSDs — no complexType; no own table in repo corpus) — synced R23-11 (commit a3cf04c73, 9b pending)
+- [x] `PrmCharNumericalValue` — ARObject — XSD-only (GROUP-ONLY in both XSDs — no complexType; no own table in repo corpus) — finished, stamped `# XSD verified: AUTOSAR_00052.xsd` (commit: 2f1c852db, 9b confirmed 2026-09-28)
   - module: M2/MSR/Documentation/BlockElements/GerneralParameters.py
   - after `PrmCharContents`
   - note: queued 2026-09-27 (same split as PrmCharContents); abstract parent of AbsTol/MinTypMax — its group-only status (no complexType exists in R23-11 OR R4.3.1) is the XSD evidence for the abstractness the model enforces; 2026-09-28 declared (ARObject, ABC) with the type(self) guard kept, same user direction and feat 5946322c3 as the PrmCharContents row
@@ -345,7 +345,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — parser/writer N/A (completed as N/A): no element decl
   - [x] Step 7 — Update checklist comment — cites its GROUP l.93890 explicitly (no complexType exists to cite)
   - [x] Step 8 — Deviations  [none open]
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (shared battery); on 9b: `# XSD verified: AUTOSAR_00052.xsd`
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (shared battery); on 9b: `# XSD verified: AUTOSAR_00052.xsd`; 9b CONFIRMED by user 2026-09-28 (chat confirmation, XSD-verified) — stamp `# XSD verified: AUTOSAR_00052.xsd (2026-09-28, user 9b confirmation)` written after the Spec line in the class block in GerneralParameters.py (the class carries the 2026-09-28 `(ARObject, ABC)` form, feat 5946322c3); 9a re-gate on the stamped tree: family+consumer tests 69/69 (test_GerneralParameters.py + parser/writer test_prms.py + test_Chapters.py), full suite 12766 passed / 0 failed, `npm run lint` clean, black-check clean 1319 files unchanged → feat commit 2f1c852db
 
 - [ ] `PrmCharAbsTol` — ARObject (via PrmCharNumericalValue) — XSD-only (no own table in repo corpus) — synced R23-11 (commit a3cf04c73, 9b pending)
   - module: M2/MSR/Documentation/BlockElements/GerneralParameters.py

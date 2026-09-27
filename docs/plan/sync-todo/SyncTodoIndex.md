@@ -514,7 +514,7 @@ Status: **49/50** completed
 
 ## Group9
 
-Status: **21/29** completed
+Status: **22/29** completed
 
 | Class Name                    | Status       | Commit ID |
 | ----------------------------- | ------------ | --------- |
@@ -539,7 +539,7 @@ Status: **21/29** completed
 | `ChapterContent`              | [x] Done     | dee07d0a3 |
 | `ChapterModel`                | [x] Done     | d3d61c9b2 |
 | `PrmCharContents`             | [x] Done     | a3cf04c73 |
-| `PrmCharNumericalValue`       | [ ] Pending* | a3cf04c73 |
+| `PrmCharNumericalValue`       | [x] Done     | a3cf04c73 |
 | `PrmCharAbsTol`               | [ ] Pending* | a3cf04c73 |
 | `PrmCharMinTypMax`            | [ ] Pending* | a3cf04c73 |
 | `PrmCharNumericalContents`    | [ ] Pending* | a3cf04c73 |
