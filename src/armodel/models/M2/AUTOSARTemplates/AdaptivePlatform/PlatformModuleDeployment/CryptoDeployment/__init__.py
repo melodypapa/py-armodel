@@ -90,7 +90,7 @@ class CryptoKeySlotAllowedModification(ARObject):
     """
 
     # CryptoKeySlotAllowedModification method parity checklist:
-    # Spec: CryptoKeySlotAllowedModification derived from AUTOSAR_00052.xsd (XSD-only; no own table in repo corpus), line 25744
+    # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class CryptoKeySlotAllowedModification, AUTOSAR_00052.xsd line 25782 (XSD-only; no own table in repo corpus)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAllowContentTypeChange    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

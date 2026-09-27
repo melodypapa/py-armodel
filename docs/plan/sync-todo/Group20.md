@@ -168,15 +168,47 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `CryptoKeySlotAllowedModification` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/CryptoDeployment/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): XSD-only — no `Class` table in R23-11 markdown, none in
+    R4.3.1 markdown, pdf_page.py finds no PDF table (Rule 0016.3 fallback
+    exhausted). XSD 00052: complexType CRYPTO-KEY-SLOT-ALLOWED-MODIFICATION
+    L25782 (composes AR-OBJECT group + own group; attributeGroup AR-OBJECT) →
+    Base most-derived = ARObject, claimed base correct; element group L25744
+    carries the 4 attribute rows in displayed order: allowContentTypeChange
+    (BOOLEAN 0..1), exportability (BOOLEAN 0..1), maxNumberOfAllowedUpdates
+    (POSITIVE-INTEGER 0..1), restrictUpdate (BOOLEAN 0..1) — types/notes
+    verbatim. Class Note = "This meta-class restricts the allowed modification
+    of a key stored in the key slot." Tags: atp.Status=candidate. Aggregated by
+    CryptoKeySlot.keySlotAllowedModification (0..1) via KEY-SLOT-ALLOWED-
+    MODIFICATION; owns reusable read/writeCryptoKeySlotAllowedModification
+    helpers called from read/writeCryptoKeySlot (Rule 0001.7 abstract
+    XML-bearing base). No VARIATION-POINT → not VP-capable. Upstream doc:
+    AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform). Impl pre-exists
+    (unstamped prior pass), matches XSD verbatim — no drift. Tracker review: no
+    own section; the stale `CryptoKeySlot` `missing` row for
+    keySlotAllowedModification was already removed with the CryptoObjectTypeEnum
+    commit.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 2–6): impl + reader/writer helpers pre-exist from the unstamped
+    prior pass (reader populates via guarded setters, writer reads via getters,
+    no chained mutators); new model tests written first this pass (class Note
+    + all 4 getter/setter docstrings verbatim vs XSD, get_type_hints return
+    pin) — the docstring test initially FAILED (multi-line setter docstrings
+    carry per-line indentation that .strip() does not normalize) and was fixed
+    to inspect.cleandoc — genuine Red→Green within this pass; round-trip
+    coverage asserted through consumer CryptoKeySlot in test_crypto_key_slot.py
+    parser/writer suites (field values + empty case + write→parse round-trip).
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviation — 4 spec rows → 4 PEP 526 fields + accessor
+    pairs in displayed order, matched read/write helper names; the stale
+    `CryptoKeySlot` tracker row referencing this class was removed with the
+    CryptoObjectTypeEnum commit (Rule 0014).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12458 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `CryptoKeySlotContentAllowedUsage` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/CryptoDeployment/__init__.py
