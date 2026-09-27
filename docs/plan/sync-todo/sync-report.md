@@ -351,6 +351,9 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `HwPinGroup`                                            | [x] Done    | 69afffcc                                 | Group1           |
 | `HwPortMapping`                                         | [x] Done    | 7d945104                                 | Group7           |
 | `HwType`                                                | [x] Done    | 29f338b3                                 | Group1           |
+| `IcmpRule`                                              | [ ] Pending* | 5ddaf1cf9                                | Group20          |
+| `Ipv4Rule`                                              | [ ] Pending* | b4096068d                                | Group20          |
+| `Ipv6Rule`                                              | [ ] Pending* | 18ee06b97                                | Group20          |
 | `IPduMapping`                                           | [x] Done    | 9c8e10b3                                 | Group6           |
 | `IPv6ExtHeaderFilterList`                               | [ ] Pending | N/A                                      | Group16          |
 | `ISignalIPduGroup`                                      | [ ] Pending | N/A                                      | Group15          |
@@ -406,6 +409,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `Linker`                                                | [x] Done    | 20003dc3                                 | Group1           |
 | `ListEnum`                                              | [ ] Deferred| N/A                                      | Group9           |
 | `LogTraceDefaultLogLevelEnum`                           | [x] Done    | f1eb819e                                 | Group5           |
+| `MacAddressString`                                      | [ ] Pending* | 1fd0b0060                                | Group20          |
 | `MacMulticastGroup`                                     | [ ] Pending | N/A                                      | Group16          |
 | `Map`                                                   | [x] Done    | 43ec8ade                                 | Group3           |
 | `MeasuredStackUsage`                                    | [ ] Pending* | adc2e5eeb                                | Group20          |
@@ -487,6 +491,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ParameterInterface`                                    | [x] Done    | 6bf99879                                 | Group1           |
 | `ParameterRequireComSpec`                               | [ ] Deferred| N/A                                      | Group10          |
 | `PayloadBytePatternRule`                                | [ ] Pending* | 8f863fe9d                                | Group20          |
+| `PayloadBytePatternRulePart`                            | [ ] Pending* | 8c72c7170                                | Group20          |
 | `PduCollectionTriggerEnum`                              | [x] Done    | 206cf295                                 | Group5           |
 | `PduMappingDefaultValue`                                | [x] Done    | 9c8e10b3                                 | Group6           |
 | `PdurIPduGroup`                                         | [x] Done    | c53a7feb                                 | Group5           |
@@ -629,6 +634,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TcpOptionFilterList`                                   | [ ] Pending | N/A                                      | Group16          |
 | `TcpOptionFilterSet`                                    | [ ] Pending | N/A                                      | Group16          |
 | `TcpProps`                                              | [x] Done    | d2d5c40a                                 | Group5, Group16  |
+| `TcpRule`                                               | [ ] Pending* | d3902d0e6                                | Group20          |
 | `TcpTp`                                                 | [ ] Pending | N/A                                      | Group16          |
 | `TcpUdpConfig`                                          | [x] Done    | 757aea1d                                 | Group6           |
 | `TextTableMapping`                                      | [x] Done    | be79d799                                 | Group1           |
@@ -672,6 +678,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `UdpNmNode`                                             | [ ] Pending | N/A                                      | Group18          |
 | `UdpProps`                                              | [x] Done    | ecb15e90                                 | Group5           |
 | `UdpTp`                                                 | [ ] Pending | N/A                                      | Group16          |
+| `UdpRule`                                               | [ ] Pending* | 29cbfb7bb                                | Group20          |
 | `UnitGroup`                                             | [ ] Deferred| N/A                                      | Group9           |
 | `UnlimitedIntegerValueVariationPoint`                   | [x] Done    | d5c96fd9                                 | Group8           |
 | `Url`                                                   | [x] Done    | 4b96ab8d                                 | Group3           |
