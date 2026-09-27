@@ -436,7 +436,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ModeSwitchReceiverComSpec`                             | [ ] Deferred| N/A                                      | Group10          |
 | `ModeSwitchSenderComSpec`                               | [ ] Deferred| N/A                                      | Group10          |
 | `ModeSwitchedAckRequest`                                | [ ] Deferred| N/A                                      | Group10          |
-| `Modification`                                          | [ ] Deferred| N/A                                      | Group9           |
+| `Modification`                                          | [x] Done    | N/A                                      | Group9           |
 | `ModuleConfiguration`                                   | [ ] Pending | N/A                                      | Group19          |
 | `MsrQueryChapter`                                       | [x] Done    | 50103018                                 | Group3           |
 | `MsrQueryP1`                                            | [x] Done    | 8da723c4                                 | Group3           |
