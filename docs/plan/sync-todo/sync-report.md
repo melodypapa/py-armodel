@@ -621,6 +621,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SynchronousServerCallPoint`                            | [x] Done    | 9182987d                                 | Group2           |
 | `System`                                                | [x] Done    | bc0202f2                                 | Group5           |
 | `SystemSignal`                                          | [ ] Pending | N/A                                      | Group15          |
+| `TDEventVfb`                                            | [x] Done    | 18eb225f4                                | Group8           |
 | `Table`                                                 | [x] Done    | e347fbbf                                 | Group3           |
 | `TableSeparatorString`                                  | [x] Done    | 211031ea                                 | Group3           |
 | `TargetIPduRef`                                         | [ ] Pending | N/A                                      | Group17          |

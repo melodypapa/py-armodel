@@ -457,7 +457,7 @@ Status: **34/34** completed
 
 ## Group8
 
-Status: **43/49** completed
+Status: **44/50** completed
 
 | Class Name                               | Status       | Commit ID |
 | ---------------------------------------- | ------------ | --------- |
@@ -486,6 +486,7 @@ Status: **43/49** completed
 | `SynchronizationTimingConstraint`        | [x] Done     | e305e80e2 |
 | `TimingDescriptionEventChain`            | [x] Done     | ea1a75e5b |
 | `AutosarOperationArgumentInstance`       | [x] Done     | b8cce0057 |
+| `TDEventVfb`                             | [x] Done     | 18eb225f4 |
 | `ConcreteTDEventVfb`                     | [x] Retired  | f032ea574 |
 | `AtpBlueprint`                           | [x] Done     | 043de7436 |
 | `BlueprintGenerator`                     | [x] Done     | 246fc9845 |
