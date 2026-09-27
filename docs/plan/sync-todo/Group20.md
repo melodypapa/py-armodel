@@ -1006,17 +1006,30 @@ missing` and `transportLayerRule | TcpRule | missing` stay until the classes lan
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12663 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `TcpRule` — TransportLayerRule — XSD-only (00052 complexType L120644)
+- [x] `TcpRule` — TransportLayerRule — XSD-only (00052 complexType L120644)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
   - note: member type of FirewallRule.transportLayerRule (00052 L59090-59097 choice
     TCP-RULE|UDP-RULE; PDF Table 6.236 type column) — missing class reported per Rule
     0001.10 in this batch
   - note (Step 1): XSD 00052 group TCP-RULE L120616 + complexType L120644; class Note
     "Configuration of TCP filter rules."; atp.Status=candidate, atpObject; sequence =
-    AR-OBJECT + TRANSPORT-LAYER-RULE + TCP-RULE; own members numberOfParallelTcpSessions
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+    AR-OBJECT + TRANSPORT-LAYER-RULE + TCP-RULE; own members (verified L120623-L120640)
+    numberOfParallelTcpSessions (POSITIVE-INTEGER 0..1), stateManagementBasedOnTcpFlags
+    (BOOLEAN 0..1), timeoutCheck (POSITIVE-INTEGER 0..1, Note has no trailing period).
+    No table in either corpus — Rule 0015 XSD-only.
+  - note (Step 8): the inherited TRANSPORT-LAYER-RULE group members (checksumVerification,
+    max/minDestinationPortNumber, max/minSourcePortNumber) are not modeled — the base
+    TransportLayerRule (previous batch, stamp deferred) is an empty placeholder; TcpRule
+    carries only its own TCP-RULE group members. No other deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12678 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `Ipv4Rule` — NetworkLayerRule (TBC at Step 1) — R23-11 markdown ECUC-mapping appendix (no table, no XSD)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py

@@ -17,7 +17,9 @@ __all__ = [
     "PayloadBytePatternRulePart",
     "SomeipProtocolRule",
     "SomeipSdRule",
+    "TcpRule",
     "TransportLayerRule",
+    "UdpRule",
 ]
 
 
@@ -621,6 +623,78 @@ class TransportLayerRule(ARObject):
 
     def __init__(self):
         super().__init__()
+
+
+class TcpRule(TransportLayerRule):
+    """Configuration of TCP filter rules. Tags: atp.Status=candidate"""
+
+    # TcpRule method parity checklist:
+    # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class TcpRule, AUTOSAR_00052.xsd line 120644 (XSD-only; no own table in repo corpus)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNumberOfParallelTcpSessions    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNumberOfParallelTcpSessions    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStateManagementBasedOnTcpFlags [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStateManagementBasedOnTcpFlags [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeoutCheck                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutCheck                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute defines the maximal number of TCP Sessions that are allowed to be established.
+        self.numberOfParallelTcpSessions: Optional[PositiveInteger] = None
+
+        # This attribute defines whether the StateManagement is based on TCP flags or not.
+        self.stateManagementBasedOnTcpFlags: Optional[Boolean] = None
+
+        # This attribute defines the TCP Session timeout in seconds
+        self.timeoutCheck: Optional[PositiveInteger] = None
+
+    def getNumberOfParallelTcpSessions(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the maximal number of TCP Sessions that are allowed to be established.
+        """
+        return self.numberOfParallelTcpSessions
+
+    def setNumberOfParallelTcpSessions(self, value: Optional[PositiveInteger]) -> "TcpRule":
+        """
+        This attribute defines the maximal number of TCP Sessions that are allowed to be established.
+        A None value is a no-op and does not overwrite an existing numberOfParallelTcpSessions.
+        """
+        if value is not None:
+            self.numberOfParallelTcpSessions = value
+        return self
+
+    def getStateManagementBasedOnTcpFlags(self) -> Optional[Boolean]:
+        """
+        This attribute defines whether the StateManagement is based on TCP flags or not.
+        """
+        return self.stateManagementBasedOnTcpFlags
+
+    def setStateManagementBasedOnTcpFlags(self, value: Optional[Boolean]) -> "TcpRule":
+        """
+        This attribute defines whether the StateManagement is based on TCP flags or not.
+        A None value is a no-op and does not overwrite an existing stateManagementBasedOnTcpFlags.
+        """
+        if value is not None:
+            self.stateManagementBasedOnTcpFlags = value
+        return self
+
+    def getTimeoutCheck(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the TCP Session timeout in seconds
+        """
+        return self.timeoutCheck
+
+    def setTimeoutCheck(self, value: Optional[PositiveInteger]) -> "TcpRule":
+        """
+        This attribute defines the TCP Session timeout in seconds
+        A None value is a no-op and does not overwrite an existing timeoutCheck.
+        """
+        if value is not None:
+            self.timeoutCheck = value
+        return self
 
 
 class DataLinkLayerRule(ARObject):

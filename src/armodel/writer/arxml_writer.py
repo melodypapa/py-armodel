@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     SomeipProtocolRule,
     SomeipSdRule,
     StateDependentFirewall,
+    TcpRule,
 )
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.AdaptiveModuleImplementation import (
     PlatformModuleEthernetEndpointConfiguration,
@@ -14313,6 +14314,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "SOURCE-MIN-ADDRESS", rule.getSourceMinAddress())
         self.setChildElementOptionalPositiveInteger(element, "UDS-SERVICE", rule.getUdsService())
 
+    def writeTcpRule(self, element: ET.Element, rule: TcpRule):
+        self.setChildElementOptionalPositiveInteger(element, "NUMBER-OF-PARALLEL-TCP-SESSIONS", rule.getNumberOfParallelTcpSessions())
+        self.setChildElementOptionalBooleanValue(element, "STATE-MANAGEMENT-BASED-ON-TCP-FLAGS", rule.getStateManagementBasedOnTcpFlags())
+        self.setChildElementOptionalPositiveInteger(element, "TIMEOUT-CHECK", rule.getTimeoutCheck())
+
     def writeFirewallRule(self, element: ET.Element, rule: FirewallRule):
         self.logger.debug("Write FirewallRule %s" % rule.getShortName())
         rule_tag = ET.SubElement(element, "FIREWALL-RULE")
@@ -14342,7 +14348,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             someip_sd_rule_tag = ET.SubElement(rule_tag, "SOMEIP-SD-RULE")
             self.writeSomeipSdRule(someip_sd_rule_tag, rule.getSomeipSdRule())
         if rule.getTransportLayerRule() is not None:
-            ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
+            transport_rule = rule.getTransportLayerRule()
+            if isinstance(transport_rule, TcpRule):
+                transport_layer_rule_tag = ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
+                tcp_rule_tag = ET.SubElement(transport_layer_rule_tag, "TCP-RULE")
+                self.writeTcpRule(tcp_rule_tag, transport_rule)
+            else:
+                ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
 
     def writeBlueprintMappingSet(self, element: ET.Element, blueprint_mapping_set: BlueprintMappingSet):
         self.logger.debug("Write BlueprintMappingSet %s" % blueprint_mapping_set.getShortName())

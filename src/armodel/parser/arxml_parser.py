@@ -23,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     SomeipProtocolRule,
     SomeipSdRule,
     StateDependentFirewall,
+    TcpRule,
     TransportLayerRule,
 )
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.AdaptiveModuleImplementation import (
@@ -14683,6 +14684,11 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setSourceMinAddress(self.getChildElementOptionalPositiveInteger(element, "SOURCE-MIN-ADDRESS"))
         rule.setUdsService(self.getChildElementOptionalPositiveInteger(element, "UDS-SERVICE"))
 
+    def readTcpRule(self, element: ET.Element, rule: TcpRule):
+        rule.setNumberOfParallelTcpSessions(self.getChildElementOptionalPositiveInteger(element, "NUMBER-OF-PARALLEL-TCP-SESSIONS"))
+        rule.setStateManagementBasedOnTcpFlags(self.getChildElementOptionalBooleanValue(element, "STATE-MANAGEMENT-BASED-ON-TCP-FLAGS"))
+        rule.setTimeoutCheck(self.getChildElementOptionalPositiveInteger(element, "TIMEOUT-CHECK"))
+
     def readFirewallRule(self, element: ET.Element, rule: FirewallRule):
         self.readIdentifiable(element, rule)
         rule.setBucketSize(self.getChildElementOptionalPositiveInteger(element, "BUCKET-SIZE"))
@@ -14721,7 +14727,13 @@ class ARXMLParser(AbstractARXMLParser):
             rule.setSomeipSdRule(someip_sd_rule)
         child = self.find(element, "TRANSPORT-LAYER-RULE")
         if child is not None:
-            rule.setTransportLayerRule(TransportLayerRule())
+            tcp_rule = self.find(child, "TCP-RULE")
+            if tcp_rule is not None:
+                rule_obj = TcpRule()
+                self.readTcpRule(tcp_rule, rule_obj)
+                rule.setTransportLayerRule(rule_obj)
+            else:
+                rule.setTransportLayerRule(TransportLayerRule())
 
     def readBlueprintMappingSet(self, element: ET.Element, blueprint_mapping_set: BlueprintMappingSet):
         self.readIdentifiable(element, blueprint_mapping_set)
