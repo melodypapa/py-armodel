@@ -97,6 +97,7 @@ class SynchronizationTimingConstraint(TimingConstraint):
 
     # SynchronizationTimingConstraint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.54, p.92
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getEventOccurrenceKind           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
