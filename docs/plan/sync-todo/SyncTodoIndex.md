@@ -456,7 +456,7 @@ Status: **34/34** completed
 
 ## Group8
 
-Status: **29/49** completed
+Status: **31/49** completed
 
 | Class Name                               | Status       | Commit ID |
 | ---------------------------------------- | ------------ | --------- |
@@ -481,8 +481,8 @@ Status: **29/49** completed
 | `PostBuildVariantCondition`              | [x] Done     | 5333bec02 |
 | `PostBuildVariantCriterion`              | [x] Done     | 5333bec02 |
 | `PostBuildVariantCriterionValue`         | [ ] Pending* | N/A       |
-| `OffsetTimingConstraint`                 | [ ] Pending* | N/A       |
-| `SynchronizationTimingConstraint`        | [ ] Pending* | N/A       |
+| `OffsetTimingConstraint`                 | [x] Done     | e305e80e2 |
+| `SynchronizationTimingConstraint`        | [x] Done     | e305e80e2 |
 | `TimingDescriptionEventChain`            | [ ] Pending* | N/A       |
 | `AutosarOperationArgumentInstance`       | [ ] Pending* | N/A       |
 | `ConcreteTDEventVfb`                     | [ ] Pending* | N/A       |

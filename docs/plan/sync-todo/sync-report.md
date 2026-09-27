@@ -467,7 +467,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `NvDataInterface`                                       | [x] Done    | 1d666bc1                                 | Group1           |
 | `NvProvideComSpec`                                      | [ ] Deferred| N/A                                      | Group10          |
 | `NvRequireComSpec`                                      | [ ] Deferred| N/A                                      | Group10          |
-| `OffsetTimingConstraint`                                | [ ] Deferred| N/A                                      | Group8           |
+| `OffsetTimingConstraint`                                | [x] Done    | e305e80e2                                | Group8           |
 | `OperationInAtomicSwcInstanceRef`                       | [ ] Pending*| 74e821ccb                                | Group11          |
 | `OperationInSystemInstanceRef`                          | [x] Done    | 4e0c3cbe                                 | Group5           |
 | `OperationInvokedEvent`                                 | [ ] Deferred| N/A                                      | Group12          |
@@ -616,7 +616,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SwcToImplMapping`                                      | [ ] Pending | N/A                                      | Group18          |
 | `SymbolProps`                                           | [x] Done    | 2d21a910                                 | Group2           |
 | `SyncTimeBaseMgrUserNeeds`                              | [x] Done    | 609f148a                                 | Group4           |
-| `SynchronizationTimingConstraint`                       | [ ] Deferred| N/A                                      | Group8           |
+| `SynchronizationTimingConstraint`                       | [x] Done    | e305e80e2                                | Group8           |
 | `SynchronousServerCallPoint`                            | [x] Done    | 9182987d                                 | Group2           |
 | `System`                                                | [x] Done    | bc0202f2                                 | Group5           |
 | `SystemSignal`                                          | [ ] Pending | N/A                                      | Group15          |
