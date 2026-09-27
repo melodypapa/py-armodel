@@ -149,6 +149,7 @@ class ChapterModel(ARObject):
 
     # ChapterModel method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.59, p.330
+    # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] setChapter         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -157,8 +158,6 @@ class ChapterModel(ARObject):
     # [x] getChapterContent  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setTopic1          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getTopic1          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    #
-    # NOTE: `# Spec verified:` stamp deferred to 9b batch confirmation (2026-09-24).
 
     def __init__(self):
         super().__init__()
