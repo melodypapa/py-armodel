@@ -81,10 +81,18 @@ class TestCryptoKeySlotTypeEnum:
         assert CryptoKeySlotTypeEnum.MACHINE == "MACHINE"
         assert CryptoKeySlotTypeEnum.APPLICATION == "APPLICATION"
 
+    def test_members_in_literal_index_order(self):
+        e = CryptoKeySlotTypeEnum()
+        assert list(e.getEnumValues()) == ["MACHINE", "APPLICATION"]
+
     def test_instantiability(self):
         e = CryptoKeySlotTypeEnum()
-        e.setValue("MACHINE")
+        e.setValue(CryptoKeySlotTypeEnum.MACHINE)
         assert e.getValue() == "MACHINE"
+
+    def test_docstring_is_spec_note_verbatim(self):
+        note = "This enumeration defines the options for the usage of a Key Slot in the platform. Tags: atp.Status=candidate"
+        assert CryptoKeySlotTypeEnum.__doc__.strip() == note
 
 
 class TestCryptoKeySlotAllowedModification:

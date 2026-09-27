@@ -97,15 +97,35 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `CryptoKeySlotTypeEnum` — AREnum — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/CryptoDeployment/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): XSD-only — no `Enumeration` table in R23-11 markdown (only the
+    CryptoKeySlot Table B.5 attribute row references the type), none in R4.3.1
+    markdown, pdf_page.py finds no PDF table (Rule 0016.3 fallback exhausted).
+    XSD 00052: complexType CRYPTO-KEY-SLOT-TYPE-ENUM L132660 + simpleType
+    --SIMPLE L132672; literals MACHINE (Index=0) and APPLICATION (Index=1) with
+    wire values "MACHINE"/"APPLICATION" (xml.name values — no PDF Literal column
+    to supply camelCase); class Note = "This enumeration defines the options for
+    the usage of a Key Slot in the platform." Tags: atp.Status=candidate.
+    Upstream doc: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform).
+    Impl pre-exists from an unstamped prior pass and matches the XSD verbatim —
+    no drift; location kept beside consumer CryptoKeySlot (Rule 0007).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — round-trips as an attribute value on consumer CryptoKeySlot.slotType, covered by test_crypto_key_slot.py parser/writer suites)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum)
+  - note (Steps 2–6): impl + reader/writer coverage pre-exist from an unstamped
+    prior pass; new tests written first this pass (literal order via
+    getEnumValues, instantiability via Enum().setValue(Enum.MEMBER), class
+    docstring verbatim vs XSD Note) — 16 passed with no source change
+    (Red→Green collapsed against the pre-existing unstamped implementation);
+    docstrings verified verbatim against XSD 00052 documentation/appinfo.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviation, no tracker section for this enum — member
+    values are the XSD wire strings by design for XSD-only enums (no PDF
+    Literal column); nothing to record in method_deviation_by_class.md.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12454 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `CryptoObjectTypeEnum` — AREnum — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/CryptoDeployment/__init__.py
