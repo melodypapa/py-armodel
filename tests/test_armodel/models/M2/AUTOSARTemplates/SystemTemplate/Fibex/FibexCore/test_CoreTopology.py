@@ -170,7 +170,7 @@ class Test_FibexCoreTopology:
         enum = FlexrayChannelName()
         assert enum is not None
         assert FlexrayChannelName.CHANNEL_A in enum.getEnumValues()
-        assert FlexrayChannelName.channel_B in enum.getEnumValues()
+        assert FlexrayChannelName.CHANNEL_B in enum.getEnumValues()
 
     def test_FlexrayPhysicalChannel(self):
         """Test FlexrayPhysicalChannel class functionality."""
@@ -307,9 +307,9 @@ class Test_FibexCoreTopology:
         """Test PncGatewayTypeEnum enum functionality."""
         enum = PncGatewayTypeEnum()
         assert enum is not None
-        assert PncGatewayTypeEnum.ENUM_ACTIVE in enum.getEnumValues()
-        assert PncGatewayTypeEnum.ENUM_NONE in enum.getEnumValues()
-        assert PncGatewayTypeEnum.ENUM_PASSIVE in enum.getEnumValues()
+        assert PncGatewayTypeEnum.ACTIVE in enum.getEnumValues()
+        assert PncGatewayTypeEnum.NONE in enum.getEnumValues()
+        assert PncGatewayTypeEnum.PASSIVE in enum.getEnumValues()
 
     def test_CommunicationDirectionType(self):
         """Test CommunicationDirectionType enum functionality."""
@@ -711,11 +711,11 @@ class Test_FibexCoreTopology:
         assert connector.getDynamicPncToChannelMappingEnabled().getValue() is False  # unchanged
 
         # pncGatewayType (attr, PncGatewayTypeEnum, 0..1)
-        connector.setPncGatewayType(PncGatewayTypeEnum.ENUM_ACTIVE)
-        assert connector.getPncGatewayType() == PncGatewayTypeEnum.ENUM_ACTIVE
-        assert connector == connector.setPncGatewayType(PncGatewayTypeEnum.ENUM_ACTIVE)  # method chaining
+        connector.setPncGatewayType(PncGatewayTypeEnum.ACTIVE)
+        assert connector.getPncGatewayType() == PncGatewayTypeEnum.ACTIVE
+        assert connector == connector.setPncGatewayType(PncGatewayTypeEnum.ACTIVE)  # method chaining
         assert connector == connector.setPncGatewayType(None)  # None no-op
-        assert connector.getPncGatewayType() == PncGatewayTypeEnum.ENUM_ACTIVE  # unchanged
+        assert connector.getPncGatewayType() == PncGatewayTypeEnum.ACTIVE  # unchanged
 
         # pncFilterArrayMask (ordered, attr, PositiveInteger, *)
         connector.addPncFilterArrayMask(0xFF)

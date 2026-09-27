@@ -382,19 +382,23 @@ class PhysicalChannel(Identifiable, VariationPointCapable, ABC):
 
 class FlexrayChannelName(AREnum):
     """
-    Enumeration defining names for FlexRay channels,
-    specifying the available channel designations
-    in FlexRay communication systems.
+    Name of the channel.
     """
 
     # FlexrayChannelName method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.35, p.89 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on FlexrayPhysicalChannel.channelName
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
+    # Channel A Tags: atp.EnumerationLiteralIndex=0
     CHANNEL_A = "channelA"
-    channel_B = "channelB"
+
+    # Channel B Tags: atp.EnumerationLiteralIndex=1
+    CHANNEL_B = "channelB"
 
     def __init__(self):
-        super().__init__([FlexrayChannelName.CHANNEL_A, FlexrayChannelName.channel_B])
+        super().__init__([FlexrayChannelName.CHANNEL_A, FlexrayChannelName.CHANNEL_B])
 
 
 class CommunicationCluster(FibexElement, ABC):
@@ -689,20 +693,26 @@ class CommunicationController(Identifiable, VariationPointCapable, ABC):
 
 class PncGatewayTypeEnum(AREnum):
     """
-    Enumeration defining types of PNC (Partial Network Cluster)
-    gateways, specifying the gateway behavior in partial
-    network communication management.
+    Defines the PncGateway roles.
     """
 
     # PncGatewayTypeEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.5, p.55 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on CommunicationConnector.pncGatewayType
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    ENUM_ACTIVE = "active"
-    ENUM_NONE = "none"
-    ENUM_PASSIVE = "passive"
+    # The active PncGateway functionality shall be performed Tags: atp.EnumerationLiteralIndex=0
+    ACTIVE = "active"
+
+    # No PncGateway functionality shall be performed Tags: atp.EnumerationLiteralIndex=1
+    NONE = "none"
+
+    # The passive PncGateway functionality shall be performed Tags: atp.EnumerationLiteralIndex=2
+    PASSIVE = "passive"
 
     def __init__(self):
-        super().__init__([PncGatewayTypeEnum.ENUM_ACTIVE, PncGatewayTypeEnum.ENUM_NONE, PncGatewayTypeEnum.ENUM_PASSIVE])
+        super().__init__([PncGatewayTypeEnum.ACTIVE, PncGatewayTypeEnum.NONE, PncGatewayTypeEnum.PASSIVE])
 
 
 class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
