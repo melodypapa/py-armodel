@@ -4871,19 +4871,19 @@ class ARXMLParser(AbstractARXMLParser):
     def readMemorySectionOptions(self, element: ET.Element, section: MemorySection):
         child_element = self.find(element, "OPTIONS")
         if child_element is not None:
-            for value in self.getChildElementLiteralValueList(child_element, "OPTION"):
+            for value in self.getChildElementIdentifierValueList(child_element, "OPTION"):
                 section.addOption(value)
 
     def readMemorySections(self, element: ET.Element, consumption: ResourceConsumption):
         for child_element in self.findall(element, "MEMORY-SECTIONS/MEMORY-SECTION"):
             memory_section = consumption.createMemorySection(self.getShortName(child_element))
             self.readIdentifiable(child_element, memory_section)
-            memory_section.setAlignment(self.getChildElementOptionalLiteral(child_element, "ALIGNMENT"))
-            memory_section.setMemClassSymbol(self.getChildElementOptionalLiteral(child_element, "MEM-CLASS-SYMBOL"))
+            memory_section.setAlignment(self.getChildElementOptionalAlignmentType(child_element, "ALIGNMENT"))
+            memory_section.setMemClassSymbol(self.getChildElementOptionalCIdentifier(child_element, "MEM-CLASS-SYMBOL"))
             self.readMemorySectionOptions(child_element, memory_section)
             memory_section.setSize(self.getChildElementOptionalPositiveInteger(child_element, "SIZE"))
             memory_section.setSwAddrMethodRef(self.getChildElementOptionalRefType(child_element, "SW-ADDRMETHOD-REF"))
-            memory_section.setSymbol(self.getChildElementOptionalLiteral(child_element, "SYMBOL"))
+            memory_section.setSymbol(self.getChildElementOptionalIdentifier(child_element, "SYMBOL"))
             memory_section.setPrefixRef(self.getChildElementOptionalRefType(child_element, "PREFIX-REF"))
             for ref in self.getChildElementRefTypeList(child_element, "EXECUTABLE-ENTITY-REFS/EXECUTABLE-ENTITY-REF"):
                 memory_section.addExecutableEntityRef(ref)

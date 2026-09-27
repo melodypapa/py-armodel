@@ -9,10 +9,12 @@ from colorama import Fore
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AlignmentType,
     ARLiteral,
     ARNumerical,
     ARType,
     Boolean,
+    CIdentifier,
     CseCodeType,
     DateTime,
     Float,
@@ -114,6 +116,39 @@ class AbstractARXMLParser(ABC):
             literal.setValue(child_element.text)
             results.append(literal)
         return results
+
+    def getChildElementIdentifierValueList(self, element: ET.Element, key: str) -> List[Identifier]:
+        child_elements = self.findall(element, key)
+        results = []
+        for child_element in child_elements:
+            identifier = Identifier()
+            identifier.setValue(child_element.text)
+            results.append(identifier)
+        return results
+
+    def getChildElementOptionalAlignmentType(self, element: ET.Element, key: str) -> Optional[AlignmentType]:
+        child_element = self.find(element, key)
+        literal = None
+        if child_element is not None:
+            literal = AlignmentType()
+            self.readARType(child_element, literal)
+            if child_element.text is None:
+                literal.setValue("")
+            else:
+                literal.setValue(child_element.text)
+        return literal
+
+    def getChildElementOptionalCIdentifier(self, element: ET.Element, key: str) -> Optional[CIdentifier]:
+        child_element = self.find(element, key)
+        literal = None
+        if child_element is not None:
+            literal = CIdentifier()
+            self.readARType(child_element, literal)
+            if child_element.text is None:
+                literal.setValue("")
+            else:
+                literal.setValue(child_element.text)
+        return literal
 
     def getChildElementOptionalLiteral(self, element: ET.Element, key: str) -> Optional[ARLiteral]:
         child_element = self.find(element, key)

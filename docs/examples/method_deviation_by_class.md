@@ -488,13 +488,30 @@ as well. The previously recorded `memoryUsage` member is **not** part of the R23
 Table 8.1 and has been dropped.
 
 ## `MemorySection`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 143
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 144
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::MemorySectionUsage`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/MemorySectionUsage.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `memClassSymbol` | `CIdentifier` | — | — | attr | present in XSD (`MEM-CLASS-SYMBOL`), absent from the PDF Table 8.2 attribute rendering; kept with parser/writer coverage |
+| `alignment` | `Optional[AlignmentType]` | `alignment` | `AlignmentType` | Attr | ok |
+| `executableEntityRefs` | `List[RefType]` | `executableEntity` | `Ref (ExecutableEntity)` | Ref `*` | ok (Rule 0001.5 Refs-suffix) |
+| `memClassSymbol` | `Optional[CIdentifier]` | `memClassSymbol` | `CIdentifier` | Attr | legacy (R4.3.1 Table 9.2, p.145) — absent from the R23-11 Table 8.2 attribute rows but retained by the R23-11 XSD itself (MEM-CLASS-SYMBOL, atp.Status="removed", group MEMORY-SECTION, AUTOSAR_00052.xsd L80899); docstring verbatim from the R4.3.1 Note; kept with parser/writer coverage |
+| `options` | `List[Identifier]` | `option` | `Identifier` | Attr `*` | ok (plural per Rule 0001.4) |
+| `prefixRef` | `Optional[RefType]` | `prefix` | `Ref (SectionNamePrefix)` | Ref | ok (Rule 0001.5 ref-suffix) |
+| `size` | `Optional[PositiveInteger]` | `size` | `PositiveInteger` | Attr | ok |
+| `swAddrMethodRef` | `Optional[RefType]` | `swAddrmethod` | `Ref (SwAddrMethod)` | Ref | ok (Rule 0001.5 ref-suffix; `AddrMethod` casing matches sibling classes) |
+| `symbol` | `Optional[Identifier]` | `symbol` | `Identifier` | Attr | ok |
+
+2026-09-27 sync (Table 8.2, p.144): paraphrased docstrings wiped, rewritten verbatim from the R23-11
+Notes; reader retyped to the spec-typed helpers (getChildElementOptionalAlignmentType,
+getChildElementOptionalCIdentifier, getChildElementIdentifierValueList,
+getChildElementOptionalIdentifier); writer retyped accordingly (setChildElementOptionalAlignmentType,
+setChildElementOptionalCIdentifier, setChildElementOptionalIdentifier, OPTIONS items via
+setChildElementOptionalIdentifier); VARIATION-POINT ordering fixed for the XSD group sequence
+(writeIdentifiable called with write_variation_point=False, VP emitted after SYMBOL per
+seqOffset=10000, AUTOSAR_00052.xsd group MEMORY-SECTION L80899). Stamp deferred to batch
+confirmation.
 
 ## `SectionNamePrefix`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 147

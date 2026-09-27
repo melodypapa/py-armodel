@@ -367,8 +367,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARLiteral,
     ARNumerical,
+    Identifier,
     Limit,
     PositiveInteger,
     RefType,
@@ -6161,11 +6161,11 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Code Descriptor <%s>" % type(desc))
 
-    def setMemorySectionOptions(self, element: ET.Element, options: List[ARLiteral]):
+    def setMemorySectionOptions(self, element: ET.Element, options: List[Identifier]):
         if len(options) > 0:
             child_element = ET.SubElement(element, "OPTIONS")
             for option in options:
-                self.setChildElementOptionalLiteral(child_element, "OPTION", option)
+                self.setChildElementOptionalIdentifier(child_element, "OPTION", option)
 
     def writeMemorySectionExecutableEntityRefs(self, element: ET.Element, memory_section: MemorySection):
         refs = memory_section.getExecutableEntityRefs()
@@ -6180,15 +6180,19 @@ class ARXMLWriter(AbstractARXMLWriter):
             sections_tag = ET.SubElement(element, "MEMORY-SECTIONS")
             for memory_section in memory_sections:
                 child_element = ET.SubElement(sections_tag, "MEMORY-SECTION")
-                self.writeIdentifiable(child_element, memory_section)
-                self.setChildElementOptionalLiteral(child_element, "ALIGNMENT", memory_section.getAlignment())
+                # VARIATION-POINT is written after the group MEMORY-SECTION members
+                # (seqOffset=10000 in the R23-11 XSD), so the generic emission inside
+                # writeIdentifiable is suppressed here.
+                self.writeIdentifiable(child_element, memory_section, write_variation_point=False)
+                self.setChildElementOptionalAlignmentType(child_element, "ALIGNMENT", memory_section.getAlignment())
                 self.writeMemorySectionExecutableEntityRefs(child_element, memory_section)
-                self.setChildElementOptionalLiteral(child_element, "MEM-CLASS-SYMBOL", memory_section.getMemClassSymbol())
+                self.setChildElementOptionalCIdentifier(child_element, "MEM-CLASS-SYMBOL", memory_section.getMemClassSymbol())
                 self.setMemorySectionOptions(child_element, memory_section.getOptions())
                 self.setChildElementOptionalRefType(child_element, "PREFIX-REF", memory_section.getPrefixRef())
                 self.setChildElementOptionalPositiveInteger(child_element, "SIZE", memory_section.getSize())
                 self.setChildElementOptionalRefType(child_element, "SW-ADDRMETHOD-REF", memory_section.getSwAddrMethodRef())
-                self.setChildElementOptionalLiteral(child_element, "SYMBOL", memory_section.getSymbol())
+                self.setChildElementOptionalIdentifier(child_element, "SYMBOL", memory_section.getSymbol())
+                self.writeVariationPoint(child_element, memory_section.getVariationPoint())
                 self.logger.debug("Write MemorySection %s" % memory_section.getShortName())
 
     def setMultidimensionalTime(self, element: ET.Element, key: str, value: MultidimensionalTime):

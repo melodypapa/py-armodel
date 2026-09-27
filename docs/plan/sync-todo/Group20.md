@@ -511,15 +511,44 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `MemorySection` — Identifiable — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/MemorySectionUsage.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - note (Step 1): Table 8.2, p.144 (R23-11; old checklist said p.143 — corrected via
+    pdf_page.py), Base = ARObject, Identifiable, MultilanguageReferrable, Referrable
+    (most-derived Identifiable per Rule 0001.2); 7 members in markdown order: alignment
+    (AlignmentType 0..1), executableEntity (Ref ExecutableEntity 0..*), option (Identifier
+    0..*), prefix (Ref SectionNamePrefix 0..1), size (PositiveInteger 0..1), swAddrmethod
+    (Ref SwAddrMethod 0..1), symbol (Identifier 0..1); memClassSymbol absent from the R23-11
+    attribute rows but present in R4.3.1 Table 9.2, p.145 and in the R23-11 XSD
+    (MEM-CLASS-SYMBOL atp.Status="removed", group MEMORY-SECTION, AUTOSAR_00052.xsd L80899)
+    → Rule 0019 combine case, kept as legacy member; cross-checked vs SWComponentTemplate
+    Tables 5.89/5.90 (same sets/order).
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - note (Steps 2-4): test_MemorySectionUsage.py extended — verbatim Note constants, base
+    chain, initialization defaults, get_type_hints annotations, get/set + None-no-op
+    round-trips, full-docstring assertions for both classes of the module; initial run
+    5 failed / 13 passed (genuine Red on the old paraphrased docstrings), 18 passed after
+    the verbatim rewrite.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): new parser suite tests/test_armodel/parser/test_memory_section_usage.py
+    (TestReadMemorySections, 4 tests) + writer suite tests/test_armodel/writer/
+    test_memory_section_usage.py (TestWriteMemorySections, 4 tests); reader retyped to
+    getChildElementOptionalAlignmentType / getChildElementOptionalCIdentifier /
+    getChildElementIdentifierValueList / getChildElementOptionalIdentifier (new typed
+    helpers in abstract_arxml_parser.py), writer to setChildElementOptionalAlignmentType /
+    setChildElementOptionalCIdentifier / setChildElementOptionalIdentifier (new typed
+    helpers in abstract_arxml_writer.py); VARIATION-POINT emission moved after SYMBOL
+    (writeIdentifiable with write_variation_point=False + trailing writeVariationPoint)
+    per XSD seqOffset=10000; round-trip run 8 failed / 8 passed Red → all Green.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): method_deviation_by_class.md MemorySection section rewritten — full
+    6-column member table, page corrected 143→144, memClassSymbol recorded as accepted
+    legacy (R4.3.1 Table 9.2, p.145) Rule 0019 deviation; swAddrMethodRef naming kept for
+    cross-class consistency with stamped siblings (flagged decision).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12579 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SectionNamePrefix` — ImplementationProps — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/MemorySectionUsage.py
