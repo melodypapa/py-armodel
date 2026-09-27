@@ -9656,6 +9656,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(child_element, "KEEP-ALIVE-TIME", tp.getKeepAliveTime())
         self.setChildElementOptionalBooleanValue(child_element, "KEEP-ALIVES", tp.getKeepAlives())
         self.setChildElementOptionalLiteral(child_element, "NAGLES-ALGORITHM", tp.getNaglesAlgorithm())
+        self.setChildElementOptionalPositiveInteger(child_element, "RECEIVE-WINDOW-MIN", tp.getReceiveWindowMin())
+        self.setChildElementOptionalTimeValue(child_element, "TCP-RETRANSMISSION-TIMEOUT", tp.getTcpRetransmissionTimeout())
         self.setTpPort(child_element, "TCP-TP-PORT", tp.getTcpTpPort())
 
     def writeGenericTp(self, element: ET.Element, tp: GenericTp):

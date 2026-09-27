@@ -3194,37 +3194,55 @@ class TransportProtocolConfiguration(ARObject, ABC):
 
 class GenericTp(TransportProtocolConfiguration):
     """
-    Defines generic transport protocol configuration properties,
-    including address and technology specifications for custom
-    transport protocol implementations.
+    Content Model for a generic transport protocol.
     """
 
     # GenericTp method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf (R23-11), Table 6.126
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpAddress                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setTpAddress                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpTechnology              [x] impl  [ ] docstring  [ ] test
-    # [ ] setTpTechnology              [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.126, p.459 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
-        self.tpAddress: String = None
-        self.tpTechnology: String = None
+        # [x] getTpAddress                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setTpAddress                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Transport Protocol dependent Address.
+        self.tpAddress: Optional[String] = None
 
-    def getTpAddress(self):
+        # [x] getTpTechnology                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setTpTechnology                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Name of the used Transport Protocol.
+        self.tpTechnology: Optional[String] = None
+
+    def getTpAddress(self) -> Optional[String]:
+        """
+        Transport Protocol dependent Address.
+        """
         return self.tpAddress
 
-    def setTpAddress(self, value):
-        self.tpAddress = value
+    def setTpAddress(self, value: Optional[String]) -> GenericTp:
+        """
+        Transport Protocol dependent Address.
+        A None value is a no-op and does not overwrite an existing tpAddress.
+        """
+        if value is not None:
+            self.tpAddress = value
         return self
 
-    def getTpTechnology(self):
+    def getTpTechnology(self) -> Optional[String]:
+        """
+        Name of the used Transport Protocol.
+        """
         return self.tpTechnology
 
-    def setTpTechnology(self, value):
-        self.tpTechnology = value
+    def setTpTechnology(self, value: Optional[String]) -> GenericTp:
+        """
+        Name of the used Transport Protocol.
+        A None value is a no-op and does not overwrite an existing tpTechnology.
+        """
+        if value is not None:
+            self.tpTechnology = value
         return self
 
 
@@ -3302,123 +3320,209 @@ class TpPort(ARObject):
 
 class UdpTp(TcpUdpConfig):
     """
-    Defines UDP (User Datagram Protocol) transport protocol configuration,
-    specifying UDP-specific port configuration for unreliable but fast
-    datagram-based communication services.
+    Content Model for UDP configuration.
     """
 
     # UdpTp method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf (R23-11), Table 6.128
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getUdpTpPort                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setUdpTpPort                 [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.128, p.459 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
-        self.udpTpPort: TpPort = None
+        # [x] getUdpTpPort                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setUdpTpPort                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Udp Port configuration.
+        self.udpTpPort: Optional[TpPort] = None
 
-    def getUdpTpPort(self):
+    def getUdpTpPort(self) -> Optional[TpPort]:
+        """
+        Udp Port configuration.
+        """
         return self.udpTpPort
 
-    def setUdpTpPort(self, value):
-        self.udpTpPort = value
+    def setUdpTpPort(self, value: Optional[TpPort]) -> UdpTp:
+        """
+        Udp Port configuration.
+        A None value is a no-op and does not overwrite an existing udpTpPort.
+        """
+        if value is not None:
+            self.udpTpPort = value
         return self
 
 
 class TcpTp(TcpUdpConfig):
     """
-    Defines TCP (Transmission Control Protocol) transport protocol configuration,
-    specifying TCP-specific properties such as keep-alive settings, retransmission
-    timeouts, and flow control parameters for reliable connection-oriented communication.
+    Content Model for TCP configuration.
     """
 
     # TcpTp method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf (R23-11), Table 6.129
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getKeepAliveInterval         [x] impl  [ ] docstring  [ ] test
-    # [ ] setKeepAliveInterval         [x] impl  [ ] docstring  [ ] test
-    # [ ] getKeepAliveProbesMax        [x] impl  [ ] docstring  [ ] test
-    # [ ] setKeepAliveProbesMax        [x] impl  [ ] docstring  [ ] test
-    # [ ] getKeepAlives                [x] impl  [ ] docstring  [ ] test
-    # [ ] setKeepAlives                [x] impl  [ ] docstring  [ ] test
-    # [ ] getKeepAliveTime             [x] impl  [ ] docstring  [ ] test
-    # [ ] setKeepAliveTime             [x] impl  [ ] docstring  [ ] test
-    # [ ] getNaglesAlgorithm           [x] impl  [ ] docstring  [ ] test
-    # [ ] setNaglesAlgorithm           [x] impl  [ ] docstring  [ ] test
-    # [ ] getReceiveWindowMin          [x] impl  [ ] docstring  [ ] test
-    # [ ] setReceiveWindowMin          [x] impl  [ ] docstring  [ ] test
-    # [ ] getTcpRetransmissionTimeout  [x] impl  [ ] docstring  [ ] test
-    # [ ] setTcpRetransmissionTimeout  [x] impl  [ ] docstring  [ ] test
-    # [ ] getTcpTpPort                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setTcpTpPort                 [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.129, p.460 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
-        self.keepAliveInterval: TimeValue = None
-        self.keepAliveProbesMax: PositiveInteger = None
-        self.keepAlives: Boolean = None
-        self.keepAliveTime: TimeValue = None
-        self.naglesAlgorithm: Boolean = None
-        self.receiveWindowMin: PositiveInteger = None
-        self.tcpRetransmissionTimeout: TimeValue = None
-        self.tcpTpPort: TpPort = None
+        # [x] getKeepAliveInterval           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setKeepAliveInterval           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Specifies the interval in seconds between subsequent keepalive probes.
+        self.keepAliveInterval: Optional[TimeValue] = None
 
-    def getKeepAliveInterval(self):
+        # [x] getKeepAliveProbesMax          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setKeepAliveProbesMax          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Maximum number of times that TCP retransmits an individual data segment before aborting the connection.
+        self.keepAliveProbesMax: Optional[PositiveInteger] = None
+
+        # [x] getKeepAlives                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setKeepAlives                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Indicates if Keep-Alive messages are sent.
+        self.keepAlives: Optional[Boolean] = None
+
+        # [x] getKeepAliveTime               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setKeepAliveTime               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Specifies the time in seconds between the last data packet sent and the first keepalive probe.
+        self.keepAliveTime: Optional[TimeValue] = None
+
+        # [x] getNaglesAlgorithm             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setNaglesAlgorithm             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Indicates if Nagle's Algorithm is used.
+        self.naglesAlgorithm: Optional[Boolean] = None
+
+        # [x] getReceiveWindowMin            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setReceiveWindowMin            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Minimum size of the TCP receive window in bytes.
+        self.receiveWindowMin: Optional[PositiveInteger] = None
+
+        # [x] getTcpRetransmissionTimeout    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setTcpRetransmissionTimeout    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # Defines the timeout in seconds before an unacknowledged TCP segment is sent again. If the tcp RetransmissionTimeout is not defined or set to "INF", no TCP segments shall be re-transmitted.
+        self.tcpRetransmissionTimeout: Optional[TimeValue] = None
+
+        # [x] getTcpTpPort                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+        # [x] setTcpTpPort                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+        # TCP Port configuration.
+        self.tcpTpPort: Optional[TpPort] = None
+
+    def getKeepAliveInterval(self) -> Optional[TimeValue]:
+        """
+        Specifies the interval in seconds between subsequent keepalive probes.
+        """
         return self.keepAliveInterval
 
-    def setKeepAliveInterval(self, value):
-        self.keepAliveInterval = value
+    def setKeepAliveInterval(self, value: Optional[TimeValue]) -> TcpTp:
+        """
+        Specifies the interval in seconds between subsequent keepalive probes.
+        A None value is a no-op and does not overwrite an existing keepAliveInterval.
+        """
+        if value is not None:
+            self.keepAliveInterval = value
         return self
 
-    def getKeepAliveProbesMax(self):
+    def getKeepAliveProbesMax(self) -> Optional[PositiveInteger]:
+        """
+        Maximum number of times that TCP retransmits an individual data segment before aborting the connection.
+        """
         return self.keepAliveProbesMax
 
-    def setKeepAliveProbesMax(self, value):
-        self.keepAliveProbesMax = value
+    def setKeepAliveProbesMax(self, value: Optional[PositiveInteger]) -> TcpTp:
+        """
+        Maximum number of times that TCP retransmits an individual data segment before aborting the connection.
+        A None value is a no-op and does not overwrite an existing keepAliveProbesMax.
+        """
+        if value is not None:
+            self.keepAliveProbesMax = value
         return self
 
-    def getKeepAlives(self):
+    def getKeepAlives(self) -> Optional[Boolean]:
+        """
+        Indicates if Keep-Alive messages are sent.
+        """
         return self.keepAlives
 
-    def setKeepAlives(self, value):
-        self.keepAlives = value
+    def setKeepAlives(self, value: Optional[Boolean]) -> TcpTp:
+        """
+        Indicates if Keep-Alive messages are sent.
+        A None value is a no-op and does not overwrite an existing keepAlives.
+        """
+        if value is not None:
+            self.keepAlives = value
         return self
 
-    def getKeepAliveTime(self):
+    def getKeepAliveTime(self) -> Optional[TimeValue]:
+        """
+        Specifies the time in seconds between the last data packet sent and the first keepalive probe.
+        """
         return self.keepAliveTime
 
-    def setKeepAliveTime(self, value):
-        self.keepAliveTime = value
+    def setKeepAliveTime(self, value: Optional[TimeValue]) -> TcpTp:
+        """
+        Specifies the time in seconds between the last data packet sent and the first keepalive probe.
+        A None value is a no-op and does not overwrite an existing keepAliveTime.
+        """
+        if value is not None:
+            self.keepAliveTime = value
         return self
 
-    def getNaglesAlgorithm(self):
+    def getNaglesAlgorithm(self) -> Optional[Boolean]:
+        """
+        Indicates if Nagle's Algorithm is used.
+        """
         return self.naglesAlgorithm
 
-    def setNaglesAlgorithm(self, value):
-        self.naglesAlgorithm = value
+    def setNaglesAlgorithm(self, value: Optional[Boolean]) -> TcpTp:
+        """
+        Indicates if Nagle's Algorithm is used.
+        A None value is a no-op and does not overwrite an existing naglesAlgorithm.
+        """
+        if value is not None:
+            self.naglesAlgorithm = value
         return self
 
-    def getReceiveWindowMin(self):
+    def getReceiveWindowMin(self) -> Optional[PositiveInteger]:
+        """
+        Minimum size of the TCP receive window in bytes.
+        """
         return self.receiveWindowMin
 
-    def setReceiveWindowMin(self, value):
-        self.receiveWindowMin = value
+    def setReceiveWindowMin(self, value: Optional[PositiveInteger]) -> TcpTp:
+        """
+        Minimum size of the TCP receive window in bytes.
+        A None value is a no-op and does not overwrite an existing receiveWindowMin.
+        """
+        if value is not None:
+            self.receiveWindowMin = value
         return self
 
-    def getTcpRetransmissionTimeout(self):
+    def getTcpRetransmissionTimeout(self) -> Optional[TimeValue]:
+        """
+        Defines the timeout in seconds before an unacknowledged TCP segment is sent again. If the tcp RetransmissionTimeout is not defined or set to "INF", no TCP segments shall be re-transmitted.
+        """
         return self.tcpRetransmissionTimeout
 
-    def setTcpRetransmissionTimeout(self, value):
-        self.tcpRetransmissionTimeout = value
+    def setTcpRetransmissionTimeout(self, value: Optional[TimeValue]) -> TcpTp:
+        """
+        Defines the timeout in seconds before an unacknowledged TCP segment is sent again. If the tcp RetransmissionTimeout is not defined or set to "INF", no TCP segments shall be re-transmitted.
+        A None value is a no-op and does not overwrite an existing tcpRetransmissionTimeout.
+        """
+        if value is not None:
+            self.tcpRetransmissionTimeout = value
         return self
 
-    def getTcpTpPort(self):
+    def getTcpTpPort(self) -> Optional[TpPort]:
+        """
+        TCP Port configuration.
+        """
         return self.tcpTpPort
 
-    def setTcpTpPort(self, value):
-        self.tcpTpPort = value
+    def setTcpTpPort(self, value: Optional[TpPort]) -> TcpTp:
+        """
+        TCP Port configuration.
+        A None value is a no-op and does not overwrite an existing tcpTpPort.
+        """
+        if value is not None:
+            self.tcpTpPort = value
         return self
 
 

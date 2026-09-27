@@ -9611,6 +9611,8 @@ class ARXMLParser(AbstractARXMLParser):
         tp.setKeepAliveTime(self.getChildElementOptionalTimeValue(element, "KEEP-ALIVE-TIME"))
         tp.setKeepAlives(self.getChildElementOptionalBooleanValue(element, "KEEP-ALIVES"))
         tp.setNaglesAlgorithm(self.getChildElementOptionalLiteral(element, "NAGLES-ALGORITHM"))
+        tp.setReceiveWindowMin(self.getChildElementOptionalPositiveInteger(element, "RECEIVE-WINDOW-MIN"))
+        tp.setTcpRetransmissionTimeout(self.getChildElementOptionalTimeValue(element, "TCP-RETRANSMISSION-TIMEOUT"))
         tp.setTcpTpPort(self.getTpPort(element, "TCP-TP-PORT"))
 
     def readGenericTp(self, element: ET.Element, tp: GenericTp):
