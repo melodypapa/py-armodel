@@ -103,42 +103,72 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — none (dataFilter aggr / ddsQosProfile ref→Ref suffix both per rule)
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (504 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `ISignalIPduGroup` — FibexElement — source TBC (locate table at Step 1)
+- [ ] `ISignalIPduGroup` — FibexElement — R23-11 markdown · Table 6.32 (CP_TPS_SystemTemplate), p.351
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - feat: 1e758bd44 (steps 1-8; verbatim Note incl. Tags, PEP 526 types (Optional[CommunicationDirectionType]/Optional[String]/List[RefType]), None-no-op setters + None-guarded adds; NEW NM-PDUS reader+writer coverage (was dropped — silent round-trip loss); XSD order COMMUNICATION-DIRECTION→COMMUNICATION-MODE→CONTAINED-...-REFS→I-SIGNAL-I-PDUS→NM-PDUS)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — 4 failed / 2 passed
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — parser NM-PDUS read ×2 new + writer test_nm_pdu_refs + NM-PDUS-empty assert added
+  - [x] Step 6 — Update parser & writer (Green) — readISignalIPduGroup + writeISignalIPduGroup extended with NM-PDUS wrapper (NM-PDU-REF-CONDITIONAL/NM-PDU-REF)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — none
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (538 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `MultiplexedIPdu` — IPdu — source TBC (locate table at Step 1)
+- [ ] `MultiplexedIPdu` — IPdu — R23-11 markdown · Table 6.72 (CP_TPS_SystemTemplate), p.410
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - feat: eba346cb5 (steps 1-8; verbatim Note + 7 attr notes incl. markdown wrap-spaces ("variation Point"/"short Label" per raw cells), PEP 526 Optional[T] replacing `# type:` comments, triggerMode now typed Optional[TriggerMode]; reader/writer already complete — no change)
+  - note: markdown cells carry PDF-wrap spaces verbatim (raw-byte verified per row); test NOTES matched by diff loop
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — 2 failed / 2 passed (fabricated docstrings)
+  - [x] Step 3 — Implement model class (Green) — class block generated from extracted cells (byte-exact)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by parser test_readMultiplexedIPdu_full
+  - [x] Step 6 — Update parser & writer (Green) — already complete (7/7 attrs incl. dynamic/static part helpers)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — TriggerMode class was missing (Rule 0001.10): created, see new row below
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (283 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [ ] `SecuredIPdu` — IPdu — source TBC (locate table at Step 1)
+- [ ] `TriggerMode` — AREnum — NEW row (discovered 2026-09-27 as missing MultiplexedIPdu.triggerMode member type, Rule 0001.10/0016.4) — R23-11 markdown · Table 6.71 (CP_TPS_SystemTemplate), p.408
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - feat: cc609f42a (steps 1-8; 4 literals dynamicPartTrigger/none/staticOrDynamicPartTrigger/staticPartTrigger with verbatim descriptions + EnumerationLiteralIndex tags)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — ImportError (class absent)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — new class, verbatim from start
+  - [—] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone enum (TRIGGER-MODE element round-tripped via MultiplexedIPdu)
+  - [—] Step 6 — Update parser & writer (Green) — N/A standalone enum
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — none
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (3 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+
+- [ ] `SecuredIPdu` — IPdu — R23-11 markdown · Table 6.42 (CP_TPS_SystemTemplate), p.368
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
+  - feat: 0a98655a0 (steps 1-8; verbatim Note + 7 attr notes (class+test generated from single extraction), PEP 526 types, useSecuredPduHeader now Optional[SecuredPduHeaderEnum]; NEW reader/writer coverage for DYNAMIC-RUNTIME-LENGTH-HANDLING + USE-SECURED-PDU-HEADER per XSD order)
+  - note: SecuredPduHeaderEnum was missing (Rule 0001.10) — created, see new row below
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — 2 failed / 2 passed (fabricated docstrings)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — parser read ×2 new fields + writer XSD-order test
+  - [x] Step 6 — Update parser & writer (Green) — readSecuredIPdu/writeSecuredIPdu extended to all 7 attrs
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — SecuredPduHeaderEnum created (see new row)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (343+ passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+
+- [ ] `SecuredPduHeaderEnum` — AREnum — NEW row (discovered 2026-09-27 as missing SecuredIPdu.useSecuredPduHeader member type, Rule 0001.10/0016.4) — R23-11 markdown · Table 6.43 (CP_TPS_SystemTemplate), p.369
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
+  - feat: 3d5cb55db (steps 1-8; 4 literals noHeader/securedPduHeader08Bit/16Bit/32Bit with verbatim descriptions + EnumerationLiteralIndex tags)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — ImportError (class absent)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — new class, verbatim from start
+  - [—] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone enum (USE-SECURED-PDU-HEADER round-tripped via SecuredIPdu)
+  - [—] Step 6 — Update parser & writer (Green) — N/A standalone enum
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — none
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (3 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `UserDefinedIPdu` — IPdu — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
