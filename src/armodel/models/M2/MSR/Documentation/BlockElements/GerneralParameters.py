@@ -524,6 +524,7 @@ class Prms(Paginateable):
     # Prms method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.74, p.339 (R23-11; markdown render loses the meta rows —
     #       Note/Base/label verified against the R4.3.1 reproduction Table 8.75, p.305, row-identical)
+    # Spec verified: R23-11 (2026-09-28, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] setLabel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
