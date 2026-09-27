@@ -71,7 +71,6 @@ class Item(Paginateable, VariationPointCapable):
         return self
 
 
-# Original AUTOSAR class: List (AUTOSAR_FO_TPS_GenericStructureTemplate.pdf Table 9.8, p.295); renamed ARList because `List` is a Python builtin.
 class ARList(Paginateable, VariationPointCapable):
     """
     This meta-class represents the ability to express a list. The kind of list is specified in the attribute.
@@ -81,7 +80,7 @@ class ARList(Paginateable, VariationPointCapable):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.8, p.295
     # Spec verified: R23-11 (2026-09-27, user 9b confirmation)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # (spec class name: List — renamed ARList for the Python builtin clash; consumer: DocumentationBlock.list)
+    # (original AUTOSAR class name: `List` — AUTOSAR_FO_TPS_GenericStructureTemplate.pdf Table 9.8, p.295; Python class renamed ARList because `List` is a Python builtin (shadows the stdlib name); consumer: DocumentationBlock.list)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getItems  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addItem   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
