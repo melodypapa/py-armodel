@@ -59,7 +59,7 @@ class TestSlOverviewParagraph:
         assert set(vars(SlOverviewParagraph())) - set(vars(Reference())) == {"l"}
 
     def test_language_accessors(self):
-        """The legacy l accessor semantics mirror the Table 9.97 LanguageSpecific.l row (None no-op)."""
+        """The legacy l accessor mirrors the XSD-only L attribute (attributeGroup SL-OVERVIEW-PARAGRAPH, minOccurs 0, atp.Status="removed"): optional, None no-op."""
         paragraph = SlOverviewParagraph()
 
         assert paragraph.getL() is None

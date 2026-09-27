@@ -2,7 +2,6 @@
 
 import xml.etree.ElementTree as ET
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import XrefTarget
 from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -11,7 +10,7 @@ from armodel.writer.arxml_writer import ARXMLWriter
 class TestXrefTargetWriter:
     def test_write_xref_target_emits_inherited_content(self):
         target = XrefTarget(None, "TARGET")
-        target.setLongName1(SingleLanguageLongName().setValue(String().setValue("Target label")))
+        target.setLongName1(SingleLanguageLongName().setMixedString("Target label"))
         parent = ET.Element("PARENT")
 
         ARXMLWriter().setXrefTarget(parent, "XREF-TARGET", target)

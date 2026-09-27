@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NumericalOrText
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical, VerbatimString
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValues, ValueGroup
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -33,16 +33,16 @@ def _parent():
 
 def _build_sw_values():
     sw_values = SwValues()
-    sw_values.addV(ARNumerical().setValue("1.5"))
-    sw_values.addV(ARNumerical().setValue("2.5"))
-    sw_values.addVf(ARNumerical().setValue("0.25"))
+    sw_values.addV(Numerical().setValue("1.5"))
+    sw_values.addV(Numerical().setValue("2.5"))
+    sw_values.addVf(Numerical().setValue("0.25"))
 
     vt = VerbatimString()
     vt.setValue("a|b")
     sw_values.setVt(vt)
 
     vtf = NumericalOrText()
-    vtf.setVf(ARNumerical().setValue("7"))
+    vtf.setVf(Numerical().setValue("7"))
     sw_values.addVtf(vtf)
     return sw_values
 
@@ -103,7 +103,7 @@ def test_sw_values_round_trip_with_vg(writer):
     sw_values = _build_sw_values()
     vg = ValueGroup()
     vg_contents = SwValues()
-    vg_contents.addV(ARNumerical().setValue("9.5"))
+    vg_contents.addV(Numerical().setValue("9.5"))
     vg.setVgContents(vg_contents)
     sw_values.setVg(vg)
     writer.setSwValues(parent, "SW-VALUES-PHYS", sw_values)

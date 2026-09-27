@@ -11,7 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from abc import ABC
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
@@ -305,15 +305,15 @@ class NumericalValueSpecification(ValueSpecification):
         super().__init__()
 
         # This is the value itself. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
-        self.value: Optional[ARNumerical] = None
+        self.value: Optional[Numerical] = None
 
-    def getValue(self) -> Optional[ARNumerical]:
+    def getValue(self) -> Optional[Numerical]:
         """
         This is the value itself. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime.
         """
         return self.value
 
-    def setValue(self, value: Optional[ARNumerical]) -> NumericalValueSpecification:
+    def setValue(self, value: Optional[Numerical]) -> NumericalValueSpecification:
         """
         This is the value itself. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime.
         A None value is a no-op and does not overwrite an existing value.
@@ -837,22 +837,22 @@ class NumericalOrText(ARObject, VariationPointCapable):
 
         # This attribute represents the ability to provide a numerical value.
         # The latest binding time of the VariationPoint shall be preCompileTime.
-        self.vf: Optional[ARNumerical] = None
+        self.vf: Optional[Numerical] = None
 
         # This attribute represents the ability to provide a textual value.
         self.vt: Optional[ARLiteral] = None
 
-    def getVf(self) -> Optional[ARNumerical]:
+    def getVf(self) -> Optional[Numerical]:
         """
         This attribute represents the ability to provide a numerical value.
         The latest binding time of the VariationPoint shall be preCompileTime.
 
         Returns:
-            Optional[ARNumerical]: The numerical value, or None if not set
+            Optional[Numerical]: The numerical value, or None if not set
         """
         return self.vf
 
-    def setVf(self, value: Optional[ARNumerical]) -> NumericalOrText:
+    def setVf(self, value: Optional[Numerical]) -> NumericalOrText:
         """
         This attribute represents the ability to provide a numerical value.
         The latest binding time of the VariationPoint shall be preCompileTime.
@@ -1004,11 +1004,11 @@ class RuleArguments(ARObject, VariationPointCapable):
         super().__init__()
 
         # This represents a numerical value for the RuleBased ValueSpecification.
-        self.v: Optional[ARNumerical] = None
+        self.v: Optional[Numerical] = None
 
         # This represents a numerical value for the RuleBased ValueSpecification which may subject to variability.
         # The latest binding time of the VariationPoint shall be pre CompileTime.
-        self.vf: Optional[ARNumerical] = None
+        self.vf: Optional[Numerical] = None
 
         # This represents a textual value for the RuleBasedValue Specification.
         self.vt: Optional[VerbatimString] = None
@@ -1016,16 +1016,16 @@ class RuleArguments(ARObject, VariationPointCapable):
         # This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability.
         self.vtf: Optional[NumericalOrText] = None
 
-    def getV(self) -> Optional[ARNumerical]:
+    def getV(self) -> Optional[Numerical]:
         """
         This represents a numerical value for the RuleBased ValueSpecification.
 
         Returns:
-            Optional[ARNumerical]: The numerical value, or None if not set
+            Optional[Numerical]: The numerical value, or None if not set
         """
         return self.v
 
-    def setV(self, value: Optional[ARNumerical]) -> RuleArguments:
+    def setV(self, value: Optional[Numerical]) -> RuleArguments:
         """
         This represents a numerical value for the RuleBased ValueSpecification.
         A None value is a no-op and does not overwrite an existing v.
@@ -1040,17 +1040,17 @@ class RuleArguments(ARObject, VariationPointCapable):
             self.v = value
         return self
 
-    def getVf(self) -> Optional[ARNumerical]:
+    def getVf(self) -> Optional[Numerical]:
         """
         This represents a numerical value for the RuleBased ValueSpecification which may subject to variability.
         The latest binding time of the VariationPoint shall be pre CompileTime.
 
         Returns:
-            Optional[ARNumerical]: The numerical value, or None if not set
+            Optional[Numerical]: The numerical value, or None if not set
         """
         return self.vf
 
-    def setVf(self, value: Optional[ARNumerical]) -> RuleArguments:
+    def setVf(self, value: Optional[Numerical]) -> RuleArguments:
         """
         This represents a numerical value for the RuleBased ValueSpecification which may subject to variability.
         The latest binding time of the VariationPoint shall be pre CompileTime.

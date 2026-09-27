@@ -475,7 +475,7 @@ Status: **26/49** completed
 | `MixedContentForPlainText`               | [x] Done     | 4a95d1d30 |
 | `MixedContentForVerbatim`                | [x] Done     | 74549e6a5 |
 | `SlOverviewParagraph`                    | [x] Done     | 951209dba |
-| `MixedContentForUnitNames`               | [ ] Pending* | 07f06b255 |
+| `MixedContentForUnitNames`               | [x] Done     | 3d47eb65c |
 | `SingleLanguageUnitNames`                | [x] Done     | N/A       |
 | `SwSystemconstValue`                     | [ ] Pending* | N/A       |
 | `PostBuildVariantCondition`              | [ ] Pending* | N/A       |

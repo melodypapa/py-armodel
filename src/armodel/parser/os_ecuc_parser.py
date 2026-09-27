@@ -337,9 +337,10 @@ class OsEcucParser(EcucParser):
     def get_bool(self, name: str, raw: EcucScalar) -> Optional[bool]:
         """Convert an ECUC scalar to a boolean OS parameter value.
 
-        Boolean values accept native booleans and the strings ``true``,
-        ``false``, ``1``, and ``0``. ``None`` is preserved for optional
-        parameters; invalid values raise :class:`OsEcucConversionError`.
+        Boolean values accept native booleans, the strings ``true``,
+        ``false``, ``1``, and ``0``, and the numeric values ``0`` and ``1``.
+        ``None`` is preserved for optional parameters; invalid values raise
+        :class:`OsEcucConversionError`.
         """
         if raw is None:
             return None
@@ -347,6 +348,8 @@ class OsEcucParser(EcucParser):
             return raw
         if isinstance(raw, str) and raw.lower() in ("true", "false", "0", "1"):
             return raw.lower() in ("true", "1")
+        if isinstance(raw, (int, float)) and raw in (0, 1):
+            return bool(raw)
         raise OsEcucConversionError("Parameter %s expects a boolean value, got %r" % (name, raw))
 
     def get_int(self, name: str, raw: EcucScalar) -> Optional[int]:

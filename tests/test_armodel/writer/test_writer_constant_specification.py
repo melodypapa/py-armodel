@@ -8,7 +8,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import ConstantSpecification, NumericalValueSpecification
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -38,7 +38,7 @@ def _make_document() -> AUTOSAR:
 
 def _fill_value_spec(spec: ConstantSpecification):
     value_spec = NumericalValueSpecification()
-    numerical = ARNumerical()
+    numerical = Numerical()
     numerical.setValue("3.14")
     value_spec.setValue(numerical)
     spec.setValueSpec(value_spec)

@@ -358,7 +358,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
-    ARNumerical,
+    Numerical,
     Limit,
     PositiveInteger,
     RefType,
@@ -1537,7 +1537,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setSingleLanguageLongName(self, element: ET.Element, key: str, name: SingleLanguageLongName):
         child_element = ET.SubElement(element, key)
-        child_element.text = name.getValue().getValue() if name.getValue() is not None else None
+        self.writeMixedStringText(child_element, name)
         self.writeMixedContentForLongName(child_element, name)
 
     def writeMixedContentForUnitNames(self, element: ET.Element, content: MixedContentForUnitNames):
@@ -1587,7 +1587,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setSingleLanguageUnitNames(self, element: ET.Element, key: str, name: SingleLanguageUnitNames):
         if name is not None:
             child_element = ET.SubElement(element, key)
-            child_element.text = name.getValue().getValue() if name.getValue() is not None else None
+            self.writeMixedStringText(child_element, name)
             self.writeMixedContentForUnitNames(child_element, name)
 
     def setEmphasisText(self, element: ET.Element, key: str, emphasis: EmphasisText):
@@ -3279,7 +3279,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalIntegerValue(child_element, "BIT-POSITION", bit_representation.getBitPosition())
             self.setChildElementOptionalIntegerValue(child_element, "NUMBER-OF-BITS", bit_representation.getNumberOfBits())
 
-    def setSwValueBlockSizeMults(self, element: ET.Element, mults: List[ARNumerical]):
+    def setSwValueBlockSizeMults(self, element: ET.Element, mults: List[Numerical]):
         if len(mults) > 0:
             mults_element = ET.SubElement(element, "SW-VALUE-BLOCK-SIZE-MULTS")
             for mult in mults:
@@ -12699,7 +12699,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeSwSystemconstValue(self, element: ET.Element, value: SwSystemconstValue):
         child_element = ET.SubElement(element, "SW-SYSTEMCONST-VALUE")
         self.setChildElementOptionalRefType(child_element, "SW-SYSTEMCONST-REF", value.getSwSystemconstRef())
-        self.setChildElementOptionalNumericalValue(child_element, "VALUE", value.getValue())
+        self.setChildElementOptionalNumerical(child_element, "VALUE", value.getValue())
         self.setAnnotations(child_element, value.getAnnotations())
 
     def writeSwSystemconstantValueSetSwSystemconstantValues(self, element: ET.Element, value_set: SwSystemconstantValueSet):

@@ -112,8 +112,8 @@ class TestWriteTextTableMapping:
         assert reparsed.getIdenticalMapping().getValue() is True
         assert reparsed.getMappingDirection().getValue() == "firstToSecond"
         assert len(reparsed.getValuePairs()) == 1
-        assert reparsed.getValuePairs()[0].getFirstValue().getValue() == "1"
-        assert reparsed.getValuePairs()[0].getSecondValue().getValue() == "2"
+        assert reparsed.getValuePairs()[0].getFirstValue().getValue() == 1.0
+        assert reparsed.getValuePairs()[0].getSecondValue().getValue() == 2.0
 
 
 def _positive_integer(text):

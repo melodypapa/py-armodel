@@ -1043,7 +1043,7 @@ class TestGetEcucNumericalParamValue:
         assert param_value.getDefinitionRef() is not None
         assert param_value.getDefinitionRef().getValue() == "/EcucDefs/Rte/SchedulingPeriod"
         assert isinstance(param_value.getValue(), Numerical)
-        assert param_value.getValue().getValue() == "74.8"
+        assert param_value.getValue().getValue() == 74.8
 
     def test_empty_element_leaves_value_unset(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")

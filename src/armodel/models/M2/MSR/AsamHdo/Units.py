@@ -4,9 +4,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Float,
-    ARNumerical,
+    Numerical,
     RefType,
-    String,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import MixedContentForUnitNames
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
@@ -41,33 +40,33 @@ class PhysicalDimension(ARElement):
         super().__init__(parent, short_name)
 
         # This attribute represents the exponent of the physical dimension "electric current".
-        self.currentExp: Optional[ARNumerical] = None
+        self.currentExp: Optional[Numerical] = None
 
         # The exponent of the physical dimension "length".
-        self.lengthExp: Optional[ARNumerical] = None
+        self.lengthExp: Optional[Numerical] = None
 
         # The exponent of the physical dimension "luminous intensity".
-        self.luminousIntensityExp: Optional[ARNumerical] = None
+        self.luminousIntensityExp: Optional[Numerical] = None
 
         # The exponent of the physical dimension "mass".
-        self.massExp: Optional[ARNumerical] = None
+        self.massExp: Optional[Numerical] = None
 
         # The exponent of the physical dimension "quantity of substance".
-        self.molarAmountExp: Optional[ARNumerical] = None
+        self.molarAmountExp: Optional[Numerical] = None
 
         # The exponent of the physical dimension "temperature".
-        self.temperatureExp: Optional[ARNumerical] = None
+        self.temperatureExp: Optional[Numerical] = None
 
         # The exponent of the physical dimension "time".
-        self.timeExp: Optional[ARNumerical] = None
+        self.timeExp: Optional[Numerical] = None
 
-    def getCurrentExp(self) -> Optional[ARNumerical]:
+    def getCurrentExp(self) -> Optional[Numerical]:
         """
         This attribute represents the exponent of the physical dimension "electric current".
         """
         return self.currentExp
 
-    def setCurrentExp(self, value: Optional[ARNumerical]) -> "PhysicalDimension":
+    def setCurrentExp(self, value: Optional[Numerical]) -> "PhysicalDimension":
         """
         This attribute represents the exponent of the physical dimension "electric current". A None value is a no-op and does not overwrite an existing currentExp.
         """
@@ -75,13 +74,13 @@ class PhysicalDimension(ARElement):
             self.currentExp = value
         return self
 
-    def getLengthExp(self) -> Optional[ARNumerical]:
+    def getLengthExp(self) -> Optional[Numerical]:
         """
         The exponent of the physical dimension "length".
         """
         return self.lengthExp
 
-    def setLengthExp(self, value: Optional[ARNumerical]) -> "PhysicalDimension":
+    def setLengthExp(self, value: Optional[Numerical]) -> "PhysicalDimension":
         """
         The exponent of the physical dimension "length". A None value is a no-op and does not overwrite an existing lengthExp.
         """
@@ -89,13 +88,13 @@ class PhysicalDimension(ARElement):
             self.lengthExp = value
         return self
 
-    def getLuminousIntensityExp(self) -> Optional[ARNumerical]:
+    def getLuminousIntensityExp(self) -> Optional[Numerical]:
         """
         The exponent of the physical dimension "luminous intensity".
         """
         return self.luminousIntensityExp
 
-    def setLuminousIntensityExp(self, value: Optional[ARNumerical]) -> "PhysicalDimension":
+    def setLuminousIntensityExp(self, value: Optional[Numerical]) -> "PhysicalDimension":
         """
         The exponent of the physical dimension "luminous intensity". A None value is a no-op and does not overwrite an existing luminousIntensityExp.
         """
@@ -103,13 +102,13 @@ class PhysicalDimension(ARElement):
             self.luminousIntensityExp = value
         return self
 
-    def getMassExp(self) -> Optional[ARNumerical]:
+    def getMassExp(self) -> Optional[Numerical]:
         """
         The exponent of the physical dimension "mass".
         """
         return self.massExp
 
-    def setMassExp(self, value: Optional[ARNumerical]) -> "PhysicalDimension":
+    def setMassExp(self, value: Optional[Numerical]) -> "PhysicalDimension":
         """
         The exponent of the physical dimension "mass". A None value is a no-op and does not overwrite an existing massExp.
         """
@@ -117,13 +116,13 @@ class PhysicalDimension(ARElement):
             self.massExp = value
         return self
 
-    def getMolarAmountExp(self) -> Optional[ARNumerical]:
+    def getMolarAmountExp(self) -> Optional[Numerical]:
         """
         The exponent of the physical dimension "quantity of substance".
         """
         return self.molarAmountExp
 
-    def setMolarAmountExp(self, value: Optional[ARNumerical]) -> "PhysicalDimension":
+    def setMolarAmountExp(self, value: Optional[Numerical]) -> "PhysicalDimension":
         """
         The exponent of the physical dimension "quantity of substance". A None value is a no-op and does not overwrite an existing molarAmountExp.
         """
@@ -131,13 +130,13 @@ class PhysicalDimension(ARElement):
             self.molarAmountExp = value
         return self
 
-    def getTemperatureExp(self) -> Optional[ARNumerical]:
+    def getTemperatureExp(self) -> Optional[Numerical]:
         """
         The exponent of the physical dimension "temperature".
         """
         return self.temperatureExp
 
-    def setTemperatureExp(self, value: Optional[ARNumerical]) -> "PhysicalDimension":
+    def setTemperatureExp(self, value: Optional[Numerical]) -> "PhysicalDimension":
         """
         The exponent of the physical dimension "temperature". A None value is a no-op and does not overwrite an existing temperatureExp.
         """
@@ -145,13 +144,13 @@ class PhysicalDimension(ARElement):
             self.temperatureExp = value
         return self
 
-    def getTimeExp(self) -> Optional[ARNumerical]:
+    def getTimeExp(self) -> Optional[Numerical]:
         """
         The exponent of the physical dimension "time".
         """
         return self.timeExp
 
-    def setTimeExp(self, value: Optional[ARNumerical]) -> "PhysicalDimension":
+    def setTimeExp(self, value: Optional[Numerical]) -> "PhysicalDimension":
         """
         The exponent of the physical dimension "time". A None value is a no-op and does not overwrite an existing timeExp.
         """
@@ -171,30 +170,10 @@ class SingleLanguageUnitNames(MixedContentForUnitNames):
     # 2026-09-25 drift fix (Rule 0012.3): re-parented ARLiteral → MixedContentForUnitNames per the
     # markdown-verified Base row (ARObject , MixedContentForUnitNames) — see docs/plan/atp_mixed_string_hierarchy.md
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getValue                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setValue                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # value has no spec attribute row (Table 5.80 Attribute column: "-") — it stores the element's mixed text content, mirroring SingleLanguageLongName.value; sub/sup inherited from MixedContentForUnitNames
-
-    def __init__(self) -> None:
-        super().__init__()
-
-        # The text content of the unit names (the element's mixed text; no spec attribute row).
-        self.value: Optional[String] = None
-
-    def getValue(self) -> Optional[String]:
-        """
-        The text content of the unit names.
-        """
-        return self.value
-
-    def setValue(self, value: Optional[String]) -> "SingleLanguageUnitNames":
-        """
-        The text content of the unit names. A None value is a no-op and does not overwrite an existing value.
-        """
-        if value is not None:
-            self.value = value
-        return self
+    # (zero own members — Table 5.80 Attribute column "-": sub/sup inherited from MixedContentForUnitNames;
+    #  2026-09-27 unification: the mixed text rides the AtpMixedString mixin (mixedString) inherited from
+    #  MixedContentForUnitNames — SlOverviewParagraph/LVerbatim shape; the concrete `value` member and
+    #  getValue/setValue are removed; stereotype-inherent, no spec row)
 
 
 class Unit(ARElement):

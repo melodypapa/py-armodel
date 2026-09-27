@@ -20,7 +20,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
-    ARNumerical,
     Boolean,
     Float,
     Identifier,
@@ -31,7 +30,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Numerical,
     PositiveInteger,
     RefType,
-    String,
     VerbatimString,
 )
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
@@ -102,7 +100,7 @@ def _literal(text):
 
 
 def _numerical(text):
-    num = ARNumerical()
+    num = Numerical()
     num.value = text
     return num
 
@@ -864,7 +862,7 @@ class TestWriteCompuScaleWriter:
         scale = CompuScale()
         scale.setShortLabel(_literal("Low"))
         scale.setSymbol(_literal("LOW"))
-        mask = ARNumerical()
+        mask = Numerical()
         mask.value = "255"
         scale.setMask(mask)
         lower = Limit()
@@ -1301,7 +1299,7 @@ class TestRecordValueSpecificationWriter:
         rec = RecordValueSpecification()
         num = NumericalValueSpecification()
         num.setShortLabel(_literal("N"))
-        nv = ARNumerical()
+        nv = Numerical()
         nv.value = "5"
         num.setValue(nv)
         rec.addField(num)
@@ -1345,7 +1343,7 @@ class TestRecordValueSpecificationWriter:
         arr.setShortLabel(_literal("Arr"))
         nv = NumericalValueSpecification()
         nv.setShortLabel(_literal("Item"))
-        val = ARNumerical()
+        val = Numerical()
         val.value = "1"
         nv.setValue(val)
         arr.addElement(nv)
@@ -1422,7 +1420,7 @@ class TestConstantSpecificationWriter:
 
         nv = NumericalValueSpecification()
         nv.setShortLabel(_literal("Init"))
-        val = ARNumerical()
+        val = Numerical()
         val.value = "10"
         nv.setValue(val)
         spec.setValueSpec(nv)
@@ -1665,7 +1663,7 @@ class TestUnitWriter:
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Units")
         unit = pkg.createUnit("Metre")
-        unit.setDisplayName(SingleLanguageUnitNames().setValue(String().setValue("m")))
+        unit.setDisplayName(SingleLanguageUnitNames().setMixedString("m"))
         unit.setFactorSiToUnit(_float("1.0"))
         unit.setOffsetSiToUnit(_float("0.0"))
         unit.setPhysicalDimensionRef(_ref("PHYSICAL-DIMENSION", "/pd/length"))
@@ -1683,7 +1681,7 @@ class TestUnitWriter:
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Units")
         unit = pkg.createUnit("Metre")
-        names = SingleLanguageUnitNames().setValue(String().setValue("m"))
+        names = SingleLanguageUnitNames().setMixedString("m")
         names.setSub(Superscript().setValue("2"))
         names.setSup(Superscript().setValue("n"))
         unit.setDisplayName(names)
@@ -1701,7 +1699,7 @@ class TestUnitWriter:
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Units")
         unit = pkg.createUnit("Second")
-        unit.setDisplayName(SingleLanguageUnitNames().setValue(String().setValue("s")))
+        unit.setDisplayName(SingleLanguageUnitNames().setMixedString("s"))
 
         parent = _parent()
         writer.writeUnit(parent, unit)
@@ -1723,7 +1721,7 @@ class TestUnitWriter:
         document.clear()
         pkg = document.createARPackage("AUTOSAR")
         unit = pkg.createUnit("Metre")
-        names = SingleLanguageUnitNames().setValue(String().setValue("m"))
+        names = SingleLanguageUnitNames().setMixedString("m")
         names.setSub(Superscript().setValue("2"))
         names.setSup(Superscript().setValue("n"))
         unit.setDisplayName(names)
@@ -1739,7 +1737,7 @@ class TestUnitWriter:
             unit_2 = document_2.getARPackages()[0].getUnits()[0]
             names_2 = unit_2.getDisplayName()
             assert names_2 is not None
-            assert names_2.getValue().getValue() == "m"
+            assert names_2.getMixedString() == "m"
             assert names_2.getSub().getValue() == "2"
             assert names_2.getSup().getValue() == "n"
         finally:

@@ -20,7 +20,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable, ShortNameFragment, SingleLanguageReferrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
-    ARNumerical,
     DateTime,
     DisplayFormatString,
     Float,
@@ -29,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Limit,
     MonotonyEnum,
     NameToken,
+    Numerical,
     PositiveInteger,
     RefType,
     RevisionLabelString,
@@ -485,7 +485,7 @@ class TestARXMLWriterLanguageSpecificMethods:
         parent = ET.Element("parent")
 
         name = SingleLanguageLongName()
-        name.setValue(String().setValue("Long name"))
+        name.setMixedString("Long name")
 
         writer.setSingleLanguageLongName(parent, "LONG-NAME-1", name)
 
@@ -500,7 +500,7 @@ class TestARXMLWriterLanguageSpecificMethods:
         parent = ET.Element("parent")
 
         name = SingleLanguageLongName()
-        name.setValue(String().setValue("Engine"))
+        name.setMixedString("Engine")
         writer.setSingleLanguageLongName(parent, "LONG-NAME-1", name)
 
         # The writer emits un-namespaced tags; wrap in the AUTOSAR NS so the
@@ -509,7 +509,7 @@ class TestARXMLWriterLanguageSpecificMethods:
         wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % ET.tostring(written, encoding="unicode"))
         reparsed = ARXMLParser().getSingleLanguageLongName(wrapped, "LONG-NAME-1")
         assert reparsed is not None
-        assert reparsed.getValue().getValue() == "Engine"
+        assert reparsed.getMixedString() == "Engine"
 
     def test_set_single_language_long_name_inline_roundtrip(self):
         """SUP/SUB attributes and E/IE/TT inline elements survive a round-trip."""
@@ -517,7 +517,7 @@ class TestARXMLWriterLanguageSpecificMethods:
         parent = ET.Element("parent")
 
         name = SingleLanguageLongName()
-        name.setValue(String().setValue("Engine"))
+        name.setMixedString("Engine")
         name.setSup(Superscript().setValue("2"))
         name.setSub(Superscript().setValue("3"))
         name.setE(EmphasisText().setValue(String().setValue("bold")))
@@ -528,7 +528,7 @@ class TestARXMLWriterLanguageSpecificMethods:
         written = parent.find("LONG-NAME-1")
         wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % ET.tostring(written, encoding="unicode"))
         reparsed = ARXMLParser().getSingleLanguageLongName(wrapped, "LONG-NAME-1")
-        assert reparsed.getValue().getValue() == "Engine"
+        assert reparsed.getMixedString() == "Engine"
         assert reparsed.getSup().getValue() == "2"
         assert reparsed.getSub().getValue() == "3"
         assert reparsed.getE().getValue().getValue() == "bold"
@@ -541,7 +541,7 @@ class TestARXMLWriterLanguageSpecificMethods:
         parent = ET.Element("parent")
 
         name = SingleLanguageLongName()
-        name.setValue(String().setValue("Plain"))
+        name.setMixedString("Plain")
         writer.setSingleLanguageLongName(parent, "LONG-NAME-1", name)
 
         written = parent.find("LONG-NAME-1")
@@ -552,7 +552,7 @@ class TestARXMLWriterLanguageSpecificMethods:
 
         wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % ET.tostring(written, encoding="unicode"))
         reparsed = ARXMLParser().getSingleLanguageLongName(wrapped, "LONG-NAME-1")
-        assert reparsed.getValue().getValue() == "Plain"
+        assert reparsed.getMixedString() == "Plain"
         assert reparsed.getE() is None
         assert reparsed.getIe() is None
         assert reparsed.getTt() is None
@@ -640,7 +640,7 @@ class TestARXMLWriterLanguageSpecificMethods:
 
         obj = ConcreteSingleLanguageReferrable(AUTOSAR.getInstance(), "sl")
         name = SingleLanguageLongName()
-        name.setValue(String().setValue("MyLong"))
+        name.setMixedString("MyLong")
         obj.setLongName1(name)
         writer.writeSingleLanguageReferrable(parent, obj)
 
@@ -656,7 +656,7 @@ class TestARXMLWriterLanguageSpecificMethods:
         reparsed = ConcreteSingleLanguageReferrable(AUTOSAR.getInstance(), "sl")
         ARXMLParser().readSingleLanguageReferrable(wrapped, reparsed)
         assert reparsed.getLongName1() is not None
-        assert reparsed.getLongName1().getValue().getValue() == "MyLong"
+        assert reparsed.getLongName1().getMixedString() == "MyLong"
 
     def test_write_single_language_referrable_without_long_name1(self):
         """No LONG-NAME-1 element is emitted when longName1 is None."""
@@ -945,7 +945,7 @@ class TestARXMLWriterValueSpecMethods:
         rule.setValue("FILL_UNTIL_END")
         rule_based.setRule(rule)
         argument = RuleArguments()
-        v = ARNumerical()
+        v = Numerical()
         v.setValue(1)
         argument.setV(v)
         rule_based.addArgument(argument)
@@ -1162,7 +1162,7 @@ class TestARXMLWriterSwCalprmAxisMethods:
         param_type_ref.setDest("SW-GENERIC-AXIS-PARAM-TYPE")
         param_type_ref.setValue("/axis/types/fixed/shift")
         param.setSwGenericAxisParamTypeRef(param_type_ref)
-        vf1 = ARNumerical()
+        vf1 = Numerical()
         vf1.setValue("1.5")
         param.addVf(vf1)
         generic.addSwGenericAxisParam(param)
@@ -1241,9 +1241,8 @@ class TestARXMLWriterSwSystemconstantValueSetMethods:
         ref.setValue("/Constants/MySystemConstant")
         value.setSwSystemconstRef(ref)
 
-        num = Float()
-        num.setValue(42)
-        num._text = "42"
+        num = Numerical()
+        num.setValue("42")
         value.setValue(num)
         value_set.addSwSystemconstantValue(value)
 
@@ -1310,8 +1309,8 @@ class TestARXMLWriterSwSystemconstantValueSetMethods:
         ref.setDest("SW-SYSTEMCONST")
         ref.setValue("/Constants/MySystemConstant")
         value.setSwSystemconstRef(ref)
-        numerical = ARNumerical()
-        numerical.setValue(42)
+        numerical = Numerical()
+        numerical.setValue("42")
         value.setValue(numerical)
         value.addAnnotation(Annotation())
         value_set.addSwSystemconstantValue(value)
@@ -1335,8 +1334,8 @@ class TestARXMLWriterSwSystemconstantValueSetMethods:
         value_set = pkg.createSwSystemconstantValueSet("BareValueSet")
 
         value = SwSystemconstValue()
-        numerical = ARNumerical()
-        numerical.setValue(1)
+        numerical = Numerical()
+        numerical.setValue("1")
         value.setValue(numerical)
         value_set.addSwSystemconstantValue(value)
 
@@ -1367,8 +1366,8 @@ class TestSwSystemconstantValueSetRoundTrip:
         ref.setDest("SW-SYSTEMCONST")
         ref.setValue("/Constants/MaxSpeed")
         value.setSwSystemconstRef(ref)
-        numerical = ARNumerical()
-        numerical.setValue(42)
+        numerical = Numerical()
+        numerical.setValue("42")
         value.setValue(numerical)
         annotation = Annotation()
         annotation.setAnnotationOrigin(String().setValue("variant-manager"))
@@ -1399,7 +1398,7 @@ class TestSwSystemconstantValueSetRoundTrip:
         assert ref.getValue() == "/Constants/MaxSpeed"
         assert ref.getDest() == "SW-SYSTEMCONST"
         numerical = value.getValue()
-        assert isinstance(numerical, ARNumerical)
+        assert isinstance(numerical, Numerical)
         assert numerical.getValue() == 42
         annotations = value.getAnnotations()
         assert len(annotations) == 1

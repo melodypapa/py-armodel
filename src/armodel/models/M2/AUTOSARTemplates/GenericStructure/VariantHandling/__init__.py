@@ -3,7 +3,7 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.FormulaLanguage import FormulaExpression
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARNumerical, Identifier, Integer
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, Numerical, Identifier, Integer
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
@@ -203,7 +203,7 @@ class SwSystemconstValue(ARObject):
         self.swSystemconstRef: RefType = None
 
         # This is the particular value of a system constant. It is specified as Numerical. Further restrictions may apply by the definition of the system constant. The value attribute defines the internal value of the SwSystemconst as it is processed in the Formula Language. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=20
-        self.value: Optional[ARNumerical] = None
+        self.value: Optional[Numerical] = None
 
     def getAnnotations(self) -> List[Annotation]:
         """This provides the ability to add information why the value is set like it is."""
@@ -225,11 +225,11 @@ class SwSystemconstValue(ARObject):
             self.swSystemconstRef = value
         return self
 
-    def getValue(self) -> Optional[ARNumerical]:
+    def getValue(self) -> Optional[Numerical]:
         """This is the particular value of a system constant. It is specified as Numerical. Further restrictions may apply by the definition of the system constant. The value attribute defines the internal value of the SwSystemconst as it is processed in the Formula Language."""
         return self.value
 
-    def setValue(self, value: Optional[ARNumerical]) -> "SwSystemconstValue":
+    def setValue(self, value: Optional[Numerical]) -> "SwSystemconstValue":
         """This is the particular value of a system constant. It is specified as Numerical. Further restrictions may apply by the definition of the system constant. The value attribute defines the internal value of the SwSystemconst as it is processed in the Formula Language. A None value is a no-op and does not overwrite an existing value."""
         if value is not None:
             self.value = value

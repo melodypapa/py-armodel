@@ -16,7 +16,7 @@ class TestXrefParser:
         xref = ARXMLParser().getXref(element, ".")
 
         assert xref.getChecksum().getValue() == "checksum"
-        assert xref.getLabel1().getValue().getValue() == "Replacement"
+        assert xref.getLabel1().getMixedString() == "Replacement"
         assert xref.getReferrableRef().getValue() == "/A/B"
         assert xref.getReferrableRef().getDest() == "AR-PACKAGE"
         assert xref.getResolutionPolicy().getValue() == "SLOPPY"

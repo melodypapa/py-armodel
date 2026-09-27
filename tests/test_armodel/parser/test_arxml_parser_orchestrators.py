@@ -2180,7 +2180,7 @@ class TestDataTypeAndCompuHandlers:
             root_tag="UNIT",
         )
         parser.readUnit(element, unit)
-        assert unit.getDisplayName().getValue().getValue() == "m/s"
+        assert unit.getDisplayName().getMixedString() == "m/s"
 
     def test_readSwBaseType_full(self, parser):
         from armodel.models import SwBaseType
@@ -2720,7 +2720,7 @@ class TestEcucDefAndValueHandlers:
         )
         param = EcucNumericalParamValue()
         parser.readEcucNumericalParamValue(element, param)
-        assert param.getValue().getValue() == "100"
+        assert param.getValue().getValue() == 100.0
 
     def test_readEcucTextualParamValue_full(self, parser):
         from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucTextualParamValue
