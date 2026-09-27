@@ -176,7 +176,7 @@ class CryptoKeySlotContentAllowedUsage(ARObject):
     """
 
     # CryptoKeySlotContentAllowedUsage method parity checklist:
-    # Spec: CryptoKeySlotContentAllowedUsage derived from AUTOSAR_00052.xsd (XSD-only; no own table in repo corpus), line 25795
+    # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class CryptoKeySlotContentAllowedUsage, AUTOSAR_00052.xsd line 25811 (XSD-only; no own table in repo corpus)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAllowedKeyslotUsage    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

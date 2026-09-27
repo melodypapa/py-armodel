@@ -213,15 +213,46 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `CryptoKeySlotContentAllowedUsage` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/CryptoDeployment/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): XSD-only — no `Class` table in R23-11 markdown, none in
+    R4.3.1 markdown, pdf_page.py finds no PDF table (Rule 0016.3 fallback
+    exhausted). XSD 00052: complexType CRYPTO-KEY-SLOT-CONTENT-ALLOWED-USAGE
+    L25811 (composes AR-OBJECT group + own group; attributeGroup AR-OBJECT) →
+    Base most-derived = ARObject, claimed base correct; element group L25795
+    carries the single attribute row allowedKeyslotUsage (STRING 0..1, note
+    verbatim "This attribute defines for which operations the KeySlot may be
+    used."). Class Note = "This meta-class restricts the allowed usage of a key
+    stored in the key slot." Tags: atp.Status=candidate. Aggregated by
+    CryptoKeySlot.keySlotContentAllowedUsage (`*`, singular spec name → plural
+    py list keySlotContentAllowedUsages + add/get accessors per Rule 0001.4)
+    via KEY-SLOT-CONTENT-ALLOWED-USAGES wrapper / CRYPTO-KEY-SLOT-CONTENT-
+    ALLOWED-USAGE items; owns reusable read/writeCryptoKeySlotContentAllowedUsage
+    helpers called from read/writeCryptoKeySlot (Rule 0001.7). No
+    VARIATION-POINT → not VP-capable. Upstream doc:
+    AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform). Impl pre-exists
+    (unstamped prior pass), matches XSD verbatim — no drift. Tracker review: no
+    own section; the stale `CryptoKeySlot` `missing` row for
+    keySlotContentAllowedUsage was already removed with the CryptoObjectTypeEnum
+    commit.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 2–6): impl + reader/writer helpers pre-exist from the unstamped
+    prior pass; new model tests written first this pass (class Note + getter/
+    setter docstrings verbatim vs XSD via inspect.cleandoc, get_type_hints
+    return pin) — pass with no source change (Red→Green collapsed); round-trip
+    coverage asserted through consumer CryptoKeySlot in test_crypto_key_slot.py
+    parser/writer suites (two-item wrapper list with per-item values + empty
+    case + write→parse round-trip).
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): no deviation — 1 spec row → 1 PEP 526 field + accessor pair,
+    singular-spec/plural-py list shape per Rule 0001.4, matched read/write
+    helper names; the stale `CryptoKeySlot` tracker row referencing this class
+    was removed with the CryptoObjectTypeEnum commit (Rule 0014).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12460 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DataLinkLayerRule` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py

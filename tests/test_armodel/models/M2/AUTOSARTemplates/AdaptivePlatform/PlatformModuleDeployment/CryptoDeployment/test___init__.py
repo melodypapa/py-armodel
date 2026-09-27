@@ -183,6 +183,17 @@ class TestCryptoKeySlotContentAllowedUsage:
         usage.setAllowedKeyslotUsage(None)
         assert usage.getAllowedKeyslotUsage() is value
 
+    def test_docstrings_are_spec_note_verbatim(self):
+        assert CryptoKeySlotContentAllowedUsage.__doc__.strip() == "This meta-class restricts the allowed usage of a key stored in the key slot. Tags: atp.Status=candidate"
+        note = "This attribute defines for which operations the KeySlot may be used."
+        assert inspect.cleandoc(CryptoKeySlotContentAllowedUsage.getAllowedKeyslotUsage.__doc__) == note
+        assert inspect.cleandoc(CryptoKeySlotContentAllowedUsage.setAllowedKeyslotUsage.__doc__) == note + "\nA None value is a no-op and does not overwrite an existing allowedKeyslotUsage."
+
+    def test_get_type_hints_pins(self):
+        hints = typing.get_type_hints(CryptoKeySlotContentAllowedUsage.setAllowedKeyslotUsage)
+        assert hints["return"] is CryptoKeySlotContentAllowedUsage
+        assert hints["value"] == Optional[String]
+
 
 class TestCryptoKeySlot:
     def _parent(self):
