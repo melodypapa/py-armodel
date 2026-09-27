@@ -2445,91 +2445,175 @@ class TriggerMode(AREnum):
 
 class MultiplexedIPdu(IPdu):
     """
-    Represents a multiplexed Interaction Protocol Data Unit (IPDU)
-    with dynamic and static parts, defining selector field properties
-    and trigger modes for multiplexed communication.
+    A MultiplexedPdu (i.e. NOT a COM I-PDU) contains a DynamicPart, an optional StaticPart and a selector Field. In case of multiplexing this IPdu is routed between the Pdu Multiplexer and the Interface Layer. A multiplexer is used to define variable parts within an IPdu that may carry different signals. The receivers of such a IPdu can determine which signalPdus are transmitted by evaluating the selector field, which carries a unique selector code for each sub-part. Tags: atp.recommendedPackage=Pdus
+
     """
 
     # MultiplexedIPdu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDynamicPart               [x] impl  [ ] docstring  [ ] test
-    # [ ] setDynamicPart               [x] impl  [ ] docstring  [ ] test
-    # [ ] getSelectorFieldByteOrder    [x] impl  [ ] docstring  [ ] test
-    # [ ] setSelectorFieldByteOrder    [x] impl  [ ] docstring  [ ] test
-    # [ ] getSelectorFieldLength       [x] impl  [ ] docstring  [ ] test
-    # [ ] setSelectorFieldLength       [x] impl  [ ] docstring  [ ] test
-    # [ ] getSelectorFieldStartPosition [x] impl  [ ] docstring  [ ] test
-    # [ ] setSelectorFieldStartPosition [x] impl  [ ] docstring  [ ] test
-    # [ ] getStaticPart                [x] impl  [ ] docstring  [ ] test
-    # [ ] setStaticPart                [x] impl  [ ] docstring  [ ] test
-    # [ ] getTriggerMode               [x] impl  [ ] docstring  [ ] test
-    # [ ] setTriggerMode               [x] impl  [ ] docstring  [ ] test
-    # [ ] getUnusedBitPattern          [x] impl  [ ] docstring  [ ] test
-    # [ ] setUnusedBitPattern          [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.72, p.410 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDynamicPart         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDynamicPart         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSelectorFieldByteOrder [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSelectorFieldByteOrder [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSelectorFieldLength [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSelectorFieldLength [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSelectorFieldStartPosition [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSelectorFieldStartPosition [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStaticPart          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStaticPart          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTriggerMode         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTriggerMode         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUnusedBitPattern    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUnusedBitPattern    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dynamicPart = None  # type: DynamicPart
-        self.selectorFieldByteOrder = None  # type: ByteOrderEnum
-        self.selectorFieldLength = None  # type: Integer
-        self.selectorFieldStartPosition = None  # type: Integer
-        self.staticPart = None  # type: StaticPart
-        self.triggerMode = None  # type: TriggerMode
-        self.unusedBitPattern = None  # type: Integer
+        # According to the value of the selector field some parts of the IPdu have a different layout. In a complete System Description a MultiplexedIPdu shall contain a Dynamic Part. The following use cases support the multiplicity to be 0..1: • If a MultiplexedIPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedIPdu doesn't need to be described in the System Extract/ Ecu Extract. • If a MultiplexedIPdu is received by an ECU which is only interested in the static part of the MultiplexedIPdu then the dynamicPart does not need to be described in the System Extract/Ecu Extract. atpVariation: Content of a multiplexed PDU can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dynamicPart, dynamicPart.variation Point.shortLabel vh.latestBindingTime=postBuild
 
-    def getDynamicPart(self):
+        self.dynamicPart: Optional[DynamicPart] = None
+
+        # This attribute defines the order of the bytes of the selector Field and the packing into the MultiplexedIPdu. Please consider that [constr_3247] and [constr_3223] are restricting the usage of this attribute. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        self.selectorFieldByteOrder: Optional[ByteOrderEnum] = None
+
+        # The size in bits of the selector field shall be configurable in a range of 1-16 bits. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        self.selectorFieldLength: Optional[Integer] = None
+
+        # This parameter is necessary to describe the position of the selector field within the IPdu. Note that the absolute position of the selectorField in the MultiplexedIPdu is determined by the definition of the selectorFieldByteOrder attribute of the Multiplexed Pdu. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the IPdu. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the IPdu. In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        self.selectorFieldStartPosition: Optional[Integer] = None
+
+        # The static part of the multiplexed IPdu is the same regardless of the selector field. The static part is optional. atpVariation: Content of a multiplexed PDU can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticPart, staticPart.variationPoint.short Label vh.latestBindingTime=postBuild
+
+        self.staticPart: Optional[StaticPart] = None
+
+        # IPduM can be configured to send a transmission request for the new multiplexed IPdu to the PDU-Router because of the trigger conditions/ modes that are described in the TriggerMode enumeration. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        self.triggerMode: Optional[TriggerMode] = None
+
+        # AUTOSAR COM and AUTOSAR IPDUM are filling not used areas of an IPdu with this bit-pattern. This attribute is mandatory to avoid undefined behavior. This byte-pattern will be repeated throughout the IPdu. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        self.unusedBitPattern: Optional[Integer] = None
+
+    def getDynamicPart(self) -> Optional[DynamicPart]:
+        """
+        According to the value of the selector field some parts of the IPdu have a different layout. In a complete System Description a MultiplexedIPdu shall contain a Dynamic Part. The following use cases support the multiplicity to be 0..1: • If a MultiplexedIPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedIPdu doesn't need to be described in the System Extract/ Ecu Extract. • If a MultiplexedIPdu is received by an ECU which is only interested in the static part of the MultiplexedIPdu then the dynamicPart does not need to be described in the System Extract/Ecu Extract. atpVariation: Content of a multiplexed PDU can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dynamicPart, dynamicPart.variation Point.shortLabel vh.latestBindingTime=postBuild
+
+        """
         return self.dynamicPart
 
-    def setDynamicPart(self, value):
+    def setDynamicPart(self, value: Optional[DynamicPart]) -> MultiplexedIPdu:
+        """
+        According to the value of the selector field some parts of the IPdu have a different layout. In a complete System Description a MultiplexedIPdu shall contain a Dynamic Part. The following use cases support the multiplicity to be 0..1: • If a MultiplexedIPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedIPdu doesn't need to be described in the System Extract/ Ecu Extract. • If a MultiplexedIPdu is received by an ECU which is only interested in the static part of the MultiplexedIPdu then the dynamicPart does not need to be described in the System Extract/Ecu Extract. atpVariation: Content of a multiplexed PDU can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dynamicPart, dynamicPart.variation Point.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not overwrite an existing dynamicPart.
+        """
         if value is not None:
             self.dynamicPart = value
         return self
 
-    def getSelectorFieldByteOrder(self):
+    def getSelectorFieldByteOrder(self) -> Optional[ByteOrderEnum]:
+        """
+        This attribute defines the order of the bytes of the selector Field and the packing into the MultiplexedIPdu. Please consider that [constr_3247] and [constr_3223] are restricting the usage of this attribute. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        """
         return self.selectorFieldByteOrder
 
-    def setSelectorFieldByteOrder(self, value):
+    def setSelectorFieldByteOrder(self, value: Optional[ByteOrderEnum]) -> MultiplexedIPdu:
+        """
+        This attribute defines the order of the bytes of the selector Field and the packing into the MultiplexedIPdu. Please consider that [constr_3247] and [constr_3223] are restricting the usage of this attribute. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        A None value is a no-op and does not overwrite an existing selectorFieldByteOrder.
+        """
         if value is not None:
             self.selectorFieldByteOrder = value
         return self
 
-    def getSelectorFieldLength(self):
+    def getSelectorFieldLength(self) -> Optional[Integer]:
+        """
+        The size in bits of the selector field shall be configurable in a range of 1-16 bits. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        """
         return self.selectorFieldLength
 
-    def setSelectorFieldLength(self, value):
+    def setSelectorFieldLength(self, value: Optional[Integer]) -> MultiplexedIPdu:
+        """
+        The size in bits of the selector field shall be configurable in a range of 1-16 bits. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        A None value is a no-op and does not overwrite an existing selectorFieldLength.
+        """
         if value is not None:
             self.selectorFieldLength = value
         return self
 
-    def getSelectorFieldStartPosition(self):
+    def getSelectorFieldStartPosition(self) -> Optional[Integer]:
+        """
+        This parameter is necessary to describe the position of the selector field within the IPdu. Note that the absolute position of the selectorField in the MultiplexedIPdu is determined by the definition of the selectorFieldByteOrder attribute of the Multiplexed Pdu. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the IPdu. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the IPdu. In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        """
         return self.selectorFieldStartPosition
 
-    def setSelectorFieldStartPosition(self, value):
+    def setSelectorFieldStartPosition(self, value: Optional[Integer]) -> MultiplexedIPdu:
+        """
+        This parameter is necessary to describe the position of the selector field within the IPdu. Note that the absolute position of the selectorField in the MultiplexedIPdu is determined by the definition of the selectorFieldByteOrder attribute of the Multiplexed Pdu. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the IPdu. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the IPdu. In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        A None value is a no-op and does not overwrite an existing selectorFieldStartPosition.
+        """
         if value is not None:
             self.selectorFieldStartPosition = value
         return self
 
-    def getStaticPart(self):
+    def getStaticPart(self) -> Optional[StaticPart]:
+        """
+        The static part of the multiplexed IPdu is the same regardless of the selector field. The static part is optional. atpVariation: Content of a multiplexed PDU can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticPart, staticPart.variationPoint.short Label vh.latestBindingTime=postBuild
+
+        """
         return self.staticPart
 
-    def setStaticPart(self, value):
+    def setStaticPart(self, value: Optional[StaticPart]) -> MultiplexedIPdu:
+        """
+        The static part of the multiplexed IPdu is the same regardless of the selector field. The static part is optional. atpVariation: Content of a multiplexed PDU can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticPart, staticPart.variationPoint.short Label vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not overwrite an existing staticPart.
+        """
         if value is not None:
             self.staticPart = value
         return self
 
-    def getTriggerMode(self):
+    def getTriggerMode(self) -> Optional[TriggerMode]:
+        """
+        IPduM can be configured to send a transmission request for the new multiplexed IPdu to the PDU-Router because of the trigger conditions/ modes that are described in the TriggerMode enumeration. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        """
         return self.triggerMode
 
-    def setTriggerMode(self, value):
+    def setTriggerMode(self, value: Optional[TriggerMode]) -> MultiplexedIPdu:
+        """
+        IPduM can be configured to send a transmission request for the new multiplexed IPdu to the PDU-Router because of the trigger conditions/ modes that are described in the TriggerMode enumeration. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        A None value is a no-op and does not overwrite an existing triggerMode.
+        """
         if value is not None:
             self.triggerMode = value
         return self
 
-    def getUnusedBitPattern(self):
+    def getUnusedBitPattern(self) -> Optional[Integer]:
+        """
+        AUTOSAR COM and AUTOSAR IPDUM are filling not used areas of an IPdu with this bit-pattern. This attribute is mandatory to avoid undefined behavior. This byte-pattern will be repeated throughout the IPdu. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        """
         return self.unusedBitPattern
 
-    def setUnusedBitPattern(self, value):
+    def setUnusedBitPattern(self, value: Optional[Integer]) -> MultiplexedIPdu:
+        """
+        AUTOSAR COM and AUTOSAR IPDUM are filling not used areas of an IPdu with this bit-pattern. This attribute is mandatory to avoid undefined behavior. This byte-pattern will be repeated throughout the IPdu. In a complete System Description this attribute is mandatory. If a MultiplexedPdu is received by a Pdu Gateway and is not delivered to the IPduM but routed directly to a bus interface then the content of the MulitplexedPdu doesn't need to be described in the System Extract/Ecu Extract. To support this use case the multiplicity is set to 0..1.
+
+        A None value is a no-op and does not overwrite an existing unusedBitPattern.
+        """
         if value is not None:
             self.unusedBitPattern = value
         return self
