@@ -628,15 +628,41 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 - [ ] `SoftwareContext` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Table 8.20, p.163 (R23-11, AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate;
+    pdf_page.py confirms p.163); Class = SoftwareContext (concrete; XSD stereotype
+    atpObject); Package = M2::AUTOSARTemplates::CommonStructure::ResourceConsumption;
+    Note = "Specifies the context of the software for this resource consumption.";
+    Base = ARObject → claimed base correct (closure tip); Aggregated by
+    ExecutionTime/HeapUsage/StackUsage .softwareContext; 2 attribute rows in displayed
+    order: input (String 0..1 attr), state (String 0..1 attr — md Note renders "the
+    Execution Time is provided", a line-wrap artifact of "ExecutionTime" per the XSD
+    documentation). XSD 00052: group SOFTWARE-CONTEXT L109295 (complexType L109317) =
+    INPUT, STATE (both 0..1 STRING); no VARIATION-POINT → table and XSD agree 1:1, no
+    XSD-only attrs. Drift: __init__ docstring present, paraphrase accessor docstrings,
+    stale 4-col checklist.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - note (Steps 2-4): test_ResourceConsumption.py::TestSoftwareContext rewritten —
+    verbatim Note constants, base chain, defaults, get_type_hints annotations, get/set +
+    None-no-op round-trip, __init__-has-no-docstring, full verbatim docstring assertions;
+    initial run 2 failed / 6 passed (genuine Red: __init__ docstring, paraphrase
+    accessors), all passed after the verbatim rewrite.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - note (Steps 5/6): readSoftwareContext / setSoftwareContext pre-existed (setters/
+    getters, matched-name pairs, XSD group order) — no parser/writer change; new
+    tests/test_armodel/parser/test_software_context.py (TestReadSoftwareContext, 3 tests:
+    field values, absent + partial children) and tests/test_armodel/writer/
+    test_software_context.py (TestWriteSoftwareContext, 4 tests: field values, XSD
+    element order, None-context omission, write→parse round-trip) pass.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - note (Step 8): method_deviation_by_class.md SoftwareContext section rewritten —
+    6-column member table (all ok), source path corrected from the nonexistent
+    SoftwareContext.py to the package __init__.py; no open deviations.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12600 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [x] `DltApplication` — Identifiable — already verified (# Spec verified: R23-11, LogAndTraceExtract.py)
   - module: M2/AUTOSARTemplates/LogAndTraceExtract.py

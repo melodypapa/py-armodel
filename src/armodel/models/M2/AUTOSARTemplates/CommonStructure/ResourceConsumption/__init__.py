@@ -103,44 +103,33 @@ class SoftwareContext(ARObject):
     """
 
     # SoftwareContext method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.20, p.163
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getInput                     [x] impl  [x] docstring  [x] test
-    # [x] setInput                     [x] impl  [x] docstring  [x] test
-    # [x] getState                     [x] impl  [x] docstring  [x] test
-    # [x] setState                     [x] impl  [x] docstring  [x] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.20, p.163 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInput   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInput   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getState   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setState   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the SoftwareContext with default values.
-        """
         super().__init__()
 
         # Specifies the input vector which is used to provide the ExecutionTime.
         self.input: Optional[String] = None
 
-        # Specifies the state the software is in when the ExecutionTime is provided.
+        # Specifies the state the software is in when the Execution Time is provided.
         self.state: Optional[String] = None
 
     def getInput(self) -> Optional[String]:
         """
-        Gets the input vector which is used to provide the ExecutionTime.
-
-        Returns:
-            String with the input vector, or None if not set
+        Specifies the input vector which is used to provide the ExecutionTime.
         """
         return self.input
 
     def setInput(self, value: Optional[String]) -> "SoftwareContext":
         """
-        Sets the input vector which is used to provide the ExecutionTime.
+        Specifies the input vector which is used to provide the ExecutionTime.
         A None value is a no-op and does not overwrite an existing input.
-
-        Args:
-            value: The input vector to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.input = value
@@ -148,23 +137,14 @@ class SoftwareContext(ARObject):
 
     def getState(self) -> Optional[String]:
         """
-        Gets the state the software is in when the ExecutionTime is provided.
-
-        Returns:
-            String with the software state, or None if not set
+        Specifies the state the software is in when the Execution Time is provided.
         """
         return self.state
 
     def setState(self, value: Optional[String]) -> "SoftwareContext":
         """
-        Sets the state the software is in when the ExecutionTime is provided.
+        Specifies the state the software is in when the Execution Time is provided.
         A None value is a no-op and does not overwrite an existing state.
-
-        Args:
-            value: The software state to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.state = value

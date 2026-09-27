@@ -609,9 +609,21 @@ Tests: test_ResourceConsumption.py::TestHardwareConfiguration (model), test_hard
 ## `SoftwareContext`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 163
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/SoftwareContext.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/__init__.py`
 
-No deviations.
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `input` | `Optional[String]` | `input` | `String` | Attr | ok |
+| `state` | `Optional[String]` | `state` | `String` | Attr | ok (markdown Note renders "the Execution Time is provided" — line-wrap artifact of "ExecutionTime", cf. XSD documentation) |
+
+2026-09-27 sync (Table 8.20, p.163): stale 4-column checklist replaced with the 6-column format (stamp
+deferred to batch confirmation); `__init__` docstring removed and paraphrase accessor docstrings wiped
+and rewritten verbatim from the R23-11 Notes (the existence constraints constr_10320/10321 are separate
+spec items, not part of the Note cells); source path corrected to the non-leaf package `__init__.py` (the
+previously recorded `SoftwareContext.py` file does not exist). Reader/writer (readSoftwareContext /
+setSoftwareContext) pre-existed with the XSD group order INPUT → STATE (AUTOSAR_00052.xsd L109295) and
+were verified by new parser/writer tests — no source change. Tests: test_ResourceConsumption.py::TestSoftwareContext
+(model), test_software_context.py (parser + writer).
 
 ## `ExecutionTime`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 159

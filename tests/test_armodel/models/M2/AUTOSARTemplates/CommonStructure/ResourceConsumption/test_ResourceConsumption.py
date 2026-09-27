@@ -133,37 +133,55 @@ class TestHardwareConfiguration:
 
 
 class TestSoftwareContext:
+    """
+    Test class for SoftwareContext functionality (Table 8.20).
+    """
+
+    def test_base_chain(self):
+        assert issubclass(SoftwareContext, ARObject)
+
+    def test_class_docstring_verbatim(self):
+        assert inspect.cleandoc(SoftwareContext.__doc__) == SW_CLASS_NOTE
+
     def test_initialization(self):
-        """Test SoftwareContext initialization"""
-        sw_context = SoftwareContext()
-        assert sw_context is not None
-        assert sw_context.input is None
-        assert sw_context.state is None
+        obj = SoftwareContext()
+        assert obj.input is None
+        assert obj.state is None
 
-    def test_input_setter_getter(self):
-        """Test input setter and getter"""
-        sw_context = SoftwareContext()
-        test_value = String().setValue("Test Input")
-        result = sw_context.setInput(test_value)
-        assert result is sw_context  # Method chaining
-        assert sw_context.getInput() == test_value
+    def test_annotations_match_spec_types(self):
+        for method, annotation in (
+            ("getInput", Optional[String]),
+            ("getState", Optional[String]),
+        ):
+            hints = get_type_hints(getattr(SoftwareContext, method))
+            assert hints["return"] == annotation
 
-    def test_state_setter_getter(self):
-        """Test state setter and getter"""
-        sw_context = SoftwareContext()
-        test_value = String().setValue("Running")
-        result = sw_context.setState(test_value)
-        assert result is sw_context  # Method chaining
-        assert sw_context.getState() == test_value
+    def test_init_has_no_docstring(self):
+        assert SoftwareContext.__init__.__doc__ is None
 
-    def test_all_properties(self):
-        """Test setting all properties"""
-        sw_context = SoftwareContext()
-        sw_context.setInput(String().setValue("Input Data"))
-        sw_context.setState(String().setValue("Active"))
+    def test_get_set_round_trip(self):
+        obj = SoftwareContext()
+        input_value = String().setValue("Test Input")
+        state = String().setValue("Running")
+        result = obj.setInput(input_value).setState(state)
+        assert result is obj
+        assert obj.getInput() == input_value
+        assert obj.getState() == state
 
-        assert sw_context.getInput().getValue() == "Input Data"
-        assert sw_context.getState().getValue() == "Active"
+    def test_setter_none_is_noop(self):
+        obj = SoftwareContext()
+        obj.setInput(String().setValue("Input"))
+        obj.setState(String().setValue("Active"))
+        obj.setInput(None)
+        obj.setState(None)
+        assert obj.getInput().getValue() == "Input"
+        assert obj.getState().getValue() == "Active"
+
+    def test_docstrings_verbatim(self):
+        assert inspect.cleandoc(SoftwareContext.getInput.__doc__) == SW_INPUT_NOTE
+        assert inspect.cleandoc(SoftwareContext.setInput.__doc__) == "\n".join([SW_INPUT_NOTE, _setter_tail("input")])
+        assert inspect.cleandoc(SoftwareContext.getState.__doc__) == SW_STATE_NOTE
+        assert inspect.cleandoc(SoftwareContext.setState.__doc__) == "\n".join([SW_STATE_NOTE, _setter_tail("state")])
 
 
 class TestStackUsage:
