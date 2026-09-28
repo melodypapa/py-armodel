@@ -2544,16 +2544,11 @@ No deviations (synced to R23-11 Table D.17, p.953 — `contextDataPrototype` now
 | `sdClientTimerConfigRef` | `—` | `sdClientTimerConfig` | `SomeipSdClientServiceInstanceConfigRefConditional` | — | type (spec many vs py single) |
 
 ## `DataMapping`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 981
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 217  | **table:** Table 5.22
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::DataMapping`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DataMapping.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `communicationDirection` | `CommunicationDirectionType` | — | missing |
-| — *(missing)* | `—` | `eventGroupRefs` | `Ref (ConsumedEventGroup)` | Refs | missing |
-| — *(missing)* | `—` | `eventHandlerRefs` | `Ref (EventHandler)` | Refs | missing |
-| — *(missing)* | `—` | `serviceInstanceRefs` | `Ref (AbstractServiceInstance)` | Refs | missing |
+No deviations — Table 5.22 has a single attribute row (`introduction`, DocumentationBlock 0..1 aggr), implemented with reader/writer coverage via the abstract-base helpers `readDataMapping`/`writeDataMapping`. The four `missing` rows from the old SoftwareComponentTemplate corpus (`communicationDirection`, `eventGroupRefs`, `eventHandlerRefs`, `serviceInstanceRefs`) are removed: all four carry `atp.Status="removed"` in the R23-11 XSD (group DATA-MAPPING, AUTOSAR_00052.xsd line 27249; R4.3.1 Table 5.14 confirms the upstream deletion) — deprecated, not implemented per spec.
 
 ## `EndToEndTransformationDescription`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 987

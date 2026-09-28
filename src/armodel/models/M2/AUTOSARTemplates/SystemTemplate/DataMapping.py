@@ -1,6 +1,8 @@
 # This module contains AUTOSAR System Template classes for data mapping between sender/receiver interfaces and signals
 # It includes classes for mapping data elements between software component ports and system signals
 
+from __future__ import annotations
+
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from typing import List, Optional
@@ -10,20 +12,20 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Integer, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
 class DataMapping(ARObject, VariationPointCapable, ABC):
     """
-    Abstract base class for data mapping elements that define relationships between
-    AUTOSAR software component data elements and system-level communication signals.
-    This class serves as the foundation for various types of data mappings used in
-    system design to connect component interfaces with communication infrastructure.
+    Mapping of port elements (data elements and parameters) to frames and signals.
     """
 
     # DataMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIntroduction              [x] impl  [ ] docstring  [ ] test
-    # [ ] setIntroduction              [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.22, p.217
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIntroduction [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIntroduction [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is DataMapping:
@@ -31,13 +33,22 @@ class DataMapping(ARObject, VariationPointCapable, ABC):
 
         super().__init__()
 
-        self.introduction = None
+        # This represents introductory documentation about the data mapping.
+        self.introduction: Optional[DocumentationBlock] = None
 
-    def getIntroduction(self):
+    def getIntroduction(self) -> Optional[DocumentationBlock]:
+        """
+        This represents introductory documentation about the data mapping.
+        """
         return self.introduction
 
-    def setIntroduction(self, value):
-        self.introduction = value
+    def setIntroduction(self, value: Optional[DocumentationBlock]) -> DataMapping:
+        """
+        This represents introductory documentation about the data mapping.
+        A None value is a no-op and does not overwrite an existing introduction.
+        """
+        if value is not None:
+            self.introduction = value
         return self
 
 
@@ -360,7 +371,7 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
         """
         return self.arrayElementMappings
 
-    def addArrayElementMapping(self, value: Optional[SenderRecArrayElementMapping]) -> "SenderRecArrayTypeMapping":
+    def addArrayElementMapping(self, value: Optional[SenderRecArrayElementMapping]) -> SenderRecArrayTypeMapping:
         """
         Each ApplicationArrayElement shall be mapped on a SystemSignal.
         A None value is a no-op and does not extend the arrayElementMappings list.
@@ -375,7 +386,7 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
         """
         return self.senderToSignalTextTableMapping
 
-    def setSenderToSignalTextTableMapping(self, value: Optional[TextTableMapping]) -> "SenderRecArrayTypeMapping":
+    def setSenderToSignalTextTableMapping(self, value: Optional[TextTableMapping]) -> SenderRecArrayTypeMapping:
         """
         This mapping allows for the text-table translation between the sending DataPrototype that is defined in the PortPrototype and the physicalProps defined for the SystemSignal.
         A None value is a no-op and does not overwrite an existing senderToSignalTextTableMapping.
@@ -390,7 +401,7 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
         """
         return self.signalToReceiverTextTableMapping
 
-    def setSignalToReceiverTextTableMapping(self, value: Optional[TextTableMapping]) -> "SenderRecArrayTypeMapping":
+    def setSignalToReceiverTextTableMapping(self, value: Optional[TextTableMapping]) -> SenderRecArrayTypeMapping:
         """
         This mapping allows for the text-table translation between the physicalProps defined for the SystemSignal and a receiving DataPrototype that is defined in the PortPrototype.
         A None value is a no-op and does not overwrite an existing signalToReceiverTextTableMapping.

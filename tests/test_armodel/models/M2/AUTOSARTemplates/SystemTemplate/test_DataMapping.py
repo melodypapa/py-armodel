@@ -1,3 +1,6 @@
+import inspect
+from typing import Optional, get_type_hints
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -16,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     CommunicationDirectionType,
 )
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
 class Test_DataMapping:
@@ -311,3 +315,66 @@ class Test_DataMapping:
         result = mapping.setIntroduction("Test introduction")
         assert mapping.getIntroduction() == "Test introduction"
         assert result is mapping  # Test method chaining
+
+
+DATAMAPPING_CLASS_NOTE = "Mapping of port elements (data elements and parameters) to frames and signals."
+INTRODUCTION_NOTE = "This represents introductory documentation about the data mapping."
+
+
+class TestDataMapping:
+    """Spec-synced tests for the abstract DataMapping base (AUTOSAR_CP_TPS_SystemTemplate Table 5.22)."""
+
+    class _ConcreteDataMapping(DataMapping):
+        pass
+
+    def _make(self) -> "TestDataMapping._ConcreteDataMapping":
+        return TestDataMapping._ConcreteDataMapping()
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert method.__doc__ is not None
+        assert inspect.cleandoc(method.__doc__).strip() == expected
+
+    def test_abstract_instantiation(self):
+        with pytest.raises(TypeError):
+            DataMapping()
+
+    def test_initialization(self):
+        mapping = self._make()
+
+        assert isinstance(mapping, ARObject)
+        assert isinstance(mapping, DataMapping)
+        assert mapping.getIntroduction() is None
+
+    def test_class_docstring_is_spec_note(self):
+        assert inspect.cleandoc(DataMapping.__doc__).strip() == DATAMAPPING_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert DataMapping.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        source = inspect.getsource(DataMapping.__init__)
+        assert "self.introduction: Optional[DocumentationBlock] = None" in source
+
+    def test_get_set_introduction(self):
+        mapping = self._make()
+
+        assert mapping.getIntroduction() is None
+
+        block = DocumentationBlock()
+        assert mapping == mapping.setIntroduction(block)
+        assert mapping.getIntroduction() is block
+
+        assert mapping == mapping.setIntroduction(None)
+        assert mapping.getIntroduction() is block
+
+        getter_hints = get_type_hints(DataMapping.getIntroduction)
+        assert getter_hints.get("return") == Optional[DocumentationBlock]
+
+        setter_hints = get_type_hints(DataMapping.setIntroduction)
+        assert setter_hints.get("value") == Optional[DocumentationBlock]
+        assert setter_hints.get("return") is DataMapping
+
+    def test_introduction_docstrings_are_spec_note(self):
+        self._assert_docstring(DataMapping.getIntroduction, INTRODUCTION_NOTE)
+        self._assert_docstring(DataMapping.setIntroduction, INTRODUCTION_NOTE, "introduction")

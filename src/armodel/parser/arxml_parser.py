@@ -771,6 +771,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     SystemMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+    DataMapping,
     IndexedArrayElement,
     SenderRecArrayElementMapping,
     SenderRecArrayTypeMapping,
@@ -13691,6 +13692,16 @@ class ARXMLParser(AbstractARXMLParser):
         group.setCommunicationMode(self.getChildElementOptionalString(element, "COMMUNICATION-MODE"))
         for child_element in self.findall(element, "I-PDUS/PDU-TRIGGERING-REF-CONDITIONAL"):
             group.addIPduRef(self.getChildElementOptionalRefType(child_element, "PDU-TRIGGERING-REF"))
+
+    def readDataMapping(self, element: ET.Element, mapping: DataMapping):
+        self.readARObject(element, mapping)
+        mapping.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(mapping, VariationPointCapable):
+                mapping.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
     def readSenderReceiverToSignalMapping(self, element: ET.Element, mapping: SenderReceiverToSignalMapping):
         mapping.setCommunicationDirection(self.getChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION"))

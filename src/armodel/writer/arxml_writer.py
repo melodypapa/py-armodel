@@ -678,6 +678,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     SystemMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+    DataMapping,
     IndexedArrayElement,
     SenderRecArrayElementMapping,
     SenderRecArrayTypeMapping,
@@ -11731,6 +11732,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             for signal_ref in signal_refs:
                 self.setChildElementOptionalRefType(signal_refs_tag, "SYSTEM-SIGNAL-REF", signal_ref)
         self.setChildElementOptionalRefType(child_element, "TRANSFORMING-SYSTEM-SIGNAL-REF", group.getTransformingSystemSignalRef())
+
+    def writeDataMapping(self, element: ET.Element, mapping: DataMapping):
+        self.writeARObject(element, mapping)
+        self.writeDocumentationBlock(element, "INTRODUCTION", mapping.getIntroduction())
+        self.writeVariationPoint(element, mapping.getVariationPoint())
 
     def writeSenderReceiverToSignalMapping(self, element: ET.Element, mapping: SenderReceiverToSignalMapping):
         child_element = ET.SubElement(element, "SENDER-RECEIVER-TO-SIGNAL-MAPPING")
