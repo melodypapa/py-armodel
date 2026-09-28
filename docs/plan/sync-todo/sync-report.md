@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 484 | 67.1% |
+| [x] Done | 485 | 67.3% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 160 | 22.2% |
+| [ ] Deferred | 159 | 22.1% |
 | [ ] Pending | 66 | 9.2% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -67,7 +67,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `AutosarDataType`                                       | [x] Done    | a5f99df464                               | Group1           |
 | `AutosarOperationArgumentInstance`                      | [x] Done    | b8cce0057f                               | Group8           |
 | `AutosarParameterRef`                                   | [ ] Deferred| N/A                                      | Group10          |
-| `AutosarVariableRef`                                    | [ ] Deferred| N/A                                      | Group10          |
+| `AutosarVariableRef`                                    | [x] Done    | d1b9384acc                               | Group10          |
 | `BackgroundEvent`                                       | [x] Done    | 27b88a942c                               | Group2           |
 | `BindingTimeEnum`                                       | [x] Done    | 53bf180881                               | Group8           |
 | `BlueprintFormula`                                      | [x] Done    | 6d8ace0288                               | Group8           |

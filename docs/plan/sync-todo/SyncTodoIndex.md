@@ -536,7 +536,7 @@ Status: **29/29** completed
 
 ## Group10
 
-Status: **19/32** completed
+Status: **20/32** completed
 
 | Class Name                         | Status       | Commit ID  |
 | ---------------------------------- | ------------ | ---------- |
@@ -560,7 +560,7 @@ Status: **19/32** completed
 | `DataTypeMap`                      | [x] Done     | 0731ff4f68 |
 | `EndToEndDescription`              | [x] Done     | d3db89bb98 |
 | `ModeSwitchEventTriggeredActivity` | [ ] Pending* | N/A        |
-| `AutosarVariableRef`               | [ ] Pending* | N/A        |
+| `AutosarVariableRef`               | [x] Done     | d1b9384acc |
 | `RoleBasedPortAssignment`          | [ ] Pending* | N/A        |
 | `AutosarParameterRef`              | [ ] Pending* | N/A        |
 | `NvBlockNeedsReliabilityEnum`      | [ ] Pending* | N/A        |
