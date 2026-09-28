@@ -863,157 +863,213 @@ class UdpNmEcu(BusspecificNmEcu):
 
 class NmEcu(Identifiable, VariationPointCapable):
     """
-    Represents a network management ECU in the system,
-    defining properties for NM coordination, node detection,
-    and communication control across different bus types.
+    ECU on which NM is running.
     """
 
     # NmEcu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getBusDependentNmEcus        [x] impl  [ ] docstring  [ ] test
-    # [ ] addBusDependentNmEcu         [x] impl  [ ] docstring  [ ] test
-    # [ ] getEcuInstanceRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setEcuInstanceRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmBusSynchronizationEnabled [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmBusSynchronizationEnabled [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmComControlEnabled       [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmComControlEnabled       [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmCoordinator             [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmCoordinator             [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmCycletimeMainFunction   [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmCycletimeMainFunction   [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmNodeDetectionEnabled    [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmNodeDetectionEnabled    [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmNodeIdEnabled           [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmNodeIdEnabled           [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmPduRxIndicationEnabled  [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmPduRxIndicationEnabled  [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmRemoteSleepIndEnabled   [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmRemoteSleepIndEnabled   [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmRepeatMsgIndEnabled     [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmRepeatMsgIndEnabled     [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmStateChangeIndEnabled   [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmStateChangeIndEnabled   [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmUserDataEnabled         [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmUserDataEnabled         [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.300, p.674
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addBusDependentNmEcu           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBusDependentNmEcus          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getEcuInstanceRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuInstanceRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmBusSynchronizationEnabled [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmBusSynchronizationEnabled [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmComControlEnabled         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmComControlEnabled         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmCoordinator               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setNmCoordinator               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNmCycletimeMainFunction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmCycletimeMainFunction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmPduRxIndicationEnabled    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmPduRxIndicationEnabled    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmRemoteSleepIndEnabled     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmRemoteSleepIndEnabled     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmStateChangeIndEnabled     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmStateChangeIndEnabled     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmUserDataEnabled           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmUserDataEnabled           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # Cluster specific NmEcu attributes
         self.busDependentNmEcus: List[BusspecificNmEcu] = []
-        self.ecuInstanceRef: RefType = None
-        self.nmBusSynchronizationEnabled: Boolean = None
-        self.nmComControlEnabled: Boolean = None
-        self.nmCoordinator = None
-        self.nmCycletimeMainFunction: TimeValue = None
-        self.nmNodeDetectionEnabled: Boolean = None
-        self.nmNodeIdEnabled: Boolean = None
-        self.nmPduRxIndicationEnabled: Boolean = None
-        self.nmRemoteSleepIndEnabled: Boolean = None
-        self.nmRepeatMsgIndEnabled: Boolean = None
-        self.nmStateChangeIndEnabled: Boolean = None
-        self.nmUserDataEnabled: Boolean = None
 
-    def getBusDependentNmEcus(self):
-        return self.busDependentNmEcus
+        # Association to an ECUInstance in the topology description.
+        self.ecuInstanceRef: Optional[RefType] = None
 
-    def addBusDependentNmEcu(self, value):
+        # Enables bus synchronization support.
+        self.nmBusSynchronizationEnabled: Optional[Boolean] = None
+
+        # Enables the Communication Control support.
+        self.nmComControlEnabled: Optional[Boolean] = None
+
+        # Nm ECU may coordinate different clusters.
+        self.nmCoordinator: Optional[ARObject] = None
+
+        # The period between successive calls to the Main Function of the NM Interface in seconds.
+        self.nmCycletimeMainFunction: Optional[TimeValue] = None
+
+        # Switch for enabling the PDU Rx Indication.
+        self.nmPduRxIndicationEnabled: Optional[Boolean] = None
+
+        # Switch for enabling remote sleep indication support.
+        self.nmRemoteSleepIndEnabled: Optional[Boolean] = None
+
+        # Enables the CAN Network Management state change notification.
+        self.nmStateChangeIndEnabled: Optional[Boolean] = None
+
+        # Switch for enabling user data support.
+        self.nmUserDataEnabled: Optional[Boolean] = None
+
+    def addBusDependentNmEcu(self, value: Optional[BusspecificNmEcu]) -> "NmEcu":
+        """
+        Cluster specific NmEcu attributes
+        A None value is a no-op and does not extend the busDependentNmEcus list.
+        """
         if value is not None:
             self.busDependentNmEcus.append(value)
         return self
 
-    def getEcuInstanceRef(self):
+    def getBusDependentNmEcus(self) -> List[BusspecificNmEcu]:
+        """
+        Cluster specific NmEcu attributes
+        """
+        return self.busDependentNmEcus
+
+    def getEcuInstanceRef(self) -> Optional[RefType]:
+        """
+        Association to an ECUInstance in the topology description.
+        """
         return self.ecuInstanceRef
 
-    def setEcuInstanceRef(self, value):
+    def setEcuInstanceRef(self, value: Optional[RefType]) -> "NmEcu":
+        """
+        Association to an ECUInstance in the topology description.
+        A None value is a no-op and does not overwrite an existing ecuInstanceRef.
+        """
         if value is not None:
             self.ecuInstanceRef = value
         return self
 
-    def getNmBusSynchronizationEnabled(self):
+    def getNmBusSynchronizationEnabled(self) -> Optional[Boolean]:
+        """
+        Enables bus synchronization support.
+        """
         return self.nmBusSynchronizationEnabled
 
-    def setNmBusSynchronizationEnabled(self, value):
+    def setNmBusSynchronizationEnabled(self, value: Optional[Boolean]) -> "NmEcu":
+        """
+        Enables bus synchronization support.
+        A None value is a no-op and does not overwrite an existing nmBusSynchronizationEnabled.
+        """
         if value is not None:
             self.nmBusSynchronizationEnabled = value
         return self
 
-    def getNmComControlEnabled(self):
+    def getNmComControlEnabled(self) -> Optional[Boolean]:
+        """
+        Enables the Communication Control support.
+        """
         return self.nmComControlEnabled
 
-    def setNmComControlEnabled(self, value):
+    def setNmComControlEnabled(self, value: Optional[Boolean]) -> "NmEcu":
+        """
+        Enables the Communication Control support.
+        A None value is a no-op and does not overwrite an existing nmComControlEnabled.
+        """
         if value is not None:
             self.nmComControlEnabled = value
         return self
 
-    def getNmCoordinator(self):
+    def getNmCoordinator(self) -> Optional[ARObject]:
+        """
+        Nm ECU may coordinate different clusters.
+        """
         return self.nmCoordinator
 
-    def setNmCoordinator(self, value):
+    def setNmCoordinator(self, value: Optional[ARObject]) -> "NmEcu":
+        """
+        Nm ECU may coordinate different clusters.
+        A None value is a no-op and does not overwrite an existing nmCoordinator.
+        """
         if value is not None:
             self.nmCoordinator = value
         return self
 
-    def getNmCycletimeMainFunction(self):
+    def getNmCycletimeMainFunction(self) -> Optional[TimeValue]:
+        """
+        The period between successive calls to the Main Function of the NM Interface in seconds.
+        """
         return self.nmCycletimeMainFunction
 
-    def setNmCycletimeMainFunction(self, value):
+    def setNmCycletimeMainFunction(self, value: Optional[TimeValue]) -> "NmEcu":
+        """
+        The period between successive calls to the Main Function of the NM Interface in seconds.
+        A None value is a no-op and does not overwrite an existing nmCycletimeMainFunction.
+        """
         if value is not None:
             self.nmCycletimeMainFunction = value
         return self
 
-    def getNmNodeDetectionEnabled(self):
-        return self.nmNodeDetectionEnabled
-
-    def setNmNodeDetectionEnabled(self, value):
-        if value is not None:
-            self.nmNodeDetectionEnabled = value
-        return self
-
-    def getNmNodeIdEnabled(self):
-        return self.nmNodeIdEnabled
-
-    def setNmNodeIdEnabled(self, value):
-        if value is not None:
-            self.nmNodeIdEnabled = value
-        return self
-
-    def getNmPduRxIndicationEnabled(self):
+    def getNmPduRxIndicationEnabled(self) -> Optional[Boolean]:
+        """
+        Switch for enabling the PDU Rx Indication.
+        """
         return self.nmPduRxIndicationEnabled
 
-    def setNmPduRxIndicationEnabled(self, value):
+    def setNmPduRxIndicationEnabled(self, value: Optional[Boolean]) -> "NmEcu":
+        """
+        Switch for enabling the PDU Rx Indication.
+        A None value is a no-op and does not overwrite an existing nmPduRxIndicationEnabled.
+        """
         if value is not None:
             self.nmPduRxIndicationEnabled = value
         return self
 
-    def getNmRemoteSleepIndEnabled(self):
+    def getNmRemoteSleepIndEnabled(self) -> Optional[Boolean]:
+        """
+        Switch for enabling remote sleep indication support.
+        """
         return self.nmRemoteSleepIndEnabled
 
-    def setNmRemoteSleepIndEnabled(self, value):
+    def setNmRemoteSleepIndEnabled(self, value: Optional[Boolean]) -> "NmEcu":
+        """
+        Switch for enabling remote sleep indication support.
+        A None value is a no-op and does not overwrite an existing nmRemoteSleepIndEnabled.
+        """
         if value is not None:
             self.nmRemoteSleepIndEnabled = value
         return self
 
-    def getNmRepeatMsgIndEnabled(self):
-        return self.nmRepeatMsgIndEnabled
-
-    def setNmRepeatMsgIndEnabled(self, value):
-        if value is not None:
-            self.nmRepeatMsgIndEnabled = value
-        return self
-
-    def getNmStateChangeIndEnabled(self):
+    def getNmStateChangeIndEnabled(self) -> Optional[Boolean]:
+        """
+        Enables the CAN Network Management state change notification.
+        """
         return self.nmStateChangeIndEnabled
 
-    def setNmStateChangeIndEnabled(self, value):
+    def setNmStateChangeIndEnabled(self, value: Optional[Boolean]) -> "NmEcu":
+        """
+        Enables the CAN Network Management state change notification.
+        A None value is a no-op and does not overwrite an existing nmStateChangeIndEnabled.
+        """
         if value is not None:
             self.nmStateChangeIndEnabled = value
         return self
 
-    def getNmUserDataEnabled(self):
+    def getNmUserDataEnabled(self) -> Optional[Boolean]:
+        """
+        Switch for enabling user data support.
+        """
         return self.nmUserDataEnabled
 
-    def setNmUserDataEnabled(self, value):
+    def setNmUserDataEnabled(self, value: Optional[Boolean]) -> "NmEcu":
+        """
+        Switch for enabling user data support.
+        A None value is a no-op and does not overwrite an existing nmUserDataEnabled.
+        """
         if value is not None:
             self.nmUserDataEnabled = value
         return self

@@ -623,11 +623,8 @@ class TestWriteNmEcu:
         nm_ecu.setEcuInstanceRef(_ref("/ecu/i1", dest="ECU-INSTANCE"))
         nm_ecu.setNmBusSynchronizationEnabled(_bool(True))
         nm_ecu.setNmComControlEnabled(_bool(True))
-        nm_ecu.setNmNodeDetectionEnabled(_bool(False))
-        nm_ecu.setNmNodeIdEnabled(_bool(True))
         nm_ecu.setNmPduRxIndicationEnabled(_bool(False))
         nm_ecu.setNmRemoteSleepIndEnabled(_bool(True))
-        nm_ecu.setNmRepeatMsgIndEnabled(_bool(False))
         nm_ecu.setNmStateChangeIndEnabled(_bool(True))
         nm_ecu.setNmUserDataEnabled(_bool(False))
         parent = _parent()
@@ -637,11 +634,8 @@ class TestWriteNmEcu:
         assert c.find("ECU-INSTANCE-REF") is not None
         assert c.find("NM-BUS-SYNCHRONIZATION-ENABLED") is not None
         assert c.find("NM-COM-CONTROL-ENABLED") is not None
-        assert c.find("NM-NODE-DETECTION-ENABLED") is not None
-        assert c.find("NM-NODE-ID-ENABLED") is not None
         assert c.find("NM-PDU-RX-INDICATION-ENABLED") is not None
         assert c.find("NM-REMOTE-SLEEP-IND-ENABLED") is not None
-        assert c.find("NM-REPEAT-MSG-IND-ENABLED") is not None
         assert c.find("NM-STATE-CHANGE-IND-ENABLED") is not None
         assert c.find("NM-USER-DATA-ENABLED") is not None
 

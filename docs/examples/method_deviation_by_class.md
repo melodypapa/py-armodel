@@ -3034,9 +3034,7 @@ No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, K
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `busSpecificNmEcu` | `Ref (EcuInstance)` | — | missing |
-| — *(missing)* | `—` | `nmMultipleChannelsEnabled` | `Boolean` | — | missing |
-| — *(missing)* | `—` | `nmPassiveModeEnabled` | `Boolean` | — | missing |
+| `nmCoordinator` | `Optional[ARObject]` | `nmCoordinator` | `NmCoordinator` | aggr | placeholder — aggregated child class `NmCoordinator` (Table 6.302) not yet implemented; reader/writer coverage deferred (Rule 0001.10 / 0001.7). Stale 2026-09-23 rows (busSpecificNmEcu, nmMultipleChannelsEnabled, nmPassiveModeEnabled) removed at the Table 6.300 sync — none is an R23-11 NmEcu attribute. |
 
 ## `NmNode`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 675

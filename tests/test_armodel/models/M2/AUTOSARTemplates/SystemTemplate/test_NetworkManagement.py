@@ -638,11 +638,8 @@ class Test_NetworkManagement:
         assert ecu.getNmComControlEnabled() is None
         assert ecu.getNmCoordinator() is None
         assert ecu.getNmCycletimeMainFunction() is None
-        assert ecu.getNmNodeDetectionEnabled() is None
-        assert ecu.getNmNodeIdEnabled() is None
         assert ecu.getNmPduRxIndicationEnabled() is None
         assert ecu.getNmRemoteSleepIndEnabled() is None
-        assert ecu.getNmRepeatMsgIndEnabled() is None
         assert ecu.getNmStateChangeIndEnabled() is None
         assert ecu.getNmUserDataEnabled() is None
 

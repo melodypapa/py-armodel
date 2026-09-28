@@ -359,11 +359,8 @@ class TestBusspecificNmEcu:
         assert ecu.getNmComControlEnabled() is None
         assert ecu.getNmCoordinator() is None
         assert ecu.getNmCycletimeMainFunction() is None
-        assert ecu.getNmNodeDetectionEnabled() is None
-        assert ecu.getNmNodeIdEnabled() is None
         assert ecu.getNmPduRxIndicationEnabled() is None
         assert ecu.getNmRemoteSleepIndEnabled() is None
-        assert ecu.getNmRepeatMsgIndEnabled() is None
         assert ecu.getNmStateChangeIndEnabled() is None
         assert ecu.getNmUserDataEnabled() is None
 
@@ -383,20 +380,11 @@ class TestBusspecificNmEcu:
         assert ecu == ecu.setNmCycletimeMainFunction(None)
         assert ecu.getNmCycletimeMainFunction() is None
 
-        assert ecu == ecu.setNmNodeDetectionEnabled(None)
-        assert ecu.getNmNodeDetectionEnabled() is None
-
-        assert ecu == ecu.setNmNodeIdEnabled(None)
-        assert ecu.getNmNodeIdEnabled() is None
-
         assert ecu == ecu.setNmPduRxIndicationEnabled(None)
         assert ecu.getNmPduRxIndicationEnabled() is None
 
         assert ecu == ecu.setNmRemoteSleepIndEnabled(None)
         assert ecu.getNmRemoteSleepIndEnabled() is None
-
-        assert ecu == ecu.setNmRepeatMsgIndEnabled(None)
-        assert ecu.getNmRepeatMsgIndEnabled() is None
 
         assert ecu == ecu.setNmStateChangeIndEnabled(None)
         assert ecu.getNmStateChangeIndEnabled() is None
@@ -425,14 +413,6 @@ class TestBusspecificNmEcu:
         assert ecu.getNmCycletimeMainFunction() == 100
         assert ecu == ecu.setNmCycletimeMainFunction(100)
 
-        ecu.setNmNodeDetectionEnabled(True)
-        assert ecu.getNmNodeDetectionEnabled() is True
-        assert ecu == ecu.setNmNodeDetectionEnabled(True)
-
-        ecu.setNmNodeIdEnabled(True)
-        assert ecu.getNmNodeIdEnabled() is True
-        assert ecu == ecu.setNmNodeIdEnabled(True)
-
         ecu.setNmPduRxIndicationEnabled(True)
         assert ecu.getNmPduRxIndicationEnabled() is True
         assert ecu == ecu.setNmPduRxIndicationEnabled(True)
@@ -440,10 +420,6 @@ class TestBusspecificNmEcu:
         ecu.setNmRemoteSleepIndEnabled(True)
         assert ecu.getNmRemoteSleepIndEnabled() is True
         assert ecu == ecu.setNmRemoteSleepIndEnabled(True)
-
-        ecu.setNmRepeatMsgIndEnabled(True)
-        assert ecu.getNmRepeatMsgIndEnabled() is True
-        assert ecu == ecu.setNmRepeatMsgIndEnabled(True)
 
         ecu.setNmStateChangeIndEnabled(True)
         assert ecu.getNmStateChangeIndEnabled() is True

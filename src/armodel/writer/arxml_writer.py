@@ -8809,11 +8809,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", nm_ecu.getEcuInstanceRef())
         self.setChildElementOptionalBooleanValue(child_element, "NM-BUS-SYNCHRONIZATION-ENABLED", nm_ecu.getNmBusSynchronizationEnabled())
         self.setChildElementOptionalBooleanValue(child_element, "NM-COM-CONTROL-ENABLED", nm_ecu.getNmComControlEnabled())
-        self.setChildElementOptionalBooleanValue(child_element, "NM-NODE-DETECTION-ENABLED", nm_ecu.getNmNodeDetectionEnabled())
-        self.setChildElementOptionalBooleanValue(child_element, "NM-NODE-ID-ENABLED", nm_ecu.getNmNodeIdEnabled())
+        self.setChildElementOptionalTimeValue(child_element, "NM-CYCLETIME-MAIN-FUNCTION", nm_ecu.getNmCycletimeMainFunction())
         self.setChildElementOptionalBooleanValue(child_element, "NM-PDU-RX-INDICATION-ENABLED", nm_ecu.getNmPduRxIndicationEnabled())
         self.setChildElementOptionalBooleanValue(child_element, "NM-REMOTE-SLEEP-IND-ENABLED", nm_ecu.getNmRemoteSleepIndEnabled())
-        self.setChildElementOptionalBooleanValue(child_element, "NM-REPEAT-MSG-IND-ENABLED", nm_ecu.getNmRepeatMsgIndEnabled())
         self.setChildElementOptionalBooleanValue(child_element, "NM-STATE-CHANGE-IND-ENABLED", nm_ecu.getNmStateChangeIndEnabled())
         self.setChildElementOptionalBooleanValue(child_element, "NM-USER-DATA-ENABLED", nm_ecu.getNmUserDataEnabled())
 
