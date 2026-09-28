@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 493 | 68.4% |
+| [x] Done | 494 | 68.5% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 151 | 20.9% |
+| [ ] Deferred | 150 | 20.8% |
 | [ ] Pending | 66 | 9.2% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -478,7 +478,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `NumericalValueSpecification`                           | [x] Done    | b16a369151                               | Group9           |
 | `NumericalValueVariationPoint`                          | [x] Done    | d5c96fd954                               | Group8           |
 | `NvBlockDataMapping`                                    | [ ] Deferred| N/A                                      | Group10          |
-| `NvBlockDescriptor`                                     | [ ] Deferred| N/A                                      | Group10          |
+| `NvBlockDescriptor`                                     | [x] Done    | e5d43e9b06                               | Group10          |
 | `NvBlockNeeds`                                          | [x] Done    | 72d998faaa                               | Group10          |
 | `NvBlockNeedsReliabilityEnum`                           | [x] Done    | 90b381db32                               | Group10          |
 | `NvBlockNeedsWritingPriorityEnum`                       | [x] Done    | 5a36c87687                               | Group10          |
