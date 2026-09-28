@@ -2086,6 +2086,7 @@ class ARXMLParser(AbstractARXMLParser):
             props.setParameterInstance(self.getAutosarParameterRef(child_element, "PARAMETER-INSTANCE"))
             props.setSwDataDefProps(self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS"))
             props.setVariableInstance(self.getAutosarVariableRef(child_element, "VARIABLE-INSTANCE"))
+            self.readVariationPointCapable(child_element, props)
             descriptor.addInstantiationDataDefProps(props)
         for child_element in self.findall(element, "MODE-SWITCH-EVENT-TRIGGERED-ACTIVITYS/*"):
             tag_name = self.getTagName(child_element)
@@ -4118,6 +4119,7 @@ class ARXMLParser(AbstractARXMLParser):
             props.setParameterInstance(self.getAutosarParameterRef(child_element, "PARAMETER-INSTANCE"))
             props.setSwDataDefProps(self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS"))
             props.setVariableInstance(self.getAutosarVariableRef(child_element, "VARIABLE-INSTANCE"))
+            self.readVariationPointCapable(child_element, props)
             behavior.addInstantiationDataDefProps(props)
 
     def readAtomicSwComponentTypeSwcInternalBehavior(self, element: ET.Element, parent: AtomicSwComponentType):

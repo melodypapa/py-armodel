@@ -90,6 +90,36 @@ class TestWriteVariationPointCapableARObjectWriters:
         element = parent.find("NV-BLOCK-DATA-MAPPING")
         assert element[-1].tag == "VARIATION-POINT"
 
+    def test_write_instantiation_data_def_props_vp_last(self, writer):
+        from armodel.models import ApplicationSwComponentType, InstantiationDataDefProps
+
+        props = InstantiationDataDefProps()
+        props.setVariationPoint(_variation_point())
+        app = ApplicationSwComponentType(parent=AUTOSAR.getInstance(), short_name="a")
+        behavior = app.createSwcInternalBehavior("ib")
+        behavior.addInstantiationDataDefProps(props)
+
+        parent = ET.Element("PARENT")
+        writer.writeSwcInternalBehaviorInstantiationDataDefProps(parent, behavior)
+
+        element = parent.find("INSTANTIATION-DATA-DEF-PROPSS").find("INSTANTIATION-DATA-DEF-PROPS")
+        assert element[-1].tag == "VARIATION-POINT"
+        assert element.find("VARIATION-POINT").find("SHORT-LABEL").text == "vp1"
+
+    def test_write_instantiation_data_def_props_in_nv_block_descriptor_vp_last(self, writer):
+        from armodel.models import InstantiationDataDefProps, NvBlockDescriptor
+
+        props = InstantiationDataDefProps()
+        props.setVariationPoint(_variation_point())
+        descriptor = NvBlockDescriptor(parent=AUTOSAR.getInstance(), short_name="d")
+        descriptor.addInstantiationDataDefProps(props)
+
+        parent = ET.Element("PARENT")
+        writer.writeNvBlockDescriptor(parent, descriptor)
+
+        element = parent.find("NV-BLOCK-DESCRIPTOR").find("INSTANTIATION-DATA-DEF-PROPSS").find("INSTANTIATION-DATA-DEF-PROPS")
+        assert element[-1].tag == "VARIATION-POINT"
+
     def test_write_can_tp_ecu_vp_last(self, writer):
         tp_ecu = CanTpEcu()
         tp_ecu.setVariationPoint(_variation_point())

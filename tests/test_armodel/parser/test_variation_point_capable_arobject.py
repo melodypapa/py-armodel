@@ -20,11 +20,11 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSu
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucReferenceValue, EcucTextualParamValue
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import InstantiationTimingEventProps
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import NvBlockDataMapping
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import NvBlockDataMapping, NvBlockDescriptor
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeAccessPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.EndToEndProtection import EndToEndProtectionISignalIPdu
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpEcu
-from tests.test_armodel.parser._helpers import _snip
+from tests.test_armodel.parser._helpers import _autosar_root, _snip
 
 VP_SNIPPET = "<VARIATION-POINT><SHORT-LABEL>vp1</SHORT-LABEL></VARIATION-POINT>"
 
@@ -126,6 +126,27 @@ class TestVariationPointCapableARObjectReaders:
         parser.readInstantiationRTEEventProps(element, props)
 
         _assert_variation_point(props)
+
+    def test_instantiation_data_def_props(self, parser):
+        from armodel.models import ApplicationSwComponentType
+
+        inner = "<INSTANTIATION-DATA-DEF-PROPSS><INSTANTIATION-DATA-DEF-PROPS>" + VP_SNIPPET + "</INSTANTIATION-DATA-DEF-PROPS></INSTANTIATION-DATA-DEF-PROPSS>"
+        element = _snip(inner, root_tag="SWC-INTERNAL-BEHAVIOR")
+        app = ApplicationSwComponentType(parent=_autosar_root(), short_name="a")
+        behavior = app.createSwcInternalBehavior("ib")
+
+        parser.readSwcInternalBehaviorInstantiationDataDefProps(element, behavior)
+
+        _assert_variation_point(behavior.getInstantiationDataDefPropss()[0])
+
+    def test_instantiation_data_def_props_in_nv_block_descriptor(self, parser):
+        inner = "<INSTANTIATION-DATA-DEF-PROPSS><INSTANTIATION-DATA-DEF-PROPS>" + VP_SNIPPET + "</INSTANTIATION-DATA-DEF-PROPS></INSTANTIATION-DATA-DEF-PROPSS>"
+        element = _snip(inner, root_tag="NV-BLOCK-DESCRIPTOR")
+        descriptor = NvBlockDescriptor(parent=_autosar_root(), short_name="d")
+
+        parser.readNvBlockDescriptor(element, descriptor)
+
+        _assert_variation_point(descriptor.getInstantiationDataDefPropss()[0])
 
     def test_value_specification_family(self, parser):
         element = _snip(VP_SNIPPET, root_tag="APPLICATION-VALUE-SPECIFICATION")

@@ -4050,6 +4050,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.setAutosarParameterRef(props_element, "PARAMETER-INSTANCE", props.getParameterInstance())
                     self.setSwDataDefProps(props_element, "SW-DATA-DEF-PROPS", props.getSwDataDefProps())
                     self.setAutosarVariableRef(props_element, "VARIABLE-INSTANCE", props.getVariableInstance())
+                    self.writeVariationPointCapable(props_element, props)
                 else:
                     self.notImplemented("Unsupported InstantiationDataDefProps <%s>" % type(props))
         activities = descriptor.getModeSwitchEventTriggeredActivitys()
@@ -6134,6 +6135,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.setAutosarParameterRef(child_element, "PARAMETER-INSTANCE", props.getParameterInstance())
                     self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", props.getSwDataDefProps())
                     self.setAutosarVariableRef(child_element, "VARIABLE-INSTANCE", props.getVariableInstance())
+                    self.writeVariationPointCapable(child_element, props)
                 else:
                     self.notImplemented("Unsupported InstantiationDataDefProps <%s>" % type(props))
 
