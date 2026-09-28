@@ -12502,8 +12502,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             mappings_tag = ET.SubElement(element, "SIGNAL-MAPPINGS")
             for mapping in mappings:
                 child_element = ET.SubElement(mappings_tag, "I-SIGNAL-MAPPING")
-                self.setChildElementOptionalRefType(child_element, "SOURCE-SIGNAL-REF", mapping.getSourceSignalRef())
-                self.setChildElementOptionalRefType(child_element, "TARGET-SIGNAL-REF", mapping.getTargetSignalRef())
+                self.writeISignalMapping(child_element, mapping)
+
+    def writeISignalMapping(self, element: ET.Element, mapping: ISignalMapping):
+        self.writeARObject(element, mapping)
+        self.writeDocumentationBlock(element, "INTRODUCTION", mapping.getIntroduction())
+        self.setChildElementOptionalRefType(element, "SOURCE-SIGNAL-REF", mapping.getSourceSignalRef())
+        self.setChildElementOptionalRefType(element, "TARGET-SIGNAL-REF", mapping.getTargetSignalRef())
+        self.writeVariationPoint(element, mapping.getVariationPoint())
 
     def setTargetIPduRef(self, element: ET.Element, key: str, i_pdu_ref: TargetIPduRef):
         if i_pdu_ref is not None:

@@ -12981,10 +12981,21 @@ class ARXMLParser(AbstractARXMLParser):
         mappings = []
         for child_element in self.findall(element, "SIGNAL-MAPPINGS/I-SIGNAL-MAPPING"):
             mapping = ISignalMapping()
-            mapping.sourceSignalRef = self.getChildElementOptionalRefType(child_element, "SOURCE-SIGNAL-REF")
-            mapping.targetSignalRef = self.getChildElementOptionalRefType(child_element, "TARGET-SIGNAL-REF")
+            self.readISignalMapping(child_element, mapping)
             mappings.append(mapping)
         return mappings
+
+    def readISignalMapping(self, element: ET.Element, mapping: ISignalMapping):
+        self.readARObject(element, mapping)
+        mapping.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
+        mapping.setSourceSignalRef(self.getChildElementOptionalRefType(element, "SOURCE-SIGNAL-REF"))
+        mapping.setTargetSignalRef(self.getChildElementOptionalRefType(element, "TARGET-SIGNAL-REF"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(mapping, VariationPointCapable):
+                mapping.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
     def getTargetIPduRef(self, element, key: str) -> TargetIPduRef:
         i_pdu_ref = None

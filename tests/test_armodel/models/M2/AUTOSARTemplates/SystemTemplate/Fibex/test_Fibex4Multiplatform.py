@@ -298,3 +298,121 @@ class TestFrameMapping:
     def test_target_frame_ref_docstrings_are_spec_note(self):
         self._assert_docstring(FrameMapping.getTargetFrameRef, TARGET_FRAME_NOTE)
         self._assert_docstring(FrameMapping.setTargetFrameRef, TARGET_FRAME_NOTE, "targetFrameRef")
+
+
+ISIGNAL_MAPPING_CLASS_NOTE = (
+    "Arranges those signals (or SignalGroups) that are transferred by the gateway from one channel to the other in pairs "
+    "and defines the mapping between them. Each pair consists in a source and a target referencing to a ISignalTriggering."
+)
+ISIGNAL_MAPPING_CONSTRAINTS = (
+    "[constr_9298] Existence of ISignalMapping.sourceSignal: For each ISignalMapping, the reference to ISignalTriggering in the role sourceSignal shall exist at the time when the System Description is complete.\n"
+    "\n"
+    "[constr_9299] Existence of ISignalMapping.targetSignal: For each ISignalMapping, the reference to ISignalTriggering in the role targetSignal shall exist at the time when the System Description is complete."
+)
+ISIGNAL_INTRODUCTION_NOTE = "This represents introductory documentation about the ISignal mapping."
+SOURCE_SIGNAL_NOTE = "Source destination of the referencing mapping."
+TARGET_SIGNAL_NOTE = "Target destination of the referencing mapping."
+
+
+class TestISignalMapping:
+    """Spec-synced tests for ISignalMapping (AUTOSAR_CP_TPS_SystemTemplate Table 8.7)."""
+
+    def _make(self) -> ISignalMapping:
+        return ISignalMapping()
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert method.__doc__ is not None
+        assert inspect.cleandoc(method.__doc__).strip() == expected
+
+    def test_initialization(self):
+        mapping = self._make()
+
+        assert isinstance(mapping, ARObject)
+        assert isinstance(mapping, VariationPointCapable)
+        assert mapping.getIntroduction() is None
+        assert mapping.getSourceSignalRef() is None
+        assert mapping.getTargetSignalRef() is None
+
+    def test_class_docstring_is_spec_note(self):
+        expected = ISIGNAL_MAPPING_CLASS_NOTE + "\n\n" + ISIGNAL_MAPPING_CONSTRAINTS
+        assert inspect.cleandoc(ISignalMapping.__doc__).strip() == expected
+
+    def test_init_has_no_docstring(self):
+        assert ISignalMapping.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        source = inspect.getsource(ISignalMapping.__init__)
+        assert source.index("self.introduction:") < source.index("self.sourceSignalRef:")
+        assert source.index("self.sourceSignalRef:") < source.index("self.targetSignalRef:")
+
+    def test_get_set_introduction(self):
+        mapping = self._make()
+
+        assert mapping.getIntroduction() is None
+
+        block = DocumentationBlock()
+        assert mapping == mapping.setIntroduction(block)
+        assert mapping.getIntroduction() is block
+
+        assert mapping == mapping.setIntroduction(None)
+        assert mapping.getIntroduction() is block
+
+        getter_hints = get_type_hints(ISignalMapping.getIntroduction)
+        assert getter_hints.get("return") == Optional[DocumentationBlock]
+
+        setter_hints = get_type_hints(ISignalMapping.setIntroduction)
+        assert setter_hints.get("value") == Optional[DocumentationBlock]
+        assert setter_hints.get("return") is ISignalMapping
+
+    def test_get_set_source_signal_ref(self):
+        mapping = self._make()
+
+        assert mapping.getSourceSignalRef() is None
+
+        ref = RefType()
+        ref.setValue("/Gateway/SourceTriggering")
+        assert mapping == mapping.setSourceSignalRef(ref)
+        assert mapping.getSourceSignalRef() is ref
+
+        assert mapping == mapping.setSourceSignalRef(None)
+        assert mapping.getSourceSignalRef() is ref
+
+        getter_hints = get_type_hints(ISignalMapping.getSourceSignalRef)
+        assert getter_hints.get("return") == Optional[RefType]
+
+        setter_hints = get_type_hints(ISignalMapping.setSourceSignalRef)
+        assert setter_hints.get("value") == Optional[RefType]
+        assert setter_hints.get("return") is ISignalMapping
+
+    def test_get_set_target_signal_ref(self):
+        mapping = self._make()
+
+        assert mapping.getTargetSignalRef() is None
+
+        ref = RefType()
+        ref.setValue("/Gateway/TargetTriggering")
+        assert mapping == mapping.setTargetSignalRef(ref)
+        assert mapping.getTargetSignalRef() is ref
+
+        assert mapping == mapping.setTargetSignalRef(None)
+        assert mapping.getTargetSignalRef() is ref
+
+        getter_hints = get_type_hints(ISignalMapping.getTargetSignalRef)
+        assert getter_hints.get("return") == Optional[RefType]
+
+        setter_hints = get_type_hints(ISignalMapping.setTargetSignalRef)
+        assert setter_hints.get("value") == Optional[RefType]
+        assert setter_hints.get("return") is ISignalMapping
+
+    def test_introduction_docstrings_are_spec_note(self):
+        self._assert_docstring(ISignalMapping.getIntroduction, ISIGNAL_INTRODUCTION_NOTE)
+        self._assert_docstring(ISignalMapping.setIntroduction, ISIGNAL_INTRODUCTION_NOTE, "introduction")
+
+    def test_source_signal_ref_docstrings_are_spec_note(self):
+        self._assert_docstring(ISignalMapping.getSourceSignalRef, SOURCE_SIGNAL_NOTE)
+        self._assert_docstring(ISignalMapping.setSourceSignalRef, SOURCE_SIGNAL_NOTE, "sourceSignalRef")
+
+    def test_target_signal_ref_docstrings_are_spec_note(self):
+        self._assert_docstring(ISignalMapping.getTargetSignalRef, TARGET_SIGNAL_NOTE)
+        self._assert_docstring(ISignalMapping.setTargetSignalRef, TARGET_SIGNAL_NOTE, "targetSignalRef")

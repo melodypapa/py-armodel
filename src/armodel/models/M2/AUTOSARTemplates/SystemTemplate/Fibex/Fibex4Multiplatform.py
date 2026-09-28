@@ -89,45 +89,79 @@ class FrameMapping(ARObject, VariationPointCapable):
 
 class ISignalMapping(ARObject, VariationPointCapable):
     """
-    Arranges signals transferred by the gateway from one channel to another
-    in pairs and defines the mapping between them.
+    Arranges those signals (or SignalGroups) that are transferred by the gateway from one channel to the other in pairs and defines the mapping between them. Each pair consists in a source and a target referencing to a ISignalTriggering.
+
+    [constr_9298] Existence of ISignalMapping.sourceSignal: For each ISignalMapping, the reference to ISignalTriggering in the role sourceSignal shall exist at the time when the System Description is complete.
+
+    [constr_9299] Existence of ISignalMapping.targetSignal: For each ISignalMapping, the reference to ISignalTriggering in the role targetSignal shall exist at the time when the System Description is complete.
     """
 
     # ISignalMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIntroduction              [x] impl  [ ] docstring  [ ] test
-    # [ ] setIntroduction              [x] impl  [ ] docstring  [ ] test
-    # [ ] getSourceSignalRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setSourceSignalRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] getTargetSignalRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setTargetSignalRef           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 8.7, p.846
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIntroduction       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIntroduction       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceSignalRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceSignalRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetSignalRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetSignalRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.introduction: DocumentationBlock = None
-        self.sourceSignalRef: RefType = None
-        self.targetSignalRef: RefType = None
+        # This represents introductory documentation about the ISignal mapping.
+        self.introduction: Optional[DocumentationBlock] = None
 
-    def getIntroduction(self):
+        # Source destination of the referencing mapping.
+        self.sourceSignalRef: Optional[RefType] = None
+
+        # Target destination of the referencing mapping.
+        self.targetSignalRef: Optional[RefType] = None
+
+    def getIntroduction(self) -> Optional[DocumentationBlock]:
+        """
+        This represents introductory documentation about the ISignal mapping.
+        """
         return self.introduction
 
-    def setIntroduction(self, value):
-        self.introduction = value
+    def setIntroduction(self, value: Optional[DocumentationBlock]) -> ISignalMapping:
+        """
+        This represents introductory documentation about the ISignal mapping.
+        A None value is a no-op and does not overwrite an existing introduction.
+        """
+        if value is not None:
+            self.introduction = value
         return self
 
-    def getSourceSignalRef(self):
+    def getSourceSignalRef(self) -> Optional[RefType]:
+        """
+        Source destination of the referencing mapping.
+        """
         return self.sourceSignalRef
 
-    def setSourceSignalRef(self, value):
-        self.sourceSignalRef = value
+    def setSourceSignalRef(self, value: Optional[RefType]) -> ISignalMapping:
+        """
+        Source destination of the referencing mapping.
+        A None value is a no-op and does not overwrite an existing sourceSignalRef.
+        """
+        if value is not None:
+            self.sourceSignalRef = value
         return self
 
-    def getTargetSignalRef(self):
+    def getTargetSignalRef(self) -> Optional[RefType]:
+        """
+        Target destination of the referencing mapping.
+        """
         return self.targetSignalRef
 
-    def setTargetSignalRef(self, value):
-        self.targetSignalRef = value
+    def setTargetSignalRef(self, value: Optional[RefType]) -> ISignalMapping:
+        """
+        Target destination of the referencing mapping.
+        A None value is a no-op and does not overwrite an existing targetSignalRef.
+        """
+        if value is not None:
+            self.targetSignalRef = value
         return self
 
 
