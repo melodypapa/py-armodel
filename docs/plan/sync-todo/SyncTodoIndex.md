@@ -545,7 +545,7 @@ Status: **5/32** completed
 | `ApiPrincipleEnum`                 | [x] Done     | c6d2e83f74 |
 | `ReentrancyLevelEnum`              | [x] Done     | 286c7c5870 |
 | `ImplementationProps`              | [x] Done     | 3166f6e5d0 |
-| `PerInstanceMemorySize`            | [ ] Pending  | N/A        |
+| `PerInstanceMemorySize`            | [ ] Pending* | N/A        |
 | `SwcImplementation`                | [ ] Pending* | N/A        |
 | `ImplementationDataTypeElement`    | [ ] Pending* | N/A        |
 | `ReceptionComSpecProps`            | [ ] Pending* | N/A        |

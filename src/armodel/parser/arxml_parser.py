@@ -711,7 +711,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import M
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
     SwComponentDocumentation,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import PerInstanceMemorySize, SwcImplementation
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     ExternalTriggeringPoint,
     InternalTriggeringPoint,
@@ -5481,10 +5481,23 @@ class ARXMLParser(AbstractARXMLParser):
             document = AUTOSAR.getInstance()
             document.addImplementationBehaviorMap(impl.getFullName(), behavior_ref.getValue())
 
+    def readPerInstanceMemorySize(self, element: ET.Element, value: PerInstanceMemorySize):
+        self.readARObject(element, value)
+        value.setAlignment(self.getChildElementOptionalPositiveInteger(element, "ALIGNMENT"))
+        value.setPerInstanceMemoryRef(self.getChildElementOptionalRefType(element, "PER-INSTANCE-MEMORY-REF"))
+        value.setSize(self.getChildElementOptionalPositiveInteger(element, "SIZE"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            value.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+
     def readSwcImplementation(self, element: ET.Element, impl: SwcImplementation):
         self.logger.debug("Read SwcImplementation <%s>" % impl.getShortName())
         self.readImplementation(element, impl)
         impl.setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF"))
+        for child_element in self.findall(element, "PER-INSTANCE-MEMORY-SIZES/PER-INSTANCE-MEMORY-SIZE"):
+            value = PerInstanceMemorySize()
+            self.readPerInstanceMemorySize(child_element, value)
+            impl.addPerInstanceMemorySize(value)
         impl.setRequiredRTEVendor(self.getChildElementOptionalString(element, "REQUIRED-RTE-VENDOR"))
         behavior_ref = impl.getBehaviorRef()
         if behavior_ref is not None:

@@ -1,7 +1,7 @@
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import PerInstanceMemorySize, SwcImplementation
 
 
 class TestSwcImplementation:
@@ -68,7 +68,7 @@ class TestSwcImplementation:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         impl = SwcImplementation(ar_root, "TestSwcImplementation")
-        value = object()
+        value = PerInstanceMemorySize()
         result = impl.addPerInstanceMemorySize(value)
         assert result is impl
         assert impl.getPerInstanceMemorySizes() == [value]

@@ -3,8 +3,8 @@ Tests for parsing SWC-IMPLEMENTATION elements — Table 8.7 (p.623, R23-11).
 
 SwcImplementation (Base = Implementation) carries its own elements BEHAVIOR-REF
 (RefType, 0..1, DEST restricted to SwcInternalBehavior) and REQUIRED-RTE-VENDOR
-(String, 0..1). PER-INSTANCE-MEMORY-SIZES is deferred until the
-PerInstanceMemorySize class is synced (Rule 0001.10 placeholder).
+(String, 0..1). The PER-INSTANCE-MEMORY-SIZES wrapper contains zero or more
+PerInstanceMemorySize children.
 
 Round-trip counterpart: tests/test_armodel/writer/test_swc_implementation.py
 """
@@ -14,8 +14,8 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, PositiveInteger, RefType, String
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import PerInstanceMemorySize, SwcImplementation
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -96,3 +96,59 @@ class TestReadSwcImplementation:
 
         assert impl.getBehaviorRef() is None
         assert impl.getRequiredRTEVendor() is None
+
+    def test_read_per_instance_memory_sizes_values_and_variation_point(self, parser):
+        impl = _impl()
+        element = ET.fromstring(
+            f"""<SWC-IMPLEMENTATION xmlns='{NS}'>
+                <SHORT-NAME>Impl1</SHORT-NAME>
+                <PER-INSTANCE-MEMORY-SIZES>
+                    <PER-INSTANCE-MEMORY-SIZE S="checksum-1" T="2024-01-02T12:34:56Z">
+                        <ALIGNMENT>16</ALIGNMENT>
+                        <PER-INSTANCE-MEMORY-REF DEST="PER-INSTANCE-MEMORY">/Pkg/Memory1</PER-INSTANCE-MEMORY-REF>
+                        <SIZE>64</SIZE>
+                        <VARIATION-POINT><SHORT-LABEL>MemorySizeVP</SHORT-LABEL></VARIATION-POINT>
+                    </PER-INSTANCE-MEMORY-SIZE>
+                    <PER-INSTANCE-MEMORY-SIZE><SIZE>32</SIZE></PER-INSTANCE-MEMORY-SIZE>
+                </PER-INSTANCE-MEMORY-SIZES>
+            </SWC-IMPLEMENTATION>"""
+        )
+
+        parser.readSwcImplementation(element, impl)
+
+        sizes = impl.getPerInstanceMemorySizes()
+        assert len(sizes) == 2
+        first, second = sizes
+        assert isinstance(first, PerInstanceMemorySize)
+        assert isinstance(first.getAlignment(), PositiveInteger)
+        assert first.getAlignment().getValue() == 16
+        assert isinstance(first.getPerInstanceMemoryRef(), RefType)
+        assert first.getPerInstanceMemoryRef().getValue() == "/Pkg/Memory1"
+        assert first.getPerInstanceMemoryRef().getDest() == "PER-INSTANCE-MEMORY"
+        assert isinstance(first.getSize(), PositiveInteger)
+        assert first.getSize().getValue() == 64
+        assert first.getChecksum().getValue() == "checksum-1"
+        assert isinstance(first.getTimestamp(), DateTime)
+        assert first.getTimestamp().getValue() == "2024-01-02T12:34:56Z"
+        assert first.getVariationPoint().getShortLabel().getValue() == "MemorySizeVP"
+        assert isinstance(second, PerInstanceMemorySize)
+        assert second.getAlignment() is None
+        assert second.getPerInstanceMemoryRef() is None
+        assert second.getSize().getValue() == 32
+        assert second.getVariationPoint() is None
+
+    def test_read_without_per_instance_memory_sizes_wrapper_leaves_empty_list(self, parser):
+        impl = _impl()
+        element = ET.fromstring(f"<SWC-IMPLEMENTATION xmlns='{NS}'><SHORT-NAME>Impl1</SHORT-NAME></SWC-IMPLEMENTATION>")
+
+        parser.readSwcImplementation(element, impl)
+
+        assert impl.getPerInstanceMemorySizes() == []
+
+    def test_read_empty_per_instance_memory_sizes_wrapper_leaves_empty_list(self, parser):
+        impl = _impl()
+        element = ET.fromstring(f"<SWC-IMPLEMENTATION xmlns='{NS}'><SHORT-NAME>Impl1</SHORT-NAME><PER-INSTANCE-MEMORY-SIZES /></SWC-IMPLEMENTATION>")
+
+        parser.readSwcImplementation(element, impl)
+
+        assert impl.getPerInstanceMemorySizes() == []

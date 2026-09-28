@@ -620,7 +620,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ModeAccessPointIdent, RptExecutableEntityProperties, RptImplPolicy
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import PerInstanceMemorySize, SwcImplementation
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     AsynchronousServerCallPoint,
     InternalTriggeringPoint,
@@ -6837,11 +6837,24 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(child_element, "HW-ELEMENT-REF", ref)
 
+    def writePerInstanceMemorySize(self, element: ET.Element, value: PerInstanceMemorySize):
+        child_element = ET.SubElement(element, "PER-INSTANCE-MEMORY-SIZE")
+        self.writeARObject(child_element, value)
+        self.setChildElementOptionalPositiveInteger(child_element, "ALIGNMENT", value.getAlignment())
+        self.setChildElementOptionalRefType(child_element, "PER-INSTANCE-MEMORY-REF", value.getPerInstanceMemoryRef())
+        self.setChildElementOptionalPositiveInteger(child_element, "SIZE", value.getSize())
+        self.writeVariationPoint(child_element, value.getVariationPoint())
+
     def writeSwcImplementation(self, element: ET.Element, impl: SwcImplementation):
         self.logger.debug("writeSwcImplementation %s" % impl.getShortName())
         child_element = ET.SubElement(element, "SWC-IMPLEMENTATION")
         self.writeImplementation(child_element, impl)
         self.setChildElementOptionalRefType(child_element, "BEHAVIOR-REF", impl.getBehaviorRef())
+        memory_sizes = impl.getPerInstanceMemorySizes()
+        if len(memory_sizes) > 0:
+            memory_sizes_element = ET.SubElement(child_element, "PER-INSTANCE-MEMORY-SIZES")
+            for memory_size in memory_sizes:
+                self.writePerInstanceMemorySize(memory_sizes_element, memory_size)
         self.setChildElementOptionalString(child_element, "REQUIRED-RTE-VENDOR", impl.getRequiredRTEVendor())
 
     def writeEndToEndDescriptionDataIds(self, element: ET.Element, parent: EndToEndDescription):
