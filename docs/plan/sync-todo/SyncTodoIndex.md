@@ -536,7 +536,7 @@ Status: **29/29** completed
 
 ## Group10
 
-Status: **4/31** completed
+Status: **5/31** completed
 
 | Class Name                         | Status       | Commit ID  |
 | ---------------------------------- | ------------ | ---------- |
@@ -544,7 +544,7 @@ Status: **4/31** completed
 | `ArrayImplPolicyEnum`              | [x] Done     | 700b032789 |
 | `ApiPrincipleEnum`                 | [x] Done     | c6d2e83f74 |
 | `ReentrancyLevelEnum`              | [x] Done     | 286c7c5870 |
-| `ImplementationProps`              | [ ] Pending* | N/A        |
+| `ImplementationProps`              | [x] Done     | 3166f6e5d0 |
 | `SwcImplementation`                | [ ] Pending* | N/A        |
 | `ImplementationDataTypeElement`    | [ ] Pending* | N/A        |
 | `ReceptionComSpecProps`            | [ ] Pending* | N/A        |
