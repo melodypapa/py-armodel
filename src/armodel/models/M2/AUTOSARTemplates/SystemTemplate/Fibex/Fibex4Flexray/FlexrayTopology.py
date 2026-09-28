@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, Integer, PositiveInteger
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, PhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
@@ -300,7 +302,7 @@ class FlexrayCommunicationController(CommunicationController):
             self.fallBackInternal = value
         return self
 
-    def createFlexrayFifo(self) -> "FlexrayFifoConfiguration":
+    def createFlexrayFifo(self) -> FlexrayFifoConfiguration:
         """One First In First Out (FIFO) queued receive structure, defining the admittance criteria to the FIFO."""
         fifo = FlexrayFifoConfiguration()
         self.flexrayFifos.append(fifo)
@@ -533,47 +535,55 @@ class FlexrayCommunicationController(CommunicationController):
 
 class FlexrayCommunicationConnector(CommunicationConnector):
     """
-    Defines a FlexRay communication connector that links FlexRay controllers
-    to communication channels, specifying NM (Network Management) timing
-    and PNC (Partial Network Cluster) properties for FlexRay communication.
+    FlexRay specific attributes to the CommunicationConnector
+
+    [constr_3508] Value of nmReadySleepTime: The nmReadySleepTime value shall be a multiple of cycle * nmRepetitionCycle.
     """
 
     # FlexrayCommunicationConnector method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmReadySleepTime          [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmReadySleepTime          [x] impl  [ ] docstring  [ ] test
-    # [ ] getPncFilterDataMask         [x] impl  [ ] docstring  [ ] test
-    # [ ] setPncFilterDataMask         [x] impl  [ ] docstring  [ ] test
-    # [ ] getWakeUpChannel             [x] impl  [ ] docstring  [ ] test
-    # [ ] setWakeUpChannel             [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.33, p.89
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNmReadySleepTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmReadySleepTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeUpChannel     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeUpChannel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.nmReadySleepTime: Float = None
-        self.pncFilterDataMask: PositiveUnlimitedInteger = None
-        self.wakeUpChannel: Boolean = None
+        # The value of this attribute influences the shutdown behavior of the FlexRay NM. FrNm switches to bus sleep mode nmReadySleepTime seconds after the completion of the last repetition cycle containing a NM vote.
+        self.nmReadySleepTime: Optional[Float] = None
 
-    def getNmReadySleepTime(self):
+        # Referenced channel used by the node to send a wakeup pattern. (pWakeupChannel)
+        self.wakeUpChannel: Optional[Boolean] = None
+
+    def getNmReadySleepTime(self) -> Optional[Float]:
+        """
+        The value of this attribute influences the shutdown behavior of the FlexRay NM. FrNm switches to bus sleep mode nmReadySleepTime seconds after the completion of the last repetition cycle containing a NM vote.
+        """
         return self.nmReadySleepTime
 
-    def setNmReadySleepTime(self, value):
+    def setNmReadySleepTime(self, value: Optional[Float]) -> FlexrayCommunicationConnector:
+        """
+        The value of this attribute influences the shutdown behavior of the FlexRay NM. FrNm switches to bus sleep mode nmReadySleepTime seconds after the completion of the last repetition cycle containing a NM vote.
+        A None value is a no-op and does not overwrite an existing nmReadySleepTime.
+        """
         if value is not None:
             self.nmReadySleepTime = value
         return self
 
-    def getPncFilterDataMask(self):
-        return self.pncFilterDataMask
-
-    def setPncFilterDataMask(self, value):
-        if value is not None:
-            self.pncFilterDataMask = value
-        return self
-
-    def getWakeUpChannel(self):
+    def getWakeUpChannel(self) -> Optional[Boolean]:
+        """
+        Referenced channel used by the node to send a wakeup pattern. (pWakeupChannel)
+        """
         return self.wakeUpChannel
 
-    def setWakeUpChannel(self, value):
+    def setWakeUpChannel(self, value: Optional[Boolean]) -> FlexrayCommunicationConnector:
+        """
+        Referenced channel used by the node to send a wakeup pattern. (pWakeupChannel)
+        A None value is a no-op and does not overwrite an existing wakeUpChannel.
+        """
         if value is not None:
             self.wakeUpChannel = value
         return self
@@ -770,7 +780,7 @@ class FlexrayCluster(CommunicationCluster):
         """The offset of the action point in networks"""
         return self.actionPointOffset
 
-    def setActionPointOffset(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setActionPointOffset(self, value: Optional[Integer]) -> FlexrayCluster:
         """The offset of the action point in networks
         A None value is a no-op and does not overwrite an existing actionPointOffset."""
         if value is not None:
@@ -781,7 +791,7 @@ class FlexrayCluster(CommunicationCluster):
         """Nominal bit time (= 1 / fx:SPEED). gdBit = cSamplesPer Bit * gdSampleClockPeriod. Unit: seconds (gdBit)"""
         return self.bit
 
-    def setBit(self, value: Optional[TimeValue]) -> "FlexrayCluster":
+    def setBit(self, value: Optional[TimeValue]) -> FlexrayCluster:
         """Nominal bit time (= 1 / fx:SPEED). gdBit = cSamplesPer Bit * gdSampleClockPeriod. Unit: seconds (gdBit)
         A None value is a no-op and does not overwrite an existing bit."""
         if value is not None:
@@ -792,7 +802,7 @@ class FlexrayCluster(CommunicationCluster):
         """Upper limit of the Collision Avoidance Symbol (CAS) acceptance window. Unit:bitDuration"""
         return self.casRxLowMax
 
-    def setCasRxLowMax(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setCasRxLowMax(self, value: Optional[Integer]) -> FlexrayCluster:
         """Upper limit of the Collision Avoidance Symbol (CAS) acceptance window. Unit:bitDuration
         A None value is a no-op and does not overwrite an existing casRxLowMax."""
         if value is not None:
@@ -803,7 +813,7 @@ class FlexrayCluster(CommunicationCluster):
         """The maximum number of times that a node in this cluster is permitted to attempt to start the cluster by initiating schedule synchronization"""
         return self.coldStartAttempts
 
-    def setColdStartAttempts(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setColdStartAttempts(self, value: Optional[Integer]) -> FlexrayCluster:
         """The maximum number of times that a node in this cluster is permitted to attempt to start the cluster by initiating schedule synchronization
         A None value is a no-op and does not overwrite an existing coldStartAttempts."""
         if value is not None:
@@ -814,7 +824,7 @@ class FlexrayCluster(CommunicationCluster):
         """Length of the cycle. Unit: seconds"""
         return self.cycle
 
-    def setCycle(self, value: Optional[TimeValue]) -> "FlexrayCluster":
+    def setCycle(self, value: Optional[TimeValue]) -> FlexrayCluster:
         """Length of the cycle. Unit: seconds
         A None value is a no-op and does not overwrite an existing cycle."""
         if value is not None:
@@ -825,7 +835,7 @@ class FlexrayCluster(CommunicationCluster):
         """Maximum cycle counter value in a given cluster. Remark: Set to 63 for FlexRay Protocol 2.1 Rev. A compliance."""
         return self.cycleCountMax
 
-    def setCycleCountMax(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setCycleCountMax(self, value: Optional[Integer]) -> FlexrayCluster:
         """Maximum cycle counter value in a given cluster. Remark: Set to 63 for FlexRay Protocol 2.1 Rev. A compliance.
         A None value is a no-op and does not overwrite an existing cycleCountMax."""
         if value is not None:
@@ -836,7 +846,7 @@ class FlexrayCluster(CommunicationCluster):
         """Indicates whether NIT error status of each cluster shall be detected or not."""
         return self.detectNitError
 
-    def setDetectNitError(self, value: Optional[Boolean]) -> "FlexrayCluster":
+    def setDetectNitError(self, value: Optional[Boolean]) -> FlexrayCluster:
         """Indicates whether NIT error status of each cluster shall be detected or not.
         A None value is a no-op and does not overwrite an existing detectNitError."""
         if value is not None:
@@ -847,7 +857,7 @@ class FlexrayCluster(CommunicationCluster):
         """The duration of the dynamic slot idle phase in minislots."""
         return self.dynamicSlotIdlePhase
 
-    def setDynamicSlotIdlePhase(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setDynamicSlotIdlePhase(self, value: Optional[Integer]) -> FlexrayCluster:
         """The duration of the dynamic slot idle phase in minislots.
         A None value is a no-op and does not overwrite an existing dynamicSlotIdlePhase."""
         if value is not None:
@@ -858,7 +868,7 @@ class FlexrayCluster(CommunicationCluster):
         """Duration for which the bitstrobing is paused after transmission [gdBit]."""
         return self.ignoreAfterTx
 
-    def setIgnoreAfterTx(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setIgnoreAfterTx(self, value: Optional[Integer]) -> FlexrayCluster:
         """Duration for which the bitstrobing is paused after transmission [gdBit].
         A None value is a no-op and does not overwrite an existing ignoreAfterTx."""
         if value is not None:
@@ -869,7 +879,7 @@ class FlexrayCluster(CommunicationCluster):
         """Upper limit for the start up and wake up listen timeout in the presence of noise. Expressed as a multiple of the cluster constant pdListenTimeout. Unit microticks"""
         return self.listenNoise
 
-    def setListenNoise(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setListenNoise(self, value: Optional[Integer]) -> FlexrayCluster:
         """Upper limit for the start up and wake up listen timeout in the presence of noise. Expressed as a multiple of the cluster constant pdListenTimeout. Unit microticks
         A None value is a no-op and does not overwrite an existing listenNoise."""
         if value is not None:
@@ -880,7 +890,7 @@ class FlexrayCluster(CommunicationCluster):
         """The number of macroticks in a communication cycle"""
         return self.macroPerCycle
 
-    def setMacroPerCycle(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setMacroPerCycle(self, value: Optional[Integer]) -> FlexrayCluster:
         """The number of macroticks in a communication cycle
         A None value is a no-op and does not overwrite an existing macroPerCycle."""
         if value is not None:
@@ -891,7 +901,7 @@ class FlexrayCluster(CommunicationCluster):
         """Duration of the cluster wide nominal macrotick, expressed in s."""
         return self.macrotickDuration
 
-    def setMacrotickDuration(self, value: Optional[TimeValue]) -> "FlexrayCluster":
+    def setMacrotickDuration(self, value: Optional[TimeValue]) -> FlexrayCluster:
         """Duration of the cluster wide nominal macrotick, expressed in s.
         A None value is a no-op and does not overwrite an existing macrotickDuration."""
         if value is not None:
@@ -902,7 +912,7 @@ class FlexrayCluster(CommunicationCluster):
         """Threshold concerning vClockCorrectionFailedCounter. Defines the number of consecutive even/odd Cycle pairs with missing clock correction terms that will cause the protocol to transition from the POC:normal active or POC:normal passive state into the POC:halt state."""
         return self.maxWithoutClockCorrectionFatal
 
-    def setMaxWithoutClockCorrectionFatal(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setMaxWithoutClockCorrectionFatal(self, value: Optional[Integer]) -> FlexrayCluster:
         """Threshold concerning vClockCorrectionFailedCounter. Defines the number of consecutive even/odd Cycle pairs with missing clock correction terms that will cause the protocol to transition from the POC:normal active or POC:normal passive state into the POC:halt state.
         A None value is a no-op and does not overwrite an existing maxWithoutClockCorrectionFatal."""
         if value is not None:
@@ -913,7 +923,7 @@ class FlexrayCluster(CommunicationCluster):
         """Threshold concerning vClockCorrectionFailedCounter. Defines the number of consecutive even/odd Cycle pairs with missing clock correction terms that will cause the protocol to transition from the POC:normal active state to the POC:normal passive state."""
         return self.maxWithoutClockCorrectionPassive
 
-    def setMaxWithoutClockCorrectionPassive(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setMaxWithoutClockCorrectionPassive(self, value: Optional[Integer]) -> FlexrayCluster:
         """Threshold concerning vClockCorrectionFailedCounter. Defines the number of consecutive even/odd Cycle pairs with missing clock correction terms that will cause the protocol to transition from the POC:normal active state to the POC:normal passive state.
         A None value is a no-op and does not overwrite an existing maxWithoutClockCorrectionPassive."""
         if value is not None:
@@ -924,7 +934,7 @@ class FlexrayCluster(CommunicationCluster):
         """The Offset of the action point within a minislot. Unit: macroticks"""
         return self.minislotActionPointOffset
 
-    def setMinislotActionPointOffset(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setMinislotActionPointOffset(self, value: Optional[Integer]) -> FlexrayCluster:
         """The Offset of the action point within a minislot. Unit: macroticks
         A None value is a no-op and does not overwrite an existing minislotActionPointOffset."""
         if value is not None:
@@ -935,7 +945,7 @@ class FlexrayCluster(CommunicationCluster):
         """The duration of a minislot (dynamic segment). Unit: macroticks."""
         return self.minislotDuration
 
-    def setMinislotDuration(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setMinislotDuration(self, value: Optional[Integer]) -> FlexrayCluster:
         """The duration of a minislot (dynamic segment). Unit: macroticks.
         A None value is a no-op and does not overwrite an existing minislotDuration."""
         if value is not None:
@@ -946,7 +956,7 @@ class FlexrayCluster(CommunicationCluster):
         """The duration of the network idle time in macroticks"""
         return self.networkIdleTime
 
-    def setNetworkIdleTime(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setNetworkIdleTime(self, value: Optional[Integer]) -> FlexrayCluster:
         """The duration of the network idle time in macroticks
         A None value is a no-op and does not overwrite an existing networkIdleTime."""
         if value is not None:
@@ -957,7 +967,7 @@ class FlexrayCluster(CommunicationCluster):
         """Length of the Network Management vector in a cluster [bytes]"""
         return self.networkManagementVectorLength
 
-    def setNetworkManagementVectorLength(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setNetworkManagementVectorLength(self, value: Optional[Integer]) -> FlexrayCluster:
         """Length of the Network Management vector in a cluster [bytes]
         A None value is a no-op and does not overwrite an existing networkManagementVectorLength."""
         if value is not None:
@@ -968,7 +978,7 @@ class FlexrayCluster(CommunicationCluster):
         """Number of Minislots in the dynamic segment."""
         return self.numberOfMinislots
 
-    def setNumberOfMinislots(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setNumberOfMinislots(self, value: Optional[Integer]) -> FlexrayCluster:
         """Number of Minislots in the dynamic segment.
         A None value is a no-op and does not overwrite an existing numberOfMinislots."""
         if value is not None:
@@ -979,7 +989,7 @@ class FlexrayCluster(CommunicationCluster):
         """The number of static slots in the static segment."""
         return self.numberOfStaticSlots
 
-    def setNumberOfStaticSlots(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setNumberOfStaticSlots(self, value: Optional[Integer]) -> FlexrayCluster:
         """The number of static slots in the static segment.
         A None value is a no-op and does not overwrite an existing numberOfStaticSlots."""
         if value is not None:
@@ -990,7 +1000,7 @@ class FlexrayCluster(CommunicationCluster):
         """Start of the offset correction phase within the Network Idle Time (NIT), expressed as the number of macroticks from the start of cycle. Unit: macroticks"""
         return self.offsetCorrectionStart
 
-    def setOffsetCorrectionStart(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setOffsetCorrectionStart(self, value: Optional[Integer]) -> FlexrayCluster:
         """Start of the offset correction phase within the Network Idle Time (NIT), expressed as the number of macroticks from the start of cycle. Unit: macroticks
         A None value is a no-op and does not overwrite an existing offsetCorrectionStart."""
         if value is not None:
@@ -1001,7 +1011,7 @@ class FlexrayCluster(CommunicationCluster):
         """Globally configured payload length of a static frame. Unit: 16-bit WORDS."""
         return self.payloadLengthStatic
 
-    def setPayloadLengthStatic(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setPayloadLengthStatic(self, value: Optional[Integer]) -> FlexrayCluster:
         """Globally configured payload length of a static frame. Unit: 16-bit WORDS.
         A None value is a no-op and does not overwrite an existing payloadLengthStatic."""
         if value is not None:
@@ -1012,7 +1022,7 @@ class FlexrayCluster(CommunicationCluster):
         """Additional timespan in macroticks which takes jitter into account to be able to set the JobListPointer to the next possible job which can be executed in case the FlexRay Job List Execution Function has be resynchronized."""
         return self.safetyMargin
 
-    def setSafetyMargin(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setSafetyMargin(self, value: Optional[Integer]) -> FlexrayCluster:
         """Additional timespan in macroticks which takes jitter into account to be able to set the JobListPointer to the next possible job which can be executed in case the FlexRay Job List Execution Function has be resynchronized.
         A None value is a no-op and does not overwrite an existing safetyMargin."""
         if value is not None:
@@ -1023,7 +1033,7 @@ class FlexrayCluster(CommunicationCluster):
         """Sample clock period. Unit: seconds"""
         return self.sampleClockPeriod
 
-    def setSampleClockPeriod(self, value: Optional[TimeValue]) -> "FlexrayCluster":
+    def setSampleClockPeriod(self, value: Optional[TimeValue]) -> FlexrayCluster:
         """Sample clock period. Unit: seconds
         A None value is a no-op and does not overwrite an existing sampleClockPeriod."""
         if value is not None:
@@ -1034,7 +1044,7 @@ class FlexrayCluster(CommunicationCluster):
         """The duration of a slot in the static segment. Unit: macroticks"""
         return self.staticSlotDuration
 
-    def setStaticSlotDuration(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setStaticSlotDuration(self, value: Optional[Integer]) -> FlexrayCluster:
         """The duration of a slot in the static segment. Unit: macroticks
         A None value is a no-op and does not overwrite an existing staticSlotDuration."""
         if value is not None:
@@ -1045,7 +1055,7 @@ class FlexrayCluster(CommunicationCluster):
         """The duration of the symbol window. Unit: macroticks"""
         return self.symbolWindow
 
-    def setSymbolWindow(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setSymbolWindow(self, value: Optional[Integer]) -> FlexrayCluster:
         """The duration of the symbol window. Unit: macroticks
         A None value is a no-op and does not overwrite an existing symbolWindow."""
         if value is not None:
@@ -1056,7 +1066,7 @@ class FlexrayCluster(CommunicationCluster):
         """Number of macroticks the action point offset is from the beginning of the symbol window [Macroticks]."""
         return self.symbolWindowActionPointOffset
 
-    def setSymbolWindowActionPointOffset(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setSymbolWindowActionPointOffset(self, value: Optional[Integer]) -> FlexrayCluster:
         """Number of macroticks the action point offset is from the beginning of the symbol window [Macroticks].
         A None value is a no-op and does not overwrite an existing symbolWindowActionPointOffset."""
         if value is not None:
@@ -1067,7 +1077,7 @@ class FlexrayCluster(CommunicationCluster):
         """Maximum number of distinct syncframe identifiers present in a given cluster. This parameter maps to FlexRay Protocol 2.1 Rev. A parameter gSyncNodeMax."""
         return self.syncFrameIdCountMax
 
-    def setSyncFrameIdCountMax(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setSyncFrameIdCountMax(self, value: Optional[Integer]) -> FlexrayCluster:
         """Maximum number of distinct syncframe identifiers present in a given cluster. This parameter maps to FlexRay Protocol 2.1 Rev. A parameter gSyncNodeMax.
         A None value is a no-op and does not overwrite an existing syncFrameIdCountMax."""
         if value is not None:
@@ -1078,7 +1088,7 @@ class FlexrayCluster(CommunicationCluster):
         """The duration of timer t_TrcvStdbyDelay in seconds. The granularity of this parameter shall be restricted to full Flex Ray cycles (cycle). The transceiver status setting to STANDBY shall be delayed by this value. Not specifying a value or a value of 0 shall imply that the timer is not used."""
         return self.tranceiverStandbyDelay
 
-    def setTranceiverStandbyDelay(self, value: Optional[Float]) -> "FlexrayCluster":
+    def setTranceiverStandbyDelay(self, value: Optional[Float]) -> FlexrayCluster:
         """The duration of timer t_TrcvStdbyDelay in seconds. The granularity of this parameter shall be restricted to full Flex Ray cycles (cycle). The transceiver status setting to STANDBY shall be delayed by this value. Not specifying a value or a value of 0 shall imply that the timer is not used.
         A None value is a no-op and does not overwrite an existing tranceiverStandbyDelay."""
         if value is not None:
@@ -1089,7 +1099,7 @@ class FlexrayCluster(CommunicationCluster):
         """Number of bits in the Transmission Start Sequence [gd Bits]."""
         return self.transmissionStartSequenceDuration
 
-    def setTransmissionStartSequenceDuration(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setTransmissionStartSequenceDuration(self, value: Optional[Integer]) -> FlexrayCluster:
         """Number of bits in the Transmission Start Sequence [gd Bits].
         A None value is a no-op and does not overwrite an existing transmissionStartSequenceDuration."""
         if value is not None:
@@ -1100,7 +1110,7 @@ class FlexrayCluster(CommunicationCluster):
         """Number of bits used by the node to test the duration of the 'idle' or HIGH phase of a received wakeup. Unit:bit Duration Remarks: This parameter maps to FlexRay Protocol 2.1 Rev. A parameter gdWakeupSymbolRxIdle."""
         return self.wakeupRxIdle
 
-    def setWakeupRxIdle(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setWakeupRxIdle(self, value: Optional[Integer]) -> FlexrayCluster:
         """Number of bits used by the node to test the duration of the 'idle' or HIGH phase of a received wakeup. Unit:bit Duration Remarks: This parameter maps to FlexRay Protocol 2.1 Rev. A parameter gdWakeupSymbolRxIdle.
         A None value is a no-op and does not overwrite an existing wakeupRxIdle."""
         if value is not None:
@@ -1111,7 +1121,7 @@ class FlexrayCluster(CommunicationCluster):
         """Number of bits used by the node to test the duration of the LOW phase of a received wakeup. Unit:bitDuration Remarks: This parameter maps to FlexRay Protocol 2.1 Rev. A parameter gdWakeupSymbolRxLow."""
         return self.wakeupRxLow
 
-    def setWakeupRxLow(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setWakeupRxLow(self, value: Optional[Integer]) -> FlexrayCluster:
         """Number of bits used by the node to test the duration of the LOW phase of a received wakeup. Unit:bitDuration Remarks: This parameter maps to FlexRay Protocol 2.1 Rev. A parameter gdWakeupSymbolRxLow.
         A None value is a no-op and does not overwrite an existing wakeupRxLow."""
         if value is not None:
@@ -1122,7 +1132,7 @@ class FlexrayCluster(CommunicationCluster):
         """The size of the window used to detect wakeups [gdBit]. Remarks: This parameter maps to FlexRay Protocol 2.1 Rev. A parameter gdWakeupSymbolRxWindow."""
         return self.wakeupRxWindow
 
-    def setWakeupRxWindow(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setWakeupRxWindow(self, value: Optional[Integer]) -> FlexrayCluster:
         """The size of the window used to detect wakeups [gdBit]. Remarks: This parameter maps to FlexRay Protocol 2.1 Rev. A parameter gdWakeupSymbolRxWindow.
         A None value is a no-op and does not overwrite an existing wakeupRxWindow."""
         if value is not None:
@@ -1133,7 +1143,7 @@ class FlexrayCluster(CommunicationCluster):
         """Number of bits used by the node to transmit the LOW phase of awakeup symbol and the HIGH and LOW phases of a WUDOP. Unit:bitDuration"""
         return self.wakeupTxActive
 
-    def setWakeupTxActive(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setWakeupTxActive(self, value: Optional[Integer]) -> FlexrayCluster:
         """Number of bits used by the node to transmit the LOW phase of awakeup symbol and the HIGH and LOW phases of a WUDOP. Unit:bitDuration
         A None value is a no-op and does not overwrite an existing wakeupTxActive."""
         if value is not None:
@@ -1144,7 +1154,7 @@ class FlexrayCluster(CommunicationCluster):
         """Number of bits used by the node to transmit the 'idle' part of a wakeup symbol. Unit: gDbit"""
         return self.wakeupTxIdle
 
-    def setWakeupTxIdle(self, value: Optional[Integer]) -> "FlexrayCluster":
+    def setWakeupTxIdle(self, value: Optional[Integer]) -> FlexrayCluster:
         """Number of bits used by the node to transmit the 'idle' part of a wakeup symbol. Unit: gDbit
         A None value is a no-op and does not overwrite an existing wakeupTxIdle."""
         if value is not None:
@@ -1178,7 +1188,7 @@ class FlexrayFifoRange(ARObject):
         """Max Range."""
         return self.rangeMax
 
-    def setRangeMax(self, value: Optional[Integer]) -> "FlexrayFifoRange":
+    def setRangeMax(self, value: Optional[Integer]) -> FlexrayFifoRange:
         """Max Range.
         A None value is a no-op and does not overwrite an existing rangeMax."""
         if value is not None:
@@ -1189,7 +1199,7 @@ class FlexrayFifoRange(ARObject):
         """Min Range."""
         return self.rangeMin
 
-    def setRangeMin(self, value: Optional[Integer]) -> "FlexrayFifoRange":
+    def setRangeMin(self, value: Optional[Integer]) -> FlexrayFifoRange:
         """Min Range.
         A None value is a no-op and does not overwrite an existing rangeMin."""
         if value is not None:
@@ -1253,7 +1263,7 @@ class FlexrayFifoConfiguration(ARObject):
         """Boolean configuration which determines whether or not frames received in the dynamic segment that don't contain a message ID will be admitted into the FIFO."""
         return self.admitWithoutMessageId
 
-    def setAdmitWithoutMessageId(self, value: Optional[Boolean]) -> "FlexrayFifoConfiguration":
+    def setAdmitWithoutMessageId(self, value: Optional[Boolean]) -> FlexrayFifoConfiguration:
         """Boolean configuration which determines whether or not frames received in the dynamic segment that don't contain a message ID will be admitted into the FIFO.
         A None value is a no-op and does not overwrite an existing admitWithoutMessageId."""
         if value is not None:
@@ -1264,7 +1274,7 @@ class FlexrayFifoConfiguration(ARObject):
         """FIFO cycle counter acceptance criteria."""
         return self.baseCycle
 
-    def setBaseCycle(self, value: Optional[Integer]) -> "FlexrayFifoConfiguration":
+    def setBaseCycle(self, value: Optional[Integer]) -> FlexrayFifoConfiguration:
         """FIFO cycle counter acceptance criteria.
         A None value is a no-op and does not overwrite an existing baseCycle."""
         if value is not None:
@@ -1275,7 +1285,7 @@ class FlexrayFifoConfiguration(ARObject):
         """Fifo channel admittance criteria."""
         return self.channelRef
 
-    def setChannelRef(self, value: Optional[RefType]) -> "FlexrayFifoConfiguration":
+    def setChannelRef(self, value: Optional[RefType]) -> FlexrayFifoConfiguration:
         """Fifo channel admittance criteria.
         A None value is a no-op and does not overwrite an existing channelRef."""
         if value is not None:
@@ -1286,7 +1296,7 @@ class FlexrayFifoConfiguration(ARObject):
         """FIFO cycle counter acceptance criteria."""
         return self.cycleRepetition
 
-    def setCycleRepetition(self, value: Optional[Integer]) -> "FlexrayFifoConfiguration":
+    def setCycleRepetition(self, value: Optional[Integer]) -> FlexrayFifoConfiguration:
         """FIFO cycle counter acceptance criteria.
         A None value is a no-op and does not overwrite an existing cycleRepetition."""
         if value is not None:
@@ -1297,7 +1307,7 @@ class FlexrayFifoConfiguration(ARObject):
         """FrFifoDepth configures the maximum number of rx-frames which can be contained in the FIFO."""
         return self.fifoDepth
 
-    def setFifoDepth(self, value: Optional[Integer]) -> "FlexrayFifoConfiguration":
+    def setFifoDepth(self, value: Optional[Integer]) -> FlexrayFifoConfiguration:
         """FrFifoDepth configures the maximum number of rx-frames which can be contained in the FIFO.
         A None value is a no-op and does not overwrite an existing fifoDepth."""
         if value is not None:
@@ -1318,7 +1328,7 @@ class FlexrayFifoConfiguration(ARObject):
         """FIFO message identifier acceptance criteria (Mask filter)."""
         return self.msgIdMask
 
-    def setMsgIdMask(self, value: Optional[Integer]) -> "FlexrayFifoConfiguration":
+    def setMsgIdMask(self, value: Optional[Integer]) -> FlexrayFifoConfiguration:
         """FIFO message identifier acceptance criteria (Mask filter).
         A None value is a no-op and does not overwrite an existing msgIdMask."""
         if value is not None:
@@ -1329,7 +1339,7 @@ class FlexrayFifoConfiguration(ARObject):
         """FIFO message identifier acceptance criteria (Match filter)."""
         return self.msgIdMatch
 
-    def setMsgIdMatch(self, value: Optional[Integer]) -> "FlexrayFifoConfiguration":
+    def setMsgIdMatch(self, value: Optional[Integer]) -> FlexrayFifoConfiguration:
         """FIFO message identifier acceptance criteria (Match filter).
         A None value is a no-op and does not overwrite an existing msgIdMatch."""
         if value is not None:

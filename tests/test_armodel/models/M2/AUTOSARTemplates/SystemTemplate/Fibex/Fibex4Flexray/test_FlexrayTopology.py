@@ -1,5 +1,8 @@
+import inspect
+from typing import Optional, get_type_hints
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (
     FlexrayCluster,
     FlexrayCommunicationConnector,
@@ -262,42 +265,6 @@ class TestFlexrayTopology:
 
         controller.setMicrotickDuration(100.0)
         assert controller.getMicrotickDuration() == 100.0
-
-    def test_flexray_communication_connector(self):
-        """
-        Test the FlexrayCommunicationConnector class initialization and methods with method chaining and None handling.
-        """
-        parent = MockParent()
-        connector = FlexrayCommunicationConnector(parent, "TestConnector")
-
-        assert connector.getShortName() == "TestConnector"
-        assert isinstance(connector, CommunicationConnector)
-        assert connector.getNmReadySleepTime() is None
-        assert connector.getPncFilterDataMask() is None
-        assert connector.getWakeUpChannel() is None
-
-        # Test setter/getter methods with method chaining - with None values
-        assert connector == connector.setNmReadySleepTime(None)
-        assert connector.getNmReadySleepTime() is None
-
-        assert connector == connector.setPncFilterDataMask(None)
-        assert connector.getPncFilterDataMask() is None
-
-        assert connector == connector.setWakeUpChannel(None)
-        assert connector.getWakeUpChannel() is None
-
-        # Test setter/getter methods with method chaining - with actual values
-        connector.setNmReadySleepTime(10.5)
-        assert connector.getNmReadySleepTime() == 10.5
-        assert connector == connector.setNmReadySleepTime(10.5)
-
-        connector.setPncFilterDataMask(255)
-        assert connector.getPncFilterDataMask() == 255
-        assert connector == connector.setPncFilterDataMask(255)
-
-        connector.setWakeUpChannel(True)
-        assert connector.getWakeUpChannel() is True
-        assert connector == connector.setWakeUpChannel(True)
 
     def test_flexray_cluster(self):
         """
@@ -653,3 +620,87 @@ class TestFlexrayFifoConfiguration:
         config.setBaseCycle(2)
         config.setBaseCycle(None)
         assert config.getBaseCycle() == 2
+
+
+FLEXRAY_COMMUNICATION_CONNECTOR_CLASS_NOTE = (
+    "FlexRay specific attributes to the CommunicationConnector\n" "\n" "[constr_3508] Value of nmReadySleepTime: The nmReadySleepTime value shall be a multiple of cycle * nmRepetitionCycle."
+)
+NM_READY_SLEEP_TIME_NOTE = "The value of this attribute influences the shutdown behavior of the FlexRay NM. FrNm switches to bus sleep mode nmReadySleepTime seconds after the completion of the last repetition cycle containing a NM vote."
+WAKE_UP_CHANNEL_NOTE = "Referenced channel used by the node to send a wakeup pattern. (pWakeupChannel)"
+
+
+class TestFlexrayCommunicationConnector:
+    def _make(self) -> FlexrayCommunicationConnector:
+        return FlexrayCommunicationConnector(MockParent(), "test_flexray_comm_connector")
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert method.__doc__ is not None
+        assert inspect.cleandoc(method.__doc__).strip() == expected
+
+    def test_initialization(self):
+        connector = self._make()
+
+        assert connector.getShortName() == "test_flexray_comm_connector"
+        assert isinstance(connector, CommunicationConnector)
+        assert connector.getNmReadySleepTime() is None
+        assert connector.getWakeUpChannel() is None
+        assert not hasattr(connector, "getPncFilterDataMask")
+
+    def test_class_docstring_is_spec_note(self):
+        assert inspect.cleandoc(FlexrayCommunicationConnector.__doc__).strip() == FLEXRAY_COMMUNICATION_CONNECTOR_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert FlexrayCommunicationConnector.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        source = inspect.getsource(FlexrayCommunicationConnector.__init__)
+        assert source.index("self.nmReadySleepTime:") < source.index("self.wakeUpChannel:")
+
+    def test_get_set_nm_ready_sleep_time(self):
+        connector = self._make()
+
+        assert connector.getNmReadySleepTime() is None
+
+        seconds = Float()
+        seconds.setValue("10.5")
+        assert connector == connector.setNmReadySleepTime(seconds)
+        assert connector.getNmReadySleepTime() == seconds
+
+        assert connector == connector.setNmReadySleepTime(None)
+        assert connector.getNmReadySleepTime() == seconds
+
+        getter_hints = get_type_hints(FlexrayCommunicationConnector.getNmReadySleepTime)
+        assert getter_hints.get("return") == Optional[Float]
+
+        setter_hints = get_type_hints(FlexrayCommunicationConnector.setNmReadySleepTime)
+        assert setter_hints.get("value") == Optional[Float]
+        assert setter_hints.get("return") is FlexrayCommunicationConnector
+
+    def test_nm_ready_sleep_time_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCommunicationConnector.getNmReadySleepTime, NM_READY_SLEEP_TIME_NOTE)
+        self._assert_docstring(FlexrayCommunicationConnector.setNmReadySleepTime, NM_READY_SLEEP_TIME_NOTE, "nmReadySleepTime")
+
+    def test_get_set_wake_up_channel(self):
+        connector = self._make()
+
+        assert connector.getWakeUpChannel() is None
+
+        flag = Boolean()
+        flag.setValue(True)
+        assert connector == connector.setWakeUpChannel(flag)
+        assert connector.getWakeUpChannel() == flag
+
+        assert connector == connector.setWakeUpChannel(None)
+        assert connector.getWakeUpChannel() == flag
+
+        getter_hints = get_type_hints(FlexrayCommunicationConnector.getWakeUpChannel)
+        assert getter_hints.get("return") == Optional[Boolean]
+
+        setter_hints = get_type_hints(FlexrayCommunicationConnector.setWakeUpChannel)
+        assert setter_hints.get("value") == Optional[Boolean]
+        assert setter_hints.get("return") is FlexrayCommunicationConnector
+
+    def test_wake_up_channel_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCommunicationConnector.getWakeUpChannel, WAKE_UP_CHANNEL_NOTE)
+        self._assert_docstring(FlexrayCommunicationConnector.setWakeUpChannel, WAKE_UP_CHANNEL_NOTE, "wakeUpChannel")

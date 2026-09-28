@@ -11496,6 +11496,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeFlexrayCommunicationConnector(self, element: ET.Element, connector: FlexrayCommunicationConnector):
         self.logger.debug("Write FlexrayCommunicationConnector %s" % connector.getShortName())
         self.writeCommunicationConnector(element, connector)
+        self.setChildElementOptionalFloatValue(element, "NM-READY-SLEEP-TIME", connector.getNmReadySleepTime())
+        self.setChildElementOptionalBooleanValue(element, "WAKE-UP-CHANNEL", connector.getWakeUpChannel())
 
     def writeEcuInstanceConnectors(self, element: ET.Element, instance: EcuInstance):
         connectors = instance.getConnectors()

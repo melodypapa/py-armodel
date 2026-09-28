@@ -12768,6 +12768,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readFlexrayCommunicationConnector(self, element: ET.Element, connector: FlexrayCommunicationConnector):
         self.readCommunicationConnector(element, connector)
+        connector.setNmReadySleepTime(self.getChildElementOptionalFloatValue(element, "NM-READY-SLEEP-TIME"))
+        connector.setWakeUpChannel(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-CHANNEL"))
 
     def readEcuInstanceConnectors(self, element: ET.Element, instance: EcuInstance):
         self.logger.debug("readEcuInstanceCommControllers %s" % instance.getShortName())

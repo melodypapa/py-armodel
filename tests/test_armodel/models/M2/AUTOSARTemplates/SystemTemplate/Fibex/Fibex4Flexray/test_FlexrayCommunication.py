@@ -6,9 +6,9 @@ from typing import List, Optional, get_type_hints
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayAbsolutelyScheduledTiming, FlexrayFrame, FlexrayFrameTriggering
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster, FlexrayCommunicationConnector, FlexrayCommunicationController
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster, FlexrayCommunicationController
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, CommunicationController, CommunicationCycle, CycleCounter
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationController, CommunicationCycle, CycleCounter
 
 NOTE_FLEXRAY_FRAME_TRIGGERING = (
     "FlexRay specific attributes to the FrameTriggering\n"
@@ -59,6 +59,7 @@ class Test_Fibex4FlexrayCommunication:
         # Verify that the frame was created properly
         assert frame.short_name == "test_frame"
         assert frame.parent == parent
+
 
 class TestFlexrayAbsolutelyScheduledTiming:
     """Test cases for FlexrayAbsolutelyScheduledTiming (Table 6.82, p.423)."""
@@ -335,22 +336,6 @@ class Test_Fibex4FlexrayTopology:
 
         controller.setAllowHaltDueToClock(True)
         assert controller.getAllowHaltDueToClock() is True
-
-    def test_FlexrayCommunicationConnector(self):
-        """Test FlexrayCommunicationConnector class functionality."""
-        parent = MockParent()
-        connector = FlexrayCommunicationConnector(parent, "test_flexray_comm_connector")
-
-        assert isinstance(connector, CommunicationConnector)
-
-        # Test default values
-        assert connector.getNmReadySleepTime() is None
-        assert connector.getPncFilterDataMask() is None
-        assert connector.getWakeUpChannel() is None
-
-        # Test setter/getter methods
-        connector.setNmReadySleepTime(10.5)
-        assert connector.getNmReadySleepTime() == 10.5
 
     def test_FlexrayCluster(self):
         """Test FlexrayCluster class functionality."""
