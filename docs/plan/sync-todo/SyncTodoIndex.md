@@ -536,7 +536,7 @@ Status: **29/29** completed
 
 ## Group10
 
-Status: **29/32** completed
+Status: **30/32** completed
 
 | Class Name                         | Status       | Commit ID  |
 | ---------------------------------- | ------------ | ---------- |
@@ -559,7 +559,7 @@ Status: **29/32** completed
 | `QueuedReceiverComSpec`            | [x] Done     | bb5804989f |
 | `DataTypeMap`                      | [x] Done     | 0731ff4f68 |
 | `EndToEndDescription`              | [x] Done     | d3db89bb98 |
-| `ModeSwitchEventTriggeredActivity` | [ ] Pending* | N/A        |
+| `ModeSwitchEventTriggeredActivity` | [x] Done     | 8fa7710539 |
 | `AutosarVariableRef`               | [x] Done     | d1b9384acc |
 | `RoleBasedPortAssignment`          | [x] Done     | f94da3dd92 |
 | `AutosarParameterRef`              | [x] Done     | b530f7e446 |
