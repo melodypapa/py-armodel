@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 481 | 66.7% |
+| [x] Done | 482 | 66.9% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 163 | 22.6% |
+| [ ] Deferred | 162 | 22.5% |
 | [ ] Pending | 66 | 9.2% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -540,7 +540,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PrmCharTextualContents`                                | [x] Done    | 83a56461a1                               | Group9           |
 | `Prms`                                                  | [x] Done    | f05d3afdfa                               | Group9           |
 | `ProgramminglanguageEnum`                               | [x] Done    | be79d7993b                               | Group1           |
-| `QueuedReceiverComSpec`                                 | [ ] Deferred| N/A                                      | Group10          |
+| `QueuedReceiverComSpec`                                 | [x] Done    | bb5804989f                               | Group10          |
 | `QueuedSenderComSpec`                                   | [x] Done    | 4a7d82ffc7                               | Group5           |
 | `RModeGroupInAtomicSWCInstanceRef`                      | [ ] Deferred| 74e821ccb8                               | Group11          |
 | `RModeInAtomicSwcInstanceRef`                           | [ ] Deferred| 74e821ccb8                               | Group11          |
