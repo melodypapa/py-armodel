@@ -673,7 +673,6 @@ class TestBusspecificNmEcu:
 
         # Test default values
         assert cluster.getNmCbvPosition() is None
-        assert cluster.getNmChannelActive() is None
         assert cluster.getNmImmediateNmCycleTime() is None
         assert cluster.getNmImmediateNmTransmissions() is None
         assert cluster.getNmMessageTimeoutTime() is None
@@ -688,9 +687,6 @@ class TestBusspecificNmEcu:
         # Test setter/getter methods with method chaining - with None values
         assert cluster == cluster.setNmCbvPosition(None)
         assert cluster.getNmCbvPosition() is None
-
-        assert cluster == cluster.setNmChannelActive(None)
-        assert cluster.getNmChannelActive() is None
 
         assert cluster == cluster.setNmImmediateNmCycleTime(None)
         assert cluster.getNmImmediateNmCycleTime() is None
@@ -726,10 +722,6 @@ class TestBusspecificNmEcu:
         cluster.setNmCbvPosition(5)
         assert cluster.getNmCbvPosition() == 5
         assert cluster == cluster.setNmCbvPosition(5)
-
-        cluster.setNmChannelActive(True)
-        assert cluster.getNmChannelActive() is True
-        assert cluster == cluster.setNmChannelActive(True)
 
         cluster.setNmImmediateNmCycleTime(10)
         assert cluster.getNmImmediateNmCycleTime() == 10

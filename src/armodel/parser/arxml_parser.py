@@ -10947,7 +10947,6 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read UdpNmCluster %s" % cluster.getShortName())
         self.readNmCluster(element, cluster)
         cluster.setNmCbvPosition(self.getChildElementOptionalIntegerValue(element, "NM-CBV-POSITION"))
-        cluster.setNmChannelActive(self.getChildElementOptionalBooleanValue(element, "NM-CHANNEL-ACTIVE"))
         cluster.setNmImmediateNmCycleTime(self.getChildElementOptionalTimeValue(element, "NM-IMMEDIATE-NM-CYCLE-TIME"))
         cluster.setNmImmediateNmTransmissions(self.getChildElementOptionalPositiveInteger(element, "NM-IMMEDIATE-NM-TRANSMISSIONS"))
         cluster.setNmMessageTimeoutTime(self.getChildElementOptionalTimeValue(element, "NM-MESSAGE-TIMEOUT-TIME"))

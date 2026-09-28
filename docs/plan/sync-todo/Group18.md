@@ -41,18 +41,18 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — v1 stale row (nmCarWakeUpFilterEnabled missing) resolved to removed (owner: CanNmNode Table 6.314; XSD-only here, Rule 0015); XSD-only NM-CAR-WAKE-UP-RX-ENABLED/NM-CHANNEL-ACTIVE/NM-USER-DATA-LENGTH fields + parser/writer elements removed (Rule 0015, no fixture carries them); recorded in method_deviation_by_class.md
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13588 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
-- [ ] `UdpNmCluster` — NmCluster — source TBC (locate table at Step 1)
+- [ ] `UdpNmCluster` (input · R23-11 markdown · Table 6.315)
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: deviation-tracked in method_deviation_by_class.md — reviewed at Step 1: v1 rows (networkConfiguration/nmUserDataLength/nmUserDataOffset missing) are XSD-only elements (UDP-NM-CLUSTER group), absent from Table 6.315
+  - [x] Step 1 — Sync members & description from spec — Table 6.315, p.687; Note "Udp specific NmCluster attributes"; Base ARObject,Identifiable,MultilanguageReferrable,NmCluster,Referrable (most-derived NmCluster, stamped Table 6.299); 11 attrs in displayed order (nmCbvPosition/nmNidPosition 0..1 Integer, nmImmediateNmCycleTime/nmMessageTimeoutTime/nmMsgCycleTime/nmNetworkTimeout/nmRemoteSleepIndicationTime/nmRepeatMessageTime/nmWaitBusSleepTime 0..1 TimeValue, nmImmediateNmTransmissions 0..1 PositiveInteger, vlan 0..1 ref EthernetPhysicalChannel → RefType per module convention); XSD group UDP-NM-CLUSTER (AUTOSAR_00052.xsd l.127502) — XSD-only NETWORK-CONFIGURATION/NM-CHANNEL-ACTIVE/NM-USER-DATA-LENGTH/NM-USER-DATA-OFFSET not modeled (Rule 0015; nmChannelActive was in R4.3.1 Table 6.237 but no fixture carries it → Rule 0019 condition 3 fails, plain removal); src drift: nmChannelActive field to remove, bare-T annotations to Optional[T]
+  - [x] Step 2 — Write model class unit test (Red) — tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement/test_UdpNmCluster.py: defaults for all 11 attrs, get/set + None no-op grouped by type; no Red observable at runtime — orphan setters were already None-guarded (drift is typing/docstring-only), 5 passed as written
+  - [x] Step 3 — Implement model class (Green) — removed XSD-only nmChannelActive field (in R4.3.1 Table 6.237 but absent from Table 6.315; no fixture carries the tag → Rule 0019 condition 3 fails, Rule 0015 removal); bare-T annotations → PEP 526 `Optional[T]` in displayed row order; typed accessors
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring replaced with the Table 6.315 Note verbatim + constr_3078/3079/3080/5222 rows appended (DataMapping pattern); per-attr comments + getter/setter docstrings verbatim (incl. spec quirks: "Timeout of a NmPdu", "UdpNm" in nmNetworkTimeout Note, "CanNm" in the nmWaitBusSleepTime Note of the Udp table); __init__ has no docstring; blank line between every attribute block
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — tests/test_armodel/parser/test_udp_nm_cluster.py (11 field values incl. typed reads + VLAN-REF dest/value, empty-cluster case, XSD-only tag rejection) + tests/test_armodel/writer/test_udp_nm_cluster.py (XSD kept-element order, dropped-XSD-only-tag asserts, empty case, full round-trip values); seen Red 6 failed (parser AttributeError on removed setNmChannelActive, writer emits NM-CHANNEL-ACTIVE)
+  - [x] Step 6 — Update parser & writer (Green) — readUdpNmCluster/writeUdpNmCluster: removed the NM-CHANNEL-ACTIVE element both sides (XSD-only, Rule 0015); remaining helpers already spec-typed (TimeValue/Integer/PositiveInteger/RefType) and in XSD group order; test_writer_nm.py TestWriteUdpNmCluster + legacy test_NetworkManagement.py reverted to spec attrs
+  - [x] Step 7 — Update checklist comment — 6-column, `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.315, p.687`, all rows R23-11 in displayed row order; set-based check: checklist == methods (23), all covered; no marker written (unstamped batch)
+  - [x] Step 8 — Deviations — v1 stale rows (networkConfiguration/nmUserDataLength/nmUserDataOffset missing) resolved to removed (XSD-only, Rule 0015); XSD-only nmChannelActive field + parser/writer element removed (R4.3.1-only attr, no fixture → Rule 0019 condition 3 fails); recorded in method_deviation_by_class.md
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13599 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `CanNmNode` — NmNode — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py

@@ -2133,146 +2133,241 @@ class UdpNmClusterCoupling(NmClusterCoupling):
 
 class UdpNmCluster(NmCluster):
     """
-    Represents a UDP network management cluster in the system,
-    defining UDP-specific NM properties including message timing,
-    CBV (Common Bit Vector) position, and VLAN references.
+    Udp specific NmCluster attributes
+
+    [constr_3078] Allowed UdpNmCluster.nmNidPosition values: If defined, the value of UdpNmCluster.nmNidPosition shall only be set to either 0 or 1.
+
+    [constr_3079] Allowed UdpNmCluster.nmCbvPosition values: If defined, the value of UdpNmCluster.nmCbvPosition shall only be set to either 0 or 1.
+
+    [constr_3080] UdpNmCluster.nmCbvPosition and UdpNmCluster.nmNidPosition shall never have the same value: UdpNmCluster.nmCbvPosition and UdpNmCluster.nmNidPosition shall never have the same value.
+
+    [constr_5222] Mandatory elements of UdpNmCluster: The following attributes shall always be defined for the UdpNmCluster: nmMsgCycleTime, nmMessageTimeoutTime, nmNetworkTimeout, nmRemoteSleepIndicationTime, nmRepeatMessageTime, nmWaitBusSleepTime, communicationCluster.
     """
 
     # UdpNmCluster method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmCbvPosition             [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmCbvPosition             [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmChannelActive           [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmChannelActive           [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmImmediateNmCycleTime    [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmImmediateNmCycleTime    [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmImmediateNmTransmissions [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmImmediateNmTransmissions [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmMessageTimeoutTime      [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmMessageTimeoutTime      [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmMsgCycleTime            [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmMsgCycleTime            [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmNetworkTimeout          [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmNetworkTimeout          [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmNidPosition             [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmNidPosition             [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmRemoteSleepIndicationTime [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmRemoteSleepIndicationTime [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmRepeatMessageTime       [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmRepeatMessageTime       [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmWaitBusSleepTime        [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmWaitBusSleepTime        [x] impl  [ ] docstring  [ ] test
-    # [ ] getVlanRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setVlanRef                   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.315, p.687
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNmCbvPosition                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmCbvPosition                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmImmediateNmCycleTime       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmImmediateNmCycleTime       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmImmediateNmTransmissions   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmImmediateNmTransmissions   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmMessageTimeoutTime         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmMessageTimeoutTime         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmMsgCycleTime               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmMsgCycleTime               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmNetworkTimeout             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmNetworkTimeout             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmNidPosition                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmNidPosition                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmRemoteSleepIndicationTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmRemoteSleepIndicationTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmRepeatMessageTime          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmRepeatMessageTime          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmWaitBusSleepTime           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmWaitBusSleepTime           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVlanRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVlanRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.nmCbvPosition: Integer = None
-        self.nmChannelActive: Boolean = None
-        self.nmImmediateNmCycleTime: TimeValue = None
-        self.nmImmediateNmTransmissions: PositiveInteger = None
-        self.nmMessageTimeoutTime: TimeValue = None
-        self.nmMsgCycleTime: TimeValue = None
-        self.nmNetworkTimeout: TimeValue = None
-        self.nmNidPosition: Integer = None
-        self.nmRemoteSleepIndicationTime: TimeValue = None
-        self.nmRepeatMessageTime: TimeValue = None
-        self.nmWaitBusSleepTime: TimeValue = None
-        self.vlanRef: RefType = None
+        # Defines the position of the control bit vector within the Nm Pdu (Byte position). If this attribute is not configured, the Control Bit Vector is not used.
+        self.nmCbvPosition: Optional[Integer] = None
 
-    def getNmCbvPosition(self):
+        # Defines the immediate NmPdu cycle time in seconds which is used for nmImmediateNmTransmissions NmPdu transmissions. This attribute is only valid if nmImmediate NmTransmissions is greater one.
+        self.nmImmediateNmCycleTime: Optional[TimeValue] = None
+
+        # Defines the number of immediate NmPdus which shall be transmitted. If the value is zero no immediate NmPdus are transmitted. The cycle time of immediate NmPdus is defined by nmImmediateNmCycleTime.
+        self.nmImmediateNmTransmissions: Optional[PositiveInteger] = None
+
+        # Timeout of a NmPdu in seconds. It determines how long the NM shall wait with notification of transmission failure while communication errors occur on the bus.
+        self.nmMessageTimeoutTime: Optional[TimeValue] = None
+
+        # Period of a NmPdu in seconds. It determines the periodic rate in the periodic transmission mode with bus load reduction and is the basis for transmit scheduling in the periodic transmission mode without bus load reduction.
+        self.nmMsgCycleTime: Optional[TimeValue] = None
+
+        # Network Timeout for NmPdus in seconds. It denotes the time how long the UdpNm shall stay in the Network Mode before transition into Prepare Bus-Sleep Mode shall take place.
+        self.nmNetworkTimeout: Optional[TimeValue] = None
+
+        # Defines the byte position of the source node identifier within the NmPdu. If this attribute is not configured, the Node Identification is not used.
+        self.nmNidPosition: Optional[Integer] = None
+
+        # Timeout for Remote Sleep Indication in seconds. It defines the time how long it shall take to recognize that all other nodes are ready to sleep.
+        self.nmRemoteSleepIndicationTime: Optional[TimeValue] = None
+
+        # Timeout for Repeat Message State in seconds. Defines the time how long the NM shall stay in the Repeat Message State.
+        self.nmRepeatMessageTime: Optional[TimeValue] = None
+
+        # Timeout for bus calm down phase in seconds. It denotes the time how long the CanNm shall stay in the Prepare Bus-Sleep Mode before transition into Bus-Sleep Mode shall take place.
+        self.nmWaitBusSleepTime: Optional[TimeValue] = None
+
+        # Reference to the vlan (represented by the Ethernet PhysicalChannel) this UdpNmCluster shall apply to.
+        self.vlanRef: Optional[RefType] = None
+
+    def getNmCbvPosition(self) -> Optional[Integer]:
+        """
+        Defines the position of the control bit vector within the Nm Pdu (Byte position). If this attribute is not configured, the Control Bit Vector is not used.
+        """
         return self.nmCbvPosition
 
-    def setNmCbvPosition(self, value):
+    def setNmCbvPosition(self, value: Optional[Integer]) -> "UdpNmCluster":
+        """
+        Defines the position of the control bit vector within the Nm Pdu (Byte position). If this attribute is not configured, the Control Bit Vector is not used.
+        A None value is a no-op and does not overwrite an existing nmCbvPosition.
+        """
         if value is not None:
             self.nmCbvPosition = value
         return self
 
-    def getNmChannelActive(self):
-        return self.nmChannelActive
-
-    def setNmChannelActive(self, value):
-        if value is not None:
-            self.nmChannelActive = value
-        return self
-
-    def getNmImmediateNmCycleTime(self):
+    def getNmImmediateNmCycleTime(self) -> Optional[TimeValue]:
+        """
+        Defines the immediate NmPdu cycle time in seconds which is used for nmImmediateNmTransmissions NmPdu transmissions. This attribute is only valid if nmImmediate NmTransmissions is greater one.
+        """
         return self.nmImmediateNmCycleTime
 
-    def setNmImmediateNmCycleTime(self, value):
+    def setNmImmediateNmCycleTime(self, value: Optional[TimeValue]) -> "UdpNmCluster":
+        """
+        Defines the immediate NmPdu cycle time in seconds which is used for nmImmediateNmTransmissions NmPdu transmissions. This attribute is only valid if nmImmediate NmTransmissions is greater one.
+        A None value is a no-op and does not overwrite an existing nmImmediateNmCycleTime.
+        """
         if value is not None:
             self.nmImmediateNmCycleTime = value
         return self
 
-    def getNmImmediateNmTransmissions(self):
+    def getNmImmediateNmTransmissions(self) -> Optional[PositiveInteger]:
+        """
+        Defines the number of immediate NmPdus which shall be transmitted. If the value is zero no immediate NmPdus are transmitted. The cycle time of immediate NmPdus is defined by nmImmediateNmCycleTime.
+        """
         return self.nmImmediateNmTransmissions
 
-    def setNmImmediateNmTransmissions(self, value):
+    def setNmImmediateNmTransmissions(self, value: Optional[PositiveInteger]) -> "UdpNmCluster":
+        """
+        Defines the number of immediate NmPdus which shall be transmitted. If the value is zero no immediate NmPdus are transmitted. The cycle time of immediate NmPdus is defined by nmImmediateNmCycleTime.
+        A None value is a no-op and does not overwrite an existing nmImmediateNmTransmissions.
+        """
         if value is not None:
             self.nmImmediateNmTransmissions = value
         return self
 
-    def getNmMessageTimeoutTime(self):
+    def getNmMessageTimeoutTime(self) -> Optional[TimeValue]:
+        """
+        Timeout of a NmPdu in seconds. It determines how long the NM shall wait with notification of transmission failure while communication errors occur on the bus.
+        """
         return self.nmMessageTimeoutTime
 
-    def setNmMessageTimeoutTime(self, value):
+    def setNmMessageTimeoutTime(self, value: Optional[TimeValue]) -> "UdpNmCluster":
+        """
+        Timeout of a NmPdu in seconds. It determines how long the NM shall wait with notification of transmission failure while communication errors occur on the bus.
+        A None value is a no-op and does not overwrite an existing nmMessageTimeoutTime.
+        """
         if value is not None:
             self.nmMessageTimeoutTime = value
         return self
 
-    def getNmMsgCycleTime(self):
+    def getNmMsgCycleTime(self) -> Optional[TimeValue]:
+        """
+        Period of a NmPdu in seconds. It determines the periodic rate in the periodic transmission mode with bus load reduction and is the basis for transmit scheduling in the periodic transmission mode without bus load reduction.
+        """
         return self.nmMsgCycleTime
 
-    def setNmMsgCycleTime(self, value):
+    def setNmMsgCycleTime(self, value: Optional[TimeValue]) -> "UdpNmCluster":
+        """
+        Period of a NmPdu in seconds. It determines the periodic rate in the periodic transmission mode with bus load reduction and is the basis for transmit scheduling in the periodic transmission mode without bus load reduction.
+        A None value is a no-op and does not overwrite an existing nmMsgCycleTime.
+        """
         if value is not None:
             self.nmMsgCycleTime = value
         return self
 
-    def getNmNetworkTimeout(self):
+    def getNmNetworkTimeout(self) -> Optional[TimeValue]:
+        """
+        Network Timeout for NmPdus in seconds. It denotes the time how long the UdpNm shall stay in the Network Mode before transition into Prepare Bus-Sleep Mode shall take place.
+        """
         return self.nmNetworkTimeout
 
-    def setNmNetworkTimeout(self, value):
+    def setNmNetworkTimeout(self, value: Optional[TimeValue]) -> "UdpNmCluster":
+        """
+        Network Timeout for NmPdus in seconds. It denotes the time how long the UdpNm shall stay in the Network Mode before transition into Prepare Bus-Sleep Mode shall take place.
+        A None value is a no-op and does not overwrite an existing nmNetworkTimeout.
+        """
         if value is not None:
             self.nmNetworkTimeout = value
         return self
 
-    def getNmNidPosition(self):
+    def getNmNidPosition(self) -> Optional[Integer]:
+        """
+        Defines the byte position of the source node identifier within the NmPdu. If this attribute is not configured, the Node Identification is not used.
+        """
         return self.nmNidPosition
 
-    def setNmNidPosition(self, value):
+    def setNmNidPosition(self, value: Optional[Integer]) -> "UdpNmCluster":
+        """
+        Defines the byte position of the source node identifier within the NmPdu. If this attribute is not configured, the Node Identification is not used.
+        A None value is a no-op and does not overwrite an existing nmNidPosition.
+        """
         if value is not None:
             self.nmNidPosition = value
         return self
 
-    def getNmRemoteSleepIndicationTime(self):
+    def getNmRemoteSleepIndicationTime(self) -> Optional[TimeValue]:
+        """
+        Timeout for Remote Sleep Indication in seconds. It defines the time how long it shall take to recognize that all other nodes are ready to sleep.
+        """
         return self.nmRemoteSleepIndicationTime
 
-    def setNmRemoteSleepIndicationTime(self, value):
+    def setNmRemoteSleepIndicationTime(self, value: Optional[TimeValue]) -> "UdpNmCluster":
+        """
+        Timeout for Remote Sleep Indication in seconds. It defines the time how long it shall take to recognize that all other nodes are ready to sleep.
+        A None value is a no-op and does not overwrite an existing nmRemoteSleepIndicationTime.
+        """
         if value is not None:
             self.nmRemoteSleepIndicationTime = value
         return self
 
-    def getNmRepeatMessageTime(self):
+    def getNmRepeatMessageTime(self) -> Optional[TimeValue]:
+        """
+        Timeout for Repeat Message State in seconds. Defines the time how long the NM shall stay in the Repeat Message State.
+        """
         return self.nmRepeatMessageTime
 
-    def setNmRepeatMessageTime(self, value):
+    def setNmRepeatMessageTime(self, value: Optional[TimeValue]) -> "UdpNmCluster":
+        """
+        Timeout for Repeat Message State in seconds. Defines the time how long the NM shall stay in the Repeat Message State.
+        A None value is a no-op and does not overwrite an existing nmRepeatMessageTime.
+        """
         if value is not None:
             self.nmRepeatMessageTime = value
         return self
 
-    def getNmWaitBusSleepTime(self):
+    def getNmWaitBusSleepTime(self) -> Optional[TimeValue]:
+        """
+        Timeout for bus calm down phase in seconds. It denotes the time how long the CanNm shall stay in the Prepare Bus-Sleep Mode before transition into Bus-Sleep Mode shall take place.
+        """
         return self.nmWaitBusSleepTime
 
-    def setNmWaitBusSleepTime(self, value):
+    def setNmWaitBusSleepTime(self, value: Optional[TimeValue]) -> "UdpNmCluster":
+        """
+        Timeout for bus calm down phase in seconds. It denotes the time how long the CanNm shall stay in the Prepare Bus-Sleep Mode before transition into Bus-Sleep Mode shall take place.
+        A None value is a no-op and does not overwrite an existing nmWaitBusSleepTime.
+        """
         if value is not None:
             self.nmWaitBusSleepTime = value
         return self
 
-    def getVlanRef(self):
+    def getVlanRef(self) -> Optional[RefType]:
+        """
+        Reference to the vlan (represented by the Ethernet PhysicalChannel) this UdpNmCluster shall apply to.
+        """
         return self.vlanRef
 
-    def setVlanRef(self, value):
+    def setVlanRef(self, value: Optional[RefType]) -> "UdpNmCluster":
+        """
+        Reference to the vlan (represented by the Ethernet PhysicalChannel) this UdpNmCluster shall apply to.
+        A None value is a no-op and does not overwrite an existing vlanRef.
+        """
         if value is not None:
             self.vlanRef = value
         return self

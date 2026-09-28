@@ -515,7 +515,6 @@ class TestWriteUdpNmCluster:
         cluster.setNmChannelSleepMaster(_bool(False))
         cluster.setNmSynchronizingNetwork(_bool(True))
         cluster.setNmCbvPosition(_int(2))
-        cluster.setNmChannelActive(_bool(True))
         cluster.setNmImmediateNmCycleTime(_time(0.05))
         cluster.setNmImmediateNmTransmissions(_pos_int(3))
         cluster.setNmMessageTimeoutTime(_time(1.0))
@@ -531,7 +530,6 @@ class TestWriteUdpNmCluster:
         assert parent.find("UDP-NM-CLUSTER") is not None
         c = parent.find("UDP-NM-CLUSTER")
         assert c.find("NM-CBV-POSITION") is not None
-        assert c.find("NM-CHANNEL-ACTIVE") is not None
         assert c.find("NM-IMMEDIATE-NM-CYCLE-TIME") is not None
         assert c.find("NM-IMMEDIATE-NM-TRANSMISSIONS") is not None
         assert c.find("NM-MESSAGE-TIMEOUT-TIME") is not None

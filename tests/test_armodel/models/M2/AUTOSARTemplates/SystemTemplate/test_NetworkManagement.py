@@ -736,7 +736,6 @@ class Test_NetworkManagement:
 
         # Test default values
         assert cluster.getNmCbvPosition() is None
-        assert cluster.getNmChannelActive() is None
         assert cluster.getNmImmediateNmCycleTime() is None
         assert cluster.getNmImmediateNmTransmissions() is None
         assert cluster.getNmMessageTimeoutTime() is None
@@ -751,9 +750,6 @@ class Test_NetworkManagement:
         # Test setter/getter methods
         cluster.setNmCbvPosition(5)
         assert cluster.getNmCbvPosition() == 5
-
-        cluster.setNmChannelActive(True)
-        assert cluster.getNmChannelActive() is True
 
         cluster.setVlanRef("vlan_ref")
         assert cluster.getVlanRef() == "vlan_ref"
