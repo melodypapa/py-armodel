@@ -110,7 +110,7 @@ class TestWriteDefaultValueElementDispatch:
         parent = ET.Element("PARENT")
         ARXMLWriter().setTargetIPduRef(parent, "TARGET-I-PDU", target)
 
-        elements = parent.findall("TARGET-I-PDU/DEFAULT-VALUE-ELEMENTS/DEFAULT-VALUE-ELEMENT")
+        elements = parent.findall("TARGET-I-PDU/DEFAULT-VALUE/DEFAULT-VALUE-ELEMENTS/DEFAULT-VALUE-ELEMENT")
         assert len(elements) == 1
         assert elements[0].find("ELEMENT-BYTE-VALUE").text == "171"
         assert elements[0].find("ELEMENT-POSITION").text == "0"

@@ -13002,13 +13002,15 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             i_pdu_ref = TargetIPduRef()
+            default_value_element = self.find(child_element, "DEFAULT-VALUE")
+            if default_value_element is not None:
+                default_value = PduMappingDefaultValue()
+                for element_element in self.findall(default_value_element, "DEFAULT-VALUE-ELEMENTS/DEFAULT-VALUE-ELEMENT"):
+                    value = DefaultValueElement()
+                    self.readDefaultValueElement(element_element, value)
+                    default_value.addDefaultValueElement(value)
+                i_pdu_ref.setDefaultValue(default_value)
             i_pdu_ref.setTargetIPduRef(self.getChildElementOptionalRefType(child_element, "TARGET-I-PDU-REF"))
-            for element_element in self.findall(child_element, "DEFAULT-VALUE-ELEMENTS/DEFAULT-VALUE-ELEMENT"):
-                if i_pdu_ref.getDefaultValue() is None:
-                    i_pdu_ref.setDefaultValue(PduMappingDefaultValue())
-                default_value = DefaultValueElement()
-                self.readDefaultValueElement(element_element, default_value)
-                i_pdu_ref.getDefaultValue().addDefaultValueElement(default_value)
         return i_pdu_ref
 
     def readDefaultValueElement(self, element: ET.Element, default_value: DefaultValueElement):

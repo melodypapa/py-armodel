@@ -66,10 +66,12 @@ class TestReadDefaultValueElement:
     def test_dispatch_via_target_ipdu_ref(self):
         root = _snip(
             "<TARGET-I-PDU>"
-            '<TARGET-I-PDU-REF DEST="PDU-TRIGGERING">/Cluster/PT_Target</TARGET-I-PDU-REF>'
+            "<DEFAULT-VALUE>"
             "<DEFAULT-VALUE-ELEMENTS>"
             "<DEFAULT-VALUE-ELEMENT><ELEMENT-BYTE-VALUE>255</ELEMENT-BYTE-VALUE><ELEMENT-POSITION>2</ELEMENT-POSITION></DEFAULT-VALUE-ELEMENT>"
             "</DEFAULT-VALUE-ELEMENTS>"
+            "</DEFAULT-VALUE>"
+            '<TARGET-I-PDU-REF DEST="PDU-TRIGGERING">/Cluster/PT_Target</TARGET-I-PDU-REF>'
             "</TARGET-I-PDU>"
         )
         target = ARXMLParser().getTargetIPduRef(root, "TARGET-I-PDU")

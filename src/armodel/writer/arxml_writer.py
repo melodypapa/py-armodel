@@ -12514,15 +12514,16 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setTargetIPduRef(self, element: ET.Element, key: str, i_pdu_ref: TargetIPduRef):
         if i_pdu_ref is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalRefType(child_element, "TARGET-I-PDU-REF", i_pdu_ref.getTargetIPduRef())
             default_value = i_pdu_ref.getDefaultValue()
-            if default_value is not None:
-                elements_tag = ET.SubElement(child_element, "DEFAULT-VALUE-ELEMENTS")
-                for default_value_element in default_value.getDefaultValueElements():
-                    if isinstance(default_value_element, DefaultValueElement):
-                        self.writeDefaultValueElement(elements_tag, default_value_element)
+            if default_value is not None and len(default_value.getDefaultValueElements()) > 0:
+                default_value_element = ET.SubElement(child_element, "DEFAULT-VALUE")
+                elements_tag = ET.SubElement(default_value_element, "DEFAULT-VALUE-ELEMENTS")
+                for default_value_item in default_value.getDefaultValueElements():
+                    if isinstance(default_value_item, DefaultValueElement):
+                        self.writeDefaultValueElement(elements_tag, default_value_item)
                     else:
-                        self.notImplemented("Unsupported DefaultValueElement %s" % type(default_value_element))
+                        self.notImplemented("Unsupported DefaultValueElement %s" % type(default_value_item))
+            self.setChildElementOptionalRefType(child_element, "TARGET-I-PDU-REF", i_pdu_ref.getTargetIPduRef())
 
     def writeDefaultValueElement(self, element: ET.Element, default_value: DefaultValueElement):
         child_element = ET.SubElement(element, "DEFAULT-VALUE-ELEMENT")

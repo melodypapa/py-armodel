@@ -1,9 +1,9 @@
 """Writer round-trip tests for PduMappingDefaultValue (Table 8.5, p.841).
 
 Aggregated by TargetIPduRef.defaultValue. Element order per XSD groups
-TARGET-I-PDU-REF and PDU-MAPPING-DEFAULT-VALUE: TARGET-I-PDU-REF,
-DEFAULT-VALUE-ELEMENTS (choice of DEFAULT-VALUE-ELEMENT with
-ELEMENT-BYTE-VALUE, ELEMENT-POSITION).
+TARGET-I-PDU-REF and PDU-MAPPING-DEFAULT-VALUE: DEFAULT-VALUE wrapper
+(DEFAULT-VALUE-ELEMENTS choice of DEFAULT-VALUE-ELEMENT with
+ELEMENT-BYTE-VALUE, ELEMENT-POSITION) first, then TARGET-I-PDU-REF.
 """
 
 import xml.etree.ElementTree as ET
@@ -61,9 +61,9 @@ class TestWritePduMappingDefaultValue:
         node = parent.find("TARGET-I-PDU")
         assert node is not None
         children = [child.tag for child in node]
-        assert children == ["TARGET-I-PDU-REF", "DEFAULT-VALUE-ELEMENTS"]
+        assert children == ["DEFAULT-VALUE", "TARGET-I-PDU-REF"]
         assert node.find("TARGET-I-PDU-REF").text == "/Cluster/PT_Target"
-        elements = node.findall("DEFAULT-VALUE-ELEMENTS/DEFAULT-VALUE-ELEMENT")
+        elements = node.findall("DEFAULT-VALUE/DEFAULT-VALUE-ELEMENTS/DEFAULT-VALUE-ELEMENT")
         assert len(elements) == 2
         assert elements[0].find("ELEMENT-BYTE-VALUE").text == "171"
         assert elements[0].find("ELEMENT-POSITION").text == "0"
@@ -80,7 +80,7 @@ class TestWritePduMappingDefaultValue:
         parent = ET.Element("PARENT")
         ARXMLWriter().setTargetIPduRef(parent, "TARGET-I-PDU", target)
         node = parent.find("TARGET-I-PDU")
-        assert node.find("DEFAULT-VALUE-ELEMENTS") is None
+        assert node.find("DEFAULT-VALUE") is None
         assert node.find("TARGET-I-PDU-REF").text == "/Cluster/PT_Target"
 
     def test_round_trip_preserves_all_values(self):

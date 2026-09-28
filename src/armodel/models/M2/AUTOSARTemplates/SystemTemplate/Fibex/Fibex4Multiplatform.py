@@ -255,33 +255,54 @@ class PduMappingDefaultValue(ARObject):
 class TargetIPduRef(ARObject):
     """
     Target destination of the referencing mapping.
+
+    [constr_9294] Existence of TargetIPduRef.targetIPdu: For each TargetIPduRef, the reference to PduTriggering in the role targetIPdu shall exist at the time when the System Description is complete.
     """
 
     # TargetIPduRef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDefaultValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] setDefaultValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] getTargetIPduRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] setTargetIPduRef             [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 8.4, p.841
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetIPduRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetIPduRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.defaultValue: PduMappingDefaultValue = None
-        self.targetIPduRef: RefType = None
+        # If no I-Pdu has been received a default value will be distributed.
+        self.defaultValue: Optional[PduMappingDefaultValue] = None
 
-    def getDefaultValue(self):
+        # IPdu Reference
+        self.targetIPduRef: Optional[RefType] = None
+
+    def getDefaultValue(self) -> Optional[PduMappingDefaultValue]:
+        """
+        If no I-Pdu has been received a default value will be distributed.
+        """
         return self.defaultValue
 
-    def setDefaultValue(self, value):
+    def setDefaultValue(self, value: Optional[PduMappingDefaultValue]) -> TargetIPduRef:
+        """
+        If no I-Pdu has been received a default value will be distributed.
+        A None value is a no-op and does not overwrite an existing defaultValue.
+        """
         if value is not None:
             self.defaultValue = value
         return self
 
-    def getTargetIPduRef(self):
+    def getTargetIPduRef(self) -> Optional[RefType]:
+        """
+        IPdu Reference
+        """
         return self.targetIPduRef
 
-    def setTargetIPduRef(self, value):
+    def setTargetIPduRef(self, value: Optional[RefType]) -> TargetIPduRef:
+        """
+        IPdu Reference
+        A None value is a no-op and does not overwrite an existing targetIPduRef.
+        """
         if value is not None:
             self.targetIPduRef = value
         return self

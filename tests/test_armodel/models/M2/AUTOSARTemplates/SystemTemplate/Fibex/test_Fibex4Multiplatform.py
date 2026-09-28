@@ -416,3 +416,92 @@ class TestISignalMapping:
     def test_target_signal_ref_docstrings_are_spec_note(self):
         self._assert_docstring(ISignalMapping.getTargetSignalRef, TARGET_SIGNAL_NOTE)
         self._assert_docstring(ISignalMapping.setTargetSignalRef, TARGET_SIGNAL_NOTE, "targetSignalRef")
+
+
+TARGET_IPDU_REF_CLASS_NOTE = "Target destination of the referencing mapping."
+TARGET_IPDU_REF_CONSTRAINTS = (
+    "[constr_9294] Existence of TargetIPduRef.targetIPdu: For each TargetIPduRef, the reference to PduTriggering in the role targetIPdu shall exist at the time when the System Description is complete."
+)
+DEFAULT_VALUE_NOTE = "If no I-Pdu has been received a default value will be distributed."
+TARGET_IPDU_NOTE = "IPdu Reference"
+
+
+class TestTargetIPduRef:
+    """Spec-synced tests for TargetIPduRef (AUTOSAR_CP_TPS_SystemTemplate Table 8.4)."""
+
+    def _make(self) -> TargetIPduRef:
+        return TargetIPduRef()
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert method.__doc__ is not None
+        assert inspect.cleandoc(method.__doc__).strip() == expected
+
+    def test_initialization(self):
+        i_pdu_ref = self._make()
+
+        assert isinstance(i_pdu_ref, ARObject)
+        assert not isinstance(i_pdu_ref, VariationPointCapable)
+        assert i_pdu_ref.getDefaultValue() is None
+        assert i_pdu_ref.getTargetIPduRef() is None
+
+    def test_class_docstring_is_spec_note(self):
+        expected = TARGET_IPDU_REF_CLASS_NOTE + "\n\n" + TARGET_IPDU_REF_CONSTRAINTS
+        assert inspect.cleandoc(TargetIPduRef.__doc__).strip() == expected
+
+    def test_init_has_no_docstring(self):
+        assert TargetIPduRef.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        source = inspect.getsource(TargetIPduRef.__init__)
+        assert source.index("self.defaultValue:") < source.index("self.targetIPduRef:")
+
+    def test_get_set_default_value(self):
+        i_pdu_ref = self._make()
+
+        assert i_pdu_ref.getDefaultValue() is None
+
+        default_value = PduMappingDefaultValue()
+        assert i_pdu_ref == i_pdu_ref.setDefaultValue(default_value)
+        assert i_pdu_ref.getDefaultValue() is default_value
+
+        assert i_pdu_ref == i_pdu_ref.setDefaultValue(None)
+        assert i_pdu_ref.getDefaultValue() is default_value
+
+        default_value.addDefaultValueElement(DefaultValueElement())
+        assert len(i_pdu_ref.getDefaultValue().getDefaultValueElements()) == 1
+
+        getter_hints = get_type_hints(TargetIPduRef.getDefaultValue)
+        assert getter_hints.get("return") == Optional[PduMappingDefaultValue]
+
+        setter_hints = get_type_hints(TargetIPduRef.setDefaultValue)
+        assert setter_hints.get("value") == Optional[PduMappingDefaultValue]
+        assert setter_hints.get("return") is TargetIPduRef
+
+    def test_get_set_target_ipdu_ref(self):
+        i_pdu_ref = self._make()
+
+        assert i_pdu_ref.getTargetIPduRef() is None
+
+        ref = RefType()
+        ref.setValue("/Cluster/PduTriggering")
+        assert i_pdu_ref == i_pdu_ref.setTargetIPduRef(ref)
+        assert i_pdu_ref.getTargetIPduRef() is ref
+
+        assert i_pdu_ref == i_pdu_ref.setTargetIPduRef(None)
+        assert i_pdu_ref.getTargetIPduRef() is ref
+
+        getter_hints = get_type_hints(TargetIPduRef.getTargetIPduRef)
+        assert getter_hints.get("return") == Optional[RefType]
+
+        setter_hints = get_type_hints(TargetIPduRef.setTargetIPduRef)
+        assert setter_hints.get("value") == Optional[RefType]
+        assert setter_hints.get("return") is TargetIPduRef
+
+    def test_default_value_docstrings_are_spec_note(self):
+        self._assert_docstring(TargetIPduRef.getDefaultValue, DEFAULT_VALUE_NOTE)
+        self._assert_docstring(TargetIPduRef.setDefaultValue, DEFAULT_VALUE_NOTE, "defaultValue")
+
+    def test_target_ipdu_ref_docstrings_are_spec_note(self):
+        self._assert_docstring(TargetIPduRef.getTargetIPduRef, TARGET_IPDU_NOTE)
+        self._assert_docstring(TargetIPduRef.setTargetIPduRef, TARGET_IPDU_NOTE, "targetIPduRef")
