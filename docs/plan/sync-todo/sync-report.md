@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 482 | 66.9% |
+| [x] Done | 483 | 67.0% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 162 | 22.5% |
+| [ ] Deferred | 161 | 22.3% |
 | [ ] Pending | 66 | 9.2% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -209,7 +209,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DataTransformationErrorHandlingEnum`                   | [x] Done    | 7fc79e4b73                               | Group2           |
 | `DataTransformationSet`                                 | [x] Done    | 757aea1d17                               | Group6           |
 | `DataTransformationStatusForwardingEnum`                | [x] Done    | 7c67628122                               | Group2           |
-| `DataTypeMap`                                           | [ ] Deferred| N/A                                      | Group10          |
+| `DataTypeMap`                                           | [x] Done    | 0731ff4f68                               | Group10          |
 | `DataTypeMappingSet`                                    | [x] Done    | 21ab486b53                               | Group2           |
 | `DataWriteCompletedEvent`                               | [ ] Deferred| N/A                                      | Group12          |
 | `DefaultValueElement`                                   | [ ] Pending | N/A                                      | Group17          |

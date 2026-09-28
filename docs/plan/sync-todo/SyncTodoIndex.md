@@ -536,7 +536,7 @@ Status: **29/29** completed
 
 ## Group10
 
-Status: **17/32** completed
+Status: **18/32** completed
 
 | Class Name                         | Status       | Commit ID  |
 | ---------------------------------- | ------------ | ---------- |
@@ -557,7 +557,7 @@ Status: **17/32** completed
 | `NvRequireComSpec`                 | [x] Done     | cbdf05b372 |
 | `ParameterRequireComSpec`          | [x] Done     | 6cf8476adb |
 | `QueuedReceiverComSpec`            | [x] Done     | bb5804989f |
-| `DataTypeMap`                      | [ ] Pending* | N/A        |
+| `DataTypeMap`                      | [x] Done     | 0731ff4f68 |
 | `EndToEndDescription`              | [ ] Pending* | N/A        |
 | `ModeSwitchEventTriggeredActivity` | [ ] Pending* | N/A        |
 | `AutosarVariableRef`               | [ ] Pending* | N/A        |
