@@ -80,6 +80,19 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations (fixed+recorded in step notes: class docstring "Define" → Note verbatim "Defines", `__init__` docstring wiped, paraphrased getter/setter docstrings → symbol Note verbatim + [constr_1909] (+ None-no-op sentence on setter), wrapped 2-line inline comment → single-line verbatim, old 4-column checklist → 6-column R23-11, quoted return annotation → bare name (Rule 0003); no open deviations for the class itself — tracker method_deviation_by_class.md has no ImplementationProps rows (SymbolicNameProps mentions are historical subclass write-ups, stale artifacts); REPORTED UNFIXED: consumer SectionNamePrefix reader/writer gap (see Step 6) — fix belongs to its own row)
   - [x] Step 9 — Verify (9a) + confirm (9b) [9a: 10949 unit tests + flake8 + ruff + black green; 9b explicitly confirmed by user; `# Spec verified: R23-11` written to source; sync commit: 3166f6e5d05076e201cc2a15e3a0a78dd1f78d64]
 
+- [ ] `PerInstanceMemorySize` — ARObject — R23-11 markdown · Table 8.8, p.624 (CP_TPS_SoftwareComponentTemplate) · required member type of `SwcImplementation.perInstanceMemorySize`; queued before its consumer
+  - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcImplementation.py
+  - note: closure = Base `ARObject` (stamped); member types `PositiveInteger` (stamped) and `PerInstanceMemory` (stamped); Table 8.8 confirms a real Class with three members; XSD complexType `PER-INSTANCE-MEMORY-SIZE` includes `VARIATION-POINT` for the `atpVariation` size member (Rule 0020)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
 - [ ] `SwcImplementation` — Implementation — R23-11 markdown · Table 8.7 (CP_TPS_SoftwareComponentTemplate)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcImplementation.py
   - [x] Step 1 — Sync members & description from spec (Table 8.7, p.623 SWC TPS; concrete Class; Base most-derived = `Implementation` (exists in src, CommonStructure/Implementation.py, stamped R23-11); 3 attrs: behavior (SwcInternalBehavior 0..1 ref) / perInstanceMemorySize (PerInstanceMemorySize * aggr) / requiredRTEVendor (String 0..1 attr); XSD group SWC-IMPLEMENTATION (00052 line 117039) order BEHAVIOR-REF → PER-INSTANCE-MEMORY-SIZES → REQUIRED-RTE-VENDOR; member type PerInstanceMemorySize NOT in src → Rule 0001.10 placeholder, reader/writer for PER-INSTANCE-MEMORY-SIZES deferred; found: paraphrased docstrings, untyped accessors, old 4-column checklist, REQUIRED-RTE-VENDOR missing in reader+writer)
