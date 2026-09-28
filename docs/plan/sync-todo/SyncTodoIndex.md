@@ -536,7 +536,7 @@ Status: **29/29** completed
 
 ## Group10
 
-Status: **18/32** completed
+Status: **19/32** completed
 
 | Class Name                         | Status       | Commit ID  |
 | ---------------------------------- | ------------ | ---------- |
@@ -558,7 +558,7 @@ Status: **18/32** completed
 | `ParameterRequireComSpec`          | [x] Done     | 6cf8476adb |
 | `QueuedReceiverComSpec`            | [x] Done     | bb5804989f |
 | `DataTypeMap`                      | [x] Done     | 0731ff4f68 |
-| `EndToEndDescription`              | [ ] Pending* | N/A        |
+| `EndToEndDescription`              | [x] Done     | d3db89bb98 |
 | `ModeSwitchEventTriggeredActivity` | [ ] Pending* | N/A        |
 | `AutosarVariableRef`               | [ ] Pending* | N/A        |
 | `RoleBasedPortAssignment`          | [ ] Pending* | N/A        |

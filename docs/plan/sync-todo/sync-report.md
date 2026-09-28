@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 483 | 67.0% |
+| [x] Done | 484 | 67.1% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 161 | 22.3% |
+| [ ] Deferred | 160 | 22.2% |
 | [ ] Pending | 66 | 9.2% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -299,7 +299,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EcucSymbolicNameReferenceDef`                          | [ ] Pending | N/A                                      | Group19          |
 | `EcucUriReferenceDef`                                   | [ ] Pending | N/A                                      | Group19          |
 | `EcucValueCollection`                                   | [ ] Pending | N/A                                      | Group19          |
-| `EndToEndDescription`                                   | [ ] Deferred| N/A                                      | Group10          |
+| `EndToEndDescription`                                   | [x] Done    | d3db89bb98                               | Group10          |
 | `EndToEndProtectionISignalIPdu`                         | [ ] Pending | N/A                                      | Group18          |
 | `EndToEndProtectionSet`                                 | [x] Done    | 4a7d82ffc7                               | Group5           |
 | `EndToEndProtectionVariablePrototype`                   | [x] Done    | 4a7d82ffc7                               | Group5           |
