@@ -31,46 +31,73 @@ class NmClusterCoupling(ARObject, VariationPointCapable, ABC):
 
 class CanNmClusterCoupling(NmClusterCoupling):
     """
-    Defines coupling properties for CAN network management clusters,
-    specifying coupled cluster references and CAN-specific NM features
-    like busload reduction and immediate restart capabilities.
+    CAN attributes that are valid for each of the referenced (coupled) CAN clusters.
     """
 
     # CanNmClusterCoupling method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCoupledClusterRefs        [x] impl  [ ] docstring  [ ] test
-    # [ ] addCoupledClusterRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmBusloadReductionEnabled [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmBusloadReductionEnabled [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmImmediateRestartEnabled [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmImmediateRestartEnabled [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.313, p.684
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addCoupledClusterRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCoupledClusterRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getNmBusloadReductionEnabled   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmBusloadReductionEnabled   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmImmediateRestartEnabled   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmImmediateRestartEnabled   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.coupledClusterRefs = []
-        self.nmBusloadReductionEnabled = None
-        self.nmImmediateRestartEnabled = None
+        # Reference to coupled CAN Clusters.
+        self.coupledClusterRefs: List[RefType] = []
 
-    def getCoupledClusterRefs(self):
+        # Enables busload reduction support
+        self.nmBusloadReductionEnabled: Optional[Boolean] = None
+
+        # Enables the asynchronous transmission of a CanNm PDU upon bus-communication request in Prepare-Bus-Sleep mode.
+        self.nmImmediateRestartEnabled: Optional[Boolean] = None
+
+    def addCoupledClusterRef(self, ref: RefType) -> "CanNmClusterCoupling":
+        """
+        Reference to coupled CAN Clusters.
+        """
+        self.coupledClusterRefs.append(ref)
+        return self
+
+    def getCoupledClusterRefs(self) -> List[RefType]:
+        """
+        Reference to coupled CAN Clusters.
+        """
         return self.coupledClusterRefs
 
-    def addCoupledClusterRef(self, value):
-        self.coupledClusterRefs.append(value)
-        return self
-
-    def getNmBusloadReductionEnabled(self):
+    def getNmBusloadReductionEnabled(self) -> Optional[Boolean]:
+        """
+        Enables busload reduction support
+        """
         return self.nmBusloadReductionEnabled
 
-    def setNmBusloadReductionEnabled(self, value):
-        self.nmBusloadReductionEnabled = value
+    def setNmBusloadReductionEnabled(self, value: Optional[Boolean]) -> "CanNmClusterCoupling":
+        """
+        Enables busload reduction support
+        A None value is a no-op and does not overwrite an existing nmBusloadReductionEnabled.
+        """
+        if value is not None:
+            self.nmBusloadReductionEnabled = value
         return self
 
-    def getNmImmediateRestartEnabled(self):
+    def getNmImmediateRestartEnabled(self) -> Optional[Boolean]:
+        """
+        Enables the asynchronous transmission of a CanNm PDU upon bus-communication request in Prepare-Bus-Sleep mode.
+        """
         return self.nmImmediateRestartEnabled
 
-    def setNmImmediateRestartEnabled(self, value):
-        self.nmImmediateRestartEnabled = value
+    def setNmImmediateRestartEnabled(self, value: Optional[Boolean]) -> "CanNmClusterCoupling":
+        """
+        Enables the asynchronous transmission of a CanNm PDU upon bus-communication request in Prepare-Bus-Sleep mode.
+        A None value is a no-op and does not overwrite an existing nmImmediateRestartEnabled.
+        """
+        if value is not None:
+            self.nmImmediateRestartEnabled = value
         return self
 
 
