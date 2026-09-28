@@ -9,8 +9,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.Flexr
     FlexrayCommunicationController,
     FlexrayFifoConfiguration,
     FlexrayFifoRange,
+    FlexrayPhysicalChannel,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, CommunicationController
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, CommunicationController, FlexrayChannelName, PhysicalChannel
 
 
 class MockParent(ARObject):
@@ -1047,3 +1048,64 @@ class TestFlexrayCommunicationController:
     def test_wake_up_pattern_docstrings_are_spec_note(self):
         self._assert_docstring(FlexrayCommunicationController.getWakeUpPattern, WAKE_UP_PATTERN_NOTE)
         self._assert_docstring(FlexrayCommunicationController.setWakeUpPattern, WAKE_UP_PATTERN_NOTE, "wakeUpPattern")
+
+
+FLEXRAY_PHYSICAL_CHANNEL_CLASS_NOTE = (
+    "FlexRay specific attributes to the physicalChannel\n"
+    "\n"
+    "[constr_3018] Number of FlexRay channels: A FlexrayCluster shall use either one FlexrayPhysicalChannel with channelName set to either channelA or channelB or else two FlexrayPhysicalChannels with one channelName channelA and one channelName channelB.\n"
+    "\n"
+    "[constr_5448] Existence of channelName: For each FlexrayPhysicalChannel, the attribute channelName shall exist at the time when the System Description is complete."
+)
+CHANNEL_NAME_NOTE = "Name of the channel (Channel A or Channel B)."
+
+
+class TestFlexrayPhysicalChannel:
+    def _make(self) -> FlexrayPhysicalChannel:
+        return FlexrayPhysicalChannel(MockParent(), "test_flexray_physical_channel")
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert method.__doc__ is not None
+        assert inspect.cleandoc(method.__doc__).strip() == expected
+
+    def test_initialization(self):
+        channel = self._make()
+
+        assert channel.getShortName() == "test_flexray_physical_channel"
+        assert isinstance(channel, PhysicalChannel)
+        assert channel.getChannelName() is None
+
+    def test_class_docstring_is_spec_note(self):
+        assert inspect.cleandoc(FlexrayPhysicalChannel.__doc__).strip() == FLEXRAY_PHYSICAL_CHANNEL_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert FlexrayPhysicalChannel.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        source = inspect.getsource(FlexrayPhysicalChannel.__init__)
+        assert "self.channelName: Optional[FlexrayChannelName] = None" in source
+
+    def test_get_set_channel_name(self):
+        channel = self._make()
+
+        assert channel.getChannelName() is None
+
+        value = FlexrayChannelName().setValue(FlexrayChannelName.CHANNEL_A)
+        assert channel == channel.setChannelName(value)
+        assert channel.getChannelName() == value
+        assert channel.getChannelName().getValue() == "channelA"
+
+        assert channel == channel.setChannelName(None)
+        assert channel.getChannelName() == value
+
+        getter_hints = get_type_hints(FlexrayPhysicalChannel.getChannelName)
+        assert getter_hints.get("return") == Optional[FlexrayChannelName]
+
+        setter_hints = get_type_hints(FlexrayPhysicalChannel.setChannelName)
+        assert setter_hints.get("value") == Optional[FlexrayChannelName]
+        assert setter_hints.get("return") is FlexrayPhysicalChannel
+
+    def test_channel_name_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayPhysicalChannel.getChannelName, CHANNEL_NAME_NOTE)
+        self._assert_docstring(FlexrayPhysicalChannel.setChannelName, CHANNEL_NAME_NOTE, "channelName")

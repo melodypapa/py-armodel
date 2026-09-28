@@ -5,7 +5,7 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, Integer, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, PhysicalChannel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, FlexrayChannelName, PhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
 
 
@@ -1349,25 +1349,33 @@ class FlexrayFifoConfiguration(ARObject):
 
 class FlexrayPhysicalChannel(PhysicalChannel):
     """
-    Represents a FlexRay physical channel in the communication system,
-    defining FlexRay-specific properties including channel name
-    designation for dual-channel FlexRay communication.
+    FlexRay specific attributes to the physicalChannel
+
+    [constr_3018] Number of FlexRay channels: A FlexrayCluster shall use either one FlexrayPhysicalChannel with channelName set to either channelA or channelB or else two FlexrayPhysicalChannels with one channelName channelA and one channelName channelB.
+
+    [constr_5448] Existence of channelName: For each FlexrayPhysicalChannel, the attribute channelName shall exist at the time when the System Description is complete.
     """
 
     # FlexrayPhysicalChannel method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getChannelName               [x] impl  [ ] docstring  [ ] test
-    # [ ] setChannelName               [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.34, p.89
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getChannelName    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setChannelName    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.channelName = None  # type: FlexrayChannelName
+        # Name of the channel (Channel A or Channel B).
+        self.channelName: Optional[FlexrayChannelName] = None
 
-    def getChannelName(self):
+    def getChannelName(self) -> Optional[FlexrayChannelName]:
+        """Name of the channel (Channel A or Channel B)."""
         return self.channelName
 
-    def setChannelName(self, value):
+    def setChannelName(self, value: Optional[FlexrayChannelName]) -> FlexrayPhysicalChannel:
+        """Name of the channel (Channel A or Channel B).
+        A None value is a no-op and does not overwrite an existing channelName."""
         if value is not None:
             self.channelName = value
         return self
