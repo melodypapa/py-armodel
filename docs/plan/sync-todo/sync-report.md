@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 476 | 66.0% |
+| [x] Done | 477 | 66.2% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 168 | 23.3% |
+| [ ] Deferred | 167 | 23.2% |
 | [ ] Pending | 66 | 9.2% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -451,7 +451,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ModeRequestTypeMap`                                    | [ ] Deferred| N/A                                      | Group11          |
 | `ModeSwitchEventTriggeredActivity`                      | [ ] Deferred| N/A                                      | Group10          |
 | `ModeSwitchPoint`                                       | [ ] Deferred| N/A                                      | Group12          |
-| `ModeSwitchReceiverComSpec`                             | [ ] Deferred| N/A                                      | Group10          |
+| `ModeSwitchReceiverComSpec`                             | [x] Done    | 67324d240c                               | Group10          |
 | `ModeSwitchSenderComSpec`                               | [ ] Deferred| N/A                                      | Group10          |
 | `ModeSwitchedAckRequest`                                | [x] Done    | f587d873eb                               | Group10          |
 | `Modification`                                          | [x] Done    | 008307967e                               | Group9           |
