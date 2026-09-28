@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 485 | 67.3% |
+| [x] Done | 486 | 67.4% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 159 | 22.1% |
+| [ ] Deferred | 158 | 21.9% |
 | [ ] Pending | 66 | 9.2% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -561,7 +561,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ResourceConsumption`                                   | [x] Done    | 0404020952                               | Group1           |
 | `ResumePosition`                                        | [ ] Pending | N/A                                      | Group17          |
 | `RoleBasedDataAssignment`                               | [ ] Deferred| N/A                                      | Group10          |
-| `RoleBasedPortAssignment`                               | [ ] Deferred| N/A                                      | Group10          |
+| `RoleBasedPortAssignment`                               | [x] Done    | f94da3dd92                               | Group10          |
 | `RootSwCompositionPrototype`                            | [x] Done    | 671dfc3835                               | Group1           |
 | `RoughEstimateStackUsage`                               | [ ] Deferred| 3db474b11a                               | Group20          |
 | `Row`                                                   | [x] Done    | b43b860105                               | Group3           |
