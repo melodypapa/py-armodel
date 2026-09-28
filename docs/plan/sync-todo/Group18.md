@@ -67,18 +67,18 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — v1 stale row (canXlNmProps missing) resolved to removed (AP-only RestrictToStandards="AP", Rule 0015); nmRangeConfig removal recorded (XSD-only atp.Status="removed", absent from both corpora, no fixture → Rule 0019 cond. 3 fails, Rule 0015/0001.3); no open deviation remains; no v2 entries for this class
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13608 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
-- [ ] `UdpNmNode` — NmNode — source TBC (locate table at Step 1)
+- [ ] `UdpNmNode` (input · R23-11 markdown · Table 6.318)
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: deviation-tracked in method_deviation_by_class.md — reviewed at Step 1: v1 rows (communicationConnectorRef / nmPnHandleMultipleNetworkRequests missing) are AP-only XSD elements (RestrictToStandards="AP"), absent from Table 6.318 → resolved to removed at sync
+  - [x] Step 1 — Sync members & description from spec — Table 6.318, p.689 (page-split: Class/Note/Base header rows p.688, attribute rows + caption p.689); Note "Udp specific NM Node attributes."; Base ARObject,Identifiable,MultilanguageReferrable,NmNode,Referrable (most-derived NmNode, stamped Table 6.303); 2 attrs in displayed order (allNmMessagesKeepAwake 0..1 Boolean, nmMsgCycleOffset 0..1 TimeValue); table constraints constr_5223 (mandatory nmMsgCycleOffset) + constr_5224 (nmMsgCycleOffset < UdpNmCluster.nmMsgCycleTime) — constr_5225/5226 printed on p.689 target UdpNmCluster (already synced, not this table's class); XSD group UDP-NM-NODE (AUTOSAR_00052.xsd l.127774) order ALL-NM-MESSAGES-KEEP-AWAKE → NM-MSG-CYCLE-OFFSET; XSD-only COMMUNICATION-CONNECTOR-REF + NM-PN-HANDLE-MULTIPLE-NETWORK-REQUESTS (both RestrictToStandards="AP") not modeled (Rule 0015); src drift: bare-T annotations (`Boolean = None`/`TimeValue = None`) to Optional[T], untyped accessors, stale 3-column checklist, fabricated docstring; parser/writer missing ALL-NM-MESSAGES-KEEP-AWAKE element (NM-MSG-CYCLE-OFFSET already TimeValue-typed)
+  - [x] Step 2 — Write model class unit test (Red) — tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement/test_UdpNmNode.py: defaults for both attrs, get/set + None no-op (Boolean, TimeValue); no Red observable at runtime — orphan setters were already None-guarded (drift is typing/docstring-only), 3 passed as written
+  - [x] Step 3 — Implement model class (Green) — bare-T annotations → PEP 526 `Optional[T]` fields in displayed row order, typed accessors, None-guarded setters returning self; field set already matched Table 6.318 (no drift beyond typing/docstrings); 3 passed (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring replaced with the Table 6.318 Note verbatim + constr_5223/5224 rows appended (UdpNmCluster pattern; constr_5225/5226 excluded — they target UdpNmCluster, not this table's class); per-attr comments + getter/setter docstrings verbatim (run-on false:/true: items in the allNmMessagesKeepAwake Note kept as rendered); __init__ has no docstring; blank line between every attribute block
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — tests/test_armodel/parser/test_udp_nm_node.py (both field values incl. typed Boolean/TimeValue reads, empty-node case, XSD-only COMMUNICATION-CONNECTOR-REF/NM-PN-HANDLE-MULTIPLE-NETWORK-REQUESTS rejection) + tests/test_armodel/writer/test_udp_nm_node.py (XSD kept-element order, dropped-XSD-only-tag asserts, empty case, full round-trip values); seen Red 3 failed (parser/writer missing ALL-NM-MESSAGES-KEEP-AWAKE element) / 3 passed
+  - [x] Step 6 — Update parser & writer (Green) — readUdpNmNode/writeUdpNmNode: added the missing ALL-NM-MESSAGES-KEEP-AWAKE element both sides (getChildElementOptionalBooleanValue/setChildElementOptionalBooleanValue); NM-MSG-CYCLE-OFFSET helpers already spec-typed TimeValue; XSD group order (ALL-NM-MESSAGES-KEEP-AWAKE → NM-MSG-CYCLE-OFFSET), matched name pairs, no chained mutators
+  - [x] Step 7 — Update checklist comment — 6-column, `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.318, p.689`, all rows R23-11 in displayed row order; set-based check: checklist == methods (5), all covered; no marker written (unstamped batch)
+  - [x] Step 8 — Deviations — v1 stale rows (communicationConnectorRef / nmPnHandleMultipleNetworkRequests missing) resolved to removed (both AP-only RestrictToStandards="AP" XSD elements, Rule 0015); tracker page header corrected 688 → 689 (pdf_page.py caption page); no open deviation remains; no v2 entries for this class
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13617 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `CanNmClusterCoupling` (input · R23-11 markdown · Table 6.313)
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py

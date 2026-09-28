@@ -3157,14 +3157,14 @@ No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, K
 | — *(missing)* | `—` | `nmRepeatMsgIndicationEnabled` | `Boolean` | — | missing |
 
 ## `UdpNmNode`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 688
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 689
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::NetworkManagement`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `communicationConnectorRef` | `Ref (EthernetCommunicationConnector)` | Ref | missing |
-| — *(missing)* | `—` | `nmPnHandleMultipleNetworkRequests` | `Boolean` | — | missing |
+| — *(removed)* | — | `communicationConnector` | `Ref (EthernetCommunicationConnector)` | ref | stale row removed at Table 6.318 sync — AP-only XSD element (COMMUNICATION-CONNECTOR-REF, RestrictToStandards="AP", UDP-NM-NODE group, AUTOSAR_00052.xsd), absent from R23-11 Table 6.318; PDF authoritative (Rule 0015); not modeled |
+| — *(removed)* | — | `nmPnHandleMultipleNetworkRequests` | `Boolean` | attr | stale row removed at Table 6.318 sync — AP-only XSD element (NM-PN-HANDLE-MULTIPLE-NETWORK-REQUESTS, RestrictToStandards="AP", UDP-NM-NODE group, AUTOSAR_00052.xsd), absent from R23-11 Table 6.318; PDF authoritative (Rule 0015); not modeled |
 
 ## `J1939NmCluster`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 691

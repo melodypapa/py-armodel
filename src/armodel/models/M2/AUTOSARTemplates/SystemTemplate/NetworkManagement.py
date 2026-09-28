@@ -814,36 +814,58 @@ class J1939NmNode(NmNode):
 
 class UdpNmNode(NmNode):
     """
-    Represents a UDP network management node in the system,
-    defining UDP-specific NM properties including message
-    timing and wake-up capabilities.
+    Udp specific NM Node attributes.
+
+    [constr_5223] Mandatory elements of UdpNmNode: The following attributes shall always be defined for the UdpNmNode: nmMsgCycleOffset.
+
+    [constr_5224] UdpNmNode.nmMsgCycleOffset < UdpNmCluster.nmMsgCycleTime: The value of UdpNmNode.nmMsgCycleOffset shall be smaller than the value of UdpNmCluster.nmMsgCycleTime.
     """
 
     # UdpNmNode method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAllNmMessagesKeepAwake    [x] impl  [ ] docstring  [ ] test
-    # [ ] setAllNmMessagesKeepAwake    [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmMsgCycleOffset          [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmMsgCycleOffset          [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.318, p.689
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAllNmMessagesKeepAwake    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAllNmMessagesKeepAwake    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmMsgCycleOffset          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmMsgCycleOffset          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.allNmMessagesKeepAwake: Boolean = None
-        self.nmMsgCycleOffset: TimeValue = None
+        # Specifies if Nm drops irrelevant NM PDUs. false: Only NM PDUs with a Partial Network Information Bit (PNI) = true and containing a Partial Network request for this ECU trigger the standard RX indication handling and thus keep the ECU awake true: Every NM PDU triggers the standard RX indication handling and keeps the ECU awake
+        self.allNmMessagesKeepAwake: Optional[Boolean] = None
 
-    def getAllNmMessagesKeepAwake(self):
+        # Node specific time offset in the periodic transmission node. It determines the start delay of the transmission. Specified in seconds.
+        self.nmMsgCycleOffset: Optional[TimeValue] = None
+
+    def getAllNmMessagesKeepAwake(self) -> Optional[Boolean]:
+        """
+        Specifies if Nm drops irrelevant NM PDUs. false: Only NM PDUs with a Partial Network Information Bit (PNI) = true and containing a Partial Network request for this ECU trigger the standard RX indication handling and thus keep the ECU awake true: Every NM PDU triggers the standard RX indication handling and keeps the ECU awake
+        """
         return self.allNmMessagesKeepAwake
 
-    def setAllNmMessagesKeepAwake(self, value):
+    def setAllNmMessagesKeepAwake(self, value: Optional[Boolean]) -> "UdpNmNode":
+        """
+        Specifies if Nm drops irrelevant NM PDUs. false: Only NM PDUs with a Partial Network Information Bit (PNI) = true and containing a Partial Network request for this ECU trigger the standard RX indication handling and thus keep the ECU awake true: Every NM PDU triggers the standard RX indication handling and keeps the ECU awake
+
+        A None value is a no-op and does not overwrite an existing allNmMessagesKeepAwake.
+        """
         if value is not None:
             self.allNmMessagesKeepAwake = value
         return self
 
-    def getNmMsgCycleOffset(self):
+    def getNmMsgCycleOffset(self) -> Optional[TimeValue]:
+        """
+        Node specific time offset in the periodic transmission node. It determines the start delay of the transmission. Specified in seconds.
+        """
         return self.nmMsgCycleOffset
 
-    def setNmMsgCycleOffset(self, value):
+    def setNmMsgCycleOffset(self, value: Optional[TimeValue]) -> "UdpNmNode":
+        """
+        Node specific time offset in the periodic transmission node. It determines the start delay of the transmission. Specified in seconds.
+        A None value is a no-op and does not overwrite an existing nmMsgCycleOffset.
+        """
         if value is not None:
             self.nmMsgCycleOffset = value
         return self

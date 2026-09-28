@@ -10852,6 +10852,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readUdpNmNode(self, element: ET.Element, nm_node: UdpNmNode):
         self.logger.debug("Read UdpNmNode <%s>" % nm_node.getShortName())
         self.readNmNode(element, nm_node)
+        nm_node.setAllNmMessagesKeepAwake(self.getChildElementOptionalBooleanValue(element, "ALL-NM-MESSAGES-KEEP-AWAKE"))
         nm_node.setNmMsgCycleOffset(self.getChildElementOptionalTimeValue(element, "NM-MSG-CYCLE-OFFSET"))
 
     def readJ1939NmNode(self, element: ET.Element, nm_node: J1939NmNode):

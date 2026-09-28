@@ -8618,6 +8618,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("write UdpNmNode %s" % nm_node.getShortName())
         child_element = ET.SubElement(element, "UDP-NM-NODE")
         self.writeNmNode(child_element, nm_node)
+        self.setChildElementOptionalBooleanValue(child_element, "ALL-NM-MESSAGES-KEEP-AWAKE", nm_node.getAllNmMessagesKeepAwake())
         self.setChildElementOptionalTimeValue(child_element, "NM-MSG-CYCLE-OFFSET", nm_node.getNmMsgCycleOffset())
 
     def writeJ1939NmNode(self, element: ET.Element, nm_node: J1939NmNode):
