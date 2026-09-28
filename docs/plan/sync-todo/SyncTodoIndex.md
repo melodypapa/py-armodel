@@ -536,7 +536,7 @@ Status: **29/29** completed
 
 ## Group10
 
-Status: **23/32** completed
+Status: **24/32** completed
 
 | Class Name                         | Status       | Commit ID  |
 | ---------------------------------- | ------------ | ---------- |
@@ -564,7 +564,7 @@ Status: **23/32** completed
 | `RoleBasedPortAssignment`          | [x] Done     | f94da3dd92 |
 | `AutosarParameterRef`              | [x] Done     | b530f7e446 |
 | `NvBlockNeedsReliabilityEnum`      | [x] Done     | 90b381db32 |
-| `NvBlockNeedsWritingPriorityEnum`  | [ ] Pending* | N/A        |
+| `NvBlockNeedsWritingPriorityEnum`  | [x] Done     | 5a36c87687 |
 | `RamBlockStatusControlEnum`        | [ ] Pending* | N/A        |
 | `NvBlockDataMapping`               | [ ] Pending* | N/A        |
 | `BulkNvDataDescriptor`             | [ ] Pending* | N/A        |

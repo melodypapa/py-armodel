@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 488 | 67.7% |
+| [x] Done | 489 | 67.8% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 156 | 21.6% |
+| [ ] Deferred | 155 | 21.5% |
 | [ ] Pending | 66 | 9.2% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -481,7 +481,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `NvBlockDescriptor`                                     | [ ] Deferred| N/A                                      | Group10          |
 | `NvBlockNeeds`                                          | [ ] Deferred| N/A                                      | Group10          |
 | `NvBlockNeedsReliabilityEnum`                           | [x] Done    | 90b381db32                               | Group10          |
-| `NvBlockNeedsWritingPriorityEnum`                       | [ ] Deferred| N/A                                      | Group10          |
+| `NvBlockNeedsWritingPriorityEnum`                       | [x] Done    | 5a36c87687                               | Group10          |
 | `NvDataInterface`                                       | [x] Done    | 1d666bc11b                               | Group1           |
 | `NvProvideComSpec`                                      | [x] Done    | a5c437cc82                               | Group10          |
 | `NvRequireComSpec`                                      | [x] Done    | cbdf05b372                               | Group10          |
