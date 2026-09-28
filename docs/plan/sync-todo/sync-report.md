@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 468 | 65.0% |
+| [x] Done | 469 | 65.1% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 175 | 24.3% |
+| [ ] Deferred | 174 | 24.2% |
 | [ ] Pending | 66 | 9.2% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -48,7 +48,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `Area`                                                  | [x] Done    | c9f2464902                               | Group3           |
 | `AreaEnumNohref`                                        | [x] Done    | 1d6f8c0aa9                               | Group3           |
 | `AreaEnumShape`                                         | [x] Done    | 966320f6a7                               | Group3           |
-| `ArrayImplPolicyEnum`                                   | [ ] Deferred| N/A                                      | Group10          |
+| `ArrayImplPolicyEnum`                                   | [x] Done    | 700b032789                               | Group10          |
 | `ArrayValueSpecification`                               | [x] Done    | 043de7436d                               | Group3           |
 | `AsamRecordLayoutSemantics`                             | [x] Done    | 2acaf7a45f                               | Group3           |
 | `AssemblySwConnector`                                   | [x] Done    | 2a104a061c                               | Group2           |
