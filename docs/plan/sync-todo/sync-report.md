@@ -6,15 +6,15 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 ## Summary
 
-**721 classes total**
+**723 classes total**
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 497 | 68.9% |
+| [x] Done | 497 | 68.7% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 147 | 20.4% |
-| [ ] Pending | 66 | 9.2% |
+| [ ] Deferred | 175 | 24.2% |
+| [ ] Pending | 40 | 5.5% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
 | ------------------------------------------------------- | ------------| ---------------------------------------- | ---------------- |
@@ -39,7 +39,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ApplicationCompositeElementInPortInterfaceInstanceRef` | [x] Done    | 399b647757                               | Group2           |
 | `ApplicationDataType`                                   | [x] Done    | b8d0878d98                               | Group2           |
 | `ApplicationDeferredDataType`                           | [x] Done    | abdfbf1d96                               | Group1           |
-| `ApplicationEntry`                                      | [ ] Pending | N/A                                      | Group17          |
+| `ApplicationEntry`                                      | [ ] Deferred| N/A                                      | Group17          |
 | `ApplicationPartitionToEcuPartitionMapping`             | [ ] Pending | N/A                                      | Group18          |
 | `ApplicationPrimitiveDataType`                          | [x] Done    | 4a9ccae9b8                               | Group2           |
 | `ApplicationRecordDataType`                             | [x] Deferred| 0a06e0fae3                               | Group2           |
@@ -113,11 +113,11 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BuildActionManifest`                                   | [x] Done    | e6dcc8e79f                               | Group1           |
 | `BuildEngineeringObject`                                | [x] Done    | 96d176ed20                               | Group1           |
 | `BulkNvDataDescriptor`                                  | [x] Done    | 14a0a9cc5b                               | Group10          |
-| `CanClusterBusOffRecovery`                              | [ ] Pending | N/A                                      | Group17          |
-| `CanCommunicationConnector`                             | [ ] Pending | N/A                                      | Group17          |
-| `CanControllerConfiguration`                            | [ ] Pending | N/A                                      | Group17          |
-| `CanControllerConfigurationRequirements`                | [ ] Pending | N/A                                      | Group17          |
-| `CanControllerFdConfigurationRequirements`              | [ ] Pending | N/A                                      | Group17          |
+| `CanClusterBusOffRecovery`                              | [ ] Deferred| N/A                                      | Group17          |
+| `CanCommunicationConnector`                             | [ ] Deferred| N/A                                      | Group17          |
+| `CanControllerConfiguration`                            | [ ] Deferred| N/A                                      | Group17          |
+| `CanControllerConfigurationRequirements`                | [ ] Deferred| N/A                                      | Group17          |
+| `CanControllerFdConfigurationRequirements`              | [ ] Deferred| N/A                                      | Group17          |
 | `CanNmCluster`                                          | [ ] Pending | N/A                                      | Group18          |
 | `CanNmClusterCoupling`                                  | [ ] Pending | N/A                                      | Group18          |
 | `CanNmNode`                                             | [ ] Pending | N/A                                      | Group18          |
@@ -200,7 +200,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DataFilterTypeEnum`                                    | [x] Done    | b59bd6ebbe                               | Group9           |
 | `DataInterface`                                         | [x] Done    | d838fd43f4                               | Group1           |
 | `DataLinkLayerRule`                                     | [ ] Deferred| 0d343df2a7                               | Group20          |
-| `DataMapping`                                           | [ ] Pending | N/A                                      | Group17          |
+| `DataMapping`                                           | [ ] Deferred| N/A                                      | Group17          |
 | `DataPrototype`                                         | [x] Done    | 9175595d88                               | Group1           |
 | `DataPrototypeTransformationProps`                      | [x] Done    | ba255a82cc                               | Group6           |
 | `DataReceiveErrorEvent`                                 | [ ] Deferred| N/A                                      | Group12          |
@@ -322,25 +322,26 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `FirewallRuleProps`                                     | [x] Done    | 89039bf2bb                               | Group7           |
 | `FlatInstanceDescriptor`                                | [x] Done    | 9db34796eb                               | Group1           |
 | `FlatMap`                                               | [x] Done    | 5eadca7853                               | Group1           |
+| `FlexrayAbsolutelyScheduledTiming`                      | [ ] Deferred| N/A                                      | Group17          |
 | `FlexrayChannelName`                                    | [ ] Deferred| 7c137656f6                               | Group15          |
-| `FlexrayCommunicationConnector`                         | [ ] Pending | N/A                                      | Group17          |
-| `FlexrayCommunicationController`                        | [ ] Pending | N/A                                      | Group17          |
+| `FlexrayCommunicationConnector`                         | [ ] Deferred| N/A                                      | Group17          |
+| `FlexrayCommunicationController`                        | [ ] Deferred| N/A                                      | Group17          |
 | `FlexrayFrame`                                          | [x] Done    | 757aea1d17                               | Group6           |
-| `FlexrayFrameTriggering`                                | [ ] Pending | N/A                                      | Group17          |
+| `FlexrayFrameTriggering`                                | [ ] Deferred| N/A                                      | Group17          |
 | `FlexrayNmCluster`                                      | [x] Done    | 9c8e10b37f                               | Group6           |
 | `FlexrayNmClusterCoupling`                              | [ ] Pending | N/A                                      | Group18          |
 | `FlexrayNmEcu`                                          | [x] Done    | 9c8e10b37f                               | Group6           |
 | `FlexrayNmNode`                                         | [x] Done    | 9c8e10b37f                               | Group6           |
-| `FlexrayPhysicalChannel`                                | [ ] Pending | N/A                                      | Group17          |
+| `FlexrayPhysicalChannel`                                | [ ] Deferred| N/A                                      | Group17          |
 | `FloatValueVariationPoint`                              | [x] Done    | d5c96fd954                               | Group8           |
 | `FormulaExpression`                                     | [x] Done    | 88ed82bed3                               | Group8           |
 | `FrameEnum`                                             | [x] Done    | 531991e029                               | Group3           |
-| `FrameMapping`                                          | [ ] Pending | N/A                                      | Group17          |
+| `FrameMapping`                                          | [ ] Deferred| N/A                                      | Group17          |
 | `FramePort`                                             | [x] Done    | 75683a2ede                               | Group5           |
 | `FrameTriggering`                                       | [x] Done    | 206cf29517                               | Group5           |
 | `FunctionInhibitionNeeds`                               | [x] Done    | 5c4c0963af                               | Group4           |
 | `FurtherActionByteNeeds`                                | [x] Done    | 30e266fd91                               | Group5           |
-| `Gateway`                                               | [ ] Pending | N/A                                      | Group17          |
+| `Gateway`                                               | [ ] Deferred| N/A                                      | Group17          |
 | `GeneralAnnotation`                                     | [x] Done    | ab2daa7785                               | Group3           |
 | `GeneralParameter`                                      | [x] Done    | b622d5b424                               | Group9           |
 | `GeneralPurposeIPdu`                                    | [x] Done    | 75683a2ede                               | Group5           |
@@ -367,7 +368,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `IPduMapping`                                           | [x] Done    | 9c8e10b37f                               | Group6           |
 | `IPv6ExtHeaderFilterList`                               | [ ] Deferred| 2d5b3256b4                               | Group16          |
 | `ISignalIPduGroup`                                      | [ ] Deferred| 1e758bd44e                               | Group15          |
-| `ISignalMapping`                                        | [ ] Pending | N/A                                      | Group17          |
+| `ISignalMapping`                                        | [ ] Deferred| N/A                                      | Group17          |
 | `ISignalPort`                                           | [ ] Deferred| b5f92f4b28                               | Group15          |
 | `IcmpRule`                                              | [x] Deferred| 5ddaf1cf94                               | Group20          |
 | `IdentCaption`                                          | [x] Done    | 2dd2f91845                               | Group1           |
@@ -379,7 +380,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ImplementationDataTypeElement`                         | [x] Done    | 8e9b2db86b                               | Group10          |
 | `ImplementationProps`                                   | [x] Done    | 3166f6e5d0                               | Group10          |
 | `IncludedModeDeclarationGroupSet`                       | [x] Done    | b9ac782d1e                               | Group2           |
-| `IndexedArrayElement`                                   | [ ] Pending | N/A                                      | Group17          |
+| `IndexedArrayElement`                                   | [ ] Deferred| N/A                                      | Group17          |
 | `InitEvent`                                             | [x] Done    | 64ab725d50                               | Group2           |
 | `InitialSdDelayConfig`                                  | [ ] Deferred| d7240be740                               | Group16          |
 | `InnerPortGroupInCompositionInstanceRef`                | [x] Done    | 919fbc0d11                               | Group2           |
@@ -417,8 +418,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `LifeCycleInfoSet`                                      | [x] Done    | 11bd9cd848                               | Group8           |
 | `LifeCyclePeriod`                                       | [x] Done    | b572582c11                               | Group8           |
 | `LimitValueVariationPoint`                              | [x] Done    | d5c96fd954                               | Group8           |
-| `LinCommunicationConnector`                             | [ ] Pending | N/A                                      | Group17          |
-| `LinScheduleTable`                                      | [ ] Pending | N/A                                      | Group17          |
+| `LinCommunicationConnector`                             | [ ] Deferred| N/A                                      | Group17          |
+| `LinScheduleTable`                                      | [ ] Deferred| N/A                                      | Group17          |
 | `LinTpConnection`                                       | [ ] Pending | N/A                                      | Group18          |
 | `Linker`                                                | [x] Done    | 20003dc3cc                               | Group1           |
 | `ListEnum`                                              | [x] Done    | 0623068af8                               | Group9           |
@@ -559,7 +560,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `RequestResponseDelay`                                  | [ ] Deferred| d7240be740                               | Group16          |
 | `ResolutionPolicyEnum`                                  | [x] Done    | f0a7460898                               | Group3           |
 | `ResourceConsumption`                                   | [x] Done    | 0404020952                               | Group1           |
-| `ResumePosition`                                        | [ ] Pending | N/A                                      | Group17          |
+| `ResumePosition`                                        | [ ] Deferred| N/A                                      | Group17          |
 | `RoleBasedDataAssignment`                               | [x] Done    | 5989355419                               | Group10          |
 | `RoleBasedPortAssignment`                               | [x] Done    | f94da3dd92                               | Group10          |
 | `RootSwCompositionPrototype`                            | [x] Done    | 671dfc3835                               | Group1           |
@@ -567,6 +568,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `Row`                                                   | [x] Done    | b43b860105                               | Group3           |
 | `RteEventInEcuInstanceRef`                              | [ ] Deferred| N/A                                      | Group12          |
 | `RtePluginProps`                                        | [x] Done    | ec7fa0b5df                               | Group6           |
+| `RunMode`                                               | [ ] Deferred| N/A                                      | Group17          |
 | `RunnableEntityArgument`                                | [x] Done    | 3857c2a435                               | Group2           |
 | `RuntimeAddressConfigurationEnum`                       | [ ] Deferred| c5bb322323                               | Group16          |
 | `SOMEIPMessageTypeEnum`                                 | [x] Done    | b163080753                               | Group6           |
@@ -581,11 +583,11 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SegmentPosition`                                       | [ ] Deferred| 9546cf291b                               | Group15          |
 | `SenderRecArrayTypeMapping`                             | [x] Done    | 757aea1d17                               | Group6           |
 | `SenderRecCompositeTypeMapping`                         | [x] Done    | 757aea1d17                               | Group6           |
-| `SenderRecRecordElementMapping`                         | [ ] Pending | N/A                                      | Group17          |
-| `SenderRecRecordTypeMapping`                            | [ ] Pending | N/A                                      | Group17          |
+| `SenderRecRecordElementMapping`                         | [ ] Deferred| N/A                                      | Group17          |
+| `SenderRecRecordTypeMapping`                            | [ ] Deferred| N/A                                      | Group17          |
 | `SenderReceiverInterface`                               | [x] Done    | e4e4770fb7                               | Group1           |
-| `SenderReceiverToSignalGroupMapping`                    | [ ] Pending | N/A                                      | Group17          |
-| `SenderReceiverToSignalMapping`                         | [ ] Pending | N/A                                      | Group17          |
+| `SenderReceiverToSignalGroupMapping`                    | [ ] Deferred| N/A                                      | Group17          |
+| `SenderReceiverToSignalMapping`                         | [ ] Deferred| N/A                                      | Group17          |
 | `ServerCallPoint`                                       | [x] Done    | 774620a3b1                               | Group2           |
 | `ServiceDiagnosticRelevanceEnum`                        | [ ] Deferred| 28746ce3cc                               | Group14          |
 | `ServiceNeeds`                                          | [x] Done    | 5fd6271d70                               | Group4           |
@@ -654,7 +656,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TDEventVfb`                                            | [x] Done    | 18eb225f40                               | Group8           |
 | `Table`                                                 | [x] Done    | e347fbbfa2                               | Group3           |
 | `TableSeparatorString`                                  | [x] Done    | 211031ea0f                               | Group3           |
-| `TargetIPduRef`                                         | [ ] Pending | N/A                                      | Group17          |
+| `TargetIPduRef`                                         | [ ] Deferred| N/A                                      | Group17          |
 | `Tbody`                                                 | [x] Done    | 004d3f1259                               | Group3           |
 | `TcpIpIcmpv4Props`                                      | [x] Done    | 2cf38be61d                               | Group5           |
 | `TcpIpIcmpv6Props`                                      | [x] Done    | c53a7febdc                               | Group5           |
@@ -668,7 +670,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TextValueSpecification`                                | [x] Done    | 81588f449e                               | Group9           |
 | `Tgroup`                                                | [x] Done    | 278d4674f3                               | Group3           |
 | `TimeRangeType`                                         | [ ] Deferred| dcbc6abdb3                               | Group15          |
-| `TimeRangeTypeTolerance`                                | [ ] Pending | dcbc6abdb3                               | Group15          |
+| `TimeRangeTypeTolerance`                                | [ ] Deferred| dcbc6abdb3                               | Group15          |
 | `TimeSyncClientConfiguration`                           | [x] Done    | a032fa05dc                               | Group6           |
 | `TimeSyncServerConfiguration`                           | [ ] Deferred| b1e4750b14                               | Group16          |
 | `TimeSynchronization`                                   | [ ] Deferred| b1e4750b14                               | Group16          |
@@ -711,8 +713,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `UnitGroup`                                             | [x] Done    | e7fdb07f2b                               | Group9           |
 | `UnlimitedIntegerValueVariationPoint`                   | [x] Done    | d5c96fd954                               | Group8           |
 | `Url`                                                   | [x] Done    | 4b96ab8d89                               | Group3           |
-| `UserDefinedIPdu`                                       | [ ] Pending | N/A                                      | Group15          |
-| `UserDefinedPdu`                                        | [ ] Pending | N/A                                      | Group15          |
+| `UserDefinedIPdu`                                       | [ ] Deferred| N/A                                      | Group15          |
+| `UserDefinedPdu`                                        | [ ] Deferred| N/A                                      | Group15          |
 | `UserDefinedTransformationComSpecProps`                 | [x] Done    | 4a7d82ffc7                               | Group5           |
 | `UserDefinedTransformationISignalProps`                 | [x] Done    | 301182769c                               | Group6           |
 | `V2xDataManagerNeeds`                                   | [x] Done    | e02dc71234                               | Group5           |
