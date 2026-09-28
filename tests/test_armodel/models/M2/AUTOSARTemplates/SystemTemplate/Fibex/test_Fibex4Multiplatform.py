@@ -1,5 +1,5 @@
 import inspect
-from typing import Optional, get_type_hints
+from typing import List, Optional, get_type_hints
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType
@@ -419,9 +419,7 @@ class TestISignalMapping:
 
 
 TARGET_IPDU_REF_CLASS_NOTE = "Target destination of the referencing mapping."
-TARGET_IPDU_REF_CONSTRAINTS = (
-    "[constr_9294] Existence of TargetIPduRef.targetIPdu: For each TargetIPduRef, the reference to PduTriggering in the role targetIPdu shall exist at the time when the System Description is complete."
-)
+TARGET_IPDU_REF_CONSTRAINTS = "[constr_9294] Existence of TargetIPduRef.targetIPdu: For each TargetIPduRef, the reference to PduTriggering in the role targetIPdu shall exist at the time when the System Description is complete."
 DEFAULT_VALUE_NOTE = "If no I-Pdu has been received a default value will be distributed."
 TARGET_IPDU_NOTE = "IPdu Reference"
 
@@ -505,3 +503,149 @@ class TestTargetIPduRef:
     def test_target_ipdu_ref_docstrings_are_spec_note(self):
         self._assert_docstring(TargetIPduRef.getTargetIPduRef, TARGET_IPDU_NOTE)
         self._assert_docstring(TargetIPduRef.setTargetIPduRef, TARGET_IPDU_NOTE, "targetIPduRef")
+
+
+GATEWAY_CLASS_NOTE = (
+    "A gateway is an ECU that is connected to two or more clusters (channels, but not redundant), and performs a frame, " "Pdu or signal mapping between them. Tags: atp.recommendedPackage=Gateways"
+)
+GATEWAY_ECU_NOTE = "Reference to one ECU instance that implements the gateway."
+GATEWAY_FRAME_MAPPING_NOTE = (
+    "Frame Gateway: The entire source frame is mapped as it is onto the target frame (what in general is only possible inside of a common platform). "
+    "In this case source and target frame should be the identical object. atpVariation: If frames are variable in clusters, the gateway frame mapping needs to be variable, too. "
+    "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameMapping, frameMapping.variation Point.shortLabel vh.latestBindingTime=postBuild"
+)
+GATEWAY_IPDU_MAPPING_NOTE = (
+    "IPdu Gateway: Arranges those IPdus that are transferred by the gateway from one channel to the other in pairs and defines the mapping between them. "
+    "atpVariation: If PDUs are variable in clusters, the gateway PDU mapping needs to be variable, too. "
+    "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iPduMapping, iPduMapping.variation Point.shortLabel vh.latestBindingTime=postBuild"
+)
+GATEWAY_SIGNAL_MAPPING_NOTE = (
+    "Signal Gateway: Arranges those signals that are transferred by the gateway from one channel to the other in pairs and defines the mapping between them. "
+    "atpVariation: If signals are variable in clusters, the gateway signal mapping needs to be variable, too. "
+    "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=signalMapping, signalMapping.variation Point.shortLabel vh.latestBindingTime=postBuild"
+)
+
+
+class TestGateway:
+    """Spec-synced tests for Gateway (AUTOSAR_CP_TPS_SystemTemplate Table 8.1)."""
+
+    def _make(self) -> Gateway:
+        return Gateway(None, "Gateway")
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert method.__doc__ is not None
+        assert inspect.cleandoc(method.__doc__).strip() == expected
+
+    def _assert_add_docstring(self, method, note, attr_name):
+        expected = note + "\nA None value is a no-op and does not extend the %s list." % attr_name
+        assert method.__doc__ is not None
+        assert inspect.cleandoc(method.__doc__).strip() == expected
+
+    def test_initialization(self):
+        gateway = self._make()
+
+        assert isinstance(gateway, FibexElement)
+        assert gateway.getEcuRef() is None
+        assert gateway.getFrameMappings() == []
+        assert gateway.getIPduMappings() == []
+        assert gateway.getSignalMappings() == []
+
+    def test_class_docstring_is_spec_note(self):
+        assert inspect.cleandoc(Gateway.__doc__).strip() == GATEWAY_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert Gateway.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        source = inspect.getsource(Gateway.__init__)
+        assert source.index("self.ecuRef:") < source.index("self.frameMappings:")
+        assert source.index("self.frameMappings:") < source.index("self.iPduMappings:")
+        assert source.index("self.iPduMappings:") < source.index("self.signalMappings:")
+
+    def test_get_set_ecu_ref(self):
+        gateway = self._make()
+
+        assert gateway.getEcuRef() is None
+
+        ref = RefType()
+        ref.setValue("/ECU/GatewayEcu")
+        assert gateway == gateway.setEcuRef(ref)
+        assert gateway.getEcuRef() is ref
+
+        assert gateway == gateway.setEcuRef(None)
+        assert gateway.getEcuRef() is ref
+
+        getter_hints = get_type_hints(Gateway.getEcuRef)
+        assert getter_hints.get("return") == Optional[RefType]
+
+        setter_hints = get_type_hints(Gateway.setEcuRef)
+        assert setter_hints.get("value") == Optional[RefType]
+        assert setter_hints.get("return") is Gateway
+
+    def test_frame_mappings_typed_list(self):
+        gateway = self._make()
+
+        mapping = FrameMapping()
+        assert gateway == gateway.addFrameMapping(mapping)
+        assert gateway.getFrameMappings() == [mapping]
+
+        assert gateway == gateway.addFrameMapping(None)
+        assert gateway.getFrameMappings() == [mapping]
+
+        getter_hints = get_type_hints(Gateway.getFrameMappings)
+        assert getter_hints.get("return") == List[FrameMapping]
+
+        adder_hints = get_type_hints(Gateway.addFrameMapping)
+        assert adder_hints.get("value") == Optional[FrameMapping]
+        assert adder_hints.get("return") is Gateway
+
+    def test_ipdu_mappings_typed_list(self):
+        gateway = self._make()
+
+        mapping = IPduMapping()
+        assert gateway == gateway.addIPduMapping(mapping)
+        assert gateway.getIPduMappings() == [mapping]
+
+        assert gateway == gateway.addIPduMapping(None)
+        assert gateway.getIPduMappings() == [mapping]
+
+        getter_hints = get_type_hints(Gateway.getIPduMappings)
+        assert getter_hints.get("return") == List[IPduMapping]
+
+        adder_hints = get_type_hints(Gateway.addIPduMapping)
+        assert adder_hints.get("value") == Optional[IPduMapping]
+        assert adder_hints.get("return") is Gateway
+
+    def test_signal_mappings_typed_list(self):
+        gateway = self._make()
+
+        mapping = ISignalMapping()
+        assert gateway == gateway.addSignalMapping(mapping)
+        assert gateway.getSignalMappings() == [mapping]
+
+        assert gateway == gateway.addSignalMapping(None)
+        assert gateway.getSignalMappings() == [mapping]
+
+        getter_hints = get_type_hints(Gateway.getSignalMappings)
+        assert getter_hints.get("return") == List[ISignalMapping]
+
+        adder_hints = get_type_hints(Gateway.addSignalMapping)
+        assert adder_hints.get("value") == Optional[ISignalMapping]
+        assert adder_hints.get("return") is Gateway
+
+    def test_ecu_ref_docstrings_are_spec_note(self):
+        self._assert_docstring(Gateway.getEcuRef, GATEWAY_ECU_NOTE)
+        self._assert_docstring(Gateway.setEcuRef, GATEWAY_ECU_NOTE, "ecuRef")
+
+    def test_frame_mappings_docstrings_are_spec_note(self):
+        self._assert_docstring(Gateway.getFrameMappings, GATEWAY_FRAME_MAPPING_NOTE)
+        self._assert_add_docstring(Gateway.addFrameMapping, GATEWAY_FRAME_MAPPING_NOTE, "frameMappings")
+
+    def test_ipdu_mappings_docstrings_are_spec_note(self):
+        self._assert_docstring(Gateway.getIPduMappings, GATEWAY_IPDU_MAPPING_NOTE)
+        self._assert_add_docstring(Gateway.addIPduMapping, GATEWAY_IPDU_MAPPING_NOTE, "iPduMappings")
+
+    def test_signal_mappings_docstrings_are_spec_note(self):
+        self._assert_docstring(Gateway.getSignalMappings, GATEWAY_SIGNAL_MAPPING_NOTE)
+        self._assert_add_docstring(Gateway.addSignalMapping, GATEWAY_SIGNAL_MAPPING_NOTE, "signalMappings")

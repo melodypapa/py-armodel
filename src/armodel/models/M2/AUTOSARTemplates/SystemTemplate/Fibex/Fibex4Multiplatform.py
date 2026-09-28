@@ -423,53 +423,93 @@ class IPduMapping(ARObject, VariationPointCapable):
 
 class Gateway(FibexElement):
     """
-    A gateway is an ECU that is connected to two or more clusters and
-    performs frame, Pdu, or signal mapping between them.
+    A gateway is an ECU that is connected to two or more clusters (channels, but not redundant), and performs a frame, Pdu or signal mapping between them. Tags: atp.recommendedPackage=Gateways
     """
 
     # Gateway method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getEcuRef                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setEcuRef                    [x] impl  [ ] docstring  [ ] test
-    # [ ] getFrameMappings             [x] impl  [ ] docstring  [ ] test
-    # [ ] addFrameMapping              [x] impl  [ ] docstring  [ ] test
-    # [ ] getIPduMappings              [x] impl  [ ] docstring  [ ] test
-    # [ ] addIPduMapping               [x] impl  [ ] docstring  [ ] test
-    # [ ] getSignalMappings            [x] impl  [ ] docstring  [ ] test
-    # [ ] addSignalMapping             [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 8.1, p.837
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEcuRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFrameMappings      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addFrameMapping       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIPduMappings       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addIPduMapping        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSignalMappings     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSignalMapping      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.ecuRef: RefType = None
+        # Reference to one ECU instance that implements the gateway.
+        self.ecuRef: Optional[RefType] = None
+
+        # Frame Gateway: The entire source frame is mapped as it is onto the target frame (what in general is only possible inside of a common platform). In this case source and target frame should be the identical object. atpVariation: If frames are variable in clusters, the gateway frame mapping needs to be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameMapping, frameMapping.variation Point.shortLabel vh.latestBindingTime=postBuild
         self.frameMappings: List[FrameMapping] = []
+
+        # IPdu Gateway: Arranges those IPdus that are transferred by the gateway from one channel to the other in pairs and defines the mapping between them. atpVariation: If PDUs are variable in clusters, the gateway PDU mapping needs to be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iPduMapping, iPduMapping.variation Point.shortLabel vh.latestBindingTime=postBuild
         self.iPduMappings: List[IPduMapping] = []
+
+        # Signal Gateway: Arranges those signals that are transferred by the gateway from one channel to the other in pairs and defines the mapping between them. atpVariation: If signals are variable in clusters, the gateway signal mapping needs to be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=signalMapping, signalMapping.variation Point.shortLabel vh.latestBindingTime=postBuild
         self.signalMappings: List[ISignalMapping] = []
 
-    def getEcuRef(self):
+    def getEcuRef(self) -> Optional[RefType]:
+        """
+        Reference to one ECU instance that implements the gateway.
+        """
         return self.ecuRef
 
-    def setEcuRef(self, value):
-        self.ecuRef = value
+    def setEcuRef(self, value: Optional[RefType]) -> Gateway:
+        """
+        Reference to one ECU instance that implements the gateway.
+        A None value is a no-op and does not overwrite an existing ecuRef.
+        """
+        if value is not None:
+            self.ecuRef = value
         return self
 
     def getFrameMappings(self) -> List[FrameMapping]:
+        """
+        Frame Gateway: The entire source frame is mapped as it is onto the target frame (what in general is only possible inside of a common platform). In this case source and target frame should be the identical object. atpVariation: If frames are variable in clusters, the gateway frame mapping needs to be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameMapping, frameMapping.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.frameMappings
 
-    def addFrameMapping(self, mapping: FrameMapping):
-        self.frameMappings.append(mapping)
+    def addFrameMapping(self, value: Optional[FrameMapping]) -> Gateway:
+        """
+        Frame Gateway: The entire source frame is mapped as it is onto the target frame (what in general is only possible inside of a common platform). In this case source and target frame should be the identical object. atpVariation: If frames are variable in clusters, the gateway frame mapping needs to be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameMapping, frameMapping.variation Point.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and does not extend the frameMappings list.
+        """
+        if value is not None:
+            self.frameMappings.append(value)
         return self
 
-    def getIPduMappings(self) -> List[FrameMapping]:
+    def getIPduMappings(self) -> List[IPduMapping]:
+        """
+        IPdu Gateway: Arranges those IPdus that are transferred by the gateway from one channel to the other in pairs and defines the mapping between them. atpVariation: If PDUs are variable in clusters, the gateway PDU mapping needs to be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iPduMapping, iPduMapping.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.iPduMappings
 
-    def addIPduMapping(self, mapping: FrameMapping):
-        self.iPduMappings.append(mapping)
+    def addIPduMapping(self, value: Optional[IPduMapping]) -> Gateway:
+        """
+        IPdu Gateway: Arranges those IPdus that are transferred by the gateway from one channel to the other in pairs and defines the mapping between them. atpVariation: If PDUs are variable in clusters, the gateway PDU mapping needs to be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iPduMapping, iPduMapping.variation Point.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and does not extend the iPduMappings list.
+        """
+        if value is not None:
+            self.iPduMappings.append(value)
         return self
 
-    def getSignalMappings(self) -> List[FrameMapping]:
+    def getSignalMappings(self) -> List[ISignalMapping]:
+        """
+        Signal Gateway: Arranges those signals that are transferred by the gateway from one channel to the other in pairs and defines the mapping between them. atpVariation: If signals are variable in clusters, the gateway signal mapping needs to be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=signalMapping, signalMapping.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.signalMappings
 
-    def addSignalMapping(self, mapping: FrameMapping):
-        self.signalMappings.append(mapping)
+    def addSignalMapping(self, value: Optional[ISignalMapping]) -> Gateway:
+        """
+        Signal Gateway: Arranges those signals that are transferred by the gateway from one channel to the other in pairs and defines the mapping between them. atpVariation: If signals are variable in clusters, the gateway signal mapping needs to be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=signalMapping, signalMapping.variation Point.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and does not extend the signalMappings list.
+        """
+        if value is not None:
+            self.signalMappings.append(value)
         return self

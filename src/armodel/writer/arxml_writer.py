@@ -12560,7 +12560,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Gateway %s" % gateway.getShortName())
         child_element = ET.SubElement(element, "GATEWAY")
         self.writeIdentifiable(child_element, gateway)
-        self.setChildElementOptionalRefType(child_element, "ECU-REF", gateway.ecuRef)
+        self.setChildElementOptionalRefType(child_element, "ECU-REF", gateway.getEcuRef())
         self.setFrameMappings(child_element, gateway.getFrameMappings())
         self.setIPduMappings(child_element, gateway.getIPduMappings())
         self.setISignalMappings(child_element, gateway.getSignalMappings())
