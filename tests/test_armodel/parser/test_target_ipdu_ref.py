@@ -30,12 +30,16 @@ def _target_ipdu_element(with_default_value=True):
         <TARGET-I-PDU-REF DEST="PDU-TRIGGERING">/Cluster/PduTriggering_Target</TARGET-I-PDU-REF>
     </TARGET-I-PDU></ROOT>""" % (
         NS,
-        """<DEFAULT-VALUE>
+        (
+            """<DEFAULT-VALUE>
             <DEFAULT-VALUE-ELEMENTS>
                 <DEFAULT-VALUE-ELEMENT><ELEMENT-BYTE-VALUE>171</ELEMENT-BYTE-VALUE><ELEMENT-POSITION>0</ELEMENT-POSITION></DEFAULT-VALUE-ELEMENT>
                 <DEFAULT-VALUE-ELEMENT><ELEMENT-BYTE-VALUE>204</ELEMENT-BYTE-VALUE><ELEMENT-POSITION>1</ELEMENT-POSITION></DEFAULT-VALUE-ELEMENT>
             </DEFAULT-VALUE-ELEMENTS>
-        </DEFAULT-VALUE>""" if with_default_value else "",
+        </DEFAULT-VALUE>"""
+            if with_default_value
+            else ""
+        ),
     )
     return ET.fromstring(xml)
 
@@ -85,7 +89,8 @@ class TestGetTargetIPduRef:
                     </TARGET-I-PDU>
                 </I-PDU-MAPPING>
             </I-PDU-MAPPINGS>
-        </GATEWAY>""" % NS
+        </GATEWAY>"""
+            % NS
         )
         root = ET.fromstring(gateway_xml)
 
