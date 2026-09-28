@@ -3,7 +3,6 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, RefType, TimeValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import RxIdentifierRange
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
     BusspecificNmEcu,
@@ -533,7 +532,6 @@ class Test_NetworkManagement:
         assert node.getNmCarWakeUpRxEnabled() is None
         assert node.getNmMsgCycleOffset() is None
         assert node.getNmMsgReducedTime() is None
-        assert node.getNmRangeConfig() is None
 
         # Test setter/getter methods
         node.setAllNmMessagesKeepAwake(True)
@@ -550,11 +548,6 @@ class Test_NetworkManagement:
 
         node.setNmMsgReducedTime("reduced_time")
         assert node.getNmMsgReducedTime() == "reduced_time"
-
-        # Test setNmRangeConfig method (line 217)
-        mock_range = RxIdentifierRange()
-        node.setNmRangeConfig(mock_range)
-        assert node.getNmRangeConfig() == mock_range
 
     def test_FlexrayNmNode(self):
         """Test FlexrayNmNode class functionality."""

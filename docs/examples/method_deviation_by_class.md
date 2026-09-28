@@ -3125,7 +3125,8 @@ No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, K
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `canXlNmProps` | `CanXlNmNodeProps` | — | missing |
+| — *(removed)* | — | `canXlNmProps` | `CanXlNmNodeProps` | aggr | stale row removed at Table 6.314 sync — AP-only XSD element (CAN-XL-NM-PROPS, RestrictToStandards="AP", CAN-NM-NODE group, AUTOSAR_00052.xsd), absent from R23-11 Table 6.314; PDF authoritative (Rule 0015); not modeled |
+| — *(removed)* | — | `nmRangeConfig` | `CanNmRangeConfig` | aggr | XSD-only element with atp.Status="removed" (CAN-NM-NODE group, AUTOSAR_00052.xsd), absent from R23-11 Table 6.314 AND R4.3.1 Table 6.235; no fixture carries NM-RANGE-CONFIG so Rule 0019 merge condition 3 fails — fabricated field (was typed `RxIdentifierRange`, mismatching the XSD `CAN-NM-RANGE-CONFIG` shape) + parser/writer element removed at sync (Rule 0015 / Rule 0001.3 deprecated atp.Status="removed") |
 
 ## `UdpNmCluster`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 687

@@ -10843,10 +10843,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readCanNmNode(self, element: ET.Element, nm_node: CanNmNode):
         self.logger.debug("Read CanNmNode <%s>" % nm_node.getShortName())
         self.readNmNode(element, nm_node)
+        nm_node.setAllNmMessagesKeepAwake(self.getChildElementOptionalBooleanValue(element, "ALL-NM-MESSAGES-KEEP-AWAKE"))
+        nm_node.setNmCarWakeUpFilterEnabled(self.getChildElementOptionalBooleanValue(element, "NM-CAR-WAKE-UP-FILTER-ENABLED"))
         nm_node.setNmCarWakeUpRxEnabled(self.getChildElementOptionalBooleanValue(element, "NM-CAR-WAKE-UP-RX-ENABLED"))
-        nm_node.setNmMsgCycleOffset(self.getChildElementOptionalFloatValue(element, "NM-MSG-CYCLE-OFFSET"))
-        nm_node.setNmMsgReducedTime(self.getChildElementOptionalFloatValue(element, "NM-MSG-REDUCED-TIME"))
-        nm_node.setNmRangeConfig(self.getRxIdentifierRange(element, "NM-RANGE-CONFIG"))
+        nm_node.setNmMsgCycleOffset(self.getChildElementOptionalTimeValue(element, "NM-MSG-CYCLE-OFFSET"))
+        nm_node.setNmMsgReducedTime(self.getChildElementOptionalTimeValue(element, "NM-MSG-REDUCED-TIME"))
 
     def readUdpNmNode(self, element: ET.Element, nm_node: UdpNmNode):
         self.logger.debug("Read UdpNmNode <%s>" % nm_node.getShortName())

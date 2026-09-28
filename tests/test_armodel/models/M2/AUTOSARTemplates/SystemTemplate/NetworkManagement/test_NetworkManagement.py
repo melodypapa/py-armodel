@@ -136,7 +136,6 @@ class TestNetworkManagement:
         assert node.getNmCarWakeUpRxEnabled() is None
         assert node.getNmMsgCycleOffset() is None
         assert node.getNmMsgReducedTime() is None
-        assert node.getNmRangeConfig() is None
 
         # Test setter/getter methods with method chaining
         node.setControllerRef("controller_ref")

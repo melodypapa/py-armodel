@@ -4,7 +4,6 @@
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from typing import List, Optional
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import RxIdentifierRange
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger, RefType, TimeValue
@@ -398,76 +397,117 @@ class NmNode(Identifiable, VariationPointCapable, ABC):
 
 class CanNmNode(NmNode):
     """
-    Represents a CAN network management node in the system,
-    defining CAN-specific NM properties including message
-    cycle offsets, timing configurations, and range settings.
+    CAN specific NM Node attributes.
     """
 
     # CanNmNode method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAllNmMessagesKeepAwake    [x] impl  [ ] docstring  [ ] test
-    # [ ] setAllNmMessagesKeepAwake    [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmCarWakeUpFilterEnabled  [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmCarWakeUpFilterEnabled  [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmCarWakeUpRxEnabled      [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmCarWakeUpRxEnabled      [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmMsgCycleOffset          [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmMsgCycleOffset          [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmMsgReducedTime          [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmMsgReducedTime          [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmRangeConfig             [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmRangeConfig             [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.314, p.684
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAllNmMessagesKeepAwake    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAllNmMessagesKeepAwake    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmCarWakeUpFilterEnabled  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmCarWakeUpFilterEnabled  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmCarWakeUpRxEnabled      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmCarWakeUpRxEnabled      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmMsgCycleOffset          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmMsgCycleOffset          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmMsgReducedTime          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmMsgReducedTime          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.allNmMessagesKeepAwake = None
-        self.nmCarWakeUpFilterEnabled = None
-        self.nmCarWakeUpRxEnabled = None
-        self.nmMsgCycleOffset = None
-        self.nmMsgReducedTime = None
-        self.nmRangeConfig: RxIdentifierRange = None
+        # Specifies if Nm drops irrelevant NM PDUs. false: Only NM PDUs with a Partial Network Information Bit (PNI) = true and containing a Partial Network request for this ECU trigger the standard RX indication handling and thus keep the ECU awake true: Every NM PDU triggers the standard RX indication handling and keeps the ECU awake
+        self.allNmMessagesKeepAwake: Optional[Boolean] = None
 
-    def getAllNmMessagesKeepAwake(self):
+        # If this attribute is set to true the CareWakeUp filtering is supported.
+        self.nmCarWakeUpFilterEnabled: Optional[Boolean] = None
+
+        # If set to true this attribute enables the support of CarWake Up bit evaluation in received NmPdus.
+        self.nmCarWakeUpRxEnabled: Optional[Boolean] = None
+
+        # Node specific time offset in the periodic transmission node. It determines the start delay of the transmission. Specified in seconds.
+        self.nmMsgCycleOffset: Optional[TimeValue] = None
+
+        # Node specific bus cycle time in the periodic transmission mode with bus load reduction. Specified in seconds.
+        self.nmMsgReducedTime: Optional[TimeValue] = None
+
+    def getAllNmMessagesKeepAwake(self) -> Optional[Boolean]:
+        """
+        Specifies if Nm drops irrelevant NM PDUs. false: Only NM PDUs with a Partial Network Information Bit (PNI) = true and containing a Partial Network request for this ECU trigger the standard RX indication handling and thus keep the ECU awake true: Every NM PDU triggers the standard RX indication handling and keeps the ECU awake
+        """
         return self.allNmMessagesKeepAwake
 
-    def setAllNmMessagesKeepAwake(self, value):
-        self.allNmMessagesKeepAwake = value
+    def setAllNmMessagesKeepAwake(self, value: Optional[Boolean]) -> "CanNmNode":
+        """
+        Specifies if Nm drops irrelevant NM PDUs. false: Only NM PDUs with a Partial Network Information Bit (PNI) = true and containing a Partial Network request for this ECU trigger the standard RX indication handling and thus keep the ECU awake true: Every NM PDU triggers the standard RX indication handling and keeps the ECU awake
+
+        A None value is a no-op and does not overwrite an existing allNmMessagesKeepAwake.
+        """
+        if value is not None:
+            self.allNmMessagesKeepAwake = value
         return self
 
-    def getNmCarWakeUpFilterEnabled(self):
+    def getNmCarWakeUpFilterEnabled(self) -> Optional[Boolean]:
+        """
+        If this attribute is set to true the CareWakeUp filtering is supported.
+        """
         return self.nmCarWakeUpFilterEnabled
 
-    def setNmCarWakeUpFilterEnabled(self, value):
-        self.nmCarWakeUpFilterEnabled = value
+    def setNmCarWakeUpFilterEnabled(self, value: Optional[Boolean]) -> "CanNmNode":
+        """
+        If this attribute is set to true the CareWakeUp filtering is supported.
+        A None value is a no-op and does not overwrite an existing nmCarWakeUpFilterEnabled.
+        """
+        if value is not None:
+            self.nmCarWakeUpFilterEnabled = value
         return self
 
-    def getNmCarWakeUpRxEnabled(self):
+    def getNmCarWakeUpRxEnabled(self) -> Optional[Boolean]:
+        """
+        If set to true this attribute enables the support of CarWake Up bit evaluation in received NmPdus.
+        """
         return self.nmCarWakeUpRxEnabled
 
-    def setNmCarWakeUpRxEnabled(self, value):
-        self.nmCarWakeUpRxEnabled = value
+    def setNmCarWakeUpRxEnabled(self, value: Optional[Boolean]) -> "CanNmNode":
+        """
+        If set to true this attribute enables the support of CarWake Up bit evaluation in received NmPdus.
+        A None value is a no-op and does not overwrite an existing nmCarWakeUpRxEnabled.
+        """
+        if value is not None:
+            self.nmCarWakeUpRxEnabled = value
         return self
 
-    def getNmMsgCycleOffset(self):
+    def getNmMsgCycleOffset(self) -> Optional[TimeValue]:
+        """
+        Node specific time offset in the periodic transmission node. It determines the start delay of the transmission. Specified in seconds.
+        """
         return self.nmMsgCycleOffset
 
-    def setNmMsgCycleOffset(self, value):
-        self.nmMsgCycleOffset = value
+    def setNmMsgCycleOffset(self, value: Optional[TimeValue]) -> "CanNmNode":
+        """
+        Node specific time offset in the periodic transmission node. It determines the start delay of the transmission. Specified in seconds.
+        A None value is a no-op and does not overwrite an existing nmMsgCycleOffset.
+        """
+        if value is not None:
+            self.nmMsgCycleOffset = value
         return self
 
-    def getNmMsgReducedTime(self):
+    def getNmMsgReducedTime(self) -> Optional[TimeValue]:
+        """
+        Node specific bus cycle time in the periodic transmission mode with bus load reduction. Specified in seconds.
+        """
         return self.nmMsgReducedTime
 
-    def setNmMsgReducedTime(self, value):
-        self.nmMsgReducedTime = value
+    def setNmMsgReducedTime(self, value: Optional[TimeValue]) -> "CanNmNode":
+        """
+        Node specific bus cycle time in the periodic transmission mode with bus load reduction. Specified in seconds.
+        A None value is a no-op and does not overwrite an existing nmMsgReducedTime.
+        """
+        if value is not None:
+            self.nmMsgReducedTime = value
         return self
-
-    def getNmRangeConfig(self) -> RxIdentifierRange:
-        return self.nmRangeConfig
-
-    def setNmRangeConfig(self, value: RxIdentifierRange):
-        self.nmRangeConfig = value
 
 
 class FlexrayNmNode(NmNode):

@@ -54,18 +54,18 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — v1 stale rows (networkConfiguration/nmUserDataLength/nmUserDataOffset missing) resolved to removed (XSD-only, Rule 0015); XSD-only nmChannelActive field + parser/writer element removed (R4.3.1-only attr, no fixture → Rule 0019 condition 3 fails); recorded in method_deviation_by_class.md
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13599 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
-- [ ] `CanNmNode` — NmNode — source TBC (locate table at Step 1)
+- [ ] `CanNmNode` (input · R23-11 markdown · Table 6.314)
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: deviation-tracked in method_deviation_by_class.md — reviewed at Step 1: v1 row (canXlNmProps missing) is an AP-only XSD element (RestrictToStandards="AP"), absent from Table 6.314 → resolved to removed at sync
+  - [x] Step 1 — Sync members & description from spec — Table 6.314, p.684; Note "CAN specific NM Node attributes."; Base ARObject,Identifiable,MultilanguageReferrable,NmNode,Referrable (most-derived NmNode, stamped Table 6.303); 5 attrs in displayed order (allNmMessagesKeepAwake/nmCarWakeUpFilterEnabled/nmCarWakeUpRxEnabled 0..1 Boolean, nmMsgCycleOffset/nmMsgReducedTime 0..1 TimeValue); no constr rows in the table; XSD group CAN-NM-NODE (AUTOSAR_00052.xsd l.15462) order ALL-NM-MESSAGES-KEEP-AWAKE → NM-CAR-WAKE-UP-FILTER-ENABLED → NM-CAR-WAKE-UP-RX-ENABLED → NM-MSG-CYCLE-OFFSET → NM-MSG-REDUCED-TIME; XSD-only CAN-XL-NM-PROPS (RestrictToStandards="AP") and NM-RANGE-CONFIG (atp.Status="removed"; absent from R23-11 Table 6.314 AND R4.3.1 Table 6.235; no fixture carries it → Rule 0019 cond. 3 fails) not modeled (Rule 0015); src drift: fabricated nmRangeConfig field + RxIdentifierRange import to remove, bare fields/untyped accessors/unguarded setters, stale 3-column checklist, fabricated docstring; parser missing ALL-NM-MESSAGES-KEEP-AWAKE + NM-CAR-WAKE-UP-FILTER-ENABLED reads, FloatValue helpers to upgrade to TimeValue
+  - [x] Step 2 — Write model class unit test (Red) — tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement/test_CanNmNode.py: defaults for all 5 attrs, get/set + None no-op grouped by type (Boolean ×3, TimeValue ×2); seen Red 2 failed (unguarded setAllNmMessagesKeepAwake/setNmMsgCycleOffset overwrite on None) / 1 passed
+  - [x] Step 3 — Implement model class (Green) — removed fabricated nmRangeConfig field + accessors and the RxIdentifierRange import (XSD-only atp.Status="removed", Rule 0015/0001.3); PEP 526 `Optional[T]` typed fields in displayed row order, typed accessors, None-guarded setters returning self; 3 passed (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring replaced with the Table 6.314 Note verbatim ("CAN specific NM Node attributes."); per-attr inline __init__ comments + getter/setter docstrings verbatim (incl. spec quirks: "CareWakeUp" in nmCarWakeUpFilterEnabled, "CarWake Up" in nmCarWakeUpRxEnabled, the run-on false:/true: items in the allNmMessagesKeepAwake Note); __init__ has no docstring; blank line between every attribute block
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — tests/test_armodel/parser/test_can_nm_node.py (5 field values incl. typed Boolean/TimeValue reads, empty-node case, XSD-only CAN-XL-NM-PROPS/NM-RANGE-CONFIG rejection) + tests/test_armodel/writer/test_can_nm_node.py (XSD kept-element order, dropped-XSD-only-tag asserts, empty case, full round-trip values); seen Red 6 failed (parser setNmRangeConfig AttributeError, writer getNmRangeConfig AttributeError, missing reads/writes)
+  - [x] Step 6 — Update parser & writer (Green) — readCanNmNode/writeCanNmNode: removed the NM-RANGE-CONFIG element both sides (atp.Status="removed", Rule 0015), added ALL-NM-MESSAGES-KEEP-AWAKE + NM-CAR-WAKE-UP-FILTER-ENABLED reads/writes (were silently dropped), upgraded FloatValue → TimeValue helpers (Rule 0001.3); XSD group order, matched name pairs, no chained mutators; incidental tests reverted to spec attrs (test_writer_nm.py TestWriteCanNmNode, legacy test_NetworkManagement.py ×2)
+  - [x] Step 7 — Update checklist comment — 6-column, `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.314, p.684`, all rows R23-11 in displayed row order; set-based check: checklist == methods (11), all covered; no marker written (unstamped batch)
+  - [x] Step 8 — Deviations — v1 stale row (canXlNmProps missing) resolved to removed (AP-only RestrictToStandards="AP", Rule 0015); nmRangeConfig removal recorded (XSD-only atp.Status="removed", absent from both corpora, no fixture → Rule 0019 cond. 3 fails, Rule 0015/0001.3); no open deviation remains; no v2 entries for this class
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13608 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `UdpNmNode` — NmNode — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py

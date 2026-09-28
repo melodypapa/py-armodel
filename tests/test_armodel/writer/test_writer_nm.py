@@ -9,15 +9,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
     ARLiteral,
     Boolean,
-    Float,
     Integer,
     Numerical,
     PositiveInteger,
     RefType,
     TimeValue,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (  # noqa: E501
-    RxIdentifierRange,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (  # noqa: E501
     LinUnconditionalFrame,
@@ -118,18 +114,6 @@ def _pos_int(val=1):
     i = PositiveInteger()
     i.setValue(val)
     return i
-
-
-def _ar_pos_int(val=1):
-    i = PositiveInteger()
-    i.setValue(val)
-    return i
-
-
-def _float(val=1.5):
-    f = Float()
-    f.setValue(val)
-    return f
 
 
 def _time(val=2.5):
@@ -293,24 +277,21 @@ class TestWriteJ1939NodeName:
 class TestWriteCanNmNode:
     def test_writes_can_nm_node(self, writer):
         node = CanNmNode(MockParent(), "can_nm_node")
+        node.setAllNmMessagesKeepAwake(_bool(True))
+        node.setNmCarWakeUpFilterEnabled(_bool(True))
         node.setNmCarWakeUpRxEnabled(_bool(True))
-        node.setNmMsgCycleOffset(_float(0.1))
-        node.setNmMsgReducedTime(_float(0.2))
-        rx_range = RxIdentifierRange()
-        rx_range.setLowerCanId(_ar_pos_int(0x100))
-        rx_range.setUpperCanId(_ar_pos_int(0x1FF))
-        node.setNmRangeConfig(rx_range)
+        node.setNmMsgCycleOffset(_time(0.1))
+        node.setNmMsgReducedTime(_time(0.2))
         parent = _parent()
         writer.writeCanNmNode(parent, node)
         assert parent.find("CAN-NM-NODE") is not None
         child = parent.find("CAN-NM-NODE")
+        assert child.find("ALL-NM-MESSAGES-KEEP-AWAKE") is not None
+        assert child.find("NM-CAR-WAKE-UP-FILTER-ENABLED") is not None
         assert child.find("NM-CAR-WAKE-UP-RX-ENABLED") is not None
         assert child.find("NM-MSG-CYCLE-OFFSET") is not None
         assert child.find("NM-MSG-REDUCED-TIME") is not None
-        assert child.find("NM-RANGE-CONFIG") is not None
-        rc = child.find("NM-RANGE-CONFIG")
-        assert rc.find("LOWER-CAN-ID") is not None
-        assert rc.find("UPPER-CAN-ID") is not None
+        assert child.find("NM-RANGE-CONFIG") is None
 
 
 class TestWriteUdpNmNode:
