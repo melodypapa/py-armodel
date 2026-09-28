@@ -269,26 +269,32 @@ class SenderRecRecordElementMapping(ARObject):
 
 
 class SenderRecRecordTypeMapping(SenderRecCompositeTypeMapping):
-    """
-    Maps record data types between sender/receiver interfaces and system signals,
-    containing multiple record element mappings that define how each field in
-    the record structure is connected to system-level communication elements.
-    """
+    """If the ApplicationCompositeDataType is a Record, the "RecordTypeMapping" will be used."""
 
     # SenderRecRecordTypeMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getRecordElementMappings     [x] impl  [ ] docstring  [ ] test
-    # [ ] addRecordElementMapping      [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.29, p.236
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRecordElementMappings     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addRecordElementMapping      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.recordElementMappings = []  # type: List[SenderRecRecordElementMapping]
+        # Each ApplicationRecordElement shall be mapped on a SystemSignal.
+        self.recordElementMappings: List[SenderRecRecordElementMapping] = []
 
-    def getRecordElementMappings(self):
+    def getRecordElementMappings(self) -> List[SenderRecRecordElementMapping]:
+        """
+        Each ApplicationRecordElement shall be mapped on a SystemSignal.
+        """
         return self.recordElementMappings
 
-    def addRecordElementMapping(self, value):
+    def addRecordElementMapping(self, value: Optional[SenderRecRecordElementMapping]) -> SenderRecRecordTypeMapping:
+        """
+        Each ApplicationRecordElement shall be mapped on a SystemSignal.
+        A None value is a no-op and does not extend the recordElementMappings list.
+        """
         if value is not None:
             self.recordElementMappings.append(value)
         return self

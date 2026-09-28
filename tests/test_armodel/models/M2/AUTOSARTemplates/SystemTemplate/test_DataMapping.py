@@ -1,5 +1,5 @@
 import inspect
-from typing import Optional, get_type_hints
+from typing import List, Optional, get_type_hints
 
 import pytest
 
@@ -692,3 +692,62 @@ class TestSenderRecRecordElementMapping:
     def test_system_signal_ref_docstrings_are_spec_note(self):
         self._assert_docstring(SenderRecRecordElementMapping.getSystemSignalRef, SYSTEM_SIGNAL_NOTE)
         self._assert_docstring(SenderRecRecordElementMapping.setSystemSignalRef, SYSTEM_SIGNAL_NOTE, "systemSignalRef")
+
+
+SENDER_REC_RECORD_TYPE_MAPPING_CLASS_NOTE = 'If the ApplicationCompositeDataType is a Record, the "RecordTypeMapping" will be used.'
+RECORD_ELEMENT_MAPPING_NOTE = "Each ApplicationRecordElement shall be mapped on a SystemSignal."
+
+
+class TestSenderRecRecordTypeMapping:
+    """Spec-synced tests for SenderRecRecordTypeMapping (AUTOSAR_CP_TPS_SystemTemplate Table 5.29)."""
+
+    def _make(self) -> SenderRecRecordTypeMapping:
+        return SenderRecRecordTypeMapping()
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not extend the %s list." % attr_name
+        assert method.__doc__ is not None
+        assert inspect.cleandoc(method.__doc__).strip() == expected
+
+    def test_initialization(self):
+        mapping = self._make()
+
+        assert isinstance(mapping, ARObject)
+        assert isinstance(mapping, SenderRecCompositeTypeMapping)
+        assert mapping.getRecordElementMappings() == []
+
+    def test_class_docstring_is_spec_note(self):
+        assert inspect.cleandoc(SenderRecRecordTypeMapping.__doc__).strip() == SENDER_REC_RECORD_TYPE_MAPPING_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert SenderRecRecordTypeMapping.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        source = inspect.getsource(SenderRecRecordTypeMapping.__init__)
+        assert "self.recordElementMappings:" in source
+
+    def test_get_add_record_element_mappings(self):
+        mapping = self._make()
+
+        assert mapping.getRecordElementMappings() == []
+
+        first = SenderRecRecordElementMapping()
+        second = SenderRecRecordElementMapping()
+        assert mapping == mapping.addRecordElementMapping(first)
+        assert mapping.getRecordElementMappings() == [first]
+        assert mapping == mapping.addRecordElementMapping(second)
+        assert mapping.getRecordElementMappings() == [first, second]
+
+        assert mapping == mapping.addRecordElementMapping(None)
+        assert mapping.getRecordElementMappings() == [first, second]
+
+        getter_hints = get_type_hints(SenderRecRecordTypeMapping.getRecordElementMappings)
+        assert getter_hints.get("return") == List[SenderRecRecordElementMapping]
+
+        add_hints = get_type_hints(SenderRecRecordTypeMapping.addRecordElementMapping)
+        assert add_hints.get("value") == Optional[SenderRecRecordElementMapping]
+        assert add_hints.get("return") is SenderRecRecordTypeMapping
+
+    def test_record_element_mappings_docstrings_are_spec_note(self):
+        self._assert_docstring(SenderRecRecordTypeMapping.getRecordElementMappings, RECORD_ELEMENT_MAPPING_NOTE)
+        self._assert_docstring(SenderRecRecordTypeMapping.addRecordElementMapping, RECORD_ELEMENT_MAPPING_NOTE, "recordElementMappings")
