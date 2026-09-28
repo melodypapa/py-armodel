@@ -15,7 +15,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 ## Queue (dependency-first)
 
-- [ ] `DependencyUsageEnum` — AREnum — R23-11 markdown · Table 7.4 (CP_TPS_BSWModuleDescriptionTemplate)
+- [x] `DependencyUsageEnum` — AREnum — R23-11 markdown · Table 7.4 (CP_TPS_BSWModuleDescriptionTemplate) — sync commit: 9a8c86ae9a580998ef73c1488550b6554ba63df4
   - module: M2/AUTOSARTemplates/CommonStructure/Implementation.py
   - note: deviation-tracked in method_deviation_by_class_v2.md — reviewed at Step 1: only an Appendix intake listing (no deviation rows); Table 7.4 exists, so the appendix entry is a stale intake artifact
   - [x] Step 1 — Sync members & description from spec (Table 7.4, p.132; literals build/codegeneration/compile/execute/link, indices 0-4 = XSD doc order; found: CODEGENERATION comment has spurious trailing period vs spec, old 4-column checklist, no `Tags:` prefix)
@@ -24,9 +24,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 4 — Sync docstrings (wipe + rewrite) (class Note already verbatim, kept; 5 literal comments rewritten verbatim — removed spurious period on `codegeneration`, added `Tags: atp.EnumerationLiteralIndex=N` form)
   - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — the value form is serialized by `DependencyOnArtifact.usage`; consumer coverage verified: parser `readDependencyOnArtifact` USAGES/USAGE → `DependencyUsageEnum().setValue` + `addUsage` (arxml_parser.py:4477), reader test asserts values BUILD/LINK/CODEGENERATION in test_arxml_parser_implementation.py)
   - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — writer verified: `writeDependencyOnArtifact` emits `USAGES` wrapper only when non-empty + one `USAGE` per entry (arxml_writer.py:6427); consumer class checklist already reader/writer `[x]`)
-  - [x] Step 7 — Update checklist comment (6-column format, single `__init__` row, release R23-11; NO `# Spec verified:` — deferred to batch confirmation)
+  - [x] Step 7 — Update checklist comment (6-column format, single `__init__` row, release R23-11; `# Spec verified: R23-11` added after 9b confirmation)
   - [x] Step 8 — Deviations (fixed+recorded in step notes: CODEGENERATION comment trailing period removed (spec has none), `Tags:` prefix format applied, 4-col checklist → 6-col, set-based order test → exact order; no open deviations — tracker v2 mention is a stale intake appendix listing only)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) [9a: 10933 unit tests + flake8 + ruff + black green; **stamp deferred to batch confirmation (user instruction 2026-09-24)**]
+  - [x] Step 9 — Verify (9a) + confirm (9b) [9a: 10933 unit tests + flake8 + ruff + black green; 9b explicitly confirmed by user; `# Spec verified: R23-11` written to source; sync commit: 9a8c86ae9a580998ef73c1488550b6554ba63df4]
 
 - [ ] `ArrayImplPolicyEnum` — AREnum — R23-11 markdown · Table 5.18 (CP_TPS_SoftwareComponentTemplate)
   - module: M2/AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py

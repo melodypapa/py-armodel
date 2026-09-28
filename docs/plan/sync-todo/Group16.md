@@ -59,6 +59,20 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — see feat note above
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
+- [ ] `Ipv4AddressSourceEnum` — AREnum — R23-11 markdown · Table 6.137 (CP_TPS_SystemTemplate), p.465 — commit 6c97ddc10
+  - commit: 6c97ddc10 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — queue-row add-back 2026-09-28 (class synced in the same commit as Ipv4Configuration/NetworkEndpoint but the row was omitted from this queue; member type of Ipv4Configuration.ipv4AddressSource — its row notes "ipv4AddressSource now typed Ipv4AddressSourceEnum"; Group6 pending-resolution note lists it too) — class body carries `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.137, p.465` checklist, NO `# Spec verified:` yet
+  - [—] Step 5 — N/A standalone enum
+  - [—] Step 6 — N/A standalone enum
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — see feat note above (literal AUTO_IP_DOIP = autoIp_doip; mirror test test_Ipv4AddressSourceEnum.py)
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
 - [ ] `DoIpEntity` — ARObject — R23-11 markdown · Table 6.150 (CP_TPS_SystemTemplate), p.471 — commit b1e4750b1
   - commit: b1e4750b1 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + typed doIpEntityRole; rw (getDoIpEntity/setDoIpEntity) already complete
   - [x] Step 1 — Sync members & description from spec
@@ -70,10 +84,6 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see feat note above
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
-
-- [x] `TcpProps` — ARObject — already verified (R23-11 · Table 3.111, p.155; short-circuit 2026-09-27)
-  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - note (short-circuit 2026-09-27): class body already carries `# Spec verified: R23-11` — all 18 tcp* attributes (Boolean/PositiveInteger/TimeValue per row) match the table (7 rows in the visible fragment + page-split continuation rows corroborated by constraints 5119–5124), full get/set pairs with reader/writer coverage, 6-col checklist all [x]. Deviation check found nothing new. No code change needed — row flipped without a class commit.
 
 - [ ] `TpPort` — ARObject — R23-11 markdown · Table 6.133 (CP_TPS_SystemTemplate), p.461 — commit b1e4750b1
   - commit: b1e4750b1 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 2 attr notes (dynamicallyAssigned carries atp.Status=obsolete tag verbatim); rw via getTpPort/setTpPort complete
@@ -148,6 +158,19 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — see feat note above
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
+- [ ] `IPSecConfig` — ARObject — R23-11 markdown · Table 6.221 (CP_TPS_SystemTemplate), p.571 — commit 6c97ddc10
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - commit: 6c97ddc10 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — queue-row add-back 2026-09-28 (class synced in the same commit as Ipv4Configuration/NetworkEndpoint but the row was omitted from this queue; member type of NetworkEndpoint.ipSecConfig — its Step 8 flags "ipSecConfig AGGR RW UNWIRED, IPSecConfig created minimal — ipSecRule aggr omitted, member classes IPSecRule/IPSecConfigProps not modeled") — class body carries `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.221, p.571` checklist, NO `# Spec verified:` yet
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [—] Step 5 — N/A at class level (no own XML dispatch — ipSecConfig AGGR RW unwired, pending NetworkEndpoint consumer wiring / user arbitration on the IPSecRule/IPSecConfigProps cascade)
+  - [—] Step 6 — N/A at class level (same — 1 attr ipSecConfigPropsRef typed Optional[RefType], reader/writer [—] per checklist)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — see feat note above (minimal class per user-flagged cascade; mirror test test_IPSecConfig.py)
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
 - [ ] `NetworkEndpoint` — Identifiable — R23-11 markdown · Table 6.134 (CP_TPS_SystemTemplate), p.463 — commit 6c97ddc10
   - commit: 6c97ddc10 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + 5 attr notes; Step 8 deviation: ipSecConfig AGGR RW UNWIRED (IPSecConfig created minimal — ipSecRule aggr omitted, member classes IPSecRule/IPSecConfigProps not modeled, would cascade into SecureCommunication family) — flagged for user
   - [x] Step 1 — Sync members & description from spec
@@ -220,6 +243,20 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — see feat note above
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
+- [ ] `PduCollectionSemanticsEnum` — AREnum — R23-11 markdown · Table 6.165 (CP_TPS_SystemTemplate), p.490 — commit 4b7c8dc79
+  - commit: 4b7c8dc79 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — queue-row add-back 2026-09-28 (class synced in the same commit as SocketConnectionIpduIdentifier/SocketConnectionBundle but the row was omitted from this queue; member type of SocketConnectionIpduIdentifier.pduCollectionSemantics — its row notes "pduCollectionSemantics/Trigger now typed enums") — class body carries `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.165, p.490` checklist, NO `# Spec verified:` yet; sibling PduCollectionTriggerEnum (Table 6.41) is stamped
+  - [—] Step 5 — N/A standalone enum
+  - [—] Step 6 — N/A standalone enum
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — see feat note above (literals lastIsBest/queued; mirror test test_PduCollectionSemanticsEnum.py)
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
 - [ ] `SocketConnectionIpduIdentifier` — ARObject — R4.3.1 markdown · Table 6.122 (TPS_SystemTemplate), p.321 — commit 4b7c8dc79
   - commit: 4b7c8dc79 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — R4.3.1 sync: verbatim Note + 6 attrs; FABRICATED PduRef member + PDU-REF parser/writer lines REMOVED (element absent from BOTH XSDs — Rule 0001.3/0014); pduCollectionSemantics/Trigger now typed enums (reader wires literals → enum instances)
   - [x] Step 1 — Sync members & description from spec
@@ -243,18 +280,6 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see feat note above
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 (6771 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
-
-- [ ] `InitialSdDelayConfig` — ARObject — source TBC (locate table at Step 1)
-  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `RequestResponseDelay` — ARObject — R23-11 markdown · Table 6.171 (CP_TPS_SystemTemplate), p.515 — commit d7240be74
   - commit: d7240be74 (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist) — verbatim Note + maxValue/minValue; rw via getRequestResponseDelay complete
