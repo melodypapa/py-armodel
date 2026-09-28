@@ -536,7 +536,7 @@ Status: **29/29** completed
 
 ## Group10
 
-Status: **6/32** completed
+Status: **7/32** completed
 
 | Class Name                         | Status       | Commit ID  |
 | ---------------------------------- | ------------ | ---------- |
@@ -546,7 +546,7 @@ Status: **6/32** completed
 | `ReentrancyLevelEnum`              | [x] Done     | 286c7c5870 |
 | `ImplementationProps`              | [x] Done     | 3166f6e5d0 |
 | `PerInstanceMemorySize`            | [x] Done     | df36bbb1fa |
-| `SwcImplementation`                | [ ] Pending* | N/A        |
+| `SwcImplementation`                | [x] Done     | 6eae95f556 |
 | `ImplementationDataTypeElement`    | [ ] Pending* | N/A        |
 | `ReceptionComSpecProps`            | [ ] Pending* | N/A        |
 | `CompositeNetworkRepresentation`   | [ ] Pending* | N/A        |
