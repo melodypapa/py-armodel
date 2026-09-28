@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 472 | 65.5% |
+| [x] Done | 473 | 65.6% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 172 | 23.9% |
+| [ ] Deferred | 171 | 23.7% |
 | [ ] Pending | 66 | 9.2% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -376,7 +376,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `IdsPlatformInstantiation`                              | [x] Done    | 5d4cc1c454                               | Group7           |
 | `IdsmModuleInstantiation`                               | [x] Done    | 5d4cc1c454                               | Group7           |
 | `Implementation`                                        | [x] Done    | e7dfb875d9                               | Group1           |
-| `ImplementationDataTypeElement`                         | [ ] Deferred| N/A                                      | Group10          |
+| `ImplementationDataTypeElement`                         | [x] Done    | 8e9b2db86b                               | Group10          |
 | `ImplementationProps`                                   | [x] Done    | 3166f6e5d0                               | Group10          |
 | `IncludedModeDeclarationGroupSet`                       | [x] Done    | b9ac782d1e                               | Group2           |
 | `IndexedArrayElement`                                   | [ ] Pending | N/A                                      | Group17          |
