@@ -2564,9 +2564,7 @@ No deviations — Table 5.22 has a single attribute row (`introduction`, Documen
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `transformationISignalProps` | `—` | `transformationISignalProps` | `EndToEndTransformationISignalProps` | — | type (spec many vs py single) |
+No deviations — the stale `type (spec many vs py single)` row on `transformationISignalProps` is removed (Rule 0014 to-fix, now fixed): both `ISignal` and `ISignalGroup` model `transformationISignalProps: List[TransformationISignalProps]` (spec `*`, R23-11 XSD wrapper TRANSFORMATION-I-SIGNAL-PROPSS) with `addTransformationISignalProps`/`getTransformationISignalProps` and full reader/writer dispatch over the three concrete subclasses.
 
 ## `ISignalIPdu`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 994
@@ -3209,13 +3207,11 @@ No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, K
 | — *(missing)* | `—` | `transmissionTrigger` | `Boolean` | — | missing |
 
 ## `EndToEndTransformationISignalProps`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 808
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 809
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Transformer`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `endToEndTransformationISignalPropsVariant` | `EndToEndTransformationISignalPropsConditional` | — | missing |
+No deviations — every Table 7.27 attribute (dataId `*` ordered, dataLength, maxDataLength, minDataLength, sourceId — all PositiveInteger) is modeled with typed fields, accessors and full reader/writer coverage through the VARIANTS/CONDITIONAL split wrapper. The stale `missing endToEndTransformationISignalPropsVariant` row is removed: the member is absent from the Table 7.27 Attribute column (XSD-only variation-split artifact of the `<<atpVariation>>` class stereotype, Rule 0015 — not modeled as a field); the END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS/...-CONDITIONAL wrapper is read/written transparently into the owning object with no separate Conditional model (Rule 0001.7). Page corrected 808 → 809 (pdf_page.py caption page).
 
 ## `IPduMapping`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 840

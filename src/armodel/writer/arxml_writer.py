@@ -13096,6 +13096,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "TRANSFORMER-REF", props.getTransformerRef())
             self.writeEndToEndTransformationISignalPropsDataIds(child_element, props)
             self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", props.getDataLength())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-DATA-LENGTH", props.getMaxDataLength())
+            self.setChildElementOptionalPositiveInteger(child_element, "MIN-DATA-LENGTH", props.getMinDataLength())
+            self.setChildElementOptionalPositiveInteger(child_element, "SOURCE-ID", props.getSourceId())
 
     def writeSOMEIPTransformationISignalProps(self, element: ET.Element, props: SOMEIPTransformationISignalProps):
         if props is not None:

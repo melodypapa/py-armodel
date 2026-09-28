@@ -13440,7 +13440,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readEndToEndTransformationISignalPropsDataIds(self, element: ET.Element, props: EndToEndTransformationISignalProps):
         child_element = self.find(element, "DATA-IDS")
         if child_element is not None:
-            props.addDataId(self.getChildElementOptionalPositiveInteger(child_element, "DATA-ID"))
+            for data_id_element in self.findall(child_element, "DATA-ID"):
+                if data_id_element.text is not None:
+                    data_id = PositiveInteger()
+                    data_id.setValue(data_id_element.text)
+                    props.addDataId(data_id)
 
     def readEndToEndTransformationISignalProps(self, element: ET.Element, props: EndToEndTransformationISignalProps):
         child_element = self.find(element, "END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS/END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL")
@@ -13449,6 +13453,9 @@ class ARXMLParser(AbstractARXMLParser):
             props.setTransformerRef(self.getChildElementOptionalRefType(child_element, "TRANSFORMER-REF"))
             self.readEndToEndTransformationISignalPropsDataIds(child_element, props)
             props.setDataLength(self.getChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH"))
+            props.setMaxDataLength(self.getChildElementOptionalPositiveInteger(child_element, "MAX-DATA-LENGTH"))
+            props.setMinDataLength(self.getChildElementOptionalPositiveInteger(child_element, "MIN-DATA-LENGTH"))
+            props.setSourceId(self.getChildElementOptionalPositiveInteger(child_element, "SOURCE-ID"))
 
     def readSOMEIPTransformationISignalProps(self, element: ET.Element, props: SOMEIPTransformationISignalProps):
         child_element = self.find(element, "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS/SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL")

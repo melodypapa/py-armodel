@@ -1904,7 +1904,6 @@ No deviations — the Table 6.2 attribute column is `-` (zero own attributes; co
 - `DataIdModeEnum` (`M2::AUTOSARTemplates::SystemTemplate::Transformer`)
 - `EndToEndProfileBehaviorEnum` (`M2::AUTOSARTemplates::SystemTemplate::Transformer`)
 - `TransformationISignalProps` (`M2::AUTOSARTemplates::SystemTemplate::Transformer`)
-- `EndToEndTransformationISignalProps` (`M2::AUTOSARTemplates::SystemTemplate::Transformer`)
 - `HandleInvalidEnum` (`M2::AUTOSARTemplates::SWComponentTemplate::Communication`)
 - `NumericalValueVariationPoint` (`M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints`)
 - `AutoCollectEnum` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Enumerations`)
