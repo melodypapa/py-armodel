@@ -2690,13 +2690,11 @@ No deviations (synced to R23-11 Table D.17, p.953 — `contextDataPrototype` now
 | — *(missing)* | `—` | `flexrayClusterVariant` | `FlexrayClusterConditional` | — | missing |
 
 ## `FlexrayCommunicationController`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 84
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 86
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Flexray/FlexrayTopology.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `flexrayCommunicationControllerVariant` | `FlexrayCommunicationControllerConditional` | — | missing |
+No deviations — Table 3.30 has no variant-attribute rows; the `flexrayCommunicationControllerVariant` missing row is removed because the `<<atpVariation>>` wrapper (`FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS`/`FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL`) is read/written transparently into the owning object per the cluster-class precedent (LinCluster, Table 3.36).
 
 ## `LinCluster`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 93

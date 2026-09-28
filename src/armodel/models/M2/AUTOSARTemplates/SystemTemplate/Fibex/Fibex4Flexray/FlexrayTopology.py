@@ -14,84 +14,83 @@ class FlexrayCommunicationController(CommunicationController):
 
     # FlexrayCommunicationController method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.30, p.86
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAcceptedStartupRange        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAcceptedStartupRange        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAllowHaltDueToClock         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAllowHaltDueToClock         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAllowPassiveToActive        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAllowPassiveToActive        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getClusterDriftDamping         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setClusterDriftDamping         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDecodingCorrection          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDecodingCorrection          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDelayCompensationA          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDelayCompensationA          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDelayCompensationB          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDelayCompensationB          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getExternalSync                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setExternalSync                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getExternOffsetCorrection      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setExternOffsetCorrection      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getExternRateCorrection        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setExternRateCorrection        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFallBackInternal            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFallBackInternal            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createFlexrayFifo              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFlexrayFifos                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getKeySlotID                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setKeySlotID                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getKeySlotOnlyEnabled          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setKeySlotOnlyEnabled          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getKeySlotUsedForStartUp       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setKeySlotUsedForStartUp       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getKeySlotUsedForSync          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setKeySlotUsedForSync          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLatestTX                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLatestTX                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getListenTimeout               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setListenTimeout               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMacroInitialOffsetA         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMacroInitialOffsetA         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMacroInitialOffsetB         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMacroInitialOffsetB         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaximumDynamicPayloadLength [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaximumDynamicPayloadLength [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMicroInitialOffsetA         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMicroInitialOffsetA         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMicroInitialOffsetB         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMicroInitialOffsetB         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMicroPerCycle               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMicroPerCycle               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMicrotickDuration           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMicrotickDuration           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNmVectorEarlyUpdate         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNmVectorEarlyUpdate         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOffsetCorrectionOut         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOffsetCorrectionOut         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRateCorrectionOut           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRateCorrectionOut           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSamplesPerMicrotick         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSamplesPerMicrotick         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecondKeySlotId             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSecondKeySlotId             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTwoKeySlotMode              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTwoKeySlotMode              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getWakeUpPattern               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setWakeUpPattern               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAcceptedStartupRange           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAcceptedStartupRange           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAllowHaltDueToClock            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAllowHaltDueToClock            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAllowPassiveToActive           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAllowPassiveToActive           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClusterDriftDamping            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClusterDriftDamping            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDecodingCorrection             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDecodingCorrection             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDelayCompensationA             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDelayCompensationA             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDelayCompensationB             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDelayCompensationB             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExternalSync                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExternalSync                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExternOffsetCorrection         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExternOffsetCorrection         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExternRateCorrection           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExternRateCorrection           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFallBackInternal               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFallBackInternal               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addFlexrayFifo                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFlexrayFifos                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getKeySlotID                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKeySlotID                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeySlotOnlyEnabled             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKeySlotOnlyEnabled             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeySlotUsedForStartUp          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKeySlotUsedForStartUp          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeySlotUsedForSync             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKeySlotUsedForSync             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLatestTX                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLatestTX                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getListenTimeout                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setListenTimeout                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMacroInitialOffsetA            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMacroInitialOffsetA            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMacroInitialOffsetB            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMacroInitialOffsetB            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaximumDynamicPayloadLength    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaximumDynamicPayloadLength    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMicroInitialOffsetA            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMicroInitialOffsetA            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMicroInitialOffsetB            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMicroInitialOffsetB            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMicroPerCycle                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMicroPerCycle                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMicrotickDuration              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMicrotickDuration              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmVectorEarlyUpdate            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmVectorEarlyUpdate            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOffsetCorrectionOut            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOffsetCorrectionOut            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRateCorrectionOut              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRateCorrectionOut              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSamplesPerMicrotick            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSamplesPerMicrotick            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondKeySlotId                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecondKeySlotId                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTwoKeySlotMode                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTwoKeySlotMode                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeUpPattern                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeUpPattern                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        # Spec verified: R23-11
         super().__init__(parent, short_name)
 
         # Expanded range of measured clock deviation allowed for startup frames during integration. Unit:microtick
         self.acceptedStartupRange: Optional[Integer] = None
 
-        # Boolean flag that controls the transition to the POC:halt state due to a clock synchronization errors.
+        # Boolean flag that controls the transition to the POC:halt state due to a clock synchronization errors. If set to true, the Communication Controller is allowed to transition to POC:halt. If set to false, the Communication Controller will not transition to the POC:halt state but will enter or remain in the normal POC (passive State).
         self.allowHaltDueToClock: Optional[Boolean] = None
 
-        # Number of consecutive even/odd cycle pairs that must have valid clock correction terms before the Communication Controller will be allowed to transition from the POC:normal passive state to POC:normal active state. If set to 0, the Communication Controller is not allowed to transition from POC:normal passive state.
+        # Number of consecutive even/odd cycle pairs that shall have valid clock correction terms before the Communication Controller will be allowed to transition from the POC:normal passive state to POC:normal active state. If set to 0, the Communication Controller is not allowed to transition from POC:norm
         self.allowPassiveToActive: Optional[Integer] = None
 
         # The cluster drift damping factor used in clock synchronization rate correction in microticks
@@ -119,7 +118,7 @@ class FlexrayCommunicationController(CommunicationController):
         self.fallBackInternal: Optional[Boolean] = None
 
         # One First In First Out (FIFO) queued receive structure, defining the admittance criteria to the FIFO.
-        self.flexrayFifos: List["FlexrayFifoConfiguration"] = []
+        self.flexrayFifos: List[FlexrayFifoConfiguration] = []
 
         # ID of the slot used to transmit the startup frame, sync frame, or designated single slot frame. If the attributes keySlotUsedForStartUp, keySlotUsedForSync, or keySlotOnlyEnabled are set to true the key slot value is mandatory.
         self.keySlotID: Optional[PositiveInteger] = None
@@ -181,351 +180,352 @@ class FlexrayCommunicationController(CommunicationController):
         # Number of repetitions of the Tx-wakeup symbol to be sent during the CC_WakeupSend state of this Node in the cluster
         self.wakeUpPattern: Optional[Integer] = None
 
-    def getAcceptedStartupRange(self):
+    def getAcceptedStartupRange(self) -> Optional[Integer]:
         """Expanded range of measured clock deviation allowed for startup frames during integration. Unit:microtick"""
         return self.acceptedStartupRange
 
-    def setAcceptedStartupRange(self, value):
+    def setAcceptedStartupRange(self, value: Optional[Integer]) -> FlexrayCommunicationController:
         """Expanded range of measured clock deviation allowed for startup frames during integration. Unit:microtick
         A None value is a no-op and does not overwrite an existing acceptedStartupRange."""
         if value is not None:
             self.acceptedStartupRange = value
         return self
 
-    def getAllowHaltDueToClock(self):
-        """Boolean flag that controls the transition to the POC:halt state due to a clock synchronization errors."""
+    def getAllowHaltDueToClock(self) -> Optional[Boolean]:
+        """Boolean flag that controls the transition to the POC:halt state due to a clock synchronization errors. If set to true, the Communication Controller is allowed to transition to POC:halt. If set to false, the Communication Controller will not transition to the POC:halt state but will enter or remain in the normal POC (passive State)."""
         return self.allowHaltDueToClock
 
-    def setAllowHaltDueToClock(self, value):
-        """Boolean flag that controls the transition to the POC:halt state due to a clock synchronization errors.
+    def setAllowHaltDueToClock(self, value: Optional[Boolean]) -> FlexrayCommunicationController:
+        """Boolean flag that controls the transition to the POC:halt state due to a clock synchronization errors. If set to true, the Communication Controller is allowed to transition to POC:halt. If set to false, the Communication Controller will not transition to the POC:halt state but will enter or remain in the normal POC (passive State).
         A None value is a no-op and does not overwrite an existing allowHaltDueToClock."""
         if value is not None:
             self.allowHaltDueToClock = value
         return self
 
-    def getAllowPassiveToActive(self):
-        """Number of consecutive even/odd cycle pairs that must have valid clock correction terms before the Communication Controller will be allowed to transition from the POC:normal passive state to POC:normal active state. If set to 0, the Communication Controller is not allowed to transition from POC:normal passive state."""
+    def getAllowPassiveToActive(self) -> Optional[Integer]:
+        """Number of consecutive even/odd cycle pairs that shall have valid clock correction terms before the Communication Controller will be allowed to transition from the POC:normal passive state to POC:normal active state. If set to 0, the Communication Controller is not allowed to transition from POC:norm"""
         return self.allowPassiveToActive
 
-    def setAllowPassiveToActive(self, value):
-        """Number of consecutive even/odd cycle pairs that must have valid clock correction terms before the Communication Controller will be allowed to transition from the POC:normal passive state to POC:normal active state. If set to 0, the Communication Controller is not allowed to transition from POC:normal passive state.
+    def setAllowPassiveToActive(self, value: Optional[Integer]) -> FlexrayCommunicationController:
+        """Number of consecutive even/odd cycle pairs that shall have valid clock correction terms before the Communication Controller will be allowed to transition from the POC:normal passive state to POC:normal active state. If set to 0, the Communication Controller is not allowed to transition from POC:norm
         A None value is a no-op and does not overwrite an existing allowPassiveToActive."""
         if value is not None:
             self.allowPassiveToActive = value
         return self
 
-    def getClusterDriftDamping(self):
+    def getClusterDriftDamping(self) -> Optional[Integer]:
         """The cluster drift damping factor used in clock synchronization rate correction in microticks"""
         return self.clusterDriftDamping
 
-    def setClusterDriftDamping(self, value):
+    def setClusterDriftDamping(self, value: Optional[Integer]) -> FlexrayCommunicationController:
         """The cluster drift damping factor used in clock synchronization rate correction in microticks
         A None value is a no-op and does not overwrite an existing clusterDriftDamping."""
         if value is not None:
             self.clusterDriftDamping = value
         return self
 
-    def getDecodingCorrection(self):
+    def getDecodingCorrection(self) -> Optional[Integer]:
         """Value used by the receiver to calculate the difference between primary time reference point and secondary time reference point. Unit: Microticks (pDecodingCorrection)"""
         return self.decodingCorrection
 
-    def setDecodingCorrection(self, value):
+    def setDecodingCorrection(self, value: Optional[Integer]) -> FlexrayCommunicationController:
         """Value used by the receiver to calculate the difference between primary time reference point and secondary time reference point. Unit: Microticks (pDecodingCorrection)
         A None value is a no-op and does not overwrite an existing decodingCorrection."""
         if value is not None:
             self.decodingCorrection = value
         return self
 
-    def getDelayCompensationA(self):
+    def getDelayCompensationA(self) -> Optional[Integer]:
         """Value used to compensate for reception delays on channel A Unit: Microticks. This optional parameter shall only be filled out if channel A is used."""
         return self.delayCompensationA
 
-    def setDelayCompensationA(self, value):
+    def setDelayCompensationA(self, value: Optional[Integer]) -> FlexrayCommunicationController:
         """Value used to compensate for reception delays on channel A Unit: Microticks. This optional parameter shall only be filled out if channel A is used.
         A None value is a no-op and does not overwrite an existing delayCompensationA."""
         if value is not None:
             self.delayCompensationA = value
         return self
 
-    def getDelayCompensationB(self):
+    def getDelayCompensationB(self) -> Optional[Integer]:
         """Value used to compensate for reception delays on channel B. Unit: Microticks. This optional parameter shall only be filled out if channel B is used."""
         return self.delayCompensationB
 
-    def setDelayCompensationB(self, value):
+    def setDelayCompensationB(self, value: Optional[Integer]) -> FlexrayCommunicationController:
         """Value used to compensate for reception delays on channel B. Unit: Microticks. This optional parameter shall only be filled out if channel B is used.
         A None value is a no-op and does not overwrite an existing delayCompensationB."""
         if value is not None:
             self.delayCompensationB = value
         return self
 
-    def getExternalSync(self):
+    def getExternalSync(self) -> Optional[Boolean]:
         """Flag indicating whether the node is externally synchronized (operating as Time Gateway Sink in an TT-E Time Triggered External Sync cluster) or locally synchronized."""
         return self.externalSync
 
-    def setExternalSync(self, value):
+    def setExternalSync(self, value: Optional[Boolean]) -> FlexrayCommunicationController:
         """Flag indicating whether the node is externally synchronized (operating as Time Gateway Sink in an TT-E Time Triggered External Sync cluster) or locally synchronized.
         A None value is a no-op and does not overwrite an existing externalSync."""
         if value is not None:
             self.externalSync = value
         return self
 
-    def getExternOffsetCorrection(self):
+    def getExternOffsetCorrection(self) -> Optional[Integer]:
         """Fixed amount added or subtracted to the calculated offset correction term to facilitate external offset correction, expressed in node-local microticks."""
         return self.externOffsetCorrection
 
-    def setExternOffsetCorrection(self, value):
+    def setExternOffsetCorrection(self, value: Optional[Integer]) -> FlexrayCommunicationController:
         """Fixed amount added or subtracted to the calculated offset correction term to facilitate external offset correction, expressed in node-local microticks.
         A None value is a no-op and does not overwrite an existing externOffsetCorrection."""
         if value is not None:
             self.externOffsetCorrection = value
         return self
 
-    def getExternRateCorrection(self):
+    def getExternRateCorrection(self) -> Optional[Integer]:
         """Fixed amount added or subtracted to the calculated rate correction term to facilitate external rate correction, expressed in node-local microticks."""
         return self.externRateCorrection
 
-    def setExternRateCorrection(self, value):
+    def setExternRateCorrection(self, value: Optional[Integer]) -> FlexrayCommunicationController:
         """Fixed amount added or subtracted to the calculated rate correction term to facilitate external rate correction, expressed in node-local microticks.
         A None value is a no-op and does not overwrite an existing externRateCorrection."""
         if value is not None:
             self.externRateCorrection = value
         return self
 
-    def getFallBackInternal(self):
+    def getFallBackInternal(self) -> Optional[Boolean]:
         """Flag indicating whether a Time Gateway Sink node will switch to local clock operation when synchronization with the Time Gateway Source node is lost (pFallBackInternal = true) or will instead go to POC:ready (pFallBackInternal = false)."""
         return self.fallBackInternal
 
-    def setFallBackInternal(self, value):
+    def setFallBackInternal(self, value: Optional[Boolean]) -> FlexrayCommunicationController:
         """Flag indicating whether a Time Gateway Sink node will switch to local clock operation when synchronization with the Time Gateway Source node is lost (pFallBackInternal = true) or will instead go to POC:ready (pFallBackInternal = false).
         A None value is a no-op and does not overwrite an existing fallBackInternal."""
         if value is not None:
             self.fallBackInternal = value
         return self
 
-    def createFlexrayFifo(self) -> FlexrayFifoConfiguration:
-        """One First In First Out (FIFO) queued receive structure, defining the admittance criteria to the FIFO."""
-        fifo = FlexrayFifoConfiguration()
-        self.flexrayFifos.append(fifo)
-        return fifo
+    def addFlexrayFifo(self, value: Optional[FlexrayFifoConfiguration]) -> FlexrayCommunicationController:
+        """One First In First Out (FIFO) queued receive structure, defining the admittance criteria to the FIFO.
+        A None value is a no-op and does not extend the flexrayFifos."""
+        if value is not None:
+            self.flexrayFifos.append(value)
+        return self
 
-    def getFlexrayFifos(self) -> List["FlexrayFifoConfiguration"]:
+    def getFlexrayFifos(self) -> List[FlexrayFifoConfiguration]:
         """One First In First Out (FIFO) queued receive structure, defining the admittance criteria to the FIFO."""
         return self.flexrayFifos
 
-    def getKeySlotID(self):
+    def getKeySlotID(self) -> Optional[PositiveInteger]:
         """ID of the slot used to transmit the startup frame, sync frame, or designated single slot frame. If the attributes keySlotUsedForStartUp, keySlotUsedForSync, or keySlotOnlyEnabled are set to true the key slot value is mandatory."""
         return self.keySlotID
 
-    def setKeySlotID(self, value):
+    def setKeySlotID(self, value: Optional[PositiveInteger]) -> FlexrayCommunicationController:
         """ID of the slot used to transmit the startup frame, sync frame, or designated single slot frame. If the attributes keySlotUsedForStartUp, keySlotUsedForSync, or keySlotOnlyEnabled are set to true the key slot value is mandatory.
         A None value is a no-op and does not overwrite an existing keySlotID."""
         if value is not None:
             self.keySlotID = value
         return self
 
-    def getKeySlotOnlyEnabled(self):
+    def getKeySlotOnlyEnabled(self) -> Optional[Boolean]:
         """Flag indicating whether or not the node shall enter key slot only mode following startup."""
         return self.keySlotOnlyEnabled
 
-    def setKeySlotOnlyEnabled(self, value):
+    def setKeySlotOnlyEnabled(self, value: Optional[Boolean]) -> FlexrayCommunicationController:
         """Flag indicating whether or not the node shall enter key slot only mode following startup.
         A None value is a no-op and does not overwrite an existing keySlotOnlyEnabled."""
         if value is not None:
             self.keySlotOnlyEnabled = value
         return self
 
-    def getKeySlotUsedForStartUp(self):
+    def getKeySlotUsedForStartUp(self) -> Optional[Boolean]:
         """Flag indicating whether the Key Slot is used to transmit a startup frame."""
         return self.keySlotUsedForStartUp
 
-    def setKeySlotUsedForStartUp(self, value):
+    def setKeySlotUsedForStartUp(self, value: Optional[Boolean]) -> FlexrayCommunicationController:
         """Flag indicating whether the Key Slot is used to transmit a startup frame.
         A None value is a no-op and does not overwrite an existing keySlotUsedForStartUp."""
         if value is not None:
             self.keySlotUsedForStartUp = value
         return self
 
-    def getKeySlotUsedForSync(self):
+    def getKeySlotUsedForSync(self) -> Optional[Boolean]:
         """Flag indicating whether the Key Slot is used to transmit a sync frame."""
         return self.keySlotUsedForSync
 
-    def setKeySlotUsedForSync(self, value):
+    def setKeySlotUsedForSync(self, value: Optional[Boolean]) -> FlexrayCommunicationController:
         """Flag indicating whether the Key Slot is used to transmit a sync frame.
         A None value is a no-op and does not overwrite an existing keySlotUsedForSync."""
         if value is not None:
             self.keySlotUsedForSync = value
         return self
 
-    def getLatestTX(self):
+    def getLatestTX(self) -> Optional[Integer]:
         """The number of the last minislot in which a transmission can start in the dynamic segment for the respective node"""
         return self.latestTX
 
-    def setLatestTX(self, value):
+    def setLatestTX(self, value: Optional[Integer]) -> FlexrayCommunicationController:
         """The number of the last minislot in which a transmission can start in the dynamic segment for the respective node
         A None value is a no-op and does not overwrite an existing latestTX."""
         if value is not None:
             self.latestTX = value
         return self
 
-    def getListenTimeout(self):
+    def getListenTimeout(self) -> Optional[Integer]:
         """Value for the startup listen timeout and wakeup listen timeout. Although this is a node local parameter, the real time equivalent of this value should be the same for all nodes in the cluster. Unit: Microticks"""
         return self.listenTimeout
 
-    def setListenTimeout(self, value):
+    def setListenTimeout(self, value: Optional[Integer]) -> FlexrayCommunicationController:
         """Value for the startup listen timeout and wakeup listen timeout. Although this is a node local parameter, the real time equivalent of this value should be the same for all nodes in the cluster. Unit: Microticks
         A None value is a no-op and does not overwrite an existing listenTimeout."""
         if value is not None:
             self.listenTimeout = value
         return self
 
-    def getMacroInitialOffsetA(self):
+    def getMacroInitialOffsetA(self) -> Optional[Integer]:
         """Integer number of macroticks between the static slot boundary and the closest macrotick boundary of the secondary time reference point based on the nominal macrotick duration. (pMacroInitialOffset). This optional parameter shall only be filled out if channel A is used."""
         return self.macroInitialOffsetA
 
-    def setMacroInitialOffsetA(self, value):
+    def setMacroInitialOffsetA(self, value: Optional[Integer]) -> FlexrayCommunicationController:
         """Integer number of macroticks between the static slot boundary and the closest macrotick boundary of the secondary time reference point based on the nominal macrotick duration. (pMacroInitialOffset). This optional parameter shall only be filled out if channel A is used.
         A None value is a no-op and does not overwrite an existing macroInitialOffsetA."""
         if value is not None:
             self.macroInitialOffsetA = value
         return self
 
-    def getMacroInitialOffsetB(self):
+    def getMacroInitialOffsetB(self) -> Optional[Integer]:
         """Integer number of macroticks between the static slot boundary and the closest macrotick boundary of the secondary time reference point based on the nominal macrotick duration. (pMacroInitialOffset). This optional parameter shall only be filled out if channel B is used."""
         return self.macroInitialOffsetB
 
-    def setMacroInitialOffsetB(self, value):
+    def setMacroInitialOffsetB(self, value: Optional[Integer]) -> FlexrayCommunicationController:
         """Integer number of macroticks between the static slot boundary and the closest macrotick boundary of the secondary time reference point based on the nominal macrotick duration. (pMacroInitialOffset). This optional parameter shall only be filled out if channel B is used.
         A None value is a no-op and does not overwrite an existing macroInitialOffsetB."""
         if value is not None:
             self.macroInitialOffsetB = value
         return self
 
-    def getMaximumDynamicPayloadLength(self):
+    def getMaximumDynamicPayloadLength(self) -> Optional[Integer]:
         """Maximum payload length for the dynamic channel of a frame in 16 bit WORDS."""
         return self.maximumDynamicPayloadLength
 
-    def setMaximumDynamicPayloadLength(self, value):
+    def setMaximumDynamicPayloadLength(self, value: Optional[Integer]) -> FlexrayCommunicationController:
         """Maximum payload length for the dynamic channel of a frame in 16 bit WORDS.
         A None value is a no-op and does not overwrite an existing maximumDynamicPayloadLength."""
         if value is not None:
             self.maximumDynamicPayloadLength = value
         return self
 
-    def getMicroInitialOffsetA(self):
+    def getMicroInitialOffsetA(self) -> Optional[Integer]:
         """Number of microticks between the closest macrotick boundary described by gMacroInitialOffset and the secondary time reference point. The parameter depends on pDelayCompensationA and therefore it has to be set independently for each channel. This optional parameter shall only be filled out if channel A is used."""
         return self.microInitialOffsetA
 
-    def setMicroInitialOffsetA(self, value):
+    def setMicroInitialOffsetA(self, value: Optional[Integer]) -> FlexrayCommunicationController:
         """Number of microticks between the closest macrotick boundary described by gMacroInitialOffset and the secondary time reference point. The parameter depends on pDelayCompensationA and therefore it has to be set independently for each channel. This optional parameter shall only be filled out if channel A is used.
         A None value is a no-op and does not overwrite an existing microInitialOffsetA."""
         if value is not None:
             self.microInitialOffsetA = value
         return self
 
-    def getMicroInitialOffsetB(self):
+    def getMicroInitialOffsetB(self) -> Optional[Integer]:
         """Number of microticks between the closest macrotick boundary described by gMacroInitialOffset and the secondary time reference point. The parameter depends on pDelayCompensationB and therefore it has to be set independently for each channel. This optional parameter shall only be filled out if channel B is used."""
         return self.microInitialOffsetB
 
-    def setMicroInitialOffsetB(self, value):
+    def setMicroInitialOffsetB(self, value: Optional[Integer]) -> FlexrayCommunicationController:
         """Number of microticks between the closest macrotick boundary described by gMacroInitialOffset and the secondary time reference point. The parameter depends on pDelayCompensationB and therefore it has to be set independently for each channel. This optional parameter shall only be filled out if channel B is used.
         A None value is a no-op and does not overwrite an existing microInitialOffsetB."""
         if value is not None:
             self.microInitialOffsetB = value
         return self
 
-    def getMicroPerCycle(self):
+    def getMicroPerCycle(self) -> Optional[Integer]:
         """The nominal number of microticks in a communication cycle"""
         return self.microPerCycle
 
-    def setMicroPerCycle(self, value):
+    def setMicroPerCycle(self, value: Optional[Integer]) -> FlexrayCommunicationController:
         """The nominal number of microticks in a communication cycle
         A None value is a no-op and does not overwrite an existing microPerCycle."""
         if value is not None:
             self.microPerCycle = value
         return self
 
-    def getMicrotickDuration(self):
+    def getMicrotickDuration(self) -> Optional[TimeValue]:
         """Duration of a microtick. This attribute can be derived from samplePerMicrotick and gdSampleClockPeriod. Unit: seconds"""
         return self.microtickDuration
 
-    def setMicrotickDuration(self, value):
+    def setMicrotickDuration(self, value: Optional[TimeValue]) -> FlexrayCommunicationController:
         """Duration of a microtick. This attribute can be derived from samplePerMicrotick and gdSampleClockPeriod. Unit: seconds
         A None value is a no-op and does not overwrite an existing microtickDuration."""
         if value is not None:
             self.microtickDuration = value
         return self
 
-    def getNmVectorEarlyUpdate(self):
+    def getNmVectorEarlyUpdate(self) -> Optional[Boolean]:
         """Flag indicating when the update of the Network Management Vector in the CHI shall take place. If set to false, the update shall take place after the NIT. If set to true, the update shall take place after the end of the static segment."""
         return self.nmVectorEarlyUpdate
 
-    def setNmVectorEarlyUpdate(self, value):
+    def setNmVectorEarlyUpdate(self, value: Optional[Boolean]) -> FlexrayCommunicationController:
         """Flag indicating when the update of the Network Management Vector in the CHI shall take place. If set to false, the update shall take place after the NIT. If set to true, the update shall take place after the end of the static segment.
         A None value is a no-op and does not overwrite an existing nmVectorEarlyUpdate."""
         if value is not None:
             self.nmVectorEarlyUpdate = value
         return self
 
-    def getOffsetCorrectionOut(self):
+    def getOffsetCorrectionOut(self) -> Optional[Integer]:
         """Magnitude of the maximum permissible offset correction value. Unit:microtick (pOffsetCorrectionOut)"""
         return self.offsetCorrectionOut
 
-    def setOffsetCorrectionOut(self, value):
+    def setOffsetCorrectionOut(self, value: Optional[Integer]) -> FlexrayCommunicationController:
         """Magnitude of the maximum permissible offset correction value. Unit:microtick (pOffsetCorrectionOut)
         A None value is a no-op and does not overwrite an existing offsetCorrectionOut."""
         if value is not None:
             self.offsetCorrectionOut = value
         return self
 
-    def getRateCorrectionOut(self):
+    def getRateCorrectionOut(self) -> Optional[Integer]:
         """Magnitude of the maximum permissible rate correction value and the maximum drift offset between two nodes operating with unsynchronized clocks for one communication cycle. Unit:Microticks (pRateCorrectionOut) Remarks: This parameter maps to FlexRay Protocol 2.1 Rev. A parameter pdMaxDrift."""
         return self.rateCorrectionOut
 
-    def setRateCorrectionOut(self, value):
+    def setRateCorrectionOut(self, value: Optional[Integer]) -> FlexrayCommunicationController:
         """Magnitude of the maximum permissible rate correction value and the maximum drift offset between two nodes operating with unsynchronized clocks for one communication cycle. Unit:Microticks (pRateCorrectionOut) Remarks: This parameter maps to FlexRay Protocol 2.1 Rev. A parameter pdMaxDrift.
         A None value is a no-op and does not overwrite an existing rateCorrectionOut."""
         if value is not None:
             self.rateCorrectionOut = value
         return self
 
-    def getSamplesPerMicrotick(self):
+    def getSamplesPerMicrotick(self) -> Optional[Integer]:
         """Number of samples per microtick"""
         return self.samplesPerMicrotick
 
-    def setSamplesPerMicrotick(self, value):
+    def setSamplesPerMicrotick(self, value: Optional[Integer]) -> FlexrayCommunicationController:
         """Number of samples per microtick
         A None value is a no-op and does not overwrite an existing samplesPerMicrotick."""
         if value is not None:
             self.samplesPerMicrotick = value
         return self
 
-    def getSecondKeySlotId(self):
+    def getSecondKeySlotId(self) -> Optional[PositiveInteger]:
         """ID of the second Key slot, in which a second startup frame shall be sent in TT-L Time Triggered Local Master Sync or TT-E Time Triggered External Sync mode. If this parameter is set to zero the node does not have a second key slot."""
         return self.secondKeySlotId
 
-    def setSecondKeySlotId(self, value):
+    def setSecondKeySlotId(self, value: Optional[PositiveInteger]) -> FlexrayCommunicationController:
         """ID of the second Key slot, in which a second startup frame shall be sent in TT-L Time Triggered Local Master Sync or TT-E Time Triggered External Sync mode. If this parameter is set to zero the node does not have a second key slot.
         A None value is a no-op and does not overwrite an existing secondKeySlotId."""
         if value is not None:
             self.secondKeySlotId = value
         return self
 
-    def getTwoKeySlotMode(self):
+    def getTwoKeySlotMode(self) -> Optional[Boolean]:
         """Flag indicating whether node operates as a startup node in a TT-E Time Triggered External Sync or TT-L Time Triggered Local Master Sync cluster."""
         return self.twoKeySlotMode
 
-    def setTwoKeySlotMode(self, value):
+    def setTwoKeySlotMode(self, value: Optional[Boolean]) -> FlexrayCommunicationController:
         """Flag indicating whether node operates as a startup node in a TT-E Time Triggered External Sync or TT-L Time Triggered Local Master Sync cluster.
         A None value is a no-op and does not overwrite an existing twoKeySlotMode."""
         if value is not None:
             self.twoKeySlotMode = value
         return self
 
-    def getWakeUpPattern(self):
+    def getWakeUpPattern(self) -> Optional[Integer]:
         """Number of repetitions of the Tx-wakeup symbol to be sent during the CC_WakeupSend state of this Node in the cluster"""
         return self.wakeUpPattern
 
-    def setWakeUpPattern(self, value):
+    def setWakeUpPattern(self, value: Optional[Integer]) -> FlexrayCommunicationController:
         """Number of repetitions of the Tx-wakeup symbol to be sent during the CC_WakeupSend state of this Node in the cluster
         A None value is a no-op and does not overwrite an existing wakeUpPattern."""
         if value is not None:

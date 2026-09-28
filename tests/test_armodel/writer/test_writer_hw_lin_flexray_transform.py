@@ -29,6 +29,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.Flexr
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (
     FlexrayCommunicationController,
+    FlexrayFifoConfiguration,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
     LinMaster,
@@ -707,7 +708,8 @@ class TestWriterFlexrayCommunicationController:
         controller.setExternOffsetCorrection(_integer(6))
         controller.setExternRateCorrection(_integer(7))
         controller.setFallBackInternal(_bool(False))
-        fifo = controller.createFlexrayFifo()
+        fifo = FlexrayFifoConfiguration()
+        controller.addFlexrayFifo(fifo)
         fifo.setBaseCycle(_integer(1))
         fifo.setFifoDepth(_integer(8))
         controller.setKeySlotID(_posint(1))
