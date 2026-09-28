@@ -536,7 +536,7 @@ Status: **29/29** completed
 
 ## Group10
 
-Status: **8/32** completed
+Status: **9/32** completed
 
 | Class Name                         | Status       | Commit ID  |
 | ---------------------------------- | ------------ | ---------- |
@@ -548,7 +548,7 @@ Status: **8/32** completed
 | `PerInstanceMemorySize`            | [x] Done     | df36bbb1fa |
 | `SwcImplementation`                | [x] Done     | 6eae95f556 |
 | `ImplementationDataTypeElement`    | [x] Done     | 8e9b2db86b |
-| `ReceptionComSpecProps`            | [ ] Pending* | N/A        |
+| `ReceptionComSpecProps`            | [x] Done     | 0ba890ba88 |
 | `CompositeNetworkRepresentation`   | [ ] Pending* | N/A        |
 | `ModeSwitchedAckRequest`           | [ ] Pending* | N/A        |
 | `ModeSwitchReceiverComSpec`        | [ ] Pending* | N/A        |

@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 473 | 65.6% |
+| [x] Done | 474 | 65.7% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 171 | 23.7% |
+| [ ] Deferred | 170 | 23.6% |
 | [ ] Pending | 66 | 9.2% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -550,7 +550,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `RTEEvent`                                              | [x] Done    | f0483d5732                               | Group2           |
 | `RVariableInAtomicSwcInstanceRef`                       | [ ] Deferred| 74e821ccb8                               | Group11          |
 | `RamBlockStatusControlEnum`                             | [ ] Deferred| N/A                                      | Group10          |
-| `ReceptionComSpecProps`                                 | [ ] Deferred| N/A                                      | Group10          |
+| `ReceptionComSpecProps`                                 | [x] Done    | 0ba890ba88                               | Group10          |
 | `RecordLayoutIteratorPoint`                             | [x] Done    | 2acaf7a45f                               | Group3           |
 | `RecordValueSpecification`                              | [x] Done    | b1c7030b10                               | Group3           |
 | `ReentrancyLevelEnum`                                   | [x] Done    | 286c7c5870                               | Group10          |
