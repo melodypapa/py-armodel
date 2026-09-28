@@ -12749,6 +12749,22 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readLinCommunicationConnector(self, element: ET.Element, connector: LinCommunicationConnector):
         self.readCommunicationConnector(element, connector)
+        connector.setInitialNad(self.getChildElementOptionalIntegerValue(element, "INITIAL-NAD"))
+        frames_wrapper = self.find(element, "LIN-CONFIGURABLE-FRAMES")
+        if frames_wrapper is not None:
+            for frame_element in self.findall(frames_wrapper, "LIN-CONFIGURABLE-FRAME"):
+                frame = LinConfigurableFrame()
+                frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
+                frame.setMessageId(self.getChildElementOptionalPositiveInteger(frame_element, "MESSAGE-ID"))
+                connector.addLinConfigurableFrame(frame)
+        ordered_wrapper = self.find(element, "LIN-ORDERED-CONFIGURABLE-FRAMES")
+        if ordered_wrapper is not None:
+            for frame_element in self.findall(ordered_wrapper, "LIN-ORDERED-CONFIGURABLE-FRAME"):
+                frame = LinOrderedConfigurableFrame()
+                frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
+                frame.setIndex(self.getChildElementOptionalIntegerValue(frame_element, "INDEX"))
+                connector.addLinOrderedConfigurableFrame(frame)
+        connector.setScheduleChangeNextTimeBase(self.getChildElementOptionalBooleanValue(element, "SCHEDULE-CHANGE-NEXT-TIME-BASE"))
 
     def readFlexrayCommunicationConnector(self, element: ET.Element, connector: FlexrayCommunicationConnector):
         self.readCommunicationConnector(element, connector)

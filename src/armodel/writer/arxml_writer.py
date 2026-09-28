@@ -11480,6 +11480,18 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeLinCommunicationConnector(self, element: ET.Element, connector: LinCommunicationConnector):
         self.logger.debug("Write LinCommunicationConnector %s" % connector.getShortName())
         self.writeCommunicationConnector(element, connector)
+        self.setChildElementOptionalIntegerValue(element, "INITIAL-NAD", connector.getInitialNad())
+        frames = connector.getLinConfigurableFrames()
+        if len(frames) > 0:
+            frames_tag = ET.SubElement(element, "LIN-CONFIGURABLE-FRAMES")
+            for frame in frames:
+                self.setLinConfigurableFrame(frames_tag, "LIN-CONFIGURABLE-FRAME", frame)
+        ordered_frames = connector.getLinOrderedConfigurableFrames()
+        if len(ordered_frames) > 0:
+            ordered_tag = ET.SubElement(element, "LIN-ORDERED-CONFIGURABLE-FRAMES")
+            for frame in ordered_frames:
+                self.setLinOrderedConfigurableFrame(ordered_tag, "LIN-ORDERED-CONFIGURABLE-FRAME", frame)
+        self.setChildElementOptionalBooleanValue(element, "SCHEDULE-CHANGE-NEXT-TIME-BASE", connector.getScheduleChangeNextTimeBase())
 
     def writeFlexrayCommunicationConnector(self, element: ET.Element, connector: FlexrayCommunicationConnector):
         self.logger.debug("Write FlexrayCommunicationConnector %s" % connector.getShortName())
