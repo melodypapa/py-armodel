@@ -2231,3 +2231,80 @@ class TestWriteFlexrayFifoConfiguration:
         parent = _parent()
         writer.setFlexrayFifoConfiguration(parent, "FLEXRAY-FIFO-CONFIGURATION", None)
         assert len(parent) == 0
+
+
+class TestFlexrayFrameTriggeringRoundTrip:
+    def _build_full(self):
+        pkg = _pkg()
+        ft = FlexrayFrameTriggering(pkg, "FlFt")
+        timing = FlexrayAbsolutelyScheduledTiming()
+        counter = CycleCounter()
+        counter.setCycleCounter(_integer("2"))
+        timing.setCommunicationCycle(counter)
+        timing.setSlotID(_pos_int("9"))
+        ft.addAbsolutelyScheduledTiming(timing)
+        ft.setAllowDynamicLSduLength(_boolean("true"))
+        ft.setMessageId(_pos_int("1024"))
+        ft.setPayloadPreambleIndicator(_boolean("false"))
+        return ft
+
+    def test_write_read_round_trip_full(self, writer):
+        ft = self._build_full()
+        parent = _parent()
+        writer.writeFlexrayFrameTriggering(parent, ft)
+        inner = ET.tostring(parent).decode("utf-8")
+        root = ET.fromstring("<ROOT xmlns='%s'>%s</ROOT>" % (_NS, inner))
+
+        reloaded = FlexrayFrameTriggering(_pkg(), "FlFt")
+        ARXMLParser().readFlexrayFrameTriggering(root[0][0], reloaded)
+
+        timings = reloaded.getAbsolutelyScheduledTimings()
+        assert len(timings) == 1
+        timing = timings[0]
+        assert isinstance(timing, FlexrayAbsolutelyScheduledTiming)
+        cycle = timing.getCommunicationCycle()
+        assert isinstance(cycle, CycleCounter)
+        assert cycle.getCycleCounter().getValue() == 2
+        assert timing.getSlotID().getValue() == 9
+        assert reloaded.getAllowDynamicLSduLength().getValue() is True
+        assert reloaded.getMessageId().getValue() == 1024
+        assert reloaded.getPayloadPreambleIndicator().getValue() is False
+
+    def test_write_xsd_leaf_order(self, writer):
+        ft = self._build_full()
+        parent = _parent()
+        writer.writeFlexrayFrameTriggering(parent, ft)
+        fft = parent.find("FLEXRAY-FRAME-TRIGGERING")
+        tags = [child.tag for child in fft]
+        assert tags.index("ABSOLUTELY-SCHEDULED-TIMINGS") < tags.index("ALLOW-DYNAMIC-L-SDU-LENGTH")
+        assert tags.index("ALLOW-DYNAMIC-L-SDU-LENGTH") < tags.index("MESSAGE-ID")
+        assert tags.index("MESSAGE-ID") < tags.index("PAYLOAD-PREAMBLE-INDICATOR")
+
+    def test_write_absent_leaves_omitted(self, writer):
+        ft = FlexrayFrameTriggering(_pkg(), "EmptyFt")
+        parent = _parent()
+        writer.writeFlexrayFrameTriggering(parent, ft)
+        fft = parent.find("FLEXRAY-FRAME-TRIGGERING")
+        assert fft is not None
+        assert fft.find("ABSOLUTELY-SCHEDULED-TIMINGS") is None
+        assert fft.find("ALLOW-DYNAMIC-L-SDU-LENGTH") is None
+        assert fft.find("MESSAGE-ID") is None
+        assert fft.find("PAYLOAD-PREAMBLE-INDICATOR") is None
+
+    def test_write_read_round_trip_empty_timing(self, writer):
+        pkg = _pkg()
+        ft = FlexrayFrameTriggering(pkg, "FlFt")
+        ft.addAbsolutelyScheduledTiming(FlexrayAbsolutelyScheduledTiming())
+        parent = _parent()
+        writer.writeFlexrayFrameTriggering(parent, ft)
+        inner = ET.tostring(parent).decode("utf-8")
+        root = ET.fromstring("<ROOT xmlns='%s'>%s</ROOT>" % (_NS, inner))
+
+        reloaded = FlexrayFrameTriggering(_pkg(), "FlFt")
+        ARXMLParser().readFlexrayFrameTriggering(root[0][0], reloaded)
+
+        timings = reloaded.getAbsolutelyScheduledTimings()
+        assert len(timings) == 1
+        assert timings[0].getCommunicationCycle() is None
+        assert timings[0].getSlotID() is None
+        assert reloaded.getAllowDynamicLSduLength() is None

@@ -3810,3 +3810,76 @@ class TestISignalIPduGroupNmPdus:
         element = _snip("")
         parser.readISignalIPduGroup(element, group)
         assert len(group.getNmPduRefs()) == 0
+
+
+class TestFlexrayFrameTriggeringRead:
+    def test_read_flexray_frame_triggering_full(self, parser):
+        from armodel.models import FlexrayFrameTriggering
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayAbsolutelyScheduledTiming
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CycleCounter
+
+        triggering = FlexrayFrameTriggering(parent=MagicMock(), short_name="Fft")
+        element = _snip(
+            "<SHORT-NAME>Fft</SHORT-NAME>"
+            "<ABSOLUTELY-SCHEDULED-TIMINGS>"
+            "<FLEXRAY-ABSOLUTELY-SCHEDULED-TIMING>"
+            "<COMMUNICATION-CYCLE><CYCLE-COUNTER><CYCLE-COUNTER>2</CYCLE-COUNTER></CYCLE-COUNTER></COMMUNICATION-CYCLE>"
+            "<SLOT-ID>9</SLOT-ID>"
+            "</FLEXRAY-ABSOLUTELY-SCHEDULED-TIMING>"
+            "</ABSOLUTELY-SCHEDULED-TIMINGS>"
+            "<ALLOW-DYNAMIC-L-SDU-LENGTH>true</ALLOW-DYNAMIC-L-SDU-LENGTH>"
+            "<MESSAGE-ID>1024</MESSAGE-ID>"
+            "<PAYLOAD-PREAMBLE-INDICATOR>false</PAYLOAD-PREAMBLE-INDICATOR>",
+            root_tag="FLEXRAY-FRAME-TRIGGERING",
+        )
+        parser.readFlexrayFrameTriggering(element, triggering)
+
+        timings = triggering.getAbsolutelyScheduledTimings()
+        assert len(timings) == 1
+        timing = timings[0]
+        assert isinstance(timing, FlexrayAbsolutelyScheduledTiming)
+        cycle = timing.getCommunicationCycle()
+        assert isinstance(cycle, CycleCounter)
+        assert cycle.getCycleCounter().getValue() == 2
+        assert timing.getSlotID().getValue() == 9
+        assert isinstance(triggering.getAllowDynamicLSduLength(), Boolean)
+        assert triggering.getAllowDynamicLSduLength().getValue() is True
+        assert isinstance(triggering.getMessageId(), PositiveInteger)
+        assert triggering.getMessageId().getValue() == 1024
+        assert isinstance(triggering.getPayloadPreambleIndicator(), Boolean)
+        assert triggering.getPayloadPreambleIndicator().getValue() is False
+
+    def test_read_flexray_frame_triggering_cycle_repetition(self, parser):
+        from armodel.models import FlexrayFrameTriggering
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CycleRepetition
+
+        triggering = FlexrayFrameTriggering(parent=MagicMock(), short_name="Fft")
+        element = _snip(
+            "<SHORT-NAME>Fft</SHORT-NAME>"
+            "<ABSOLUTELY-SCHEDULED-TIMINGS>"
+            "<FLEXRAY-ABSOLUTELY-SCHEDULED-TIMING>"
+            "<COMMUNICATION-CYCLE><CYCLE-REPETITION><BASE-CYCLE>1</BASE-CYCLE></CYCLE-REPETITION></COMMUNICATION-CYCLE>"
+            "</FLEXRAY-ABSOLUTELY-SCHEDULED-TIMING>"
+            "</ABSOLUTELY-SCHEDULED-TIMINGS>",
+            root_tag="FLEXRAY-FRAME-TRIGGERING",
+        )
+        parser.readFlexrayFrameTriggering(element, triggering)
+
+        timing = triggering.getAbsolutelyScheduledTimings()[0]
+        cycle = timing.getCommunicationCycle()
+        assert isinstance(cycle, CycleRepetition)
+        assert cycle.getBaseCycle().getValue() == 1
+        assert timing.getSlotID() is None
+
+    def test_read_flexray_frame_triggering_absent(self, parser):
+        from armodel.models import FlexrayFrameTriggering
+
+        triggering = FlexrayFrameTriggering(parent=MagicMock(), short_name="Fft")
+        element = _snip("<SHORT-NAME>Fft</SHORT-NAME>", root_tag="FLEXRAY-FRAME-TRIGGERING")
+        parser.readFlexrayFrameTriggering(element, triggering)
+
+        assert triggering.getAbsolutelyScheduledTimings() == []
+        assert triggering.getAllowDynamicLSduLength() is None
+        assert triggering.getMessageId() is None
+        assert triggering.getPayloadPreambleIndicator() is None
