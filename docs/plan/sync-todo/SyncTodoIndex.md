@@ -536,7 +536,7 @@ Status: **29/29** completed
 
 ## Group10
 
-Status: **9/32** completed
+Status: **10/32** completed
 
 | Class Name                         | Status       | Commit ID  |
 | ---------------------------------- | ------------ | ---------- |
@@ -549,7 +549,7 @@ Status: **9/32** completed
 | `SwcImplementation`                | [x] Done     | 6eae95f556 |
 | `ImplementationDataTypeElement`    | [x] Done     | 8e9b2db86b |
 | `ReceptionComSpecProps`            | [x] Done     | 0ba890ba88 |
-| `CompositeNetworkRepresentation`   | [ ] Pending* | N/A        |
+| `CompositeNetworkRepresentation`   | [x] Done     | b1e81e17d6 |
 | `ModeSwitchedAckRequest`           | [ ] Pending* | N/A        |
 | `ModeSwitchReceiverComSpec`        | [ ] Pending* | N/A        |
 | `ModeSwitchSenderComSpec`          | [ ] Pending* | N/A        |

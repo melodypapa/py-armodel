@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 474 | 65.7% |
+| [x] Done | 475 | 65.9% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 170 | 23.6% |
+| [ ] Deferred | 169 | 23.4% |
 | [ ] Pending | 66 | 9.2% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -142,7 +142,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `Compiler`                                              | [x] Done    | 3fce597322                               | Group1           |
 | `ComponentInCompositionInstanceRef`                     | [x] Done    | 02e863a567                               | Group7           |
 | `ComponentInSystemInstanceRef`                          | [x] Done    | b511fb85b0                               | Group7           |
-| `CompositeNetworkRepresentation`                        | [ ] Deferred| N/A                                      | Group10          |
+| `CompositeNetworkRepresentation`                        | [x] Done    | b1e81e17d6                               | Group10          |
 | `CompositeRuleBasedValueArgument`                       | [x] Done    | 0c916371eb                               | Group3           |
 | `CompositeRuleBasedValueSpecification`                  | [x] Done    | 13a010bf81                               | Group3           |
 | `CompositeValueSpecification`                           | [x] Done    | cc842d74c1                               | Group3           |
