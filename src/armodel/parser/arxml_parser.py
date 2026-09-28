@@ -1510,6 +1510,14 @@ class ARXMLParser(AbstractARXMLParser):
             variation_point.setSdg(self.getSdg(sdg_element))
         return variation_point
 
+    def readVariationPointCapable(self, element: ET.Element, obj):
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(obj, VariationPointCapable):
+                obj.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
+
     def readAdminDataSdgs(self, element: ET.Element, admin_data: AdminData):
         for child_element in self.findall(element, "SDGS/*"):
             tag_name = self.getTagName(child_element)
@@ -2046,6 +2054,7 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setReadNvData(self.getAutosarVariableRef(element, "READ-NV-DATA"))
         mapping.setWrittenNvData(self.getAutosarVariableRef(element, "WRITTEN-NV-DATA"))
         mapping.setWrittenReadNvData(self.getAutosarVariableRef(element, "WRITTEN-READ-NV-DATA"))
+        self.readVariationPointCapable(element, mapping)
 
     def readBulkNvDataDescriptor(self, element: ET.Element, descriptor: BulkNvDataDescriptor):
         self.readIdentifiable(element, descriptor)
@@ -2274,6 +2283,7 @@ class ARXMLParser(AbstractARXMLParser):
         policy.setEnhancedModeApi(self.getChildElementOptionalBooleanValue(element, "ENHANCED-MODE-API"))
         policy.setProvidedModeGroupRef(self.getChildElementOptionalRefType(element, "PROVIDED-MODE-GROUP-REF"))
         policy.setQueueLength(self.getChildElementOptionalPositiveInteger(element, "QUEUE-LENGTH"))
+        self.readVariationPointCapable(element, policy)
         return policy
 
     def getBswModeSwitchAckRequest(self, element: ET.Element, key: str) -> BswModeSwitchAckRequest:
@@ -2347,6 +2357,7 @@ class ARXMLParser(AbstractARXMLParser):
         assignment.setUsedDataElement(self.getAutosarVariableRef(element, "USED-DATA-ELEMENT"))
         assignment.setUsedParameterElement(self.getAutosarParameterRef(element, "USED-PARAMETER-ELEMENT"))
         assignment.setUsedPimRef(self.getChildElementOptionalRefType(element, "USED-PIM-REF"))
+        self.readVariationPointCapable(element, assignment)
         return assignment
 
     def getModeSwitchEventTriggeredActivity(self, element: ET.Element) -> ModeSwitchEventTriggeredActivity:
@@ -2354,6 +2365,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(element, activity)
         activity.setRole(self.getChildElementOptionalIdentifier(element, "ROLE"))
         activity.setSwcModeSwitchEventRef(self.getChildElementOptionalRefType(element, "SWC-MODE-SWITCH-EVENT-REF"))
+        self.readVariationPointCapable(element, activity)
         return activity
 
     def getRoleBasedPortAssignment(self, element: ET.Element) -> RoleBasedPortAssignment:
@@ -2398,6 +2410,7 @@ class ARXMLParser(AbstractARXMLParser):
         assignment = RoleBasedBswModuleEntryAssignment()
         assignment.setAssignedEntryRef(self.getChildElementOptionalRefType(element, "ASSIGNED-ENTRY-REF"))
         assignment.setRole(self.getChildElementOptionalLiteral(element, "ROLE"))
+        self.readVariationPointCapable(element, assignment)
         return assignment
 
     def readBswServiceDependencyAssignedData(self, element: ET.Element, dependency: BswServiceDependency):
@@ -4469,6 +4482,7 @@ class ARXMLParser(AbstractARXMLParser):
         policy = BswExclusiveAreaPolicy()
         policy.setApiPrinciple(self.getChildElementOptionalLiteral(element, "API-PRINCIPLE"))
         policy.setExclusiveAreaRef(self.getChildElementOptionalRefType(element, "EXCLUSIVE-AREA-REF"))
+        self.readVariationPointCapable(element, policy)
         return policy
 
     def readBswInternalBehaviorExclusiveAreaPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
@@ -4488,6 +4502,7 @@ class ARXMLParser(AbstractARXMLParser):
         policy.setEnhancedModeApi(self.getChildElementOptionalBooleanValue(element, "ENHANCED-MODE-API"))
         policy.setRequiredModeGroupRef(self.getChildElementOptionalRefType(element, "REQUIRED-MODE-GROUP-REF"))
         policy.setSupportsAsynchronousModeSwitch(self.getChildElementOptionalBooleanValue(element, "SUPPORTS-ASYNCHRONOUS-MODE-SWITCH"))
+        self.readVariationPointCapable(element, policy)
         return policy
 
     def readBswInternalBehaviorModeReceiverPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
@@ -4513,6 +4528,7 @@ class ARXMLParser(AbstractARXMLParser):
         implementation.setCat2Isr(self.getChildElementOptionalIdentifier(element, "CAT-2-ISR"))
         implementation.setMasteredTriggerRef(self.getChildElementOptionalRefType(element, "MASTERED-TRIGGER-REF"))
         implementation.setTask(self.getChildElementOptionalIdentifier(element, "TASK"))
+        self.readVariationPointCapable(element, implementation)
         return implementation
 
     def readBswInternalBehaviorTriggerDirectImplementations(self, element: ET.Element, behavior: BswInternalBehavior):
@@ -5201,6 +5217,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readMcParameterElementGroup(child_element, group)
             support.addElementGroup(group)
         support.setReferenceTableRef(self.getChildElementOptionalRefType(element, "REFERENCE-TABLE-REF"))
+        self.readVariationPointCapable(element, support)
 
     def readMcParameterElementGroup(self, element: ET.Element, group: McParameterElementGroup):
         group.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
@@ -5272,6 +5289,7 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "MC-DATA-INSTANCE-REFS/MC-DATA-INSTANCE-REF"):
             assignment.addMcDataInstanceRef(ref)
         assignment.setRole(self.getChildElementOptionalIdentifier(element, "ROLE"))
+        self.readVariationPointCapable(element, assignment)
 
     def readRptSwPrototypingAccess(self, element: ET.Element, access: RptSwPrototypingAccess):
         access.setRptHookAccess(self.getChildElementOptionalLiteral(element, "RPT-HOOK-ACCESS"))
@@ -5779,6 +5797,7 @@ class ARXMLParser(AbstractARXMLParser):
             ident = point.createIdent(self.getShortName(ident_element))
             self.readModeAccessPointIdent(ident_element, ident)
         point.setModeGroupIRef(self.getModeGroupIRef(element, "MODE-GROUP-IREF"))
+        self.readVariationPointCapable(element, point)
 
     def readRunnableEntityModeAccessPoints(self, element: ET.Element, entity: RunnableEntity):
         for child_element in self.findall(element, "MODE-ACCESS-POINTS/*"):
@@ -8030,6 +8049,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readInstanceEventInCompositionInstanceRef(refined_event_element, refined_event)
             props.setRefinedEventIRef(refined_event)
         props.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
+        self.readVariationPointCapable(element, props)
 
     def readInstantiationTimingEventProps(self, element: ET.Element, props: InstantiationTimingEventProps):
         self.readInstantiationRTEEventProps(element, props)
@@ -8379,6 +8399,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readValueSpecification(self, element: ET.Element, value_spec: ValueSpecification):
         self.readARObject(element, value_spec)
         value_spec.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
+        self.readVariationPointCapable(element, value_spec)
         # self.logger.debug("read ValueSpecification")
 
     def getApplicationValueSpecification(self, element: ET.Element) -> ApplicationValueSpecification:
@@ -8394,6 +8415,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(element, not_text)
         not_text.setVf(self.getChildElementOptionalNumericalValue(element, "VF"))
         not_text.setVt(self.getChildElementOptionalLiteral(element, "VT"))
+        self.readVariationPointCapable(element, not_text)
         return not_text
 
     def getRuleArguments(self, element: ET.Element) -> RuleArguments:
@@ -8405,6 +8427,7 @@ class ARXMLParser(AbstractARXMLParser):
         vtf = self.find(element, "VTF")
         if vtf is not None:
             arguments.setVtf(self.getNumericalOrText(vtf))
+        self.readVariationPointCapable(element, arguments)
         return arguments
 
     def getRuleBasedValueSpecification(self, element: ET.Element) -> RuleBasedValueSpecification:
@@ -8691,9 +8714,11 @@ class ARXMLParser(AbstractARXMLParser):
                 self.raiseError("Unsupported End To End Protection Variable Prototype <%s>" % tag_name)
 
     def readEndToEndProtectionISignalIPdu(self, element: ET.Element, ipdu: EndToEndProtectionISignalIPdu):
+        self.readARObject(element, ipdu)
         ipdu.setDataOffset(self.getChildElementOptionalIntegerValue(element, "DATA-OFFSET"))
         ipdu.setISignalGroupRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-GROUP-REF"))
         ipdu.setISignalIPduRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-I-PDU-REF"))
+        self.readVariationPointCapable(element, ipdu)
 
     def readEndToEndProtectionEndToEndProtectionISignalIPdus(self, element: ET.Element, protection: EndToEndProtection):
         for child_element in self.findall(element, "END-TO-END-PROTECTION-I-SIGNAL-I-PDUS/*"):
@@ -11089,8 +11114,10 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported TpConnection <%s>" % tag_name)
 
     def readCanTpEcu(self, element: ET.Element, tp_ecu: CanTpEcu):
+        self.readARObject(element, tp_ecu)
         tp_ecu.setCycleTimeMainFunction(self.getChildElementOptionalTimeValue(element, "CYCLE-TIME-MAIN-FUNCTION"))
         tp_ecu.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
+        self.readVariationPointCapable(element, tp_ecu)
 
     def readCanTpConfigTpEcus(self, element: ET.Element, config: CanTpConfig):
         for child_element in self.findall(element, "TP-ECUS/*"):
@@ -13146,6 +13173,7 @@ class ARXMLParser(AbstractARXMLParser):
         for annotation in self.getAnnotations(element):
             param_value.addAnnotation(annotation)
         param_value.setIsAutoValue(self.getChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE"))
+        self.readVariationPointCapable(element, param_value)
 
     def readEcucTextualParamValue(self, element: ET.Element, param_value: EcucTextualParamValue):
         self.readEcucParameterValue(element, param_value)
@@ -13183,6 +13211,7 @@ class ARXMLParser(AbstractARXMLParser):
         for annotation in self.getAnnotations(element):
             value.addAnnotation(annotation)
         value.setIsAutoValue(self.getChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE"))
+        self.readVariationPointCapable(element, value)
 
     def readEcucReferenceValue(self, element: ET.Element, value: EcucReferenceValue):
         self.readEcucAbstractReferenceValue(element, value)

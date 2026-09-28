@@ -1360,6 +1360,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writePostBuildVariantCondition(conditions_element, condition)
             self.setSdg(child_element, variation_point.getSdg())
 
+    def writeVariationPointCapable(self, element: ET.Element, obj):
+        if isinstance(obj, VariationPointCapable):
+            self.writeVariationPoint(element, obj.getVariationPoint())
+
     def writeAdminDataSdgs(self, parent: ET.Element, admin_data: AdminData):
         sdgs = admin_data.getSdgs()
         if len(sdgs) > 0:
@@ -1987,6 +1991,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if value_spec is not None:
             self.writeARObject(element, value_spec)
             self.setChildElementOptionalLiteral(element, "SHORT-LABEL", value_spec.getShortLabel())
+            self.writeVariationPointCapable(element, value_spec)
 
     def writeTextValueSpecification(self, element: ET.Element, value_spec: TextValueSpecification):
         if value_spec is not None:
@@ -2664,6 +2669,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeInstanceEventInCompositionInstanceRef(refined_event_tag, refined_event)
         self.setChildElementOptionalLiteral(props_tag, "SHORT-LABEL", props.getShortLabel())
         self.setChildElementOptionalTimeValue(props_tag, "PERIOD", props.getPeriod())
+        self.writeVariationPointCapable(props_tag, props)
 
     def writeCompositionSwComponentTypeInstantiationRTEEventProps(self, element: ET.Element, parent: CompositionSwComponentType):
         props_list = parent.getInstantiationRTEEventProps()
@@ -3559,6 +3565,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(child_element, not_text)
             self.setChildElementOptionalNumericalValue(child_element, "VF", not_text.getVf())
             self.setChildElementOptionalLiteral(child_element, "VT", not_text.getVt())
+            self.writeVariationPointCapable(child_element, not_text)
 
     def writeRuleArguments(self, element: ET.Element, arguments: RuleArguments):
         if arguments is not None:
@@ -3568,6 +3575,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalNumericalValue(child_element, "VF", arguments.getVf())
             self.setChildElementOptionalLiteral(child_element, "VT", arguments.getVt())
             self.writeNumericalOrText(child_element, "VTF", arguments.getVtf())
+            self.writeVariationPointCapable(child_element, arguments)
 
     def writeRuleBasedValueSpecification(self, element: ET.Element, key: str, value_spec: RuleBasedValueSpecification):
         if value_spec is not None:
@@ -3996,6 +4004,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setAutosarVariableRef(child_element, "READ-NV-DATA", mapping.getReadNvData())
         self.setAutosarVariableRef(child_element, "WRITTEN-NV-DATA", mapping.getWrittenNvData())
         self.setAutosarVariableRef(child_element, "WRITTEN-READ-NV-DATA", mapping.getWrittenReadNvData())
+        self.writeVariationPointCapable(child_element, mapping)
 
     def writeBulkNvDataDescriptor(self, element: ET.Element, descriptor: BulkNvDataDescriptor):
         child_element = ET.SubElement(element, "BULK-NV-DATA-DESCRIPTOR")
@@ -4083,6 +4092,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARObject(child_element, activity)
         self.setChildElementOptionalIdentifier(child_element, "ROLE", activity.getRole())
         self.setChildElementOptionalRefType(child_element, "SWC-MODE-SWITCH-EVENT-REF", activity.getSwcModeSwitchEventRef())
+        self.writeVariationPointCapable(child_element, activity)
 
     def setComponentInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: ComponentInSystemInstanceRef):
         if ref is not None:
@@ -4390,6 +4400,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(child_element, point)
             self.writeModeAccessPointIdent(child_element, point.getIdent())
             self.setModeGroupIRef(child_element, "MODE-GROUP-IREF", point.getModeGroupIRef())
+            self.writeVariationPointCapable(child_element, point)
 
     def writeRunnableEntityExternalTriggeringPoints(self, element: ET.Element, entity: RunnableEntity):
         points = entity.getExternalTriggeringPoints()
@@ -5254,6 +5265,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARObject(child_element, assignment)
         self.setChildElementOptionalRefType(child_element, "ASSIGNED-ENTRY-REF", assignment.getAssignedEntryRef())
         self.setChildElementOptionalLiteral(child_element, "ROLE", assignment.getRole())
+        self.writeVariationPointCapable(child_element, assignment)
 
     def writeBswServiceDependencyAssignedData(self, element: ET.Element, dependency: BswServiceDependency):
         assigned_data = dependency.getAssignedData()
@@ -5426,6 +5438,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setAutosarVariableRef(child_element, "USED-DATA-ELEMENT", assignment.getUsedDataElement())
         self.setAutosarParameterRef(child_element, "USED-PARAMETER-ELEMENT", assignment.getUsedParameterElement())
         self.setChildElementOptionalRefType(child_element, "USED-PIM-REF", assignment.getUsedPimRef())
+        self.writeVariationPointCapable(child_element, assignment)
 
     def writeRoleBasedPortAssignment(self, element: ET.Element, assignment: RoleBasedPortAssignment):
         child_element = ET.SubElement(element, "ROLE-BASED-PORT-ASSIGNMENT")
@@ -6490,6 +6503,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for group in element_groups:
                 self.writeMcParameterElementGroup(ET.SubElement(groups_element, "MC-PARAMETER-ELEMENT-GROUP"), group)
         self.setChildElementOptionalRefType(element, "REFERENCE-TABLE-REF", support.getReferenceTableRef())
+        self.writeVariationPointCapable(element, support)
 
     def writeMcParameterElementGroup(self, element: ET.Element, group: McParameterElementGroup):
         self.setChildElementOptionalLiteral(element, "SHORT-LABEL", group.getShortLabel())
@@ -6561,6 +6575,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in mc_data_instance_refs:
                 self.setChildElementOptionalRefType(refs_element, "MC-DATA-INSTANCE-REF", ref)
         self.setChildElementOptionalIdentifier(element, "ROLE", assignment.getRole())
+        self.writeVariationPointCapable(element, assignment)
 
     def writeRptSwPrototypingAccess(self, element: ET.Element, access: RptSwPrototypingAccess):
         self.setChildElementOptionalLiteral(element, "RPT-HOOK-ACCESS", access.getRptHookAccess())
@@ -6916,9 +6931,11 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeEndToEndProtectionISignalIPdu(self, element: ET.Element, ipdu: EndToEndProtectionISignalIPdu):
         if ipdu is not None:
             child_element = ET.SubElement(element, "END-TO-END-PROTECTION-I-SIGNAL-I-PDU")
+            self.writeARObject(child_element, ipdu)
             self.setChildElementOptionalIntegerValue(child_element, "DATA-OFFSET", ipdu.getDataOffset())
             self.setChildElementOptionalRefType(child_element, "I-SIGNAL-GROUP-REF", ipdu.getISignalGroupRef())
             self.setChildElementOptionalRefType(child_element, "I-SIGNAL-I-PDU-REF", ipdu.getISignalIPduRef())
+            self.writeVariationPointCapable(child_element, ipdu)
 
     def writeEndToEndProtectionEndToEndProtectionISignalIPdus(self, element: ET.Element, protection: EndToEndProtection):
         ipdus = protection.getEndToEndProtectionISignalIPdus()
@@ -7386,6 +7403,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "ENHANCED-MODE-API", policy.getEnhancedModeApi())
         self.setChildElementOptionalRefType(child_element, "PROVIDED-MODE-GROUP-REF", policy.getProvidedModeGroupRef())
         self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-LENGTH", policy.getQueueLength())
+        self.writeVariationPointCapable(child_element, policy)
 
     def setBswModeSwitchAckRequest(self, element: ET.Element, key: str, request: BswModeSwitchAckRequest):
         if request is not None:
@@ -7568,6 +7586,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "BSW-EXCLUSIVE-AREA-POLICY")
         self.setChildElementOptionalLiteral(child_element, "API-PRINCIPLE", policy.getApiPrinciple())
         self.setChildElementOptionalRefType(child_element, "EXCLUSIVE-AREA-REF", policy.getExclusiveAreaRef())
+        self.writeVariationPointCapable(child_element, policy)
 
     def writeBswInternalBehaviorExclusiveAreaPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
         policies = behavior.getExclusiveAreaPolicies()
@@ -7601,6 +7620,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "ENHANCED-MODE-API", policy.getEnhancedModeApi())
         self.setChildElementOptionalRefType(child_element, "REQUIRED-MODE-GROUP-REF", policy.getRequiredModeGroupRef())
         self.setChildElementOptionalBooleanValue(child_element, "SUPPORTS-ASYNCHRONOUS-MODE-SWITCH", policy.getSupportsAsynchronousModeSwitch())
+        self.writeVariationPointCapable(child_element, policy)
 
     def writeBswInternalBehaviorModeReceiverPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
         policies = behavior.getModeReceiverPolicies()
@@ -7627,6 +7647,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalIdentifier(child_element, "CAT-2-ISR", implementation.getCat2Isr())
         self.setChildElementOptionalRefType(child_element, "MASTERED-TRIGGER-REF", implementation.getMasteredTriggerRef())
         self.setChildElementOptionalIdentifier(child_element, "TASK", implementation.getTask())
+        self.writeVariationPointCapable(child_element, implementation)
 
     def writeBswInternalBehaviorTriggerDirectImplementations(self, element: ET.Element, behavior: BswInternalBehavior):
         implementations = behavior.getTriggerDirectImplementations()
@@ -8967,8 +8988,10 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCanTpEcu(self, element: ET.Element, tp_ecu: CanTpEcu):
         if tp_ecu is not None:
             child_element = ET.SubElement(element, "CAN-TP-ECU")
+            self.writeARObject(child_element, tp_ecu)
             self.setChildElementOptionalTimeValue(child_element, "CYCLE-TIME-MAIN-FUNCTION", tp_ecu.getCycleTimeMainFunction())
             self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", tp_ecu.getEcuInstanceRef())
+            self.writeVariationPointCapable(child_element, tp_ecu)
 
     def writeCanTpConfigTpEcus(self, element: ET.Element, config: CanTpConfig):
         tp_ecus = config.getTpEcus()
@@ -12669,6 +12692,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "INDEX", param_value.getIndex())
         self.setAnnotations(element, param_value.getAnnotations())
         self.setChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE", param_value.getIsAutoValue())
+        self.writeVariationPointCapable(element, param_value)
 
     def writeEcucTextualParamValue(self, element: ET.Element, param_value: EcucTextualParamValue):
         child_element = ET.SubElement(element, "ECUC-TEXTUAL-PARAM-VALUE")
@@ -12704,6 +12728,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "INDEX", value.getIndex())
         self.setAnnotations(element, value.getAnnotations())
         self.setChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE", value.getIsAutoValue())
+        self.writeVariationPointCapable(element, value)
 
     def writeEcucReferenceValue(self, element: ET.Element, value=None):
         if value is not None:
