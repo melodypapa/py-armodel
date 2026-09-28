@@ -13821,6 +13821,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported Type Mapping %s" % tag_name)
 
     def readSenderReceiverToSignalGroupMapping(self, element: ET.Element, mapping: SenderReceiverToSignalGroupMapping):
+        self.readDataMapping(element, mapping)
         mapping.setDataElementIRef(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "DATA-ELEMENT-IREF")))
         mapping.setSignalGroupRef(self.getChildElementOptionalRefType(element, "SIGNAL-GROUP-REF"))
         self.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)

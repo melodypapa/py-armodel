@@ -536,46 +536,81 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
 
 class SenderReceiverToSignalGroupMapping(DataMapping):
     """
-    Maps sender/receiver interface data to system signal groups, enabling
-    communication with multiple related signals as a single entity, with
-    support for complex type mappings of grouped data structures.
+    Mapping of a sender receiver communication data element with a composite datatype to a signal group.
+
+    [constr_5468] Existence of SenderReceiverToSignalGroupMapping.dataElement: For each SenderReceiverToSignalGroupMapping, the reference to VariableDataPrototype in the role dataElement shall exist at the time when the Ecu Extract is complete.
+
+    [constr_5469] Existence of SenderReceiverToSignalGroupMapping.signalGroup: For each SenderReceiverToSignalGroupMapping, the reference to SystemSignalGroup in the role signalGroup shall exist at the time when the Ecu Extract is complete.
+
+    [constr_5470] Existence of SenderReceiverToSignalGroupMapping.typeMapping: For each SenderReceiverToSignalGroupMapping, the aggregation of SenderRecCompositeTypeMapping in the role typeMapping shall exist at the time when the Ecu Extract is complete.
     """
 
     # SenderReceiverToSignalGroupMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataElementIRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataElementIRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] getSignalGroupRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setSignalGroupRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] getTypeMapping               [x] impl  [ ] docstring  [ ] test
-    # [ ] setTypeMapping               [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.26, p.234
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataElementIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataElementIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSignalGroupRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSignalGroupRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTypeMapping      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTypeMapping      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.dataElementIRef: VariableDataPrototypeInSystemInstanceRef = None
-        self.signalGroupRef: RefType = None
-        self.typeMapping: SenderRecCompositeTypeMapping = None
+        # Reference to a data element with a composite datatype which is mapped to a signal group. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
+        self.dataElementIRef: Optional[VariableDataPrototypeInSystemInstanceRef] = None
 
-    def getDataElementIRef(self):
+        # Reference to the signal group, which contain all primitive datatypes of the composite type
+        self.signalGroupRef: Optional[RefType] = None
+
+        # The CompositeTypeMapping maps the ApplicationArrayElements and ApplicationRecordElements to Signals of the SignalGroup.
+        self.typeMapping: Optional[SenderRecCompositeTypeMapping] = None
+
+    def getDataElementIRef(self) -> Optional[VariableDataPrototypeInSystemInstanceRef]:
+        """
+        Reference to a data element with a composite datatype which is mapped to a signal group. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
+        """
         return self.dataElementIRef
 
-    def setDataElementIRef(self, value):
-        self.dataElementIRef = value
+    def setDataElementIRef(self, value: Optional[VariableDataPrototypeInSystemInstanceRef]) -> SenderReceiverToSignalGroupMapping:
+        """
+        Reference to a data element with a composite datatype which is mapped to a signal group. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
+        A None value is a no-op and does not overwrite an existing dataElementIRef.
+        """
+        if value is not None:
+            self.dataElementIRef = value
         return self
 
-    def getSignalGroupRef(self):
+    def getSignalGroupRef(self) -> Optional[RefType]:
+        """
+        Reference to the signal group, which contain all primitive datatypes of the composite type
+        """
         return self.signalGroupRef
 
-    def setSignalGroupRef(self, value):
-        self.signalGroupRef = value
+    def setSignalGroupRef(self, value: Optional[RefType]) -> SenderReceiverToSignalGroupMapping:
+        """
+        Reference to the signal group, which contain all primitive datatypes of the composite type
+        A None value is a no-op and does not overwrite an existing signalGroupRef.
+        """
+        if value is not None:
+            self.signalGroupRef = value
         return self
 
-    def getTypeMapping(self):
+    def getTypeMapping(self) -> Optional[SenderRecCompositeTypeMapping]:
+        """
+        The CompositeTypeMapping maps the ApplicationArrayElements and ApplicationRecordElements to Signals of the SignalGroup.
+        """
         return self.typeMapping
 
-    def setTypeMapping(self, value):
-        self.typeMapping = value
+    def setTypeMapping(self, value: Optional[SenderRecCompositeTypeMapping]) -> SenderReceiverToSignalGroupMapping:
+        """
+        The CompositeTypeMapping maps the ApplicationArrayElements and ApplicationRecordElements to Signals of the SignalGroup.
+        A None value is a no-op and does not overwrite an existing typeMapping.
+        """
+        if value is not None:
+            self.typeMapping = value
         return self
 
 

@@ -753,8 +753,12 @@ SENDER_RECEIVER_TO_SIGNAL_MAPPING_CLASS_NOTE = (
     "[constr_5467] Existence of SenderReceiverToSignalMapping.systemSignal: For each SenderReceiverToSignalMapping, the reference to SystemSignal in the role systemSignal shall exist at the time when the Ecu Extract is complete."
 )
 DATA_ELEMENT_NOTE = "Reference to the data element. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef"
-SENDER_TO_SIGNAL_TEXT_TABLE_MAPPING_NOTE = "This mapping allows for the text-table translation between the sending DataPrototype that is defined in the Port Prototype and the physicalProps defined for the System Signal."
-SIGNAL_TO_RECEIVER_TEXT_TABLE_MAPPING_NOTE = "This mapping allows for the text-table translation between the physicalProps defined for the SystemSignal and a receiving DataPrototype that is defined in the Port Prototype."
+SENDER_TO_SIGNAL_TEXT_TABLE_MAPPING_NOTE = (
+    "This mapping allows for the text-table translation between the sending DataPrototype that is defined in the Port Prototype and the physicalProps defined for the System Signal."
+)
+SIGNAL_TO_RECEIVER_TEXT_TABLE_MAPPING_NOTE = (
+    "This mapping allows for the text-table translation between the physicalProps defined for the SystemSignal and a receiving DataPrototype that is defined in the Port Prototype."
+)
 SYSTEM_SIGNAL_CARRY_NOTE = "Reference to the system signal used to carry the data element."
 
 
@@ -889,6 +893,131 @@ class TestSenderReceiverToSignalMapping:
     def test_system_signal_ref_docstrings_are_spec_note(self):
         self._assert_docstring(SenderReceiverToSignalMapping.getSystemSignalRef, SYSTEM_SIGNAL_CARRY_NOTE)
         self._assert_docstring(SenderReceiverToSignalMapping.setSystemSignalRef, SYSTEM_SIGNAL_CARRY_NOTE, "systemSignalRef")
+
+    def test_inherited_introduction_accessors(self):
+        mapping = self._make()
+
+        assert mapping.getIntroduction() is None
+
+        block = DocumentationBlock()
+        assert mapping == mapping.setIntroduction(block)
+        assert mapping.getIntroduction() is block
+
+
+SENDER_RECEIVER_TO_SIGNAL_GROUP_MAPPING_CLASS_NOTE = (
+    "Mapping of a sender receiver communication data element with a composite datatype to a signal group.\n"
+    "\n"
+    "[constr_5468] Existence of SenderReceiverToSignalGroupMapping.dataElement: For each SenderReceiverToSignalGroupMapping, the reference to VariableDataPrototype in the role dataElement shall exist at the time when the Ecu Extract is complete.\n"
+    "\n"
+    "[constr_5469] Existence of SenderReceiverToSignalGroupMapping.signalGroup: For each SenderReceiverToSignalGroupMapping, the reference to SystemSignalGroup in the role signalGroup shall exist at the time when the Ecu Extract is complete.\n"
+    "\n"
+    "[constr_5470] Existence of SenderReceiverToSignalGroupMapping.typeMapping: For each SenderReceiverToSignalGroupMapping, the aggregation of SenderRecCompositeTypeMapping in the role typeMapping shall exist at the time when the Ecu Extract is complete."
+)
+DATA_ELEMENT_COMPOSITE_NOTE = "Reference to a data element with a composite datatype which is mapped to a signal group. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef"
+SIGNAL_GROUP_NOTE = "Reference to the signal group, which contain all primitive datatypes of the composite type"
+TYPE_MAPPING_NOTE = "The CompositeTypeMapping maps the ApplicationArrayElements and ApplicationRecordElements to Signals of the SignalGroup."
+
+
+class TestSenderReceiverToSignalGroupMapping:
+    """Spec-synced tests for SenderReceiverToSignalGroupMapping (AUTOSAR_CP_TPS_SystemTemplate Table 5.26)."""
+
+    def _make(self) -> SenderReceiverToSignalGroupMapping:
+        return SenderReceiverToSignalGroupMapping()
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert method.__doc__ is not None
+        assert inspect.cleandoc(method.__doc__).strip() == expected
+
+    def test_initialization(self):
+        mapping = self._make()
+
+        assert isinstance(mapping, ARObject)
+        assert isinstance(mapping, DataMapping)
+        assert mapping.getIntroduction() is None
+        assert mapping.getDataElementIRef() is None
+        assert mapping.getSignalGroupRef() is None
+        assert mapping.getTypeMapping() is None
+
+    def test_class_docstring_is_spec_note(self):
+        assert inspect.cleandoc(SenderReceiverToSignalGroupMapping.__doc__).strip() == SENDER_RECEIVER_TO_SIGNAL_GROUP_MAPPING_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert SenderReceiverToSignalGroupMapping.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        source = inspect.getsource(SenderReceiverToSignalGroupMapping.__init__)
+        assert source.index("self.dataElementIRef:") < source.index("self.signalGroupRef:")
+        assert source.index("self.signalGroupRef:") < source.index("self.typeMapping:")
+
+    def test_get_set_data_element_iref(self):
+        mapping = self._make()
+
+        assert mapping.getDataElementIRef() is None
+
+        iref = VariableDataPrototypeInSystemInstanceRef()
+        assert mapping == mapping.setDataElementIRef(iref)
+        assert mapping.getDataElementIRef() is iref
+
+        assert mapping == mapping.setDataElementIRef(None)
+        assert mapping.getDataElementIRef() is iref
+
+        getter_hints = get_type_hints(SenderReceiverToSignalGroupMapping.getDataElementIRef)
+        assert getter_hints.get("return") == Optional[VariableDataPrototypeInSystemInstanceRef]
+
+        setter_hints = get_type_hints(SenderReceiverToSignalGroupMapping.setDataElementIRef)
+        assert setter_hints.get("value") == Optional[VariableDataPrototypeInSystemInstanceRef]
+        assert setter_hints.get("return") is SenderReceiverToSignalGroupMapping
+
+    def test_get_set_signal_group_ref(self):
+        mapping = self._make()
+
+        assert mapping.getSignalGroupRef() is None
+
+        ref = RefType()
+        assert mapping == mapping.setSignalGroupRef(ref)
+        assert mapping.getSignalGroupRef() is ref
+
+        assert mapping == mapping.setSignalGroupRef(None)
+        assert mapping.getSignalGroupRef() is ref
+
+        getter_hints = get_type_hints(SenderReceiverToSignalGroupMapping.getSignalGroupRef)
+        assert getter_hints.get("return") == Optional[RefType]
+
+        setter_hints = get_type_hints(SenderReceiverToSignalGroupMapping.setSignalGroupRef)
+        assert setter_hints.get("value") == Optional[RefType]
+        assert setter_hints.get("return") is SenderReceiverToSignalGroupMapping
+
+    def test_get_set_type_mapping(self):
+        mapping = self._make()
+
+        assert mapping.getTypeMapping() is None
+
+        type_mapping = SenderRecRecordTypeMapping()
+        assert mapping == mapping.setTypeMapping(type_mapping)
+        assert mapping.getTypeMapping() is type_mapping
+
+        assert mapping == mapping.setTypeMapping(None)
+        assert mapping.getTypeMapping() is type_mapping
+
+        getter_hints = get_type_hints(SenderReceiverToSignalGroupMapping.getTypeMapping)
+        assert getter_hints.get("return") == Optional[SenderRecCompositeTypeMapping]
+
+        setter_hints = get_type_hints(SenderReceiverToSignalGroupMapping.setTypeMapping)
+        assert setter_hints.get("value") == Optional[SenderRecCompositeTypeMapping]
+        assert setter_hints.get("return") is SenderReceiverToSignalGroupMapping
+
+    def test_data_element_docstrings_are_spec_note(self):
+        self._assert_docstring(SenderReceiverToSignalGroupMapping.getDataElementIRef, DATA_ELEMENT_COMPOSITE_NOTE)
+        self._assert_docstring(SenderReceiverToSignalGroupMapping.setDataElementIRef, DATA_ELEMENT_COMPOSITE_NOTE, "dataElementIRef")
+
+    def test_signal_group_docstrings_are_spec_note(self):
+        self._assert_docstring(SenderReceiverToSignalGroupMapping.getSignalGroupRef, SIGNAL_GROUP_NOTE)
+        self._assert_docstring(SenderReceiverToSignalGroupMapping.setSignalGroupRef, SIGNAL_GROUP_NOTE, "signalGroupRef")
+
+    def test_type_mapping_docstrings_are_spec_note(self):
+        self._assert_docstring(SenderReceiverToSignalGroupMapping.getTypeMapping, TYPE_MAPPING_NOTE)
+        self._assert_docstring(SenderReceiverToSignalGroupMapping.setTypeMapping, TYPE_MAPPING_NOTE, "typeMapping")
 
     def test_inherited_introduction_accessors(self):
         mapping = self._make()

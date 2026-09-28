@@ -11841,6 +11841,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeSenderReceiverToSignalGroupMapping(self, element: ET.Element, mapping: SenderReceiverToSignalGroupMapping):
         child_element = ET.SubElement(element, "SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING")
+        self.writeDataMapping(child_element, mapping)
         self.setVariableDataPrototypeInSystemInstanceRef(child_element, "DATA-ELEMENT-IREF", mapping.getDataElementIRef())
         self.setChildElementOptionalRefType(child_element, "SIGNAL-GROUP-REF", mapping.getSignalGroupRef())
         self.writeSenderReceiverToSignalGroupMappingTypeMapping(child_element, mapping)
