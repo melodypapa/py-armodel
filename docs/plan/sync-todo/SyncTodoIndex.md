@@ -575,117 +575,117 @@ Status: **5/32** completed
 
 ## Group11
 
-Status: **1/24** completed
+Status: **24/24** completed
 
-| Class Name                             | Status       | Commit ID  |
-| -------------------------------------- | ------------ | ---------- |
-| `ModeActivationKind`                   | [ ] Pending* | N/A        |
-| `ModeDeclarationGroupPrototypeMapping` | [ ] Pending* | N/A        |
-| `ModeRequestTypeMap`                   | [ ] Pending* | N/A        |
-| `ClientServerApplicationErrorMapping`  | [ ] Pending* | N/A        |
-| `ClientServerOperationMapping`         | [ ] Pending* | N/A        |
-| `ClientServerInterfaceMapping`         | [ ] Pending* | N/A        |
-| `ModeInterfaceMapping`                 | [ ] Pending* | 8832375592 |
-| `VariableAndParameterInterfaceMapping` | [ ] Pending* | de2d5fe918 |
-| `Field`                                | [ ] Pending* | 413d1a4b62 |
-| `AbstractProvidedPortPrototype`        | [ ] Pending* | fb7a835f90 |
-| `AbstractRequiredPortPrototype`        | [ ] Pending* | fb7a835f90 |
-| `ServiceProxySwComponentType`          | [x] Done     | 74e821ccb8 |
-| `ModeGroupInAtomicSwcInstanceRef`      | [ ] Pending* | 74e821ccb8 |
-| `OperationInAtomicSwcInstanceRef`      | [ ] Pending* | 74e821ccb8 |
-| `RModeInAtomicSwcInstanceRef`          | [ ] Pending* | 74e821ccb8 |
-| `TriggerInAtomicSwcInstanceRef`        | [ ] Pending* | 74e821ccb8 |
-| `PModeGroupInAtomicSwcInstanceRef`     | [ ] Pending* | 74e821ccb8 |
-| `RModeGroupInAtomicSWCInstanceRef`     | [ ] Pending* | 74e821ccb8 |
-| `POperationInAtomicSwcInstanceRef`     | [ ] Pending* | 74e821ccb8 |
-| `ROperationInAtomicSwcInstanceRef`     | [ ] Pending* | 74e821ccb8 |
-| `RVariableInAtomicSwcInstanceRef`      | [ ] Pending* | 74e821ccb8 |
-| `PTriggerInAtomicSwcTypeInstanceRef`   | [ ] Pending* | 74e821ccb8 |
-| `PPortInCompositionInstanceRef`        | [ ] Pending* | 74e821ccb8 |
-| `RPortInCompositionInstanceRef`        | [ ] Pending* | 74e821ccb8 |
+| Class Name                             | Status   | Commit ID  |
+| -------------------------------------- | -------- | ---------- |
+| `ModeActivationKind`                   | [x] Done | 231369a1d3 |
+| `ModeDeclarationGroupPrototypeMapping` | [x] Done | 231369a1d3 |
+| `ModeRequestTypeMap`                   | [x] Done | 231369a1d3 |
+| `ClientServerApplicationErrorMapping`  | [x] Done | 231369a1d3 |
+| `ClientServerOperationMapping`         | [x] Done | 231369a1d3 |
+| `ClientServerInterfaceMapping`         | [x] Done | 231369a1d3 |
+| `ModeInterfaceMapping`                 | [x] Done | 231369a1d3 |
+| `VariableAndParameterInterfaceMapping` | [x] Done | 231369a1d3 |
+| `Field`                                | [x] Done | 231369a1d3 |
+| `AbstractProvidedPortPrototype`        | [x] Done | 231369a1d3 |
+| `AbstractRequiredPortPrototype`        | [x] Done | 231369a1d3 |
+| `ServiceProxySwComponentType`          | [x] Done | 74e821ccb8 |
+| `ModeGroupInAtomicSwcInstanceRef`      | [x] Done | 231369a1d3 |
+| `OperationInAtomicSwcInstanceRef`      | [x] Done | 231369a1d3 |
+| `RModeInAtomicSwcInstanceRef`          | [x] Done | 231369a1d3 |
+| `TriggerInAtomicSwcInstanceRef`        | [x] Done | 231369a1d3 |
+| `PModeGroupInAtomicSwcInstanceRef`     | [x] Done | 231369a1d3 |
+| `RModeGroupInAtomicSWCInstanceRef`     | [x] Done | 231369a1d3 |
+| `POperationInAtomicSwcInstanceRef`     | [x] Done | 231369a1d3 |
+| `ROperationInAtomicSwcInstanceRef`     | [x] Done | 231369a1d3 |
+| `RVariableInAtomicSwcInstanceRef`      | [x] Done | 231369a1d3 |
+| `PTriggerInAtomicSwcTypeInstanceRef`   | [x] Done | 231369a1d3 |
+| `PPortInCompositionInstanceRef`        | [x] Done | 231369a1d3 |
+| `RPortInCompositionInstanceRef`        | [x] Done | 231369a1d3 |
 
 ## Group12
 
-Status: **0/14** completed
+Status: **14/14** completed
 
-| Class Name                           | Status       | Commit ID |
-| ------------------------------------ | ------------ | --------- |
-| `ParameterAccess`                    | [ ] Pending* | N/A       |
-| `VariableAccess`                     | [ ] Pending* | N/A       |
-| `InternalTriggeringPoint`            | [ ] Pending* | N/A       |
-| `ModeAccessPoint`                    | [ ] Pending* | N/A       |
-| `ModeSwitchPoint`                    | [ ] Pending* | N/A       |
-| `AsynchronousServerCallReturnsEvent` | [ ] Pending* | N/A       |
-| `DataReceiveErrorEvent`              | [ ] Pending* | N/A       |
-| `DataReceivedEvent`                  | [ ] Pending* | N/A       |
-| `DataSendCompletedEvent`             | [ ] Pending* | N/A       |
-| `DataWriteCompletedEvent`            | [ ] Pending* | N/A       |
-| `InternalTriggerOccurredEvent`       | [ ] Pending* | N/A       |
-| `OperationInvokedEvent`              | [ ] Pending* | N/A       |
-| `RteEventInEcuInstanceRef`           | [ ] Pending* | N/A       |
-| `VariableAccessInEcuInstanceRef`     | [ ] Pending* | N/A       |
+| Class Name                           | Status   | Commit ID  |
+| ------------------------------------ | -------- | ---------- |
+| `ParameterAccess`                    | [x] Done | 231369a1d3 |
+| `VariableAccess`                     | [x] Done | 231369a1d3 |
+| `InternalTriggeringPoint`            | [x] Done | 231369a1d3 |
+| `ModeAccessPoint`                    | [x] Done | 231369a1d3 |
+| `ModeSwitchPoint`                    | [x] Done | 231369a1d3 |
+| `AsynchronousServerCallReturnsEvent` | [x] Done | 231369a1d3 |
+| `DataReceiveErrorEvent`              | [x] Done | 231369a1d3 |
+| `DataReceivedEvent`                  | [x] Done | 231369a1d3 |
+| `DataSendCompletedEvent`             | [x] Done | 231369a1d3 |
+| `DataWriteCompletedEvent`            | [x] Done | 231369a1d3 |
+| `InternalTriggerOccurredEvent`       | [x] Done | 231369a1d3 |
+| `OperationInvokedEvent`              | [x] Done | 231369a1d3 |
+| `RteEventInEcuInstanceRef`           | [x] Done | 231369a1d3 |
+| `VariableAccessInEcuInstanceRef`     | [x] Done | 231369a1d3 |
 
 ## Group13
 
-Status: **0/23** completed
+Status: **23/23** completed
 
-| Class Name                              | Status       | Commit ID  |
-| --------------------------------------- | ------------ | ---------- |
-| `BswApiOptions`                         | [ ] Pending* | N/A        |
-| `BswModuleCallPoint`                    | [ ] Pending* | N/A        |
-| `BswDirectCallPoint`                    | [ ] Pending* | N/A        |
-| `BswSynchronousServerCallPoint`         | [ ] Pending* | N/A        |
-| `BswInternalTriggeringPoint`            | [ ] Pending* | N/A        |
-| `BswInterruptEntity`                    | [ ] Pending* | N/A        |
-| `BswModeSwitchAckRequest`               | [ ] Pending* | N/A        |
-| `BswDataReceptionPolicy`                | [ ] Pending* | 7e3a2541a3 |
-| `BswQueuedDataReceptionPolicy`          | [ ] Pending* | N/A        |
-| `BswAsynchronousServerCallReturnsEvent` | [ ] Pending* | N/A        |
-| `BswDataReceivedEvent`                  | [ ] Pending* | N/A        |
-| `BswInternalTriggerOccurredEvent`       | [ ] Pending* | N/A        |
-| `BswModeManagerErrorEvent`              | [ ] Pending* | N/A        |
-| `BswModeSwitchedAckEvent`               | [ ] Pending* | 160eae8f23 |
-| `BswTimingEvent`                        | [ ] Pending* | 1a0a0619b2 |
-| `BswEntryRelationshipEnum`              | [ ] Pending* | 994c3903cb |
-| `BswEntryRelationship`                  | [ ] Pending* | 75c6517342 |
-| `BswEntryRelationshipSet`               | [ ] Pending* | a4d57abd3a |
-| `BswModuleClientServerEntry`            | [ ] Pending* | e69bc46baa |
-| `BswModuleDependency`                   | [ ] Pending* | 1ca038b144 |
-| `SwcBswRunnableMapping`                 | [ ] Pending* | c52cece662 |
-| `SwcBswSynchronizedModeGroupPrototype`  | [ ] Pending* | 659c2bf174 |
-| `SwcBswSynchronizedTrigger`             | [ ] Pending* | 6b4b9d6d10 |
+| Class Name                              | Status   | Commit ID  |
+| --------------------------------------- | -------- | ---------- |
+| `BswApiOptions`                         | [x] Done | 231369a1d3 |
+| `BswModuleCallPoint`                    | [x] Done | 231369a1d3 |
+| `BswDirectCallPoint`                    | [x] Done | 231369a1d3 |
+| `BswSynchronousServerCallPoint`         | [x] Done | 231369a1d3 |
+| `BswInternalTriggeringPoint`            | [x] Done | 231369a1d3 |
+| `BswInterruptEntity`                    | [x] Done | 231369a1d3 |
+| `BswModeSwitchAckRequest`               | [x] Done | 231369a1d3 |
+| `BswDataReceptionPolicy`                | [x] Done | 231369a1d3 |
+| `BswQueuedDataReceptionPolicy`          | [x] Done | 231369a1d3 |
+| `BswAsynchronousServerCallReturnsEvent` | [x] Done | 231369a1d3 |
+| `BswDataReceivedEvent`                  | [x] Done | 231369a1d3 |
+| `BswInternalTriggerOccurredEvent`       | [x] Done | 231369a1d3 |
+| `BswModeManagerErrorEvent`              | [x] Done | 231369a1d3 |
+| `BswModeSwitchedAckEvent`               | [x] Done | 231369a1d3 |
+| `BswTimingEvent`                        | [x] Done | 231369a1d3 |
+| `BswEntryRelationshipEnum`              | [x] Done | 231369a1d3 |
+| `BswEntryRelationship`                  | [x] Done | 231369a1d3 |
+| `BswEntryRelationshipSet`               | [x] Done | 231369a1d3 |
+| `BswModuleClientServerEntry`            | [x] Done | 231369a1d3 |
+| `BswModuleDependency`                   | [x] Done | 231369a1d3 |
+| `SwcBswRunnableMapping`                 | [x] Done | 231369a1d3 |
+| `SwcBswSynchronizedModeGroupPrototype`  | [x] Done | 231369a1d3 |
+| `SwcBswSynchronizedTrigger`             | [x] Done | 231369a1d3 |
 
 ## Group14
 
-Status: **2/25** completed
+Status: **25/25** completed
 
-| Class Name                                 | Status       | Commit ID  |
-| ------------------------------------------ | ------------ | ---------- |
-| `DiagnosticAudienceEnum`                   | [ ] Pending* | 5685ad743e |
-| `DiagnosticClearDtcNotificationEnum`       | [ ] Pending* | 28746ce3cc |
-| `DiagnosticProcessingStyleEnum`            | [ ] Pending* | 28746ce3cc |
-| `DiagnosticRoutineTypeEnum`                | [ ] Pending* | 28746ce3cc |
-| `DiagnosticServiceRequestCallbackTypeEnum` | [ ] Pending* | 28746ce3cc |
-| `DiagnosticValueAccessEnum`                | [ ] Pending* | 28746ce3cc |
-| `DtcFormatTypeEnum`                        | [ ] Pending* | 28746ce3cc |
-| `DtcKindEnum`                              | [ ] Pending* | 28746ce3cc |
-| `ServiceDiagnosticRelevanceEnum`           | [ ] Pending* | 28746ce3cc |
-| `DiagnosticCapabilityElement`              | [ ] Pending* | f5ffd3abf2 |
-| `DiagnosticCommunicationManagerNeeds`      | [ ] Pending* | 79c639e42a |
-| `DiagnosticEventInfoNeeds`                 | [ ] Pending* | 79c639e42a |
-| `DiagnosticRoutineNeeds`                   | [ ] Pending* | 79c639e42a |
-| `DiagnosticValueNeeds`                     | [ ] Pending* | 79c639e42a |
-| `DtcStatusChangeNotificationNeeds`         | [ ] Pending* | 79c639e42a |
-| `CryptoServiceNeeds`                       | [ ] Pending* | d064592a44 |
-| `DiagEventDebounceCounterBased`            | [ ] Pending* | d064592a44 |
-| `SignalServiceTranslationElementProps`     | [ ] Pending* | 29d09fc625 |
-| `DiagnosticServiceClass`                   | [x] Done*    | 6b514727f9 |
-| `DiagnosticJumpToBootLoaderEnum`           | [ ] Pending* | N/A        |
-| `DiagnosticLogicalOperatorEnum`            | [ ] Pending* | N/A        |
-| `DiagnosticEnvConditionFormulaPart`        | [x] Done*    | af255af373 |
-| `DiagnosticEnvConditionFormula`            | [ ] Pending* | af255af373 |
-| `DiagnosticEnvCompareCondition`            | [ ] Pending* | af255af373 |
-| `DiagnosticEnvModeElement`                 | [ ] Pending* | af255af373 |
+| Class Name                                 | Status    | Commit ID  |
+| ------------------------------------------ | --------- | ---------- |
+| `DiagnosticAudienceEnum`                   | [x] Done  | 231369a1d3 |
+| `DiagnosticClearDtcNotificationEnum`       | [x] Done  | 231369a1d3 |
+| `DiagnosticProcessingStyleEnum`            | [x] Done  | 231369a1d3 |
+| `DiagnosticRoutineTypeEnum`                | [x] Done  | 231369a1d3 |
+| `DiagnosticServiceRequestCallbackTypeEnum` | [x] Done  | 231369a1d3 |
+| `DiagnosticValueAccessEnum`                | [x] Done  | 231369a1d3 |
+| `DtcFormatTypeEnum`                        | [x] Done  | 231369a1d3 |
+| `DtcKindEnum`                              | [x] Done  | 231369a1d3 |
+| `ServiceDiagnosticRelevanceEnum`           | [x] Done  | 231369a1d3 |
+| `DiagnosticCapabilityElement`              | [x] Done  | 231369a1d3 |
+| `DiagnosticCommunicationManagerNeeds`      | [x] Done  | 231369a1d3 |
+| `DiagnosticEventInfoNeeds`                 | [x] Done  | 231369a1d3 |
+| `DiagnosticRoutineNeeds`                   | [x] Done  | 231369a1d3 |
+| `DiagnosticValueNeeds`                     | [x] Done  | 231369a1d3 |
+| `DtcStatusChangeNotificationNeeds`         | [x] Done  | 231369a1d3 |
+| `CryptoServiceNeeds`                       | [x] Done  | 231369a1d3 |
+| `DiagEventDebounceCounterBased`            | [x] Done  | 231369a1d3 |
+| `SignalServiceTranslationElementProps`     | [x] Done  | 231369a1d3 |
+| `DiagnosticServiceClass`                   | [x] Done* | 6b514727f9 |
+| `DiagnosticJumpToBootLoaderEnum`           | [x] Done  | 231369a1d3 |
+| `DiagnosticLogicalOperatorEnum`            | [x] Done  | 231369a1d3 |
+| `DiagnosticEnvConditionFormulaPart`        | [x] Done* | af255af373 |
+| `DiagnosticEnvConditionFormula`            | [x] Done  | 231369a1d3 |
+| `DiagnosticEnvCompareCondition`            | [x] Done  | 231369a1d3 |
+| `DiagnosticEnvModeElement`                 | [x] Done  | 231369a1d3 |
 
 ## Group15
 

@@ -17,7 +17,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 ## Queue (dependency-first)
 
-- [ ] `BswApiOptions` — ARObject — source TBC (locate table at Step 1)
+- [x] `BswApiOptions` — ARObject — source TBC (locate table at Step 1) — `# XSD verified: AUTOSAR_00052.xsd` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
   - note (Step 1): XSD-only class — no table in either corpus (R23-11/R4.3.1 markdown
@@ -37,9 +37,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-25 (11997 passed / 0 failed, npm run lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-25 (11997 passed / 0 failed, npm run lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `BswModuleCallPoint` — Referrable — source TBC (locate table at Step 1)
+- [x] `BswModuleCallPoint` — Referrable — source TBC (locate table at Step 1) — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - note (Step 1): R23-11 markdown Table 5.10, p.77 (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate).
     Abstract Class; Base most-derived = `Referrable`; VP-capable (VARIATION-POINT in
@@ -57,9 +57,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12014 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12014 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `BswDirectCallPoint` — BswModuleCallPoint — source TBC (locate table at Step 1)
+- [x] `BswDirectCallPoint` — BswModuleCallPoint — source TBC (locate table at Step 1) — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - after `BswModuleCallPoint`
   - note (Step 1): R23-11 markdown Table 5.11, p.78 (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate).
@@ -80,9 +80,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12018 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12018 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `BswSynchronousServerCallPoint` — BswModuleCallPoint — source TBC (locate table at Step 1)
+- [x] `BswSynchronousServerCallPoint` — BswModuleCallPoint — source TBC (locate table at Step 1) — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - after `BswModuleCallPoint`
   - [x] Step 1 — Sync members & description from spec
@@ -93,9 +93,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12027 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12027 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `BswInternalTriggeringPoint` — Identifiable — source TBC (locate table at Step 1)
+- [x] `BswInternalTriggeringPoint` — Identifiable — source TBC (locate table at Step 1) — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
   - note (Step 1): R23-11 markdown Table 5.28, p.91 (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate).
@@ -114,9 +114,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12041 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12041 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `BswInterruptEntity` — BswModuleEntity — source TBC (locate table at Step 1)
+- [x] `BswInterruptEntity` — BswModuleEntity — source TBC (locate table at Step 1) — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - note (Step 1): R23-11 markdown Table 5.8, p.75 (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate).
     Concrete Class; Base most-derived = `BswModuleEntity` (already correct in src). Two attrs,
@@ -135,9 +135,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12043 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12043 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `BswModeSwitchAckRequest` — ARObject — source TBC (locate table at Step 1)
+- [x] `BswModeSwitchAckRequest` — ARObject — source TBC (locate table at Step 1) — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - note (Step 1): R23-11 markdown Table 5.40, p.103 (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate).
@@ -157,9 +157,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     with matched names; new tests passed immediately, no parser/writer edit.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12051 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12051 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `BswDataReceptionPolicy` — (abstract; Table 5.42 renders no Base row — src intake bases BswApiOptions + VariationPointCapable, XSD group-only) — R23-11 markdown · Table 5.42 (CP_TPS_BSWModuleDescriptionTemplate)
+- [x] `BswDataReceptionPolicy` — (abstract; Table 5.42 renders no Base row — src intake bases BswApiOptions + VariationPointCapable, XSD group-only) — R23-11 markdown · Table 5.42 (CP_TPS_BSWModuleDescriptionTemplate) — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py (class EXISTS in src, unstamped — queued per Rule 0016.4 "exists is not a stamp")
   - note (2026-09-26, parent-dependency audit): QUEUED BEFORE its queued child `BswQueuedDataReceptionPolicy` (Rule 0016.5) — Table 5.43 Base row names this class, which was missing from the queue; abstract, group-only in XSD 00052 (group BSW-DATA-RECEPTION-POLICY L9727, single member RECEIVED-DATA-REF → VariableDataPrototype 0..1 ref, constr_10296 existence constr); Table 5.42 has ONE attribute row (receivedData) and renders no Base row — verify Base (incl. whether BswApiOptions belongs per the src intake) at Step 1 against the XSD complexType composition
   - note (Step 1): Table 5.42 body renders BEFORE its caption (page-split render,
@@ -200,9 +200,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     guard kept (ABC); Rule 0020 VP mixin is established convention, not a deviation;
     R23-11 Mult 0..1 wins over R4.3.1 Table 6.41 Mult 1; constr_10296 is a
     config-time existence constraint (not a model invariant), recorded here only.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12296 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12296 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `BswQueuedDataReceptionPolicy` — BswDataReceptionPolicy — source TBC (locate table at Step 1)
+- [x] `BswQueuedDataReceptionPolicy` — BswDataReceptionPolicy — source TBC (locate table at Step 1) — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - note (Step 1): R23-11 markdown Table 5.43, p.105 (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate).
     Concrete Class; Base most-derived = `BswDataReceptionPolicy` (already correct in src).
@@ -225,9 +225,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     value-asserting + full round-trip tests passed immediately, no parser/writer edit.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12057 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12057 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `BswAsynchronousServerCallReturnsEvent` — BswScheduleEvent — source TBC (locate table at Step 1)
+- [x] `BswAsynchronousServerCallReturnsEvent` — BswScheduleEvent — source TBC (locate table at Step 1) — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - note (Step 1): R23-11 markdown Table 5.36, p.98 (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate).
@@ -254,9 +254,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     writeBswEvent calls writeIdentifiable (BswEvent/BswScheduleEvent base-owned).
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12062 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12062 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `BswDataReceivedEvent` — BswScheduleEvent — source TBC (locate table at Step 1)
+- [x] `BswDataReceivedEvent` — BswScheduleEvent — source TBC (locate table at Step 1) — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - note (Step 1): R23-11 markdown Table 5.37, p.99 (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate).
     Concrete Class; Base most-derived = `BswScheduleEvent` (already correct in src). One attr
@@ -281,9 +281,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     Empty round-trip shows no inherited normally-None element emission.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12068 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12068 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `BswInternalTriggerOccurredEvent` — BswScheduleEvent — source TBC (locate table at Step 1)
+- [x] `BswInternalTriggerOccurredEvent` — BswScheduleEvent — source TBC (locate table at Step 1) — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - note (Step 1): R23-11 markdown Table 5.29, p.91 (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate).
     Concrete Class; Base most-derived = `BswScheduleEvent` (already correct in src). One attr
@@ -310,9 +310,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     round-trip shows no inherited normally-None element emission.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12074 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12074 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `BswModeManagerErrorEvent` — BswScheduleEvent — source TBC (locate table at Step 1)
+- [x] `BswModeManagerErrorEvent` — BswScheduleEvent — source TBC (locate table at Step 1) — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - note (Step 1): R23-11 markdown Table 5.33, p.95 (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate).
@@ -340,9 +340,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     no inherited normally-None element emission.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12079 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12079 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `BswModeSwitchedAckEvent` — BswScheduleEvent — R23-11 markdown · Table 5.32 (CP_TPS_BSWModuleDescriptionTemplate), p.95
+- [x] `BswModeSwitchedAckEvent` — BswScheduleEvent — R23-11 markdown · Table 5.32 (CP_TPS_BSWModuleDescriptionTemplate), p.95 — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - note (Step 1): R23-11 markdown Table 5.32, p.95. Concrete Class; Base most-derived =
     `BswScheduleEvent` (already correct in src). One attr `modeGroup`
@@ -371,9 +371,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (Step 8): no open deviations — all Step-1 drift fixed; `modeGroupRef` naming is
     the Rule 0001.5 ref-suffix convention (tracker row stays "ok"); constr_10285 is a
     config-time existence constraint (inline comment only), recorded in the tracker note.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12299 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12299 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `BswTimingEvent` — BswScheduleEvent — R23-11 markdown · Table 5.25 (CP_TPS_BSWModuleDescriptionTemplate), p.89
+- [x] `BswTimingEvent` — BswScheduleEvent — R23-11 markdown · Table 5.25 (CP_TPS_BSWModuleDescriptionTemplate), p.89 — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py
   - note (Step 1): R23-11 markdown Table 5.25, p.89. Concrete Class; Base most-derived =
     `BswScheduleEvent` (already correct in src). One attr `period` (TimeValue, 0..1, attr;
@@ -400,9 +400,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (Step 8): no new deviations — `periodMs` stays as the tracker-recorded
     convenience property (checklist row marked); constr_10281/constr_4043 recorded in
     the inline member comment + tracker note.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12302 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12302 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `BswEntryRelationshipEnum` — AREnum — R23-11 markdown · Table 4.20 (CP_TPS_BSWModuleDescriptionTemplate), p.52
+- [x] `BswEntryRelationshipEnum` — AREnum — R23-11 markdown · Table 4.20 (CP_TPS_BSWModuleDescriptionTemplate), p.52 — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
   - note (Step 1): R23-11 markdown Table 4.20, p.52. Enumeration; Package
     M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces; Note = "Define the type of
@@ -427,9 +427,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - note (Step 8): no deviations — single literal matches XSD token; the v2 tracker
     bullet-list mention is a type-list reference, not a deviation row.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12305 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12305 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `BswEntryRelationship` — ARObject — R23-11 markdown · Table 4.19 (CP_TPS_BSWModuleDescriptionTemplate), p.51
+- [x] `BswEntryRelationship` — ARObject — R23-11 markdown · Table 4.19 (CP_TPS_BSWModuleDescriptionTemplate), p.51 — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
   - after `BswEntryRelationshipEnum`
   - note (Step 1): R23-11 markdown Table 4.19, p.51. Concrete Class; Base = ARObject
@@ -459,9 +459,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (Step 8): tracker `missing` rows RESOLVED (stale audit against non-existent
     leaf files) — retyped as ok rows (fromRef/toRef = Rule 0001.5 ref-suffix naming);
     "drivedFrom" spec typo kept verbatim in docstrings.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12310 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12310 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `BswEntryRelationshipSet` — ARElement — R23-11 markdown · Table 4.18 (CP_TPS_BSWModuleDescriptionTemplate), p.51
+- [x] `BswEntryRelationshipSet` — ARElement — R23-11 markdown · Table 4.18 (CP_TPS_BSWModuleDescriptionTemplate), p.51 — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
   - after `BswEntryRelationship`
   - note (Step 1): R23-11 markdown Table 4.18, p.51. Concrete Class; spec Base chain
@@ -489,9 +489,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (Step 8): tracker `missing` row RESOLVED (stale leaf-file audit) → ok row
     (Rule 0001.5 plural naming); base re-base recorded (Identifiable → ARElement);
     AtpBlueprint/AtpBlueprintable collapse noted for 9b review.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12319 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12319 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `BswModuleClientServerEntry` — Referrable — R23-11 markdown · Table 4.21 (CP_TPS_BSWModuleDescriptionTemplate), p.54
+- [x] `BswModuleClientServerEntry` — Referrable — R23-11 markdown · Table 4.21 (CP_TPS_BSWModuleDescriptionTemplate), p.54 — `# Spec verified: R4.3.1` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
   - note (Step 1): R23-11 markdown Table 4.21, p.54. Concrete Class; Base most-derived =
     `Referrable` (already correct in src); VP-capable — VARIATION-POINT is in the OWN XSD
@@ -519,9 +519,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (Step 8): ONE accepted legacy deviation (isSynchronous — Rule 0019 combine case,
     dual # Spec: lines, mixed release columns) — subject to 9b batch confirmation;
     encapsulatedEntryRef/isReentrant rows ok.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12322 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12322 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `BswModuleDependency` — Identifiable — R23-11 markdown · Table 4.17 (CP_TPS_BSWModuleDescriptionTemplate), p.48
+- [x] `BswModuleDependency` — Identifiable — R23-11 markdown · Table 4.17 (CP_TPS_BSWModuleDescriptionTemplate), p.48 — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py
   - note (Step 1): R23-11 markdown Table 4.17, p.48. Concrete Class; Base most-derived =
     `Identifiable` (already correct in src); NOT VP-capable — the complexType has no
@@ -549,9 +549,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (Step 8): ONE accepted model-vs-wire deviation (targetModuleRef "wire many vs py
     single" — Rule 0015 markdown-wins, tracker row updated); mixin removal + removed-element
     handling recorded in the tracker note.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12326 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12326 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `SwcBswRunnableMapping` — ARObject — R23-11 markdown · Table 5.47 (CP_TPS_BSWModuleDescriptionTemplate), p.110
+- [x] `SwcBswRunnableMapping` — ARObject — R23-11 markdown · Table 5.47 (CP_TPS_BSWModuleDescriptionTemplate), p.110 — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/CommonStructure/SwcBswMapping.py
   - note (Step 1): R23-11 markdown Table 5.47, p.110. Concrete Class; Base = ARObject
     (already correct); VP-capable — VARIATION-POINT in OWN XSD group
@@ -575,9 +575,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - note (Step 8): no deviations — missing None no-op guards were drift, now fixed.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12329 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12329 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `SwcBswSynchronizedModeGroupPrototype` — ARObject — R23-11 markdown · Table 5.48 (CP_TPS_BSWModuleDescriptionTemplate), p.111
+- [x] `SwcBswSynchronizedModeGroupPrototype` — ARObject — R23-11 markdown · Table 5.48 (CP_TPS_BSWModuleDescriptionTemplate), p.111 — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/CommonStructure/SwcBswMapping.py
   - note (Step 1): R23-11 markdown Table 5.48, p.111. Concrete Class; Base = ARObject
     (already correct); VP-capable — VARIATION-POINT in OWN XSD group
@@ -600,9 +600,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - note (Step 8): no deviations — tracker rows already "—"; constr_10336/10337 kept in
     the inline comments (config-time existence constraints).
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12331 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12331 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
 
-- [ ] `SwcBswSynchronizedTrigger` — ARObject — R23-11 markdown · Table 5.49 (CP_TPS_BSWModuleDescriptionTemplate), p.111
+- [x] `SwcBswSynchronizedTrigger` — ARObject — R23-11 markdown · Table 5.49 (CP_TPS_BSWModuleDescriptionTemplate), p.111 — `# Spec verified: R23-11` — commit: 231369a1d
   - module: M2/AUTOSARTemplates/CommonStructure/SwcBswMapping.py
   - note (Step 1): R23-11 markdown Table 5.49, p.111. Concrete Class; Base = ARObject
     (already correct); VP-capable — VARIATION-POINT in OWN XSD group
@@ -626,4 +626,4 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - note (Step 8): no deviations — tracker rows already "—"; constr_10300/10301 kept in
     the inline comments (config-time existence constraints).
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12332 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12332 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction) — batch 9b confirmed 2026-09-29, stamped (231369a1d)
