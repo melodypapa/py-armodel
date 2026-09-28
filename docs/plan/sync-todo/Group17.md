@@ -97,15 +97,16 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `ApplicationEntry` — ScheduleTableEntry — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = AUTOSAR_CP_TPS_SystemTemplate Table 6.97, p.433 (R4.3.1 Table 6.97 p.300 agrees); concrete Class; Base row = `ARObject , ScheduleTableEntry` → most-derived = `ScheduleTableEntry` (already stamped R23-11, fields match Table 6.96) — confirmed, no correction; 1 own attr `frameTriggering` (LinFrameTriggering, 0..1, ref, constr_9136). Orphan-intake drift: fabricated docstring, old 4-column checklist, bare-T `RefType = None` field (0..1 → `Optional[RefType]`), untyped accessors. Reader `getApplicationEntry` + writer `setApplicationEntry` already cover FRAME-TRIGGERING-REF in XSD order (AR-OBJECT → SCHEDULE-TABLE-ENTRY → APPLICATION-ENTRY group); no integration fixture carries APPLICATION-ENTRY.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — class TestApplicationEntry added to existing mirrored test_LinCommunication.py; 2 failed / 42 passed (fabricated docstring, bare-T field + untyped accessors; defaults + None-no-op guard already correct)
+  - [x] Step 3 — Implement model class (Green) — bare-T `RefType = None` field → PEP 526 `Optional[RefType]`; untyped accessors → typed (`Optional[RefType]`, self-return); `from __future__ import annotations` added at module top and 20 quoted self-returns de-quoted to bare names (CanTopology precedent, Rule 0003); 43 passed / 1 failed (docstring pending Step 4)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring wiped, replaced with Table 6.97 Note verbatim ("Schedule table entry for application messages."); per-attr inline comment + getter docstring + setter docstring verbatim (setter + None-no-op sentence); 44 passed
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — extended tests/test_armodel/parser/test_arxml_parser_network_handlers.py (frameTriggeringRef value + DEST asserted, absent-ref → None, None element → None; DEST fixture corrected to LIN-FRAME-TRIGGERING per XSD) + new TestApplicationEntryRoundTrip in tests/test_armodel/writer/test_writer_lin_schedule_entries.py (field-value round-trip, omit-absent-ref, omit-None-entry); all pass on first run — reader/writer already value-correct (existing full-table round-trip asserted values); no Red observed
+  - [x] Step 6 — Update parser & writer (Green) — N/A: coverage already present and spec-correct, no edits needed; evidence — parser getApplicationEntry (arxml_parser.py L9229: readScheduleTableEntry + setFrameTriggeringRef via getChildElementOptionalRefType, dispatch L9327) and writer setApplicationEntry (arxml_writer.py L9325: writeScheduleTableEntry + setChildElementOptionalRefType, dispatch L9411); XSD order AR-OBJECT → SCHEDULE-TABLE-ENTRY (INTRODUCTION, DELAY, POSITION-IN-TABLE) → APPLICATION-ENTRY (FRAME-TRIGGERING-REF) matched; matched pairs setFrameTriggeringRef↔getChildElementOptionalRefType / getFrameTriggeringRef↔setChildElementOptionalRefType; 276 passed
+  - [x] Step 7 — Update checklist comment — 6-column format with release column, rows in source order (getter-first scalar pair); `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.97, p.433`; reader [x] on setFrameTriggeringRef, writer [x] on getFrameTriggeringRef; no `# Spec verified:` stamp (9b deferred to batch confirmation)
+  - [x] Step 8 — Deviations (fixed in step notes: bare-T `RefType = None` 0..1 field → PEP 526 `Optional[RefType]`; untyped accessors → typed self-returning; fabricated docstring → Table 6.97 Note verbatim; old 4-column checklist → 6-column with `# Spec:` + release column. Consumer note: `from __future__ import annotations` added to LinCommunication.py and 20 pre-existing quoted self-returns de-quoted to bare names — 3.8-safe for get_type_hints pins. No unresolved deviations; no stale entries in docs/examples/method_deviation_by_class*.md; no placeholders — Base ScheduleTableEntry already stamped R23-11)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28: 13115 passed / 0 failed, lint clean + black clean on touched files (full-repo black check: 35 pre-existing baseline files untouched by this class, verified via stash); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `LinScheduleTable` — Identifiable — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py

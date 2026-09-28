@@ -288,13 +288,29 @@ class TestLinClusterHandlers:
     def test_getApplicationEntry_returns_entry(self, parser):
 
         element = _snip(
-            "<DELAY>0.01</DELAY>" "<POSITION-IN-TABLE>1</POSITION-IN-TABLE>" "<FRAME-TRIGGERING-REF DEST='FRAME-TRIGGERING'>/ft</FRAME-TRIGGERING-REF>",
+            "<DELAY>0.01</DELAY>" "<POSITION-IN-TABLE>1</POSITION-IN-TABLE>" "<FRAME-TRIGGERING-REF DEST='LIN-FRAME-TRIGGERING'>/ft</FRAME-TRIGGERING-REF>",
             root_tag="APPLICATION-ENTRY",
         )
         entry = parser.getApplicationEntry(element, "APPLICATION-ENTRY")
         assert entry is not None
         assert entry.getDelay() is not None
         assert entry.getDelay().getValue() == 0.01
+        assert entry.getPositionInTable() is not None
+        assert entry.getPositionInTable().getValue() == 1
+        assert entry.getFrameTriggeringRef() is not None
+        assert entry.getFrameTriggeringRef().getValue() == "/ft"
+        assert entry.getFrameTriggeringRef().getDest() == "LIN-FRAME-TRIGGERING"
+
+    def test_getApplicationEntry_absent_frame_triggering_ref(self, parser):
+
+        element = _snip("<DELAY>0.02</DELAY>", root_tag="APPLICATION-ENTRY")
+        entry = parser.getApplicationEntry(element, "APPLICATION-ENTRY")
+        assert entry is not None
+        assert entry.getDelay().getValue() == 0.02
+        assert entry.getFrameTriggeringRef() is None
+
+    def test_getApplicationEntry_none_element_returns_none(self, parser):
+        assert parser.getApplicationEntry(None, "APPLICATION-ENTRY") is None
 
 
 class TestFlexrayClusterHandlers:

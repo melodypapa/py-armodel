@@ -390,6 +390,56 @@ class TestScheduleTableEntry:
         assert annotations["positionInTable"] == "Optional[Integer]"
 
 
+CLASS_NOTE_APPLICATION_ENTRY = "Schedule table entry for application messages."
+
+
+class TestApplicationEntry:
+    """Test cases for ApplicationEntry (Table 6.97, p.433)."""
+
+    def test_initialization(self):
+        entry = ApplicationEntry()
+
+        assert isinstance(entry, ARObject)
+        assert isinstance(entry, ScheduleTableEntry)
+        assert entry.getFrameTriggeringRef() is None
+
+    def test_get_set_frame_triggering_ref(self):
+        entry = ApplicationEntry()
+
+        ref = RefType()
+        ref.setDest("LIN-FRAME-TRIGGERING")
+        ref.setValue("/LinCluster/LinFrameTriggering")
+
+        assert entry == entry.setFrameTriggeringRef(ref)
+        assert entry.getFrameTriggeringRef() == ref
+
+        assert entry == entry.setFrameTriggeringRef(None)
+        assert entry.getFrameTriggeringRef() == ref
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(ApplicationEntry.__doc__) == CLASS_NOTE_APPLICATION_ENTRY
+
+    def test_type_annotations(self):
+        import ast
+
+        getter_hints = get_type_hints(ApplicationEntry.getFrameTriggeringRef)
+        assert getter_hints["return"] == Optional[RefType]
+
+        setter_hints = get_type_hints(ApplicationEntry.setFrameTriggeringRef)
+        assert setter_hints["value"] == Optional[RefType]
+        assert setter_hints["return"] == ApplicationEntry
+
+        src = inspect.getsource(sys.modules[ApplicationEntry.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "ApplicationEntry")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        annotations = {}
+        for node in ast.walk(init):
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
+        assert annotations["frameTriggeringRef"] == "Optional[RefType]"
+
+
 class TestLinConfigurationEntry:
     """
     A ScheduleTableEntry which contains LIN specific assignments.

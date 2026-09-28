@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from typing import List, Optional
@@ -31,7 +33,7 @@ class LinErrorResponse(ARObject):
         """This ISignal shall be taken to transport the responseError bit."""
         return self.responseErrorRef
 
-    def setResponseErrorRef(self, value: Optional[RefType]) -> "LinErrorResponse":
+    def setResponseErrorRef(self, value: Optional[RefType]) -> LinErrorResponse:
         """
         This ISignal shall be taken to transport the responseError bit.
         A None value is a no-op and does not overwrite an existing responseErrorRef.
@@ -169,7 +171,7 @@ class ScheduleTableEntry(ARObject, ABC):
         """Relative delay between this tableEntry and the start of the successor in the schedule table in seconds."""
         return self.delay
 
-    def setDelay(self, value: Optional[TimeValue]) -> "ScheduleTableEntry":
+    def setDelay(self, value: Optional[TimeValue]) -> ScheduleTableEntry:
         """
         Relative delay between this tableEntry and the start of the successor in the schedule table in seconds.
         A None value is a no-op and does not overwrite an existing delay.
@@ -182,7 +184,7 @@ class ScheduleTableEntry(ARObject, ABC):
         """This represents introductory documentation about the schedule table entry."""
         return self.introduction
 
-    def setIntroduction(self, value: Optional[DocumentationBlock]) -> "ScheduleTableEntry":
+    def setIntroduction(self, value: Optional[DocumentationBlock]) -> ScheduleTableEntry:
         """
         This represents introductory documentation about the schedule table entry.
         A None value is a no-op and does not overwrite an existing introduction.
@@ -195,7 +197,7 @@ class ScheduleTableEntry(ARObject, ABC):
         """Relative position in the schedule table. The first entry index in the schedule table is 0."""
         return self.positionInTable
 
-    def setPositionInTable(self, value: Optional[Integer]) -> "ScheduleTableEntry":
+    def setPositionInTable(self, value: Optional[Integer]) -> ScheduleTableEntry:
         """
         Relative position in the schedule table. The first entry index in the schedule table is 0.
         A None value is a no-op and does not overwrite an existing positionInTable.
@@ -206,26 +208,30 @@ class ScheduleTableEntry(ARObject, ABC):
 
 
 class ApplicationEntry(ScheduleTableEntry):
-    """
-    Defines an application entry in a LIN schedule table,
-    specifying frame triggering references for application-level
-    communication entries in the schedule.
-    """
+    """Schedule table entry for application messages."""
 
     # ApplicationEntry method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getFrameTriggeringRef        [x] impl  [ ] docstring  [ ] test
-    # [ ] setFrameTriggeringRef        [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.97, p.433
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFrameTriggeringRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFrameTriggeringRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.frameTriggeringRef: RefType = None
+        # Specifies the LinFrame that will be transmitted in this frame slot.
+        self.frameTriggeringRef: Optional[RefType] = None
 
-    def getFrameTriggeringRef(self):
+    def getFrameTriggeringRef(self) -> Optional[RefType]:
+        """Specifies the LinFrame that will be transmitted in this frame slot."""
         return self.frameTriggeringRef
 
-    def setFrameTriggeringRef(self, value):
+    def setFrameTriggeringRef(self, value: Optional[RefType]) -> ApplicationEntry:
+        """
+        Specifies the LinFrame that will be transmitted in this frame slot.
+        A None value is a no-op and does not overwrite an existing frameTriggeringRef.
+        """
         if value is not None:
             self.frameTriggeringRef = value
         return self
@@ -275,7 +281,7 @@ class FreeFormat(FreeFormatEntry):
         """
         return self.byteValues
 
-    def addByteValue(self, value: Optional[Integer]) -> "FreeFormat":
+    def addByteValue(self, value: Optional[Integer]) -> FreeFormat:
         """
         The integer Value of a freely defined data byte.
         A None value is a no-op.
@@ -320,7 +326,7 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
         """
         return self.assignedControllerRef
 
-    def setAssignedControllerRef(self, value: Optional[RefType]) -> "LinConfigurationEntry":
+    def setAssignedControllerRef(self, value: Optional[RefType]) -> LinConfigurationEntry:
         """
         The LIN slaves controller who is target of this assignment. Optional in case LinConfigurationEntry.assignedLinSlaveConfig exists.
         A None value is a no-op and does not overwrite an existing assignedControllerRef.
@@ -335,7 +341,7 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
         """
         return self.assignedLinSlaveConfigRef
 
-    def setAssignedLinSlaveConfigRef(self, value: Optional[RefType]) -> "LinConfigurationEntry":
+    def setAssignedLinSlaveConfigRef(self, value: Optional[RefType]) -> LinConfigurationEntry:
         """
         The LIN slave that is target of this assignment. Please note that this reference is redundant to the assignedController reference. In an Ecu Extract of the LinMaster the LinSlave Ecus shall not be available. The information that is described here is necessary in the ECU Extract for the configuration of the LinMaster.
         A None value is a no-op and does not overwrite an existing assignedLinSlaveConfigRef.
@@ -376,7 +382,7 @@ class FramePid(ARObject):
         """
         return self.index
 
-    def setIndex(self, value: Optional[Integer]) -> "FramePid":
+    def setIndex(self, value: Optional[Integer]) -> FramePid:
         """
         This attribute is used to order the frame_PIDs. The values of index shall be unique within one AssignFrameIdRange.
         A None value is a no-op and does not overwrite an existing index.
@@ -391,7 +397,7 @@ class FramePid(ARObject):
         """
         return self.pid
 
-    def setPid(self, value: Optional[PositiveInteger]) -> "FramePid":
+    def setPid(self, value: Optional[PositiveInteger]) -> FramePid:
         """
         Frame_PID value.
         A None value is a no-op and does not overwrite an existing pid.
@@ -427,7 +433,7 @@ class AssignFrameId(LinConfigurationEntry):
         """
         return self.assignedFrameTriggeringRef
 
-    def setAssignedFrameTriggeringRef(self, value: Optional[RefType]) -> "AssignFrameId":
+    def setAssignedFrameTriggeringRef(self, value: Optional[RefType]) -> AssignFrameId:
         """
         The frame whose identifier is set by this assignment.
         A None value is a no-op and does not overwrite an existing assignedFrameTriggeringRef.
@@ -463,7 +469,7 @@ class UnassignFrameId(LinConfigurationEntry):
         """
         return self.unassignedFrameTriggeringRef
 
-    def setUnassignedFrameTriggeringRef(self, value: Optional[RefType]) -> "UnassignFrameId":
+    def setUnassignedFrameTriggeringRef(self, value: Optional[RefType]) -> UnassignFrameId:
         """
         The frame whose identifier is reset by this assignment.
         A None value is a no-op and does not overwrite an existing unassignedFrameTriggeringRef.
@@ -504,7 +510,7 @@ class AssignFrameIdRange(LinConfigurationEntry):
         """
         return self.framePids
 
-    def addFramePid(self, value: Optional[FramePid]) -> "AssignFrameIdRange":
+    def addFramePid(self, value: Optional[FramePid]) -> AssignFrameIdRange:
         """
         Optional assignment of frame_PID values that are included in the request. The frame_PIDs are ordered.
         A None value is a no-op.
@@ -519,7 +525,7 @@ class AssignFrameIdRange(LinConfigurationEntry):
         """
         return self.startIndex
 
-    def setStartIndex(self, value: Optional[Integer]) -> "AssignFrameIdRange":
+    def setStartIndex(self, value: Optional[Integer]) -> AssignFrameIdRange:
         """
         The startIndex sets the index to the first frame to assign a PID.
         A None value is a no-op and does not overwrite an existing startIndex.
@@ -555,7 +561,7 @@ class AssignNad(LinConfigurationEntry):
         """
         return self.newNad
 
-    def setNewNad(self, value: Optional[Integer]) -> "AssignNad":
+    def setNewNad(self, value: Optional[Integer]) -> AssignNad:
         """
         The newly assigned NAD value.
         A None value is a no-op and does not overwrite an existing newNad.
@@ -611,7 +617,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
         """
         return self.byte
 
-    def setByte(self, value: Optional[Integer]) -> "ConditionalChangeNad":
+    def setByte(self, value: Optional[Integer]) -> ConditionalChangeNad:
         """
         Byte Position of Data Byte that should be used for the bitwise XOR with Invert and the bitwise AND with Mask.
         A None value is a no-op and does not overwrite an existing byte.
@@ -626,7 +632,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
         """
         return self.id
 
-    def setId(self, value: Optional[PositiveInteger]) -> "ConditionalChangeNad":
+    def setId(self, value: Optional[PositiveInteger]) -> ConditionalChangeNad:
         """
         Byte Position of Id.
         A None value is a no-op and does not overwrite an existing id.
@@ -641,7 +647,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
         """
         return self.invert
 
-    def setInvert(self, value: Optional[Integer]) -> "ConditionalChangeNad":
+    def setInvert(self, value: Optional[Integer]) -> ConditionalChangeNad:
         """
         Byte Position of Invert.
         A None value is a no-op and does not overwrite an existing invert.
@@ -656,7 +662,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
         """
         return self.mask
 
-    def setMask(self, value: Optional[Integer]) -> "ConditionalChangeNad":
+    def setMask(self, value: Optional[Integer]) -> ConditionalChangeNad:
         """
         Byte Position of Mask.
         A None value is a no-op and does not overwrite an existing mask.
@@ -671,7 +677,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
         """
         return self.newNad
 
-    def setNewNad(self, value: Optional[Integer]) -> "ConditionalChangeNad":
+    def setNewNad(self, value: Optional[Integer]) -> ConditionalChangeNad:
         """
         The newly assigned NAD value (Byte Position).
         A None value is a no-op and does not overwrite an existing newNad.
@@ -723,7 +729,7 @@ class DataDumpEntry(LinConfigurationEntry):
         """
         return self.byteValues
 
-    def addByteValue(self, value: Optional[Integer]) -> "DataDumpEntry":
+    def addByteValue(self, value: Optional[Integer]) -> DataDumpEntry:
         """
         Supplier specific format.
         A None value is a no-op.
