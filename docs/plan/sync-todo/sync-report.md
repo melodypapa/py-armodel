@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 479 | 66.4% |
+| [x] Done | 480 | 66.6% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 165 | 22.9% |
+| [ ] Deferred | 164 | 22.7% |
 | [ ] Pending | 66 | 9.2% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -484,7 +484,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `NvBlockNeedsWritingPriorityEnum`                       | [ ] Deferred| N/A                                      | Group10          |
 | `NvDataInterface`                                       | [x] Done    | 1d666bc11b                               | Group1           |
 | `NvProvideComSpec`                                      | [x] Done    | a5c437cc82                               | Group10          |
-| `NvRequireComSpec`                                      | [ ] Deferred| N/A                                      | Group10          |
+| `NvRequireComSpec`                                      | [x] Done    | cbdf05b372                               | Group10          |
 | `OffsetTimingConstraint`                                | [x] Done    | e305e80e2a                               | Group8           |
 | `OperationInAtomicSwcInstanceRef`                       | [ ] Deferred| 74e821ccb8                               | Group11          |
 | `OperationInSystemInstanceRef`                          | [x] Done    | 4e0c3cbe68                               | Group5           |
