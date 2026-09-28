@@ -536,7 +536,7 @@ Status: **29/29** completed
 
 ## Group10
 
-Status: **24/32** completed
+Status: **25/32** completed
 
 | Class Name                         | Status       | Commit ID  |
 | ---------------------------------- | ------------ | ---------- |
@@ -565,7 +565,7 @@ Status: **24/32** completed
 | `AutosarParameterRef`              | [x] Done     | b530f7e446 |
 | `NvBlockNeedsReliabilityEnum`      | [x] Done     | 90b381db32 |
 | `NvBlockNeedsWritingPriorityEnum`  | [x] Done     | 5a36c87687 |
-| `RamBlockStatusControlEnum`        | [ ] Pending* | N/A        |
+| `RamBlockStatusControlEnum`        | [x] Done     | 343d2af672 |
 | `NvBlockDataMapping`               | [ ] Pending* | N/A        |
 | `BulkNvDataDescriptor`             | [ ] Pending* | N/A        |
 | `RoleBasedDataAssignment`          | [ ] Pending* | N/A        |
