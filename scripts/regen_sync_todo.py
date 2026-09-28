@@ -10,8 +10,9 @@ Conventions this encodes (do not "simplify" without re-deriving them):
   Group row text — they are kept as long as they resolve to a real commit.
 - `commit:` patterns are harvested from the row HEADER only; block-wide harvesting
   grabs unrelated prose (dependency notes, parallel-worktree mentions).
-- The report's commit cell is a fallback source for single-group classes only;
-  multi-group classes are Done in one group and Pending in another by design.
+- Repeated class rows may occur within one Group file, but the same class may not
+  appear in different Group files; cross-group duplicates fail parsing immediately.
+- The report's commit cell is a fallback source only when a class appears in one group.
 """
 
 import argparse
@@ -26,6 +27,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SYNC = ROOT / "docs/plan/sync-todo"
 SRC = ROOT / "src/armodel"
 GROUPS = [f"Group{i}" for i in range(1, 21)]
+COMMIT_ABBREV_LENGTH = 10
 
 HASH_RE = re.compile(r"[0-9a-fA-F]{7,40}")
 STAMP_COMMIT_RE = re.compile(r"stamp commit[:\s]*`?([0-9a-fA-F]{7,40})`?")
@@ -62,6 +64,7 @@ def is_hash(tok):
 
 
 _revparse_cache = {}
+_short_hash_cache = {}
 
 
 def revparse_ok(tok):
@@ -69,6 +72,13 @@ def revparse_ok(tok):
         r = subprocess.run(["git", "rev-parse", "--verify", "--quiet", f"{tok}^{{commit}}"], cwd=ROOT, capture_output=True)
         _revparse_cache[tok] = r.returncode == 0
     return _revparse_cache[tok]
+
+
+def short_commit(tok):
+    if tok not in _short_hash_cache:
+        result = subprocess.run(["git", "rev-parse", "--verify", "--quiet", f"--short={COMMIT_ABBREV_LENGTH}", f"{tok}^{{commit}}"], cwd=ROOT, capture_output=True, text=True)
+        _short_hash_cache[tok] = result.stdout.strip() if result.returncode == 0 else tok
+    return _short_hash_cache[tok]
 
 
 def valid_hashes(text):
@@ -83,7 +93,7 @@ def valid_hashes(text):
 def parse_current_index():
     cur = {}
     group_now = None
-    for line in (SYNC / "SyncTodoIndex.md").read_text().split("\n"):
+    for line in (SYNC / "SyncTodoIndex.md").read_text(encoding="utf-8").split("\n"):
         m = re.match(r"^## (Group\d+)$", line)
         if m:
             group_now = m.group(1)
@@ -96,7 +106,7 @@ def parse_current_index():
 
 def parse_current_report():
     cur = {}
-    for line in (SYNC / "sync-report.md").read_text().split("\n"):
+    for line in (SYNC / "sync-report.md").read_text(encoding="utf-8").split("\n"):
         m = re.match(r"^\| `([A-Za-z0-9_]+)`\s*\| .+? \| ([0-9a-fA-F]+|N/A)", line)
         if m:
             cur[m.group(1)] = m.group(2)
@@ -107,7 +117,7 @@ def scan_stamps():
     stamped = set()
     for py in SRC.rglob("*.py"):
         cls = None
-        for line in py.read_text(errors="replace").split("\n"):
+        for line in py.read_text(encoding="utf-8", errors="replace").split("\n"):
             m = CLASS_RE.match(line)
             if m:
                 cls = m.group(1)
@@ -117,20 +127,31 @@ def scan_stamps():
     return stamped
 
 
+class DuplicateClassError(ValueError):
+    pass
+
+
 def parse_group_rows(cur_index, name_groups):
     parsed = {}
+    class_rows = {}
     for g in GROUPS:
         rows = []
         header = None
         block_lines = []
-        for line in (SYNC / f"{g}.md").read_text().split("\n"):
+        for line_number, line in enumerate((SYNC / f"{g}.md").read_text(encoding="utf-8").split("\n"), start=1):
             m = ROW_RE.match(line)
             if m:
                 if header is not None:
                     rows.append((header, "\n".join(block_lines)))
                 header = (m.group(1), m.group(2), line)
                 block_lines = []
-                name_groups.setdefault(m.group(2), set()).add(g)
+                class_name = m.group(2)
+                previous_row = class_rows.get(class_name)
+                if previous_row is not None:
+                    previous_group, previous_line = previous_row
+                    raise DuplicateClassError(f"Duplicate class {class_name!r} found at {previous_group}.md:{previous_line} and {g}.md:{line_number}")
+                class_rows[class_name] = (g, line_number)
+                name_groups.setdefault(class_name, set()).add(g)
             elif header is not None and line.startswith("#"):
                 rows.append((header, "\n".join(block_lines)))
                 header = None
@@ -188,6 +209,8 @@ def resolve_row(g, name, checked, header_line, block, stamped, cur_index, cur_re
         status = "Done" if name in stamped else "Pending*"
     else:
         status = "Pending"
+    if commit != "N/A":
+        commit = short_commit(commit)
     return {"name": name, "commit": commit, "status": status}
 
 
@@ -272,15 +295,20 @@ def main():
     ap.add_argument("--check", action="store_true", help="explicit check mode (the default); exits 1 if the reports are stale")
     args = ap.parse_args()
 
+    name_groups = {}
+    try:
+        parsed = parse_group_rows({}, name_groups)
+    except DuplicateClassError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
+
     cur_index = parse_current_index()
     cur_report = parse_current_report()
     stamped = scan_stamps()
-    name_groups = {}
-    parsed = parse_group_rows(cur_index, name_groups)
     index_text, report_text, resolved = build(parsed, stamped, cur_index, cur_report, name_groups)
 
     targets = {"SyncTodoIndex.md": index_text, "sync-report.md": report_text}
-    changed = [n for n, txt in targets.items() if (SYNC / n).read_text() != txt]
+    changed = [n for n, txt in targets.items() if (SYNC / n).read_text(encoding="utf-8") != txt]
 
     counts = {g: Counter(r["status"] for r in resolved[g]) for g in GROUPS}
     for g in GROUPS:
@@ -292,14 +320,14 @@ def main():
         return 0
     if not args.write:
         for n in changed:
-            diff = list(difflib.unified_diff((SYNC / n).read_text().split("\n"), targets[n].split("\n"), lineterm="", n=1))
+            diff = list(difflib.unified_diff((SYNC / n).read_text(encoding="utf-8").split("\n"), targets[n].split("\n"), lineterm="", n=1))
             print(f"\n--- {n} differs ({len(diff)} diff lines) ---")
             for line in diff[:60]:
                 print(line)
         print("\nrun with --write to apply", file=sys.stderr)
         return 1
     for n, txt in targets.items():
-        (SYNC / n).write_text(txt)
+        (SYNC / n).write_text(txt, encoding="utf-8")
     print(f"wrote {', '.join(changed)}")
     return 0
 

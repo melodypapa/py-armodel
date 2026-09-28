@@ -30,10 +30,6 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — none new
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (212 passed / 0 failed targeted, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
-- [x] `ContainedIPduCollectionSemanticsEnum` — AREnum — already verified (R23-11 · Table 6.40, p.357; short-circuit 2026-09-27)
-  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - note (short-circuit 2026-09-27): class body already carries `# Spec verified: R23-11 (2026-09-26, user 9b confirmation)` — verbatim Note docstring, both literals (lastIsBest idx 0 / queued idx 1) with verbatim literal descriptions + EnumerationLiteralIndex tags, 6-col checklist with only `__init__` (enum value form, reader/writer [—]). Deviation check found nothing new. No code change needed — row flipped without a class commit.
-
 - [ ] `TransferPropertyEnum` — AREnum — R23-11 markdown · Table 6.15 (CP_TPS_SystemTemplate), p.327 — commit e6baac031
   - commit: e6baac031 (feat; steps 1-8; class body already spec-faithful — added mirror test + 6-col checklist)
   - [x] Step 1 — Sync members & description from spec
@@ -209,6 +205,19 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — see below
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27/28 (6666 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
+- [ ] `TimeRangeTypeTolerance` — ARObject — NEW row (recorded 2026-09-28: TimeRangeType.tolerance member type class created in commit dcbc6abd without own queue row — Rule 0016.4/0017 row-parity; same pattern as the TriggerMode/SecuredPduHeaderEnum NEW rows) — XSD-only: group TIME-RANGE-TYPE-TOLERANCE (AUTOSAR_00052.xsd line 122919; EMPTY group, no own table in R23-11 or R4.3.1 corpus)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/Timing.py
+  - commit: dcbc6abd (class created alongside the TimeRangeType sync; steps below record the already-done work for row parity, not new code)
+  - [x] Step 1 — Sync members & description from spec — XSD-only derivation: group TIME-RANGE-TYPE-TOLERANCE (xsd:122919) is EMPTY — zero child elements (the ABSOLUTE-/RELATIVE-TOLERANCE choice sits in the surrounding TIME-RANGE-TYPE context, not in this group, and is not modeled — parent-gap flagged on the TimeRangeType row); no spec Note exists in either corpus ⇒ docstring taken from the XSD annotation verbatim ("Maximum allowable deviation"); Base = ARObject (xsd:AR-OBJECT attributeGroup only), concrete, no-arg `__init__`
+  - [x] Step 2 — Write model class unit test — 4 tests in test_TimeRangeType.py (initialization defaults / setters round-trip + None no-op via the TimeRangeType surface / class-docstring pin / accessor-docstring verbatim pin)
+  - [x] Step 3 — Implement model class (Green) — concrete `ARObject` subclass, zero own members (empty group), abstract guard not required, no-arg `__init__`
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring = XSD annotation text ("Maximum allowable deviation"); no member docstrings (no members); no `__init__` docstring
+  - [—] Step 5 — Write reader/writer round-trip test (Red) — N/A: empty-group artifact class has no own XML serialization; the parent TOLERANCE element read/write gap is the TimeRangeType row's recorded deviation (not re-flagged here)
+  - [—] Step 6 — Update parser & writer (Green) — N/A standalone empty class (no elements to read/write)
+  - [x] Step 7 — Update checklist comment — 6-column format with release column, single `__init__` row `[x] impl [x] docstring [x] test [—] reader [—] writer R23-11`; citation `# Spec: XSD group TIME-RANGE-TYPE-TOLERANCE, AUTOSAR_00052.xsd line 122919 (XSD-only; empty group, no own table in repo corpus)`
+  - [x] Step 8 — Deviations (fixed+recorded in step notes: row created for checklist/queue parity — the class itself carries NO deviations; OPEN OBSERVATIONS reported, not fixed here: (1) NO `# Spec verified:`/`# XSD verified:` stamp — an XSD-only class stamp would be `# XSD verified: AUTOSAR_00052.xsd`, deferred to 9b batch confirmation per batch instruction; (2) NOT exported top-level — Timing.py classes are imported selectively into CoreCommunication/__init__.py (only TransmissionModeDeclaration/TriggerIPduSendCondition) so `armodel.TimeRangeTypeTolerance` does not resolve; export-chain fix belongs to a CoreCommunication export pass (Rule 0007 observation); (3) parent TOLERANCE element not read/written — TimeRangeType row's deviation, out of scope here)
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
 - [ ] `TransmissionModeCondition` — ARObject — R23-11 markdown · Table 6.60 (CP_TPS_SystemTemplate), p.393 — commit dcbc6abdb
   - commit: dcbc6abdb (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)
   - note (Step 8): — class note completed ("In all other cases..." sentence added per table); None-no-op setters replace overwrite
@@ -285,10 +294,6 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — see below
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27/28 (6666 passed / 0 failed battery, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
-
-- [x] `ClientIdRange` — ARObject — already verified (R23-11 · Table 3.2, p.52; short-circuit 2026-09-27)
-  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
-  - note (short-circuit 2026-09-27): class body already carries `# Spec verified: R23-11` — Base ARObject correct, lowerLimit/upperLimit (Limit, 0..1, attr) with verbatim member notes + None-no-op setters, constraints 3116/5396/5397 verbatim in class docstring, full reader/writer coverage, 6-col checklist all [x]. Deviation check found nothing new. No code change needed — row flipped without a class commit.
 
 - [ ] `TransmissionModeTiming` — ARObject — R23-11 markdown · Table 6.62 (CP_TPS_SystemTemplate), p.394 — commit dcbc6abdb
   - commit: dcbc6abdb (feat; steps 1-8; verbatim Note + attr notes, PEP 526 types, None-no-op accessors, 6-col checklist)

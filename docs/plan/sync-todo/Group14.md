@@ -278,7 +278,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - note (Step 8): model limitation — only the DATA-PROTOTYPE-IN-PORT-INTERFACE-REF choice of the ELEMENT wrapper is supported; the IMPLEMENTATION-DATA-TYPE-ELEMENT variant hits notImplemented; subject to 9b batch review
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-26 (12335 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
-- [x] `DiagnosticServiceClass` — DiagnosticCommonElement — already verified (R23-11 · Table 4.25, p.69; short-circuit 2026-09-26) 
+- [x] `DiagnosticServiceClass` — DiagnosticCommonElement — already verified (R23-11 · Table 4.25, p.69; short-circuit 2026-09-26; source/stamp commit `6b514727f`)
   - module: M2/AUTOSARTemplates/DiagnosticExtract/CommonService.py
   - note (short-circuit 2026-09-26): class body already matches the spec — verbatim Note docstring, 6-col checklist with only __init__ (abstract, ZERO attribute rows — spec Attribute row is \-\), abstract guard, Base most-derived = DiagnosticCommonElement (already correct), concrete subclasses not queued (Group7 precedent). Deviation check found nothing new; marker deferred to batch confirmation like the other rows. No code change needed — row flipped without a class commit.
 - [ ] `DiagnosticJumpToBootLoaderEnum` — AREnum — R23-11 markdown · Table 4.31 (CP_TPS_DiagnosticExtractTemplate), p.74

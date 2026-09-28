@@ -118,18 +118,6 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DltLogChannel` — Identifiable — source TBC (locate table at Step 1)
-  - module: M2/AUTOSARTemplates/SystemTemplate/Dlt.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
 - [ ] `SecOcCryptoServiceMapping` — CryptoServiceMapping — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
   - [ ] Step 1 — Sync members & description from spec

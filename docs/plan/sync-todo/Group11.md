@@ -261,6 +261,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `RVariableInAtomicSwcInstanceRef` — VariableInAtomicSwcInstanceRef — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py
+  - dependency: `VariableInAtomicSwcInstanceRef` (canonical queue row: Group2.md)
   - [x] Step 1 — Sync members & description from spec (Table D.2, p.943; page via pypdf caption scan — pdf_page.py top-caption regex no match for this caption-placement artifact family); abstract per table header where present; Base most-derived AtpInstanceRef; Note cell EMPTY → no class docstring (Rule 0012); attrs contextRPort (20) / targetDataElement (30) — serialized; consumers DataReceivedEvent.data + DataReceiveErrorEvent.data; field-to-spec both directions exact; intake findings: bare non-Optional annotations, untyped accessors, no None no-ops, fabricated class docstring
   - [x] Step 2 — Write model class unit test (Red) — covered by the new family contract suite test_InstanceRefs_family.py (abstract guards / AtpInstanceRef base anchoring / per-class defaults / per-class Optional[RefType] accessor + None-no-op pins / empty-Note no-docstring pin); PROCESS NOTE: tests written after the uniform rewrite — Red not demonstrated (pins all green)
   - [x] Step 3 — Implement model class (Green) — no behavior change (accessor semantics preserved); PEP 526 Optional[RefType] + blank-line Rule 0008; typed accessors with quoted self returns; setter None no-ops added; checklist 6-column with release column

@@ -1,7 +1,7 @@
 # Sync todo: Group 4 — BSW behavior policies & ServiceNeeds A
 
 Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sync_class_groups.md` · Generated: 2026-08-30 · Queue order = row order
-(resume = first class row still `[ ]`; all class rows `[x]` = sync finished — Rule 0017.3; the canonical confirmed-status list below resolves legacy generated-row checkbox drift)
+(resume = first class row still `[ ]`; all class rows `[x]` = sync finished — Rule 0017.3)
 > **Rule — already-verified short-circuit (added 2026-09-04):** before running the 9-step
 > sync for a row, check whether the class already carries `# Spec verified: <RELEASE>` or
 > `# XSD verified: <xsd-file>` in its own class body (verify the marker in the source — a
@@ -14,17 +14,6 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
 > proof).
 
 ## Queue (dependency-first)
-
-### Confirmed Status
-
-The following rows are complete. Their source classes carry `# Spec verified: R23-11`, and Step 9b was confirmed by the user:
-
-- [x] `DiagnosticControlNeeds` — commit: d0a1134e
-- [x] `DiagnosticEventManagerNeeds` — commit: dc347744
-- [x] `DiagnosticRequestFileTransferNeeds` — commit: f084c432
-- [x] `DoIpActivationLineNeeds` — commit: bf846cce
-- [x] `DoIpGidNeeds` — commit: 6c31e005
-- [x] `DoIpGidSynchronizationNeeds` — commit: c64cb631
 
 - [x] `BswPerInstanceMemoryPolicy` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 5.2 · aggregated by `BswInternalBehavior` · **NOT in src** — class must be created when this row is synced · **Step 1 finding: XSD-only — no table in any markdown corpus (R23-11/R4.3.1/R4.4.0 grep → XSD hits only); syncs from `AUTOSAR_00052.xsd` complexType `BSW-PER-INSTANCE-MEMORY-POLICY` line 12370 → `# XSD verified:` marker. Base chain ARObject→BswApiOptions→own; own attr `arTypedPerInstanceMemory` (ref, 0..1, DEST VARIABLE-DATA-PROTOTYPE) → `arTypedPerInstanceMemoryRef: Optional[RefType]`; VARIATION-POINT present → VariationPointCapable mixin) — verified R23-11 XSD `AUTOSAR_00052.xsd` (commit b89ad783)
   - [x] Step 1 — Sync members & description from spec
