@@ -536,7 +536,7 @@ Status: **29/29** completed
 
 ## Group10
 
-Status: **10/32** completed
+Status: **11/32** completed
 
 | Class Name                         | Status       | Commit ID  |
 | ---------------------------------- | ------------ | ---------- |
@@ -550,7 +550,7 @@ Status: **10/32** completed
 | `ImplementationDataTypeElement`    | [x] Done     | 8e9b2db86b |
 | `ReceptionComSpecProps`            | [x] Done     | 0ba890ba88 |
 | `CompositeNetworkRepresentation`   | [x] Done     | b1e81e17d6 |
-| `ModeSwitchedAckRequest`           | [ ] Pending* | N/A        |
+| `ModeSwitchedAckRequest`           | [x] Done     | f587d873eb |
 | `ModeSwitchReceiverComSpec`        | [ ] Pending* | N/A        |
 | `ModeSwitchSenderComSpec`          | [ ] Pending* | N/A        |
 | `NvProvideComSpec`                 | [ ] Pending* | N/A        |
