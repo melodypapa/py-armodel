@@ -536,7 +536,7 @@ Status: **29/29** completed
 
 ## Group10
 
-Status: **25/32** completed
+Status: **26/32** completed
 
 | Class Name                         | Status       | Commit ID  |
 | ---------------------------------- | ------------ | ---------- |
@@ -567,7 +567,7 @@ Status: **25/32** completed
 | `NvBlockNeedsWritingPriorityEnum`  | [x] Done     | 5a36c87687 |
 | `RamBlockStatusControlEnum`        | [x] Done     | 343d2af672 |
 | `NvBlockDataMapping`               | [ ] Pending* | N/A        |
-| `BulkNvDataDescriptor`             | [ ] Pending* | N/A        |
+| `BulkNvDataDescriptor`             | [x] Done     | 14a0a9cc5b |
 | `RoleBasedDataAssignment`          | [ ] Pending* | N/A        |
 | `InstantiationDataDefProps`        | [ ] Pending* | N/A        |
 | `NvBlockNeeds`                     | [ ] Pending* | N/A        |

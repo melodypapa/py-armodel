@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 490 | 68.0% |
+| [x] Done | 491 | 68.1% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 154 | 21.4% |
+| [ ] Deferred | 153 | 21.2% |
 | [ ] Pending | 66 | 9.2% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -112,7 +112,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `BuildActionIoElement`                                  | [x] Done    | b572582c11                               | Group1           |
 | `BuildActionManifest`                                   | [x] Done    | e6dcc8e79f                               | Group1           |
 | `BuildEngineeringObject`                                | [x] Done    | 96d176ed20                               | Group1           |
-| `BulkNvDataDescriptor`                                  | [ ] Deferred| N/A                                      | Group10          |
+| `BulkNvDataDescriptor`                                  | [x] Done    | 14a0a9cc5b                               | Group10          |
 | `CanClusterBusOffRecovery`                              | [ ] Pending | N/A                                      | Group17          |
 | `CanCommunicationConnector`                             | [ ] Pending | N/A                                      | Group17          |
 | `CanControllerConfiguration`                            | [ ] Pending | N/A                                      | Group17          |
