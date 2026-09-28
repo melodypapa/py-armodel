@@ -476,27 +476,26 @@ class TestWriteCanNmCluster:
         cluster.setNmChannelSleepMaster(_bool(True))
         cluster.setNmSynchronizingNetwork(_bool(True))
         cluster.setNmBusloadReductionActive(_bool(True))
-        cluster.setNmCarWakeUpRxEnabled(_bool(False))
-        cluster.setNmCbvPosition(_numerical(3))
-        cluster.setNmChannelActive(_bool(True))
-        cluster.setNmImmediateNmCycleTime(_float(0.01))
-        cluster.setNmImmediateNmTransmissions(_numerical(5))
-        cluster.setNmMessageTimeoutTime(_float(1.0))
-        cluster.setNmMsgCycleTime(_float(0.1))
-        cluster.setNmNetworkTimeout(_float(2.0))
-        cluster.setNmNidPosition(_numerical(4))
-        cluster.setNmRemoteSleepIndicationTime(_float(1.5))
-        cluster.setNmRepeatMessageTime(_float(0.5))
-        cluster.setNmUserDataLength(_numerical(8))
-        cluster.setNmWaitBusSleepTime(_float(0.2))
+        cluster.setNmCarWakeUpBitPosition(_pos_int(2))
+        cluster.setNmCarWakeUpFilterNodeId(_pos_int(5))
+        cluster.setNmCbvPosition(_int(3))
+        cluster.setNmImmediateNmCycleTime(_time(0.01))
+        cluster.setNmImmediateNmTransmissions(_pos_int(5))
+        cluster.setNmMessageTimeoutTime(_time(1.0))
+        cluster.setNmMsgCycleTime(_time(0.1))
+        cluster.setNmNetworkTimeout(_time(2.0))
+        cluster.setNmNidPosition(_int(4))
+        cluster.setNmRemoteSleepIndicationTime(_time(1.5))
+        cluster.setNmRepeatMessageTime(_time(0.5))
+        cluster.setNmWaitBusSleepTime(_time(0.2))
         parent = _parent()
         writer.writeCanNmCluster(parent, cluster)
         assert parent.find("CAN-NM-CLUSTER") is not None
         c = parent.find("CAN-NM-CLUSTER")
         assert c.find("NM-BUSLOAD-REDUCTION-ACTIVE") is not None
-        assert c.find("NM-CAR-WAKE-UP-RX-ENABLED") is not None
+        assert c.find("NM-CAR-WAKE-UP-BIT-POSITION") is not None
+        assert c.find("NM-CAR-WAKE-UP-FILTER-NODE-ID") is not None
         assert c.find("NM-CBV-POSITION") is not None
-        assert c.find("NM-CHANNEL-ACTIVE") is not None
         assert c.find("NM-IMMEDIATE-NM-CYCLE-TIME") is not None
         assert c.find("NM-IMMEDIATE-NM-TRANSMISSIONS") is not None
         assert c.find("NM-MESSAGE-TIMEOUT-TIME") is not None
@@ -505,7 +504,6 @@ class TestWriteCanNmCluster:
         assert c.find("NM-NID-POSITION") is not None
         assert c.find("NM-REMOTE-SLEEP-INDICATION-TIME") is not None
         assert c.find("NM-REPEAT-MESSAGE-TIME") is not None
-        assert c.find("NM-USER-DATA-LENGTH") is not None
         assert c.find("NM-WAIT-BUS-SLEEP-TIME") is not None
 
 

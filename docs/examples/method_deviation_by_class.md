@@ -3106,7 +3106,8 @@ No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, K
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `nmCarWakeUpFilterEnabled` | `Boolean` | — | missing |
+| — *(removed)* | — | `nmCarWakeUpFilterEnabled` | `Boolean` | — | stale row removed at Table 6.311 sync — not a CanNmCluster attribute in any verified corpus (owner in R23-11: CanNmNode Table 6.314); XSD-only NM-CAR-WAKE-UP-FILTER-ENABLED not modeled (Rule 0015) |
+| — *(removed)* | — | `nmCarWakeUpRxEnabled` / `nmChannelActive` / `nmUserDataLength` | `Boolean` / `Boolean` / `Integer` | — | XSD-only elements (CAN-NM-CLUSTER group, AUTOSAR_00052.xsd), absent from R23-11 Table 6.311 and from the R4.3.1 Table 6.232 rendering; fields + parser/writer elements removed at sync (Rule 0015); no fixture carries the tags |
 
 ## `CanNmEcu`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 683

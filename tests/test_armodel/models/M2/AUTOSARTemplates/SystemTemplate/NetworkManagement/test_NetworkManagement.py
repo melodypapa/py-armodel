@@ -528,9 +528,7 @@ class TestBusspecificNmEcu:
         assert cluster.getNmBusloadReductionActive() is None
         assert cluster.getNmCarWakeUpBitPosition() is None
         assert cluster.getNmCarWakeUpFilterNodeId() is None
-        assert cluster.getNmCarWakeUpRxEnabled() is None
         assert cluster.getNmCbvPosition() is None
-        assert cluster.getNmChannelActive() is None
         assert cluster.getNmImmediateNmCycleTime() is None
         assert cluster.getNmImmediateNmTransmissions() is None
         assert cluster.getNmMessageTimeoutTime() is None
@@ -539,7 +537,6 @@ class TestBusspecificNmEcu:
         assert cluster.getNmNidPosition() is None
         assert cluster.getNmRemoteSleepIndicationTime() is None
         assert cluster.getNmRepeatMessageTime() is None
-        assert cluster.getNmUserDataLength() is None
         assert cluster.getNmWaitBusSleepTime() is None
 
         # Test setter/getter methods with method chaining
@@ -555,17 +552,9 @@ class TestBusspecificNmEcu:
         assert cluster.getNmCarWakeUpFilterNodeId() == 2
         assert cluster == cluster.setNmCarWakeUpFilterNodeId(2)
 
-        cluster.setNmCarWakeUpRxEnabled(True)
-        assert cluster.getNmCarWakeUpRxEnabled() is True
-        assert cluster == cluster.setNmCarWakeUpRxEnabled(True)
-
         cluster.setNmCbvPosition(3)
         assert cluster.getNmCbvPosition() == 3
         assert cluster == cluster.setNmCbvPosition(3)
-
-        cluster.setNmChannelActive(True)
-        assert cluster.getNmChannelActive() is True
-        assert cluster == cluster.setNmChannelActive(True)
 
         cluster.setNmImmediateNmCycleTime(10)
         assert cluster.getNmImmediateNmCycleTime() == 10
@@ -598,10 +587,6 @@ class TestBusspecificNmEcu:
         cluster.setNmRepeatMessageTime(60)
         assert cluster.getNmRepeatMessageTime() == 60
         assert cluster == cluster.setNmRepeatMessageTime(60)
-
-        cluster.setNmUserDataLength(8)
-        assert cluster.getNmUserDataLength() == 8
-        assert cluster == cluster.setNmUserDataLength(8)
 
         cluster.setNmWaitBusSleepTime(70)
         assert cluster.getNmWaitBusSleepTime() == 70

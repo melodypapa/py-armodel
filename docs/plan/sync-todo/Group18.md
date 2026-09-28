@@ -28,18 +28,18 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — nmCoordinator typed `Optional[ARObject]` placeholder with reader/writer deferred (aggregated child NmCoordinator, Table 6.302, not yet implemented — Rule 0001.10/0001.7), recorded in method_deviation_by_class.md + _v2.md; XSD-only BUS-SPECIFIC-NM-ECU group not modeled (Rule 0015, PDF authoritative); stale v1 NmEcu rows removed
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13577 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
-- [ ] `CanNmCluster` — NmCluster — source TBC (locate table at Step 1)
+- [ ] `CanNmCluster` (input · R23-11 markdown · Table 6.311)
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: deviation-tracked in method_deviation_by_class.md — reviewed at Step 1: the v1 "nmCarWakeUpFilterEnabled missing" row was stale (the attribute belongs to CanNmNode Table 6.314 / FlexrayNmCluster, never a CanNmCluster attr in either corpus)
+  - [x] Step 1 — Sync members & description from spec — Table 6.311, p.682; Note "Can specific NmCluster attributes"; Base ARObject,Identifiable,MultilanguageReferrable,NmCluster,Referrable (most-derived NmCluster, stamped Table 6.299); 13 attrs in displayed order (nmBusloadReductionActive 0..1 Boolean, nmCarWakeUpBitPosition/nmCarWakeUpFilterNodeId/nmImmediateNmTransmissions 0..1 PositiveInteger, nmCbvPosition/nmNidPosition 0..1 Integer, nmImmediateNmCycleTime/nmMessageTimeoutTime/nmMsgCycleTime/nmNetworkTimeout/nmRemoteSleepIndicationTime/nmRepeatMessageTime/nmWaitBusSleepTime 0..1 TimeValue); XSD group CAN-NM-CLUSTER (AUTOSAR_00052.xsd l.15231) — XSD-only NM-CAR-WAKE-UP-FILTER-ENABLED/NM-CAR-WAKE-UP-RX-ENABLED/NM-CHANNEL-ACTIVE/NM-USER-DATA-LENGTH not modeled (Rule 0015, no fixture carries them); src drift: fabricated nmCarWakeUpRxEnabled/nmChannelActive/nmUserDataLength to remove, parser missing NM-CAR-WAKE-UP-BIT-POSITION/NM-CAR-WAKE-UP-FILTER-NODE-ID reads, float/Numerical helpers to upgrade to TimeValue/PositiveInteger/Integer
+  - [x] Step 2 — Write model class unit test (Red) — tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement/test_CanNmCluster.py: defaults for all 13 attrs, get/set + None no-op grouped by type (Boolean/PositiveInteger/Integer/TimeValue); seen Red 4 failed (unguarded setters) / 1 passed
+  - [x] Step 3 — Implement model class (Green) — removed fabricated nmCarWakeUpRxEnabled/nmChannelActive/nmUserDataLength (XSD-only, absent from Table 6.311 and from the R4.3.1 Table 6.232 rendering; no fixture carries the tags); PEP 526 `Optional[T]` typed fields in displayed row order, None-guarded setters returning self; 5 passed (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring replaced with the Table 6.311 Note verbatim + constr_3069/3070/3071/9157-9164 rows appended (DataMapping pattern); per-attr inline __init__ comments + getter/setter docstrings verbatim from markdown (incl. the spec's own quirks: nmNetworkTimeout Note missing period after "seconds"); __init__ has no docstring; blank line between every attribute block
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — tests/test_armodel/parser/test_can_nm_cluster.py (13 field values incl. TimeValue/PositiveInteger/Integer typed reads, empty-cluster case, XSD-only tag rejection) + tests/test_armodel/writer/test_can_nm_cluster.py (XSD kept-element order, dropped-XSD-only-tag asserts, empty case, full round-trip values); seen Red 6 failed (parser AttributeError on removed setters, writer emits stale tags/missing reads)
+  - [x] Step 6 — Update parser & writer (Green) — readCanNmCluster: removed 3 XSD-only elements, added NM-CAR-WAKE-UP-BIT-POSITION/NM-CAR-WAKE-UP-FILTER-NODE-ID reads (were silently dropped), upgraded float/Numerical helpers to TimeValue/PositiveInteger/Integer (Rule 0001.3); writeCanNmCluster: same removals + 2 added elements + typed helpers, XSD group order; test_writer_nm.py TestWriteCanNmCluster reverted to spec attrs
+  - [x] Step 7 — Update checklist comment — 6-column, `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.311, p.682`, all rows R23-11 in displayed row order; set-based check: checklist == methods (27), all covered; no marker written (unstamped batch)
+  - [x] Step 8 — Deviations — v1 stale row (nmCarWakeUpFilterEnabled missing) resolved to removed (owner: CanNmNode Table 6.314; XSD-only here, Rule 0015); XSD-only NM-CAR-WAKE-UP-RX-ENABLED/NM-CHANNEL-ACTIVE/NM-USER-DATA-LENGTH fields + parser/writer elements removed (Rule 0015, no fixture carries them); recorded in method_deviation_by_class.md
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13588 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `UdpNmCluster` — NmCluster — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
