@@ -1468,7 +1468,16 @@ Then, in this order:
    before committing.
 2. **Mark the todo row `[x]`** and record the commit hash in Notes — in the same
    commit (or an immediate follow-up commit amending the todo file only).
-3. **Report and stop.** Tell the user: class finished (hash), N of M rows done,
+3. **Regenerate the derived reports** — run `python3 scripts/regen_sync_todo.py
+   --write` so `docs/plan/sync-todo/SyncTodoIndex.md` and `sync-report.md` pick
+   up the `[x]` flip (row status, commit cells, report Summary counts/percent),
+   then `python3 scripts/regen_sync_todo.py --check` must pass (exit 0). The
+   regenerated reports go into the same commit as the row flip / hash record —
+   a stamp or row change committed with stale reports is an incomplete commit.
+   The two report files are pure derivations of the Group files: **never
+   hand-edit them**; the same regeneration applies whenever a queue row is
+   added or its status otherwise changes, not only at 9b.
+4. **Report and stop.** Tell the user: class finished (hash), N of M rows done,
    start a new session for the next class — or, if all rows are `[x]`, that the
    sync is complete.
 
@@ -1502,6 +1511,16 @@ row exists.
   truth for the 17.3 resume/termination check; a side note papers over a
   failed row edit instead of fixing it, and produces exactly the drift a
   2026-09-18 cleanup pass on Group 4 had to reconcile by hand.
+- Skipping the 17.2 step-3 report regeneration with "the daily automation
+  regenerates them anyway" — the automation's run is separate and can lag;
+  `regen_sync_todo.py --check` failing right after your commit is **your**
+  regression.
+- Skipping it with "the stamp is comment-only, nothing to regenerate" — the
+  `[x]` flip changes row status, commit cells and the report Summary
+  percentages; only the script records them.
+- Hand-editing `SyncTodoIndex.md` / `sync-report.md` "just this one row" —
+  they are generated files; hand edits are overwritten by the next regen and
+  drift from the Group files. Run the script with `--write` instead.
 
 ### 17.5 Autonomous mode — chaining classes
 
