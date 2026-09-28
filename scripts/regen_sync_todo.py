@@ -160,30 +160,27 @@ def resolve_row(g, name, checked, header_line, block, stamped, cur_index, cur_re
     m = STAMP_COMMIT_RE.search(row_text)
     if m and is_hash(m.group(1)) and revparse_ok(m.group(1)):
         sc = m.group(1)
+    hc = None
+    for m in COMMIT_RE.finditer(header_line):
+        if is_hash(m.group(1)) and revparse_ok(m.group(1)):
+            hc = m.group(1)
+            break
 
-    if cv_ok and cv in row_text:
-        commit = cv
-    elif sc:
+    if sc:
         commit = sc
+    elif hc:
+        commit = hc
     elif cv_ok:
         commit = cv
     else:
         commit = "N/A"
-        found = None
-        for m in COMMIT_RE.finditer(header_line):
-            if is_hash(m.group(1)) and revparse_ok(m.group(1)):
-                found = m.group(1)
-                break
-        if found:
-            commit = found
-        else:
-            hs = valid_hashes(header_line)
-            if hs:
-                commit = hs[0]
-        if commit == "N/A" and len(name_groups.get(name, ())) == 1:
-            rv = cur_report.get(name)
-            if rv and rv != "N/A" and revparse_ok(rv):
-                commit = rv
+        hs = valid_hashes(header_line)
+        if hs:
+            commit = hs[0]
+    if commit == "N/A" and len(name_groups.get(name, ())) == 1:
+        rv = cur_report.get(name)
+        if rv and rv != "N/A" and revparse_ok(rv):
+            commit = rv
 
     if checked == "x":
         status = "Retired" if retired else ("Done" if name in stamped else "Done*")
