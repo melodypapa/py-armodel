@@ -1,12 +1,13 @@
 import inspect
 import sys
-from typing import Optional, get_type_hints
+from typing import List, Optional, get_type_hints
 
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
     ApplicationEntry,
     AssignFrameId,
@@ -24,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
     LinScheduleTable,
     LinUnconditionalFrame,
     ResumePosition,
+    RunMode,
     SaveConfigurationEntry,
     ScheduleTableEntry,
     UnassignFrameId,
@@ -438,6 +440,122 @@ class TestApplicationEntry:
             if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
                 annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
         assert annotations["frameTriggeringRef"] == "Optional[RefType]"
+
+
+CLASS_NOTE_RUN_MODE = "The schedule table can be executed in two different modes."
+
+
+class TestRunMode:
+    """Test cases for RunMode (Table 6.94, p.432)."""
+
+    def test_member_presence_and_values(self):
+        assert RunMode.RUN_CONTINUOUS == "RunContinuous"
+        assert RunMode.RUN_ONCE == "runOnce"
+        assert list(RunMode().getEnumValues()) == ["RunContinuous", "runOnce"]
+
+    def test_instantiability(self):
+        enum = RunMode()
+        assert enum == enum.setValue(RunMode.RUN_CONTINUOUS)
+        assert enum.getValue() == "RunContinuous"
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(RunMode.__doc__) == CLASS_NOTE_RUN_MODE
+
+
+CLASS_NOTE_LIN_SCHEDULE_TABLE = (
+    "The master task (in the master node) transmits frame headers based on a schedule table. "
+    "The schedule table specifies the identifiers for each header and the interval between the start of a frame and the start of the following frame."
+)
+
+
+class TestLinScheduleTable:
+    """Test cases for LinScheduleTable (Table 6.93, p.432)."""
+
+    def test_initialization(self):
+        parent = MockParent()
+        table = LinScheduleTable(parent, "tbl")
+
+        assert isinstance(table, Identifiable)
+        assert isinstance(table, VariationPointCapable)
+        assert table.getResumePosition() is None
+        assert table.getRunMode() is None
+        assert table.getTableEntries() == []
+
+    def test_get_set_resume_position(self):
+        parent = MockParent()
+        table = LinScheduleTable(parent, "tbl")
+        position = ResumePosition().setValue(ResumePosition.CONTINUE_AT_IT_POSITION)
+
+        assert table == table.setResumePosition(position)
+        assert table.getResumePosition() == position
+
+        assert table == table.setResumePosition(None)
+        assert table.getResumePosition() == position
+
+    def test_get_set_run_mode(self):
+        parent = MockParent()
+        table = LinScheduleTable(parent, "tbl")
+        mode = RunMode().setValue(RunMode.RUN_CONTINUOUS)
+
+        assert table == table.setRunMode(mode)
+        assert table.getRunMode() == mode
+
+        assert table == table.setRunMode(None)
+        assert table.getRunMode() == mode
+
+    def test_add_table_entry(self):
+        parent = MockParent()
+        table = LinScheduleTable(parent, "tbl")
+        entry = ApplicationEntry()
+
+        assert table == table.addTableEntry(entry)
+        assert table.getTableEntries() == [entry]
+
+        second = ApplicationEntry()
+        table.addTableEntry(second)
+        assert table.getTableEntries() == [entry, second]
+
+        assert table == table.addTableEntry(None)
+        assert table.getTableEntries() == [entry, second]
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(LinScheduleTable.__doc__) == CLASS_NOTE_LIN_SCHEDULE_TABLE
+
+    def test_type_annotations(self):
+        import ast
+
+        getter_hints = get_type_hints(LinScheduleTable.getResumePosition)
+        assert getter_hints["return"] == Optional[ResumePosition]
+
+        setter_hints = get_type_hints(LinScheduleTable.setResumePosition)
+        assert setter_hints["value"] == Optional[ResumePosition]
+        assert setter_hints["return"] == LinScheduleTable
+
+        getter_hints = get_type_hints(LinScheduleTable.getRunMode)
+        assert getter_hints["return"] == Optional[RunMode]
+
+        setter_hints = get_type_hints(LinScheduleTable.setRunMode)
+        assert setter_hints["value"] == Optional[RunMode]
+        assert setter_hints["return"] == LinScheduleTable
+
+        entries_hints = get_type_hints(LinScheduleTable.getTableEntries)
+        assert entries_hints["return"] == List[ScheduleTableEntry]
+
+        add_hints = get_type_hints(LinScheduleTable.addTableEntry)
+        assert add_hints["value"] == Optional[ScheduleTableEntry]
+        assert add_hints["return"] == LinScheduleTable
+
+        src = inspect.getsource(sys.modules[LinScheduleTable.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "LinScheduleTable")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        annotations = {}
+        for node in ast.walk(init):
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
+        assert annotations["resumePosition"] == "Optional[ResumePosition]"
+        assert annotations["runMode"] == "Optional[RunMode]"
+        assert annotations["tableEntries"] == "List[ScheduleTableEntry]"
 
 
 class TestLinConfigurationEntry:

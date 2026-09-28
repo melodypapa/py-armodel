@@ -21,6 +21,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
     FramePid,
     FreeFormat,
     LinScheduleTable,
+    ResumePosition,
+    RunMode,
     SaveConfigurationEntry,
     UnassignFrameId,
 )
@@ -351,3 +353,71 @@ class TestApplicationEntryRoundTrip:
         parent = _parent()
         writer.setApplicationEntry(parent, "APPLICATION-ENTRY", None)
         assert parent.find("APPLICATION-ENTRY") is None
+
+
+NS = "http://autosar.org/schema/r4.0"
+
+
+class TestLinScheduleTableRoundTrip:
+    """LinScheduleTable (Table 6.93) field-value round-trips through writeLinScheduleTable / readLinScheduleTable."""
+
+    def test_roundtrip_typed_enum_field_values(self, writer):
+        pkg = _pkg()
+        table = LinScheduleTable(pkg, "Table")
+        table.setResumePosition(ResumePosition().setValue(ResumePosition.CONTINUE_AT_IT_POSITION))
+        table.setRunMode(RunMode().setValue(RunMode.RUN_ONCE))
+
+        parent = _parent()
+        writer.writeLinScheduleTable(parent, table)
+        inner = ET.tostring(parent).decode("utf-8")
+        root = ET.fromstring("<ROOT xmlns='%s'>%s</ROOT>" % (NS, inner))
+
+        reloaded = LinScheduleTable(_pkg(), "Table")
+        ARXMLParser().readLinScheduleTable(root[0][0], reloaded)
+
+        assert isinstance(reloaded.getResumePosition(), ResumePosition)
+        assert reloaded.getResumePosition().getValue() == "continueAtItPosition"
+        assert isinstance(reloaded.getRunMode(), RunMode)
+        assert reloaded.getRunMode().getValue() == "runOnce"
+
+    def test_roundtrip_multi_entry_field_values(self, writer):
+        pkg = _pkg()
+        table = LinScheduleTable(pkg, "Table")
+
+        first = ApplicationEntry()
+        first.setDelay(_time("0.03"))
+        first.setFrameTriggeringRef(_ref("LIN-FRAME-TRIGGERING", "/cluster/ft"))
+        table.addTableEntry(first)
+
+        second = FreeFormat()
+        second.setPositionInTable(_int(2))
+        table.addTableEntry(second)
+
+        parent = _parent()
+        writer.writeLinScheduleTable(parent, table)
+        inner = ET.tostring(parent).decode("utf-8")
+        root = ET.fromstring("<ROOT xmlns='%s'>%s</ROOT>" % (NS, inner))
+
+        reloaded = LinScheduleTable(_pkg(), "Table")
+        ARXMLParser().readLinScheduleTable(root[0][0], reloaded)
+
+        entries = reloaded.getTableEntries()
+        assert len(entries) == 2
+        assert isinstance(entries[0], ApplicationEntry)
+        assert entries[0].getDelay().getValue() == 0.03
+        assert entries[0].getFrameTriggeringRef().getValue() == "/cluster/ft"
+        assert entries[0].getFrameTriggeringRef().getDest() == "LIN-FRAME-TRIGGERING"
+        assert isinstance(entries[1], FreeFormat)
+        assert entries[1].getPositionInTable().getValue() == 2
+
+    def test_write_empty_table_entries_omits_wrapper(self, writer):
+        pkg = _pkg()
+        table = LinScheduleTable(pkg, "Table")
+        table.setResumePosition(ResumePosition().setValue(ResumePosition.START_FROM_BEGINNING))
+
+        parent = _parent()
+        writer.writeLinScheduleTable(parent, table)
+        lst = parent.find("LIN-SCHEDULE-TABLE")
+        assert lst is not None
+        assert lst.find("RESUME-POSITION").text == "startFromBeginning"
+        assert lst.find("TABLE-ENTRYS") is None

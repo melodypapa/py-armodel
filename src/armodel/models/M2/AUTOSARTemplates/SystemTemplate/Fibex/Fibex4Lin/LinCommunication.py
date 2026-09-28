@@ -136,6 +136,27 @@ class ResumePosition(AREnum):
         super().__init__([ResumePosition.CONTINUE_AT_IT_POSITION, ResumePosition.START_FROM_BEGINNING])
 
 
+class RunMode(AREnum):
+    """
+    The schedule table can be executed in two different modes.
+    """
+
+    # RunMode method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.94, p.432
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on LinScheduleTable.runMode
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # RUN_CONTINUOUS run mode Tags: atp.EnumerationLiteralIndex=0
+    RUN_CONTINUOUS = "RunContinuous"
+
+    # RUN_ONCE run mode Tags: atp.EnumerationLiteralIndex=1
+    RUN_ONCE = "runOnce"
+
+    def __init__(self):
+        super().__init__([RunMode.RUN_CONTINUOUS, RunMode.RUN_ONCE])
+
+
 class ScheduleTableEntry(ARObject, ABC):
     """Table entry in a LinScheduleTable. Specifies what will be done in the frame slot."""
 
@@ -741,47 +762,67 @@ class DataDumpEntry(LinConfigurationEntry):
 
 class LinScheduleTable(Identifiable, VariationPointCapable):
     """
-    Represents a LIN schedule table defining the timing and sequence
-    of LIN frame transmissions, including resume position, run mode,
-    and table entries for scheduled communication.
+    The master task (in the master node) transmits frame headers based on a schedule table. The schedule table specifies the identifiers for each header and the interval between the start of a frame and the start of the following frame.
     """
 
     # LinScheduleTable method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getResumePosition            [x] impl  [ ] docstring  [ ] test
-    # [ ] setResumePosition            [x] impl  [ ] docstring  [ ] test
-    # [ ] getRunMode                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setRunMode                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getTableEntries              [x] impl  [ ] docstring  [ ] test
-    # [ ] addTableEntry                [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.93, p.432
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getResumePosition   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResumePosition   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRunMode          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRunMode          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTableEntries     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTableEntry       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.resumePosition = None  # type: ResumePosition
-        self.runMode = None  # type: RunMode
+        # Defines, where a schedule table shall be proceeded in case if it has been interrupted by a run-once table or MRF/SRF.
+        self.resumePosition: Optional[ResumePosition] = None
+
+        # The schedule table can be executed in two different modes.
+        self.runMode: Optional[RunMode] = None
+
+        # The scheduling table consists of table entries, which contain Frame slots.
         self.tableEntries: List[ScheduleTableEntry] = []
 
-    def getResumePosition(self):
+    def getResumePosition(self) -> Optional[ResumePosition]:
+        """Defines, where a schedule table shall be proceeded in case if it has been interrupted by a run-once table or MRF/SRF."""
         return self.resumePosition
 
-    def setResumePosition(self, value):
+    def setResumePosition(self, value: Optional[ResumePosition]) -> LinScheduleTable:
+        """
+        Defines, where a schedule table shall be proceeded in case if it has been interrupted by a run-once table or MRF/SRF.
+        A None value is a no-op and does not overwrite an existing resumePosition.
+        """
         if value is not None:
             self.resumePosition = value
         return self
 
-    def getRunMode(self):
+    def getRunMode(self) -> Optional[RunMode]:
+        """The schedule table can be executed in two different modes."""
         return self.runMode
 
-    def setRunMode(self, value):
+    def setRunMode(self, value: Optional[RunMode]) -> LinScheduleTable:
+        """
+        The schedule table can be executed in two different modes.
+        A None value is a no-op and does not overwrite an existing runMode.
+        """
         if value is not None:
             self.runMode = value
         return self
 
-    def getTableEntries(self):
+    def getTableEntries(self) -> List[ScheduleTableEntry]:
+        """The scheduling table consists of table entries, which contain Frame slots."""
         return self.tableEntries
 
-    def addTableEntry(self, value):
+    def addTableEntry(self, value: Optional[ScheduleTableEntry]) -> LinScheduleTable:
+        """
+        The scheduling table consists of table entries, which contain Frame slots.
+        A None value is a no-op and does not overwrite the existing tableEntries.
+        """
         if value is not None:
             self.tableEntries.append(value)
         return self

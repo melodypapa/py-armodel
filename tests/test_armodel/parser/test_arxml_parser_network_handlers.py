@@ -244,6 +244,60 @@ class TestLinClusterHandlers:
         assert table.getRunMode() is not None
         assert table.getRunMode().getValue() == "continuous"
 
+    def test_readLinScheduleTable_sets_typed_enum_values(self, parser):
+        from armodel.models import LinCluster, LinPhysicalChannel, LinScheduleTable
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ResumePosition, RunMode
+
+        cluster = LinCluster(parent=_autosar_root(), short_name="l")
+        channel = LinPhysicalChannel(parent=cluster, short_name="ch")
+        table = LinScheduleTable(parent=channel, short_name="tbl")
+        element = _snip(
+            "<SHORT-NAME>tbl</SHORT-NAME>" "<RESUME-POSITION>continueAtItPosition</RESUME-POSITION>" "<RUN-MODE>runOnce</RUN-MODE>",
+            root_tag="LIN-SCHEDULE-TABLE",
+        )
+        parser.readLinScheduleTable(element, table)
+        assert isinstance(table.getResumePosition(), ResumePosition)
+        assert table.getResumePosition().getValue() == "continueAtItPosition"
+        assert isinstance(table.getRunMode(), RunMode)
+        assert table.getRunMode().getValue() == "runOnce"
+
+    def test_readLinScheduleTable_absent_elements(self, parser):
+        from armodel.models import LinCluster, LinPhysicalChannel, LinScheduleTable
+
+        cluster = LinCluster(parent=_autosar_root(), short_name="l")
+        channel = LinPhysicalChannel(parent=cluster, short_name="ch")
+        table = LinScheduleTable(parent=channel, short_name="tbl")
+        element = _snip("<SHORT-NAME>tbl</SHORT-NAME>", root_tag="LIN-SCHEDULE-TABLE")
+        parser.readLinScheduleTable(element, table)
+        assert table.getResumePosition() is None
+        assert table.getRunMode() is None
+        assert table.getTableEntries() == []
+
+    def test_readLinScheduleTableTableEntries_multi_entry(self, parser):
+        from armodel.models import LinCluster, LinPhysicalChannel, LinScheduleTable
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, FreeFormat
+
+        cluster = LinCluster(parent=_autosar_root(), short_name="l")
+        channel = LinPhysicalChannel(parent=cluster, short_name="ch")
+        table = LinScheduleTable(parent=channel, short_name="tbl")
+        element = _snip(
+            "<TABLE-ENTRYS>"
+            "<APPLICATION-ENTRY><SHORT-NAME>e1</SHORT-NAME><DELAY>0.02</DELAY>"
+            "<FRAME-TRIGGERING-REF DEST='LIN-FRAME-TRIGGERING'>/cluster/ft</FRAME-TRIGGERING-REF></APPLICATION-ENTRY>"
+            "<FREE-FORMAT><SHORT-NAME>e2</SHORT-NAME><POSITION-IN-TABLE>3</POSITION-IN-TABLE></FREE-FORMAT>"
+            "</TABLE-ENTRYS>",
+            root_tag="LIN-SCHEDULE-TABLE",
+        )
+        parser.readLinScheduleTableTableEntries(element, table)
+        entries = table.getTableEntries()
+        assert len(entries) == 2
+        assert isinstance(entries[0], ApplicationEntry)
+        assert entries[0].getDelay().getValue() == 0.02
+        assert entries[0].getFrameTriggeringRef().getValue() == "/cluster/ft"
+        assert entries[0].getFrameTriggeringRef().getDest() == "LIN-FRAME-TRIGGERING"
+        assert isinstance(entries[1], FreeFormat)
+        assert entries[1].getPositionInTable().getValue() == 3
+
     def test_readLinPhysicalChannelScheduleTables_creates_table(self, parser):
         from armodel.models import LinCluster, LinPhysicalChannel
 

@@ -944,6 +944,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
     LinFrameTriggering,
     LinScheduleTable,
     LinUnconditionalFrame,
+    ResumePosition,
+    RunMode,
     SaveConfigurationEntry,
     ScheduleTableEntry,
     UnassignFrameId,
@@ -9387,8 +9389,16 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readLinScheduleTable(self, element: ET.Element, table: LinScheduleTable):
         self.readIdentifiable(element, table)
-        table.setResumePosition(self.getChildElementOptionalLiteral(element, "RESUME-POSITION"))
-        table.setRunMode(self.getChildElementOptionalLiteral(element, "RUN-MODE"))
+        resume_position_literal = self.getChildElementOptionalLiteral(element, "RESUME-POSITION")
+        if resume_position_literal is not None:
+            resume_position = ResumePosition()
+            resume_position.setValue(resume_position_literal.getValue())
+            table.setResumePosition(resume_position)
+        run_mode_literal = self.getChildElementOptionalLiteral(element, "RUN-MODE")
+        if run_mode_literal is not None:
+            run_mode = RunMode()
+            run_mode.setValue(run_mode_literal.getValue())
+            table.setRunMode(run_mode)
         self.readLinScheduleTableTableEntries(element, table)
 
     def readLinPhysicalChannelScheduleTables(self, element: ET.Element, channel: LinPhysicalChannel):
