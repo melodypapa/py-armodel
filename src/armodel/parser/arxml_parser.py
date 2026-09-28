@@ -13704,10 +13704,15 @@ class ARXMLParser(AbstractARXMLParser):
                 self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
     def readSenderReceiverToSignalMapping(self, element: ET.Element, mapping: SenderReceiverToSignalMapping):
-        mapping.setCommunicationDirection(self.getChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION"))
+        self.readDataMapping(element, mapping)
         mapping.setDataElementIRef(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "DATA-ELEMENT-IREF")))
+        sender_to_signal_element = self.find(element, "SENDER-TO-SIGNAL-TEXT-TABLE-MAPPING")
+        if sender_to_signal_element is not None:
+            mapping.setSenderToSignalTextTableMapping(self.getTextTableMapping(sender_to_signal_element))
+        signal_to_receiver_element = self.find(element, "SIGNAL-TO-RECEIVER-TEXT-TABLE-MAPPING")
+        if signal_to_receiver_element is not None:
+            mapping.setSignalToReceiverTextTableMapping(self.getTextTableMapping(signal_to_receiver_element))
         mapping.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
-        self.logger.debug("Read SenderReceiverToSignalMapping <%s>" % mapping.getSystemSignalRef().getValue())
 
     def readSenderRecCompositeTypeMapping(self, element: ET.Element, mapping: SenderRecCompositeTypeMapping):
         self.readARObject(element, mapping)

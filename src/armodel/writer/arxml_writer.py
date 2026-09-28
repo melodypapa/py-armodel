@@ -11740,8 +11740,12 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeSenderReceiverToSignalMapping(self, element: ET.Element, mapping: SenderReceiverToSignalMapping):
         child_element = ET.SubElement(element, "SENDER-RECEIVER-TO-SIGNAL-MAPPING")
-        self.setChildElementOptionalLiteral(child_element, "COMMUNICATION-DIRECTION", mapping.getCommunicationDirection())
+        self.writeDataMapping(child_element, mapping)
         self.setVariableDataPrototypeInSystemInstanceRef(child_element, "DATA-ELEMENT-IREF", mapping.getDataElementIRef())
+        if mapping.getSenderToSignalTextTableMapping() is not None:
+            self.setTextTableMapping(child_element, mapping.getSenderToSignalTextTableMapping(), "SENDER-TO-SIGNAL-TEXT-TABLE-MAPPING")
+        if mapping.getSignalToReceiverTextTableMapping() is not None:
+            self.setTextTableMapping(child_element, mapping.getSignalToReceiverTextTableMapping(), "SIGNAL-TO-RECEIVER-TEXT-TABLE-MAPPING")
         self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
 
     def writeSenderRecCompositeTypeMapping(self, element: ET.Element, mapping: SenderRecCompositeTypeMapping):

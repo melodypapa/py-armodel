@@ -11,7 +11,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import Varia
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TextTableMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Integer, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
@@ -54,67 +53,99 @@ class DataMapping(ARObject, VariationPointCapable, ABC):
 
 class SenderReceiverToSignalMapping(DataMapping):
     """
-    Maps data elements from sender/receiver interfaces to system signals.
-    This class establishes the connection between variable data prototypes
-    in system instance references and their corresponding system signal
-    representations, including text table mappings for data transformation.
+    Mapping of a sender receiver communication data element to a signal.
+
+    [constr_5466] Existence of SenderReceiverToSignalMapping.dataElement: For each SenderReceiverToSignalMapping, the reference to VariableDataPrototype in the role dataElement shall exist at the time when the Ecu Extract is complete.
+
+    [constr_5467] Existence of SenderReceiverToSignalMapping.systemSignal: For each SenderReceiverToSignalMapping, the reference to SystemSignal in the role systemSignal shall exist at the time when the Ecu Extract is complete.
     """
 
     # SenderReceiverToSignalMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCommunicationDirection    [x] impl  [ ] docstring  [ ] test
-    # [ ] setCommunicationDirection    [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataElementIRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataElementIRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] getSenderToSignalTextTableMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] setSenderToSignalTextTableMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] getSignalToReceiverTextTableMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] setSignalToReceiverTextTableMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] getSystemSignalRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setSystemSignalRef           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.24, p.229
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataElementIRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataElementIRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSenderToSignalTextTableMapping   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSenderToSignalTextTableMapping   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSignalToReceiverTextTableMapping [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSignalToReceiverTextTableMapping [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSystemSignalRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSystemSignalRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.communicationDirection: CommunicationDirectionType = None
-        self.dataElementIRef: VariableDataPrototypeInSystemInstanceRef = None
-        self.senderToSignalTextTableMapping: TextTableMapping = None
-        self.signalToReceiverTextTableMapping: TextTableMapping = None
-        self.systemSignalRef: RefType = None
+        # Reference to the data element. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
+        self.dataElementIRef: Optional[VariableDataPrototypeInSystemInstanceRef] = None
 
-    def getCommunicationDirection(self):
-        return self.communicationDirection
+        # This mapping allows for the text-table translation between the sending DataPrototype that is defined in the Port Prototype and the physicalProps defined for the System Signal.
+        self.senderToSignalTextTableMapping: Optional[TextTableMapping] = None
 
-    def setCommunicationDirection(self, value: CommunicationDirectionType):
-        self.communicationDirection = value
-        return self
+        # This mapping allows for the text-table translation between the physicalProps defined for the SystemSignal and a receiving DataPrototype that is defined in the Port Prototype.
+        self.signalToReceiverTextTableMapping: Optional[TextTableMapping] = None
 
-    def getDataElementIRef(self):
+        # Reference to the system signal used to carry the data element.
+        self.systemSignalRef: Optional[RefType] = None
+
+    def getDataElementIRef(self) -> Optional[VariableDataPrototypeInSystemInstanceRef]:
+        """
+        Reference to the data element. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
+        """
         return self.dataElementIRef
 
-    def setDataElementIRef(self, value: VariableDataPrototypeInSystemInstanceRef):
-        self.dataElementIRef = value
+    def setDataElementIRef(self, value: Optional[VariableDataPrototypeInSystemInstanceRef]) -> SenderReceiverToSignalMapping:
+        """
+        Reference to the data element. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
+        A None value is a no-op and does not overwrite an existing dataElementIRef.
+        """
+        if value is not None:
+            self.dataElementIRef = value
         return self
 
-    def getSenderToSignalTextTableMapping(self):
+    def getSenderToSignalTextTableMapping(self) -> Optional[TextTableMapping]:
+        """
+        This mapping allows for the text-table translation between the sending DataPrototype that is defined in the Port Prototype and the physicalProps defined for the System Signal.
+        """
         return self.senderToSignalTextTableMapping
 
-    def setSenderToSignalTextTableMapping(self, value: TextTableMapping):
-        self.senderToSignalTextTableMapping = value
+    def setSenderToSignalTextTableMapping(self, value: Optional[TextTableMapping]) -> SenderReceiverToSignalMapping:
+        """
+        This mapping allows for the text-table translation between the sending DataPrototype that is defined in the Port Prototype and the physicalProps defined for the System Signal.
+        A None value is a no-op and does not overwrite an existing senderToSignalTextTableMapping.
+        """
+        if value is not None:
+            self.senderToSignalTextTableMapping = value
         return self
 
-    def getSignalToReceiverTextTableMapping(self):
+    def getSignalToReceiverTextTableMapping(self) -> Optional[TextTableMapping]:
+        """
+        This mapping allows for the text-table translation between the physicalProps defined for the SystemSignal and a receiving DataPrototype that is defined in the Port Prototype.
+        """
         return self.signalToReceiverTextTableMapping
 
-    def setSignalToReceiverTextTableMapping(self, value: TextTableMapping):
-        self.signalToReceiverTextTableMapping = value
+    def setSignalToReceiverTextTableMapping(self, value: Optional[TextTableMapping]) -> SenderReceiverToSignalMapping:
+        """
+        This mapping allows for the text-table translation between the physicalProps defined for the SystemSignal and a receiving DataPrototype that is defined in the Port Prototype.
+        A None value is a no-op and does not overwrite an existing signalToReceiverTextTableMapping.
+        """
+        if value is not None:
+            self.signalToReceiverTextTableMapping = value
         return self
 
-    def getSystemSignalRef(self):
+    def getSystemSignalRef(self) -> Optional[RefType]:
+        """
+        Reference to the system signal used to carry the data element.
+        """
         return self.systemSignalRef
 
-    def setSystemSignalRef(self, value: RefType):
-        self.systemSignalRef = value
+    def setSystemSignalRef(self, value: Optional[RefType]) -> SenderReceiverToSignalMapping:
+        """
+        Reference to the system signal used to carry the data element.
+        A None value is a no-op and does not overwrite an existing systemSignalRef.
+        """
+        if value is not None:
+            self.systemSignalRef = value
         return self
 
 

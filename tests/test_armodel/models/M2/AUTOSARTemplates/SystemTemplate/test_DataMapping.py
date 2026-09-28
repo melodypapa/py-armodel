@@ -17,9 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordElementMapping,
     SenderRecRecordTypeMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
-    CommunicationDirectionType,
-)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
@@ -39,18 +37,12 @@ class Test_DataMapping:
         assert isinstance(mapping, DataMapping)
 
         # Test default values
-        assert mapping.getCommunicationDirection() is None
         assert mapping.getDataElementIRef() is None
         assert mapping.getSenderToSignalTextTableMapping() is None
         assert mapping.getSignalToReceiverTextTableMapping() is None
         assert mapping.getSystemSignalRef() is None
 
         # Test setter methods
-        mock_direction = CommunicationDirectionType()
-        result = mapping.setCommunicationDirection(mock_direction)
-        assert mapping.getCommunicationDirection() == mock_direction
-        assert result is mapping  # Test method chaining
-
         mock_data_element = "TestRef"  # Using a simple string as VariableDataPrototypeInSystemInstanceRef
         result = mapping.setDataElementIRef(mock_data_element)
         assert mapping.getDataElementIRef() == mock_data_element
@@ -751,3 +743,158 @@ class TestSenderRecRecordTypeMapping:
     def test_record_element_mappings_docstrings_are_spec_note(self):
         self._assert_docstring(SenderRecRecordTypeMapping.getRecordElementMappings, RECORD_ELEMENT_MAPPING_NOTE)
         self._assert_docstring(SenderRecRecordTypeMapping.addRecordElementMapping, RECORD_ELEMENT_MAPPING_NOTE, "recordElementMappings")
+
+
+SENDER_RECEIVER_TO_SIGNAL_MAPPING_CLASS_NOTE = (
+    "Mapping of a sender receiver communication data element to a signal.\n"
+    "\n"
+    "[constr_5466] Existence of SenderReceiverToSignalMapping.dataElement: For each SenderReceiverToSignalMapping, the reference to VariableDataPrototype in the role dataElement shall exist at the time when the Ecu Extract is complete.\n"
+    "\n"
+    "[constr_5467] Existence of SenderReceiverToSignalMapping.systemSignal: For each SenderReceiverToSignalMapping, the reference to SystemSignal in the role systemSignal shall exist at the time when the Ecu Extract is complete."
+)
+DATA_ELEMENT_NOTE = "Reference to the data element. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef"
+SENDER_TO_SIGNAL_TEXT_TABLE_MAPPING_NOTE = "This mapping allows for the text-table translation between the sending DataPrototype that is defined in the Port Prototype and the physicalProps defined for the System Signal."
+SIGNAL_TO_RECEIVER_TEXT_TABLE_MAPPING_NOTE = "This mapping allows for the text-table translation between the physicalProps defined for the SystemSignal and a receiving DataPrototype that is defined in the Port Prototype."
+SYSTEM_SIGNAL_CARRY_NOTE = "Reference to the system signal used to carry the data element."
+
+
+class TestSenderReceiverToSignalMapping:
+    """Spec-synced tests for SenderReceiverToSignalMapping (AUTOSAR_CP_TPS_SystemTemplate Table 5.24)."""
+
+    def _make(self) -> SenderReceiverToSignalMapping:
+        return SenderReceiverToSignalMapping()
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert method.__doc__ is not None
+        assert inspect.cleandoc(method.__doc__).strip() == expected
+
+    def test_initialization(self):
+        mapping = self._make()
+
+        assert isinstance(mapping, ARObject)
+        assert isinstance(mapping, DataMapping)
+        assert mapping.getIntroduction() is None
+        assert mapping.getDataElementIRef() is None
+        assert mapping.getSenderToSignalTextTableMapping() is None
+        assert mapping.getSignalToReceiverTextTableMapping() is None
+        assert mapping.getSystemSignalRef() is None
+
+    def test_removed_communication_direction(self):
+        mapping = self._make()
+
+        assert not hasattr(mapping, "getCommunicationDirection")
+        assert not hasattr(mapping, "setCommunicationDirection")
+
+    def test_class_docstring_is_spec_note(self):
+        assert inspect.cleandoc(SenderReceiverToSignalMapping.__doc__).strip() == SENDER_RECEIVER_TO_SIGNAL_MAPPING_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert SenderReceiverToSignalMapping.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        source = inspect.getsource(SenderReceiverToSignalMapping.__init__)
+        assert source.index("self.dataElementIRef:") < source.index("self.senderToSignalTextTableMapping:")
+        assert source.index("self.senderToSignalTextTableMapping:") < source.index("self.signalToReceiverTextTableMapping:")
+        assert source.index("self.signalToReceiverTextTableMapping:") < source.index("self.systemSignalRef:")
+
+    def test_get_set_data_element_iref(self):
+        mapping = self._make()
+
+        assert mapping.getDataElementIRef() is None
+
+        iref = VariableDataPrototypeInSystemInstanceRef()
+        assert mapping == mapping.setDataElementIRef(iref)
+        assert mapping.getDataElementIRef() is iref
+
+        assert mapping == mapping.setDataElementIRef(None)
+        assert mapping.getDataElementIRef() is iref
+
+        getter_hints = get_type_hints(SenderReceiverToSignalMapping.getDataElementIRef)
+        assert getter_hints.get("return") == Optional[VariableDataPrototypeInSystemInstanceRef]
+
+        setter_hints = get_type_hints(SenderReceiverToSignalMapping.setDataElementIRef)
+        assert setter_hints.get("value") == Optional[VariableDataPrototypeInSystemInstanceRef]
+        assert setter_hints.get("return") is SenderReceiverToSignalMapping
+
+    def test_get_set_sender_to_signal_text_table_mapping(self):
+        mapping = self._make()
+
+        assert mapping.getSenderToSignalTextTableMapping() is None
+
+        text_mapping = TextTableMapping()
+        assert mapping == mapping.setSenderToSignalTextTableMapping(text_mapping)
+        assert mapping.getSenderToSignalTextTableMapping() is text_mapping
+
+        assert mapping == mapping.setSenderToSignalTextTableMapping(None)
+        assert mapping.getSenderToSignalTextTableMapping() is text_mapping
+
+        getter_hints = get_type_hints(SenderReceiverToSignalMapping.getSenderToSignalTextTableMapping)
+        assert getter_hints.get("return") == Optional[TextTableMapping]
+
+        setter_hints = get_type_hints(SenderReceiverToSignalMapping.setSenderToSignalTextTableMapping)
+        assert setter_hints.get("value") == Optional[TextTableMapping]
+        assert setter_hints.get("return") is SenderReceiverToSignalMapping
+
+    def test_get_set_signal_to_receiver_text_table_mapping(self):
+        mapping = self._make()
+
+        assert mapping.getSignalToReceiverTextTableMapping() is None
+
+        text_mapping = TextTableMapping()
+        assert mapping == mapping.setSignalToReceiverTextTableMapping(text_mapping)
+        assert mapping.getSignalToReceiverTextTableMapping() is text_mapping
+
+        assert mapping == mapping.setSignalToReceiverTextTableMapping(None)
+        assert mapping.getSignalToReceiverTextTableMapping() is text_mapping
+
+        getter_hints = get_type_hints(SenderReceiverToSignalMapping.getSignalToReceiverTextTableMapping)
+        assert getter_hints.get("return") == Optional[TextTableMapping]
+
+        setter_hints = get_type_hints(SenderReceiverToSignalMapping.setSignalToReceiverTextTableMapping)
+        assert setter_hints.get("value") == Optional[TextTableMapping]
+        assert setter_hints.get("return") is SenderReceiverToSignalMapping
+
+    def test_get_set_system_signal_ref(self):
+        mapping = self._make()
+
+        assert mapping.getSystemSignalRef() is None
+
+        ref = RefType()
+        assert mapping == mapping.setSystemSignalRef(ref)
+        assert mapping.getSystemSignalRef() is ref
+
+        assert mapping == mapping.setSystemSignalRef(None)
+        assert mapping.getSystemSignalRef() is ref
+
+        getter_hints = get_type_hints(SenderReceiverToSignalMapping.getSystemSignalRef)
+        assert getter_hints.get("return") == Optional[RefType]
+
+        setter_hints = get_type_hints(SenderReceiverToSignalMapping.setSystemSignalRef)
+        assert setter_hints.get("value") == Optional[RefType]
+        assert setter_hints.get("return") is SenderReceiverToSignalMapping
+
+    def test_data_element_docstrings_are_spec_note(self):
+        self._assert_docstring(SenderReceiverToSignalMapping.getDataElementIRef, DATA_ELEMENT_NOTE)
+        self._assert_docstring(SenderReceiverToSignalMapping.setDataElementIRef, DATA_ELEMENT_NOTE, "dataElementIRef")
+
+    def test_sender_to_signal_text_table_mapping_docstrings_are_spec_note(self):
+        self._assert_docstring(SenderReceiverToSignalMapping.getSenderToSignalTextTableMapping, SENDER_TO_SIGNAL_TEXT_TABLE_MAPPING_NOTE)
+        self._assert_docstring(SenderReceiverToSignalMapping.setSenderToSignalTextTableMapping, SENDER_TO_SIGNAL_TEXT_TABLE_MAPPING_NOTE, "senderToSignalTextTableMapping")
+
+    def test_signal_to_receiver_text_table_mapping_docstrings_are_spec_note(self):
+        self._assert_docstring(SenderReceiverToSignalMapping.getSignalToReceiverTextTableMapping, SIGNAL_TO_RECEIVER_TEXT_TABLE_MAPPING_NOTE)
+        self._assert_docstring(SenderReceiverToSignalMapping.setSignalToReceiverTextTableMapping, SIGNAL_TO_RECEIVER_TEXT_TABLE_MAPPING_NOTE, "signalToReceiverTextTableMapping")
+
+    def test_system_signal_ref_docstrings_are_spec_note(self):
+        self._assert_docstring(SenderReceiverToSignalMapping.getSystemSignalRef, SYSTEM_SIGNAL_CARRY_NOTE)
+        self._assert_docstring(SenderReceiverToSignalMapping.setSystemSignalRef, SYSTEM_SIGNAL_CARRY_NOTE, "systemSignalRef")
+
+    def test_inherited_introduction_accessors(self):
+        mapping = self._make()
+
+        assert mapping.getIntroduction() is None
+
+        block = DocumentationBlock()
+        assert mapping == mapping.setIntroduction(block)
+        assert mapping.getIntroduction() is block
