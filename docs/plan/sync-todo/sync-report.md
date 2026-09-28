@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 496 | 68.8% |
+| [x] Done | 497 | 68.9% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 148 | 20.5% |
+| [ ] Deferred | 147 | 20.4% |
 | [ ] Pending | 66 | 9.2% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -383,7 +383,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `InitEvent`                                             | [x] Done    | 64ab725d50                               | Group2           |
 | `InitialSdDelayConfig`                                  | [ ] Deferred| d7240be740                               | Group16          |
 | `InnerPortGroupInCompositionInstanceRef`                | [x] Done    | 919fbc0d11                               | Group2           |
-| `InstantiationDataDefProps`                             | [ ] Deferred| N/A                                      | Group10          |
+| `InstantiationDataDefProps`                             | [x] Done    | e2aa88eb41                               | Group10          |
 | `IntegerValueVariationPoint`                            | [x] Done    | d5c96fd954                               | Group8           |
 | `InternalTriggerOccurredEvent`                          | [ ] Deferred| N/A                                      | Group12          |
 | `InternalTriggeringPoint`                               | [ ] Deferred| N/A                                      | Group12          |
