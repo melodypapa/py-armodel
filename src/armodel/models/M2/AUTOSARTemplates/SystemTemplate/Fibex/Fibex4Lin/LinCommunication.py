@@ -115,18 +115,23 @@ class LinFrameTriggering(FrameTriggering):
 
 class ResumePosition(AREnum):
     """
-    Enumeration defining possible resume positions for LIN schedule tables,
-    specifying where execution should continue after an interruption.
+    Defines, where a schedule table shall be proceeded in case if it has been interrupted by a run-once table or MRF/SRF.
     """
 
     # ResumePosition method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.95, p.432
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on LinScheduleTable.resumePosition
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
+    # Continue at IT Point. Tags: atp.EnumerationLiteralIndex=0
     CONTINUE_AT_IT_POSITION = "continueAtItPosition"
+
+    # Start from the beginning Tags: atp.EnumerationLiteralIndex=1
     START_FROM_BEGINNING = "startFromBeginning"
 
     def __init__(self):
-        super().__init__((ResumePosition.CONTINUE_AT_IT_POSITION, ResumePosition.START_FROM_BEGINNING))
+        super().__init__([ResumePosition.CONTINUE_AT_IT_POSITION, ResumePosition.START_FROM_BEGINNING])
 
 
 class ScheduleTableEntry(ARObject, ABC):

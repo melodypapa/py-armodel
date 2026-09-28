@@ -82,18 +82,18 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations (fixed in step notes: bare-T 0..1 fields → PEP 526 Optional[T]; untyped accessors → typed; fabricated docstring → Table 3.17 Note verbatim; old 3-column checklist → 6-column with `# Spec:` line + release column; glued field blocks → blank line per Rule 0008; reader/writer PADDING-VALUE silent drop → full coverage added both sides at Step 6; referenced classes all exist (ARObject per spec Base row, Integer, Float, TimeValue, PositiveInteger, Boolean, aggregator AbstractCanCommunicationControllerAttributes stamped R23-11 Table 3.13); deviation trackers method_deviation_by_class.md + v2 have NO entries for this class — nothing stale; no open deviations, no placeholders)
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28: 12893 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
-- [ ] `ResumePosition` — AREnum — source TBC (locate table at Step 1)
+- [ ] `ResumePosition` (input · R23-11 markdown · Table 6.95)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py
-  - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = AUTOSAR_CP_TPS_SystemTemplate Table 6.95, p.432 (R4.3.1 Table 6.95 p.299 agrees); Enumeration header, Package = M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication — existing module correct; 2 literals in displayed order — continueAtItPosition ("Continue at IT Point.", atp.EnumerationLiteralIndex=0), startFromBeginning ("Start from the beginning", idx=1); aggregated by LinScheduleTable.resumePosition; orphan-intake drift found: fabricated docstring, old 4-column checklist ([ ] impl-only rows, no reader/writer/release columns, no `# Spec:` line), tuple-init enum (exemplar uses list); member names/values already spec-correct; v2 deviation tracker listed ResumePosition under "Appendix: classes without a spec attribute table" — STALE (Table 6.95 exists; reviewed at Step 1, recorded at Step 8).
+  - [x] Step 1 — Sync members & description from spec — Table 6.95 located (markdown AUTOSAR_CP_TPS_SystemTemplate.md L11417; PDF p.432 via pdf_page.py); Enumeration header confirmed (not a Class table); Note + literal list extracted verbatim; class already EXISTS at the spec package → orphan intake, no new file, exports intact (`armodel.ResumePosition` resolves)
+  - [x] Step 2 — Write model class unit test (Red) — class TestResumePosition added to existing mirrored test_LinCommunication.py (member presence/values + instantiability `setValue(MEMBER)`/`getValue()` + class-docstring-note); 1 failed / 2 passed (fabricated docstring; member names/values/instantiability already correct)
+  - [x] Step 3 — Implement model class (Green) — AREnum kept; literals verbatim in displayed order with description+Tags inline comments; `__init__` passes a list (FlexrayChannelName exemplar form; was tuple); setValue/getValue inherited per AREnum/ARLiteral convention; set-based checklist-vs-methods check OK ({`__init__`}); mirrored file 40 passed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring replaced with Table 6.95 Note verbatim ("Defines, where a schedule table shall be proceeded in case if it has been interrupted by a run-once table or MRF/SRF."); enum has no methods → no `__init__`/accessor docstrings; literal inline comments = spec description + Tags verbatim
+  - [x] Step 5 — N/A — standalone AREnum: no own XML element; serialized as an attribute value on the consuming class LinScheduleTable.resumePosition and round-tripped there (Rules 0010–0011)
+  - [x] Step 6 — N/A — same reason (Rules 0010–0011); `# (no methods)` checklist treatment
+  - [x] Step 7 — Update checklist comment — 6-column format with release column; `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.95, p.432`; `# (no methods) — enum value form serialized on LinScheduleTable.resumePosition` + single `[x] __init__` row (reader/writer `[—]`), per the FlexrayChannelName exemplar; NO `# Spec verified:` — deferred to batch confirmation
+  - [x] Step 8 — Deviations (fixed in step notes: fabricated docstring → Table 6.95 Note verbatim; old 4-column checklist → 6-column with `# Spec:` line + release column; tuple enum init → list per exemplar; STALE tracker entry: method_deviation_by_class_v2.md L1902 lists ResumePosition under "Appendix: classes without a spec attribute table" but Table 6.95 exists — left in place (informational appendix bullet), flagged for batch owner; method_deviation_by_class.md has NO entries; no open deviations, no placeholders — referenced classes exist: AREnum base stamped corpus, consuming aggregator LinScheduleTable queued later in this file (still unsynced with bare-T `# type:` fields — its own row will fix))
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28: 13106 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ApplicationEntry` — ScheduleTableEntry — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py

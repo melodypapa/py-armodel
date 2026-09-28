@@ -1,3 +1,4 @@
+import inspect
 import sys
 from typing import Optional, get_type_hints
 
@@ -31,6 +32,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+
+CLASS_NOTE_RESUME_POSITION = "Defines, where a schedule table shall be proceeded in case if it has been interrupted by a run-once table or MRF/SRF."
 
 
 class MockParent(ARObject):
@@ -80,6 +83,23 @@ class TestLinErrorResponse:
             if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
                 annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
         assert annotations["responseErrorRef"] == "Optional[RefType]"
+
+
+class TestResumePosition:
+    """Test cases for ResumePosition (Table 6.95, p.432)."""
+
+    def test_member_presence_and_values(self):
+        assert ResumePosition.CONTINUE_AT_IT_POSITION == "continueAtItPosition"
+        assert ResumePosition.START_FROM_BEGINNING == "startFromBeginning"
+        assert list(ResumePosition().getEnumValues()) == ["continueAtItPosition", "startFromBeginning"]
+
+    def test_instantiability(self):
+        enum = ResumePosition()
+        assert enum == enum.setValue(ResumePosition.CONTINUE_AT_IT_POSITION)
+        assert enum.getValue() == "continueAtItPosition"
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(ResumePosition.__doc__) == CLASS_NOTE_RESUME_POSITION
 
 
 class Test_Fibex4LinCommunication:
