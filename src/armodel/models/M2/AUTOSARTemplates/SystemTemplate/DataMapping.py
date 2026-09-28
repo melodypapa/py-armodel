@@ -244,47 +244,81 @@ class SenderRecRecordTypeMapping(SenderRecCompositeTypeMapping):
 
 class IndexedArrayElement(ARObject):
     """
-    Represents an element in an array with a specific index, connecting
-    application array elements to implementation array elements in the
-    mapping between component interfaces and system signals.
+    This element represents exactly one indexed element in the array. Either the applicationArrayElement or implementationArrayElement reference shall be used.
+
+    [constr_5471] Existence of SenderRecArrayElementMapping.indexedArrayElement: For each SenderRecArrayElementMapping, the aggregation in the role indexedArrayElement shall exist at the time when the Ecu Extract is complete.
+
+    [constr_5472] Existence of IndexedArrayElement.index: For each IndexedArrayElement, the attribute index shall exist at the time when the Ecu Extract is complete.
+
+    [constr_3231] Usage of IndexedArrayElement.applicationArrayElement: IndexedArrayElement.applicationArrayElement shall only be used if the referenced context element (VariableDataPrototype that is referenced by the SenderReceiverToSignalGroupMapping.dataElement) is typed by an ApplicationDataType.
+
+    [constr_3245] Usage of IndexedArrayElement.implementationArrayElement: IndexedArrayElement.implementationArrayElement shall only be used if the referenced context element (VariableDataPrototype that is referenced by the SenderReceiverToSignalGroupMapping.dataElement) is typed by an ImplementationDataType.
     """
 
     # IndexedArrayElement method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getApplicationArrayElementRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setApplicationArrayElementRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getImplementationArrayElementRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setImplementationArrayElementRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getIndex                     [x] impl  [ ] docstring  [ ] test
-    # [ ] setIndex                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.32, p.237
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApplicationArrayElementRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setApplicationArrayElementRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getImplementationArrayElementRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImplementationArrayElementRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIndex                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIndex                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.applicationArrayElementRef: RefType = None
-        self.implementationArrayElementRef: RefType = None
-        self.index: Integer = None
+        # Reference to an ApplicationArrayElement in an array.
+        self.applicationArrayElementRef: Optional[RefType] = None
 
-    def getApplicationArrayElementRef(self):
+        # Reference to an ImplementationDataTypeElement in an array.
+        self.implementationArrayElementRef: Optional[RefType] = None
+
+        # Position of an element in an array. Starting position is 0.
+        self.index: Optional[Integer] = None
+
+    def getApplicationArrayElementRef(self) -> Optional[RefType]:
+        """
+        Reference to an ApplicationArrayElement in an array.
+        """
         return self.applicationArrayElementRef
 
-    def setApplicationArrayElementRef(self, value):
+    def setApplicationArrayElementRef(self, value: Optional[RefType]) -> IndexedArrayElement:
+        """
+        Reference to an ApplicationArrayElement in an array.
+        A None value is a no-op and does not overwrite an existing applicationArrayElementRef.
+        """
         if value is not None:
             self.applicationArrayElementRef = value
         return self
 
-    def getImplementationArrayElementRef(self):
+    def getImplementationArrayElementRef(self) -> Optional[RefType]:
+        """
+        Reference to an ImplementationDataTypeElement in an array.
+        """
         return self.implementationArrayElementRef
 
-    def setImplementationArrayElementRef(self, value):
+    def setImplementationArrayElementRef(self, value: Optional[RefType]) -> IndexedArrayElement:
+        """
+        Reference to an ImplementationDataTypeElement in an array.
+        A None value is a no-op and does not overwrite an existing implementationArrayElementRef.
+        """
         if value is not None:
             self.implementationArrayElementRef = value
         return self
 
-    def getIndex(self):
+    def getIndex(self) -> Optional[Integer]:
+        """
+        Position of an element in an array. Starting position is 0.
+        """
         return self.index
 
-    def setIndex(self, value):
+    def setIndex(self, value: Optional[Integer]) -> IndexedArrayElement:
+        """
+        Position of an element in an array. Starting position is 0.
+        A None value is a no-op and does not overwrite an existing index.
+        """
         if value is not None:
             self.index = value
         return self

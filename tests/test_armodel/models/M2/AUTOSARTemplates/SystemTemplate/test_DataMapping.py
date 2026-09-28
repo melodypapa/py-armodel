@@ -4,6 +4,7 @@ from typing import Optional, get_type_hints
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TextTableMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     DataMapping,
@@ -378,3 +379,120 @@ class TestDataMapping:
     def test_introduction_docstrings_are_spec_note(self):
         self._assert_docstring(DataMapping.getIntroduction, INTRODUCTION_NOTE)
         self._assert_docstring(DataMapping.setIntroduction, INTRODUCTION_NOTE, "introduction")
+
+
+INDEXED_ARRAY_ELEMENT_CLASS_NOTE = (
+    "This element represents exactly one indexed element in the array. Either the applicationArrayElement or implementationArrayElement reference shall be used.\n"
+    "\n"
+    "[constr_5471] Existence of SenderRecArrayElementMapping.indexedArrayElement: For each SenderRecArrayElementMapping, the aggregation in the role indexedArrayElement shall exist at the time when the Ecu Extract is complete.\n"
+    "\n"
+    "[constr_5472] Existence of IndexedArrayElement.index: For each IndexedArrayElement, the attribute index shall exist at the time when the Ecu Extract is complete.\n"
+    "\n"
+    "[constr_3231] Usage of IndexedArrayElement.applicationArrayElement: IndexedArrayElement.applicationArrayElement shall only be used if the referenced context element (VariableDataPrototype that is referenced by the SenderReceiverToSignalGroupMapping.dataElement) is typed by an ApplicationDataType.\n"
+    "\n"
+    "[constr_3245] Usage of IndexedArrayElement.implementationArrayElement: IndexedArrayElement.implementationArrayElement shall only be used if the referenced context element (VariableDataPrototype that is referenced by the SenderReceiverToSignalGroupMapping.dataElement) is typed by an ImplementationDataType."
+)
+APPLICATION_ARRAY_ELEMENT_NOTE = "Reference to an ApplicationArrayElement in an array."
+IMPLEMENTATION_ARRAY_ELEMENT_NOTE = "Reference to an ImplementationDataTypeElement in an array."
+INDEX_NOTE = "Position of an element in an array. Starting position is 0."
+
+
+class TestIndexedArrayElement:
+    """Spec-synced tests for IndexedArrayElement (AUTOSAR_CP_TPS_SystemTemplate Table 5.32)."""
+
+    def _make(self) -> IndexedArrayElement:
+        return IndexedArrayElement()
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert method.__doc__ is not None
+        assert inspect.cleandoc(method.__doc__).strip() == expected
+
+    def test_initialization(self):
+        element = self._make()
+
+        assert isinstance(element, ARObject)
+        assert element.getApplicationArrayElementRef() is None
+        assert element.getImplementationArrayElementRef() is None
+        assert element.getIndex() is None
+
+    def test_class_docstring_is_spec_note(self):
+        assert inspect.cleandoc(IndexedArrayElement.__doc__).strip() == INDEXED_ARRAY_ELEMENT_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert IndexedArrayElement.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        source = inspect.getsource(IndexedArrayElement.__init__)
+        assert source.index("self.applicationArrayElementRef:") < source.index("self.implementationArrayElementRef:")
+        assert source.index("self.implementationArrayElementRef:") < source.index("self.index:")
+
+    def test_get_set_application_array_element_ref(self):
+        element = self._make()
+
+        assert element.getApplicationArrayElementRef() is None
+
+        ref = RefType()
+        assert element == element.setApplicationArrayElementRef(ref)
+        assert element.getApplicationArrayElementRef() is ref
+
+        assert element == element.setApplicationArrayElementRef(None)
+        assert element.getApplicationArrayElementRef() is ref
+
+        getter_hints = get_type_hints(IndexedArrayElement.getApplicationArrayElementRef)
+        assert getter_hints.get("return") == Optional[RefType]
+
+        setter_hints = get_type_hints(IndexedArrayElement.setApplicationArrayElementRef)
+        assert setter_hints.get("value") == Optional[RefType]
+        assert setter_hints.get("return") is IndexedArrayElement
+
+    def test_get_set_implementation_array_element_ref(self):
+        element = self._make()
+
+        assert element.getImplementationArrayElementRef() is None
+
+        ref = RefType()
+        assert element == element.setImplementationArrayElementRef(ref)
+        assert element.getImplementationArrayElementRef() is ref
+
+        assert element == element.setImplementationArrayElementRef(None)
+        assert element.getImplementationArrayElementRef() is ref
+
+        getter_hints = get_type_hints(IndexedArrayElement.getImplementationArrayElementRef)
+        assert getter_hints.get("return") == Optional[RefType]
+
+        setter_hints = get_type_hints(IndexedArrayElement.setImplementationArrayElementRef)
+        assert setter_hints.get("value") == Optional[RefType]
+        assert setter_hints.get("return") is IndexedArrayElement
+
+    def test_get_set_index(self):
+        element = self._make()
+
+        assert element.getIndex() is None
+
+        index = Integer()
+        index.setValue("3")
+        assert element == element.setIndex(index)
+        assert element.getIndex() is index
+
+        assert element == element.setIndex(None)
+        assert element.getIndex() is index
+
+        getter_hints = get_type_hints(IndexedArrayElement.getIndex)
+        assert getter_hints.get("return") == Optional[Integer]
+
+        setter_hints = get_type_hints(IndexedArrayElement.setIndex)
+        assert setter_hints.get("value") == Optional[Integer]
+        assert setter_hints.get("return") is IndexedArrayElement
+
+    def test_application_array_element_ref_docstrings_are_spec_note(self):
+        self._assert_docstring(IndexedArrayElement.getApplicationArrayElementRef, APPLICATION_ARRAY_ELEMENT_NOTE)
+        self._assert_docstring(IndexedArrayElement.setApplicationArrayElementRef, APPLICATION_ARRAY_ELEMENT_NOTE, "applicationArrayElementRef")
+
+    def test_implementation_array_element_ref_docstrings_are_spec_note(self):
+        self._assert_docstring(IndexedArrayElement.getImplementationArrayElementRef, IMPLEMENTATION_ARRAY_ELEMENT_NOTE)
+        self._assert_docstring(IndexedArrayElement.setImplementationArrayElementRef, IMPLEMENTATION_ARRAY_ELEMENT_NOTE, "implementationArrayElementRef")
+
+    def test_index_docstrings_are_spec_note(self):
+        self._assert_docstring(IndexedArrayElement.getIndex, INDEX_NOTE)
+        self._assert_docstring(IndexedArrayElement.setIndex, INDEX_NOTE, "index")
