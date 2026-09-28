@@ -6,15 +6,15 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 ## Summary
 
-**720 classes total**
+**721 classes total**
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 470 | 65.3% |
+| [x] Done | 470 | 65.2% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 0 | 0.0% |
 | [ ] Deferred | 173 | 24.0% |
-| [ ] Pending | 66 | 9.2% |
+| [ ] Pending | 67 | 9.3% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
 | ------------------------------------------------------- | ------------| ---------------------------------------- | ---------------- |
@@ -511,6 +511,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PduMappingDefaultValue`                                | [x] Done    | 9c8e10b37f                               | Group6           |
 | `PdurIPduGroup`                                         | [x] Done    | c53a7febdc                               | Group5           |
 | `PerInstanceMemory`                                     | [x] Done    | f35aa0cd0a                               | Group2           |
+| `PerInstanceMemorySize`                                 | [ ] Pending | N/A                                      | Group10          |
 | `PlatformModuleEthernetEndpointConfiguration`           | [x] Done    | 5d4cc1c454                               | Group7           |
 | `PncGatewayTypeEnum`                                    | [ ] Deferred| 7c137656f6                               | Group15          |
 | `PortAPIOption`                                         | [x] Done    | 7c67628122                               | Group2           |
