@@ -54,7 +54,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations (fixed+recorded in step notes: paraphrased class docstring → Note verbatim, `__init__` docstring removed, wrapped literal comments rewritten verbatim; no open deviations — tracker mentions are stale intake appendix listings)
   - [x] Step 9 — Verify (9a) + confirm (9b) [9a: 10940 unit tests + flake8 + ruff + black green; 9b explicitly confirmed by user; `# Spec verified: R23-11` written to source; sync commit: c6d2e83f7]
 
-- [ ] `ReentrancyLevelEnum` — AREnum — R23-11 markdown · Table 5.5 (CP_TPS_BSWModuleDescriptionTemplate)
+- [x] `ReentrancyLevelEnum` — AREnum — R23-11 markdown · Table 5.5 (CP_TPS_BSWModuleDescriptionTemplate) — sync commit: 286c7c587009955f2cde56af1f00ccf144e8bc7c
   - module: M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py
   - note: deviation-tracked in method_deviation_by_class_v2.md — reviewed at Step 1: only an Appendix intake listing ("classes without a spec attribute table" — stale artifact, Table 5.5 exists; no deviation rows)
   - [x] Step 1 — Sync members & description from spec (Table 5.5, p.73; literals multicoreReentrant/nonReentrant/singleCoreReentrant, indices 0-2 = XSD doc order; found: markdown renders `singleCore Reentrant` via column wrap — XSD `mmt.qualifiedName` + constr_4077 prose confirm `singleCoreReentrant`; old 4-column checklist, `__init__` docstring present, literal comments line-wrapped)
@@ -63,9 +63,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 4 — Sync docstrings (wipe + rewrite) (`__init__` docstring wiped; all three multi-line literal comments rewritten verbatim in single-line `Tags: atp.EnumerationLiteralIndex=N` form; class Note verified verbatim from Table 5.5, kept; no `__init__` docstring)
   - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — the value form is serialized by `ExecutableEntity.reentrancyLevel`; consumer coverage verified PRESENT: parser `readExecutableEntity` → `setReentrancyLevel(getChildElementOptionalLiteral(element, "REENTRANCY-LEVEL"))` (arxml_parser.py:1935); reader test asserts `multicoreReentrant` in test_arxml_parser_bsw_handlers.py)
   - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — no parser/writer code added for the enum itself; writer verified: `writeExecutableEntity` emits `REENTRANCY-LEVEL` via `setChildElementOptionalLiteral` (arxml_writer.py:6678); writer tests assert `multicoreReentrant` in test_writer_bsw_module.py)
-  - [x] Step 7 — Update checklist comment (6-column format, single `__init__` row, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.5, p.73`, release R23-11; NO `# Spec verified:` — deferred to batch confirmation)
+  - [x] Step 7 — Update checklist comment (6-column format, single `__init__` row, `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.5, p.73`, release R23-11; `# Spec verified: R23-11` added after 9b confirmation)
   - [x] Step 8 — Deviations (fixed+recorded in step notes: `__init__` docstring removed, old 4-column checklist → 6-column with release column, multi-line literal comments → single-line verbatim + inline `Tags:` form; no open deviations — tracker v2 mention is a stale intake appendix listing only, consumer parser/writer coverage PRESENT so nothing deferred)
-  - [ ] Step 9 — Verify (9a) + confirm (9b)  [9a: 10943 unit tests + flake8 + ruff + black green; **stamp deferred to batch confirmation (user instruction 2026-09-24)**]
+  - [x] Step 9 — Verify (9a) + confirm (9b) [9a: 10943 unit tests + flake8 + ruff + black green; 9b explicitly confirmed by user; `# Spec verified: R23-11` written to source; sync commit: 286c7c587009955f2cde56af1f00ccf144e8bc7c]
 
 - [ ] `ImplementationProps` — Referrable — R23-11 markdown · Table 5.20 (CP_TPS_SoftwareComponentTemplate)
   - module: M2/AUTOSARTemplates/CommonStructure/Implementation.py

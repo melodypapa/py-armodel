@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 467 | 64.9% |
+| [x] Done | 468 | 65.0% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 176 | 24.4% |
+| [ ] Deferred | 175 | 24.3% |
 | [ ] Pending | 66 | 9.2% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -552,7 +552,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ReceptionComSpecProps`                                 | [ ] Deferred| N/A                                      | Group10          |
 | `RecordLayoutIteratorPoint`                             | [x] Done    | 2acaf7a45f                               | Group3           |
 | `RecordValueSpecification`                              | [x] Done    | b1c7030b10                               | Group3           |
-| `ReentrancyLevelEnum`                                   | [ ] Deferred| N/A                                      | Group10          |
+| `ReentrancyLevelEnum`                                   | [x] Done    | 286c7c5870                               | Group10          |
 | `Ref`                                                   | [x] Done    | 0518a7bca2                               | Group3           |
 | `ReferenceBase`                                         | [x] Done    | 192dfd9467                               | Group1           |
 | `RequestResponseDelay`                                  | [ ] Deferred| d7240be740                               | Group16          |
