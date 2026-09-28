@@ -536,7 +536,7 @@ Status: **29/29** completed
 
 ## Group10
 
-Status: **27/32** completed
+Status: **28/32** completed
 
 | Class Name                         | Status       | Commit ID  |
 | ---------------------------------- | ------------ | ---------- |
@@ -570,7 +570,7 @@ Status: **27/32** completed
 | `BulkNvDataDescriptor`             | [x] Done     | 14a0a9cc5b |
 | `RoleBasedDataAssignment`          | [x] Done     | 5989355419 |
 | `InstantiationDataDefProps`        | [ ] Pending* | N/A        |
-| `NvBlockNeeds`                     | [ ] Pending* | N/A        |
+| `NvBlockNeeds`                     | [x] Done     | 72d998faaa |
 | `NvBlockDescriptor`                | [ ] Pending* | N/A        |
 
 ## Group11
