@@ -12514,12 +12514,13 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elements_tag = ET.SubElement(child_element, "DEFAULT-VALUE-ELEMENTS")
                 for default_value_element in default_value.getDefaultValueElements():
                     if isinstance(default_value_element, DefaultValueElement):
-                        self.setDefaultValueElement(elements_tag, default_value_element)
+                        self.writeDefaultValueElement(elements_tag, default_value_element)
                     else:
                         self.notImplemented("Unsupported DefaultValueElement %s" % type(default_value_element))
 
-    def setDefaultValueElement(self, element: ET.Element, default_value: DefaultValueElement):
+    def writeDefaultValueElement(self, element: ET.Element, default_value: DefaultValueElement):
         child_element = ET.SubElement(element, "DEFAULT-VALUE-ELEMENT")
+        self.writeARObject(child_element, default_value)
         self.setChildElementOptionalIntegerValue(child_element, "ELEMENT-BYTE-VALUE", default_value.getElementByteValue())
         self.setChildElementOptionalIntegerValue(child_element, "ELEMENT-POSITION", default_value.getElementPosition())
 

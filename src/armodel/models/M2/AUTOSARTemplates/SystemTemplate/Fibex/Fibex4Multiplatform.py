@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
@@ -97,35 +98,53 @@ class ISignalMapping(ARObject, VariationPointCapable):
 
 class DefaultValueElement(ARObject):
     """
-    The default value consists of a number of elements. Each element is one
-    byte long and the number of elements is specified by SduLength.
+    The default value consists of a number of elements. Each element is one byte long and the number of elements is specified by SduLength.
     """
 
     # DefaultValueElement method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getElementByteValue          [x] impl  [ ] docstring  [ ] test
-    # [ ] setElementByteValue          [x] impl  [ ] docstring  [ ] test
-    # [ ] getElementPosition           [x] impl  [ ] docstring  [ ] test
-    # [ ] setElementPosition           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 8.6, p.841
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getElementByteValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setElementByteValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getElementPosition   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setElementPosition   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.elementByteValue: Integer = None
-        self.elementPosition: Integer = None
+        # The integer value of a freely defined data byte.
+        self.elementByteValue: Optional[Integer] = None
 
-    def getElementByteValue(self):
+        # This attribute specifies the byte position of the element within the default value
+        self.elementPosition: Optional[Integer] = None
+
+    def getElementByteValue(self) -> Optional[Integer]:
+        """
+        The integer value of a freely defined data byte.
+        """
         return self.elementByteValue
 
-    def setElementByteValue(self, value):
+    def setElementByteValue(self, value: Optional[Integer]) -> DefaultValueElement:
+        """
+        The integer value of a freely defined data byte.
+        A None value is a no-op and does not overwrite an existing elementByteValue.
+        """
         if value is not None:
             self.elementByteValue = value
         return self
 
-    def getElementPosition(self):
+    def getElementPosition(self) -> Optional[Integer]:
+        """
+        This attribute specifies the byte position of the element within the default value
+        """
         return self.elementPosition
 
-    def setElementPosition(self, value):
+    def setElementPosition(self, value: Optional[Integer]) -> DefaultValueElement:
+        """
+        This attribute specifies the byte position of the element within the default value
+        A None value is a no-op and does not overwrite an existing elementPosition.
+        """
         if value is not None:
             self.elementPosition = value
         return self
@@ -154,7 +173,7 @@ class PduMappingDefaultValue(ARObject):
         """
         return self.defaultValueElements
 
-    def addDefaultValueElement(self, value: Optional[DefaultValueElement]) -> "PduMappingDefaultValue":
+    def addDefaultValueElement(self, value: Optional[DefaultValueElement]) -> PduMappingDefaultValue:
         """
         The default value consists of a number of elements. Each default value element is represented by the element and the position in an array.
         A None value is a no-op and does not extend the defaultValueElements list.
@@ -242,7 +261,7 @@ class IPduMapping(ARObject, VariationPointCapable):
         """
         return self.introduction
 
-    def setIntroduction(self, value: Optional[DocumentationBlock]) -> "IPduMapping":
+    def setIntroduction(self, value: Optional[DocumentationBlock]) -> IPduMapping:
         """
         This represents introductory documentation about the IPdu mapping.
         A None value is a no-op and does not overwrite an existing introduction.
@@ -257,7 +276,7 @@ class IPduMapping(ARObject, VariationPointCapable):
         """
         return self.pduMaxLength
 
-    def setPduMaxLength(self, value: Optional[PositiveInteger]) -> "IPduMapping":
+    def setPduMaxLength(self, value: Optional[PositiveInteger]) -> IPduMapping:
         """
         Define the maximum length in bytes which limits the length of the Pdu during gateway operation if the runtime length of the received Pdu exceeds this limit.
         A None value is a no-op and does not overwrite an existing pduMaxLength.
@@ -272,7 +291,7 @@ class IPduMapping(ARObject, VariationPointCapable):
         """
         return self.pdurTpChunkSize
 
-    def setPdurTpChunkSize(self, value: Optional[PositiveInteger]) -> "IPduMapping":
+    def setPdurTpChunkSize(self, value: Optional[PositiveInteger]) -> IPduMapping:
         """
         Optionally defines the to be configured Pdu Router Tp ChunkSize for this routing relation.
         A None value is a no-op and does not overwrite an existing pdurTpChunkSize.
@@ -287,7 +306,7 @@ class IPduMapping(ARObject, VariationPointCapable):
         """
         return self.sourceIPduRef
 
-    def setSourceIPduRef(self, value: Optional[RefType]) -> "IPduMapping":
+    def setSourceIPduRef(self, value: Optional[RefType]) -> IPduMapping:
         """
         Source destination of the referencing mapping.
         A None value is a no-op and does not overwrite an existing sourceIPduRef.
@@ -302,7 +321,7 @@ class IPduMapping(ARObject, VariationPointCapable):
         """
         return self.targetIPdu
 
-    def setTargetIPdu(self, value: Optional[TargetIPduRef]) -> "IPduMapping":
+    def setTargetIPdu(self, value: Optional[TargetIPduRef]) -> IPduMapping:
         """
         Target destination of the referencing mapping.
         A None value is a no-op and does not overwrite an existing targetIPdu.
