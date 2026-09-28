@@ -536,7 +536,7 @@ Status: **29/29** completed
 
 ## Group10
 
-Status: **5/32** completed
+Status: **6/32** completed
 
 | Class Name                         | Status       | Commit ID  |
 | ---------------------------------- | ------------ | ---------- |
@@ -545,7 +545,7 @@ Status: **5/32** completed
 | `ApiPrincipleEnum`                 | [x] Done     | c6d2e83f74 |
 | `ReentrancyLevelEnum`              | [x] Done     | 286c7c5870 |
 | `ImplementationProps`              | [x] Done     | 3166f6e5d0 |
-| `PerInstanceMemorySize`            | [ ] Pending* | N/A        |
+| `PerInstanceMemorySize`            | [x] Done     | df36bbb1fa |
 | `SwcImplementation`                | [ ] Pending* | N/A        |
 | `ImplementationDataTypeElement`    | [ ] Pending* | N/A        |
 | `ReceptionComSpecProps`            | [ ] Pending* | N/A        |
