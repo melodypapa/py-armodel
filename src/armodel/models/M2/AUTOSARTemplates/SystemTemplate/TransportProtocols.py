@@ -956,24 +956,33 @@ class DoIpTpConfig(TpConfig):
 
 class TpAddress(Identifiable, VariationPointCapable):
     """
-    Represents a generic transport protocol address in the system,
-    defining the transport address value for communication endpoints.
+    An ECUs TP address on the referenced channel. This represents the diagnostic Address.
+
+    [constr_9227] Existence of TpAddress.tpAddress: For each TpAddress, the attribute tpAddress shall exist at the time when the System Description is complete.
     """
 
     # TpAddress method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpAddress                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setTpAddress                 [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.238, p.588
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTpAddress  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpAddress  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.tpAddress: Integer = None
+        # An ECUs TP address on the referenced channel. This represents the diagnostic Address.
+        self.tpAddress: Optional[Integer] = None
 
-    def getTpAddress(self):
+    def getTpAddress(self) -> Optional[Integer]:
+        """An ECUs TP address on the referenced channel. This represents the diagnostic Address."""
         return self.tpAddress
 
-    def setTpAddress(self, value):
+    def setTpAddress(self, value: Optional[Integer]) -> "TpAddress":
+        """
+        An ECUs TP address on the referenced channel. This represents the diagnostic Address.
+        A None value is a no-op and does not overwrite an existing tpAddress.
+        """
         if value is not None:
             self.tpAddress = value
         return self

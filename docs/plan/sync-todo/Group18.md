@@ -143,18 +143,18 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — v1 ISignalGroup stale `type (spec many vs py single)` row removed (fixed to-fix: both aggregators are `List[TransformationISignalProps]` since the R23-11 pass); v1 class `missing endToEndTransformationISignalPropsVariant` row resolved to removed (XSD-only variation-split artifact of the `<<atpVariation>>` class stereotype, absent from Table 7.27 attribute column — Rule 0015 not modeled; VARIANTS/CONDITIONAL handled transparently per Rule 0001.7); v1 page header corrected 808 → 809 (pdf_page.py caption page); v2 appendix entry removed (stale — class has Table 7.27); no open deviation remains
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13637 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
-- [ ] `TpAddress` — Identifiable — source TBC (locate table at Step 1)
+- [ ] `TpAddress` (input · R23-11 markdown · Table 6.238)
   - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: deviation-tracked in method_deviation_by_class.md — reviewed at Step 1: no v1/v2 entries for this class (the v1 L1664/L1666 canTpAddressRefs/tpAddressRefs "deprecated" rows belong to the EcuInstance section, not TpAddress)
+  - [x] Step 1 — Sync members & description from spec — Table 6.238, p.588; Note "An ECUs TP address on the referenced channel. This represents the diagnostic Address."; Base ARObject,Identifiable,MultilanguageReferrable,Referrable (most-derived Identifiable — src base already correct); Aggregated by FlexrayArTpConfig/FlexrayTpConfig/J1939TpConfig/LinTpConfig .tpAddress; 1 attr (tpAddress 0..1 attr Integer, Note = class Note); constr_9227 belongs to this table (constr_9226 targets TpConfig, constr_3025 targets TpConnections — excluded); XSD group TP-ADDRESS (AUTOSAR_00052.xsd l.125063) TP-ADDRESS(INTEGER) → VARIATION-POINT(sequenceOffset=10000 LAST) — VP-capable, VariationPointCapable mixin stays; no XSD-only attrs; src drift: fabricated docstring, stale 3-column checklist (no `# Spec:` line), bare-T `Integer = None` field, untyped accessors; parser readTpAddress/writer writeTpAddress already cover TP-ADDRESS with spec-typed Integer helpers and VARIATION-POINT via readIdentifiable/writeIdentifiable
+  - [x] Step 2 — Write model class unit test (Red) — tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols/test_TpAddress.py (per-class file): docstring verbatim (+constr_9227), __init__ no docstring, heritage, default, get/set + None no-op, get_type_hints pins, VariationPointCapable; seen Red 2 failed (fabricated docstring, untyped accessors) / 5 passed
+  - [x] Step 3 — Implement model class (Green) — PEP 526 `Optional[Integer]` field, typed accessors (`Optional[Integer]` getter return, typed setter param returning self, quoted self-ref like the stamped siblings in this non-future-import module); 7 passed (Green), existing TestTransportProtocols tests unchanged (24 passed combined)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring replaced with the Table 6.238 Note verbatim + constr_9227 row appended (CanNmCluster pattern; constr_9226/constr_3025 excluded — they target TpConfig/TpConnections); per-attr inline __init__ comment + getter/setter docstrings verbatim from markdown; __init__ has no docstring; blank line around the attribute block; whole-block replacement = wipe + rewrite
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — tests/test_armodel/parser/test_tp_address.py (direct readTpAddress incl. VARIATION-POINT read, LinTpConfig TP-ADDRESSS wrapper reads ×2, wrapper round-trip) + tests/test_armodel/writer/test_tp_address.py (None/empty/full writes, direct + wrapper round-trips with typed Integer values); seen Red 3 failed (test-authoring: parser needs xmlns-injected reparse, findall paths are container-relative, short name is creation-time only) / 7 passed
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed: readTpAddress (readIdentifiable + getChildElementOptionalIntegerValue TP-ADDRESS; VARIATION-POINT covered by readIdentifiable's VariationPointCapable gate) and writeTpAddress (writeIdentifiable + setChildElementOptionalIntegerValue) already spec-complete in XSD order; matched set/get pairs, no chained mutators; 10 passed
+  - [x] Step 7 — Update checklist comment — 6-column, `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.238, p.588`, all rows R23-11; set-based check: checklist == methods (3) in source order, all covered; no marker written (unstamped batch)
+  - [x] Step 8 — Deviations — none: the single Table 6.238 attribute (tpAddress) modeled with full reader/writer coverage; no XSD-only elements (TP-ADDRESS group and table agree 1:1); no v1/v2 tracker entries for this class (v1 L1664/L1666 "deprecated" rows are EcuInstance's, untouched)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13654 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `LinTpConnection` — TpConnection — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
