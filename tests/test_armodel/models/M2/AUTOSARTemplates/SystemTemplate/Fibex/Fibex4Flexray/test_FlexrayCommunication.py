@@ -1,8 +1,38 @@
+import ast
+import inspect
+import sys
+from typing import List, Optional, get_type_hints
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayAbsolutelyScheduledTiming, FlexrayFrame, FlexrayFrameTriggering
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster, FlexrayCommunicationConnector, FlexrayCommunicationController
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster, FlexrayCommunicationController
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, CommunicationController
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationController, CommunicationCycle, CycleCounter
+
+NOTE_FLEXRAY_FRAME_TRIGGERING = (
+    "FlexRay specific attributes to the FrameTriggering\n"
+    "\n"
+    "[constr_9124] Existence of FlexrayFrameTriggering.allowDynamicLSduLength: For each FlexrayFrameTriggering, "
+    "the attribute allowDynamicLSduLength shall exist at the time when the System Description is complete.\n"
+    "\n"
+    "[constr_9125] Existence of FlexrayFrameTriggering.payloadPreambleIndicator: For each FlexrayFrameTriggering, "
+    "the attribute payloadPreambleIndicator shall exist at the time when the System Description is complete."
+)
+NOTE_FLEXRAY_ABSOLUTELY_SCHEDULED_TIMING = (
+    "Each frame in FlexRay is identified by its slot id and communication cycle. "
+    "A description is provided by the usage of AbsolutelyScheduledTiming. "
+    "In the static segment a frame can be sent multiple times within one communication cycle. "
+    "For describing this case multiple AbsolutelyScheduledTimings have to be used. "
+    "The main use case would be that a frame is sent twice within one communication cycle.\n"
+    "\n"
+    "[constr_9126] Existence of FlexrayAbsolutelyScheduledTiming.slotID: For each FlexrayAbsolutelyScheduledTiming, "
+    "the attribute slotID shall exist at the time when the System Description is complete.\n"
+    "\n"
+    "[constr_9127] Existence of FlexrayAbsolutelyScheduledTiming.communicationCycle: For each "
+    "FlexrayAbsolutelyScheduledTiming, the aggregation of CommunicationCycle in the role communicationCycle "
+    "shall exist at the time when the System Description is complete."
+)
 
 
 class MockParent(ARObject):
@@ -30,118 +60,209 @@ class Test_Fibex4FlexrayCommunication:
         assert frame.short_name == "test_frame"
         assert frame.parent == parent
 
-    def test_FlexrayAbsolutelyScheduledTiming(self):
-        """Test FlexrayAbsolutelyScheduledTiming class functionality."""
+
+class TestFlexrayAbsolutelyScheduledTiming:
+    """Test cases for FlexrayAbsolutelyScheduledTiming (Table 6.82, p.423)."""
+
+    MEMBERS = ["communicationCycle", "slotID"]
+
+    def _init_annotations(self):
+        src = inspect.getsource(sys.modules[FlexrayAbsolutelyScheduledTiming.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "FlexrayAbsolutelyScheduledTiming")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        return [n.target.attr for n in init.body if isinstance(n, ast.AnnAssign) and isinstance(n.target, ast.Attribute)]
+
+    def test_initialization(self):
         timing = FlexrayAbsolutelyScheduledTiming()
 
         assert isinstance(timing, ARObject)
-
-        # Test default values
         assert timing.getCommunicationCycle() is None
         assert timing.getSlotID() is None
 
-        # Test setter/getter methods
-        timing.setCommunicationCycle("cycle1")
-        assert timing.getCommunicationCycle() == "cycle1"
+    def test_member_order(self):
+        assert self._init_annotations() == self.MEMBERS
 
-        timing.setSlotID(10)
-        assert timing.getSlotID() == 10
+    def test_init_has_no_docstring(self):
+        assert FlexrayAbsolutelyScheduledTiming.__init__.__doc__ is None
 
-    def test_FlexrayAbsolutelyScheduledTiming_none_handling(self):
-        """Test FlexrayAbsolutelyScheduledTiming None value handling to achieve 100% coverage."""
+    def test_get_set_communication_cycle(self):
         timing = FlexrayAbsolutelyScheduledTiming()
+        counter = CycleCounter()
+        counter.setCycleCounter(Integer().setValue("3"))
 
-        # Test setting None keeps original value (which is None) - tests if value is not None logic
-        result = timing.setCommunicationCycle(None)
-        assert result == timing
-        assert timing.getCommunicationCycle() is None
+        assert timing == timing.setCommunicationCycle(counter)
+        assert timing.getCommunicationCycle() is counter
 
-        result = timing.setSlotID(None)
-        assert result == timing
-        assert timing.getSlotID() is None
+        assert timing == timing.setCommunicationCycle(None)
+        assert timing.getCommunicationCycle() is counter
 
-        # Test setting actual values then setting back to None (should not change value)
-        timing.setCommunicationCycle("test_cycle")
-        assert timing.getCommunicationCycle() == "test_cycle"
-        result = timing.setCommunicationCycle(None)
-        assert result == timing
-        # Value should remain unchanged since None was passed
-        assert timing.getCommunicationCycle() == "test_cycle"
+    def test_get_set_slot_id(self):
+        timing = FlexrayAbsolutelyScheduledTiming()
+        slot = PositiveInteger().setValue("10")
 
-        timing.setSlotID(42)
-        assert timing.getSlotID() == 42
-        result = timing.setSlotID(None)
-        assert result == timing
-        # Value should remain unchanged since None was passed
-        assert timing.getSlotID() == 42
+        assert timing == timing.setSlotID(slot)
+        assert timing.getSlotID() is slot
+        assert timing.getSlotID().getValue() == 10
 
-    def test_FlexrayFrameTriggering(self):
-        """Test FlexrayFrameTriggering class functionality."""
+        assert timing == timing.setSlotID(None)
+        assert timing.getSlotID() is slot
+
+    def test_type_annotations(self):
+        hints = get_type_hints(FlexrayAbsolutelyScheduledTiming.getCommunicationCycle)
+        assert hints["return"] == Optional[CommunicationCycle]
+
+        hints = get_type_hints(FlexrayAbsolutelyScheduledTiming.setCommunicationCycle)
+        assert hints["value"] == Optional[CommunicationCycle]
+        assert hints["return"] == FlexrayAbsolutelyScheduledTiming
+
+        hints = get_type_hints(FlexrayAbsolutelyScheduledTiming.getSlotID)
+        assert hints["return"] == Optional[PositiveInteger]
+
+        hints = get_type_hints(FlexrayAbsolutelyScheduledTiming.setSlotID)
+        assert hints["value"] == Optional[PositiveInteger]
+        assert hints["return"] == FlexrayAbsolutelyScheduledTiming
+
+        src = inspect.getsource(sys.modules[FlexrayAbsolutelyScheduledTiming.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "FlexrayAbsolutelyScheduledTiming")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        annotations = {}
+        for node in ast.walk(init):
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
+        assert annotations["communicationCycle"] == "Optional[CommunicationCycle]"
+        assert annotations["slotID"] == "Optional[PositiveInteger]"
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(FlexrayAbsolutelyScheduledTiming.__doc__) == NOTE_FLEXRAY_ABSOLUTELY_SCHEDULED_TIMING
+
+
+class TestFlexrayFrameTriggering:
+    """Test cases for FlexrayFrameTriggering (Table 6.81, p.423)."""
+
+    MEMBERS = ["absolutelyScheduledTimings", "allowDynamicLSduLength", "messageId", "payloadPreambleIndicator"]
+
+    def _init_annotations(self):
+        src = inspect.getsource(sys.modules[FlexrayFrameTriggering.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "FlexrayFrameTriggering")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        return [n.target.attr for n in init.body if isinstance(n, ast.AnnAssign) and isinstance(n.target, ast.Attribute)]
+
+    def test_heritage(self):
+        assert issubclass(FlexrayFrameTriggering, FrameTriggering)
+        assert issubclass(FlexrayFrameTriggering, ARObject)
+
+    def test_initialization(self):
         parent = MockParent()
-        triggering = FlexrayFrameTriggering(parent, "test_flexray_frame_triggering")
+        triggering = FlexrayFrameTriggering(parent, "ft")
 
-        assert isinstance(triggering, FrameTriggering)
-
-        # Test default values
+        assert triggering.short_name == "ft"
         assert triggering.getAbsolutelyScheduledTimings() == []
         assert triggering.getAllowDynamicLSduLength() is None
         assert triggering.getMessageId() is None
         assert triggering.getPayloadPreambleIndicator() is None
 
-        # Test setter/getter methods
-        triggering.setAllowDynamicLSduLength(True)
-        assert triggering.getAllowDynamicLSduLength() is True
+    def test_member_order(self):
+        assert self._init_annotations() == self.MEMBERS
 
-        triggering.setMessageId(42)
-        assert triggering.getMessageId() == 42
+    def test_init_has_no_docstring(self):
+        assert FlexrayFrameTriggering.__init__.__doc__ is None
 
-        triggering.setPayloadPreambleIndicator(True)
-        assert triggering.getPayloadPreambleIndicator() is True
-
-        # Test adding absolutely scheduled timings
-        timing = FlexrayAbsolutelyScheduledTiming()
-        triggering.addAbsolutelyScheduledTiming(timing)
-        assert triggering.getAbsolutelyScheduledTimings() == [timing]
-
-    def test_FlexrayFrameTriggering_none_handling(self):
-        """Test FlexrayFrameTriggering None value handling to achieve 100% coverage."""
+    def test_add_absolutely_scheduled_timing(self):
         parent = MockParent()
-        triggering = FlexrayFrameTriggering(parent, "test_flexray_frame_triggering")
+        triggering = FlexrayFrameTriggering(parent, "ft")
+        first = FlexrayAbsolutelyScheduledTiming()
+        second = FlexrayAbsolutelyScheduledTiming()
 
-        # Test setting None keeps original value (which is None) - tests if value is not None logic
-        result = triggering.setAllowDynamicLSduLength(None)
-        assert result == triggering
-        assert triggering.getAllowDynamicLSduLength() is None
+        assert triggering == triggering.addAbsolutelyScheduledTiming(first)
+        assert triggering.getAbsolutelyScheduledTimings() == [first]
 
-        result = triggering.setMessageId(None)
-        assert result == triggering
-        assert triggering.getMessageId() is None
+        triggering.addAbsolutelyScheduledTiming(second)
+        assert triggering.getAbsolutelyScheduledTimings() == [first, second]
 
-        result = triggering.setPayloadPreambleIndicator(None)
-        assert result == triggering
-        assert triggering.getPayloadPreambleIndicator() is None
+        assert triggering == triggering.addAbsolutelyScheduledTiming(None)
+        assert triggering.getAbsolutelyScheduledTimings() == [first, second]
 
-        # Test setting actual values then setting back to None (should not change value)
-        triggering.setAllowDynamicLSduLength(True)
-        assert triggering.getAllowDynamicLSduLength() is True
-        result = triggering.setAllowDynamicLSduLength(None)
-        assert result == triggering
-        # Value should remain unchanged since None was passed
-        assert triggering.getAllowDynamicLSduLength() is True
+    def test_get_set_allow_dynamic_lsdu_length(self):
+        parent = MockParent()
+        triggering = FlexrayFrameTriggering(parent, "ft")
+        value = Boolean().setValue(True)
 
-        triggering.setMessageId(123)
-        assert triggering.getMessageId() == 123
-        result = triggering.setMessageId(None)
-        assert result == triggering
-        # Value should remain unchanged since None was passed
-        assert triggering.getMessageId() == 123
+        assert triggering == triggering.setAllowDynamicLSduLength(value)
+        assert triggering.getAllowDynamicLSduLength() is value
 
-        # Test addAbsolutelyScheduledTiming with None (should not add to list)
-        original_timings = triggering.getAbsolutelyScheduledTimings()
-        result = triggering.addAbsolutelyScheduledTiming(None)
-        assert result == triggering
-        # The list should remain unchanged since None was passed
-        assert triggering.getAbsolutelyScheduledTimings() == original_timings
+        assert triggering == triggering.setAllowDynamicLSduLength(None)
+        assert triggering.getAllowDynamicLSduLength() is value
+
+    def test_get_set_message_id(self):
+        parent = MockParent()
+        triggering = FlexrayFrameTriggering(parent, "ft")
+        value = PositiveInteger().setValue("1024")
+
+        assert triggering == triggering.setMessageId(value)
+        assert triggering.getMessageId() is value
+        assert triggering.getMessageId().getValue() == 1024
+
+        assert triggering == triggering.setMessageId(None)
+        assert triggering.getMessageId() is value
+
+    def test_get_set_payload_preamble_indicator(self):
+        parent = MockParent()
+        triggering = FlexrayFrameTriggering(parent, "ft")
+        value = Boolean().setValue(True)
+
+        assert triggering == triggering.setPayloadPreambleIndicator(value)
+        assert triggering.getPayloadPreambleIndicator() is value
+
+        assert triggering == triggering.setPayloadPreambleIndicator(None)
+        assert triggering.getPayloadPreambleIndicator() is value
+
+    def test_type_annotations(self):
+        hints = get_type_hints(FlexrayFrameTriggering.getAbsolutelyScheduledTimings)
+        assert hints["return"] == List[FlexrayAbsolutelyScheduledTiming]
+
+        hints = get_type_hints(FlexrayFrameTriggering.addAbsolutelyScheduledTiming)
+        assert hints["value"] == Optional[FlexrayAbsolutelyScheduledTiming]
+        assert hints["return"] == FlexrayFrameTriggering
+
+        hints = get_type_hints(FlexrayFrameTriggering.getAllowDynamicLSduLength)
+        assert hints["return"] == Optional[Boolean]
+
+        hints = get_type_hints(FlexrayFrameTriggering.setAllowDynamicLSduLength)
+        assert hints["value"] == Optional[Boolean]
+        assert hints["return"] == FlexrayFrameTriggering
+
+        hints = get_type_hints(FlexrayFrameTriggering.getMessageId)
+        assert hints["return"] == Optional[PositiveInteger]
+
+        hints = get_type_hints(FlexrayFrameTriggering.setMessageId)
+        assert hints["value"] == Optional[PositiveInteger]
+        assert hints["return"] == FlexrayFrameTriggering
+
+        hints = get_type_hints(FlexrayFrameTriggering.getPayloadPreambleIndicator)
+        assert hints["return"] == Optional[Boolean]
+
+        hints = get_type_hints(FlexrayFrameTriggering.setPayloadPreambleIndicator)
+        assert hints["value"] == Optional[Boolean]
+        assert hints["return"] == FlexrayFrameTriggering
+
+        src = inspect.getsource(sys.modules[FlexrayFrameTriggering.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "FlexrayFrameTriggering")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        annotations = {}
+        for node in ast.walk(init):
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
+        assert annotations["absolutelyScheduledTimings"] == "List[FlexrayAbsolutelyScheduledTiming]"
+        assert annotations["allowDynamicLSduLength"] == "Optional[Boolean]"
+        assert annotations["messageId"] == "Optional[PositiveInteger]"
+        assert annotations["payloadPreambleIndicator"] == "Optional[Boolean]"
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(FlexrayFrameTriggering.__doc__) == NOTE_FLEXRAY_FRAME_TRIGGERING
 
 
 class Test_FlexrayFrameSpec:
@@ -215,22 +336,6 @@ class Test_Fibex4FlexrayTopology:
 
         controller.setAllowHaltDueToClock(True)
         assert controller.getAllowHaltDueToClock() is True
-
-    def test_FlexrayCommunicationConnector(self):
-        """Test FlexrayCommunicationConnector class functionality."""
-        parent = MockParent()
-        connector = FlexrayCommunicationConnector(parent, "test_flexray_comm_connector")
-
-        assert isinstance(connector, CommunicationConnector)
-
-        # Test default values
-        assert connector.getNmReadySleepTime() is None
-        assert connector.getPncFilterDataMask() is None
-        assert connector.getWakeUpChannel() is None
-
-        # Test setter/getter methods
-        connector.setNmReadySleepTime(10.5)
-        assert connector.getNmReadySleepTime() == 10.5
 
     def test_FlexrayCluster(self):
         """Test FlexrayCluster class functionality."""

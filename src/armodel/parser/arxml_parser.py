@@ -771,6 +771,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     SystemMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+    DataMapping,
     IndexedArrayElement,
     SenderRecArrayElementMapping,
     SenderRecArrayTypeMapping,
@@ -944,6 +945,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
     LinFrameTriggering,
     LinScheduleTable,
     LinUnconditionalFrame,
+    ResumePosition,
+    RunMode,
     SaveConfigurationEntry,
     ScheduleTableEntry,
     UnassignFrameId,
@@ -959,7 +962,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
     LinSlaveConfig,
     LinSlaveConfigIdent,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import DefaultValueElement, Gateway, IPduMapping, ISignalMapping, PduMappingDefaultValue, TargetIPduRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import DefaultValueElement, FrameMapping, Gateway, IPduMapping, ISignalMapping, PduMappingDefaultValue, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     CommConnectorPort,
     ContainedIPduProps,
@@ -9387,8 +9390,16 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readLinScheduleTable(self, element: ET.Element, table: LinScheduleTable):
         self.readIdentifiable(element, table)
-        table.setResumePosition(self.getChildElementOptionalLiteral(element, "RESUME-POSITION"))
-        table.setRunMode(self.getChildElementOptionalLiteral(element, "RUN-MODE"))
+        resume_position_literal = self.getChildElementOptionalLiteral(element, "RESUME-POSITION")
+        if resume_position_literal is not None:
+            resume_position = ResumePosition()
+            resume_position.setValue(resume_position_literal.getValue())
+            table.setResumePosition(resume_position)
+        run_mode_literal = self.getChildElementOptionalLiteral(element, "RUN-MODE")
+        if run_mode_literal is not None:
+            run_mode = RunMode()
+            run_mode.setValue(run_mode_literal.getValue())
+            table.setRunMode(run_mode)
         self.readLinScheduleTableTableEntries(element, table)
 
     def readLinPhysicalChannelScheduleTables(self, element: ET.Element, channel: LinPhysicalChannel):
@@ -10054,6 +10065,8 @@ class ARXMLParser(AbstractARXMLParser):
             recovery.setBorCounterL1ToL2(self.getChildElementOptionalPositiveInteger(child_element, "BOR-COUNTER-L-1-TO-L-2"))
             recovery.setBorTimeL1(self.getChildElementOptionalTimeValue(child_element, "BOR-TIME-L-1"))
             recovery.setBorTimeL2(self.getChildElementOptionalTimeValue(child_element, "BOR-TIME-L-2"))
+            recovery.setBorTimeTxEnsured(self.getChildElementOptionalTimeValue(child_element, "BOR-TIME-TX-ENSURED"))
+            recovery.setMainFunctionPeriod(self.getChildElementOptionalTimeValue(child_element, "MAIN-FUNCTION-PERIOD"))
         return recovery
 
     def readAbstractCanCluster(self, element: ET.Element, cluster: AbstractCanCluster):
@@ -11265,9 +11278,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readFlexrayCommunicationController(self, element: ET.Element, controller: FlexrayCommunicationController):
         self.logger.debug("Read CommunicationController <%s>" % controller.getShortName())
         self.readIdentifiable(element, controller)
+        self.readCommunicationController(element, controller)
         child_element = self.find(element, "FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS/FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL")
         if child_element is not None:
-            self.readCommunicationController(element, controller)
             controller.setAcceptedStartupRange(self.getChildElementOptionalIntegerValue(child_element, "ACCEPTED-STARTUP-RANGE"))
             controller.setAllowHaltDueToClock(self.getChildElementOptionalBooleanValue(child_element, "ALLOW-HALT-DUE-TO-CLOCK"))
             controller.setAllowPassiveToActive(self.getChildElementOptionalIntegerValue(child_element, "ALLOW-PASSIVE-TO-ACTIVE"))
@@ -11275,6 +11288,13 @@ class ARXMLParser(AbstractARXMLParser):
             controller.setDecodingCorrection(self.getChildElementOptionalIntegerValue(child_element, "DECODING-CORRECTION"))
             controller.setDelayCompensationA(self.getChildElementOptionalIntegerValue(child_element, "DELAY-COMPENSATION-A"))
             controller.setDelayCompensationB(self.getChildElementOptionalIntegerValue(child_element, "DELAY-COMPENSATION-B"))
+            controller.setExternOffsetCorrection(self.getChildElementOptionalIntegerValue(child_element, "EXTERN-OFFSET-CORRECTION"))
+            controller.setExternRateCorrection(self.getChildElementOptionalIntegerValue(child_element, "EXTERN-RATE-CORRECTION"))
+            controller.setExternalSync(self.getChildElementOptionalBooleanValue(child_element, "EXTERNAL-SYNC"))
+            controller.setFallBackInternal(self.getChildElementOptionalBooleanValue(child_element, "FALL-BACK-INTERNAL"))
+            for fifo_element in self.findall(child_element, "FLEXRAY-FIFOS/FLEXRAY-FIFO-CONFIGURATION"):
+                controller.addFlexrayFifo(self.getFlexrayFifoConfiguration(fifo_element, "."))
+            controller.setKeySlotID(self.getChildElementOptionalPositiveInteger(child_element, "KEY-SLOT-ID"))
             controller.setKeySlotOnlyEnabled(self.getChildElementOptionalBooleanValue(child_element, "KEY-SLOT-ONLY-ENABLED"))
             controller.setKeySlotUsedForStartUp(self.getChildElementOptionalBooleanValue(child_element, "KEY-SLOT-USED-FOR-START-UP"))
             controller.setKeySlotUsedForSync(self.getChildElementOptionalBooleanValue(child_element, "KEY-SLOT-USED-FOR-SYNC"))
@@ -11287,29 +11307,11 @@ class ARXMLParser(AbstractARXMLParser):
             controller.setMicroInitialOffsetB(self.getChildElementOptionalIntegerValue(child_element, "MICRO-INITIAL-OFFSET-B"))
             controller.setMicroPerCycle(self.getChildElementOptionalIntegerValue(child_element, "MICRO-PER-CYCLE"))
             controller.setMicrotickDuration(self.getChildElementOptionalTimeValue(child_element, "MICROTICK-DURATION"))
+            controller.setNmVectorEarlyUpdate(self.getChildElementOptionalBooleanValue(child_element, "NM-VECTOR-EARLY-UPDATE"))
             controller.setOffsetCorrectionOut(self.getChildElementOptionalIntegerValue(child_element, "OFFSET-CORRECTION-OUT"))
             controller.setRateCorrectionOut(self.getChildElementOptionalIntegerValue(child_element, "RATE-CORRECTION-OUT"))
             controller.setSamplesPerMicrotick(self.getChildElementOptionalIntegerValue(child_element, "SAMPLES-PER-MICROTICK"))
-            controller.setExternOffsetCorrection(self.getChildElementOptionalIntegerValue(child_element, "EXTERN-OFFSET-CORRECTION"))
-            controller.setExternRateCorrection(self.getChildElementOptionalIntegerValue(child_element, "EXTERN-RATE-CORRECTION"))
-            controller.setExternalSync(self.getChildElementOptionalBooleanValue(child_element, "EXTERNAL-SYNC"))
-            controller.setFallBackInternal(self.getChildElementOptionalBooleanValue(child_element, "FALL-BACK-INTERNAL"))
-            for fifo_child in self.findall(child_element, "FLEXRAY-FIFOS/FLEXRAY-FIFO-CONFIGURATION"):
-                fifo = controller.createFlexrayFifo()
-                fifo.setAdmitWithoutMessageId(self.getChildElementOptionalBooleanValue(fifo_child, "ADMIT-WITHOUT-MESSAGE-ID"))
-                fifo.setBaseCycle(self.getChildElementOptionalIntegerValue(fifo_child, "BASE-CYCLE"))
-                fifo.setChannelRef(self.getChildElementOptionalRefType(fifo_child, "CHANNEL-REF"))
-                fifo.setCycleRepetition(self.getChildElementOptionalIntegerValue(fifo_child, "CYCLE-REPETITION"))
-                fifo.setFifoDepth(self.getChildElementOptionalIntegerValue(fifo_child, "FIFO-DEPTH"))
-                for range_child in self.findall(fifo_child, "FLEXRAY-FIFO-RANGE"):
-                    fifo_range = fifo.createFlexrayFifoRange()
-                    fifo_range.setRangeMax(self.getChildElementOptionalIntegerValue(range_child, "RANGE-MAX"))
-                    fifo_range.setRangeMin(self.getChildElementOptionalIntegerValue(range_child, "RANGE-MIN"))
-                fifo.setMsgIdMask(self.getChildElementOptionalIntegerValue(fifo_child, "MSG-ID-MASK"))
-                fifo.setMsgIdMatch(self.getChildElementOptionalIntegerValue(fifo_child, "MSG-ID-MATCH"))
-            controller.setKeySlotID(self.getChildElementOptionalIntegerValue(child_element, "KEY-SLOT-ID"))
-            controller.setNmVectorEarlyUpdate(self.getChildElementOptionalBooleanValue(child_element, "NM-VECTOR-EARLY-UPDATE"))
-            controller.setSecondKeySlotId(self.getChildElementOptionalIntegerValue(child_element, "SECOND-KEY-SLOT-ID"))
+            controller.setSecondKeySlotId(self.getChildElementOptionalPositiveInteger(child_element, "SECOND-KEY-SLOT-ID"))
             controller.setTwoKeySlotMode(self.getChildElementOptionalBooleanValue(child_element, "TWO-KEY-SLOT-MODE"))
             controller.setWakeUpPattern(self.getChildElementOptionalIntegerValue(child_element, "WAKE-UP-PATTERN"))
 
@@ -12075,6 +12077,7 @@ class ARXMLParser(AbstractARXMLParser):
             requirements.setMinSamplePoint(self.getChildElementOptionalFloatValue(child_element, "MIN-SAMPLE-POINT"))
             requirements.setMinSyncJumpWidth(self.getChildElementOptionalFloatValue(child_element, "MIN-SYNC-JUMP-WIDTH"))
             requirements.setMinTrcvDelayCompensationOffset(self.getChildElementOptionalTimeValue(child_element, "MIN-TRCV-DELAY-COMPENSATION-OFFSET"))
+            requirements.setPaddingValue(self.getChildElementOptionalPositiveInteger(child_element, "PADDING-VALUE"))
             requirements.setTxBitRateSwitch(self.getChildElementOptionalBooleanValue(child_element, "TX-BIT-RATE-SWITCH"))  # NOQA E501
         return requirements
 
@@ -12100,7 +12103,15 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             configuration = CanControllerConfiguration()
+            self.readCanControllerConfiguration(child_element, configuration)
         return configuration
+
+    def readCanControllerConfiguration(self, element: ET.Element, configuration: CanControllerConfiguration):
+        self.readAbstractCanCommunicationControllerAttributes(element, configuration)
+        configuration.setPropSeg(self.getChildElementOptionalIntegerValue(element, "PROP-SEG"))
+        configuration.setSyncJumpWidth(self.getChildElementOptionalIntegerValue(element, "SYNC-JUMP-WIDTH"))
+        configuration.setTimeSeg1(self.getChildElementOptionalIntegerValue(element, "TIME-SEG-1"))
+        configuration.setTimeSeg2(self.getChildElementOptionalIntegerValue(element, "TIME-SEG-2"))
 
     def getCanControllerXlConfigurationRequirements(self, element: ET.Element, key: str) -> CanControllerXlConfigurationRequirements:
         requirements = None
@@ -12157,6 +12168,10 @@ class ARXMLParser(AbstractARXMLParser):
                 requirements = CanControllerConfigurationRequirements()
                 self.readCanControllerConfigurationRequirements(child_element, requirements)
                 controller.setCanControllerAttributes(requirements)
+            elif tag_name == "CAN-CONTROLLER-CONFIGURATION":
+                configuration = CanControllerConfiguration()
+                self.readCanControllerConfiguration(child_element, configuration)
+                controller.setCanControllerAttributes(configuration)
             else:
                 self.notImplemented("Unsupported CanControllerAttributes <%s>" % tag_name)
 
@@ -12708,6 +12723,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readCanCommunicationConnector(self, element: ET.Element, connector: CanCommunicationConnector):
         self.readCommunicationConnector(element, connector)
+        connector.setPncWakeupCanId(self.getChildElementOptionalPositiveInteger(element, "PNC-WAKEUP-CAN-ID"))
+        connector.setPncWakeupCanIdExtended(self.getChildElementOptionalBooleanValue(element, "PNC-WAKEUP-CAN-ID-EXTENDED"))
+        connector.setPncWakeupCanIdMask(self.getChildElementOptionalPositiveInteger(element, "PNC-WAKEUP-CAN-ID-MASK"))
+        connector.setPncWakeupDataMask(self.getChildElementOptionalPositiveUnlimitedInteger(element, "PNC-WAKEUP-DATA-MASK"))
+        connector.setPncWakeupDlc(self.getChildElementOptionalPositiveInteger(element, "PNC-WAKEUP-DLC"))
 
     def readEthernetCommunicationConnector(self, element: ET.Element, connector: EthernetCommunicationConnector):
         self.readCommunicationConnector(element, connector)
@@ -12719,9 +12739,27 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readLinCommunicationConnector(self, element: ET.Element, connector: LinCommunicationConnector):
         self.readCommunicationConnector(element, connector)
+        connector.setInitialNad(self.getChildElementOptionalIntegerValue(element, "INITIAL-NAD"))
+        frames_wrapper = self.find(element, "LIN-CONFIGURABLE-FRAMES")
+        if frames_wrapper is not None:
+            for frame_element in self.findall(frames_wrapper, "LIN-CONFIGURABLE-FRAME"):
+                frame = LinConfigurableFrame()
+                frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
+                frame.setMessageId(self.getChildElementOptionalPositiveInteger(frame_element, "MESSAGE-ID"))
+                connector.addLinConfigurableFrame(frame)
+        ordered_wrapper = self.find(element, "LIN-ORDERED-CONFIGURABLE-FRAMES")
+        if ordered_wrapper is not None:
+            for frame_element in self.findall(ordered_wrapper, "LIN-ORDERED-CONFIGURABLE-FRAME"):
+                frame = LinOrderedConfigurableFrame()
+                frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
+                frame.setIndex(self.getChildElementOptionalIntegerValue(frame_element, "INDEX"))
+                connector.addLinOrderedConfigurableFrame(frame)
+        connector.setScheduleChangeNextTimeBase(self.getChildElementOptionalBooleanValue(element, "SCHEDULE-CHANGE-NEXT-TIME-BASE"))
 
     def readFlexrayCommunicationConnector(self, element: ET.Element, connector: FlexrayCommunicationConnector):
         self.readCommunicationConnector(element, connector)
+        connector.setNmReadySleepTime(self.getChildElementOptionalFloatValue(element, "NM-READY-SLEEP-TIME"))
+        connector.setWakeUpChannel(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-CHANNEL"))
 
     def readEcuInstanceConnectors(self, element: ET.Element, instance: EcuInstance):
         self.logger.debug("readEcuInstanceCommControllers %s" % instance.getShortName())
@@ -12919,38 +12957,60 @@ class ARXMLParser(AbstractARXMLParser):
         instance.setV2xSupported(self.getChildElementOptionalLiteral(element, "V-2-X-SUPPORTED"))
         instance.setWakeUpOverBusSupported(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-OVER-BUS-SUPPORTED"))
 
-    """
     def getFrameMappings(self, element: ET.Element) -> List[FrameMapping]:
         mappings = []
-        for child_element in self.findall(element, 'FRAME-MAPPINGS/'):
+        for child_element in self.findall(element, "FRAME-MAPPINGS/FRAME-MAPPING"):
             mapping = FrameMapping()
-            mapping.sourceFrameRef = self.getChildElementOptionalRefType(child_element, "SOURCE-FRAME-REF")
-            mapping.targetFrameRef = self.getChildElementOptionalRefType(child_element, "TARGET-FRAME-REF")
+            self.readFrameMapping(child_element, mapping)
             mappings.append(mapping)
         return mappings
-    """
+
+    def readFrameMapping(self, element: ET.Element, mapping: FrameMapping):
+        self.readARObject(element, mapping)
+        mapping.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
+        mapping.setSourceFrameRef(self.getChildElementOptionalRefType(element, "SOURCE-FRAME-REF"))
+        mapping.setTargetFrameRef(self.getChildElementOptionalRefType(element, "TARGET-FRAME-REF"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(mapping, VariationPointCapable):
+                mapping.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
     def getISignalMappings(self, element: ET.Element) -> List[ISignalMapping]:
         mappings = []
         for child_element in self.findall(element, "SIGNAL-MAPPINGS/I-SIGNAL-MAPPING"):
             mapping = ISignalMapping()
-            mapping.sourceSignalRef = self.getChildElementOptionalRefType(child_element, "SOURCE-SIGNAL-REF")
-            mapping.targetSignalRef = self.getChildElementOptionalRefType(child_element, "TARGET-SIGNAL-REF")
+            self.readISignalMapping(child_element, mapping)
             mappings.append(mapping)
         return mappings
+
+    def readISignalMapping(self, element: ET.Element, mapping: ISignalMapping):
+        self.readARObject(element, mapping)
+        mapping.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
+        mapping.setSourceSignalRef(self.getChildElementOptionalRefType(element, "SOURCE-SIGNAL-REF"))
+        mapping.setTargetSignalRef(self.getChildElementOptionalRefType(element, "TARGET-SIGNAL-REF"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(mapping, VariationPointCapable):
+                mapping.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
     def getTargetIPduRef(self, element, key: str) -> TargetIPduRef:
         i_pdu_ref = None
         child_element = self.find(element, key)
         if child_element is not None:
             i_pdu_ref = TargetIPduRef()
+            default_value_element = self.find(child_element, "DEFAULT-VALUE")
+            if default_value_element is not None:
+                default_value = PduMappingDefaultValue()
+                for element_element in self.findall(default_value_element, "DEFAULT-VALUE-ELEMENTS/DEFAULT-VALUE-ELEMENT"):
+                    value = DefaultValueElement()
+                    self.readDefaultValueElement(element_element, value)
+                    default_value.addDefaultValueElement(value)
+                i_pdu_ref.setDefaultValue(default_value)
             i_pdu_ref.setTargetIPduRef(self.getChildElementOptionalRefType(child_element, "TARGET-I-PDU-REF"))
-            for element_element in self.findall(child_element, "DEFAULT-VALUE-ELEMENTS/DEFAULT-VALUE-ELEMENT"):
-                if i_pdu_ref.getDefaultValue() is None:
-                    i_pdu_ref.setDefaultValue(PduMappingDefaultValue())
-                default_value = DefaultValueElement()
-                self.readDefaultValueElement(element_element, default_value)
-                i_pdu_ref.getDefaultValue().addDefaultValueElement(default_value)
         return i_pdu_ref
 
     def readDefaultValueElement(self, element: ET.Element, default_value: DefaultValueElement):
@@ -12974,6 +13034,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read Gateway <%s>" % gateway.getShortName())
         self.readIdentifiable(element, gateway)
         gateway.setEcuRef(self.getChildElementOptionalRefType(element, "ECU-REF"))
+        for mapping in self.getFrameMappings(element):
+            gateway.addFrameMapping(mapping)
         for mapping in self.getIPduMappings(element):
             gateway.addIPduMapping(mapping)
         for mapping in self.getISignalMappings(element):
@@ -13655,11 +13717,26 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "I-PDUS/PDU-TRIGGERING-REF-CONDITIONAL"):
             group.addIPduRef(self.getChildElementOptionalRefType(child_element, "PDU-TRIGGERING-REF"))
 
+    def readDataMapping(self, element: ET.Element, mapping: DataMapping):
+        self.readARObject(element, mapping)
+        mapping.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(mapping, VariationPointCapable):
+                mapping.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
+
     def readSenderReceiverToSignalMapping(self, element: ET.Element, mapping: SenderReceiverToSignalMapping):
-        mapping.setCommunicationDirection(self.getChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION"))
+        self.readDataMapping(element, mapping)
         mapping.setDataElementIRef(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "DATA-ELEMENT-IREF")))
+        sender_to_signal_element = self.find(element, "SENDER-TO-SIGNAL-TEXT-TABLE-MAPPING")
+        if sender_to_signal_element is not None:
+            mapping.setSenderToSignalTextTableMapping(self.getTextTableMapping(sender_to_signal_element))
+        signal_to_receiver_element = self.find(element, "SIGNAL-TO-RECEIVER-TEXT-TABLE-MAPPING")
+        if signal_to_receiver_element is not None:
+            mapping.setSignalToReceiverTextTableMapping(self.getTextTableMapping(signal_to_receiver_element))
         mapping.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
-        self.logger.debug("Read SenderReceiverToSignalMapping <%s>" % mapping.getSystemSignalRef().getValue())
 
     def readSenderRecCompositeTypeMapping(self, element: ET.Element, mapping: SenderRecCompositeTypeMapping):
         self.readARObject(element, mapping)
@@ -13667,7 +13744,28 @@ class ARXMLParser(AbstractARXMLParser):
     def readSenderRecRecordElementMapping(self, element: ET.Element, mapping: SenderRecRecordElementMapping):
         self.readARObject(element, mapping)
         mapping.setApplicationRecordElementRef(self.getChildElementOptionalRefType(element, "APPLICATION-RECORD-ELEMENT-REF"))
+        complex_element = self.find(element, "COMPLEX-TYPE-MAPPING")
+        if complex_element is not None:
+            type_mapping_element = self.find(complex_element, "*")
+            if type_mapping_element is not None:
+                tag_name = self.getTagName(type_mapping_element)
+                if tag_name == "SENDER-REC-ARRAY-TYPE-MAPPING":
+                    type_mapping = SenderRecArrayTypeMapping()
+                    self.readSenderRecArrayTypeMapping(type_mapping_element, type_mapping)
+                    mapping.setComplexTypeMapping(type_mapping)
+                elif tag_name == "SENDER-REC-RECORD-TYPE-MAPPING":
+                    type_mapping = SenderRecRecordTypeMapping()
+                    self.readSenderRecRecordTypeMapping(type_mapping_element, type_mapping)
+                    mapping.setComplexTypeMapping(type_mapping)
+                else:
+                    self.notImplemented("Unsupported ComplexTypeMapping %s" % tag_name)
         mapping.setImplementationRecordElementRef(self.getChildElementOptionalRefType(element, "IMPLEMENTATION-RECORD-ELEMENT-REF"))
+        sender_to_signal_element = self.find(element, "SENDER-TO-SIGNAL-TEXT-TABLE-MAPPING")
+        if sender_to_signal_element is not None:
+            mapping.setSenderToSignalTextTableMapping(self.getTextTableMapping(sender_to_signal_element))
+        signal_to_receiver_element = self.find(element, "SIGNAL-TO-RECEIVER-TEXT-TABLE-MAPPING")
+        if signal_to_receiver_element is not None:
+            mapping.setSignalToReceiverTextTableMapping(self.getTextTableMapping(signal_to_receiver_element))
         mapping.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
 
     def readIndexedArrayElement(self, element: ET.Element, indexed: IndexedArrayElement):
@@ -13747,6 +13845,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported Type Mapping %s" % tag_name)
 
     def readSenderReceiverToSignalGroupMapping(self, element: ET.Element, mapping: SenderReceiverToSignalGroupMapping):
+        self.readDataMapping(element, mapping)
         mapping.setDataElementIRef(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "DATA-ELEMENT-IREF")))
         mapping.setSignalGroupRef(self.getChildElementOptionalRefType(element, "SIGNAL-GROUP-REF"))
         self.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)

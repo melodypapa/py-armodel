@@ -1431,13 +1431,11 @@ Former rows removed as resolved in-pass: `commanagementportgrouprefs` renamed to
 No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 6.324 (p.694, R23-11): the single attribute `participatingJ1939Cluster` (`*`, ref) has the dedicated typed list field `participatingJ1939ClusterRefs: List[RefType]` with accessor pair and full reader/writer coverage (`PARTICIPATING-J-1939-CLUSTER-REFS` wrapper + VARIATION-POINT per XSD group order); the former `participatingj1939clusterrefs` `type (spec many vs py single)` row is stale and removed — the field is a list.
 
 ## `PduMappingDefaultValue`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 8.6
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 841  | **table:** Table 8.5
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Multiplatform.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `defaultValueElement` | ``DefaultValueElement`` | aggr | missing |
+No deviations — the single Table 8.5 attribute `defaultValueElement` (DefaultValueElement, Mult `*`, Kind `aggr`) is covered by the dedicated typed list field `defaultValueElements: List[DefaultValueElement]` with `getDefaultValueElements`/`addDefaultValueElement` (plural accessors per the singular spec-`*` name rule) and full reader/writer coverage (`DEFAULT-VALUE-ELEMENTS` wrapper + `DEFAULT-VALUE-ELEMENT` items per XSD order); the former `missing` row is resolved as stale in the 2026-09 DefaultValueElement sync (the member type is now itself spec-synced, Table 8.6 p.841).
 
 ## `StaticPart`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 410  | **table:** Table 6.73

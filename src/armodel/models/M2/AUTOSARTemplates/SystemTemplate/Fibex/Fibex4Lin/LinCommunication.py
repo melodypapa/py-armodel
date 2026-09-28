@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from typing import List, Optional
@@ -31,7 +33,7 @@ class LinErrorResponse(ARObject):
         """This ISignal shall be taken to transport the responseError bit."""
         return self.responseErrorRef
 
-    def setResponseErrorRef(self, value: Optional[RefType]) -> "LinErrorResponse":
+    def setResponseErrorRef(self, value: Optional[RefType]) -> LinErrorResponse:
         """
         This ISignal shall be taken to transport the responseError bit.
         A None value is a no-op and does not overwrite an existing responseErrorRef.
@@ -115,18 +117,44 @@ class LinFrameTriggering(FrameTriggering):
 
 class ResumePosition(AREnum):
     """
-    Enumeration defining possible resume positions for LIN schedule tables,
-    specifying where execution should continue after an interruption.
+    Defines, where a schedule table shall be proceeded in case if it has been interrupted by a run-once table or MRF/SRF.
     """
 
     # ResumePosition method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.95, p.432
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on LinScheduleTable.resumePosition
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
+    # Continue at IT Point. Tags: atp.EnumerationLiteralIndex=0
     CONTINUE_AT_IT_POSITION = "continueAtItPosition"
+
+    # Start from the beginning Tags: atp.EnumerationLiteralIndex=1
     START_FROM_BEGINNING = "startFromBeginning"
 
     def __init__(self):
-        super().__init__((ResumePosition.CONTINUE_AT_IT_POSITION, ResumePosition.START_FROM_BEGINNING))
+        super().__init__([ResumePosition.CONTINUE_AT_IT_POSITION, ResumePosition.START_FROM_BEGINNING])
+
+
+class RunMode(AREnum):
+    """
+    The schedule table can be executed in two different modes.
+    """
+
+    # RunMode method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.94, p.432
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on LinScheduleTable.runMode
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # RUN_CONTINUOUS run mode Tags: atp.EnumerationLiteralIndex=0
+    RUN_CONTINUOUS = "RunContinuous"
+
+    # RUN_ONCE run mode Tags: atp.EnumerationLiteralIndex=1
+    RUN_ONCE = "runOnce"
+
+    def __init__(self):
+        super().__init__([RunMode.RUN_CONTINUOUS, RunMode.RUN_ONCE])
 
 
 class ScheduleTableEntry(ARObject, ABC):
@@ -164,7 +192,7 @@ class ScheduleTableEntry(ARObject, ABC):
         """Relative delay between this tableEntry and the start of the successor in the schedule table in seconds."""
         return self.delay
 
-    def setDelay(self, value: Optional[TimeValue]) -> "ScheduleTableEntry":
+    def setDelay(self, value: Optional[TimeValue]) -> ScheduleTableEntry:
         """
         Relative delay between this tableEntry and the start of the successor in the schedule table in seconds.
         A None value is a no-op and does not overwrite an existing delay.
@@ -177,7 +205,7 @@ class ScheduleTableEntry(ARObject, ABC):
         """This represents introductory documentation about the schedule table entry."""
         return self.introduction
 
-    def setIntroduction(self, value: Optional[DocumentationBlock]) -> "ScheduleTableEntry":
+    def setIntroduction(self, value: Optional[DocumentationBlock]) -> ScheduleTableEntry:
         """
         This represents introductory documentation about the schedule table entry.
         A None value is a no-op and does not overwrite an existing introduction.
@@ -190,7 +218,7 @@ class ScheduleTableEntry(ARObject, ABC):
         """Relative position in the schedule table. The first entry index in the schedule table is 0."""
         return self.positionInTable
 
-    def setPositionInTable(self, value: Optional[Integer]) -> "ScheduleTableEntry":
+    def setPositionInTable(self, value: Optional[Integer]) -> ScheduleTableEntry:
         """
         Relative position in the schedule table. The first entry index in the schedule table is 0.
         A None value is a no-op and does not overwrite an existing positionInTable.
@@ -201,26 +229,30 @@ class ScheduleTableEntry(ARObject, ABC):
 
 
 class ApplicationEntry(ScheduleTableEntry):
-    """
-    Defines an application entry in a LIN schedule table,
-    specifying frame triggering references for application-level
-    communication entries in the schedule.
-    """
+    """Schedule table entry for application messages."""
 
     # ApplicationEntry method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getFrameTriggeringRef        [x] impl  [ ] docstring  [ ] test
-    # [ ] setFrameTriggeringRef        [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.97, p.433
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFrameTriggeringRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFrameTriggeringRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.frameTriggeringRef: RefType = None
+        # Specifies the LinFrame that will be transmitted in this frame slot.
+        self.frameTriggeringRef: Optional[RefType] = None
 
-    def getFrameTriggeringRef(self):
+    def getFrameTriggeringRef(self) -> Optional[RefType]:
+        """Specifies the LinFrame that will be transmitted in this frame slot."""
         return self.frameTriggeringRef
 
-    def setFrameTriggeringRef(self, value):
+    def setFrameTriggeringRef(self, value: Optional[RefType]) -> ApplicationEntry:
+        """
+        Specifies the LinFrame that will be transmitted in this frame slot.
+        A None value is a no-op and does not overwrite an existing frameTriggeringRef.
+        """
         if value is not None:
             self.frameTriggeringRef = value
         return self
@@ -270,7 +302,7 @@ class FreeFormat(FreeFormatEntry):
         """
         return self.byteValues
 
-    def addByteValue(self, value: Optional[Integer]) -> "FreeFormat":
+    def addByteValue(self, value: Optional[Integer]) -> FreeFormat:
         """
         The integer Value of a freely defined data byte.
         A None value is a no-op.
@@ -315,7 +347,7 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
         """
         return self.assignedControllerRef
 
-    def setAssignedControllerRef(self, value: Optional[RefType]) -> "LinConfigurationEntry":
+    def setAssignedControllerRef(self, value: Optional[RefType]) -> LinConfigurationEntry:
         """
         The LIN slaves controller who is target of this assignment. Optional in case LinConfigurationEntry.assignedLinSlaveConfig exists.
         A None value is a no-op and does not overwrite an existing assignedControllerRef.
@@ -330,7 +362,7 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
         """
         return self.assignedLinSlaveConfigRef
 
-    def setAssignedLinSlaveConfigRef(self, value: Optional[RefType]) -> "LinConfigurationEntry":
+    def setAssignedLinSlaveConfigRef(self, value: Optional[RefType]) -> LinConfigurationEntry:
         """
         The LIN slave that is target of this assignment. Please note that this reference is redundant to the assignedController reference. In an Ecu Extract of the LinMaster the LinSlave Ecus shall not be available. The information that is described here is necessary in the ECU Extract for the configuration of the LinMaster.
         A None value is a no-op and does not overwrite an existing assignedLinSlaveConfigRef.
@@ -371,7 +403,7 @@ class FramePid(ARObject):
         """
         return self.index
 
-    def setIndex(self, value: Optional[Integer]) -> "FramePid":
+    def setIndex(self, value: Optional[Integer]) -> FramePid:
         """
         This attribute is used to order the frame_PIDs. The values of index shall be unique within one AssignFrameIdRange.
         A None value is a no-op and does not overwrite an existing index.
@@ -386,7 +418,7 @@ class FramePid(ARObject):
         """
         return self.pid
 
-    def setPid(self, value: Optional[PositiveInteger]) -> "FramePid":
+    def setPid(self, value: Optional[PositiveInteger]) -> FramePid:
         """
         Frame_PID value.
         A None value is a no-op and does not overwrite an existing pid.
@@ -422,7 +454,7 @@ class AssignFrameId(LinConfigurationEntry):
         """
         return self.assignedFrameTriggeringRef
 
-    def setAssignedFrameTriggeringRef(self, value: Optional[RefType]) -> "AssignFrameId":
+    def setAssignedFrameTriggeringRef(self, value: Optional[RefType]) -> AssignFrameId:
         """
         The frame whose identifier is set by this assignment.
         A None value is a no-op and does not overwrite an existing assignedFrameTriggeringRef.
@@ -458,7 +490,7 @@ class UnassignFrameId(LinConfigurationEntry):
         """
         return self.unassignedFrameTriggeringRef
 
-    def setUnassignedFrameTriggeringRef(self, value: Optional[RefType]) -> "UnassignFrameId":
+    def setUnassignedFrameTriggeringRef(self, value: Optional[RefType]) -> UnassignFrameId:
         """
         The frame whose identifier is reset by this assignment.
         A None value is a no-op and does not overwrite an existing unassignedFrameTriggeringRef.
@@ -499,7 +531,7 @@ class AssignFrameIdRange(LinConfigurationEntry):
         """
         return self.framePids
 
-    def addFramePid(self, value: Optional[FramePid]) -> "AssignFrameIdRange":
+    def addFramePid(self, value: Optional[FramePid]) -> AssignFrameIdRange:
         """
         Optional assignment of frame_PID values that are included in the request. The frame_PIDs are ordered.
         A None value is a no-op.
@@ -514,7 +546,7 @@ class AssignFrameIdRange(LinConfigurationEntry):
         """
         return self.startIndex
 
-    def setStartIndex(self, value: Optional[Integer]) -> "AssignFrameIdRange":
+    def setStartIndex(self, value: Optional[Integer]) -> AssignFrameIdRange:
         """
         The startIndex sets the index to the first frame to assign a PID.
         A None value is a no-op and does not overwrite an existing startIndex.
@@ -550,7 +582,7 @@ class AssignNad(LinConfigurationEntry):
         """
         return self.newNad
 
-    def setNewNad(self, value: Optional[Integer]) -> "AssignNad":
+    def setNewNad(self, value: Optional[Integer]) -> AssignNad:
         """
         The newly assigned NAD value.
         A None value is a no-op and does not overwrite an existing newNad.
@@ -606,7 +638,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
         """
         return self.byte
 
-    def setByte(self, value: Optional[Integer]) -> "ConditionalChangeNad":
+    def setByte(self, value: Optional[Integer]) -> ConditionalChangeNad:
         """
         Byte Position of Data Byte that should be used for the bitwise XOR with Invert and the bitwise AND with Mask.
         A None value is a no-op and does not overwrite an existing byte.
@@ -621,7 +653,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
         """
         return self.id
 
-    def setId(self, value: Optional[PositiveInteger]) -> "ConditionalChangeNad":
+    def setId(self, value: Optional[PositiveInteger]) -> ConditionalChangeNad:
         """
         Byte Position of Id.
         A None value is a no-op and does not overwrite an existing id.
@@ -636,7 +668,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
         """
         return self.invert
 
-    def setInvert(self, value: Optional[Integer]) -> "ConditionalChangeNad":
+    def setInvert(self, value: Optional[Integer]) -> ConditionalChangeNad:
         """
         Byte Position of Invert.
         A None value is a no-op and does not overwrite an existing invert.
@@ -651,7 +683,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
         """
         return self.mask
 
-    def setMask(self, value: Optional[Integer]) -> "ConditionalChangeNad":
+    def setMask(self, value: Optional[Integer]) -> ConditionalChangeNad:
         """
         Byte Position of Mask.
         A None value is a no-op and does not overwrite an existing mask.
@@ -666,7 +698,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
         """
         return self.newNad
 
-    def setNewNad(self, value: Optional[Integer]) -> "ConditionalChangeNad":
+    def setNewNad(self, value: Optional[Integer]) -> ConditionalChangeNad:
         """
         The newly assigned NAD value (Byte Position).
         A None value is a no-op and does not overwrite an existing newNad.
@@ -718,7 +750,7 @@ class DataDumpEntry(LinConfigurationEntry):
         """
         return self.byteValues
 
-    def addByteValue(self, value: Optional[Integer]) -> "DataDumpEntry":
+    def addByteValue(self, value: Optional[Integer]) -> DataDumpEntry:
         """
         Supplier specific format.
         A None value is a no-op.
@@ -730,47 +762,67 @@ class DataDumpEntry(LinConfigurationEntry):
 
 class LinScheduleTable(Identifiable, VariationPointCapable):
     """
-    Represents a LIN schedule table defining the timing and sequence
-    of LIN frame transmissions, including resume position, run mode,
-    and table entries for scheduled communication.
+    The master task (in the master node) transmits frame headers based on a schedule table. The schedule table specifies the identifiers for each header and the interval between the start of a frame and the start of the following frame.
     """
 
     # LinScheduleTable method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getResumePosition            [x] impl  [ ] docstring  [ ] test
-    # [ ] setResumePosition            [x] impl  [ ] docstring  [ ] test
-    # [ ] getRunMode                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setRunMode                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getTableEntries              [x] impl  [ ] docstring  [ ] test
-    # [ ] addTableEntry                [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.93, p.432
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getResumePosition   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResumePosition   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRunMode          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRunMode          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTableEntries     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTableEntry       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.resumePosition = None  # type: ResumePosition
-        self.runMode = None  # type: RunMode
+        # Defines, where a schedule table shall be proceeded in case if it has been interrupted by a run-once table or MRF/SRF.
+        self.resumePosition: Optional[ResumePosition] = None
+
+        # The schedule table can be executed in two different modes.
+        self.runMode: Optional[RunMode] = None
+
+        # The scheduling table consists of table entries, which contain Frame slots.
         self.tableEntries: List[ScheduleTableEntry] = []
 
-    def getResumePosition(self):
+    def getResumePosition(self) -> Optional[ResumePosition]:
+        """Defines, where a schedule table shall be proceeded in case if it has been interrupted by a run-once table or MRF/SRF."""
         return self.resumePosition
 
-    def setResumePosition(self, value):
+    def setResumePosition(self, value: Optional[ResumePosition]) -> LinScheduleTable:
+        """
+        Defines, where a schedule table shall be proceeded in case if it has been interrupted by a run-once table or MRF/SRF.
+        A None value is a no-op and does not overwrite an existing resumePosition.
+        """
         if value is not None:
             self.resumePosition = value
         return self
 
-    def getRunMode(self):
+    def getRunMode(self) -> Optional[RunMode]:
+        """The schedule table can be executed in two different modes."""
         return self.runMode
 
-    def setRunMode(self, value):
+    def setRunMode(self, value: Optional[RunMode]) -> LinScheduleTable:
+        """
+        The schedule table can be executed in two different modes.
+        A None value is a no-op and does not overwrite an existing runMode.
+        """
         if value is not None:
             self.runMode = value
         return self
 
-    def getTableEntries(self):
+    def getTableEntries(self) -> List[ScheduleTableEntry]:
+        """The scheduling table consists of table entries, which contain Frame slots."""
         return self.tableEntries
 
-    def addTableEntry(self, value):
+    def addTableEntry(self, value: Optional[ScheduleTableEntry]) -> LinScheduleTable:
+        """
+        The scheduling table consists of table entries, which contain Frame slots.
+        A None value is a no-op and does not overwrite the existing tableEntries.
+        """
         if value is not None:
             self.tableEntries.append(value)
         return self

@@ -1,12 +1,18 @@
+import inspect
+import typing
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, PositiveUnlimitedInteger, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
     AbstractCanCommunicationConnector,
     AbstractCanCommunicationController,
     AbstractCanCommunicationControllerAttributes,
+    CanClusterBusOffRecovery,
     CanCommunicationConnector,
     CanCommunicationController,
+    CanControllerConfiguration,
     CanControllerConfigurationRequirements,
     CanControllerFdConfiguration,
     CanControllerFdConfigurationRequirements,
@@ -521,3 +527,502 @@ class Test_Fibex4CanTopology:
         connector.setPncWakeupDlc(8)
         assert connector.getPncWakeupDlc() == 8
         assert connector == connector.setPncWakeupDlc(8)  # Test method chaining
+
+
+SPEC_CLASS_NOTE = "This element contains the attributes that are used to configure the CAN bus off monitoring / recovery at system level."
+BOR_COUNTER_L1_TO_L2_NOTE = "This threshold defines the count of bus-offs until the bus-off recovery switches from level 1 (short recovery time) to level 2 (long recovery time)."
+BOR_TIME_L1_NOTE = "This attribute defines the duration of the bus-off recovery time in level 1 (short recovery time) in seconds."
+BOR_TIME_L2_NOTE = "This attribute defines the duration of the bus-off recovery time in level 2 (long recovery time) in seconds."
+BOR_TIME_TX_ENSURED_NOTE = "This attribute defines the duration of the bus-off event check in seconds."
+MAIN_FUNCTION_PERIOD_NOTE = "This attribute defines the cycle time of the function Can SM_MainFunction in seconds."
+
+
+class TestCanClusterBusOffRecovery:
+    def test_initialization(self):
+        """Test that all __init__ fields default to None"""
+        recovery = CanClusterBusOffRecovery()
+
+        assert isinstance(recovery, ARObject)
+        assert recovery.getBorCounterL1ToL2() is None
+        assert recovery.getBorTimeL1() is None
+        assert recovery.getBorTimeL2() is None
+        assert recovery.getBorTimeTxEnsured() is None
+        assert recovery.getMainFunctionPeriod() is None
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.10)"""
+        assert inspect.cleandoc(CanClusterBusOffRecovery.__doc__).strip() == SPEC_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert CanClusterBusOffRecovery.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 3.10)"""
+        source = inspect.getsource(CanClusterBusOffRecovery.__init__)
+        assert source.index("self.borCounterL1ToL2") < source.index("self.borTimeL1")
+        assert source.index("self.borTimeL1") < source.index("self.borTimeL2")
+        assert source.index("self.borTimeL2") < source.index("self.borTimeTxEnsured")
+        assert source.index("self.borTimeTxEnsured") < source.index("self.mainFunctionPeriod")
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        doc = method.__doc__
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == expected
+
+    def test_get_set_bor_counter_l1_to_l2(self):
+        """Test borCounterL1ToL2 default, guarded set chaining, None no-op and typing"""
+        recovery = CanClusterBusOffRecovery()
+
+        assert recovery.getBorCounterL1ToL2() is None
+
+        counter = PositiveInteger()
+        counter.setValue("4")
+        assert recovery == recovery.setBorCounterL1ToL2(counter)
+        assert recovery.getBorCounterL1ToL2() == counter
+
+        assert recovery == recovery.setBorCounterL1ToL2(None)
+        assert recovery.getBorCounterL1ToL2() == counter
+
+        getter_hints = typing.get_type_hints(CanClusterBusOffRecovery.getBorCounterL1ToL2)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(CanClusterBusOffRecovery.setBorCounterL1ToL2)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is CanClusterBusOffRecovery
+
+    def test_bor_counter_l1_to_l2_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.10)"""
+        self._assert_docstring(CanClusterBusOffRecovery.getBorCounterL1ToL2, BOR_COUNTER_L1_TO_L2_NOTE)
+        self._assert_docstring(CanClusterBusOffRecovery.setBorCounterL1ToL2, BOR_COUNTER_L1_TO_L2_NOTE, "borCounterL1ToL2")
+
+    def test_get_set_bor_time_l1(self):
+        """Test borTimeL1 default, guarded set chaining, None no-op and typing"""
+        recovery = CanClusterBusOffRecovery()
+
+        assert recovery.getBorTimeL1() is None
+
+        bor_time_l1 = TimeValue()
+        bor_time_l1.setValue("0.5")
+        assert recovery == recovery.setBorTimeL1(bor_time_l1)
+        assert recovery.getBorTimeL1() == bor_time_l1
+
+        assert recovery == recovery.setBorTimeL1(None)
+        assert recovery.getBorTimeL1() == bor_time_l1
+
+        getter_hints = typing.get_type_hints(CanClusterBusOffRecovery.getBorTimeL1)
+        assert getter_hints.get("return") == typing.Optional[TimeValue]
+
+        setter_hints = typing.get_type_hints(CanClusterBusOffRecovery.setBorTimeL1)
+        assert setter_hints.get("value") == typing.Optional[TimeValue]
+        assert setter_hints.get("return") is CanClusterBusOffRecovery
+
+    def test_bor_time_l1_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.10)"""
+        self._assert_docstring(CanClusterBusOffRecovery.getBorTimeL1, BOR_TIME_L1_NOTE)
+        self._assert_docstring(CanClusterBusOffRecovery.setBorTimeL1, BOR_TIME_L1_NOTE, "borTimeL1")
+
+    def test_get_set_bor_time_l2(self):
+        """Test borTimeL2 default, guarded set chaining, None no-op and typing"""
+        recovery = CanClusterBusOffRecovery()
+
+        assert recovery.getBorTimeL2() is None
+
+        bor_time_l2 = TimeValue()
+        bor_time_l2.setValue("1.5")
+        assert recovery == recovery.setBorTimeL2(bor_time_l2)
+        assert recovery.getBorTimeL2() == bor_time_l2
+
+        assert recovery == recovery.setBorTimeL2(None)
+        assert recovery.getBorTimeL2() == bor_time_l2
+
+        getter_hints = typing.get_type_hints(CanClusterBusOffRecovery.getBorTimeL2)
+        assert getter_hints.get("return") == typing.Optional[TimeValue]
+
+        setter_hints = typing.get_type_hints(CanClusterBusOffRecovery.setBorTimeL2)
+        assert setter_hints.get("value") == typing.Optional[TimeValue]
+        assert setter_hints.get("return") is CanClusterBusOffRecovery
+
+    def test_bor_time_l2_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.10)"""
+        self._assert_docstring(CanClusterBusOffRecovery.getBorTimeL2, BOR_TIME_L2_NOTE)
+        self._assert_docstring(CanClusterBusOffRecovery.setBorTimeL2, BOR_TIME_L2_NOTE, "borTimeL2")
+
+    def test_get_set_bor_time_tx_ensured(self):
+        """Test borTimeTxEnsured default, guarded set chaining, None no-op and typing"""
+        recovery = CanClusterBusOffRecovery()
+
+        assert recovery.getBorTimeTxEnsured() is None
+
+        bor_time_tx_ensured = TimeValue()
+        bor_time_tx_ensured.setValue("0.2")
+        assert recovery == recovery.setBorTimeTxEnsured(bor_time_tx_ensured)
+        assert recovery.getBorTimeTxEnsured() == bor_time_tx_ensured
+
+        assert recovery == recovery.setBorTimeTxEnsured(None)
+        assert recovery.getBorTimeTxEnsured() == bor_time_tx_ensured
+
+        getter_hints = typing.get_type_hints(CanClusterBusOffRecovery.getBorTimeTxEnsured)
+        assert getter_hints.get("return") == typing.Optional[TimeValue]
+
+        setter_hints = typing.get_type_hints(CanClusterBusOffRecovery.setBorTimeTxEnsured)
+        assert setter_hints.get("value") == typing.Optional[TimeValue]
+        assert setter_hints.get("return") is CanClusterBusOffRecovery
+
+    def test_bor_time_tx_ensured_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.10)"""
+        self._assert_docstring(CanClusterBusOffRecovery.getBorTimeTxEnsured, BOR_TIME_TX_ENSURED_NOTE)
+        self._assert_docstring(CanClusterBusOffRecovery.setBorTimeTxEnsured, BOR_TIME_TX_ENSURED_NOTE, "borTimeTxEnsured")
+
+    def test_get_set_main_function_period(self):
+        """Test mainFunctionPeriod default, guarded set chaining, None no-op and typing"""
+        recovery = CanClusterBusOffRecovery()
+
+        assert recovery.getMainFunctionPeriod() is None
+
+        period = TimeValue()
+        period.setValue("0.01")
+        assert recovery == recovery.setMainFunctionPeriod(period)
+        assert recovery.getMainFunctionPeriod() == period
+
+        assert recovery == recovery.setMainFunctionPeriod(None)
+        assert recovery.getMainFunctionPeriod() == period
+
+        getter_hints = typing.get_type_hints(CanClusterBusOffRecovery.getMainFunctionPeriod)
+        assert getter_hints.get("return") == typing.Optional[TimeValue]
+
+        setter_hints = typing.get_type_hints(CanClusterBusOffRecovery.setMainFunctionPeriod)
+        assert setter_hints.get("value") == typing.Optional[TimeValue]
+        assert setter_hints.get("return") is CanClusterBusOffRecovery
+
+    def test_main_function_period_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.10)"""
+        self._assert_docstring(CanClusterBusOffRecovery.getMainFunctionPeriod, MAIN_FUNCTION_PERIOD_NOTE)
+        self._assert_docstring(CanClusterBusOffRecovery.setMainFunctionPeriod, MAIN_FUNCTION_PERIOD_NOTE, "mainFunctionPeriod")
+
+
+CAN_COMMUNICATION_CONNECTOR_CLASS_NOTE = "CAN bus specific communication connector attributes."
+PNC_WAKEUP_CAN_ID_NOTE = "CAN Identifier used to configure the CAN Transceiver for partial network wakeup."
+PNC_WAKEUP_CAN_ID_EXTENDED_NOTE = "Defines whether pncWakeupCanId and pncWakeupCanIdMask shall be interpreted as extended or standard CAN ID."
+PNC_WAKEUP_CAN_ID_MASK_NOTE = "Bit mask for CAN Identifier used to configure the CAN Transceiver for partial network wakeup."
+PNC_WAKEUP_DATA_MASK_NOTE = "Bit mask for CAN Payload used to configure the CAN Transceiver for partial network wakeup."
+PNC_WAKEUP_DLC_NOTE = "Data Length of the remote data frame used to configure the CAN Transceiver for partial network wakeup in Bytes."
+
+
+class TestCanCommunicationConnector:
+    def _make(self) -> CanCommunicationConnector:
+        return CanCommunicationConnector(MockParent(), "test_can_comm_connector")
+
+    def test_initialization(self):
+        """Test that all __init__ fields default to None and the base shape follows Table 3.23"""
+        connector = self._make()
+
+        assert isinstance(connector, AbstractCanCommunicationConnector)
+        assert isinstance(connector, CommunicationConnector)
+        assert connector.getPncWakeupCanId() is None
+        assert connector.getPncWakeupCanIdExtended() is None
+        assert connector.getPncWakeupCanIdMask() is None
+        assert connector.getPncWakeupDataMask() is None
+        assert connector.getPncWakeupDlc() is None
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.23)"""
+        assert inspect.cleandoc(CanCommunicationConnector.__doc__).strip() == CAN_COMMUNICATION_CONNECTOR_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert CanCommunicationConnector.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 3.23)"""
+        source = inspect.getsource(CanCommunicationConnector.__init__)
+        assert source.index("self.pncWakeupCanId:") < source.index("self.pncWakeupCanIdExtended:")
+        assert source.index("self.pncWakeupCanIdExtended:") < source.index("self.pncWakeupCanIdMask:")
+        assert source.index("self.pncWakeupCanIdMask:") < source.index("self.pncWakeupDataMask:")
+        assert source.index("self.pncWakeupDataMask:") < source.index("self.pncWakeupDlc:")
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        doc = method.__doc__
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == expected
+
+    def test_get_set_pnc_wakeup_can_id(self):
+        """Test pncWakeupCanId default, guarded set chaining, None no-op and typing"""
+        connector = self._make()
+
+        assert connector.getPncWakeupCanId() is None
+
+        can_id = PositiveInteger()
+        can_id.setValue("401")
+        assert connector == connector.setPncWakeupCanId(can_id)
+        assert connector.getPncWakeupCanId() == can_id
+
+        assert connector == connector.setPncWakeupCanId(None)
+        assert connector.getPncWakeupCanId() == can_id
+
+        getter_hints = typing.get_type_hints(CanCommunicationConnector.getPncWakeupCanId)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(CanCommunicationConnector.setPncWakeupCanId)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is CanCommunicationConnector
+
+    def test_pnc_wakeup_can_id_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.23)"""
+        self._assert_docstring(CanCommunicationConnector.getPncWakeupCanId, PNC_WAKEUP_CAN_ID_NOTE)
+        self._assert_docstring(CanCommunicationConnector.setPncWakeupCanId, PNC_WAKEUP_CAN_ID_NOTE, "pncWakeupCanId")
+
+    def test_get_set_pnc_wakeup_can_id_extended(self):
+        """Test pncWakeupCanIdExtended default, guarded set chaining, None no-op and typing"""
+        connector = self._make()
+
+        assert connector.getPncWakeupCanIdExtended() is None
+
+        extended = Boolean()
+        extended.setValue(True)
+        assert connector == connector.setPncWakeupCanIdExtended(extended)
+        assert connector.getPncWakeupCanIdExtended() == extended
+
+        assert connector == connector.setPncWakeupCanIdExtended(None)
+        assert connector.getPncWakeupCanIdExtended() == extended
+
+        getter_hints = typing.get_type_hints(CanCommunicationConnector.getPncWakeupCanIdExtended)
+        assert getter_hints.get("return") == typing.Optional[Boolean]
+
+        setter_hints = typing.get_type_hints(CanCommunicationConnector.setPncWakeupCanIdExtended)
+        assert setter_hints.get("value") == typing.Optional[Boolean]
+        assert setter_hints.get("return") is CanCommunicationConnector
+
+    def test_pnc_wakeup_can_id_extended_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.23)"""
+        self._assert_docstring(CanCommunicationConnector.getPncWakeupCanIdExtended, PNC_WAKEUP_CAN_ID_EXTENDED_NOTE)
+        self._assert_docstring(CanCommunicationConnector.setPncWakeupCanIdExtended, PNC_WAKEUP_CAN_ID_EXTENDED_NOTE, "pncWakeupCanIdExtended")
+
+    def test_get_set_pnc_wakeup_can_id_mask(self):
+        """Test pncWakeupCanIdMask default, guarded set chaining, None no-op and typing"""
+        connector = self._make()
+
+        assert connector.getPncWakeupCanIdMask() is None
+
+        mask = PositiveInteger()
+        mask.setValue("255")
+        assert connector == connector.setPncWakeupCanIdMask(mask)
+        assert connector.getPncWakeupCanIdMask() == mask
+
+        assert connector == connector.setPncWakeupCanIdMask(None)
+        assert connector.getPncWakeupCanIdMask() == mask
+
+        getter_hints = typing.get_type_hints(CanCommunicationConnector.getPncWakeupCanIdMask)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(CanCommunicationConnector.setPncWakeupCanIdMask)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is CanCommunicationConnector
+
+    def test_pnc_wakeup_can_id_mask_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.23)"""
+        self._assert_docstring(CanCommunicationConnector.getPncWakeupCanIdMask, PNC_WAKEUP_CAN_ID_MASK_NOTE)
+        self._assert_docstring(CanCommunicationConnector.setPncWakeupCanIdMask, PNC_WAKEUP_CAN_ID_MASK_NOTE, "pncWakeupCanIdMask")
+
+    def test_get_set_pnc_wakeup_data_mask(self):
+        """Test pncWakeupDataMask default, guarded set chaining, None no-op and typing"""
+        connector = self._make()
+
+        assert connector.getPncWakeupDataMask() is None
+
+        data_mask = PositiveUnlimitedInteger()
+        data_mask.setValue("255")
+        assert connector == connector.setPncWakeupDataMask(data_mask)
+        assert connector.getPncWakeupDataMask() == data_mask
+
+        assert connector == connector.setPncWakeupDataMask(None)
+        assert connector.getPncWakeupDataMask() == data_mask
+
+        getter_hints = typing.get_type_hints(CanCommunicationConnector.getPncWakeupDataMask)
+        assert getter_hints.get("return") == typing.Optional[PositiveUnlimitedInteger]
+
+        setter_hints = typing.get_type_hints(CanCommunicationConnector.setPncWakeupDataMask)
+        assert setter_hints.get("value") == typing.Optional[PositiveUnlimitedInteger]
+        assert setter_hints.get("return") is CanCommunicationConnector
+
+    def test_pnc_wakeup_data_mask_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.23)"""
+        self._assert_docstring(CanCommunicationConnector.getPncWakeupDataMask, PNC_WAKEUP_DATA_MASK_NOTE)
+        self._assert_docstring(CanCommunicationConnector.setPncWakeupDataMask, PNC_WAKEUP_DATA_MASK_NOTE, "pncWakeupDataMask")
+
+    def test_get_set_pnc_wakeup_dlc(self):
+        """Test pncWakeupDlc default, guarded set chaining, None no-op and typing"""
+        connector = self._make()
+
+        assert connector.getPncWakeupDlc() is None
+
+        dlc = PositiveInteger()
+        dlc.setValue("8")
+        assert connector == connector.setPncWakeupDlc(dlc)
+        assert connector.getPncWakeupDlc() == dlc
+
+        assert connector == connector.setPncWakeupDlc(None)
+        assert connector.getPncWakeupDlc() == dlc
+
+        getter_hints = typing.get_type_hints(CanCommunicationConnector.getPncWakeupDlc)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(CanCommunicationConnector.setPncWakeupDlc)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is CanCommunicationConnector
+
+    def test_pnc_wakeup_dlc_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.23)"""
+        self._assert_docstring(CanCommunicationConnector.getPncWakeupDlc, PNC_WAKEUP_DLC_NOTE)
+        self._assert_docstring(CanCommunicationConnector.setPncWakeupDlc, PNC_WAKEUP_DLC_NOTE, "pncWakeupDlc")
+
+
+CAN_CONTROLLER_CONFIGURATION_CLASS_NOTE = "This element is used for the specification of the exact CAN Bit Timing configuration parameter values."
+PROP_SEG_NOTE = "Specifies propagation delay in time quantas."
+SYNC_JUMP_WIDTH_NOTE = "The number of quanta in the Synchronization Jump Width, SJW. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors."
+TIME_SEG_1_NOTE = "Specifies phase segment 1 in time quantas. timeSeg1 = Phase_Seg1"
+TIME_SEG_2_NOTE = "Specifies phase segment 2 in time quantas. timeSeg2 = Phase_Seg2"
+
+
+class TestCanControllerConfiguration:
+    def test_initialization(self):
+        """Test that all __init__ fields default to None, incl. inherited base fields"""
+        config = CanControllerConfiguration()
+
+        assert isinstance(config, ARObject)
+        assert isinstance(config, AbstractCanCommunicationControllerAttributes)
+        assert config.getPropSeg() is None
+        assert config.getSyncJumpWidth() is None
+        assert config.getTimeSeg1() is None
+        assert config.getTimeSeg2() is None
+        assert config.getCanControllerFdAttributes() is None
+        assert config.getCanControllerFdRequirements() is None
+        assert config.getCanControllerXlAttributes() is None
+        assert config.getCanControllerXlRequirements() is None
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.14)"""
+        assert inspect.cleandoc(CanControllerConfiguration.__doc__).strip() == CAN_CONTROLLER_CONFIGURATION_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert CanControllerConfiguration.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 3.14)"""
+        source = inspect.getsource(CanControllerConfiguration.__init__)
+        assert source.index("self.propSeg") < source.index("self.syncJumpWidth")
+        assert source.index("self.syncJumpWidth") < source.index("self.timeSeg1")
+        assert source.index("self.timeSeg1") < source.index("self.timeSeg2")
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        doc = method.__doc__
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == expected
+
+    def test_get_set_prop_seg(self):
+        """Test propSeg default, guarded set chaining, None no-op and typing"""
+        config = CanControllerConfiguration()
+
+        assert config.getPropSeg() is None
+
+        prop_seg = Integer()
+        prop_seg.setValue("8")
+        assert config == config.setPropSeg(prop_seg)
+        assert config.getPropSeg() == prop_seg
+
+        assert config == config.setPropSeg(None)
+        assert config.getPropSeg() == prop_seg
+
+        getter_hints = typing.get_type_hints(CanControllerConfiguration.getPropSeg)
+        assert getter_hints.get("return") == typing.Optional[Integer]
+
+        setter_hints = typing.get_type_hints(CanControllerConfiguration.setPropSeg)
+        assert setter_hints.get("value") == typing.Optional[Integer]
+        assert setter_hints.get("return") is CanControllerConfiguration
+
+    def test_prop_seg_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.14)"""
+        self._assert_docstring(CanControllerConfiguration.getPropSeg, PROP_SEG_NOTE)
+        self._assert_docstring(CanControllerConfiguration.setPropSeg, PROP_SEG_NOTE, "propSeg")
+
+    def test_get_set_sync_jump_width(self):
+        """Test syncJumpWidth default, guarded set chaining, None no-op and typing"""
+        config = CanControllerConfiguration()
+
+        assert config.getSyncJumpWidth() is None
+
+        sjw = Integer()
+        sjw.setValue("2")
+        assert config == config.setSyncJumpWidth(sjw)
+        assert config.getSyncJumpWidth() == sjw
+
+        assert config == config.setSyncJumpWidth(None)
+        assert config.getSyncJumpWidth() == sjw
+
+        getter_hints = typing.get_type_hints(CanControllerConfiguration.getSyncJumpWidth)
+        assert getter_hints.get("return") == typing.Optional[Integer]
+
+        setter_hints = typing.get_type_hints(CanControllerConfiguration.setSyncJumpWidth)
+        assert setter_hints.get("value") == typing.Optional[Integer]
+        assert setter_hints.get("return") is CanControllerConfiguration
+
+    def test_sync_jump_width_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.14)"""
+        self._assert_docstring(CanControllerConfiguration.getSyncJumpWidth, SYNC_JUMP_WIDTH_NOTE)
+        self._assert_docstring(CanControllerConfiguration.setSyncJumpWidth, SYNC_JUMP_WIDTH_NOTE, "syncJumpWidth")
+
+    def test_get_set_time_seg1(self):
+        """Test timeSeg1 default, guarded set chaining, None no-op and typing"""
+        config = CanControllerConfiguration()
+
+        assert config.getTimeSeg1() is None
+
+        time_seg1 = Integer()
+        time_seg1.setValue("13")
+        assert config == config.setTimeSeg1(time_seg1)
+        assert config.getTimeSeg1() == time_seg1
+
+        assert config == config.setTimeSeg1(None)
+        assert config.getTimeSeg1() == time_seg1
+
+        getter_hints = typing.get_type_hints(CanControllerConfiguration.getTimeSeg1)
+        assert getter_hints.get("return") == typing.Optional[Integer]
+
+        setter_hints = typing.get_type_hints(CanControllerConfiguration.setTimeSeg1)
+        assert setter_hints.get("value") == typing.Optional[Integer]
+        assert setter_hints.get("return") is CanControllerConfiguration
+
+    def test_time_seg1_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.14)"""
+        self._assert_docstring(CanControllerConfiguration.getTimeSeg1, TIME_SEG_1_NOTE)
+        self._assert_docstring(CanControllerConfiguration.setTimeSeg1, TIME_SEG_1_NOTE, "timeSeg1")
+
+    def test_get_set_time_seg2(self):
+        """Test timeSeg2 default, guarded set chaining, None no-op and typing"""
+        config = CanControllerConfiguration()
+
+        assert config.getTimeSeg2() is None
+
+        time_seg2 = Integer()
+        time_seg2.setValue("2")
+        assert config == config.setTimeSeg2(time_seg2)
+        assert config.getTimeSeg2() == time_seg2
+
+        assert config == config.setTimeSeg2(None)
+        assert config.getTimeSeg2() == time_seg2
+
+        getter_hints = typing.get_type_hints(CanControllerConfiguration.getTimeSeg2)
+        assert getter_hints.get("return") == typing.Optional[Integer]
+
+        setter_hints = typing.get_type_hints(CanControllerConfiguration.setTimeSeg2)
+        assert setter_hints.get("value") == typing.Optional[Integer]
+        assert setter_hints.get("return") is CanControllerConfiguration
+
+    def test_time_seg2_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.14)"""
+        self._assert_docstring(CanControllerConfiguration.getTimeSeg2, TIME_SEG_2_NOTE)
+        self._assert_docstring(CanControllerConfiguration.setTimeSeg2, TIME_SEG_2_NOTE, "timeSeg2")

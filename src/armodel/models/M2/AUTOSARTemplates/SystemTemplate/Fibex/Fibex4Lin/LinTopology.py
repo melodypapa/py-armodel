@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional
 
@@ -44,7 +46,7 @@ class LinCommunicationController(CommunicationController, ABC):
         """Version specifier for a communication protocol."""
         return self.protocolVersion
 
-    def setProtocolVersion(self, value: Optional[String]) -> "LinCommunicationController":
+    def setProtocolVersion(self, value: Optional[String]) -> LinCommunicationController:
         """
         Version specifier for a communication protocol.
         A None value is a no-op and does not overwrite an existing protocolVersion.
@@ -75,7 +77,7 @@ class LinMaster(LinCommunicationController):
         super().__init__(parent, short_name)
 
         # LinSlaves that are handled by the LinMaster.
-        self.linSlaves: List["LinSlaveConfig"] = []
+        self.linSlaves: List[LinSlaveConfig] = []
 
         # Time base is mandatory for the master. It is not used for slaves. LIN 2.0 Spec states: "The time_base value specifies the used time base in the master node to generate the maximum allowed frame transfer time." The time base shall be specified AUTOSAR conform in seconds.
         self.timeBase: Optional[TimeValue] = None
@@ -83,11 +85,11 @@ class LinMaster(LinCommunicationController):
         # The attribute timeBaseJitter is a mandatory attribute for the master and not used for slaves. LIN 2.0 Spec states: "The jitter value specifies the differences between the maximum and minimum delay from time base start point to the frame header sending start point (falling edge of BREAK signal)." The jitter shall be specified AUTOSAR conform in seconds.
         self.timeBaseJitter: Optional[TimeValue] = None
 
-    def getLinSlaves(self) -> List["LinSlaveConfig"]:
+    def getLinSlaves(self) -> List[LinSlaveConfig]:
         """LinSlaves that are handled by the LinMaster."""
         return self.linSlaves
 
-    def addLinSlave(self, value: "LinSlaveConfig") -> "LinMaster":
+    def addLinSlave(self, value: LinSlaveConfig) -> LinMaster:
         """
         LinSlaves that are handled by the LinMaster.
         A None value is a no-op and does not extend linSlaves.
@@ -100,7 +102,7 @@ class LinMaster(LinCommunicationController):
         """Time base is mandatory for the master. It is not used for slaves. LIN 2.0 Spec states: "The time_base value specifies the used time base in the master node to generate the maximum allowed frame transfer time." The time base shall be specified AUTOSAR conform in seconds."""
         return self.timeBase
 
-    def setTimeBase(self, value: Optional[TimeValue]) -> "LinMaster":
+    def setTimeBase(self, value: Optional[TimeValue]) -> LinMaster:
         """
         Time base is mandatory for the master. It is not used for slaves. LIN 2.0 Spec states: "The time_base value specifies the used time base in the master node to generate the maximum allowed frame transfer time." The time base shall be specified AUTOSAR conform in seconds.
         A None value is a no-op and does not overwrite an existing timeBase.
@@ -113,7 +115,7 @@ class LinMaster(LinCommunicationController):
         """The attribute timeBaseJitter is a mandatory attribute for the master and not used for slaves. LIN 2.0 Spec states: "The jitter value specifies the differences between the maximum and minimum delay from time base start point to the frame header sending start point (falling edge of BREAK signal)." The jitter shall be specified AUTOSAR conform in seconds."""
         return self.timeBaseJitter
 
-    def setTimeBaseJitter(self, value: Optional[TimeValue]) -> "LinMaster":
+    def setTimeBaseJitter(self, value: Optional[TimeValue]) -> LinMaster:
         """
         The attribute timeBaseJitter is a mandatory attribute for the master and not used for slaves. LIN 2.0 Spec states: "The jitter value specifies the differences between the maximum and minimum delay from time base start point to the frame header sending start point (falling edge of BREAK signal)." The jitter shall be specified AUTOSAR conform in seconds.
         A None value is a no-op and does not overwrite an existing timeBaseJitter.
@@ -125,58 +127,103 @@ class LinMaster(LinCommunicationController):
 
 class LinCommunicationConnector(CommunicationConnector):
     """
-    Defines a LIN communication connector that links LIN controllers
-    to communication channels, specifying initial NAD (Node Address),
-    configurable frames, and schedule change properties for LIN communication.
+    LIN bus specific communication connector attributes.
+
+    [constr_3029] Assign-Frame command usage: For the LIN 2.0 Assign-Frame command the LinConfigurableFrame list shall be used. For the LIN 2.1 Assign-Frame-PID-Range command the LinOrderedConfigurableFrame list shall be used.
+
+    [constr_5030] Uniqueness of LinOrderedConfigurableFrame.index: LinOrderedConfigurableFrame.index shall always be set and be unique in the context of the aggregating LinCommunicationConnector.
+
+    [constr_5450] Existence of index: For each LinOrderedConfigurableFrame, the attribute shall index shall exist at the time when the System Description is complete.
+
+    [constr_5451] Existence of LinOrderedConfigurableFrame.frame reference: For each LinOrderedConfigurableFrame, the reference to LinFrame in the role frame shall exist at the time when the System Description is complete.
+
+    [constr_5452] Existence of LinConfigurableFrame.frame reference: For each LinConfigurableFrame, the reference to LinFrame in the role frame shall exist at the time when the System Description is complete.
     """
 
     # LinCommunicationConnector method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitialNad                [x] impl  [ ] docstring  [ ] test
-    # [ ] setInitialNad                [x] impl  [ ] docstring  [ ] test
-    # [ ] getLinConfigurableFrames     [x] impl  [ ] docstring  [ ] test
-    # [ ] addLinConfigurableFrame      [x] impl  [ ] docstring  [ ] test
-    # [ ] getLinOrderedConfigurableFrames [x] impl  [ ] docstring  [ ] test
-    # [ ] addLinOrderedConfigurableFrame [x] impl  [ ] docstring  [ ] test
-    # [ ] getScheduleChangeNextTimeBase [x] impl  [ ] docstring  [ ] test
-    # [ ] setScheduleChangeNextTimeBase [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.43, p.98
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInitialNad                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitialNad                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addLinConfigurableFrame         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLinConfigurableFrames        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addLinOrderedConfigurableFrame  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLinOrderedConfigurableFrames [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getScheduleChangeNextTimeBase   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setScheduleChangeNextTimeBase   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.initialNad: Integer = None
-        self.linConfigurableFrames = []
-        self.linOrderedConfigurableFrames = []
-        self.scheduleChangeNextTimeBase: Boolean = None
+        # Initial NAD of the LIN slave.
+        self.initialNad: Optional[Integer] = None
 
-    def getInitialNad(self):
+        # LinConfigurableFrames shall list all frames (unconditional frames, event-triggered frames and sporadic frames) processed by the slave node. This element is necessary for the LIN 2.0 Assign-Frame command.
+        self.linConfigurableFrames: List[LinConfigurableFrame] = []
+
+        # LinOrderedConfigurableFrames shall list all frames (unconditional frames, event-triggered frames and sporadic frames) processed by the slave node. This element is necessary for the LIN 2.1 Assign-Frame-PID-Range command.
+        self.linOrderedConfigurableFrames: List[LinOrderedConfigurableFrame] = []
+
+        # This attribute defines the point in time where a schedule table switch is performed. If this attribute is set to false or not present, the schedule table shall be switched after the current entry of the active schedule table is ended. If this attribute is enabled, the schedule table shall be switched when message transmission or reception within an entry has been completed, ensured by status checks for transmission and reception.
+        self.scheduleChangeNextTimeBase: Optional[Boolean] = None
+
+    def getInitialNad(self) -> Optional[Integer]:
+        """
+        Initial NAD of the LIN slave.
+        """
         return self.initialNad
 
-    def setInitialNad(self, value):
+    def setInitialNad(self, value: Optional[Integer]) -> LinCommunicationConnector:
+        """
+        Initial NAD of the LIN slave.
+        A None value is a no-op and does not overwrite an existing initialNad.
+        """
         if value is not None:
             self.initialNad = value
         return self
 
-    def getLinConfigurableFrames(self):
-        return self.linConfigurableFrames
-
-    def addLinConfigurableFrame(self, value):
+    def addLinConfigurableFrame(self, value: LinConfigurableFrame) -> LinCommunicationConnector:
+        """
+        LinConfigurableFrames shall list all frames (unconditional frames, event-triggered frames and sporadic frames) processed by the slave node. This element is necessary for the LIN 2.0 Assign-Frame command.
+        A None value is a no-op and does not extend linConfigurableFrames.
+        """
         if value is not None:
             self.linConfigurableFrames.append(value)
         return self
 
-    def getLinOrderedConfigurableFrames(self):
-        return self.linOrderedConfigurableFrames
+    def getLinConfigurableFrames(self) -> List[LinConfigurableFrame]:
+        """
+        LinConfigurableFrames shall list all frames (unconditional frames, event-triggered frames and sporadic frames) processed by the slave node. This element is necessary for the LIN 2.0 Assign-Frame command.
+        """
+        return self.linConfigurableFrames
 
-    def addLinOrderedConfigurableFrame(self, value):
+    def addLinOrderedConfigurableFrame(self, value: LinOrderedConfigurableFrame) -> LinCommunicationConnector:
+        """
+        LinOrderedConfigurableFrames shall list all frames (unconditional frames, event-triggered frames and sporadic frames) processed by the slave node. This element is necessary for the LIN 2.1 Assign-Frame-PID-Range command.
+        A None value is a no-op and does not extend linOrderedConfigurableFrames.
+        """
         if value is not None:
             self.linOrderedConfigurableFrames.append(value)
         return self
 
-    def getScheduleChangeNextTimeBase(self):
+    def getLinOrderedConfigurableFrames(self) -> List[LinOrderedConfigurableFrame]:
+        """
+        LinOrderedConfigurableFrames shall list all frames (unconditional frames, event-triggered frames and sporadic frames) processed by the slave node. This element is necessary for the LIN 2.1 Assign-Frame-PID-Range command.
+        """
+        return self.linOrderedConfigurableFrames
+
+    def getScheduleChangeNextTimeBase(self) -> Optional[Boolean]:
+        """
+        This attribute defines the point in time where a schedule table switch is performed. If this attribute is set to false or not present, the schedule table shall be switched after the current entry of the active schedule table is ended. If this attribute is enabled, the schedule table shall be switched when message transmission or reception within an entry has been completed, ensured by status checks for transmission and reception.
+        """
         return self.scheduleChangeNextTimeBase
 
-    def setScheduleChangeNextTimeBase(self, value):
+    def setScheduleChangeNextTimeBase(self, value: Optional[Boolean]) -> LinCommunicationConnector:
+        """
+        This attribute defines the point in time where a schedule table switch is performed. If this attribute is set to false or not present, the schedule table shall be switched after the current entry of the active schedule table is ended. If this attribute is enabled, the schedule table shall be switched when message transmission or reception within an entry has been completed, ensured by status checks for transmission and reception.
+        A None value is a no-op and does not overwrite an existing scheduleChangeNextTimeBase.
+        """
         if value is not None:
             self.scheduleChangeNextTimeBase = value
         return self
@@ -208,7 +255,7 @@ class LinConfigurableFrame(ARObject):
         """Reference to a Frame that is processed by the slave node."""
         return self.frameRef
 
-    def setFrameRef(self, value: Optional[RefType]) -> "LinConfigurableFrame":
+    def setFrameRef(self, value: Optional[RefType]) -> LinConfigurableFrame:
         """
         Reference to a Frame that is processed by the slave node.
         A None value is a no-op and does not overwrite an existing frameRef.
@@ -221,7 +268,7 @@ class LinConfigurableFrame(ARObject):
         """MessageId for the referenced frame"""
         return self.messageId
 
-    def setMessageId(self, value: Optional[PositiveInteger]) -> "LinConfigurableFrame":
+    def setMessageId(self, value: Optional[PositiveInteger]) -> LinConfigurableFrame:
         """
         MessageId for the referenced frame
         A None value is a no-op and does not overwrite an existing messageId.
@@ -257,7 +304,7 @@ class LinOrderedConfigurableFrame(ARObject):
         """Reference to a Frame that is processed by the slave node."""
         return self.frameRef
 
-    def setFrameRef(self, value: Optional[RefType]) -> "LinOrderedConfigurableFrame":
+    def setFrameRef(self, value: Optional[RefType]) -> LinOrderedConfigurableFrame:
         """
         Reference to a Frame that is processed by the slave node.
         A None value is a no-op and does not overwrite an existing frameRef.
@@ -270,7 +317,7 @@ class LinOrderedConfigurableFrame(ARObject):
         """This attribute is used to order the elements and allows an assignment of Pids to ConfigurableFrames that are defined in the slave."""
         return self.index
 
-    def setIndex(self, value: Optional[Integer]) -> "LinOrderedConfigurableFrame":
+    def setIndex(self, value: Optional[Integer]) -> LinOrderedConfigurableFrame:
         """
         This attribute is used to order the elements and allows an assignment of Pids to ConfigurableFrames that are defined in the slave.
         A None value is a no-op and does not overwrite an existing index.
@@ -346,7 +393,7 @@ class LinSlaveConfig(ARObject):
         """To distinguish LIN slaves that are used twice or more within the same cluster."""
         return self.configuredNad
 
-    def setConfiguredNad(self, value: Optional[Integer]) -> "LinSlaveConfig":
+    def setConfiguredNad(self, value: Optional[Integer]) -> LinSlaveConfig:
         """
         To distinguish LIN slaves that are used twice or more within the same cluster.
         A None value is a no-op and does not overwrite an existing configuredNad.
@@ -359,7 +406,7 @@ class LinSlaveConfig(ARObject):
         """LIN function ID."""
         return self.functionId
 
-    def setFunctionId(self, value: Optional[PositiveInteger]) -> "LinSlaveConfig":
+    def setFunctionId(self, value: Optional[PositiveInteger]) -> LinSlaveConfig:
         """
         LIN function ID.
         A None value is a no-op and does not overwrite an existing functionId.
@@ -372,7 +419,7 @@ class LinSlaveConfig(ARObject):
         """This adds the ability to become referrable to LinSlaveConfig."""
         return self.ident
 
-    def setIdent(self, value: Optional[LinSlaveConfigIdent]) -> "LinSlaveConfig":
+    def setIdent(self, value: Optional[LinSlaveConfigIdent]) -> LinSlaveConfig:
         """
         This adds the ability to become referrable to LinSlaveConfig.
         A None value is a no-op and does not overwrite an existing ident.
@@ -385,7 +432,7 @@ class LinSlaveConfig(ARObject):
         """Initial NAD of the LIN slave."""
         return self.initialNad
 
-    def setInitialNad(self, value: Optional[Integer]) -> "LinSlaveConfig":
+    def setInitialNad(self, value: Optional[Integer]) -> LinSlaveConfig:
         """
         Initial NAD of the LIN slave.
         A None value is a no-op and does not overwrite an existing initialNad.
@@ -398,7 +445,7 @@ class LinSlaveConfig(ARObject):
         """List of all frames that are processed by the slave node"""
         return self.linConfigurableFrames
 
-    def addLinConfigurableFrame(self, value: LinConfigurableFrame) -> "LinSlaveConfig":
+    def addLinConfigurableFrame(self, value: LinConfigurableFrame) -> LinSlaveConfig:
         """
         List of all frames that are processed by the slave node
         A None value is a no-op and does not extend linConfigurableFrames.
@@ -411,7 +458,7 @@ class LinSlaveConfig(ARObject):
         """Each slave node shall publish one response error in one of its transmitted unconditional frames."""
         return self.linErrorResponse
 
-    def setLinErrorResponse(self, value: Optional[LinErrorResponse]) -> "LinSlaveConfig":
+    def setLinErrorResponse(self, value: Optional[LinErrorResponse]) -> LinSlaveConfig:
         """
         Each slave node shall publish one response error in one of its transmitted unconditional frames.
         A None value is a no-op and does not overwrite an existing linErrorResponse.
@@ -424,7 +471,7 @@ class LinSlaveConfig(ARObject):
         """List of all frames (unconditional frames, event-triggered frames and sporadic frames) processed by the slave node. This element is necessary for the LIN 2.1 Assign-Frame-PID-Range command."""
         return self.linOrderedConfigurableFrames
 
-    def addLinOrderedConfigurableFrame(self, value: LinOrderedConfigurableFrame) -> "LinSlaveConfig":
+    def addLinOrderedConfigurableFrame(self, value: LinOrderedConfigurableFrame) -> LinSlaveConfig:
         """
         List of all frames (unconditional frames, event-triggered frames and sporadic frames) processed by the slave node. This element is necessary for the LIN 2.1 Assign-Frame-PID-Range command.
         A None value is a no-op and does not extend linOrderedConfigurableFrames.
@@ -437,7 +484,7 @@ class LinSlaveConfig(ARObject):
         """Version specifier for a communication protocol. Protocol version of the LinMaster and the LinSlaves may be different."""
         return self.protocolVersion
 
-    def setProtocolVersion(self, value: Optional[String]) -> "LinSlaveConfig":
+    def setProtocolVersion(self, value: Optional[String]) -> LinSlaveConfig:
         """
         Version specifier for a communication protocol. Protocol version of the LinMaster and the LinSlaves may be different.
         A None value is a no-op and does not overwrite an existing protocolVersion.
@@ -450,7 +497,7 @@ class LinSlaveConfig(ARObject):
         """LIN Supplier ID."""
         return self.supplierId
 
-    def setSupplierId(self, value: Optional[PositiveInteger]) -> "LinSlaveConfig":
+    def setSupplierId(self, value: Optional[PositiveInteger]) -> LinSlaveConfig:
         """
         LIN Supplier ID.
         A None value is a no-op and does not overwrite an existing supplierId.
@@ -463,7 +510,7 @@ class LinSlaveConfig(ARObject):
         """Specifies the Variant ID."""
         return self.variantId
 
-    def setVariantId(self, value: Optional[PositiveInteger]) -> "LinSlaveConfig":
+    def setVariantId(self, value: Optional[PositiveInteger]) -> LinSlaveConfig:
         """
         Specifies the Variant ID.
         A None value is a no-op and does not overwrite an existing variantId.

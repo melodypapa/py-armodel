@@ -4043,7 +4043,6 @@ class TestReadSystemMappingDataMappings:
             """
             <DATA-MAPPINGS>
                 <SENDER-RECEIVER-TO-SIGNAL-MAPPING>
-                    <COMMUNICATION-DIRECTION>IN</COMMUNICATION-DIRECTION>
                     <DATA-ELEMENT-IREF>
                         <CONTEXT-COMPOSITION-REF DEST="COMPOSITION-SW-COMPONENT-TYPE">/Cmp/Comp</CONTEXT-COMPOSITION-REF>
                         <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Cmp/Comp/sw1</CONTEXT-COMPONENT-REF>
@@ -4064,7 +4063,6 @@ class TestReadSystemMappingDataMappings:
 
         assert isinstance(data_mappings[0], SenderReceiverToSignalMapping)
         assert data_mappings[0].getSystemSignalRef().getValue() == "/Sig/S1"
-        assert data_mappings[0].getCommunicationDirection().getValue() == "IN"
         assert data_mappings[0].getDataElementIRef() is not None
 
     def test_reads_sender_receiver_to_signal_group_mapping(self, parser):

@@ -244,6 +244,60 @@ class TestLinClusterHandlers:
         assert table.getRunMode() is not None
         assert table.getRunMode().getValue() == "continuous"
 
+    def test_readLinScheduleTable_sets_typed_enum_values(self, parser):
+        from armodel.models import LinCluster, LinPhysicalChannel, LinScheduleTable
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ResumePosition, RunMode
+
+        cluster = LinCluster(parent=_autosar_root(), short_name="l")
+        channel = LinPhysicalChannel(parent=cluster, short_name="ch")
+        table = LinScheduleTable(parent=channel, short_name="tbl")
+        element = _snip(
+            "<SHORT-NAME>tbl</SHORT-NAME>" "<RESUME-POSITION>continueAtItPosition</RESUME-POSITION>" "<RUN-MODE>runOnce</RUN-MODE>",
+            root_tag="LIN-SCHEDULE-TABLE",
+        )
+        parser.readLinScheduleTable(element, table)
+        assert isinstance(table.getResumePosition(), ResumePosition)
+        assert table.getResumePosition().getValue() == "continueAtItPosition"
+        assert isinstance(table.getRunMode(), RunMode)
+        assert table.getRunMode().getValue() == "runOnce"
+
+    def test_readLinScheduleTable_absent_elements(self, parser):
+        from armodel.models import LinCluster, LinPhysicalChannel, LinScheduleTable
+
+        cluster = LinCluster(parent=_autosar_root(), short_name="l")
+        channel = LinPhysicalChannel(parent=cluster, short_name="ch")
+        table = LinScheduleTable(parent=channel, short_name="tbl")
+        element = _snip("<SHORT-NAME>tbl</SHORT-NAME>", root_tag="LIN-SCHEDULE-TABLE")
+        parser.readLinScheduleTable(element, table)
+        assert table.getResumePosition() is None
+        assert table.getRunMode() is None
+        assert table.getTableEntries() == []
+
+    def test_readLinScheduleTableTableEntries_multi_entry(self, parser):
+        from armodel.models import LinCluster, LinPhysicalChannel, LinScheduleTable
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, FreeFormat
+
+        cluster = LinCluster(parent=_autosar_root(), short_name="l")
+        channel = LinPhysicalChannel(parent=cluster, short_name="ch")
+        table = LinScheduleTable(parent=channel, short_name="tbl")
+        element = _snip(
+            "<TABLE-ENTRYS>"
+            "<APPLICATION-ENTRY><SHORT-NAME>e1</SHORT-NAME><DELAY>0.02</DELAY>"
+            "<FRAME-TRIGGERING-REF DEST='LIN-FRAME-TRIGGERING'>/cluster/ft</FRAME-TRIGGERING-REF></APPLICATION-ENTRY>"
+            "<FREE-FORMAT><SHORT-NAME>e2</SHORT-NAME><POSITION-IN-TABLE>3</POSITION-IN-TABLE></FREE-FORMAT>"
+            "</TABLE-ENTRYS>",
+            root_tag="LIN-SCHEDULE-TABLE",
+        )
+        parser.readLinScheduleTableTableEntries(element, table)
+        entries = table.getTableEntries()
+        assert len(entries) == 2
+        assert isinstance(entries[0], ApplicationEntry)
+        assert entries[0].getDelay().getValue() == 0.02
+        assert entries[0].getFrameTriggeringRef().getValue() == "/cluster/ft"
+        assert entries[0].getFrameTriggeringRef().getDest() == "LIN-FRAME-TRIGGERING"
+        assert isinstance(entries[1], FreeFormat)
+        assert entries[1].getPositionInTable().getValue() == 3
+
     def test_readLinPhysicalChannelScheduleTables_creates_table(self, parser):
         from armodel.models import LinCluster, LinPhysicalChannel
 
@@ -288,13 +342,29 @@ class TestLinClusterHandlers:
     def test_getApplicationEntry_returns_entry(self, parser):
 
         element = _snip(
-            "<DELAY>0.01</DELAY>" "<POSITION-IN-TABLE>1</POSITION-IN-TABLE>" "<FRAME-TRIGGERING-REF DEST='FRAME-TRIGGERING'>/ft</FRAME-TRIGGERING-REF>",
+            "<DELAY>0.01</DELAY>" "<POSITION-IN-TABLE>1</POSITION-IN-TABLE>" "<FRAME-TRIGGERING-REF DEST='LIN-FRAME-TRIGGERING'>/ft</FRAME-TRIGGERING-REF>",
             root_tag="APPLICATION-ENTRY",
         )
         entry = parser.getApplicationEntry(element, "APPLICATION-ENTRY")
         assert entry is not None
         assert entry.getDelay() is not None
         assert entry.getDelay().getValue() == 0.01
+        assert entry.getPositionInTable() is not None
+        assert entry.getPositionInTable().getValue() == 1
+        assert entry.getFrameTriggeringRef() is not None
+        assert entry.getFrameTriggeringRef().getValue() == "/ft"
+        assert entry.getFrameTriggeringRef().getDest() == "LIN-FRAME-TRIGGERING"
+
+    def test_getApplicationEntry_absent_frame_triggering_ref(self, parser):
+
+        element = _snip("<DELAY>0.02</DELAY>", root_tag="APPLICATION-ENTRY")
+        entry = parser.getApplicationEntry(element, "APPLICATION-ENTRY")
+        assert entry is not None
+        assert entry.getDelay().getValue() == 0.02
+        assert entry.getFrameTriggeringRef() is None
+
+    def test_getApplicationEntry_none_element_returns_none(self, parser):
+        assert parser.getApplicationEntry(None, "APPLICATION-ENTRY") is None
 
 
 class TestFlexrayClusterHandlers:
@@ -3740,3 +3810,76 @@ class TestISignalIPduGroupNmPdus:
         element = _snip("")
         parser.readISignalIPduGroup(element, group)
         assert len(group.getNmPduRefs()) == 0
+
+
+class TestFlexrayFrameTriggeringRead:
+    def test_read_flexray_frame_triggering_full(self, parser):
+        from armodel.models import FlexrayFrameTriggering
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayAbsolutelyScheduledTiming
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CycleCounter
+
+        triggering = FlexrayFrameTriggering(parent=MagicMock(), short_name="Fft")
+        element = _snip(
+            "<SHORT-NAME>Fft</SHORT-NAME>"
+            "<ABSOLUTELY-SCHEDULED-TIMINGS>"
+            "<FLEXRAY-ABSOLUTELY-SCHEDULED-TIMING>"
+            "<COMMUNICATION-CYCLE><CYCLE-COUNTER><CYCLE-COUNTER>2</CYCLE-COUNTER></CYCLE-COUNTER></COMMUNICATION-CYCLE>"
+            "<SLOT-ID>9</SLOT-ID>"
+            "</FLEXRAY-ABSOLUTELY-SCHEDULED-TIMING>"
+            "</ABSOLUTELY-SCHEDULED-TIMINGS>"
+            "<ALLOW-DYNAMIC-L-SDU-LENGTH>true</ALLOW-DYNAMIC-L-SDU-LENGTH>"
+            "<MESSAGE-ID>1024</MESSAGE-ID>"
+            "<PAYLOAD-PREAMBLE-INDICATOR>false</PAYLOAD-PREAMBLE-INDICATOR>",
+            root_tag="FLEXRAY-FRAME-TRIGGERING",
+        )
+        parser.readFlexrayFrameTriggering(element, triggering)
+
+        timings = triggering.getAbsolutelyScheduledTimings()
+        assert len(timings) == 1
+        timing = timings[0]
+        assert isinstance(timing, FlexrayAbsolutelyScheduledTiming)
+        cycle = timing.getCommunicationCycle()
+        assert isinstance(cycle, CycleCounter)
+        assert cycle.getCycleCounter().getValue() == 2
+        assert timing.getSlotID().getValue() == 9
+        assert isinstance(triggering.getAllowDynamicLSduLength(), Boolean)
+        assert triggering.getAllowDynamicLSduLength().getValue() is True
+        assert isinstance(triggering.getMessageId(), PositiveInteger)
+        assert triggering.getMessageId().getValue() == 1024
+        assert isinstance(triggering.getPayloadPreambleIndicator(), Boolean)
+        assert triggering.getPayloadPreambleIndicator().getValue() is False
+
+    def test_read_flexray_frame_triggering_cycle_repetition(self, parser):
+        from armodel.models import FlexrayFrameTriggering
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CycleRepetition
+
+        triggering = FlexrayFrameTriggering(parent=MagicMock(), short_name="Fft")
+        element = _snip(
+            "<SHORT-NAME>Fft</SHORT-NAME>"
+            "<ABSOLUTELY-SCHEDULED-TIMINGS>"
+            "<FLEXRAY-ABSOLUTELY-SCHEDULED-TIMING>"
+            "<COMMUNICATION-CYCLE><CYCLE-REPETITION><BASE-CYCLE>1</BASE-CYCLE></CYCLE-REPETITION></COMMUNICATION-CYCLE>"
+            "</FLEXRAY-ABSOLUTELY-SCHEDULED-TIMING>"
+            "</ABSOLUTELY-SCHEDULED-TIMINGS>",
+            root_tag="FLEXRAY-FRAME-TRIGGERING",
+        )
+        parser.readFlexrayFrameTriggering(element, triggering)
+
+        timing = triggering.getAbsolutelyScheduledTimings()[0]
+        cycle = timing.getCommunicationCycle()
+        assert isinstance(cycle, CycleRepetition)
+        assert cycle.getBaseCycle().getValue() == 1
+        assert timing.getSlotID() is None
+
+    def test_read_flexray_frame_triggering_absent(self, parser):
+        from armodel.models import FlexrayFrameTriggering
+
+        triggering = FlexrayFrameTriggering(parent=MagicMock(), short_name="Fft")
+        element = _snip("<SHORT-NAME>Fft</SHORT-NAME>", root_tag="FLEXRAY-FRAME-TRIGGERING")
+        parser.readFlexrayFrameTriggering(element, triggering)
+
+        assert triggering.getAbsolutelyScheduledTimings() == []
+        assert triggering.getAllowDynamicLSduLength() is None
+        assert triggering.getMessageId() is None
+        assert triggering.getPayloadPreambleIndicator() is None

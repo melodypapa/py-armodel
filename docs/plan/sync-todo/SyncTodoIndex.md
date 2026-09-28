@@ -704,11 +704,11 @@ Status: **0/24** completed
 | `TriggerMode`                 | [ ] Pending  | cc609f42a3 |
 | `SecuredIPdu`                 | [ ] Pending* | 0a98655a06 |
 | `SecuredPduHeaderEnum`        | [ ] Pending  | 3d5cb55dbe |
-| `UserDefinedIPdu`             | [ ] Pending  | N/A        |
-| `UserDefinedPdu`              | [ ] Pending  | N/A        |
+| `UserDefinedIPdu`             | [ ] Pending* | N/A        |
+| `UserDefinedPdu`              | [ ] Pending* | N/A        |
 | `SystemSignal`                | [ ] Pending* | 7c5d9e9d81 |
 | `TimeRangeType`               | [ ] Pending* | dcbc6abdb3 |
-| `TimeRangeTypeTolerance`      | [ ] Pending  | dcbc6abdb3 |
+| `TimeRangeTypeTolerance`      | [ ] Pending* | dcbc6abdb3 |
 | `TransmissionModeCondition`   | [ ] Pending* | dcbc6abdb3 |
 | `TriggerIPduSendCondition`    | [ ] Pending* | dcbc6abdb3 |
 | `CyclicTiming`                | [ ] Pending* | dcbc6abdb3 |
@@ -754,34 +754,36 @@ Status: **0/27** completed
 
 ## Group17
 
-Status: **0/24** completed
+Status: **0/26** completed
 
-| Class Name                                 | Status      | Commit ID |
-| ------------------------------------------ | ----------- | --------- |
-| `CanClusterBusOffRecovery`                 | [ ] Pending | N/A       |
-| `CanCommunicationConnector`                | [ ] Pending | N/A       |
-| `CanControllerConfiguration`               | [ ] Pending | N/A       |
-| `CanControllerConfigurationRequirements`   | [ ] Pending | N/A       |
-| `CanControllerFdConfigurationRequirements` | [ ] Pending | N/A       |
-| `ResumePosition`                           | [ ] Pending | N/A       |
-| `ApplicationEntry`                         | [ ] Pending | N/A       |
-| `LinScheduleTable`                         | [ ] Pending | N/A       |
-| `LinCommunicationConnector`                | [ ] Pending | N/A       |
-| `FlexrayFrameTriggering`                   | [ ] Pending | N/A       |
-| `FlexrayCommunicationConnector`            | [ ] Pending | N/A       |
-| `FlexrayCommunicationController`           | [ ] Pending | N/A       |
-| `FlexrayPhysicalChannel`                   | [ ] Pending | N/A       |
-| `DataMapping`                              | [ ] Pending | N/A       |
-| `IndexedArrayElement`                      | [ ] Pending | N/A       |
-| `SenderRecRecordElementMapping`            | [ ] Pending | N/A       |
-| `SenderRecRecordTypeMapping`               | [ ] Pending | N/A       |
-| `SenderReceiverToSignalMapping`            | [ ] Pending | N/A       |
-| `SenderReceiverToSignalGroupMapping`       | [ ] Pending | N/A       |
-| `DefaultValueElement`                      | [ ] Pending | N/A       |
-| `FrameMapping`                             | [ ] Pending | N/A       |
-| `ISignalMapping`                           | [ ] Pending | N/A       |
-| `TargetIPduRef`                            | [ ] Pending | N/A       |
-| `Gateway`                                  | [ ] Pending | N/A       |
+| Class Name                                 | Status       | Commit ID |
+| ------------------------------------------ | ------------ | --------- |
+| `CanClusterBusOffRecovery`                 | [ ] Pending* | N/A       |
+| `CanCommunicationConnector`                | [ ] Pending* | N/A       |
+| `CanControllerConfiguration`               | [ ] Pending* | N/A       |
+| `CanControllerConfigurationRequirements`   | [ ] Pending* | N/A       |
+| `CanControllerFdConfigurationRequirements` | [ ] Pending* | N/A       |
+| `ResumePosition`                           | [ ] Pending* | N/A       |
+| `ApplicationEntry`                         | [ ] Pending* | N/A       |
+| `LinScheduleTable`                         | [ ] Pending* | N/A       |
+| `RunMode`                                  | [ ] Pending* | N/A       |
+| `LinCommunicationConnector`                | [ ] Pending* | N/A       |
+| `FlexrayFrameTriggering`                   | [ ] Pending* | N/A       |
+| `FlexrayAbsolutelyScheduledTiming`         | [ ] Pending* | N/A       |
+| `FlexrayCommunicationConnector`            | [ ] Pending* | N/A       |
+| `FlexrayCommunicationController`           | [ ] Pending* | N/A       |
+| `FlexrayPhysicalChannel`                   | [ ] Pending* | N/A       |
+| `DataMapping`                              | [ ] Pending* | N/A       |
+| `IndexedArrayElement`                      | [ ] Pending* | N/A       |
+| `SenderRecRecordElementMapping`            | [ ] Pending* | N/A       |
+| `SenderRecRecordTypeMapping`               | [ ] Pending* | N/A       |
+| `SenderReceiverToSignalMapping`            | [ ] Pending* | N/A       |
+| `SenderReceiverToSignalGroupMapping`       | [ ] Pending* | N/A       |
+| `DefaultValueElement`                      | [ ] Pending  | N/A       |
+| `FrameMapping`                             | [ ] Pending* | N/A       |
+| `ISignalMapping`                           | [ ] Pending* | N/A       |
+| `TargetIPduRef`                            | [ ] Pending* | N/A       |
+| `Gateway`                                  | [ ] Pending* | N/A       |
 
 ## Group18
 

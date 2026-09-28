@@ -21,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Integer,
     NameToken,
     Numerical,
+    PositiveUnlimitedInteger,
     RefType,
     RevisionLabelString,
     String,
@@ -115,6 +116,9 @@ class AbstractARXMLWriter(ABC):
         self.setChildElementOptionalNumericalValue(element, key, value)
 
     def setChildElementOptionalPositiveInteger(self, element: ET.Element, key: str, value: Integer):
+        self.setChildElementOptionalNumericalValue(element, key, value)
+
+    def setChildElementOptionalPositiveUnlimitedInteger(self, element: ET.Element, key: str, value: PositiveUnlimitedInteger):
         self.setChildElementOptionalNumericalValue(element, key, value)
 
     def setChildElementOptionalNameToken(self, element: ET.Element, key: str, value: NameToken):

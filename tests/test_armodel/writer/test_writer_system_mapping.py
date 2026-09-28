@@ -214,14 +214,13 @@ class TestWriterSystemSignalGroup:
 class TestWriterSenderReceiverToSignalMapping:
     def test_full(self, writer):
         mapping = SenderReceiverToSignalMapping()
-        mapping.setCommunicationDirection(_literal("in"))
         mapping.setDataElementIRef(_var_iref())
         mapping.setSystemSignalRef(_ref("/ss", "SYSTEM-SIGNAL"))
         parent = _parent()
         writer.writeSenderReceiverToSignalMapping(parent, mapping)
         m = parent[0]
         assert m.tag == "SENDER-RECEIVER-TO-SIGNAL-MAPPING"
-        assert m.find("COMMUNICATION-DIRECTION").text == "in"
+        assert m.find("COMMUNICATION-DIRECTION") is None
         assert m.find("DATA-ELEMENT-IREF") is not None
         assert m.find("SYSTEM-SIGNAL-REF") is not None
 
@@ -230,7 +229,7 @@ class TestWriterSenderReceiverToSignalMapping:
         parent = _parent()
         writer.writeSenderReceiverToSignalMapping(parent, mapping)
         assert parent[0].tag == "SENDER-RECEIVER-TO-SIGNAL-MAPPING"
-        assert parent[0].find("COMMUNICATION-DIRECTION") is None
+        assert len(parent[0]) == 0
 
 
 class TestWriterSenderRecCompositeTypeMapping:

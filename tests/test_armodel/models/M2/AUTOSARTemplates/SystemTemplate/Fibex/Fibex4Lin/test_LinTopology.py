@@ -7,6 +7,8 @@ Each test validates the functionality, inheritance, and setter/getter methods
 of the respective classes.
 """
 
+import ast
+import inspect
 import sys
 from typing import List, Optional, get_type_hints
 
@@ -14,7 +16,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, String, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, RefType, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinErrorResponse
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
     LinCluster,
@@ -184,7 +186,7 @@ class TestLinMaster:
         for node in ast.walk(init):
             if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
                 annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
-        assert annotations["linSlaves"] == 'List["LinSlaveConfig"]'
+        assert annotations["linSlaves"] == "List[LinSlaveConfig]"
         assert annotations["timeBase"] == "Optional[TimeValue]"
         assert annotations["timeBaseJitter"] == "Optional[TimeValue]"
 
@@ -278,6 +280,166 @@ class TestLinTopology:
         connector.addLinOrderedConfigurableFrame("ordered_frame1")
         connector.addLinOrderedConfigurableFrame("ordered_frame2")
         assert connector.getLinOrderedConfigurableFrames() == ["ordered_frame1", "ordered_frame2"]
+
+
+LIN_COMMUNICATION_CONNECTOR_CLASS_NOTE = (
+    "LIN bus specific communication connector attributes.\n"
+    "\n"
+    "[constr_3029] Assign-Frame command usage: For the LIN 2.0 Assign-Frame command the LinConfigurableFrame list shall be used. For the LIN 2.1 Assign-Frame-PID-Range command the LinOrderedConfigurableFrame list shall be used.\n"
+    "\n"
+    "[constr_5030] Uniqueness of LinOrderedConfigurableFrame.index: LinOrderedConfigurableFrame.index shall always be set and be unique in the context of the aggregating LinCommunicationConnector.\n"
+    "\n"
+    "[constr_5450] Existence of index: For each LinOrderedConfigurableFrame, the attribute shall index shall exist at the time when the System Description is complete.\n"
+    "\n"
+    "[constr_5451] Existence of LinOrderedConfigurableFrame.frame reference: For each LinOrderedConfigurableFrame, the reference to LinFrame in the role frame shall exist at the time when the System Description is complete.\n"
+    "\n"
+    "[constr_5452] Existence of LinConfigurableFrame.frame reference: For each LinConfigurableFrame, the reference to LinFrame in the role frame shall exist at the time when the System Description is complete."
+)
+INITIAL_NAD_NOTE = "Initial NAD of the LIN slave."
+LIN_CONFIGURABLE_FRAME_NOTE = "LinConfigurableFrames shall list all frames (unconditional frames, event-triggered frames and sporadic frames) processed by the slave node. This element is necessary for the LIN 2.0 Assign-Frame command."
+LIN_ORDERED_CONFIGURABLE_FRAME_NOTE = "LinOrderedConfigurableFrames shall list all frames (unconditional frames, event-triggered frames and sporadic frames) processed by the slave node. This element is necessary for the LIN 2.1 Assign-Frame-PID-Range command."
+SCHEDULE_CHANGE_NEXT_TIME_BASE_NOTE = "This attribute defines the point in time where a schedule table switch is performed. If this attribute is set to false or not present, the schedule table shall be switched after the current entry of the active schedule table is ended. If this attribute is enabled, the schedule table shall be switched when message transmission or reception within an entry has been completed, ensured by status checks for transmission and reception."
+
+
+class TestLinCommunicationConnector:
+    def _make(self) -> LinCommunicationConnector:
+        return LinCommunicationConnector(MockParent(), "test_lin_comm_connector")
+
+    def _assert_docstring(self, method, note, attr_name=None, extends=False):
+        tail = "does not extend %s" % attr_name if extends else "does not overwrite an existing %s" % attr_name
+        expected = note if attr_name is None else note + "\nA None value is a no-op and %s." % tail
+        assert method.__doc__ is not None
+        assert inspect.cleandoc(method.__doc__).strip() == expected
+
+    def test_initialization(self):
+        connector = self._make()
+
+        assert connector.getShortName() == "test_lin_comm_connector"
+        assert isinstance(connector, CommunicationConnector)
+        assert connector.getInitialNad() is None
+        assert connector.getLinConfigurableFrames() == []
+        assert connector.getLinOrderedConfigurableFrames() == []
+        assert connector.getScheduleChangeNextTimeBase() is None
+
+    def test_class_docstring_is_spec_note(self):
+        assert inspect.cleandoc(LinCommunicationConnector.__doc__).strip() == LIN_COMMUNICATION_CONNECTOR_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert LinCommunicationConnector.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        source = inspect.getsource(LinCommunicationConnector.__init__)
+        assert source.index("self.initialNad:") < source.index("self.linConfigurableFrames:")
+        assert source.index("self.linConfigurableFrames:") < source.index("self.linOrderedConfigurableFrames:")
+        assert source.index("self.linOrderedConfigurableFrames:") < source.index("self.scheduleChangeNextTimeBase:")
+
+    def test_get_set_initial_nad(self):
+        connector = self._make()
+
+        assert connector.getInitialNad() is None
+
+        nad = Integer()
+        nad.setValue("5")
+        assert connector == connector.setInitialNad(nad)
+        assert connector.getInitialNad() == nad
+
+        assert connector == connector.setInitialNad(None)
+        assert connector.getInitialNad() == nad
+
+        getter_hints = get_type_hints(LinCommunicationConnector.getInitialNad)
+        assert getter_hints.get("return") == Optional[Integer]
+
+        setter_hints = get_type_hints(LinCommunicationConnector.setInitialNad)
+        assert setter_hints.get("value") == Optional[Integer]
+        assert setter_hints.get("return") is LinCommunicationConnector
+
+    def test_initial_nad_docstrings_are_spec_note(self):
+        self._assert_docstring(LinCommunicationConnector.getInitialNad, INITIAL_NAD_NOTE)
+        self._assert_docstring(LinCommunicationConnector.setInitialNad, INITIAL_NAD_NOTE, "initialNad")
+
+    def test_add_lin_configurable_frame(self):
+        connector = self._make()
+
+        assert connector.getLinConfigurableFrames() == []
+
+        frame = LinConfigurableFrame()
+        assert connector == connector.addLinConfigurableFrame(frame)
+        assert connector.getLinConfigurableFrames() == [frame]
+
+        assert connector == connector.addLinConfigurableFrame(None)
+        assert connector.getLinConfigurableFrames() == [frame]
+
+        getter_hints = get_type_hints(LinCommunicationConnector.getLinConfigurableFrames)
+        assert getter_hints.get("return") == List[LinConfigurableFrame]
+
+        add_hints = get_type_hints(LinCommunicationConnector.addLinConfigurableFrame)
+        assert add_hints.get("value") is LinConfigurableFrame
+        assert add_hints.get("return") is LinCommunicationConnector
+
+    def test_lin_configurable_frame_docstrings_are_spec_note(self):
+        self._assert_docstring(LinCommunicationConnector.getLinConfigurableFrames, LIN_CONFIGURABLE_FRAME_NOTE)
+        self._assert_docstring(LinCommunicationConnector.addLinConfigurableFrame, LIN_CONFIGURABLE_FRAME_NOTE, "linConfigurableFrames", extends=True)
+
+    def test_add_lin_ordered_configurable_frame(self):
+        connector = self._make()
+
+        assert connector.getLinOrderedConfigurableFrames() == []
+
+        frame = LinOrderedConfigurableFrame()
+        assert connector == connector.addLinOrderedConfigurableFrame(frame)
+        assert connector.getLinOrderedConfigurableFrames() == [frame]
+
+        assert connector == connector.addLinOrderedConfigurableFrame(None)
+        assert connector.getLinOrderedConfigurableFrames() == [frame]
+
+        getter_hints = get_type_hints(LinCommunicationConnector.getLinOrderedConfigurableFrames)
+        assert getter_hints.get("return") == List[LinOrderedConfigurableFrame]
+
+        add_hints = get_type_hints(LinCommunicationConnector.addLinOrderedConfigurableFrame)
+        assert add_hints.get("value") is LinOrderedConfigurableFrame
+        assert add_hints.get("return") is LinCommunicationConnector
+
+    def test_lin_ordered_configurable_frame_docstrings_are_spec_note(self):
+        self._assert_docstring(LinCommunicationConnector.getLinOrderedConfigurableFrames, LIN_ORDERED_CONFIGURABLE_FRAME_NOTE)
+        self._assert_docstring(LinCommunicationConnector.addLinOrderedConfigurableFrame, LIN_ORDERED_CONFIGURABLE_FRAME_NOTE, "linOrderedConfigurableFrames", extends=True)
+
+    def test_get_set_schedule_change_next_time_base(self):
+        connector = self._make()
+
+        assert connector.getScheduleChangeNextTimeBase() is None
+
+        flag = Boolean()
+        flag.setValue(True)
+        assert connector == connector.setScheduleChangeNextTimeBase(flag)
+        assert connector.getScheduleChangeNextTimeBase() == flag
+
+        assert connector == connector.setScheduleChangeNextTimeBase(None)
+        assert connector.getScheduleChangeNextTimeBase() == flag
+
+        getter_hints = get_type_hints(LinCommunicationConnector.getScheduleChangeNextTimeBase)
+        assert getter_hints.get("return") == Optional[Boolean]
+
+        setter_hints = get_type_hints(LinCommunicationConnector.setScheduleChangeNextTimeBase)
+        assert setter_hints.get("value") == Optional[Boolean]
+        assert setter_hints.get("return") is LinCommunicationConnector
+
+    def test_schedule_change_next_time_base_docstrings_are_spec_note(self):
+        self._assert_docstring(LinCommunicationConnector.getScheduleChangeNextTimeBase, SCHEDULE_CHANGE_NEXT_TIME_BASE_NOTE)
+        self._assert_docstring(LinCommunicationConnector.setScheduleChangeNextTimeBase, SCHEDULE_CHANGE_NEXT_TIME_BASE_NOTE, "scheduleChangeNextTimeBase")
+
+    def test_type_annotations(self):
+        src = inspect.getsource(sys.modules[LinCommunicationConnector.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "LinCommunicationConnector")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        annotations = {}
+        for node in ast.walk(init):
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
+        assert annotations["initialNad"] == "Optional[Integer]"
+        assert annotations["linConfigurableFrames"] == "List[LinConfigurableFrame]"
+        assert annotations["linOrderedConfigurableFrames"] == "List[LinOrderedConfigurableFrame]"
+        assert annotations["scheduleChangeNextTimeBase"] == "Optional[Boolean]"
 
 
 class TestLinConfigurableFrame:
