@@ -839,7 +839,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
     LinOrderedConfigurableFrame,
     LinSlaveConfig,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import DefaultValueElement, Gateway, IPduMapping, ISignalMapping, TargetIPduRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import DefaultValueElement, FrameMapping, Gateway, IPduMapping, ISignalMapping, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     CommConnectorPort,
     ContainedIPduProps,
@@ -12535,11 +12535,26 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(child_element, "SOURCE-I-PDU-REF", mapping.getSourceIPduRef())
                 self.setTargetIPduRef(child_element, "TARGET-I-PDU", mapping.getTargetIPdu())
 
+    def setFrameMappings(self, element: ET.Element, mappings: List[FrameMapping]):
+        if len(mappings) > 0:
+            mappings_tag = ET.SubElement(element, "FRAME-MAPPINGS")
+            for mapping in mappings:
+                child_element = ET.SubElement(mappings_tag, "FRAME-MAPPING")
+                self.writeFrameMapping(child_element, mapping)
+
+    def writeFrameMapping(self, element: ET.Element, mapping: FrameMapping):
+        self.writeARObject(element, mapping)
+        self.writeDocumentationBlock(element, "INTRODUCTION", mapping.getIntroduction())
+        self.setChildElementOptionalRefType(element, "SOURCE-FRAME-REF", mapping.getSourceFrameRef())
+        self.setChildElementOptionalRefType(element, "TARGET-FRAME-REF", mapping.getTargetFrameRef())
+        self.writeVariationPoint(element, mapping.getVariationPoint())
+
     def writeGateway(self, element: ET.Element, gateway: Gateway):
         self.logger.debug("Gateway %s" % gateway.getShortName())
         child_element = ET.SubElement(element, "GATEWAY")
         self.writeIdentifiable(child_element, gateway)
         self.setChildElementOptionalRefType(child_element, "ECU-REF", gateway.ecuRef)
+        self.setFrameMappings(child_element, gateway.getFrameMappings())
         self.setIPduMappings(child_element, gateway.getIPduMappings())
         self.setISignalMappings(child_element, gateway.getSignalMappings())
 

@@ -962,7 +962,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
     LinSlaveConfig,
     LinSlaveConfigIdent,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import DefaultValueElement, Gateway, IPduMapping, ISignalMapping, PduMappingDefaultValue, TargetIPduRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import DefaultValueElement, FrameMapping, Gateway, IPduMapping, ISignalMapping, PduMappingDefaultValue, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     CommConnectorPort,
     ContainedIPduProps,
@@ -12957,16 +12957,25 @@ class ARXMLParser(AbstractARXMLParser):
         instance.setV2xSupported(self.getChildElementOptionalLiteral(element, "V-2-X-SUPPORTED"))
         instance.setWakeUpOverBusSupported(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-OVER-BUS-SUPPORTED"))
 
-    """
     def getFrameMappings(self, element: ET.Element) -> List[FrameMapping]:
         mappings = []
-        for child_element in self.findall(element, 'FRAME-MAPPINGS/'):
+        for child_element in self.findall(element, "FRAME-MAPPINGS/FRAME-MAPPING"):
             mapping = FrameMapping()
-            mapping.sourceFrameRef = self.getChildElementOptionalRefType(child_element, "SOURCE-FRAME-REF")
-            mapping.targetFrameRef = self.getChildElementOptionalRefType(child_element, "TARGET-FRAME-REF")
+            self.readFrameMapping(child_element, mapping)
             mappings.append(mapping)
         return mappings
-    """
+
+    def readFrameMapping(self, element: ET.Element, mapping: FrameMapping):
+        self.readARObject(element, mapping)
+        mapping.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
+        mapping.setSourceFrameRef(self.getChildElementOptionalRefType(element, "SOURCE-FRAME-REF"))
+        mapping.setTargetFrameRef(self.getChildElementOptionalRefType(element, "TARGET-FRAME-REF"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(mapping, VariationPointCapable):
+                mapping.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
     def getISignalMappings(self, element: ET.Element) -> List[ISignalMapping]:
         mappings = []
@@ -13012,6 +13021,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read Gateway <%s>" % gateway.getShortName())
         self.readIdentifiable(element, gateway)
         gateway.setEcuRef(self.getChildElementOptionalRefType(element, "ECU-REF"))
+        for mapping in self.getFrameMappings(element):
+            gateway.addFrameMapping(mapping)
         for mapping in self.getIPduMappings(element):
             gateway.addIPduMapping(mapping)
         for mapping in self.getISignalMappings(element):

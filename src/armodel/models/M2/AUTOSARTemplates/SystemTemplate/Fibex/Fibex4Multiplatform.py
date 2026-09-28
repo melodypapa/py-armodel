@@ -11,44 +11,79 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import Fi
 
 class FrameMapping(ARObject, VariationPointCapable):
     """
-    A PduToFrameMapping defines the composition of Pdus in each frame.
+    The entire source frame is mapped as it is onto the target frame (what in general is only possible inside of a common platform). In this case source and target frame should be the identical object. Each pair consists in a SOURCE and a TARGET referencing to a FrameTriggering. The Frame Mapping is not supported by the Autosar BSW. The existence is optional and has been incorporated into the System Template mainly for compatibility in order to allow interchange between FIBEX and AUTOSAR descriptions.
+
+    [constr_9289] Existence of FrameMapping.sourceFrame: For each FrameMapping, the reference to FrameTriggering in the role sourceFrame shall exist at the time when the System Description is complete.
+
+    [constr_9290] Existence of FrameMapping.targetFrame: For each FrameMapping, the reference to FrameTriggering in the role targetFrame shall exist at the time when the System Description is complete.
     """
 
     # FrameMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIntroduction              [x] impl  [ ] docstring  [ ] test
-    # [ ] setIntroduction              [x] impl  [ ] docstring  [ ] test
-    # [ ] getSourceFrameRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setSourceFrameRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] getTargetFrameRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setTargetFrameRef            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 8.2, p.838
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIntroduction      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIntroduction      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceFrameRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceFrameRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetFrameRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetFrameRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.introduction: DocumentationBlock = None
-        self.sourceFrameRef: RefType = None
-        self.targetFrameRef: RefType = None
+        # This represents introductory documentation about the frame mapping.
+        self.introduction: Optional[DocumentationBlock] = None
 
-    def getIntroduction(self):
+        # Source destination of the referencing mapping.
+        self.sourceFrameRef: Optional[RefType] = None
+
+        # Target destination of the referencing mapping.
+        self.targetFrameRef: Optional[RefType] = None
+
+    def getIntroduction(self) -> Optional[DocumentationBlock]:
+        """
+        This represents introductory documentation about the frame mapping.
+        """
         return self.introduction
 
-    def setIntroduction(self, value):
-        self.introduction = value
+    def setIntroduction(self, value: Optional[DocumentationBlock]) -> FrameMapping:
+        """
+        This represents introductory documentation about the frame mapping.
+        A None value is a no-op and does not overwrite an existing introduction.
+        """
+        if value is not None:
+            self.introduction = value
         return self
 
-    def getSourceFrameRef(self):
+    def getSourceFrameRef(self) -> Optional[RefType]:
+        """
+        Source destination of the referencing mapping.
+        """
         return self.sourceFrameRef
 
-    def setSourceFrameRef(self, value):
-        self.sourceFrameRef = value
+    def setSourceFrameRef(self, value: Optional[RefType]) -> FrameMapping:
+        """
+        Source destination of the referencing mapping.
+        A None value is a no-op and does not overwrite an existing sourceFrameRef.
+        """
+        if value is not None:
+            self.sourceFrameRef = value
         return self
 
-    def getTargetFrameRef(self):
+    def getTargetFrameRef(self) -> Optional[RefType]:
+        """
+        Target destination of the referencing mapping.
+        """
         return self.targetFrameRef
 
-    def setTargetFrameRef(self, value):
-        self.targetFrameRef = value
+    def setTargetFrameRef(self, value: Optional[RefType]) -> FrameMapping:
+        """
+        Target destination of the referencing mapping.
+        A None value is a no-op and does not overwrite an existing targetFrameRef.
+        """
+        if value is not None:
+            self.targetFrameRef = value
         return self
 
 
