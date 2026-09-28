@@ -536,7 +536,7 @@ Status: **29/29** completed
 
 ## Group10
 
-Status: **13/32** completed
+Status: **14/32** completed
 
 | Class Name                         | Status       | Commit ID  |
 | ---------------------------------- | ------------ | ---------- |
@@ -553,7 +553,7 @@ Status: **13/32** completed
 | `ModeSwitchedAckRequest`           | [x] Done     | f587d873eb |
 | `ModeSwitchReceiverComSpec`        | [x] Done     | 67324d240c |
 | `ModeSwitchSenderComSpec`          | [x] Done     | 3fbf07cc78 |
-| `NvProvideComSpec`                 | [ ] Pending* | N/A        |
+| `NvProvideComSpec`                 | [x] Done     | a5c437cc82 |
 | `NvRequireComSpec`                 | [ ] Pending* | N/A        |
 | `ParameterRequireComSpec`          | [ ] Pending* | N/A        |
 | `QueuedReceiverComSpec`            | [ ] Pending* | N/A        |
