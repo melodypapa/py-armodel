@@ -496,3 +496,199 @@ class TestIndexedArrayElement:
     def test_index_docstrings_are_spec_note(self):
         self._assert_docstring(IndexedArrayElement.getIndex, INDEX_NOTE)
         self._assert_docstring(IndexedArrayElement.setIndex, INDEX_NOTE, "index")
+
+
+SENDER_REC_RECORD_ELEMENT_MAPPING_CLASS_NOTE = (
+    "Mapping of a primitive record element to a SystemSignal. "
+    "If the VariableDataPrototype that is referenced by SenderReceiverToSignalGroupMapping is typed by an ApplicationDataType the reference application RecordElement shall be used. "
+    "If the VariableDataPrototype is typed by the ImplementationDataType the reference implementationRecordElement shall be used. "
+    "Either the implementationRecordElement or applicationRecordElement reference shall be used. "
+    "If the element is composite, there will be no mapping to the SystemSignal (multiplicity 0). "
+    "In this case the RecordElementMapping element will aggregate the complexTypeMapping element. "
+    "In that way also the composite datatypes can be mapped to SystemSignals."
+)
+APPLICATION_RECORD_ELEMENT_NOTE = "Reference to an ApplicationRecordElement in the context of the dataElement or in the context of a composite element."
+COMPLEX_TYPE_MAPPING_NOTE = "This aggregation will be used if the element is composite."
+IMPLEMENTATION_RECORD_ELEMENT_NOTE = "Reference to an ImplementationRecordElement in the context of the dataElement or in the context of a composite element."
+SENDER_TO_SIGNAL_TEXT_TABLE_MAPPING_NOTE = (
+    "This mapping allows for the text-table translation between the sending DataPrototype that is defined in the Port Prototype and the physicalProps defined for the System Signal."
+)
+SIGNAL_TO_RECEIVER_TEXT_TABLE_MAPPING_NOTE = (
+    "This mapping allows for the text-table translation between the physicalProps defined for the SystemSignal and a receiving DataPrototype that is defined in the Port Prototype."
+)
+SYSTEM_SIGNAL_NOTE = "Reference to the system signal used to carry the primitive ApplicationRecordElement."
+
+
+class TestSenderRecRecordElementMapping:
+    """Spec-synced tests for SenderRecRecordElementMapping (AUTOSAR_CP_TPS_SystemTemplate Table 5.30)."""
+
+    def _make(self) -> SenderRecRecordElementMapping:
+        return SenderRecRecordElementMapping()
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert method.__doc__ is not None
+        assert inspect.cleandoc(method.__doc__).strip() == expected
+
+    def test_initialization(self):
+        mapping = self._make()
+
+        assert isinstance(mapping, ARObject)
+        assert mapping.getApplicationRecordElementRef() is None
+        assert mapping.getComplexTypeMapping() is None
+        assert mapping.getImplementationRecordElementRef() is None
+        assert mapping.getSenderToSignalTextTableMapping() is None
+        assert mapping.getSignalToReceiverTextTableMapping() is None
+        assert mapping.getSystemSignalRef() is None
+
+    def test_class_docstring_is_spec_note(self):
+        assert inspect.cleandoc(SenderRecRecordElementMapping.__doc__).strip() == SENDER_REC_RECORD_ELEMENT_MAPPING_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert SenderRecRecordElementMapping.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        source = inspect.getsource(SenderRecRecordElementMapping.__init__)
+        assert source.index("self.applicationRecordElementRef:") < source.index("self.complexTypeMapping:")
+        assert source.index("self.complexTypeMapping:") < source.index("self.implementationRecordElementRef:")
+        assert source.index("self.implementationRecordElementRef:") < source.index("self.senderToSignalTextTableMapping:")
+        assert source.index("self.senderToSignalTextTableMapping:") < source.index("self.signalToReceiverTextTableMapping:")
+        assert source.index("self.signalToReceiverTextTableMapping:") < source.index("self.systemSignalRef:")
+
+    def test_get_set_application_record_element_ref(self):
+        mapping = self._make()
+
+        assert mapping.getApplicationRecordElementRef() is None
+
+        ref = RefType()
+        assert mapping == mapping.setApplicationRecordElementRef(ref)
+        assert mapping.getApplicationRecordElementRef() is ref
+
+        assert mapping == mapping.setApplicationRecordElementRef(None)
+        assert mapping.getApplicationRecordElementRef() is ref
+
+        getter_hints = get_type_hints(SenderRecRecordElementMapping.getApplicationRecordElementRef)
+        assert getter_hints.get("return") == Optional[RefType]
+
+        setter_hints = get_type_hints(SenderRecRecordElementMapping.setApplicationRecordElementRef)
+        assert setter_hints.get("value") == Optional[RefType]
+        assert setter_hints.get("return") is SenderRecRecordElementMapping
+
+    def test_get_set_complex_type_mapping(self):
+        mapping = self._make()
+
+        assert mapping.getComplexTypeMapping() is None
+
+        type_mapping = SenderRecRecordTypeMapping()
+        assert mapping == mapping.setComplexTypeMapping(type_mapping)
+        assert mapping.getComplexTypeMapping() is type_mapping
+
+        assert mapping == mapping.setComplexTypeMapping(None)
+        assert mapping.getComplexTypeMapping() is type_mapping
+
+        getter_hints = get_type_hints(SenderRecRecordElementMapping.getComplexTypeMapping)
+        assert getter_hints.get("return") == Optional[SenderRecCompositeTypeMapping]
+
+        setter_hints = get_type_hints(SenderRecRecordElementMapping.setComplexTypeMapping)
+        assert setter_hints.get("value") == Optional[SenderRecCompositeTypeMapping]
+        assert setter_hints.get("return") is SenderRecRecordElementMapping
+
+    def test_get_set_implementation_record_element_ref(self):
+        mapping = self._make()
+
+        assert mapping.getImplementationRecordElementRef() is None
+
+        ref = RefType()
+        assert mapping == mapping.setImplementationRecordElementRef(ref)
+        assert mapping.getImplementationRecordElementRef() is ref
+
+        assert mapping == mapping.setImplementationRecordElementRef(None)
+        assert mapping.getImplementationRecordElementRef() is ref
+
+        getter_hints = get_type_hints(SenderRecRecordElementMapping.getImplementationRecordElementRef)
+        assert getter_hints.get("return") == Optional[RefType]
+
+        setter_hints = get_type_hints(SenderRecRecordElementMapping.setImplementationRecordElementRef)
+        assert setter_hints.get("value") == Optional[RefType]
+        assert setter_hints.get("return") is SenderRecRecordElementMapping
+
+    def test_get_set_sender_to_signal_text_table_mapping(self):
+        mapping = self._make()
+
+        assert mapping.getSenderToSignalTextTableMapping() is None
+
+        text_mapping = TextTableMapping()
+        assert mapping == mapping.setSenderToSignalTextTableMapping(text_mapping)
+        assert mapping.getSenderToSignalTextTableMapping() is text_mapping
+
+        assert mapping == mapping.setSenderToSignalTextTableMapping(None)
+        assert mapping.getSenderToSignalTextTableMapping() is text_mapping
+
+        getter_hints = get_type_hints(SenderRecRecordElementMapping.getSenderToSignalTextTableMapping)
+        assert getter_hints.get("return") == Optional[TextTableMapping]
+
+        setter_hints = get_type_hints(SenderRecRecordElementMapping.setSenderToSignalTextTableMapping)
+        assert setter_hints.get("value") == Optional[TextTableMapping]
+        assert setter_hints.get("return") is SenderRecRecordElementMapping
+
+    def test_get_set_signal_to_receiver_text_table_mapping(self):
+        mapping = self._make()
+
+        assert mapping.getSignalToReceiverTextTableMapping() is None
+
+        text_mapping = TextTableMapping()
+        assert mapping == mapping.setSignalToReceiverTextTableMapping(text_mapping)
+        assert mapping.getSignalToReceiverTextTableMapping() is text_mapping
+
+        assert mapping == mapping.setSignalToReceiverTextTableMapping(None)
+        assert mapping.getSignalToReceiverTextTableMapping() is text_mapping
+
+        getter_hints = get_type_hints(SenderRecRecordElementMapping.getSignalToReceiverTextTableMapping)
+        assert getter_hints.get("return") == Optional[TextTableMapping]
+
+        setter_hints = get_type_hints(SenderRecRecordElementMapping.setSignalToReceiverTextTableMapping)
+        assert setter_hints.get("value") == Optional[TextTableMapping]
+        assert setter_hints.get("return") is SenderRecRecordElementMapping
+
+    def test_get_set_system_signal_ref(self):
+        mapping = self._make()
+
+        assert mapping.getSystemSignalRef() is None
+
+        ref = RefType()
+        assert mapping == mapping.setSystemSignalRef(ref)
+        assert mapping.getSystemSignalRef() is ref
+
+        assert mapping == mapping.setSystemSignalRef(None)
+        assert mapping.getSystemSignalRef() is ref
+
+        getter_hints = get_type_hints(SenderRecRecordElementMapping.getSystemSignalRef)
+        assert getter_hints.get("return") == Optional[RefType]
+
+        setter_hints = get_type_hints(SenderRecRecordElementMapping.setSystemSignalRef)
+        assert setter_hints.get("value") == Optional[RefType]
+        assert setter_hints.get("return") is SenderRecRecordElementMapping
+
+    def test_application_record_element_ref_docstrings_are_spec_note(self):
+        self._assert_docstring(SenderRecRecordElementMapping.getApplicationRecordElementRef, APPLICATION_RECORD_ELEMENT_NOTE)
+        self._assert_docstring(SenderRecRecordElementMapping.setApplicationRecordElementRef, APPLICATION_RECORD_ELEMENT_NOTE, "applicationRecordElementRef")
+
+    def test_complex_type_mapping_docstrings_are_spec_note(self):
+        self._assert_docstring(SenderRecRecordElementMapping.getComplexTypeMapping, COMPLEX_TYPE_MAPPING_NOTE)
+        self._assert_docstring(SenderRecRecordElementMapping.setComplexTypeMapping, COMPLEX_TYPE_MAPPING_NOTE, "complexTypeMapping")
+
+    def test_implementation_record_element_ref_docstrings_are_spec_note(self):
+        self._assert_docstring(SenderRecRecordElementMapping.getImplementationRecordElementRef, IMPLEMENTATION_RECORD_ELEMENT_NOTE)
+        self._assert_docstring(SenderRecRecordElementMapping.setImplementationRecordElementRef, IMPLEMENTATION_RECORD_ELEMENT_NOTE, "implementationRecordElementRef")
+
+    def test_sender_to_signal_text_table_mapping_docstrings_are_spec_note(self):
+        self._assert_docstring(SenderRecRecordElementMapping.getSenderToSignalTextTableMapping, SENDER_TO_SIGNAL_TEXT_TABLE_MAPPING_NOTE)
+        self._assert_docstring(SenderRecRecordElementMapping.setSenderToSignalTextTableMapping, SENDER_TO_SIGNAL_TEXT_TABLE_MAPPING_NOTE, "senderToSignalTextTableMapping")
+
+    def test_signal_to_receiver_text_table_mapping_docstrings_are_spec_note(self):
+        self._assert_docstring(SenderRecRecordElementMapping.getSignalToReceiverTextTableMapping, SIGNAL_TO_RECEIVER_TEXT_TABLE_MAPPING_NOTE)
+        self._assert_docstring(SenderRecRecordElementMapping.setSignalToReceiverTextTableMapping, SIGNAL_TO_RECEIVER_TEXT_TABLE_MAPPING_NOTE, "signalToReceiverTextTableMapping")
+
+    def test_system_signal_ref_docstrings_are_spec_note(self):
+        self._assert_docstring(SenderRecRecordElementMapping.getSystemSignalRef, SYSTEM_SIGNAL_NOTE)
+        self._assert_docstring(SenderRecRecordElementMapping.setSystemSignalRef, SYSTEM_SIGNAL_NOTE, "systemSignalRef")

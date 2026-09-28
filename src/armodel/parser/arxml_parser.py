@@ -13715,7 +13715,28 @@ class ARXMLParser(AbstractARXMLParser):
     def readSenderRecRecordElementMapping(self, element: ET.Element, mapping: SenderRecRecordElementMapping):
         self.readARObject(element, mapping)
         mapping.setApplicationRecordElementRef(self.getChildElementOptionalRefType(element, "APPLICATION-RECORD-ELEMENT-REF"))
+        complex_element = self.find(element, "COMPLEX-TYPE-MAPPING")
+        if complex_element is not None:
+            type_mapping_element = self.find(complex_element, "*")
+            if type_mapping_element is not None:
+                tag_name = self.getTagName(type_mapping_element)
+                if tag_name == "SENDER-REC-ARRAY-TYPE-MAPPING":
+                    type_mapping = SenderRecArrayTypeMapping()
+                    self.readSenderRecArrayTypeMapping(type_mapping_element, type_mapping)
+                    mapping.setComplexTypeMapping(type_mapping)
+                elif tag_name == "SENDER-REC-RECORD-TYPE-MAPPING":
+                    type_mapping = SenderRecRecordTypeMapping()
+                    self.readSenderRecRecordTypeMapping(type_mapping_element, type_mapping)
+                    mapping.setComplexTypeMapping(type_mapping)
+                else:
+                    self.notImplemented("Unsupported ComplexTypeMapping %s" % tag_name)
         mapping.setImplementationRecordElementRef(self.getChildElementOptionalRefType(element, "IMPLEMENTATION-RECORD-ELEMENT-REF"))
+        sender_to_signal_element = self.find(element, "SENDER-TO-SIGNAL-TEXT-TABLE-MAPPING")
+        if sender_to_signal_element is not None:
+            mapping.setSenderToSignalTextTableMapping(self.getTextTableMapping(sender_to_signal_element))
+        signal_to_receiver_element = self.find(element, "SIGNAL-TO-RECEIVER-TEXT-TABLE-MAPPING")
+        if signal_to_receiver_element is not None:
+            mapping.setSignalToReceiverTextTableMapping(self.getTextTableMapping(signal_to_receiver_element))
         mapping.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
 
     def readIndexedArrayElement(self, element: ET.Element, indexed: IndexedArrayElement):

@@ -11752,7 +11752,20 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "SENDER-REC-RECORD-ELEMENT-MAPPING")
             self.writeARObject(child_element, mapping)
             self.setChildElementOptionalRefType(child_element, "APPLICATION-RECORD-ELEMENT-REF", mapping.getApplicationRecordElementRef())
+            complex_type_mapping = mapping.getComplexTypeMapping()
+            if complex_type_mapping is not None:
+                complex_element = ET.SubElement(child_element, "COMPLEX-TYPE-MAPPING")
+                if isinstance(complex_type_mapping, SenderRecArrayTypeMapping):
+                    self.writeSenderRecArrayTypeMapping(complex_element, complex_type_mapping)
+                elif isinstance(complex_type_mapping, SenderRecRecordTypeMapping):
+                    self.writeSenderRecRecordTypeMapping(complex_element, complex_type_mapping)
+                else:
+                    self.notImplemented("Unsupported ComplexTypeMapping %s" % type(complex_type_mapping))
             self.setChildElementOptionalRefType(child_element, "IMPLEMENTATION-RECORD-ELEMENT-REF", mapping.getImplementationRecordElementRef())
+            if mapping.getSenderToSignalTextTableMapping() is not None:
+                self.setTextTableMapping(child_element, mapping.getSenderToSignalTextTableMapping(), "SENDER-TO-SIGNAL-TEXT-TABLE-MAPPING")
+            if mapping.getSignalToReceiverTextTableMapping() is not None:
+                self.setTextTableMapping(child_element, mapping.getSignalToReceiverTextTableMapping(), "SIGNAL-TO-RECEIVER-TEXT-TABLE-MAPPING")
             self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
 
     def setIndexedArrayElement(self, element: ET.Element, key: str, indexed: IndexedArrayElement):

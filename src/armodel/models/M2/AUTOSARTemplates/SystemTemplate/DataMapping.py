@@ -136,81 +136,133 @@ class SenderRecCompositeTypeMapping(ARObject, ABC):
 
 class SenderRecRecordElementMapping(ARObject):
     """
-    Defines mapping for individual elements within a record structure,
-    connecting application record elements to implementation record elements
-    and their corresponding system signals, with optional text table mappings
-    for data transformation.
+    Mapping of a primitive record element to a SystemSignal. If the VariableDataPrototype that is referenced by SenderReceiverToSignalGroupMapping is typed by an ApplicationDataType the reference application RecordElement shall be used. If the VariableDataPrototype is typed by the ImplementationDataType the reference implementationRecordElement shall be used. Either the implementationRecordElement or applicationRecordElement reference shall be used. If the element is composite, there will be no mapping to the SystemSignal (multiplicity 0). In this case the RecordElementMapping element will aggregate the complexTypeMapping element. In that way also the composite datatypes can be mapped to SystemSignals.
     """
 
     # SenderRecRecordElementMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getApplicationRecordElementRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setApplicationRecordElementRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getComplexTypeMapping        [x] impl  [ ] docstring  [ ] test
-    # [ ] setComplexTypeMapping        [x] impl  [ ] docstring  [ ] test
-    # [ ] getImplementationRecordElementRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setImplementationRecordElementRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getSenderToSignalTextTableMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] setSenderToSignalTextTableMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] getSignalToReceiverTextTableMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] setSignalToReceiverTextTableMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] getSystemSignalRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setSystemSignalRef           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.30, p.236
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApplicationRecordElementRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setApplicationRecordElementRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getComplexTypeMapping                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setComplexTypeMapping                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getImplementationRecordElementRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImplementationRecordElementRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSenderToSignalTextTableMapping    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSenderToSignalTextTableMapping    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSignalToReceiverTextTableMapping  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSignalToReceiverTextTableMapping  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSystemSignalRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSystemSignalRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.applicationRecordElementRef: RefType = None
-        self.complexTypeMapping: SenderRecCompositeTypeMapping = None
-        self.implementationRecordElementRef: RefType = None
-        self.senderToSignalTextTableMapping: TextTableMapping = None
-        self.signalToReceiverTextTableMapping: TextTableMapping = None
-        self.systemSignalRef: RefType = None
+        # Reference to an ApplicationRecordElement in the context of the dataElement or in the context of a composite element.
+        self.applicationRecordElementRef: Optional[RefType] = None
 
-    def getApplicationRecordElementRef(self):
+        # This aggregation will be used if the element is composite.
+        self.complexTypeMapping: Optional[SenderRecCompositeTypeMapping] = None
+
+        # Reference to an ImplementationRecordElement in the context of the dataElement or in the context of a composite element.
+        self.implementationRecordElementRef: Optional[RefType] = None
+
+        # This mapping allows for the text-table translation between the sending DataPrototype that is defined in the Port Prototype and the physicalProps defined for the System Signal.
+        self.senderToSignalTextTableMapping: Optional[TextTableMapping] = None
+
+        # This mapping allows for the text-table translation between the physicalProps defined for the SystemSignal and a receiving DataPrototype that is defined in the Port Prototype.
+        self.signalToReceiverTextTableMapping: Optional[TextTableMapping] = None
+
+        # Reference to the system signal used to carry the primitive ApplicationRecordElement.
+        self.systemSignalRef: Optional[RefType] = None
+
+    def getApplicationRecordElementRef(self) -> Optional[RefType]:
+        """
+        Reference to an ApplicationRecordElement in the context of the dataElement or in the context of a composite element.
+        """
         return self.applicationRecordElementRef
 
-    def setApplicationRecordElementRef(self, value):
+    def setApplicationRecordElementRef(self, value: Optional[RefType]) -> SenderRecRecordElementMapping:
+        """
+        Reference to an ApplicationRecordElement in the context of the dataElement or in the context of a composite element.
+        A None value is a no-op and does not overwrite an existing applicationRecordElementRef.
+        """
         if value is not None:
             self.applicationRecordElementRef = value
         return self
 
-    def getComplexTypeMapping(self):
+    def getComplexTypeMapping(self) -> Optional[SenderRecCompositeTypeMapping]:
+        """
+        This aggregation will be used if the element is composite.
+        """
         return self.complexTypeMapping
 
-    def setComplexTypeMapping(self, value):
+    def setComplexTypeMapping(self, value: Optional[SenderRecCompositeTypeMapping]) -> SenderRecRecordElementMapping:
+        """
+        This aggregation will be used if the element is composite.
+        A None value is a no-op and does not overwrite an existing complexTypeMapping.
+        """
         if value is not None:
             self.complexTypeMapping = value
         return self
 
-    def getImplementationRecordElementRef(self):
+    def getImplementationRecordElementRef(self) -> Optional[RefType]:
+        """
+        Reference to an ImplementationRecordElement in the context of the dataElement or in the context of a composite element.
+        """
         return self.implementationRecordElementRef
 
-    def setImplementationRecordElementRef(self, value):
+    def setImplementationRecordElementRef(self, value: Optional[RefType]) -> SenderRecRecordElementMapping:
+        """
+        Reference to an ImplementationRecordElement in the context of the dataElement or in the context of a composite element.
+        A None value is a no-op and does not overwrite an existing implementationRecordElementRef.
+        """
         if value is not None:
             self.implementationRecordElementRef = value
         return self
 
-    def getSenderToSignalTextTableMapping(self):
+    def getSenderToSignalTextTableMapping(self) -> Optional[TextTableMapping]:
+        """
+        This mapping allows for the text-table translation between the sending DataPrototype that is defined in the Port Prototype and the physicalProps defined for the System Signal.
+        """
         return self.senderToSignalTextTableMapping
 
-    def setSenderToSignalTextTableMapping(self, value):
+    def setSenderToSignalTextTableMapping(self, value: Optional[TextTableMapping]) -> SenderRecRecordElementMapping:
+        """
+        This mapping allows for the text-table translation between the sending DataPrototype that is defined in the Port Prototype and the physicalProps defined for the System Signal.
+        A None value is a no-op and does not overwrite an existing senderToSignalTextTableMapping.
+        """
         if value is not None:
             self.senderToSignalTextTableMapping = value
         return self
 
-    def getSignalToReceiverTextTableMapping(self):
+    def getSignalToReceiverTextTableMapping(self) -> Optional[TextTableMapping]:
+        """
+        This mapping allows for the text-table translation between the physicalProps defined for the SystemSignal and a receiving DataPrototype that is defined in the Port Prototype.
+        """
         return self.signalToReceiverTextTableMapping
 
-    def setSignalToReceiverTextTableMapping(self, value):
+    def setSignalToReceiverTextTableMapping(self, value: Optional[TextTableMapping]) -> SenderRecRecordElementMapping:
+        """
+        This mapping allows for the text-table translation between the physicalProps defined for the SystemSignal and a receiving DataPrototype that is defined in the Port Prototype.
+        A None value is a no-op and does not overwrite an existing signalToReceiverTextTableMapping.
+        """
         if value is not None:
             self.signalToReceiverTextTableMapping = value
         return self
 
-    def getSystemSignalRef(self):
+    def getSystemSignalRef(self) -> Optional[RefType]:
+        """
+        Reference to the system signal used to carry the primitive ApplicationRecordElement.
+        """
         return self.systemSignalRef
 
-    def setSystemSignalRef(self, value):
+    def setSystemSignalRef(self, value: Optional[RefType]) -> SenderRecRecordElementMapping:
+        """
+        Reference to the system signal used to carry the primitive ApplicationRecordElement.
+        A None value is a no-op and does not overwrite an existing systemSignalRef.
+        """
         if value is not None:
             self.systemSignalRef = value
         return self

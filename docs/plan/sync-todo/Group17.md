@@ -216,15 +216,16 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [ ] `SenderRecRecordElementMapping` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/DataMapping.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: own table = AUTOSAR_CP_TPS_SystemTemplate Table 5.30, p.236 (R4.3.1 Table 5.21 p.157 agrees); concrete Class; Base most-derived = `ARObject` → `__init__(self)`; 6 attrs all 0..1 in displayed order — applicationRecordElement (ref), complexTypeMapping (aggr → SenderRecCompositeTypeMapping), implementationRecordElement (ref), senderToSignalTextTableMapping (aggr), signalToReceiverTextTableMapping (aggr), systemSignal (ref); orphan-intake drift found: untyped accessors, bare-T 0..1 fields, fabricated docstring, old 4-col checklist without `# Spec:` line (full 9-step pass); member types all exist (RefType, SenderRecCompositeTypeMapping stamped R23-11, TextTableMapping, SystemSignal) — no Rule 0001.10 work; XSD group SENDER-REC-RECORD-ELEMENT-MAPPING (00052.xsd L104466) holds the 6 elements, does NOT inline DATA-MAPPING → DataMapping helpers N/A (Base is ARObject, not DataMapping); existing read/writeSenderRecRecordElementMapping cover only 3 of 6 elements (COMPLEX-TYPE-MAPPING + both TEXT-TABLE-MAPPING missing → Step 6 work)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — added TestSenderRecRecordElementMapping to mirrored test_DataMapping.py; 13 failed / 3 passed (no type pins, no verbatim docstrings; defaults + member order already correct)
+  - [x] Step 3 — Implement model class (Green) — bare-T 0..1 fields → PEP 526 `Optional[RefType]`/`Optional[SenderRecCompositeTypeMapping]`/`Optional[TextTableMapping]`; untyped accessors → typed guarded self-returning setters; spec row order kept; 42 passed in test_DataMapping.py
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring replaced with Table 5.30 Note verbatim; per-attr inline comments + getter/setter docstrings verbatim (setters + None-no-op line); old 4-col checklist wiped with the block rewrite
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/test_sender_rec_record_element_mapping.py + tests/test_armodel/writer/test_sender_rec_record_element_mapping.py; 4 failed / 2 passed (COMPLEX-TYPE-MAPPING + both TEXT-TABLE-MAPPING uncovered; empty cases already passed)
+  - [x] Step 6 — Update parser & writer (Green) — readSenderRecRecordElementMapping/writeSenderRecRecordElementMapping extended to all 6 XSD-group elements in group order (COMPLEX-TYPE-MAPPING polymorphic dispatch SenderRecArrayTypeMapping/SenderRecRecordTypeMapping like SenderRecArrayElementMapping; TEXT-TABLE-MAPPING via getTextTableMapping/setTextTableMapping); 6 passed; no chained mutators
+  - [x] Step 7 — Update checklist comment — 6-column format with release column, rows in source order (getter-first scalar pairs, spec row order); `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.30, p.236`; reader [x] on setter rows / writer [x] on getter rows — verified against read/writeSenderRecRecordElementMapping
+  - [x] Step 8 — Deviations (fixed in step notes: bare-T 0..1 fields → PEP 526 Optional[T]; untyped accessors → typed guarded self-returning; fabricated docstring → Table 5.30 Note verbatim; old 4-col checklist → 6-column with `# Spec:` line; reader/writer coverage gap → all 6 elements; no deviation-tracker rows exist for this class in method_deviation_by_class.md/_v2.md — nothing stale; no Rule 0001.10 placeholders — `# Spec:` line present, marker deferred to 9b batch confirmation)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28: 13330 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SenderRecRecordTypeMapping` — SenderRecCompositeTypeMapping — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/DataMapping.py
