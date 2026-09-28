@@ -1899,36 +1899,51 @@ class J1939NmCluster(NmCluster):
 
 class UdpNmClusterCoupling(NmClusterCoupling):
     """
-    Defines coupling properties for UDP network management clusters,
-    specifying coupled cluster references and UDP-specific NM
-    immediate restart capabilities.
+    Udp attributes that are valid for each of the referenced (coupled) UdpNm clusters.
     """
 
     # UdpNmClusterCoupling method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCoupledClusterRefs        [x] impl  [ ] docstring  [ ] test
-    # [ ] addCoupledClusterRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmImmediateRestartEnabled [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmImmediateRestartEnabled [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.317, p.688
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addCoupledClusterRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCoupledClusterRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getNmImmediateRestartEnabled   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmImmediateRestartEnabled   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
+        # Reference to coupled UdpNm Clusters.
         self.coupledClusterRefs: List[RefType] = []
-        self.nmImmediateRestartEnabled: Boolean = None
 
-    def getCoupledClusterRefs(self):
-        return self.coupledClusterRefs
+        # Enables the asynchronous transmission of a CanNm PDU upon bus-communication request in Prepare-Bus-Sleep mode.
+        self.nmImmediateRestartEnabled: Optional[Boolean] = None
 
-    def addCoupledClusterRef(self, value):
-        if value is not None:
-            self.coupledClusterRefs.append(value)
+    def addCoupledClusterRef(self, ref: RefType) -> "UdpNmClusterCoupling":
+        """
+        Reference to coupled UdpNm Clusters.
+        """
+        self.coupledClusterRefs.append(ref)
         return self
 
-    def getNmImmediateRestartEnabled(self):
+    def getCoupledClusterRefs(self) -> List[RefType]:
+        """
+        Reference to coupled UdpNm Clusters.
+        """
+        return self.coupledClusterRefs
+
+    def getNmImmediateRestartEnabled(self) -> Optional[Boolean]:
+        """
+        Enables the asynchronous transmission of a CanNm PDU upon bus-communication request in Prepare-Bus-Sleep mode.
+        """
         return self.nmImmediateRestartEnabled
 
-    def setNmImmediateRestartEnabled(self, value):
+    def setNmImmediateRestartEnabled(self, value: Optional[Boolean]) -> "UdpNmClusterCoupling":
+        """
+        Enables the asynchronous transmission of a CanNm PDU upon bus-communication request in Prepare-Bus-Sleep mode.
+        A None value is a no-op and does not overwrite an existing nmImmediateRestartEnabled.
+        """
         if value is not None:
             self.nmImmediateRestartEnabled = value
         return self

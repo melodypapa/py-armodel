@@ -92,18 +92,18 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — none: every Table 6.313 attribute modeled with full reader/writer coverage; no tracker rows
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13554 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
-- [ ] `UdpNmClusterCoupling` — NmClusterCoupling — source TBC (locate table at Step 1)
+- [ ] `UdpNmClusterCoupling` (input · R23-11 markdown · Table 6.317)
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
-  - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: deviation-tracked in method_deviation_by_class.md — reviewed at Step 1: the v1 "nmBusLoadReductionEnabled missing" row was stale (XSD-only element, absent from Table 6.317), marked removed at sync
+  - [x] Step 1 — Sync members & description from spec — Table 6.317, p.688; Note "Udp attributes that are valid for each of the referenced (coupled) UdpNm clusters."; Base ARObject,NmClusterCoupling; 2 attrs in displayed order (coupledCluster `*` ref UdpNmCluster, nmImmediateRestartEnabled 0..1 Boolean — spec Note names CanNm PDU verbatim); XSD group UDP-NM-CLUSTER-COUPLING order COUPLED-CLUSTER-REFS → NM-IMMEDIATE-RESTART-ENABLED, XSD-only NM-BUS-LOAD-REDUCTION-ENABLED not modeled (Rule 0015) (AUTOSAR_00052.xsd l.127634)
+  - [x] Step 2 — Write model class unit test (Red) — tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement/test_UdpNmClusterCoupling.py: defaults, add/get refs, get/set + None no-op
+  - [x] Step 3 — Implement model class (Green) — PEP 526 typed fields (nmImmediateRestartEnabled was bare `Boolean = None`), typed accessors, verbatim docstrings; field set already matched Table 6.317
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring replaced with the Table 6.317 Note verbatim; per-attr comments + getter/setter docstrings verbatim
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — tests/test_armodel/parser/test_udp_nm_cluster_coupling.py + tests/test_armodel/writer/test_udp_nm_cluster_coupling.py (element order, XSD-only tag absence, full field values); existing incidental coverage in test_nm_cluster_coupling.py left untouched
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed: getUdpNmClusterCoupling/writeUdpNmClusterCoupling already cover both attrs with matched pairs in XSD order
+  - [x] Step 7 — Update checklist comment — 6-column, `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.317, p.688`, all rows R23-11; no marker written (unstamped batch)
+  - [x] Step 8 — Deviations — XSD-only NM-BUS-LOAD-REDUCTION-ENABLED not modeled (Rule 0015); v1 stale tracker row resolved to removed
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13554 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FlexrayNmClusterCoupling` — NmClusterCoupling — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py

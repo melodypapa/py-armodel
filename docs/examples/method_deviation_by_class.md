@@ -3144,7 +3144,7 @@ No deviations — the single Table 6.61 attribute `modeDeclaration` (Mult `*`, K
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `nmBusLoadReductionEnabled` | `Boolean` | — | missing |
+| — *(removed)* | — | `nmBusLoadReductionEnabled` | `Boolean` | — | stale row removed at Table 6.317 sync — XSD-only (UDP-NM-CLUSTER-COUPLING/NM-BUS-LOAD-REDUCTION-ENABLED), absent from R23-11 Table 6.317; PDF authoritative (Rule 0015) |
 
 ## `UdpNmEcu`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 688
