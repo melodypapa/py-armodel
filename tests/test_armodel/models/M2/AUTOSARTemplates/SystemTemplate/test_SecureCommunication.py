@@ -53,29 +53,37 @@ class Test_SecureCommunication:
         assert isinstance(mapping, CryptoServiceMapping)
 
     def test_SecOcCryptoServiceMapping(self):
-        """Test SecOcCryptoServiceMapping class functionality."""
+        """Test SecOcCryptoServiceMapping class functionality (Table 6.49, p.375)."""
         parent = MockParent()
         mapping = SecOcCryptoServiceMapping(parent, "test_secoc_mapping")
 
         assert isinstance(mapping, CryptoServiceMapping)
 
-        # Test default values
+        # Test default values (spec displayed order: authentication, cryptoServiceKey, cryptoServiceQueue)
         assert mapping.getAuthenticationRef() is None
         assert mapping.getCryptoServiceKeyRef() is None
         assert mapping.getCryptoServiceQueueRef() is None
 
-        # Test setter/getter methods
-        mock_auth_ref = "mock_auth_ref"
-        mapping.setAuthenticationRef(mock_auth_ref)
-        assert mapping.getAuthenticationRef() == mock_auth_ref
+        # Test setter/getter round-trips + chaining
+        auth_ref = _ref("/Crypto/Primitives/Auth")
+        assert mapping.setAuthenticationRef(auth_ref) is mapping
+        assert mapping.getAuthenticationRef() is auth_ref
 
-        mock_key_ref = "mock_key_ref"
-        mapping.setCryptoServiceKeyRef(mock_key_ref)
-        assert mapping.getCryptoServiceKeyRef() == mock_key_ref
+        key_ref = _ref("/Crypto/Keys/Key1")
+        assert mapping.setCryptoServiceKeyRef(key_ref) is mapping
+        assert mapping.getCryptoServiceKeyRef() is key_ref
 
-        mock_queue_ref = "mock_queue_ref"
-        mapping.setCryptoServiceQueueRef(mock_queue_ref)
-        assert mapping.getCryptoServiceQueueRef() == mock_queue_ref
+        queue_ref = _ref("/Crypto/Queues/Q1")
+        assert mapping.setCryptoServiceQueueRef(queue_ref) is mapping
+        assert mapping.getCryptoServiceQueueRef() is queue_ref
+
+        # Test None no-ops
+        mapping.setAuthenticationRef(None)
+        mapping.setCryptoServiceKeyRef(None)
+        mapping.setCryptoServiceQueueRef(None)
+        assert mapping.getAuthenticationRef() is auth_ref
+        assert mapping.getCryptoServiceKeyRef() is key_ref
+        assert mapping.getCryptoServiceQueueRef() is queue_ref
 
     def test_TlsCryptoServiceMapping(self):
         """Test TlsCryptoServiceMapping class functionality (Table 6.211, p.560)."""
@@ -168,6 +176,23 @@ class Test_CryptoServiceMappingSpec:
         assert issubclass(SecOcCryptoServiceMapping, CryptoServiceMapping)
         assert issubclass(TlsCryptoServiceMapping, CryptoServiceMapping)
         assert issubclass(CryptoServiceMapping, Identifiable)
+
+
+class Test_SecOcCryptoServiceMappingSpec:
+    """Spec contract of SecOcCryptoServiceMapping (AUTOSAR_CP_TPS_SystemTemplate, Table 6.49, p.375)."""
+
+    def test_docstring_is_spec_note_verbatim(self):
+        note = "This meta-class has the ability to represent a crypto service mapping for the Pdu-based communication via SecOC."
+        assert SecOcCryptoServiceMapping.__doc__.strip() == note
+
+    def test_init_has_no_docstring(self):
+        assert SecOcCryptoServiceMapping.__init__.__doc__ is None
+
+    def test_heritage(self):
+        parent = MockParent()
+        mapping = SecOcCryptoServiceMapping(parent, "secoc_map")
+        assert isinstance(mapping, CryptoServiceMapping)
+        assert isinstance(mapping, Identifiable)
 
 
 class Test_TlsCryptoServiceMappingSpec:

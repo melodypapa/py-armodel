@@ -84,3 +84,18 @@ def test_write_empty_crypto_service_mappings_omits_wrapper():
 
     node = parent.find("SYSTEM-MAPPING")
     assert node.find("CRYPTO-SERVICE-MAPPINGS") is None
+
+
+def test_write_sec_oc_mapping_without_refs_omits_ref_elements():
+    mapping = SystemMapping(_MockParent(), "Mapping")
+    sec_oc = SecOcCryptoServiceMapping(mapping, "SecOcMap")
+    mapping.addCryptoServiceMapping(sec_oc)
+    parent = ET.Element("ROOT")
+    ARXMLWriter().writeSystemMapping(parent, mapping)
+
+    sec_oc_element = parent.find("SYSTEM-MAPPING/CRYPTO-SERVICE-MAPPINGS/SEC-OC-CRYPTO-SERVICE-MAPPING")
+    assert sec_oc_element is not None
+    children = [child.tag for child in sec_oc_element]
+    assert "AUTHENTICATION-REF" not in children
+    assert "CRYPTO-SERVICE-KEY-REF" not in children
+    assert "CRYPTO-SERVICE-QUEUE-REF" not in children

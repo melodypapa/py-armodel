@@ -118,19 +118,19 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — XSD-only NM-CONTROL-BIT-VECTOR-ENABLED/NM-DATA-DISABLED not modeled (Rule 0015); v1 stale tracker rows resolved to removed; no placeholder remains
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13577 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
-- [ ] `SecOcCryptoServiceMapping` — CryptoServiceMapping — source TBC (locate table at Step 1)
+- [ ] `SecOcCryptoServiceMapping` (input · R23-11 markdown · Table 6.49)
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 6.49, p.375; Note "This meta-class has the ability to represent a crypto service mapping for the Pdu-based communication via SecOC."; Base ARObject,CryptoServiceMapping,Identifiable,MultilanguageReferrable,Referrable (most-derived CryptoServiceMapping, stamped Table 6.48); 3 attrs in displayed order (authentication/cryptoServiceKey/cryptoServiceQueue, all 0..1 ref → RefType); XSD group SEC-OC-CRYPTO-SERVICE-MAPPING (AUTOSAR_00052.xsd l.102528) order matches displayed order; no XSD-only elements; constr_1669 targets PduTriggering.secOcCryptoMapping, not this class; parser readSecOcCryptoServiceMapping + writer writeSecOcCryptoServiceMapping already cover all 3 refs with matched pairs; incidental tests exist (test_crypto_service_mapping.py parser+writer, test_SecureCommunication.py model); no tracker entries in v1/v2; src drift: fabricated docstring, bare-T `RefType = None` fields, untyped accessors, stale 3-column checklist
+  - [x] Step 2 — Write model class unit test (Red) — tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/test_SecureCommunication.py extended (existing file, no per-class file): test_SecOcCryptoServiceMapping upgraded to spec shape (typed RefType values, chaining, None no-ops) + new Test_SecOcCryptoServiceMappingSpec (docstring verbatim, __init__ no docstring, heritage); seen Red 1 failed (fabricated class docstring) / 103 passed — behavior drift is typing/docstring-only
+  - [x] Step 3 — Implement model class (Green) — PEP 526 `Optional[RefType]` fields in displayed row order, typed accessors (`Optional[RefType]` getter returns, typed setter params returning self); None-guard shape already correct; 103 passed / 1 failed (the Step-4 docstring obligation test still Red as expected)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring replaced with the Table 6.49 Note verbatim; per-attr inline __init__ comments + getter/setter docstrings verbatim (incl. spec quirks: "applicable crypto key" in cryptoServiceKey — TlsPskIdentity's sibling Note says "cryptographic key", not copied across); __init__ has no docstring; blank line between every attribute block; 104 passed (Green)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — per batch instruction no per-class files: incidental coverage in tests/test_armodel/parser/test_crypto_service_mapping.py (dispatch + all 3 ref values incl. DEST) and tests/test_armodel/writer/test_crypto_service_mapping.py (XSD element order + DEST attrs, wrapper position, empty-wrapper case) reviewed and found complete; extended the writer file with test_write_sec_oc_mapping_without_refs_omits_ref_elements (unset refs emit no elements); no Red observable at runtime — reader/writer were already complete (drift was model-side only), 6 passed as written
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed: readSecOcCryptoServiceMapping/writeSecOcCryptoServiceMapping already cover all 3 refs with matched set/get pairs in XSD group order (AUTHENTICATION-REF → CRYPTO-SERVICE-KEY-REF → CRYPTO-SERVICE-QUEUE-REF), no chained mutators
+  - [x] Step 7 — Update checklist comment — 6-column, `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.49, p.375`, all rows R23-11 in displayed row order; set-based check: checklist == methods (7), order verified, get_type_hints pins OK; no marker written (unstamped batch)
+  - [x] Step 8 — Deviations — none: every Table 6.49 attribute modeled with full reader/writer coverage; no XSD-only elements (group and table agree 1:1); constr_1669 targets PduTriggering.secOcCryptoMapping, not this class; no tracker entries in v1/v2 for this class
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13621 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
-- [ ] `EndToEndTransformationISignalProps` — TransformationISignalProps — source TBC (locate table at Step 1)
+- [ ] `EndToEndTransformationISignalProps` (input · R23-11 markdown · Table 7.27)
   - module: M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md + method_deviation_by_class_v2.md — review entries at Step 1
   - [ ] Step 1 — Sync members & description from spec
