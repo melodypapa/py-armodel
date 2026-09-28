@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 480 | 66.6% |
+| [x] Done | 481 | 66.7% |
 | [x] Deferred | 11 | 1.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 164 | 22.7% |
+| [ ] Deferred | 163 | 22.6% |
 | [ ] Pending | 66 | 9.2% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -503,7 +503,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `Paginateable`                                          | [x] Done    | 20e6ee88d0                               | Group3           |
 | `ParameterAccess`                                       | [ ] Deferred| N/A                                      | Group12          |
 | `ParameterInterface`                                    | [x] Done    | 6bf99879eb                               | Group1           |
-| `ParameterRequireComSpec`                               | [ ] Deferred| N/A                                      | Group10          |
+| `ParameterRequireComSpec`                               | [x] Done    | 6cf8476adb                               | Group10          |
 | `PayloadBytePatternRule`                                | [ ] Deferred| 8f863fe9dd                               | Group20          |
 | `PayloadBytePatternRulePart`                            | [x] Deferred| 8c72c71709                               | Group20          |
 | `PduCollectionSemanticsEnum`                            | [ ] Deferred| 4b7c8dc79c                               | Group16          |
