@@ -89,6 +89,7 @@ class ReceptionComSpecProps(ARObject):
 
     # ReceptionComSpecProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.64, p.174
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDataUpdatePeriod  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -141,6 +142,7 @@ class CompositeNetworkRepresentation(ARObject):
 
     # CompositeNetworkRepresentation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.74, p.181
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getLeafElementIRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -637,6 +639,7 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
 
     # ModeSwitchReceiverComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.81, p.191
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getEnhancedModeApi                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -708,6 +711,7 @@ class NvRequireComSpec(RPortComSpec):
 
     # NvRequireComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.84, p.194
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getInitValue                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -760,6 +764,7 @@ class ParameterRequireComSpec(RPortComSpec):
 
     # ParameterRequireComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.83, p.193
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getInitValue       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1069,6 +1074,7 @@ class ModeSwitchedAckRequest(ARObject):
 
     # ModeSwitchedAckRequest method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.80, p.190
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getTimeout   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1102,6 +1108,7 @@ class ModeSwitchSenderComSpec(PPortComSpec):
 
     # ModeSwitchSenderComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.79, p.190
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getEnhancedModeApi   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1355,6 +1362,7 @@ class NvProvideComSpec(PPortComSpec):
 
     # NvProvideComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.85, p.195
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getRamBlockInitValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1601,6 +1609,7 @@ class QueuedReceiverComSpec(ReceiverComSpec):
 
     # QueuedReceiverComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.63, p.173
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getQueueLength  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

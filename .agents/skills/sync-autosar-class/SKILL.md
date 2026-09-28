@@ -148,7 +148,11 @@ session** (Rule 0017).
   current feature branch (model source + mirrored test + parser/writer tests +
   parser + writer + deviation tracker + the todo file itself; message
   `feat: <ClassName> synced.`), (2) flip the todo row to `[x]` and record the
-  commit hash in the same commit, (3) report and stop.
+  commit hash in the same commit, (3) run
+  `python3 scripts/regen_sync_todo.py --write` so `SyncTodoIndex.md` +
+  `sync-report.md` pick up the flip (then `--check` must pass) and commit the
+  regenerated reports with the row flip — never hand-edit them (Rule 0017.2),
+  (4) report and stop.
 - **Termination:** after marking a row `[x]`, if **every** queue row is `[x]`, the
   sync is **finished** — report the summary (classes, commits, deviations). No
   further session needed. Any `[ ]` left → next session picks it up.

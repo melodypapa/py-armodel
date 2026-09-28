@@ -28,6 +28,7 @@ class RoleBasedDataAssignment(ARObject, VariationPointCapable):
 
     # RoleBasedDataAssignment method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.4, p.227 (sibling rendering: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.55, p.607)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getRole                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -136,6 +137,7 @@ class RamBlockStatusControlEnum(AREnum):
 
     # RamBlockStatusControlEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.1, p.701
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -161,6 +163,7 @@ class NvBlockNeedsReliabilityEnum(AREnum):
 
     # NvBlockNeedsReliabilityEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.10, p.681
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -190,6 +193,7 @@ class NvBlockNeedsWritingPriorityEnum(AREnum):
 
     # NvBlockNeedsWritingPriorityEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.9, p.680
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -223,6 +227,7 @@ class NvBlockNeeds(ServiceNeeds):
 
     # NvBlockNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.8, p.680 (twin rendering: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.7, p.232)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCalcRamBlockCrc              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

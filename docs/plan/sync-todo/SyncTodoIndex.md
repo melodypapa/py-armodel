@@ -536,42 +536,42 @@ Status: **29/29** completed
 
 ## Group10
 
-Status: **5/32** completed
+Status: **32/32** completed
 
-| Class Name                         | Status       | Commit ID  |
-| ---------------------------------- | ------------ | ---------- |
-| `DependencyUsageEnum`              | [x] Done     | 9a8c86ae9a |
-| `ArrayImplPolicyEnum`              | [x] Done     | 700b032789 |
-| `ApiPrincipleEnum`                 | [x] Done     | c6d2e83f74 |
-| `ReentrancyLevelEnum`              | [x] Done     | 286c7c5870 |
-| `ImplementationProps`              | [x] Done     | 3166f6e5d0 |
-| `PerInstanceMemorySize`            | [ ] Pending  | N/A        |
-| `SwcImplementation`                | [ ] Pending* | N/A        |
-| `ImplementationDataTypeElement`    | [ ] Pending* | N/A        |
-| `ReceptionComSpecProps`            | [ ] Pending* | N/A        |
-| `CompositeNetworkRepresentation`   | [ ] Pending* | N/A        |
-| `ModeSwitchedAckRequest`           | [ ] Pending* | N/A        |
-| `ModeSwitchReceiverComSpec`        | [ ] Pending* | N/A        |
-| `ModeSwitchSenderComSpec`          | [ ] Pending* | N/A        |
-| `NvProvideComSpec`                 | [ ] Pending* | N/A        |
-| `NvRequireComSpec`                 | [ ] Pending* | N/A        |
-| `ParameterRequireComSpec`          | [ ] Pending* | N/A        |
-| `QueuedReceiverComSpec`            | [ ] Pending* | N/A        |
-| `DataTypeMap`                      | [ ] Pending* | N/A        |
-| `EndToEndDescription`              | [ ] Pending* | N/A        |
-| `ModeSwitchEventTriggeredActivity` | [ ] Pending* | N/A        |
-| `AutosarVariableRef`               | [ ] Pending* | N/A        |
-| `RoleBasedPortAssignment`          | [ ] Pending* | N/A        |
-| `AutosarParameterRef`              | [ ] Pending* | N/A        |
-| `NvBlockNeedsReliabilityEnum`      | [ ] Pending* | N/A        |
-| `NvBlockNeedsWritingPriorityEnum`  | [ ] Pending* | N/A        |
-| `RamBlockStatusControlEnum`        | [ ] Pending* | N/A        |
-| `NvBlockDataMapping`               | [ ] Pending* | N/A        |
-| `BulkNvDataDescriptor`             | [ ] Pending* | N/A        |
-| `RoleBasedDataAssignment`          | [ ] Pending* | N/A        |
-| `InstantiationDataDefProps`        | [ ] Pending* | N/A        |
-| `NvBlockNeeds`                     | [ ] Pending* | N/A        |
-| `NvBlockDescriptor`                | [ ] Pending* | N/A        |
+| Class Name                         | Status   | Commit ID  |
+| ---------------------------------- | -------- | ---------- |
+| `DependencyUsageEnum`              | [x] Done | 9a8c86ae9a |
+| `ArrayImplPolicyEnum`              | [x] Done | 700b032789 |
+| `ApiPrincipleEnum`                 | [x] Done | c6d2e83f74 |
+| `ReentrancyLevelEnum`              | [x] Done | 286c7c5870 |
+| `ImplementationProps`              | [x] Done | 3166f6e5d0 |
+| `PerInstanceMemorySize`            | [x] Done | df36bbb1fa |
+| `SwcImplementation`                | [x] Done | 6eae95f556 |
+| `ImplementationDataTypeElement`    | [x] Done | 8e9b2db86b |
+| `ReceptionComSpecProps`            | [x] Done | 0ba890ba88 |
+| `CompositeNetworkRepresentation`   | [x] Done | b1e81e17d6 |
+| `ModeSwitchedAckRequest`           | [x] Done | f587d873eb |
+| `ModeSwitchReceiverComSpec`        | [x] Done | 67324d240c |
+| `ModeSwitchSenderComSpec`          | [x] Done | 3fbf07cc78 |
+| `NvProvideComSpec`                 | [x] Done | a5c437cc82 |
+| `NvRequireComSpec`                 | [x] Done | cbdf05b372 |
+| `ParameterRequireComSpec`          | [x] Done | 6cf8476adb |
+| `QueuedReceiverComSpec`            | [x] Done | bb5804989f |
+| `DataTypeMap`                      | [x] Done | 0731ff4f68 |
+| `EndToEndDescription`              | [x] Done | d3db89bb98 |
+| `ModeSwitchEventTriggeredActivity` | [x] Done | 8fa7710539 |
+| `AutosarVariableRef`               | [x] Done | d1b9384acc |
+| `RoleBasedPortAssignment`          | [x] Done | f94da3dd92 |
+| `AutosarParameterRef`              | [x] Done | b530f7e446 |
+| `NvBlockNeedsReliabilityEnum`      | [x] Done | 90b381db32 |
+| `NvBlockNeedsWritingPriorityEnum`  | [x] Done | 5a36c87687 |
+| `RamBlockStatusControlEnum`        | [x] Done | 343d2af672 |
+| `NvBlockDataMapping`               | [x] Done | cf9621f708 |
+| `BulkNvDataDescriptor`             | [x] Done | 14a0a9cc5b |
+| `RoleBasedDataAssignment`          | [x] Done | 5989355419 |
+| `InstantiationDataDefProps`        | [x] Done | e2aa88eb41 |
+| `NvBlockNeeds`                     | [x] Done | 72d998faaa |
+| `NvBlockDescriptor`                | [x] Done | e5d43e9b06 |
 
 ## Group11
 

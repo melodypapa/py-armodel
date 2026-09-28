@@ -19,6 +19,7 @@ class NvBlockDataMapping(ARObject, VariationPointCapable):
 
     # NvBlockDataMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.11, p.689
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBitfieldTextTableMaskNvBlockDescriptor [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -147,6 +148,7 @@ class BulkNvDataDescriptor(AtpStructureElement, VariationPointCapable):
 
     # BulkNvDataDescriptor method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.12, p.692
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] createBulkNvBlock            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -202,6 +204,7 @@ class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
 
     # NvBlockDescriptor method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.6, p.670
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getClientServerPorts                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -402,6 +405,7 @@ class ModeSwitchEventTriggeredActivity(ARObject, VariationPointCapable):
 
     # ModeSwitchEventTriggeredActivity method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.7, p.675
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getRole                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
